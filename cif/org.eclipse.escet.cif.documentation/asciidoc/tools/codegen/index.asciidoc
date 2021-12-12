@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -29,7 +30,6 @@ Specific information is available for each of the target languages/platforms, on
 * <<tools-codegen-chapter-java,Java>>
 * <<tools-codegen-chapter-simulink,Simulink>>, with an example of <<tools-codegen-chapter-simulink-example,controlling a tank>>
 
-
 indexterm:[CIF code generator,start]
 
 === Starting the generator
@@ -44,7 +44,6 @@ The generator can be started in the following ways:
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cifcodegen` command line tool.
-
 
 indexterm:[CIF code generator,options]
 
@@ -89,7 +88,6 @@ The second column indicates the command line value to use for the option, to sel
 If no prefix is given, the prefix is derived from the input filename, by removing the `.cif` file extension, if present.
 This is also the default.
 The prefix must be a valid CIF identifier, i.e. consist of only letters (`a` to `z`, `A` to `Z`), numbers (`0` to `9`), and underscores (`+_+`), and not start with a number.
-
 
 indexterm:[CIF code generator,supported specifications]
 
@@ -160,7 +158,6 @@ That is, functions may only be used in function calls, and may for instance not 
 * CIF/SVG declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
 
-
 indexterm:[CIF code generator,preprocessing]
 
 [[tools-codegen-preprocessing]]
@@ -183,12 +180,10 @@ It then applies the following additional <<tools-cif2cif-chapter-index,CIF to CI
 * <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>>
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
-
 === Generated code
 
 This section explains the basics behind the generated code, as they apply to all target languages.
 The specific pages that explain the code generated for specific target languages provide further details.
-
 
 ==== Code overview
 
@@ -197,7 +192,6 @@ The event loop is not the only code that is executed.
 Before the loop, the values of the input variables are obtained from the environment, the initial state is initialized (for the first execution only), and the values of the continuous variables are updated to account for the amount of time that has passed (for all but the first execution).
 Then the event loop is executed.
 Finally, output values may be supplied to the environment.
-
 
 ==== Repeated execution
 
@@ -210,7 +204,6 @@ The time (in seconds) between the first execution and the current execution is t
 How often the code is executed, and whether this is done with a fixed cycle time (periodic task scheduling) or with a variable cycle times (non-periodic tasks) can be influenced by the end user.
 The details differ per target language, and can be found on their respective pages.
 
-
 ==== Event loop
 
 The CIF model is first <<tools-cif2cif-chapter-linearize-merge,linearized>> to eliminate parallel composition.
@@ -221,7 +214,6 @@ This is done repeatedly, until no more events are enabled.
 The loop in the generated code that repeatedly executes event code until no more events are possible, is called the _event loop_.
 Once no more events are enabled, the event loop terminates.
 
-
 ==== Event order
 
 The order in which the code is generated for the different edges (in the _event loop_), is done in such a way that it matches the order in which transitions are chosen by the simulator.
@@ -230,14 +222,12 @@ That is, for each iteration of the event loop, the code is executed for the firs
 Then, a new iteration of the loop is started, from the top, to ensure that the first enabled event is always executed, similar to simulation.
 If during an iteration of the loop none of the events is enabled, the event loop terminates.
 
-
 ==== Termination
 
 If in the CIF model always at least one event is enabled, the generated code will run forever, and will never terminate.
 Time will not pass.
 Code generation should be avoided for such models.
 It is the responsibility of the modeler to ensure this is taken into account.
-
 
 ==== Predictability of execution time
 
@@ -251,13 +241,11 @@ One may consider monitoring the execution times to detect such issues.
 All implementations provide a way to obtain execution time statistics.
 The details differ per target language, and can be found on their respective pages.
 
-
 ==== Optional execution feedback
 
 Several implementations provide additional information during simulation, such as which events have been executed, timing information, and what new print output has been generated.
 Such information can generally be enabled and disabled in the implementations.
 The details differ per target language, and can be found on their respective pages.
-
 
 ==== Correct handling of I/O
 
@@ -267,7 +255,6 @@ If an input changes during an execution and changes back during that same execut
 Therefore, executing the code often enough per second, is essential.
 In other words, choosing an appropriate cycle time is essential for the correct functioning of the generated code.
 
-
 [[tools-codegen-accuracy-over-time]]
 ==== Accuracy over time
 
@@ -275,18 +262,17 @@ The generated C89, C99 and Java code maintains the running time in seconds.
 Due to the finite representation of numeric values, this results in numeric overflow after execution for a long time.
 Running the code continuously for longer than 100 years should be avoided.
 
-The continuous variables from the CIF specification in the generated code are updated each execution using the link:http://en.wikipedia.org/wiki/Euler_method[Euler method] for integration.
+The continuous variables from the CIF specification in the generated code are updated each execution using the link:https://en.wikipedia.org/wiki/Euler_method[Euler method] for integration.
 That is, each execution the time that has elapsed since the previous execution is multiplied by the derivative of the continuous variable in the state of the previous execution.
 This value is added to the value of the continuous variable.
 Essentially, a linear approximation of the derivative is used, calculated using the state of the previous execution.
 
-The Euler method can be link:http://en.wikipedia.org/wiki/Numerical_stability[numerically unstable], it can suffer from rounding errors due to the use finite binary representations of real values, and has some other issues as well.
+The Euler method can be link:https://en.wikipedia.org/wiki/Numerical_stability[numerically unstable], it can suffer from rounding errors due to the use finite binary representations of real values, and has some other issues as well.
 The effects are likely to be limited if linear continuous variable (continuous variables with constant derivatives) are used.
 Especially clocks (derivative +1 or -1) generally don't suffer too much from these issues.
 However, even clocks may suffer from loss of accuracy over time.
 As such, clocks should not be used to measure over long periods of time.
 Instead they should be reset, rendering the past loss of accuracy irrelevant for any future measurements.
-
 
 ==== Enumerations
 

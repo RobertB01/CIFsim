@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -25,7 +26,6 @@ The product starts at the left side, at position `0`.
 There is a sensor that can detect the product between positions `13` and `14`.
 The product exits the conveyor at position `18`.
 The following CIF specification models the conveyor, product, and sensor:
-
 
 [source, cif]
 ----
@@ -69,7 +69,6 @@ Both can be used to improve readability, and to make it easier to consistently c
 
 Algebraic variables can also be used as an abstraction.
 Consider the following extension of the specification:
-
 
 [source, cif]
 ----

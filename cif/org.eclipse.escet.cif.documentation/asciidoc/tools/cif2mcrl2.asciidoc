@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -19,7 +20,7 @@ indexterm:[CIF to mCRL2 transformer]
 indexterm:[tools,CIF to mCRL2 transformer]
 indexterm:[see: mCRL2,CIF to mCRL2 transformer]
 The CIF to mCRL2 transformer is used to convert a CIF specification to a mCRL2 specification.
-link:http://www.mcrl2.org/[mCRL2] is a tool for verifying properties of the model.
+link:https://www.mcrl2.org/[mCRL2] is a tool for verifying properties of the model.
 
 indexterm:[CIF to mCRL2 transformer,start]
 
@@ -240,7 +241,6 @@ Processes for the mentioned CIF elements are instantiated.
 Sub-groups of processes are written by surrounding them with parentheses.
 For example:
 
-
 [source]
 ----
 ( ( A B C ) A.x ) B.y
@@ -264,7 +264,6 @@ indexterm:[CIF to mCRL2 transformer,debug output]
 The transformer analyzes use of the variables by each automaton, and computes variable usage and availability of the variables at each level in the instantiation tree.
 This information is written to a file with debug output by enabling the _Enable debug output_ option.
 As an example, consider the following artificial CIF specification:
-
 
 [source, cif]
 ----
@@ -305,7 +304,6 @@ Normally however, you would use a constant instead of a variable.
 The instance tree used in the transformation is `( ( P Q ) P.x ) Q.y`.
 The debug output for `P` is:
 
-
 [source]
 ----
 ===============================================================
@@ -325,7 +323,6 @@ Both edges assign a new value to `P.x`.
 In a similar way, the node information for automaton `Q` is computed.
 The result is:
 
-
 [source]
 ----
 ===============================================================
@@ -343,7 +340,6 @@ The automaton only checks values rather than writing them.
 As you can see, variable `P.x` is not mentioned with event `a`, since there is no edge in the automaton with event `a` that accesses variable `P.x`.
 
 The node that merges both automata, i.e. `( P Q )`, has the following formation:
-
 
 [source]
 ----
@@ -370,7 +366,6 @@ In this example there is no overlap, but that works as you would expect, `SOMETI
 
 The node for variable process for `P.x` only provides a variable:
 
-
 [source]
 ----
 ===============================================================
@@ -383,7 +378,6 @@ Available variable processes:
 The output states that variable `P.x` is available here.
 
 At `( P Q ) P.x` node, the merge of the variable `P.x` with the two automata, this results in:
-
 
 [source]
 ----
@@ -419,7 +413,6 @@ Node `1.2` is the variable process of `Q.y`.
 It looks the same as node `1.1.2`, except for the name of the variable.
 
 Finally the top-node that merges `( P Q ) P.x` with `Q.y`, bringing everything together, looks like:
-
 
 [source]
 ----
@@ -457,7 +450,6 @@ indexterm:[CIF to mCRL2 transformer,result of the transformation]
 A variable process in mCRL2 handles shared access to a variable.
 For variable `P.x` in the above example it looks like:
 
-
 [source]
 ----
 act value_x, vread_x, vwrite_x, sync_x, aread_x, awrite_x : Int;
@@ -477,7 +469,6 @@ Like the variables, the name of the automaton is used in the output.
 If there are name conflicts, a number is appended to make it unique.
 The process is the same list of edges of the original CIF automaton, with added read and write actions for synchronizing with the variable processes:
 
-
 [source]
 ----
 sort LocSort_P = struct loc_P_p1 | loc_P_p2;
@@ -493,7 +484,6 @@ Locations are encoded in a `struct` and variable read and write actions are adde
 The instantiation tree is dominated by the action operators needed for synchronizing and restricting actions.
 The `+value_...+` actions are allowed up the to top level node, to give access to variable values in the verification.
 This leads to:
-
 
 [source]
 ----

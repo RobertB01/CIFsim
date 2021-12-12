@@ -23,9 +23,6 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 /** CIF type checker error/problem message. */
 @SuppressWarnings("javadoc")
 public enum ErrMsg {
-    // Unsupported, for now (can't represent this in metamodel).
-    UNSUPPORTED_COMP_PARAM_USE("Use of a component parameter as %s is currently not supported.", 1, ERROR),
-
     // AST related constraint.
     IMPORT_NOT_FOUND("Imported CIF specification \"%s\" could not be found, is a directory, or for some other "
             + "reason could not be opened for reading.", 1, ERROR),
@@ -130,6 +127,7 @@ public enum ErrMsg {
     STATIC_EVAL_RCV_VALUE("Cannot statically evaluate the value received by a communication.", 0, ERROR),
     STATIC_EVAL_AUT_REF("Cannot statically evaluate automaton \"%s\" to its active location.", 1, ERROR),
     STATIC_EVAL_SELF("Cannot statically evaluate an automaton \"self\" reference.", 0, ERROR),
+    STATIC_EVAL_COMP_PARAM("Cannot statically evaluate component parameter \"%s\".", 1, ERROR),
 
     // AlgVariable.selfReference
     // Constant.selfReference
@@ -152,6 +150,7 @@ public enum ErrMsg {
     // TypeRef.typeInScope
     // AlgVariableExpression.variableInScope
     // CompInstWrapExpression.instantiationInScope
+    // CompParamExpression.parameterInScope
     // CompParamWrapExpression.parameterInScope
     // ComponentExpression.componentInScope
     // ConstantExpression.constantInScope
@@ -781,6 +780,7 @@ public enum ErrMsg {
     // - ComponentExpression.type
     // - ComponentType.noCompDefBody
     // - ComponentType.noSpec
+    // - CompParamExpression.type
     // - CompParamWrapExpression.reference
     // - CompParamWrapExpression.type
     // - CompParamWrapType.reference

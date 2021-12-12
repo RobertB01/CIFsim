@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 
@@ -86,7 +87,7 @@ Finally, a prerecorded movie doesn't change, and is not influenced by the <<tool
 To record a movie of the SVG visualization, screen recording or screen capturing software can be used.
 For instance:
 
-* link:http://camstudio.org/[CamStudio] for Microsoft Windows.
+* link:https://camstudio.org/[CamStudio] for Microsoft Windows.
 
 * link:http://recordmydesktop.sourceforge.net/about.php[recordMyDesktop] for Linux.
 

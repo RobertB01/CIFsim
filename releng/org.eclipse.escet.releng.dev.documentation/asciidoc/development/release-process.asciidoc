@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -23,7 +24,6 @@ The following topics are covered:
 * <<development-release-process-working-on-a-release>>
 * <<development-release-process-prepare-release>>
 * <<development-release-process-perform-release>>
-
 
 [[development-release-process-plan-next-version]]
 === Planning for a next version
@@ -70,7 +70,6 @@ Replace `N.N` by the actual release record version, `0.1`, `0.1.1` or `1.0`.
 ** For _End date_ select the same date as the planned release date of the release record.
 
 ** Click _Create milestone_.
-
 
 [[development-release-process-prepare-git-repo-for-next-version]]
 === Preparing Git repository for a next version
@@ -141,7 +140,6 @@ Check for unintended changes.
 
 * Test that the <<development-building-and-testing-chapter-index,build works>>.
 
-
 [[development-release-process-working-on-a-release]]
 === Working on a release
 
@@ -149,7 +147,6 @@ The work for the next release (milestone, release candidate, or final release) i
 See the <<development-development-process-chapter-index,development process>> for more information.
 
 Note that for each version at least one milestone release and at least one release candidate are required before a final release.
-
 
 [[development-release-process-prepare-release]]
 === Preparing a release
@@ -178,7 +175,6 @@ Consider that release reviews are to be scheduled to happen on the 1st or 3rd We
 See e.g. https://www.eclipse.org/lists/escet-dev/msg00091.html (mail also sent to \emo@eclipse.org).
 
 ** Ensure the release review is successful before performing the release.
-
 
 [[development-release-process-perform-release]]
 === Performing a release

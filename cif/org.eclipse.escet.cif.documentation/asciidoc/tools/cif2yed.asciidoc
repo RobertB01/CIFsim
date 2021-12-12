@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -22,7 +23,7 @@ The CIF to yEd transformer can be used to transform CIF specifications to yEd di
 Several <<tools-cif2yed-diagram-kinds,kinds of diagrams>> can be generated.
 These diagrams can be used to better understand the specification, to communicate the specification to other, or to be included in reports.
 
-The link:http://www.yworks.com/en/products/yfiles/yed/[yEd Graph Editor] is an application that can be used to view, create, edit, arrange, import and export various kinds of diagrams.
+The link:https://www.yworks.com/en/products/yfiles/yed/[yEd Graph Editor] is an application that can be used to view, create, edit, arrange, import and export various kinds of diagrams.
 It is freely available and runs on Windows, Linux, and macOS.
 
 The yEd diagrams are generated as link:http://graphml.graphdrawing.org/[GraphML] files (`+*.graphml+` files), using yEd specific extensions to specify the graphical representation.
@@ -33,9 +34,9 @@ indexterm:[CIF to yEd transformer,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:Convert CIF to yEd diagram...[].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF miscellaneous tools[Convert CIF to yEd diagram...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose menu:Convert CIF to yEd diagram...[].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Convert CIF to yEd diagram...].
 
 * Use the `cif2yed` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
@@ -120,7 +121,6 @@ Replacements (no prefix) may not be combined with additions/removals (`pass:c[+]
 Specifying a replacement diagram kind twice leads to a warning being printed to the console.
 Adding a diagram kind that is already present or removing a diagram kind that is not present, also leads to a warning being printed.
 A warning is also printed to the console if all diagram kinds are disabled, and thus no output is generated.
-
 
 [[tools-cif2yed-diagram-model]]
 ==== Model diagram

@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -27,13 +28,11 @@ One cause of non-determinism is that multiple events are enabled, leading to mul
 In other words, there are multiple possible traces through the state space.
 During the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>, we already encountered this form of non-determinism, as transitions for the `produce` and `consume` events could be performed in arbitrary order.
 
-
 === Non-determinism for single event
 
 Another cause of non-determinism is the presence of multiple outgoing edges of a single location for the same event.
 This can lead to multiple possible transitions for a that event, for a single state.
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -70,7 +69,7 @@ Initially, it is in the `hand` of a person.
 That person can `toss` the coin up into the `air`, eventually causing it to fall and `land` on the `ground`.
 It can be picked up (event `pick_up`), causing it to once again be in the `hand` of a person.
 
-The `outcome` automaton registers the outcome of the link:http://en.wikipedia.org/wiki/Coin_toss[coin toss].
+The `outcome` automaton registers the outcome of the link:https://en.wikipedia.org/wiki/Coin_toss[coin toss].
 Initially, the outcome is `unknown`.
 Whenever the coin is tossed, it lands (event `land` from automaton `coin`) on the ground with either the `heads` or `tails` side up.
 The `unknown` location of the `outcome` automaton has two edges for the same event.

@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -28,7 +29,6 @@ Furthermore, they don't actually represent numbers, but rather they represent on
 Enumerations allow giving each entity a name, and to use those names instead of numbers.
 This usually makes the model easier to read and understand.
 For instance, consider the following:
-
 
 [source, cif]
 ----

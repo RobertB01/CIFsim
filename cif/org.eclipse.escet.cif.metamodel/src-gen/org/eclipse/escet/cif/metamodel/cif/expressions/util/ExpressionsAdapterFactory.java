@@ -169,6 +169,11 @@ public class ExpressionsAdapterFactory extends AdapterFactoryImpl
                 return createComponentExpressionAdapter();
             }
             @Override
+            public Adapter caseCompParamExpression(CompParamExpression object)
+            {
+                return createCompParamExpressionAdapter();
+            }
+            @Override
             public Adapter caseConstantExpression(ConstantExpression object)
             {
                 return createConstantExpressionAdapter();
@@ -546,6 +551,21 @@ public class ExpressionsAdapterFactory extends AdapterFactoryImpl
      * @generated
      */
     public Adapter createComponentExpressionAdapter()
+    {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression <em>Comp Param Expression</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression
+     * @generated
+     */
+    public Adapter createCompParamExpressionAdapter()
     {
         return null;
     }

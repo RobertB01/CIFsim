@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -25,8 +26,7 @@ A continuous variable is a variable that changes value automatically, as time pr
 Consider the following CIF specification:
 
 // Copied to: time/contvar-equations
-
-[source,cif]
+[source, cif]
 ----
 automaton machine:
   event start, finished;
@@ -67,7 +67,6 @@ The states are labeled with the first letters of the names of the current locati
 
 Continuous variables always have <<lang-tut-values-chapter-reals,real>> values.
 Similar to discrete variables, if their initial value is not specified, it is `0.0`:
-
 
 [source, cif]
 ----

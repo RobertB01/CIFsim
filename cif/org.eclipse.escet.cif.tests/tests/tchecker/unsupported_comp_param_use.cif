@@ -19,18 +19,3 @@ end
 group def X(P p):
   invariant p;
 end
-
-///
-
-plant def Q():
-  location l:
-    initial;
-end
-
-group def X1(Q p):
-  group def X2(Q p):
-    invariant true;
-  end
-
-  x2: X2(p);
-end

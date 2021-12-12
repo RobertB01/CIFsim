@@ -78,6 +78,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -621,6 +622,37 @@ public class CifConstructors {
         }
         if (reference != null) {
             rslt_.setReference(reference);
+        }
+        return rslt_;
+    }
+
+    /**
+     * Returns a new instance of the {@link CompParamExpression} class. This constructs a new object, without setting any of its features.
+     *
+     * @return A new instance of the {@link CompParamExpression} class.
+     */
+    public static CompParamExpression newCompParamExpression() {
+        return ExpressionsFactory.eINSTANCE.createCompParamExpression();
+    }
+
+    /**
+     * Returns a new instance of the {@link CompParamExpression} class.
+     *
+     * @param parameter The "parameter" of the new "CompParamExpression". Multiplicity [1..1]. May be {@code null} to set the "parameter" later.
+     * @param position The "position" of the new "CompParamExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "CompParamExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
+     * @return A new instance of the {@link CompParamExpression} class.
+     */
+    public static CompParamExpression newCompParamExpression(ComponentParameter parameter, Position position, CifType type) {
+        CompParamExpression rslt_ = newCompParamExpression();
+        if (parameter != null) {
+            rslt_.setParameter(parameter);
+        }
+        if (position != null) {
+            rslt_.setPosition(position);
+        }
+        if (type != null) {
+            rslt_.setType(type);
         }
         return rslt_;
     }

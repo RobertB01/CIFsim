@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -27,7 +28,6 @@ indexterm:[input variable,hardware example]
 The CIF model may for instance be a controller that is to be connected to a piece of physical hardware.
 The input variables then model sensors, for which the behavior is not modeled in the CIF model.
 As an example, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -71,12 +71,11 @@ indexterm:[input variable,co-simulation example]
 
 === Co-simulation example
 
-A CIF specification could model a part of a system, while another part of that same system is modeled in another system or language, such as link:http://www.mathworks.nl/products/simulink/[Simulink].
+A CIF specification could model a part of a system, while another part of that same system is modeled in another system or language, such as link:https://www.mathworks.nl/products/simulink/[Simulink].
 Consider for instance a tank filled with water.
 Water flows out of the tank constantly.
 By opening a value, water also flows in to the tank.
 Consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -113,7 +112,6 @@ Consider again the above water level controller example.
 It models the valve and controls the valve, but does not model the water level.
 The following CIF specification could be used to model the water level:
 
-
 [source, cif]
 ----
 cont level der if valve.open: 1 else -1 end;
@@ -134,7 +132,6 @@ The other specification models the valve and controls it, but has a placeholder 
 If we couple the two CIF specifications, they provide each other with actual variables for each others input variables.
 
 The two specifications can be coupled or _merged_ together:
-
 
 [source, cif]
 ----

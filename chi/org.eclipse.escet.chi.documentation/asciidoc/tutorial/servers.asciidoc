@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -49,7 +50,6 @@ The unit of the time is however determined by the user, that is, you define how 
 
 The value of variable `time` can be retrieved by reading from the `time` variable:
 
-
 [source, chi]
 ----
 t = time
@@ -63,7 +63,6 @@ The process postpones or suspends its own actions until the delay ends.
 For example, suppose a system has to perform three actions, each action takes 45 seconds.
 The unit of time in the model is one minute (that is, progress of the modeled time by one time unit means a minute of simulated time has passed).
 The model looks like:
-
 
 [source, chi]
 ----
@@ -83,7 +82,6 @@ An action takes 45 seconds, which is `0.75` time units.
 The `delay 0.75` statement represents performing the action, the process is suspended until 0.75 units of time has passed.
 
 The simulation reports:
-
 
 [source, console]
 ----
@@ -131,7 +129,6 @@ From these measurements, throughput and flow time can be calculated.
 
 Model `M` describes the system:
 
-
 [source, chi]
 ----
 type item = real;
@@ -153,7 +150,6 @@ Parameter `N` denotes the number of items that must flow through the system to g
 Generator `G` has two parameters, channel `a`, and inter-arrival time `ta`.
 The description of process `G` is given by:
 
-
 [source, chi]
 ----
 proc G(chan! item a; real ta):
@@ -166,7 +162,6 @@ end
 Process `G` sends an item, with the current time, and delays for `ta`, before sending the next item to server process `S`.
 
 Server `S` has three parameters, receiving channel `a`, sending channel `b`, and server processing time `ts`:
-
 
 [source, chi]
 ----
@@ -182,7 +177,6 @@ end
 The process receives an item from process `G`, processes the item during `ts` time units, and sends the item to exit  process `E`.
 
 Exit `E` has two parameters, receiving channel `a` and the length of the experiment `N`:
-
 
 [source, chi]
 ----
@@ -205,13 +199,11 @@ In the next model, the generator produces items with an exponential inter-arriva
 To compensate for the variations in time of the generator and the server, a buffer process has been added.
 The model is depicted below:
 
-
 [[tut-figure-MM1]]
 image::{tut-imgsdir}/pictures/generator_buffer_server_exit.png[]
 
 Type `item` is the same as in the previous situation.
 The model runs the additional buffer process:
-
 
 [source, chi]
 ----
@@ -228,7 +220,6 @@ end
 Generator `G` has two parameters, channel variable `a`, and variable `ta`, denoting the mean inter-arrival time.
 An `exponential` distribution is used for deciding the inter-arrival time of new items:
 
-
 [source, chi]
 ----
 proc G(chan item a; real ta):
@@ -243,7 +234,6 @@ end
 The process sends a new item to the buffer, and delays `sample u` time units.
 Buffer process `B` is a fifo buffer with infinite capacity, as described at <<tut-infinite-buffer,An infinite buffer>>.
 Server `S` has three parameters, channel variables `a` and `b`, for receiving and sending items, and a variable for the average processing time `ts`:
-
 
 [source, chi]
 ----
@@ -268,7 +258,6 @@ indexterm:[parallel,system]
 indexterm:[system,serial]
 indexterm:[serial,system]
 
-
 === Two servers
 
 In this section two different types of systems are shown: a serial and a parallel system.
@@ -281,12 +270,10 @@ The next model describes a _serial_ system, where an item is processed by one se
 The generator and the servers are decoupled by buffers.
 The model is depicted below:
 
-
 [[tut-figure-tandem]]
 image::{tut-imgsdir}/pictures/generator_2buffers_2servers_exit.png[]
 
 The model can be described by:
-
 
 [source, chi]
 ----
@@ -301,7 +288,6 @@ end
 ----
 
 The various processes are equal to those described previously in <<tut-stochastic-system>>.
-
 
 ==== Parallel systems
 
@@ -410,7 +396,6 @@ proc S(chan? item b; chan! item c; chan! int r; real ts; int k):
     end
 end
 ----
-
 
 === Assembly
 
@@ -527,7 +512,6 @@ When all items have been received, the assembly process starts (modeled with a `
 
 In practical situations these assembly processes are performed in a more cascading manner.
 Two or three components are 'glued' together in one assemble process, followed in the next process by another assembly process.
-
 
 === Exercises
 

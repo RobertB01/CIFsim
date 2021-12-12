@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../_part_attributes.asciidoc[]
 
@@ -74,7 +75,6 @@ For both options, a uniform random distribution is used, which is sampled to obt
 The upper bound (exclusive) of the uniform random distribution is to be provided by the user.
 You can think of these random options as adding an extra automaton to the specification, that could look as follows:
 
-
 [source, cif]
 ----
 automaton auto_time_trans_duration:
@@ -138,7 +138,6 @@ They _may_ be chosen when the time transitions are interrupted, or at state even
 The options provide a lightweight, quick, and easy to use approach to adding some randomness.
 If more control is needed, the environment can instead be modeled explicitly in the CIF model, thus defining when the environment events may or will occur.
 One way to accomplish this, is by adding a use case.
-
 
 === Undo/reset
 

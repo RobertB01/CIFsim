@@ -1,67 +1,61 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 = How to support both SWT and AWT
 
-The SVG libraries (such as Batik) use AWT (Java2D/Graphics2D). Since we want to
-use it in Eclipse, we are forced to use SWT. So, we need to interface AWT and
-SWT.
+The SVG libraries (such as Batik) use AWT (Java2D/Graphics2D).
+Since we want to use it in Eclipse, we are forced to use SWT.
+So, we need to interface AWT and SWT.
 
-The following article proposes four different methods for doing just that:
-http://www.tentech.ca/index.php/2008/11/java2d-under-swt-coercing-graphics2d-functionality-into-swt/.
+The following article proposes four different methods for doing just that: http://www.tentech.ca/index.php/2008/11/java2d-under-swt-coercing-graphics2d-functionality-into-swt/.
 
 == Method 1
 
-It uses a `Graphics2DRenderer` class, that renders in AWT to a `BufferedImage`,
-and then, pixel by pixel, copies the result to the SWT context. It works,
-but we found it was way too slow (0.2 seconds per rendering for a very simple
-and small example).
+It uses a `Graphics2DRenderer` class, that renders in AWT to a `BufferedImage`, and then, pixel by pixel, copies the result to the SWT context.
+It works, but we found it was way too slow (0.2 seconds per rendering for a very simple and small example).
 
-Source code can be found at http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/SWT2DUnicode.htm
-and http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/UseofJava2DonSWTorDraw2Dgraphicalcontext.htm.
+Source code can be found at http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/SWT2DUnicode.htm and http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/UseofJava2DonSWTorDraw2Dgraphicalcontext.htm.
 
 == Method 2
 
-It uses a `SWTGraphics2D` class, that redirects AWT calls to compatible SWT
-calls. It is experimental, does not support all features/calls, and has some
-issues (fonts etc). It is however very fast. We found that it does not
+It uses a `SWTGraphics2D` class, that redirects AWT calls to compatible SWT calls.
+It is experimental, does not support all features/calls, and has some issues (fonts etc).
+It is however very fast.
+We found that it does not
 support enough features to be useful.
 
-Source code can be found at http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/DrawGraphics2Dstuffonaswtcomposite.htm
-and http://jfreechart.svn.sourceforge.net/viewvc/jfreechart/trunk/swt/org/jfree/experimental/swt/.
+Source code can be found at http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/DrawGraphics2Dstuffonaswtcomposite.htm and http://jfreechart.svn.sourceforge.net/viewvc/jfreechart/trunk/swt/org/jfree/experimental/swt/.
 
 == Method 3
 
-Using Swing/SWT integration, it embeds a `JPanel` into a SWT environment. This
-method makes that "Event handling within SWT is almost impossible". This
-actually means that events for the Swing component are practically impossible
-to handle in SWT. Since we don't need to handle any events of those
-components, this is not a relevant downside. However, this method proved
-too slow. Furthermore, it is very heavy, as it runs two GUI component
-framework (AWT and SWT) in parallel.
+Using Swing/SWT integration, it embeds a `JPanel` into a SWT environment.
+This method makes that "Event handling within SWT is almost impossible".
+This actually means that events for the Swing component are practically impossible to handle in SWT.
+Since we don't need to handle any events of those components, this is not a relevant downside.
+However, this method proved too slow.
+Furthermore, it is very heavy, as it runs two GUI component framework (AWT and SWT) in parallel.
 
 Example code at http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/DrawanXusingAWTGraphics.htm.
 
 == Method 4
 
-The `J2D4SWT` package uses off-screen rendering, and has native accelerations
-for a limited number of platforms. While it seems like a good idea to use
-this, we decided not to do so, as the latest version claims only Eclipse
-3.0.x compatibility, and is from 2006. The project seems to be dead.
+The `J2D4SWT` package uses off-screen rendering, and has native accelerations for a limited number of platforms.
+While it seems like a good idea to use this, we decided not to do so, as the latest version claims only Eclipse 3.0.x compatibility, and is from 2006.
+The project seems to be dead.
 
 == Method 5
 
-On the Eclipse GMF mailing list archive, we found the following mail:
-http://www.mail-archive.com/batik-users@xmlgraphics.apache.org/msg02782.html.
+On the Eclipse GMF mailing list archive, we found the following mail: http://www.mail-archive.com/batik-users@xmlgraphics.apache.org/msg02782.html.
 
 It describes how the following classes:
 
@@ -71,23 +65,19 @@ org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.graphics.Graphics2DToGraph
 org.eclipse.gmf.runtime.draw2d.ui.render.awt.internal.svg.SWTImageTranscoder
 ----
 
-These classes are used by GMF to handle SVG graphics in a SWT context. However, those classes
-seem to be based on similar ideas to the methods above, and they are internal
-to GMF, so we decided not to use them.
+These classes are used by GMF to handle SVG graphics in a SWT context.
+However, those classes seem to be based on similar ideas to the methods above, and they are internal to GMF, so we decided not to use them.
 
 == Conclusion, aka Method 6
 
-None of the above methods was deemed to satisfy all our requirements, which
-are:
+None of the above methods was deemed to satisfy all our requirements, which are:
 
 * Full AWT/G2D fixel-by-pixel compatibility.
 * Reasonable performance.
 * If an external package is used, it must still be supported (active development).
 
-Therefore, we created our own solution, which is based on the idea of the
-first method. However, instead of copying the results of in-memory drawing on
-a pixel by pixel basis, we obtain the internal AWT pixel data buffer, and
-directly render that on a SWT canvas.
+Therefore, we created our own solution, which is based on the idea of the first method.
+However, instead of copying the results of in-memory drawing on a pixel by pixel basis, we obtain the internal AWT pixel data buffer, and directly render that on a SWT canvas.
 
 This solution can be found in the following class:
 

@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -18,7 +19,7 @@ include::../_part_attributes.asciidoc[]
 The <<tools-codegen-chapter-simulink>> can generate Simulink C code from a CIF specification.
 Here an example is given to demonstrate how the code generator can be used to control a model in Simulink.
 
-_Matlab_ and _Simulink_ are products owned by link:http://mathworks.com[Mathworks].
+_Matlab_ and _Simulink_ are products owned by link:https://mathworks.com[Mathworks].
 
 === System to control
 
@@ -41,7 +42,6 @@ V' = Qi - Qo
 
 By switching `n` on or off, a controller can control the amount of water flowing into the tank, and with that, control the volume `V`.
 The objective is to keep the volume between 2 and 10.
-
 
 === Controller in CIF
 
@@ -68,7 +68,6 @@ end
 The controller has the control variable `n`, and input variable `V`.
 When the volume of the tank is below 2, `n` is set to `1`, which turns on the inflow.
 When the volume of the tank is high enough, `n` is set to `0` which turns the inflow off.
-
 
 === Generating Simulink C code
 
@@ -120,7 +119,6 @@ With bigger systems, the index numbers are much more useful for making proper co
 
 And this concludes the CIF part of this example, next step is setting things up in Matlab/Simulink.
 
-
 === Simulation in Simulink
 
 After starting _Matlab_, and moving to the correct directory, you get a display like:
@@ -130,7 +128,7 @@ image::{tools-imgsdir}/codegen/simulink-example/matlab-mex.png[]
 You can see the files present in the directory, as you would expect.
 In Matlab, the generated C code is compiled with the Matlab _Mex_ compiler:
 
-[source,shell]
+[source, shell]
 ----
 mex tank_ctrl.c
 ----

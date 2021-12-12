@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -46,7 +47,6 @@ All uses of type declarations (in types of variables, types of other type declar
 The type declarations themselves are removed.
 For instance, the following specification:
 
-
 [source, cif]
 ----
 type t = int;
@@ -60,14 +60,12 @@ const v z = (4, 5);
 
 is transformed to the following specification:
 
-
 [source, cif]
 ----
 const int x = 1;
 const tuple(int a, b) y = (2, 3);
 const tuple(int a, b) z = (4, 5);
 ----
-
 
 === Renaming
 
@@ -80,7 +78,6 @@ indexterm:[eliminate type declarations,size considerations]
 Since type declarations are shortcuts for types, eliminating them could result in an increase of the size of the specification.
 Type declarations may be defined in terms of other type declarations.
 Therefore, in the worst case, the increase is exponential.
-
 
 === Optimality
 

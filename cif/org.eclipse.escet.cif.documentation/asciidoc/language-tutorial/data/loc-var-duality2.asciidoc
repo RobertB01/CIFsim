@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -18,7 +19,6 @@ include::../_part_attributes.asciidoc[]
 indexterm:[location,versus variable]
 indexterm:[variable,versus location]
 The lesson that <<lang-tut-basics-chapter-automata,introduces automata>>, used an example of a lamp:
-
 
 [source, cif]
 ----
@@ -36,7 +36,6 @@ end
 
 The automaton uses two locations to keep track of the current state of the lamp.
 Instead of two locations, it is also possible to use a variable:
-
 
 [source, cif]
 ----
@@ -63,7 +62,6 @@ Similarly, the second edge indicates that the lamp can be turned off, only when 
 Both models represent a lamp that is initially on, and can be turned off, on, off again, on again, etc, repeating the behavior forever.
 Which approach is best depends on your preference, and on the rest of the model.
 It is however also possible to use both locations and a variable:
-
 
 [source, cif]
 ----

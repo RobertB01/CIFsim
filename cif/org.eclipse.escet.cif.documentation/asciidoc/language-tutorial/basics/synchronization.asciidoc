@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -40,7 +41,6 @@ The `producer` automaton starts in its `producing` location, in which it produce
 Once the product has been produced, indicated by the `produce` event, the automaton will be in its `idle` location, where it waits until it can `provide` the produced product to the consumer.
 Once it has provided the product to the consumer, it will once again be `producing` another product.
 Consider also the following continuation of the above specification:
-
 
 // Copied to: basics/alphabet
 // Copied to: basics/event-placement
@@ -107,7 +107,6 @@ No assumptions should be made either way.
 In other words, both transitions represent valid behavior, as described by this specification.
 Since only one transition can be taken at a time, there are two possibilities.
 Either the `producer` starts to `produce` the product first, and the `consumer` starts to `consume` after that, or the other way around.
-
 
 === Traces and state spaces
 

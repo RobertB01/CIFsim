@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 include::_local_attributes.asciidoc[]
@@ -38,7 +39,7 @@ The template is moved outside of the canvas to ensure the template itself is not
 
 The SVG file has the following XML content:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/buffers_products/buffers_products.svg[]
 ----
@@ -46,12 +47,11 @@ include::{incdir-tools-cifsim-output-svgviz}/buffers_products/buffers_products.s
 We'll use CIF to turn this into two buffers with three products each, in a scalable manner.
 That is, to add a single buffer, we only need one more instantiation, and also to put an additional product in each buffer, we also only need one more instantiation.
 
-
 === CIF specification
 
 The following CIF specification models the buffers/products example:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/buffers_products/buffers_products.cif[]
 ----

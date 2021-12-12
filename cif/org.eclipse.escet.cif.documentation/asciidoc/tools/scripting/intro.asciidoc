@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -19,7 +20,6 @@ include::../_part_attributes.asciidoc[]
 All CIF <<tools-chapter-index,tools>> can be used in ToolDef scripts.
 ToolDef is a cross-platform and machine-independent scripting language that supports command line execution, but is also available as plug-in for link:https://eclipse.org[Eclipse], providing an integrated development experience.
 See the link:https://eclipse.org/escet/tooldef[ToolDef website] for more information on ToolDef.
-
 
 === Scenarios
 
@@ -42,12 +42,10 @@ Instead of manually simulating a model with <<lang-tut-stochastics-chapter-intro
 The script can then also be used to automatically collect the results, and process them.
 Others can use the same script to repeat the experiments and verify the results, or to perform similar experiments.
 
-
 === Library import
 
 In order to use CIF tools in a ToolDef script, the library with all CIF tools needs to be imported.
 The import statement to use is:
-
 
 [source, tooldef]
 ----
@@ -57,11 +55,9 @@ from "lib:cif" import *;
 This statement imports all tools from the `cif` library, a library registered by the CIF tooling.
 You'll want to include this import statement in all your own scripts that use CIF tools.
 
-
 === Execution a tool
 
 Here is a simple example of a ToolDef script that simulates a model using the <<tools-cifsim-chapter-index,CIF simulator>>:
-
 
 [source, tooldef]
 ----
@@ -72,7 +68,6 @@ cifsim("some_model.cif -i auto -t 10");
 
 The second statement executes the `cifsim` tool (the CIF simulator).
 This is just one of the tools that is available, but there are <<tools-scripting-chapter-tools,many more>>.
-
 
 === Command line arguments
 
@@ -87,7 +82,6 @@ The command line arguments that are available are different for each tool.
 All CIF tools have `-h` and `--help` command line arguments that can be used to print the application help text to the console.
 The help text contains detailed information on all the command line arguments supported by the tool.
 Here is an example of how to show the help text for the simulator:
-
 
 [source, tooldef]
 ----
@@ -116,7 +110,6 @@ However, it is also possible to provide each command line argument as a separate
 In fact, you may provide as many strings as you like, and each string may contain as many command line arguments as you like.
 For instance, the following statements each execute the simulator, and all have the same command line arguments, but provided in a different way:
 
-
 [source, tooldef]
 ----
 cifsim("some_model.cif -i auto -t 10");       // Single string, all arguments.
@@ -127,7 +120,6 @@ cifsim("some_model.cif", "-i", "auto", "-t", "10"); // Multiple strings, one arg
 For simulations, disabling a certain simulation option is a common task.
 By listing each simulation option on a separate line of the script, disabling or enabling a simulation option becomes as easy as commenting or uncommenting a line of the script.
 For instance, consider the following script:
-
 
 [source, tooldef]
 ----
@@ -142,7 +134,6 @@ cifsim(
 
 The model to simulate, the enabling of the automatic input mode, and the simulation end time, are each specified on a separate line.
 This makes it very easy to disable the simulation end time:
-
 
 [source, tooldef]
 ----
@@ -162,7 +153,6 @@ For uncommenting, use keyboard shortcut kbd:[Ctrl+Shift+/] or the corresponding 
 
 Besides the application specific options that can be configured using the command line arguments, all tools such as the `cifsim` tool, have some additional options.
 This includes the possibility to write the output of the tool to a file instead of the console:
-
 
 [source, tooldef]
 ----

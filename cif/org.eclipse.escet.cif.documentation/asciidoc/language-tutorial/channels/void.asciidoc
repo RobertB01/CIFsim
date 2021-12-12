@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -34,8 +35,7 @@ While it is possible to communicate dummy values, dataless channels provide a be
 Consider again the producer/consumer example from the <<lang-tut-channels-chapter-intro,previous lesson>>, with one producer and two consumers, but without identification numbers for the products:
 
 // Copied and adapted from: channels/intro
-
-[source,cif]
+[source, cif]
 ----
 event void provide;
 

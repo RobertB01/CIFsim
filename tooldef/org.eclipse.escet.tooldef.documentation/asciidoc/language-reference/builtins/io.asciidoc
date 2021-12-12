@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -21,7 +22,6 @@ This page describes the built-in I/O tools:
 * <<lang-ref-builtins-io-err,err>>
 * <<lang-ref-builtins-io-outln,outln>>
 * <<lang-ref-builtins-io-errln,errln>>
-
 
 indexterm:[out]
 
@@ -48,7 +48,6 @@ _Runtime errors_
 * If the format pattern is invalid.
 * If the format pattern and arguments don't match.
 
-
 indexterm:[err]
 
 [[lang-ref-builtins-io-err]]
@@ -74,7 +73,6 @@ _Runtime errors_
 * If the format pattern is invalid.
 * If the format pattern and arguments don't match.
 
-
 indexterm:[outln]
 
 [[lang-ref-builtins-io-outln]]
@@ -99,7 +97,6 @@ _Runtime errors_
 
 * If the format pattern is invalid.
 * If the format pattern and arguments don't match.
-
 
 indexterm:[errln]
 

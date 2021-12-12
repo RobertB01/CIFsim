@@ -65,12 +65,14 @@ public class AsciiDocMultiPageHtmlSplitter {
      *     <li>The path to the directory in which to write output. Is removed if it already exists. Is created if it
      *     does not yet exist.</li>
      *     <li>{@code --eclipse-help} for Eclipse help HTML or {@code --website} for website HTML.</li>
+     *     <li>Name of the parent website to link to, if generating the website.</li>
+     *     <li>Relative path of the parent website to link to, if generating the website.</li>
      *     </ul>
      * @throws IOException In case of an I/O error.
      */
     public static void main(String[] args) throws IOException {
         System.out.println("Command line arguments: " + Arrays.toString(args));
-        Assert.check(args.length == 4, args);
+        Assert.check(args.length == 4 || args.length == 6, args);
 
         Path sourceRootPath = Paths.get(args[0]);
         Path singleHtmlPagePath = Paths.get(args[1]);
@@ -81,11 +83,27 @@ public class AsciiDocMultiPageHtmlSplitter {
         htmlTypeText = htmlTypeText.substring(2).replace("-", "_").toUpperCase(Locale.US);
         HtmlType htmlType = HtmlType.valueOf(htmlTypeText);
 
+        String parentWebsiteName = null;
+        String parentWebsiteLink = null;
+        switch (htmlType) {
+            case ECLIPSE_HELP:
+                Assert.check(args.length == 4, args);
+                break;
+            case WEBSITE:
+                Assert.check(args.length == 6, args);
+                parentWebsiteName = args[4];
+                parentWebsiteLink = args[5];
+                break;
+            default:
+                throw new RuntimeException("Unknown HTML type: " + htmlType);
+        }
+
         String rootBaseName = singleHtmlPagePath.getFileName().toString();
         Assert.check(rootBaseName.endsWith(".html"));
         rootBaseName = Strings.slice(rootBaseName, null, -".html".length());
 
-        splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType, rootBaseName);
+        splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType, parentWebsiteName, parentWebsiteLink,
+                rootBaseName);
     }
 
     /**
@@ -97,12 +115,20 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param outputRootPath The path to the directory in which to write output. Is removed if it already exists. Is
      *     created if it does not yet exist.
      * @param htmlType The HTML type.
+     * @param parentWebsiteName The name of the parent website to link to, if {@code htmlType} is
+     *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
+     * @param parentWebsiteLink The relative path of the parent website to link to, if {@code htmlType} is
+     *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
      * @param rootBaseName The base name (file name excluding file extension) of the root AsciiDoc file.
      * @throws IOException In case of an I/O error.
      */
     public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath, HtmlType htmlType,
-            String rootBaseName) throws IOException
+            String parentWebsiteName, String parentWebsiteLink, String rootBaseName) throws IOException
     {
+        // Check arguments.
+        Assert.areEqual(parentWebsiteName != null, htmlType == HtmlType.WEBSITE);
+        Assert.areEqual(parentWebsiteLink != null, htmlType == HtmlType.WEBSITE);
+
         // Check inputs exist.
         Assert.check(Files.isDirectory(sourceRootPath), sourceRootPath);
         Assert.check(Files.isRegularFile(singleHtmlPagePath), singleHtmlPagePath);
@@ -147,7 +173,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         // Generate and write multiple HTML files, one per page.
         System.out.println("Generating multi-page HTML files at: " + outputRootPath.toString());
         AsciiDocHtmlModifier.generateAndWriteModifiedPages(singlePageDoc, htmlPages, sourceRootPath, outputRootPath,
-                htmlType);
+                htmlType, parentWebsiteName, parentWebsiteLink);
 
         // Copy single AsciiDoc-generated HTML file to output directory, with different name.
         if (htmlType == HtmlType.WEBSITE) {

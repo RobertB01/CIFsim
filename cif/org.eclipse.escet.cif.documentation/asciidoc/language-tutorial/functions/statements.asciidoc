@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -38,7 +39,6 @@ indexterm:[function statements,assignment]
 Assignments in functions are very similar to assignments to <<lang-tut-data-chapter-discrete-variables,discrete variables>>.
 For instance:
 
-
 [source, cif]
 ----
 x := x + 1;
@@ -48,7 +48,6 @@ Besides local variables, it also allowed to assign new values to the parameters.
 Changes to parameters only have effect inside the function itself.
 
 For <<lang-tut-data-asgn-old-vs-new-multi,multi-assignments>>, the outer parentheses are not needed:
-
 
 [source, cif]
 ----
@@ -67,7 +66,6 @@ indexterm:[function statements,if]
 It is possible to perform different calculations under different circumstances.
 Consider the following function:
 
-
 [source, cif]
 ----
 func int signum(real x):
@@ -81,7 +79,7 @@ func int signum(real x):
 end
 ----
 
-This `signum` function takes a real number `x` and returns its link:http://en.wikipedia.org/wiki/Signum_function[sign].
+This `signum` function takes a real number `x` and returns its link:https://en.wikipedia.org/wiki/Signum_function[sign].
 The `if` statement is used to detect the different situations, and to return the correct result in each of those situations.
 
 indexterm:[function statements,return]
@@ -94,11 +92,11 @@ The value following the `return` statement is the result of the entire function.
 Consider again the `return` statement from the `mean` function from the <<lang-tut-functions-chapter-internal-functions,previous lesson>>:
 
 // Copied from: functions/internal-functions
-
-[source,cif]
+[source, cif]
 ----
 return sum / length;
 ----
+
 In this case, the `sum` of the input values is divided by the number of input elements (variable `length`) to obtain the mean of the input values.
 The mean of the input values is the result of the function.
 
@@ -111,8 +109,7 @@ The `while` statements allows for repeated execution of the statements in its bo
 Consider again the `mean` function from the <<lang-tut-functions-chapter-internal-functions,previous lesson>>:
 
 // Copied from: functions/internal-functions
-
-[source,cif]
+[source, cif]
 ----
 func real mean(list real vs):
   int length = size(vs);
@@ -143,7 +140,6 @@ indexterm:[function statements,break]
 
 A `break` statement 'jumps out' of a `while` statement, continuing with the first statement after the `while`.
 Consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -185,7 +181,6 @@ indexterm:[function statements,continue]
 
 A `continue` statement 'jumps over' the remaining statements in the body of a `while` statement, and continues with the next iteration of that `while` statement.
 Consider the following CIF specification:
-
 
 [source, cif]
 ----

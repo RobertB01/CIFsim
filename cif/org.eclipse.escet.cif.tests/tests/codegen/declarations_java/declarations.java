@@ -267,7 +267,7 @@ public abstract class declarations {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent2() {
-        boolean guard = equalObjs(g1_a1_, declarationsEnum._loc1);
+        boolean guard = (g1_a1_) == (declarationsEnum._loc1);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(0, true);
@@ -286,7 +286,7 @@ public abstract class declarations {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent3() {
-        boolean guard = equalObjs(g1_a1_, declarationsEnum._loc2);
+        boolean guard = (g1_a1_) == (declarationsEnum._loc2);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(1, true);

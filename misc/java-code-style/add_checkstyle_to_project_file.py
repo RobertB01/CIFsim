@@ -31,14 +31,14 @@ nature_idx = -1
 try:
     idx = lines.index('\t\t<nature>net.sf.eclipsecs.core.CheckstyleNature</nature>\n')
 except ValueError:
-    # Add it after the Java nature.
-    nature_idx = lines.index('\t\t<nature>org.eclipse.jdt.core.javanature</nature>\n')
+    # Add it as the last nature.
+    nature_idx = len(lines) - lines[::-1].index('\t</natures>\n') - 2
 
 # Overwrite file if we need to add something.
 if builder_idx != -1 or nature_idx != -1:
     with open(sys.argv[1], 'w') as f:
         # Write all lines.
-        for i in xrange(len(lines)):
+        for i in range(len(lines)):
             f.write(lines[i])
 
             # Add builder, if needed.

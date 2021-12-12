@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_root_attributes.asciidoc[]
 
@@ -25,11 +26,11 @@ The ToolDef language features the following concepts:
 
 * Static typing allows to catch simple mistakes.
 
-* The type system is compatible with link:http://oracle.com/java[Java], allowing easy integration with existing Java code.
+* The type system is compatible with link:https://oracle.com/java[Java], allowing easy integration with existing Java code.
 
 * A large library of useful built-in operators and tools, including tools to write to the console, to start applications or execute other ToolDef scripts, to manipulate paths, to interact with files and directories, and to manipulate data of the various supported data types.
 
-* Easy to extend with new tools, written in ToolDef itself, or in link:http://oracle.com/java[Java].
+* Easy to extend with new tools, written in ToolDef itself, or in link:https://oracle.com/java[Java].
 
 * Tools can be parameterized with types.
 
@@ -64,7 +65,6 @@ The ToolDef language features the following concepts:
 * Platform independent path handling, allowing a single script with relative paths to be executed on Window, Linux, and macOS.
 
 For more information, see also the <<lang-ref-chapter-index,language reference>> documentation.
-
 
 indexterm:[tooling,features]
 

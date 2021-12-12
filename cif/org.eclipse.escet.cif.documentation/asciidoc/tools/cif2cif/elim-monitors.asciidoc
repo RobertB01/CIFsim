@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -49,7 +50,6 @@ The self loop edges created by this transformation have no communication (no `+!
 
 For instance, for the following locations and edges, for monitor event `e`:
 
-
 [source, cif]
 ----
 location l1:
@@ -64,7 +64,6 @@ location l3;
 ----
 
 the result after this transformation is:
-
 
 [source, cif]
 ----
@@ -88,7 +87,6 @@ In location `l3`, the event is never enabled (no edges, which essentially means 
 A self loop is added, to ensure the event is always enabled.
 
 Event `f` is not a monitor event, and is thus not affected by this transformation.
-
 
 === Renaming
 

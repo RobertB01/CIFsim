@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -39,7 +40,6 @@ indexterm:[location,urgency]
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton use_case:
@@ -62,7 +62,6 @@ image::{lang-tut-imgsdir}/time/usecase_nonurg_state_space.png[]
 The states are labeled with the names of the current locations of automaton `use_case` and the current values of variable time.
 At the end of the use case, no events are possible, and thus time can progress infinitely.
 To force that in location `done` no time can progress, the location can be made urgent:
-
 
 [source, cif]
 ----

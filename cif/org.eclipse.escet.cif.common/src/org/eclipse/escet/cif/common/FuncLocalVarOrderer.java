@@ -256,6 +256,7 @@ public class FuncLocalVarOrderer extends DependencyOrderer<DiscVariable> {
         // - SelfExpression (only allowed in automata and automaton definitions)
 
         // Should have been eliminated:
+        // - CompParamExpression
         // - CompInstWrapExpression
         // - CompParamWrapExpression
 

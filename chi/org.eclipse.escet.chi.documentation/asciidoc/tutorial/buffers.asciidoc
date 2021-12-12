@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -64,7 +65,6 @@ image::{tut-imgsdir}/pictures/one_place_buffer.png[]
 The simplest buffer is a one-place buffer, for buffering precisely one item.
 A one-place buffer can be defined by:
 
-
 [source, chi]
 ----
 proc B1(chan? item a; chan! item b):
@@ -89,7 +89,6 @@ image::{tut-imgsdir}/pictures/two_place_buffer.png[]
 
 A two-place buffer is defined by:
 
-
 [source, chi]
 ----
 proc B2(chan? item a; chan! item b):
@@ -104,7 +103,6 @@ If each process `B1` contains an item, a third item has to wait in front of proc
 This procedure can be extended to create even larger buffers.
 Another, more preferable manner however, is to describe a buffer in a single process by using a _select_ statement and a list for storage of the items.
 Such a buffer is discussed in the next section.
-
 
 === A single process buffer
 
@@ -125,14 +123,12 @@ Items that enter the buffer first (first-in) also leave first (first-out), the o
 In the model of the buffer, an (ordered) list of type `item` is used for storing the received items.
 New item `x` is added at the rear of list `xs` by the statement:
 
-
 [source, chi]
 ----
 xs = xs + [x]
 ----
 
 The first item of the list is sent, and then deleted with:
-
 
 [source, chi]
 ----
@@ -143,7 +139,6 @@ An alternative solution is to swap the function of the rear and the front, which
 
 The statement to monitor several channels at the same time is the `select` statement.
 The syntax of the `select` statement, with two alternatives, is:
-
 
 [source, chi]
 ----
@@ -167,7 +162,6 @@ The `,` also disappears then.
 
 The description (in words) of the core of the buffer, from the start of this section, is translated in code, by using a `select` statement:
 
-
 [source, chi]
 ----
 select
@@ -184,7 +178,6 @@ In the second alternative, it is stated that, if the buffer contains at least on
 Please keep in mind that both the condition must hold and the communication must be possible _at the same moment_.
 
 The complete description of the buffer is:
-
 
 [source, chi]
 ----
@@ -211,7 +204,6 @@ In case the capacity of the buffer is infinite, expression `size(xs) < N` can be
 
 A buffer with infinite capacity can be written as:
 
-
 [source, chi]
 ----
 proc B(chan? item a; chan! item b):
@@ -231,7 +223,6 @@ end
 
 A first-in first-out buffer is also called a _queue_, while a first-in last-out buffer (_lifo_ buffer), is called a _stack_.
 A description of a lifo buffer is:
-
 
 [source, chi]
 ----
@@ -253,7 +244,6 @@ end
 The buffer puts the last received item at the head of the list, and gets the first item from the list.
 An alternative is to put the last item at the rear of the list, and to get the last item from the list.
 
-
 === A token buffer
 
 In the next example, signals are buffered instead of items.
@@ -264,7 +254,6 @@ If the number of tokens sent is less than the number of tokens received, there a
 A receiving channel variable `a` of type `void` is defined for receiving tokens.
 A sending channel variable `b` of type `void` is defined for sending tokens.
 The buffer becomes:
-
 
 [source, chi]
 ----
@@ -286,7 +275,6 @@ end
 Note that variables of type `void` do not exist.
 Type `void` only can be used in combination with channels.
 
-
 === A priority buffer
 
 A buffer for items with different priority is described in this section.
@@ -295,7 +283,6 @@ Items with a high priority should leave the buffer first.
 
 An item is a tuple with a field `prio`, denoting the priority, `0` for high priority, and `1` for normal priority:
 
-
 [source, chi]
 ----
 type item = tuple(...; int prio);
@@ -303,7 +290,6 @@ type item = tuple(...; int prio);
 
 For the storage of items, two lists are used: a list for high priority items and a list for normal priority items.
 The two lists are described by a list with size two:
-
 
 [source, chi]
 ----
@@ -316,7 +302,6 @@ The first item in the high priority list is denoted by `xs[0][0]`, etc.
 In the model the received items are, on the basis of the value of the `prio`-field in the item, stored in one of the two lists: one list for 'high' items and one list for 'normal' items.
 The discipline of the buffer is that items with a high priority leave the buffer first.
 The model is:
-
 
 [source, chi]
 ----

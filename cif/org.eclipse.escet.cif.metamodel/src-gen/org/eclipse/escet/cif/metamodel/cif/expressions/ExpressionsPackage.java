@@ -1025,6 +1025,61 @@ public interface ExpressionsPackage extends EPackage
     int COMPONENT_EXPRESSION_OPERATION_COUNT = EXPRESSION_OPERATION_COUNT + 0;
 
     /**
+     * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.expressions.impl.CompParamExpressionImpl <em>Comp Param Expression</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.CompParamExpressionImpl
+     * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getCompParamExpression()
+     * @generated
+     */
+    int COMP_PARAM_EXPRESSION = 16;
+
+    /**
+     * The feature id for the '<em><b>Position</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMP_PARAM_EXPRESSION__POSITION = EXPRESSION__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Type</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMP_PARAM_EXPRESSION__TYPE = EXPRESSION__TYPE;
+
+    /**
+     * The feature id for the '<em><b>Parameter</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMP_PARAM_EXPRESSION__PARAMETER = EXPRESSION_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Comp Param Expression</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMP_PARAM_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
+
+    /**
+     * The number of operations of the '<em>Comp Param Expression</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMP_PARAM_EXPRESSION_OPERATION_COUNT = EXPRESSION_OPERATION_COUNT + 0;
+
+    /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.expressions.impl.ConstantExpressionImpl <em>Constant Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1032,7 +1087,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getConstantExpression()
      * @generated
      */
-    int CONSTANT_EXPRESSION = 16;
+    int CONSTANT_EXPRESSION = 17;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1087,7 +1142,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getTauExpression()
      * @generated
      */
-    int TAU_EXPRESSION = 17;
+    int TAU_EXPRESSION = 18;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1133,7 +1188,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getProjectionExpression()
      * @generated
      */
-    int PROJECTION_EXPRESSION = 18;
+    int PROJECTION_EXPRESSION = 19;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1197,7 +1252,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getSliceExpression()
      * @generated
      */
-    int SLICE_EXPRESSION = 19;
+    int SLICE_EXPRESSION = 20;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1270,7 +1325,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getBaseFunctionExpression()
      * @generated
      */
-    int BASE_FUNCTION_EXPRESSION = 20;
+    int BASE_FUNCTION_EXPRESSION = 21;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1316,7 +1371,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getStdLibFunctionExpression()
      * @generated
      */
-    int STD_LIB_FUNCTION_EXPRESSION = 21;
+    int STD_LIB_FUNCTION_EXPRESSION = 22;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1371,7 +1426,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getRealExpression()
      * @generated
      */
-    int REAL_EXPRESSION = 22;
+    int REAL_EXPRESSION = 23;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1426,7 +1481,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getTimeExpression()
      * @generated
      */
-    int TIME_EXPRESSION = 23;
+    int TIME_EXPRESSION = 24;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1472,7 +1527,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getListExpression()
      * @generated
      */
-    int LIST_EXPRESSION = 24;
+    int LIST_EXPRESSION = 25;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1527,7 +1582,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getSetExpression()
      * @generated
      */
-    int SET_EXPRESSION = 25;
+    int SET_EXPRESSION = 26;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1582,7 +1637,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getDictExpression()
      * @generated
      */
-    int DICT_EXPRESSION = 26;
+    int DICT_EXPRESSION = 27;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1637,7 +1692,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getDictPair()
      * @generated
      */
-    int DICT_PAIR = 27;
+    int DICT_PAIR = 28;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1692,7 +1747,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getTupleExpression()
      * @generated
      */
-    int TUPLE_EXPRESSION = 28;
+    int TUPLE_EXPRESSION = 29;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1747,7 +1802,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getCastExpression()
      * @generated
      */
-    int CAST_EXPRESSION = 29;
+    int CAST_EXPRESSION = 30;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1802,7 +1857,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getStringExpression()
      * @generated
      */
-    int STRING_EXPRESSION = 30;
+    int STRING_EXPRESSION = 31;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1857,7 +1912,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getFieldExpression()
      * @generated
      */
-    int FIELD_EXPRESSION = 31;
+    int FIELD_EXPRESSION = 32;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1912,7 +1967,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getFunctionExpression()
      * @generated
      */
-    int FUNCTION_EXPRESSION = 32;
+    int FUNCTION_EXPRESSION = 33;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1967,7 +2022,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getContVariableExpression()
      * @generated
      */
-    int CONT_VARIABLE_EXPRESSION = 33;
+    int CONT_VARIABLE_EXPRESSION = 34;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -2031,7 +2086,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getInputVariableExpression()
      * @generated
      */
-    int INPUT_VARIABLE_EXPRESSION = 34;
+    int INPUT_VARIABLE_EXPRESSION = 35;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -2086,7 +2141,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getReceivedExpression()
      * @generated
      */
-    int RECEIVED_EXPRESSION = 35;
+    int RECEIVED_EXPRESSION = 36;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -2132,7 +2187,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getSelfExpression()
      * @generated
      */
-    int SELF_EXPRESSION = 36;
+    int SELF_EXPRESSION = 37;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -2178,7 +2233,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getSwitchExpression()
      * @generated
      */
-    int SWITCH_EXPRESSION = 37;
+    int SWITCH_EXPRESSION = 38;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -2242,7 +2297,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getSwitchCase()
      * @generated
      */
-    int SWITCH_CASE = 38;
+    int SWITCH_CASE = 39;
 
     /**
      * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -2297,7 +2352,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getUnaryOperator()
      * @generated
      */
-    int UNARY_OPERATOR = 39;
+    int UNARY_OPERATOR = 40;
 
     /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator <em>Binary Operator</em>}' enum.
@@ -2307,7 +2362,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getBinaryOperator()
      * @generated
      */
-    int BINARY_OPERATOR = 40;
+    int BINARY_OPERATOR = 41;
 
     /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction <em>Std Lib Function</em>}' enum.
@@ -2317,7 +2372,7 @@ public interface ExpressionsPackage extends EPackage
      * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getStdLibFunction()
      * @generated
      */
-    int STD_LIB_FUNCTION = 41;
+    int STD_LIB_FUNCTION = 42;
 
 
     /**
@@ -2765,6 +2820,27 @@ public interface ExpressionsPackage extends EPackage
      * @generated
      */
     EReference getComponentExpression_Component();
+
+    /**
+     * Returns the meta object for class '{@link org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression <em>Comp Param Expression</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Comp Param Expression</em>'.
+     * @see org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression
+     * @generated
+     */
+    EClass getCompParamExpression();
+
+    /**
+     * Returns the meta object for the reference '{@link org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression#getParameter <em>Parameter</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Parameter</em>'.
+     * @see org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression#getParameter()
+     * @see #getCompParamExpression()
+     * @generated
+     */
+    EReference getCompParamExpression_Parameter();
 
     /**
      * Returns the meta object for class '{@link org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression <em>Constant Expression</em>}'.
@@ -3692,6 +3768,24 @@ public interface ExpressionsPackage extends EPackage
          * @generated
          */
         EReference COMPONENT_EXPRESSION__COMPONENT = eINSTANCE.getComponentExpression_Component();
+
+        /**
+         * The meta object literal for the '{@link org.eclipse.escet.cif.metamodel.cif.expressions.impl.CompParamExpressionImpl <em>Comp Param Expression</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.CompParamExpressionImpl
+         * @see org.eclipse.escet.cif.metamodel.cif.expressions.impl.ExpressionsPackageImpl#getCompParamExpression()
+         * @generated
+         */
+        EClass COMP_PARAM_EXPRESSION = eINSTANCE.getCompParamExpression();
+
+        /**
+         * The meta object literal for the '<em><b>Parameter</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference COMP_PARAM_EXPRESSION__PARAMETER = eINSTANCE.getCompParamExpression_Parameter();
 
         /**
          * The meta object literal for the '{@link org.eclipse.escet.cif.metamodel.cif.expressions.impl.ConstantExpressionImpl <em>Constant Expression</em>}' class.

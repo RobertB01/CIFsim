@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -28,7 +29,6 @@ indexterm:[assignment,statement]
 An _assignment_ statement is used to assign values to variables.
 An example:
 
-
 [source, chi]
 ----
 y = x + 10
@@ -41,7 +41,6 @@ The value of the `y` variable will not change until the next assignment to `y`, 
 
 An example with two assignment statements:
 
-
 [source, chi]
 ----
 i = 2;
@@ -50,7 +49,6 @@ j = j + 1
 
 The values of `i` becomes 2, and the value of `j` is incremented.
 Independent assignments can also be combined in a multi-assignment, for example:
-
 
 [source, chi]
 ----
@@ -61,7 +59,6 @@ The result is the same as the above described example, the first value goes into
 
 In an assignment statement, first all expression values are computed before any assignment is actually done.
 In the following example the values of `x` and `y` are swapped:
-
 
 [source, chi]
 ----
@@ -75,7 +72,6 @@ indexterm:[if,statement]
 
 The _if_ statement is used to express decisions.
 An example:
-
 
 [source, chi]
 ----
@@ -91,7 +87,6 @@ To perform a different statement when the decision fails, an `if`-statement with
 It has the following form.
 An example:
 
-
 [source, chi]
 ----
 if a > 0:
@@ -105,7 +100,6 @@ If `a` is positive, variable `c` gets the value of `a`, otherwise it gets the va
 
 In some cases more alternatives must be tested.
 One way of writing it is by nesting an `if`-statement in the `else` alternative of the previous `if`-statement, like:
-
 
 [source, chi]
 ----
@@ -132,7 +126,6 @@ If that test also fails, the third condition `i > 0 and i < 10` is tested, and o
 The above can be written more compactly by combining an `else`-part and the `if`-statement that follows, into an `elif` part.
 Each `elif` part consists of a boolean expression, and a statement list.
 Using `elif` parts results in:
-
 
 [source, chi]
 ----
@@ -165,7 +158,6 @@ indexterm:[while,statement]
 The _while_ statement is used for repetitive execution of the same statements, a so-called _loop_.
 A fragment that calculates the sum of `10` integers, `+10, 9, 8, ..., 3, 2, 1+`, is:
 
-
 [source, chi]
 ----
 int i = 10, sum;
@@ -183,7 +175,6 @@ When the condition fails (`i` is equal to `0`), the `while` statement ends, and 
 
 A fragment with an infinite loop is:
 
-
 [source, chi]
 ----
 while true:
@@ -196,7 +187,6 @@ The condition in this fragments always holds, resulting in `i` getting increment
 Such loops are very useful to model things you switch on but never off, e.g. processes in a factory.
 
 A fragment to calculate `+z = x ^ y+`, where `z` and `x` are of type `real`, and `y` is of type `integer` with a non-negative value, showing the use of two `while` loops, is:
-
 
 [source, chi]
 ----
@@ -211,7 +201,6 @@ end
 ----
 
 A fragment to calculate the greatest common divisor (GCD) of two integer numbers `j` and `k`, showing the use of `if` and `while` statements, is:
-
 
 [source, chi]
 ----
@@ -236,7 +225,6 @@ The while statement is useful for looping until a condition fails.
 The _for_ statement is used for iterating over a collection of values.
 A fragment with the calculation of the sum of `10` integers:
 
-
 [source, chi]
 ----
 int sum;
@@ -253,7 +241,6 @@ The result of the expression `range(1, 11)` is a list whose items are consecutiv
 The following example illustrates the use of the for statement in relation with container-type variables.
 Another way of calculating the sum of a list of integer numbers:
 
-
 [source, chi]
 ----
 list int xs = [1, 2, 3, 5, 7, 11, 13];
@@ -266,7 +253,6 @@ end
 
 This statement iterates over the elements of list `xs`.
 This is particularly useful when the value of `xs` may change before the `for` statement.
-
 
 === Notes
 
@@ -286,7 +272,6 @@ indexterm:[statement,pass]
 indexterm:[pass,statement]
 . A rarely used statement is the `pass` statement.
 It's like an `x = x` assignment statement, but more clearly expresses 'nothing is done here'.
-
 
 === Exercises
 

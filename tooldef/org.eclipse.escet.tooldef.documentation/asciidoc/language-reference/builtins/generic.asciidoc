@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -112,7 +113,6 @@ _Runtime errors_
 * If the application fails to execute due to its thread being interrupted.
 * If the application exits with a non-zero exit code and non-zero exit codes are not ignored.
 
-
 indexterm:[exec]
 
 [[lang-ref-builtins-generic-exec]]
@@ -186,7 +186,6 @@ _Runtime errors_
 * If parsing of the command line arguments fails.
 * If ToolDef fails to execution the command or external application.
 * If execution results in a non-zero exit code and non-zero exit codes are not ignored.
-
 
 indexterm:[tooldef]
 

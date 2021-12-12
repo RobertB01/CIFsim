@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 
@@ -28,7 +29,7 @@ indexterm:[print declaration,transition centric view]
 === Transition centric view
 
 Unlike many programming languages that have print statements, CIF has print declarations.
-Print declarations are link:http://en.wikipedia.org/wiki/Declarative_programming[declarative], rather than link:http://en.wikipedia.org/wiki/Imperative_programming[imperative].
+Print declarations are link:https://en.wikipedia.org/wiki/Declarative_programming[declarative], rather than link:https://en.wikipedia.org/wiki/Imperative_programming[imperative].
 Print declarations center on transitions.
 The following is a schematic overview of a transition:
 
@@ -52,7 +53,6 @@ indexterm:[print declaration,virtual labels]
 Simulation using the CIF simulator results in a <<tools-cifsim-traces-traces,trace>>.
 A trace consists of the <<tools-cifsim-traces-state,states>> that are encountered and the transitions that are taken, during the simulation.
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -111,7 +111,6 @@ Since variables can change values, it is important to know in which state the ex
 In the transition centric view, we have two states to choose from, the pre/source state and the post/target state.
 The following variants are supported to specify what to print:
 
-
 [source, cif]
 ----
 print EXPR;
@@ -127,7 +126,6 @@ The fourth variant has two expression, one of which is evaluated in the pre/sour
 The first three variants only print one piece of text per transition, while the fourth variant prints two pieces of text per transition.
 
 Consider the following examples:
-
 
 [source, cif]
 ----
@@ -148,7 +146,6 @@ For string literals this means that the text is escaped, and double quotes are a
 If however the result of the expression is a `string` typed value, then that string is used 'as is' (without quoting, and without escaping).
 Thus, consider the following example:
 
-
 [source, cif]
 ----
 print ["a\"b"];
@@ -157,7 +154,6 @@ print "a\"b";
 
 The first print declaration prints a list that contains a single string value, while the second print declaration prints the single string value directly.
 This results in the following printed output:
-
 
 [source, console]
 ----
@@ -211,7 +207,6 @@ That is, by default output is printed for all transitions, except for the _final
 
 Consider the following examples:
 
-
 [source, cif]
 ----
 print EXPR for e;
@@ -235,7 +230,6 @@ indexterm:[print declaration,state filtering]
 It is possible to filter the transitions to which print declarations apply, by looking at the pre/source and post/target states of the transitions.
 The following variants are supported for state filtering:
 
-
 [source, cif]
 ----
 print EXPR when PRED;
@@ -258,7 +252,6 @@ Text is only printed if the pre/source state satisfies the first predicate, and 
 If either of the states does not satisfy its corresponding predicate, no text is printed for that transition.
 
 Consider the following examples:
-
 
 [source, cif]
 ----
@@ -285,7 +278,6 @@ The transition and state filters are all optional.
 If however both a transition filter and a state filter are specified, they must both match in order for text to be printed.
 Consider the following examples:
 
-
 [source, cif]
 ----
 print time for time when time > 3;
@@ -306,10 +298,9 @@ indexterm:[print declaration,stderr]
 [[tools-cifsim-output-print-ref-printdecl-file]]
 === Output file/target
 
-By default text is printed to the console, to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
+By default text is printed to the console, to the link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
 It is however possible to explicitly specify the file or special target to which the output is to be printed.
 Consider the following examples:
-
 
 [source, cif]
 ----
@@ -325,10 +316,10 @@ It is also allowed to use backslashes (`\`), which are more common on Microsoft 
 
 The following special non-file targets are supported:
 
-* `":stdout"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream].
+* `":stdout"`: prints to the link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream].
 In Eclipse, the text ends up on the console, as black text.
 
-* `":stderr"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream].
+* `":stderr"`: prints to the link:https://en.wikipedia.org/wiki/Standard_streams[standard error stream].
 In Eclipse, the text ends up on the console, as red text.
 
 Besides these local file indications, CIF also supports global <<tools-cifsim-output-print-chapter-ref-printfile,print file declarations>>, which influence the default, in case no local file or special target is specified.

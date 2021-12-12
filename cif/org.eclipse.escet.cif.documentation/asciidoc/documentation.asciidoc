@@ -1,15 +1,15 @@
-
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 // Including common attributes to set for all documents within this directory.
 include::_root_attributes.asciidoc[]
@@ -19,7 +19,6 @@ include::_root_attributes.asciidoc[]
 
 // Use this for asciidoc documents containing a title.
 :doctype: book
-
 
 = CIF documentation (Incubation)
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
@@ -56,7 +55,6 @@ The documentation consists of:
 A screenshot showing a CIF model and simulation:
 
 image::{imgsdir}/screenshot_ide.png[]
-
 
 // Language tutorial
 
@@ -252,7 +250,6 @@ include::language-tutorial/extensions/synthesis.asciidoc[]
 
 :leveloffset: -2
 
-
 // Language reference manual
 
 include::language-reference/index.asciidoc[]
@@ -265,7 +262,6 @@ include::language-reference/syntax/grammar.asciidoc[]
 
 :leveloffset: -1
 
-
 // Tool manual
 
 include::tools/index.asciidoc[]
@@ -275,8 +271,6 @@ include::tools/index.asciidoc[]
 :leveloffset: +2
 
 include::tools/text-editor.asciidoc[]
-
-include::tools/cif2yed.asciidoc[]
 
 :leveloffset: -2
 
@@ -666,6 +660,8 @@ include::tools/event-disabler.asciidoc[]
 
 include::tools/explorer.asciidoc[]
 
+include::tools/cif2yed.asciidoc[]
+
 :leveloffset: -2
 
 === Scripting
@@ -699,7 +695,6 @@ include::developers/lang-modify.asciidoc[]
 // Legal
 
 include::documentation-legal.asciidoc[]
-
 
 ifdef::pdf-output[]
 [index]

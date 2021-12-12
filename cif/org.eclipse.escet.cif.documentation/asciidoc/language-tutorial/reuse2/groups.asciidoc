@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -21,7 +22,6 @@ For large CIF specifications with many automata, it can be beneficial to add mor
 For this purpose, CIF has _groups_.
 Groups are named collections of automata and other declarations.
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -56,7 +56,6 @@ While in this case the subdivision into a hierarchical specification structure i
 
 Consider also the following partial CIF specification:
 
-
 [source, cif]
 ----
 group configuration:
@@ -69,8 +68,7 @@ end
 The `configuration` group is used to group together several configuration values, modeled by constants.
 By grouping these constants together, it is more clear that they together are the configuration settings of the system, and that they belong together.
 
-Finally, consider the following CIF specification, based on the link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system] from the lesson on <<lang-tut-time-chapter-equations,equations>>.
-
+Finally, consider the following CIF specification, based on the link:https://en.wikipedia.org/wiki/Nonlinear_system[non-linear system] from the lesson on <<lang-tut-time-chapter-equations,equations>>.
 
 [source, cif]
 ----

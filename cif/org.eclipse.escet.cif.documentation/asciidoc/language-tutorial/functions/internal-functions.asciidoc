@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -20,8 +21,7 @@ The most commonly used <<lang-tut-functions-chapter-intro,kind>> of user-defined
 Consider the following CIF specification:
 
 // Copied to: functions/statements
-
-[source,cif]
+[source, cif]
 ----
 func real mean(list real vs):
   int length = size(vs);
@@ -69,7 +69,6 @@ indexterm:[function,application]
 indexterm:[function,call]
 A function can be called (or applied) on concrete input values, to obtain the computation result for those specific input values.
 For instance, consider the following extension to the above CIF specification:
-
 
 [source, cif]
 ----

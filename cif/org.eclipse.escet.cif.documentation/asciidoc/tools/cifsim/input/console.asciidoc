@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../_part_attributes.asciidoc[]
 
@@ -24,7 +25,6 @@ The user enters his/her choice via the console as well.
 === Choosing a transition to take
 
 The following is an example of the simulator interactively asking the user to choose a possible transition:
-
 
 [source, console]
 ----
@@ -65,11 +65,9 @@ The user is then again asked to choose.
 
 If a choice is made that is invalid or is not available for the current state, an error message is printed to the console, and the user is asked to make an other choice.
 
-
 === Choosing a time transition duration
 
 If the user chooses a time transition (choice `3` in the above example), the simulator subsequently asks for the duration of the time delay:
-
 
 [source, console]
 ----
@@ -87,14 +85,12 @@ Entering `q` or `Q`, and confirming that by pressing kbd:[Enter], will <<tools-c
 
 If a choice is made that is invalid, an error message is printed to the console, and the user is asked to make an other choice.
 
-
 === Choosing between termination or going back
 
 If no transitions are possible, for instance due to <<lang-tut-time-deadlock,deadlock>> or reaching the <<tools-cifsim-termination-endtime,end-user provided simulation end time>>, the simulator may interactively ask the user to choose between termination of the simulation, resetting the simulation to the initial state, or undoing some transitions.
 This choice is only presented if either reset or undo is enabled, as otherwise there is no choice to make.
 
 The following is an example of the simulator interactively asking the user to choose between termination and going back:
-
 
 [source, console]
 ----

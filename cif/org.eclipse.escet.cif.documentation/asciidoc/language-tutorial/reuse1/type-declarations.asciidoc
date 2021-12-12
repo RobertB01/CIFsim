@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -18,7 +19,6 @@ include::../_part_attributes.asciidoc[]
 indexterm:[type declaration]
 indexterm:[type,declaration]
 Consider this slightly modified version of an example from the lesson on <<lang-tut-reuse1-chapter-constants,constants>>:
-
 
 [source, cif]
 ----
@@ -35,7 +35,6 @@ Constant `M2_DURATION` is similar, but for machine 2.
 
 The type of both constants is the same.
 To avoid having to repeat complex types in multiple places, a _type declaration_ can be used:
-
 
 [source, cif]
 ----

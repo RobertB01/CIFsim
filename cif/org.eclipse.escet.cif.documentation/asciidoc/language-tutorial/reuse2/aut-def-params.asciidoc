@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -21,7 +22,6 @@ indexterm:[automaton instantiation,arguments]
 In the <<lang-tut-reuse2-chapter-aut-def-inst,previous lesson>>, automaton definition/instantiation was used to obtain two identical automata, while only having to specify their behavior once.
 What we have seen so far, is enough for exactly identical automata, but not for nearly identical automata.
 Consider the following two nearly identical consumers:
-
 
 [source, cif]
 ----
@@ -46,7 +46,6 @@ The consumers can accept products that the producer provides (channel `provide`)
 They store the identification numbers of those products in a `buffer`.
 The two consumers are identical except for the number of products that they can accept: the first consumer can accept two products, the second producer can accept three products.
 We can still use automaton definition and instantiation to model the consumer only once, but we need to parametrize the automaton definition:
-
 
 [source, cif]
 ----

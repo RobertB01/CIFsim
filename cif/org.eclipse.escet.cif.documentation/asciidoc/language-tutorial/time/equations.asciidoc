@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -16,14 +17,13 @@ include::../_part_attributes.asciidoc[]
 == Equations
 
 indexterm:[equation,benefit]
-Consider the following link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]:
+Consider the following link:https://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]:
 
 image::{lang-tut-imgsdir}/time/tank.png[]
 
 Variable `V` models the water volume of a tank.
 The water volume of the tank changes based on the incoming flow of water `Qi` and outgoing flow of water `Qo`.
 The tank can be modeled using the following CIF specification:
-
 
 [source, cif]
 ----
@@ -39,8 +39,7 @@ The outgoing flow increases as the water volume of the tank increases.
 By separating the declarations of the three variables from their equations, the specification becomes more readable:
 
 // Copied to: reuse2/groups
-
-[source,cif]
+[source, cif]
 ----
 cont V = 5;
 alg real Qi;

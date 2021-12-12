@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 
@@ -20,10 +21,9 @@ indexterm:[print output,print file declaration]
 indexterm:[I/O declaration,print file declaration]
 indexterm:[see: printfile,print file declaration]
 <<tools-cifsim-output-print-chapter-ref-printdecl,Print declarations>> can <<tools-cifsim-output-print-ref-printdecl-file,specify>> the file or special target to which text is to printed.
-If they don't specify anything, the default is to print to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
+If they don't specify anything, the default is to print to the link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
 This default can be influenced by means of _print file declarations_, which act as a sort of global declaration of the file or special target.
 A typical print file declaration looks like this:
-
 
 [source, cif]
 ----
@@ -36,7 +36,6 @@ indexterm:[print file declaration,path]
 
 It is possible to use relative (or absolute) paths for the files.
 For instance:
-
 
 [source, cif]
 ----
@@ -58,10 +57,10 @@ indexterm:[print file declaration,stderr]
 
 The following special non-file targets are supported:
 
-* `":stdout"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream].
+* `":stdout"`: prints to the link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream].
 In Eclipse, the text ends up on the console, as black text.
 
-* `":stderr"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream].
+* `":stderr"`: prints to the link:https://en.wikipedia.org/wiki/Standard_streams[standard error stream].
 In Eclipse, the text ends up on the console, as red text.
 
 indexterm:[print file declaration,scoping]
@@ -74,7 +73,6 @@ A print file declaration that is specified in a certain scope applies to that sc
 Additionally, print file declarations apply to all print declarations without local file declarations, in scopes to which the print file declarations apply.
 
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -132,7 +130,6 @@ In the end, after processing imports, for every scope there must be a unique pri
 If the same file or special target is used/specified multiple times, in different print file declarations or locally in print declarations, this is detected by the simulator.
 The simulator only opens a stream to the file or special target once, and prints to it all the output of all print declarations that apply to that file or special target.
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----

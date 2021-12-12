@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 include::_local_attributes.asciidoc[]
@@ -35,18 +36,17 @@ In an Eclipse project or directory, create a new CIF file named `lamp.cif`:
 // Removed the previously present link to documentation about 'projects'.
 // Removed the previously present link to documentation about 'creating files'.
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/lamp/lamp.cif[]
 ----
 
 This file describes not only the behavior of the lamp using a CIF automaton, but also contains a <<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declaration>>, which specifies the connection between the behavioral CIF specification and the SVG image.
 
-
 === Creating the SVG image
 
 Next, we'll create an <<tools-cifsim-output-svgviz-chapter-svg,SVG>> image.
-Start link:http://inkscape.org/[Inkscape], Select menu:File[Document Properties...], to open the _Document Properties_ window.
+Start link:https://inkscape.org/[Inkscape], Select menu:File[Document Properties...], to open the _Document Properties_ window.
 On the _Page_ tab, set the _Units_ to _px_, the _Width_ to `75.00`, and the _Height_ to `100.00`.
 It is recommended to always <<tools-cifsim-output-svgviz-inkscape-size,set the size>> of the image, before adding any shapes or text labels.
 
@@ -60,7 +60,6 @@ Right click the circle and choose menu:Object Properties[].
 The _Object Properties_ window will appear.
 Change the _Id_ of the circle to `lamp` and click the btn:[Set] button.
 Save the image as `lamp.svg`, in the same directory as the `lamp.cif` file.
-
 
 === Simulation and the options dialog
 
@@ -92,13 +91,12 @@ Using these options, SVG visualization essentially turns into an SVG movie of th
 Simulation will automatically stop after ten seconds, the default simulation end time.
 Once simulation terminates, you may close the visualization window.
 
-
 === Simulation using ToolDef
 
 While the option dialog is useful for configuring simulation options, it is often easier to use a _ToolDef_ file to <<tools-scripting-chapter-intro,script>> the execution of the CIF simulator.
 Create a new file named `lamp.tooldef`, in the same directory as the other files, and give it the following content:
 
-[source,tooldef]
+[source, tooldef]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/lamp/lamp.tooldef[]
 ----

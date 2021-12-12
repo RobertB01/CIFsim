@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -37,7 +38,6 @@ Specifications where requirement automata or declarations declared in requiremen
 By removing the requirement automata, those uses (references) become invalid, as the automata or declarations that are referenced no longer exist.
 For instance, consider:
 
-
 [source, cif]
 ----
 alg int x = switch req: case l1: 1 else 2 end;
@@ -54,7 +54,6 @@ end
 When requirement automaton `req` is removed, the `switch` expression can no longer refer to that automaton, or to its locations.
 Removing the requirements from this CIF specification is not supported.
 
-
 === Preprocessing
 
 No preprocessing is currently performed by this CIF to CIF transformation.
@@ -62,13 +61,11 @@ To increase the subset of specifications that can be transformed, apply the foll
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
-
 === Implementation details
 
 Both <<lang-tut-extensions-synthesis-autkind,requirement automata>> and <<lang-tut-extensions-synthesis-invkind,requirement invariants>> are removed.
 Requirement invariants are removed from the top level scope of the specification, all groups and automata, and all locations of automata.
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -96,7 +93,6 @@ end
 
 The result after this transformation is:
 
-
 [source, cif]
 ----
 controllable add;
@@ -113,16 +109,13 @@ plant automaton buffer:
 end
 ----
 
-
 === Renaming
 
 n/a
 
-
 === Size considerations
 
 Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
-
 
 === Optimality
 

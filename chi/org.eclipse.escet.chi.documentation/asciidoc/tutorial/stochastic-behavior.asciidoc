@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -30,7 +31,6 @@ The following fragment illustrates the use of the random distribution to model a
 Each value of the six-sided dice is equally likely to appear.
 Every value having the same probability of appearing is a property of the integer uniform distribution, in this case using interval `[1, 7)` (inclusive on the left side, exclusive on the right side).
 The model is:
-
 
 [source, chi]
 ----
@@ -84,7 +84,6 @@ There is one constant distribution for each type of sample value:
 
 An example with a constant distribution is:
 
-
 [source, chi]
 ----
 dist int u = constant(7);
@@ -110,7 +109,7 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/bernoulli.svg[]
 Range:: `{false, true}`
 Mean:: `p` (where `false` is interpreted as `0`, and `true` is interpreted as `1`)
 Variance:: `1 - p` (where `false` is interpreted as `0`, and `true` is interpreted as `1`)
-See also:: Bernoulli(p), <<law-tut>>, page 302
+See also:: Bernoulli(p), <<tut-law>>, page 302
 
 * `dist` `int` *uniform*`(int a, b)`
 +
@@ -122,11 +121,10 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/disc_uni.svg[]
 Range:: `+{a, a+1, ..., b-1}+`
 Mean:: `(a + b - 1) / 2`
 Variance:: `+((b - a)\^2 - 1) / 12+`
-See also:: DU(a, b - 1), <<law-tut>>, page 303
+See also:: DU(a, b - 1), <<tut-law>>, page 303
 
 indexterm:[distribution,continuous]
 indexterm:[continuous,distribution]
-
 
 ==== Continuous distributions
 
@@ -142,7 +140,7 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/cont_uni.svg[]
 Range:: `[a, b)`
 Mean:: `(a + b) / 2`
 Variance:: `+(b - a)^2 / 12+`
-See also:: U(a,b), <<law-tut>>, page 282, except that distribution has an
+See also:: U(a,b), <<tut-law>>, page 282, except that distribution has an
 inclusive upper bound.
 
 * `dist` `real` *gamma*`(real a, b)`
@@ -155,12 +153,10 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/gamma.svg[]
 Mean:: `a * b`
 Variance:: `+a * b^2+`
 
-
 [bibliography]
 ==== References
 
-* [[[law-tut]]] Simulation Modeling & Analysis, fourth edition, by Averill M. Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6
-
+* [[[tut-law,Law]]] Averill M. Law, "Simulation Modeling and Analysis", fourth edition, McGraw-Hill, 2007
 
 [[tut-simulating-stochastic-behavior]]
 === Simulating stochastic behavior
@@ -184,7 +180,6 @@ At the end of the simulation, the used initial seed of that simulation is printe
 
 While doing a stochastic simulation study, performing several experiments with the same initial seed invalidates the results, as it is equivalent to copying the outcome of a single experiment a number of times.
 On the other hand, when looking for the cause of a bug in the model, performing the exact same experiment is useful as outcomes of previous experiments should match exactly.
-
 
 === Exercises
 

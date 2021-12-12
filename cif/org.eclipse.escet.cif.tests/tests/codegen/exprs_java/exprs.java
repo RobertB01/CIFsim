@@ -673,12 +673,12 @@ public abstract class exprs {
         AA_eq2_ = equalObjs(AA_vi_, AA_vi_);
         AA_eq3_ = equalObjs(AA_vr_, AA_vr_);
         AA_eq4_ = equalObjs(AA_vs_, AA_vs_);
-        AA_eq5_ = equalObjs(AA_ve_, AA_ve_);
+        AA_eq5_ = (AA_ve_) == (AA_ve_);
         AA_ne1_ = !equalObjs(AA_vb_, AA_vb_);
         AA_ne2_ = !equalObjs(AA_vi_, AA_vi_);
         AA_ne3_ = !equalObjs(AA_vr_, AA_vr_);
         AA_ne4_ = !equalObjs(AA_vs_, AA_vs_);
-        AA_ne5_ = !equalObjs(AA_ve_, AA_ve_);
+        AA_ne5_ = (AA_ve_) != (AA_ve_);
         AA_add1_ = addInt(AA_vi_, AA_vi_);
         AA_add2_ = addReal(AA_vi_, AA_vr_);
         AA_add3_ = addReal(AA_vr_, AA_vi_);
@@ -910,7 +910,7 @@ public abstract class exprs {
      * @return The evaluation result.
      */
     public boolean x7_() {
-        return equalObjs(vea_(), exprsEnum._B);
+        return (vea_()) == (exprsEnum._B);
     }
 
     /**

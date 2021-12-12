@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -37,7 +38,6 @@ To contribute code (e.g. patches), documentation, or anything else, see the <<de
 
 The way we work with our Git repository is explained as part of our <<development-development-process-chapter-index,development process>>.
 
-
 === Repository structure
 
 In the Eclipse ESCET source code repository (Git repository), three layers are distinguished:
@@ -60,7 +60,6 @@ For the bottom layer, standard Eclipse and Maven/Tycho tools are used, which are
 
 The three layers are not further distinguished in the repository.
 Instead, different parts are stored in different sub-directories from the root.
-
 
 === Language directories
 
@@ -120,7 +119,6 @@ These tests can be seen as integration tests.
 |===
 
 Other plugin names are often tools with the same name.
-
 
 === Middle layer common functionality
 

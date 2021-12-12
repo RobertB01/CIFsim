@@ -71,9 +71,13 @@ class AsciiDocHtmlModifier {
      *     the root AsciiDoc file.
      * @param outputRootPath The path to the directory in which to write output.
      * @param htmlType The HTML type.
+     * @param parentWebsiteName The name of the parent website to link to, if {@code htmlType} is
+     *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
+     * @param parentWebsiteLink The relative path of the parent website to link to, if {@code htmlType} is
+     *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
      */
     static void generateAndWriteModifiedPages(Document singlePageDoc, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
-            Path outputRootPath, HtmlType htmlType)
+            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink)
     {
         // Determine new section ids.
         determineNewSectionIds(htmlPages);
@@ -101,6 +105,11 @@ class AsciiDocHtmlModifier {
                 // Modify TOC title.
                 if (htmlType == HtmlType.WEBSITE) {
                     modifyTocTitle(page.doc, docOriginalTitle);
+                }
+
+                // Add parent website link to TOC, for documentation on the website to link back to that website.
+                if (htmlType == HtmlType.WEBSITE) {
+                    addParentWebsiteLinkToToc(page.doc, parentWebsiteName, parentWebsiteLink);
                 }
 
                 // Move title/copyright/version from HTML body to footer.
@@ -338,6 +347,23 @@ class AsciiDocHtmlModifier {
     private static void modifyTocTitle(Document doc, String docOriginalTitle) {
         Element elemTocTitle = single(doc.select("div#toctitle"));
         elemTocTitle.text(docOriginalTitle);
+    }
+
+    /**
+     * Add website link to TOC.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param parentWebsiteName The name of the website to link to.
+     * @param parentWebsiteLink The relative path of the website to link to.
+     */
+    private static void addParentWebsiteLinkToToc(Document doc, String parentWebsiteName, String parentWebsiteLink) {
+        Element elemTocDiv = single(doc.select("div#toc"));
+        Element elemWebsiteLinkP = elemTocDiv.prependElement("p");
+        elemWebsiteLinkP.addClass("website-link");
+        elemWebsiteLinkP.appendText("Part of: ");
+        Element elemWebsiteLinkA = elemWebsiteLinkP.appendElement("a");
+        elemWebsiteLinkA.attr("href", parentWebsiteLink);
+        elemWebsiteLinkA.text(parentWebsiteName);
     }
 
     /**

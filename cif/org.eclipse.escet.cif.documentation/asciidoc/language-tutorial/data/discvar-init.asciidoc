@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -20,7 +21,6 @@ indexterm:[initial value,discrete variable]
 indexterm:[initial value,explicit]
 Discrete variables can be given an initial value with their declaration:
 
-
 [source, cif]
 ----
 disc int x = 1;
@@ -29,7 +29,6 @@ disc int x = 1;
 indexterm:[initial value,implicit]
 indexterm:[initial value,default]
 The initial value may be omitted, leading to the default value of its data type being used:
-
 
 [source, cif]
 ----
@@ -47,7 +46,6 @@ indexterm:[initial value,multiple]
 [[lang-tut-data-discvar-init-multiple]]
 It is possible to indicate that a variable has more than one potential initial value:
 
-
 [source, cif]
 ----
 disc int x in {1, 2, 4};
@@ -62,7 +60,6 @@ indexterm:[initial value,any]
 
 [[lang-tut-data-discvar-init-any]]
 It is also possible to indicate that a variable can have any arbitrary initial value:
-
 
 [source, cif]
 ----
@@ -85,7 +82,6 @@ This allows a single specification to be used for various different combinations
 So far all examples used literal values to initialize the variables.
 However, it is also allowed to use expressions to compute initial values, for instance based on the initial values of other variables:
 
-
 [source, cif]
 ----
 disc int x = 1;     // Initial value: 1
@@ -104,7 +100,6 @@ indexterm:[declaration,order]
 The order of the declaration of the variables does not matter.
 We could just as easily declare them as follows:
 
-
 [source, cif]
 ----
 disc int y = x * 2; // Uses variable x, which is declared later.
@@ -114,7 +109,6 @@ disc int x = 1;
 indexterm:[initialization,cyclic dependencies]
 Variable `y` is still initialized using the initial value of variable `x`, which is now declared after variable `y`.
 It is not allowed to construct loops, where the initial values of variables depend on each other:
-
 
 [source, cif]
 ----
@@ -126,7 +120,6 @@ disc int z = x;
 Variable `x` uses the value of variable `y`, which uses the value of variable `z`, which in turn uses the value of variable `x` again.
 This is not allowed in CIF, as it creates a cyclic dependency.
 However, since no restrictions are introduced on the initial values of variables `x`, `y`, and `z`, except that they must be equal to each other, we can declare them as follows:
-
 
 [source, cif]
 ----

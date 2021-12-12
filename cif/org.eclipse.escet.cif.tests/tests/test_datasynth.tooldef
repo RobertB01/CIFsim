@@ -79,7 +79,7 @@ map(string:list string) test_options = {
     "datasynth/state_plant_invs_req_aut.cif":             ["--forward-reach=on"],
     "datasynth/state_plant_invs_simple.cif":              ["--forward-reach=on"],
     "datasynth/state_plant_invs_unctrl.cif":              [opt_simplify_all],
-    "datasynth/stats.cif":                                ["--stats=bdd-max-nodes,bdd-cont-perf,bdd-cache"],
+    "datasynth/stats.cif":                                ["--stats=bdd-perf-cache,bdd-perf-cont,bdd-perf-max-nodes"],
     "datasynth/supname_custom.cif":                       ["-s g"],
     "datasynth/supname_invalid.cif":                      ["-s b@"],
     "datasynth/var_order_custom_force_off.cif":           ["-r *c*;*3,*1;*2 --force-order=off --sliding-window-order=off " + opt_simplify_all],

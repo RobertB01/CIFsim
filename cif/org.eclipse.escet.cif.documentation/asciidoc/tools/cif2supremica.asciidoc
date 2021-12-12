@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -19,7 +20,7 @@ indexterm:[CIF to Supremica transformer]
 indexterm:[tools,CIF to Supremica transformer]
 indexterm:[see: Supremica,CIF to Supremica transformer]
 The CIF to Supremica transformer can be used to transform CIF specifications to Supremica modules (`+*.wmod+` files).
-link:http://supremica.org/[Supremica] is a tool for synthesis of discrete event supervisors.
+link:https://supremica.org/[Supremica] is a tool for synthesis of discrete event supervisors.
 
 indexterm:[CIF to Supremica transformer,start]
 
@@ -228,7 +229,6 @@ indexterm:[CIF to Supremica transformer,jumping semantics]
 
 Consider the following CIF model:
 
-
 [source, cif]
 ----
 plant automaton p:
@@ -252,7 +252,6 @@ Every even transition, the value of variable `v` is not changed.
 After a few transitions, the simulation crashes due to overflow of variable `v`.
 
 To ensure the same semantics in Supremica, such that for every even transition the value of variable `v` does not change, the CIF model is modified by the transformation, to the following:
-
 
 [source, cif]
 ----

@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group def R():
+  group def Y():
+    plant def Q():
+      location l1:
+        initial;
+        edge when l1 goto l2;
+      location l2;
+    end
+    q1: Q();
+  end
+  y: Y();
+end
+
+r: R();
+
+group def X1(r.y.Q p):
+   group def X(r.y.Q p):
+     group def T():
+       group def U():
+       end
+     end
+     alg string s1 = <string>p;
+   end
+   x: X(p);
+   alg bool b1 = switch p: case l1: true else false end;
+end
+
+x1: X1(r.y.q1);

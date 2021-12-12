@@ -194,7 +194,7 @@ public abstract class various {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = equalObjs(g_sync_, variousEnum._l1);
+        boolean guard = (g_sync_) == (variousEnum._l1);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(0, true);
@@ -213,7 +213,7 @@ public abstract class various {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent1() {
-        boolean guard = (equalObjs(g_sync_, variousEnum._l2)) && ((g_sync_c_) >= (2));
+        boolean guard = ((g_sync_) == (variousEnum._l2)) && ((g_sync_c_) >= (2));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(1, true);

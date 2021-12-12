@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -27,7 +28,6 @@ The CIF code generator supports a subset of CIF specifications.
 Generation of Java code does not impose additional restrictions.
 See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>> page for more information.
 
-
 === Options
 
 Besides the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>, the Java code generation can be influenced by the following additional options:
@@ -38,7 +38,6 @@ The specified package should be a valid Java package name, and must not be empty
 
 The code prefix that can be configured using a common option, is used in the generated Java code as prefix for class names.
 
-
 === Compilation
 
 The generated Java code can be compiled with a Java 7 compiler or newer.
@@ -46,7 +45,6 @@ The generated Java code can be compiled with a Java 7 compiler or newer.
 The generated code is complete, and can be used as is, without any CIF related library or runtime.
 No additional dependencies or libraries are required.
 Only the standard Java libraries, part of any Java installation, are needed.
-
 
 === Generated files
 
@@ -62,14 +60,13 @@ The first file contains the code for all the features of the CIF model in an abs
 The second file contains a class named `<prefix>Test`, which inherits from the `<prefix>` class, and implements various abstract methods.
 This test class can be used to test the code, and can serve as a starting point for actually implementing the coupling between the code generated for the CIF model, and the environment in which it runs.
 
-
 === Executing the code
 
 The code can be executed in multiple ways:
 
 * `execOnce` method
 +
-[source,java]
+[source, java]
 ----
 public void execOnce(double newTime)
 ----
@@ -86,7 +83,7 @@ This approach allows full control.
 
 * `exec` method
 +
-[source,java]
+[source, java]
 ----
 public void exec(long frequency)
 ----
@@ -111,7 +108,7 @@ The following methods are provided in the interface of the generated class as ab
 
 * `updateInputs` method
 +
-[source,java]
+[source, java]
 ----
 protected void updateInputs()
 ----
@@ -128,7 +125,7 @@ Don't modify arrays and tuples in-place, as that may lead to other variables bei
 
 * `preExec` method
 +
-[source,java]
+[source, java]
 ----
 protected void preExec()
 ----
@@ -140,7 +137,7 @@ You should not access the state of the CIF model from this method, as it may not
 
 * `postExec` method
 +
-[source,java]
+[source, java]
 ----
 protected void postExec()
 ----
@@ -155,7 +152,7 @@ The code to write the output values to the environment is the dual to reading th
 
 * `infoExec` method
 +
-[source,java]
+[source, java]
 ----
 protected void infoExec(long duration, long cycleTime)
 ----
@@ -172,7 +169,7 @@ This is enabled (`true`) by default.
 
 * `infoEvent` method
 +
-[source,java]
+[source, java]
 ----
 protected void infoEvent(int idx, boolean pre)
 ----
@@ -190,7 +187,7 @@ This is disabled (`false`) by default.
 
 * `infoPrintOutput` method
 +
-[source,java]
+[source, java]
 ----
 protected void infoPrintOutput(String text, String target)
 ----

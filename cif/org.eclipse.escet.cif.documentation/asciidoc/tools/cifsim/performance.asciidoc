@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -21,7 +22,6 @@ General performance information about Java or Eclipse typically applies to the C
 This page provides additional information specific to the CIF simulator.
 // Removed the previously present link to documentation about 'Java and Eclipse performance'.
 
-
 === Closing the simulator
 
 Closing the simulator ensures that all its resources are freed, and become available for other applications.
@@ -29,12 +29,10 @@ The CIF simulator however, may ask you to press kbd:[Enter] to <<tools-cifsim-te
 If asked, as long as you haven't pressed kbd:[Enter] yet, the status of the console will still show it's running, and the application can't release its resources.
 // Removed the previously present link to documentation about 'closing running applications'.
 
-
 === Slow starting of the simulator
 
 If simulation is slow to start, you can try a different <<tools-cifsim-chapter-java-compiler,Java compiler>>.
 You can also try to <<tools-cifsim-repeated-sim-compile-once,compile the model once>>, reducing the start time of the simulator for <<tools-cifsim-chapter-repeated-simulation,repeated simulations>>.
-
 
 === Slow termination of the simulator
 
@@ -43,11 +41,9 @@ If its <<tools-cifsim-output-trajdata-prettify,prettifying>> option is enabled, 
 This may take some time, especially on slow remote/network file systems or storage devices.
 Disabling the option or the trajectory data output may solve this problem, as may switching to a faster file system or storage device.
 
-
 === Value simplification
 
 By applying the <<tools-cif2cif-chapter-simplify-values>> CIF to CIF transformation before simulation, you may be able to simplify the specification, and thus improve the performance of both starting up the simulator, as well as the actual simulation.
-
 
 === Simulation options
 

@@ -1,5 +1,5 @@
-WARNING: Location pointer variable "p1" is renamed to "p12".
-WARNING: Enumeration "LPE_p12", introduced as the type of location pointer variable "p12", is renamed to "LPE_p122".
+WARNING: Location pointer variable "__Dummy_LP_Name_Very_Unlikely_To_Exist__" for automaton "p1" is renamed to "__Dummy_LP_Name_Very_Unlikely_To_Exist__2".
+WARNING: Enumeration "LPE", introduced as the type of the location pointer variable for automaton "p12", is renamed to "LPE2".
 WARNING: Merged automaton "M" is renamed to "M2".
 WARNING: Declaration "p1_p1" is renamed to "p1_p12".
 WARNING: Declaration "p2_p2_x" is renamed to "p2_p2_x2".

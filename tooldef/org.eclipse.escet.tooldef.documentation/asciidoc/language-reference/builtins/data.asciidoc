@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -56,7 +57,6 @@ This page describes the built-in data tools:
 * <<lang-ref-builtins-data-upper,upper>>
 * <<lang-ref-builtins-data-values,values>>
 
-
 indexterm:[abs]
 
 [[lang-ref-builtins-data-abs]]
@@ -84,7 +84,6 @@ _Runtime errors_
 
 * If the operation results in overflow (for integer and long numbers only).
 
-
 indexterm:[ceil]
 
 [[lang-ref-builtins-data-ceil]]
@@ -109,7 +108,6 @@ The double number rounded to a whole long number, towards positive infinity.
 _Runtime errors_
 
 * If the operation results in overflow.
-
 
 indexterm:[contains]
 
@@ -148,7 +146,6 @@ The part string (potentially contained in the whole string), or the value (poten
 _Returns_
 
 `true` if the part string is contained in the whole string, if the value is contained in the list, if the value is contained in the set, or if the value is a key of the map, `false` otherwise.
-
 
 indexterm:[del]
 
@@ -189,7 +186,6 @@ _Returns_
 
 The list with all occurrences of the element removed from it, the set with the element removed from it, or the map with the entry with the given key removed from it.
 
-
 indexterm:[delidx]
 
 [[lang-ref-builtins-data-delidx]]
@@ -223,7 +219,6 @@ The list with the element removed from it.
 _Runtime errors_
 
 * If the index is out of bounds for the list.
-
 
 indexterm:[empty]
 
@@ -260,7 +255,6 @@ _Returns_
 
 `true` if the given string, list, set, or map is empty, `false` otherwise.
 
-
 indexterm:[endswith]
 
 [[lang-ref-builtins-data-endswith]]
@@ -285,7 +279,6 @@ The second given string.
 _Returns_
 
 `true` if the first given string ends with the second given string, `false` otherwise.
-
 
 indexterm:[entries]
 
@@ -316,7 +309,6 @@ _Returns_
 
 The list with 2-tuples of keys and values for all entries of the given map.
 
-
 indexterm:[enumerate]
 
 [[lang-ref-builtins-data-enumerate]]
@@ -343,7 +335,6 @@ _Returns_
 
 The list with 2-tuples of 0-based indices and elements for all elements of the given list.
 
-
 indexterm:[floor]
 
 [[lang-ref-builtins-data-floor]]
@@ -368,7 +359,6 @@ The double number rounded to a whole long number, towards negative infinity.
 _Runtime errors_
 
 * If the operation results in overflow.
-
 
 indexterm:[fmt]
 
@@ -402,7 +392,6 @@ _Runtime errors_
 * If the format pattern and arguments don't match.
 
 // TODO: Include format pattern syntax and details, etc. See also CIF documentation.
-
 
 indexterm:[indexof]
 
@@ -446,7 +435,6 @@ _Returns_
 
 The 0-based index of the first occurrence, at or after the given offset if given, or `-1`.
 
-
 indexterm:[join]
 
 [[lang-ref-builtins-data-join]]
@@ -473,7 +461,6 @@ The optional separator text to use.
 _Returns_
 
 The joined texts.
-
 
 indexterm:[keys]
 
@@ -503,7 +490,6 @@ The map.
 _Returns_
 
 The set with the keys of the map.
-
 
 indexterm:[lastindexof]
 
@@ -547,7 +533,6 @@ _Returns_
 
 The 0-based index of the last occurrence, at or before the given offset if given, or `-1`.
 
-
 indexterm:[ln]
 
 [[lang-ref-builtins-data-ln]]
@@ -572,7 +557,6 @@ The natural logarithm of the double number.
 _Runtime errors_
 
 * If the double number is not positive.
-
 
 indexterm:[log]
 
@@ -599,7 +583,6 @@ _Runtime errors_
 
 * If the double number is not positive.
 
-
 indexterm:[lower]
 
 [[lang-ref-builtins-data-lower]]
@@ -622,7 +605,6 @@ _Returns_
 
 The text, in lower case.
 
-
 indexterm:[ltrim]
 
 [[lang-ref-builtins-data-ltrim]]
@@ -643,7 +625,6 @@ The text.
 _Returns_
 
 The text with whitespace at the left/start of the text removed.
-
 
 indexterm:[max]
 
@@ -672,7 +653,6 @@ _Returns_
 
 The maximum number.
 
-
 indexterm:[min]
 
 [[lang-ref-builtins-data-min]]
@@ -699,7 +679,6 @@ The integer, long, or double numbers.
 _Returns_
 
 The minimum number.
-
 
 indexterm:[pow]
 
@@ -728,7 +707,6 @@ The exponentiation result.
 _Runtime errors_
 
 * If the operation results in double overflow, or `NaN`.
-
 
 indexterm:[range]
 
@@ -769,7 +747,6 @@ _Returns_
 
 The range `[0..count-1]`, `[begin..end]`, or `[0..size(list)-1]`.
 
-
 indexterm:[replace]
 
 [[lang-ref-builtins-data-replace]]
@@ -808,7 +785,6 @@ _Returns_
 
 The text or list with all replacements applied.
 
-
 indexterm:[reverse]
 
 [[lang-ref-builtins-data-reverse]]
@@ -836,7 +812,6 @@ _Returns_
 
 The reverse string or list.
 
-
 indexterm:[round]
 
 [[lang-ref-builtins-data-round]]
@@ -862,7 +837,6 @@ _Runtime errors_
 
 * If the operation results in overflow.
 
-
 indexterm:[rtrim]
 
 [[lang-ref-builtins-data-rtrim]]
@@ -883,7 +857,6 @@ The text.
 _Returns_
 
 The text with whitespace at the right/end of the text removed.
-
 
 indexterm:[size]
 
@@ -920,7 +893,6 @@ _Returns_
 
 The size.
 
-
 indexterm:[sorted]
 
 [[lang-ref-builtins-data-sorted]]
@@ -951,7 +923,6 @@ _Returns_
 
 The sorted list.
 
-
 indexterm:[split]
 
 [[lang-ref-builtins-data-split]]
@@ -980,7 +951,6 @@ _Returns_
 
 The parts of the original text resulting from splitting the original text at the separators.
 
-
 indexterm:[sqrt]
 
 [[lang-ref-builtins-data-sqrt]]
@@ -1005,7 +975,6 @@ The square root.
 _Runtime errors_
 
 * If the double number is negative.
-
 
 indexterm:[startswith]
 
@@ -1032,7 +1001,6 @@ _Returns_
 
 `true` if the first given string starts with the second given string, `false` otherwise.
 
-
 indexterm:[str]
 
 [[lang-ref-builtins-data-str]]
@@ -1058,7 +1026,6 @@ The value to convert to a textual representation.
 _Returns_
 
 The textual representation.
-
 
 indexterm:[strdup]
 
@@ -1087,7 +1054,6 @@ The concatenation of `count` times the `text`.
 _Runtime errors_
 
 * If the count is negative.
-
 
 indexterm:[subset]
 
@@ -1118,7 +1084,6 @@ _Returns_
 
 `true` if the first given set is a subset of the second given set, `false` otherwise.
 
-
 indexterm:[trim]
 
 [[lang-ref-builtins-data-trim]]
@@ -1139,7 +1104,6 @@ The text.
 _Returns_
 
 The text with whitespace at the left/start and right/end of the text removed.
-
 
 indexterm:[upper]
 
@@ -1162,7 +1126,6 @@ The text.
 _Returns_
 
 The text, in upper case.
-
 
 indexterm:[values]
 

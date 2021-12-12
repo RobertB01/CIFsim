@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -24,12 +25,10 @@ The Eclipse ESCET project primarily uses GitLab for its development:
 
 * link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET GitLab]
 
-
 === Discussion
 
 It is often a good idea to first discuss new ideas and features with the rest of the project developers, i.e. the project committers and the project community.
 Discussions can take place on the project's <<development-dev-list-chapter-index,'dev' list>>, especially for radical new ideas and new features that have not been discussed before.
-
 
 indexterm:[issue]
 
@@ -70,7 +69,6 @@ The components correspond to the directories in the root of our <<development-gi
 ** If you don't have permissions to add the labels, the project committers will add them.
 If they forget, you can remind them via a comment.
 
-
 indexterm:[release]
 indexterm:[milestone]
 
@@ -86,7 +84,6 @@ Each software version has one or more milestone releases (`M1`, `M2`, etc), foll
 See also:
 
 * link:https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones[Eclipse ESCET GitLab milestones]
-
 
 === Working on issues
 
@@ -106,7 +103,6 @@ A contributor can ask the project committers to be unassigned.
 * Don't unassign yourself after finishing the issue.
 It is enough to close the issue.
 The issue may also be closed automatically when an associated <<development-development-process-merge-requests,merge request>> is merged.
-
 
 indexterm:[branch]
 indexterm:[GitFlow]
@@ -171,7 +167,6 @@ A safer alternative to rebasing is merging, which leads to an extra merge commit
 If you fully understand rebasing and employ it carefully, it can be a powerful to maintain a simpler and cleaner history.
 Rebasing local commits that have not yet been pushed to the remote public repository is always at your own discretion.
 
-
 indexterm:[commit]
 
 === Commits
@@ -196,8 +191,7 @@ Merge commits are exempt from this rule.
 * All commits must adhere to the requirements as defined by the Eclipse Foundation.
 See link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records] in the Eclipse Foundation Project Handbook.
 
-If you are not an Eclipse ESCET project committer, with write access to our Git repository, see the information on <<development-contributing-chapter-index,contributing>> to the Eclipse ESCET project.
-
+If you are not an Eclipse ESCET project committer with write access to our Git repository, see the information on <<development-contributing-chapter-index,contributing>> to the Eclipse ESCET project.
 
 indexterm:[merge request]
 
@@ -223,7 +217,7 @@ Include multiple of them if appropriate.
 
 ** It is not mandatory to select _assignees_, _reviewers_, etc.
 
-* The merge request is reviewed by the Eclipse ESCET project committers.
+* The merge request is reviewed by the (other) Eclipse ESCET project committers.
 
 * Improvements are made as necessary, reviewed again, etc, until the branch is considered to be ready to merge.
 
@@ -231,4 +225,60 @@ Include multiple of them if appropriate.
 
 * If the branch fully addressed the associated issue or issues, it/they should be closed.
 
-If you are not an Eclipse ESCET project committer, with write access to our Git repository, see the information on <<development-contributing-chapter-index,contributing>> to the Eclipse ESCET project.
+If you are not an Eclipse ESCET project committer with write access to our Git repository, see the information on <<development-contributing-chapter-index,contributing>> to the Eclipse ESCET project.
+
+[[development-process-collab-contributors]]
+=== Collaborating with contributors on a merge request
+
+During a review of a contributor's merge request, the project committers may provide some feedback on how to improve the contribution.
+While contributors could address any review comments themselves, sometimes it is useful to collaborate with the project committers on a contribution.
+
+There are two approaches to this.
+The first approach is simple.
+It has some restrictions, but suffices in most cases.
+The second approach is more advanced and does not suffer from those restrictions.
+It is however considerably more complex and cumbersome to apply and should thus only be used if necessary.
+
+==== Simple approach
+
+The first and simplest approach is to make sure _Allow commits from members who can merge to the target branch_ is enabled when <<development-contributing-contribute,creating a merge request as a contributor>>.
+This way the Eclipse ESCET project committers get write access to the source branch of the merge request in the contributor's forked repository.
+As the contributor and project committers then all have write access to the branch, it is easy to collaborate on the merge request.
+
+==== Advanced approach
+
+The simple approach is not sufficient if multiple contributors want to collaborate with the project committers on a single merge request.
+The contributors will each have write access to their own forked repositories, but not to the forks of the other contributors.
+There is no single repository where the multiple contributors and the project committers have write access.
+
+The second approach resolves this issue, but is much more complex and cumbersome to apply.
+The solution is for the project committers to create a new branch in the official Git repository, based on a contributor's branch from their forked repository.
+The project committers can then make changes and push them to the official Git repository.
+Multiple contributors can then merge those changes into their own branches in their own forked repositories.
+Contributors can then add their own changes again and push those to their own branches.
+The project committers can merge those changes into the branch on the official Git repository, make changes of their own, push those changes, etc.
+This can be repeated until the work is done and everything is in the branch used by the project committers.
+The project committers can then merge their branch into the `develop` branch of the official Git repository, via a merge request.
+This process works for any number of contributors.
+Some alignment between all parties involved is typically desired to e.g. prevent merge conflicts.
+
+Note that you will get emails about new commits being pushed to merge requests, if you have notifications enabled for it.
+For branches without merge requests there is no way to get emails informing about new commits being pushed.
+It can thus be useful to have merge requests for all branches used by committers and contributors.
+Alternatively, others can be informed by posting comments on the original merge request created by the original contributor.
+This can prevent an overload of related merge requests and discussions being fragmented among them.
+
+==== Fork collaboration script support
+
+To make it easier to work with branches in forks of the official Eclipse ESCET Git repository in the Eclipse Foundation GitLab, some scripts are provided:
+
+* `misc/fork-collab/fork-checkout-branch <username> <branch_name>`
++
+Use this script to fetch and checkout the remote branch named `<branch_name>` in the GitLab fork of user `<username>`.
+
+* `misc/fork-collab/fork-push-branch <username> <branch_name>`
++
+Use this script to push your local changes back to the remote branch named `<branch_name>` in the GitLab fork of user `<username>`.
+This assumes you have write access to the branch.
+
+If you are not an Eclipse ESCET project committer with write access to our Git repository, see the information on <<development-contributing-chapter-index,contributing>> to the Eclipse ESCET project.

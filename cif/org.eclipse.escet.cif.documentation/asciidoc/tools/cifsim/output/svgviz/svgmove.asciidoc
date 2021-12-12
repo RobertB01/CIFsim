@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 include::_local_attributes.asciidoc[]
@@ -31,7 +32,7 @@ indexterm:[SVG move declaration,example]
 
 Consider the following SVG file:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.svg[]
 ----
@@ -49,7 +50,7 @@ It also means that the position of `rect2` is 100 pixels from the left (5 times 
 
 Also consider the following CIF file:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.cif[]
 ----
@@ -58,7 +59,7 @@ The upper left corner of the bounding box of rectangle `rect1` is moved to 10 pi
 The upper left corner of the bounding box of rectangle `rect2` is moved to 10 pixels from the left side, and 50 pixels from the top.
 The effect of the move declarations on the SVG image is:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.out.svg[]
 ----
@@ -92,7 +93,6 @@ indexterm:[SVG move declaration,file]
 
 The general syntax of CIF/SVG move declarations is:
 
-
 [source, cif]
 ----
 svgmove id <id> to <x>, <y>;
@@ -124,7 +124,7 @@ indexterm:[SVG move declaration,conflicts]
 
 === Conflicting transformations
 
-The SVG standard allows for powerful link:http://www.w3.org/TR/SVG11/coords.html#TransformAttribute[transformations], including the `scale` and `matrix` transformations.
+The SVG standard allows for powerful link:https://www.w3.org/TR/SVG11/coords.html#TransformAttribute[transformations], including the `scale` and `matrix` transformations.
 Now assume we use a `scale(0, 0)` transformation.
 Then all coordinates are multiplied by zero, always resulting in zero.
 As such, the entire image is scaled into zero by zero pixels.

@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -44,7 +45,6 @@ The following information is available on this page:
 * <<performance-tweak-perf-settings-heapstatus>>
 * <<performance-tweak-perf-settings-visualvm>>
 
-
 indexterm:[eclipse-escet.ini]
 indexterm:[memory,quick and dirty]
 indexterm:[memory,increase]
@@ -69,7 +69,6 @@ Replace it by the following to change the maximum available memory from 4 link:h
 Restart the Eclipse ESCET IDE or command line script to apply the new settings.
 If the instructions given here don't fix your problem, or if the IDE or script will no longer start after you changed these settings, you should read the remainder of this page.
 
-
 indexterm:[memory,managed]
 indexterm:[memory,Java]
 indexterm:[memory,garbage collection]
@@ -90,7 +89,6 @@ As such, the information on this page should be used to guide you, but may not b
 The JVM keeps track of all data that is maintained by the Eclipse ESCET tools, and releases (frees) the memory once it is no longer needed, so that it can be used to store other data.
 The JVM frees memory by means of a process called link:https://en.wikipedia.org/wiki/Garbage_collection_%28computer_science%29[garbage collection] (GC).
 Garbage collection is a complex process, but generally it consists of locking the memory to avoid modification during garbage collection, finding the data that is no longer used (mark the garbage), and then freeing the memory associated with that data (sweep the marked garbage).
-
 
 indexterm:[memory,types]
 
@@ -135,7 +133,6 @@ Furthermore, it includes the link:https://en.wikipedia.org/wiki/Stack-based_memo
 There is also a part that contains the data maintained by the garbage collector itself, for administrative purposes.
 The 'Everything else' part contains various other types of data, that are irrelevant for the current discussion.
 
-
 indexterm:[memory,increase]
 indexterm:[memory,out of memory]
 indexterm:[memory,performance]
@@ -168,7 +165,6 @@ By increasing the size of the old generation to more than the application needs,
 
 These are just some of the reasons why increasing the amount of available memory can improve program execution times, even though enough memory was already available to complete the given task.
 In general, the more memory Java has, the better it performs.
-
 
 indexterm:[memory,settings]
 indexterm:[settings,memory]
@@ -276,7 +272,6 @@ The values that are allowed are option specific.
 The `pass:[+]` part of the command line syntax indicates that the corresponding feature is to be enabled.
 Replace the `pass:[+]` by a `-` to disable the feature instead of enabling it.
 
-
 indexterm:[eclipse-escet.ini]
 indexterm:[memory,settings]
 indexterm:[memory,tweak]
@@ -302,7 +297,6 @@ The settings that are present by default, as well as their values, may change fr
 
 After modifying `eclipse-escet.ini`, restart the Eclipse ESCET IDE or command line script for the changes to take effect.
 
-
 indexterm:[ECLIPSE_HOME]
 indexterm:[vmargs]
 indexterm:[launcher.appendVmargs]
@@ -316,7 +310,6 @@ However, most users should not be affected by this.
 Using the `-vmargs` command line option replaces the similar settings from the `eclipse-escet.ini` file.
 For most users, this will not be applicable.
 If `--launcher.appendVmargs` is specified either in the `eclipse-escet.ini` file, or on the command line, the `-vmargs` settings of the command line are added to the `eclipse-escet.ini` file `-vmargs` instead of replacing them.
-
 
 indexterm:[performance,hints]
 indexterm:[performance,settings]
@@ -377,7 +370,6 @@ The best way to solve this problem is to decrease the maximum Java object heap s
 Alternatively, decrease the size of stacks on all threads (`-Xss` setting).
 However, decreasing the thread stack size may cause more `java.lang.StackOverflowError` errors, and is thus not recommended.
 
-
 indexterm:[heap,monitoring]
 indexterm:[heap,show status]
 indexterm:[Eclipse,heap status]
@@ -412,7 +404,6 @@ The dark gray part still indicates the part of the heap that is in use.
 If the used part of the memory gets past the red bar, it will become red as well, to indicate that you are approaching the maximum allowed Java object heap size, and may need to increase it (`-Xmx` setting).
 
 Hover over the heap status to get the same information in a tooltip.
-
 
 indexterm:[VisualVM]
 indexterm:[heap,VisualVM]

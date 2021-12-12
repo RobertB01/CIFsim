@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -352,6 +353,18 @@ public class CifTypeUtils {
 
             // Get component definition from component instantiation.
             ComponentDef cdef2 = CifTypeUtils.getCompDefFromCompInst(inst);
+
+            // Do they refer to the same component definition?
+            return cdef1 == cdef2;
+        }
+
+        // ComponentDefType and ComponentDefType.
+        if (type1 instanceof ComponentDefType && type2 instanceof ComponentDefType) {
+            // Get component definition from first type.
+            ComponentDef cdef1 = ((ComponentDefType)type1).getDefinition();
+
+            // Get component definition from second type.
+            ComponentDef cdef2 = ((ComponentDefType)type2).getDefinition();
 
             // Do they refer to the same component definition?
             return cdef1 == cdef2;
@@ -1450,8 +1463,8 @@ public class CifTypeUtils {
      * Returns a value indicating whether the given expression refers to an automaton.
      *
      * <p>
-     * {@link SelfExpression} instances as well as {@link ComponentExpression} instances that refer to an automaton, are
-     * considered automaton references. Wrapping expression are supported.
+     * {@link SelfExpression} instances as well as {@link ComponentExpression} and {@link CompParamExpression} instances
+     * that refer to an automaton, are considered automaton references. Wrapping expression are supported.
      * </p>
      *
      * @param expr The expression.
@@ -1468,6 +1481,19 @@ public class CifTypeUtils {
         if (expr instanceof ComponentExpression) {
             Component comp = ((ComponentExpression)expr).getComponent();
             return CifScopeUtils.isAutomaton(comp);
+        }
+
+        // Component parameter expression of type automaton definition.
+        if (expr instanceof CompParamExpression) {
+            CompParamExpression compParamExpr = (CompParamExpression)expr;
+
+            // Component parameter expression must have a component definition type.
+            CifType t = CifTypeUtils.normalizeType(compParamExpr.getType());
+            Assert.check(t instanceof ComponentDefType);
+            ComponentDef cdef = ((ComponentDefType)t).getDefinition();
+
+            // The component definition can be for an automaton or for a group.
+            return CifScopeUtils.isAutomaton(cdef.getBody());
         }
 
         // Expression does not refer to an automaton.
@@ -1501,8 +1527,8 @@ public class CifTypeUtils {
                 || expr instanceof LocationExpression || expr instanceof EventExpression
                 || expr instanceof EnumLiteralExpression || expr instanceof FunctionExpression
                 || expr instanceof InputVariableExpression || expr instanceof ComponentExpression
-                || expr instanceof CompParamWrapExpression || expr instanceof CompInstWrapExpression
-                || expr instanceof SelfExpression;
+                || expr instanceof CompParamExpression || expr instanceof CompParamWrapExpression
+                || expr instanceof CompInstWrapExpression || expr instanceof SelfExpression;
     }
 
     /**

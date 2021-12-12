@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -16,7 +17,6 @@ include::_part_attributes.asciidoc[]
 == Practical usage
 
 After this short and possibly mind-blowing introduction on decision diagrams in particular in the multi-valued variation, below some practical information on using the `common.multivaluetrees` library.
-
 
 === Variables
 
@@ -38,7 +38,6 @@ Each call adds one or more `VarInfo` instances to the builder.
 A `VarInfo` instance is the equivalent of e.g. `i` and `i+` above.
 The `VarInfoBuilder` instance also stores the relation between variables and their `VarInfo` instances.
 With a variable you can ask it for all related `VarInfo` instances (or just one instance), with a `VarInfo` instance you can ask for the associated variable.
-
 
 === Trees and relations
 

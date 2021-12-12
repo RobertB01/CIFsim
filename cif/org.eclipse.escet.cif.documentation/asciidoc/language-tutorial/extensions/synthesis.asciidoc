@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -63,7 +64,6 @@ The `automaton` keyword is preceded or replaced by the `plant`, `requirement`, o
 
 For instance, the following are two alternative ways to model the same plant automaton:
 
-
 [source, cif]
 ----
 // Plant automaton, long form.
@@ -106,7 +106,6 @@ Invariants can be declared as plant, requirement, or supervisor invariants, by p
 
 For instance, consider the following CIF specification:
 
-
 [source, cif]
 ----
 invariant lamp.on or lamp.off;      // Regular/kindless invariant.
@@ -135,7 +134,6 @@ There are two forms of invariants:
 <<lang-tut-data-chapter-stat-invariants,state invariants>> and <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>.
 Both forms can be used for synthesis.
 For instance, consider the following example of a counter:
-
 
 [source, cif]
 ----
@@ -195,7 +193,6 @@ This allows them to be highlighted in different colors.
 
 For instance, consider the following CIF specification:
 
-
 [source, cif]
 ----
 controllable c_on, c_off;
@@ -220,7 +217,6 @@ In literature, marked deadlock states are also called _final_ states.
 Marking can be specified using _marker predicates_.
 Locations can be marked using the `marked` keyword, as follows:
 
-
 [source, cif]
 ----
 plant lamp:
@@ -242,7 +238,6 @@ Marker predicates are very similar to <<lang-tut-data-chapter-init-preds,initial
 Marker predicates can be specified in locations, automata, <<lang-tut-reuse2-chapter-groups,groups>>, and the top level of the specification (which can be seen as a group), similar to initialization predicates.
 
 The following specification shows an example of a variable that is only marked for a certain value:
-
 
 [source, cif]
 ----

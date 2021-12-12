@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -21,14 +22,12 @@ This lesson shows one example of how that can be useful.
 
 Consider the following list of numbers:
 
-
 [source, cif]
 ----
 alg list real nrs = [0.5, 1.3, 0.1, 2.7, 1.4];
 ----
 
 Now assume we wanted to sort these numbers both in increasing and in decreasing order, using a single sorting function:
-
 
 [source, cif]
 ----
@@ -38,7 +37,6 @@ alg list real dec = sort(nrs, cmp_dec); // [2.7, 1.4, 1.3, 0.5, 0.1]
 
 Variable `inc` contains the same numbers as `nrs`, but sorted in increasing order, while `dec` contains them in decreasing order.
 We use the same `sort` function in both cases, but with different comparison functions:
-
 
 [source, cif]
 ----
@@ -54,7 +52,6 @@ end
 Function `+cmp_inc+` takes two real numbers and returns `true` only if the first number is smaller than the second one (`a` and `b` are in increasing order).
 Function `+cmp_dec+` has the same parameters, but returns `true` only if the first number is larger than the second one (`a` and `b` are in decreasing order).
 The `sort` function is defined as follows:
-
 
 [source, cif]
 ----
@@ -83,7 +80,7 @@ The second parameter is `cmp`, the compare function to use to determine whether 
 The `cmp` parameter has type `func bool (real, real)`, which means that a function that has two real parameters and a boolean return value is required.
 The `+cmp_inc+` and `+cmp_dec+` functions satisfy these requirements, and can be used as second argument when the function is called to determine the values of algebraic variables `inc` and `dec`.
 
-The `sort` function implements a standard link:http://en.wikipedia.org/wiki/Insertion_sort[insertion sort] algorithm.
+The `sort` function implements a standard link:https://en.wikipedia.org/wiki/Insertion_sort[insertion sort] algorithm.
 The `cmp` parameter is used in the `sort` function to compare two consecutive values in `xs`, and swap them if they are not correctly ordered.
 
 The `cmp` parameter of the `sort` function has a function type, allowing compare functions to be passed to the `sort` function, as data.

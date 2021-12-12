@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 
@@ -32,7 +33,6 @@ indexterm:[SVG input mode,hovering]
 When moving over one of the interactive SVG elements of the SVG visualization, using the mouse pointer, the border of the SVG element is highlighted in red.
 This makes it easier to identify the interactive SVG elements in the <<tools-cifsim-output-svgviz-chapter-viewer,SVG visualizer>>.
 When an interactive SVG element is clicked, the color is changed from red to green, for as long as the mouse button is not released.
-
 
 ==== Clicking
 

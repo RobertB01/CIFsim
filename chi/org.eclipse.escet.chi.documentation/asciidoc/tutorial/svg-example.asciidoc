@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -17,7 +18,6 @@ include::_part_attributes.asciidoc[]
 
 To illustrate how to make an SVG visualization, a simple generator, buffer, server, buffer, server, exit (GBSBSE) process line is used.
 Below the generator and exit process definitions, and the model:
-
 
 [source, chi]
 ----
@@ -77,7 +77,6 @@ The SVG visualization is not in the Chi model itself, it is an external entity.
 You access it by opening a 'file', and writing the commands such as above, as lines of text.
 The code of the buffer is shown below.
 
-
 [source, chi]
 ----
 proc B(int num; chan? real from; chan! real to; int cap):
@@ -124,11 +123,9 @@ To make it grow upwards instead, you can
 
 * flip the coordinate system of the rectangle by inserting a '180 degrees rotation' transformation around the rectangle (you tell SVG to draw the rectangle 'upside down', thus if you make it higher, it grows downwards, but the flipped coordinate displays it as growth upwards.
 
-
 === Server process
 
 The server process code looks as follows (ignore all the `writeln` lines for now).
-
 
 [source, chi]
 ----
@@ -166,7 +163,6 @@ After a few cycles, it has reached the `event` time, goes down, and waits for re
 Once the machine is repaired it starts again.
 Visualization of the servers is discussed below.
 
-
 === Visualizing the server
 
 A server is to be visualized with a circle that changes color depending on what the server is doing.
@@ -179,7 +175,6 @@ The filename of the `.svg` file must be the same as with the buffer process (the
 To display server state in the SVG visualization, we need a circle (called _arc_ in SVG) named `s_0` and `s_1` (for server 0 and server 1), positioned behind its buffer.
 If there are not too many servers, and their number is fixed, one could simply add those arcs to the SVG file and be done with it.
 However, if you have a lot of servers, or you don't know in advance how many you will have, you cannot add them beforehand, you need to construct the SVG elements 'on the fly'.
-
 
 === Copying SVG elements
 
@@ -206,7 +201,6 @@ The result is thus a copy of the `server` group, called `server_x0` or `server_x
 Note that the copy command performs copying, and nothing else.
 Since the copied element is exactly at the same position as the original, you don't see copies.
 This is however fixed by a move command explained next.
-
 
 === Moving SVG elements
 

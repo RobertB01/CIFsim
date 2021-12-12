@@ -965,7 +965,9 @@ any synchronizing automata, they are pure channels.
 }
 
 \newcommand{\featdocuEventcontrollable}{
-If specified, indicates whether the event is controllable or uncontrollable.
+Indicates the controllability of the event. If \emph{true}, the event is
+controllable. If \emph{false}, the event is uncontrollable. If \emph{null},
+the event is not defined as controllable or uncontrollable.
 }
 
 \newcommand{\featdocuEventtype}{
@@ -2619,6 +2621,26 @@ expressions to be used.
 \begin{constraints}
 \citem{CompInstWrapExpression.reference}
   The \emph{reference} expression must be a reference.
+\end{constraints}
+}
+
+% CompParamExpression (class)
+\newcommand{\clsdocuCompParamExpression}{
+A component parameter reference expression.
+
+\begin{constraints}
+\citem{CompParamExpression.type}
+  The type of the component parameter reference expression must match the
+  type of the referenced component parameter.
+\end{constraints}
+}
+
+\newcommand{\featdocuCompParamExpressionparameter}{
+The referenced component parameter.
+
+\begin{constraints}
+\citem{CompParamExpression.parameterInScope}
+  The component parameter must satisfy the scoping rules.
 \end{constraints}
 }
 

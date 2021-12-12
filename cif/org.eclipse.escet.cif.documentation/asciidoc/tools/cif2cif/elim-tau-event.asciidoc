@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -23,7 +24,6 @@ This CIF to CIF transformation eliminates the `tau` event.
 === Supported specifications
 
 This transformation supports all CIF specifications.
-
 
 === Preprocessing
 
@@ -42,7 +42,6 @@ The new events are neither controllable nor uncontrollable, and don't have a dat
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 automaton p:
@@ -58,7 +57,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -88,7 +86,6 @@ indexterm:[eliminate tau event,size considerations]
 
 New events may be added, the alphabet may be extended, and an explicit event may be added to edges.
 Therefore, the size of the specification may increase.
-
 
 === Optimality
 

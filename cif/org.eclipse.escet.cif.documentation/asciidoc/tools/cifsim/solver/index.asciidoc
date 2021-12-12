@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../_part_attributes.asciidoc[]
 
@@ -20,11 +21,11 @@ indexterm:[ODE]
 indexterm:[see: ODE solver,ODE]
 indexterm:[see: trajectory data,ODE]
 During time transitions, the values of the continuous variables and their derivatives change.
-These changes are calculated using an link:http://en.wikipedia.org/wiki/Ordinary_differential_equation[ODE] link:http://en.wikipedia.org/wiki/Numerical_ordinary_differential_equations[integrator].
+These changes are calculated using an link:https://en.wikipedia.org/wiki/Ordinary_differential_equation[ODE] link:https://en.wikipedia.org/wiki/Numerical_ordinary_differential_equations[integrator].
 As soon as a guard for an event becomes enabled, time should no longer progress.
-To calculate whether (and when) guards change value, a link:http://en.wikipedia.org/wiki/Root-finding_algorithm[root finding algorithm] is used.
+To calculate whether (and when) guards change value, a link:https://en.wikipedia.org/wiki/Root-finding_algorithm[root finding algorithm] is used.
 Software to solve ODEs, through integration and root finding, are often called ODE solvers.
-The CIF simulator uses the link:http://commons.apache.org/proper/commons-math/[The Apache Commons Mathematics Library].
+The CIF simulator uses the link:https://commons.apache.org/proper/commons-math/[The Apache Commons Mathematics Library].
 This library contains ODE solvers, with several different integrators and root finding algorithms.
 
 Debug information about what the ODE solver calculates, and for what time points, can be enabled using the _Debug output_ option.

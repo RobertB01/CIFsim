@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -22,7 +23,6 @@ This CIF to CIF transformation removes position information from the internal re
 === Supported specifications
 
 This transformation supports all CIF specifications.
-
 
 === Preprocessing
 
@@ -45,7 +45,6 @@ Applying this transformation may increase the performance of subsequent transfor
 Applying this transformation has no effect on the actual contents of the specification, and does not change the effect of subsequent transformation.
 That is, it may affect the performance of subsequent transformations, but has no effect on the result of the subsequent transformations, as they are written to disk.
 
-
 === Renaming
 
 n/a
@@ -56,7 +55,6 @@ indexterm:[remove position information,size considerations]
 
 Since position information is removed from the specification, this transformation has an effect on the size of the specification as it is represented in memory.
 However, this transformation has no effect on the size of the specification, as far as actual content (which affects the meaning of the specification) is concerned.
-
 
 === Optimality
 

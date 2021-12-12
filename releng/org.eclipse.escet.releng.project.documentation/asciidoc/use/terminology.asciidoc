@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -72,7 +73,6 @@ Whenever you <<use-create-project,create a project>> and store it outside of you
 Having projects stored outside of the workspace has some benefits.
 The most important benefit is that you can remove the workspace directory, without losing your files.
 
-
 indexterm:[view]
 indexterm:[view,Project Explorer]
 indexterm:[Project Explorer,view]
@@ -87,7 +87,6 @@ Most of the functionality is available through _views_.
 A view is a part of the Eclipse graphical user interface.
 Views can be thought of as 'sub-windows'.
 When you start Eclipse you are likely to see the _Project Explorer_ or _Package Explorer_ view on the left, and the _Problems_ view at the bottom.
-
 
 indexterm:[view,open]
 indexterm:[view,show]
@@ -104,7 +103,6 @@ Expand a category, select the desired view, and click btn:[OK].
 
 Alternatively, in the _Show view_ dialog, enter the name of the view (or the first part of it) in the filter box at the top of the dialog, and observe how views that don't match the filter are no longer displayed.
 This makes it easier to find the desired view.
-
 
 indexterm:[project]
 indexterm:[Eclipse,project]

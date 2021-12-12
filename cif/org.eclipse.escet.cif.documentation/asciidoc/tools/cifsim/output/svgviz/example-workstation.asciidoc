@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 include::_local_attributes.asciidoc[]
@@ -44,12 +45,11 @@ Each machine has a bar that shows the progress of the machine.
 Looking at the _XML Editor_ window, we can see the bar has a background (box), and a foreground (front) rectangle.
 The `width` and `fill` color of the latter will be updated to reflect the machine's status.
 
-
 === CIF specification
 
 The following CIF specification models the workstation example:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/workstation/workstation.cif[]
 ----
@@ -107,9 +107,9 @@ indexterm:[SVG,colors]
 === Colors in SVG
 
 In the mappings, as described above, we used names to identify colors.
-SVG however, provides several ways to specify link:http://www.w3.org/TR/SVG11/types.html#DataTypeColor[colors]:
+SVG however, provides several ways to specify link:https://www.w3.org/TR/SVG11/types.html#DataTypeColor[colors]:
 
-* link:http://www.w3.org/TR/SVG11/types.html#ColorKeywords[Named colors], such as `red`, `yellow`, `lightblue` or `burlywood`.
+* link:https://www.w3.org/TR/SVG11/types.html#ColorKeywords[Named colors], such as `red`, `yellow`, `lightblue` or `burlywood`.
 
 * Decimal RGB (red-green-blue) colors, such as `rgb(255,0,0)` for `red`, or `rgb(255,255,0)` for `yellow`.
 

@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -128,7 +129,6 @@ enum FlagColours  = {red, white, blue};
 
 bool same = (red == white);
 ----
-
 
 indexterm:[boolean,expression]
 indexterm:[expression,boolean]
@@ -509,7 +509,7 @@ With these operations, one of the operands has to be a real number value, while 
 The standard library functions for real numbers contain a lot of math functions.
 They can be found in <<ref-real-stdlib>>.
 
-The Chi simulator uses link:http://en.wikipedia.org/wiki/IEEE_floating_point[64-bit IEEE 754 floating point] numbers to represent real number values.
+The Chi simulator uses link:https://en.wikipedia.org/wiki/IEEE_floating_point[64-bit IEEE 754 floating point] numbers to represent real number values.
 Using a value outside the valid range of this format will yield invalid results.
 Sometimes such values are detected and reported.
 
@@ -641,7 +641,6 @@ Note that length of the string is not the same as the number of characters neede
 size("a")  # results in 1, string is 1 character long (namely 'a').
 size("\n") # results in 1, string contains one NL character.
 ----
-
 
 indexterm:[list,expression]
 indexterm:[expression,list]
@@ -841,7 +840,6 @@ Some examples of the element test operation:
 
 There are also standard library functions for lists, see <<ref-list-stdlib>> for details.
 
-
 indexterm:[set,expression]
 indexterm:[expression,set]
 
@@ -959,7 +957,6 @@ A few examples:
 {1, 9} sub {1, 3, 7}    == false # All elements must be present.
 {1, 3, 7} sub {1, 3, 7} == true # All sets are a sub-set of themselves.
 ----
-
 
 There are also standard library functions for sets, see <<ref-set-stdlib>> for details.
 
@@ -1174,7 +1171,6 @@ a, b = b, a;   # Swap values of 'a' and 'b'.
 
 The latter works due to the intermediate tuple that is created as part in the assignment.
 
-
 indexterm:[file,expression]
 indexterm:[expression,file]
 
@@ -1231,7 +1227,6 @@ Types `T`, `K`, and `V` must also be readable types of data (that is, get chosen
 
 Reading a value takes a text (with the same syntax as Chi literal values of the same type), and converts it into a value that can be manipulated in the Chi model.
 Values read from the text have to be constant, for example the input `time` cannot be interpreted as real number with the same value as the current simulation time.
-
 
 indexterm:[timer,expression]
 indexterm:[expression,timer]
@@ -1297,7 +1292,6 @@ The only binary expressions on channels are equality comparison operations.
 where `T` can be either a normal type, or `void`.
 There has to be an overlap between the channel directions (that is, you cannot compare a receive-only channel with a send-only channel).
 
-
 indexterm:[distribution,expression]
 indexterm:[expression,distribution]
 
@@ -1350,7 +1344,6 @@ model Dice():
 end
 ----
 
-
 indexterm:[process,expression]
 indexterm:[expression,process]
 
@@ -1384,7 +1377,6 @@ end
 Formal parameter `ab` of process `P` is a process variable that refers to a process taking an integer parameter.
 The given process definition is instantiated.
 Since in the model definition, `A` is given to process `P`, the output of the above model is `A(3)`.
-
 
 indexterm:[instance,expression]
 indexterm:[expression,instance]
@@ -1425,7 +1417,6 @@ After assignment, you can use the variable for testing whether the process has t
 In the example, the test result is written to the screen, but this could also be used as a guard in a select statement (See <<ref-select-statement>> for details).
 
 The other thing that you can do is to wait for termination of the process by means of the `finish` statement, see also <<ref-finish-statement>>.
-
 
 [[ref-matrix-expression]]
 === Matrix expression
@@ -1566,7 +1557,6 @@ The sequence of expressions inside the parentheses denote the values of the inpu
 Their type has to match with the type stated in the formal parameter at the corresponding position.
 
 The result of the function call is a value with the same type as stated in the return type of the function definition.
-
 
 [[ref-operator-priorities]]
 === Operator priorities

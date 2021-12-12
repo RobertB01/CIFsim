@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -23,7 +24,6 @@ Also, how to perform multiple model simulations is explained.
 === Simulating finite systems
 
 For systems that have simple cyclic behavior, the simulation can be 'exhaustive', for example:
-
 
 [source, chi]
 ----
@@ -66,7 +66,6 @@ After doing so, the problem arises to let all processes know the simulation shou
 This can be programmed in the model (such as adding channels to signal termination of the simulation to all processes).
 A simpler alternative is to use the `exit` statement, in the following way:
 
-
 [source, chi]
 ----
 proc real E(chan? real a, int N):
@@ -105,7 +104,6 @@ The model is started one time, and it derives a result for a single scenario.
 Often however, you want to perform several model simulations.
 This can be the exact same scenario when the model has stochastic behavior, or it can be with different parameter values each time (to investigate system behavior under different circumstances).
 In such cases, you can use an experiment, like below:
-
 
 [source, chi]
 ----

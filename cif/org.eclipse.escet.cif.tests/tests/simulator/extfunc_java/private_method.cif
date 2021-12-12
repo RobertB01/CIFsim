@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func int f(): "java:TestClass1.ret_priv125|java_code/bin";
+func int f(): "java:testpkg.TestClass1.retPriv125|java_code/bin";
 
 automaton p:
   disc int x = f();

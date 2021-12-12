@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 include::_local_attributes.asciidoc[]
@@ -86,21 +87,21 @@ indexterm:[CIF merger,example]
 
 Consider the following supervisor:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools}/mergecif/merge_sup.cif[]
 ----
 
 and the following timed plant:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools}/mergecif/merge_timed.cif[]
 ----
 
 Merging these two specifications results in the following merged specification:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools}/mergecif/merged.cif[]
 ----
@@ -330,7 +331,6 @@ The following table gives an overview of what can be merged:
 | yes
 |===
 
-
 For components (i.e. groups and automata) that are present in more than one specification, the contents are recursively merged into a single component.
 The contents of components consists not only of their declarations (such as events) and their sub-components (for groups), but also of their invariants, initialization predicates, marker predicates, equations, locations (for automata), etc.
 
@@ -382,7 +382,6 @@ Even when two or more CIF specifications are merge compatible, as described abov
 In such cases, merging fails.
 For instance, consider the following two CIF specifications:
 
-
 [source, cif]
 ----
 input int x;
@@ -396,7 +395,6 @@ input int y;
 ----
 
 Merging them would result in:
-
 
 [source, cif]
 ----

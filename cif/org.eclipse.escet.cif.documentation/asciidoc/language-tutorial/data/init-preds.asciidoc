@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -24,7 +25,6 @@ indexterm:[location,initial]
 === Initial locations of automata
 
 Initialization predicates can be used to specify the allowed initial locations of automata:
-
 
 [source, cif]
 ----
@@ -63,7 +63,6 @@ indexterm:[initialization,consistency]
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton odd_even:
@@ -88,7 +87,6 @@ Therefore, the `initial` keyword is specified in the `odd` location.
 However, if we change the initial value of variable `n` to `6`, we have to change the initial location as well, to ensure consistent initialization.
 To automatically keep the initial location consistent with the initial value of variable `n`, we can change the specification to the following:
 
-
 [source, cif]
 ----
 automaton odd_even:
@@ -107,7 +105,7 @@ automaton odd_even:
 end
 ----
 
-In this specification, location `odd` can only be the initial location if the value is odd (the value link:http://en.wikipedia.org/wiki/Modular_arithmetic[modulo] two is congruent to one), and location `even` can only be the initial location if the value is even.
+In this specification, location `odd` can only be the initial location if the value is odd (the value link:https://en.wikipedia.org/wiki/Modular_arithmetic[modulo] two is congruent to one), and location `even` can only be the initial location if the value is even.
 Changing the initial value of variable `n` then also changes the potential initial locations.
 Since the value is always odd or even, and can't be both odd and even, automaton `+odd_even+` always has exactly one potential initial location.
 
@@ -117,7 +115,6 @@ indexterm:[initialization,restricted]
 
 Initialization predicates can also be used to restrict the initial values of variables.
 Consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -135,7 +132,6 @@ However, the initialization predicate states that initially, the value of `x` mo
 That is, the value of variable `x` must initially be odd.
 
 It is allowed to specify initialization predicates inside automata, but it is also allowed to place them outside of them:
-
 
 [source, cif]
 ----

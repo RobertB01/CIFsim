@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -19,8 +20,7 @@ indexterm:[channel,synchronization]
 Consider again the producer/consumer example with two producers and two consumers, from a <<lang-tut-channels-chapter-intro,previous lesson>>:
 
 // Copied from: channels/intro
-
-[source,cif]
+[source, cif]
 ----
 event int provide;
 
@@ -60,7 +60,6 @@ end
 Now assume we want to restrict communication to allow at most five products in total to be provided to the consumers.
 We could adapt both producers, as follows:
 
-
 [source, cif]
 ----
 automaton producer1:
@@ -85,7 +84,6 @@ If the total number of products provided by both providers does not exceed five,
 Having to adapt both producers is less than ideal.
 
 As an alternative solution, we can add an additional automaton, instead of adapting the producers:
-
 
 [source, cif]
 ----

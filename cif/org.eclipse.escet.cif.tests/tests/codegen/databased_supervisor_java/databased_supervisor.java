@@ -188,22 +188,22 @@ public abstract class databased_supervisor {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = (equalObjs(Button_, databased_supervisorEnum._Released)) && (((equalObjs(Cycle_, databased_supervisorEnum._WaitForButtonPush)) || (equalObjs(Cycle_, databased_supervisorEnum._TurnLampOn))) || ((equalObjs(Cycle_, databased_supervisorEnum._StartTimer)) || ((equalObjs(Cycle_, databased_supervisorEnum._WaitForTimeout)) || (equalObjs(Cycle_, databased_supervisorEnum._TurnLampOff)))));
+        boolean guard = ((Button_) == (databased_supervisorEnum._Released)) && ((((Cycle_) == (databased_supervisorEnum._WaitForButtonPush)) || ((Cycle_) == (databased_supervisorEnum._TurnLampOn))) || (((Cycle_) == (databased_supervisorEnum._StartTimer)) || (((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) || ((Cycle_) == (databased_supervisorEnum._TurnLampOff)))));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(0, true);
         if (doInfoEvent) infoEvent(0, true);
 
         Button_ = databased_supervisorEnum._Pushed;
-        if (equalObjs(Cycle_, databased_supervisorEnum._WaitForButtonPush)) {
+        if ((Cycle_) == (databased_supervisorEnum._WaitForButtonPush)) {
             Cycle_ = databased_supervisorEnum._TurnLampOn;
-        } else if (equalObjs(Cycle_, databased_supervisorEnum._TurnLampOn)) {
+        } else if ((Cycle_) == (databased_supervisorEnum._TurnLampOn)) {
             Cycle_ = databased_supervisorEnum._TurnLampOn;
-        } else if (equalObjs(Cycle_, databased_supervisorEnum._StartTimer)) {
+        } else if ((Cycle_) == (databased_supervisorEnum._StartTimer)) {
             Cycle_ = databased_supervisorEnum._StartTimer;
-        } else if (equalObjs(Cycle_, databased_supervisorEnum._WaitForTimeout)) {
+        } else if ((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) {
             Cycle_ = databased_supervisorEnum._WaitForTimeout;
-        } else if (equalObjs(Cycle_, databased_supervisorEnum._TurnLampOff)) {
+        } else if ((Cycle_) == (databased_supervisorEnum._TurnLampOff)) {
             Cycle_ = databased_supervisorEnum._TurnLampOff;
         }
 
@@ -218,7 +218,7 @@ public abstract class databased_supervisor {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent1() {
-        boolean guard = equalObjs(Button_, databased_supervisorEnum._Pushed);
+        boolean guard = (Button_) == (databased_supervisorEnum._Pushed);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(1, true);
@@ -237,7 +237,7 @@ public abstract class databased_supervisor {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent2() {
-        boolean guard = ((equalObjs(Cycle_, databased_supervisorEnum._TurnLampOff)) && (equalObjs(Lamp_, databased_supervisorEnum._On))) && (bdd_eval_(5, bdd_values_()));
+        boolean guard = (((Cycle_) == (databased_supervisorEnum._TurnLampOff)) && ((Lamp_) == (databased_supervisorEnum._On))) && (bdd_eval_(5, bdd_values_()));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(3, true);
@@ -257,7 +257,7 @@ public abstract class databased_supervisor {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent3() {
-        boolean guard = ((equalObjs(Cycle_, databased_supervisorEnum._TurnLampOn)) && (equalObjs(Lamp_, databased_supervisorEnum._Off))) && (bdd_eval_(0, bdd_values_()));
+        boolean guard = (((Cycle_) == (databased_supervisorEnum._TurnLampOn)) && ((Lamp_) == (databased_supervisorEnum._Off))) && (bdd_eval_(0, bdd_values_()));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(2, true);
@@ -277,7 +277,7 @@ public abstract class databased_supervisor {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent4() {
-        boolean guard = (equalObjs(Cycle_, databased_supervisorEnum._StartTimer)) && ((bdd_eval_(9, bdd_values_())) && (equalObjs(Timer_, databased_supervisorEnum._Idle)));
+        boolean guard = ((Cycle_) == (databased_supervisorEnum._StartTimer)) && ((bdd_eval_(9, bdd_values_())) && ((Timer_) == (databased_supervisorEnum._Idle)));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(4, true);
@@ -297,7 +297,7 @@ public abstract class databased_supervisor {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent5() {
-        boolean guard = (equalObjs(Cycle_, databased_supervisorEnum._WaitForTimeout)) && (equalObjs(Timer_, databased_supervisorEnum._Running));
+        boolean guard = ((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) && ((Timer_) == (databased_supervisorEnum._Running));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(5, true);
@@ -370,7 +370,7 @@ public abstract class databased_supervisor {
      * @return The evaluation result.
      */
     public boolean bdd_value0_() {
-        return equalObjs(Button_, databased_supervisorEnum._Pushed);
+        return (Button_) == (databased_supervisorEnum._Pushed);
     }
 
     /**
@@ -379,7 +379,7 @@ public abstract class databased_supervisor {
      * @return The evaluation result.
      */
     public boolean bdd_value1_() {
-        return (equalObjs(Cycle_, databased_supervisorEnum._TurnLampOn)) || (equalObjs(Cycle_, databased_supervisorEnum._WaitForTimeout));
+        return ((Cycle_) == (databased_supervisorEnum._TurnLampOn)) || ((Cycle_) == (databased_supervisorEnum._WaitForTimeout));
     }
 
     /**
@@ -388,7 +388,7 @@ public abstract class databased_supervisor {
      * @return The evaluation result.
      */
     public boolean bdd_value2_() {
-        return (equalObjs(Cycle_, databased_supervisorEnum._StartTimer)) || (equalObjs(Cycle_, databased_supervisorEnum._WaitForTimeout));
+        return ((Cycle_) == (databased_supervisorEnum._StartTimer)) || ((Cycle_) == (databased_supervisorEnum._WaitForTimeout));
     }
 
     /**
@@ -397,7 +397,7 @@ public abstract class databased_supervisor {
      * @return The evaluation result.
      */
     public boolean bdd_value3_() {
-        return equalObjs(Cycle_, databased_supervisorEnum._TurnLampOff);
+        return (Cycle_) == (databased_supervisorEnum._TurnLampOff);
     }
 
     /**
@@ -406,7 +406,7 @@ public abstract class databased_supervisor {
      * @return The evaluation result.
      */
     public boolean bdd_value4_() {
-        return equalObjs(Lamp_, databased_supervisorEnum._On);
+        return (Lamp_) == (databased_supervisorEnum._On);
     }
 
     /**
@@ -415,7 +415,7 @@ public abstract class databased_supervisor {
      * @return The evaluation result.
      */
     public boolean bdd_value5_() {
-        return equalObjs(Timer_, databased_supervisorEnum._Running);
+        return (Timer_) == (databased_supervisorEnum._Running);
     }
 
     /**

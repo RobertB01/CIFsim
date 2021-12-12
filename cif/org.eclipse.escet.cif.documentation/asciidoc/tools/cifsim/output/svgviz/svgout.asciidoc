@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 
@@ -30,7 +31,6 @@ indexterm:[SVG output mapping,example]
 
 Assume we have the following CIF specification:
 
-
 [source, cif]
 ----
 cont pos der 1.0;
@@ -38,7 +38,6 @@ cont pos der 1.0;
 
 Where variable `pos` is the position of some object, say a box.
 Then the following output mapping:
-
 
 [source, cif]
 ----
@@ -54,7 +53,6 @@ indexterm:[SVG output mapping,file]
 === Syntax
 
 The general syntax of CIF/SVG output mappings is:
-
 
 [source, cif]
 ----
@@ -92,7 +90,6 @@ For instance, to use `some-name` as id, it must be written as `"some-name"`.
 Instead of using a hard coded SVG element id, it is also allowed to use an expression that when evaluated results in the SVG element id.
 Such an expression must evaluate to a `string` typed value, and must be statically evaluable (must not refer to variables that can change value during simulation, etc).
 For instance:
-
 
 [source, cif]
 ----
@@ -137,7 +134,7 @@ For instance, a `rect` element can have an `x` and `y` position, a `width` and `
 A `g` element (a group) however, does not support those position attributes.
 It is beyond the scope of this document to go into more detail.
 The software however, will warn about using attribute names that are not supported according to the SVG standard (to catch simple spelling mistakes), and specifying attributes on elements that don't support them.
-Consult the official link:http://www.w3.org/TR/SVG11/[SVG specification] for further details.
+Consult the official link:https://www.w3.org/TR/SVG11/[SVG specification] for further details.
 The <<tools-cifsim-output-svgviz-examples,examples>> showcase several commonly used attributes as well.
 
 indexterm:[SVG output mapping,CSS style attributes]
@@ -148,7 +145,6 @@ indexterm:[SVG output mapping,SVG presentation attributes]
 
 SVG uses two kinds of attributes: SVG presentation attributes, and CSS style attributes.
 For instance, in the following partial SVG image:
-
 
 [source, svg]
 ----
@@ -163,7 +159,7 @@ CSS style attributes on the other hand, are always part of the SVG presentation 
 
 link:https://en.wikipedia.org/wiki/Cascading_Style_Sheets[CSS] stands for _Cascading Style Sheets_, and it is a style sheet language used for describing the look and formatting of a document.
 It's best known for its use in styling web pages written in link:https://en.wikipedia.org/wiki/HTML[HTML].
-Like SVG, CSS is an international standard developed and maintained by the link:http://www.w3.org/[World Wide Web Consortium] (W3C).
+Like SVG, CSS is an international standard developed and maintained by the link:https://www.w3.org/[World Wide Web Consortium] (W3C).
 SVG reuses the CSS standard for its CSS style attributes.
 The most commonly used attributes for certain elements are also available in the SVG standard as SVG presentation attributes.
 Furthermore, SVG adds additional presentation attributes not found in CSS.
@@ -184,7 +180,6 @@ indexterm:[SVG,tspan]
 Changing the text of text labels is a special case, as text is not stored in attributes.
 Consider the following partial SVG image, which contains a text label (created using <<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>>, and with some of the irrelevant details omitted):
 
-
 [source, svg]
 ----
 <text x="5" y="5" id="text1" style="font-size:16px;">
@@ -197,7 +192,6 @@ Consider the following partial SVG image, which contains a text label (created u
 Here we see a `text` element with id `text1`, which contains a `tspan` element with id `tspan2`.
 The `tspan` element contains some text.
 To change the text of this text label, use one of the following mappings:
-
 
 [source, cif]
 ----
@@ -250,7 +244,6 @@ For string literals this means that the text is escaped, and double quotes are a
 If however the result of the expression is a `string` typed value, then that string is used 'as is' (without quoting, and without escaping).
 Thus, consider the following examples:
 
-
 [source, cif]
 ----
 svgout id "..." attr "..." value ["a\"b"];
@@ -259,7 +252,6 @@ svgout id "..." attr "..." value "a\"b";
 
 The value of the first output mapping is a list that contains a single string value, while the value of the second output mapping is a string value directly.
 This results in the following texts being used as values of the attributes:
-
 
 [source, console]
 ----
@@ -279,7 +271,7 @@ indexterm:[SVG output mapping,spaces]
 
 If the textual result of an output mapping contains a new line character (for instance due to including `\n` in a string literal or <<tools-cifsim-output-print-ref-fmt-pattern,format pattern>>), the new line character is ignored by SVG.
 Furthermore, tabs (`\t`) are replaced by a single space character.
-Finally, link:http://www.w3.org/TR/SVG/text.html#WhiteSpace[by default] consecutive spaces (including tabs) are merged together into a single space, and spaces at the beginning and end of the output of a mapping are discarded by SVG.
+Finally, link:https://www.w3.org/TR/SVG/text.html#WhiteSpace[by default] consecutive spaces (including tabs) are merged together into a single space, and spaces at the beginning and end of the output of a mapping are discarded by SVG.
 
 This essentially renders `\n` and `\t` useless, as the first is ignored, and for the second spaces can be used instead.
 

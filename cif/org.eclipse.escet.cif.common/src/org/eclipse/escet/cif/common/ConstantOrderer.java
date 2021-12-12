@@ -215,6 +215,7 @@ public class ConstantOrderer extends DependencyOrderer<Constant> {
         // - SelfExpression (no static evaluation, may refer to runtime state)
 
         // Should have been eliminated:
+        // - CompParamExpression
         // - CompInstWrapExpression
         // - CompParamWrapExpression
 

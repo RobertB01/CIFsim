@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -25,7 +26,7 @@ indexterm:[boolean,literal]
 Booleans represents truth values of for instance guards and other conditions and properties.
 The only two possible values are `true` (condition or property holds) and `false` (condition or property does not hold).
 The default value of booleans (`bool` type) is `false`.
-Several standard link:http://en.wikipedia.org/wiki/Logical_operator[logical operators] are available to work with booleans, including the following:
+Several standard link:https://en.wikipedia.org/wiki/Logical_operator[logical operators] are available to work with booleans, including the following:
 
 [source, cif]
 ----

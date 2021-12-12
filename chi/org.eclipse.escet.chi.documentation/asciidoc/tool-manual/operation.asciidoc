@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -82,12 +83,10 @@ Most settings are only useful for developers, but at the bottom, check the _Writ
 Setting this option causes the simulator software to check the input file, build a simulator, write the constructed simulator to a `.cchi` file (a compiled Chi file), and quit.
 No simulation of the Chi model is performed at this time.
 
-
 === Simulate a compiled model
 
 You can simulate the Chi model from the `.cchi` file now, by selecting that file as source file by right-clicking on it.
 Select the menu:Simulate Chi file[] or the menu:Quick simulate Chi file[] option as before, and proceed with setting the simulator options and running the model as-if you selected a normal `.chi` file, as explained in <<tool-compile-and-simulate>> above.
-
 
 === Terminating a simulation
 

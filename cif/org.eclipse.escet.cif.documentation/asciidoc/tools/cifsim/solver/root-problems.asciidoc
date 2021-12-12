@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../_part_attributes.asciidoc[]
 include::_local_attributes.asciidoc[]
@@ -23,7 +24,7 @@ With <<tools-cifsim-solver-chapter-basics-root,numeric root finding>>, there is 
 
 To illustrate the problem, consider the following CIF specification:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-solver}/root_problem.cif[]
 ----
@@ -72,7 +73,7 @@ indexterm:[guard,multiple]
 
 We can reformulate the original CIF specification, by splitting the guard:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-solver}/root_problem2.cif[]
 ----
@@ -90,14 +91,14 @@ As shown in the image, each of the guards changes value only once.
 The comma between guards means that both guards have to hold, in order for the edge to be enabled.
 This is similar, but not identical, to the `and` binary operator.
 For the `and` binary operator, the left hand side must be evaluated before the right hand side, and the right hand side may only be evaluated if the left hand side evaluates to `true`.
-This is called link:http://en.wikipedia.org/wiki/Short-circuit_evaluation[short-circuit evaluation].
+This is called link:https://en.wikipedia.org/wiki/Short-circuit_evaluation[short-circuit evaluation].
 For guards separated by commas, no such relation may be assumed.
 That is, even if the first guard evaluates to false, can the second guard still be evaluated by the root finding algorithm, for guard changes.
 It can even be the case that the second guard is evaluated before the first guard.
 These differences not only influence root finding, but are also of particular interest when the right hand side can result in a runtime evaluation failure.
 For instance, the following specification:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-solver}/root_comma_fail.cif[]
 ----
@@ -106,7 +107,6 @@ results in a runtime error.
 The second guard (`1 / x < 0.5`) is evaluated even if the first guard (`x > 0`) does not hold.
 Initially, the first guard does not hold, and the second guard results in division by zero.
 Changing the comma between the guards to an `and` operator, makes it possible to simulate this specification.
-
 
 === Debug information
 

@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -53,7 +54,6 @@ All enumeration declarations are replaced by constant integer declarations, one 
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 group x:
@@ -70,7 +70,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -104,7 +103,6 @@ indexterm:[enumerations to constants,size considerations]
 The number of added constants is linear in the number of enumeration literals of the specification.
 Integer types are slightly larger than enumeration types, but the increase is linear.
 Constant references in expressions are not larger than enumeration literal references.
-
 
 === Optimality
 

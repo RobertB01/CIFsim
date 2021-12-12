@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -17,7 +18,6 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[location,as variable]
 Consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -53,7 +53,7 @@ end
 ----
 
 This specification models two machines, which produce products.
-The machines share a common resource, which may only be used by at most one of them, at any time (see link:http://en.wikipedia.org/wiki/Mutual_exclusion[mutual exclusion]).
+The machines share a common resource, which may only be used by at most one of them, at any time (see link:https://en.wikipedia.org/wiki/Mutual_exclusion[mutual exclusion]).
 Initially, the machines are `idle`.
 Then, they warm themselves up.
 Once they start processing, they set their boolean variable `claimed` to `true` to indicate that they claimed the shared resource.
@@ -67,7 +67,6 @@ image::{lang-tut-imgsdir}/data/mutex_state_space.png[]
 The states are labeled with the first letters of the names of the current locations of the automata.
 
 The specification can alternatively be modeled as follows:
-
 
 [source, cif]
 ----

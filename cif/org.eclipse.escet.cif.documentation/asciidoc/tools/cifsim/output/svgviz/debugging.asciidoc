@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 
@@ -36,7 +37,6 @@ It is disabled by default.
 If enabled, it produces debug output to the console, whenever CIF/SVG declarations are applied.
 Here is an example of what such output looks like:
 
-
 [source, console]
 ----
 SVG output ("some_file.svg") id "a" text: "10.00"
@@ -60,7 +60,6 @@ To ease debugging, you can enable the <<tools-cifsim-chapter-test-mode,test mode
 For the input mappings, whenever an interactive SVG element is clicked, and the corresponding mapping is used to determine the event to take, a line of debug output is produced.
 Here is an example of what such output looks like:
 
-
 [source, console]
 ----
 SVG input ("some_file.svg") id "button": event "button.u_pushed"
@@ -70,7 +69,6 @@ Transition: event button.u_pushed
 From the line of debugging output, it can be seen that the SVG element with id `button` was clicked, and this resulted in the execution of event `button.u_pushed`.
 
 Similar debug output is available for the other CIF/SVG declarations:
-
 
 [source, console]
 ----
@@ -100,7 +98,6 @@ indexterm:[SVG visualization,stack trace]
 If the application of a CIF/SVG declaration results in a runtime error, a stack trace is printed to the console.
 This stack trace makes it possible to track the exact origin of the error.
 Here is an example of such a stack trace for an output mapping:
-
 
 [source, console]
 ----

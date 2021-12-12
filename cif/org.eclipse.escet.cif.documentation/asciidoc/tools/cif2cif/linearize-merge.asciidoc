@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -88,7 +89,6 @@ For edges with receives, the 'received value' is replaced (in the updates) by th
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 event e;
@@ -116,20 +116,19 @@ end
 
 is transformed to the following specification:
 
-
 [source, cif]
 ----
 event e;
 
 group p:
-  enum LPE_p = l1, l2;
+  enum LPE = l1, l2;
 
   initial M.p = l1 and true or M.p = l2 and false;
   marked M.p = l1 and false or M.p = l2 and false;
 end
 
 group q:
-  enum LPE_q = l1, l2;
+  enum LPE = l1, l2;
 
   initial M.q = l1 and true or M.q = l2 and false;
   marked M.q = l1 and false or M.q = l2 and false;
@@ -139,8 +138,8 @@ plant automaton M:
   alphabet e;
 
   disc int p_x = 1;
-  disc .p.LPE_p p = .p.l1;
-  disc .q.LPE_q q = .q.l1;
+  disc .p.LPE p = .p.l1;
+  disc .q.LPE q = .q.l1;
 
   location L:
     initial;
@@ -157,7 +156,7 @@ end
 ----
 
 We see that the automata `p` and `q` are replaced by groups.
-They contain 'location pointer enumerations' `LPE_p` and `LPE_q`, with literals for their original locations.
+They contain 'location pointer enumerations' `LPE`, with literals for their original locations.
 They also contain the linearized initialization and marker predicates of the locations.
 We further see that plant automata `p` and `q` are linearized to plant automaton `M`.
 Two location pointers, `p` and `q`, named after the original automata, are added.
@@ -167,7 +166,6 @@ For event `e`, the guards and updates are linearized into a single self loop.
 Location pointer updates are incorporated as well.
 For event `tau`, the single original edge is simply included as a self loop.
 Within `M`, `p` refers to the location point variable and thus all references to objects in automaton `p` (now group `p`) use scope absolute references, e.g. `.p.l1`.
-
 
 indexterm:[linearize,non-determinism]
 
@@ -183,7 +181,6 @@ To ensure the same choices are made, events and automata are sorted in the same 
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 automaton p:
@@ -198,7 +195,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -231,7 +227,6 @@ This choice is based on the original specification, where the edge with guard `x
 Related to this, are dummy updates, which are added to ensure that the correct updates are taken.
 For instance, the following specification:
 
-
 [source, cif]
 ----
 automaton p:
@@ -245,7 +240,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -301,7 +295,6 @@ Since the edge is also urgent, it means that if the edge is enabled guard wise, 
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 automaton p:
@@ -319,12 +312,11 @@ end
 
 is transformed to the following specification:
 
-
 [source, cif]
 ----
 group p:
   event e;
-  enum LPE_p = l1, l2;
+  enum LPE = l1, l2;
 
   initial M.p = l1 and true or M.p = l2 and false;
   marked M.p = l1 and false or M.p = l2 and false;
@@ -333,7 +325,7 @@ end
 automaton M:
   alphabet .p.e;
 
-  disc .p.LPE_p p = .p.l1;
+  disc .p.LPE p = .p.l1;
   disc bool u = true;
 
   plant invariant u;
@@ -364,7 +356,6 @@ indexterm:[linearize,tuple field projections]
 
 The following specification:
 
-
 [source, cif]
 ----
 event tuple(int a, b) e;
@@ -384,7 +375,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

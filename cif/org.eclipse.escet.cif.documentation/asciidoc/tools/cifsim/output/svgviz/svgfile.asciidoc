@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../../_part_attributes.asciidoc[]
 
@@ -20,7 +21,6 @@ indexterm:[SVG visualization,SVG file declaration]
 indexterm:[I/O declaration,SVG file declaration]
 Before any other CIF/SVG declarations can be specified, you need to indicate to which SVG image (file) they apply, using an SVG file declaration.
 A typical SVG file declaration looks like this:
-
 
 [source, cif]
 ----
@@ -37,7 +37,6 @@ indexterm:[SVG file declaration,path]
 
 It is possible to use relative (or absolute) paths for the SVG files.
 For instance:
-
 
 [source, cif]
 ----
@@ -61,7 +60,6 @@ An SVG file declaration that is specified in a certain scope applies to that sco
 Additionally, all 'other' CIF/SVG declarations (such as <<tools-cifsim-output-svgviz-chapter-svgout,SVG output mappings>>) may include a local SVG file declaration, that only applies to that specific CIF/SVG declaration.
 
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -125,7 +123,6 @@ In the end, after processing imports, for every scope there must be a unique SVG
 
 If the same SVG image file is specified multiple times, in different SVG file declarations, this is detected by the simulator, and the image will only be shown once.
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----

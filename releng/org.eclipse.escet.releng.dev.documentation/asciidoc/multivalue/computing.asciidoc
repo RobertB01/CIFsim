@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -26,6 +27,7 @@ The right-hand side value exists until performing the assignment, the value of t
 For clarity, the left-hand side `i` is written as `i+`, and we get `i+ := 1 - i`.
 Now this can be expressed as a function between variables `i+` and `i`:
 
+[source]
 ----
 A ::=    (i+ == 0 and i == 1)
       or (i+ == 1 and i == 0)
@@ -34,12 +36,14 @@ A ::=    (i+ == 0 and i == 1)
 You can read the first line of the `A` relation as '`when `i` equals `1`, `i+` must equal `0`'.
 With another relation that represents the value of all current variables like
 
+[source]
 ----
 C ::= i == 0 and j == 3
 ----
 
 you select the correct line in `A` with `A and C`, yielding relation `U` that says
 
+[source]
 ----
 U ::= i+ == 1 and i == 0 and j == 3
 ----
@@ -47,6 +51,7 @@ U ::= i+ == 1 and i == 0 and j == 3
 Almost there, except `i+` must become `i` and the existing `i` should be removed.
 This is what variable replacement does. Apply `replace(i+, i)` on `U` and you get a new `D` relation
 
+[source]
 ----
 D ::= i == 1 and j == 3
 ----

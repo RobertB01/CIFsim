@@ -170,6 +170,15 @@ public interface ExpressionsFactory extends EFactory
     ComponentExpression createComponentExpression();
 
     /**
+     * Returns a new object of class '<em>Comp Param Expression</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Comp Param Expression</em>'.
+     * @generated
+     */
+    CompParamExpression createCompParamExpression();
+
+    /**
      * Returns a new object of class '<em>Constant Expression</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

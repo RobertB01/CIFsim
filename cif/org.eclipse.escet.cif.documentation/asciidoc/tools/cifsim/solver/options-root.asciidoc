@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../../_part_attributes.asciidoc[]
 
@@ -39,7 +40,7 @@ indexterm:[root finder options,Pegasus]
 The _ODE solver root finding algorithm_ option (_ODE solver: ODE root finder_ category) can be used to configure the root finding algorithm to use.
 The following algorithms are available:
 
-* Regula Falsi (link:http://en.wikipedia.org/wiki/False_position_method[False position]) method
+* Regula Falsi (link:https://en.wikipedia.org/wiki/False_position_method[False position]) method
 
 * Illinois method
 

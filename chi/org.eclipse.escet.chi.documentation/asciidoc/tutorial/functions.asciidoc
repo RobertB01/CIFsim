@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -21,7 +22,6 @@ In a model, computations must be performed to process the information that is se
 Short and simple calculations are written as assignments between the other statements, but for longer computations or computations that are needed at several places in the model, a more encapsulated environment is useful, a _function_.
 In addition, the language comes with a number of built-in functions, such as `size` or `empty` on container types.
 An example:
-
 
 [source, chi]
 ----
@@ -54,7 +54,6 @@ This example computes and returns the mean value of the integers of the list.
 Use of a function (_application_ of a function) is done by using its name, followed by the values to be used as input (the _actual parameters_).
 The above function can be used like:
 
-
 [source, chi]
 ----
 m = mean([1, 3, 5, 7, 9])
@@ -71,7 +70,6 @@ A function has no _side-effect_, and it cannot access variables outside the body
 For example, it cannot access `time` (explained in <<tut-chapter-servers-with-time>>) directly, it has to be passed in through the parameter list.
 
 A function that calculates the sign of a real number, is:
-
 
 [source, chi]
 ----
@@ -110,7 +108,6 @@ Such a sorted list is useful for easily getting the smallest (or largest) item f
 
 To sort a list, the first notion that has to be defined is the desired order, by making a function of the following form:
 
-
 [source, chi]
 ----
 func bool decreasing(int x, y):
@@ -147,7 +144,6 @@ indexterm:[sort,function]
 The first use of such a predicate function is for sorting a list.
 For example list `[3, 8, 7]` is sorted decreasingly (larger numbers before smaller numbers) with the following statement:
 
-
 [source, chi]
 ----
 ys = sort([3, 8, 7], decreasing)
@@ -159,7 +155,6 @@ Sorting is done with the _sort_ function, it takes two parameters, the list to s
 Another sorting example is a list of type `tuple(int number, real slack)`, where field `number` denotes the number of an item, and field `slack` denotes the slack time of the item.
 The list should be sorted in ascending order of the slack time.
 The type of the item is:
-
 
 [source, chi]
 ----
@@ -198,14 +193,12 @@ It is much faster to find the right position in the already sorted list, and ins
 This function also exists, and is named `insert`.
 An example is (assume `xs` initially contains `[3,8]`):
 
-
 [source, chi]
 ----
 xs = insert(xs, 7, increasing)
 ----
 
 where `increasing` is:
-
 
 [source, chi]
 ----

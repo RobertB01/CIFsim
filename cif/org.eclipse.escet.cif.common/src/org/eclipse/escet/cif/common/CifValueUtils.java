@@ -78,6 +78,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -841,6 +842,15 @@ public class CifValueUtils {
             return false;
         }
 
+        if (expr instanceof CompParamExpression) {
+            // A reference to a component parameter always refers to the same
+            // component parameter, but we don't support components parameters
+            // as values. However, special cases such as casting to string
+            // may be handled by other expressions. Here, we handle the reference
+            // itself, similar to how we handle ComponentExpression.
+            return false;
+        }
+
         if (expr instanceof CompInstWrapExpression) {
             // Depends on the child. Just peel of the wrapper, as we don't
             // care how we get to a value. That is, the context via which we
@@ -1563,6 +1573,10 @@ public class CifValueUtils {
         }
 
         if (expr instanceof ComponentExpression) {
+            return true;
+        }
+
+        if (expr instanceof CompParamExpression) {
             return true;
         }
 

@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_root_attributes.asciidoc[]
 
@@ -23,7 +24,6 @@ The release notes may refer to issues, the details for which can be found at the
 
 See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-
 === Version 0.4
 
 TBD
@@ -34,7 +34,6 @@ Improvements and fixes:
 * Many website URLs have changed due to various website structure changes (issues #35 and #73).
 * Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
 
-
 === Version 0.3
 
 Improvements and fixes:
@@ -43,11 +42,9 @@ Improvements and fixes:
 * Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
 * Several small documentation fixes and improvements (issue #166).
 
-
 === Version 0.2
 
 This release contains no specific changes for ToolDef.
-
 
 === Version 0.1
 

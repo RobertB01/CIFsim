@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -104,7 +105,6 @@ Tools that take a number of automata together, like supervisor synthesis report 
 Such a state refers to a location that represents the combined locations of the automata, in the example, the combined locations `button.off` and `machine.idle`.
 
 Tools that combine or merge locations, like projection, report such combined locations as a partition, for example `partition "machine.down", "machine.off"` represents a location that is a combination of the `down` and the `off` locations in the `machine` automaton.
-
 
 indexterm:[event-based synthesis toolset,tools]
 

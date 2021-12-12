@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -182,14 +183,12 @@ Whether to redirect the standard error stream to the standard output stream (`tr
 ignoreNonZeroExitCode::
 Whether to ignore non-zero exit codes (`true`) or consider them as errors (`false`).
 
-
 === Return value
 
 All the tools return an integer value.
 This value is the exit code of the application.
 A zero (`0`) exit code means the application terminated without any errors.
 A non-zero exit code means the application terminated with an error.
-
 
 === Implementation
 

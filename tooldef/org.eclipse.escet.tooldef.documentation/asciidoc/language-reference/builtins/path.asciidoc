@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -27,7 +28,6 @@ This page describes the built-in I/O tools:
 * <<lang-ref-builtins-path-hasfileext,hasfileext>>
 * <<lang-ref-builtins-path-pathjoin,pathjoin>>
 * <<lang-ref-builtins-path-scriptpath,scriptpath>>
-
 
 indexterm:[abspath]
 
@@ -58,7 +58,6 @@ _Returns_
 The absolute local file system path.
 The path contains separators for the current platform.
 
-
 indexterm:[basename]
 
 [[lang-ref-builtins-path-basename]]
@@ -88,7 +87,6 @@ _Runtime errors_
 
 * If the path ends with `\` or `/`.
 
-
 indexterm:[chdir]
 
 [[lang-ref-builtins-path-chdir]]
@@ -113,7 +111,6 @@ _Runtime errors_
 * If the given path does not exist.
 * If the given path refers to a file rather than a directory.
 * If it can not be determined whether the given path refers to a file or a directory.
-
 
 indexterm:[chfileext]
 
@@ -145,7 +142,6 @@ _Returns_
 
 The changed path, ending with the new extension (if any).
 
-
 indexterm:[curdir]
 
 [[lang-ref-builtins-path-curdir]]
@@ -162,7 +158,6 @@ The path contains separators for the current platform.
 _Returns_
 
 The script execution's current working directory.
-
 
 indexterm:[dirname]
 
@@ -193,7 +188,6 @@ _Runtime errors_
 * If the given path is not an absolute local file system path.
 * If the given path ends with `\` or `/`.
 
-
 indexterm:[fileext]
 
 [[lang-ref-builtins-path-fileext]]
@@ -215,7 +209,6 @@ May contain both `\` and `/` as path separators.
 _Returns_
 
 The file extension, or `+""+`.
-
 
 indexterm:[hasfileext]
 
@@ -241,7 +234,6 @@ The file extension to check for (case sensitive, no `.` at the start).
 _Returns_
 
 `true` if the  file has the given file extension, `false` otherwise.
-
 
 indexterm:[pathjoin]
 
@@ -270,7 +262,6 @@ _Returns_
 
 The joined path.
 The path contains separators for the current platform.
-
 
 indexterm:[scriptpath]
 

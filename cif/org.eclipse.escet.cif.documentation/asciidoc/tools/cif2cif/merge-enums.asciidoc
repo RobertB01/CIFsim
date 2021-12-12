@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -57,7 +58,6 @@ The original enumerations are removed.
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 enum A = B, C;
@@ -73,7 +73,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -105,7 +104,6 @@ indexterm:[merge enumerations,default initial values]
 
 Consider the following specification:
 
-
 [source, cif]
 ----
 group g1:
@@ -126,7 +124,6 @@ end
 ----
 
 If we apply merging of enumerations directly, we get the following:
-
 
 [source, cif]
 ----
@@ -160,7 +157,6 @@ Since enumerations are merged, duplicate literals become a single new literal.
 Therefore, this transformation may decrease the size of the specification.
 
 The added default initial values may significantly increase the size of the specification.
-
 
 === Optimality
 

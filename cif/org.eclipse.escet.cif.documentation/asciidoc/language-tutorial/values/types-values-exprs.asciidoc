@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -19,7 +20,6 @@ This lesson explains the difference between types, values, and expressions.
 These concepts have already been used in previous lessons, but this lesson names them explicitly, and also explains the relations between them.
 Furthermore, this lesson serves as an introduction for the coming lessons, which rely heavily on these concepts.
 Consider the following declarations of <<lang-tut-data-chapter-discrete-variables,discrete variables>>:
-
 
 [source, cif]
 ----

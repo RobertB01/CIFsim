@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -22,7 +23,6 @@ If the constant is used consistently throughout the model, the value needs to be
 Constants can thus make it easier to keep the model consistent.
 
 Consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -54,7 +54,6 @@ Using a constant can thus enhance readability.
 
 Another benefit of constants, is that they can be used multiple times in the same model:
 
-
 [source, cif]
 ----
 const int STEP = 2;
@@ -80,8 +79,7 @@ Constants are not limited to integer values.
 Consider the following example, where a more complex value is used:
 
 // Copied to: reuse1/type-declarations
-
-[source,cif]
+[source, cif]
 ----
 enum ProductType = A, B, C;
 const dict(ProductType:real) DURATION = {A: 3.5, B: 5.7, C: 0.8};

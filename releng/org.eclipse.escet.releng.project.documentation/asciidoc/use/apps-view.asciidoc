@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -22,14 +23,12 @@ The _Applications_ <<use-terminology-view,view>> can be used to manage the appli
 
 image::{use-imgsdir}/apps_view.png[]
 
-
 indexterm:[applications view,show]
 indexterm:[applications view,open]
 
 === Opening the view
 
 The _Applications_ view can be <<use-terminology-view-open,opened>> by selecting menu:Window[Show view > Applications], assuming the <<use-escet-perspective,ESCET perspective>> is enabled.
-
 
 indexterm:[applications view,status]
 indexterm:[applications view,running]
@@ -71,7 +70,6 @@ indexterm:[applications view,status legend]
 You can also view these statuses and their corresponding icons from within the IDE, by opening the _Application Status Legend_ dialog, which is available via the view's drop-down button popup menu:
 
 image::{use-imgsdir}/show_status_legend.png[]
-
 
 indexterm:[terminate,application]
 indexterm:[applications view,termination]
@@ -129,7 +127,6 @@ When clicked, all selected applications that can be terminated, are given a term
 Even when a child application is selected, all applications in the entire tree, starting from the root, will be given a termination request, if not already terminated or having finished their execution.
 In other words, only an entire tree of related applications can be terminated.
 
-
 indexterm:[applications view,removal]
 indexterm:[removal,applications view]
 
@@ -180,7 +177,6 @@ When clicked, all selected applications that can be removed, are immediately rem
 +
 Even when a child application is selected, all applications in the entire tree, starting from the root, will be removed.
 In other words, only an entire tree of related applications can be removed, and only if all applications in that tree have finished execution.
-
 
 indexterm:[applications view,expansion]
 indexterm:[expansion,applications view]

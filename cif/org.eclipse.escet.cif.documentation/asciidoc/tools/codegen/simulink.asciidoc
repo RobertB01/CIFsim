@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -19,7 +20,7 @@ indexterm:[Simulink; code generation]
 == Simulink C S-Function code generation
 
 Everywhere at this page, the terms _Matlab_, _Simulink_, _S-Function_, and _Mex_ refer to products and programs developed and owned by _MathWorks_.
-For more information, please visit link:http://mathworks.com/[].
+For more information, please visit link:https://mathworks.com/[].
 
 The <<tools-codegen-chapter-index>> can generate Matlab Simulink S-Function C code from a CIF specification.
 It is assumed the reader of this page is familiar with the general information of the CIF code generator tool.
@@ -29,7 +30,6 @@ The aim of the conversion from CIF to Simulink is to provide a smooth path from 
 
 At this page, all the details about the Simulink code generation are discussed.
 For an example of how to use this code generation in practice, read <<tools-codegen-chapter-simulink-example,the example>>.
-
 
 === Supported specifications
 
@@ -48,7 +48,6 @@ However, Simulink poses similar restrictions to its other data vectors, in parti
 The CIF to Simulink code generator toool only makes variables available for output that are compatible with real number, vectors of real numbers, or matrices of real numbers.
 That means that use of the CIF string type, the tuple type, or arrays with a deeper nesting than two levels will not be available at the output.
 
-
 === Differences in output
 
 When converting a real number to text, for example when printing a real value, the generated Simulink code does not preserve trailing zeroes of real number fractions while using `%g`.
@@ -62,7 +61,6 @@ The CIF print statement is supported, but only for the `:stdout` file.
 It is translated to the `ssPrintf` C function.
 This is also the only way to get a string to appear outside the Simulink S-Function block.
 Note that Simulink may drop the output function for platforms that have no output possibilities.
-
 
 === Options
 
@@ -87,7 +85,6 @@ Check the Mathworks `ssSetSampleOffset` function documentation for details which
 By default, this options is set to `0.0`.
 
 The code prefix that can be configured using a common option is used as name for the generated S-Function.
-
 
 === Generated files
 

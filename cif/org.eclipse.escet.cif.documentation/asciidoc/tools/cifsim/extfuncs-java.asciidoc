@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -25,7 +26,6 @@ indexterm:[external user-defined Java functions,implementation reference]
 === External implementation reference
 
 Consider the following examples of external user-defined Java function:
-
 
 [source, cif]
 ----
@@ -132,7 +132,7 @@ indexterm:[external user-defined Java functions,lazy loading]
 The class as specified in the external implementation reference is loaded using a Java class loader.
 By default, the system class loader is used.
 If additional class path entries are specified in the external implementation reference, an extended class loader is used that searches in the additional class path entries before deferring to the system class loader.
-The class is loaded using the link:http://docs.oracle.com/javase/7/docs/api/java/lang/ClassLoader.html#name[binary name] of the class.
+The class is loaded using the link:https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/ClassLoader.html#binary-name[binary name] of the class.
 
 The method that is resolved must be a static method.
 The access modifier of the static method is irrelevant.

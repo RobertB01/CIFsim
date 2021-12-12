@@ -11,5 +11,5 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func real f(): "java:testpkg.TestReturnTypes.ret_inf_pos|java_code/bin";
+func real f(): "java:testpkg.TestReturnTypes.retInfPos|java_code/bin";
 initial f() > 0;

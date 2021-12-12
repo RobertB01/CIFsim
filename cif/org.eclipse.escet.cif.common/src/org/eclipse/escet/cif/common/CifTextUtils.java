@@ -52,6 +52,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -692,6 +693,11 @@ public class CifTextUtils {
             return getAbsName(refObj);
         }
 
+        if (expr instanceof CompParamExpression) {
+            ComponentParameter refObj = ((CompParamExpression)expr).getParameter();
+            return getAbsName(refObj);
+        }
+
         if (expr instanceof CompInstWrapExpression) {
             // As documented, simply unwrap wrapping types. Note that
             // 'inst1.constant' and 'inst2.constant', where 'inst1' and
@@ -1058,8 +1064,8 @@ public class CifTextUtils {
                 || expr instanceof EnumLiteralExpression || expr instanceof EventExpression
                 || expr instanceof FieldExpression || expr instanceof BaseFunctionExpression
                 || expr instanceof InputVariableExpression || expr instanceof ComponentExpression
-                || expr instanceof CompInstWrapExpression || expr instanceof CompParamWrapExpression
-                || expr instanceof SelfExpression)
+                || expr instanceof CompParamExpression || expr instanceof CompInstWrapExpression
+                || expr instanceof CompParamWrapExpression || expr instanceof SelfExpression)
         {
             return 8;
         }

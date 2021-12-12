@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::../_part_attributes.asciidoc[]
 
@@ -52,11 +53,9 @@ indexterm:[CIF simulator,runtime error]
 
 If simulation results in a runtime error, the simulation will terminate immediately.
 
-
 === End of trace file
 
 If the <<tools-cifsim-input-chapter-trace,trace input mode>> is used, and no more commands are available in the trace file, the simulation will terminate immediately.
-
 
 === User-requested termination
 
@@ -71,18 +70,15 @@ Termination requests issued between <<tools-cifsim-output-realtime-frames,interm
 
 Termination of the simulation can be requested, when using the interactive <<tools-cifsim-input-chapter-console,console>> input mode, by typing `q` and pressing kbd:[Enter], whenever the simulator interactively asks for input via the console.
 
-
 ==== Interactive GUI input
 
 Termination of the simulation can be requested, when using the interactive <<tools-cifsim-input-chapter-gui,interactive GUI input mode>>, by closing the GUI of the interactive GUI input component, when the simulator asks for input via that GUI.
-
 
 ==== Applications view
 
 // Removed the previously present link to documentation about 'Applications view'.
 The _Applications_ view has several termination features that may terminate any application, including the CIF simulator.
 See the documentation for that view, for details.
-
 
 ==== Console termination button
 
@@ -95,7 +91,6 @@ Due to these issues, use of the termination features of the _Applications_ view 
 See the documentation for that view, for details.
 // Removed the previously present link to documentation about 'Applications view'.
 // Removed the previously present link to documentation about 'Applications view termination features'.
-
 
 ==== Closing last real-time visualizer
 
