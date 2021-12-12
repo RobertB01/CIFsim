@@ -122,11 +122,11 @@ In automata, there are a number of extra conditions:
 * All expressions and sub-expressions must be of type `bool`, `enum`, or `int`.
 The latter may have a range.
 
-* Boolean constants, discrete variables, and operators `and`, `or`, `==`, `>=`, `>`, `+<=+`, `<`, `!=`, and `not` are allowed.
+* Boolean literals, boolean-typed discrete variables, and operators `and`, `or`, `==`, `>=`, `>`, `+<=+`, `<`, `!=`, and `not` on booleans are allowed.
 
-* Enumeration constants, discrete variables, and operators `==` and `!=` are allowed.
+* Enumeration literals, enumeration-typed discrete variables, and operators `==` and `!=` on enumerations are allowed.
 
-* Integer constants, discrete variables, binary operators `pass:c[+]`, `+*+`, `-`, and unary operators `-` and `pass:c[+]` are allowed.
+* Integer literals, integer-typed discrete variables, binary operators `pass:c[+]`, `+*+`, `-`, and unary operators `-` and `pass:c[+]` on integers are allowed.
 
 * I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
@@ -146,8 +146,6 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 * <<tools-cif2cif-chapter-elim-alg-vars>>
 
 * <<tools-cif2cif-chapter-elim-consts>>
-
-* <<tools-cif2cif-chapter-enums-to-ints>>
 
 * <<tools-cif2cif-chapter-elim-monitors>>
 
