@@ -20,8 +20,8 @@ plant A:
     initial; marked;
     edge u0;                                 // Shouldn't get an extra guard from plant invariant.
     edge u1 when Vu1 != 4 do Vu1 := Vu1 + 1; // Shouldn't get an extra guard from plant invariant.
-    edge u2               do Vu2 := Vu2 + 1; // Should get an extra guard from plant invariant.
-    edge u3               do Vu3 := Vu3 + 1; // Should get an extra guard from plant invariant.
+    edge u2               do Vu2 := Vu2 + 1; // Should get an extra guard from plant invariant, internally during synthesis.
+    edge u3               do Vu3 := Vu3 + 1; // Should get an extra guard from plant invariant, internally during synthesis.
 end
 
 // Results in an extra guard for u2. Simplification is not perfect, as it results in 'A.Vu2 != 2 and A.Vu2 != 3'.

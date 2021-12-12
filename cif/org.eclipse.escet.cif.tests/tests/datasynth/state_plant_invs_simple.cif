@@ -27,7 +27,7 @@ plant A:
     edge u1 goto l3;
     edge u2 goto l4;
     edge u3 goto l5;
-  location l3: // Forbidden by group state plant invariant.
+  location l3: // Forbidden by specification state plant invariant.
     initial;
     marked;
   location l4: // Forbidden by automaton state plant invariant.
