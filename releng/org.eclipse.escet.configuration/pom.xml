@@ -243,6 +243,40 @@ SPDX-License-Identifier: MIT
 
         <pluginManagement>
             <plugins>
+                <!-- This configuration prevents errors for m2eclipse. -->
+                <!-- It affects m2eclipse settings only. It has no influence on the Maven build itself.-->
+                <!-- It prevents the following error: -->
+                <!-- "Plugin execution not covered by lifecycle configuration: -->
+                <!-- org.eclipse.tycho:target-platform-configuration:2.5.0:target-platform -->
+                <!-- (execution: default-target-platform, phase: initialize)" -->
+                <!-- Note that according to the documentation of the Tycho Maven plugin: -->
+                <!-- "This mojo is actually not executable, and is only meant to host configuration." -->
+                <!-- It is thus safe to set the action to 'ignore' using lifecycle mapping metadata configuration. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.eclipse.tycho</groupId>
+                                        <artifactId>target-platform-configuration</artifactId>
+                                        <versionRange>[2.4.0,)</versionRange>
+                                        <goals>
+                                            <goal>target-platform</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+
                 <!-- AsciiDoctor documentation generation configuration. -->
                 <plugin>
                     <groupId>org.asciidoctor</groupId>
