@@ -29,7 +29,6 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 Language changes:
 * Component parameters can now be used as values, for instance as arguments to component instantiations.
 See the CIF language tutorial lesson on group definitions for more information (issue #222).
-* Variables being assigned on edges can now be referred to by any reference expression rather than only be identifiers (issue #227).
 
 New features:
 
