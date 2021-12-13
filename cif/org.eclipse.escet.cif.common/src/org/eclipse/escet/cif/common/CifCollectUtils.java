@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.common;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -192,7 +191,7 @@ public class CifCollectUtils {
      * @param comp The component.
      * @param enumDecls The enumeration declarations collected so far. Is modified in-place.
      */
-    public static void collectEnumDecls(ComplexComponent comp, List<EnumDecl> enumDecls) {
+    public static void collectEnumDecls(ComplexComponent comp, Collection<EnumDecl> enumDecls) {
         // Collect locally.
         for (Declaration decl: comp.getDeclarations()) {
             if (decl instanceof EnumDecl) {
