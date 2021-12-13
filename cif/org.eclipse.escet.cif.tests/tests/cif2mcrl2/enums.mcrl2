@@ -1,0 +1,30 @@
+sort enum_E = struct enumlit_A | enumlit_B2;
+
+sort enum_F = struct enumlit_C | enumlit_D | enumlit_G;
+
+sort enum_E2 = struct enumlit_B | enumlit_A2;
+
+sort LocSort_aut = struct loc_aut_l1 | loc_aut_l2 | loc_aut_l3 | loc_aut_l4 | loc_aut_l5 | loc_aut_l6 | loc_aut_l7;
+
+act value_x2 : enum_E;
+act value_x1 : enum_E;
+act value_y : enum_F;
+act value_z : enum_E2;
+
+proc BehProc_aut(Locvar_aut : LocSort_aut, x2 : enum_E, x1 : enum_E, y : enum_F, z : enum_E2) =
+  value_x2(x2) . BehProc_aut(Locvar_aut, x2, x1, y, z) +
+  value_x1(x1) . BehProc_aut(Locvar_aut, x2, x1, y, z) +
+  value_y(y) . BehProc_aut(Locvar_aut, x2, x1, y, z) +
+  value_z(z) . BehProc_aut(Locvar_aut, x2, x1, y, z) +
+  (Locvar_aut == loc_aut_l1) -> e1 . BehProc_aut(loc_aut_l2, x2, x2, y, z) +
+  (Locvar_aut == loc_aut_l2) -> e1 . BehProc_aut(loc_aut_l3, x2, x1, y, z) +
+  ((Locvar_aut == loc_aut_l2) && (x1 == x2)) -> e2 . BehProc_aut(Locvar_aut, x2, x1, y, z) +
+  ((Locvar_aut == loc_aut_l3) && (x1 != enumlit_B2)) -> e1 . BehProc_aut(loc_aut_l4, x2, x1, y, z) +
+  (Locvar_aut == loc_aut_l4) -> e1 . BehProc_aut(loc_aut_l5, x2, x1, enumlit_C, z) +
+  ((Locvar_aut == loc_aut_l5) && (y == enumlit_C)) -> e1 . BehProc_aut(loc_aut_l6, x2, x1, y, z) +
+  (Locvar_aut == loc_aut_l6) -> e1 . BehProc_aut(loc_aut_l7, x2, x1, y, enumlit_B) +
+  ((Locvar_aut == loc_aut_l7) && (z != enumlit_A2)) -> e1 . BehProc_aut(loc_aut_l1, x2, x1, y, z);
+
+act e1, renamed_e1, e2, renamed_e2;
+
+init BehProc_aut(loc_aut_l1, enumlit_A, enumlit_A, enumlit_C, enumlit_B);

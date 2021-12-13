@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
@@ -26,7 +27,6 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
 import org.eclipse.escet.cif.cif2cif.ElimMonitors;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
-import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.cif2mcrl2.options.DebugFileOption;
@@ -37,8 +37,10 @@ import org.eclipse.escet.cif.cif2mcrl2.storage.AutomatonData;
 import org.eclipse.escet.cif.cif2mcrl2.storage.VariableData;
 import org.eclipse.escet.cif.cif2mcrl2.tree.ProcessNode;
 import org.eclipse.escet.cif.cif2mcrl2.tree.TextNode;
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -55,6 +57,7 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.box.StreamCodeBox;
+import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.box.VBox;
 
 /** Application implementing the CIF to mCRL2 transformation. */
@@ -111,7 +114,6 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         new ElimSelf().transform(spec);
         new ElimAlgVariables().transform(spec);
         new ElimConsts().transform(spec);
-        new EnumsToInts().transform(spec);
         new ElimMonitors().transform(spec);
         new SimplifyValues().transform(spec);
         new AddDefaultInitialValues().transform(spec);
@@ -126,9 +128,16 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
             return 0;
         }
 
+        // Collect enumerations.
+        List<EnumDecl> enumDecls = list();
+        CifCollectUtils.collectEnumDecls(spec, enumDecls);
+
+        // Initialize names mapping.
+        NameMaps names = new NameMaps(enumDecls);
+
         // Extract CIF elements from the specification.
         AutomatonExtractor ae = new AutomatonExtractor();
-        ae.findElements(spec);
+        ae.findElements(spec, names);
         List<AutomatonData> autDatas = ae.getAutDatas();
         Set<VariableData> sharedVars = ae.getSharedVariables();
         Set<VariableData> singleUseVars = ae.getSingleUseVariables();
@@ -179,7 +188,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         }
 
         // Generate and write output.
-        Box code = generateCode(procRoot, localVars);
+        Box code = generateCode(procRoot, localVars, names);
         if (isTerminationRequested()) {
             return 0;
         }
@@ -196,13 +205,22 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
      *
      * @param procRoot Root of the tree.
      * @param localVars Local variables.
+     * @param names Mapping of CIF elements to unique mCRL2 names.
      * @return Generated mCRL2 code.
      */
-    private static Box generateCode(ProcessNode procRoot, Set<VariableData> localVars) {
-        NameMaps names = new NameMaps();
+    private static Box generateCode(ProcessNode procRoot, Set<VariableData> localVars, NameMaps names) {
+        // Initialize code.
+        VBox code = new VBox();
+
+        // Enumeration sorts.
+        for (EnumDecl enumDecl: names.getRepresentativeEnums()) {
+            String litNames = enumDecl.getLiterals().stream().map(l -> names.getEnumLitName(l))
+                    .collect(Collectors.joining(" | "));
+            code.add(new TextBox(fmt("sort %s = struct %s;", names.getEnumName(enumDecl), litNames)));
+            code.add();
+        }
 
         // Process definitions, sorts, and actions for the variables.
-        VBox code = new VBox();
         procRoot.addDefinitions(names, localVars, code);
 
         // Event declarations.
@@ -224,6 +242,8 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         VBox vb = new VBox();
         procRoot.addInstantiations(names, localVars, vb);
         code.add(new HBox("init ", vb, ";"));
+
+        // Return the generated code.
         return code;
     }
 
@@ -234,7 +254,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
 
     @Override
     public String getAppDescription() {
-        return "Convert CIF automata with integer and boolean variables to mCRL2.";
+        return "Convert CIF specification to mCRL2.";
     }
 
     /**

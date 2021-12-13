@@ -13,19 +13,27 @@
 
 package org.eclipse.escet.cif.cif2mcrl2;
 
+import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.escet.cif.common.CifEnumUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
+import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 
 /** Mappings of elements (variables, automata, and events) to names in mCRL2. */
 public class NameMaps {
@@ -38,12 +46,18 @@ public class NameMaps {
             "rename", "sort", "struct", "sum", "val", "var", "whr", "yaled", "Bag", "Bool", "Int", "List", "Nat", "Pos",
             "Real", "Set", "delta", "false", "nil", "tau", "true"};
 
-    /** Constructor of the {@link NameMaps} class. */
-    public NameMaps() {
+    /**
+     * Constructor of the {@link NameMaps} class.
+     *
+     * @param enumDecls The enumeration declarations of the CIF specification.
+     */
+    public NameMaps(List<EnumDecl> enumDecls) {
         names = set();
         for (String r: RESERVED) {
             names.add(r);
         }
+
+        this.enumRepresentatives = CifEnumUtils.getEnumDeclReprs(enumDecls);
     }
 
     //
@@ -368,6 +382,105 @@ public class NameMaps {
     }
 
     //
+    // Enumeration and literal names.
+    //
+
+    /** Prefix of the names of enumeration sorts. */
+    private static final String ENUM_NAME = "enum_";
+
+    /** All prefixes in use for enumeration sorts. */
+    private static final String[] ENUM_PREFIXES = {ENUM_NAME};
+
+    /** Mapping from enumerations to their representatives. */
+    private final Map<EnumDecl, EnumDecl> enumRepresentatives;
+
+    /** Mapping of representative enumerations to their unique names. */
+    private Map<EnumDecl, String> enumsMap = map();
+
+    /** Prefix of the names of enumeration literal constructors. */
+    private static final String ENUM_LIT_NAME = "enumlit_";
+
+    /** All prefixes in use for enumeration literal constructors. */
+    private static final String[] ENUM_LIT_PREFIXES = {ENUM_LIT_NAME};
+
+    /** Mapping of representative enumeration literals to their unique names. */
+    private Map<EnumLiteral, String> enumLitsMap = map();
+
+    /**
+     * Get the representative enumerations.
+     *
+     * @return The representative enumerations.
+     */
+    public Collection<EnumDecl> getRepresentativeEnums() {
+        Set<EnumDecl> representatives = set();
+        representatives.addAll(enumRepresentatives.values());
+        return set2list(representatives);
+    }
+
+    /**
+     * Get the base name of an enumeration.
+     *
+     * @param enumDecl Enumeration to name.
+     * @return Basename (without prefix) of the given enumeration.
+     */
+    private String getEnum(EnumDecl enumDecl) {
+        // Get representative enum.
+        EnumDecl enumRepr = enumRepresentatives.get(enumDecl);
+
+        // Get enum name.
+        String name = enumsMap.get(enumRepr);
+        if (name != null) {
+            return name;
+        }
+        name = makeName(enumRepr.getName(), ENUM_PREFIXES);
+        enumsMap.put(enumRepr, name);
+        return name;
+    }
+
+    /**
+     * Get the mCRL2 name of an enumeration.
+     *
+     * @param enumDecl Enumeration to get name of.
+     * @return Name of the provided enumeration.
+     */
+    public String getEnumName(EnumDecl enumDecl) {
+        return ENUM_NAME + getEnum(enumDecl);
+    }
+
+    /**
+     * Get the base name of an enumeration literal.
+     *
+     * @param enumLit Enumeration literal to name.
+     * @return Basename (without prefix) of the given enumeration literal.
+     */
+    private String getEnumLit(EnumLiteral enumLit) {
+        // Get representative literal.
+        EnumDecl enumDecl = (EnumDecl)enumLit.eContainer();
+        EnumDecl enumRepr = enumRepresentatives.get(enumDecl);
+        int litIdx = enumDecl.getLiterals().indexOf(enumLit);
+        EnumLiteral litRepr = enumRepr.getLiterals().get(litIdx);
+
+        // Get name.
+        String name = enumLitsMap.get(litRepr);
+        if (name != null) {
+            return name;
+        }
+        name = makeName(litRepr.getName(), ENUM_LIT_PREFIXES);
+        enumLitsMap.put(litRepr, name);
+        return name;
+    }
+
+    /**
+     * Get the mCRL2 name of an enumeration literal.
+     *
+     * @param enumLit Enumeration literal to get name of.
+     * @return Name of the provided enumeration literal.
+     */
+    public String getEnumLitName(EnumLiteral enumLit) {
+        return ENUM_LIT_NAME + getEnumLit(enumLit);
+    }
+
+    //
     // Type names.
     //
 
@@ -379,6 +492,15 @@ public class NameMaps {
      */
     public String getTypeName(CifType tp) {
         tp = CifTypeUtils.normalizeType(tp);
-        return (tp instanceof BoolType) ? "Bool" : "Int";
+        if (tp instanceof BoolType) {
+            return "Bool";
+        } else if (tp instanceof IntType) {
+            return "Int";
+        } else if (tp instanceof EnumType) {
+            EnumDecl enumDecl = ((EnumType)tp).getEnum();
+            return getEnumName(enumDecl);
+        } else {
+            throw new RuntimeException("Unexpected type: " + tp);
+        }
     }
 }

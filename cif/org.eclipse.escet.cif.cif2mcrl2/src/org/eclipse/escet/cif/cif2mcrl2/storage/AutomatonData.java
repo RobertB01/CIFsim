@@ -34,12 +34,14 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 
@@ -187,21 +189,32 @@ public class AutomatonData {
             return set(dve.getVariable());
         }
 
-        Assert.check(t instanceof IntType);
-        if (e instanceof IntExpression) {
-            return set();
-        } else if (e instanceof BinaryExpression) {
-            BinaryExpression be = (BinaryExpression)e;
-            Set<DiscVariable> dvs = set();
-            dvs.addAll(findExpressionVars(be.getLeft()));
-            dvs.addAll(findExpressionVars(be.getRight()));
-            return dvs;
-        } else if (e instanceof UnaryExpression) {
-            UnaryExpression ue = (UnaryExpression)e;
-            return findExpressionVars(ue.getChild());
+        if (t instanceof IntType) {
+            if (e instanceof IntExpression) {
+                return set();
+            } else if (e instanceof BinaryExpression) {
+                BinaryExpression be = (BinaryExpression)e;
+                Set<DiscVariable> dvs = set();
+                dvs.addAll(findExpressionVars(be.getLeft()));
+                dvs.addAll(findExpressionVars(be.getRight()));
+                return dvs;
+            } else if (e instanceof UnaryExpression) {
+                UnaryExpression ue = (UnaryExpression)e;
+                return findExpressionVars(ue.getChild());
+            }
+            DiscVariableExpression dve = (DiscVariableExpression)e;
+            return set(dve.getVariable());
         }
-        DiscVariableExpression dve = (DiscVariableExpression)e;
-        return set(dve.getVariable());
+
+        if (t instanceof EnumType) {
+            if (e instanceof EnumLiteralExpression) {
+                return set();
+            }
+            DiscVariableExpression dve = (DiscVariableExpression)e;
+            return set(dve.getVariable());
+        }
+
+        throw new RuntimeException("Unexpected type: " + t);
     }
 
     /**

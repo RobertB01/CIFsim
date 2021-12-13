@@ -1,0 +1,8 @@
+===============================================================
+Node 1 (automaton aut)
+
+Variable use by behavior processes ordered by event:
+    aut.e1:
+        No variables from variables processes accessed.
+    aut.e2:
+        No variables from variables processes accessed.

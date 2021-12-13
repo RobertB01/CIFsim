@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 
@@ -176,6 +177,32 @@ public class CifCollectUtils {
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
                 collectIoDeclarations((ComplexComponent)child, declarations);
+            }
+        }
+    }
+
+    /**
+     * Collect the {@link EnumDecl}s declared in the given component (recursively).
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param comp The component.
+     * @param enumDecls The enumeration declarations collected so far. Is modified in-place.
+     */
+    public static void collectEnumDecls(ComplexComponent comp, Collection<EnumDecl> enumDecls) {
+        // Collect locally.
+        for (Declaration decl: comp.getDeclarations()) {
+            if (decl instanceof EnumDecl) {
+                enumDecls.add((EnumDecl)decl);
+            }
+        }
+
+        // Collect recursively.
+        if (comp instanceof Group) {
+            for (Component child: ((Group)comp).getComponents()) {
+                collectEnumDecls((ComplexComponent)child, enumDecls);
             }
         }
     }

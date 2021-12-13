@@ -43,12 +43,14 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
@@ -57,6 +59,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
@@ -137,13 +140,12 @@ public class Cif2Mcrl2PreChecker {
 
         checkComponent(aut);
 
-        // Check type of the discrete variables. Only support Boolean and (ranged) integer types. Enumeration types
-        // are supported as they are converted to integers during preprocessing.
+        // Check type of the discrete variables. Only support Boolean, (ranged) integer and enumeration types.
         for (Declaration decl: aut.getDeclarations()) {
             if (decl instanceof DiscVariable) {
                 DiscVariable dv = (DiscVariable)decl;
                 CifType tp = CifTypeUtils.normalizeType(dv.getType());
-                if (!(tp instanceof BoolType) && !(tp instanceof IntType)) {
+                if (!(tp instanceof BoolType) && !(tp instanceof IntType) && !(tp instanceof EnumType)) {
                     msg = fmt("Discrete variable \"%s\" does not have a boolean, integer, or enumeration type.",
                             CifTextUtils.getAbsName(dv));
                     problems.add(msg);
@@ -349,6 +351,16 @@ public class Cif2Mcrl2PreChecker {
             return fmt("has unsupported integer expression \"%s\".", CifTextUtils.exprToStr(e));
         }
 
+        if (t instanceof EnumType) {
+            if (e instanceof EnumLiteralExpression) {
+                return null;
+            } else if (e instanceof DiscVariableExpression) {
+                return null;
+            }
+
+            return fmt("has unsupported enumeration expression \"%s\".", CifTextUtils.exprToStr(e));
+        }
+
         String msg = CifTextUtils.typeToStr(t);
         return fmt("has an unsupported type \"%s\" in expression \"%s\".", msg, CifTextUtils.exprToStr(e));
     }
@@ -366,6 +378,8 @@ public class Cif2Mcrl2PreChecker {
                 // Eliminated during preprocessing.
             } else if (decl instanceof Constant) {
                 // Eliminated during preprocessing.
+            } else if (decl instanceof EnumDecl) {
+                continue;
             } else if (decl instanceof Event) {
                 continue;
             } else if (decl instanceof ContVariable) {

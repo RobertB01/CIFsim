@@ -47,6 +47,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.escet.cif.common.CifCollectUtils;
+import org.eclipse.escet.cif.common.CifEnumUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -1160,7 +1162,9 @@ public class CifCompilerContext {
      */
     public Map<EnumDecl, EnumDecl> getEnumDeclReprs() {
         if (enumDeclReprs == null) {
-            enumDeclReprs = EnumCodeGenerator.getEnumDeclReprs(spec);
+            List<EnumDecl> enumDecls = list();
+            CifCollectUtils.collectEnumDecls(spec, enumDecls);
+            enumDeclReprs = CifEnumUtils.getEnumDeclReprs(enumDecls);
         }
         return enumDeclReprs;
     }
