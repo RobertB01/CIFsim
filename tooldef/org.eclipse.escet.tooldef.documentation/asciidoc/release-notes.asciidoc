@@ -26,13 +26,12 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 
 === Version 0.4
 
-TBD
-
 Improvements and fixes:
 
 * Introduced a brand new website (issue #35).
 * Many website URLs have changed due to various website structure changes (issues #35 and #73).
 * Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
+* Multiple small error message improvements (issue #248).
 
 === Version 0.3
 
