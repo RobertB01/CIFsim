@@ -32,7 +32,7 @@
         <module>setext</module>
         <module>thirdparty</module>
         <module>tooldef</module>
-        <module>products</module>
+        <module>product</module>
     </modules>
 
 </project>

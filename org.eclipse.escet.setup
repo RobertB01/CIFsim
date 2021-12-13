@@ -462,7 +462,7 @@
         name="ESCET Product">
       <predicate
           xsi:type="predicates:LocationPredicate"
-          pattern="${org.eclipse.escet.git.clone.location|path}/products/.*"/>
+          pattern="${org.eclipse.escet.git.clone.location|path}/product/.*"/>
     </workingSet>
     <workingSet
         name="ESCET Releng">

@@ -32,8 +32,8 @@ do
         continue
     fi
 
-    # Exclude products.
-    if [[ $p == ./products/org.eclipse.escet.product* ]]
+    # Exclude product.
+    if [[ $p == ./product/org.eclipse.escet.product* ]]
     then
         continue
     fi
