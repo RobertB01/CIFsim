@@ -21,6 +21,6 @@
         <relativePath>../../</relativePath>
     </parent>
 
-    <artifactId>org.eclipse.escet.target</artifactId>
+    <artifactId>org.eclipse.escet.releng.target</artifactId>
     <packaging>eclipse-target-definition</packaging>
 </project>

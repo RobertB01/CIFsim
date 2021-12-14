@@ -319,7 +319,7 @@
           source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGenerator">
         <detail
             key="location">
-          <value>${org.eclipse.escet.git.clone.location}/releng/org.eclipse.escet.target/org.eclipse.escet.target.target</value>
+          <value>${org.eclipse.escet.git.clone.location}/releng/org.eclipse.escet.releng.target/org.eclipse.escet.releng.target.target</value>
         </detail>
         <detail
             key="extraUnits">
