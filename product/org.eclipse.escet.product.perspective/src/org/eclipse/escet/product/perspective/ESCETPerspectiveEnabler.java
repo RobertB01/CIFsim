@@ -11,10 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.perspective;
+package org.eclipse.escet.product.perspective;
 
-import static org.eclipse.escet.perspective.ESCETPerspectiveConstants.ESCET_ENABLED_PREF_ID;
-import static org.eclipse.escet.perspective.ESCETPerspectiveConstants.ESCET_PERSPECTIVE_ID;
+import static org.eclipse.escet.product.perspective.ESCETPerspectiveConstants.ESCET_ENABLED_PREF_ID;
+import static org.eclipse.escet.product.perspective.ESCETPerspectiveConstants.ESCET_PERSPECTIVE_ID;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;

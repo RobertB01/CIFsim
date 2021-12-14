@@ -65,7 +65,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.escet.perspective"
+         id="org.eclipse.escet.product.perspective"
          download-size="0"
          install-size="0"
          version="0.0.0"

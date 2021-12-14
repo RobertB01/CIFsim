@@ -11,13 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.perspective;
+package org.eclipse.escet.product.perspective;
 
 /** Eclipse ESCET perspective constants. */
 public interface ESCETPerspectiveConstants {
     /** Eclipse ESCET perspective ID. */
-    public static final String ESCET_PERSPECTIVE_ID = "org.eclipse.escet.perspective.ESCETPerspective";
+    public static final String ESCET_PERSPECTIVE_ID = "org.eclipse.escet.product.perspective.ESCETPerspective";
 
     /** Eclipse ESCET perspective 'has been enabled' preference. */
-    public static final String ESCET_ENABLED_PREF_ID = "org.eclipse.escet.perspective.enabled";
+    public static final String ESCET_ENABLED_PREF_ID = "org.eclipse.escet.product.perspective.enabled";
 }

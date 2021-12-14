@@ -15,16 +15,16 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.eclipse.escet.perspective.ESCETPerspectiveFactory"
+            class="org.eclipse.escet.product.perspective.ESCETPerspectiveFactory"
             icon="icons/escet_perspective.png"
-            id="org.eclipse.escet.perspective.ESCETPerspective"
+            id="org.eclipse.escet.product.perspective.ESCETPerspective"
             name="ESCET">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="org.eclipse.escet.perspective.ESCETPerspectiveEnabler">
+            class="org.eclipse.escet.product.perspective.ESCETPerspectiveEnabler">
       </startup>
    </extension>
 </plugin>

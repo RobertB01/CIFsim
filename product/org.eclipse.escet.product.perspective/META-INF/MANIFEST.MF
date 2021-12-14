@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Perspective (Incubation)
-Bundle-SymbolicName: org.eclipse.escet.perspective;singleton:=true
+Bundle-SymbolicName: org.eclipse.escet.product.perspective;singleton:=true
 Bundle-Version: 0.4.0.qualifier
 Require-Bundle: org.eclipse.ui;bundle-version="3.115.0",
  org.eclipse.core.runtime;bundle-version="3.17.0",
@@ -11,5 +11,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.115.0",
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse ESCET
-Export-Package: org.eclipse.escet.perspective
-Automatic-Module-Name: org.eclipse.escet.perspective
+Export-Package: org.eclipse.escet.product.perspective
+Automatic-Module-Name: org.eclipse.escet.product.perspective

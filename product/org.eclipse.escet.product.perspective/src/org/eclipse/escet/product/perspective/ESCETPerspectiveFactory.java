@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.perspective;
+package org.eclipse.escet.product.perspective;
 
 import org.eclipse.escet.common.app.framework.appsview.ui.AppsViewConstants;
 import org.eclipse.ui.IFolderLayout;
