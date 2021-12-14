@@ -91,7 +91,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./NOTICE.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./SECURITY.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./misc/license-header/license-header-list.txt:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./product/org.eclipse.escet.product.feature/extra_files/NOTICE.asciidoc:0$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.license.mit/NOTICE.asciidoc:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.license.mit/NOTICE.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./.*/empty.txt:0$"
 # Exclude expected test output files.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2mcrl2/.*.dbg.txt:0$"
