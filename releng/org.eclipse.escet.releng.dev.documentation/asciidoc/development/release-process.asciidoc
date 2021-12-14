@@ -114,7 +114,7 @@ The old version should no longer be present.
 This should mostly be automatic.
 Manually adapt it where necessary.
 
-** Manually adapt the version in `org.eclipse.escet.configuration/pom.xml`.
+** Manually adapt the version in `org.eclipse.escet.releng.configuration/pom.xml`.
 
 ** Manually adapt the parent version in `org.eclipse.escet.root/pom.xml`.
 Also remove the version for the pom itself, to prevent a warning that the version of the pom and its parent are identical.
