@@ -322,7 +322,8 @@ public final class InteractiveGuiInputComponent<S extends RuntimeState> extends 
         synchronized (gui.ready) {
             while (!gui.ready.get()) {
                 try {
-                    gui.ready.wait();
+                    gui.ready.wait(1000);
+                    spec.ctxt.checkTermination();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

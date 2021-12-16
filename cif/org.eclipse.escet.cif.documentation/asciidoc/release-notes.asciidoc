@@ -47,6 +47,7 @@ Improvements and fixes:
 In particular the CIF pretty printer now generates correct references for such indices (issue #258).
 * The CIF to CIF transformation to eliminate component definition/instantiation now correctly handles cases where component definitions are referred to via component instantiations (issue #244).
 * The CIF type checker now warns about some overly-convoluted references (issue #234).
+* The CIF simulator interactive GUI input mode now is fully responsive to termination requests when asking users for the next transition to take (issue #216).
 * The CIF simulator SVG visualizer functionality to save the image as an SVG file no longer crashes (issue #205).
 * The CIF simulator plot visualizer and SVG visualizer functionality to save as an image no longer ask duplicate overwrite questions (issue #223).
 * The CIF simulator no longer crashes when showing an SVG visualizer if the SVG file can't be loaded (issue #207).

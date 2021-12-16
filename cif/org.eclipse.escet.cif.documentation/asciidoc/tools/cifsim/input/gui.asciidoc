@@ -168,7 +168,6 @@ The popup menu for the time delay then only shows one option, to let the automat
 === Termination
 
 By closing the GUI of the interactive GUI input component, no more interactive choices can be made.
-The next time an interactive choice is to be made, simulation <<tools-cifsim-chapter-termination,terminates>>.
+The next time an interactive choice is to be made, the simulation <<tools-cifsim-chapter-termination,terminates>>.
 
-While an interactive choice is to be made via the GUI, the red stop button of the Eclipse console does not function.
-Once a choice is made, simulation will <<tools-cifsim-chapter-termination,terminate>>.
+The simulation can also be <<tools-cifsim-chapter-termination,terminated>> by clicking the red stop button of the Eclipse console.
