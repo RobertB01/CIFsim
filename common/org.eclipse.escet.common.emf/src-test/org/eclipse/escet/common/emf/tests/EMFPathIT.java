@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /** Unit tests for the {@link EMFPath} class. */
 @SuppressWarnings("javadoc")
-public class EMFPathTest {
+public class EMFPathIT {
     @Test
     public void testRootWithNameNoFeature() {
         EPackage pkg = EcoreFactory.eINSTANCE.createEPackage();

@@ -29,7 +29,7 @@ import org.eclipse.escet.common.java.Strings;
 import org.junit.Test;
 
 /** Tests for the {@link ResourceManager} class. */
-public class ResourceManagerTest {
+public class ResourceManagerIT {
     /** Test simple valid Ecore file. */
     @Test
     public void testSimpleValidEcoreFile() {
@@ -147,7 +147,8 @@ public class ResourceManagerTest {
      * @param expectedErrorLines Expected lines of text of error message.
      */
     private void testInternal(String testName, List<String> expectedErrorLines) {
-        String pluginName = getClass().getPackage().getName();
+        String packageName = getClass().getPackage().getName();
+        String pluginName = packageName.replace(".tests", "");
         String uri = "platform:/plugin/" + pluginName + "/test_models/" + testName;
         try {
             // Load, assuming single EPackage root object.

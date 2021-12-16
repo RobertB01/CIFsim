@@ -23,7 +23,7 @@ import org.eclipse.escet.setext.texteditorbase.highlight.CodeHighlighter;
 import org.junit.Test;
 
 /** SeText code highlighter tests. Essentially tests the {@link CodeHighlighter} class. */
-public class SeTextCodeHighlighterTest {
+public class SeTextCodeHighlighterIT {
     @Test
     @SuppressWarnings("javadoc")
     public void test() {
