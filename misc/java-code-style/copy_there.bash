@@ -32,10 +32,13 @@ do
         continue
     fi
 
-    # Exclude products.
-    if [[ $p == ./products/org.eclipse.escet.product* ]]
+    # Exclude product, except product.perspective.
+    if [[ $p == ./product/org.eclipse.escet.product* ]]
     then
-        continue
+        if [[ $p != ./product/org.eclipse.escet.product.perspective* ]]
+        then
+            continue
+        fi
     fi
 
     # Exclude third party.

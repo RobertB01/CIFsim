@@ -16,7 +16,7 @@
       version="0.4.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
-      license-feature="org.eclipse.escet.license.mit"
+      license-feature="org.eclipse.escet.releng.license.mit"
       license-feature-version="0.4.0.qualifier">
 
    <description>
@@ -65,7 +65,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.escet.perspective"
+         id="org.eclipse.escet.product.perspective"
          download-size="0"
          install-size="0"
          version="0.0.0"

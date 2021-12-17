@@ -15,7 +15,7 @@
       label="ESCET Headless (Incubation)"
       version="0.4.0.qualifier"
       provider-name="Eclipse ESCET"
-      license-feature="org.eclipse.escet.license.mit"
+      license-feature="org.eclipse.escet.releng.license.mit"
       license-feature-version="0.4.0.qualifier">
 
    <description>
