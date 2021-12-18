@@ -25,7 +25,7 @@ rm -rf DEPENDENCIES.generated.processed.txt
 set -e
 ./mvn_escet.sh org.eclipse.dash:license-tool-plugin:license-check -Ddash.projectId=technology.escet -Ddash.summary=DEPENDENCIES.generated.txt
 set +e
-cat DEPENDENCIES.generated.txt | grep -v "^maven/mavencentral/org.eclipse.escet/" | LC_ALL=C sort -u > DEPENDENCIES.generated.processed.txt
+cat DEPENDENCIES.generated.txt | grep -v "^maven/mavencentral/org.eclipse.escet/" > DEPENDENCIES.generated.processed.txt
 
 # Check for differences with stored license check result.
 # Exit code is zero in case of no differences.
