@@ -11,5 +11,5 @@
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.escet.common.app.framework.CrashReport"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="org.eclipse.escet.common.app.framework"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.escet.common.app.framework"/>
-    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:org.eclipse.escet.cif.documentation.utils/generated_files}"/>
+    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:org.eclipse.escet.common.app.framework}"/>
 </launchConfiguration>
