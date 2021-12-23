@@ -1490,7 +1490,7 @@ public class CifCompilerContext {
                 + "value=\"org.eclipse.escet.cif.simulator.CifSimulatorApp\"/>");
         c.add("<stringAttribute key=\"org.eclipse.jdt.launching.PROGRAM_ARGUMENTS\" value=\""
                 + StringUtils.join(args, " ") + "\"/>");
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.PROJECT_ATTR\\\" "
+        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.PROJECT_ATTR\" "
                 + "value=\"org.eclipse.escet.cif.simulator.debug\"/>");
         c.add("<stringAttribute key=\"org.eclipse.jdt.launching.WORKING_DIRECTORY\" value=\"%s\"/>",
                 Paths.getCurWorkingDir());
