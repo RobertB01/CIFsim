@@ -37,12 +37,10 @@ If it already exists, all existing `.java` files are removed from the sub-direct
 
 The generated code consists of Java files only.
 This results in several `.java` files being written to the `cifcode` directory.
+One of these files is `_DebugSimulator.java`, this file contains the simulation options that were used.
 
-Additionally, an Eclipse launch configuration file (`+_cifsim_debug.launch+`) is written.
-This launch configuration can be used to reproduce the simulation implemented by the generated code.
-The launch configuration reproduces the simulation options that were used, and always shows the option dialog.
-The working directory for the simulation performed via the generated launch configuration is the same working directory as the original simulation.
-This allows additional files, such as configuration files, to be found.
+The `org.eclipse.escet.cif.simulator.debug` project contains a launch file (`_cifsim_debug.launch`) that can be used to reproduce the simulation implemented by the generated code.
+It assumes the generated code is contained within the `src` directory.
 
 === How to use
 
@@ -68,7 +66,7 @@ To use this feature, follow these steps:
 
 * Set breakpoints in the generated Java code, or in the simulator code, as desired.
 
-* Right click the launch configuration in the `src/cifcode` directory, and choose menu:Debug as[_cifsim_debug].
+* Right click `_cifsim_debug.launch` in the `org.eclipse.escet.cif.simulator.debug` project, and choose menu:Debug as[_cifsim_debug].
 
 * Debug the simulation, with the generated code, as you would any Java program.
 
@@ -76,7 +74,7 @@ indexterm:[CIF simulator,starting with generated code]
 
 === Starting the simulator with generated code
 
-The launch configuration that is written to disk with the generated code, uses the _Load debug code_ option (_Simulator_ category).
+The launch configuration that is used, uses the _Load debug code_ option (_Simulator_ category).
 Using this option, the classpath (directory) where the already generated code is located, is specified.
 By specifying it, the simulator knows from where to load it.
 
@@ -88,3 +86,11 @@ That is, the _Load debug code_ option takes priority over the _Compile only_ opt
 
 A warning is printed to the console if the generated code was generated with a different version of the simulator than the one used to simulate it.
 Ignoring the warning may lead to unexpected simulation results, or even simulator crashes.
+
+=== Working directory
+
+The default working directory for the simulation performed via the launch configuration is different from the working directory in the original simulation.
+As a consequence, additional files, such as configuration files, may not be found.
+The working directory can be changed by right-clicking `_cifsim_debug.launch` and selecting menu:Debug As[Debug configurations...].
+Open `_cifsim_debug` under _Junit Plug-in Test_, select the _Arguments_ tab and set _Working directory_ to _Other_.
+Enter the original working directory and click btn:[Apply] and btn:[Debug].
