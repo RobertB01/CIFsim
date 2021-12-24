@@ -36,7 +36,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -1349,7 +1348,7 @@ public class CifCompilerContext {
 
     /**
      * Writes the generated source code to disk, if debugging of the generated code is enabled. Also writes the resource
-     * files, and a launch configuration.
+     * files, and a java file needed for debugging.
      */
     public void writeSourceCode() {
         // Make sure the debug option is enabled.
@@ -1443,21 +1442,21 @@ public class CifCompilerContext {
             }
         }
 
-        // Write the launch file.
-        String launchPath = Paths.join(pkgPath, "_cifsim_debug.launch");
-        writeLaunchFile(launchPath);
+        // Write the debug simulator file.
+        String debugSimulatorPath = Paths.join(pkgPath, "_DebugSimulator.java");
+        writeDebugSimulatorFile(debugSimulatorPath);
     }
 
     /**
-     * Generates and writes a launch file for debugging. Also refreshes the debugging project, if Eclipse is running,
-     * and it exists.
+     * Generates and writes a Java file for debugging. Also refreshes the debugging project, if Eclipse is running, and
+     * it exists.
      *
-     * @param launchPath The absolute local file system path of the launch file to write.
+     * @param debugSimulatorPath The absolute local file system path of the debug simulator file to write.
      */
-    private void writeLaunchFile(String launchPath) {
-        // Generate command line. Note that it shouldn't matter in which order
+    private void writeDebugSimulatorFile(String debugSimulatorPath) {
+        // Generate option arguments. Note that it shouldn't matter in which order
         // the option are given. We still sort them however, to get
-        // deterministic output for the contents of the launch file.
+        // deterministic output for the contents of the debug simulator file.
         List<String> args = list();
         Map<Option<?>, OptionValue<?>> opts = Options.getOptionMap();
         for (Entry<Option<?>, OptionValue<?>> optPair: opts.entrySet()) {
@@ -1471,38 +1470,39 @@ public class CifCompilerContext {
         for (int i = 0; i < args.size(); i++) {
             String arg = args.get(i);
             arg = arg.replace("\"", "\\\"");
-            if (arg.contains(" ")) {
-                arg = "\"" + arg + "\"";
-            }
-            arg = StringEscapeUtils.escapeXml(arg);
+            arg = "\"" + arg + "\"";
             args.set(i, arg);
         }
-        args.add("--debug-code=../bin");
-        args.add("--option-dialog=1");
 
-        // Generate launch file.
+        // Overwrite specific options for debugging.
+        args.add("\"--debug-code=target/classes\"");
+        args.add("\"--option-dialog=1\"");
+
+        // Generate debug simulator file.
         CodeBox c = new MemoryCodeBox();
-        c.add("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
-        c.add("<launchConfiguration type=\"org.eclipse.jdt.launching.localJavaApplication\">");
+        c.add("package cifcode;");
+        c.add();
+        c.add("import org.eclipse.escet.cif.simulator.CifSimulatorApp;");
+        c.add("import org.junit.Test;");
+        c.add();
+        c.add("public class _DebugSimulator {");
         c.indent();
-
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.MAIN_TYPE\" "
-                + "value=\"org.eclipse.escet.cif.simulator.CifSimulatorApp\"/>");
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.PROGRAM_ARGUMENTS\" value=\""
-                + StringUtils.join(args, " ") + "\"/>");
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.PROJECT_ATTR\" "
-                + "value=\"org.eclipse.escet.cif.simulator.debug\"/>");
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.WORKING_DIRECTORY\" value=\"%s\"/>",
-                Paths.getCurWorkingDir());
-
+        c.add("@Test");
+        c.add("public void debugSimulator() {");
+        c.indent();
+        c.add("String[] arguments = {" + StringUtils.join(args, ", ") + "};");
+        c.add("CifSimulatorApp.main(arguments);");
         c.dedent();
-        c.add("</launchConfiguration>");
+        c.add("}");
+        c.dedent();
+        c.add("}");
 
-        // Write launch file.
+        // Write debug simulator file.
         try {
-            c.writeToFile(launchPath);
+            c.writeToFile(debugSimulatorPath);
         } catch (InputOutputException e) {
-            String msg = fmt("Failed to write generated launch file \"%s\", for debugging.", launchPath);
+            String msg = fmt("Failed to write generated debug simulator file \"%s\", for debugging.",
+                    debugSimulatorPath);
             throw new InputOutputException(msg, e);
         }
 
