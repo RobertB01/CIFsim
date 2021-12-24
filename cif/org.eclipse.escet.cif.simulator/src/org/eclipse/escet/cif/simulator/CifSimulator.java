@@ -485,7 +485,7 @@ public final class CifSimulator {
             }
         } else {
             // Determine the absolute class path.
-            classPath = Paths.resolve(classPath);
+            classPath = Paths.resolve(classPath, CifCompilerContext.DBG_PROJ);
 
             // The class path should be a directory.
             if (!classPath.endsWith("\\")) {
