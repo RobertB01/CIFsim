@@ -486,6 +486,13 @@ public final class CifSimulator {
         } else {
             // Determine the absolute class path.
             classPath = Paths.resolve(classPath);
+
+            // The class path should be a directory.
+            if (!classPath.endsWith("\\")) {
+                classPath = classPath + "\\";
+            }
+
+            // Determine the class URL.
             URL url;
             try {
                 url = Paths.createJavaURI(classPath).toURL();
