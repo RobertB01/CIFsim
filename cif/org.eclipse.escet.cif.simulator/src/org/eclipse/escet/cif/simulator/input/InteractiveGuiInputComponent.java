@@ -317,17 +317,31 @@ public final class InteractiveGuiInputComponent<S extends RuntimeState> extends 
         }
     }
 
-    /** Wait to be notified that the choice has been made by the user, or the GUI has been closed. */
+    /**
+     * Wait to be notified that the choice has been made by the user, the GUI has been closed, or the simulation has
+     * been terminated.
+     */
     private void waitForChoice() {
-        synchronized (gui.ready) {
-            while (!gui.ready.get()) {
-                try {
-                    gui.ready.wait(1000);
-                    spec.ctxt.checkTermination();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        try {
+            synchronized (gui.ready) {
+                while (!gui.ready.get()) {
+                    try {
+                        gui.ready.wait(1000);
+                        spec.ctxt.checkTermination();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
+        } catch (SimulatorExitException e) {
+            // Inform GUI that the user has terminated the simulation.
+            Display.getDefault().syncExec(new Runnable() {
+                @Override
+                public void run() {
+                    gui.inform(new InteractiveGuiInputChoice());
+                }
+            });
+            throw e;
         }
     }
 }

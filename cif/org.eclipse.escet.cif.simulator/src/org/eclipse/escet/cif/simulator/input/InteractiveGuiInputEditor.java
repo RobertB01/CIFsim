@@ -955,7 +955,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
      *
      * @param data The choice data to make available.
      */
-    private void inform(InteractiveGuiInputChoice data) {
+    public void inform(InteractiveGuiInputChoice data) {
         // Transitions and source state no longer needed, and may be garbage
         // collected.
         transitions = null;
