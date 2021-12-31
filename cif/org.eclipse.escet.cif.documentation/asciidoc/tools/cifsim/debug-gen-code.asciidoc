@@ -91,6 +91,8 @@ Ignoring the warning may lead to unexpected simulation results, or even simulato
 
 The default working directory for the simulation performed via the launch configuration is different from the working directory in the original simulation.
 As a consequence, additional files, such as configuration files, may not be found.
-The working directory can be changed by right-clicking `_cifsim_debug.launch` and selecting menu:Debug As[Debug configurations...].
+The working directory can be changed as follows.
+In `_DebugSimulator.java` replace the relative path of the `debug-code` option with an absolute path.
+Then, right click `_cifsim_debug.launch` and select menu:Debug As[Debug configurations...].
 Open `_cifsim_debug` under _Junit Plug-in Test_, select the _Arguments_ tab and set _Working directory_ to _Other_.
 Enter the original working directory and click btn:[Apply] and btn:[Debug].
