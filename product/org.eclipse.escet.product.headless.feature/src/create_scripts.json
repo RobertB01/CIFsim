@@ -153,7 +153,7 @@
             "name": "win32.win32.x86_64",
             "extension": ".cmd",
             "arguments": "%*",
-            "header": "@echo off\r\n\r\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\r\n:: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation\r\n::\r\n:: See the NOTICE file(s) distributed with this work for additional\r\n:: information regarding copyright ownership.\r\n::\r\n:: This program and the accompanying materials are made available under the terms\r\n:: of the MIT License which is available at https://opensource.org/licenses/MIT\r\n::\r\n:: SPDX-License-Identifier: MIT\r\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
+            "header": "@echo off\r\n\r\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\r\n:: Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation\r\n::\r\n:: See the NOTICE file(s) distributed with this work for additional\r\n:: information regarding copyright ownership.\r\n::\r\n:: This program and the accompanying materials are made available under the terms\r\n:: of the MIT License which is available at https://opensource.org/licenses/MIT\r\n::\r\n:: SPDX-License-Identifier: MIT\r\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
             "eclipse": "%~dp0/../eclipse-escetc.exe",
             "newline": "\r\n"
         },
@@ -161,7 +161,7 @@
             "name": "linux.gtk.x86_64",
             "extension": "",
             "arguments": "$*",
-            "header": "#!/bin/sh\n\n################################################################################\n# Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation\n#\n# See the NOTICE file(s) distributed with this work for additional\n# information regarding copyright ownership.\n#\n# This program and the accompanying materials are made available under the terms\n# of the MIT License which is available at https://opensource.org/licenses/MIT\n#\n# SPDX-License-Identifier: MIT\n################################################################################",
+            "header": "#!/bin/sh\n\n################################################################################\n# Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation\n#\n# See the NOTICE file(s) distributed with this work for additional\n# information regarding copyright ownership.\n#\n# This program and the accompanying materials are made available under the terms\n# of the MIT License which is available at https://opensource.org/licenses/MIT\n#\n# SPDX-License-Identifier: MIT\n################################################################################",
             "eclipse": "\"$(dirname \"$(realpath \"$0\")\")\"/../eclipse-escet",
             "newline": "\n"
         }
