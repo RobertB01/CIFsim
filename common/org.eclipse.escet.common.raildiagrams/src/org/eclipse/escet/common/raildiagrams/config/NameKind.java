@@ -36,7 +36,8 @@ public enum NameKind {
     /**
      * Constructor of the {@link NameKind} enumeration.
      *
-     * @param configPrefix Prefix to use for the name kind in the configuration file.
+     * @param configPrefix Prefix to use for the name kind in the configuration
+     *                     file.
      */
     private NameKind(String configPrefix) {
         this.configPrefix = configPrefix;

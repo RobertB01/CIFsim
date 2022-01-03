@@ -31,27 +31,36 @@ public class ProxyDiagramElement {
     /** The real diagram element. */
     public final DiagramElement child;
 
-    /** Variable holding the X coordinate of the left side of the diagram element. */
+    /**
+     * Variable holding the X coordinate of the left side of the diagram element.
+     */
     public final Variable left;
 
-    /** Variable holding the X coordinate of the right side of the diagram element. */
+    /**
+     * Variable holding the X coordinate of the right side of the diagram element.
+     */
     public final Variable right;
 
     /** Variable holding the Y coordinate of the top side of the diagram element. */
     public final Variable top;
 
-    /** Variable holding the Y coordinate of the bottom side of the diagram element. */
+    /**
+     * Variable holding the Y coordinate of the bottom side of the diagram element.
+     */
     public final Variable bottom;
 
-    /** Variable holding the Y coordinate of the top side of the diagram element rail connection point. */
+    /**
+     * Variable holding the Y coordinate of the top side of the diagram element rail
+     * connection point.
+     */
     public final Variable connectTop;
 
     /**
      * Constructor of the {@link ProxyDiagramElement} class.
      *
-     * @param child The child diagram element.
+     * @param child    The child diagram element.
      * @param elemName Name of the element in the parent element.
-     * @param solver Constraint storage and solver.
+     * @param solver   Constraint storage and solver.
      */
     public ProxyDiagramElement(DiagramElement child, String elemName, Solver solver) {
         this.child = child;
@@ -82,7 +91,7 @@ public class ProxyDiagramElement {
      * Connect a horizontal line to the left entry of the element.
      *
      * @param solver Constraint storage and solver.
-     * @param hline Line to connect.
+     * @param hline  Line to connect.
      */
     public void connectLeft(Solver solver, HorLine hline) {
         solver.addEq(left, 0, hline.right);
@@ -90,10 +99,11 @@ public class ProxyDiagramElement {
     }
 
     /**
-     * Connect a {@link TopLeftArc} or {@link BottomLeftArc} to the left entry of the element.
+     * Connect a {@link TopLeftArc} or {@link BottomLeftArc} to the left entry of
+     * the element.
      *
-     * @param solver Constraint storage and solver.
-     * @param arc Arc to connect.
+     * @param solver    Constraint storage and solver.
+     * @param arc       Arc to connect.
      * @param railWidth Width of the rail line.
      */
     public void connectLeft(Solver solver, Arc arc, double railWidth) {
@@ -112,7 +122,7 @@ public class ProxyDiagramElement {
      * Connect a horizontal line to the right exit of the element.
      *
      * @param solver Constraint storage and solver.
-     * @param hline Line to connect.
+     * @param hline  Line to connect.
      */
     public void connectRight(Solver solver, HorLine hline) {
         solver.addEq(right, 0, hline.left);
@@ -120,10 +130,11 @@ public class ProxyDiagramElement {
     }
 
     /**
-     * Connect a {@link TopRightArc} or {@link BottomRightArc} to the right exit of the element.
+     * Connect a {@link TopRightArc} or {@link BottomRightArc} to the right exit of
+     * the element.
      *
-     * @param solver Constraint storage and solver.
-     * @param arc Arc to connect.
+     * @param solver    Constraint storage and solver.
+     * @param arc       Arc to connect.
      * @param railWidth Width of the rail line.
      */
     public void connectRight(Solver solver, Arc arc, double railWidth) {
@@ -141,10 +152,11 @@ public class ProxyDiagramElement {
     /**
      * Paint the proxy by painting the child node.
      *
-     * @param left Coordinate of the left edge.
-     * @param top Coordinate of the top edge.
-     * @param outputTarget Diagram to write.
-     * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements for debugging.
+     * @param left          Coordinate of the left edge.
+     * @param top           Coordinate of the top edge.
+     * @param outputTarget  Diagram to write.
+     * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements
+     *                      for debugging.
      */
     public void paint(double left, double top, OutputTarget outputTarget, boolean dumpAbsCoords) {
         child.paint(left, top, outputTarget, dumpAbsCoords);

@@ -27,10 +27,11 @@ public class BottomRightArc extends Arc {
     /**
      * Constructor of the {@link TopLeftArc} class.
      *
-     * @param solver Variable and relation storage.
-     * @param prefix Name prefix of the arc line.
+     * @param solver    Variable and relation storage.
+     * @param prefix    Name prefix of the arc line.
      * @param railColor Color of the rail in the diagram.
-     * @param size Size of the arc, from center-point upto and including the line.
+     * @param size      Size of the arc, from center-point upto and including the
+     *                  line.
      * @param lineWidth Width of the arc line.
      */
     public BottomRightArc(Solver solver, String prefix, Color railColor, double size, double lineWidth) {

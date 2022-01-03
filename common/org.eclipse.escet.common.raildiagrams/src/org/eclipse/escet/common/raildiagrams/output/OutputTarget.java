@@ -35,8 +35,8 @@ public abstract class OutputTarget {
     /**
      * Notification that a new output file will be needed.
      *
-     * @param width Width of the diagram.
-     * @param height Height of the diagram.
+     * @param width   Width of the diagram.
+     * @param height  Height of the diagram.
      * @param bgColor Suggested background color of the diagram.
      */
     public abstract void prepareOutputFile(int width, int height, Color bgColor);
@@ -51,12 +51,14 @@ public abstract class OutputTarget {
     /**
      * A diagram element is added to the output.
      *
-     * @param left Leftmost horizontal coordinate that is available for the element.
-     * @param top Topmost vertical coordinate that is available for the element.
-     * @param solver Solver for resolving variable to their values.
+     * @param left           Leftmost horizontal coordinate that is available for
+     *                       the element.
+     * @param top            Topmost vertical coordinate that is available for the
+     *                       element.
+     * @param solver         Solver for resolving variable to their values.
      * @param diagramElement Element being added.
-     * @note Diagram elements are just bounding boxes containing the actual graphics. They are only useful for
-     *      debugging.
+     * @note Diagram elements are just bounding boxes containing the actual
+     *       graphics. They are only useful for debugging.
      */
     public void addDiagramElement(double left, double top, Solver solver, DiagramElement diagramElement) {
         // Skip by default.
@@ -65,9 +67,10 @@ public abstract class OutputTarget {
     /**
      * A graphic is added to the output.
      *
-     * @param left Leftmost horizontal coordinate that is available for the graphic.
-     * @param top Topmost vertical coordinate that is available for the graphic.
-     * @param solver Solver for resolving variable to their values.
+     * @param left    Leftmost horizontal coordinate that is available for the
+     *                graphic.
+     * @param top     Topmost vertical coordinate that is available for the graphic.
+     * @param solver  Solver for resolving variable to their values.
      * @param graphic Graphic element being added.
      */
     public abstract void addGraphic(double left, double top, Solver solver, Area graphic);

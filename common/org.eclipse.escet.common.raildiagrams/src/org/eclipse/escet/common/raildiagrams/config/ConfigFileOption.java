@@ -48,7 +48,10 @@ public class ConfigFileOption extends StringOption {
     private static final String OPT_DIALOG_DESCR = "The absolute or relative local file system path of the diagram "
             + "generator configuration file. Default configuration is used if no configuration file is provided.";
 
-    /** Label to use as prefix in the dialog box (since {@link #SHOW_IN_DIALOG} holds). */
+    /**
+     * Label to use as prefix in the dialog box (since {@link #SHOW_IN_DIALOG}
+     * holds).
+     */
     private static final String OPT_DIALOG_LABEL_TEXT = "File path:";
 
     /** Constructor of the {@link ConfigFileOption} class. */
@@ -58,10 +61,11 @@ public class ConfigFileOption extends StringOption {
     }
 
     /**
-     * Returns the absolute or relative local file system path to the configuration file, or {@code null} if not
-     * specified.
+     * Returns the absolute or relative local file system path to the configuration
+     * file, or {@code null} if not specified.
      *
-     * @return The absolute or relative local file system path to the configuration file, or {@code null}.
+     * @return The absolute or relative local file system path to the configuration
+     *         file, or {@code null}.
      */
     public static String getFilePath() {
         return Options.get(ConfigFileOption.class);

@@ -46,7 +46,7 @@ public class ChoiceNode extends DiagramElement {
      * Choice between alternatives.
      *
      * @param alts Alternatives to choose from.
-     * @param id Identifying number of the diagram element.
+     * @param id   Identifying number of the diagram element.
      */
     public ChoiceNode(List<DiagramElement> alts, int id) {
         super("choice", id);
@@ -69,7 +69,7 @@ public class ChoiceNode extends DiagramElement {
 
         int i = 0;
         ProxyDiagramElement prevElement = null;
-        for (DiagramElement alt: alts) {
+        for (DiagramElement alt : alts) {
             idbg();
             alt.create(config, direction);
             ddbg();

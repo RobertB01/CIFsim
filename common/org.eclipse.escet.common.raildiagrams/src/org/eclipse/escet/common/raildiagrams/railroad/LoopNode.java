@@ -47,9 +47,9 @@ public class LoopNode extends DiagramElement {
     /**
      * Constructor of the {@link LoopNode} class.
      *
-     * @param forward Child diagram in the forward part of the loop.
+     * @param forward  Child diagram in the forward part of the loop.
      * @param backward Child diagram in the backward part of the loop.
-     * @param id Identifying number of the diagram element.
+     * @param id       Identifying number of the diagram element.
      */
     public LoopNode(DiagramElement forward, DiagramElement backward, int id) {
         super("loop", id);
@@ -146,10 +146,10 @@ public class LoopNode extends DiagramElement {
     /**
      * Horizontally connect an arc, a diagram, a horizontal line, and a second arc.
      *
-     * @param a First arc to connect.
-     * @param p Diagram to connect.
-     * @param hl Horizontal line to connect.
-     * @param b Second arc to connect.
+     * @param a         First arc to connect.
+     * @param p         Diagram to connect.
+     * @param hl        Horizontal line to connect.
+     * @param b         Second arc to connect.
      * @param railWidth Width of the rail line.
      */
     private void connectArcProxyHLineArc(Arc a, ProxyDiagramElement p, HorLine hl, Arc b, double railWidth) {
@@ -159,12 +159,13 @@ public class LoopNode extends DiagramElement {
     }
 
     /**
-     * Horizontally connect an arc, a horizontal line, a diagram element, and a second arc.
+     * Horizontally connect an arc, a horizontal line, a diagram element, and a
+     * second arc.
      *
-     * @param a First arc to connect.
-     * @param hl Horizontal line to connect.
-     * @param p Diagram to connect.
-     * @param b Second arc to connect.
+     * @param a         First arc to connect.
+     * @param hl        Horizontal line to connect.
+     * @param p         Diagram to connect.
+     * @param b         Second arc to connect.
      * @param railWidth Width of the rail line.
      */
     private void connectArcHlineProxyArc(Arc a, HorLine hl, ProxyDiagramElement p, Arc b, double railWidth) {

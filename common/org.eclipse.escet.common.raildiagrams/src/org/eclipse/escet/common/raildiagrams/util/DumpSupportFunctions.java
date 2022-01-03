@@ -43,7 +43,7 @@ public class DumpSupportFunctions {
     /**
      * Write a element header to debug output.
      *
-     * @param element Element to write.
+     * @param element       Element to write.
      * @param childElements Children of the element.
      */
     public static void writeDumpHeaderElements(DiagramElement element, List<DiagramElement> childElements) {
@@ -52,7 +52,7 @@ public class DumpSupportFunctions {
 
         if (childElements != null) {
             idbg();
-            for (DiagramElement child: childElements) {
+            for (DiagramElement child : childElements) {
                 dbg("Child %s", getElementName(child));
             }
             ddbg();
@@ -62,7 +62,7 @@ public class DumpSupportFunctions {
     /**
      * Write a element header to debug output.
      *
-     * @param element Element to write.
+     * @param element       Element to write.
      * @param childElements Children of the element.
      */
     public static void writeDumpHeaderProxies(DiagramElement element, List<ProxyDiagramElement> childElements) {
@@ -71,7 +71,7 @@ public class DumpSupportFunctions {
 
         if (childElements != null) {
             idbg();
-            for (ProxyDiagramElement child: childElements) {
+            for (ProxyDiagramElement child : childElements) {
                 dbg("Child %s", getElementName(child.child));
             }
             ddbg();

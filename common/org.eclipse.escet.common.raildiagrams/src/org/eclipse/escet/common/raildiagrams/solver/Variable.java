@@ -26,7 +26,7 @@ public class Variable {
     /**
      * Constructor of the {@link Variable} class.
      *
-     * @param name Name of the variable, may be {@code null}.
+     * @param name  Name of the variable, may be {@code null}.
      * @param index (Unique) index number to identify the variable.
      */
     public Variable(String name, int index) {

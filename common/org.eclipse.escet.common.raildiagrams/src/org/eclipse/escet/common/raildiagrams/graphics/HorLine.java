@@ -28,8 +28,8 @@ public class HorLine extends Area {
     /**
      * Constructor of the {@link HorLine} class.
      *
-     * @param solver Variable and relation storage.
-     * @param prefix Name prefix of the horizontal line.
+     * @param solver    Variable and relation storage.
+     * @param prefix    Name prefix of the horizontal line.
      * @param railColor Color of the line.
      * @param lineWidth Width of the line.
      */
@@ -53,7 +53,7 @@ public class HorLine extends Area {
         }
 
         gd.setColor(railColor);
-        setLineWidth(gd, (int)width);
-        gd.drawLine((int)left, (int)center, (int)right, (int)center);
+        setLineWidth(gd, (int) width);
+        gd.drawLine((int) left, (int) center, (int) right, (int) center);
     }
 }

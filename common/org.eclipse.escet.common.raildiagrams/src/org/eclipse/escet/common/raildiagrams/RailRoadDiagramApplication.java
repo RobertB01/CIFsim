@@ -94,12 +94,13 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
         // Process the provided files.
         List<String> inputFiles = FilesOption.getPaths();
-        for (String inputFile: inputFiles) {
+        for (String inputFile : inputFiles) {
             // Parse the input.
-            // A file may contain several rules, which are assumed to belong together in one diagram.
+            // A file may contain several rules, which are assumed to belong together in one
+            // diagram.
             RailRoadDiagramParser parser = new RailRoadDiagramParser();
             List<RailRule> rules = parser.parseFile(Paths.resolve(inputFile), DebugMode.NONE);
-            for (SyntaxWarning warning: parser.getWarnings()) {
+            for (SyntaxWarning warning : parser.getWarnings()) {
                 OutputProvider.warn(warning.toString());
             }
             if (isTerminationRequested()) {
@@ -112,7 +113,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             // Boxes are put under each other.
             double diagramWidth = 0;
             double diagramHeight = 0;
-            for (RailRule rule: rules) {
+            for (RailRule rule : rules) {
                 rule.create(config, 1);
                 Size2D size = rule.getSize();
                 diagramWidth = Math.max(diagramWidth, size.width);
@@ -127,8 +128,8 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             //
             // Create the 'real' image.
             {
-                int width = (int)Math.ceil(diagramWidth);
-                int height = (int)Math.ceil(diagramHeight);
+                int width = (int) Math.ceil(diagramWidth);
+                int height = (int) Math.ceil(diagramHeight);
 
                 Color bgColor = config.getRgbColor("diagram.background.color");
                 outputTarget.prepareOutputFile(width, height, bgColor);
@@ -137,7 +138,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             // Paint graphics to the image.
             boolean dumpAbsCoords = config.getDebugSetting(DebugDisplayKind.ABS_COORDINATES);
             double top = 0;
-            for (RailRule rule: rules) {
+            for (RailRule rule : rules) {
                 rule.paint(0, top, outputTarget, dumpAbsCoords);
                 Size2D size = rule.getSize();
                 top += Math.ceil(size.height);

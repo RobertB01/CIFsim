@@ -43,15 +43,15 @@ public class TextArea extends Area {
      *
      * @param solver Constraint solver that computes position of the text area.
      * @param prefix Name prefix for new variables, used for debugging.
-     * @param text Text to display in the output.
-     * @param color Color of the text.
-     * @param font Font information.
-     * @param offset Position to print the text relative to the top-left corner of this box.
-     * @param size Size of the box.
+     * @param text   Text to display in the output.
+     * @param color  Color of the text.
+     * @param font   Font information.
+     * @param offset Position to print the text relative to the top-left corner of
+     *               this box.
+     * @param size   Size of the box.
      */
     public TextArea(Solver solver, String prefix, String text, Color color, FontData font, Position2D offset,
-            Size2D size)
-    {
+            Size2D size) {
         super(solver, prefix);
         this.text = text;
         this.color = color;
@@ -69,22 +69,21 @@ public class TextArea extends Area {
 
         gd.setColor(color);
         gd.setFont(font.font);
-        gd.drawString(text, (int)(x + offset.x), (int)(y + offset.y));
+        gd.drawString(text, (int) (x + offset.x), (int) (y + offset.y));
     }
 
     /**
      * Construct a text box.
      *
-     * @param solver Constraint problem solver for the box.
-     * @param prefix Unique prefix for variables.
-     * @param config Configuration of the railroad diagram generator.
+     * @param solver   Constraint problem solver for the box.
+     * @param prefix   Unique prefix for variables.
+     * @param config   Configuration of the railroad diagram generator.
      * @param nameKind Kind of name.
-     * @param text Text to display.
+     * @param text     Text to display.
      * @return The constructed box with text.
      */
     public static TextArea makeTextArea(Solver solver, String prefix, Configuration config, NameKind nameKind,
-            String text)
-    {
+            String text) {
         FontData font = config.getFont(nameKind);
         Color textColor = config.getTextColor(nameKind);
         TextSizeOffset textSizeOffset = config.getTextSizeOffset(text, nameKind);

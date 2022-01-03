@@ -17,7 +17,10 @@ import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Option for configuring whether the generated image should be written to a file. */
+/**
+ * Option for configuring whether the generated image should be written to a
+ * file.
+ */
 public class WriteImageOption extends BooleanOption {
     /** Short name of the option. */
     static final String NAME = "Write image";
@@ -63,7 +66,8 @@ public class WriteImageOption extends BooleanOption {
      * Get the path to the file for writing the generated image as a PNG file.
      *
      * @param inputFile Name of the file containing the diagram specification.
-     * @return {@code null} if the generated image should not be written, else the path to the destination.
+     * @return {@code null} if the generated image should not be written, else the
+     *         path to the destination.
      */
     public static String getOutputPath(String inputFile) {
         if (!getWriteImage()) {

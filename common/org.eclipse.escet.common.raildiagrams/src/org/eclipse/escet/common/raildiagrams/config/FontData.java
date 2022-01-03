@@ -37,9 +37,9 @@ public class FontData {
     /**
      * Constructor of the {@link FontData} class.
      *
-     * @param name Name of the font.
+     * @param name  Name of the font.
      * @param style Style of the font.
-     * @param size Size of the font (in pt).
+     * @param size  Size of the font (in pt).
      */
     public FontData(String name, FontStyle style, int size) {
         this.fontName = name;
@@ -51,7 +51,7 @@ public class FontData {
     /**
      * Compute the size of the provided text.
      *
-     * @param gd Graphics context.
+     * @param gd   Graphics context.
      * @param text Text to measure.
      * @return Size of the text.
      */
@@ -63,9 +63,10 @@ public class FontData {
     }
 
     /**
-     * Compute the offset to print the provided text relative to its top-left corner.
+     * Compute the offset to print the provided text relative to its top-left
+     * corner.
      *
-     * @param gd Graphics context.
+     * @param gd   Graphics context.
      * @param text Text to measure.
      * @return Offset of the text relative to its top-left corner.
      */

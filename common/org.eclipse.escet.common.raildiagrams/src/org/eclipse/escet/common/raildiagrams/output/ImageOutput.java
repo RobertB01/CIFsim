@@ -48,13 +48,13 @@ public class ImageOutput extends OutputTarget {
         textGd = image.createGraphics();
     }
 
-    /** {@inheritDoc}  */
+    /** {@inheritDoc} */
     @Override
     public TextSizeOffset getTextSizeOffset(String text, FontData fontData) {
         return new TextSizeOffset(fontData.getTextOffset(textGd, text), fontData.getTextSize(textGd, text));
     }
 
-    /** {@inheritDoc}  */
+    /** {@inheritDoc} */
     @Override
     public void prepareOutputFile(int width, int height, Color bgColor) {
         currentDiagram = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -65,13 +65,13 @@ public class ImageOutput extends OutputTarget {
         diagramGd.fillRect(0, 0, width, height);
     }
 
-    /** {@inheritDoc}  */
+    /** {@inheritDoc} */
     @Override
     public void addGraphic(double left, double top, Solver solver, Area graphic) {
         graphic.paint(left, top, solver, diagramGd);
     }
 
-    /** {@inheritDoc}  */
+    /** {@inheritDoc} */
     @Override
     public void writeOutputFile(String path) {
         try {

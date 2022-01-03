@@ -35,7 +35,10 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
-/** Solver that assigns non-negative real values to variables such that all provided relations hold. */
+/**
+ * Solver that assigns non-negative real values to variables such that all
+ * provided relations hold.
+ */
 public class Solver {
     /** Allowed deviation of a value due to rounding errors. */
     public static final double EPSILON = 1e-4;
@@ -43,7 +46,10 @@ public class Solver {
     /** Variables to assign. */
     private List<Variable> variables = list();
 
-    /** Solution of the relations, value of variable {@code variables.get(i)} is in {@code solution[i]}. */
+    /**
+     * Solution of the relations, value of variable {@code variables.get(i)} is in
+     * {@code solution[i]}.
+     */
     private double[] solution;
 
     /** Relations between variables to obey. */
@@ -84,9 +90,9 @@ public class Solver {
     /**
      * Add equality relation {@code a + offset == b}.
      *
-     * @param a First (smaller) variable in the relation.
+     * @param a      First (smaller) variable in the relation.
      * @param offset Fixed differences between both variables.
-     * @param b Second (bigger) variable in the relation.
+     * @param b      Second (bigger) variable in the relation.
      */
     public void addEq(Variable a, double offset, Variable b) {
         EqRelation eqRel = new EqRelation(a, offset, b);
@@ -96,9 +102,9 @@ public class Solver {
     /**
      * Add less-equal relation {@code a + lowBound &lt;= b}.
      *
-     * @param a First (smaller) variable in the relation.
+     * @param a        First (smaller) variable in the relation.
      * @param lowBound Fixed minimal differences between both variables.
-     * @param b Second (bigger) variable in the relation.
+     * @param b        Second (bigger) variable in the relation.
      */
     public void addLe(Variable a, double lowBound, Variable b) {
         LeRelation leRel = new LeRelation(a, lowBound, b);
@@ -113,7 +119,7 @@ public class Solver {
 
         dbg("Relations:");
         idbg();
-        for (VariableRelation r: relations) {
+        for (VariableRelation r : relations) {
             dbg("%s", r);
         }
         ddbg();
@@ -121,15 +127,17 @@ public class Solver {
     }
 
     /**
-     * Assign non-negative values to the variables such that a smaller value cannot be assigned without violating the
-     * constraint relations.
+     * Assign non-negative values to the variables such that a smaller value cannot
+     * be assigned without violating the constraint relations.
      *
      * <p>
-     * May only be used after all variables have been created, and all relations have been added.
+     * May only be used after all variables have been created, and all relations
+     * have been added.
      * </p>
      *
      * @param config Configuration of the program.
-     * @param name Name of the node containing the variables and relations, for debugging purposes.
+     * @param name   Name of the node containing the variables and relations, for
+     *               debugging purposes.
      */
     public void solve(String name, Configuration config) {
         boolean dumpSolving = config.getDebugSetting(DebugDisplayKind.SOLVER);
@@ -140,11 +148,11 @@ public class Solver {
         // Create equality clusters, and initialize each of them.
         constructEqualityClusters();
         addSingletonEqualities();
-        for (EqualityCluster cluster: equalityClusters) {
+        for (EqualityCluster cluster : equalityClusters) {
             cluster.initialize(dumpSolving);
         }
         if (dumpSolving) {
-            for (EqualityCluster cluster: equalityClusters) {
+            for (EqualityCluster cluster : equalityClusters) {
                 cluster.dump(name);
             }
         }
@@ -175,13 +183,13 @@ public class Solver {
     private void constructEqualityClusters() {
         int numEqRels = 0;
         int numClusters = 0;
-        for (VariableRelation rel: relations) {
+        for (VariableRelation rel : relations) {
             if (!(rel instanceof EqRelation)) {
                 continue;
             }
 
             numEqRels++;
-            EqRelation eqRel = (EqRelation)rel;
+            EqRelation eqRel = (EqRelation) rel;
             EqualityCluster clA = varsToCluster.get(eqRel.a);
             EqualityCluster clB = varsToCluster.get(eqRel.b);
             if (clA == null) {
@@ -207,7 +215,7 @@ public class Solver {
                 clA.equalities.add(eqRel);
             } else {
                 // Both in different clusters, merge clA to clB.
-                for (Variable va: clA.variables.keySet()) {
+                for (Variable va : clA.variables.keySet()) {
                     clB.add(va);
                     varsToCluster.put(va, clB);
                 }
@@ -221,7 +229,7 @@ public class Solver {
         Assert.check(numClusters == equalityClusters.size());
         int countedVars = 0;
         int countedEqRels = 0;
-        for (EqualityCluster cluster: equalityClusters) {
+        for (EqualityCluster cluster : equalityClusters) {
             countedVars += cluster.variables.size();
             countedEqRels += cluster.equalities.size();
         }
@@ -229,9 +237,12 @@ public class Solver {
         Assert.check(countedEqRels == numEqRels);
     }
 
-    /** Add equality clusters with a single variable for all variables that are not involved in an equality relation. */
+    /**
+     * Add equality clusters with a single variable for all variables that are not
+     * involved in an equality relation.
+     */
     private void addSingletonEqualities() {
-        for (Variable var: variables) {
+        for (Variable var : variables) {
             if (!varsToCluster.containsKey(var)) {
                 EqualityCluster cluster = new EqualityCluster();
                 cluster.add(var);
@@ -242,17 +253,18 @@ public class Solver {
     }
 
     /**
-     * Assign the {@link LeRelation}s to the found (and initialized) equality clusters.
+     * Assign the {@link LeRelation}s to the found (and initialized) equality
+     * clusters.
      *
      * @param dumpSolving Whether to dump details of solving the position equations.
      */
     private void makeLessEqualGraph(boolean dumpSolving) {
-        for (VariableRelation rel: relations) {
+        for (VariableRelation rel : relations) {
             if (!(rel instanceof LeRelation)) {
                 continue;
             }
 
-            LeRelation leRel = (LeRelation)rel;
+            LeRelation leRel = (LeRelation) rel;
             EqualityCluster clA = varsToCluster.get(leRel.a);
             EqualityCluster clB = varsToCluster.get(leRel.b);
             Assert.notNull(clA, fmt("Variable '%s' is not a variable here", leRel.a));
@@ -278,7 +290,7 @@ public class Solver {
 
         int index = 0;
         stack.add(null);
-        for (EqualityCluster cluster: equalityClusters) {
+        for (EqualityCluster cluster : equalityClusters) {
             if (safeClusters.contains(cluster)) {
                 continue; // Already checked.
             }
@@ -295,15 +307,15 @@ public class Solver {
     /**
      * Try to find a cycle by a DFS, exploring the graph in the 'smaller' direction.
      *
-     * @param stack Clusters being explored currently. Top entry should be expanded in this call. Top is assumed not to
-     *     be in the safe set.
+     * @param stack        Clusters being explored currently. Top entry should be
+     *                     expanded in this call. Top is assumed not to be in the
+     *                     safe set.
      * @param stackIndices Mapping of clusters on the stack to their index.
-     * @param safeSet Set of clusters that are known not to be part of a cycle.
+     * @param safeSet      Set of clusters that are known not to be part of a cycle.
      * @return Index number of a cluster that is part of a cycle.
      */
     private Integer findCycle(List<EqualityCluster> stack, Map<EqualityCluster, Integer> stackIndices,
-            Set<EqualityCluster> safeSet)
-    {
+            Set<EqualityCluster> safeSet) {
         // Stack grows downward, so 'top' is the last value, which is expanded here.
         EqualityCluster top = last(stack);
 
@@ -312,7 +324,7 @@ public class Solver {
         stack.add(null);
 
         // For all locally smaller clusters
-        for (LeClusterRelation leRel: top.remoteSmallers) {
+        for (LeClusterRelation leRel : top.remoteSmallers) {
             EqualityCluster smallerCl = leRel.smallerCluster;
             // If the cluster safe already?
             if (safeSet.contains(smallerCl)) {
@@ -337,7 +349,8 @@ public class Solver {
 
             stackIndices.remove(smallerCl);
             safeSet.add(smallerCl);
-            // Conceptually, stack top should be null again, but it gets overwritten or deleted soon.
+            // Conceptually, stack top should be null again, but it gets overwritten or
+            // deleted soon.
         }
         stack.remove(index);
         return null;
@@ -350,17 +363,19 @@ public class Solver {
      * @return Values assigned to the variables.
      */
     private double[] assignValues(boolean dumpSolving) {
-        // Assigned values to the variables, negative value means no value has been assigned yet.
+        // Assigned values to the variables, negative value means no value has been
+        // assigned yet.
         double[] varValues = new double[variables.size()];
         Arrays.fill(varValues, -10);
 
-        // Walk over the less-equal graph, from 'small' to 'big', where a cluster can be assigned
+        // Walk over the less-equal graph, from 'small' to 'big', where a cluster can be
+        // assigned
         // value when all its smaller remotes have been assigned a value already.
         // As there are no cycles this will produce the minimal answer.
 
         // Set of clusters that need to be assigned next.
         Set<EqualityCluster> activeClusters = set();
-        for (EqualityCluster cluster: equalityClusters) {
+        for (EqualityCluster cluster : equalityClusters) {
             if (cluster.remoteSmallers.isEmpty()) {
                 activeClusters.add(cluster);
             }
@@ -376,7 +391,7 @@ public class Solver {
 
             nextActiveClusters.clear();
             boolean progress = false;
-            for (EqualityCluster cluster: activeClusters) {
+            for (EqualityCluster cluster : activeClusters) {
                 if (cluster.remoteSmallers.isEmpty()) {
                     // First cluster in the chain.
                     double cValue = cluster.getMinimalValidC();
@@ -421,16 +436,16 @@ public class Solver {
     }
 
     /**
-     * Verify whether all equality clusters at the smaller side of the LE relation are resolved.
+     * Verify whether all equality clusters at the smaller side of the LE relation
+     * are resolved.
      *
-     * @param remoteSmallers Equality clusters to verify having been done.
+     * @param remoteSmallers   Equality clusters to verify having been done.
      * @param assignedClusters Clusters that have been resolved already.
      * @return Whether all remote smaller equality clusters have been resolved.
      */
     private static boolean allSmallerDone(List<LeClusterRelation> remoteSmallers,
-            Set<EqualityCluster> assignedClusters)
-    {
-        for (LeClusterRelation leRel: remoteSmallers) {
+            Set<EqualityCluster> assignedClusters) {
+        for (LeClusterRelation leRel : remoteSmallers) {
             if (!assignedClusters.contains(leRel.smallerCluster)) {
                 return false;
             }
@@ -439,13 +454,14 @@ public class Solver {
     }
 
     /**
-     * Add the 'bigger' side of the provided next bigger set of equality clusters to the provided active set.
+     * Add the 'bigger' side of the provided next bigger set of equality clusters to
+     * the provided active set.
      *
      * @param nextBiggers Successor equality clusters.
-     * @param actives Active clusters for which assignment is attempted.
+     * @param actives     Active clusters for which assignment is attempted.
      */
     private static void addSuccessorClusters(List<LeClusterRelation> nextBiggers, Set<EqualityCluster> actives) {
-        for (LeClusterRelation nextBigger: nextBiggers) {
+        for (LeClusterRelation nextBigger : nextBiggers) {
             actives.add(nextBigger.biggerCluster);
         }
     }

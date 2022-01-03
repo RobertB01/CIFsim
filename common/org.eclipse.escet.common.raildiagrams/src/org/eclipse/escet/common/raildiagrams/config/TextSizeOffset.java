@@ -28,7 +28,7 @@ public class TextSizeOffset {
      * Constructor of the {@link TextSizeOffset} class.
      *
      * @param offset Offset of the text relative to its top-left corner.
-     * @param size Size of the text.
+     * @param size   Size of the text.
      */
     public TextSizeOffset(Position2D offset, Size2D size) {
         this.offset = offset;
