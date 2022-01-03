@@ -954,7 +954,7 @@ public class CifToPlcTrans {
                     String varName = getPlcName(addrVar);
                     @SuppressWarnings("null")
                     String tmpName = addrVarsMap.get(addrVar);
-                    pou.body.add("%s = %s;", varName, tmpName);
+                    pou.body.add("%s := %s;", varName, tmpName);
                 }
             }
         } else if (stat instanceof BreakFuncStatement) {
