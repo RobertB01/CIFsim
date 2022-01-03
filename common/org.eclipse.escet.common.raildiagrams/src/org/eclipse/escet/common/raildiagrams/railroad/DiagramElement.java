@@ -19,11 +19,11 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
-import java.awt.Graphics2D;
 import java.util.List;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.Area;
+import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 
@@ -156,10 +156,12 @@ public abstract class DiagramElement {
      *
      * @param left Left position of the area that may be used for painting.
      * @param top Top position of the area that may be used for painting.
-     * @param gd Graphics output handle.
+     * @param outputTarget Diagram to write.
      * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements for debugging.
      */
-    public void paint(double left, double top, Graphics2D gd, boolean dumpAbsCoords) {
+    public void paint(double left, double top, OutputTarget outputTarget, boolean dumpAbsCoords) {
+        outputTarget.addDiagramElement(left, top, solver, this);
+
         if (dumpAbsCoords) {
             writeDumpHeaderElements(this, null);
             dbg();
@@ -168,13 +170,13 @@ public abstract class DiagramElement {
         }
 
         for (Area graphic: graphics) {
-            graphic.paint(left, top, solver, gd);
+            outputTarget.addGraphic(left, top, solver, graphic);
         }
 
         for (ProxyDiagramElement childElement: childDiagramElements) {
             double childLeft = left + solver.getVarValue(childElement.left);
             double childTop = top + solver.getVarValue(childElement.top);
-            childElement.paint(childLeft, childTop, gd, dumpAbsCoords);
+            childElement.paint(childLeft, childTop, outputTarget, dumpAbsCoords);
         }
     }
 }

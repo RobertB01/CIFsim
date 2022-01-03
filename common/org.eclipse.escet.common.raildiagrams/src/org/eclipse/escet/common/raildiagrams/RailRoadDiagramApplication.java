@@ -14,16 +14,9 @@
 package org.eclipse.escet.common.raildiagrams;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.Color;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -133,25 +126,19 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             // Second, position everything and generate the graphic elements.
             //
             // Create the 'real' image.
-            Graphics2D gd;
-            BufferedImage image;
             {
                 int width = (int)Math.ceil(diagramWidth);
                 int height = (int)Math.ceil(diagramHeight);
 
-                image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-                gd = image.createGraphics();
-                gd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                gd.setColor(config.getRgbColor("diagram.background.color"));
-                gd.fillRect(0, 0, width, height);
+                Color bgColor = config.getRgbColor("diagram.background.color");
+                outputTarget.prepareOutputFile(width, height, bgColor);
             }
 
             // Paint graphics to the image.
             boolean dumpAbsCoords = config.getDebugSetting(DebugDisplayKind.ABS_COORDINATES);
             double top = 0;
             for (RailRule rule: rules) {
-                rule.paint(0, top, gd, dumpAbsCoords);
+                rule.paint(0, top, outputTarget, dumpAbsCoords);
                 Size2D size = rule.getSize();
                 top += Math.ceil(size.height);
                 if (isTerminationRequested()) {
@@ -162,7 +149,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             // Write the image.
             String imageFile = WriteImageOption.getOutputPath(inputFile);
             if (imageFile != null) {
-                saveImage(image, imageFile);
+                outputTarget.writeOutputFile(imageFile);
             }
             if (isTerminationRequested()) {
                 return 0;
@@ -170,21 +157,6 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
         }
 
         return 0;
-    }
-
-    /**
-     * Save the created image to the file system.
-     *
-     * @param image Image to write.
-     * @param imageFile Name of the file to write.
-     */
-    private void saveImage(BufferedImage image, String imageFile) {
-        try {
-            ImageIO.write(image, "png", new File(imageFile));
-        } catch (IOException ex) {
-            String msg = fmt("Failed to write PNG image file \"%s\".", imageFile);
-            throw new RuntimeException(msg, ex);
-        }
     }
 
     @Override
