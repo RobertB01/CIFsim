@@ -19,7 +19,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeUppercase;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,6 +33,7 @@ import java.util.regex.Pattern;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
+import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Configuration data of the diagrams. */
@@ -56,16 +56,16 @@ public class Configuration {
     /** Cached font data information, lazily loaded. */
     private Map<NameKind, FontData> fontdataCache = map();
 
-    /** Graphics render engine. */
-    private Graphics2D gd;
+    /** Output target knowing about text sizes. */
+    private OutputTarget outputTarget;
 
     /**
      * Constructor of the {@link Configuration} class.
      *
-     * @param gd Graphics render engine.
+     * @param outputTarget Output target knowing about text sizes.
      */
-    public Configuration(Graphics2D gd) {
-        this.gd = gd;
+    public Configuration(OutputTarget outputTarget) {
+        this.outputTarget = outputTarget;
 
         // Read default properties and put into a map.
         Properties defaultConfig = new Properties();
@@ -107,7 +107,7 @@ public class Configuration {
      */
     public TextSizeOffset getTextSizeOffset(String text, NameKind nameKind) {
         FontData fd = getFont(nameKind);
-        return new TextSizeOffset(fd.getTextOffset(gd, text), fd.getTextSize(gd, text));
+        return outputTarget.getTextSizeOffset(text, fd);
     }
 
     /**

@@ -35,6 +35,8 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.raildiagrams.config.ConfigFileOption;
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
+import org.eclipse.escet.common.raildiagrams.output.ImageOutput;
+import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramParser;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
 import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
@@ -80,10 +82,9 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Setup graphics object.
-        // Image is needed for getting a Graphics2D instance to query text sizes.
-        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-        Configuration config = new Configuration(image.createGraphics());
+        // Setup configuration.
+        OutputTarget outputTarget = new ImageOutput();
+        Configuration config = new Configuration(outputTarget);
         if (isTerminationRequested()) {
             return 0;
         }
@@ -133,6 +134,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             //
             // Create the 'real' image.
             Graphics2D gd;
+            BufferedImage image;
             {
                 int width = (int)Math.ceil(diagramWidth);
                 int height = (int)Math.ceil(diagramHeight);
