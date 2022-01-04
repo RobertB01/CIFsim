@@ -374,7 +374,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
         // Force relayout.
         buttons.pack();
         buttons.layout();
-        scroll.notifyListeners(SWT.RESIZE, null);
+        scroll.notifyListeners(SWT.Resize, null);
     }
 
     /**
