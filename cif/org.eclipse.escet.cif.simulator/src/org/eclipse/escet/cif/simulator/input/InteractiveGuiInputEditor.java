@@ -177,6 +177,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
         scroll.addDisposeListener(new DisposeListener() {
             @Override
             public void widgetDisposed(DisposeEvent e) {
+                disableButtons();
                 inform(new InteractiveGuiInputChoice());
             }
         });
@@ -314,6 +315,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                         throw new RuntimeException("Unknown button.");
                     }
 
+                    disableButtons();
                     inform(choiceData);
                 }
             });
@@ -678,6 +680,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                     public void widgetSelected(SelectionEvent e) {
                         InteractiveGuiInputChoice choiceData = new InteractiveGuiInputChoice();
                         choiceData.transIdx = transIdx;
+                        disableButtons();
                         inform(choiceData);
                     }
                 });
@@ -756,6 +759,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                             default:
                                 throw new RuntimeException("idx: " + idx);
                         }
+                        disableButtons();
                         inform(choiceData);
                     }
                 });
@@ -771,6 +775,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                 public void widgetSelected(SelectionEvent e) {
                     InteractiveGuiInputChoice choiceData = new InteractiveGuiInputChoice();
                     choiceData.resetChosen = true;
+                    disableButtons();
                     inform(choiceData);
                 }
             });
@@ -818,6 +823,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                             // Fixed number of transitions.
                             choiceData.undoCount = idx + 1;
                         }
+                        disableButtons();
                         inform(choiceData);
                     }
                 });
@@ -950,12 +956,8 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
         return Integer.parseInt(dialog.getValue());
     }
 
-    /**
-     * Inform input component about choice, after disabling all buttons, and making the choice data available.
-     *
-     * @param data The choice data to make available.
-     */
-    public void inform(InteractiveGuiInputChoice data) {
+    /** Disables all GUI buttons. */
+    public void disableButtons() {
         // Transitions and source state no longer needed, and may be garbage
         // collected.
         transitions = null;
@@ -964,8 +966,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
         // Remove popup menu items.
         removePopupMenuItems();
 
-        // Remove transition count label texts, and disable buttons, now that
-        // a choice has been made.
+        // Remove transition count label texts and disable buttons.
         for (Control buttonsChild: buttons.getChildren()) {
             // Skip non-choice children.
             if (!(buttonsChild instanceof Composite)) {
@@ -995,8 +996,14 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
 
         buttons.pack();
         buttons.layout();
+    }
 
-        // Provide choice to input component and inform about availability.
+    /**
+     * Inform input component about choice and make the choice data available.
+     *
+     * @param data The choice data to make available.
+     */
+    private void inform(InteractiveGuiInputChoice data) {
         choice.set(data);
         synchronized (ready) {
             ready.set(true);

@@ -322,26 +322,30 @@ public final class InteractiveGuiInputComponent<S extends RuntimeState> extends 
      * been terminated.
      */
     private void waitForChoice() {
-        try {
-            synchronized (gui.ready) {
-                while (!gui.ready.get()) {
-                    try {
-                        gui.ready.wait(1000);
-                        spec.ctxt.checkTermination();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+        synchronized (gui.ready) {
+            while (!gui.ready.get()) {
+                // Wait for GUI input.
+                try {
+                    gui.ready.wait(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Check for termination.
+                try {
+                    spec.ctxt.checkTermination();
+                } catch (SimulatorExitException e) {
+                    // Simulation has been terminated. Disable the GUI buttons.
+                    Display.getDefault().syncExec(new Runnable() {
+                        @Override
+                        public void run() {
+                            gui.disableButtons();
+                        }
+                    });
+
+                    throw e;
                 }
             }
-        } catch (SimulatorExitException e) {
-            // Inform GUI that the user has terminated the simulation.
-            Display.getDefault().syncExec(new Runnable() {
-                @Override
-                public void run() {
-                    gui.inform(new InteractiveGuiInputChoice());
-                }
-            });
-            throw e;
         }
     }
 }
