@@ -31,22 +31,26 @@ Otherwise, the generated code will be written to the directory containing the in
 
 Regardless, the code is also always written to a `cifcode` sub-directory.
 If this sub-directory does not yet exist, it is created.
-If it already exists, all existing `.java` files are removed from the sub-directory first, before the newly generated code is written.
+If it already exists, all existing `.java` files, `.dat` files, `.edgedata` files and `.locnames` files are removed from the sub-directory first, before the newly generated code is written.
 
 === Written files
 
-The generated code consists of Java files only.
-This results in several `.java` files being written to the `cifcode` directory.
-One of these files is `_DebugSimulator.java`, this file contains the simulation options that were used.
+The generated code consists of `.java` files, `.dat` files, `.edgedata` files and `.locnames` files.
+This results in several files being written to the `cifcode` directory.
+One of these files is `DebugSimulator.java`, this file contains the simulation options that were used and always shows the option dialog.
 
-The `org.eclipse.escet.cif.simulator.debug` project contains a launch file (`_cifsim_debug.launch`) that can be used to reproduce the simulation implemented by the generated code.
-It assumes the generated code is contained within the `src` directory.
+The `org.eclipse.escet.cif.simulator.debug` project contains a launch file (`debug-cif-simulator-generated-code.launch`) that can be used to reproduce the simulation implemented by the generated code.
+By default, it is configured to run the `DebugSimulator.java` file contained within the `src` directory.
+If a different output directory is used, this configuration can be changed as follows.
+Right click `debug-cif-simulator-generated-code.launch` and select menu:Debug As[Debug Configurations...].
+Then, select `debug-cif-simulator-generated-code` under _Junit Plug-in Test_.
+On the _Test_ tab, the _Project_ and the _Test class_ can be changed accordingly.
 
 === How to use
 
 To use this feature, follow these steps:
 
-* Import all CIF related source projects into your Eclipse workspace.
+* Start an Eclipse ESCET development environment.
 
 * Make sure your workspace is automatically rebuilt, by enabling the menu:Build Automatically[] option in the menu:Project[] menu.
 
@@ -66,7 +70,7 @@ To use this feature, follow these steps:
 
 * Set breakpoints in the generated Java code, or in the simulator code, as desired.
 
-* Right click `_cifsim_debug.launch` in the `org.eclipse.escet.cif.simulator.debug` project, and choose menu:Debug as[_cifsim_debug].
+* Right click `debug-cif-simulator-generated-code.launch` in the `org.eclipse.escet.cif.simulator.debug` project, and choose menu:Debug as[debug-cif-simulator-generated-code.launch].
 
 * Debug the simulation, with the generated code, as you would any Java program.
 
@@ -78,7 +82,7 @@ The launch configuration that is used, uses the _Load debug code_ option (_Simul
 Using this option, the classpath (directory) where the already generated code is located, is specified.
 By specifying it, the simulator knows from where to load it.
 
-Simulations not started from the generated launch configuration, generally don't use this option.
+Simulations not started from this launch configuration, generally don't use this option.
 They load the input specification, validate it, generate fresh code, and compile the code in-memory, or use <<tools-cifsim-repeated-sim-compile-once,compiled code files>>.
 
 Simulations using the generated code ignore all options related to <<tools-cifsim-chapter-repeated-simulation,repeated simulations>>.
@@ -92,7 +96,6 @@ Ignoring the warning may lead to unexpected simulation results, or even simulato
 The default working directory for the simulation performed via the launch configuration is different from the working directory in the original simulation.
 As a consequence, additional files, such as configuration files, may not be found.
 The working directory can be changed as follows.
-In `_DebugSimulator.java` replace the relative path of the `debug-code` option with an absolute path.
-Then, right click `_cifsim_debug.launch` and select menu:Debug As[Debug configurations...].
-Open `_cifsim_debug` under _Junit Plug-in Test_, select the _Arguments_ tab and set _Working directory_ to _Other_.
+Right click `debug-cif-simulator-generated-code.launch` and select menu:Debug As[Debug configurations...].
+Open `debug-cif-simulator-generated-code` under _Junit Plug-in Test_, select the _Arguments_ tab and set _Working directory_ to _Other_.
 Enter the original working directory and click btn:[Apply] and btn:[Debug].

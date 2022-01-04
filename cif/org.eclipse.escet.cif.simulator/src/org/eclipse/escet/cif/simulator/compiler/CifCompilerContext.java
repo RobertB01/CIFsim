@@ -36,6 +36,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -203,6 +204,9 @@ public class CifCompilerContext {
 
     /** The name of the debug project. */
     public static final String DBG_PROJ = "org.eclipse.escet.cif.simulator.debug";
+
+    /** The name of the debug simulator java file. */
+    public static final String DBG_SIM_NAME = "DebugSimulator";
 
     /** File extension (excluding {@code "."}) of location names resource files. */
     public static final String FILE_EXT_LOC_NAMES = "locnames";
@@ -1393,7 +1397,7 @@ public class CifCompilerContext {
         }
 
         // Clean the output directory, by removing all generated files.
-        String[] filters = {"*.java", "*.launch", "*." + FILE_EXT_LOC_NAMES, "*." + FILE_EXT_EDGE_DATA};
+        String[] filters = {"*.java", "*.dat", "*." + FILE_EXT_LOC_NAMES, "*." + FILE_EXT_EDGE_DATA};
         FilenameFilter filter = new WildcardFileFilter(filters);
         File[] files = pkgFile.listFiles(filter);
         if (files == null) {
@@ -1443,7 +1447,7 @@ public class CifCompilerContext {
         }
 
         // Write the debug simulator file.
-        String debugSimulatorPath = Paths.join(pkgPath, "_DebugSimulator.java");
+        String debugSimulatorPath = Paths.join(pkgPath, DBG_SIM_NAME + ".java");
         writeDebugSimulatorFile(debugSimulatorPath);
     }
 
@@ -1469,13 +1473,29 @@ public class CifCompilerContext {
         Collections.sort(args, Strings.SORTER);
         for (int i = 0; i < args.size(); i++) {
             String arg = args.get(i);
-            arg = arg.replace("\"", "\\\"");
+            arg = StringEscapeUtils.escapeJava(arg);
             arg = "\"" + arg + "\"";
             args.set(i, arg);
         }
 
+        // Look for the debug project, and get its path.
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IProject project = root.getProject(DBG_PROJ);
+        String dbgProjPath = ".";
+        if (project.exists()) {
+            IPath path = project.getLocation();
+            if (path != null) {
+                Assert.check(path.isAbsolute());
+                dbgProjPath = path.toString();
+            }
+        }
+
+        // Get path for the compiled classes.
+        String classesPath = Paths.join(dbgProjPath, "target/classes");
+        classesPath = StringEscapeUtils.escapeJava(classesPath);
+
         // Overwrite specific options for debugging.
-        args.add("\"--debug-code=target/classes\"");
+        args.add(fmt("\"--debug-code=%s\"", classesPath));
         args.add("\"--option-dialog=1\"");
 
         // Generate debug simulator file.
@@ -1485,10 +1505,10 @@ public class CifCompilerContext {
         c.add("import org.eclipse.escet.cif.simulator.CifSimulatorApp;");
         c.add("import org.junit.Test;");
         c.add();
-        c.add("public class _DebugSimulator {");
+        c.add("public class %s {", DBG_SIM_NAME);
         c.indent();
         c.add("@Test");
-        c.add("public void debugSimulator() {");
+        c.add("public void debug() {");
         c.indent();
         c.add("String[] arguments = {" + StringUtils.join(args, ", ") + "};");
         c.add("CifSimulatorApp.main(arguments);");
@@ -1501,16 +1521,15 @@ public class CifCompilerContext {
         try {
             c.writeToFile(debugSimulatorPath);
         } catch (InputOutputException e) {
-            String msg = fmt("Failed to write generated debug simulator file \"%s\", for debugging.",
-                    debugSimulatorPath);
+            String msg = fmt("Failed to write generated debug simulator file \"%s\".", debugSimulatorPath);
             throw new InputOutputException(msg, e);
         }
 
         // Refresh the debug project.
         if (Platform.isRunning() && PlatformUI.isWorkbenchRunning()) {
             // Look for the debug project, and refresh it.
-            IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-            IProject project = root.getProject(DBG_PROJ);
+            root = ResourcesPlugin.getWorkspace().getRoot();
+            project = root.getProject(DBG_PROJ);
             if (project.exists()) {
                 try {
                     project.refreshLocal(IResource.DEPTH_INFINITE, null);
