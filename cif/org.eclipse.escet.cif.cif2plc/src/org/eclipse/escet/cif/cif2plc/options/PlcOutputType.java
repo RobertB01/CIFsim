@@ -22,5 +22,17 @@ public enum PlcOutputType {
     IEC_61131_3,
 
     /** TwinCAT output. */
-    TWINCAT;
+    TWINCAT,
+
+    /** Siemens S7-1200 output. */
+    S7_1200,
+
+    /** Siemens S7-1500 output. */
+    S7_1500,
+
+    /** Siemens S7-300 output. */
+    S7_300,
+
+    /** Siemens S7-400 output. */
+    S7_400,
 }

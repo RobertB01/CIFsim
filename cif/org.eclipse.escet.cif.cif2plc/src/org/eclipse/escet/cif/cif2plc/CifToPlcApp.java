@@ -37,6 +37,7 @@ import org.eclipse.escet.cif.cif2plc.options.SimplifyValuesOption;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.Iec611313Writer;
 import org.eclipse.escet.cif.cif2plc.writers.PlcOpenXmlWriter;
+import org.eclipse.escet.cif.cif2plc.writers.S7Writer;
 import org.eclipse.escet.cif.cif2plc.writers.TwinCatWriter;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -112,6 +113,22 @@ public class CifToPlcApp extends Application<IOutputComponent> {
             case TWINCAT:
                 outPath = OutputFileOption.getDerivedPath(".cif", "_twincat");
                 break;
+
+            case S7_1200:
+                outPath = OutputFileOption.getDerivedPath(".cif", "_s7_1200");
+                break;
+
+            case S7_1500:
+                outPath = OutputFileOption.getDerivedPath(".cif", "_s7_1500");
+                break;
+
+            case S7_300:
+                outPath = OutputFileOption.getDerivedPath(".cif", "_s7_300");
+                break;
+
+            case S7_400:
+                outPath = OutputFileOption.getDerivedPath(".cif", "_s7_400");
+                break;
         }
         Assert.notNull(outPath);
         outPath = Paths.resolve(outPath);
@@ -140,6 +157,13 @@ public class CifToPlcApp extends Application<IOutputComponent> {
 
             case TWINCAT:
                 TwinCatWriter.write(project, outPath);
+                break;
+
+            case S7_1200:
+            case S7_1500:
+            case S7_300:
+            case S7_400:
+                S7Writer.write(project, outPath);
                 break;
         }
 
