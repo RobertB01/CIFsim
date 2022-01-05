@@ -36,8 +36,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -95,15 +93,9 @@ import org.eclipse.escet.common.app.framework.javacompiler.ResourceClassLoader;
 import org.eclipse.escet.common.app.framework.javacompiler.RuntimeClassLoader;
 import org.eclipse.escet.common.app.framework.javacompiler.RuntimeJavaCompiler;
 import org.eclipse.escet.common.app.framework.javacompiler.RuntimeJavaCompilerException;
-import org.eclipse.escet.common.app.framework.options.Option;
-import org.eclipse.escet.common.app.framework.options.OptionValue;
-import org.eclipse.escet.common.app.framework.options.Options;
-import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.PairTextComparer;
-import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.ui.PlatformUI;
 
@@ -1412,6 +1404,10 @@ public class CifCompilerContext {
             file.delete();
         }
 
+        // Generate Java code for debugging the simulator.
+        String classesPath = Paths.resolve("../../target/classes", pkgPath);
+        DebugSimulatorCodeGenerator.gencodeDebugSimulator(classesPath, this);
+
         // Write the generated code files.
         for (JavaCodeFile file: code.values()) {
             String filePath = Paths.join(pkgPath, file.name + ".java");
@@ -1446,90 +1442,11 @@ public class CifCompilerContext {
             }
         }
 
-        // Write the debug simulator file.
-        String debugSimulatorPath = Paths.join(pkgPath, DBG_SIM_NAME + ".java");
-        writeDebugSimulatorFile(debugSimulatorPath);
-    }
-
-    /**
-     * Generates and writes a Java file for debugging. Also refreshes the debugging project, if Eclipse is running, and
-     * it exists.
-     *
-     * @param debugSimulatorPath The absolute local file system path of the debug simulator file to write.
-     */
-    private void writeDebugSimulatorFile(String debugSimulatorPath) {
-        // Generate option arguments. Note that it shouldn't matter in which order
-        // the option are given. We still sort them however, to get
-        // deterministic output for the contents of the debug simulator file.
-        List<String> args = list();
-        Map<Option<?>, OptionValue<?>> opts = Options.getOptionMap();
-        for (Entry<Option<?>, OptionValue<?>> optPair: opts.entrySet()) {
-            Option<?> opt = optPair.getKey();
-            OptionValue<?> value = optPair.getValue();
-            for (String arg: opt.getCmdLine(value.getValue())) {
-                args.add(arg);
-            }
-        }
-        Collections.sort(args, Strings.SORTER);
-        for (int i = 0; i < args.size(); i++) {
-            String arg = args.get(i);
-            arg = StringEscapeUtils.escapeJava(arg);
-            arg = "\"" + arg + "\"";
-            args.set(i, arg);
-        }
-
-        // Look for the debug project, and get its path.
-        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        IProject project = root.getProject(DBG_PROJ);
-        String dbgProjPath = ".";
-        if (project.exists()) {
-            IPath path = project.getLocation();
-            if (path != null) {
-                Assert.check(path.isAbsolute());
-                dbgProjPath = path.toString();
-            }
-        }
-
-        // Get path for the compiled classes.
-        String classesPath = Paths.join(dbgProjPath, "target/classes");
-        classesPath = StringEscapeUtils.escapeJava(classesPath);
-
-        // Overwrite specific options for debugging.
-        args.add(fmt("\"--debug-code=%s\"", classesPath));
-        args.add("\"--option-dialog=1\"");
-
-        // Generate debug simulator file.
-        CodeBox c = new MemoryCodeBox();
-        c.add("package cifcode;");
-        c.add();
-        c.add("import org.eclipse.escet.cif.simulator.CifSimulatorApp;");
-        c.add("import org.junit.Test;");
-        c.add();
-        c.add("public class %s {", DBG_SIM_NAME);
-        c.indent();
-        c.add("@Test");
-        c.add("public void debug() {");
-        c.indent();
-        c.add("String[] arguments = {" + StringUtils.join(args, ", ") + "};");
-        c.add("CifSimulatorApp.main(arguments);");
-        c.dedent();
-        c.add("}");
-        c.dedent();
-        c.add("}");
-
-        // Write debug simulator file.
-        try {
-            c.writeToFile(debugSimulatorPath);
-        } catch (InputOutputException e) {
-            String msg = fmt("Failed to write generated debug simulator file \"%s\".", debugSimulatorPath);
-            throw new InputOutputException(msg, e);
-        }
-
         // Refresh the debug project.
         if (Platform.isRunning() && PlatformUI.isWorkbenchRunning()) {
             // Look for the debug project, and refresh it.
-            root = ResourcesPlugin.getWorkspace().getRoot();
-            project = root.getProject(DBG_PROJ);
+            IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+            IProject project = root.getProject(DBG_PROJ_NAME);
             if (project.exists()) {
                 try {
                     project.refreshLocal(IResource.DEPTH_INFINITE, null);
