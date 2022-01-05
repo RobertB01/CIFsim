@@ -132,8 +132,8 @@ public class Solver {
      * May only be used after all variables have been created, and all relations have been added.
      * </p>
      *
-     * @param config Configuration of the program.
      * @param name Name of the node containing the variables and relations, for debugging purposes.
+     * @param config Configuration of the program.
      */
     public void solve(String name, Configuration config) {
         boolean dumpSolving = config.getDebugSetting(DebugDisplayKind.SOLVER);

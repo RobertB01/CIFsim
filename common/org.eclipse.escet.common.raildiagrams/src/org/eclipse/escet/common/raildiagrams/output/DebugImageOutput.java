@@ -50,22 +50,22 @@ public class DebugImageOutput extends ImageOutput {
     private static final int BACKGROUND = 0xFF_00_00_00; // Black.
 
     /** ARGB color for one layer of rail. */
-    private static final int SINGLE_RAIL = 0xFF_B8860B; // Dark goldenrod.
+    private static final int SINGLE_RAIL = 0xFF_666666; // 40% White.
 
     /** ARGB color for two layers of rail. */
-    private static final int DOUBLE_RAIL = 0xFF_E3FF00; // Lemon lime.
+    private static final int DOUBLE_RAIL = 0xFF_DECC9C; // Lion (dark-yellow).
 
     /** ARGB color for three or more layers of rail. */
-    private static final int TRIPLE_RAIL = 0xFF_F3E5AB; // Vanilla.
+    private static final int TRIPLE_RAIL = 0xFF_E49B0F; // Gamboge (average-yellow).
 
     /** ARGB color of expected attach-point by another graphic. */
-    private static final int CONNECT_POINT = 0xFF_50C878; // Paris green.
+    private static final int CONNECT_POINT = 0xFF_CC33CC; // Steel pink.
 
     /** ARGB color of arc graphics corner points. */
-    private static final int GRAPHICS_CORNER = 0xFF_BA160C; // Engineering orange.
+    private static final int GRAPHICS_CORNER = 0xFF_00FF00; // 100% Green.
 
     /** ARGB color of box corner points. */
-    private static final int BOX_CORNER = 0xFF_0D98BA; // Blue-green.
+    private static final int BOX_CORNER = 0xFF_007FFF; // Azure (blue).
 
     /** Scratch image for a file. */
     private BufferedImage scratchImage = null;
