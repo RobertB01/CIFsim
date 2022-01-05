@@ -68,6 +68,9 @@ public class DebugSimulatorCodeGenerator {
             args.set(i, arg);
         }
 
+        // Get path for the current working directory.
+        String curWorkingDirPath = StringEscapeUtils.escapeJava(Paths.getCurWorkingDir());
+
         // Get path for the compiled classes.
         Assert.check(Paths.isAbsolute(classesPath));
         classesPath = StringEscapeUtils.escapeJava(classesPath);
@@ -78,6 +81,7 @@ public class DebugSimulatorCodeGenerator {
 
         // Add imports.
         file.imports.add("org.eclipse.escet.cif.simulator.CifSimulatorApp");
+        file.imports.add("org.eclipse.escet.common.app.framework.AppProperties");
         file.imports.add("org.junit.Test");
 
         // Add header.
@@ -90,8 +94,12 @@ public class DebugSimulatorCodeGenerator {
         c.add("@Test");
         c.add("public void debug() {");
         c.indent();
+        c.add("AppProperties properties = new AppProperties();");
+        c.add("properties.set(\"user.dir\", \"%s\");", curWorkingDirPath);
+        c.add("CifSimulatorApp app = new CifSimulatorApp(null, null, null, properties);");
+        c.add();
         c.add("String[] arguments = {" + StringUtils.join(args, ", ") + "};");
-        c.add("CifSimulatorApp.main(arguments);");
+        c.add("app.run(arguments);");
         c.dedent();
         c.add("}");
     }

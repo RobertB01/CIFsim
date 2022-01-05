@@ -39,6 +39,9 @@ This results in several files being written to the `cifcode` directory.
 One of these files is `DebugSimulator.java`, this file contains the simulation options that were used and always shows the option dialog.
 
 The `org.eclipse.escet.cif.simulator.debug` project contains a launch file (`debug-cif-simulator-generated-code.launch`) that can be used to reproduce the simulation implemented by the generated code.
+The working directory for the simulation performed via this launch configuration is the same working directory as the original simulation.
+This allows additional files, such as configuration files, to be found.
+
 By default, it is configured to run the `DebugSimulator.java` file contained within the `src` directory.
 If a different output directory is used, this configuration can be changed as follows.
 Right click `debug-cif-simulator-generated-code.launch` and select menu:Debug As[Debug Configurations...].
@@ -89,12 +92,3 @@ That is, the _Load debug code_ option takes priority over the _Compile only_ opt
 
 A warning is printed to the console if the generated code was generated with a different version of the simulator than the one used to simulate it.
 Ignoring the warning may lead to unexpected simulation results, or even simulator crashes.
-
-=== Working directory
-
-The default working directory for the simulation performed via the launch configuration is different from the working directory in the original simulation.
-As a consequence, additional files, such as configuration files, may not be found.
-The working directory can be changed as follows.
-Right click `debug-cif-simulator-generated-code.launch` and select menu:Debug As[Debug configurations...].
-Open `debug-cif-simulator-generated-code` under _Junit Plug-in Test_, select the _Arguments_ tab and set _Working directory_ to _Other_.
-Enter the original working directory and click btn:[Apply] and btn:[Debug].
