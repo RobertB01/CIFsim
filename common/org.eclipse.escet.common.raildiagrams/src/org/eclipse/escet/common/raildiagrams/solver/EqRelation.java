@@ -41,9 +41,9 @@ public class EqRelation extends VariableRelation {
      * Instance represents equality relation {@code a + offset == b}.
      * </p>
      *
-     * @param a      Variable 'a'.
+     * @param a Variable 'a'.
      * @param offset Offset between the variables, {@code b - a}.
-     * @param b      Variable 'b'.
+     * @param b Variable 'b'.
      */
     public EqRelation(Variable a, double offset, Variable b) {
         this.a = a;

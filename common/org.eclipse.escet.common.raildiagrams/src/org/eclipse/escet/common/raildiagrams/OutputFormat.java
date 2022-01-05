@@ -14,6 +14,8 @@
 package org.eclipse.escet.common.raildiagrams;
 
 public enum OutputFormat {
-    /** Image files. */ IMAGES,
-    /** Debug image files. */ DBG_IMAGES,
+    /** Image files. */
+    IMAGES,
+    /** Debug image files. */
+    DBG_IMAGES,
 }

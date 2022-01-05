@@ -29,8 +29,8 @@ public class VertLine extends Area {
     /**
      * Constructor of the {@link VertLine} class.
      *
-     * @param solver    Variable and relation storage.
-     * @param prefix    Name prefix of the vertical line.
+     * @param solver Variable and relation storage.
+     * @param prefix Name prefix of the vertical line.
      * @param railColor Color of the line.
      * @param lineWidth Width of the line.
      */

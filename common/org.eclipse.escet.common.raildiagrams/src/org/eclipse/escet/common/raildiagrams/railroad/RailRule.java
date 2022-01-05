@@ -42,7 +42,7 @@ public class RailRule extends DiagramElement {
      *
      * @param ruleName Optional name of the diagram.
      * @param rootNode Diagram to draw.
-     * @param id       Identifying number of the diagram element.
+     * @param id Identifying number of the diagram element.
      */
     public RailRule(String ruleName, DiagramElement rootNode, int id) {
         super("rule", id);

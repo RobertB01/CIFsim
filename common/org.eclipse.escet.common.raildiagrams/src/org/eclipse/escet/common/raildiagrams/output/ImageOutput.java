@@ -25,7 +25,7 @@ import javax.imageio.ImageIO;
 import org.eclipse.escet.common.raildiagrams.config.FontData;
 import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
 
-/** Base class for generating images.  */
+/** Base class for generating images. */
 public abstract class ImageOutput extends OutputTarget {
     /** Graphics driver for text layout. */
     private Graphics2D textGd;

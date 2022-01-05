@@ -32,8 +32,7 @@ public class SequenceRow {
     public final List<DiagramElement> elements;
 
     /**
-     * Proxies of the child elements, always in proper order for flow in the
-     * diagram.
+     * Proxies of the child elements, always in proper order for flow in the diagram.
      */
     private List<ProxyDiagramElement> proxies;
 
@@ -67,10 +66,10 @@ public class SequenceRow {
     /**
      * Construct the row of elements.
      *
-     * @param config    Configuration settings.
+     * @param config Configuration settings.
      * @param direction Direction of flow in the row, positive is left to right.
-     * @param parent    Parent node containing the row.
-     * @param rowText   Name of the row for creating variable names.
+     * @param parent Parent node containing the row.
+     * @param rowText Name of the row for creating variable names.
      */
     public void create(Configuration config, int direction, DiagramElement parent, String rowText) {
         Solver solver = parent.solver;

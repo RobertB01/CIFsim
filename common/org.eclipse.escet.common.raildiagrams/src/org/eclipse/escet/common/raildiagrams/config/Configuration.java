@@ -75,7 +75,7 @@ public class Configuration {
         } catch (IOException ex) {
             throw new RuntimeException("Failed to read default railroad diagram generator configuration.", ex);
         }
-        for (String key : defaultConfig.stringPropertyNames()) {
+        for (String key: defaultConfig.stringPropertyNames()) {
             defaultProperties.put(key, defaultConfig.getProperty(key));
         }
     }
@@ -101,7 +101,7 @@ public class Configuration {
     /**
      * Get both the size and the offset of a text.
      *
-     * @param text     Text to query.
+     * @param text Text to query.
      * @param nameKind Kind of text, defines font properties to use.
      * @return Size and offset of the formatted text.
      */
@@ -232,7 +232,7 @@ public class Configuration {
     /**
      * Get the text of a name, supplying a name kind speeds up the search.
      *
-     * @param name     Name of the token.
+     * @param name Name of the token.
      * @param nameKind If not {@code null} the kind of name.
      * @return The text to use in the diagram.
      */
@@ -262,8 +262,7 @@ public class Configuration {
      *
      * @param kind Kind of debug output.
      * @return Whether the requested kind of debug output was enabled.
-     * @note Function returns {@code true} if the setting is not explicitly set to
-     *       {@code false}.
+     * @note Function returns {@code true} if the setting is not explicitly set to {@code false}.
      */
     public boolean getDebugSetting(DebugDisplayKind kind) {
         String propName = "debug." + kind.name().toLowerCase(Locale.US);
@@ -322,7 +321,7 @@ public class Configuration {
     /**
      * Convert a piece of text to a boolean value.
      *
-     * @param valueText    Text to convert.
+     * @param valueText Text to convert.
      * @param defaultValue Value to use if the conversion fails.
      * @return The result value.
      */
@@ -341,7 +340,7 @@ public class Configuration {
     /**
      * Convert a piece of text to an integer number.
      *
-     * @param valueText    Text to convert.
+     * @param valueText Text to convert.
      * @param defaultValue Value to use if the conversion fails.
      * @return The result value.
      */
@@ -357,7 +356,7 @@ public class Configuration {
     /**
      * Convert a piece of text to an integer number.
      *
-     * @param valueText    Text to convert.
+     * @param valueText Text to convert.
      * @param defaultValue Value to use if the conversion fails.
      * @return The result value.
      */
@@ -388,7 +387,7 @@ public class Configuration {
 
         // Extract the strings from the loaded properties and copy them to the global
         // map.
-        for (String propName : props.stringPropertyNames()) {
+        for (String propName: props.stringPropertyNames()) {
             String propValue = props.getProperty(propName);
             if (propValue == null || propValue.isEmpty()) {
                 propValue = "*empty*";

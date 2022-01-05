@@ -58,7 +58,7 @@ public abstract class Area {
     /**
      * Dump coordinates of the area to debug output.
      *
-     * @param solver  Solver storing the relative positions.
+     * @param solver Solver storing the relative positions.
      * @param xOffset Horizontal offset of the element in the picture.
      * @param yOffset Vertical offset of the element in the picture.
      */
@@ -72,9 +72,9 @@ public abstract class Area {
      * Paint the graphic to the graphics output stream.
      *
      * @param baseLeft Left-most position available for use.
-     * @param baseTop  Top-most position available for use.
-     * @param solver   Solver containing values for all variables.
-     * @param gd       Graphics stream handle.
+     * @param baseTop Top-most position available for use.
+     * @param solver Solver containing values for all variables.
+     * @param gd Graphics stream handle.
      */
     public abstract void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd);
 
@@ -82,7 +82,7 @@ public abstract class Area {
      * Return a list of positions where other elements are expected to connect.
      *
      * @param baseLeft Left-most X coordinate available for the graphic.
-     * @param baseTop  Top-most Y coordinate available for the graphic.
+     * @param baseTop Top-most Y coordinate available for the graphic.
      * @param solver Solver containing values for all variables.
      *
      * @return Positions expected to be used by other elements.

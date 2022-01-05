@@ -27,7 +27,7 @@ public class PaintSupport {
     /**
      * Set the width of the stroke.
      *
-     * @param gd    Graphics output handle.
+     * @param gd Graphics output handle.
      * @param width Desired width of the stroke.
      */
     public static void setLineWidth(Graphics2D gd, int width) {
@@ -40,22 +40,23 @@ public class PaintSupport {
     /**
      * Draw a quarter of an arc inside a square 'size * size' box.
      *
-     * @param gd        Graphics output handle.
-     * @param xpos      Horizontal position of top-left corner of the arc box.
-     * @param ypos      Vertical position of top-left corner of the arc box.
-     * @param arcType   Quadrant of the arc to draw.
-     * @param size      Width and height of the box containing the arc.
+     * @param gd Graphics output handle.
+     * @param xpos Horizontal position of top-left corner of the arc box.
+     * @param ypos Vertical position of top-left corner of the arc box.
+     * @param arcType Quadrant of the arc to draw.
+     * @param size Width and height of the box containing the arc.
      * @param lineWidth Width of the arc line.
-     * @param color     Color of the arc line.
+     * @param color Color of the arc line.
      */
     public static void drawArc(Graphics2D gd, double xpos, double ypos, ArcType arcType, double size, double lineWidth,
-            Color color) {
+            Color color)
+    {
         gd.setColor(color);
-        setLineWidth(gd, (int) lineWidth);
+        setLineWidth(gd, (int)lineWidth);
 
-        int arcX = (int) (xpos + arcType.xSizeMul * size + arcType.xLwidthMul * lineWidth);
-        int arcY = (int) (ypos + arcType.ySizeMul * size + arcType.yLwidthMul * lineWidth);
-        gd.drawArc(arcX, arcY, (int) (2 * size - 2 * lineWidth), (int) (2 * size - 2 * lineWidth), arcType.startAngle,
+        int arcX = (int)(xpos + arcType.xSizeMul * size + arcType.xLwidthMul * lineWidth);
+        int arcY = (int)(ypos + arcType.ySizeMul * size + arcType.yLwidthMul * lineWidth);
+        gd.drawArc(arcX, arcY, (int)(2 * size - 2 * lineWidth), (int)(2 * size - 2 * lineWidth), arcType.startAngle,
                 90);
     }
 
@@ -92,9 +93,9 @@ public class PaintSupport {
          * Constructor of the {@link ArcType} class.
          *
          * @param startAngle Start angle for drawing the arc.
-         * @param xSizeMul   Size multiplication factor for X.
+         * @param xSizeMul Size multiplication factor for X.
          * @param xLwidthMul Line width multiplication factor for X.
-         * @param ySizeMul   Size multiplication factor for Y.
+         * @param ySizeMul Size multiplication factor for Y.
          * @param yLwidthMul Line width multiplication factor for Y.
          */
         private ArcType(int startAngle, int xSizeMul, double xLwidthMul, int ySizeMul, double yLwidthMul) {

@@ -30,15 +30,20 @@ import org.eclipse.escet.common.raildiagrams.util.Position2D;
 /**
  * Class for generating images for debugging pixels.
  *
- * <p>Colors copied from https://en.wikipedia.org/wiki/List_of_colors_by_shade</p>
+ * <p>
+ * Colors copied from https://en.wikipedia.org/wiki/List_of_colors_by_shade
+ * </p>
  *
- * <p>The priority of the element concepts displayed in the result is as follows (lower numbers take priority).
- * <ol><li>Rail (also includes all other visible items such as text).</li>
+ * <p>
+ * The priority of the element concepts displayed in the result is as follows (lower numbers take priority).
+ * <ol>
+ * <li>Rail (also includes all other visible items such as text).</li>
  * <li>Connect points, positions that should be covered by rail. If visible, obviously that didn't happen.</li>
  * <li>Arc graphic box corner points.</li>
  * <li>Rectangle box corners of sub-elements.</li>
  * <li>Background.</li>
- * </ol></p>
+ * </ol>
+ * </p>
  */
 public class DebugImageOutput extends ImageOutput {
     /** ARGB color for background. */
@@ -74,7 +79,9 @@ public class DebugImageOutput extends ImageOutput {
     /**
      * Result image as a flat array of ARGB values.
      *
-     * <p>{@code (x, y)} is at index {@code x + y * width}.</p>
+     * <p>
+     * {@code (x, y)} is at index {@code x + y * width}.
+     * </p>
      */
     private int[] resultData;
 
@@ -87,7 +94,8 @@ public class DebugImageOutput extends ImageOutput {
         scratchImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         if (firstImage) {
-            // First time an image is created. Do some checking to ensure code below will work.
+            // First time an image is created. Do some checking to ensure code below will
+            // work.
             Raster r = scratchImage.getData();
             Assert.check(r.getTransferType() == DataBuffer.TYPE_INT);
             Assert.check(r.getNumDataElements() == 1); // One pixel in one integer.
@@ -106,7 +114,9 @@ public class DebugImageOutput extends ImageOutput {
     /**
      * {@inheritDoc}
      *
-     * <p>Override diagram background color to full white, and all other colors to black.</p>
+     * <p>
+     * Override diagram background color to full white, and all other colors to black.
+     * </p>
      */
     @Override
     public Color getOverrideColor(String name) {
@@ -146,7 +156,8 @@ public class DebugImageOutput extends ImageOutput {
         clearScratchImage();
         graphic.paint(baseLeft, baseTop, solver, scratchImage.createGraphics());
 
-        // Check all scratch pixels and copy anything painted over to the result image as 'rail'.
+        // Check all scratch pixels and copy anything painted over to the result image
+        // as 'rail'.
         int[] scratchData = new int[width * height * 1]; // numDataElements == 1 .
         scratchData = (int[])scratchImage.getRaster().getDataElements(0, 0, width, height, scratchData);
 
@@ -183,28 +194,42 @@ public class DebugImageOutput extends ImageOutput {
     /**
      * Add a rail layer to the indicated position in the result image.
      *
-     * <p>Rail overrides everything.</p>
+     * <p>
+     * Rail overrides everything.
+     * </p>
      *
      * @param index Position to change.
      */
     private void addRailLayer(int index) {
-        if (resultData[index] == TRIPLE_RAIL) { return; }
-        if (resultData[index] == DOUBLE_RAIL) { resultData[index] = TRIPLE_RAIL; return; }
-        if (resultData[index] == SINGLE_RAIL) { resultData[index] = DOUBLE_RAIL; return; }
+        if (resultData[index] == TRIPLE_RAIL) {
+            return;
+        }
+        if (resultData[index] == DOUBLE_RAIL) {
+            resultData[index] = TRIPLE_RAIL;
+            return;
+        }
+        if (resultData[index] == SINGLE_RAIL) {
+            resultData[index] = DOUBLE_RAIL;
+            return;
+        }
         resultData[index] = SINGLE_RAIL;
     }
 
     /**
      * Add an expected connect point to the indicated position.
      *
-     * <p>Connect points only disappear behind rail.</p>
+     * <p>
+     * Connect points only disappear behind rail.
+     * </p>
      *
      * @param x X coordinate of the position.
      * @param y Y coordinate of the position.
      */
     private void addConnectPoint(int x, int y) {
         int index = x + y * width;
-        if (resultData[index] == BACKGROUND || resultData[index] == GRAPHICS_CORNER || resultData[index] == BOX_CORNER) {
+        if (resultData[index] == BACKGROUND || resultData[index] == GRAPHICS_CORNER
+                || resultData[index] == BOX_CORNER)
+        {
             resultData[index] = CONNECT_POINT;
         }
     }
@@ -227,7 +252,9 @@ public class DebugImageOutput extends ImageOutput {
     /**
      * Add a graphics corner point at the indicated position.
      *
-     * <p>Box corners are only painted if the position is not used or used by a box corner.</p>
+     * <p>
+     * Box corners are only painted if the position is not used or used by a box corner.
+     * </p>
      *
      * @param x X coordinate of the position.
      * @param y Y coordinate of the position.
@@ -257,7 +284,9 @@ public class DebugImageOutput extends ImageOutput {
     /**
      * Add a box corner point at the indicated position.
      *
-     * <p>Box corners are only painted if the position is not used by anything else.</p>
+     * <p>
+     * Box corners are only painted if the position is not used by anything else.
+     * </p>
      *
      * @param x X coordinate of the position.
      * @param y Y coordinate of the position.

@@ -191,8 +191,7 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
     }
 
     /**
-     * Construct a choice element if there are at least two children, else return
-     * the single child.
+     * Construct a choice element if there are at least two children, else return the single child.
      *
      * @param choices Alternatives to choose between.
      * @return An object for performing one of the provided alternatives.
@@ -205,18 +204,16 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
     }
 
     /**
-     * Construct a possibly multi-row sequence element if there are at least two
-     * children, else return the single child.
+     * Construct a possibly multi-row sequence element if there are at least two children, else return the single child.
      *
-     * @param optElements Children to sequentially perform, some children may be
-     *                    {@code null} indicating a break to the next row in the
-     *                    sequence.
+     * @param optElements Children to sequentially perform, some children may be {@code null} indicating a break to the
+     *     next row in the sequence.
      * @return An object for performing all provided alternatives.
      */
     private DiagramElement makeSequenceMultiRow(List<Optional<DiagramElement>> optElements) {
         List<SequenceRow> rows = list();
         List<DiagramElement> elements = list();
-        for (Optional<DiagramElement> optVal : optElements) {
+        for (Optional<DiagramElement> optVal: optElements) {
             if (optVal.isPresent()) {
                 elements.add(optVal.get());
             } else if (!elements.isEmpty()) {
@@ -235,8 +232,7 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
     }
 
     /**
-     * Construct a single row sequence element if there are at least two children,
-     * else return the single child.
+     * Construct a single row sequence element if there are at least two children, else return the single child.
      *
      * @param sequence Children to sequentially perform.
      * @return An object for performing all provided alternatives.

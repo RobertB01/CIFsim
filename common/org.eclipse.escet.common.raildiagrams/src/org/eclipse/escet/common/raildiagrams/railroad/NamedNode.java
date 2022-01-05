@@ -37,8 +37,7 @@ import org.eclipse.escet.common.raildiagrams.util.Size2D;
 /** A node referring to another diagram. */
 public class NamedNode extends DiagramElement {
     /**
-     * Name of the node to refer to, {@code null} if {@link #text} is not
-     * {@code null}.
+     * Name of the node to refer to, {@code null} if {@link #text} is not {@code null}.
      */
     public final String name;
 
@@ -49,7 +48,7 @@ public class NamedNode extends DiagramElement {
      * Constructor of the {@link NamedNode} class.
      *
      * @param name Name of the node to refer to.
-     * @param id   Identifying number of the diagram element.
+     * @param id Identifying number of the diagram element.
      */
     public NamedNode(String name, int id) {
         this(name, null, id);
@@ -59,13 +58,12 @@ public class NamedNode extends DiagramElement {
      * Constructor of the {@link NamedNode} class.
      *
      * <p>
-     * One of the parameters must be {@code null} and one of the parameters must be
-     * non-{@code null}.
+     * One of the parameters must be {@code null} and one of the parameters must be non-{@code null}.
      * </p>
      *
      * @param name Name of the node to refer to.
      * @param text Text of the node.
-     * @param id   Identifying number of the diagram element.
+     * @param id Identifying number of the diagram element.
      */
     public NamedNode(String name, String text, int id) {
         super("name", id);
@@ -201,15 +199,12 @@ public class NamedNode extends DiagramElement {
     }
 
     /**
-     * Connect an end-point of a horizontal line with an end-point of a vertical
-     * line.
+     * Connect an end-point of a horizontal line with an end-point of a vertical line.
      *
-     * @param hl          Horizontal line to connect.
-     * @param vl          Vertical line to connect.
-     * @param connectLeft If set, connect the left side of both lines, else the
-     *                    right side.
-     * @param connectTop  If set, connect the top side of both lines, else the
-     *                    bottom side.
+     * @param hl Horizontal line to connect.
+     * @param vl Vertical line to connect.
+     * @param connectLeft If set, connect the left side of both lines, else the right side.
+     * @param connectTop If set, connect the top side of both lines, else the bottom side.
      */
     private void connectHorVert(HorLine hl, VertLine vl, boolean connectLeft, boolean connectTop) {
         if (connectLeft) {

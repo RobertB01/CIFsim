@@ -54,12 +54,12 @@ public class OutputFormatOption extends EnumOption<OutputFormat> {
     @Override
     public String getDialogText(OutputFormat value) {
         switch (value) {
-        case IMAGES:
-            return "images";
-        case DBG_IMAGES:
-            return "dbg-images";
-        default:
-            throw new AssertionError("Unrecognized enum value.");
+            case IMAGES:
+                return "images";
+            case DBG_IMAGES:
+                return "dbg-images";
+            default:
+                throw new AssertionError("Unrecognized enum value.");
         }
     }
 

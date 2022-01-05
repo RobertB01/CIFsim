@@ -26,7 +26,7 @@ public class Size2D {
     /**
      * Constructor of the {@link Size2D} class.
      *
-     * @param width  Width of the size.
+     * @param width Width of the size.
      * @param height Height of the size.
      */
     public Size2D(double width, double height) {

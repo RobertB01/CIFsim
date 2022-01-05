@@ -38,22 +38,19 @@ import org.eclipse.escet.common.java.Assert;
  * Set of variables that are equal to each other, modulo some offset.
  *
  * <p>
- * To avoid wasting computational effort, first variables are added using
- * {@link #add}. When that phase is done, relations are added, leading to
- * computing relative offsets of all variables to the common variable. The
- * caller should ensure the set provided relations only contain variables where
- * both sides are already in the cluster, and that the set is complete,
- * eventually linking all variables to the shared common variable.
+ * To avoid wasting computational effort, first variables are added using {@link #add}. When that phase is done,
+ * relations are added, leading to computing relative offsets of all variables to the common variable. The caller should
+ * ensure the set provided relations only contain variables where both sides are already in the cluster, and that the
+ * set is complete, eventually linking all variables to the shared common variable.
  * </p>
  */
 public class EqualityCluster {
     /**
-     * Variables in the cluster, with offsets between the variable and some
-     * arbitrary common variable that may or may not be part of the cluster.
+     * Variables in the cluster, with offsets between the variable and some arbitrary common variable that may or may
+     * not be part of the cluster.
      *
      * <p>
-     * For each variable {@code v}, {@code v + variables.get(v)} reaches the common
-     * variable.
+     * For each variable {@code v}, {@code v + variables.get(v)} reaches the common variable.
      * </p>
      */
     public Map<Variable, Double> variables;
@@ -62,21 +59,18 @@ public class EqualityCluster {
      * Equality relations between variables of the cluster.
      *
      * <p>
-     * Managed by external code, used during the call to
-     * {@link Solver#constructEqualityClusters}.
+     * Managed by external code, used during the call to {@link Solver#constructEqualityClusters}.
      * </p>
      */
     public List<EqRelation> equalities;
 
     /**
-     * List of cluster less-equal relations where this has the bigger value 'b' in
-     * the relation.
+     * List of cluster less-equal relations where this has the bigger value 'b' in the relation.
      */
     public List<LeClusterRelation> remoteSmallers = list();
 
     /**
-     * List of cluster less-equal relations where this has the smaller value 'a' in
-     * the relation.
+     * List of cluster less-equal relations where this has the smaller value 'a' in the relation.
      */
     public List<LeClusterRelation> remoteBiggers = list();
 
@@ -100,9 +94,8 @@ public class EqualityCluster {
      * Compute offsets of all variables from the equality relations.
      *
      * <p>
-     * The caller should ensure the set provided relations only contain variables
-     * where both sides are already in the cluster, and that the set is complete,
-     * eventually linking all variables to the shared common variable.
+     * The caller should ensure the set provided relations only contain variables where both sides are already in the
+     * cluster, and that the set is complete, eventually linking all variables to the shared common variable.
      * </p>
      *
      * @param dumpSolving Whether to dump details of solving the position equations.
@@ -111,7 +104,7 @@ public class EqualityCluster {
         // Singleton equality cluster have no equations to initialize from.
         if (equalities.isEmpty()) {
             Assert.check(variables.size() == 1);
-            for (Entry<Variable, Double> entry : variables.entrySet()) {
+            for (Entry<Variable, Double> entry: variables.entrySet()) {
                 entry.setValue(0.0);
                 break;
             }
@@ -133,7 +126,7 @@ public class EqualityCluster {
         // assumed to be small.
         while (!curList.isEmpty()) {
             nextList.clear();
-            for (EqRelation eqRel : curList) {
+            for (EqRelation eqRel: curList) {
                 if (first) {
                     // A + offsetA = C <-> A = C - offsetA
                     // B + offsetB = C <-> B = C - offsetB
@@ -256,7 +249,7 @@ public class EqualityCluster {
 
         dbg("Equality cluster of %s:", name);
         idbg();
-        for (Entry<Variable, Double> entry : variables.entrySet()) {
+        for (Entry<Variable, Double> entry: variables.entrySet()) {
             dbg("C == %s + %s", entry.getKey(), entry.getValue());
         }
         ddbg();
@@ -290,12 +283,12 @@ public class EqualityCluster {
      *
      * @param addedVars Added variables.
      * @param addedRels Added relations.
-     * @param relByVar  Relations ordered by variables.
+     * @param relByVar Relations ordered by variables.
      * @return Index of a variable in a cycle, or {@code -1} if no cycle was found.
      */
     private int findCycle(List<Variable> addedVars, Set<EqRelation> addedRels, Map<Variable, EqRelation> relByVar) {
         Variable v = last(addedVars);
-        for (EqRelation eqRel : equalities) {
+        for (EqRelation eqRel: equalities) {
             if (eqRel.a != v && eqRel.b != v) {
                 continue;
             }
@@ -323,14 +316,13 @@ public class EqualityCluster {
     }
 
     /**
-     * Verify that the less-equal relation holds between two variables in this
-     * equality cluster.
+     * Verify that the less-equal relation holds between two variables in this equality cluster.
      *
      * <p>
      * May only be used after the cluster has been initialized.
      * </p>
      *
-     * @param leRel       Less-equal relation to check.
+     * @param leRel Less-equal relation to check.
      * @param dumpSolving Whether to dump details of solving the position equations.
      */
     public void checkLeRelation(LeRelation leRel, boolean dumpSolving) {
@@ -353,15 +345,14 @@ public class EqualityCluster {
     }
 
     /**
-     * Assign all variables of the equality cluster from a computed value of the
-     * common C value.
+     * Assign all variables of the equality cluster from a computed value of the common C value.
      *
-     * @param varValues   Storage of variable assignments.
-     * @param cValue      The common C value to use for assigning variables.
+     * @param varValues Storage of variable assignments.
+     * @param cValue The common C value to use for assigning variables.
      * @param dumpSolving Whether to dump details of solving the position equations.
      */
     public void assignVariables(double[] varValues, double cValue, boolean dumpSolving) {
-        for (Entry<Variable, Double> entry : variables.entrySet()) {
+        for (Entry<Variable, Double> entry: variables.entrySet()) {
             double varValue = cValue - entry.getValue();
             Assert.check(varValue > -Solver.EPSILON); // Variable should be non-negative.
 
@@ -373,12 +364,12 @@ public class EqualityCluster {
         // Dump the variables in increasing value.
         if (dumpSolving && dodbg()) {
             List<Variable> sortedVars = listc(variables.size());
-            for (Variable v : variables.keySet()) {
+            for (Variable v: variables.keySet()) {
                 sortedVars.add(v);
             }
             Collections.sort(sortedVars, new VarValueComparer(varValues));
             idbg();
-            for (Variable v : sortedVars) {
+            for (Variable v: sortedVars) {
                 dbg("%s = %f", v, varValues[v.index]);
             }
             ddbg();
@@ -426,7 +417,7 @@ public class EqualityCluster {
         // == max offset_i
         double maxOffset = 0;
         boolean first = true;
-        for (double offset : variables.values()) {
+        for (double offset: variables.values()) {
             if (first || maxOffset < offset) {
                 maxOffset = offset;
             }
@@ -437,8 +428,8 @@ public class EqualityCluster {
     }
 
     /**
-     * Compute the minimal valid C value for this cluster from the variable
-     * assignments derived in the preceding smaller clusters.
+     * Compute the minimal valid C value for this cluster from the variable assignments derived in the preceding smaller
+     * clusters.
      *
      * @param varValues Assigned variables.
      * @return Minimal valid C.
@@ -448,7 +439,7 @@ public class EqualityCluster {
 
         double minC = 0;
         boolean first = true;
-        for (LeClusterRelation leClusterRel : remoteSmallers) {
+        for (LeClusterRelation leClusterRel: remoteSmallers) {
             LeRelation leRel = leClusterRel.leRelation;
             // Compute smallest valid C value for this leRelation.
             double biggerRelValue = varValues[leRel.a.index] + leRel.lowBound;

@@ -43,9 +43,9 @@ public class LeRelation extends VariableRelation {
      * Instance represents equality relation {@code a + lowBound <= b}.
      * </p>
      *
-     * @param a        Variable 'a'.
+     * @param a Variable 'a'.
      * @param lowBound Offset between the variables, is at least {@code b - a}.
-     * @param b        Variable 'b'.
+     * @param b Variable 'b'.
      */
     public LeRelation(Variable a, double lowBound, Variable b) {
         this.a = a;

@@ -40,7 +40,7 @@ public class BranchLabelNode extends DiagramElement {
      * Constructor of the {@link BranchLabelNode} class.
      *
      * @param labelText Text of the label.
-     * @param id        Identifying number of the diagram element.
+     * @param id Identifying number of the diagram element.
      */
     public BranchLabelNode(String labelText, int id) {
         super("branch-label", id);
