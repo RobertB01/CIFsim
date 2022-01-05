@@ -203,10 +203,10 @@ public class CifCompilerContext {
     public static final String INPUT_SUB_STATE_FIELD_NAME = "i";
 
     /** The name of the debug project. */
-    public static final String DBG_PROJ = "org.eclipse.escet.cif.simulator.debug";
+    public static final String DBG_PROJ_NAME = "org.eclipse.escet.cif.simulator.debug";
 
     /** The name of the debug simulator java file. */
-    public static final String DBG_SIM_NAME = "DebugSimulator";
+    public static final String DBG_SIM_CLS_NAME = "DebugSimulator";
 
     /** File extension (excluding {@code "."}) of location names resource files. */
     public static final String FILE_EXT_LOC_NAMES = "locnames";
@@ -1369,7 +1369,7 @@ public class CifCompilerContext {
         if (Platform.isRunning() && PlatformUI.isWorkbenchRunning()) {
             // Look for the debug project, and use it.
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-            IProject project = root.getProject(DBG_PROJ);
+            IProject project = root.getProject(DBG_PROJ_NAME);
             if (project.exists()) {
                 IFolder folder = project.getFolder("src");
                 if (folder.exists()) {

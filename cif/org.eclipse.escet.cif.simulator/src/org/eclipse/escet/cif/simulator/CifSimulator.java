@@ -491,7 +491,7 @@ public final class CifSimulator {
             // 'URLClassLoader' assumes there is a single JAR file.
             String platformSeperator = Character.toString(Paths.getPlatformSeparator());
             if (!classPath.endsWith(platformSeperator)) {
-                classPath = classPath + platformSeperator;
+                classPath += platformSeperator;
             }
 
             // Determine the class path URL.

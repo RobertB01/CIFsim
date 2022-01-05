@@ -31,11 +31,10 @@ Otherwise, the generated code will be written to the directory containing the in
 
 Regardless, the code is also always written to a `cifcode` sub-directory.
 If this sub-directory does not yet exist, it is created.
-If it already exists, all existing `.java` files, `.dat` files, `.edgedata` files and `.locnames` files are removed from the sub-directory first, before the newly generated code is written.
+If it already exists, all relevant existing files, such as .java files, are removed from the sub-directory first, before the newly generated code is written.
 
 === Written files
 
-The generated code consists of `.java` files, `.dat` files, `.edgedata` files and `.locnames` files.
 This results in several files being written to the `cifcode` directory.
 One of these files is `DebugSimulator.java`, this file contains the simulation options that were used and always shows the option dialog.
 
