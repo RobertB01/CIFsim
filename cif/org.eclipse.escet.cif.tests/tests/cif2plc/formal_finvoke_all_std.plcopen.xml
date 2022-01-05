@@ -512,7 +512,7 @@ WHILE TRUE DO
             progress := TRUE;
             state1 := state0;
 
-            state1.dvar_M_aut_b := NOT(IN1:=state0.dvar_M_aut_b);
+            state1.dvar_M_aut_b := NOT(state0.dvar_M_aut_b);
 
             state0 := state1;
         END_IF;
@@ -524,7 +524,7 @@ WHILE TRUE DO
             progress := TRUE;
             state1 := state0;
 
-            state1.dvar_M_aut_b := NOT(IN1:=state0.dvar_M_aut_b) OR (state0.dvar_M_aut_b);
+            state1.dvar_M_aut_b := NOT(state0.dvar_M_aut_b) OR (state0.dvar_M_aut_b);
 
             state0 := state1;
         END_IF;

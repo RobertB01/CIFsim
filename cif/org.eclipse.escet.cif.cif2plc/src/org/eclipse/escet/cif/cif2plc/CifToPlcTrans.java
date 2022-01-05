@@ -1302,7 +1302,7 @@ public class CifToPlcTrans {
             UnaryOperator op = uexpr.getOperator();
             switch (op) {
                 case INVERSE:
-                    return genFuncCall("NOT", true, "IN1", childTxt);
+                    return genFuncCall("NOT", true, null, childTxt);
 
                 case NEGATE:
                     if (child instanceof IntExpression || child instanceof RealExpression) {
@@ -1328,7 +1328,7 @@ public class CifToPlcTrans {
             BinaryOperator op = bexpr.getOperator();
             switch (op) {
                 case IMPLICATION:
-                    return fmt("%s OR (%s)", genFuncCall("NOT", true, "IN1", left), right);
+                    return fmt("%s OR (%s)", genFuncCall("NOT", true, null, left), right);
 
                 case BI_CONDITIONAL:
                     return fmt("(%s) = (%s)", left, right);
@@ -1959,7 +1959,7 @@ public class CifToPlcTrans {
                         throw new RuntimeException(msg);
                 }
                 if (inverse) {
-                    guard = genFuncCall("NOT", true, "IN1", guard);
+                    guard = genFuncCall("NOT", true, null, guard);
                 }
 
                 pou.body.add("IF %s THEN", guard);
@@ -2245,7 +2245,7 @@ public class CifToPlcTrans {
      * @param funcName The name of the function to call.
      * @param stdFunc Is the function a standard library/conversion function?
      * @param argName The name of the argument of the function, i.e. the formal argument name. Must be {@code null} iff
-     *     function is ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
+     *     function is NOT, ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
      * @param valueTxt The value to use as argument, i.e. the actual argument.
      * @return The function call text.
      * @see #formalInvokeArg
@@ -2262,7 +2262,7 @@ public class CifToPlcTrans {
      * @param funcName The name of the function to call.
      * @param stdFunc Is the function a standard library/conversion function?
      * @param argNames The names of the arguments of the function, i.e. the formal argument names. Must be {@code null}
-     *     iff function is ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
+     *     iff function is NOT, ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
      * @param valueTxts The values to use as arguments, i.e. the actual arguments.
      * @return The function call text.
      * @see #formalInvokeArg
