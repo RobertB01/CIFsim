@@ -339,7 +339,7 @@ public final class InteractiveGuiInputComponent<S extends RuntimeState> extends 
                     Display.getDefault().syncExec(new Runnable() {
                         @Override
                         public void run() {
-                            gui.disableButtons();
+                            gui.resetAndDisableUI();
                         }
                     });
 
