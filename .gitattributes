@@ -28,7 +28,6 @@ Makefile text eol=lf
 *.docx      binary
 *.eps       binary
 *.exe       binary
-*.fig       binary
 *.gif       binary
 *.gz        binary
 *.ico       binary
