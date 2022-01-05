@@ -138,6 +138,11 @@ public class Configuration {
      * @return Color of the property if it was a valid color, else a default color.
      */
     public Color getRgbColor(String name) {
+        Color override = outputTarget.getOverrideColor(name);
+        if (override != null) {
+            return override;
+        }
+
         String colorText = getPropertyValue(name);
         return decodeColor(colorText);
     }
@@ -291,7 +296,7 @@ public class Configuration {
      * @return The decoded color, or a default color if decoding failed.
      */
     private Color decodeColor(String colorText) {
-        Color defaultColor = Color.pink;
+        final Color defaultColor = Color.pink;
 
         if (colorText == null) {
             return defaultColor;

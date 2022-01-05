@@ -28,7 +28,8 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.raildiagrams.config.ConfigFileOption;
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
-import org.eclipse.escet.common.raildiagrams.output.ImageOutput;
+import org.eclipse.escet.common.raildiagrams.output.DebugImageOutput;
+import org.eclipse.escet.common.raildiagrams.output.NormalImageOutput;
 import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramParser;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
@@ -75,8 +76,19 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Setup configuration.
-        OutputTarget outputTarget = new ImageOutput();
+        // Setup output target and configuration.
+        OutputTarget outputTarget;
+        switch (OutputFormatOption.getFormat()) {
+            case DBG_IMAGES:
+                outputTarget = new DebugImageOutput();
+                break;
+            case IMAGES:
+                outputTarget = new NormalImageOutput();
+                break;
+            default:
+                throw new AssertionError("Unnknwon output format found.");
+        }
+
         Configuration config = new Configuration(outputTarget);
         if (isTerminationRequested()) {
             return 0;
@@ -125,15 +137,11 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             }
 
             // Second, position everything and generate the graphic elements.
-            //
-            // Create the 'real' image.
-            {
-                int width = (int) Math.ceil(diagramWidth);
-                int height = (int) Math.ceil(diagramHeight);
+            int width = (int)Math.ceil(diagramWidth);
+            int height = (int)Math.ceil(diagramHeight);
 
-                Color bgColor = config.getRgbColor("diagram.background.color");
-                outputTarget.prepareOutputFile(width, height, bgColor);
-            }
+            Color bgColor = config.getRgbColor("diagram.background.color");
+            outputTarget.prepareOutputFile(width, height, bgColor);
 
             // Paint graphics to the image.
             boolean dumpAbsCoords = config.getDebugSetting(DebugDisplayKind.ABS_COORDINATES);
@@ -171,7 +179,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
         OptionCategory diagramOpts = new OptionCategory("Generator", "Railroad diagram generation options.", list(),
                 list(Options.getInstance(FilesOption.class), Options.getInstance(ConfigFileOption.class),
-                        Options.getInstance(WriteImageOption.class)));
+                        Options.getInstance(WriteImageOption.class), Options.getInstance(OutputFormatOption.class)));
 
         OptionCategory options;
         options = new OptionCategory("Railroad Diagram Generator Tool Options",

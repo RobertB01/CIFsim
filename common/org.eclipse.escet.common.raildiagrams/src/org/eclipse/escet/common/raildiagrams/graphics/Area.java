@@ -19,6 +19,7 @@ import java.awt.Graphics2D;
 
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
 
 /** An area in a diagram. */
 public abstract class Area {
@@ -76,4 +77,15 @@ public abstract class Area {
      * @param gd       Graphics stream handle.
      */
     public abstract void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd);
+
+    /**
+     * Return a list of positions where other elements are expected to connect.
+     *
+     * @param baseLeft Left-most X coordinate available for the graphic.
+     * @param baseTop  Top-most Y coordinate available for the graphic.
+     * @param solver Solver containing values for all variables.
+     *
+     * @return Positions expected to be used by other elements.
+     */
+    public abstract Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver);
 }

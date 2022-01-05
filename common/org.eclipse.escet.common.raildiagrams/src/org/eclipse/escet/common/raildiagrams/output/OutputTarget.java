@@ -56,11 +56,11 @@ public abstract class OutputTarget {
      * @param top            Topmost vertical coordinate that is available for the
      *                       element.
      * @param solver         Solver for resolving variable to their values.
-     * @param diagramElement Element being added.
+     * @param element Element being added.
      * @note Diagram elements are just bounding boxes containing the actual
      *       graphics. They are only useful for debugging.
      */
-    public void addDiagramElement(double left, double top, Solver solver, DiagramElement diagramElement) {
+    public void addDiagramElement(double left, double top, Solver solver, DiagramElement element) {
         // Skip by default.
     }
 
@@ -74,4 +74,15 @@ public abstract class OutputTarget {
      * @param graphic Graphic element being added.
      */
     public abstract void addGraphic(double left, double top, Solver solver, Area graphic);
+
+    /**
+     * The color to use for the element with the provided name.
+     *
+     * @param name Name of the element.
+     * @return If not {@code null}, the color to use for the indicated name.
+     * @note Intended use is for overriding specified colors in the configuration.
+     */
+    public Color getOverrideColor(String name) {
+        return null;
+    }
 }
