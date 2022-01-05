@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -101,7 +101,7 @@ public class EmfLatexDocSkeletonDetailGenerator extends EmfLatexCodeGenerator {
     private static CodeBox generate(EPackage pkg) {
         CodeBox box = new MemoryCodeBox();
         box.add("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        box.add("%% Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation");
+        box.add("%% Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation");
         box.add("%%");
         box.add("%% See the NOTICE file(s) distributed with this work for additional");
         box.add("%% information regarding copyright ownership.");
