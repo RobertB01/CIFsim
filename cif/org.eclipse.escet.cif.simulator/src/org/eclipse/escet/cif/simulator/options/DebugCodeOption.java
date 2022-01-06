@@ -24,13 +24,13 @@ public class DebugCodeOption extends StringOption {
         super("Load debug code",
                 "Specifies the absolute or relative local file system path to use as Java classpath, to find the "
                         + "already compiled code for the specification being simulated. This is generally the "
-                        + "\"bin\" directory of the \"" + CifCompilerContext.DBG_PROJ + "\" project. Specify \"\" "
-                        + "(default) to generate fresh code and compile it in-memory.",
+                        + "\target/classes\" directory of the \"" + CifCompilerContext.DBG_PROJ_NAME
+                        + "\" project. Specify \"\" (default) to generate fresh code and compile it in-memory.",
                 null, "debug-code", "DBGCODE", null, true, true,
                 "Specify the absolute or relative local file system path to use as Java classpath, to find the "
                         + "already compiled code for the specification being simulated. This is generally the "
-                        + "\"bin\" directory of the \"" + CifCompilerContext.DBG_PROJ + "\" project. Leave empty "
-                        + "to generate fresh code and compile it in-memory.",
+                        + "\"target/classes\" directory of the \"" + CifCompilerContext.DBG_PROJ_NAME
+                        + "\" project. Leave empty to generate fresh code and compile it in-memory.",
                 "Classpath:");
     }
 
