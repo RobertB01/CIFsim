@@ -15,6 +15,9 @@ package org.eclipse.escet.cif.cif2plc.options;
 
 /** The number of bits maximally available for numbers in the PLC. */
 public enum PlcNumberBits {
+    /** Let the transformator decide. */
+    AUTO,
+
     /** 32-bit. */
     BITS_32,
 

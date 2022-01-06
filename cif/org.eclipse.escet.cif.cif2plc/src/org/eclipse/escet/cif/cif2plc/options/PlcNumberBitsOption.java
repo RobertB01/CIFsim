@@ -23,14 +23,16 @@ public class PlcNumberBitsOption extends EnumOption<PlcNumberBits> {
     public PlcNumberBitsOption() {
         super("PLC number bits",
                 "BITS is the maximum number of bits supported by the PLC for representing numeric values. "
-                        + "Allowed values are \"32\" and\"64\". [DEFAULT=64]",
-                'b', "number-bits", "BITS", PlcNumberBits.BITS_64, true,
+                        + "Allowed values are \"auto\", \"32\" and\"64\". [DEFAULT=auto]",
+                'b', "number-bits", "BITS", PlcNumberBits.AUTO, true,
                 "The maximum number of bits supported by the PLC for representing numeric values.");
     }
 
     @Override
     protected String getDialogText(PlcNumberBits value) {
         switch (value) {
+            case AUTO:
+                return "Automatic";
             case BITS_32:
                 return "32-bit";
             case BITS_64:
@@ -42,7 +44,9 @@ public class PlcNumberBitsOption extends EnumOption<PlcNumberBits> {
 
     @Override
     public PlcNumberBits parseValue(String optName, String value) {
-        if (value.equals("32")) {
+        if (value.equals("auto")) {
+            return PlcNumberBits.AUTO;
+        } else if (value.equals("32")) {
             return PlcNumberBits.BITS_32;
         } else if (value.equals("64")) {
             return PlcNumberBits.BITS_64;
@@ -54,6 +58,9 @@ public class PlcNumberBitsOption extends EnumOption<PlcNumberBits> {
     public String[] getCmdLine(Object value) {
         String valueTxt;
         switch ((PlcNumberBits)value) {
+            case AUTO:
+                valueTxt = "auto";
+                break;
             case BITS_32:
                 valueTxt = "32";
                 break;
