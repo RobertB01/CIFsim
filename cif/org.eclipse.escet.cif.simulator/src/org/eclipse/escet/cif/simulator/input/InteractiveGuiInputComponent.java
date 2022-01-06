@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -317,15 +317,33 @@ public final class InteractiveGuiInputComponent<S extends RuntimeState> extends 
         }
     }
 
-    /** Wait to be notified that the choice has been made by the user, or the GUI has been closed. */
+    /**
+     * Wait to be notified that the choice has been made by the user, the GUI has been closed, or the simulation has
+     * been terminated.
+     */
     private void waitForChoice() {
         synchronized (gui.ready) {
             while (!gui.ready.get()) {
+                // Wait for GUI input.
                 try {
-                    gui.ready.wait(1000);
-                    spec.ctxt.checkTermination();
+                    gui.ready.wait(100);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
+                }
+
+                // Check for termination.
+                try {
+                    spec.ctxt.checkTermination();
+                } catch (SimulatorExitException e) {
+                    // Simulation has been terminated. Disable the GUI buttons.
+                    Display.getDefault().syncExec(new Runnable() {
+                        @Override
+                        public void run() {
+                            gui.resetAndDisableUI();
+                        }
+                    });
+
+                    throw e;
                 }
             }
         }

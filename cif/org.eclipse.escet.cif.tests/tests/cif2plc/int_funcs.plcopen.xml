@@ -171,8 +171,8 @@ tmp0 := fvar_f3_x;
 tmp1 := fvar_f3_y;
 tmp0 := proj0_TupleStruct_1(makeTupleStruct_1(fvar_f3_y, fvar_f3_x));
 tmp1 := proj1_TupleStruct_1(makeTupleStruct_1(fvar_f3_y, fvar_f3_x));
-fvar_f3_x = tmp0;
-fvar_f3_y = tmp1;
+fvar_f3_x := tmp0;
+fvar_f3_y := tmp1;
 func_f3 := ((fvar_f3_x) + (fvar_f3_y)) + (farg_f3_z);
 RETURN;</xhtml>
           </ST>

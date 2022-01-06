@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -18,7 +18,7 @@ indexterm:[legal]
 [[legal-chapter-index]]
 == Legal
 
-The material in this documentation is Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation.
+The material in this documentation is Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation.
 
 Eclipse ESCET and ESCET are trademarks of the Eclipse Foundation.
 Eclipse, and the Eclipse Logo are registered trademarks of the Eclipse Foundation.
