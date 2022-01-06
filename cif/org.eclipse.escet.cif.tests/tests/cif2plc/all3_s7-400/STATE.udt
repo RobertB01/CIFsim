@@ -1,0 +1,9 @@
+TYPE STATE:
+    STRUCT
+        curTime: REAL;
+        dvar_M_p_x: DINT;
+        dvar_M_p: DINT;
+        dvar_M_q_y: DINT;
+        dvar_M_q_b: BOOL;
+    END_STRUCT;
+END_TYPE

@@ -1,0 +1,90 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        lastTimerValue: TIME;
+        curDeltaTime: TIME;
+        curDeltaSecs: REAL;
+        state1: STATE;
+        progress: BOOL;
+        loopCount: INT;
+        timerValue0: TIME;
+        timerValue1: TIME;
+    END_VAR
+
+BEGIN
+
+    // Handle 'time' and cycle time.
+    "DB".cnt := "DB".cnt + 1;
+
+    timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+    timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+
+    lastTimerValue := "DB".curTimerValue;
+    IF "DB".curTimer = 0 THEN
+        "DB".curTimerValue := timerValue0;
+    ELSE
+        "DB".curTimerValue := timerValue1;
+    END_IF;
+    curDeltaTime := "DB".curTimerValue - lastTimerValue;
+    curDeltaSecs := DINT_TO_REAL(TIME_TO_DINT(curDeltaTime)) / 1000;
+    "DB".curTime := "DB".curTime + curDeltaSecs;
+
+    IF "DB".cnt MOD 10 = 0 THEN
+        "DB".curTimer := 1 - "DB".curTimer;
+        "DB".curTimerValue := T#0S;
+        timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+        timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+        timerValue0 := timer0.ET;
+        timerValue1 := timer1.ET;
+    END_IF;
+
+    IF "DB".first THEN
+        "DB".first := FALSE;
+
+        // Initialize state variables for initial state.
+        "DB".state0.dvar_M_p_v0 := 0.0;
+        "DB".state0.dvar_M_p_v1 := 1;
+        "DB".state0.dvar_M_p_v2 := 2;
+        "DB".state0.dvar_M_p_v3 := 3;
+        "DB".state0.dvar_M_p_v99 := 1.0e99;
+        "DB".state0.dvar_M_p_vx := 0.0;
+        "DB".state0.dvar_M_p_vr := makeTupleStruct_1(field0:=1.0, field1:=1.0, field2:=1.0, field3:=1.0, field4:=1.0, field5:=1.0, field6:=1.0, field7:=1.0, field8:=1.0, field9:=1.0, field10:=1.0, field11:=1.0, field12:=1.0, field13:=1.0);
+        "DB".state0.dvar_M_p := const_m1;
+    ELSE
+        // Update continuous variables for time delay.
+
+        "DB".state0.curTime := "DB".curTime;
+    END_IF;
+
+    // Event loop.
+    WHILE TRUE DO
+        progress := FALSE;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_m1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_vr := makeTupleStruct_1(field0:=-("DB".state0.dvar_M_p_v0), field1:=-(-(-("DB".state0.dvar_M_p_v0))), field2:=-(-(-(-(-("DB".state0.dvar_M_p_v0))))), field3:=("DB".state0.dvar_M_p_v0) * (-1.0), field4:=("DB".state0.dvar_M_p_v0) / (DINT_TO_REAL(-1)), field5:=(-4.9e-324) / ("DB".state0.dvar_M_p_v99), field6:=(-("DB".state0.dvar_M_p_v0)) ** (1.0/3.0), field7:=LN((DINT_TO_REAL("DB".state0.dvar_M_p_v1)) - (1.0e-18)), field8:=LN((DINT_TO_REAL("DB".state0.dvar_M_p_v1)) - (1.0e-17)), field9:=LN((DINT_TO_REAL("DB".state0.dvar_M_p_v1)) - (1.0e-16)), field10:=(-1.0e-300) ** (DINT_TO_REAL("DB".state0.dvar_M_p_v1)), field11:=(-1.0e-300) ** (DINT_TO_REAL("DB".state0.dvar_M_p_v2)), field12:=(-1.0e-300) ** (DINT_TO_REAL("DB".state0.dvar_M_p_v3)), field13:=-("DB".state0.dvar_M_p_vx));
+                state1.dvar_M_p := const_m2;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Done with events?
+        IF NOT progress THEN
+            EXIT;
+        END_IF;
+
+        // Protect against events that are always enabled.
+        loopCount := loopCount + 1;
+        IF loopCount >= 100 THEN
+            "DB".loopsKilled := "DB".loopsKilled + 1;
+            EXIT;
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK

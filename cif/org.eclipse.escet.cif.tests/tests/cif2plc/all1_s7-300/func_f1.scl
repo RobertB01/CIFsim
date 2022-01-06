@@ -1,0 +1,10 @@
+FUNCTION func_f1: DINT
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        farg_f1_x: DINT;
+    END_VAR
+
+BEGIN
+    func_f1 := (farg_f1_x) + (1);
+    RETURN;
+END_FUNCTION

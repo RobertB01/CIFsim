@@ -1,0 +1,545 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        lastTimerValue: TIME;
+        curDeltaTime: TIME;
+        curDeltaSecs: REAL;
+        state1: STATE;
+        progress: BOOL;
+        loopCount: INT;
+        b1: BOOL;
+        b2: BOOL;
+        timerValue0: TIME;
+        timerValue1: TIME;
+    END_VAR
+
+BEGIN
+
+    // Handle 'time' and cycle time.
+    "DB".cnt := "DB".cnt + 1;
+
+    timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+    timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+
+    lastTimerValue := "DB".curTimerValue;
+    IF "DB".curTimer = 0 THEN
+        "DB".curTimerValue := timerValue0;
+    ELSE
+        "DB".curTimerValue := timerValue1;
+    END_IF;
+    curDeltaTime := "DB".curTimerValue - lastTimerValue;
+    curDeltaSecs := DINT_TO_REAL(TIME_TO_DINT(curDeltaTime)) / 1000;
+    "DB".curTime := "DB".curTime + curDeltaSecs;
+
+    IF "DB".cnt MOD 10 = 0 THEN
+        "DB".curTimer := 1 - "DB".curTimer;
+        "DB".curTimerValue := T#0S;
+        timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+        timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+        timerValue0 := timer0.ET;
+        timerValue1 := timer1.ET;
+    END_IF;
+
+    IF "DB".first THEN
+        "DB".first := FALSE;
+
+        // Initialize state variables for initial state.
+        "DB".state0.cvar_c := 0.0;
+        "DB".state0.dvar_M_aut_r := 0.0;
+        "DB".state0.dvar_M_aut_b := FALSE;
+        "DB".state0.dvar_M_aut_i := 0;
+        "DB".state0.dvar_M_aut_tii := makeTupleStruct_1(field0:=0, field1:=0);
+        "DB".state0.dvar_M_aut_i2 := 1;
+        "DB".state0.dvar_M_aut_i3 := 1;
+        "DB".state0.dvar_M_aut := const_l1;
+    ELSE
+        // Update continuous variables for time delay.
+        state1.cvar_c := "DB".state0.cvar_c + curDeltaSecs * derivcvar_c("DB".state0);
+
+        "DB".state0.curTime := "DB".curTime;
+        "DB".state0.cvar_c := state1.cvar_c;
+    END_IF;
+
+    // Event loop.
+    WHILE TRUE DO
+        progress := FALSE;
+
+        // Event "aut.e".
+        IF NOT progress THEN
+            b1 := ("DB".state0.dvar_M_aut) = (const_l1);
+            IF b1 THEN
+                b2 := "DB".state0.dvar_M_aut_b;
+                b2 := b2 OR ("DB".state0.dvar_M_aut_b);
+                b2 := b2 OR ("DB".state0.dvar_M_aut_b);
+                b1 := b1 AND (b2);
+            END_IF;
+            IF b1 THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ivar_inp;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ((alg_a("DB".state0)) + ("DB".state0.cvar_c)) + (derivcvar_c("DB".state0));
+                state1.dvar_M_aut := const_l2;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := DINT_TO_REAL("DB".state0.dvar_M_aut_i);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_b := NOT("DB".state0.dvar_M_aut_b);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_b := NOT("DB".state0.dvar_M_aut_b) OR ("DB".state0.dvar_M_aut_b);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := DINT_TO_REAL("DB".state0.dvar_M_aut_i) / (DINT_TO_REAL("DB".state0.dvar_M_aut_i));
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_b := func_f1("DB".state0.dvar_M_aut_b);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_b := func_f2("DB".state0.dvar_M_aut_b);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_b := ifExprFunc3("DB".state0);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_i := proj0_TupleStruct_1("DB".state0.dvar_M_aut_tii);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ABS("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ("DB".state0.dvar_M_aut_r) ** (1.0/3.0);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := EXP("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := LN("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := LN("DB".state0.dvar_M_aut_r) / LN(10);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_i := MIN("DB".state0.dvar_M_aut_i, "DB".state0.dvar_M_aut_i);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := MIN(DINT_TO_REAL("DB".state0.dvar_M_aut_i), "DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := MIN("DB".state0.dvar_M_aut_r, DINT_TO_REAL("DB".state0.dvar_M_aut_i));
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := MIN("DB".state0.dvar_M_aut_r, "DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_i := MAX("DB".state0.dvar_M_aut_i, "DB".state0.dvar_M_aut_i);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := MAX(DINT_TO_REAL("DB".state0.dvar_M_aut_i), "DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := MAX("DB".state0.dvar_M_aut_r, DINT_TO_REAL("DB".state0.dvar_M_aut_i));
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := MAX("DB".state0.dvar_M_aut_r, "DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_i := REAL_TO_DINT((DINT_TO_REAL("DB".state0.dvar_M_aut_i2)) ** (DINT_TO_REAL("DB".state0.dvar_M_aut_i3)));
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := (DINT_TO_REAL("DB".state0.dvar_M_aut_i)) ** (DINT_TO_REAL("DB".state0.dvar_M_aut_i));
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := (DINT_TO_REAL("DB".state0.dvar_M_aut_i)) ** ("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ("DB".state0.dvar_M_aut_r) ** (DINT_TO_REAL("DB".state0.dvar_M_aut_i));
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ("DB".state0.dvar_M_aut_r) ** ("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := SQRT("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ASIN("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ACOS("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := ATAN("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := SIN("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := COS("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := TAN("DB".state0.dvar_M_aut_r);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_tii := makeTupleStruct_1(field0:="DB".state0.dvar_M_aut_i, field1:=("DB".state0.dvar_M_aut_i) + (1));
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_r := proj0_TupleStruct_2(makeTupleStruct_2(field0:=("DB".state0.dvar_M_aut_r) * (2.0), field1:=("DB".state0.dvar_M_aut_i) + (1)));
+                state1.dvar_M_aut_i := proj1_TupleStruct_2(makeTupleStruct_2(field0:=("DB".state0.dvar_M_aut_r) * (2.0), field1:=("DB".state0.dvar_M_aut_i) + (1)));
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Done with events?
+        IF NOT progress THEN
+            EXIT;
+        END_IF;
+
+        // Protect against events that are always enabled.
+        loopCount := loopCount + 1;
+        IF loopCount >= 100 THEN
+            "DB".loopsKilled := "DB".loopsKilled + 1;
+            EXIT;
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK

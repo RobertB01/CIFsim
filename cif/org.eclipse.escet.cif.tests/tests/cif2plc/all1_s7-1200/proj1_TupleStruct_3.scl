@@ -1,0 +1,9 @@
+FUNCTION proj1_TupleStruct_3: DINT
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        tuple: TupleStruct_3;
+    END_VAR
+
+BEGIN
+    proj1_TupleStruct_3 := tuple.field1;
+END_FUNCTION

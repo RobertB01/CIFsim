@@ -1,0 +1,10 @@
+FUNCTION func_fac: DINT
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        farg_fac_a: DINT;
+    END_VAR
+
+BEGIN
+    func_fac := ifExprFunc1(farg_fac_a);
+    RETURN;
+END_FUNCTION

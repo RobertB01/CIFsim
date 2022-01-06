@@ -1,0 +1,18 @@
+TYPE TupleStruct_1:
+    STRUCT
+        field0: REAL;
+        field1: REAL;
+        field2: REAL;
+        field3: REAL;
+        field4: REAL;
+        field5: REAL;
+        field6: REAL;
+        field7: REAL;
+        field8: REAL;
+        field9: REAL;
+        field10: REAL;
+        field11: REAL;
+        field12: REAL;
+        field13: REAL;
+    END_STRUCT;
+END_TYPE

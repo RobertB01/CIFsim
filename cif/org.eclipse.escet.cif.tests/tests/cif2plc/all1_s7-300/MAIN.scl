@@ -1,0 +1,289 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        lastTimerValue: TIME;
+        curDeltaTime: TIME;
+        curDeltaSecs: REAL;
+        state1: STATE;
+        progress: BOOL;
+        loopCount: INT;
+        timerValue0: TIME;
+        timerValue1: TIME;
+    END_VAR
+
+BEGIN
+
+    // Handle 'time' and cycle time.
+    "DB".cnt := "DB".cnt + 1;
+
+    timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+    timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+
+    lastTimerValue := "DB".curTimerValue;
+    IF "DB".curTimer = 0 THEN
+        "DB".curTimerValue := timerValue0;
+    ELSE
+        "DB".curTimerValue := timerValue1;
+    END_IF;
+    curDeltaTime := "DB".curTimerValue - lastTimerValue;
+    curDeltaSecs := DINT_TO_REAL(TIME_TO_DINT(curDeltaTime)) / 1000;
+    "DB".curTime := "DB".curTime + curDeltaSecs;
+
+    IF "DB".cnt MOD 10 = 0 THEN
+        "DB".curTimer := 1 - "DB".curTimer;
+        "DB".curTimerValue := T#0S;
+        timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+        timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+        timerValue0 := timer0.ET;
+        timerValue1 := timer1.ET;
+    END_IF;
+
+    IF "DB".first THEN
+        "DB".first := FALSE;
+
+        // Initialize state variables for initial state.
+        "DB".state0.dvar_M_p_b := TRUE;
+        "DB".state0.dvar_M_p_x := 0;
+        "DB".state0.dvar_M_p_y := 1.23;
+        "DB".state0.dvar_M_p_ve := const_LIT1;
+        "DB".state0.dvar_M_p_v1 := 0;
+        "DB".state0.dvar_M_p_v2 := makeTupleStruct_1(field0:=0.0, field1:=0.0);
+        "DB".state0.dvar_M_p_v3 := makeTupleStruct_2(field0:=makeTupleStruct_1(field0:=0.0, field1:=0.0), field1:=0.0);
+        "DB".state0.dvar_M_p_tv := makeTupleStruct_3(field0:=0, field1:=0);
+        "DB".state0.dvar_M_p_j := 0;
+        "DB".state0.dvar_M_p_r := 1000000.0;
+        "DB".state0.cvar_M_p_t := 0.0;
+        "DB".state0.cvar_M_p_t2 := 1.0;
+        "DB".state0.cvar_M_p_t3 := 0.0;
+        "DB".state0.dvar_M_p := const_l1;
+    ELSE
+        // Update continuous variables for time delay.
+        state1.cvar_M_p_t := "DB".state0.cvar_M_p_t + curDeltaSecs * derivcvar_M_p_t("DB".state0);
+        state1.cvar_M_p_t2 := "DB".state0.cvar_M_p_t2 + curDeltaSecs * derivcvar_M_p_t2("DB".state0);
+        state1.cvar_M_p_t3 := "DB".state0.cvar_M_p_t3 + curDeltaSecs * derivcvar_M_p_t3("DB".state0);
+
+        "DB".state0.curTime := "DB".curTime;
+        "DB".state0.cvar_M_p_t := state1.cvar_M_p_t;
+        "DB".state0.cvar_M_p_t2 := state1.cvar_M_p_t2;
+        "DB".state0.cvar_M_p_t3 := state1.cvar_M_p_t3;
+    END_IF;
+
+    // Event loop.
+    WHILE TRUE DO
+        progress := FALSE;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l1) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_v1 := func_f1("DB".state0.dvar_M_p_x);
+                state1.dvar_M_p := const_l2;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l2) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_v2 := alg_g_algeb2("DB".state0);
+                state1.dvar_M_p := const_l3;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l3) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_y := (func_f2(0.0)) + (func_f2("DB".state0.dvar_M_p_y));
+                state1.dvar_M_p := const_l4;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l4) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_x := ((func_fac(4)) + (func_fac2(4))) + (func_fac3(4));
+                state1.dvar_M_p := const_l5;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l5) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_tv := makeTupleStruct_3(field0:=1, field1:=2);
+                state1.dvar_M_p := const_l6;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l6) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_x := proj0_TupleStruct_3(makeTupleStruct_3(field0:=3, field1:=4));
+                state1.dvar_M_p_j := proj1_TupleStruct_3(makeTupleStruct_3(field0:=3, field1:=4));
+                state1.dvar_M_p := const_l7;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l7) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_x := proj0_TupleStruct_3("DB".state0.dvar_M_p_tv);
+                state1.dvar_M_p_j := proj1_TupleStruct_3("DB".state0.dvar_M_p_tv);
+                state1.dvar_M_p := const_l8;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l8) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_tv.field0 := 5;
+                state1.dvar_M_p := const_l9;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l9) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_tv.field1 := proj0_TupleStruct_3(makeTupleStruct_3(field0:=6, field1:=7));
+                state1.dvar_M_p_j := proj1_TupleStruct_3(makeTupleStruct_3(field0:=6, field1:=7));
+                state1.dvar_M_p := const_l10;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l10) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_v3.field0.field1 := 7.8;
+                state1.dvar_M_p := const_l11;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l11) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_v3 := makeTupleStruct_2(field0:=makeTupleStruct_1(field0:=1.2, field1:=3.4), field1:=5.6);
+                state1.dvar_M_p := const_l12;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l12) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_j := ("DB".state0.dvar_M_p_j) + (1);
+                state1.dvar_M_p := const_l13;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l13) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_b := FALSE;
+                state1.dvar_M_p := const_l14;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l14) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                IF (NOT("DB".state0.dvar_M_p_b)) THEN
+                    state1.dvar_M_p_ve := const_LIT2;
+                END_IF;
+                state1.dvar_M_p := const_l15;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_p) = (const_l15) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_p_r := (DINT_TO_REAL(ivar_g_inp)) + (10.0);
+                state1.dvar_M_p := const_l16;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Done with events?
+        IF NOT progress THEN
+            EXIT;
+        END_IF;
+
+        // Protect against events that are always enabled.
+        loopCount := loopCount + 1;
+        IF loopCount >= 100 THEN
+            "DB".loopsKilled := "DB".loopsKilled + 1;
+            EXIT;
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK

@@ -1,0 +1,4 @@
+ERROR: PLC code generation failed for CIF file "cif2plc/asgn_var_parts.cif".
+CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
+ - Unsupported type "list[5] int": list types are currently not supported for S7_300 output.
+ - Unsupported type "list[5] int": list types are currently not supported for S7_300 output.
