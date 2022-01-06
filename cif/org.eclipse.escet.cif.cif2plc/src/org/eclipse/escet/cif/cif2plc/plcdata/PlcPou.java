@@ -13,6 +13,10 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption.getPlcOutputType;
+import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.FUNCTION;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcProject.INDENT;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -22,6 +26,7 @@ import java.util.List;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
+import org.eclipse.escet.common.java.Assert;
 
 /** PLC Program Organization Unit (POU). */
 public class PlcPou extends PlcObject {
@@ -149,6 +154,89 @@ public class PlcPou extends PlcObject {
             c.dedent();
             c.add("END_VAR");
         }
+        return c;
+    }
+
+    @Override
+    public Box toBoxS7() {
+        CodeBox c = new MemoryCodeBox(INDENT);
+
+        // Is optimized block access supported? Only supported for S7-1200 and S7-1500. It optimizes data storage and
+        // performance.
+        boolean optimizedBlockAccess = getPlcOutputType() == S7_1200 || getPlcOutputType() == S7_1500;
+
+        // Get the POU text, either FUNCTION for functions, or ORGANIZATION_BLOCK for the main program.
+        String pouTypeText = null;
+        switch (pouType) {
+            case FUNCTION:
+                pouTypeText = "FUNCTION";
+                break;
+            case PROGRAM:
+                pouTypeText = "ORGANIZATION_BLOCK";
+                break;
+        }
+
+        // Write header. The header includes the POU type, name and return type.
+        String retTypeTxt = (retType == null) ? "" : fmt(": %s", retType);
+        c.add("%s %s%s", pouTypeText, name, retTypeTxt);
+        c.add("{ S7_Optimized_Access := '%b' }", optimizedBlockAccess);
+        c.indent();
+
+        // Write the input variables.
+        if (!inputVars.isEmpty()) {
+            c.add("VAR_INPUT");
+            c.indent();
+            for (PlcVariable var: inputVars) {
+                c.add("%s: %s;", var.name, var.type);
+            }
+            c.dedent();
+            c.add("END_VAR");
+        }
+
+        // Write the local variables.
+        if (!localVars.isEmpty()) {
+            if (pouType == FUNCTION) {
+                c.add("VAR_TEMP");
+                c.indent();
+                for (PlcVariable var: localVars) {
+                    c.add("%s: %s;", var.name, var.type);
+                }
+                c.dedent();
+                c.add("END_VAR");
+            } else {
+                // For programs, these should be written to a DB file.
+            }
+        }
+
+        // Write the temporary variables.
+        if (!tempVars.isEmpty()) {
+            // Functions shouldn't have variables declared as temporary. As all variables are temporary.
+            Assert.check(pouType != FUNCTION);
+
+            c.add("VAR_TEMP");
+            c.indent();
+            for (PlcVariable var: tempVars) {
+                c.add("%s: %s;", var.name, var.type);
+            }
+            for (PlcVariable var: outputVars) {
+                c.add("%s: %s;", var.name, var.type);
+            }
+            c.dedent();
+            c.add("END_VAR");
+        }
+
+        // Write the program body.
+        c.dedent();
+        c.add();
+        c.add("BEGIN");
+
+        c.indent();
+        c.add(body);
+
+        // Close POU.
+        c.dedent();
+        c.add("END_%s", pouTypeText);
+
         return c;
     }
 }

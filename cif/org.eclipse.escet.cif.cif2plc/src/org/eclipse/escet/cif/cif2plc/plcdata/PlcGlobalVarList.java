@@ -58,4 +58,33 @@ public class PlcGlobalVarList extends PlcObject {
         c.add("END_VAR");
         return c;
     }
+
+    @Override
+    public Box toBoxS7() {
+        CodeBox c = new MemoryCodeBox(INDENT);
+
+        // The header.
+        c.add("<?xml version='1.0' encoding='utf-8'?>");
+        c.add("<Tagtable name='%s'>", name);
+        c.indent();
+
+        // The variables, either constants of input variables.
+        if (constants) {
+            for (PlcVariable constant: variables) {
+                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", constant.type, constant.value,
+                        constant.name);
+            }
+        } else {
+            for (PlcVariable var: variables) {
+                c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
+                        + "remark='' addr='%s'>%s</Tag>", var.type, var.address, var.name);
+            }
+        }
+        c.dedent();
+
+        // Close tag table.
+        c.add("</Tagtable>");
+
+        return c;
+    }
 }
