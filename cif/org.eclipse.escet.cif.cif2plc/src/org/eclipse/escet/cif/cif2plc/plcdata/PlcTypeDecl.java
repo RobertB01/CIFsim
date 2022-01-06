@@ -52,9 +52,8 @@ public class PlcTypeDecl extends PlcObject {
 
     @Override
     public Box toBoxS7() {
-        // S7 requires quotes around the name of the type.
         CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s\":", name);
+        c.add("TYPE %s:", name);
         c.indent();
         c.add(new HBox(type.toBoxS7(), ";"));
         c.dedent();
