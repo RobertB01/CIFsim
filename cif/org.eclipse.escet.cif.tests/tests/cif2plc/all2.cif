@@ -11,26 +11,6 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-type tb = tuple(bool x000, x001, x002, x003, x004, x005, x006, x007, x008, x009,
-                     x010, x011, x012, x013, x014, x015, x016, x017, x018, x019,
-                     x020, x021, x022, x023, x024, x025, x026, x027, x028, x029,
-                     x030, x031, x032, x033, x034, x035, x036, x037, x038, x039,
-                     x040, x041, x042, x043, x044, x045, x046, x047, x048, x049,
-                     x050, x051, x052, x053, x054, x055, x056, x057, x058, x059,
-                     x060, x061, x062, x063, x064, x065, x066, x067, x068, x069,
-                     x070, x071, x072, x073, x074, x075, x076, x077, x078, x079,
-                     x080, x081, x082, x083, x084, x085, x086, x087, x088, x089,
-                     x090, x091, x092, x093, x094, x095, x096, x097, x098, x099);
-type ti = tuple(int  x00, x01, x02, x03, x04, x05, x06, x07, x08, x09,
-                     x10, x11, x12, x13, x14, x15, x16, x17, x18, x19,
-                     x20, x21, x22, x23, x24, x25, x26, x27, x28, x29,
-                     x30, x31, x32, x33, x34);
-type tr = tuple(real x00, x01, x02, x03, x04, x05, x06, x07, x08, x09,
-                     x10, x11, x12, x13, x14, x15, x16, x17, x18, x19,
-                     x20, x21, x22, x23, x24, x25, x26, x27, x28, x29,
-                     x30, x31, x32, x33, x34, x35, x36, x37, x38, x39,
-                     x40, x41, x42, x43, x44, x45, x46, x47, x48, x49,
-                     x50, x51, x52, x53, x54, x55, x56, x57, x58);
 type tbir = tuple(bool b; int i; real r);
 
 enum e1 = l1, l2;
@@ -49,135 +29,336 @@ plant p:
   disc e2 ve3 = l3, ve4 = l4;
   disc tbir vbir;
 
-  disc tb vb;
-  disc ti vi;
-  disc tr vr;
+  disc bool vb000, vb001, vb002, vb003, vb004, vb005, vb006, vb007, vb008, vb009,
+            vb010, vb011, vb012, vb013, vb014, vb015, vb016, vb017, vb018, vb019,
+            vb020, vb021, vb022, vb023, vb024, vb025, vb026, vb027, vb028, vb029,
+            vb030, vb031, vb032, vb033, vb034, vb035, vb036, vb037, vb038, vb039,
+            vb040, vb041, vb042, vb043, vb044, vb045, vb046, vb047, vb048, vb049,
+            vb050, vb051, vb052, vb053, vb054, vb055, vb056, vb057, vb058, vb059,
+            vb060, vb061, vb062, vb063, vb064, vb065, vb066, vb067, vb068, vb069,
+            vb070, vb071, vb072, vb073, vb074, vb075, vb076, vb077, vb078, vb079,
+            vb080, vb081, vb082, vb083, vb084, vb085, vb086, vb087, vb088, vb089,
+            vb090, vb091, vb092, vb093, vb094, vb095, vb096, vb097, vb098, vb099;
+  disc int vi00, vi01, vi02, vi03, vi04, vi05, vi06, vi07, vi08, vi09,
+           vi10, vi11, vi12, vi13, vi14, vi15, vi16, vi17, vi18, vi19,
+           vi20, vi21, vi22, vi23, vi24, vi25, vi26, vi27, vi28, vi29,
+           vi30, vi31, vi32, vi33, vi34;
+  disc real vr00, vr01, vr02, vr03, vr04, vr05, vr06, vr07, vr08, vr09,
+            vr10, vr11, vr12, vr13, vr14, vr15, vr16, vr17, vr18, vr19,
+            vr20, vr21, vr22, vr23, vr24, vr25, vr26, vr27, vr28, vr29,
+            vr30, vr31, vr32, vr33, vr34, vr35, vr36, vr37, vr38, vr39,
+            vr40, vr41, vr42, vr43, vr44, vr45, vr46, vr47, vr48, vr49,
+            vr50, vr51, vr52, vr53, vr54, vr55, vr56, vr57, vr58;
 
   location m1:
     initial;
-    edge do vb := (not vf, not vt,                               // unary not
+    edge do // unary not
+            vb000 := not vf,
+            vb001 := not vt,
 
-                   vf => vf, vf => vt, vt => vf, vt => vt,       // =>
-                   //vf => (sqrt(vn10) > 0),                       // short circuit
+            // =>
+            vb002 := vf => vf,
+            vb003 := vf => vt,
+            vb004 := vt => vf,
+            vb005 := vt => vt,
+            //vf => (sqrt(vn10) > 0), // short circuit
 
-                   vf <=> vf, vf <=> vt,                         // <=>
-                   vt <=> vf, vt <=> vt,                         // <=>
+            // <=>
+            vb006 := vf <=> vf,
+            vb007 := vf <=> vt,
+            vb008 := vt <=> vf,
+            vb009 := vt <=> vt,
 
-                   vf and vf, vf and vt,                         // and
-                   vt and vf, vt and vt,                         // and
-                   //vf and (sqrt(vn10) > 0),                      // short circuit
+            // and
+            vb010 := vf and vf,
+            vb011 := vf and vt,
+            vb012 := vt and vf,
+            vb013 := vt and vt,
+            //vf and (sqrt(vn10) > 0), // short circuit
 
-                   vf or vf, vf or vt, vt or vf, vt or vt,       // or
-                   //vt or (sqrt(vn10) > 0),                       // short circuit
+            // or
+            vb014 := vf or vf,
+            vb015 := vf or vt,
+            vb016 := vt or vf,
+            vb017 := vt or vt,
+            //vt or (sqrt(vn10) > 0), // short circuit
 
-                   v0  <  v1,  v1  <  v1,  v2 <   v1,            // binary <
-                   v0  <= v1,  v1  <= v1,  v2 <=  v1,            // binary <=
-                   v0  >  v1,  v1  >  v1,  v2 >   v1,            // binary >
-                   v0  >= v1,  v1  >= v1,  v2 >=  v1,            // binary >=
+            // binary < (int - int)
+            vb018 := v0 < v1,
+            vb019 := v1 < v1,
+            vb020 := v2 < v1,
 
-                   v0  <  v10, v1  <  v10, v2  <  v10,           // binary <
-                   v0  <= v10, v1  <= v10, v2  <= v10,           // binary <=
-                   v0  >  v10, v1  >  v10, v2  >  v10,           // binary >
-                   v0  >= v10, v1  >= v10, v2  >= v10,           // binary >=
+            // binary <= (int - int)
+            vb021 := v0 <= v1,
+            vb022 := v1 <= v1,
+            vb023 := v2 <= v1,
 
-                   v00 <  v1,  v10 <  v1,  v20 <  v1,            // binary <
-                   v00 <= v1,  v10 <= v1,  v20 <= v1,            // binary <=
-                   v00 >  v1,  v10 >  v1,  v20 >  v1,            // binary >
-                   v00 >= v1,  v10 >= v1,  v20 >= v1,            // binary >=
+            // binary > (int - int)
+            vb024 := v0 > v1,
+            vb025 := v1 > v1,
+            vb026 := v2 > v1,
 
-                   v00 <  v10, v10 <  v10, v20 <  v10,           // binary <
-                   v00 <= v10, v10 <= v10, v20 <= v10,           // binary <=
-                   v00 >  v10, v10 >  v10, v20 >  v10,           // binary >
-                   v00 >= v10, v10 >= v10, v20 >= v10,           // binary >=
+            // binary >= (int - int)
+            vb027 := v0 >= v1,
+            vb028 := v1 >= v1,
+            vb029 := v2 >= v1,
 
-                   vt = true, vt = false,                        // binary =
-                   vf = true, vf = false,                        // binary =
+            // binary < (int - real)
+            vb030 := v0 < v10,
+            vb031 := v1 < v10,
+            vb032 := v2 < v10,
 
-                   v0 = 0, v0 = 1, v1 = 0, v1 = 1,               // binary =
+            // binary <= (int - real)
+            vb033 := v0 <= v10,
+            vb034 := v1 <= v10,
+            vb035 := v2 <= v10,
 
-                   v00 = 0.0, v00 = 1.0,                         // binary =
-                   v10 = 0.0, v10 = 1.0,                         // binary =
+            // binary > (int - real)
+            vb036 := v0 > v10,
+            vb037 := v1 > v10,
+            vb038 := v2 > v10,
 
-                   ve1 = l2, ve1 = l1,                           // binary =
-                   ve2 = l2, ve2 = l1,                           // binary =
-                   ve3 = l3, ve3 = l4,                           // binary =
-                   ve4 = l3, ve4 = l4,                           // binary =
+            // binary >= (int - real)
+            vb039 := v0 >= v10,
+            vb040 := v1 >= v10,
+            vb041 := v2 >= v10,
 
-                   vt != true, vt != false,                      // binary !=
-                   vf != true, vf != false,                      // binary !=
+            // binary < (real - int)
+            vb042 := v00 < v1,
+            vb043 := v10 < v1,
+            vb044 := v20 < v1,
 
-                   v0 != 0, v0 != 1, v1 != 0, v1 != 1,           // binary !=
+            // binary <= (real - int)
+            vb045 := v00 <= v1,
+            vb046 := v10 <= v1,
+            vb047 := v20 <= v1,
 
-                   v00 != 0.0, v00 != 1.0,                       // binary !=
-                   v10 != 0.0, v10 != 1.0,                       // binary !=
+            // binary > (real - int)
+            vb048 := v00 > v1,
+            vb049 := v10 > v1,
+            vb050 := v20 > v1,
 
-                   ve1 != l2, ve1 != l1                          // binary !=
-                  ),
+            // binary >= (real - int)
+            vb051 := v00 >= v1,
+            vb052 := v10 >= v1,
+            vb053 := v20 >= v1,
 
-            vi := (-vn1, --vn2, -v3, +v2, +vn2,                  // unary +/-
-                   <int>v123,                                    // cast int to int
+            // binary < (real - real)
+            vb054 := v00 < v10,
+            vb055 := v10 < v10,
+            vb056 := v20 < v10,
 
-                   v2 + v3,                                      // binary +
-                   v2 - v3,                                      // binary -
-                   v2 * v3,                                      // binary *
-                   7 div 4, 7 div -4, -7 div 4, -7 div -4,       // binary div
-                   7 mod 4, 7 mod -4, -7 mod 4, -7 mod -4,       // binary mod
-                   v1 mod v0,                                    // binary mod
-                                                                 // (0, err in CIF)
+            // binary <= (real - real)
+            vb057 := v00 <= v10,
+            vb058 := v10 <= v10,
+            vb059 := v20 <= v10,
 
-                   if vt: 8 else 9 end,                          // if expr
-                   if vf: 8 else 9 end,                          // if expr
+            // binary > (real - real)
+            vb060 := v00 > v10,
+            vb061 := v10 > v10,
+            vb062 := v20 > v10,
 
-                   if vf: 8 elif vf: 9 else 10 end,              // if expr
-                   if vf: 8 elif vt: 9 else 10 end,              // if expr
-                   if vt: 8 elif vf: 9 else 10 end,              // if expr
-                   if vt: 8 elif vt: 9 else 10 end,              // if expr
+            // binary >= (real - real)
+            vb063 := v00 >= v10,
+            vb064 := v10 >= v10,
+            vb065 := v20 >= v10,
 
-                   if vf: 4 elif vf: 5 elif vf: 6 else 7 end,    // if expr
+            // binary = (bool)
+            vb066 := vt = true,
+            vb067 := vt = false,
+            vb068 := vf = true,
+            vb069 := vf = false,
 
-                   abs(vn1), abs(vn2),                           // stdlib abs
-                   min(v0, v1), min(v1, v1), min(v2, v1),        // stdlib min
-                   max(v0, v1), max(v1, v1), max(v2, v1),        // stdlib max
-                   pow(vr2, vr3),                                // stdlib pow
+            // binary = (int)
+            vb070 := v0 = 0,
+            vb071 := v0 = 1,
+            vb072 := v1 = 0,
+            vb073 := v1 = 1,
 
-                   dup(234)[0]                                   // proj fcall rslt
-                  ),
+            // binary = (real)
+            vb074 := v00 = 0.0,
+            vb075 := v00 = 1.0,
+            vb076 := v10 = 0.0,
+            vb077 := v10 = 1.0,
 
-            vr := (<real>v123,                                   // cast int to real
-                   <real>v00,                                    // cast real to real
+            // binary = (enum)
+            vb078 := ve1 = l2,
+            vb079 := ve1 = l1,
+            vb080 := ve2 = l2,
+            vb081 := ve2 = l1,
+            vb082 := ve3 = l3,
+            vb083 := ve3 = l4,
+            vb084 := ve4 = l3,
+            vb085 := ve4 = l4,
 
-                   -vn01, --vn10, -v05, +v01, +vn01,             // unary +/-
+            // binary != (bool)
+            vb086 := vt != true,
+            vb087 := vt != false,
+            vb088 := vf != true,
+            vb089 := vf != false,
 
-                   v20 + v3, v2 + v30, v20 + v30,                // binary +
-                   v20 - v3, v2 - v30, v20 - v30,                // binary -
-                   v20 * v3, v2 * v30, v20 * v30,                // binary *
-                   v2 / v3,                                      // binary /
-                   v20 / v3, v2 / v30, v20 / v30,                // binary /
+            // binary != (int)
+            vb090 := v0 != 0,
+            vb091 := v0 != 1,
+            vb092 := v1 != 0,
+            vb093 := v1 != 1,
 
-                   abs(vn01), abs(vn10),                         // stdlib abs
-                   cbrt(v270),                                   // stdlib cbrt
-                   exp(ln(ln(e))),                               // stdlib exp/ln
-                   log(pow(10, v3)),                             // stdlib log/pow
-                   min(v0,  v10), min(v1,  v10), min(v2,  v10),  // stdlib min
-                   min(v00, v1),  min(v10, v1),  min(v20, v1),   // stdlib min
-                   min(v00, v10), min(v10, v10), min(v20, v10),  // stdlib min
-                   max(v0,  v10), max(v1,  v10), max(v2,  v10),  // stdlib max
-                   max(v00, v1),  max(v10, v1),  max(v20, v1),   // stdlib max
-                   max(v00, v10), max(v10, v10), max(v20, v10),  // stdlib max
-                   pow(v00, v00),                                // stdlib pow
-                   pow(v2, v3), pow(v2, v30),                    // stdlib pow
-                   pow(v20, v3), pow(v20, v30),                  // stdlib pow
-                   sqrt(v00), sqrt(v01), sqrt(v10), sqrt(v20),   // stdlib sqrt
-                   sin(v05), cos(v05), tan(v05),                 // stdlib sin/c/t
-                   asin(v05), acos(v05), atan(v05),              // stdlib asin/c/t
+            // binary != (real)
+            vb094 := v00 != 0.0,
+            vb095 := v00 != 1.0,
+            vb096 := v10 != 0.0,
+            vb097 := v10 != 1.0,
 
-                   add3(v1, v2, v3)                              // fcall, params
-                  ),
-            vbir := (vt, v123, v10)                              // tuple value
+            // binary != (enum)
+            vb098 := ve1 != l2,
+            vb099 := ve1 != l1,
+
+            // unary +/- (int)
+            vi00 := -vn1,
+            vi01 := --vn2,
+            vi02 := -v3,
+            vi03 := +v2,
+            vi04 := +vn2,
+
+            // cast int to int
+            vi05 := <int>v123,
+
+            // binary + (int - int)
+            vi06 := v2 + v3,
+
+            // binary - (int - int)
+            vi07 := v2 - v3,
+
+            // binary * (int - int)
+            vi08 := v2 * v3,
+
+            // binary div
+            vi09 := 7 div 4,
+            vi10 := 7 div -4,
+            vi11 := -7 div 4,
+            vi12 := -7 div -4,
+
+            // binary mod
+            vi13 := 7 mod 4,
+            vi14 := 7 mod -4,
+            vi15 := -7 mod 4,
+            vi16 := -7 mod -4,
+            vi17 := v1 mod v0, // (0, err in CIF)
+
+            // if expr
+            vi18 := if vt: 8 else 9 end,
+            vi19 := if vf: 8 else 9 end,
+            vi20 := if vf: 8 elif vf: 9 else 10 end,
+            vi21 := if vf: 8 elif vt: 9 else 10 end,
+            vi22 := if vt: 8 elif vf: 9 else 10 end,
+            vi23 := if vt: 8 elif vt: 9 else 10 end,
+            vi24 := if vf: 4 elif vf: 5 elif vf: 6 else 7 end,
+
+            // stdlib functions
+            vi25 := abs(vn1),
+            vi26 := abs(vn2),
+            vi27 := min(v0, v1),
+            vi28 := min(v1, v1),
+            vi29 := min(v2, v1),
+            vi30 := max(v0, v1),
+            vi31 := max(v1, v1),
+            vi32 := max(v2, v1),
+            vi33 := pow(vr2, vr3),
+
+            // proj fcall rslt
+            vi34 := dup(234)[0],
+
+            // cast int to real
+            vr00 := <real>v123,
+
+            // cast real to real
+            vr01 := <real>v00,
+
+            // unary +/- (real)
+            vr02 := -vn01,
+            vr03 := --vn10,
+            vr04 := -v05,
+            vr05 := +v01,
+            vr06 := +vn01,
+
+            // binary + (real - int)
+            vr07 := v20 + v3,
+            vr08 := v2 + v30,
+
+            // binary + (real - real)
+            vr09 := v20 + v30,
+
+            // binary - (real - int)
+            vr10 := v20 - v3,
+            vr11 := v2 - v30,
+
+            // binary - (real - real)
+            vr12 := v20 - v30,
+
+            // binary * (real - int)
+            vr13 := v20 * v3,
+            vr14 := v2 * v30,
+
+            // binary * (real - real)
+            vr15 := v20 * v30,
+
+            // binary / (int - int)
+            vr16 := v2 / v3,
+
+            // binary / (real - int)
+            vr17 := v20 / v3,
+            vr18 := v2 / v30,
+
+            // binary / (real - real)
+            vr19 := v20 / v30,
+
+            // stdlib functions
+            vr20 := abs(vn01),
+            vr21 := abs(vn10),
+            vr22 := cbrt(v270),
+            vr23 := exp(ln(ln(e))),
+            vr24 := log(pow(10, v3)),
+            vr25 := min(v0,  v10),
+            vr26 := min(v1,  v10),
+            vr27 := min(v2,  v10),
+            vr28 := min(v00, v1),
+            vr29 := min(v10, v1),
+            vr30 := min(v20, v1),
+            vr31 := min(v00, v10),
+            vr32 := min(v10, v10),
+            vr33 := min(v20, v10),
+            vr34 := max(v0,  v10),
+            vr35 := max(v1,  v10),
+            vr36 := max(v2,  v10),
+            vr37 := max(v00, v1),
+            vr38 := max(v10, v1),
+            vr39 := max(v20, v1),
+            vr40 := max(v00, v10),
+            vr41 := max(v10, v10),
+            vr42 := max(v20, v10),
+            vr43 := pow(v00, v00),
+            vr44 := pow(v2, v3),
+            vr45 := pow(v2, v30),
+            vr46 := pow(v20, v3),
+            vr47 := pow(v20, v30),
+            vr48 := sqrt(v00),
+            vr49 := sqrt(v01),
+            vr50 := sqrt(v10),
+            vr51 := sqrt(v20),
+            vr52 := sin(v05),
+            vr53 := cos(v05),
+            vr54 := tan(v05),
+            vr55 := asin(v05),
+            vr56 := acos(v05),
+            vr57 := atan(v05),
+
+            // fcall, params
+            vr58 := add3(v1, v2, v3)
     goto m2;
 
   location m2:
-    edge do vbir[i] := vbir[i] + v1                              // tuple field proj
+    edge do // tuple field proj
+            vbir[i] := vbir[i] + v1
     goto m3;
 
   location m3;

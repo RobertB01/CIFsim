@@ -1,7 +1,0 @@
-FUNCTION proj4_TupleStruct_5: LREAL
-VAR_INPUT
-    tuple: TupleStruct_5;
-END_VAR
-
-proj4_TupleStruct_5 := tuple.field4;
-END_FUNCTION
