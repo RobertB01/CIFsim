@@ -306,6 +306,14 @@ public class CifToPlcTrans {
         formalInvokeArg = PlcFormalFuncInvokeArgOption.getValue();
         formalInvokeFunc = PlcFormalFuncInvokeFuncOption.getValue();
 
+        if (PlcOutputTypeOption.isS7Output()
+                && (formalInvokeArg == PlcFormalFuncInvokeArg.NONE || formalInvokeFunc != PlcFormalFuncInvokeFunc.ALL))
+        {
+            // S7 requires formal function invocation for all functions with more than two arguments.
+            warn("Formal function invocation is not enabled for all functions, this may generated invalid %s code.",
+                    getPlcOutputType().toString());
+        }
+
         // Determine largest int/real types based on option value.
         // S7 300 supports DINT and REAL.
         // S7 400 supports DINT and REAL.
@@ -426,6 +434,9 @@ public class CifToPlcTrans {
             // This transformation introduces new constants that are intentionally not removed if simplify values is
             // enabled.
             new EnumsToConsts().transform(spec);
+        } else if (PlcOutputTypeOption.isS7Output()) {
+            // Enumerations are not converted.
+            warn("Enumerations are not converted, this may generated invalid %s code.", getPlcOutputType().toString());
         }
 
         // Generate code.
