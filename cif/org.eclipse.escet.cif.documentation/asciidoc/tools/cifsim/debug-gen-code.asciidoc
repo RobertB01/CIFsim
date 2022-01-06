@@ -37,13 +37,11 @@ If it already exists, all relevant existing files, such as `.java` files, are re
 
 This results in several files being written to the `cifcode` directory.
 One of these files is `DebugSimulator.java`, which contains the simulation options that were used and always shows the option dialog.
-
-The `org.eclipse.escet.cif.simulator.debug` project contains a launch file (`debug-cif-simulator-generated-code.launch`) that can be used to reproduce the simulation implemented by the generated code.
-
-This launch configuration assumes that the code was generated in the `src` folder of the `org.eclipse.escet.cif.simulator.debug` project and was compiled to the `target/classes` folder of that project.
-
 The working directory for the simulation performed via `DebugSimulator.java` is the same working directory as the original simulation.
 This allows additional files, such as configuration files, to be found.
+
+The `org.eclipse.escet.cif.simulator.debug` project contains a launch file (`debug-cif-simulator-generated-code.launch`) that can be used to reproduce the simulation implemented by the generated code.
+This launch configuration assumes that the code was generated in the `src` folder of the `org.eclipse.escet.cif.simulator.debug` project and was compiled to the `target/classes` folder of that project.
 
 === How to use
 
