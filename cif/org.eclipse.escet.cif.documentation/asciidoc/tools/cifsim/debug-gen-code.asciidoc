@@ -36,22 +36,14 @@ If it already exists, all relevant existing files, such as `.java` files, are re
 === Written files
 
 This results in several files being written to the `cifcode` directory.
-One of these files is `DebugSimulator.java`, this file contains the simulation options that were used and always shows the option dialog.
+One of these files is `DebugSimulator.java`, which contains the simulation options that were used and always shows the option dialog.
 
 The `org.eclipse.escet.cif.simulator.debug` project contains a launch file (`debug-cif-simulator-generated-code.launch`) that can be used to reproduce the simulation implemented by the generated code.
 
-By default, it is configured to run the `DebugSimulator.java` file contained within the `src` directory of the `org.eclipse.escet.cif.simulator.debug` project.
-If a different output directory is used, this configuration can be changed as follows.
-Right click `debug-cif-simulator-generated-code.launch` and select menu:Debug As[Debug Configurations...].
-Then, select `debug-cif-simulator-generated-code` under _Junit Plug-in Test_.
-On the _Test_ tab, the _Project_ and the _Test class_ can be changed accordingly.
+This launch configuration assumes that the code was generated in the `src` folder of the `org.eclipse.escet.cif.simulator.debug` project and was compiled to the `target/classes` folder of that project.
 
 The working directory for the simulation performed via `DebugSimulator.java` is the same working directory as the original simulation.
 This allows additional files, such as configuration files, to be found.
-
-For debugging, the location of the compiled classes (`--debug-code` option) is needed.
-It is configured as `../../target/classes` relative to the `cifcode` directory.
-If the code is written in the `org.eclipse.escet.cif.simulator.debug` project, this should resolve to `target/classes` of that project.
 
 === How to use
 

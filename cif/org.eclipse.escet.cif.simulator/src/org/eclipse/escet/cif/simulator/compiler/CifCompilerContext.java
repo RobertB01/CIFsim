@@ -1344,7 +1344,7 @@ public class CifCompilerContext {
 
     /**
      * Writes the generated source code to disk, if debugging of the generated code is enabled. Also writes the resource
-     * files, and a java file needed for debugging.
+     * files, and a Java file needed for debugging.
      */
     public void writeSourceCode() {
         // Make sure the debug option is enabled.
@@ -1441,6 +1441,10 @@ public class CifCompilerContext {
                 }
             }
         }
+
+        // Remove the code for debugging the simulator, as that doesn't need to be compiled for simulation.
+        JavaCodeFile removed = code.remove(DBG_SIM_CLS_NAME);
+        Assert.notNull(removed);
 
         // Refresh the debug project.
         if (Platform.isRunning() && PlatformUI.isWorkbenchRunning()) {
