@@ -197,7 +197,7 @@ public class CifCompilerContext {
     /** The name of the debug project. */
     public static final String DBG_PROJ_NAME = "org.eclipse.escet.cif.simulator.debug";
 
-    /** The name of the debug simulator java file. */
+    /** The name of the debug simulator Java file. */
     public static final String DBG_SIM_CLS_NAME = "DebugSimulator";
 
     /** File extension (excluding {@code "."}) of location names resource files. */
