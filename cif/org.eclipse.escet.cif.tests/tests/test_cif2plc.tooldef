@@ -111,7 +111,7 @@ end
 
 // Test all tests.
 for test in tests:
-    for target in ["plcopen", "iec", "twincat"]:
+    for target in ["plcopen", "iec", "twincat", "s7-1200", "s7-1500", "s7-300", "s7-400"]:
         // Get test specific options.
         list string options = default_options;
         list string extra_options;
@@ -138,11 +138,11 @@ for test in tests:
 
         // Set output options and create directory if necessary.
         if target == "plcopen":
-            options = options + ["-t", "plc-open-xml", "-o", plcopen_real];
+            options = ["-t", "plc-open-xml", "-o", plcopen_real, "-b", "64"] + options;
         elif target == "iec":
-            options = options + ["-t", "iec-61131-3", "-o", dir_real];
+            options = ["-t", "iec-61131-3", "-o", dir_real, "-b", "64"] + options;
         elif target == "twincat":
-            options = options + ["-t", "twincat", "-o", dir_real];
+            options = ["-t", "twincat", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
 
             if test_name == "button_lamp_twincat":
@@ -151,6 +151,14 @@ for test in tests:
                 // Default options.
                 createEmptyTwincat(dir_real, "Untitled1", "PlcTask");
             end
+        elif target == "s7-1200":
+            options = ["-t", "s7_1200", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+        elif target == "s7-1500":
+            options = ["-t", "s7_1500", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+        elif target == "s7-300":
+            options = ["-t", "s7_300", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+        elif target == "s7-400":
+            options = ["-t", "s7_400", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
         end
 
         // Execute.
@@ -172,8 +180,8 @@ for test in tests:
             if plc_xml_diff:: diff_count = diff_count + 1;
         end
 
-        // Compare IEC 61131-3 and TwinCAT specific output.
-        if target == "iec" or target == "twincat":
+        // Compare IEC 61131-3, TwinCAT and S7 specific output.
+        if target == "iec" or target == "twincat" or target == "s7-1200" or target == "s7-1500" or target == "s7-300" or target == "s7-400":
             list string filenames_exp;
             if isdir(dir_exp):
                 filenames_exp = find(dir_exp, recursive=true, files=true, dirs=false);
