@@ -75,8 +75,8 @@ indexterm:[milestone]
 === Releases and milestones
 
 For every software version a GitLab milestone is created, to track its scope and progress.
-Typically all open issues are assigned to the current work-in-progress version.
-During the work on that version, issues that can't be resolved before the final release of that version are moved to the next version.
+When someone starts working on an issue, it is assigned to the current work-in-progress version.
+Issues being worked on that can't be resolved before the final release of that version are moved to the next version.
 
 A single GitLab milestone is used per software version.
 Each software version has one or more milestone releases (`M1`, `M2`, etc), followed by one or more release candidates (`RC1`, `RC2`, etc), and is completed by a final release.
@@ -96,6 +96,8 @@ You then 'own' the issue and nobody should work on the issue without discussing 
 +
 As a contributor, you can't assign yourself to an issue.
 In that case, you can discuss with the project committers through issue comments, and they can assign you to the issue.
+
+* Set the issue's milestone to the current work-in-progress version.
 
 * Unassign yourself if you are no longer working on an issue, don't plan to continue, and the issue is not finished.
 A contributor can ask the project committers to be unassigned.
