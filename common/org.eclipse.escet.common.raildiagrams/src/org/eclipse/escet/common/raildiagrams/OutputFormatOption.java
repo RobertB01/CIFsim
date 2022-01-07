@@ -16,9 +16,7 @@ package org.eclipse.escet.common.raildiagrams;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/**
- * Option for specifying the desired output format of the rail diagram program.
- */
+/** Option for specifying the desired output format of the rail diagram program. */
 public class OutputFormatOption extends EnumOption<OutputFormat> {
     /** Short name of the option. */
     static final String NAME = "Output format";
@@ -44,9 +42,7 @@ public class OutputFormatOption extends EnumOption<OutputFormat> {
     /** Text of the dialog. */
     static final String OPT_DIALOG_TEXT = NAME;
 
-    /**
-     * Constructor of the OutputFormatOption.java class.
-     */
+    /** Constructor of the OutputFormatOption.java class. */
     public OutputFormatOption() {
         super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, "FORMAT", DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR);
     }

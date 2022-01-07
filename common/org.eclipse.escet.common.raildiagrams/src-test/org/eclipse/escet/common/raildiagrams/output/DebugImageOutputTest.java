@@ -46,22 +46,22 @@ public class DebugImageOutputTest {
     /** Constraint solver. */
     Solver solver;
 
-    /** */
     @Before
+    @SuppressWarnings("javadoc")
     public void setup() {
         dbgOutput = new DebugImageOutput();
         solver = new Solver();
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testScratchColorOverride() {
         assertEquals(Color.WHITE, dbgOutput.getOverrideColor("diagram.background.color"));
         assertEquals(Color.BLACK, dbgOutput.getOverrideColor("something.else"));
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testEmptyOutput() {
         dbgOutput.prepareOutputFile(64, 32, null);
         BufferedImage result = dbgOutput.getOutput();
@@ -70,8 +70,8 @@ public class DebugImageOutputTest {
         assertEquals(BACKGROUND, result.getRGB(7, 5));
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testEmptyHorLine() {
         Configuration config = new Configuration(dbgOutput);
 
@@ -85,8 +85,8 @@ public class DebugImageOutputTest {
         assertEquals(CONNECT_POINT, result.getRGB(3, 5));
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testHorLineOneDistance() {
         Configuration config = new Configuration(dbgOutput);
 
@@ -102,8 +102,8 @@ public class DebugImageOutputTest {
         assertEquals(CONNECT_POINT, result.getRGB(4, 5));
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testHorLineTwoDistance() {
         Configuration config = new Configuration(dbgOutput);
 
@@ -120,8 +120,8 @@ public class DebugImageOutputTest {
         assertEquals(CONNECT_POINT, result.getRGB(5, 5));
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testEmptyVertLine() {
         Configuration config = new Configuration(dbgOutput);
 
@@ -135,8 +135,8 @@ public class DebugImageOutputTest {
         assertEquals(CONNECT_POINT, result.getRGB(3, 5));
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testVertLineOneDistance() {
         Configuration config = new Configuration(dbgOutput);
 
@@ -152,8 +152,8 @@ public class DebugImageOutputTest {
         assertEquals(CONNECT_POINT, result.getRGB(3, 6));
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testVertLineTwoDistance() {
         Configuration config = new Configuration(dbgOutput);
 
@@ -170,26 +170,26 @@ public class DebugImageOutputTest {
         assertEquals(CONNECT_POINT, result.getRGB(3, 7));
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testBottomRightArc11w1() {
         tryBottomRightArc(11, 1);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testBottomRightArc10w2() {
         tryBottomRightArc(10, 2);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testBottomRightArc14w3() {
         tryBottomRightArc(14, 3);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testBottomRightArc15w4() {
         tryBottomRightArc(15, 4);
     }
@@ -229,26 +229,26 @@ public class DebugImageOutputTest {
         }
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testTopLeftArc11w1() {
         tryTopLeftArc(11, 1);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testTopLeftArc10w2() {
         tryTopLeftArc(10, 2);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testTopLeftArc14w3() {
         tryTopLeftArc(14, 3);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testTopLeftArc15w4() {
         tryTopLeftArc(15, 4);
     }
@@ -288,26 +288,26 @@ public class DebugImageOutputTest {
         }
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testBottomLeftArc11w1() {
         tryBottomLeftArc(11, 1);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testBottomLeftArc10w2() {
         tryBottomLeftArc(10, 2);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testBottomLeftArc14w3() {
         tryBottomLeftArc(14, 3);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testBottomLeftArc15w4() {
         tryBottomLeftArc(15, 4);
     }
@@ -347,26 +347,26 @@ public class DebugImageOutputTest {
         }
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testTopRightArc11w1() {
         tryTopRightArc(11, 1);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testTopRightArc10w2() {
         tryTopRightArc(10, 2);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testTopRightArc14w3() {
         tryTopRightArc(14, 3);
     }
 
-    /** */
     @Test
+    @SuppressWarnings("javadoc")
     public void testTopRightArc15w4() {
         tryTopRightArc(15, 4);
     }

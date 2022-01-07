@@ -29,9 +29,7 @@ import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
 import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
-/**
- * Node displaying the name of a branch for referral from the explanatory text.
- */
+/** Node displaying the name of a branch for referral from the explanatory text. */
 public class BranchLabelNode extends DiagramElement {
     /** Text of the label. */
     public final String labelText;

@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams;
 
+/** Output formats. */
 public enum OutputFormat {
     /** Image files. */
     IMAGES,

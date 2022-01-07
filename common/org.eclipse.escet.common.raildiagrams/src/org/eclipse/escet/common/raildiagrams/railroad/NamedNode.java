@@ -36,9 +36,7 @@ import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** A node referring to another diagram. */
 public class NamedNode extends DiagramElement {
-    /**
-     * Name of the node to refer to, {@code null} if {@link #text} is not {@code null}.
-     */
+    /** Name of the node to refer to, {@code null} if {@link #text} is not {@code null}. */
     public final String name;
 
     /** Text of the node, {@code null} if {@link #name} is not {@code null}. */

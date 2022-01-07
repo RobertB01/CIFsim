@@ -17,9 +17,7 @@ import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/**
- * Option for configuring whether the generated image should be written to a file.
- */
+/** Option for configuring whether the generated image should be written to a file. */
 public class WriteImageOption extends BooleanOption {
     /** Short name of the option. */
     static final String NAME = "Write image";

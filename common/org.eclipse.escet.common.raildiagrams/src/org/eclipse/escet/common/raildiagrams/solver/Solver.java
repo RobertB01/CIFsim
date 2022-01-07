@@ -35,9 +35,7 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
-/**
- * Solver that assigns non-negative real values to variables such that all provided relations hold.
- */
+/** Solver that assigns non-negative real values to variables such that all provided relations hold. */
 public class Solver {
     /** Allowed deviation of a value due to rounding errors. */
     public static final double EPSILON = 1e-4;
@@ -45,9 +43,7 @@ public class Solver {
     /** Variables to assign. */
     private List<Variable> variables = list();
 
-    /**
-     * Solution of the relations, value of variable {@code variables.get(i)} is in {@code solution[i]}.
-     */
+    /** Solution of the relations, value of variable {@code variables.get(i)} is in {@code solution[i]}. */
     private double[] solution;
 
     /** Relations between variables to obey. */
@@ -233,9 +229,7 @@ public class Solver {
         Assert.check(countedEqRels == numEqRels);
     }
 
-    /**
-     * Add equality clusters with a single variable for all variables that are not involved in an equality relation.
-     */
+    /** Add equality clusters with a single variable for all variables that are not involved in an equality relation. */
     private void addSingletonEqualities() {
         for (Variable var: variables) {
             if (!varsToCluster.containsKey(var)) {

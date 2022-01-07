@@ -31,27 +31,19 @@ public class ProxyDiagramElement {
     /** The real diagram element. */
     public final DiagramElement child;
 
-    /**
-     * Variable holding the X coordinate of the left side of the diagram element.
-     */
+    /** Variable holding the X coordinate of the left side of the diagram element. */
     public final Variable left;
 
-    /**
-     * Variable holding the X coordinate of the right side of the diagram element.
-     */
+    /** Variable holding the X coordinate of the right side of the diagram element. */
     public final Variable right;
 
     /** Variable holding the Y coordinate of the top side of the diagram element. */
     public final Variable top;
 
-    /**
-     * Variable holding the Y coordinate of the bottom side of the diagram element.
-     */
+    /** Variable holding the Y coordinate of the bottom side of the diagram element. */
     public final Variable bottom;
 
-    /**
-     * Variable holding the Y coordinate of the top side of the diagram element rail connection point.
-     */
+    /** Variable holding the Y coordinate of the top side of the diagram element rail connection point. */
     public final Variable connectTop;
 
     /**

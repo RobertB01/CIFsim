@@ -27,9 +27,7 @@ import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 
-/**
- * A (rectangular) part of a railroad diagram, also acts as the edges of its contents.
- */
+/** A (rectangular) part of a railroad diagram, also acts as the edges of its contents. */
 public abstract class DiagramElement {
     /** Name of the element kind. */
     public final String kindName;
@@ -46,27 +44,19 @@ public abstract class DiagramElement {
     /** Displayed graphics within the element. */
     private final List<Area> graphics = list();
 
-    /**
-     * Variable holding the X coordinate of the left side of the diagram element.
-     */
+    /** Variable holding the X coordinate of the left side of the diagram element. */
     public final Variable left;
 
-    /**
-     * Variable holding the X coordinate of the right side of the diagram element.
-     */
+    /** Variable holding the X coordinate of the right side of the diagram element. */
     public final Variable right;
 
     /** Variable holding the Y coordinate of the top side of the diagram element. */
     public final Variable top;
 
-    /**
-     * Variable holding the Y coordinate of the bottom side of the diagram element.
-     */
+    /** Variable holding the Y coordinate of the bottom side of the diagram element. */
     public final Variable bottom;
 
-    /**
-     * Variable holding the Y coordinate of the top side of the diagram element rail connection point.
-     */
+    /** Variable holding the Y coordinate of the top side of the diagram element rail connection point. */
     public final Variable connectTop;
 
     /**
