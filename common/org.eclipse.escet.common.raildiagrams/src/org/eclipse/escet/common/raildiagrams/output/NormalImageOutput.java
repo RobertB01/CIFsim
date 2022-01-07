@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
+import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGraphics;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -33,7 +35,7 @@ public class NormalImageOutput extends ImageOutput {
     @Override
     public void prepareOutputFile(int width, int height, Color bgColor) {
         currentDiagram = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        diagramGd = currentDiagram.createGraphics();
+        diagramGd = getGraphics(currentDiagram);
         diagramGd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         diagramGd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         diagramGd.setColor(bgColor);

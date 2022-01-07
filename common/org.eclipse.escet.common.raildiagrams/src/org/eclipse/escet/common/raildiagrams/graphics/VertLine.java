@@ -50,7 +50,7 @@ public class VertLine extends Area {
         double width = right - left + 1;
         double center = (right + left + 1) / 2;
 
-        if (bottom <= top) {
+        if (bottom < top) {
             return;
         }
 

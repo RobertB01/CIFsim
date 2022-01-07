@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
+import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGraphics;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -47,25 +49,25 @@ import org.eclipse.escet.common.raildiagrams.util.Position2D;
  */
 public class DebugImageOutput extends ImageOutput {
     /** ARGB color for background. */
-    private static final int BACKGROUND = 0xFF_00_00_00; // Black.
+    public static final int BACKGROUND = 0xFF_00_00_00; // Black.
 
     /** ARGB color for one layer of rail. */
-    private static final int SINGLE_RAIL = 0xFF_666666; // 40% White.
+    public static final int SINGLE_RAIL = 0xFF_666666; // 40% White.
 
     /** ARGB color for two layers of rail. */
-    private static final int DOUBLE_RAIL = 0xFF_DECC9C; // Lion (dark-yellow).
+    public static final int DOUBLE_RAIL = 0xFF_DECC9C; // Lion (dark-yellow).
 
     /** ARGB color for three or more layers of rail. */
-    private static final int TRIPLE_RAIL = 0xFF_E49B0F; // Gamboge (average-yellow).
+    public static final int TRIPLE_RAIL = 0xFF_E49B0F; // Gamboge (average-yellow).
 
     /** ARGB color of expected attach-point by another graphic. */
-    private static final int CONNECT_POINT = 0xFF_CC33CC; // Steel pink.
+    public static final int CONNECT_POINT = 0xFF_CC33CC; // Steel pink.
 
     /** ARGB color of arc graphics corner points. */
-    private static final int GRAPHICS_CORNER = 0xFF_00FF00; // 100% Green.
+    public static final int GRAPHICS_CORNER = 0xFF_00FF00; // 100% Green.
 
     /** ARGB color of box corner points. */
-    private static final int BOX_CORNER = 0xFF_007FFF; // Azure (blue).
+    public static final int BOX_CORNER = 0xFF_007FFF; // Azure (blue).
 
     /** Scratch image for a file. */
     private BufferedImage scratchImage = null;
@@ -128,7 +130,7 @@ public class DebugImageOutput extends ImageOutput {
 
     /** Clear the {@link #scratchImage} to full white. */
     private void clearScratchImage() {
-        Graphics2D tempGd = scratchImage.createGraphics();
+        Graphics2D tempGd = getGraphics(scratchImage);
         tempGd.setBackground(Color.WHITE);
         tempGd.fillRect(0, 0, width, height);
     }
@@ -154,7 +156,7 @@ public class DebugImageOutput extends ImageOutput {
 
         // Paint the graphic at the scratch image first.
         clearScratchImage();
-        graphic.paint(baseLeft, baseTop, solver, scratchImage.createGraphics());
+        graphic.paint(baseLeft, baseTop, solver, getGraphics(scratchImage));
 
         // Check all scratch pixels and copy anything painted over to the result image
         // as 'rail'.
@@ -179,11 +181,22 @@ public class DebugImageOutput extends ImageOutput {
         }
     }
 
-    @Override
-    public void writeOutputFile(String path) {
+    /**
+     * Construct the resulting image.
+     *
+     * @return The created result.
+     * @note This method is mostly used for testing.
+     * @see #writeOutputFile
+     */
+    public BufferedImage getOutput() {
         BufferedImage resultImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         resultImage.setRGB(0, 0, width, height, resultData, 0, width);
-        saveImage(resultImage, path);
+        return resultImage;
+    }
+
+    @Override
+    public void writeOutputFile(String path) {
+        saveImage(getOutput(), path);
     }
 
     /** Fill the result image with background. */
@@ -195,7 +208,7 @@ public class DebugImageOutput extends ImageOutput {
      * Add a rail layer to the indicated position in the result image.
      *
      * <p>
-     * Rail overrides everything.
+     * Rail overrides everything and tracks number of rail layers.
      * </p>
      *
      * @param index Position to change.
@@ -262,7 +275,7 @@ public class DebugImageOutput extends ImageOutput {
     private void addGraphicCorner(int x, int y) {
         int index = x + y * width;
         if (resultData[index] == BACKGROUND || resultData[index] == BOX_CORNER) {
-            resultData[index] = CONNECT_POINT;
+            resultData[index] = GRAPHICS_CORNER;
         }
     }
 

@@ -49,7 +49,7 @@ public class HorLine extends Area {
         double center = (bottom + top + 1) / 2;
         double left = solver.getVarValue(this.left) + baseLeft;
         double right = solver.getVarValue(this.right) + baseLeft - 1;
-        if (right <= left) {
+        if (right < left) {
             return;
         }
 

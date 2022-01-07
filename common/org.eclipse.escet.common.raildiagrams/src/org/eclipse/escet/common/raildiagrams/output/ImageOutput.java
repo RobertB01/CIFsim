@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.raildiagrams.output;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGraphics;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -35,7 +36,7 @@ public abstract class ImageOutput extends OutputTarget {
      */
     public ImageOutput() {
         BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-        textGd = image.createGraphics();
+        textGd = getGraphics(image);
     }
 
     /** {@inheritDoc} */
