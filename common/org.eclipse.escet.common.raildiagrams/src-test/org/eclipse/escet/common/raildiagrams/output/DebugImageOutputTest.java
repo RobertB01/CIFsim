@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.raildiagrams.output.tests;
+package org.eclipse.escet.common.raildiagrams.output;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.raildiagrams.output.DebugImageOutput.BACKGROUND;
@@ -31,7 +31,6 @@ import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
-import org.eclipse.escet.common.raildiagrams.output.DebugImageOutput;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.junit.Before;
 import org.junit.Test;

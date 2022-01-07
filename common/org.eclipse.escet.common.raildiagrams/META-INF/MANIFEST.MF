@@ -13,8 +13,7 @@ Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.5.0",
  org.eclipse.escet.common.position.metamodel;bundle-version="0.5.0",
  org.eclipse.jface.text;bundle-version="3.17.0",
  org.eclipse.core.resources;bundle-version="3.14.0",
- org.eclipse.escet.common.eclipse.ui;bundle-version="0.5.0",
- org.junit
+ org.eclipse.escet.common.eclipse.ui;bundle-version="0.5.0"
 Export-Package: org.eclipse.escet.common.raildiagrams,
  org.eclipse.escet.common.raildiagrams.config,
  org.eclipse.escet.common.raildiagrams.graphics,
