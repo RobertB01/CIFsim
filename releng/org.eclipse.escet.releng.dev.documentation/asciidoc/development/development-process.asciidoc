@@ -75,7 +75,7 @@ indexterm:[milestone]
 === Releases and milestones
 
 For every software version a GitLab milestone is created, to track its scope and progress.
-When someone starts working on an issue, it is assigned to the current work-in-progress version.
+An issue is assigned to a GitLab milestone (typically the current work-in-progress one) when someone starts working on an issue, plans to do so shortly, or when someone considers the issue as something that must be addressed for that software version.
 Issues being worked on that can't be resolved before the final release of that version are moved to the next version.
 
 A single GitLab milestone is used per software version.
@@ -84,6 +84,7 @@ Each software version has one or more milestone releases (`M1`, `M2`, etc), foll
 See also:
 
 * link:https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones[Eclipse ESCET GitLab milestones]
+* link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues?scope=all&state=opened&milestone_title=None[Eclipse ESCET GitLab unassigned issues]
 
 === Working on issues
 
