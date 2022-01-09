@@ -77,6 +77,9 @@ A non-exhaustive list:
 | `documentation`
 | User-oriented documentation about the language, such as a user manual or a reference manual.
 
+| `documentation.utils`
+| Support libraries used by the documentation for generating figures.
+
 | `metamodel`
 | Ecore metamodel back bone of the language.
 Model classes for the central data structure that all tools of the language use.
@@ -101,9 +104,6 @@ Often generated using modeling tools such as Sirius, but manually written classe
 | Collection of tests to check the tools for the language.
 Typically a set of input specifications, a set of expected output files, and a ToolDef script to run the tests.
 These tests can be seen as integration tests.
-
-| `<plugin-name>.tests`
-| Unit tests for that specific plugin.
 
 | `codegen`
 | Code generator to convert the input specification to a runnable model.
@@ -169,7 +169,8 @@ These plugins contain:
 | The Ecore metamodel for (text-file) positions in source files.
 
 | `org.eclipse.escet.common.raildiagrams`
-| Rail diagram generator. Produces syntax diagrams.
+| Rail diagram generator.
+Produces syntax diagrams.
 
 | `org.eclipse.escet.common.svg`
 | Common _SVG_ library for viewing and manipulating _SVG_ trees.
