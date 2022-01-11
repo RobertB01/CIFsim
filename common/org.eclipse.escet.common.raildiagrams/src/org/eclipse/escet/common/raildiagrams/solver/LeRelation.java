@@ -31,9 +31,7 @@ public class LeRelation extends VariableRelation {
     /** Variable 'b'. */
     public final Variable b;
 
-    /**
-     * Lower-bound offset between the variables, at least {@code b - a}.
-     */
+    /** Lower-bound offset between the variables, at least {@code b - a}. */
     public final double lowBound;
 
     /**

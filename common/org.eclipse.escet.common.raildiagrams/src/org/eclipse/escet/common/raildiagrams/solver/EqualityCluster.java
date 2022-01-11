@@ -64,14 +64,10 @@ public class EqualityCluster {
      */
     public List<EqRelation> equalities;
 
-    /**
-     * List of cluster less-equal relations where this has the bigger value 'b' in the relation.
-     */
+    /** List of cluster less-equal relations where this has the bigger value 'b' in the relation. */
     public List<LeClusterRelation> remoteSmallers = list();
 
-    /**
-     * List of cluster less-equal relations where this has the smaller value 'a' in the relation.
-     */
+    /** List of cluster less-equal relations where this has the smaller value 'a' in the relation. */
     public List<LeClusterRelation> remoteBiggers = list();
 
     /** Constructor of the {@link EqualityCluster} class. */
