@@ -31,9 +31,7 @@ public abstract class ImageOutput extends OutputTarget {
     /** Graphics driver for text layout. */
     private Graphics2D textGd;
 
-    /**
-     * Constructor of the ImageOutput.java class.
-     */
+    /** Constructor of the {@link ImageOutput} class. */
     public ImageOutput() {
         BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
         textGd = getGraphics(image);

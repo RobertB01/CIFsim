@@ -409,7 +409,7 @@ public class EqualityCluster {
         Assert.check(remoteSmallers.isEmpty());
 
         // For all variables, it holds that v + offset_v == c, with v >= 0.
-        // c must be 'positive enough' to allow for all offsets in the cluster, thus c == max offset_i
+        // c must be 'positive enough' to allow for all offsets in the cluster, thus c == max offset_i.
         double maxOffset = 0;
         boolean first = true;
         for (double offset: variables.values()) {

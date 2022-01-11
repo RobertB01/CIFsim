@@ -33,11 +33,12 @@ import org.eclipse.escet.common.raildiagrams.util.Position2D;
  * Class for generating images for debugging pixels.
  *
  * <p>
- * Colors copied from https://en.wikipedia.org/wiki/List_of_colors_by_shade
+ * Colors copied from <a href="https://en.wikipedia.org/wiki/List_of_colors_by_shade">List of colors by shade</a>
+ * (Wikipedia).
  * </p>
  *
  * <p>
- * The priority of the element concepts displayed in the result is as follows (lower numbers take priority).
+ * The priority of the element concepts displayed in the result is as follows (lower numbers take priority):
  * <ol>
  * <li>Rail (also includes all other visible items such as text).</li>
  * <li>Connect points, positions that should be covered by rail. If visible, obviously that didn't happen.</li>
@@ -108,7 +109,7 @@ public class DebugImageOutput extends ImageOutput {
             Assert.check(sampleSizes[2] == 8);
         }
 
-        resultData = new int[width * height * 1]; // numDataElements == 1 .
+        resultData = new int[width * height * 1]; // numDataElements == 1.
         initializeResult();
     }
 
@@ -158,7 +159,7 @@ public class DebugImageOutput extends ImageOutput {
         graphic.paint(baseLeft, baseTop, solver, getGraphics(scratchImage));
 
         // Check all scratch pixels and copy anything painted over to the result image as 'rail'.
-        int[] scratchData = new int[width * height * 1]; // numDataElements == 1 .
+        int[] scratchData = new int[width * height * 1]; // numDataElements == 1.
         scratchData = (int[])scratchImage.getRaster().getDataElements(0, 0, width, height, scratchData);
 
         int index = 0;

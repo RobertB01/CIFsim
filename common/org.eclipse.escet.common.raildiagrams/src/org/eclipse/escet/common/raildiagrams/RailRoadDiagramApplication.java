@@ -86,7 +86,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
                 outputTarget = new NormalImageOutput();
                 break;
             default:
-                throw new AssertionError("Unnknwon output format found.");
+                throw new AssertionError("Unknown output format found: " + OutputFormatOption.getFormat());
         }
 
         Configuration config = new Configuration(outputTarget);

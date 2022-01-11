@@ -25,7 +25,7 @@ import org.eclipse.escet.common.raildiagrams.solver.Solver;
 
 /** Output class for generating PNG image files. */
 public class NormalImageOutput extends ImageOutput {
-    /** output space for the next diagram. */
+    /** Output space for the next diagram. */
     private BufferedImage currentDiagram;
 
     /** Graphics driver for the diagram. */

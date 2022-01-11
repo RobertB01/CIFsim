@@ -53,7 +53,7 @@ public abstract class OutputTarget {
      *
      * @param left Leftmost horizontal coordinate that is available for the element.
      * @param top Topmost vertical coordinate that is available for the element.
-     * @param solver Solver for resolving variable to their values.
+     * @param solver Solver for resolving variables to their values.
      * @param element Element being added.
      * @note Diagram elements are just bounding boxes containing the actual graphics. They are only useful for
      *     debugging.
@@ -67,7 +67,7 @@ public abstract class OutputTarget {
      *
      * @param left Leftmost horizontal coordinate that is available for the graphic.
      * @param top Topmost vertical coordinate that is available for the graphic.
-     * @param solver Solver for resolving variable to their values.
+     * @param solver Solver for resolving variables to their values.
      * @param graphic Graphic element being added.
      */
     public abstract void addGraphic(double left, double top, Solver solver, Area graphic);
