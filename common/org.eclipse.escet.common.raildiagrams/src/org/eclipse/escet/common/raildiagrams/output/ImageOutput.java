@@ -37,7 +37,6 @@ public abstract class ImageOutput extends OutputTarget {
         textGd = getGraphics(image);
     }
 
-    /** {@inheritDoc} */
     @Override
     public TextSizeOffset getTextSizeOffset(String text, FontData fontData) {
         return new TextSizeOffset(fontData.getTextOffset(textGd, text), fontData.getTextSize(textGd, text));

@@ -31,7 +31,6 @@ public class NormalImageOutput extends ImageOutput {
     /** Graphics driver for the diagram. */
     private Graphics2D diagramGd;
 
-    /** {@inheritDoc} */
     @Override
     public void prepareOutputFile(int width, int height, Color bgColor) {
         currentDiagram = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -42,13 +41,11 @@ public class NormalImageOutput extends ImageOutput {
         diagramGd.fillRect(0, 0, width, height);
     }
 
-    /** {@inheritDoc} */
     @Override
     public void addGraphic(double left, double top, Solver solver, Area graphic) {
         graphic.paint(left, top, solver, diagramGd);
     }
 
-    /** {@inheritDoc} */
     @Override
     public void writeOutputFile(String path) {
         saveImage(currentDiagram, path);
