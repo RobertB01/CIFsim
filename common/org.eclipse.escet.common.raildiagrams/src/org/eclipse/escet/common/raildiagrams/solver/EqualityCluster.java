@@ -112,18 +112,15 @@ public class EqualityCluster {
         }
 
         // Clusters with 2 or more variables (1 equality implies at least 2 variables)
-        // get initialized by picking one variable as the base (0 distance to the common
-        // C value)
+        // get initialized by picking one variable as the base (0 distance to the common C value)
         // and recursively computing distance of all other variables from it.
         List<EqRelation> curList = copy(equalities);
         List<EqRelation> nextList = listc(curList.size());
         boolean first = true;
 
-        // Use the relations to couple an uninitialized variable to an already
-        // initialized variable through its
+        // Use the relations to couple an uninitialized variable to an already initialized variable through its
         // relation.
-        // In worst case, the loop has quadratic complexity, but the clusters are
-        // assumed to be small.
+        // In worst case, the loop has quadratic complexity, but the clusters are assumed to be small.
         while (!curList.isEmpty()) {
             nextList.clear();
             for (EqRelation eqRel: curList) {
@@ -229,8 +226,7 @@ public class EqualityCluster {
             }
             Assert.check(nextList.size() < curList.size()); // There must be progress!
 
-            // Swap curList and nextList for processing the skipped relations in the next
-            // iteration.
+            // Swap curList and nextList for processing the skipped relations in the next iteration.
             List<EqRelation> tmpList = curList;
             curList = nextList;
             nextList = tmpList;
@@ -413,8 +409,7 @@ public class EqualityCluster {
         Assert.check(remoteSmallers.isEmpty());
 
         // For all variables, it holds that v + offset_v == c, with v >= 0.
-        // c must be 'positive enough' to allow for all offsets in the cluster, thus c
-        // == max offset_i
+        // c must be 'positive enough' to allow for all offsets in the cluster, thus c == max offset_i
         double maxOffset = 0;
         boolean first = true;
         for (double offset: variables.values()) {

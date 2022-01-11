@@ -108,8 +108,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
         List<String> inputFiles = FilesOption.getPaths();
         for (String inputFile: inputFiles) {
             // Parse the input.
-            // A file may contain several rules, which are assumed to belong together in one
-            // diagram.
+            // A file may contain several rules, which are assumed to belong together in one diagram.
             RailRoadDiagramParser parser = new RailRoadDiagramParser();
             List<RailRule> rules = parser.parseFile(Paths.resolve(inputFile), DebugMode.NONE);
             for (SyntaxWarning warning: parser.getWarnings()) {

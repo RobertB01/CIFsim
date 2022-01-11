@@ -385,8 +385,7 @@ public class Configuration {
             throw new InputOutputException(fmt("Could not read file \"%s\".", path), ex);
         }
 
-        // Extract the strings from the loaded properties and copy them to the global
-        // map.
+        // Extract the strings from the loaded properties and copy them to the global map.
         for (String propName: props.stringPropertyNames()) {
             String propValue = props.getProperty(propName);
             if (propValue == null || propValue.isEmpty()) {

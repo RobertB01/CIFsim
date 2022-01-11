@@ -59,8 +59,7 @@ public class SequenceNode extends DiagramElement {
         }
     }
 
-    @SuppressWarnings("null") // False positives with 'verticalLines', as 'i' is larger than one on multiple
-                              // rows.
+    @SuppressWarnings("null") // False positives with 'verticalLines', as 'i' is larger than one on multiple rows.
     @Override
     public void create(Configuration config, int direction) {
         double railWidth = config.getRailWidth();
@@ -137,8 +136,7 @@ public class SequenceNode extends DiagramElement {
             bottomUp.connectLine(solver, upLine);
             topUp.connectLine(solver, upLine);
 
-            // Connect the top arc to the exit, enforce padding between the vertical line
-            // and
+            // Connect the top arc to the exit, enforce padding between the vertical line and
             // the vertical lines between rows.
             if (direction > 0) {
                 solver.addEq(topUp.right, 0, right);

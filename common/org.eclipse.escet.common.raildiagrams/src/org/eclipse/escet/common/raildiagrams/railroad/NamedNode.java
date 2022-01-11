@@ -95,24 +95,19 @@ public class NamedNode extends DiagramElement {
         addGraphic(textArea);
         solver.addEq(textArea.top, textSize.height / 2 - railwidth / 2, connectTop);
 
-        // Compute minimal needed padding in both directions around the text such that
-        // text area does
+        // Compute minimal needed padding in both directions around the text such that text area does
         // not conflict with arc area.
-        // Simple approach is to keep both areas fully disjunct, but that makes a named
-        // node large
-        // as the corner radius increases. The solution below allows for some overlap in
-        // the unused
+        // Simple approach is to keep both areas fully disjunct, but that makes a named node large
+        // as the corner radius increases. The solution below allows for some overlap in the unused
         // arc area.
         double minPadding; // Minimal amount of needed padding due to possibly rounded corners.
         if (cornerRadius <= 0) {
             minPadding = 1; // Give the user a lot of control.
         } else {
-            // For rounded corners, free space is limited by the innermost arc, which is
-            // 'railwidth'
+            // For rounded corners, free space is limited by the innermost arc, which is 'railwidth'
             // distance from the outside of the arc.
             //
-            // Maximum usable distance along the box edges from the center point.
-            // Subtracting 3 to ensure
+            // Maximum usable distance along the box edges from the center point. Subtracting 3 to ensure
             // some (small) empty space between text and the arc even if it uses its corner.
             double freeAmount = Math.max(Math.sqrt(2) * 0.5 * (cornerRadius - railwidth), 0) - 3;
             minPadding = cornerRadius - freeAmount;
@@ -120,8 +115,7 @@ public class NamedNode extends DiagramElement {
         vertPadding = Math.max(vertPadding, minPadding);
         horPadding = Math.max(horPadding, minPadding);
 
-        // Create the 4 lines around the name, and give them to the proper distance from
-        // the name.
+        // Create the 4 lines around the name, and give them to the proper distance from the name.
         HorLine topLine = new HorLine(solver, "name-top-line", boxColor, boxLineWidth);
         HorLine bottomLine = new HorLine(solver, "name-bottom-line", boxColor, boxLineWidth);
         VertLine leftLine = new VertLine(solver, "name-left-line", boxColor, boxLineWidth);
@@ -140,8 +134,7 @@ public class NamedNode extends DiagramElement {
             connectHorVert(bottomLine, leftLine, true, false);
             connectHorVert(bottomLine, rightLine, false, false);
         } else {
-            // With rounded corner. Padding around the text was already adjusted to prevent
-            // collisions.
+            // With rounded corner. Padding around the text was already adjusted to prevent collisions.
             TopLeftArc tlArc = new TopLeftArc(solver, "name-tlarc", boxColor, cornerRadius, boxLineWidth);
             tlArc.connectLine(solver, topLine);
             tlArc.connectLine(solver, leftLine);

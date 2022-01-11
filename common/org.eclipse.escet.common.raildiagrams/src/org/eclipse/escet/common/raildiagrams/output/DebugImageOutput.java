@@ -96,8 +96,7 @@ public class DebugImageOutput extends ImageOutput {
         scratchImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         if (firstImage) {
-            // First time an image is created. Do some checking to ensure code below will
-            // work.
+            // First time an image is created. Do some checking to ensure code below will work.
             Raster r = scratchImage.getData();
             Assert.check(r.getTransferType() == DataBuffer.TYPE_INT);
             Assert.check(r.getNumDataElements() == 1); // One pixel in one integer.
@@ -158,8 +157,7 @@ public class DebugImageOutput extends ImageOutput {
         clearScratchImage();
         graphic.paint(baseLeft, baseTop, solver, getGraphics(scratchImage));
 
-        // Check all scratch pixels and copy anything painted over to the result image
-        // as 'rail'.
+        // Check all scratch pixels and copy anything painted over to the result image as 'rail'.
         int[] scratchData = new int[width * height * 1]; // numDataElements == 1 .
         scratchData = (int[])scratchImage.getRaster().getDataElements(0, 0, width, height, scratchData);
 

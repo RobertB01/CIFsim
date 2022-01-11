@@ -337,8 +337,7 @@ public class Solver {
 
             stackIndices.remove(smallerCl);
             safeSet.add(smallerCl);
-            // Conceptually, stack top should be null again, but it gets overwritten or
-            // deleted soon.
+            // Conceptually, stack top should be null again, but it gets overwritten or deleted soon.
         }
         stack.remove(index);
         return null;
@@ -351,13 +350,11 @@ public class Solver {
      * @return Values assigned to the variables.
      */
     private double[] assignValues(boolean dumpSolving) {
-        // Assigned values to the variables, negative value means no value has been
-        // assigned yet.
+        // Assigned values to the variables, negative value means no value has been assigned yet.
         double[] varValues = new double[variables.size()];
         Arrays.fill(varValues, -10);
 
-        // Walk over the less-equal graph, from 'small' to 'big', where a cluster can be
-        // assigned
+        // Walk over the less-equal graph, from 'small' to 'big', where a cluster can be assigned
         // value when all its smaller remotes have been assigned a value already.
         // As there are no cycles this will produce the minimal answer.
 
