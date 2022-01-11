@@ -93,31 +93,31 @@ public class PaintSupport {
         TR_ARC(0, -1, 0, -1, 1.5, 0, 0, 0, 0.5);
 
         /** Start angle for drawing the arc. */
-        public final int startAngle;
+        final int startAngle;
 
         /** Translation in X direction for odd line widths. */
-        int xOddShift;
+        final int xOddShift;
 
         /** Translation in X direction for even line widths. */
-        int xEvenShift;
+        final int xEvenShift;
 
         /** Size multiplication factor for X. */
-        int xSizeMul;
+        final int xSizeMul;
 
         /** Line width multiplication factor for X. */
-        double xLwidthMul;
+        final double xLwidthMul;
 
         /** Translation in Y direction for odd line widths. */
-        int yOddShift;
+        final int yOddShift;
 
         /** Translation in Y direction for even line widths. */
-        int yEvenShift;
+        final int yEvenShift;
 
         /** Size multiplication factor for Y. */
-        int ySizeMul;
+        final int ySizeMul;
 
         /** Line width multiplication factor for Y. */
-        double yLwidthMul;
+        final double yLwidthMul;
 
         /**
          * Constructor of the {@link ArcType} class.

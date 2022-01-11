@@ -29,7 +29,7 @@ import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
 /** Base class for generating images. */
 public abstract class ImageOutput extends OutputTarget {
     /** Graphics driver for text layout. */
-    private Graphics2D textGd;
+    private final Graphics2D textGd;
 
     /** Constructor of the {@link ImageOutput} class. */
     public ImageOutput() {
