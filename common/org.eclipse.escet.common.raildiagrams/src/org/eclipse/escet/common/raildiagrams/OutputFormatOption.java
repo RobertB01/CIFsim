@@ -19,41 +19,42 @@ import org.eclipse.escet.common.app.framework.options.Options;
 /** Option for specifying the desired output format of the rail diagram program. */
 public class OutputFormatOption extends EnumOption<OutputFormat> {
     /** Short name of the option. */
-    static final String NAME = "Output format";
-
-    /** Command line description of the option. */
-    static final String DESCRIPTION = "Type of the output, either \"images\" or \"dbg-images\"  [DEFAULT=images].";
-
-    /** Single letter command option (disabled). */
-    static final Character CMD_SHORT = 'f';
-
-    /** Long option command. */
-    static final String CMD_LONG = "format";
-
-    /** Default value of the option. */
-    static final OutputFormat DEFAULT_VALUE = OutputFormat.IMAGES;
-
-    /** Whether to show the option in a dialog. */
-    static final boolean SHOW_IN_DIALOG = true;
+    private static final String NAME = "Output format";
 
     /** Description of the option in the dialog. */
-    static final String OPT_DIALOG_DESCR = "Type of output.";
+    private static final String OPT_DIALOG_DESCR = "The type of image to generate as output.";
 
-    /** Text of the dialog. */
-    static final String OPT_DIALOG_TEXT = NAME;
+    /** Command line description of the option. */
+    private static final String DESCRIPTION = OPT_DIALOG_DESCR
+            + " Specify \"images\" (default) for PNG images, or \"dbg-images\" for debug PNG images.";
+
+    /** Single letter command option. */
+    private static final Character CMD_SHORT = 'f';
+
+    /** Long option command. */
+    private static final String CMD_LONG = "format";
+
+    /** The name of the option value, for command line processing. */
+    private static final String CMD_VALUE = "FORMAT";
+
+    /** Default value of the option. */
+    private static final OutputFormat DEFAULT_VALUE = OutputFormat.IMAGES;
+
+    /** Whether to show the option in a dialog. */
+    private static final boolean SHOW_IN_DIALOG = true;
 
     /** Constructor of the OutputFormatOption.java class. */
     public OutputFormatOption() {
-        super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, "FORMAT", DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR);
+        super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, CMD_VALUE, DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR);
     }
 
     @Override
     public String getDialogText(OutputFormat value) {
         switch (value) {
             case IMAGES:
-                return "images";
+                return "PNG images";
             case DBG_IMAGES:
-                return "dbg-images";
+                return "Debug PNG images";
             default:
                 throw new AssertionError("Unrecognized enum value.");
         }
