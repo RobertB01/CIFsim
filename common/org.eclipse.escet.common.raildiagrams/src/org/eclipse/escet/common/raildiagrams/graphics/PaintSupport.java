@@ -95,11 +95,11 @@ public class PaintSupport {
         /** Start angle for drawing the arc. */
         public final int startAngle;
 
-        /** Translation in X direction. */
-        int xEvenShift;
-
-        /** Translation in X direction. */
+        /** Translation in X direction for odd line widths. */
         int xOddShift;
+
+        /** Translation in X direction for even line widths. */
+        int xEvenShift;
 
         /** Size multiplication factor for X. */
         int xSizeMul;
@@ -107,10 +107,10 @@ public class PaintSupport {
         /** Line width multiplication factor for X. */
         double xLwidthMul;
 
-        /** Translation in Y direction. */
+        /** Translation in Y direction for odd line widths. */
         int yOddShift;
 
-        /** Translation in Y direction. */
+        /** Translation in Y direction for even line widths. */
         int yEvenShift;
 
         /** Size multiplication factor for Y. */
