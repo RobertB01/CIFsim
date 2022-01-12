@@ -2018,8 +2018,8 @@ public class CifToPlcTrans {
             return new Pair<>(left, right);
         }
 
-        // Must be integer-typed or real-typed.
-        throw new RuntimeException("precond violation");
+        throw new RuntimeException(
+                "precond violation: Binary expression left and right must be integer or real typed.");
     }
 
     /**

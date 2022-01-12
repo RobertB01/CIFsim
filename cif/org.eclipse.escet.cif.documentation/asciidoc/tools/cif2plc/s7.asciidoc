@@ -98,7 +98,7 @@ Follow these steps to create a project in TIA Portal, import PLC code in it, and
 
 ** Switch to the _Project view_.
 
-* Add the PLC device.
+* Add the PLC device:
 
 ** Unfold the project and select _Add new device_.
 
@@ -108,7 +108,7 @@ Follow these steps to create a project in TIA Portal, import PLC code in it, and
 
 ** Click btn:[OK].
 
-* Import the generated PLC code (PLC tags)
+* Import the generated PLC code (PLC tags):
 
 ** Open _Default tag table_ inside the _PLC tags_ folder.
 
@@ -122,7 +122,7 @@ Make sure _Tags_ is selected and click btn:[OK].
 ** Select the _CONSTS.xml_ file.
 Make sure _Constants_ is selected and click btn:[OK].
 
-* Import the generated PLC code (Program blocks).
+* Import the generated PLC code (Program blocks):
 
 ** Unfold the _External source files_ folder inside the device folder.
 
@@ -133,13 +133,13 @@ Make sure _Constants_ is selected and click btn:[OK].
 ** Select all imported files, right-click and select menu:Generate blocks from source[].
 Ignore any warnings or errors.
 
-* Compile the project.
+* Compile the project:
 
 ** Right-click _Program blocks_ and select menu:Compile[Software (rebuild all)].
 
 ** If there are warnings, compile again.
 
-* Import timers (optional)
+* Import timers (optional):
 
 ** Sometimes, timers are not imported correctly.
 In that case, compilation fails.
@@ -160,7 +160,7 @@ The _Call options_ window pops up.
 
 ** Compile the project again.
 
-* Configure the inputs and outputs.
+* Configure the inputs and outputs:
 
 ** Open _Default tag table_ inside the _PLC tags_ folder.
 
@@ -174,7 +174,7 @@ The syntax of the addresses is outside the scope of this manual.
 ** At the end of the program, after `END_WHILE`, assign values to the output variables.
 The values may originate from variables part of `"DB".state0`, variables and constants part of _Default tag table_, functions for algebraic variables and regular functions.
 
-* Download PLC code to device.
+* Download PLC code to device:
 
 ** Click the _Download to device_ icon in the task bar.
 The _Extended download to device_ window pops up.

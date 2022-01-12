@@ -203,9 +203,8 @@ public class PlcPou extends PlcObject {
                 }
                 c.dedent();
                 c.add("END_VAR");
-            } else {
-                // For programs, these should be written to a DB file.
             }
+            // else: Local vars of programs are written to a DB file.
         }
 
         // Write the temporary variables.
