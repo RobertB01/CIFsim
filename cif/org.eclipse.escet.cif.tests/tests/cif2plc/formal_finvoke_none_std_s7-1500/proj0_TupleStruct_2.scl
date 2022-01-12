@@ -1,9 +1,0 @@
-FUNCTION proj0_TupleStruct_2: LREAL
-{ S7_Optimized_Access := 'true' }
-    VAR_INPUT
-        tuple: TupleStruct_2;
-    END_VAR
-
-BEGIN
-    proj0_TupleStruct_2 := tuple.field0;
-END_FUNCTION

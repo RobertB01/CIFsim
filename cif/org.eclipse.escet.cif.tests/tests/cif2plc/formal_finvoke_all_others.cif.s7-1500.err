@@ -1,1 +1,1 @@
-WARNING: Formal function invocation is not enabled for all functions, this may generated invalid S7_1500 code.
+ERROR: Formal function invocation is not enabled for all functions, this is required for S7-1500 code.

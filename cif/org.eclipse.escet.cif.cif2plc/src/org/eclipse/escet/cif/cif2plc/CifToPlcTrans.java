@@ -310,8 +310,10 @@ public class CifToPlcTrans {
                 && (formalInvokeArg == PlcFormalFuncInvokeArg.NONE || formalInvokeFunc != PlcFormalFuncInvokeFunc.ALL))
         {
             // S7 requires formal function invocation for all functions with more than two arguments.
-            warn("Formal function invocation is not enabled for all functions, this may generated invalid %s code.",
-                    getPlcOutputType().toString());
+            String msg = fmt(
+                    "Formal function invocation is not enabled for all functions, this is required for %s code.",
+                    getPlcOutputType().dialogText);
+            throw new InvalidInputException(msg);
         }
 
         // Determine largest int/real types based on option value.
@@ -436,7 +438,9 @@ public class CifToPlcTrans {
             new EnumsToConsts().transform(spec);
         } else if (PlcOutputTypeOption.isS7Output()) {
             // Enumerations are not converted.
-            warn("Enumerations are not converted, this may generated invalid %s code.", getPlcOutputType().toString());
+            String msg = fmt("Enumerations are not converted, this is required for %s code.",
+                    getPlcOutputType().dialogText);
+            throw new InvalidInputException(msg);
         }
 
         // Generate code.

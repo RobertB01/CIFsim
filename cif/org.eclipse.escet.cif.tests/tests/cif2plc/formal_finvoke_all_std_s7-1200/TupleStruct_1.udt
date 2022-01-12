@@ -1,6 +1,0 @@
-TYPE TupleStruct_1:
-    STRUCT
-        field0: DINT;
-        field1: DINT;
-    END_STRUCT;
-END_TYPE

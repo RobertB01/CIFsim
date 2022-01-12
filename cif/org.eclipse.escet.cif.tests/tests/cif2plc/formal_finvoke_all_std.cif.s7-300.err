@@ -1,1 +1,1 @@
-WARNING: Formal function invocation is not enabled for all functions, this may generated invalid S7_300 code.
+ERROR: Formal function invocation is not enabled for all functions, this is required for S7-300 code.

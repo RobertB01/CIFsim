@@ -1,9 +1,0 @@
-FUNCTION derivcvar_c: LREAL
-{ S7_Optimized_Access := 'true' }
-    VAR_INPUT
-        state: STATE;
-    END_VAR
-
-BEGIN
-    derivcvar_c := state.cvar_c;
-END_FUNCTION

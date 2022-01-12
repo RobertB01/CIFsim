@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<Tagtable name='CONSTS'>
-    <Constant type='DINT' remark='' value='0'>const_l1</Constant>
-    <Constant type='DINT' remark='' value='1'>const_l2</Constant>
-</Tagtable>
