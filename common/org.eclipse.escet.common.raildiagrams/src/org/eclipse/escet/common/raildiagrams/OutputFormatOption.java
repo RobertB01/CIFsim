@@ -22,7 +22,7 @@ public class OutputFormatOption extends EnumOption<OutputFormat> {
     private static final String NAME = "Output format";
 
     /** Description of the option in the dialog. */
-    private static final String OPT_DIALOG_DESCR = "The type of image to generate as output.";
+    private static final String OPT_DIALOG_DESCR = "The type of output to generate.";
 
     /** Command line description of the option. */
     private static final String DESCRIPTION = OPT_DIALOG_DESCR
@@ -43,7 +43,7 @@ public class OutputFormatOption extends EnumOption<OutputFormat> {
     /** Whether to show the option in a dialog. */
     private static final boolean SHOW_IN_DIALOG = true;
 
-    /** Constructor of the OutputFormatOption.java class. */
+    /** Constructor of the {@link OutputFormatOption} class. */
     public OutputFormatOption() {
         super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, CMD_VALUE, DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR);
     }

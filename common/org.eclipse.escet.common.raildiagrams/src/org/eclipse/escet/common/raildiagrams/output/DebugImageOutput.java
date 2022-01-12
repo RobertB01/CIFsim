@@ -109,7 +109,7 @@ public class DebugImageOutput extends ImageOutput {
             Assert.check(sampleSizes[2] == 8);
         }
 
-        resultData = new int[width * height * 1]; // numDataElements == 1.
+        resultData = new int[width * height * 1]; // numDataElements == 1
         initializeResult();
     }
 
@@ -159,7 +159,7 @@ public class DebugImageOutput extends ImageOutput {
         graphic.paint(baseLeft, baseTop, solver, getGraphics(scratchImage));
 
         // Check all scratch pixels and copy anything painted over to the result image as 'rail'.
-        int[] scratchData = new int[width * height * 1]; // numDataElements == 1.
+        int[] scratchData = new int[width * height * 1]; // numDataElements == 1
         scratchData = (int[])scratchImage.getRaster().getDataElements(0, 0, width, height, scratchData);
 
         int index = 0;
