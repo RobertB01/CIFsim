@@ -98,38 +98,11 @@ public class CifToPlcApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Get output type and path.
+        // Get output type.
         PlcOutputType outType = PlcOutputTypeOption.getPlcOutputType();
-        String outPath = null;
-        switch (outType) {
-            case PLC_OPEN_XML:
-                outPath = OutputFileOption.getDerivedPath(".cif", ".plcopen.xml");
-                break;
 
-            case IEC_61131_3:
-                outPath = OutputFileOption.getDerivedPath(".cif", "_plc");
-                break;
-
-            case TWINCAT:
-                outPath = OutputFileOption.getDerivedPath(".cif", "_twincat");
-                break;
-
-            case S7_1200:
-                outPath = OutputFileOption.getDerivedPath(".cif", "_s7_1200");
-                break;
-
-            case S7_1500:
-                outPath = OutputFileOption.getDerivedPath(".cif", "_s7_1500");
-                break;
-
-            case S7_300:
-                outPath = OutputFileOption.getDerivedPath(".cif", "_s7_300");
-                break;
-
-            case S7_400:
-                outPath = OutputFileOption.getDerivedPath(".cif", "_s7_400");
-                break;
-        }
+        // Get output path.
+        String outPath = OutputFileOption.getDerivedPath(".cif", outType.outExt);
         Assert.notNull(outPath);
         outPath = Paths.resolve(outPath);
 

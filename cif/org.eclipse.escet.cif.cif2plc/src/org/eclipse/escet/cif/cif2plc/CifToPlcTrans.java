@@ -13,11 +13,12 @@
 
 package org.eclipse.escet.cif.cif2plc;
 
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.IEC_61131_3;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.PLC_OPEN_XML;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_300;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_400;
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.TWINCAT;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption.getPlcOutputType;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType.STATE_TYPE;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType.BOOL_TYPE;
@@ -317,37 +318,16 @@ public class CifToPlcTrans {
         }
 
         // Determine largest int/real types based on option value.
-        // S7 300 supports DINT and REAL.
-        // S7 400 supports DINT and REAL.
-        // S7 1200 supports DINT, REAL and LREAL.
-        // S7 1500 supports DINT, LINT, REAL and LREAL.
-        // TwinCAT supports DINT, LINT, REAL and LREAL.
-        // IEC61131-3 and PLCOpen XML support DINT, LINT, REAL and LREAL, but may be used for platforms that don't
-        // support these, so we don't know.
         switch (PlcNumberBitsOption.getNumberBits()) {
             case AUTO:
-                if (getPlcOutputType() == S7_1200) {
-                    largeIntType = DINT_TYPE;
-                    largeRealType = LREAL_TYPE;
-                } else if (getPlcOutputType() == S7_1500) {
-                    largeIntType = LINT_TYPE;
-                    largeRealType = LREAL_TYPE;
-                } else if (getPlcOutputType() == S7_300) {
-                    largeIntType = DINT_TYPE;
-                    largeRealType = REAL_TYPE;
-                } else if (getPlcOutputType() == S7_400) {
-                    largeIntType = DINT_TYPE;
-                    largeRealType = REAL_TYPE;
-                } else if (getPlcOutputType() == TWINCAT) {
-                    largeIntType = LINT_TYPE;
-                    largeRealType = LREAL_TYPE;
-                } else {
-                    // Assume 64 bits.
+                // IEC61131-3 and PLCOpen XML can be used for various platforms that support different types.
+                if (getPlcOutputType() == PLC_OPEN_XML || getPlcOutputType() == IEC_61131_3) {
                     warn("Automatic number of bits option is not supported for %s output, 64-bits is assumed.",
-                            getPlcOutputType().toString());
-                    largeIntType = LINT_TYPE;
-                    largeRealType = LREAL_TYPE;
+                            getPlcOutputType().dialogText);
                 }
+
+                largeIntType = getPlcOutputType().largeIntType;
+                largeRealType = getPlcOutputType().largeRealType;
                 break;
 
             case BITS_32:

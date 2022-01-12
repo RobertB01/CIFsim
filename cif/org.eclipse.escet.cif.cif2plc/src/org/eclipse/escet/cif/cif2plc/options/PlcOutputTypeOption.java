@@ -13,6 +13,12 @@
 
 package org.eclipse.escet.cif.cif2plc.options;
 
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.PLC_OPEN_XML;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_300;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_400;
+
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -24,29 +30,12 @@ public class PlcOutputTypeOption extends EnumOption<PlcOutputType> {
                 "Specifies the PLC code output type. Specify \"plc-open-xml\" for PLCopen XML output (default), "
                         + "\"iec-61131-3\" for IEC 61131-3 output, \"twincat\" for \"TwinCAT\" output, or \"s7-1200\" "
                         + "for \"Siemens S7-1200\" output.",
-                't', "output-type", "OTYPE", PlcOutputType.PLC_OPEN_XML, true, "Specifies the PLC code output type.");
+                't', "output-type", "OTYPE", PLC_OPEN_XML, true, "Specifies the PLC code output type.");
     }
 
     @Override
     protected String getDialogText(PlcOutputType type) {
-        switch (type) {
-            case PLC_OPEN_XML:
-                return "PLCopen XML";
-            case IEC_61131_3:
-                return "IEC 61131-3";
-            case TWINCAT:
-                return "TwinCAT";
-            case S7_1200:
-                return "S7-1200";
-            case S7_1500:
-                return "S7-1500";
-            case S7_300:
-                return "S7-300";
-            case S7_400:
-                return "S7-400";
-            default:
-                throw new RuntimeException("Unknown PLC output type: " + type);
-        }
+        return type.dialogText;
     }
 
     /**
@@ -65,7 +54,6 @@ public class PlcOutputTypeOption extends EnumOption<PlcOutputType> {
      */
     public static boolean isS7Output() {
         PlcOutputType type = getPlcOutputType();
-        return type == PlcOutputType.S7_1200 || type == PlcOutputType.S7_1500 || type == PlcOutputType.S7_300
-                || type == PlcOutputType.S7_400;
+        return type == S7_1200 || type == S7_1500 || type == S7_300 || type == S7_400;
     }
 }
