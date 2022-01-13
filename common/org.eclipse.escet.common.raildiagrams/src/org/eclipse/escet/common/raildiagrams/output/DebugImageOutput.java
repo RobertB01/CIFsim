@@ -20,7 +20,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
-import java.util.Arrays;
 
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
@@ -79,14 +78,8 @@ public class DebugImageOutput extends ImageOutput {
     /** Height of the current image. */
     private int height;
 
-    /**
-     * Result image as a flat array of ARGB values.
-     *
-     * <p>
-     * {@code (x, y)} is at index {@code x + y * width}.
-     * </p>
-     */
-    private int[] resultData;
+    /** Result image as a flat array of ARGB values. */
+    private Image result;
 
     @Override
     public void prepareOutputFile(int outputWidth, int outputHeight, Color bgColor) {
@@ -109,7 +102,7 @@ public class DebugImageOutput extends ImageOutput {
             Assert.check(sampleSizes[2] == 8);
         }
 
-        resultData = new int[width * height * 1]; // numDataElements == 1
+        result = new Image(width, height);
         initializeResult();
     }
 
@@ -188,19 +181,17 @@ public class DebugImageOutput extends ImageOutput {
      * @see #writeOutputFile
      */
     public BufferedImage getOutput() {
-        BufferedImage resultImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        resultImage.setRGB(0, 0, width, height, resultData, 0, width);
-        return resultImage;
+        return result.image;
     }
 
     @Override
     public void writeOutputFile(String path) {
-        saveImage(getOutput(), path);
+        result.saveImage(path);
     }
 
     /** Fill the result image with background. */
     private void initializeResult() {
-        Arrays.fill(resultData, BACKGROUND);
+        result.fill(BACKGROUND);
     }
 
     /**
@@ -213,18 +204,18 @@ public class DebugImageOutput extends ImageOutput {
      * @param index Position to change.
      */
     private void addRailLayer(int index) {
-        if (resultData[index] == TRIPLE_RAIL) {
+        if (result.pixels[index] == TRIPLE_RAIL) {
             return;
         }
-        if (resultData[index] == DOUBLE_RAIL) {
-            resultData[index] = TRIPLE_RAIL;
+        if (result.pixels[index] == DOUBLE_RAIL) {
+            result.pixels[index] = TRIPLE_RAIL;
             return;
         }
-        if (resultData[index] == SINGLE_RAIL) {
-            resultData[index] = DOUBLE_RAIL;
+        if (result.pixels[index] == SINGLE_RAIL) {
+            result.pixels[index] = DOUBLE_RAIL;
             return;
         }
-        resultData[index] = SINGLE_RAIL;
+        result.pixels[index] = SINGLE_RAIL;
     }
 
     /**
@@ -238,11 +229,11 @@ public class DebugImageOutput extends ImageOutput {
      * @param y Y coordinate of the position.
      */
     private void addConnectPoint(int x, int y) {
-        int index = x + y * width;
-        if (resultData[index] == BACKGROUND || resultData[index] == GRAPHICS_CORNER
-                || resultData[index] == BOX_CORNER)
+        int index = result.getIndex(x, y);
+        if (result.pixels[index] == BACKGROUND || result.pixels[index] == GRAPHICS_CORNER
+                || result.pixels[index] == BOX_CORNER)
         {
-            resultData[index] = CONNECT_POINT;
+            result.pixels[index] = CONNECT_POINT;
         }
     }
 
@@ -272,9 +263,9 @@ public class DebugImageOutput extends ImageOutput {
      * @param y Y coordinate of the position.
      */
     private void addGraphicCorner(int x, int y) {
-        int index = x + y * width;
-        if (resultData[index] == BACKGROUND || resultData[index] == BOX_CORNER) {
-            resultData[index] = GRAPHICS_CORNER;
+        int index = result.getIndex(x, y);
+        if (result.pixels[index] == BACKGROUND || result.pixels[index] == BOX_CORNER) {
+            result.pixels[index] = GRAPHICS_CORNER;
         }
     }
 
@@ -304,9 +295,9 @@ public class DebugImageOutput extends ImageOutput {
      * @param y Y coordinate of the position.
      */
     private void addBoxCorner(int x, int y) {
-        int index = x + y * width;
-        if (resultData[index] == BACKGROUND) {
-            resultData[index] = BOX_CORNER;
+        int index = result.getIndex(x, y);
+        if (result.pixels[index] == BACKGROUND) {
+            result.pixels[index] = BOX_CORNER;
         }
     }
 }

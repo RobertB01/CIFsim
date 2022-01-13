@@ -13,15 +13,10 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGraphics;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.eclipse.escet.common.raildiagrams.config.FontData;
 import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
@@ -40,20 +35,5 @@ public abstract class ImageOutput extends OutputTarget {
     @Override
     public TextSizeOffset getTextSizeOffset(String text, FontData fontData) {
         return new TextSizeOffset(fontData.getTextOffset(textGd, text), fontData.getTextSize(textGd, text));
-    }
-
-    /**
-     * Save the given image to a PNG file at the indicated path.
-     *
-     * @param image Image to write.
-     * @param path Destination of the file.
-     */
-    protected void saveImage(BufferedImage image, String path) {
-        try {
-            ImageIO.write(image, "png", new File(path));
-        } catch (IOException ex) {
-            String msg = fmt("Failed to write PNG image file \"%s\".", path);
-            throw new RuntimeException(msg, ex);
-        }
     }
 }
