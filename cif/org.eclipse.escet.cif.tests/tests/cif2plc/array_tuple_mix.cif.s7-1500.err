@@ -1,5 +1,5 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/array_tuple_mix.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported type "list[2] int": list types are currently not supported for S7_1500 output.
- - Unsupported type "list[2] int": list types are currently not supported for S7_1500 output.
- - Unsupported type "list[2] tuple(int a; int b)": list types are currently not supported for S7_1500 output.
+ - Unsupported type "list[2] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[2] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[2] tuple(int a; int b)": list types are currently not supported for S7-1500 output.

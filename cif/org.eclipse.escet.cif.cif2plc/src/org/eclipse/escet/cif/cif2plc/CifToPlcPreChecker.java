@@ -325,7 +325,7 @@ public class CifToPlcPreChecker extends CifWalker {
         // and doesn't support arrays of arrays.
         if (PlcOutputTypeOption.isS7Output()) {
             String msg = fmt("Unsupported type \"%s\": list types are currently not supported for %s output.",
-                    typeToStr(type), PlcOutputTypeOption.getPlcOutputType().toString());
+                    typeToStr(type), PlcOutputTypeOption.getPlcOutputType().dialogText);
             problems.add(msg);
             return;
         }

@@ -75,12 +75,12 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
  - Unsupported type "dict(int:bool)": dictionary types are currently not supported.
  - Unsupported type "dist bool": distribution types are currently not supported.
  - Unsupported type "func int(int)": function types are currently not supported. That is, calling functions is supported, but using them as data is not supported.
- - Unsupported type "list int": list types are currently not supported for S7_400 output.
- - Unsupported type "list int": list types are currently not supported for S7_400 output.
- - Unsupported type "list int": list types are currently not supported for S7_400 output.
- - Unsupported type "list int": list types are currently not supported for S7_400 output.
- - Unsupported type "list[2] int": list types are currently not supported for S7_400 output.
- - Unsupported type "list[2] int": list types are currently not supported for S7_400 output.
- - Unsupported type "list[5] int": list types are currently not supported for S7_400 output.
+ - Unsupported type "list int": list types are currently not supported for S7-400 output.
+ - Unsupported type "list int": list types are currently not supported for S7-400 output.
+ - Unsupported type "list int": list types are currently not supported for S7-400 output.
+ - Unsupported type "list int": list types are currently not supported for S7-400 output.
+ - Unsupported type "list[2] int": list types are currently not supported for S7-400 output.
+ - Unsupported type "list[2] int": list types are currently not supported for S7-400 output.
+ - Unsupported type "list[5] int": list types are currently not supported for S7-400 output.
  - Unsupported type "set int": set types are currently not supported.
  - Unsupported type "string": string types are currently not supported.
