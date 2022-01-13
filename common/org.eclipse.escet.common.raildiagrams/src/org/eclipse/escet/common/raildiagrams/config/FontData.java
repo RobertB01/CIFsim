@@ -79,8 +79,10 @@ public class FontData {
     public static enum FontStyle {
         /** Italic style. */
         ITALIC(Font.ITALIC),
+
         /** Bold style. */
         BOLD(Font.BOLD),
+
         /** Plain style. */
         PLAIN(Font.PLAIN);
 

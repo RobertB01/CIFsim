@@ -21,6 +21,7 @@ import java.awt.Graphics2D;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.ArcType;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
 
 /** An arc running from top-right to bottom-left. */
 public class BottomRightArc extends Arc {
@@ -59,5 +60,23 @@ public class BottomRightArc extends Arc {
         double size = bottom - top + 1;
         Assert.check(Math.abs(size - (right - left + 1)) < Solver.EPSILON); // Must be a square area.
         drawArc(gd, left, top, ArcType.BR_ARC, size, lineWidth, railColor);
+    }
+
+    @Override
+    public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
+        int left = (int)(solver.getVarValue(this.left) + baseLeft);
+        int right = (int)(solver.getVarValue(this.right) + baseLeft - 1);
+        int top = (int)(solver.getVarValue(this.top) + baseTop);
+        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop - 1);
+        int lwidth = (int)lineWidth;
+
+        Position2D[] connections = new Position2D[lwidth * 2];
+        int index = 0;
+        for (int i = 0; i < lwidth; i++) {
+            connections[index] = new Position2D(right - i, top - 1);
+            connections[index + 1] = new Position2D(left - 1, bottom - i);
+            index += 2;
+        }
+        return connections;
     }
 }

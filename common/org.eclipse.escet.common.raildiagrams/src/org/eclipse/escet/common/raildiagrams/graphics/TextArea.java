@@ -93,4 +93,9 @@ public class TextArea extends Area {
         TextArea textArea = new TextArea(solver, prefix, text, textColor, font, textOffset, textSize);
         return textArea;
     }
+
+    @Override
+    public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
+        return new Position2D[0]; // No connections expected.
+    }
 }

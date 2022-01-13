@@ -38,4 +38,21 @@ public class Position2D {
     public String toString() {
         return fmt("Position2D(%.1f, %.1f)", x, y);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Position2D)) {
+            return false;
+        }
+        Position2D otherPos = (Position2D)other;
+        return otherPos.x == x && otherPos.y == y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(x) + 5 * Double.hashCode(y);
+    }
 }

@@ -15,8 +15,6 @@ package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.awt.Graphics2D;
-
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
@@ -24,6 +22,7 @@ import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
+import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 
@@ -144,10 +143,10 @@ public class ProxyDiagramElement {
      *
      * @param left Coordinate of the left edge.
      * @param top Coordinate of the top edge.
-     * @param gd Graphics rendering handle.
+     * @param outputTarget Diagram to write.
      * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements for debugging.
      */
-    public void paint(double left, double top, Graphics2D gd, boolean dumpAbsCoords) {
-        child.paint(left, top, gd, dumpAbsCoords);
+    public void paint(double left, double top, OutputTarget outputTarget, boolean dumpAbsCoords) {
+        child.paint(left, top, outputTarget, dumpAbsCoords);
     }
 }

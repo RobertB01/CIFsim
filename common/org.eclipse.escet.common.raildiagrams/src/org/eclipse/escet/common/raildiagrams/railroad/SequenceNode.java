@@ -43,7 +43,7 @@ public class SequenceNode extends DiagramElement {
     public final List<SequenceRow> rows;
 
     /**
-     * Constructor of the SequenceNode.java class.
+     * Constructor of the {@link SequenceNode} class.
      *
      * @param rows Rows of the sequence.
      * @param id Identifying number of the diagram element.

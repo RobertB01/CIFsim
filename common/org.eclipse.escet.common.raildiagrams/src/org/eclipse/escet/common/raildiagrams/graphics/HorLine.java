@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
 
 /** Horizontal line. */
 public class HorLine extends Area {
@@ -48,12 +49,30 @@ public class HorLine extends Area {
         double center = (bottom + top + 1) / 2;
         double left = solver.getVarValue(this.left) + baseLeft;
         double right = solver.getVarValue(this.right) + baseLeft - 1;
-        if (right <= left) {
+        if (right < left) {
             return;
         }
 
         gd.setColor(railColor);
         setLineWidth(gd, (int)width);
         gd.drawLine((int)left, (int)center, (int)right, (int)center);
+    }
+
+    @Override
+    public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
+        int top = (int)(solver.getVarValue(this.top) + baseTop);
+        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop - 1);
+        int left = (int)(solver.getVarValue(this.left) + baseLeft);
+        int right = (int)(solver.getVarValue(this.right) + baseLeft - 1);
+        int height = bottom - top + 1;
+
+        Position2D[] connections = new Position2D[height * 2];
+        int index = 0;
+        for (int i = 0; i < height; i++) {
+            connections[index] = new Position2D(left - 1, top + i);
+            connections[index + 1] = new Position2D(right + 1, top + i);
+            index += 2;
+        }
+        return connections;
     }
 }
