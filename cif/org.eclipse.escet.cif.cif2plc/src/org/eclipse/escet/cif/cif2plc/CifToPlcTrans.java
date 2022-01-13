@@ -238,7 +238,7 @@ public class CifToPlcTrans {
     private PlcStructType stateStruct;
 
     /** The optional prefix to use for static (persistent) variables. */
-    private final String staticVarPrefix = PlcOutputTypeOption.isS7Output() ? "\"DB\"." : "";
+    private final String staticVarPrefix;
 
     /** Mapping from named CIF objects to their PLC names, for global names only. */
     private Map<PositionObject, String> objNames = map();
@@ -306,6 +306,7 @@ public class CifToPlcTrans {
         constantsAllowed = !simplifyValues || ConvertEnumsOption.getValue() == ConvertEnums.CONSTS;
         formalInvokeArg = PlcFormalFuncInvokeArgOption.getValue();
         formalInvokeFunc = PlcFormalFuncInvokeFuncOption.getValue();
+        staticVarPrefix = PlcOutputTypeOption.isS7Output() ? "\"DB\"." : "";
 
         if (PlcOutputTypeOption.isS7Output()
                 && (formalInvokeArg == PlcFormalFuncInvokeArg.NONE || formalInvokeFunc != PlcFormalFuncInvokeFunc.ALL))
