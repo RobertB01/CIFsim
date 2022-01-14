@@ -59,6 +59,7 @@ public class Image {
         gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         gd.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 
+        // Inspired from <a href="https://codereview.stackexchange.com/questions/79822/reading-and-writing-of-pixels-of-bufferedimages">reading-and-writing-of-pixels-of-bufferedimages</a>.
         DataBuffer buffer = image.getRaster().getDataBuffer();
         Assert.check(buffer.getDataType() == DataBuffer.TYPE_INT);
         int[] offsets = buffer.getOffsets();
