@@ -1759,7 +1759,9 @@ public class CifToPlcTrans {
                             String resultTxt = fmt("(%s) ** (%s)", paramTxt0, paramTxt1);
 
                             // If the resulting type is integer, we need to convert that explicitly.
-                            if (((FuncType)fexpr.getType()).getReturnType() instanceof IntType) {
+                            FuncType functionType = (FuncType)normalizeType(fexpr.getType());
+                            CifType resultType = normalizeType(functionType.getReturnType());
+                            if (resultType instanceof IntType) {
                                 String toName = fmt("%s_TO_%s", largeRealType.name, largeIntType.name);
                                 resultTxt = genFuncCall(toName, true, "IN", resultTxt);
                             }
