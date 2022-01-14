@@ -321,12 +321,6 @@ public class CifToPlcTrans {
         // Determine largest int/real types based on option value.
         switch (PlcNumberBitsOption.getNumberBits()) {
             case AUTO:
-                // IEC61131-3 and PLCOpen XML can be used for various platforms that support different types.
-                if (getPlcOutputType() == PLC_OPEN_XML || getPlcOutputType() == IEC_61131_3) {
-                    warn("Automatic number of bits option is not supported for %s output, 64-bits is assumed.",
-                            getPlcOutputType().dialogText);
-                }
-
                 largeIntType = getPlcOutputType().largeIntType;
                 largeRealType = getPlcOutputType().largeRealType;
                 break;

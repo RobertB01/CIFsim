@@ -80,8 +80,9 @@ If not specified, defaults to `Untitled1`.
 * _PLC number bits_: The maximum number of bits supported by the PLC for representing numeric values.
 Use 64-bit if supported by the PLC, for full CIF compatibility, and the highest <<tools-cif2plc-accuracy,accuracy>>.
 If the PLC does not supported 64-bit integer and floating point numbers, set this option to 32-bit.
-Use the automatic option to automatically select the maximum number of bits.
-The automatic option is supported for the TwinCAT and S7 <<tools-cif2plc-output-type,output types>>.
+Use the automatic option to automatically select the maximum number of bits depending on the <<tools-cif2plc-output-type,output type>>.
+For the PLCopen XML, IEC 61131-3 and TwinCAT output types, the automatic option is 64-bits.
+For the S7 output type, see the <<tools-cif2plc-s7-generated-output,table>> on the S7 page.
 
 * _PLC maximum iterations_: The maximum number of iterations of the main loop of the main program body, per execution of the main program body.
 Must be a positive number.
@@ -167,7 +168,7 @@ This restriction applies only to multi-assignments in functions, not to multi-as
 
 * Data types other than `bool`, `int` (with or without range), `real`, enumerations, tuples, and arrays, are not supported.
 This applies to the data types of variables, parameters of functions, return types of functions, etc.
-For S7 <<tools-cif2plc-output-type,output type>>, arrays are not supported.
+For the S7 <<tools-cif2plc-output-type,output type>>, arrays are not supported.
 
 * String values are not supported.
 
@@ -197,7 +198,7 @@ For arrays, both 0-based indices (counting from the left) as well as negative in
 * The distribution standard library functions are not supported.
 
 * Lists (except for arrays), sets, and dictionaries are not supported.
-For S7 <<tools-cif2plc-output-type,output type>>, arrays are not supported.
+For the S7 <<tools-cif2plc-output-type,output type>>, arrays are not supported.
 
 * The use of functions as values is not supported.
 That is, functions may only be used in function calls, and may for instance not be stored in variables.

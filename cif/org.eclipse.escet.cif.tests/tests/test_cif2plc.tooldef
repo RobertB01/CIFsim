@@ -138,11 +138,11 @@ for test in tests:
 
         // Set output options and create directory if necessary.
         if target == "plcopen":
-            options = ["-t", "plc-open-xml", "-o", plcopen_real, "-b", "64"] + options;
+            options = options + ["-t", "plc-open-xml", "-o", plcopen_real];
         elif target == "iec":
-            options = ["-t", "iec-61131-3", "-o", dir_real, "-b", "64"] + options;
+            options = options + ["-t", "iec-61131-3", "-o", dir_real];
         elif target == "twincat":
-            options = ["-t", "twincat", "-o", dir_real] + options;
+            options = options + ["-t", "twincat", "-o", dir_real];
             if isdir(dir_real):: rmdir(dir_real);
 
             if test_name == "button_lamp_twincat":

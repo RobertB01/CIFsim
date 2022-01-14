@@ -25,6 +25,7 @@ This allows for tight integration and smooth development cycles when implementin
 
 indexterm:[S7,generated output]
 
+[[tools-cif2plc-s7-generated-output]]
 === Generated output
 
 The CIF PLC code generator can generate code files that can be imported in TIA Portal (see <<tools-cif2plc-s7-usage>>).
