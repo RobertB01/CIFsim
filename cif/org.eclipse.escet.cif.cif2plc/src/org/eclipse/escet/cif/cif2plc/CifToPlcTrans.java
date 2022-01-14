@@ -312,9 +312,9 @@ public class CifToPlcTrans {
                 && (formalInvokeArg == PlcFormalFuncInvokeArg.NONE || formalInvokeFunc != PlcFormalFuncInvokeFunc.ALL))
         {
             // S7 requires formal function invocation for all functions with more than two arguments.
-            String msg = fmt(
-                    "Formal function invocation is not enabled for all functions, this is required for %s code.",
-                    getPlcOutputType().dialogText);
+            String msg = fmt("Formal function invocation is not enabled for all functions, this is required for %s "
+                    + "code. Please set the \"Formal function invocation (arguments based)\" and \"Formal function "
+                    + "invocation (function kind based)\" options accordingly.", getPlcOutputType().dialogText);
             throw new InvalidInputException(msg);
         }
 
@@ -419,8 +419,8 @@ public class CifToPlcTrans {
             new EnumsToConsts().transform(spec);
         } else if (PlcOutputTypeOption.isS7Output()) {
             // Enumerations are not converted.
-            String msg = fmt("Enumerations are not converted, this is required for %s code.",
-                    getPlcOutputType().dialogText);
+            String msg = fmt("Enumerations are not converted, while this is required for %s code. Please set the "
+                    + "\"Convert enumerations\" option accordingly.", getPlcOutputType().dialogText);
             throw new InvalidInputException(msg);
         }
 
