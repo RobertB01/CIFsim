@@ -102,7 +102,7 @@ public class CifToPlcApp extends Application<IOutputComponent> {
         PlcOutputType outType = PlcOutputTypeOption.getPlcOutputType();
 
         // Get output path.
-        String outPath = OutputFileOption.getDerivedPath(".cif", outType.outExt);
+        String outPath = OutputFileOption.getDerivedPath(".cif", outType.outFileExtOrDirPostfix);
         Assert.notNull(outPath);
         outPath = Paths.resolve(outPath);
 
@@ -138,6 +138,9 @@ public class CifToPlcApp extends Application<IOutputComponent> {
             case S7_400:
                 S7Writer.write(project, outPath);
                 break;
+
+            default:
+                throw new RuntimeException("Unknown output type: " + outType);
         }
 
         // All done.

@@ -181,7 +181,7 @@ The _Extended download to device_ window pops up.
 
 ** Click btn:[Start search].
 
-** When a device has been found, click btn:[Load]
+** When a device has been found, click btn:[Load].
 The _Load preview_ window pops up.
 
 ** Click btn:[Load].

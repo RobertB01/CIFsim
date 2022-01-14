@@ -17,6 +17,7 @@ import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption.getPlcOutputType;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.FUNCTION;
+import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.PROGRAM;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcProject.INDENT;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -166,7 +167,7 @@ public class PlcPou extends PlcObject {
         boolean optimizedBlockAccess = getPlcOutputType() == S7_1200 || getPlcOutputType() == S7_1500;
 
         // Get the POU text, either FUNCTION for functions, or ORGANIZATION_BLOCK for the main program.
-        String pouTypeText = null;
+        String pouTypeText;
         switch (pouType) {
             case FUNCTION:
                 pouTypeText = "FUNCTION";
@@ -174,6 +175,9 @@ public class PlcPou extends PlcObject {
             case PROGRAM:
                 pouTypeText = "ORGANIZATION_BLOCK";
                 break;
+
+            default:
+                throw new RuntimeException("Unknown pou type: " + pouType);
         }
 
         // Write header. The header includes the POU type, name and return type.
@@ -196,6 +200,9 @@ public class PlcPou extends PlcObject {
         // Write the local variables.
         if (!localVars.isEmpty()) {
             if (pouType == FUNCTION) {
+                // S7 doesn't have local variables in functions. Instead, all variables are temporary. They do the same
+                // but are named differently. That is, after exiting the function, the values are lost. This is similar
+                // to how CIF and TwinCAT handle local variables in functions.
                 c.add("VAR_TEMP");
                 c.indent();
                 for (PlcVariable var: localVars) {
@@ -204,11 +211,11 @@ public class PlcPou extends PlcObject {
                 c.dedent();
                 c.add("END_VAR");
             }
-            // else: Local vars of programs are written to a DB file.
+            // else: Different from functions, local variables of programs are persistent and are written to a DB file.
         }
 
         // Write the temporary variables.
-        if (!tempVars.isEmpty()) {
+        if (!tempVars.isEmpty() || !outputVars.isEmpty()) {
             // Functions shouldn't have variables declared as temporary. As all variables are temporary.
             Assert.check(pouType != FUNCTION);
 
@@ -218,6 +225,11 @@ public class PlcPou extends PlcObject {
                 c.add("%s: %s;", var.name, var.type);
             }
             for (PlcVariable var: outputVars) {
+                // There should only be two output variables, timerValue0 and timerValue1. These are part of the main
+                // program. In S7 the main program cannot have output variables. Hence, we add them as temporary
+                // variables. Functions should not have output variables.
+                Assert.check(pouType == PROGRAM);
+                Assert.check(outputVars.size() == 2);
                 c.add("%s: %s;", var.name, var.type);
             }
             c.dedent();

@@ -1668,7 +1668,7 @@ public class CifToPlcTrans {
                     case CBRT:
                         if (PlcOutputTypeOption.isS7Output()) {
                             // Use reals to get real result. Use two real-typed values to support S7-300 and S7-400.
-                            return fmt("(%s) ** (1.0/3.0)", paramTxts.get(0));
+                            return fmt("(%s) ** (1.0/3.0)", paramsTxt);
                         }
 
                         // The 'a ** b' syntax seemed not to work in TwinCAT
@@ -1748,12 +1748,12 @@ public class CifToPlcTrans {
                             String paramTxt1 = paramTxts.get(1);
                             if (type0 instanceof IntType) {
                                 String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
-                                paramTxt0 = genFuncCall(toName, true, "IN", paramTxts.get(0));
+                                paramTxt0 = genFuncCall(toName, true, "IN", paramTxt0);
                             }
 
                             if (type1 instanceof IntType) {
                                 String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
-                                paramTxt1 = genFuncCall(toName, true, "IN", paramTxts.get(1));
+                                paramTxt1 = genFuncCall(toName, true, "IN", paramTxt1);
                             }
 
                             String resultTxt = fmt("(%s) ** (%s)", paramTxt0, paramTxt1);
@@ -1988,8 +1988,8 @@ public class CifToPlcTrans {
      *
      * @param left The left expression.
      * @param right The right expression.
-     * @param ltype The type of the left expression.
-     * @param rtype The type of the right expression.
+     * @param ltype The normalized type of the left expression.
+     * @param rtype The normalized type of the right expression.
      * @return The new left and right expressions.
      */
     private Pair<String, String> convertBinaryLeftRight(String left, String right, CifType ltype, CifType rtype) {

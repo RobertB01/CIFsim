@@ -39,7 +39,7 @@ import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
-/** Siemens S7 SCL writer for S7-1200, S7-1500, S7-300 and S7-400 series. */
+/** S7 writer for S7-1200, S7-1500, S7-300 and S7-400 SIMATIC controllers. */
 public class S7Writer {
     /** Constructor for the {@link S7Writer} class. */
     private S7Writer() {
@@ -47,7 +47,7 @@ public class S7Writer {
     }
 
     /**
-     * Writes the given PLC project to files in Siemens S7 SCL syntax.
+     * Writes the given PLC project to files for S7 SIMATIC controllers.
      *
      * @param project The PLC project to write.
      * @param outPath The absolute local file system path of the directory to which to write the files.
@@ -66,11 +66,11 @@ public class S7Writer {
         }
 
         // Ensure exactly one configuration.
-        Assert.check(project.configurations.size() == 1);
+        Assert.areEqual(project.configurations.size(), 1);
         PlcConfiguration config = project.configurations.get(0);
 
         // Ensure exactly one resource.
-        Assert.check(config.resources.size() == 1);
+        Assert.areEqual(config.resources.size(), 1);
         PlcResource resource = config.resources.get(0);
 
         // Write the PLC inputs tag table and PLC constants tag table.
@@ -80,11 +80,13 @@ public class S7Writer {
             } else if (globalVarList.name.equals("CONSTS")) {
                 write(globalVarList, outPath);
             } else {
-                // Write the timers. S7 timers use a non-IEC format.
-                Assert.check(globalVarList.name.equals("TIMERS"));
+                // Write the timers. S7 timers are imported via a database file.
+                Assert.areEqual(globalVarList.name, "TIMERS");
                 writeTimers(outPath);
             }
         }
+
+        // Resource task and POU instances are not written as they cannot be imported in S7.
 
         // Write POUs.
         for (PlcPou pou: project.pous) {
@@ -107,7 +109,7 @@ public class S7Writer {
         }
 
         // Ensure exactly one program.
-        Assert.check(programCount == 1);
+        Assert.areEqual(programCount, 1);
 
         // Write type declarations.
         for (PlcTypeDecl typeDecl: project.typeDecls) {
@@ -116,7 +118,7 @@ public class S7Writer {
     }
 
     /**
-     * Writes the given POU to a file in Siemens S7 SCL syntax.
+     * Writes the given POU to a file in S7 syntax.
      *
      * @param pou The POU to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
@@ -128,7 +130,7 @@ public class S7Writer {
     }
 
     /**
-     * Writes two timers to a database file in Siemens S7 SCL syntax.
+     * Writes two timers to a database file in S7 syntax.
      *
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
@@ -136,7 +138,7 @@ public class S7Writer {
         String path = Paths.join(outPath, fmt("timers.db"));
         CodeBox c = new MemoryCodeBox(INDENT);
 
-        // Get S7 type. S7-1200 and S7-1500 support optimized block access and IEC timers. S7-300 and S7-500 don't
+        // Get S7 type. S7-1200 and S7-1500 support optimized block access and IEC timers. S7-300 and S7-400 don't
         // support optimized block access and have TON timers.
         boolean target12001500 = getPlcOutputType() == S7_1200 || getPlcOutputType() == S7_1500;
 
@@ -164,7 +166,7 @@ public class S7Writer {
     }
 
     /**
-     * Writes the given type declaration to a file in Siemens S7 SCL syntax.
+     * Writes the given type declaration to a file in S7 syntax.
      *
      * @param typeDecl The type declaration to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
@@ -176,7 +178,7 @@ public class S7Writer {
     }
 
     /**
-     * Writes the given global variable list to a file in Siemens S7 SCL syntax.
+     * Writes the given global variable list to a file in S7 syntax.
      *
      * @param gvl The global variable list to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
@@ -188,7 +190,7 @@ public class S7Writer {
     }
 
     /**
-     * Writes the given variables as a database file in Siemens S7 SCL syntax.
+     * Writes the given variables as a database file in S7 syntax.
      *
      * @param variables The variables to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
@@ -201,7 +203,7 @@ public class S7Writer {
         // performance.
         boolean optimizedBlockAccess = getPlcOutputType() == S7_1200 || getPlcOutputType() == S7_1500;
 
-        // The header
+        // The header.
         c.add("DATA_BLOCK \"DB\"");
         c.add("{ S7_Optimized_Access := '%b' }", optimizedBlockAccess);
 

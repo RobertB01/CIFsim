@@ -31,23 +31,23 @@ public enum PlcOutputType {
     /** TwinCAT output. */
     TWINCAT("TwinCAT", "_twincat", LINT_TYPE, LREAL_TYPE),
 
-    /** Siemens S7-1200 output. */
+    /** S7-1200 output. */
     S7_1200("S7-1200", "_s7_1200", DINT_TYPE, LREAL_TYPE),
 
-    /** Siemens S7-1500 output. */
+    /** S7-1500 output. */
     S7_1500("S7-1500", "_s7_1500", LINT_TYPE, LREAL_TYPE),
 
-    /** Siemens S7-300 output. */
+    /** S7-300 output. */
     S7_300("S7-300", "_s7_300", DINT_TYPE, REAL_TYPE),
 
-    /** Siemens S7-400 output. */
+    /** S7-400 output. */
     S7_400("S7-400", "_s7_400", DINT_TYPE, REAL_TYPE);
 
     /** The text to use in dialogs. */
     public final String dialogText;
 
-    /** The output file extension (including the dot) to use. */
-    public final String outExt;
+    /** The output file extension (including the dot) or directory postfix to use. */
+    public final String outFileExtOrDirPostfix;
 
     /** The largest integer type supported by this output type. */
     public final PlcElementaryType largeIntType;
@@ -56,17 +56,18 @@ public enum PlcOutputType {
     public final PlcElementaryType largeRealType;
 
     /**
-     * Constructor for the {@link PlcOutputType} enumeration constant.
+     * Constructor for the {@link PlcOutputType} enum.
      *
      * @param dialogText The text to use in dialogs.
-     * @param outExt The output file extension (including the dot) to use.
+     * @param outFileExtOrDirPostfix The output file extension (including the dot) or directory postfix to use.
      * @param largeIntType The largest integer type supported by this output type.
      * @param largeRealType The largest real type supported by this output type.
      */
-
-    private PlcOutputType(String dialogText, String outExt, PlcElementaryType largeIntType, PlcElementaryType largeRealType) {
+    private PlcOutputType(String dialogText, String outFileExtOrDirPostfix, PlcElementaryType largeIntType,
+            PlcElementaryType largeRealType)
+    {
         this.dialogText = dialogText;
-        this.outExt = outExt;
+        this.outFileExtOrDirPostfix = outFileExtOrDirPostfix;
         this.largeIntType = largeIntType;
         this.largeRealType = largeRealType;
     }

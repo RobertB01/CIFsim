@@ -68,7 +68,7 @@ public class PlcGlobalVarList extends PlcObject {
         c.add("<Tagtable name='%s'>", name);
         c.indent();
 
-        // The variables, either constants of input variables.
+        // The variables, either constants or input variables.
         if (constants) {
             for (PlcVariable constant: variables) {
                 c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", constant.type, constant.value,

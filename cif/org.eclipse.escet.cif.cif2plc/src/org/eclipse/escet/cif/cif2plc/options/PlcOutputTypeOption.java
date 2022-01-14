@@ -28,8 +28,9 @@ public class PlcOutputTypeOption extends EnumOption<PlcOutputType> {
     public PlcOutputTypeOption() {
         super("PLC code output type",
                 "Specifies the PLC code output type. Specify \"plc-open-xml\" for PLCopen XML output (default), "
-                        + "\"iec-61131-3\" for IEC 61131-3 output, \"twincat\" for \"TwinCAT\" output, or \"s7-1200\" "
-                        + "for \"Siemens S7-1200\" output.",
+                        + "\"iec-61131-3\" for IEC 61131-3 output, \"twincat\" for TwinCAT output, \"s7-1500\" for "
+                        + "S7-1500 output, \"s7-1200\" for S7-1200 output, \"s7-400\" for S7-400 output, or \"s7-300\" "
+                        + "for S7-300 output.",
                 't', "output-type", "OTYPE", PLC_OPEN_XML, true, "Specifies the PLC code output type.");
     }
 
