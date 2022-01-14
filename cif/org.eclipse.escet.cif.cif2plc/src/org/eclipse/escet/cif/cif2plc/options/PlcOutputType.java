@@ -31,17 +31,17 @@ public enum PlcOutputType {
     /** TwinCAT output. */
     TWINCAT("TwinCAT", "_twincat", LINT_TYPE, LREAL_TYPE),
 
-    /** S7-1200 output. */
-    S7_1200("S7-1200", "_s7_1200", DINT_TYPE, LREAL_TYPE),
-
     /** S7-1500 output. */
     S7_1500("S7-1500", "_s7_1500", LINT_TYPE, LREAL_TYPE),
 
-    /** S7-300 output. */
-    S7_300("S7-300", "_s7_300", DINT_TYPE, REAL_TYPE),
+    /** S7-1200 output. */
+    S7_1200("S7-1200", "_s7_1200", DINT_TYPE, LREAL_TYPE),
 
     /** S7-400 output. */
-    S7_400("S7-400", "_s7_400", DINT_TYPE, REAL_TYPE);
+    S7_400("S7-400", "_s7_400", DINT_TYPE, REAL_TYPE),
+
+    /** S7-300 output. */
+    S7_300("S7-300", "_s7_300", DINT_TYPE, REAL_TYPE);
 
     /** The text to use in dialogs. */
     public final String dialogText;

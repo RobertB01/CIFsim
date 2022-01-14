@@ -18,7 +18,7 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[S7]
 indexterm:[see: CIF PLC code generator,S7]
-The S7 output (1200, 1500, 300 and 400) generates code for SIMATIC controllers.
+The S7 output (1500, 1200, 400 and 300) generates code for SIMATIC controllers.
 Totally Integrated Automation Portal (TIA Portal) is an IDE for the development and testing of SIMATIC controllers.
 Using the S7 output, the generated PLC code can be imported in TIA Portal.
 This allows for tight integration and smooth development cycles when implementing controllers on SIMATIC controllers.

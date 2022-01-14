@@ -49,12 +49,12 @@ public class PlcOutputTypeOption extends EnumOption<PlcOutputType> {
     }
 
     /**
-     * Is the PLC code output an S7 variant (S7-1200, S7-1500, S7-300 or S7-400)?
+     * Is the PLC code output an S7 variant (S7-1500, S7-1200, S7-400 or S7-300)?
      *
      * @return {@code true} if the output is an S7 variant, {@code false} otherwise.
      */
     public static boolean isS7Output() {
         PlcOutputType type = getPlcOutputType();
-        return type == S7_1200 || type == S7_1500 || type == S7_300 || type == S7_400;
+        return type == S7_1500 || type == S7_1200 || type == S7_400 || type == S7_300;
     }
 }

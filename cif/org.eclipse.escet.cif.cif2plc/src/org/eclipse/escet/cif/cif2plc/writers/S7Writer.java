@@ -39,7 +39,7 @@ import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
-/** S7 writer for S7-1200, S7-1500, S7-300 and S7-400 SIMATIC controllers. */
+/** S7 writer for S7-1500, S7-1200, S7-400 and S7-300 SIMATIC controllers. */
 public class S7Writer {
     /** Constructor for the {@link S7Writer} class. */
     private S7Writer() {
@@ -138,22 +138,22 @@ public class S7Writer {
         String path = Paths.join(outPath, fmt("timers.db"));
         CodeBox c = new MemoryCodeBox(INDENT);
 
-        // Get S7 type. S7-1200 and S7-1500 support optimized block access and IEC timers. S7-300 and S7-400 don't
+        // Get S7 type. S7-1500 and S7-1200 support optimized block access and IEC timers. S7-400 and S7-300 don't
         // support optimized block access and have TON timers.
-        boolean target12001500 = getPlcOutputType() == S7_1200 || getPlcOutputType() == S7_1500;
+        boolean s71500OrS71200 = getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200;
 
         // Add timer0 and timer1.
         for (int timerIdx = 0; timerIdx < 2; timerIdx++) {
             c.add("DATA_BLOCK \"timer%d\"", timerIdx);
-            c.add("{InstructionName := '%s';", target12001500 ? "IEC_TIMER" : "TON");
+            c.add("{InstructionName := '%s';", s71500OrS71200 ? "IEC_TIMER" : "TON");
             c.add("LibVersion := '1.0';");
-            c.add("S7_Optimized_Access := '%b' }", target12001500);
+            c.add("S7_Optimized_Access := '%b' }", s71500OrS71200);
             c.add("AUTHOR : Simatic");
-            c.add("FAMILY : %s", target12001500 ? "IEC" : "IEC_TC");
-            c.add("NAME : %s", target12001500 ? "IEC_TMR" : "TON");
+            c.add("FAMILY : %s", s71500OrS71200 ? "IEC" : "IEC_TC");
+            c.add("NAME : %s", s71500OrS71200 ? "IEC_TMR" : "TON");
             c.add("VERSION : 1.0");
             c.add("NON_RETAIN");
-            c.add("%s", target12001500 ? "IEC_TIMER" : "TON");
+            c.add("%s", s71500OrS71200 ? "IEC_TIMER" : "TON");
             c.add();
             c.add("BEGIN");
             c.add();
@@ -199,9 +199,9 @@ public class S7Writer {
         String path = Paths.join(outPath, "DB.db");
         CodeBox c = new MemoryCodeBox(INDENT);
 
-        // Is optimized block access supported? Only supported for S7-1200 and S7-1500. It optimizes data storage and
+        // Is optimized block access supported? Only supported for S7-1500 and S7-1200. It optimizes data storage and
         // performance.
-        boolean optimizedBlockAccess = getPlcOutputType() == S7_1200 || getPlcOutputType() == S7_1500;
+        boolean optimizedBlockAccess = getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200;
 
         // The header.
         c.add("DATA_BLOCK \"DB\"");

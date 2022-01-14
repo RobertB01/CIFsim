@@ -132,10 +132,10 @@ public class CifToPlcApp extends Application<IOutputComponent> {
                 TwinCatWriter.write(project, outPath);
                 break;
 
-            case S7_1200:
             case S7_1500:
-            case S7_300:
+            case S7_1200:
             case S7_400:
+            case S7_300:
                 S7Writer.write(project, outPath);
                 break;
 

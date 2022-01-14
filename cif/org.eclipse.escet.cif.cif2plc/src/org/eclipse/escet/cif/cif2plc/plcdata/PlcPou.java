@@ -162,9 +162,9 @@ public class PlcPou extends PlcObject {
     public Box toBoxS7() {
         CodeBox c = new MemoryCodeBox(INDENT);
 
-        // Is optimized block access supported? Only supported for S7-1200 and S7-1500. It optimizes data storage and
+        // Is optimized block access supported? Only supported for S7-1500 and S7-1200. It optimizes data storage and
         // performance.
-        boolean optimizedBlockAccess = getPlcOutputType() == S7_1200 || getPlcOutputType() == S7_1500;
+        boolean optimizedBlockAccess = getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200;
 
         // Get the POU text, either FUNCTION for functions, or ORGANIZATION_BLOCK for the main program.
         String pouTypeText;

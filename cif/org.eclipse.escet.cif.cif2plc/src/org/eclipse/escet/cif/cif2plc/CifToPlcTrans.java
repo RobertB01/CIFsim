@@ -1408,22 +1408,22 @@ public class CifToPlcTrans {
                     throw new RuntimeException("precond violation");
 
                 case LESS_THAN:
-                    // S7-300 and S7-400 only support less than on the same types.
+                    // S7-400 and S7-300 only support less than on the same types.
                     leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     return fmt("(%s) < (%s)", leftRight.left, leftRight.right);
 
                 case LESS_EQUAL:
-                    // S7-300 and S7-400 only support less equal on the same types.
+                    // S7-400 and S7-300 only support less equal on the same types.
                     leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     return fmt("(%s) <= (%s)", leftRight.left, leftRight.right);
 
                 case GREATER_THAN:
-                    // S7-300 and S7-400 only support greater than on the same types.
+                    // S7-400 and S7-300 only support greater than on the same types.
                     leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     return fmt("(%s) > (%s)", leftRight.left, leftRight.right);
 
                 case GREATER_EQUAL:
-                    // S7-300 and S7-400 only support greater equal on the same types.
+                    // S7-400 and S7-300 only support greater equal on the same types.
                     leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     return fmt("(%s) >= (%s)", leftRight.left, leftRight.right);
 
@@ -1452,7 +1452,7 @@ public class CifToPlcTrans {
                     throw new RuntimeException("precond violation");
 
                 case ADDITION:
-                    // S7-300 and S7-400 only support addition on the same types.
+                    // S7-400 and S7-300 only support addition on the same types.
                     leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     if (ltype instanceof IntType || ltype instanceof RealType) {
                         return fmt("(%s) + (%s)", leftRight.left, leftRight.right);
@@ -1461,7 +1461,7 @@ public class CifToPlcTrans {
                     throw new RuntimeException("precond violation");
 
                 case SUBTRACTION:
-                    // S7-300 and S7-400 only support subtraction on the same types.
+                    // S7-400 and S7-300 only support subtraction on the same types.
                     leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     if (ltype instanceof IntType || ltype instanceof RealType) {
                         return fmt("(%s) - (%s)", leftRight.left, leftRight.right);
@@ -1470,12 +1470,12 @@ public class CifToPlcTrans {
                     throw new RuntimeException("precond violation");
 
                 case MULTIPLICATION:
-                    // S7-300 and S7-400 only support multiplication on the same types.
+                    // S7-400 and S7-300 only support multiplication on the same types.
                     leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     return fmt("(%s) * (%s)", leftRight.left, leftRight.right);
 
                 case DIVISION:
-                    // S7-300 and S7-400 only support division on the same types.
+                    // S7-400 and S7-300 only support division on the same types.
                     if (ltype instanceof IntType && rtype instanceof IntType) {
                         // Left value will become real type.
                         leftRight = convertBinaryLeftRight(left, right, newRealType(), rtype);
@@ -1661,7 +1661,7 @@ public class CifToPlcTrans {
 
                     case CBRT:
                         if (PlcOutputTypeOption.isS7Output()) {
-                            // Use reals to get real result. Use two real-typed values to support S7-300 and S7-400.
+                            // Use reals to get real result. Use two real-typed values to support S7-400 and S7-300.
                             return fmt("(%s) ** (1.0/3.0)", paramsTxt);
                         }
 
@@ -1736,8 +1736,8 @@ public class CifToPlcTrans {
                         CifType type0 = normalizeType(params.get(0).getType());
                         CifType type1 = normalizeType(params.get(1).getType());
 
-                        // S7-300 and S7-400 only support power on real types.
-                        if (getPlcOutputType() == S7_300 || getPlcOutputType() == S7_400) {
+                        // S7-400 and S7-300 only support power on real types.
+                        if (getPlcOutputType() == S7_400 || getPlcOutputType() == S7_300) {
                             String paramTxt0 = paramTxts.get(0);
                             String paramTxt1 = paramTxts.get(1);
                             if (type0 instanceof IntType) {
@@ -1763,8 +1763,8 @@ public class CifToPlcTrans {
                             return resultTxt;
                         }
 
-                        // S7-1200 and S7-1500 use the 'a ** b' syntax for power.
-                        if (getPlcOutputType() == S7_1200 || getPlcOutputType() == S7_1500) {
+                        // S7-1500 and S7-1200 use the 'a ** b' syntax for power.
+                        if (getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200) {
                             return fmt("(%s) ** (%s)", paramTxts.get(0), paramTxts.get(1));
                         }
 
@@ -1975,7 +1975,7 @@ public class CifToPlcTrans {
      * expression. Only supports integer and real types.
      *
      * <p>
-     * For S7-300 and S7-400, the left and right expression in a binary expression must have the same type. If one
+     * For S7-400 and S7-300, the left and right expression in a binary expression must have the same type. If one
      * expression has integer type and the other expression has real type, an int-to-real cast is added to the
      * integer-typed expression.
      * </p>
@@ -1987,7 +1987,7 @@ public class CifToPlcTrans {
      * @return The new left and right expressions.
      */
     private Pair<String, String> convertBinaryLeftRight(String left, String right, CifType ltype, CifType rtype) {
-        if (getPlcOutputType() != S7_300 && getPlcOutputType() != S7_400) {
+        if (getPlcOutputType() != S7_400 && getPlcOutputType() != S7_300) {
             return new Pair<>(left, right);
         }
 
