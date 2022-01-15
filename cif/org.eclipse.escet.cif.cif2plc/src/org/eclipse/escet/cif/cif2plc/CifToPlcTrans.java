@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.cif2plc;
 
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.IEC_61131_3;
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.PLC_OPEN_XML;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_300;
