@@ -216,8 +216,9 @@ public class PlcPou extends PlcObject {
 
         // Write the temporary variables.
         if (!tempVars.isEmpty() || !outputVars.isEmpty()) {
-            // Functions shouldn't have variables declared as temporary. As all variables are temporary.
-            Assert.check(pouType != FUNCTION);
+            // Functions shouldn't have variables declared as temporary. As all variables are temporary. Function can't
+            // have output variables.
+            Assert.areEqual(pouType, PROGRAM);
 
             c.add("VAR_TEMP");
             c.indent();
@@ -227,9 +228,8 @@ public class PlcPou extends PlcObject {
             for (PlcVariable var: outputVars) {
                 // There should only be two output variables, timerValue0 and timerValue1. These are part of the main
                 // program. In S7 the main program cannot have output variables. Hence, we add them as temporary
-                // variables. Functions should not have output variables.
-                Assert.check(pouType == PROGRAM);
-                Assert.check(outputVars.size() == 2);
+                // variables.
+                Assert.areEqual(outputVars.size(), 2);
                 c.add("%s: %s;", var.name, var.type);
             }
             c.dedent();

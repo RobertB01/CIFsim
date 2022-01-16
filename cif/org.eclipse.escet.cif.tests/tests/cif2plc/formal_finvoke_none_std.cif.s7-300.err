@@ -1,1 +1,1 @@
-ERROR: Formal function invocation is not enabled for all functions, this is required for S7-300 code. Please set the "Formal function invocation (arguments based)" and "Formal function invocation (function kind based)" options accordingly.
+ERROR: Formal function invocation is not enabled for all functions, while this is required for S7-300 code. Please set the "Formal function invocation (arguments based)" and "Formal function invocation (function kind based)" options accordingly.

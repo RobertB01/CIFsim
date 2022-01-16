@@ -310,8 +310,8 @@ public class CifToPlcTrans {
                 && (formalInvokeArg == PlcFormalFuncInvokeArg.NONE || formalInvokeFunc != PlcFormalFuncInvokeFunc.ALL))
         {
             // S7 requires formal function invocation for all functions with more than two arguments.
-            String msg = fmt("Formal function invocation is not enabled for all functions, this is required for %s "
-                    + "code. Please set the \"Formal function invocation (arguments based)\" and \"Formal function "
+            String msg = fmt("Formal function invocation is not enabled for all functions, while this is required for "
+                    + "%s code. Please set the \"Formal function invocation (arguments based)\" and \"Formal function "
                     + "invocation (function kind based)\" options accordingly.", getPlcOutputType().dialogText);
             throw new InvalidInputException(msg);
         }
@@ -332,6 +332,9 @@ public class CifToPlcTrans {
                 largeIntType = LINT_TYPE;
                 largeRealType = LREAL_TYPE;
                 break;
+
+            default:
+                throw new RuntimeException("Unknown number of bits: " + PlcNumberBitsOption.getNumberBits());
         }
     }
 

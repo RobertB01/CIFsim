@@ -31,7 +31,7 @@ public enum PlcNumberBits {
     public final String cmdValueTxt;
 
     /**
-     * Constructor for the {@link PlcNumberBits} enumeration constant.
+     * Constructor for the {@link PlcNumberBits} enum.
      *
      * @param dialogText The text to use in dialogs.
      * @param cmdValueTxt The command line value text.

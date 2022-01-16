@@ -111,7 +111,7 @@ end
 
 // Test all tests.
 for test in tests:
-    for target in ["plcopen", "iec", "twincat", "s7-1200", "s7-1500", "s7-300", "s7-400"]:
+    for target in ["plcopen", "iec", "twincat", "s7-1500", "s7-1200", "s7-400", "s7-300"]:
         // Get test specific options.
         list string options = default_options;
         list string extra_options;
