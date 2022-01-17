@@ -154,8 +154,12 @@ public abstract class ImageOutput extends OutputTarget {
         int yIndex = 0;
         for (double yPos = topPixel; yPos <= bottomPixel; yPos++) {
             double coverage = 1.0;
-            if (yPos == topPixel) { coverage -= topUncovered; }
-            if (yPos + 1 == bottomPixel) { coverage -= bottomUncovered; }
+            if (yPos == topPixel) {
+                coverage -= topUncovered;
+            }
+            if (yPos + 1 == bottomPixel) {
+                coverage -= bottomUncovered;
+            }
             yCoverage[yIndex] = Math.max(0, coverage);
             yIndex++;
         }
@@ -197,8 +201,12 @@ public abstract class ImageOutput extends OutputTarget {
         int xIndex = 0;
         for (double xPos = leftPixel; xPos <= rightPixel; xPos++) {
             double coverage = 1.0;
-            if (xPos == leftPixel) { coverage -= leftUncovered; }
-            if (xPos + 1 == rightPixel) { coverage -= rightUncovered; }
+            if (xPos == leftPixel) {
+                coverage -= leftUncovered;
+            }
+            if (xPos + 1 == rightPixel) {
+                coverage -= rightUncovered;
+            }
             xCoverage[xIndex] = Math.max(0, coverage);
             xIndex++;
         }
