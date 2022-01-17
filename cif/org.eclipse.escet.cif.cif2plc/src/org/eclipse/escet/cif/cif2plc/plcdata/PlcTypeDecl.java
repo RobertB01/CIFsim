@@ -50,6 +50,17 @@ public class PlcTypeDecl extends PlcObject {
         return c;
     }
 
+    @Override
+    public Box toBoxS7() {
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", name);
+        c.indent();
+        c.add(new HBox(type.toBoxS7(), ";"));
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
+    }
+
     /**
      * Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT specific,
      * in that it implements a workaround for a bug in TwinCAT, where structs may in type declarations may not be

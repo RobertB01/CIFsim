@@ -1,0 +1,30 @@
+DATA_BLOCK "timer0"
+{InstructionName := 'TON';
+LibVersion := '1.0';
+S7_Optimized_Access := 'false' }
+AUTHOR : Simatic
+FAMILY : IEC_TC
+NAME : TON
+VERSION : 1.0
+NON_RETAIN
+TON
+
+BEGIN
+
+END_DATA_BLOCK
+
+DATA_BLOCK "timer1"
+{InstructionName := 'TON';
+LibVersion := '1.0';
+S7_Optimized_Access := 'false' }
+AUTHOR : Simatic
+FAMILY : IEC_TC
+NAME : TON
+VERSION : 1.0
+NON_RETAIN
+TON
+
+BEGIN
+
+END_DATA_BLOCK
+

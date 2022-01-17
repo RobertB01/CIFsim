@@ -1,0 +1,13 @@
+ERROR: PLC code generation failed for CIF file "cif2plc/arrays.cif".
+CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
+ - Unsupported type "list[0] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[2] list[5] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[2] list[5] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[2] list[5] int[0..99]": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[5] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[5] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[5] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[5] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[5] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[5] int": list types are currently not supported for S7-1500 output.
+ - Unsupported type "list[5] int[0..99]": list types are currently not supported for S7-1500 output.

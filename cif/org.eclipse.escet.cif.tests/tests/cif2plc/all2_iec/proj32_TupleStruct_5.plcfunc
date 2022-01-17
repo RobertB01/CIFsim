@@ -1,7 +1,0 @@
-FUNCTION proj32_TupleStruct_5: LREAL
-VAR_INPUT
-    tuple: TupleStruct_5;
-END_VAR
-
-proj32_TupleStruct_5 := tuple.field32;
-END_FUNCTION

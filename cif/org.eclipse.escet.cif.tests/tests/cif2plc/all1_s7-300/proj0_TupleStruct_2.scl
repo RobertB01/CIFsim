@@ -1,0 +1,9 @@
+FUNCTION proj0_TupleStruct_2: TupleStruct_1
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        tuple: TupleStruct_2;
+    END_VAR
+
+BEGIN
+    proj0_TupleStruct_2 := tuple.field0;
+END_FUNCTION

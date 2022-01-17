@@ -1,0 +1,9 @@
+FUNCTION derivcvar_M_p_t: REAL
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        state: STATE;
+    END_VAR
+
+BEGIN
+    derivcvar_M_p_t := 1.0;
+END_FUNCTION

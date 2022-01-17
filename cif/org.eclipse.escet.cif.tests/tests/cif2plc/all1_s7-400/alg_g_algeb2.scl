@@ -1,0 +1,9 @@
+FUNCTION alg_g_algeb2: TupleStruct_1
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        state: STATE;
+    END_VAR
+
+BEGIN
+    alg_g_algeb2 := makeTupleStruct_1(field0:=state.curTime, field1:=(state.curTime) + (1.0));
+END_FUNCTION

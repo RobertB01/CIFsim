@@ -572,6 +572,8 @@ include::tools/cif2plc/index.asciidoc[]
 
 include::tools/cif2plc/twincat.asciidoc[]
 
+include::tools/cif2plc/s7.asciidoc[]
+
 :leveloffset: -1
 
 :leveloffset: -2

@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='CONSTS'>
+    <Constant type='DINT' remark='' value='0'>const_l1</Constant>
+    <Constant type='DINT' remark='' value='1'>const_l2</Constant>
+    <Constant type='DINT' remark='' value='2'>const_l3</Constant>
+    <Constant type='DINT' remark='' value='3'>const_l4</Constant>
+    <Constant type='DINT' remark='' value='4'>const_m1</Constant>
+    <Constant type='DINT' remark='' value='5'>const_m2</Constant>
+    <Constant type='DINT' remark='' value='6'>const_m3</Constant>
+</Tagtable>

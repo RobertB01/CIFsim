@@ -1,0 +1,7 @@
+TYPE STATE:
+    STRUCT
+        curTime: REAL;
+        dvar_M_p_x: DINT;
+        cvar_M_p_t: REAL;
+    END_STRUCT;
+END_TYPE

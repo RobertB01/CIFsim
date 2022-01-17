@@ -1,7 +1,0 @@
-FUNCTION proj32_TupleStruct_3: BOOL
-VAR_INPUT
-    tuple: TupleStruct_3;
-END_VAR
-
-proj32_TupleStruct_3 := tuple.field32;
-END_FUNCTION

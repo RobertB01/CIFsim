@@ -1,0 +1,39 @@
+FUNCTION makeTupleStruct_1: TupleStruct_1
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        field0: LREAL;
+        field1: LREAL;
+        field2: LREAL;
+        field3: LREAL;
+        field4: LREAL;
+        field5: LREAL;
+        field6: LREAL;
+        field7: LREAL;
+        field8: LREAL;
+        field9: LREAL;
+        field10: LREAL;
+        field11: LREAL;
+        field12: LREAL;
+        field13: LREAL;
+    END_VAR
+    VAR_TEMP
+        rslt: TupleStruct_1;
+    END_VAR
+
+BEGIN
+    rslt.field0 := field0;
+    rslt.field1 := field1;
+    rslt.field2 := field2;
+    rslt.field3 := field3;
+    rslt.field4 := field4;
+    rslt.field5 := field5;
+    rslt.field6 := field6;
+    rslt.field7 := field7;
+    rslt.field8 := field8;
+    rslt.field9 := field9;
+    rslt.field10 := field10;
+    rslt.field11 := field11;
+    rslt.field12 := field12;
+    rslt.field13 := field13;
+    makeTupleStruct_1 := rslt;
+END_FUNCTION

@@ -1,0 +1,6 @@
+TYPE TupleStruct_2:
+    STRUCT
+        field0: REAL;
+        field1: DINT;
+    END_STRUCT;
+END_TYPE

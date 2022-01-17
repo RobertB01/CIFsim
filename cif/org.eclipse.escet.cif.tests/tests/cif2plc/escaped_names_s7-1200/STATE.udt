@@ -1,0 +1,7 @@
+TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_p_disc: BOOL;
+        dvar_M_p: DINT;
+    END_STRUCT;
+END_TYPE

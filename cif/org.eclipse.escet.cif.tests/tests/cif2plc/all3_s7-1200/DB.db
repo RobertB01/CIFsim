@@ -1,0 +1,14 @@
+DATA_BLOCK "DB"
+{ S7_Optimized_Access := 'true' }
+    VAR
+        cnt: DINT;
+        first: BOOL;
+        curTimerValue: TIME;
+        state0: STATE;
+        curTime: LREAL;
+        loopsKilled: DINT;
+        curTimer: INT;
+    END_VAR
+BEGIN
+    first := TRUE;
+END_DATA_BLOCK

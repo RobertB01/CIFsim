@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='CONSTS'>
+    <Constant type='DINT' remark='' value='0'>const_Idle</Constant>
+    <Constant type='DINT' remark='' value='1'>const_Off</Constant>
+    <Constant type='DINT' remark='' value='2'>const_On</Constant>
+    <Constant type='DINT' remark='' value='3'>const_Pushed</Constant>
+    <Constant type='DINT' remark='' value='4'>const_Released</Constant>
+    <Constant type='DINT' remark='' value='5'>const_Running</Constant>
+    <Constant type='DINT' remark='' value='6'>const_s1</Constant>
+    <Constant type='DINT' remark='' value='7'>const_s10</Constant>
+    <Constant type='DINT' remark='' value='8'>const_s2</Constant>
+    <Constant type='DINT' remark='' value='9'>const_s3</Constant>
+    <Constant type='DINT' remark='' value='10'>const_s4</Constant>
+    <Constant type='DINT' remark='' value='11'>const_s5</Constant>
+    <Constant type='DINT' remark='' value='12'>const_s6</Constant>
+    <Constant type='DINT' remark='' value='13'>const_s7</Constant>
+    <Constant type='DINT' remark='' value='14'>const_s8</Constant>
+    <Constant type='DINT' remark='' value='15'>const_s9</Constant>
+</Tagtable>

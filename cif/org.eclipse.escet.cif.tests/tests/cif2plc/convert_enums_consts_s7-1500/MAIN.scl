@@ -1,0 +1,237 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'true' }
+    VAR_TEMP
+        lastTimerValue: TIME;
+        curDeltaTime: TIME;
+        curDeltaSecs: LREAL;
+        state1: STATE;
+        progress: BOOL;
+        loopCount: INT;
+        b1: BOOL;
+        b2: BOOL;
+        timerValue0: TIME;
+        timerValue1: TIME;
+    END_VAR
+
+BEGIN
+
+    // Handle 'time' and cycle time.
+    "DB".cnt := "DB".cnt + 1;
+
+    timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+    timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+
+    lastTimerValue := "DB".curTimerValue;
+    IF "DB".curTimer = 0 THEN
+        "DB".curTimerValue := timerValue0;
+    ELSE
+        "DB".curTimerValue := timerValue1;
+    END_IF;
+    curDeltaTime := "DB".curTimerValue - lastTimerValue;
+    curDeltaSecs := LINT_TO_LREAL(TIME_TO_LINT(curDeltaTime)) / 1000;
+    "DB".curTime := "DB".curTime + curDeltaSecs;
+
+    IF "DB".cnt MOD 10 = 0 THEN
+        "DB".curTimer := 1 - "DB".curTimer;
+        "DB".curTimerValue := T#0S;
+        timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+        timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+        timerValue0 := timer0.ET;
+        timerValue1 := timer1.ET;
+    END_IF;
+
+    IF "DB".first THEN
+        "DB".first := FALSE;
+
+        // Initialize state variables for initial state.
+        "DB".state0.dvar_M_hw_button := const_Released;
+        "DB".state0.dvar_M_hw_lamp_bit := FALSE;
+        "DB".state0.dvar_M_hw_lamp := const_Off;
+        "DB".state0.dvar_M_sup := const_s1;
+        "DB".state0.cvar_M_timer_t := 0.0;
+        "DB".state0.dvar_M_timer := const_Idle;
+    ELSE
+        // Update continuous variables for time delay.
+        state1.cvar_M_timer_t := "DB".state0.cvar_M_timer_t + curDeltaSecs * derivcvar_M_timer_t("DB".state0);
+
+        "DB".state0.curTime := "DB".curTime;
+        "DB".state0.cvar_M_timer_t := state1.cvar_M_timer_t;
+    END_IF;
+
+    // Event loop.
+    WHILE TRUE DO
+        progress := FALSE;
+
+        // Event "button.push".
+        IF NOT progress THEN
+            b1 := ("DB".state0.dvar_M_hw_button) = (const_Released);
+            b1 := b1 AND (ivar_hw_button_bit);
+            IF b1 THEN
+                b2 := ("DB".state0.dvar_M_sup) = (const_s1);
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s4));
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s5));
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s7));
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s9));
+                b1 := b1 AND (b2);
+            END_IF;
+            IF b1 THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_hw_button := const_Pushed;
+                IF (("DB".state0.dvar_M_sup) = (const_s1)) THEN
+                    state1.dvar_M_sup := const_s2;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s4)) THEN
+                    state1.dvar_M_sup := const_s2;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s5)) THEN
+                    state1.dvar_M_sup := const_s3;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s7)) THEN
+                    state1.dvar_M_sup := const_s6;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s9)) THEN
+                    state1.dvar_M_sup := const_s8;
+                END_IF;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "button.release".
+        IF NOT progress THEN
+            b1 := ("DB".state0.dvar_M_hw_button) = (const_Pushed);
+            b1 := b1 AND (NOT(ivar_hw_button_bit));
+            IF b1 THEN
+                b2 := ("DB".state0.dvar_M_sup) = (const_s2);
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s3));
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s6));
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s8));
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s10));
+                b1 := b1 AND (b2);
+            END_IF;
+            IF b1 THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_hw_button := const_Released;
+                IF (("DB".state0.dvar_M_sup) = (const_s2)) THEN
+                    state1.dvar_M_sup := const_s4;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s3)) THEN
+                    state1.dvar_M_sup := const_s5;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s6)) THEN
+                    state1.dvar_M_sup := const_s7;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s8)) THEN
+                    state1.dvar_M_sup := const_s9;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s10)) THEN
+                    state1.dvar_M_sup := const_s1;
+                END_IF;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "lamp.off".
+        IF NOT progress THEN
+            b1 := ("DB".state0.dvar_M_hw_lamp) = (const_On);
+            IF b1 THEN
+                b2 := ("DB".state0.dvar_M_sup) = (const_s8);
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s9));
+                b1 := b1 AND (b2);
+            END_IF;
+            IF b1 THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_hw_lamp_bit := FALSE;
+                state1.dvar_M_hw_lamp := const_Off;
+                IF (("DB".state0.dvar_M_sup) = (const_s8)) THEN
+                    state1.dvar_M_sup := const_s10;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s9)) THEN
+                    state1.dvar_M_sup := const_s1;
+                END_IF;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "lamp.on".
+        IF NOT progress THEN
+            b1 := ("DB".state0.dvar_M_hw_lamp) = (const_Off);
+            IF b1 THEN
+                b2 := ("DB".state0.dvar_M_sup) = (const_s2);
+                b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s4));
+                b1 := b1 AND (b2);
+            END_IF;
+            IF b1 THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_hw_lamp_bit := TRUE;
+                state1.dvar_M_hw_lamp := const_On;
+                IF (("DB".state0.dvar_M_sup) = (const_s2)) THEN
+                    state1.dvar_M_sup := const_s3;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s4)) THEN
+                    state1.dvar_M_sup := const_s5;
+                END_IF;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "timer.start".
+        IF NOT progress THEN
+            b2 := ("DB".state0.dvar_M_sup) = (const_s3);
+            b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s5));
+            b1 := b2;
+            b1 := b1 AND (("DB".state0.dvar_M_timer) = (const_Idle));
+            IF b1 THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                IF (("DB".state0.dvar_M_sup) = (const_s3)) THEN
+                    state1.dvar_M_sup := const_s6;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s5)) THEN
+                    state1.dvar_M_sup := const_s7;
+                END_IF;
+                state1.cvar_M_timer_t := 0.0;
+                state1.dvar_M_timer := const_Running;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Event "timer.timeout".
+        IF NOT progress THEN
+            b2 := ("DB".state0.dvar_M_sup) = (const_s6);
+            b2 := b2 OR (("DB".state0.dvar_M_sup) = (const_s7));
+            b1 := b2;
+            b1 := b1 AND (("DB".state0.dvar_M_timer) = (const_Running));
+            b1 := b1 AND (("DB".state0.cvar_M_timer_t) >= (3.0));
+            IF b1 THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                IF (("DB".state0.dvar_M_sup) = (const_s6)) THEN
+                    state1.dvar_M_sup := const_s8;
+                ELSIF (("DB".state0.dvar_M_sup) = (const_s7)) THEN
+                    state1.dvar_M_sup := const_s9;
+                END_IF;
+                state1.dvar_M_timer := const_Idle;
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Done with events?
+        IF NOT progress THEN
+            EXIT;
+        END_IF;
+
+        // Protect against events that are always enabled.
+        loopCount := loopCount + 1;
+        IF loopCount >= 100 THEN
+            "DB".loopsKilled := "DB".loopsKilled + 1;
+            EXIT;
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK

@@ -1,0 +1,9 @@
+FUNCTION alg_g_z2: REAL
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        state: STATE;
+    END_VAR
+
+BEGIN
+    alg_g_z2 := state.curTime;
+END_FUNCTION

@@ -1,0 +1,12 @@
+FUNCTION func_add3: REAL
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        farg_add3_a: DINT;
+        farg_add3_b: DINT;
+        farg_add3_c: DINT;
+    END_VAR
+
+BEGIN
+    func_add3 := ((DINT_TO_REAL(farg_add3_a)) + (DINT_TO_REAL(farg_add3_b))) + (DINT_TO_REAL(farg_add3_c));
+    RETURN;
+END_FUNCTION

@@ -1,7 +1,0 @@
-FUNCTION proj22_TupleStruct_4: DINT
-VAR_INPUT
-    tuple: TupleStruct_4;
-END_VAR
-
-proj22_TupleStruct_4 := tuple.field22;
-END_FUNCTION

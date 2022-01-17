@@ -1,0 +1,9 @@
+FUNCTION alg_g_algeb1: LREAL
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        state: STATE;
+    END_VAR
+
+BEGIN
+    alg_g_algeb1 := (state.curTime) + (1.0);
+END_FUNCTION

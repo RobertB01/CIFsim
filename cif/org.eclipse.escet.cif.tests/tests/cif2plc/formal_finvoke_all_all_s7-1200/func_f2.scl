@@ -1,0 +1,10 @@
+FUNCTION func_f2: BOOL
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        farg_f2_p: BOOL;
+    END_VAR
+
+BEGIN
+    func_f2 := ifExprFunc2(farg_f2_p:=farg_f2_p);
+    RETURN;
+END_FUNCTION
