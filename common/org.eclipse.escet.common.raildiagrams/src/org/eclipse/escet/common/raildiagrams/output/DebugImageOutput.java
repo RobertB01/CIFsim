@@ -70,7 +70,7 @@ public class DebugImageOutput extends ImageOutput {
     public static final int BOX_CORNER = 0xFF_007FFF; // Azure (blue).
 
     /** Scratch image for a file. */
-    private BufferedImage scratchImage = null;
+    private Image scratchImage = null;
 
     /** Width of the current image. */
     private int width;
@@ -86,22 +86,7 @@ public class DebugImageOutput extends ImageOutput {
         width = outputWidth;
         height = outputHeight;
 
-        boolean firstImage = (scratchImage == null);
-        scratchImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-        if (firstImage) {
-            // First time an image is created. Do some checking to ensure code below will work.
-            Raster r = scratchImage.getData();
-            Assert.check(r.getTransferType() == DataBuffer.TYPE_INT);
-            Assert.check(r.getNumDataElements() == 1); // One pixel in one integer.
-
-            int[] sampleSizes = r.getSampleModel().getSampleSize();
-            Assert.check(sampleSizes.length == 3);
-            Assert.check(sampleSizes[0] == 8);
-            Assert.check(sampleSizes[1] == 8);
-            Assert.check(sampleSizes[2] == 8);
-        }
-
+        scratchImage = new Image(width, height);
         result = new Image(width, height);
         initializeResult();
     }
@@ -123,7 +108,7 @@ public class DebugImageOutput extends ImageOutput {
 
     /** Clear the {@link #scratchImage} to full white. */
     private void clearScratchImage() {
-        Graphics2D tempGd = getGraphics(scratchImage);
+        Graphics2D tempGd = getGraphics(scratchImage.image);
         tempGd.setBackground(Color.WHITE);
         tempGd.fillRect(0, 0, width, height);
     }
@@ -149,11 +134,10 @@ public class DebugImageOutput extends ImageOutput {
 
         // Paint the graphic at the scratch image first.
         clearScratchImage();
-        graphic.paint(baseLeft, baseTop, solver, getGraphics(scratchImage));
+        paintGraphic(baseLeft, baseTop, solver, graphic, scratchImage);
 
         // Check all scratch pixels and copy anything painted over to the result image as 'rail'.
-        int[] scratchData = new int[width * height * 1]; // numDataElements == 1
-        scratchData = (int[])scratchImage.getRaster().getDataElements(0, 0, width, height, scratchData);
+        int[] scratchData = scratchImage.pixels;
 
         int index = 0;
         for (int y = 0; y < height; y++) {
@@ -173,13 +157,7 @@ public class DebugImageOutput extends ImageOutput {
         }
     }
 
-    /**
-     * Construct the resulting image.
-     *
-     * @return The created result.
-     * @note This method is mostly used for testing.
-     * @see #writeOutputFile
-     */
+    @Override
     public BufferedImage getOutput() {
         return result.image;
     }

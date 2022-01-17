@@ -261,4 +261,13 @@ public abstract class ImageOutput extends OutputTarget {
     public TextSizeOffset getTextSizeOffset(String text, FontData fontData) {
         return new TextSizeOffset(fontData.getTextOffset(textGd, text), fontData.getTextSize(textGd, text));
     }
+
+    /**
+     * Construct the resulting image.
+     *
+     * @return The created result.
+     * @note This method is mostly used for testing.
+     * @see #writeOutputFile
+     */
+    abstract public BufferedImage getOutput();
 }

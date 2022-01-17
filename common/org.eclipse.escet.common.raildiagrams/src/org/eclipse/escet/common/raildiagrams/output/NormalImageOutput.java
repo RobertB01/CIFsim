@@ -36,6 +36,11 @@ public class NormalImageOutput extends ImageOutput {
     }
 
     @Override
+    public BufferedImage getOutput() {
+        return currentDiagram.image;
+    }
+
+    @Override
     public void writeOutputFile(String path) {
         currentDiagram.saveImage(path);
     }
