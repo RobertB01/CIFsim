@@ -82,7 +82,7 @@ public abstract class ImageOutput extends OutputTarget {
         int top = (int)(baseTop + solver.getVarValue(graphic.top));
         int bottom = (int)(baseTop + solver.getVarValue(graphic.bottom));
 
-        double outerRad = right - left + 1;
+        double outerRad = right - left;
         double innerRad = outerRad - arc.lineWidth;
         int fgColor = arc.railColor.getRGB();
         Assert.check(innerRad > 0);
