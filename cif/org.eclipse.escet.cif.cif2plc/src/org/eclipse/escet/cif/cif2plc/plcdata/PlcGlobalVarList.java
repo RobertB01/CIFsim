@@ -71,7 +71,7 @@ public class PlcGlobalVarList extends PlcObject {
         c.indent();
 
         // The variables, either constants or input variables. 'type', 'value', 'name' and 'address' shouldn't contain
-        // xml characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
+        // XML characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
         if (constants) {
             for (PlcVariable constant: variables) {
                 c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", constant.type, constant.value,
