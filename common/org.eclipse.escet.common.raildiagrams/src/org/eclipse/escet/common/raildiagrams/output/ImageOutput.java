@@ -28,12 +28,14 @@ import org.eclipse.escet.common.raildiagrams.graphics.Area;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
+import org.eclipse.escet.common.raildiagrams.graphics.PaintSupport;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
 import org.eclipse.escet.common.raildiagrams.output.MarchingRectangles.PixelCoverage;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
 
 /** Base class for generating images. */
 public abstract class ImageOutput extends OutputTarget {
@@ -69,7 +71,7 @@ public abstract class ImageOutput extends OutputTarget {
         }
         if (graphic instanceof TextArea) {
             TextArea ta = (TextArea)graphic;
-            ta.paint(baseLeft, baseTop, solver, getGraphics(image.image));
+            paintText(baseLeft, baseTop, solver, ta, image);
             return;
         }
 
@@ -265,9 +267,28 @@ public abstract class ImageOutput extends OutputTarget {
         image.pixels[index] = newCol;
     }
 
+    /**
+     * Paint the text of the {@link TextArea} graphic.
+     *
+     * @param baseLeft X coordinate of the base position.
+     * @param baseTop Y coordinate of the base position.
+     * @param solver Solver keeping variable values of the arc.
+     * @param textGraphic Text graphic to draw.
+     * @param image Output image to paint at.
+     */
+    private void paintText(double baseLeft, double baseTop, Solver solver, TextArea textGraphic, Image image) {
+        double top = solver.getVarValue(textGraphic.top) + baseTop;
+        double left = solver.getVarValue(textGraphic.left) + baseLeft;
+
+        FontData fd = textGraphic.font;
+        Position2D offset = textGraphic.offset;
+        Graphics2D gd = PaintSupport.getGraphics(image.image);
+        fd.paint(left + offset.x, top + offset.y, textGraphic.color, gd, textGraphic.text);
+    }
+
     @Override
     public TextSizeOffset getTextSizeOffset(String text, FontData fontData) {
-        return new TextSizeOffset(fontData.getTextOffset(textGd, text), fontData.getTextSize(textGd, text));
+        return fontData.getTextSizeOffset(textGd, text);
     }
 
     /**
@@ -277,5 +298,5 @@ public abstract class ImageOutput extends OutputTarget {
      * @note This method is mostly used for testing.
      * @see #writeOutputFile
      */
-    abstract public BufferedImage getOutput();
+    public abstract BufferedImage getOutput();
 }

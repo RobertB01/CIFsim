@@ -53,11 +53,7 @@ public class Image {
         Assert.check(width >= 0 && height >= 0);
         this.width = width;
         this.height = height;
-
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gd = image.createGraphics();
-        gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        gd.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 
         // Inspired from <a
         // href="https://codereview.stackexchange.com/questions/79822/reading-and-writing-of-pixels-of-bufferedimages">reading-and-writing-of-pixels-of-bufferedimages</a>.

@@ -47,7 +47,6 @@ public class PaintSupport {
     public static Graphics2D getGraphics(BufferedImage image) {
         Graphics2D gd = image.createGraphics();
         gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        gd.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         return gd;
     }
 }
