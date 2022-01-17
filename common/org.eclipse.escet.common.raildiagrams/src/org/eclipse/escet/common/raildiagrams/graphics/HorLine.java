@@ -13,10 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams.graphics;
 
-import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.setLineWidth;
-
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;

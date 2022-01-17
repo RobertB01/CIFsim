@@ -18,10 +18,7 @@ import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGra
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
 
-import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
 import org.eclipse.escet.common.raildiagrams.graphics.Area;
 import org.eclipse.escet.common.raildiagrams.railroad.DiagramElement;
