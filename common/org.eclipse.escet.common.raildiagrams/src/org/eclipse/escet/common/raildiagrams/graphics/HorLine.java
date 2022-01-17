@@ -42,23 +42,6 @@ public class HorLine extends Area {
     }
 
     @Override
-    public void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd) {
-        double top = solver.getVarValue(this.top) + baseTop;
-        double bottom = solver.getVarValue(this.bottom) + baseTop - 1;
-        double width = bottom - top + 1;
-        double center = (bottom + top + 1) / 2;
-        double left = solver.getVarValue(this.left) + baseLeft;
-        double right = solver.getVarValue(this.right) + baseLeft - 1;
-        if (right < left) {
-            return;
-        }
-
-        gd.setColor(railColor);
-        setLineWidth(gd, (int)width);
-        gd.drawLine((int)left, (int)center, (int)right, (int)center);
-    }
-
-    @Override
     public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
         int top = (int)(solver.getVarValue(this.top) + baseTop);
         int bottom = (int)(solver.getVarValue(this.bottom) + baseTop - 1);

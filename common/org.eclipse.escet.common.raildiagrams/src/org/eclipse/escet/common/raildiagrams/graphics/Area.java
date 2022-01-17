@@ -15,8 +15,6 @@ package org.eclipse.escet.common.raildiagrams.graphics;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 
-import java.awt.Graphics2D;
-
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
@@ -67,16 +65,6 @@ public abstract class Area {
                 xOffset + solver.getVarValue(right), yOffset + solver.getVarValue(top),
                 yOffset + solver.getVarValue(bottom));
     }
-
-    /**
-     * Paint the graphic to the graphics output stream.
-     *
-     * @param baseLeft Left-most position available for use.
-     * @param baseTop Top-most position available for use.
-     * @param solver Solver containing values for all variables.
-     * @param gd Graphics stream handle.
-     */
-    public abstract void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd);
 
     /**
      * Return a list of positions where other elements are expected to connect.

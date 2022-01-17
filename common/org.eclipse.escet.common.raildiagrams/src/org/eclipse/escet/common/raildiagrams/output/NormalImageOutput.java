@@ -14,9 +14,8 @@
 package org.eclipse.escet.common.raildiagrams.output;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
-import org.eclipse.escet.common.raildiagrams.graphics.Arc;
 import org.eclipse.escet.common.raildiagrams.graphics.Area;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 
@@ -25,23 +24,15 @@ public class NormalImageOutput extends ImageOutput {
     /** Output space for the next diagram. */
     private Image currentDiagram;
 
-    /** Graphics driver for the diagram. */
-    private Graphics2D diagramGd;
-
     @Override
     public void prepareOutputFile(int width, int height, Color bgColor) {
         currentDiagram = new Image(width, height);
         currentDiagram.fill(bgColor);
-        diagramGd = currentDiagram.image.createGraphics();
     }
 
     @Override
     public void addGraphic(double left, double top, Solver solver, Area graphic) {
-        if (graphic instanceof Arc) {
-            paintArcGraphic(left, top, solver, (Arc)graphic, currentDiagram);
-        } else {
-            graphic.paint(left, top, solver, diagramGd);
-        }
+        paintGraphic(left, top, solver, graphic, currentDiagram);
     }
 
     @Override

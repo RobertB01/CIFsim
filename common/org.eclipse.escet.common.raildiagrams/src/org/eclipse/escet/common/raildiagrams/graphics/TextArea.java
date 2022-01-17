@@ -62,7 +62,14 @@ public class TextArea extends Area {
         solver.addEq(top, size.height - 1, bottom);
     }
 
-    @Override
+    /**
+     * Paint the text area.
+     *
+     * @param baseLeft Base left position of the (sub)diagram.
+     * @param baseTop Base top position of the (sub)diagram.
+     * @param solver Solver with the positions of all elements in the diagram.
+     * @param gd Graphics driver.
+     */
     public void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd) {
         double x = baseLeft + solver.getVarValue(left);
         double y = baseTop + solver.getVarValue(top);

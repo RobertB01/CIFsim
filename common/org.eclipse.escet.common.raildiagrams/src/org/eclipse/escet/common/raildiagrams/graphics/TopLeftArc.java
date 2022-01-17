@@ -13,13 +13,8 @@
 
 package org.eclipse.escet.common.raildiagrams.graphics;
 
-import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.drawArc;
-
 import java.awt.Color;
-import java.awt.Graphics2D;
 
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.ArcType;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
 
@@ -48,18 +43,6 @@ public class TopLeftArc extends Arc {
     public void connectLine(Solver solver, VertLine line) {
         solver.addEq(left, 0, line.left);
         solver.addEq(bottom, 0, line.top);
-    }
-
-    @Override
-    public void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd) {
-        double left = solver.getVarValue(this.left) + baseLeft;
-        double right = solver.getVarValue(this.right) + baseLeft - 1;
-        double top = solver.getVarValue(this.top) + baseTop;
-        double bottom = solver.getVarValue(this.bottom) + baseTop - 1;
-
-        double size = bottom - top + 1;
-        Assert.check(Math.abs(size - (right - left + 1)) < Solver.EPSILON); // Must be a square area.
-        drawArc(gd, left, top, ArcType.TL_ARC, size, lineWidth, railColor);
     }
 
     @Override
