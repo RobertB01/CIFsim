@@ -99,7 +99,7 @@ public abstract class ImageOutput extends OutputTarget {
             int cy = top;
             maxX = Optional.of(cx);
             minY = Optional.of(cy);
-            paintCoverage(cx, cy, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
+            paintCoverage(cx, cy, -2, -2, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
         if (arc instanceof BottomRightArc) {
@@ -107,7 +107,7 @@ public abstract class ImageOutput extends OutputTarget {
             int cy = top;
             minX = Optional.of(cx);
             minY = Optional.of(cy);
-            paintCoverage(cx, cy, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
+            paintCoverage(cx, cy, 0, -2, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
         if (arc instanceof TopLeftArc) {
@@ -115,7 +115,7 @@ public abstract class ImageOutput extends OutputTarget {
             int cy = bottom;
             maxX = Optional.of(cx);
             maxY = Optional.of(cy);
-            paintCoverage(cx, cy, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
+            paintCoverage(cx, cy, -2, 0, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
         if (arc instanceof TopRightArc) {
@@ -123,7 +123,7 @@ public abstract class ImageOutput extends OutputTarget {
             int cy = bottom;
             minX = Optional.of(cx);
             maxY = Optional.of(cy);
-            paintCoverage(cx, cy, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
+            paintCoverage(cx, cy, 0, 0, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
         throw new AssertionError("Unexpected graphic encountered.");
@@ -228,6 +228,8 @@ public abstract class ImageOutput extends OutputTarget {
      *
      * @param cx X coordinate of the circle center.
      * @param cy Y coordinate of the circle center.
+     * @param initialDx X coordinate of initial pixel relative to circle center.
+     * @param initialDy Y coordinate of initial pixel relative to circle center.
      * @param innerRad Radius of the inner circle.
      * @param outerRad Radius of the outer circle.
      * @param minX Minimum X coordinate of pixels that may be included in the coverage.
@@ -237,10 +239,10 @@ public abstract class ImageOutput extends OutputTarget {
      * @param fgColor Foreground color to use.
      * @param image Image to paint at.
      */
-    private void paintCoverage(int cx, int cy, double innerRad, double outerRad, Optional<Integer> minX,
-            Optional<Integer> maxX, Optional<Integer> minY, Optional<Integer> maxY, int fgColor, Image image)
+    private void paintCoverage(int cx, int cy, int initialDx, int initialDy, double innerRad,
+            double outerRad, Optional<Integer> minX, Optional<Integer> maxX, Optional<Integer> minY, Optional<Integer> maxY, int fgColor, Image image)
     {
-        List<PixelCoverage> coveredPixels = arcCoverage.getCoverage(cx, cy, innerRad, outerRad, minX, maxX, minY, maxY);
+        List<PixelCoverage> coveredPixels = arcCoverage.getCoverage(cx, cy, cx + initialDx, cy + initialDy, innerRad, outerRad, minX, maxX, minY, maxY);
         for (PixelCoverage coveredPixel: coveredPixels) {
             int index = image.getIndex(coveredPixel.x, coveredPixel.y);
             paintPixel(index, fgColor, image, coveredPixel.coverage);

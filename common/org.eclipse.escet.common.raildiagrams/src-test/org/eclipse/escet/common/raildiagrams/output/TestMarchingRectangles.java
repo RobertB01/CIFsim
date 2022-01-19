@@ -189,7 +189,7 @@ public class TestMarchingRectangles {
                 " ***    *** ", " **      ** ", " **      ** ", " ***    *** ", " ****  **** ", "  ********  ",
                 "   ******   ", "            "};
         MarchingRectangles mr = new MarchingRectangles();
-        List<PixelCoverage> pixels = mr.getCoverage(0, 0, INNER_RAD, OUTER_RAD, Optional.of(-10), Optional.of(10),
+        List<PixelCoverage> pixels = mr.getCoverage(0, 0, 0, 0, INNER_RAD, OUTER_RAD, Optional.of(-10), Optional.of(10),
                 Optional.of(-10), Optional.of(10));
 
         for (int y = -6; y < 6; y++) {
@@ -201,7 +201,7 @@ public class TestMarchingRectangles {
     @Test
     public void testCoverageValues() {
         MarchingRectangles mr = new MarchingRectangles();
-        List<PixelCoverage> pixels = mr.getCoverage(0, 0, INNER_RAD, OUTER_RAD, Optional.of(-10), Optional.of(10),
+        List<PixelCoverage> pixels = mr.getCoverage(0, 0, 0, 0, INNER_RAD, OUTER_RAD, Optional.of(-10), Optional.of(10),
                 Optional.of(-10), Optional.of(10));
 
         // For a graphical view, please open "single_partial_coverage.png".
