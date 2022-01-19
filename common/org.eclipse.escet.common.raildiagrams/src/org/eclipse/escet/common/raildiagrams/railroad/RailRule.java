@@ -78,11 +78,11 @@ public class RailRule extends DiagramElement {
         ProxyDiagramElement rootProxy = addDiagramElement(rootNode, "root-node");
         HorLine leadLine = new HorLine(solver, "diagram.lead", railColor, railWidth);
         rootProxy.connectLeft(solver, leadLine);
-        solver.addEq(leadLine.left, leadWidth, leadLine.right);
+        solver.addEq(leadLine.left, leadWidth - 1, leadLine.right);
         solver.addEq(left, diagramIndent, leadLine.left);
         HorLine tailLine = new HorLine(solver, "diagram.tail", railColor, railWidth);
         rootProxy.connectRight(solver, tailLine);
-        solver.addEq(tailLine.left, trailWidth, tailLine.right);
+        solver.addEq(tailLine.left, trailWidth - 1, tailLine.right);
         solver.addLe(tailLine.right, rightRulePadding, right); // Title may be longer than the diagram.
         addGraphics(leadLine, tailLine);
 

@@ -42,7 +42,8 @@ public class EmptyNode extends DiagramElement {
         HorLine hline = new HorLine(solver, "empty", color, railwidth);
         addGraphic(hline);
 
-        solver.addEq(hline.left, minWidth, hline.right);
+        solver.addEq(hline.left, minWidth - 1, hline.right);
+
         solver.addEq(top, 0, hline.top);
         solver.addEq(bottom, 0, hline.bottom);
         solver.addEq(left, 0, hline.left);

@@ -93,7 +93,7 @@ public class NamedNode extends DiagramElement {
         Size2D textSize = textSizeOffset.size;
         TextArea textArea = new TextArea(solver, "named-text", text, textColor, font, textSizeOffset.offset, textSize);
         addGraphic(textArea);
-        solver.addEq(textArea.top, textSize.height / 2 - railwidth / 2, connectTop);
+        solver.addEq(textArea.top, Math.floor(textSize.height / 2 - railwidth / 2), connectTop);
 
         // Compute minimal needed padding in both directions around the text such that text area does
         // not conflict with arc area.
@@ -110,16 +110,16 @@ public class NamedNode extends DiagramElement {
             // Maximum usable distance along the box edges from the center point. Subtracting 3 to ensure
             // some (small) empty space between text and the arc even if it uses its corner.
             double freeAmount = Math.max(Math.sqrt(2) * 0.5 * (cornerRadius - railwidth), 0) - 3;
-            minPadding = cornerRadius - freeAmount;
+            minPadding = cornerRadius - Math.floor(freeAmount); // Avoid getting fractions in coordinates.
         }
         vertPadding = Math.max(vertPadding, minPadding);
         horPadding = Math.max(horPadding, minPadding);
 
         // Create the 4 lines around the name, and give them to the proper distance from the name.
-        HorLine topLine = new HorLine(solver, "name-top-line", boxColor, boxLineWidth);
-        HorLine bottomLine = new HorLine(solver, "name-bottom-line", boxColor, boxLineWidth);
-        VertLine leftLine = new VertLine(solver, "name-left-line", boxColor, boxLineWidth);
-        VertLine rightLine = new VertLine(solver, "name-right-line", boxColor, boxLineWidth);
+        HorLine topLine = new HorLine(solver, "top-line", boxColor, boxLineWidth);
+        HorLine bottomLine = new HorLine(solver, "bottom-line", boxColor, boxLineWidth);
+        VertLine leftLine = new VertLine(solver, "left-line", boxColor, boxLineWidth);
+        VertLine rightLine = new VertLine(solver, "right-line", boxColor, boxLineWidth);
         addGraphics(topLine, bottomLine, leftLine, rightLine);
 
         solver.addLe(topLine.bottom, vertPadding, textArea.top);
@@ -153,20 +153,20 @@ public class NamedNode extends DiagramElement {
 
         // Entry and exit connections.
         HorLine entryLine = new HorLine(solver, "name-entry", railColor, railwidth);
-        solver.addEq(entryLine.left, entryLength, entryLine.right);
-        solver.addEq(leftLine.left, 0, entryLine.right);
+        solver.addEq(entryLine.top, 0, connectTop);
+        solver.addEq(left, 0, entryLine.left);
+        solver.addEq(entryLine.left, entryLength - 1, entryLine.right);
+        solver.addEq(entryLine.right, 1, leftLine.left);
         addGraphic(entryLine);
 
-        HorLine exitLine = new HorLine(solver, "name-entry", railColor, railwidth);
-        solver.addEq(exitLine.left, exitLength, exitLine.right);
-        solver.addEq(rightLine.right, 0, exitLine.left);
+        HorLine exitLine = new HorLine(solver, "name-exit", railColor, railwidth);
+        solver.addEq(exitLine.top, 0, connectTop);
+        solver.addEq(right, 0, exitLine.right);
+        solver.addEq(exitLine.left, exitLength - 1, exitLine.right);
+        solver.addEq(rightLine.right, 1, exitLine.left);
         addGraphics(exitLine);
 
         // Diagram element connections.
-        solver.addEq(entryLine.top, 0, connectTop);
-        solver.addEq(exitLine.top, 0, connectTop);
-        solver.addEq(left, 0, entryLine.left);
-        solver.addEq(right, 0, exitLine.right);
         solver.addEq(top, 0, topLine.top);
         solver.addEq(bottom, 0, bottomLine.bottom);
 
@@ -198,10 +198,11 @@ public class NamedNode extends DiagramElement {
      * @param connectTop If set, connect the top side of both lines, else the bottom side.
      */
     private void connectHorVert(HorLine hl, VertLine vl, boolean connectLeft, boolean connectTop) {
+        // Horizontal lines are between both vertical lines.
         if (connectLeft) {
-            solver.addEq(hl.left, 0, vl.left);
+            solver.addEq(hl.left, -1, vl.right);
         } else {
-            solver.addEq(hl.right, 0, vl.right);
+            solver.addEq(hl.right, 1, vl.left);
         }
 
         if (connectTop) {

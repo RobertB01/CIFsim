@@ -46,8 +46,8 @@ public abstract class Arc extends Area {
         this.railColor = railColor;
 
         size = Math.max(size, lineWidth);
-        solver.addEq(left, size, right);
-        solver.addEq(top, size, bottom);
+        solver.addEq(left, size - 1, right);
+        solver.addEq(top, size - 1, bottom);
     }
 
     /**

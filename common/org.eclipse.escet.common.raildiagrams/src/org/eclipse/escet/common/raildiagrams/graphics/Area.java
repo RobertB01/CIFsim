@@ -49,8 +49,8 @@ public abstract class Area {
         left = solver.newVar(prefix + ".left");
         right = solver.newVar(prefix + ".right");
 
-        solver.addLe(left, 0, right);
-        solver.addLe(top, 0, bottom);
+        solver.addLe(left, -1, right);
+        solver.addLe(top, -1, bottom);
     }
 
     /**

@@ -105,9 +105,9 @@ public class SequenceNode extends DiagramElement {
         HorLine hEnd = new HorLine(solver, "exit-connect", railColor, railWidth);
         addGraphic(hEnd);
         if (direction > 0) {
-            solver.addEq(lastRow.right, 0, hEnd.left);
+            solver.addEq(lastRow.right, 1, hEnd.left);
         } else {
-            solver.addEq(lastRow.left, 0, hEnd.right);
+            solver.addEq(lastRow.left, -1, hEnd.right);
         }
         solver.addEq(lastRow.connect, 0, hEnd.top);
 
@@ -210,7 +210,7 @@ public class SequenceNode extends DiagramElement {
 
             solver.addEq(hline.left, leadPadding, hline.right);
 
-            solver.addEq(row.left, 0, hline.right);
+            solver.addEq(row.left, 1, hline.right);
             solver.addEq(row.connect, 0, connectTop);
         } else {
             solver.addEq(left, 0, row.left);
@@ -280,7 +280,7 @@ public class SequenceNode extends DiagramElement {
 
             solver.addEq(hline.left, leadPadding, hline.right);
 
-            solver.addEq(row.right, 0, hline.left);
+            solver.addEq(row.right, 1, hline.left);
             solver.addEq(row.connect, 0, connectTop);
         } else {
             solver.addEq(right, 0, row.right);
@@ -351,8 +351,8 @@ public class SequenceNode extends DiagramElement {
         blArc.connectLine(solver, prevline);
         addGraphics(tlArc, prevline, blArc);
 
-        solver.addEq(row.left, 0, blArc.right);
-        solver.addEq(row.connect, railWidth, blArc.bottom);
+        solver.addEq(row.left, 1, blArc.right);
+        solver.addEq(row.connect, railWidth - 1, blArc.bottom);
 
         return makeLeftRightConnect(row, railColor, railWidth, vertPadding, arcSize, verticalLines);
     }
@@ -386,8 +386,8 @@ public class SequenceNode extends DiagramElement {
         brArc.connectLine(solver, prevline);
         addGraphics(trArc, prevline, brArc);
 
-        solver.addEq(row.right, 0, brArc.left);
-        solver.addEq(row.connect, railWidth, brArc.bottom);
+        solver.addEq(row.right, 1, brArc.left);
+        solver.addEq(row.connect, railWidth - 1, brArc.bottom);
 
         return makeRightLeftConnect(row, railColor, railWidth, vertPadding, arcSize, verticalLines);
     }

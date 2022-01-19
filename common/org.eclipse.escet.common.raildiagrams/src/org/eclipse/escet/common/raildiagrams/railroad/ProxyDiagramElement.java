@@ -59,8 +59,8 @@ public class ProxyDiagramElement {
         // Query size and connect position from the child element.
         Solver childSolver = child.solver;
         double childTop = childSolver.getVarValue(child.top);
-        double width = childSolver.getVarValue(child.right) - childSolver.getVarValue(child.left);
-        double height = childSolver.getVarValue(child.bottom) - childTop;
+        double width = childSolver.getVarValue(child.right) - childSolver.getVarValue(child.left) + 1;
+        double height = childSolver.getVarValue(child.bottom) - childTop + 1;
         Assert.check(width > -Solver.EPSILON);
         Assert.check(height > -Solver.EPSILON);
         double connectOffset = childSolver.getVarValue(child.connectTop) - childTop;
@@ -73,8 +73,8 @@ public class ProxyDiagramElement {
         top = solver.newVar(elemName + ".top");
         bottom = solver.newVar(elemName + ".bottom");
         connectTop = solver.newVar(elemName + ".connectTop");
-        solver.addEq(left, width, right);
-        solver.addEq(top, height, bottom);
+        solver.addEq(left, width - 1, right);
+        solver.addEq(top, height - 1, bottom);
         solver.addEq(top, connectOffset, connectTop);
     }
 
@@ -85,7 +85,7 @@ public class ProxyDiagramElement {
      * @param hline Line to connect.
      */
     public void connectLeft(Solver solver, HorLine hline) {
-        solver.addEq(left, 0, hline.right);
+        solver.addEq(left, -1, hline.right);
         solver.addEq(connectTop, 0, hline.top);
     }
 
@@ -98,10 +98,10 @@ public class ProxyDiagramElement {
      */
     public void connectLeft(Solver solver, Arc arc, double railWidth) {
         if (arc instanceof TopLeftArc) {
-            solver.addEq(left, 0, arc.right);
+            solver.addEq(left, -1, arc.right);
             solver.addEq(connectTop, 0, arc.top);
         } else if (arc instanceof BottomLeftArc) {
-            solver.addEq(left, 0, arc.right);
+            solver.addEq(left, -1, arc.right);
             solver.addEq(connectTop, railWidth, arc.bottom);
         } else {
             Assert.fail(fmt("Cannot connect arc '%s' with the proxy element.", arc));
@@ -115,7 +115,7 @@ public class ProxyDiagramElement {
      * @param hline Line to connect.
      */
     public void connectRight(Solver solver, HorLine hline) {
-        solver.addEq(right, 0, hline.left);
+        solver.addEq(right, 1, hline.left);
         solver.addEq(connectTop, 0, hline.top);
     }
 
@@ -128,11 +128,11 @@ public class ProxyDiagramElement {
      */
     public void connectRight(Solver solver, Arc arc, double railWidth) {
         if (arc instanceof TopRightArc) {
-            solver.addEq(right, 0, arc.left);
+            solver.addEq(right, 1, arc.left);
             solver.addEq(connectTop, 0, arc.top);
         } else if (arc instanceof BottomRightArc) {
-            solver.addEq(right, 0, arc.left);
-            solver.addEq(connectTop, railWidth, arc.bottom);
+            solver.addEq(right, 1, arc.left);
+            solver.addEq(connectTop, railWidth - 1, arc.bottom);
         } else {
             Assert.fail(fmt("Cannot connect arc '%s' with the proxy element.", arc));
         }

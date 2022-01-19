@@ -113,9 +113,9 @@ public class DebugImageOutput extends ImageOutput {
     @Override
     public void addDiagramElement(double baseLeft, double baseTop, Solver solver, DiagramElement element) {
         int left = (int)(solver.getVarValue(element.left) + baseLeft);
-        int right = (int)(solver.getVarValue(element.right) + baseLeft - 1);
+        int right = (int)(solver.getVarValue(element.right) + baseLeft);
         int top = (int)(solver.getVarValue(element.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(element.bottom) + baseTop - 1);
+        int bottom = (int)(solver.getVarValue(element.bottom) + baseTop);
         addBoxCorners(left, right, top, bottom);
     }
 
@@ -123,9 +123,9 @@ public class DebugImageOutput extends ImageOutput {
     public void addGraphic(double baseLeft, double baseTop, Solver solver, Area graphic) {
         if (graphic instanceof Arc) {
             int left = (int)(solver.getVarValue(graphic.left) + baseLeft);
-            int right = (int)(solver.getVarValue(graphic.right) + baseLeft - 1);
+            int right = (int)(solver.getVarValue(graphic.right) + baseLeft);
             int top = (int)(solver.getVarValue(graphic.top) + baseTop);
-            int bottom = (int)(solver.getVarValue(graphic.bottom) + baseTop - 1);
+            int bottom = (int)(solver.getVarValue(graphic.bottom) + baseTop);
             addGraphicCorners(left, right, top, bottom);
         }
 

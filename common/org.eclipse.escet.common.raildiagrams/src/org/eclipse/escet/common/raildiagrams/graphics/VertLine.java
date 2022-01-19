@@ -35,15 +35,15 @@ public class VertLine extends Area {
         super(solver, prefix + ".vert");
         this.railColor = railColor;
 
-        solver.addEq(left, lineWidth, right);
+        solver.addEq(left, lineWidth - 1, right);
     }
 
     @Override
     public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
         int top = (int)(solver.getVarValue(this.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop - 1);
+        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop);
         int left = (int)(solver.getVarValue(this.left) + baseLeft);
-        int right = (int)(solver.getVarValue(this.right) + baseLeft - 1);
+        int right = (int)(solver.getVarValue(this.right) + baseLeft);
         int width = right - left + 1;
 
         Position2D[] connections = new Position2D[width * 2];

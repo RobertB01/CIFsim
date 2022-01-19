@@ -14,7 +14,6 @@
 package org.eclipse.escet.common.raildiagrams.graphics;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.config.FontData;

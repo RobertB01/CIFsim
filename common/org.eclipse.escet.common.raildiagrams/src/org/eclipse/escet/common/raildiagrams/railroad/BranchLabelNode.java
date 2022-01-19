@@ -93,7 +93,7 @@ public class BranchLabelNode extends DiagramElement {
         solver.addEq(textArea.right, 0, right);
 
         solver.addEq(top, 0, textArea.top);
-        solver.addEq(textArea.bottom, 0, rail.top);
+        solver.addEq(textArea.bottom, 1, rail.top);
         solver.addEq(connectTop, 0, rail.top);
         solver.addEq(bottom, 0, rail.bottom);
 

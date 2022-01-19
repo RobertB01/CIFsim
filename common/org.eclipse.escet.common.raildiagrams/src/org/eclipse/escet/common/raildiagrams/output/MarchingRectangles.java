@@ -503,6 +503,8 @@ public class MarchingRectangles {
      *
      * @param cx X coordinate of the arc center.
      * @param cy Y coordinate of the arc center.
+     * @param initialX X coordinate of the initial pixel.
+     * @param initialY Y coordinate of the initial pixel.
      * @param innerRadius Inner radius of the arc.
      * @param outerRadius Outer radius of the arc.
      * @param minX Optional lower X bound for the area that may have {@link Pixel}s.
@@ -512,7 +514,7 @@ public class MarchingRectangles {
      * @return Pixels with non-empty coverage at the arc within the specified area.
      */
     @SuppressWarnings("null")
-    public List<PixelCoverage> getCoverage(int cx, int cy, double innerRadius, double outerRadius,
+    public List<PixelCoverage> getCoverage(int cx, int cy, int initialX, int initialY, double innerRadius, double outerRadius,
             Optional<Integer> minX, Optional<Integer> maxX, Optional<Integer> minY, Optional<Integer> maxY)
     {
         // Copy parameters to the class variables.
@@ -529,7 +531,7 @@ public class MarchingRectangles {
         // Add initial pixel.
         seen.clear();
         queued.clear();
-        addPixel(clamp(this.minX, cx, this.maxX), clamp(this.minY, cy, this.maxY));
+        addPixel(clamp(this.minX, initialX, this.maxX), clamp(this.minY, initialY, this.maxY));
         Assert.check(!queued.isEmpty()); // Initial pixel should be valid now.
 
         // Process pixels until we run out.
@@ -671,14 +673,14 @@ public class MarchingRectangles {
      * @param low Lower boundary if not empty.
      * @param val Initial value.
      * @param high Upper inclusive boundary if not empty.
-     * @return Value between the boundaries.
+     * @return Value between or at the boundaries.
      */
     private int clamp(Optional<Integer> low, int val, Optional<Integer> high) {
         if (!low.isEmpty()) {
             val = Math.max(val, low.get());
         }
         if (!high.isEmpty()) {
-            val = Math.min(val, high.get() - 1);
+            val = Math.min(val, high.get());
         }
         return val;
     }

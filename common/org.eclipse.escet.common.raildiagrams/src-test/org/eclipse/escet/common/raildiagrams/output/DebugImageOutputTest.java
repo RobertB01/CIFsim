@@ -99,7 +99,7 @@ public class DebugImageOutputTest {
 
         dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
         HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
-        solver.addLe(hLine.left, 1, hLine.right);
+        solver.addLe(hLine.left, 0, hLine.right);
         solver.solve("hl", config);
 
         dbgOutput.addGraphic(3, 5, solver, hLine);
@@ -122,7 +122,7 @@ public class DebugImageOutputTest {
 
         dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
         HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
-        solver.addLe(hLine.left, 2, hLine.right);
+        solver.addLe(hLine.left, 1, hLine.right);
         solver.solve("prefix", config);
 
         dbgOutput.addGraphic(3, 5, solver, hLine);
@@ -167,7 +167,7 @@ public class DebugImageOutputTest {
 
         dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
         VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
-        solver.addLe(vLine.top, 1, vLine.bottom);
+        solver.addLe(vLine.top, 0, vLine.bottom);
         solver.solve("prefix", config);
 
         dbgOutput.addGraphic(3, 5, solver, vLine);
@@ -190,7 +190,7 @@ public class DebugImageOutputTest {
 
         dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
         VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
-        solver.addLe(vLine.top, 2, vLine.bottom);
+        solver.addLe(vLine.top, 1, vLine.bottom);
         solver.solve("prefix", config);
 
         dbgOutput.addGraphic(3, 5, solver, vLine);

@@ -84,7 +84,7 @@ public abstract class ImageOutput extends OutputTarget {
         int top = (int)(baseTop + solver.getVarValue(graphic.top));
         int bottom = (int)(baseTop + solver.getVarValue(graphic.bottom));
 
-        double outerRad = right - left;
+        double outerRad = right - left + 0.99; // At the very edge of the arc bounding box.
         double innerRad = outerRad - arc.lineWidth;
         int fgColor = arc.railColor.getRGB();
         Assert.check(innerRad > 0);
@@ -140,9 +140,9 @@ public abstract class ImageOutput extends OutputTarget {
      */
     private void paintHorLine(double baseLeft, double baseTop, Solver solver, Area graphic, Image image) {
         double top = solver.getVarValue(graphic.top) + baseTop;
-        double bottom = solver.getVarValue(graphic.bottom) + baseTop - 1;
+        double bottom = solver.getVarValue(graphic.bottom) + baseTop;
         int left = (int)(solver.getVarValue(graphic.left) + baseLeft);
-        int right = (int)(solver.getVarValue(graphic.right) + baseLeft - 1);
+        int right = (int)(solver.getVarValue(graphic.right) + baseLeft);
 
         int fgColor = ((HorLine)graphic).railColor.getRGB();
 
@@ -187,9 +187,9 @@ public abstract class ImageOutput extends OutputTarget {
      */
     private void paintVertLine(double baseLeft, double baseTop, Solver solver, Area graphic, Image image) {
         int top = (int)(solver.getVarValue(graphic.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(graphic.bottom) + baseTop - 1);
+        int bottom = (int)(solver.getVarValue(graphic.bottom) + baseTop);
         double left = solver.getVarValue(graphic.left) + baseLeft;
-        double right = solver.getVarValue(graphic.right) + baseLeft - 1;
+        double right = solver.getVarValue(graphic.right) + baseLeft;
 
         int fgColor = ((VertLine)graphic).railColor.getRGB();
 

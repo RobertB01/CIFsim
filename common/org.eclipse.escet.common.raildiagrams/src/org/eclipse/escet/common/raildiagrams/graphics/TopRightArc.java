@@ -35,22 +35,22 @@ public class TopRightArc extends Arc {
 
     @Override
     public void connectLine(Solver solver, HorLine line) {
-        solver.addEq(left, 0, line.right);
+        solver.addEq(left, -1, line.right);
         solver.addEq(top, 0, line.top);
     }
 
     @Override
     public void connectLine(Solver solver, VertLine line) {
         solver.addEq(right, 0, line.right);
-        solver.addEq(bottom, 0, line.top);
+        solver.addEq(bottom, 1, line.top);
     }
 
     @Override
     public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
         int left = (int)(solver.getVarValue(this.left) + baseLeft);
-        int right = (int)(solver.getVarValue(this.right) + baseLeft - 1);
+        int right = (int)(solver.getVarValue(this.right) + baseLeft);
         int top = (int)(solver.getVarValue(this.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop - 1);
+        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop);
         int lwidth = (int)lineWidth;
 
         Position2D[] connections = new Position2D[lwidth * 2];
