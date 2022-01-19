@@ -56,8 +56,8 @@ public class DebugImageOutputTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testScratchColorOverride() {
-        assertEquals(Color.WHITE, dbgOutput.getOverrideColor("diagram.background.color"));
-        assertEquals(Color.BLACK, dbgOutput.getOverrideColor("something.else"));
+        assertEquals(convertRGB(Color.WHITE), convertRGB(dbgOutput.getOverrideColor("diagram.background.color")));
+        assertEquals(convertRGB(Color.BLACK), convertRGB(dbgOutput.getOverrideColor("something.else")));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class DebugImageOutputTest {
         BufferedImage result = dbgOutput.getOutput();
         assertEquals(64, result.getWidth());
         assertEquals(32, result.getHeight());
-        assertEquals(BACKGROUND, result.getRGB(7, 5));
+        assertEquals(convertRGB(BACKGROUND), convertRGB(result.getRGB(7, 5)));
     }
 
     @Test
@@ -87,8 +87,8 @@ public class DebugImageOutputTest {
             dbgOutput.writeOutputFile(fname);
         }
 
-        assertEquals(CONNECT_POINT, result.getRGB(2, 5));
-        assertEquals(CONNECT_POINT, result.getRGB(3, 5));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 5)));
     }
 
     @Test
@@ -109,9 +109,9 @@ public class DebugImageOutputTest {
             dbgOutput.writeOutputFile(fname);
         }
 
-        assertEquals(CONNECT_POINT, result.getRGB(2, 5));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 5));
-        assertEquals(CONNECT_POINT, result.getRGB(4, 5));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 5)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(4, 5)));
     }
 
     @Test
@@ -132,10 +132,10 @@ public class DebugImageOutputTest {
             dbgOutput.writeOutputFile(fname);
         }
 
-        assertEquals(CONNECT_POINT, result.getRGB(2, 5));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 5));
-        assertEquals(SINGLE_RAIL, result.getRGB(4, 5));
-        assertEquals(CONNECT_POINT, result.getRGB(5, 5));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 5)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(4, 5)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(5, 5)));
     }
 
     @Test
@@ -155,8 +155,8 @@ public class DebugImageOutputTest {
             dbgOutput.writeOutputFile(fname);
         }
 
-        assertEquals(CONNECT_POINT, result.getRGB(3, 4));
-        assertEquals(CONNECT_POINT, result.getRGB(3, 5));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 5)));
     }
 
     @Test
@@ -177,9 +177,9 @@ public class DebugImageOutputTest {
             dbgOutput.writeOutputFile(fname);
         }
 
-        assertEquals(CONNECT_POINT, result.getRGB(3, 4));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 5));
-        assertEquals(CONNECT_POINT, result.getRGB(3, 6));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 5)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 6)));
     }
 
     @Test
@@ -200,10 +200,10 @@ public class DebugImageOutputTest {
             dbgOutput.writeOutputFile(fname);
         }
 
-        assertEquals(CONNECT_POINT, result.getRGB(3, 4));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 5));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 6));
-        assertEquals(CONNECT_POINT, result.getRGB(3, 7));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 5)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 6)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 7)));
     }
 
     @Test
@@ -259,10 +259,10 @@ public class DebugImageOutputTest {
         }
 
         for (int i = 0; i < lineWidth; i++) {
-            assertEquals(SINGLE_RAIL, result.getRGB(inLeft, inBot - i));
-            assertEquals(SINGLE_RAIL, result.getRGB(inRight - i, inTop));
-            assertEquals(CONNECT_POINT, result.getRGB(inLeft - 1, inBot - i));
-            assertEquals(CONNECT_POINT, result.getRGB(inRight - i, inTop - 1));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inLeft, inBot - i)));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inRight - i, inTop)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inLeft - 1, inBot - i)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inRight - i, inTop - 1)));
         }
     }
 
@@ -319,10 +319,10 @@ public class DebugImageOutputTest {
         }
 
         for (int i = 0; i < lineWidth; i++) {
-            assertEquals(SINGLE_RAIL, result.getRGB(inLeft + i, inBot));
-            assertEquals(SINGLE_RAIL, result.getRGB(inRight, inTop + i));
-            assertEquals(CONNECT_POINT, result.getRGB(inLeft + i, inBot + 1));
-            assertEquals(CONNECT_POINT, result.getRGB(inRight + 1, inTop + i));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inLeft + i, inBot)));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inRight, inTop + i)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inLeft + i, inBot + 1)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inRight + 1, inTop + i)));
         }
     }
 
@@ -379,10 +379,10 @@ public class DebugImageOutputTest {
         }
 
         for (int i = 0; i < lineWidth; i++) {
-            assertEquals(SINGLE_RAIL, result.getRGB(inLeft + i, inTop));
-            assertEquals(SINGLE_RAIL, result.getRGB(inRight, inBot - i));
-            assertEquals(CONNECT_POINT, result.getRGB(inLeft + i, inTop - 1));
-            assertEquals(CONNECT_POINT, result.getRGB(inRight + 1, inBot - i));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inLeft + i, inTop)));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inRight, inBot - i)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inLeft + i, inTop - 1)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inRight + 1, inBot - i)));
         }
     }
 
@@ -439,10 +439,41 @@ public class DebugImageOutputTest {
         }
 
         for (int i = 0; i < lineWidth; i++) {
-            assertEquals(SINGLE_RAIL, result.getRGB(inLeft, inTop + i));
-            assertEquals(SINGLE_RAIL, result.getRGB(inRight - i, inBot));
-            assertEquals(CONNECT_POINT, result.getRGB(inLeft - 1, inTop + i));
-            assertEquals(CONNECT_POINT, result.getRGB(inRight - i, inBot + 1));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inLeft, inTop + i)));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inRight - i, inBot)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inLeft - 1, inTop + i)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inRight - i, inBot + 1)));
+        }
+    }
+
+    /**
+     * Convert RGB values to useful names or numbers.
+     *
+     * @param col Color to convert.
+     * @return The textual representation of the color.
+     */
+    private static String convertRGB(Color col) {
+        return convertRGB(col.getRGB());
+    }
+
+    /**
+     * Convert RGB values to useful names or numbers.
+     *
+     * @param rgbVal Value to convert.
+     * @return The textual representation of the color.
+     */
+    private static String convertRGB(int rgbVal) {
+        switch (rgbVal) {
+            case SINGLE_RAIL:
+                return "SINGLE_RAIL";
+            case CONNECT_POINT:
+                return "CONNECT_POINT";
+            case BACKGROUND:
+                return "BACKGROUND";
+            default: {
+                String s = Integer.toHexString(rgbVal);
+                return "0x0000000".substring(0, 10 - s.length()) + s;
+            }
         }
     }
 }
