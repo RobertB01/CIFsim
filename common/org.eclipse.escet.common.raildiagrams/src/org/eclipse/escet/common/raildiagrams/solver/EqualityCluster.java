@@ -333,7 +333,7 @@ public class EqualityCluster {
         // . . . <-> leRel.lowBound - offsetA <= -offsetB
         double leftSide = leRel.lowBound - offsetA;
         double rightSide = -offsetB;
-        Assert.check(leftSide <= rightSide + Solver.EPSILON, fmt("Failed relation: %s", leRel));
+        Assert.check(leftSide <= rightSide + Solver.EPSILON, fmt("Failed relation: %s (left=%f, right=%f)", leRel, leftSide, rightSide));
     }
 
     /**
@@ -346,8 +346,9 @@ public class EqualityCluster {
     public void assignVariables(double[] varValues, double cValue, boolean dumpSolving) {
         for (Entry<Variable, Double> entry: variables.entrySet()) {
             double varValue = cValue - entry.getValue();
-            Assert.check(varValue > -Solver.EPSILON); // Variable should be non-negative.
-
+            // To allow for empty elements, compare with -1 rather than 0.
+            Assert.check(varValue > -1 - Solver.EPSILON,
+                    fmt("Variable %s should be non-negative, but found %f.", entry.getKey().name, varValue));
             Variable var = entry.getKey();
             int varIndex = var.index;
             Assert.check(varValues[varIndex] <= -1 || Math.abs(varValues[varIndex] - varValue) < Solver.EPSILON);

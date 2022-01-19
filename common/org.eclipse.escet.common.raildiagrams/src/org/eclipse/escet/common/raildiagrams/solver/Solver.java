@@ -120,6 +120,14 @@ public class Solver {
         dbg();
     }
 
+    /** Dump relations in unit tests. */
+    public void rawDumpRelations() {
+        for (VariableRelation r: relations) {
+            System.out.printf("%s\n", r);
+        }
+        System.out.printf("\n");
+    }
+
     /**
      * Assign non-negative values to the variables such that a smaller value cannot be assigned without violating the
      * constraint relations.
@@ -414,7 +422,7 @@ public class Solver {
 
         // Keep some distance from 0 to avoid false positive from rounding errors
         for (int i = 0; i < varValues.length; i++) {
-            Assert.check(varValues[i] > -1, fmt("variable %s fails, value=%f", variables.get(i), varValues[i]));
+            Assert.check(varValues[i] > -1 - Solver.EPSILON, fmt("variable %s fails, value=%f", variables.get(i), varValues[i]));
         }
 
         return varValues;
