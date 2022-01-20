@@ -74,20 +74,16 @@ public class TestMarchingRectangles {
         // For a graphical view, please open "collection.png" and match the shape with the positions between
         // the red polygons.
         String[] expectedCircle = new String[] {"          ", // 0
-                                                "  ******  ",
-                                                " ******** ", // 2
-                                                " ******** ",
-                                                " ***  *** ", // 4
-                                                " ***  *** ",
-                                                " ******** ", // 6
-                                                " ******** ",
-                                                "  ******  ", // 8
-                                                "          "};
+                "  ******  ", " ******** ", // 2
+                " ******** ", " ***  *** ", // 4
+                " ***  *** ", " ******** ", // 6
+                " ******** ", "  ******  ", // 8
+                "          "};
         MarchingRectangles mr = new MarchingRectangles();
         Position2D center = new Position2D(0, 0);
         Position2D relativeInitial = new Position2D(0, 0);
-        List<PixelCoverage> pixels = mr.getCoverage(center, relativeInitial, INNER_RAD, OUTER_RAD, Optional.of(-10), Optional.of(10),
-                Optional.of(-10), Optional.of(10));
+        List<PixelCoverage> pixels = mr.getCoverage(center, relativeInitial, INNER_RAD, OUTER_RAD, Optional.of(-10),
+                Optional.of(10), Optional.of(-10), Optional.of(10));
 
         for (int y = -5; y < 5; y++) {
             assertEquals(expectedCircle[y + 5], getLine(y, -5, 4, pixels));
@@ -100,8 +96,8 @@ public class TestMarchingRectangles {
         MarchingRectangles mr = new MarchingRectangles();
         Position2D center = new Position2D(0, 0);
         Position2D relativeInitial = new Position2D(0, 0);
-        List<PixelCoverage> pixels = mr.getCoverage(center, relativeInitial, INNER_RAD, OUTER_RAD, Optional.of(-10), Optional.of(10),
-                Optional.of(-10), Optional.of(10));
+        List<PixelCoverage> pixels = mr.getCoverage(center, relativeInitial, INNER_RAD, OUTER_RAD, Optional.of(-10),
+                Optional.of(10), Optional.of(-10), Optional.of(10));
 
         // For a graphical view, please open "collection.png" and find the light-blue areas.
         // Expectations are approximated by counting pixels in the image.
