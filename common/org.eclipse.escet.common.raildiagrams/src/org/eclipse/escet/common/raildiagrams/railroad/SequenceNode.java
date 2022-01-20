@@ -62,13 +62,13 @@ public class SequenceNode extends DiagramElement {
     @SuppressWarnings("null") // False positives with 'verticalLines', as 'i' is larger than one on multiple rows.
     @Override
     public void create(Configuration config, int direction) {
-        double railWidth = config.getRailWidth();
+        int railWidth = config.getRailWidth();
         Color railColor = config.getRailColor();
-        double firstRowLeadPadding = config.getRealValue("sequence.padding.first-row.prefix");
-        double otherRowLeadPadding = config.getRealValue("sequence.padding.other-row.prefix");
-        double paddingSuffix = config.getRealValue("sequence.padding.row.suffix");
-        double paddingInterrow = config.getRealValue("sequence.padding.interrow");
-        double arcRadius = config.getRealValue("sequence.arc-radius");
+        int firstRowLeadPadding = config.getIntValue("sequence.padding.first-row.prefix");
+        int otherRowLeadPadding = config.getIntValue("sequence.padding.other-row.prefix");
+        int paddingSuffix = config.getIntValue("sequence.padding.row.suffix");
+        int paddingInterrow = config.getIntValue("sequence.padding.interrow");
+        int arcRadius = config.getIntValue("sequence.arc-radius");
 
         // Construct the constraints.
         HorLine connect = null; // Line passed between rows, connecting them.
@@ -197,8 +197,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeLeftRightFirstRow(SequenceRow row, Color railColor, double railWidth, double leadPadding,
-            double vertPadding, double arcSize, List<VertLine> verticalLines)
+    private HorLine makeLeftRightFirstRow(SequenceRow row, Color railColor, int railWidth, int leadPadding,
+            int vertPadding, int arcSize, List<VertLine> verticalLines)
     {
         // Attach the left side.
         if (leadPadding > 0) {
@@ -231,8 +231,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeLeftRightConnect(SequenceRow row, Color railColor, double railWidth, double vertPadding,
-            double arcSize, List<VertLine> verticalLines)
+    private HorLine makeLeftRightConnect(SequenceRow row, Color railColor, int railWidth, int vertPadding, int arcSize,
+            List<VertLine> verticalLines)
     {
         // Add vertical line downward for the next row if needed.
         if (row.hasNextRow) {
@@ -267,8 +267,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeRightLeftFirstRow(SequenceRow row, Color railColor, double railWidth, double leadPadding,
-            double vertPadding, double arcSize, List<VertLine> verticalLines)
+    private HorLine makeRightLeftFirstRow(SequenceRow row, Color railColor, int railWidth, int leadPadding,
+            int vertPadding, int arcSize, List<VertLine> verticalLines)
     {
         // Attach the right side.
         if (leadPadding > 0) {
@@ -300,8 +300,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeRightLeftConnect(SequenceRow row, Color railColor, double railWidth, double vertPadding,
-            double arcSize, List<VertLine> verticalLines)
+    private HorLine makeRightLeftConnect(SequenceRow row, Color railColor, int railWidth, int vertPadding, int arcSize,
+            List<VertLine> verticalLines)
     {
         if (row.hasNextRow) {
             HorLine endLine = new HorLine(solver, "first-trail", railColor, railWidth);
@@ -337,8 +337,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeLeftRightNextRow(HorLine connection, SequenceRow row, Color railColor, double railWidth,
-            double leadPadding, double vertPadding, double arcSize, String rowNumStr, List<VertLine> verticalLines)
+    private HorLine makeLeftRightNextRow(HorLine connection, SequenceRow row, Color railColor, int railWidth,
+            int leadPadding, int vertPadding, int arcSize, String rowNumStr, List<VertLine> verticalLines)
     {
         // Connect from the previous row through the provided connecting line.
         solver.addLe(connection.bottom, vertPadding, row.top);
@@ -371,8 +371,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeRightLeftNextRow(HorLine connection, SequenceRow row, Color railColor, double railWidth,
-            double leadPadding, double vertPadding, double arcSize, String rowNumStr, List<VertLine> verticalLines)
+    private HorLine makeRightLeftNextRow(HorLine connection, SequenceRow row, Color railColor, int railWidth,
+            int leadPadding, int vertPadding, int arcSize, String rowNumStr, List<VertLine> verticalLines)
     {
         // Connect from the previous row through the provided connecting line.
         solver.addLe(connection.bottom, vertPadding, row.top);

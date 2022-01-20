@@ -25,14 +25,12 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
 
 /** 2D marching cubes for computing colors of arc pixels. */
 public class MarchingRectangles {
-    /** X coordinate of the arc center. */
-    private int cx;
-
-    /** Y coordinate of the arc center. */
-    private int cy;
+    /** Arc center position at an outermost edge of an Arc graphics, has neither width nor height. */
+    private Position2D center;
 
     /** Optional lower X bound for the area that may have {@link Pixel}s. */
     private Optional<Integer> minX;
@@ -188,7 +186,7 @@ public class MarchingRectangles {
          * @param sqdOuterRadius Upper bound of corners with interesting values.
          * @return Edges to interesting neighbors.
          */
-        public List<Edge> getExpansionEdges(double sqdInnerRadius, double sqdOuterRadius) {
+        public List<Edge> getExpansionEdges(int sqdInnerRadius, int sqdOuterRadius) {
             List<Edge> neighbors = listc(4);
             for (Edge e: Edge.values()) {
                 int c1 = e.firstCorner.index;
@@ -457,7 +455,7 @@ public class MarchingRectangles {
 
         @Override
         public String toString() {
-            return fmt("Pixel[%d, %d] values(%.2f %.2f %.2f %.2f)", x, y, values[0], values[1], values[2], values[3]);
+            return fmt("Pixel[%d, %d] values(%d %d %d %d)", x, y, values[0], values[1], values[2], values[3]);
         }
     }
 
@@ -501,10 +499,8 @@ public class MarchingRectangles {
      * Compute non-empty coverage of pixels between the inner and the outer radius from the given (cx, cy) center point
      * within the specified area.
      *
-     * @param cx X coordinate of the arc center.
-     * @param cy Y coordinate of the arc center.
-     * @param initialX X coordinate of the initial pixel.
-     * @param initialY Y coordinate of the initial pixel.
+     * @param center Position of the arc center.
+     * @param initialPos Position of the initial pixel.
      * @param innerRadius Inner radius of the arc.
      * @param outerRadius Outer radius of the arc.
      * @param minX Optional lower X bound for the area that may have {@link Pixel}s.
@@ -514,15 +510,14 @@ public class MarchingRectangles {
      * @return Pixels with non-empty coverage at the arc within the specified area.
      */
     @SuppressWarnings("null")
-    public List<PixelCoverage> getCoverage(int cx, int cy, int initialX, int initialY, double innerRadius, double outerRadius,
+    public List<PixelCoverage> getCoverage(Position2D center, Position2D initialPos, int innerRadius, int outerRadius,
             Optional<Integer> minX, Optional<Integer> maxX, Optional<Integer> minY, Optional<Integer> maxY)
     {
         // Copy parameters to the class variables.
-        this.cx = cx;
-        this.cy = cy;
+        this.center = center;
         Assert.check(innerRadius > 0 && innerRadius < outerRadius);
-        double sqdInnerRadius = innerRadius * innerRadius;
-        double sqdOuterRadius = outerRadius * outerRadius;
+        int sqdInnerRadius = innerRadius * innerRadius;
+        int sqdOuterRadius = outerRadius * outerRadius;
         this.minX = minX;
         this.minY = minY;
         this.maxX = maxX;
@@ -531,7 +526,8 @@ public class MarchingRectangles {
         // Add initial pixel.
         seen.clear();
         queued.clear();
-        addPixel(clamp(this.minX, initialX, this.maxX), clamp(this.minY, initialY, this.maxY));
+        Assert.check(inArea(initialPos.x, initialPos.y));
+        addPixel(initialPos.x, initialPos.y);
         Assert.check(!queued.isEmpty()); // Initial pixel should be valid now.
 
         // Process pixels until we run out.
@@ -658,31 +654,13 @@ public class MarchingRectangles {
         if (seen.add(p)) {
             // New pixel, compute corner values as well.
             for (Corner c: Corner.values()) {
-                int cornerX = x + c.dx;
-                int cornerY = y + c.dy;
-                int value = (cornerX - cx) * (cornerX - cx) + (cornerY - cy) * (cornerY - cy);
+                int distanceX = x + c.dx - center.x;
+                int distanceY = y + c.dy - center.y;
+                int value = distanceX * distanceX + distanceY * distanceY;
                 values[c.index] = value;
             }
             queued.add(p);
         }
-    }
-
-    /**
-     * Force val between the given position bounds.
-     *
-     * @param low Lower boundary if not empty.
-     * @param val Initial value.
-     * @param high Upper inclusive boundary if not empty.
-     * @return Value between or at the boundaries.
-     */
-    private int clamp(Optional<Integer> low, int val, Optional<Integer> high) {
-        if (!low.isEmpty()) {
-            val = Math.max(val, low.get());
-        }
-        if (!high.isEmpty()) {
-            val = Math.min(val, high.get());
-        }
-        return val;
     }
 
     /**

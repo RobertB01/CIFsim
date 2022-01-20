@@ -37,14 +37,11 @@ import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Solver that assigns non-negative real values to variables such that all provided relations hold. */
 public class Solver {
-    /** Allowed deviation of a value due to rounding errors. */
-    public static final double EPSILON = 1e-4;
-
     /** Variables to assign. */
     private List<Variable> variables = list();
 
     /** Solution of the relations, value of variable {@code variables.get(i)} is in {@code solution[i]}. */
-    private double[] solution;
+    private int[] solution;
 
     /** Relations between variables to obey. */
     private List<VariableRelation> relations = list();
@@ -88,7 +85,7 @@ public class Solver {
      * @param offset Fixed differences between both variables.
      * @param b Second (bigger) variable in the relation.
      */
-    public void addEq(Variable a, double offset, Variable b) {
+    public void addEq(Variable a, int offset, Variable b) {
         EqRelation eqRel = new EqRelation(a, offset, b);
         addRelation(eqRel);
     }
@@ -100,7 +97,7 @@ public class Solver {
      * @param lowBound Fixed minimal differences between both variables.
      * @param b Second (bigger) variable in the relation.
      */
-    public void addLe(Variable a, double lowBound, Variable b) {
+    public void addLe(Variable a, int lowBound, Variable b) {
         LeRelation leRel = new LeRelation(a, lowBound, b);
         addRelation(leRel);
     }
@@ -174,7 +171,7 @@ public class Solver {
      * @param var Variable being queried.
      * @return Value of the queried variable.
      */
-    public double getVarValue(Variable var) {
+    public int getVarValue(Variable var) {
         Assert.check(var == variables.get(var.index)); // Should be a variable of the solver.
         return solution[var.index];
     }
@@ -357,9 +354,9 @@ public class Solver {
      * @param dumpSolving Whether to dump details of solving the position equations.
      * @return Values assigned to the variables.
      */
-    private double[] assignValues(boolean dumpSolving) {
+    private int[] assignValues(boolean dumpSolving) {
         // Assigned values to the variables, negative value means no value has been assigned yet.
-        double[] varValues = new double[variables.size()];
+        int[] varValues = new int[variables.size()];
         Arrays.fill(varValues, -10);
 
         // Walk over the less-equal graph, from 'small' to 'big', where a cluster can be assigned
@@ -387,9 +384,9 @@ public class Solver {
             for (EqualityCluster cluster: activeClusters) {
                 if (cluster.remoteSmallers.isEmpty()) {
                     // First cluster in the chain.
-                    double cValue = cluster.getMinimalValidC();
+                    int cValue = cluster.getMinimalValidC();
                     if (dumpSolving) {
-                        dbg("Smallest cluster: minimal C = %f", cValue);
+                        dbg("Smallest cluster: minimal C = %d", cValue);
                     }
                     cluster.assignVariables(varValues, cValue, dumpSolving);
                     assignedClusters.add(cluster);
@@ -397,9 +394,9 @@ public class Solver {
                     progress = true;
                 } else if (allSmallerDone(cluster.remoteSmallers, assignedClusters)) {
                     // All predecessors done.
-                    double cValue = cluster.getMinimalValidC(varValues);
+                    int cValue = cluster.getMinimalValidC(varValues);
                     if (dumpSolving) {
-                        dbg("next cluster: minimal C = %f", cValue);
+                        dbg("next cluster: minimal C = %d", cValue);
                     }
                     cluster.assignVariables(varValues, cValue, dumpSolving);
                     assignedClusters.add(cluster);
@@ -420,9 +417,10 @@ public class Solver {
         // Paranoia checks.
         Assert.check(assignedClusters.size() == equalityClusters.size());
 
-        // Keep some distance from 0 to avoid false positive from rounding errors
+        // Should be -1 or larger. Value -1 happens with empty element at the leftmost or topmost position.
         for (int i = 0; i < varValues.length; i++) {
-            Assert.check(varValues[i] > -1 - Solver.EPSILON, fmt("variable %s fails, value=%f", variables.get(i), varValues[i]));
+            Assert.check(varValues[i] >= -1,
+                    fmt("Variable %s is less than -1, value=%d", variables.get(i), varValues[i]));
         }
 
         return varValues;

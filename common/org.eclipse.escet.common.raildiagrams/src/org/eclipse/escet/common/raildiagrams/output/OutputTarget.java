@@ -58,7 +58,7 @@ public abstract class OutputTarget {
      * @note Diagram elements are just bounding boxes containing the actual graphics. They are only useful for
      *     debugging.
      */
-    public void addDiagramElement(double left, double top, Solver solver, DiagramElement element) {
+    public void addDiagramElement(int left, int top, Solver solver, DiagramElement element) {
         // Skip by default.
     }
 
@@ -70,7 +70,7 @@ public abstract class OutputTarget {
      * @param solver Solver for resolving variables to their values.
      * @param graphic Graphic element being added.
      */
-    public abstract void addGraphic(double left, double top, Solver solver, Area graphic);
+    public abstract void addGraphic(int left, int top, Solver solver, Area graphic);
 
     /**
      * The color to use for the element with the provided name.

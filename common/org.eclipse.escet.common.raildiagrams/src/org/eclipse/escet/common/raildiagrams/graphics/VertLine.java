@@ -31,7 +31,7 @@ public class VertLine extends Area {
      * @param railColor Color of the line.
      * @param lineWidth Width of the line.
      */
-    public VertLine(Solver solver, String prefix, Color railColor, double lineWidth) {
+    public VertLine(Solver solver, String prefix, Color railColor, int lineWidth) {
         super(solver, prefix + ".vert");
         this.railColor = railColor;
 
@@ -39,11 +39,11 @@ public class VertLine extends Area {
     }
 
     @Override
-    public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
-        int top = (int)(solver.getVarValue(this.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop);
-        int left = (int)(solver.getVarValue(this.left) + baseLeft);
-        int right = (int)(solver.getVarValue(this.right) + baseLeft);
+    public Position2D[] getConnectPoints(int baseLeft, int baseTop, Solver solver) {
+        int top = solver.getVarValue(this.top) + baseTop;
+        int bottom = solver.getVarValue(this.bottom) + baseTop;
+        int left = solver.getVarValue(this.left) + baseLeft;
+        int right = solver.getVarValue(this.right) + baseLeft;
         int width = right - left + 1;
 
         Position2D[] connections = new Position2D[width * 2];

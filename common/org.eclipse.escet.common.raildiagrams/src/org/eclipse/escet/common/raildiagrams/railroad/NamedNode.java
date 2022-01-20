@@ -76,14 +76,14 @@ public class NamedNode extends DiagramElement {
         NameKind nameKind = (name == null) ? NameKind.TERMINAL : config.getNameKind(name);
         String text = (name == null) ? this.text : config.getNameText(name, nameKind);
 
-        double railwidth = config.getRailWidth();
+        int railwidth = config.getRailWidth();
         Color railColor = config.getRailColor();
-        double horPadding = config.getRealValue(nameKind.configPrefix + ".name.padding.horizontal");
-        double vertPadding = config.getRealValue(nameKind.configPrefix + ".name.padding.vertical");
-        double entryLength = config.getRealValue("name.rail.entry.width");
-        double exitLength = config.getRealValue("name.rail.exit.width");
-        double cornerRadius = config.getCornerRadius(nameKind);
-        double boxLineWidth = config.getBoxLineWidth(nameKind);
+        int horPadding = config.getIntValue(nameKind.configPrefix + ".name.padding.horizontal");
+        int vertPadding = config.getIntValue(nameKind.configPrefix + ".name.padding.vertical");
+        int entryLength = config.getIntValue("name.rail.entry.width");
+        int exitLength = config.getIntValue("name.rail.exit.width");
+        int cornerRadius = config.getCornerRadius(nameKind);
+        int boxLineWidth = config.getBoxLineWidth(nameKind);
         Color boxColor = config.getBoxColor(nameKind);
 
         // Construct the text graphic itself.
@@ -93,14 +93,14 @@ public class NamedNode extends DiagramElement {
         Size2D textSize = textSizeOffset.size;
         TextArea textArea = new TextArea(solver, "named-text", text, textColor, font, textSizeOffset.offset, textSize);
         addGraphic(textArea);
-        solver.addEq(textArea.top, Math.floor(textSize.height / 2 - railwidth / 2), connectTop);
+        solver.addEq(textArea.top, textSize.height / 2 - railwidth / 2, connectTop);
 
         // Compute minimal needed padding in both directions around the text such that text area does
         // not conflict with arc area.
         // Simple approach is to keep both areas fully disjunct, but that makes a named node large
         // as the corner radius increases. The solution below allows for some overlap in the unused
         // arc area.
-        double minPadding; // Minimal amount of needed padding due to possibly rounded corners.
+        int minPadding; // Minimal amount of needed padding due to possibly rounded corners.
         if (cornerRadius <= 0) {
             minPadding = 1; // Give the user a lot of control.
         } else {
@@ -109,8 +109,8 @@ public class NamedNode extends DiagramElement {
             //
             // Maximum usable distance along the box edges from the center point. Subtracting 3 to ensure
             // some (small) empty space between text and the arc even if it uses its corner.
-            double freeAmount = Math.max(Math.sqrt(2) * 0.5 * (cornerRadius - railwidth), 0) - 3;
-            minPadding = cornerRadius - Math.floor(freeAmount); // Avoid getting fractions in coordinates.
+            int freeAmount = (int)Math.max(Math.sqrt(2) * 0.5 * (cornerRadius - railwidth), 0) - 3;
+            minPadding = cornerRadius - freeAmount;
         }
         vertPadding = Math.max(vertPadding, minPadding);
         horPadding = Math.max(horPadding, minPadding);

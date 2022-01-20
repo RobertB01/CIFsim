@@ -60,7 +60,7 @@ public abstract class ImageOutput extends OutputTarget {
      * @param graphic Graphic segment to draw.
      * @param image Output image to paint at.
      */
-    protected void paintGraphic(double baseLeft, double baseTop, Solver solver, Area graphic, Image image) {
+    protected void paintGraphic(int baseLeft, int baseTop, Solver solver, Area graphic, Image image) {
         if (graphic instanceof HorLine) {
             paintHorLine(baseLeft, baseTop, solver, graphic, image);
             return;
@@ -79,13 +79,13 @@ public abstract class ImageOutput extends OutputTarget {
         Assert.check(graphic instanceof Arc);
         Arc arc = (Arc)graphic;
 
-        int left = (int)(baseLeft + solver.getVarValue(graphic.left));
-        int right = (int)(baseLeft + solver.getVarValue(graphic.right));
-        int top = (int)(baseTop + solver.getVarValue(graphic.top));
-        int bottom = (int)(baseTop + solver.getVarValue(graphic.bottom));
+        int left = baseLeft + solver.getVarValue(graphic.left);
+        int right = baseLeft + solver.getVarValue(graphic.right);
+        int top = baseTop + solver.getVarValue(graphic.top);
+        int bottom = baseTop + solver.getVarValue(graphic.bottom);
 
-        double outerRad = right - left + 0.99; // At the very edge of the arc bounding box.
-        double innerRad = outerRad - arc.lineWidth;
+        int outerRad = right - left + 1; // At the very edge of the arc bounding box.
+        int innerRad = outerRad - arc.lineWidth;
         int fgColor = arc.railColor.getRGB();
         Assert.check(innerRad > 0);
 
@@ -95,35 +95,43 @@ public abstract class ImageOutput extends OutputTarget {
         Optional<Integer> maxY = Optional.empty();
 
         if (arc instanceof BottomLeftArc) {
-            int cx = right;
+            int cx = right + 1;
             int cy = top;
+            Position2D center = new Position2D(cx, cy);
+            Position2D relativeInitial = new Position2D(-1, 1);
             maxX = Optional.of(cx);
             minY = Optional.of(cy);
-            paintCoverage(cx, cy, -2, -2, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
+            paintCoverage(center, relativeInitial, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
         if (arc instanceof BottomRightArc) {
             int cx = left;
             int cy = top;
+            Position2D center = new Position2D(cx, cy);
+            Position2D relativeInitial = new Position2D(1, 1);
             minX = Optional.of(cx);
             minY = Optional.of(cy);
-            paintCoverage(cx, cy, 0, -2, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
+            paintCoverage(center, relativeInitial, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
         if (arc instanceof TopLeftArc) {
-            int cx = right;
-            int cy = bottom;
+            int cx = right + 1;
+            int cy = bottom + 1;
+            Position2D center = new Position2D(cx, cy);
+            Position2D relativeInitial = new Position2D(-1, -1);
             maxX = Optional.of(cx);
             maxY = Optional.of(cy);
-            paintCoverage(cx, cy, -2, 0, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
+            paintCoverage(center, relativeInitial, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
         if (arc instanceof TopRightArc) {
             int cx = left;
-            int cy = bottom;
+            int cy = bottom + 1;
+            Position2D center = new Position2D(cx, cy);
+            Position2D relativeInitial = new Position2D(1, -1);
             minX = Optional.of(cx);
             maxY = Optional.of(cy);
-            paintCoverage(cx, cy, 0, 0, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
+            paintCoverage(center, relativeInitial, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
         throw new AssertionError("Unexpected graphic encountered.");
@@ -138,39 +146,19 @@ public abstract class ImageOutput extends OutputTarget {
      * @param graphic Graphic segment to draw.
      * @param image Output image to paint at.
      */
-    private void paintHorLine(double baseLeft, double baseTop, Solver solver, Area graphic, Image image) {
-        double top = solver.getVarValue(graphic.top) + baseTop;
-        double bottom = solver.getVarValue(graphic.bottom) + baseTop;
-        int left = (int)(solver.getVarValue(graphic.left) + baseLeft);
-        int right = (int)(solver.getVarValue(graphic.right) + baseLeft);
+    private void paintHorLine(int baseLeft, int baseTop, Solver solver, Area graphic, Image image) {
+        int top = solver.getVarValue(graphic.top) + baseTop;
+        int bottom = solver.getVarValue(graphic.bottom) + baseTop;
+        int left = solver.getVarValue(graphic.left) + baseLeft;
+        int right = solver.getVarValue(graphic.right) + baseLeft;
 
         int fgColor = ((HorLine)graphic).railColor.getRGB();
 
-        // Compute coverage of each pixel row.
-        double topPixel = Math.floor(top);
-        double bottomPixel = Math.ceil(bottom);
-        double topUncovered = top - topPixel;
-        double bottomUncovered = bottomPixel - bottom;
-        double[] yCoverage = new double[(int)(bottomPixel - topPixel + 1)];
-
-        int yIndex = 0;
-        for (double yPos = topPixel; yPos <= bottomPixel; yPos++) {
-            double coverage = 1.0;
-            if (yPos == topPixel) {
-                coverage -= topUncovered;
-            }
-            if (yPos + 1 == bottomPixel) {
-                coverage -= bottomUncovered;
-            }
-            yCoverage[yIndex] = Math.max(0, coverage);
-            yIndex++;
-        }
-
         // Paint the pixels.
-        for (int yOffset = 0; yOffset < yIndex; yOffset++) {
-            int index = image.getIndex(left, (int)(topPixel + yOffset));
+        for (int y = top; y <= bottom; y++) {
+            int index = image.getIndex(left, y);
             for (int x = left; x <= right; x++) {
-                paintPixel(index, fgColor, image, yCoverage[yOffset]);
+                paintPixel(index, fgColor, image, 1.0);
                 index++;
             }
         }
@@ -185,39 +173,20 @@ public abstract class ImageOutput extends OutputTarget {
      * @param graphic Graphic segment to draw.
      * @param image Output image to paint at.
      */
-    private void paintVertLine(double baseLeft, double baseTop, Solver solver, Area graphic, Image image) {
-        int top = (int)(solver.getVarValue(graphic.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(graphic.bottom) + baseTop);
-        double left = solver.getVarValue(graphic.left) + baseLeft;
-        double right = solver.getVarValue(graphic.right) + baseLeft;
+    private void paintVertLine(int baseLeft, int baseTop, Solver solver, Area graphic, Image image) {
+        int top = solver.getVarValue(graphic.top) + baseTop;
+        int bottom = solver.getVarValue(graphic.bottom) + baseTop;
+        int left = solver.getVarValue(graphic.left) + baseLeft;
+        int right = solver.getVarValue(graphic.right) + baseLeft;
 
         int fgColor = ((VertLine)graphic).railColor.getRGB();
 
-        // Compute coverage of each pixel column.
-        double leftPixel = Math.floor(left);
-        double rightPixel = Math.ceil(right);
-        double leftUncovered = left - leftPixel;
-        double rightUncovered = rightPixel - right;
-        double[] xCoverage = new double[(int)(rightPixel - leftPixel + 1)];
-
-        int xIndex = 0;
-        for (double xPos = leftPixel; xPos <= rightPixel; xPos++) {
-            double coverage = 1.0;
-            if (xPos == leftPixel) {
-                coverage -= leftUncovered;
-            }
-            if (xPos + 1 == rightPixel) {
-                coverage -= rightUncovered;
-            }
-            xCoverage[xIndex] = Math.max(0, coverage);
-            xIndex++;
-        }
-
         // Paint the pixels.
-        int index = image.getIndex((int)leftPixel, top);
+        int horLength = right - left + 1;
+        int index = image.getIndex(left, top);
         for (int y = top; y <= bottom; y++) {
-            for (int i = 0; i < xIndex; i++) {
-                paintPixel(index + i, fgColor, image, xCoverage[i]);
+            for (int i = 0; i < horLength; i++) {
+                paintPixel(index + i, fgColor, image, 1.0);
             }
             index += image.width;
         }
@@ -226,10 +195,8 @@ public abstract class ImageOutput extends OutputTarget {
     /**
      * Compute pixel coverage of a partial circle, and apply it to the image.
      *
-     * @param cx X coordinate of the circle center.
-     * @param cy Y coordinate of the circle center.
-     * @param initialDx X coordinate of initial pixel relative to circle center.
-     * @param initialDy Y coordinate of initial pixel relative to circle center.
+     * @param center Position of the circle center.
+     * @param relativeInitial Position of the initial pixel relative to circle center.
      * @param innerRad Radius of the inner circle.
      * @param outerRad Radius of the outer circle.
      * @param minX Minimum X coordinate of pixels that may be included in the coverage.
@@ -239,10 +206,13 @@ public abstract class ImageOutput extends OutputTarget {
      * @param fgColor Foreground color to use.
      * @param image Image to paint at.
      */
-    private void paintCoverage(int cx, int cy, int initialDx, int initialDy, double innerRad,
-            double outerRad, Optional<Integer> minX, Optional<Integer> maxX, Optional<Integer> minY, Optional<Integer> maxY, int fgColor, Image image)
+    private void paintCoverage(Position2D center, Position2D relativeInitial, int innerRad, int outerRad,
+            Optional<Integer> minX, Optional<Integer> maxX, Optional<Integer> minY, Optional<Integer> maxY, int fgColor,
+            Image image)
     {
-        List<PixelCoverage> coveredPixels = arcCoverage.getCoverage(cx, cy, cx + initialDx, cy + initialDy, innerRad, outerRad, minX, maxX, minY, maxY);
+        Position2D initialPos = new Position2D(center.x + relativeInitial.x, center.y + relativeInitial.y);
+        List<PixelCoverage> coveredPixels = arcCoverage.getCoverage(center, initialPos, innerRad, outerRad, minX, maxX,
+                minY, maxY);
         for (PixelCoverage coveredPixel: coveredPixels) {
             int index = image.getIndex(coveredPixel.x, coveredPixel.y);
             paintPixel(index, fgColor, image, coveredPixel.coverage);
@@ -278,9 +248,9 @@ public abstract class ImageOutput extends OutputTarget {
      * @param textGraphic Text graphic to draw.
      * @param image Output image to paint at.
      */
-    private void paintText(double baseLeft, double baseTop, Solver solver, TextArea textGraphic, Image image) {
-        double top = solver.getVarValue(textGraphic.top) + baseTop;
-        double left = solver.getVarValue(textGraphic.left) + baseLeft;
+    private void paintText(int baseLeft, int baseTop, Solver solver, TextArea textGraphic, Image image) {
+        int top = solver.getVarValue(textGraphic.top) + baseTop;
+        int left = solver.getVarValue(textGraphic.left) + baseLeft;
 
         FontData fd = textGraphic.font;
         Position2D offset = textGraphic.offset;

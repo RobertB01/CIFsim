@@ -60,10 +60,9 @@ public abstract class Area {
      * @param xOffset Horizontal offset of the element in the picture.
      * @param yOffset Vertical offset of the element in the picture.
      */
-    public void dump(Solver solver, double xOffset, double yOffset) {
-        dbg("%s: x[%.1f--%.1f], y[%.1f--%.1f]", prefix, xOffset + solver.getVarValue(left),
-                xOffset + solver.getVarValue(right), yOffset + solver.getVarValue(top),
-                yOffset + solver.getVarValue(bottom));
+    public void dump(Solver solver, int xOffset, int yOffset) {
+        dbg("%s: x[%d--%d], y[%d--%d]", prefix, xOffset + solver.getVarValue(left), xOffset + solver.getVarValue(right),
+                yOffset + solver.getVarValue(top), yOffset + solver.getVarValue(bottom));
     }
 
     /**
@@ -74,5 +73,5 @@ public abstract class Area {
      * @param solver Solver containing values for all variables.
      * @return Positions expected to be used by other elements.
      */
-    public abstract Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver);
+    public abstract Position2D[] getConnectPoints(int baseLeft, int baseTop, Solver solver);
 }

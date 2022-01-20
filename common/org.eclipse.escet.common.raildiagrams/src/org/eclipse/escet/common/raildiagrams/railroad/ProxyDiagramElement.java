@@ -58,14 +58,14 @@ public class ProxyDiagramElement {
 
         // Query size and connect position from the child element.
         Solver childSolver = child.solver;
-        double childTop = childSolver.getVarValue(child.top);
-        double width = childSolver.getVarValue(child.right) - childSolver.getVarValue(child.left) + 1;
-        double height = childSolver.getVarValue(child.bottom) - childTop + 1;
-        Assert.check(width > -Solver.EPSILON);
-        Assert.check(height > -Solver.EPSILON);
-        double connectOffset = childSolver.getVarValue(child.connectTop) - childTop;
-        Assert.check(connectOffset > -Solver.EPSILON);
-        Assert.check(connectOffset < height + Solver.EPSILON);
+        int childTop = childSolver.getVarValue(child.top);
+        int width = childSolver.getVarValue(child.right) - childSolver.getVarValue(child.left) + 1;
+        int height = childSolver.getVarValue(child.bottom) - childTop + 1;
+        Assert.check(width > 0);
+        Assert.check(height > 0);
+        int connectOffset = childSolver.getVarValue(child.connectTop) - childTop;
+        Assert.check(connectOffset >= 0);
+        Assert.check(connectOffset < height);
 
         // Create variables and set constraints.
         left = solver.newVar(elemName + ".left");
@@ -96,13 +96,13 @@ public class ProxyDiagramElement {
      * @param arc Arc to connect.
      * @param railWidth Width of the rail line.
      */
-    public void connectLeft(Solver solver, Arc arc, double railWidth) {
+    public void connectLeft(Solver solver, Arc arc, int railWidth) {
         if (arc instanceof TopLeftArc) {
             solver.addEq(left, -1, arc.right);
             solver.addEq(connectTop, 0, arc.top);
         } else if (arc instanceof BottomLeftArc) {
             solver.addEq(left, -1, arc.right);
-            solver.addEq(connectTop, railWidth, arc.bottom);
+            solver.addEq(connectTop, railWidth - 1, arc.bottom);
         } else {
             Assert.fail(fmt("Cannot connect arc '%s' with the proxy element.", arc));
         }
@@ -126,7 +126,7 @@ public class ProxyDiagramElement {
      * @param arc Arc to connect.
      * @param railWidth Width of the rail line.
      */
-    public void connectRight(Solver solver, Arc arc, double railWidth) {
+    public void connectRight(Solver solver, Arc arc, int railWidth) {
         if (arc instanceof TopRightArc) {
             solver.addEq(right, 1, arc.left);
             solver.addEq(connectTop, 0, arc.top);
@@ -146,7 +146,7 @@ public class ProxyDiagramElement {
      * @param outputTarget Diagram to write.
      * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements for debugging.
      */
-    public void paint(double left, double top, OutputTarget outputTarget, boolean dumpAbsCoords) {
+    public void paint(int left, int top, OutputTarget outputTarget, boolean dumpAbsCoords) {
         child.paint(left, top, outputTarget, dumpAbsCoords);
     }
 }

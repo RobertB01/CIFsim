@@ -29,7 +29,7 @@ public class BottomLeftArc extends Arc {
      * @param size Size of the arc, from center-point upto and including the line.
      * @param lineWidth Width of the arc line.
      */
-    public BottomLeftArc(Solver solver, String prefix, Color railColor, double size, double lineWidth) {
+    public BottomLeftArc(Solver solver, String prefix, Color railColor, int size, int lineWidth) {
         super(solver, prefix, railColor, size, lineWidth);
     }
 
@@ -46,16 +46,15 @@ public class BottomLeftArc extends Arc {
     }
 
     @Override
-    public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
-        int left = (int)(solver.getVarValue(this.left) + baseLeft);
-        int right = (int)(solver.getVarValue(this.right) + baseLeft);
-        int top = (int)(solver.getVarValue(this.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop);
-        int lwidth = (int)lineWidth;
+    public Position2D[] getConnectPoints(int baseLeft, int baseTop, Solver solver) {
+        int left = solver.getVarValue(this.left) + baseLeft;
+        int right = solver.getVarValue(this.right) + baseLeft;
+        int top = solver.getVarValue(this.top) + baseTop;
+        int bottom = solver.getVarValue(this.bottom) + baseTop;
 
-        Position2D[] connections = new Position2D[lwidth * 2];
+        Position2D[] connections = new Position2D[lineWidth * 2];
         int index = 0;
-        for (int i = 0; i < lwidth; i++) {
+        for (int i = 0; i < lineWidth; i++) {
             connections[index] = new Position2D(left + i, top - 1);
             connections[index + 1] = new Position2D(right + 1, bottom - i);
             index += 2;

@@ -36,9 +36,9 @@ public class EmptyNode extends DiagramElement {
 
     @Override
     public void create(Configuration config, int direction) {
-        double railwidth = config.getRailWidth();
+        int railwidth = config.getRailWidth();
         Color color = config.getRailColor();
-        double minWidth = config.getRealValue("empty.width");
+        int minWidth = config.getIntValue("empty.width");
         HorLine hline = new HorLine(solver, "empty", color, railwidth);
         addGraphic(hline);
 

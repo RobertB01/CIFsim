@@ -58,14 +58,14 @@ public class TestGraphicsSizePositioning {
         Area a = new TopLeftArc(solver, "x", Color.WHITE, size, lineWidth);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size - 1, 0.001);
-        assertEquals(bottom, size - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size - 1);
+        assertEquals(bottom, size - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -76,14 +76,14 @@ public class TestGraphicsSizePositioning {
         Area a = new TopRightArc(solver, "x", Color.WHITE, size, lineWidth);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size - 1, 0.001);
-        assertEquals(bottom, size - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size - 1);
+        assertEquals(bottom, size - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -94,14 +94,14 @@ public class TestGraphicsSizePositioning {
         Area a = new BottomLeftArc(solver, "x", Color.WHITE, size, lineWidth);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size - 1, 0.001);
-        assertEquals(bottom, size - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size - 1);
+        assertEquals(bottom, size - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -112,14 +112,14 @@ public class TestGraphicsSizePositioning {
         Area a = new BottomRightArc(solver, "x", Color.WHITE, size, lineWidth);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size - 1, 0.001);
-        assertEquals(bottom, size - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size - 1);
+        assertEquals(bottom, size - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -130,14 +130,14 @@ public class TestGraphicsSizePositioning {
         Area a = new TopLeftArc(solver, "x", Color.WHITE, size, lineWidth);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size - 1, 0.001);
-        assertEquals(bottom, size - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size - 1);
+        assertEquals(bottom, size - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -148,14 +148,14 @@ public class TestGraphicsSizePositioning {
         Area a = new TopRightArc(solver, "x", Color.WHITE, size, lineWidth);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size - 1, 0.001);
-        assertEquals(bottom, size - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size - 1);
+        assertEquals(bottom, size - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -166,14 +166,14 @@ public class TestGraphicsSizePositioning {
         Area a = new BottomLeftArc(solver, "x", Color.WHITE, size, lineWidth);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size - 1, 0.001);
-        assertEquals(bottom, size - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size - 1);
+        assertEquals(bottom, size - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -184,14 +184,14 @@ public class TestGraphicsSizePositioning {
         Area a = new BottomRightArc(solver, "x", Color.WHITE, size, lineWidth);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size - 1, 0.001);
-        assertEquals(bottom, size - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size - 1);
+        assertEquals(bottom, size - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -208,14 +208,14 @@ public class TestGraphicsSizePositioning {
         solver.addEq(baseTop, base.y, a.top);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, base.x, 0.001);
-        assertEquals(top, base.y, 0.001);
-        assertEquals(right, base.x - 1, 0.001);
-        assertEquals(bottom, base.y + lineWidth - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, base.x);
+        assertEquals(top, base.y);
+        assertEquals(right, base.x - 1);
+        assertEquals(bottom, base.y + lineWidth - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -232,14 +232,14 @@ public class TestGraphicsSizePositioning {
         solver.addEq(baseTop, base.y, a.top);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, base.x, 0.001);
-        assertEquals(top, base.y, 0.001);
-        assertEquals(right, base.x + lineWidth - 1, 0.001);
-        assertEquals(bottom, base.y - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, base.x);
+        assertEquals(top, base.y);
+        assertEquals(right, base.x + lineWidth - 1);
+        assertEquals(bottom, base.y - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -258,14 +258,14 @@ public class TestGraphicsSizePositioning {
         solver.addEq(baseTop, base.y, a.top);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, base.x, 0.001);
-        assertEquals(top, base.y, 0.001);
-        assertEquals(right, base.x + length - 1, 0.001);
-        assertEquals(bottom, base.y + lineWidth - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, base.x);
+        assertEquals(top, base.y);
+        assertEquals(right, base.x + length - 1);
+        assertEquals(bottom, base.y + lineWidth - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -284,14 +284,14 @@ public class TestGraphicsSizePositioning {
         solver.addEq(baseTop, base.y, a.top);
         solver.solve("s", config);
 
-        double left = solver.getVarValue(a.left);
-        double right = solver.getVarValue(a.right);
-        double top = solver.getVarValue(a.top);
-        double bottom = solver.getVarValue(a.bottom);
-        assertEquals(left, base.x, 0.001);
-        assertEquals(top, base.y, 0.001);
-        assertEquals(right, base.x + lineWidth - 1, 0.001);
-        assertEquals(bottom, base.y + length - 1, 0.001);
+        int left = solver.getVarValue(a.left);
+        int right = solver.getVarValue(a.right);
+        int top = solver.getVarValue(a.top);
+        int bottom = solver.getVarValue(a.bottom);
+        assertEquals(left, base.x);
+        assertEquals(top, base.y);
+        assertEquals(right, base.x + lineWidth - 1);
+        assertEquals(bottom, base.y + length - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -301,14 +301,14 @@ public class TestGraphicsSizePositioning {
 
         Area ta = new TextArea(solver, "ta", "", Color.WHITE, null, new Position2D(0, 0), size);
         solver.solve("s", config);
-        double left = solver.getVarValue(ta.left);
-        double right = solver.getVarValue(ta.right);
-        double top = solver.getVarValue(ta.top);
-        double bottom = solver.getVarValue(ta.bottom);
-        assertEquals(left, 0, 0.001);
-        assertEquals(top, 0, 0.001);
-        assertEquals(right, size.width - 1, 0.001);
-        assertEquals(bottom, size.height - 1, 0.001);
+        int left = solver.getVarValue(ta.left);
+        int right = solver.getVarValue(ta.right);
+        int top = solver.getVarValue(ta.top);
+        int bottom = solver.getVarValue(ta.bottom);
+        assertEquals(left, 0);
+        assertEquals(top, 0);
+        assertEquals(right, size.width - 1);
+        assertEquals(bottom, size.height - 1);
     }
 
     @SuppressWarnings("javadoc")
@@ -329,15 +329,15 @@ public class TestGraphicsSizePositioning {
         a.connectLine(solver, v);
         solver.solve("s", config);
 
-        double arcLeft = solver.getVarValue(a.left);
-        double arcRight = solver.getVarValue(a.right);
-        double arcTop = solver.getVarValue(a.top);
-        double arcBottom = solver.getVarValue(a.bottom);
-        assertEquals(arcLeft, solver.getVarValue(v.left), 0.01);
-        assertEquals(arcBottom + 1, solver.getVarValue(v.top), 0.01);
+        int arcLeft = solver.getVarValue(a.left);
+        int arcRight = solver.getVarValue(a.right);
+        int arcTop = solver.getVarValue(a.top);
+        int arcBottom = solver.getVarValue(a.bottom);
+        assertEquals(arcLeft, solver.getVarValue(v.left));
+        assertEquals(arcBottom + 1, solver.getVarValue(v.top));
 
-        assertEquals(arcRight + 1, solver.getVarValue(h.left), 0.01);
-        assertEquals(arcTop, solver.getVarValue(h.top), 0.01);
+        assertEquals(arcRight + 1, solver.getVarValue(h.left));
+        assertEquals(arcTop, solver.getVarValue(h.top));
     }
 
     @SuppressWarnings("javadoc")
@@ -358,15 +358,15 @@ public class TestGraphicsSizePositioning {
         a.connectLine(solver, v);
         solver.solve("s", config);
 
-        double arcLeft = solver.getVarValue(a.left);
-        double arcRight = solver.getVarValue(a.right);
-        double arcTop = solver.getVarValue(a.top);
-        double arcBottom = solver.getVarValue(a.bottom);
-        assertEquals(arcLeft, solver.getVarValue(v.left), 0.01);
-        assertEquals(arcTop - 1, solver.getVarValue(v.bottom), 0.01);
+        int arcLeft = solver.getVarValue(a.left);
+        int arcRight = solver.getVarValue(a.right);
+        int arcTop = solver.getVarValue(a.top);
+        int arcBottom = solver.getVarValue(a.bottom);
+        assertEquals(arcLeft, solver.getVarValue(v.left));
+        assertEquals(arcTop - 1, solver.getVarValue(v.bottom));
 
-        assertEquals(arcRight + 1, solver.getVarValue(h.left), 0.01);
-        assertEquals(arcBottom, solver.getVarValue(h.bottom), 0.01);
+        assertEquals(arcRight + 1, solver.getVarValue(h.left));
+        assertEquals(arcBottom, solver.getVarValue(h.bottom));
     }
 
     @SuppressWarnings("javadoc")
@@ -387,15 +387,15 @@ public class TestGraphicsSizePositioning {
         solver.addEq(baseTop, base.y, v.top);
         solver.solve("s", config);
 
-        double arcLeft = solver.getVarValue(a.left);
-        double arcRight = solver.getVarValue(a.right);
-        double arcTop = solver.getVarValue(a.top);
-        double arcBottom = solver.getVarValue(a.bottom);
-        assertEquals(arcRight, solver.getVarValue(v.right), 0.01);
-        assertEquals(arcBottom + 1, solver.getVarValue(v.top), 0.01);
+        int arcLeft = solver.getVarValue(a.left);
+        int arcRight = solver.getVarValue(a.right);
+        int arcTop = solver.getVarValue(a.top);
+        int arcBottom = solver.getVarValue(a.bottom);
+        assertEquals(arcRight, solver.getVarValue(v.right));
+        assertEquals(arcBottom + 1, solver.getVarValue(v.top));
 
-        assertEquals(arcLeft - 1, solver.getVarValue(h.right), 0.01);
-        assertEquals(arcTop, solver.getVarValue(h.top), 0.01);
+        assertEquals(arcLeft - 1, solver.getVarValue(h.right));
+        assertEquals(arcTop, solver.getVarValue(h.top));
     }
 
     @SuppressWarnings("javadoc")
@@ -416,15 +416,15 @@ public class TestGraphicsSizePositioning {
         a.connectLine(solver, v);
         solver.solve("s", config);
 
-        double arcLeft = solver.getVarValue(a.left);
-        double arcRight = solver.getVarValue(a.right);
-        double arcTop = solver.getVarValue(a.top);
-        double arcBottom = solver.getVarValue(a.bottom);
-        assertEquals(arcRight, solver.getVarValue(v.right), 0.01);
-        assertEquals(arcTop - 1, solver.getVarValue(v.bottom), 0.01);
+        int arcLeft = solver.getVarValue(a.left);
+        int arcRight = solver.getVarValue(a.right);
+        int arcTop = solver.getVarValue(a.top);
+        int arcBottom = solver.getVarValue(a.bottom);
+        assertEquals(arcRight, solver.getVarValue(v.right));
+        assertEquals(arcTop - 1, solver.getVarValue(v.bottom));
 
-        assertEquals(arcLeft - 1, solver.getVarValue(h.right), 0.01);
-        assertEquals(arcBottom, solver.getVarValue(h.bottom), 0.01);
+        assertEquals(arcLeft - 1, solver.getVarValue(h.right));
+        assertEquals(arcBottom, solver.getVarValue(h.bottom));
     }
 
     /**

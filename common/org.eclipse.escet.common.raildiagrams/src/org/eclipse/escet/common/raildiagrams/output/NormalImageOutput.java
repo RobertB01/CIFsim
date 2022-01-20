@@ -31,7 +31,7 @@ public class NormalImageOutput extends ImageOutput {
     }
 
     @Override
-    public void addGraphic(double left, double top, Solver solver, Area graphic) {
+    public void addGraphic(int left, int top, Solver solver, Area graphic) {
         paintGraphic(left, top, solver, graphic, currentDiagram);
     }
 

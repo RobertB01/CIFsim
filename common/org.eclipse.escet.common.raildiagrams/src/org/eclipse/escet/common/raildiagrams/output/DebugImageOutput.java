@@ -111,21 +111,21 @@ public class DebugImageOutput extends ImageOutput {
     }
 
     @Override
-    public void addDiagramElement(double baseLeft, double baseTop, Solver solver, DiagramElement element) {
-        int left = (int)(solver.getVarValue(element.left) + baseLeft);
-        int right = (int)(solver.getVarValue(element.right) + baseLeft);
-        int top = (int)(solver.getVarValue(element.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(element.bottom) + baseTop);
+    public void addDiagramElement(int baseLeft, int baseTop, Solver solver, DiagramElement element) {
+        int left = solver.getVarValue(element.left) + baseLeft;
+        int right = solver.getVarValue(element.right) + baseLeft;
+        int top = solver.getVarValue(element.top) + baseTop;
+        int bottom = solver.getVarValue(element.bottom) + baseTop;
         addBoxCorners(left, right, top, bottom);
     }
 
     @Override
-    public void addGraphic(double baseLeft, double baseTop, Solver solver, Area graphic) {
+    public void addGraphic(int baseLeft, int baseTop, Solver solver, Area graphic) {
         if (graphic instanceof Arc) {
-            int left = (int)(solver.getVarValue(graphic.left) + baseLeft);
-            int right = (int)(solver.getVarValue(graphic.right) + baseLeft);
-            int top = (int)(solver.getVarValue(graphic.top) + baseTop);
-            int bottom = (int)(solver.getVarValue(graphic.bottom) + baseTop);
+            int left = solver.getVarValue(graphic.left) + baseLeft;
+            int right = solver.getVarValue(graphic.right) + baseLeft;
+            int top = solver.getVarValue(graphic.top) + baseTop;
+            int bottom = solver.getVarValue(graphic.bottom) + baseTop;
             addGraphicCorners(left, right, top, bottom);
         }
 
@@ -150,7 +150,7 @@ public class DebugImageOutput extends ImageOutput {
         }
 
         for (Position2D pos: graphic.getConnectPoints(baseLeft, baseTop, solver)) {
-            addConnectPoint((int)pos.x, (int)pos.y);
+            addConnectPoint(pos.x, pos.y);
         }
     }
 

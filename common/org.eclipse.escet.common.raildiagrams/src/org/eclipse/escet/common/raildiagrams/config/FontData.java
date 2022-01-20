@@ -60,7 +60,7 @@ public class FontData {
      * @param color Color of the text.
      * @param text Text to paint.
      */
-    public void paint(double x, double y, Color color, Graphics2D gd, String text) {
+    public void paint(int x, int y, Color color, Graphics2D gd, String text) {
         FontRenderContext renderContext = gd.getFontRenderContext();
         TextLayout layout = new TextLayout(text, font, renderContext);
         Rectangle2D bounds = layout.getPixelBounds(renderContext, 0, 0);
@@ -79,7 +79,8 @@ public class FontData {
         FontRenderContext renderContext = gd.getFontRenderContext();
         TextLayout layout = new TextLayout(text, font, renderContext);
         Rectangle2D bounds = layout.getPixelBounds(renderContext, 0, 0);
-        return new TextSizeOffset(new Position2D(0, 0), new Size2D(bounds.getWidth(), bounds.getHeight()));
+        return new TextSizeOffset(new Position2D(0, 0),
+                new Size2D((int)Math.ceil(bounds.getWidth()), (int)Math.ceil(bounds.getHeight())));
     }
 
     /** Available styles of text. */

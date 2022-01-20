@@ -57,10 +57,10 @@ public class ChoiceNode extends DiagramElement {
     @SuppressWarnings("null") // False positives in accessing topElement and lastElement.
     @Override
     public void create(Configuration config, int direction) {
-        double railWidth = config.getRailWidth();
+        int railWidth = config.getRailWidth();
         Color railColor = config.getRailColor();
-        double arcSize = config.getRealValue("choice.arc-radius");
-        double choiceVertPadding = config.getRealValue("choice.padding.vertical");
+        int arcSize = config.getIntValue("choice.arc-radius");
+        int choiceVertPadding = config.getIntValue("choice.padding.vertical");
 
         // Arc at the left down to the alternatives.
         TopRightArc leftArcDown = new TopRightArc(solver, "leftarc-down", railColor, arcSize, railWidth);
@@ -104,7 +104,7 @@ public class ChoiceNode extends DiagramElement {
                 topElement = altProxy; // First element.
                 lastElement = altProxy; // and also currently last element.
 
-                // Connect proxie directly to the choice entry/exits.
+                // Connect proxy directly to the choice entry/exits.
                 HorLine leftHor = new HorLine(solver, "left-alt0", railColor, railWidth);
                 addGraphic(leftHor);
                 solver.addEq(connectTop, 0, leftHor.top);
@@ -115,12 +115,11 @@ public class ChoiceNode extends DiagramElement {
 
                 HorLine rightHor = new HorLine(solver, "right-alt0", railColor, railWidth);
                 addGraphic(rightHor);
-                solver.addEq(rightHor.left, 1, altProxy.right);
+                solver.addEq(altProxy.right, 1, rightHor.left);
                 solver.addEq(rightHor.top, 0, connectTop);
                 solver.addEq(rightHor.right, 0, right);
                 solver.addEq(rightHor.top, 0, altProxy.connectTop);
                 solver.addLe(rightHor.left, arcSize, rightHor.right); // Make line slightly longer than arc.
-
             } else {
                 // Not first element.
 

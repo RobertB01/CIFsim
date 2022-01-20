@@ -32,7 +32,7 @@ public class LeRelation extends VariableRelation {
     public final Variable b;
 
     /** Lower-bound offset between the variables, at least {@code b - a}. */
-    public final double lowBound;
+    public final int lowBound;
 
     /**
      * Constructor of the {@link LeRelation} class.
@@ -45,7 +45,7 @@ public class LeRelation extends VariableRelation {
      * @param lowBound Offset between the variables, is at least {@code b - a}.
      * @param b Variable 'b'.
      */
-    public LeRelation(Variable a, double lowBound, Variable b) {
+    public LeRelation(Variable a, int lowBound, Variable b) {
         this.a = a;
         this.b = b;
         this.lowBound = lowBound;
@@ -57,7 +57,10 @@ public class LeRelation extends VariableRelation {
     public String toString() {
         if (lowBound == 0.0) {
             return fmt("Lt[%s <= %s]", a, b);
+        } else if (lowBound < 0) {
+            return fmt("Lt[%s - %d <= %s]", a, -lowBound, b);
+        } else {
+            return fmt("Lt[%s + %d <= %s]", a, lowBound, b);
         }
-        return fmt("Lt[%s + %.2f <= %s]", a, lowBound, b);
     }
 }

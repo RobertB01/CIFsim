@@ -84,7 +84,7 @@ public class TextArea extends Area {
     }
 
     @Override
-    public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
+    public Position2D[] getConnectPoints(int baseLeft, int baseTop, Solver solver) {
         return new Position2D[0]; // No connections expected.
     }
 }
