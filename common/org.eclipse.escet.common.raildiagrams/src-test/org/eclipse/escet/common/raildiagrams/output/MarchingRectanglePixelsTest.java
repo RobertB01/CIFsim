@@ -23,7 +23,7 @@ import org.eclipse.escet.common.raildiagrams.output.MarchingRectangles.Pixel;
 import org.junit.Test;
 
 /** Tests of the {@link MarchingRectangles.Pixel} class. */
-public class TestMRPixel {
+public class MarchingRectanglePixelsTest {
     @SuppressWarnings("javadoc")
     @Test
     public void equalInsideLevelsTest() {
@@ -108,7 +108,7 @@ public class TestMRPixel {
      * @param p Pixel to examine.
      * @param edge Edge to examine.
      * @param boundary Boundary value.
-     * @return Offset of the boundary position along the edge
+     * @return Offset of the boundary position along the edge.
      */
     private double getOffset(Pixel p, Edge edge, double boundary) {
         return p.getOffset(p.values[edge.firstCorner.index], p.values[edge.secondCorner.index], boundary);

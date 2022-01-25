@@ -24,7 +24,7 @@ import org.eclipse.escet.common.raildiagrams.util.Position2D;
 import org.junit.Test;
 
 /** Test marching rectangles computation. */
-public class TestMarchingRectangles {
+public class MarchingRectanglesTest {
     /** Radius of the outer circle. */
     private static final int OUTER_RAD = 4;
 

@@ -52,24 +52,22 @@ public abstract class ImageOutput extends OutputTarget {
     }
 
     /**
-     * Paint the provided arc relative to the indicated top-left base position.
+     * Paint the provided graphic relative to the indicated top-left base position.
      *
      * @param baseLeft X coordinate of the base position.
      * @param baseTop Y coordinate of the base position.
-     * @param solver Solver keeping variable values of the arc.
+     * @param solver Solver keeping variable values.
      * @param graphic Graphic segment to draw.
      * @param image Output image to paint at.
      */
     protected void paintGraphic(int baseLeft, int baseTop, Solver solver, Area graphic, Image image) {
         if (graphic instanceof HorLine) {
-            paintHorLine(baseLeft, baseTop, solver, graphic, image);
+            paintHorLine(baseLeft, baseTop, solver, (HorLine)graphic, image);
             return;
-        }
-        if (graphic instanceof VertLine) {
-            paintVertLine(baseLeft, baseTop, solver, graphic, image);
+        } else if (graphic instanceof VertLine) {
+            paintVertLine(baseLeft, baseTop, solver, (VertLine)graphic, image);
             return;
-        }
-        if (graphic instanceof TextArea) {
+        } else if (graphic instanceof TextArea) {
             TextArea ta = (TextArea)graphic;
             paintText(baseLeft, baseTop, solver, ta, image);
             return;
@@ -103,8 +101,7 @@ public abstract class ImageOutput extends OutputTarget {
             minY = Optional.of(cy);
             paintCoverage(center, relativeInitial, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
-        }
-        if (arc instanceof BottomRightArc) {
+        } else if (arc instanceof BottomRightArc) {
             int cx = left;
             int cy = top;
             Position2D center = new Position2D(cx, cy);
@@ -113,8 +110,7 @@ public abstract class ImageOutput extends OutputTarget {
             minY = Optional.of(cy);
             paintCoverage(center, relativeInitial, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
-        }
-        if (arc instanceof TopLeftArc) {
+        } else if (arc instanceof TopLeftArc) {
             int cx = right + 1;
             int cy = bottom + 1;
             Position2D center = new Position2D(cx, cy);
@@ -123,8 +119,7 @@ public abstract class ImageOutput extends OutputTarget {
             maxY = Optional.of(cy);
             paintCoverage(center, relativeInitial, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
-        }
-        if (arc instanceof TopRightArc) {
+        } else if (arc instanceof TopRightArc) {
             int cx = left;
             int cy = bottom + 1;
             Position2D center = new Position2D(cx, cy);
@@ -134,7 +129,7 @@ public abstract class ImageOutput extends OutputTarget {
             paintCoverage(center, relativeInitial, innerRad, outerRad, minX, maxX, minY, maxY, fgColor, image);
             return;
         }
-        throw new AssertionError("Unexpected graphic encountered.");
+        throw new AssertionError("Unexpected arc encountered.");
     }
 
     /**
@@ -142,17 +137,17 @@ public abstract class ImageOutput extends OutputTarget {
      *
      * @param baseLeft X coordinate of the base position.
      * @param baseTop Y coordinate of the base position.
-     * @param solver Solver keeping variable values of the arc.
-     * @param graphic Graphic segment to draw.
+     * @param solver Solver keeping variable values.
+     * @param horLine Horizontal line to draw.
      * @param image Output image to paint at.
      */
-    private void paintHorLine(int baseLeft, int baseTop, Solver solver, Area graphic, Image image) {
-        int top = solver.getVarValue(graphic.top) + baseTop;
-        int bottom = solver.getVarValue(graphic.bottom) + baseTop;
-        int left = solver.getVarValue(graphic.left) + baseLeft;
-        int right = solver.getVarValue(graphic.right) + baseLeft;
+    private void paintHorLine(int baseLeft, int baseTop, Solver solver, HorLine horLine, Image image) {
+        int top = solver.getVarValue(horLine.top) + baseTop;
+        int bottom = solver.getVarValue(horLine.bottom) + baseTop;
+        int left = solver.getVarValue(horLine.left) + baseLeft;
+        int right = solver.getVarValue(horLine.right) + baseLeft;
 
-        int fgColor = ((HorLine)graphic).railColor.getRGB();
+        int fgColor = horLine.railColor.getRGB();
 
         // Paint the pixels.
         for (int y = top; y <= bottom; y++) {
@@ -169,17 +164,17 @@ public abstract class ImageOutput extends OutputTarget {
      *
      * @param baseLeft X coordinate of the base position.
      * @param baseTop Y coordinate of the base position.
-     * @param solver Solver keeping variable values of the arc.
-     * @param graphic Graphic segment to draw.
+     * @param solver Solver keeping variable values.
+     * @param vertLine Vertical line to draw.
      * @param image Output image to paint at.
      */
-    private void paintVertLine(int baseLeft, int baseTop, Solver solver, Area graphic, Image image) {
-        int top = solver.getVarValue(graphic.top) + baseTop;
-        int bottom = solver.getVarValue(graphic.bottom) + baseTop;
-        int left = solver.getVarValue(graphic.left) + baseLeft;
-        int right = solver.getVarValue(graphic.right) + baseLeft;
+    private void paintVertLine(int baseLeft, int baseTop, Solver solver, VertLine vertLine, Image image) {
+        int top = solver.getVarValue(vertLine.top) + baseTop;
+        int bottom = solver.getVarValue(vertLine.bottom) + baseTop;
+        int left = solver.getVarValue(vertLine.left) + baseLeft;
+        int right = solver.getVarValue(vertLine.right) + baseLeft;
 
-        int fgColor = ((VertLine)graphic).railColor.getRGB();
+        int fgColor = vertLine.railColor.getRGB();
 
         // Paint the pixels.
         int horLength = right - left + 1;
@@ -244,7 +239,7 @@ public abstract class ImageOutput extends OutputTarget {
      *
      * @param baseLeft X coordinate of the base position.
      * @param baseTop Y coordinate of the base position.
-     * @param solver Solver keeping variable values of the arc.
+     * @param solver Solver keeping variable values.
      * @param textGraphic Text graphic to draw.
      * @param image Output image to paint at.
      */

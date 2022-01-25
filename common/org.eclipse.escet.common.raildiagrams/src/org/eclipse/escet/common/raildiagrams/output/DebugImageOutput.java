@@ -75,7 +75,7 @@ public class DebugImageOutput extends ImageOutput {
     /** Height of the current image. */
     private int height;
 
-    /** Result image as a flat array of ARGB values. */
+    /** Result image. */
     private Image result;
 
     @Override

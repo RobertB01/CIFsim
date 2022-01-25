@@ -41,7 +41,7 @@ public class DebugImageOutputTest {
     private final String testDumpDir = null;
 
     /** Output generator instance for testing. */
-    private ImageOutput dbgOutput;
+    private ImageOutput output;
 
     /** Constraint solver. */
     Solver solver;
@@ -49,22 +49,22 @@ public class DebugImageOutputTest {
     @Before
     @SuppressWarnings("javadoc")
     public void setup() {
-        dbgOutput = new DebugImageOutput();
+        output = new DebugImageOutput();
         solver = new Solver();
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testScratchColorOverride() {
-        assertEquals(convertRGB(Color.WHITE), convertRGB(dbgOutput.getOverrideColor("diagram.background.color")));
-        assertEquals(convertRGB(Color.BLACK), convertRGB(dbgOutput.getOverrideColor("something.else")));
+        assertEquals(convertRGB(Color.WHITE), convertRGB(output.getOverrideColor("diagram.background.color")));
+        assertEquals(convertRGB(Color.BLACK), convertRGB(output.getOverrideColor("something.else")));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testEmptyOutput() {
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
-        BufferedImage result = dbgOutput.getOutput();
+        output.prepareOutputFile(64, 32, Color.WHITE);
+        BufferedImage result = output.getOutput();
         assertEquals(64, result.getWidth());
         assertEquals(32, result.getHeight());
         assertEquals(convertRGB(BACKGROUND), convertRGB(result.getRGB(7, 5)));
@@ -74,17 +74,17 @@ public class DebugImageOutputTest {
     @SuppressWarnings("javadoc")
     public void testEmptyHorLine() {
         final int lineWidth = 1;
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
         solver.solve("hl", config);
 
-        dbgOutput.addGraphic(3, 5, solver, hLine);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(3, 5, solver, hLine);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestHLineimg0_%d.png", testDumpDir, File.separator, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
@@ -95,18 +95,18 @@ public class DebugImageOutputTest {
     @SuppressWarnings("javadoc")
     public void testHorLineOneDistance() {
         final int lineWidth = 1;
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
         solver.addLe(hLine.left, 0, hLine.right);
         solver.solve("hl", config);
 
-        dbgOutput.addGraphic(3, 5, solver, hLine);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(3, 5, solver, hLine);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestHLineimg1_%d.png", testDumpDir, File.separator, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
@@ -118,18 +118,18 @@ public class DebugImageOutputTest {
     @SuppressWarnings("javadoc")
     public void testHorLineTwoDistance() {
         final int lineWidth = 1;
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
         solver.addLe(hLine.left, 1, hLine.right);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(3, 5, solver, hLine);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(3, 5, solver, hLine);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestHLineimg2_%d.png", testDumpDir, File.separator, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
@@ -142,17 +142,17 @@ public class DebugImageOutputTest {
     @SuppressWarnings("javadoc")
     public void testEmptyVertLine() {
         final int lineWidth = 1;
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(3, 5, solver, vLine);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(3, 5, solver, vLine);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestVLineimg0_%d.png", testDumpDir, File.separator, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
@@ -163,18 +163,18 @@ public class DebugImageOutputTest {
     @SuppressWarnings("javadoc")
     public void testVertLineOneDistance() {
         final int lineWidth = 1;
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
         solver.addLe(vLine.top, 0, vLine.bottom);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(3, 5, solver, vLine);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(3, 5, solver, vLine);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestVLineimg1_%d.png", testDumpDir, File.separator, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
@@ -186,18 +186,18 @@ public class DebugImageOutputTest {
     @SuppressWarnings("javadoc")
     public void testVertLineTwoDistance() {
         final int lineWidth = 1;
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
         solver.addLe(vLine.top, 1, vLine.bottom);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(3, 5, solver, vLine);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(3, 5, solver, vLine);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestVLineimg2_%d.png", testDumpDir, File.separator, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
@@ -237,9 +237,9 @@ public class DebugImageOutputTest {
      * @param lineWidth Width of the line.
      */
     private void tryBottomRightArc(int size, int lineWidth) {
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
         final int ypos = 5;
 
@@ -251,11 +251,11 @@ public class DebugImageOutputTest {
         Arc arc = new BottomRightArc(solver, "arc", Color.BLACK, size, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(xpos, ypos, solver, arc);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(xpos, ypos, solver, arc);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestBRimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         for (int i = 0; i < lineWidth; i++) {
@@ -297,9 +297,9 @@ public class DebugImageOutputTest {
      * @param lineWidth Width of the line.
      */
     private void tryTopLeftArc(int size, int lineWidth) {
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
         final int ypos = 5;
 
@@ -311,11 +311,11 @@ public class DebugImageOutputTest {
         Arc arc = new TopLeftArc(solver, "arc", Color.BLACK, size, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(xpos, ypos, solver, arc);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(xpos, ypos, solver, arc);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestTLimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         for (int i = 0; i < lineWidth; i++) {
@@ -357,9 +357,9 @@ public class DebugImageOutputTest {
      * @param lineWidth Width of the line.
      */
     private void tryBottomLeftArc(int size, int lineWidth) {
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
         final int ypos = 5;
 
@@ -371,11 +371,11 @@ public class DebugImageOutputTest {
         Arc arc = new BottomLeftArc(solver, "arc", Color.BLACK, size, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(xpos, ypos, solver, arc);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(xpos, ypos, solver, arc);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestBLimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         for (int i = 0; i < lineWidth; i++) {
@@ -417,9 +417,9 @@ public class DebugImageOutputTest {
      * @param lineWidth Width of the line.
      */
     private void tryTopRightArc(int size, int lineWidth) {
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, Color.WHITE);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
         final int ypos = 5;
 
@@ -431,11 +431,11 @@ public class DebugImageOutputTest {
         Arc arc = new TopRightArc(solver, "arc", Color.BLACK, size, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(xpos, ypos, solver, arc);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(xpos, ypos, solver, arc);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestTRimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
 
         for (int i = 0; i < lineWidth; i++) {

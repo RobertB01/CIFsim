@@ -52,6 +52,7 @@ public class MarchingRectangles {
 
     /**
      * Corners of a rectangle with relative offsets.
+     *
      * <p>
      * Note that in reality coordinate systems may be mirrored but that doesn't make any difference in the algorithm.
      * </p>
@@ -146,11 +147,11 @@ public class MarchingRectangles {
         public final int[] values;
 
         /**
-         * Constructor of the {@link MarchingRectangles.Pixel} class.
+         * Constructor of the {@link Pixel} class.
          *
          * @param x Base position of the rectangle in X direction.
          * @param y Base position of the rectangle in Y direction.
-         * @param values Squared distance to the center point of the arc circles.
+         * @param values Squared distance of the pixel corners to the circle center.
          */
         public Pixel(int x, int y, int[] values) {
             this.x = x;
@@ -549,7 +550,7 @@ public class MarchingRectangles {
             //
             // By taking the minimum and maximum value at the corner points of a pixel, this
             // leads to covering a sub-range in the distance, giving A to M. These are covered
-            // in 6 cases below.
+            // in 3 cases below.
             //
             // --> squared distance
             // origin inner outer

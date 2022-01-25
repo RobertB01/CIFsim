@@ -35,7 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /** Test graphics sizes and positioning. */
-public class TestGraphicsSizePositioning {
+public class GraphicsSizePositioningTest {
     /** Solver for deciding position of graphics. */
     private Solver solver;
 

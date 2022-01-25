@@ -69,7 +69,7 @@ public class FontData {
     }
 
     /**
-     * Get the size and top-left offset of the of the box around the provided text.
+     * Get the size and top-left offset of the box around the provided text.
      *
      * @param gd Graphics context.
      * @param text Text to measure.
