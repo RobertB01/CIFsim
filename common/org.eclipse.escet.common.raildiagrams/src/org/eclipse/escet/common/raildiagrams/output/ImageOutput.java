@@ -259,7 +259,7 @@ public abstract class ImageOutput extends OutputTarget {
     }
 
     /**
-     * Construct the resulting image.
+     * Return the resulting image.
      *
      * @return The created result.
      * @note This method is mostly used for testing.
