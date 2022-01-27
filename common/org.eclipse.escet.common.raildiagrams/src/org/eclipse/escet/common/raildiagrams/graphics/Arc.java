@@ -26,7 +26,7 @@ import org.eclipse.escet.common.raildiagrams.solver.Solver;
  */
 public abstract class Arc extends Area {
     /** Line width of the arc. */
-    public final double lineWidth;
+    public final int lineWidth;
 
     /** Color of the arc. */
     public final Color railColor;
@@ -40,14 +40,14 @@ public abstract class Arc extends Area {
      * @param size Size of the arc, from center-point up to and including the line.
      * @param lineWidth Width of the arc line.
      */
-    public Arc(Solver solver, String prefix, Color railColor, double size, double lineWidth) {
+    public Arc(Solver solver, String prefix, Color railColor, int size, int lineWidth) {
         super(solver, prefix);
         this.lineWidth = lineWidth;
         this.railColor = railColor;
 
         size = Math.max(size, lineWidth);
-        solver.addEq(left, size, right);
-        solver.addEq(top, size, bottom);
+        solver.addEq(left, size - 1, right);
+        solver.addEq(top, size - 1, bottom);
     }
 
     /**

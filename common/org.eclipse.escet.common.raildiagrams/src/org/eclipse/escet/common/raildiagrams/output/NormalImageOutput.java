@@ -13,11 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
-import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGraphics;
-
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import org.eclipse.escet.common.raildiagrams.graphics.Area;
@@ -26,28 +22,26 @@ import org.eclipse.escet.common.raildiagrams.solver.Solver;
 /** Output class for generating PNG image files. */
 public class NormalImageOutput extends ImageOutput {
     /** Output space for the next diagram. */
-    private BufferedImage currentDiagram;
-
-    /** Graphics driver for the diagram. */
-    private Graphics2D diagramGd;
+    private Image currentDiagram;
 
     @Override
     public void prepareOutputFile(int width, int height, Color bgColor) {
-        currentDiagram = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        diagramGd = getGraphics(currentDiagram);
-        diagramGd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        diagramGd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        diagramGd.setColor(bgColor);
-        diagramGd.fillRect(0, 0, width, height);
+        currentDiagram = new Image(width, height);
+        currentDiagram.fill(bgColor);
     }
 
     @Override
-    public void addGraphic(double left, double top, Solver solver, Area graphic) {
-        graphic.paint(left, top, solver, diagramGd);
+    public void addGraphic(int left, int top, Solver solver, Area graphic) {
+        paintGraphic(left, top, solver, graphic, currentDiagram);
+    }
+
+    @Override
+    public BufferedImage getOutput() {
+        return currentDiagram.image;
     }
 
     @Override
     public void writeOutputFile(String path) {
-        saveImage(currentDiagram, path);
+        currentDiagram.saveImage(path);
     }
 }

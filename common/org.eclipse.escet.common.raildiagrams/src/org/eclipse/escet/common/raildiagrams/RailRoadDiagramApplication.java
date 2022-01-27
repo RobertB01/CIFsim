@@ -122,8 +122,8 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             //
             // First, compute required size for all boxes in the diagram.
             // Boxes are put under each other.
-            double diagramWidth = 0;
-            double diagramHeight = 0;
+            int diagramWidth = 0;
+            int diagramHeight = 0;
             for (RailRule rule: rules) {
                 rule.create(config, 1);
                 Size2D size = rule.getSize();
@@ -144,7 +144,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
             // Paint graphics to the image.
             boolean dumpAbsCoords = config.getDebugSetting(DebugDisplayKind.ABS_COORDINATES);
-            double top = 0;
+            int top = 0;
             for (RailRule rule: rules) {
                 rule.paint(0, top, outputTarget, dumpAbsCoords);
                 Size2D size = rule.getSize();

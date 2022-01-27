@@ -14,7 +14,6 @@
 package org.eclipse.escet.common.raildiagrams.graphics;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.config.FontData;
@@ -62,16 +61,6 @@ public class TextArea extends Area {
         solver.addEq(top, size.height - 1, bottom);
     }
 
-    @Override
-    public void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd) {
-        double x = baseLeft + solver.getVarValue(left);
-        double y = baseTop + solver.getVarValue(top);
-
-        gd.setColor(color);
-        gd.setFont(font.font);
-        gd.drawString(text, (int)(x + offset.x), (int)(y + offset.y));
-    }
-
     /**
      * Construct a text box.
      *
@@ -95,7 +84,7 @@ public class TextArea extends Area {
     }
 
     @Override
-    public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
+    public Position2D[] getConnectPoints(int baseLeft, int baseTop, Solver solver) {
         return new Position2D[0]; // No connections expected.
     }
 }

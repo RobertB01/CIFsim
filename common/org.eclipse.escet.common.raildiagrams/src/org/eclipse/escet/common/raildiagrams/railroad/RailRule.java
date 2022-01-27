@@ -52,15 +52,15 @@ public class RailRule extends DiagramElement {
 
     @Override
     public void create(Configuration config, int direction) {
-        double leftRulePadding = config.getRealValue("rule.padding.left");
-        double topRulePadding = config.getRealValue("rule.padding.top");
-        double bottomRulePadding = config.getRealValue("rule.padding.bottom");
-        double rightRulePadding = config.getRealValue("rule.padding.right");
-        double diagramTopPadding = config.getRealValue("rule.diagram.padding.top");
-        double diagramIndent = config.getRealValue("rule.diagram.padding.left");
-        double leadWidth = config.getRealValue("rule.diagram.lead.width");
-        double trailWidth = config.getRealValue("rule.diagram.trail.width");
-        double railWidth = config.getRailWidth();
+        int leftRulePadding = config.getIntValue("rule.padding.left");
+        int topRulePadding = config.getIntValue("rule.padding.top");
+        int bottomRulePadding = config.getIntValue("rule.padding.bottom");
+        int rightRulePadding = config.getIntValue("rule.padding.right");
+        int diagramTopPadding = config.getIntValue("rule.diagram.padding.top");
+        int diagramIndent = config.getIntValue("rule.diagram.padding.left");
+        int leadWidth = config.getIntValue("rule.diagram.lead.width");
+        int trailWidth = config.getIntValue("rule.diagram.trail.width");
+        int railWidth = config.getRailWidth();
         Color railColor = config.getRailColor();
 
         // Add header with the rule name.
@@ -78,11 +78,11 @@ public class RailRule extends DiagramElement {
         ProxyDiagramElement rootProxy = addDiagramElement(rootNode, "root-node");
         HorLine leadLine = new HorLine(solver, "diagram.lead", railColor, railWidth);
         rootProxy.connectLeft(solver, leadLine);
-        solver.addEq(leadLine.left, leadWidth, leadLine.right);
+        solver.addEq(leadLine.left, leadWidth - 1, leadLine.right);
         solver.addEq(left, diagramIndent, leadLine.left);
         HorLine tailLine = new HorLine(solver, "diagram.tail", railColor, railWidth);
         rootProxy.connectRight(solver, tailLine);
-        solver.addEq(tailLine.left, trailWidth, tailLine.right);
+        solver.addEq(tailLine.left, trailWidth - 1, tailLine.right);
         solver.addLe(tailLine.right, rightRulePadding, right); // Title may be longer than the diagram.
         addGraphics(leadLine, tailLine);
 
@@ -114,8 +114,8 @@ public class RailRule extends DiagramElement {
      * @return Width of the diagram.
      */
     public Size2D getSize() {
-        double width = solver.getVarValue(right) - solver.getVarValue(left) + 1;
-        double height = solver.getVarValue(bottom) - solver.getVarValue(top) + 1;
+        int width = solver.getVarValue(right) - solver.getVarValue(left) + 1;
+        int height = solver.getVarValue(bottom) - solver.getVarValue(top) + 1;
 
         Assert.check(width > 1 && height > 1); // Rule has at least a name text.
         return new Size2D(width, height);

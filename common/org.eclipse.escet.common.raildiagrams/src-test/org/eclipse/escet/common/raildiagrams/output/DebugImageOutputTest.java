@@ -41,7 +41,7 @@ public class DebugImageOutputTest {
     private final String testDumpDir = null;
 
     /** Output generator instance for testing. */
-    private DebugImageOutput dbgOutput;
+    private ImageOutput output;
 
     /** Constraint solver. */
     Solver solver;
@@ -49,125 +49,161 @@ public class DebugImageOutputTest {
     @Before
     @SuppressWarnings("javadoc")
     public void setup() {
-        dbgOutput = new DebugImageOutput();
+        output = new DebugImageOutput();
         solver = new Solver();
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testScratchColorOverride() {
-        assertEquals(Color.WHITE, dbgOutput.getOverrideColor("diagram.background.color"));
-        assertEquals(Color.BLACK, dbgOutput.getOverrideColor("something.else"));
+        assertEquals(convertRGB(Color.WHITE), convertRGB(output.getOverrideColor("diagram.background.color")));
+        assertEquals(convertRGB(Color.BLACK), convertRGB(output.getOverrideColor("something.else")));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testEmptyOutput() {
-        dbgOutput.prepareOutputFile(64, 32, null);
-        BufferedImage result = dbgOutput.getOutput();
+        output.prepareOutputFile(64, 32, Color.WHITE);
+        BufferedImage result = output.getOutput();
         assertEquals(64, result.getWidth());
         assertEquals(32, result.getHeight());
-        assertEquals(BACKGROUND, result.getRGB(7, 5));
+        assertEquals(convertRGB(BACKGROUND), convertRGB(result.getRGB(7, 5)));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testEmptyHorLine() {
-        Configuration config = new Configuration(dbgOutput);
+        final int lineWidth = 1;
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
-        HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, 1);
+        output.prepareOutputFile(64, 32, Color.WHITE);
+        HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
         solver.solve("hl", config);
 
-        dbgOutput.addGraphic(3, 5, solver, hLine);
-        BufferedImage result = dbgOutput.getOutput();
-        assertEquals(CONNECT_POINT, result.getRGB(2, 5));
-        assertEquals(CONNECT_POINT, result.getRGB(3, 5));
+        output.addGraphic(3, 5, solver, hLine);
+        BufferedImage result = output.getOutput();
+        if (testDumpDir != null) {
+            String fname = fmt("%s%stestHLineimg0_%d.png", testDumpDir, File.separator, lineWidth);
+            output.writeOutputFile(fname);
+        }
+
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 5)));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testHorLineOneDistance() {
-        Configuration config = new Configuration(dbgOutput);
+        final int lineWidth = 1;
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
-        HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, 1);
-        solver.addLe(hLine.left, 1, hLine.right);
+        output.prepareOutputFile(64, 32, Color.WHITE);
+        HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
+        solver.addLe(hLine.left, 0, hLine.right);
         solver.solve("hl", config);
 
-        dbgOutput.addGraphic(3, 5, solver, hLine);
-        BufferedImage result = dbgOutput.getOutput();
-        assertEquals(CONNECT_POINT, result.getRGB(2, 5));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 5));
-        assertEquals(CONNECT_POINT, result.getRGB(4, 5));
+        output.addGraphic(3, 5, solver, hLine);
+        BufferedImage result = output.getOutput();
+        if (testDumpDir != null) {
+            String fname = fmt("%s%stestHLineimg1_%d.png", testDumpDir, File.separator, lineWidth);
+            output.writeOutputFile(fname);
+        }
+
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 5)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(4, 5)));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testHorLineTwoDistance() {
-        Configuration config = new Configuration(dbgOutput);
+        final int lineWidth = 1;
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
-        HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, 1);
-        solver.addLe(hLine.left, 2, hLine.right);
+        output.prepareOutputFile(64, 32, Color.WHITE);
+        HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
+        solver.addLe(hLine.left, 1, hLine.right);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(3, 5, solver, hLine);
-        BufferedImage result = dbgOutput.getOutput();
-        assertEquals(CONNECT_POINT, result.getRGB(2, 5));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 5));
-        assertEquals(SINGLE_RAIL, result.getRGB(4, 5));
-        assertEquals(CONNECT_POINT, result.getRGB(5, 5));
+        output.addGraphic(3, 5, solver, hLine);
+        BufferedImage result = output.getOutput();
+        if (testDumpDir != null) {
+            String fname = fmt("%s%stestHLineimg2_%d.png", testDumpDir, File.separator, lineWidth);
+            output.writeOutputFile(fname);
+        }
+
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 5)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(4, 5)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(5, 5)));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testEmptyVertLine() {
-        Configuration config = new Configuration(dbgOutput);
+        final int lineWidth = 1;
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
-        VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, 1);
+        output.prepareOutputFile(64, 32, Color.WHITE);
+        VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(3, 5, solver, vLine);
-        BufferedImage result = dbgOutput.getOutput();
-        assertEquals(CONNECT_POINT, result.getRGB(3, 4));
-        assertEquals(CONNECT_POINT, result.getRGB(3, 5));
+        output.addGraphic(3, 5, solver, vLine);
+        BufferedImage result = output.getOutput();
+        if (testDumpDir != null) {
+            String fname = fmt("%s%stestVLineimg0_%d.png", testDumpDir, File.separator, lineWidth);
+            output.writeOutputFile(fname);
+        }
+
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 5)));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testVertLineOneDistance() {
-        Configuration config = new Configuration(dbgOutput);
+        final int lineWidth = 1;
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
-        VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, 1);
-        solver.addLe(vLine.top, 1, vLine.bottom);
+        output.prepareOutputFile(64, 32, Color.WHITE);
+        VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
+        solver.addLe(vLine.top, 0, vLine.bottom);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(3, 5, solver, vLine);
-        BufferedImage result = dbgOutput.getOutput();
-        assertEquals(CONNECT_POINT, result.getRGB(3, 4));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 5));
-        assertEquals(CONNECT_POINT, result.getRGB(3, 6));
+        output.addGraphic(3, 5, solver, vLine);
+        BufferedImage result = output.getOutput();
+        if (testDumpDir != null) {
+            String fname = fmt("%s%stestVLineimg1_%d.png", testDumpDir, File.separator, lineWidth);
+            output.writeOutputFile(fname);
+        }
+
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 5)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 6)));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testVertLineTwoDistance() {
-        Configuration config = new Configuration(dbgOutput);
+        final int lineWidth = 1;
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
-        VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, 1);
-        solver.addLe(vLine.top, 2, vLine.bottom);
+        output.prepareOutputFile(64, 32, Color.WHITE);
+        VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
+        solver.addLe(vLine.top, 1, vLine.bottom);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(3, 5, solver, vLine);
-        BufferedImage result = dbgOutput.getOutput();
-        assertEquals(CONNECT_POINT, result.getRGB(3, 4));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 5));
-        assertEquals(SINGLE_RAIL, result.getRGB(3, 6));
-        assertEquals(CONNECT_POINT, result.getRGB(3, 7));
+        output.addGraphic(3, 5, solver, vLine);
+        BufferedImage result = output.getOutput();
+        if (testDumpDir != null) {
+            String fname = fmt("%s%stestVLineimg2_%d.png", testDumpDir, File.separator, lineWidth);
+            output.writeOutputFile(fname);
+        }
+
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 5)));
+        assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(3, 6)));
+        assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 7)));
     }
 
     @Test
@@ -201,9 +237,9 @@ public class DebugImageOutputTest {
      * @param lineWidth Width of the line.
      */
     private void tryBottomRightArc(int size, int lineWidth) {
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
         final int ypos = 5;
 
@@ -215,17 +251,18 @@ public class DebugImageOutputTest {
         Arc arc = new BottomRightArc(solver, "arc", Color.BLACK, size, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(xpos, ypos, solver, arc);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(xpos, ypos, solver, arc);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestBRimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
+
         for (int i = 0; i < lineWidth; i++) {
-            assertEquals(SINGLE_RAIL, result.getRGB(inLeft, inBot - i));
-            assertEquals(SINGLE_RAIL, result.getRGB(inRight - i, inTop));
-            assertEquals(CONNECT_POINT, result.getRGB(inLeft - 1, inBot - i));
-            assertEquals(CONNECT_POINT, result.getRGB(inRight - i, inTop - 1));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inLeft, inBot - i)));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inRight - i, inTop)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inLeft - 1, inBot - i)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inRight - i, inTop - 1)));
         }
     }
 
@@ -260,9 +297,9 @@ public class DebugImageOutputTest {
      * @param lineWidth Width of the line.
      */
     private void tryTopLeftArc(int size, int lineWidth) {
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
         final int ypos = 5;
 
@@ -274,17 +311,18 @@ public class DebugImageOutputTest {
         Arc arc = new TopLeftArc(solver, "arc", Color.BLACK, size, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(xpos, ypos, solver, arc);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(xpos, ypos, solver, arc);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestTLimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
+
         for (int i = 0; i < lineWidth; i++) {
-            assertEquals(SINGLE_RAIL, result.getRGB(inLeft + i, inBot));
-            assertEquals(SINGLE_RAIL, result.getRGB(inRight, inTop + i));
-            assertEquals(CONNECT_POINT, result.getRGB(inLeft + i, inBot + 1));
-            assertEquals(CONNECT_POINT, result.getRGB(inRight + 1, inTop + i));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inLeft + i, inBot)));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inRight, inTop + i)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inLeft + i, inBot + 1)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inRight + 1, inTop + i)));
         }
     }
 
@@ -319,9 +357,9 @@ public class DebugImageOutputTest {
      * @param lineWidth Width of the line.
      */
     private void tryBottomLeftArc(int size, int lineWidth) {
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
         final int ypos = 5;
 
@@ -333,17 +371,18 @@ public class DebugImageOutputTest {
         Arc arc = new BottomLeftArc(solver, "arc", Color.BLACK, size, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(xpos, ypos, solver, arc);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(xpos, ypos, solver, arc);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestBLimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
+
         for (int i = 0; i < lineWidth; i++) {
-            assertEquals(SINGLE_RAIL, result.getRGB(inLeft + i, inTop));
-            assertEquals(SINGLE_RAIL, result.getRGB(inRight, inBot - i));
-            assertEquals(CONNECT_POINT, result.getRGB(inLeft + i, inTop - 1));
-            assertEquals(CONNECT_POINT, result.getRGB(inRight + 1, inBot - i));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inLeft + i, inTop)));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inRight, inBot - i)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inLeft + i, inTop - 1)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inRight + 1, inBot - i)));
         }
     }
 
@@ -378,9 +417,9 @@ public class DebugImageOutputTest {
      * @param lineWidth Width of the line.
      */
     private void tryTopRightArc(int size, int lineWidth) {
-        Configuration config = new Configuration(dbgOutput);
+        Configuration config = new Configuration(output);
 
-        dbgOutput.prepareOutputFile(64, 32, null);
+        output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
         final int ypos = 5;
 
@@ -392,17 +431,49 @@ public class DebugImageOutputTest {
         Arc arc = new TopRightArc(solver, "arc", Color.BLACK, size, lineWidth);
         solver.solve("prefix", config);
 
-        dbgOutput.addGraphic(xpos, ypos, solver, arc);
-        BufferedImage result = dbgOutput.getOutput();
+        output.addGraphic(xpos, ypos, solver, arc);
+        BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestTRimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            dbgOutput.writeOutputFile(fname);
+            output.writeOutputFile(fname);
         }
+
         for (int i = 0; i < lineWidth; i++) {
-            assertEquals(SINGLE_RAIL, result.getRGB(inLeft, inTop + i));
-            assertEquals(SINGLE_RAIL, result.getRGB(inRight - i, inBot));
-            assertEquals(CONNECT_POINT, result.getRGB(inLeft - 1, inTop + i));
-            assertEquals(CONNECT_POINT, result.getRGB(inRight - i, inBot + 1));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inLeft, inTop + i)));
+            assertEquals(convertRGB(SINGLE_RAIL), convertRGB(result.getRGB(inRight - i, inBot)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inLeft - 1, inTop + i)));
+            assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(inRight - i, inBot + 1)));
+        }
+    }
+
+    /**
+     * Convert RGB values to useful names or numbers.
+     *
+     * @param col Color to convert.
+     * @return The textual representation of the color.
+     */
+    private static String convertRGB(Color col) {
+        return convertRGB(col.getRGB());
+    }
+
+    /**
+     * Convert RGB values to useful names or numbers.
+     *
+     * @param rgbVal Value to convert.
+     * @return The textual representation of the color.
+     */
+    private static String convertRGB(int rgbVal) {
+        switch (rgbVal) {
+            case SINGLE_RAIL:
+                return "SINGLE_RAIL";
+            case CONNECT_POINT:
+                return "CONNECT_POINT";
+            case BACKGROUND:
+                return "BACKGROUND";
+            default: {
+                String s = Integer.toHexString(rgbVal);
+                return "0x0000000".substring(0, 10 - s.length()) + s;
+            }
         }
     }
 }

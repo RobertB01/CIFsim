@@ -85,8 +85,8 @@ public class Configuration {
      *
      * @return Width of the rail, is always non-negative.
      */
-    public double getRailWidth() {
-        return Math.max(0, getRealValue("rail.linewidth"));
+    public int getRailWidth() {
+        return Math.max(0, getIntValue("rail.linewidth"));
     }
 
     /**
@@ -116,9 +116,9 @@ public class Configuration {
      * @param name Name of the requested value.
      * @return The stored value or {@code 1.0} if it does not exist.
      */
-    public double getRealValue(String name) {
+    public int getIntValue(String name) {
         String value = getPropertyValue(name);
-        return decodeReal(value, 1.0);
+        return decodeInt(value, 1);
     }
 
     /**
@@ -197,8 +197,8 @@ public class Configuration {
      * @param nameKind Kind of name.
      * @return Radius of the corners of the box around the name.
      */
-    public double getCornerRadius(NameKind nameKind) {
-        return getRealValue(nameKind.configPrefix + ".corner.radius");
+    public int getCornerRadius(NameKind nameKind) {
+        return getIntValue(nameKind.configPrefix + ".corner.radius");
     }
 
     /**
@@ -207,8 +207,8 @@ public class Configuration {
      * @param nameKind Kind of name.
      * @return The line-width of the box around a name.
      */
-    public double getBoxLineWidth(NameKind nameKind) {
-        return getRealValue(nameKind.configPrefix + ".box.linewidth");
+    public int getBoxLineWidth(NameKind nameKind) {
+        return getIntValue(nameKind.configPrefix + ".box.linewidth");
     }
 
     /**
@@ -347,22 +347,6 @@ public class Configuration {
     private int decodeInt(String valueText, int defaultValue) {
         try {
             return Integer.parseInt(valueText);
-        } catch (NumberFormatException ex) {
-            // Bad numeric string, use the default.
-        }
-        return defaultValue;
-    }
-
-    /**
-     * Convert a piece of text to an integer number.
-     *
-     * @param valueText Text to convert.
-     * @param defaultValue Value to use if the conversion fails.
-     * @return The result value.
-     */
-    private double decodeReal(String valueText, double defaultValue) {
-        try {
-            return Double.parseDouble(valueText);
         } catch (NumberFormatException ex) {
             // Bad numeric string, use the default.
         }

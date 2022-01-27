@@ -13,10 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams.graphics;
 
-import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.setLineWidth;
-
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
@@ -34,37 +31,19 @@ public class VertLine extends Area {
      * @param railColor Color of the line.
      * @param lineWidth Width of the line.
      */
-    public VertLine(Solver solver, String prefix, Color railColor, double lineWidth) {
+    public VertLine(Solver solver, String prefix, Color railColor, int lineWidth) {
         super(solver, prefix + ".vert");
         this.railColor = railColor;
 
-        solver.addEq(left, lineWidth, right);
+        solver.addEq(left, lineWidth - 1, right);
     }
 
     @Override
-    public void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd) {
-        double top = solver.getVarValue(this.top) + baseTop;
-        double bottom = solver.getVarValue(this.bottom) + baseTop - 1;
-        double left = solver.getVarValue(this.left) + baseLeft;
-        double right = solver.getVarValue(this.right) + baseLeft - 1;
-        double width = right - left + 1;
-        double center = (right + left + 1) / 2;
-
-        if (bottom < top) {
-            return;
-        }
-
-        gd.setColor(railColor);
-        setLineWidth(gd, (int)width);
-        gd.drawLine((int)center, (int)top, (int)center, (int)bottom);
-    }
-
-    @Override
-    public Position2D[] getConnectPoints(double baseLeft, double baseTop, Solver solver) {
-        int top = (int)(solver.getVarValue(this.top) + baseTop);
-        int bottom = (int)(solver.getVarValue(this.bottom) + baseTop - 1);
-        int left = (int)(solver.getVarValue(this.left) + baseLeft);
-        int right = (int)(solver.getVarValue(this.right) + baseLeft - 1);
+    public Position2D[] getConnectPoints(int baseLeft, int baseTop, Solver solver) {
+        int top = solver.getVarValue(this.top) + baseTop;
+        int bottom = solver.getVarValue(this.bottom) + baseTop;
+        int left = solver.getVarValue(this.left) + baseLeft;
+        int right = solver.getVarValue(this.right) + baseLeft;
         int width = right - left + 1;
 
         Position2D[] connections = new Position2D[width * 2];

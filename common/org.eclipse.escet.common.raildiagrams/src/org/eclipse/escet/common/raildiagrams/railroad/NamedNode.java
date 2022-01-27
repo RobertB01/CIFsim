@@ -76,14 +76,14 @@ public class NamedNode extends DiagramElement {
         NameKind nameKind = (name == null) ? NameKind.TERMINAL : config.getNameKind(name);
         String text = (name == null) ? this.text : config.getNameText(name, nameKind);
 
-        double railwidth = config.getRailWidth();
+        int railwidth = config.getRailWidth();
         Color railColor = config.getRailColor();
-        double horPadding = config.getRealValue(nameKind.configPrefix + ".name.padding.horizontal");
-        double vertPadding = config.getRealValue(nameKind.configPrefix + ".name.padding.vertical");
-        double entryLength = config.getRealValue("name.rail.entry.width");
-        double exitLength = config.getRealValue("name.rail.exit.width");
-        double cornerRadius = config.getCornerRadius(nameKind);
-        double boxLineWidth = config.getBoxLineWidth(nameKind);
+        int horPadding = config.getIntValue(nameKind.configPrefix + ".name.padding.horizontal");
+        int vertPadding = config.getIntValue(nameKind.configPrefix + ".name.padding.vertical");
+        int entryLength = config.getIntValue("name.rail.entry.width");
+        int exitLength = config.getIntValue("name.rail.exit.width");
+        int cornerRadius = config.getCornerRadius(nameKind);
+        int boxLineWidth = config.getBoxLineWidth(nameKind);
         Color boxColor = config.getBoxColor(nameKind);
 
         // Construct the text graphic itself.
@@ -100,7 +100,7 @@ public class NamedNode extends DiagramElement {
         // Simple approach is to keep both areas fully disjunct, but that makes a named node large
         // as the corner radius increases. The solution below allows for some overlap in the unused
         // arc area.
-        double minPadding; // Minimal amount of needed padding due to possibly rounded corners.
+        int minPadding; // Minimal amount of needed padding due to possibly rounded corners.
         if (cornerRadius <= 0) {
             minPadding = 1; // Give the user a lot of control.
         } else {
@@ -109,17 +109,17 @@ public class NamedNode extends DiagramElement {
             //
             // Maximum usable distance along the box edges from the center point. Subtracting 3 to ensure
             // some (small) empty space between text and the arc even if it uses its corner.
-            double freeAmount = Math.max(Math.sqrt(2) * 0.5 * (cornerRadius - railwidth), 0) - 3;
+            int freeAmount = (int)Math.max(Math.sqrt(2) * 0.5 * (cornerRadius - railwidth), 0) - 3;
             minPadding = cornerRadius - freeAmount;
         }
         vertPadding = Math.max(vertPadding, minPadding);
         horPadding = Math.max(horPadding, minPadding);
 
         // Create the 4 lines around the name, and give them to the proper distance from the name.
-        HorLine topLine = new HorLine(solver, "name-top-line", boxColor, boxLineWidth);
-        HorLine bottomLine = new HorLine(solver, "name-bottom-line", boxColor, boxLineWidth);
-        VertLine leftLine = new VertLine(solver, "name-left-line", boxColor, boxLineWidth);
-        VertLine rightLine = new VertLine(solver, "name-right-line", boxColor, boxLineWidth);
+        HorLine topLine = new HorLine(solver, "top-line", boxColor, boxLineWidth);
+        HorLine bottomLine = new HorLine(solver, "bottom-line", boxColor, boxLineWidth);
+        VertLine leftLine = new VertLine(solver, "left-line", boxColor, boxLineWidth);
+        VertLine rightLine = new VertLine(solver, "right-line", boxColor, boxLineWidth);
         addGraphics(topLine, bottomLine, leftLine, rightLine);
 
         solver.addLe(topLine.bottom, vertPadding, textArea.top);
@@ -153,20 +153,20 @@ public class NamedNode extends DiagramElement {
 
         // Entry and exit connections.
         HorLine entryLine = new HorLine(solver, "name-entry", railColor, railwidth);
-        solver.addEq(entryLine.left, entryLength, entryLine.right);
-        solver.addEq(leftLine.left, 0, entryLine.right);
+        solver.addEq(entryLine.top, 0, connectTop);
+        solver.addEq(left, 0, entryLine.left);
+        solver.addEq(entryLine.left, entryLength - 1, entryLine.right);
+        solver.addEq(entryLine.right, 1, leftLine.left);
         addGraphic(entryLine);
 
-        HorLine exitLine = new HorLine(solver, "name-entry", railColor, railwidth);
-        solver.addEq(exitLine.left, exitLength, exitLine.right);
-        solver.addEq(rightLine.right, 0, exitLine.left);
+        HorLine exitLine = new HorLine(solver, "name-exit", railColor, railwidth);
+        solver.addEq(exitLine.top, 0, connectTop);
+        solver.addEq(right, 0, exitLine.right);
+        solver.addEq(exitLine.left, exitLength - 1, exitLine.right);
+        solver.addEq(rightLine.right, 1, exitLine.left);
         addGraphics(exitLine);
 
         // Diagram element connections.
-        solver.addEq(entryLine.top, 0, connectTop);
-        solver.addEq(exitLine.top, 0, connectTop);
-        solver.addEq(left, 0, entryLine.left);
-        solver.addEq(right, 0, exitLine.right);
         solver.addEq(top, 0, topLine.top);
         solver.addEq(bottom, 0, bottomLine.bottom);
 
@@ -198,10 +198,11 @@ public class NamedNode extends DiagramElement {
      * @param connectTop If set, connect the top side of both lines, else the bottom side.
      */
     private void connectHorVert(HorLine hl, VertLine vl, boolean connectLeft, boolean connectTop) {
+        // Horizontal lines are between both vertical lines.
         if (connectLeft) {
-            solver.addEq(hl.left, 0, vl.left);
+            solver.addEq(hl.left, -1, vl.right);
         } else {
-            solver.addEq(hl.right, 0, vl.right);
+            solver.addEq(hl.right, 1, vl.left);
         }
 
         if (connectTop) {

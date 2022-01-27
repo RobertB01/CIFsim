@@ -32,7 +32,7 @@ public class EqRelation extends VariableRelation {
     public final Variable b;
 
     /** Offset between the variables, {@code b - a}. */
-    public final double offset;
+    public final int offset;
 
     /**
      * Constructor of the {@link EqRelation} class.
@@ -45,7 +45,7 @@ public class EqRelation extends VariableRelation {
      * @param offset Offset between the variables, {@code b - a}.
      * @param b Variable 'b'.
      */
-    public EqRelation(Variable a, double offset, Variable b) {
+    public EqRelation(Variable a, int offset, Variable b) {
         this.a = a;
         this.b = b;
         this.offset = offset;
@@ -55,9 +55,12 @@ public class EqRelation extends VariableRelation {
 
     @Override
     public String toString() {
-        if (offset == 0.0) {
+        if (offset == 0) {
             return fmt("Eq[%s == %s]", a, b);
+        } else if (offset < 0) {
+            return fmt("Eq[%s - %d == %s]", a, -offset, b);
+        } else {
+            return fmt("Eq[%s + %d == %s]", a, offset, b);
         }
-        return fmt("Eq[%s + %.2f == %s]", a, offset, b);
     }
 }

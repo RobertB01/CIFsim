@@ -97,7 +97,7 @@ public class SequenceRow {
             solver.addLe(proxy.bottom, 0, bottom);
 
             if (prevProxy != null) {
-                solver.addEq(prevProxy.right, 0, proxy.left);
+                solver.addEq(prevProxy.right, 1, proxy.left);
             }
             prevProxy = proxy;
 
