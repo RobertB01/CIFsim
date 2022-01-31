@@ -1,10 +1,22 @@
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 18, column 10: Duplicate event "x.a" on a single edge.
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 18, column 16: Duplicate event "x.a" on a single edge.
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 19, column 10: Duplicate event "tau" on a single edge.
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 19, column 15: Duplicate event "tau" on a single edge.
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 28, column 12: Duplicate event "P.e" in alphabet of automaton "Q".
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 28, column 18: Duplicate event "P.e" in alphabet of automaton "Q".
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 32, column 10: Duplicate event "P.e" on a single edge.
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 32, column 16: Duplicate event "P.e" on a single edge.
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 46, column 10: Duplicate event "rcv.e" on a single edge.
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 46, column 14: Duplicate event "rcv.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 19, column 12: Duplicate event "g.x.a" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 19, column 18: Duplicate event "g.x.a" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 20, column 12: Duplicate event "tau" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 20, column 17: Duplicate event "tau" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 29, column 10: Duplicate event "D.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 29, column 22: Duplicate event "D.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 48, column 10: Duplicate event "P.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 48, column 16: Duplicate event "P.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 60, column 10: Duplicate event "R1.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 60, column 15: Duplicate event "R1.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 60, column 20: Duplicate event "S1.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 60, column 23: Duplicate event "S1.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 72, column 10: Duplicate event "R2.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 72, column 15: Duplicate event "R2.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 72, column 20: Duplicate event "S2.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 72, column 23: Duplicate event "S2.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 88, column 10: Duplicate event "T.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 88, column 16: Duplicate event "T.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 105, column 10: Duplicate event "V.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 105, column 16: Duplicate event "V.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 141, column 10: Duplicate event "rcv.e" on a single edge.
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 141, column 14: Duplicate event "rcv.e" on a single edge.

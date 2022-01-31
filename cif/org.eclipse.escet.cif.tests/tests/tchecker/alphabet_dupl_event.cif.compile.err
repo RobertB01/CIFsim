@@ -2,7 +2,23 @@ WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 17, c
 WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 17, column 17: Duplicate event "g.x.a" in alphabet of automaton "g.x".
 WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 27, column 12: Duplicate event "D.e" in alphabet of automaton "x".
 WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 27, column 24: Duplicate event "D.e" in alphabet of automaton "x".
-WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 48, column 12: Duplicate event "P.e" in alphabet of automaton "Q".
-WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 48, column 18: Duplicate event "P.e" in alphabet of automaton "Q".
-WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 52, column 10: Duplicate event "P.e" on a single edge.
-WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 52, column 16: Duplicate event "P.e" on a single edge.
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 47, column 12: Duplicate event "P.e" in alphabet of automaton "Q".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 47, column 18: Duplicate event "P.e" in alphabet of automaton "Q".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 50, column 10: Duplicate event "P.e" on a single edge.
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 50, column 16: Duplicate event "P.e" on a single edge.
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 60, column 12: Duplicate event "R1.e" in alphabet of automaton "S1".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 60, column 17: Duplicate event "R1.e" in alphabet of automaton "S1".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 60, column 22: Duplicate event "S1.e" in alphabet of automaton "S1".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 60, column 25: Duplicate event "S1.e" in alphabet of automaton "S1".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 73, column 12: Duplicate event "R2.e" in alphabet of automaton "S2".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 73, column 17: Duplicate event "R2.e" in alphabet of automaton "S2".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 73, column 22: Duplicate event "S2.e" in alphabet of automaton "S2".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 73, column 25: Duplicate event "S2.e" in alphabet of automaton "S2".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 90, column 12: Duplicate event "T.e" in alphabet of automaton "U".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 90, column 18: Duplicate event "T.e" in alphabet of automaton "U".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 93, column 10: Duplicate event "T.e" on a single edge.
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 93, column 16: Duplicate event "T.e" on a single edge.
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 108, column 12: Duplicate event "V.e" in alphabet of automaton "W".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 108, column 18: Duplicate event "V.e" in alphabet of automaton "W".
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 111, column 10: Duplicate event "V.e" on a single edge.
+WARNING: File "tchecker/alphabet_dupl_event.cif": Semantic warning at line 111, column 16: Duplicate event "V.e" on a single edge.
