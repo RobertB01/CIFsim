@@ -33,6 +33,7 @@ import org.eclipse.escet.cif.typechecker.postchk.CifSvgPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifTypeCheckerPostCheckEnv;
 import org.eclipse.escet.cif.typechecker.postchk.CyclePostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.SingleEventUsePerAutPostChecker;
+import org.eclipse.escet.cif.typechecker.postchk.UniqueEventsPostChecker;
 import org.eclipse.escet.cif.typechecker.scopes.CompInstScope;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 import org.eclipse.escet.cif.typechecker.scopes.SpecScope;
@@ -229,6 +230,9 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
 
             // Check 'Automaton.uniqueUsagePerEvent' constraint.
             SingleEventUsePerAutPostChecker.check(specNoCompDef, env);
+
+            // Check 'Alphabet.uniqueEvents', 'Automaton.monitorsUniqueEvents' and 'Edge.uniqueEvents' constraints.
+            UniqueEventsPostChecker.check(specNoCompDef, env);
         }
 
         // Return type checking result.

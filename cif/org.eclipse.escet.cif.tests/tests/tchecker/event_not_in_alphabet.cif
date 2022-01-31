@@ -29,7 +29,6 @@ plant def Q(P p1, p2):
   alphabet p1.e;
   location:
     initial;
-    // May both be false positives, depending on instantiations (but not both
-    // at the same time).
+    // May be false positive, depending on instantiations.
     edge p1.e, p2.e;
 end

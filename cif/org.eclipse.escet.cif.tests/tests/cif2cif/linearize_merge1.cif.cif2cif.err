@@ -2,7 +2,7 @@ WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 15, colum
 WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 26, column 11: Automaton "p3" has no initial location.
 WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 84, column 17: The alphabet of automaton "p8" globally disables event "p8.e8b", as the event is not used on any of the edges of the automaton.
 WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 143, column 7: Event "e13" is not used anywhere in the specification.
-WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 385, column 10: Duplicate event "e21" on a single edge.
-WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 385, column 16: Duplicate event "e21" on a single edge.
+WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 385, column 10: Duplicate event "e21" on a single edge in automaton "p21b".
+WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 385, column 16: Duplicate event "e21" on a single edge in automaton "p21b".
 WARNING: Event "p41.e41a" does not have a 'send' edge and is never enabled.
 WARNING: Event "p41.e41b" does not have a 'send' edge and is never enabled.

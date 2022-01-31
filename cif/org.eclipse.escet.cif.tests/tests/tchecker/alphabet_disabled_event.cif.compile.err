@@ -1,23 +1,21 @@
 ERROR: File "tchecker/alphabet_disabled_event.cif": Semantic error at line 77, column 13: Event "h.e" is used in automaton "h.snd" to send and to synchronize.
 ERROR: File "tchecker/alphabet_disabled_event.cif": Semantic error at line 84, column 13: Event "h.e" is used in automaton "h.rcv" to receive and to synchronize.
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 17, column 19: Duplicate event "g.Q1.p1.e1" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 17, column 26: Duplicate event "g.Q1.p1.e1" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 17, column 33: Duplicate event "g.Q1.p1.e2" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 17, column 40: Duplicate event "g.Q1.p1.e2" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 18, column 16: Duplicate event "g.Q1.p2.e1" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 18, column 23: Duplicate event "g.Q1.p2.e1" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 18, column 30: Duplicate event "g.Q1.p2.e2" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 18, column 37: Duplicate event "g.Q1.p2.e2" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 19, column 17: Duplicate event "g.Q2.e1" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 19, column 24: Duplicate event "g.Q2.e1" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 19, column 31: Duplicate event "g.Q2.e2" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 19, column 38: Duplicate event "g.Q2.e2" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 17: Duplicate event "g.Q1.R.e1" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 24: Duplicate event "g.Q1.R.e1" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 31: Duplicate event "g.Q1.R.e2" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 38: Duplicate event "g.Q1.R.e2" in alphabet of automaton "g.Q1.p1".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 67, column 14: Duplicate event "g.P.e" in alphabet of automaton "g.Q".
-WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 67, column 20: Duplicate event "g.P.e" in alphabet of automaton "g.Q".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 17, column 19: Duplicate event "g.q1.p1.e1" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 17, column 26: Duplicate event "g.q1.p1.e1" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 17, column 33: Duplicate event "g.q1.p1.e2" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 17, column 40: Duplicate event "g.q1.p1.e2" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 18, column 16: Duplicate event "g.q1.p2.e1" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 18, column 23: Duplicate event "g.q1.p2.e1" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 18, column 30: Duplicate event "g.q1.p2.e2" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 18, column 37: Duplicate event "g.q1.p2.e2" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 19, column 17: Duplicate event "g.q2.e1" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 19, column 24: Duplicate event "g.q2.e1" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 19, column 31: Duplicate event "g.q2.e2" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 19, column 38: Duplicate event "g.q2.e2" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 17: Duplicate event "g.q1.r.e1" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 24: Duplicate event "g.q1.r.e1" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 31: Duplicate event "g.q1.r.e2" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 38: Duplicate event "g.q1.r.e2" in alphabet of automaton "g.q1.p1".
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 67, column 20: The alphabet of automaton "g.Q" globally disables event "g.P.e", as the event is not used on any of the edges of the automaton.
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 78, column 14: The alphabet of automaton "h.snd" globally disables event "h.e", as the event is not used on any of the edges of the automaton.
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 85, column 14: The alphabet of automaton "h.rcv" globally disables event "h.e", as the event is not used on any of the edges of the automaton.

@@ -1,5 +1,5 @@
-WARNING: File "datasynth/invalid8.cif": Semantic warning at line 31, column 10: Duplicate event "p.e3" on a single edge.
-WARNING: File "datasynth/invalid8.cif": Semantic warning at line 31, column 14: Duplicate event "p.e3" on a single edge.
+WARNING: File "datasynth/invalid8.cif": Semantic warning at line 31, column 10: Duplicate event "p.e3" on a single edge in automaton "p".
+WARNING: File "datasynth/invalid8.cif": Semantic warning at line 31, column 14: Duplicate event "p.e3" on a single edge in automaton "p".
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
  - Unsupported linearized edges: non-determinism detected for edges of controllable event "p.e1" with overlapping guards: "p.x1 > 2", "p.x1 > 2", "p.x1 <= 3", "p.x1 <= 3".
  - Unsupported linearized edges: non-determinism detected for edges of controllable event "p.e2" with overlapping guards:

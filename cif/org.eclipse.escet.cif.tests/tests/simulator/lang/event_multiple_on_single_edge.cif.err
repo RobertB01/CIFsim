@@ -1,6 +1,6 @@
-WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 23, column 10: Duplicate event "p.e" on a single edge.
-WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 23, column 13: Duplicate event "p.e" on a single edge.
-WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 24, column 10: Duplicate event "tau" on a single edge.
-WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 24, column 15: Duplicate event "tau" on a single edge.
-WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 35, column 10: Duplicate event "q.q1" on a single edge.
-WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 35, column 14: Duplicate event "q.q1" on a single edge.
+WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 23, column 10: Duplicate event "p.e" on a single edge in automaton "p".
+WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 23, column 13: Duplicate event "p.e" on a single edge in automaton "p".
+WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 24, column 10: Duplicate event "tau" on a single edge in automaton "p".
+WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 24, column 15: Duplicate event "tau" on a single edge in automaton "p".
+WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 35, column 10: Duplicate event "q.q1" on a single edge in automaton "q".
+WARNING: File "simulator/lang/event_multiple_on_single_edge.cif": Semantic warning at line 35, column 14: Duplicate event "q.q1" on a single edge in automaton "q".

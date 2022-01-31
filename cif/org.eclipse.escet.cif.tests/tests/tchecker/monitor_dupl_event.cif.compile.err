@@ -1,24 +1,23 @@
 WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 17, column 13: Duplicate monitor event "g.x.a" in automaton "g.x".
 WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 17, column 16: Duplicate monitor event "g.x.a" in automaton "g.x".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 27, column 11: Duplicate monitor event "D.e" in automaton "x".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 27, column 23: Duplicate monitor event "D.e" in automaton "x".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 47, column 11: Duplicate monitor event "P.e" in automaton "Q".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 47, column 17: Duplicate monitor event "P.e" in automaton "Q".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 50, column 10: Duplicate event "P.e" on a single edge.
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 50, column 16: Duplicate event "P.e" on a single edge.
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 60, column 11: Duplicate monitor event "R1.e" in automaton "S1".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 60, column 16: Duplicate monitor event "R1.e" in automaton "S1".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 60, column 21: Duplicate monitor event "S1.e" in automaton "S1".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 60, column 24: Duplicate monitor event "S1.e" in automaton "S1".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 73, column 11: Duplicate monitor event "R2.e" in automaton "S2".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 73, column 16: Duplicate monitor event "R2.e" in automaton "S2".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 73, column 21: Duplicate monitor event "S2.e" in automaton "S2".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 73, column 24: Duplicate monitor event "S2.e" in automaton "S2".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 90, column 11: Duplicate monitor event "T.e" in automaton "U".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 90, column 17: Duplicate monitor event "T.e" in automaton "U".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 93, column 10: Duplicate event "T.e" on a single edge.
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 93, column 16: Duplicate event "T.e" on a single edge.
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 108, column 11: Duplicate monitor event "V.e" in automaton "W".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 108, column 17: Duplicate monitor event "V.e" in automaton "W".
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 111, column 10: Duplicate event "V.e" on a single edge.
-WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 111, column 16: Duplicate event "V.e" on a single edge.
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 27, column 11: Duplicate monitor event "d1.e" in automaton "x".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 27, column 23: Duplicate monitor event "d1.e" in automaton "x".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 73, column 11: Duplicate monitor event "r.e" in automaton "s".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 73, column 16: Duplicate monitor event "r.e" in automaton "s".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 81, column 10: Duplicate monitor event "e" in automaton "s".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 108, column 11: Duplicate monitor event "v.e" in automaton "w".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 108, column 17: Duplicate monitor event "v.e" in automaton "w".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 111, column 10: Duplicate event "v.e" on a single edge in automaton "w".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 111, column 16: Duplicate event "v.e" on a single edge in automaton "w".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 116, column 12: Duplicate event "e3" on a single edge in automaton "w".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 116, column 12: Duplicate monitor event "e3" in automaton "w".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 116, column 16: Duplicate event "e3" on a single edge in automaton "w".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 116, column 16: Duplicate monitor event "e3" in automaton "w".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 125, column 11: Duplicate monitor event "y.e" in automaton "z".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 125, column 16: Duplicate monitor event "y.e" in automaton "z".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 125, column 25: Duplicate monitor event "e4" in automaton "z".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 128, column 10: Duplicate event "y.e" on a single edge in automaton "z".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 128, column 15: Duplicate event "y.e" on a single edge in automaton "z".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 128, column 24: Duplicate event "e4" on a single edge in automaton "z".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 133, column 9: Duplicate event "e4" on a single edge in automaton "z".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 133, column 9: Duplicate monitor event "e4" in automaton "z".

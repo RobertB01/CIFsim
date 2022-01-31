@@ -8,9 +8,9 @@ WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 24, column
 WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 24, column 19: Duplicate monitor event "p2.e2" in automaton "p2".
 WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 24, column 23: Duplicate monitor event "p2.e1" in automaton "p2".
 WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 24, column 27: Duplicate monitor event "p2.e2" in automaton "p2".
-WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 28, column 10: Duplicate event "p2.e1" on a single edge.
-WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 28, column 14: Duplicate event "p2.e1" on a single edge.
-WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 28, column 18: Duplicate event "p2.e1" on a single edge.
-WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 28, column 22: Duplicate event "p2.e1" on a single edge.
-WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 42, column 10: Duplicate event "p3.eb" on a single edge.
-WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 42, column 18: Duplicate event "p3.eb" on a single edge.
+WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 28, column 10: Duplicate event "p2.e1" on a single edge in automaton "p2".
+WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 28, column 14: Duplicate event "p2.e1" on a single edge in automaton "p2".
+WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 28, column 18: Duplicate event "p2.e1" on a single edge in automaton "p2".
+WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 28, column 22: Duplicate event "p2.e1" on a single edge in automaton "p2".
+WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 42, column 10: Duplicate event "p3.eb" on a single edge in automaton "p3b".
+WARNING: File "cif2cif/simplify_others.cif": Semantic warning at line 42, column 18: Duplicate event "p3.eb" on a single edge in automaton "p3b".

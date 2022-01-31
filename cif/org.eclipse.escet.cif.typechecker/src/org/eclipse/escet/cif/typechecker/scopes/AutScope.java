@@ -254,8 +254,6 @@ public class AutScope extends ParentScope<Automaton> {
 
                 alphaSet = new EventRefSet(EventEquality.PESSIMISTIC);
 
-                EventRefSet alphaSetOpt = new EventRefSet(EventEquality.OPTIMISTIC);
-
                 for (AName event1: events) {
                     // Resolve to event.
                     SymbolTableEntry entry = autScope.resolve(event1.position, event1.name, tchecker, autScope);
@@ -281,17 +279,6 @@ public class AutScope extends ParentScope<Automaton> {
 
                     // Get event reference expression.
                     Expression eventExpr = autScope.resolveAsExpr(event1.name, event1.position, "", tchecker);
-
-                    // Duplicate event? Optimistic equality may lead to
-                    // false positives.
-                    Expression duplicate = alphaSetOpt.add(eventExpr);
-                    if (duplicate != null) {
-                        tchecker.addProblem(ErrMsg.ALPHABET_DUPL_EVENT, eventExpr.getPosition(),
-                                CifTextUtils.getAbsName(event2), CifTextUtils.getAbsName(mmAut));
-                        tchecker.addProblem(ErrMsg.ALPHABET_DUPL_EVENT, duplicate.getPosition(),
-                                CifTextUtils.getAbsName(event2), CifTextUtils.getAbsName(mmAut));
-                        // Non-fatal error.
-                    }
 
                     // Add event to alphabet.
                     alphaSet.add(eventExpr);
@@ -323,18 +310,13 @@ public class AutScope extends ParentScope<Automaton> {
                 Monitors mmMonitors = newMonitors();
                 mmAut.setMonitors(mmMonitors);
 
-                monitorSet = new EventRefSet(EventEquality.OPTIMISTIC);
+                monitorSet = new EventRefSet(EventEquality.PESSIMISTIC);
 
                 // Process monitor events.
                 for (AName event1: astMonitor.events) {
                     // Resolve to event.
                     SymbolTableEntry entry = autScope.resolve(event1.position, event1.name, tchecker, autScope);
-                    Event event2;
-                    if (entry instanceof EventDeclWrap) {
-                        event2 = ((EventDeclWrap)entry).getObject();
-                    } else if (entry instanceof FormalEventDeclWrap) {
-                        event2 = ((FormalEventDeclWrap)entry).getObject().getEvent();
-                    } else {
+                    if (!(entry instanceof EventDeclWrap || entry instanceof FormalEventDeclWrap)) {
                         tchecker.addProblem(ErrMsg.RESOLVE_NON_EVENT, event1.position, entry.getAbsName());
                         throw new SemanticException();
                     }
@@ -342,18 +324,8 @@ public class AutScope extends ParentScope<Automaton> {
                     // Get event reference expression.
                     Expression eventExpr = autScope.resolveAsExpr(event1.name, event1.position, "", tchecker);
 
-                    // Duplicate event? Optimistic equality may lead to
-                    // false positives.
-                    Expression duplicate = monitorSet.add(eventExpr);
-                    if (duplicate != null) {
-                        tchecker.addProblem(ErrMsg.MONITORS_DUPL_EVENT, eventExpr.getPosition(),
-                                CifTextUtils.getAbsName(event2), CifTextUtils.getAbsName(mmAut));
-                        tchecker.addProblem(ErrMsg.MONITORS_DUPL_EVENT, duplicate.getPosition(),
-                                CifTextUtils.getAbsName(event2), CifTextUtils.getAbsName(mmAut));
-                        // Non-fatal error.
-                    }
-
                     // Add event to monitors.
+                    monitorSet.add(eventExpr);
                     mmMonitors.getEvents().add(eventExpr);
                 }
             }
@@ -662,7 +634,6 @@ public class AutScope extends ParentScope<Automaton> {
         }
 
         // Events.
-        EventRefSet otherEventRefs = new EventRefSet(EventEquality.OPTIMISTIC);
         boolean hasReceive = false;
         boolean hasNonReceive = false;
         for (AEdgeEvent astEdgeEvent: astEdge.coreEdge.events) {
@@ -808,22 +779,6 @@ public class AutScope extends ParentScope<Automaton> {
 
             // Add event to edge.
             edge.getEvents().add(edgeEvent);
-
-            // Duplicate event on edge? Optimistic equality may lead to
-            // false positives. Since different uses on a single edge are
-            // checked elsewhere, we only need to report for duplicates within
-            // a single use here. We check duplicate synchronization uses and
-            // duplicate receive uses. Duplicate send uses may be useful, if
-            // different values are being sent.
-            if (direction != Direction.SEND) {
-                Expression duplicate = otherEventRefs.get(eventRef);
-                if (duplicate != null) {
-                    tchecker.addProblem(ErrMsg.EDGE_DUPL_EVENT, eventRef.getPosition(), absName);
-                    tchecker.addProblem(ErrMsg.EDGE_DUPL_EVENT, duplicate.getPosition(), absName);
-                    // Non-fatal error.
-                }
-                otherEventRefs.add(eventRef);
-            }
 
             // Event in alphabet? Pessimistic equality may lead to false
             // positives.
