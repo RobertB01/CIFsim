@@ -44,7 +44,7 @@ public class UniqueEventsPostChecker {
      *
      * <p>
      * We need to check this after the elimination of component definition/instantiation to ensure proper equality
-     * checking of events (mostly related to event parameters and component parameters), to not get any false negatives.
+     * checking of events (mostly related to event parameters and component parameters).
      * </p>
      *
      * @param comp The component to check, recursively. The component must not include any component
@@ -68,17 +68,17 @@ public class UniqueEventsPostChecker {
      * Checks the automaton for violations of the 'Alphabet.uniqueEvents', 'Automaton.monitorsUniqueEvents' and
      * 'Edge.uniqueEvents' constraints.
      *
-     * @param aut The automaton to check. The automaton must not be an automaton definition/instantiation.
+     * @param aut The automaton to check.
      * @param env The post check environment to use.
      */
-    public static void check(Automaton aut, CifPostCheckEnv env) {
+    private static void check(Automaton aut, CifPostCheckEnv env) {
         // Check for duplicated events in alphabet.
-        Alphabet alpha = aut.getAlphabet();
-        if (alpha != null) {
+        Alphabet alphabet = aut.getAlphabet();
+        if (alphabet != null) {
             EventEquality equality = null;
             EventRefSet otherEventRefs = new EventRefSet(equality);
-            for (Expression eventRef: alpha.getEvents()) {
-                Expression duplicate = otherEventRefs.get(eventRef);
+            for (Expression eventRef: alphabet.getEvents()) {
+                Expression duplicate = otherEventRefs.add(eventRef);
                 if (duplicate != null) {
                     env.addProblem(ErrMsg.ALPHABET_DUPL_EVENT, eventRef.getPosition(), exprToStr(eventRef),
                             getAbsName(aut));
@@ -86,7 +86,6 @@ public class UniqueEventsPostChecker {
                             getAbsName(aut));
                     // Non-fatal error.
                 }
-                otherEventRefs.add(eventRef);
             }
         }
 
@@ -97,7 +96,7 @@ public class UniqueEventsPostChecker {
             EventEquality equality = null;
             monitorSet = new EventRefSet(equality);
             for (Expression eventRef: monitors.getEvents()) {
-                Expression duplicate = monitorSet.get(eventRef);
+                Expression duplicate = monitorSet.add(eventRef);
                 if (duplicate != null) {
                     env.addProblem(ErrMsg.MONITORS_DUPL_EVENT, eventRef.getPosition(), exprToStr(eventRef),
                             getAbsName(aut));
@@ -105,7 +104,6 @@ public class UniqueEventsPostChecker {
                             getAbsName(aut));
                     // Non-fatal error.
                 }
-                monitorSet.add(eventRef);
             }
         }
 
@@ -123,7 +121,7 @@ public class UniqueEventsPostChecker {
                     // duplicate receive uses. Duplicate send uses may be useful, if
                     // different values are being sent.
                     if (!(edgeEvent instanceof EdgeSend)) {
-                        Expression duplicate = otherEventRefs.get(eventRef);
+                        Expression duplicate = otherEventRefs.add(eventRef);
                         if (duplicate != null) {
                             env.addProblem(ErrMsg.EDGE_DUPL_EVENT, eventRef.getPosition(), exprToStr(eventRef),
                                     getAbsName(aut));
@@ -131,7 +129,6 @@ public class UniqueEventsPostChecker {
                                     getAbsName(aut));
                             // Non-fatal error.
                         }
-                        otherEventRefs.add(eventRef);
                     }
                 }
             }
