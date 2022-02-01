@@ -392,8 +392,8 @@ public class AutScope extends ParentScope<Automaton> {
         // may lead to false positives.
         if (alphaSet != null && !alphaSet.isEmpty()) {
             for (Expression eventRef: alphaSet) {
-                eventRef = CifTypeUtils.unwrapExpression(eventRef);
-                Event event = (Event)CifScopeUtils.getRefObjFromRef(eventRef);
+                Expression uref = CifTypeUtils.unwrapExpression(eventRef);
+                Event event = (Event)CifScopeUtils.getRefObjFromRef(uref);
 
                 boolean monitored = monitorSet != null && (monitorSet.isEmpty() || monitorSet.contains(eventRef));
                 if (monitored) {
