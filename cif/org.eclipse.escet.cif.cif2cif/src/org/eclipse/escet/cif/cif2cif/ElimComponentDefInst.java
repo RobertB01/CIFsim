@@ -382,6 +382,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Copy actual parameter.
         newRef = deepclone(newRef);
 
+        // Use old position information for displaying potential warnings.
+        newRef.setPosition(evtRef.getPosition());
+
         // Replace reference by actual argument.
         EMFHelper.updateParentContainment(evtRef, newRef);
 
@@ -400,6 +403,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Copy actual parameter.
         newRef = deepclone(newRef);
 
+        // Use old position information for displaying potential warnings.
+        newRef.setPosition(locRef.getPosition());
+
         // Replace reference by actual argument.
         EMFHelper.updateParentContainment(locRef, newRef);
 
@@ -417,6 +423,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
 
         // Copy actual parameter.
         newRef = deepclone(newRef);
+
+        // Use old position information for displaying potential warnings.
+        newRef.setPosition(compParamRef.getPosition());
 
         // Replace reference by actual argument.
         EMFHelper.updateParentContainment(compParamRef, newRef);
