@@ -16,17 +16,17 @@ include::_part_attributes.asciidoc[]
 [[rail-commandline]]
 == Command-line options
 
-The railroad diagram application has common options shared with many other Cif applications, and three options for its generator.
+The railroad diagram application has common options shared with many other Esclipse ESCET applications, and several generator options to customize the output.
 
 Non-option values at the command-line are considered to be input files that should be processed by the generator like shown in <<rail-examples>>.
 
-== General options
+=== General options
 
-[cols="1,1,3", options="header"] 
+[cols="1,1,3", options="header"]
 |===
 | Option | Default | Description
 
-| `-h`, `--help`
+| `-h` or `--help`
 | Disabled
 | Get help about how to use the command-line of the railroad application.
 
@@ -41,7 +41,7 @@ Non-option values at the command-line are considered to be input files that shou
 | `-m OUTMODE` or `--output-mode=OUTMODE`
 | `--output-mode=normal`
 | Amount of output, specify `--output-mode=errors` for getting error output only, `--output-mode=warnings` for getting both errors and warnings as output, `--output-mode=normal` for errors, warnings, and normal output, and `--output-mode=debug` for getting all information that is available.
-Note that the latter setting may cause a large amount of output and it may not be understandable unless you know about internals of the application.
+Note that the latter setting may cause a large amount of output and it may not be understandable unless you know about the internals of the application.
 
 | `--gui=MODE`
 | `--gui=auto`
@@ -55,15 +55,16 @@ Otherwise, the information is written to a file with instructions to send that f
 
 === Generator options
 
-The tool currently has three options, you can specify whether output should be written at all, and if so, you can specify the type of output.
+The tool currently has several generator options.
+You can specify whether output should be written at all, and if so, you can specify the type of output.
 
-[cols="1,1,3", options="header"] 
+[cols="1,1,3", options="header"]
 |===
 | Option | Default | Description
 
 | `-c CFG` or `--config=CFG`
 | Disabled
-| The `CFG` value should be a path to a configuration file as explained in the <<rail-customizing-output>> Section.
+| The `CFG` value should be a path to a configuration file as explained in the <<rail-customizing-output>> section.
 If specified the file contents is used for customizing diagram layout.
 
 | `-f FMT` or `--format=FMT`

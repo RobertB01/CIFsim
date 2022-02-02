@@ -183,10 +183,11 @@ image::{rail-imgsdir}/terminals.png[Terminals]
 While grammars only have terminals and non-terminals, we found use for a third form in explaining the syntax of a language.
 In almost every language some non-terminals are too trivial or too large to define precisely in a rail diagram.
 A common case is the set names that can be used for identifiers, other common cases are literal numbers or strings.
-Such non-terminals have no defining rule but also no concrete syntax. We named these hybrid form _meta-terminals_.
+Such non-terminals have no defining rule but also no concrete syntax.
+We named these hybrid form _meta-terminals_.
 
 They are added in the diagram much like the third alternative above, they are given a name in the diagram input file and have an entry in the properties file defining the displayed text.
-For example,
+For example:
 
 [source, raildiagram]
 ----
@@ -206,13 +207,12 @@ image::{rail-imgsdir}/_meta_terminals.png[Terminals]
 
 The text around the diagram should describe the allowed syntax of `VariableName`.
 
-Meta-terminals have a rounded box around the name indicating lack of a definition elsewhere, but use the non-terminal font for its name indicating the written name is not taken to be the literally.
+Meta-terminals have a rounded box around the name indicating lack of a definition elsewhere, but use the non-terminal font for its name indicating the written name is not taken to be as the literal text.
 
 === Further reading
 
-And with meta-terminals ends the examples Section.
-In this section a hands-on path was laid out to get started making diagrams without spending a lot of time grasping all the details.
+In this section a hands-on explanation was given to get started making diagrams without spending a lot of time grasping all the details.
 
-In the <<rail-grammar>> Section the grammar of the rail diagram is shown in more detail.
+In the <<rail-grammar>> section the grammar of the rail diagram is explained in more detail.
 
-If default behavior is not desired, layout and many other settings can be overridden in a properties file, see the <<rail-customizing-output>> section for details.
+If default behavior is not to your liking, layout and many other settings can be overridden in a properties file, see the <<rail-customizing-output>> section for details.
