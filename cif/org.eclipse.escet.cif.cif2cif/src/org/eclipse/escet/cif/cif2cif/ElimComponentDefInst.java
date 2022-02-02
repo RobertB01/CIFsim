@@ -1415,8 +1415,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // of 'C', which leads to self-instantiation, which is not allowed in CIF.
         //
         // 4) Via component instantiation references and direct component references don't refer to a component
-        // parameter
-        // at all, and thus trivially don't lead to infinite recursions on them.
+        // parameter at all, and thus trivially don't lead to infinite recursions on them.
         walkExpression(arg);
 
         // Get potentially updated actual argument.
