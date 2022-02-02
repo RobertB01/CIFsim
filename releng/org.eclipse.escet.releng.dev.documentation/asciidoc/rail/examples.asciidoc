@@ -181,12 +181,14 @@ image::{rail-imgsdir}/terminals.png[Terminals]
 === Meta-terminals
 
 While grammars only have terminals and non-terminals, we found use for a third form in explaining the syntax of a language.
-In almost every language some non-terminals are too trivial or too large to define precisely in a rail diagram.
-A common case is the set names that can be used for identifiers, other common cases are literal numbers or strings.
-Such non-terminals have no defining rule but also no concrete syntax.
+In almost every language a few non-terminals are too trivial or too large to define precisely in a rail diagram.
+Common cases include literal numbers, literal strings, and sets of names that can be used for identifiers.
+Instead of defining the syntax of such a non-terminal in a diagram in full detail, the accompanying text of a diagram can define it in a few compact sentences.
+Such non-terminals thus have no defining rule and also no concrete syntax.
 We named these hybrid form _meta-terminals_.
 
-They are added in the diagram much like the third alternative above, they are given a name in the diagram input file and have an entry in the properties file defining the displayed text.
+They are added in the diagram much like the third alternative above.
+A name is given to it in the diagram input file, and the properties file defines the associated displayed text.
 For example:
 
 [source, raildiagram]
