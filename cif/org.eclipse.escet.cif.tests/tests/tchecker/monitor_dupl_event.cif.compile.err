@@ -22,3 +22,7 @@ WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 128, c
 WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 128, column 15: Duplicate event "y.e" on a single edge in automaton "z".
 WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 128, column 21: Duplicate event "e4" on a single edge in automaton "z".
 WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 128, column 24: Duplicate event "e4" on a single edge in automaton "z".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 142, column 11: Duplicate monitor event "a.a" in automaton "b".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 142, column 15: Duplicate monitor event "a.a" in automaton "b".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 145, column 10: Duplicate event "a.a" on a single edge in automaton "b".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 145, column 14: Duplicate event "a.a" on a single edge in automaton "b".

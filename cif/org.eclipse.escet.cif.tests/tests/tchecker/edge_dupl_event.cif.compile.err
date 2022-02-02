@@ -16,5 +16,7 @@ WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 121, colu
 WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 121, column 15: Duplicate event "y.e" on a single edge in automaton "z".
 WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 121, column 21: Duplicate event "e4" on a single edge in automaton "z".
 WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 121, column 24: Duplicate event "e4" on a single edge in automaton "z".
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 141, column 10: Duplicate event "rcv.e" on a single edge in automaton "rcv".
-WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 141, column 14: Duplicate event "rcv.e" on a single edge in automaton "rcv".
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 137, column 10: Duplicate event "a.a" on a single edge in automaton "b".
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 137, column 14: Duplicate event "a.a" on a single edge in automaton "b".
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 156, column 10: Duplicate event "rcv.e" on a single edge in automaton "rcv".
+WARNING: File "tchecker/edge_dupl_event.cif": Semantic warning at line 156, column 14: Duplicate event "rcv.e" on a single edge in automaton "rcv".

@@ -132,3 +132,18 @@ event e4;
 y: Y();
 z: Z(y, e4);
 
+/// Test for position information.
+
+group def A():
+    event a;
+end
+
+automaton def B(event e1, e2):
+  alphabet e1, e2;
+  location l1:
+    initial;
+    edge e1, e2;
+end
+
+a: A();
+b: B(a.a, a.a);
