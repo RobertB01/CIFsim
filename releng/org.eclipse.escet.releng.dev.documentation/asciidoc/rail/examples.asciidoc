@@ -17,7 +17,7 @@ include::_local_attributes.asciidoc[]
 [[rail-examples]]
 == Examples
 
-Here a number of examples are provided for those that hate reading.
+A number of examples are provided for those that hate reading.
 The input of the program is similar to EBNF with an extra feature for repetition.
 
 === Diagrams and sequences
@@ -73,7 +73,8 @@ This results in:
 
 image::{rail-imgsdir}/optional.png[Optional]
 
-It should be clear that using the dedicated optional syntax (`?`) is often more convenient than using the choice syntax.
+
+The dedicated optional syntax (`?`) is often more convenient than using the choice syntax.
 
 === Repetition
 
@@ -147,43 +148,73 @@ The program has a bracketed string for that:
 include::{incdir-rail}/refpath.rr[]
 ----
 
-Now you can say that the `[nest]` path recursively applies the rule, while the `[exit]` path ends the recursion.
-
 image::{rail-imgsdir}/refpath.png[Recursion]
 
-=== Terminals and meta-terminals
+Now you can say that the `[nest]` path recursively applies the rule, while the `[exit]` path ends the recursion.
 
-Until now, all names in the diagrams are considered to be non-terminals.
-This is the default behavior.
+=== Terminals 
+
+Until now, all names in the diagrams have a rectangular box around them which means (by default) it is a non-terminal.
+The name used in the diagram input file is also the name displayed in the output.
+
 Terminals in the diagram do not have a name, but show the concrete syntax instead.
-There are three ways to write terminals.
+The simplest way to write a terminal is shown in the first and second alternative.
+They state the literal concrete syntax of the terminal surrounded by single or double quotes.
+The third alternative introduces the internal name `OTHER` for the terminal and uses the properties file to translate the name to the actual syntax for that name.
 
 [source, raildiagram]
 ----
 include::{incdir-rail}/terminals.rr[]
 ----
 
-The first and second option are simply writing the literal text inside single or double quotes.
-There are no escape sequences for special characters here.
-The third option is to use the name of a terminal, in this case `OTHER`.
-
-The `Identifier` alternative in the diagram is a hybrid.
-It represent all valid identifiers in the input.
-The diagram however does not state its exact syntax as with normal terminals.
-It is also not exactly a non-terminal.
-The program has a third class of tokens for these, known as _meta-terminals_.
-It allows the designer to attach a different layout to such tokens.
-
-The `OTHER` and `Identifier` names in the input file need a translation to displayed text.
-This translation is specified in a properties file like:
+Fragment of the properties file related to this diagram that says the terminal named `OTHER` should display `else` in its box:
 
 [source, properties]
 ----
 include::{incdir-rail}/terminals.props[]
 ----
 
-The result is shown below.
-By default, terminals and meta-terminals are rendered using rounded boxes.
-If this behavior is not desired, layout and many other settings can be overridden in the properties file, see the <<rail-customizing-output>> section for details.
+And the generated output is then:
 
 image::{rail-imgsdir}/terminals.png[Terminals]
+
+=== Meta-terminals
+
+While grammars only have terminals and non-terminals, we found use for a third form in explaining the syntax of a language.
+In almost every language a few non-terminals are too trivial or too large to define precisely in a rail diagram.
+Common cases include literal numbers, literal strings, and sets of names that can be used for identifiers.
+Instead of defining the syntax of such a non-terminal in a diagram in full detail, the accompanying text of a diagram can define it in a few compact sentences.
+Such non-terminals thus have no defining rule and also no concrete syntax.
+We name these hybrid forms _meta-terminals_.
+
+They are added in the diagram much like the third alternative above.
+A name is given to it in the diagram input file, and the properties file defines the associated displayed text.
+For example:
+
+[source, raildiagram]
+----
+include::{incdir-rail}/meta_terminals.rr[]
+----
+
+Fragment of the properties file related to this diagram stating the displayed text should be `VariableName`:
+
+[source, properties]
+----
+include::{incdir-rail}/meta_terminals.props[]
+----
+
+And the generated output is then:
+
+image::{rail-imgsdir}/_meta_terminals.png[Terminals]
+
+The text around the diagram should describe the allowed syntax of `VariableName`.
+
+Meta-terminals have a rounded box around the name indicating lack of a definition elsewhere, but use the non-terminal font for its name indicating the written name is not taken to be as the literal text.
+
+=== Further reading
+
+In this section a hands-on explanation was given to get started making diagrams without spending a lot of time grasping all the details.
+
+In the <<rail-grammar>> section the grammar of the rail diagram is explained in more detail.
+
+If default behavior is not to your liking, layout and many other settings can be overridden in a properties file, see the <<rail-customizing-output>> section for details.

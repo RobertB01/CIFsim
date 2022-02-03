@@ -32,6 +32,7 @@ In short:
 * Empty lines are allowed and are skipped.
 * Lines beginning with `#` or `!` are considered to be comment lines and are ignored.
 * Data lines contain key/value pairs.
+* By convention, properties files use the `.props` extension to their name.
 
 Here, a key of a data line is a sequence of words, separated by a dot, for example, `terminal.token.Identifier`.
 The key is followed by an optional but recommended separator character, either `:` or `=`.
@@ -52,18 +53,16 @@ This table lists the used expected values, and gives some more information about
 | Description
 
 | Boolean
-| `yes`, `true`
+| `yes`, `false'
 | Boolean value to enable or disable a flag.
 
 | RGB color
 | `151 7 230`
 | Three integer numbers between `0` and `255` inclusive, separated by spaces.
 
-| Real
-| `0.31` +
-`10`
-| Real value, usually with '`pixel`' unit.
-Note that as the output medium is limited in handling fractions, best results are usually obtained with integer values only.
+| Integer
+| `10`
+| Integer value, usually with '`pixel`' unit.
 
 | Font name
 | `Serif`
@@ -99,7 +98,7 @@ The following settings affect background and the rail line.
 | Color of the background of the generated image.
 
 | `rail.linewidth`
-| Real
+| Integer
 | Width of the rail line.
 
 | `rail.color`
@@ -119,35 +118,35 @@ At the top is a header line with the name of the rule, below it are one or more 
 | Description
 
 |`rule.padding.top`
-| Real
+| Integer
 | Amount of space above the header line.
 
 |`rule.padding.left`
-| Real
+| Integer
 | Amount of space left of the header line.
 
 |`rule.padding.bottom`
-| Real
+| Integer
 | Amount of space between the last railroad picture and the bottom of the diagram.
 
 |`rule.padding.right`
-| Real
+| Integer
 | Minimum amount of space right of the header line.
 
 |`rule.diagram.padding.top`
-| Real
+| Integer
 | Amount of space above each railroad picture.
 
 |`rule.diagram.padding.left`
-| Real
+| Integer
 | Amount of space left of each railroad picture.
 
 |`rule.diagram.lead.width`
-| Real
+| Integer
 | Horizontal length of the rail line before the railroad picture.
 
 |`rule.diagram.trail.width`
-| Real
+| Integer
 | Horizontal length of the rail line after the railroad picture.
 
 | `diagram-header.text.color`
@@ -178,7 +177,7 @@ Each kind of node has a number of settings as well, starting with the simplest n
 | Description
 
 |`empty.width`
-| Real
+| Integer
 | Horizontal length of the empty node.
 |===
 
@@ -193,23 +192,23 @@ The bracketed string `[refname]` node configuration settings are listed below.
 | Description
 
 |`branch-label.padding.left`
-| Real
+| Integer
 | Amount of space at the left of the label text.
 
 |`branch-label.padding.right`
-| Real
+| Integer
 | Amount of space at the right of the label text.
 
 |`branch-label.padding.top`
-| Real
+| Integer
 | Amount of space above the label text.
 
 |`branch-label.padding.bottom`
-| Real
+| Integer
 | Amount of space between the label text and the rail line.
 
 |`branch-label.min-width`
-| Real
+| Integer
 | Minimum horizontal length of the label node.
 
 |`branch-label.text.color`
@@ -244,11 +243,11 @@ First the configuration of the rail lines, followed by the configuration setting
 | Description
 
 | `name.rail.entry.width`
-| Real
+| Integer
 | Horizontal length of the rail line at the left of the box.
 
 | `name.rail.exit.width`
-| Real
+| Integer
 | Horizontal length of the rail line at the right of the box.
 |===
 
@@ -265,15 +264,15 @@ The structure of the settings is the same for all three, their default values ar
 | Description
 
 | `terminal.name.padding.horizontal`
-| Real
+| Integer
 | Amount of horizontal space between the text and the box around the text.
 
 | `terminal.name.padding.vertical`
-| Real
+| Integer
 | Amount of vertical space between the text and the box around the text.
 
 | `terminal.corner.radius`
-| Real
+| Integer
 | Radius of the corners of the box.
 `0` means a rectangular box.
 
@@ -282,7 +281,7 @@ The structure of the settings is the same for all three, their default values ar
 | Color of the line of the box.
 
 | `terminal.box.linewidth`
-| Real
+| Integer
 | Width of the line of the box.
 
 | `terminal.text.color`
@@ -311,15 +310,15 @@ The structure of the settings is the same for all three, their default values ar
 | Description
 
 | `meta-terminal.name.padding.horizontal`
-| Real
+| Integer
 | Amount of horizontal space between the text and the box around the text.
 
 | `meta-terminal.name.padding.vertical`
-| Real
+| Integer
 | Amount of vertical space between the text and the box around the text.
 
 | `meta-terminal.corner.radius`
-| Real
+| Integer
 | Radius of the corners of the box.
 `0` means a rectangular box.
 
@@ -328,7 +327,7 @@ The structure of the settings is the same for all three, their default values ar
 | Color of the line of the box.
 
 | `meta-terminal.box.linewidth`
-| Real
+| Integer
 | Width of the line of the box.
 
 | `meta-terminal.text.color`
@@ -357,15 +356,15 @@ The structure of the settings is the same for all three, their default values ar
 | Description
 
 | `nonterminal.name.padding.horizontal`
-| Real
+| Integer
 | Amount of horizontal space between the text and the box around the text.
 
 | `nonterminal.name.padding.vertical`
-| Real
+| Integer
 | Amount of vertical space between the text and the box around the text.
 
 | `nonterminal.corner.radius`
-| Real
+| Integer
 | Radius of the corners of the box.
 `0` means a rectangular box.
 
@@ -374,7 +373,7 @@ The structure of the settings is the same for all three, their default values ar
 | Color of the line of the box.
 
 | `nonterminal.box.linewidth`
-| Real
+| Integer
 | Width of the line of the box.
 
 | `nonterminal.text.color`
@@ -443,24 +442,24 @@ Its configuration settings cover the elements around the child nodes.
 | Description
 
 | `sequence.padding.first-row.prefix`
-| Real
+| Integer
 | Amount of space before the first child at the first row.
 
 | `sequence.padding.other-row.prefix`
-| Real
+| Integer
 | Amount of space left of the left connecting vertical line to a next row.
 
 | `sequence.padding.row.suffix`
-| Real
+| Integer
 | If there is more than one row, the minimal amount of space between the right vertical line connecting a next row, and the vertical line up to the exit.
 
 | `sequence.padding.interrow`
-| Real
+| Integer
 | Minimal amount of space between the bottom of a row, and the connecting horizontal line to the next row beneath it.
 Also, the minimal amount of space between the same horizontal line and the top of the next row.
 
 | `sequence.arc-radius`
-| Real
+| Integer
 | Radius of the arcs connecting horizontal lines with vertical lines.
 |===
 
@@ -477,11 +476,11 @@ Its configurable properties are:
 | Description
 
 | `choice.arc-radius`
-| Real
+| Integer
 | Radius of the arcs connecting horizontal lines with vertical lines.
 
 | `choice.padding.vertical`
-| Real
+| Integer
 | Minimal amount of vertical space between two child diagrams.
 |===
 
@@ -502,19 +501,19 @@ Its configuration settings are:
 | Description
 
 | `loop.arc-radius`
-| Real
+| Integer
 | Radius of the arcs connecting horizontal lines with vertical lines.
 
 | `loop.padding.vertical`
-| Real
+| Integer
 | Amount of vertical space between the nodes of the forward and backward sequences.
 
 | `loop.padding.left`
-| Real
+| Integer
 | Amount of space left of the left vertical line.
 
 | `loop.padding.right`
-| Real
+| Integer
 | Amount of space right of the right vertical line.
 |===
 
@@ -532,7 +531,8 @@ image::{rail-imgsdir}/sequence_loops.png[Sequence of loops]
 
 Other nodes all have some space at either end, making it less apparent in those cases.
 
-=== Debugging
+[[rail-debug-properties]]
+=== Debugging properties
 
 A diagram is actually a tree of simpler diagrams where at each node in the tree a set of position equations is solved for positioning all elements in its sub-tree.
 This happens in two sweeps through the tree.
@@ -602,6 +602,7 @@ The `debug.abs_coordinates` flag shows the same position information, except all
 Note that positions are stated as inclusive horizontal and vertical edge positions everywhere.
 This means that element `x[1--1], y[1--2]` is one unit wide horizontally, and two units vertically.
 Also, an element `x[2--7], y[1--2]` is directly next to the previous element, there is no space between them.
+Zero width or height is shown as an interval with the first value larger than the second value, for example `x[4--3]`.
 
 === Default property values
 
