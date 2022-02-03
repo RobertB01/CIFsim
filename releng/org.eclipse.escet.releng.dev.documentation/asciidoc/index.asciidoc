@@ -158,9 +158,13 @@ include::rail/examples.asciidoc[]
 
 include::rail/customizing-output.asciidoc[]
 
+include::rail/commandline.asciidoc[]
+
 include::rail/lexical-syntax.asciidoc[]
 
 include::rail/grammar.asciidoc[]
+
+include::rail/debugging.asciidoc[]
 
 :leveloffset: -1
 

@@ -185,7 +185,7 @@ In almost every language a few non-terminals are too trivial or too large to def
 Common cases include literal numbers, literal strings, and sets of names that can be used for identifiers.
 Instead of defining the syntax of such a non-terminal in a diagram in full detail, the accompanying text of a diagram can define it in a few compact sentences.
 Such non-terminals thus have no defining rule and also no concrete syntax.
-We named these hybrid form _meta-terminals_.
+We name these hybrid forms _meta-terminals_.
 
 They are added in the diagram much like the third alternative above.
 A name is given to it in the diagram input file, and the properties file defines the associated displayed text.
