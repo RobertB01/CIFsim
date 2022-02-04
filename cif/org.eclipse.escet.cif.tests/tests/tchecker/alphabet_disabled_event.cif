@@ -63,7 +63,7 @@ group g:
   end
 
   plant def Q(P p1, p2):
-    // May both be false positives, depending on instantiations.
+    // May be false positive, depending on instantiations.
     alphabet p1.e, p2.e;
     location:
       initial;

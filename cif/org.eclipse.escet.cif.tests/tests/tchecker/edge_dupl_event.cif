@@ -11,26 +11,136 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant x:
-  event a, b;
+group g:
+  plant x:
+    event a, b;
+    location:
+      initial;
+      edge a, b, a;
+      edge tau, tau;
+  end
+end
+
+///
+
+plant x2:
   location:
     initial;
-    edge a, b, a;
-    edge tau, tau;
+    edge d1.e, d2.e, d1.e;
 end
+
+group def D():
+  event e;
+end
+
+d1: D();
+d2: D();
+
+/// Non-instantiated definition, no trivial duplicates, possible via parameter duplicates.
 
 group def P():
   event e;
 end
 
-plant def Q(P p1, p2):
-  // May be false positive, depending on instantiations.
-  alphabet p1.e, p2.e;
+plant def Q(P p1, p2; event e1, e2):
   location:
     initial;
-    // May be false positive, depending on instantiations.
-    edge p1.e, p2.e;
+    edge p1.e, p2.e, e1, e2;
 end
+
+/// Non-instantiated definition, trivial duplicates, no via parameter duplicates.
+
+group def R1():
+  event e;
+end
+
+plant def S1(R1 r; event e):
+  location:
+    initial;
+    edge r.e, r.e, e, e;
+end
+
+/// Instantiated definition, trivial duplicates, no via parameter duplicates.
+
+group def R2():
+  event e;
+end
+
+plant def S2(R2 r; event e):
+  location:
+    initial;
+    edge r.e, r.e, e, e;
+end
+
+event e;
+r: R2();
+s: S2(r, e);
+
+/// Instantiated definition, no trivial duplicates, possible (but not actual) via parameter duplicates.
+
+group def T():
+  event e;
+end
+
+plant def U(T t1, t2; event e1, e2):
+  location:
+    initial;
+    edge t1.e, t2.e, e1, e2;
+end
+
+event e1, e2;
+t1: T();
+t2: T();
+u:  U(t1, t2, e1, e2);
+
+/// Instantiated definition, no trivial duplicates, actual via parameter duplicates.
+
+group def V():
+  event e;
+end
+
+plant def W(V v1, v2; event e1, e2):
+  location:
+    initial;
+    edge v1.e, v2.e, e1, e2;
+end
+
+event e3;
+v: V();
+w: W(v, v, e3, e3);
+
+/// Duplication via parameter reference and via instantiation reference.
+
+group def Y():
+  event e;
+end
+
+plant def Z(Y y; event e):
+  location:
+    initial;
+    edge y.e, ^y.e, e, e4;
+end
+
+event e4;
+y: Y();
+z: Z(y, e4);
+
+/// Test for position information.
+
+group def A():
+    event a;
+end
+
+automaton def B(event e1, e2):
+  location l1:
+    initial;
+    edge e1, e2;
+end
+
+a: A();
+b: B(a.a, a.a);
+
+///
 
 plant snd:
   event int e;

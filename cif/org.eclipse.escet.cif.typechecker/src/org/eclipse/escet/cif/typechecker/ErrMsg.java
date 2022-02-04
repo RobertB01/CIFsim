@@ -513,7 +513,7 @@ public enum ErrMsg {
             WARNING),
 
     // Edge.uniqueEvents
-    EDGE_DUPL_EVENT("Duplicate event \"%s\" on a single edge.", 1, WARNING),
+    EDGE_DUPL_EVENT("Duplicate event \"%s\" on a single edge in automaton \"%s\".", 2, WARNING),
 
     // AST related constraint.
     EDGE_NON_LOC_TARGET("\"%s\" is not a location.", 1, ERROR),

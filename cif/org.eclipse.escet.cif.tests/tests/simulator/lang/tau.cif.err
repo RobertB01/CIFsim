@@ -1,2 +1,2 @@
-WARNING: File "simulator/lang/tau.cif": Semantic warning at line 24, column 10: Duplicate event "tau" on a single edge.
-WARNING: File "simulator/lang/tau.cif": Semantic warning at line 24, column 15: Duplicate event "tau" on a single edge.
+WARNING: File "simulator/lang/tau.cif": Semantic warning at line 24, column 10: Duplicate event "tau" on a single edge in automaton "p".
+WARNING: File "simulator/lang/tau.cif": Semantic warning at line 24, column 15: Duplicate event "tau" on a single edge in automaton "p".
