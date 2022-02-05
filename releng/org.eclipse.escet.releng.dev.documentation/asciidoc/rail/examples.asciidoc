@@ -205,7 +205,7 @@ include::{incdir-rail}/meta_terminals.props[]
 
 And the generated output is then:
 
-image::{rail-imgsdir}/_meta_terminals.png[Terminals]
+image::{rail-imgsdir}/meta_terminals.png[Terminals]
 
 The text around the diagram should describe the allowed syntax of `VariableName`.
 
