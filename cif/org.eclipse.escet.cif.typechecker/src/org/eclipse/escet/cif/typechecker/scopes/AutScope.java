@@ -49,8 +49,6 @@ import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
-import org.eclipse.escet.cif.common.EventEquality;
-import org.eclipse.escet.cif.common.EventRefSet;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
@@ -105,8 +103,6 @@ import org.eclipse.escet.cif.parser.ast.automata.AMonitorDecl;
 import org.eclipse.escet.cif.parser.ast.automata.AUpdate;
 import org.eclipse.escet.cif.parser.ast.automata.AUrgentLocationElement;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.cif.parser.ast.expressions.ANameExpression;
-import org.eclipse.escet.cif.parser.ast.expressions.ATauExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.AssignmentUniquenessChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
@@ -231,7 +227,6 @@ public class AutScope extends ParentScope<Automaton> {
         // Process alphabet.
         int alphabetCount = 0;
         AAlphabetDecl astAlpha = null;
-        EventRefSet alphaSet = null;
         for (ADecl decl: astBody.decls) {
             if (decl instanceof AAlphabetDecl) {
                 // No duplicate alphabet definitions.
@@ -251,8 +246,6 @@ public class AutScope extends ParentScope<Automaton> {
                 astAlpha = ((AAlphabetDecl)decl);
                 Alphabet alpha = newAlphabet();
                 mmAut.setAlphabet(alpha);
-
-                alphaSet = new EventRefSet(EventEquality.PESSIMISTIC);
 
                 for (AName event1: events) {
                     // Resolve to event.
@@ -281,20 +274,14 @@ public class AutScope extends ParentScope<Automaton> {
                     Expression eventExpr = autScope.resolveAsExpr(event1.name, event1.position, "", tchecker);
 
                     // Add event to alphabet.
-                    alphaSet.add(eventExpr);
                     alpha.getEvents().add(eventExpr);
                 }
             }
         }
 
-        // Copy alphabet (event reference) set, to keep original set. The
-        // fixed set is pessimistic, like the original set.
-        EventRefSet alphaSetFixed = (alphaSet == null) ? null : new EventRefSet(alphaSet);
-
         // Process monitors.
         int monitorCount = 0;
         AMonitorDecl astMonitor = null;
-        EventRefSet monitorSet = null;
         for (ADecl decl: astBody.decls) {
             if (decl instanceof AMonitorDecl) {
                 // No duplicate monitor definitions.
@@ -308,9 +295,8 @@ public class AutScope extends ParentScope<Automaton> {
                 // Convert monitors.
                 astMonitor = (AMonitorDecl)decl;
                 Monitors mmMonitors = newMonitors();
+                mmMonitors.setPosition(astMonitor.position);
                 mmAut.setMonitors(mmMonitors);
-
-                monitorSet = new EventRefSet(EventEquality.PESSIMISTIC);
 
                 // Process monitor events.
                 for (AName event1: astMonitor.events) {
@@ -325,14 +311,10 @@ public class AutScope extends ParentScope<Automaton> {
                     Expression eventExpr = autScope.resolveAsExpr(event1.name, event1.position, "", tchecker);
 
                     // Add event to monitors.
-                    monitorSet.add(eventExpr);
                     mmMonitors.getEvents().add(eventExpr);
                 }
             }
         }
-
-        // Initialize default alphabet.
-        EventRefSet defaultAlpha = new EventRefSet(EventEquality.PESSIMISTIC);
 
         // Process locations.
         for (int i = 0; i < astBody.locations.size(); i++) {
@@ -356,55 +338,7 @@ public class AutScope extends ParentScope<Automaton> {
 
             // Get metamodel location.
             Location loc2 = mmAut.getLocations().get(i);
-            typeCheckLocation(loc1, loc2, alphaSet, alphaSetFixed, defaultAlpha, autScope, tchecker);
-        }
-
-        // Check for events in the alphabet beyond the default alphabet
-        // (the events on the edges, used to synchronize). Pessimistic equality
-        // may lead to false positives.
-        if (alphaSet != null && !alphaSet.isEmpty()) {
-            for (Expression eventRef: alphaSet) {
-                Expression uref = CifTypeUtils.unwrapExpression(eventRef);
-                Event event = (Event)CifScopeUtils.getRefObjFromRef(uref);
-
-                boolean monitored = monitorSet != null && (monitorSet.isEmpty() || monitorSet.contains(eventRef));
-                if (monitored) {
-                    // Monitoring event that is not on any edge (essentially
-                    // self looped in every location).
-                    tchecker.addProblem(ErrMsg.MONITOR_EVENT_NO_EDGE, eventRef.getPosition(),
-                            CifTextUtils.getAbsName(mmAut), CifTextUtils.getAbsName(event));
-                    // Non-fatal error.
-                } else {
-                    // Globally disabled.
-                    tchecker.addProblem(ErrMsg.ALPHABET_DISABLED_EVENT, eventRef.getPosition(),
-                            CifTextUtils.getAbsName(mmAut), CifTextUtils.getAbsName(event));
-                    // Non-fatal error.
-                }
-            }
-        }
-
-        // Get actual alphabet, with pessimistic equality notion.
-        EventRefSet alphabet = (alphaSetFixed == null) ? defaultAlpha : alphaSetFixed;
-
-        // Check for monitor events not in the alphabet. Pessimistic equality
-        // may lead to false positives.
-        if (monitorSet != null) {
-            for (Expression eventRef: monitorSet) {
-                if (!alphabet.contains(eventRef)) {
-                    Expression uref = CifTypeUtils.unwrapExpression(eventRef);
-                    PositionObject evt = CifScopeUtils.getRefObjFromRef(uref);
-                    tchecker.addProblem(ErrMsg.MONITOR_EVENT_NOT_IN_ALPHABET, eventRef.getPosition(),
-                            CifTextUtils.getAbsName(evt), CifTextUtils.getAbsName(mmAut));
-                    // Non-fatal error.
-                }
-            }
-        }
-
-        // Check for useless monitoring (we have a monitor, and we monitor
-        // the entire alphabet, but the alphabet is empty).
-        if (monitorSet != null && monitorSet.isEmpty() && alphabet.isEmpty()) {
-            tchecker.addProblem(ErrMsg.MONITOR_EMPTY_ALPHABET, astMonitor.position, autScope.getAbsName());
-            // Non-fatal problem.
+            typeCheckLocation(loc1, loc2, autScope, tchecker);
         }
 
         // Check for initial locations.
@@ -435,18 +369,11 @@ public class AutScope extends ParentScope<Automaton> {
      *
      * @param astLoc The CIF AST representation of the location.
      * @param mmLoc The CIF metamodel representation of the location.
-     * @param alphaSet The alphabet, as a set of event reference expressions, or {@code null} if not specified. This set
-     *     is to be modified in-place, by removing all event references occurring on the edges. Must use the
-     *     {@link EventEquality#PESSIMISTIC pessimistic} equality notion.
-     * @param alphaSetFixed The alphabet, as a set of event reference expressions, or {@code null} if not specified.
-     *     This set is not to be modified. Must use the {@link EventEquality#PESSIMISTIC pessimistic} equality notion.
-     * @param defaultAlpha The default alphabet of the automaton, to be extended in-place. Must use the
-     *     {@link EventEquality#PESSIMISTIC pessimistic} equality notion.
      * @param autScope The scope of the automaton.
      * @param tchecker The CIF type checker to use.
      */
-    private static void typeCheckLocation(ALocation astLoc, Location mmLoc, EventRefSet alphaSet,
-            EventRefSet alphaSetFixed, EventRefSet defaultAlpha, ParentScope<?> autScope, CifTypeChecker tchecker)
+    private static void typeCheckLocation(ALocation astLoc, Location mmLoc, ParentScope<?> autScope,
+            CifTypeChecker tchecker)
     {
         if (astLoc.elements == null) {
             return;
@@ -552,8 +479,7 @@ public class AutScope extends ParentScope<Automaton> {
         // Process edges.
         for (ALocationElement elem: astLoc.elements) {
             if (elem instanceof AEdgeLocationElement) {
-                typeCheckEdge(mmLoc, (AEdgeLocationElement)elem, alphaSet, alphaSetFixed, defaultAlpha, autScope,
-                        tchecker);
+                typeCheckEdge(mmLoc, (AEdgeLocationElement)elem, autScope, tchecker);
             }
         }
     }
@@ -563,19 +489,12 @@ public class AutScope extends ParentScope<Automaton> {
      *
      * @param loc The CIF metamodel representation of the source location.
      * @param astEdge The CIF AST representation of the edge.
-     * @param alphaSet The alphabet, as a set of event reference expressions, or {@code null} if not specified. This set
-     *     is to be modified in-place, by removing all event references occurring on the edges. Must use the
-     *     {@link EventEquality#PESSIMISTIC pessimistic} equality notion.
-     * @param alphaSetFixed The alphabet, as a set of event reference expressions, or {@code null} if not specified.
-     *     This set is not to be modified. Must use the {@link EventEquality#PESSIMISTIC pessimistic} equality notion.
-     * @param defaultAlpha The default alphabet of the automaton, to be extended in-place. Must use the
-     *     {@link EventEquality#PESSIMISTIC pessimistic} equality notion.
      * @param autScope The scope of the automaton.
      * @param tchecker The CIF type checker to use.
      */
     @SuppressWarnings("null")
-    private static void typeCheckEdge(Location loc, AEdgeLocationElement astEdge, EventRefSet alphaSet,
-            EventRefSet alphaSetFixed, EventRefSet defaultAlpha, ParentScope<?> autScope, CifTypeChecker tchecker)
+    private static void typeCheckEdge(Location loc, AEdgeLocationElement astEdge, ParentScope<?> autScope,
+            CifTypeChecker tchecker)
     {
         // Construct and add edge.
         Edge edge = newEdge();
@@ -639,19 +558,6 @@ public class AutScope extends ParentScope<Automaton> {
         for (AEdgeEvent astEdgeEvent: astEdge.coreEdge.events) {
             // Get event reference expression.
             AExpression astEventRef = astEdgeEvent.eventRef;
-
-            // Check for 'tau'.
-            boolean isTau;
-            if (astEventRef instanceof ATauExpression) {
-                isTau = true;
-            } else if (astEventRef instanceof ANameExpression) {
-                ANameExpression nameExpr = (ANameExpression)astEventRef;
-                isTau = false;
-                Assert.check(!nameExpr.derivative);
-            } else {
-                String msg = "Unexpected event ref: " + astEventRef;
-                throw new RuntimeException(msg);
-            }
 
             // Resolve to event reference expression.
             Expression eventRef = transExpression(astEventRef, BOOL_TYPE_HINT, autScope, EVT_REF_CTXT, tchecker);
@@ -779,29 +685,6 @@ public class AutScope extends ParentScope<Automaton> {
 
             // Add event to edge.
             edge.getEvents().add(edgeEvent);
-
-            // Event in alphabet? Pessimistic equality may lead to false
-            // positives.
-            if (alphaSet != null && !isTau && !isComm) {
-                // Make sure event is in alphabet.
-                boolean found = alphaSetFixed.contains(eventRef);
-                if (!found) {
-                    Expression uref = CifTypeUtils.unwrapExpression(eventRef);
-                    PositionObject evt = CifScopeUtils.getRefObjFromRef(uref);
-                    tchecker.addProblem(ErrMsg.EVENT_NOT_IN_ALPHABET, astEventRef.position,
-                            CifTextUtils.getAbsName(evt), autScope.getAbsName());
-                    // Non-fatal error.
-                }
-
-                // Remove event reference from 'alphaSet', for always blocked
-                // events checking, later on.
-                alphaSet.remove(eventRef);
-            }
-
-            // Add to default alphabet.
-            if (!isTau && !isComm) {
-                defaultAlpha.add(eventRef);
-            }
         }
 
         // If one of the events is a receive, they all must be receives.
