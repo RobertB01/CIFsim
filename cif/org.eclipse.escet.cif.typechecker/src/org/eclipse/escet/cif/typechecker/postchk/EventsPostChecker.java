@@ -36,10 +36,14 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
-/** Checker for unique events in alphabets, monitors, and on edges, for the 'post' type checking phase. */
-public class UniqueEventsPostChecker {
-    /** Constructor for the {@link UniqueEventsPostChecker} class. */
-    private UniqueEventsPostChecker() {
+/**
+ * Checker for unique events in alphabets, monitors and on edges. Also checks for valid alphabet, monitors not in the
+ * alphabet and dubious specification (alphabet disabling and event, monitoring events not on edges, and monitoring an
+ * empty alphabet). Is used for the 'post' type checking phase.
+ */
+public class EventsPostChecker {
+    /** Constructor for the {@link EventsPostChecker} class. */
+    private EventsPostChecker() {
         // Static class.
     }
 
