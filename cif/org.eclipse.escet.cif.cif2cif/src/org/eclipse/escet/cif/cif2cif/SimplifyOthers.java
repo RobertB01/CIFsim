@@ -119,7 +119,7 @@ public class SimplifyOthers extends CifWalker implements CifToCifTransformation 
             Expression eventRef = eventRefs.get(i);
             boolean duplicate = false;
             for (int j = eventRefs.size() - 1; j > i; j--) {
-                if (CifEventUtils.areSameEventRefs(eventRef, eventRefs.get(j), null)) {
+                if (CifEventUtils.areSameEventRefs(eventRef, eventRefs.get(j))) {
                     duplicate = true;
                     break;
                 }

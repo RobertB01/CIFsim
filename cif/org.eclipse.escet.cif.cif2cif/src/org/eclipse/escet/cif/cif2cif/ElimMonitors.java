@@ -104,7 +104,8 @@ public class ElimMonitors extends CifWalker implements CifToCifTransformation {
         }
 
         // Get monitor events.
-        Set<Event> monitorEvents = getMonitors(aut, null);
+        Set<Event> alphabet = null;
+        Set<Event> monitorEvents = getMonitors(aut, alphabet);
 
         // Process each location.
         for (Location loc: aut.getLocations()) {

@@ -18,7 +18,6 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.common.EventEquality;
 import org.eclipse.escet.cif.common.EventRefSet;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -81,9 +80,6 @@ public class EventsPostChecker {
      * @param env The post check environment to use.
      */
     private static void check(Automaton aut, CifPostCheckEnv env) {
-        // Create a null equality. Used for instantiating event reference sets.
-        EventEquality nullEquality = null;
-
         // Create a set of events that are in the alphabet. First we fill it, then we remove events that are on edges.
         // Remaining events are never used on an edge.
         EventRefSet alphabetSet = null;
@@ -91,7 +87,7 @@ public class EventsPostChecker {
         // Check whether there is an explicit alphabet.
         Alphabet alphabet = aut.getAlphabet();
         if (alphabet != null) {
-            alphabetSet = new EventRefSet(nullEquality);
+            alphabetSet = new EventRefSet();
 
             // Add the events in the alphabet to 'alphabetSet' and check for duplicated events in the alphabet.
             for (Expression eventRef: alphabet.getEvents()) {
@@ -116,7 +112,7 @@ public class EventsPostChecker {
         // Check whether there is an explicit monitor declaration.
         Monitors monitors = aut.getMonitors();
         if (monitors != null) {
-            monitorSet = new EventRefSet(nullEquality);
+            monitorSet = new EventRefSet();
 
             // Add the events in the monitor to 'monitorSet' and check for duplicated events in the monitor.
             for (Expression eventRef: monitors.getEvents()) {
@@ -134,10 +130,10 @@ public class EventsPostChecker {
         // Check all edges. We create a set of events that are on edges. This is the alphabet if there isn't an explicit
         // alphabet declaration. If there is an explicit alphabet, we check whether the events on the edges are in
         // there.
-        EventRefSet defaultAlphabet = new EventRefSet(nullEquality);
+        EventRefSet defaultAlphabet = new EventRefSet();
         for (Location loc: aut.getLocations()) {
             for (Edge edge: loc.getEdges()) {
-                EventRefSet otherEventRefs = new EventRefSet(nullEquality);
+                EventRefSet otherEventRefs = new EventRefSet();
                 for (EdgeEvent edgeEvent: edge.getEvents()) {
                     Expression eventRef = edgeEvent.getEvent();
 

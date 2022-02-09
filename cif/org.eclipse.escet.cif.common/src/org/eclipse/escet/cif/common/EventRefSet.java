@@ -29,7 +29,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
 
 /**
- * Set of event references (event reference expressions). Ensures value equality, and supports wrapping expressions.
+ * Set of event references (event reference expressions). Ensures value equality, doesn't supports wrapping expressions.
  *
  * <p>
  * This class uses the {@link CifEventUtils#areSameEventRefs} method to determine value equality of event reference
@@ -44,42 +44,27 @@ public class EventRefSet implements Iterable<Expression> {
     /** The set of event references. */
     protected final Map<EventRefWrapper, EventRefWrapper> eventRefs;
 
-    /**
-     * The equality notion to use to determine whether two references via component parameters are equal, or
-     * {@code null} if not applicable.
-     */
-    protected final EventEquality equality;
-
-    /**
-     * Constructor for the {@link EventRefSet} class. Constructs empty set.
-     *
-     * @param equality The equality notion to use to determine whether two references via component parameters are
-     *     equal, or {@code null} if not applicable.
-     */
-    public EventRefSet(EventEquality equality) {
-        this(map(), equality);
+    /** Constructor for the {@link EventRefSet} class. Constructs empty set. */
+    public EventRefSet() {
+        this(map());
     }
 
     /**
-     * Constructor for the {@link EventRefSet} class. Uses the same equality notion as the given set, to determine
-     * whether two references via component parameters are equal.
+     * Constructor for the {@link EventRefSet} class.
      *
      * @param set The event reference set to copy.
      */
     public EventRefSet(EventRefSet set) {
-        this(copy(set.eventRefs), set.equality);
+        this(copy(set.eventRefs));
     }
 
     /**
      * Constructor for the {@link EventRefSet} class.
      *
      * @param eventRefs The event references with which to initialize the set.
-     * @param equality The equality notion to use to determine whether two references via component parameters are
-     *     equal, or {@code null} if not applicable.
      */
-    private EventRefSet(Map<EventRefWrapper, EventRefWrapper> eventRefs, EventEquality equality) {
+    private EventRefSet(Map<EventRefWrapper, EventRefWrapper> eventRefs) {
         this.eventRefs = eventRefs;
-        this.equality = equality;
     }
 
     /**
@@ -165,7 +150,7 @@ public class EventRefSet implements Iterable<Expression> {
 
     /**
      * Wrapper around an event reference expression. The wrapper implements value equality and hashing. Event references
-     * as well as wrapping expressions are supported.
+     * are supported. Wrapping expressions are not supported.
      *
      * @see EventRefSet
      * @see CifEventUtils#areSameEventRefs
@@ -192,7 +177,7 @@ public class EventRefSet implements Iterable<Expression> {
                 return false;
             }
             EventRefWrapper other = (EventRefWrapper)obj;
-            return CifEventUtils.areSameEventRefs(eventRef, other.eventRef, equality);
+            return CifEventUtils.areSameEventRefs(eventRef, other.eventRef);
         }
 
         @Override
