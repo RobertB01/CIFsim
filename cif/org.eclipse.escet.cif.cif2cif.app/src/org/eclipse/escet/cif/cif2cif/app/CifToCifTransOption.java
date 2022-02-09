@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.CifToCifTransformation;
+import org.eclipse.escet.cif.cif2cif.ConvertEventsContr;
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimAutCasts;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
@@ -94,6 +95,8 @@ public class CifToCifTransOption extends Option<String> {
         TRANSFORMATIONS = map();
 
         TRANSFORMATIONS.put("add-default-init-values", AddDefaultInitialValues.class);
+        TRANSFORMATIONS.put("convert-event-contr", ConvertEventsContr.ConvertEventsToContr.class);
+        TRANSFORMATIONS.put("convert-event-uncontr", ConvertEventsContr.ConvertEventsToUncontr.class);
         TRANSFORMATIONS.put("elim-alg-vars", ElimAlgVariables.class);
         TRANSFORMATIONS.put("elim-aut-casts", ElimAutCasts.class);
         TRANSFORMATIONS.put("elim-comp-def-inst", ElimComponentDefInst.class);

@@ -588,6 +588,10 @@ include::tools/cif2cif/index.asciidoc[]
 
 include::tools/cif2cif/add-default-init-values.asciidoc[]
 
+include::tools/cif2cif/convert-events-to-controllable.asciidoc[]
+
+include::tools/cif2cif/convert-events-to-uncontrollable.asciidoc[]
+
 include::tools/cif2cif/switches-to-ifs.asciidoc[]
 
 include::tools/cif2cif/elim-alg-vars.asciidoc[]

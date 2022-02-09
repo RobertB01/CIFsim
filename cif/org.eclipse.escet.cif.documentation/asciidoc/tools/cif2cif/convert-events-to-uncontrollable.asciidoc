@@ -1,0 +1,86 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-convert-event-uncontr]]
+== Convert events to uncontrollable
+
+.. index::
+indexterm:[CIF to CIF transformer,convert events to uncontrollable]
+indexterm:[convert events to uncontrollable]
+indexterm:[events to uncontrollable,convert]
+This CIF to CIF transformation converts the controllability status of events to uncontrollable.
+
+indexterm:[convert events to uncontrollable,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[convert events to uncontrollable,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[convert events to uncontrollable,implementation]
+
+=== Implementation details
+
+For each event in the CIF specification, the controllability status of that event is converted to uncontrollable.
+For instance, the following specification:
+
+[source, cif]
+----
+uncontrollable a;
+controllable b;
+
+automaton aut:
+  location l1:
+    initial;
+    marked;
+    edge a goto l2;
+  location l2:
+    edge b goto l1;
+end
+----
+
+is transformed to the following specification:
+
+[source, cif]
+----
+uncontrollable a;
+uncontrollable b;
+
+automaton aut:
+  location l1:
+    initial;
+    marked;
+    edge a goto l2;
+  location l2:
+    edge b goto l1;
+end
+----
+
+=== Renaming
+
+Event names with the special prefix `c_` are renamed to preserve the event naming convention, see <<lang-tut-extensions-synthesis-evtctrl>>.
+The prefix `c_` is replaced by `u_`.
+In case the new global name is already in use in the specification, a suffix is added.
