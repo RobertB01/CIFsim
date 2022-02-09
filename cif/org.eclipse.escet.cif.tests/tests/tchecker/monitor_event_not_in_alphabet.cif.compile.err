@@ -1,6 +1,6 @@
 ERROR: File "tchecker/monitor_event_not_in_alphabet.cif": Semantic error at line 19, column 17: Monitor event "c" is not in the alphabet of automaton "p1".
 ERROR: File "tchecker/monitor_event_not_in_alphabet.cif": Semantic error at line 27, column 17: Monitor event "c" is not in the alphabet of automaton "p2".
-ERROR: File "tchecker/monitor_event_not_in_alphabet.cif": Semantic error at line 43, column 13: Monitor event "P.e" is not in the alphabet of automaton "g.Q".
-ERROR: File "tchecker/monitor_event_not_in_alphabet.cif": Semantic error at line 54, column 11: Monitor event "a.e1" is not in the alphabet of automaton "a".
-ERROR: File "tchecker/monitor_event_not_in_alphabet.cif": Semantic error at line 54, column 15: Monitor event "a.e2" is not in the alphabet of automaton "a".
+ERROR: File "tchecker/monitor_event_not_in_alphabet.cif": Semantic error at line 44, column 13: Monitor event "g.p2.e" is not in the alphabet of automaton "g.q1".
+ERROR: File "tchecker/monitor_event_not_in_alphabet.cif": Semantic error at line 60, column 11: Monitor event "a.e1" is not in the alphabet of automaton "a".
+ERROR: File "tchecker/monitor_event_not_in_alphabet.cif": Semantic error at line 60, column 15: Monitor event "a.e2" is not in the alphabet of automaton "a".
 ERROR: Failed to load CIF file "tchecker/monitor_event_not_in_alphabet.cif": the file has errors.

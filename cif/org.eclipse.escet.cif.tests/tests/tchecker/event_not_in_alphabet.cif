@@ -29,6 +29,11 @@ plant def Q(P p1, p2):
   alphabet p1.e;
   location:
     initial;
-    // May be false positive, depending on instantiations.
+    // In automaton q1, p2.e is missing in the alphabet. In automaton q2, p1.e and p2.e are duplicated events.
     edge p1.e, p2.e;
 end
+
+p1: P();
+p2: P();
+q1: Q(p1, p2);
+q2: Q(p1, p1);

@@ -1,4 +1,6 @@
 ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 20, column 15: Event "g.x.b" is missing in the alphabet of automaton "g.x".
 ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 20, column 18: Event "g.x.c" is missing in the alphabet of automaton "g.x".
-ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 33, column 16: Event "P.e" is missing in the alphabet of automaton "Q".
+ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 33, column 16: Event "p2.e" is missing in the alphabet of automaton "q1".
+WARNING: File "tchecker/event_not_in_alphabet.cif": Semantic warning at line 33, column 10: Duplicate event "p1.e" on a single edge in automaton "q2".
+WARNING: File "tchecker/event_not_in_alphabet.cif": Semantic warning at line 33, column 16: Duplicate event "p1.e" on a single edge in automaton "q2".
 ERROR: Failed to load CIF file "tchecker/event_not_in_alphabet.cif": the file has errors.
