@@ -73,7 +73,6 @@ This results in:
 
 image::{rail-imgsdir}/optional.png[Optional]
 
-
 The dedicated optional syntax (`?`) is often more convenient than using the choice syntax.
 
 === Repetition
@@ -152,7 +151,7 @@ image::{rail-imgsdir}/refpath.png[Recursion]
 
 Now you can say that the `[nest]` path recursively applies the rule, while the `[exit]` path ends the recursion.
 
-=== Terminals 
+=== Terminals
 
 Until now, all names in the diagrams have a rectangular box around them which means (by default) it is a non-terminal.
 The name used in the diagram input file is also the name displayed in the output.
