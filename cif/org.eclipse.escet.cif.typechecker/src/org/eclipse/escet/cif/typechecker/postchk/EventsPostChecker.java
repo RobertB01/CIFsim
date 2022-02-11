@@ -36,9 +36,20 @@ import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
- * Checker for unique events in alphabets, monitors and on edges. Also checks for valid alphabet, monitors not in the
- * alphabet and dubious specification (alphabet disabling and event, monitoring events not on edges, and monitoring an
- * empty alphabet). Is used for the 'post' type checking phase.
+ * Events type checker which is used for the 'post' type checking phase. It checks the following:
+ * <ul>
+ * <li>'Alphabet.uniqueEvents' constraint.</li>
+ * <li>'Automaton.monitorsUniqueEvents' constraint.</li>
+ * <li>'Edge.uniqueEvents' constraint.</li>
+ * <li>'Automaton.validAlphabet' constraint.</li>
+ * <li>'Automaton.monitorsSubsetAlphabet' constraints.</li>
+ * </ul>
+ * Also warns about the following dubious situations:
+ * <ul>
+ * <li>Event in explicit alphabet not on edge.</li>
+ * <li>Monitored event not on edge.</li>
+ * <li>Monitoring an empty alphabet.</li>
+ * </ul>
  */
 public class EventsPostChecker {
     /** Constructor for the {@link EventsPostChecker} class. */
@@ -47,8 +58,7 @@ public class EventsPostChecker {
     }
 
     /**
-     * Checks the specification for violations of the 'Alphabet.uniqueEvents', 'Automaton.monitorsUniqueEvents' and
-     * 'Edge.uniqueEvents' constraints.
+     * Checks the specification for various constraints and dubious situations (see {@link EventsPostChecker}).
      *
      * <p>
      * We need to check this after the elimination of component definition/instantiation to ensure proper equality
@@ -80,18 +90,18 @@ public class EventsPostChecker {
      * @param env The post check environment to use.
      */
     private static void check(Automaton aut, CifPostCheckEnv env) {
-        // Create a set of events that are in the alphabet. First we fill it, then we remove events that are on edges.
-        // Remaining events are never used on an edge.
-        EventRefSet alphabetSet = null;
+        // Create a set of events that are in the explicit alphabet.
+        EventRefSet explicitAlphabetSet = null;
 
-        // Check whether there is an explicit alphabet.
+        // Check whether there is an explicit alphabet declaration. If there is, check if there are duplicated events
+        // in there.
         Alphabet alphabet = aut.getAlphabet();
         if (alphabet != null) {
-            alphabetSet = new EventRefSet();
+            explicitAlphabetSet = new EventRefSet();
 
-            // Add the events in the alphabet to 'alphabetSet' and check for duplicated events in the alphabet.
+            // Add the events in the alphabet to 'explicitAlphabetSet' and check for duplicated events in the alphabet.
             for (Expression eventRef: alphabet.getEvents()) {
-                Expression duplicate = alphabetSet.add(eventRef);
+                Expression duplicate = explicitAlphabetSet.add(eventRef);
                 if (duplicate != null) {
                     env.addProblem(ErrMsg.ALPHABET_DUPL_EVENT, eventRef.getPosition(), exprToStr(eventRef),
                             getAbsName(aut));
@@ -102,14 +112,11 @@ public class EventsPostChecker {
             }
         }
 
-        // Create a set of events that are in the alphabet. We use 'alphabetSet' to fill it. We use it to determine
-        // whether an events on an edge is in the alphabet.
-        EventRefSet alphabetSetFixed = (alphabetSet == null) ? null : new EventRefSet(alphabetSet);
-
         // Create a set of events that are monitored.
         EventRefSet monitorSet = null;
 
-        // Check whether there is an explicit monitor declaration.
+        // Check whether there is an explicit monitor declaration. If there is, check if there are duplicated events
+        // in there.
         Monitors monitors = aut.getMonitors();
         if (monitors != null) {
             monitorSet = new EventRefSet();
@@ -127,13 +134,12 @@ public class EventsPostChecker {
             }
         }
 
-        // Check all edges. We create a set of events that are on edges. This is the alphabet if there isn't an explicit
-        // alphabet declaration. If there is an explicit alphabet, we check whether the events on the edges are in
-        // there.
-        EventRefSet defaultAlphabet = new EventRefSet();
+        // Check all edges. We create a set of events that are on edges. This is the implicit alphabet. If there is an
+        // explicit alphabet, we check whether the events in the implicit alphabet are also in the explicit alphabet.
+        EventRefSet implicitAlphabetSet = new EventRefSet();
         for (Location loc: aut.getLocations()) {
             for (Edge edge: loc.getEdges()) {
-                EventRefSet otherEventRefs = new EventRefSet();
+                EventRefSet edgeEventRefs = new EventRefSet();
                 for (EdgeEvent edgeEvent: edge.getEvents()) {
                     Expression eventRef = edgeEvent.getEvent();
 
@@ -142,31 +148,26 @@ public class EventsPostChecker {
                     boolean isComm = edgeEvent instanceof EdgeSend || edgeEvent instanceof EdgeReceive;
 
                     // Event in explicit alphabet?
-                    if (alphabetSetFixed != null && alphabetSet != null && !isTau && !isComm) {
-                        if (!alphabetSetFixed.contains(eventRef)) {
+                    if (explicitAlphabetSet != null && !isTau && !isComm) {
+                        if (!explicitAlphabetSet.contains(eventRef)) {
                             PositionObject evt = CifScopeUtils.getRefObjFromRef(eventRef);
                             env.addProblem(ErrMsg.EVENT_NOT_IN_ALPHABET, eventRef.getPosition(),
                                     CifTextUtils.getAbsName(evt), getAbsName(aut));
                             // Non-fatal error.
                         }
-
-                        // Remove event reference from 'alphabetSet', for always blocked
-                        // events checking, later on.
-                        alphabetSet.remove(eventRef);
                     }
 
-                    // Add to default alphabet.
+                    // Add to implicit alphabet.
                     if (!isTau && !isComm) {
-                        defaultAlphabet.add(eventRef);
+                        implicitAlphabetSet.add(eventRef);
                     }
 
-                    // Duplicate event on edge? Since different uses on a single edge are
-                    // checked elsewhere, we only need to report for duplicates within
-                    // a single use here. We check duplicate synchronization uses and
-                    // duplicate receive uses. Duplicate send uses may be useful, if
-                    // different values are being sent.
+                    // Duplicate event on edge? Since different uses on a single edge are checked elsewhere, we only
+                    // need to report for duplicates within a single use here. We check duplicate synchronization uses
+                    // and duplicate receive uses. Duplicate send uses may be useful, if different values are being
+                    // sent.
                     if (!(edgeEvent instanceof EdgeSend)) {
-                        Expression duplicate = otherEventRefs.add(eventRef);
+                        Expression duplicate = edgeEventRefs.add(eventRef);
                         if (duplicate != null) {
                             env.addProblem(ErrMsg.EDGE_DUPL_EVENT, eventRef.getPosition(), exprToStr(eventRef),
                                     getAbsName(aut));
@@ -179,11 +180,14 @@ public class EventsPostChecker {
             }
         }
 
-        // Check for events in the alphabet beyond the default alphabet (the events on the edges, used to synchronize).
-        if (alphabetSet != null && !alphabetSet.isEmpty()) {
-            // Since 'alphabetSet' is not null, there is an explicit alphabet. Every event we've encountered on an edge
-            // is already removed. Thus 'alphabetSet' contains events in the explicit alphabet, but not on an edge.
-            for (Expression eventRef: alphabetSet) {
+        // Warn for events in the explicit alphabet but not in the implicit alphabet.
+        if (explicitAlphabetSet != null) {
+            // Determine the set difference of the explicit alphabet and the implicit alphabet.
+            EventRefSet unusedExplicitAlphabetEvents = new EventRefSet(explicitAlphabetSet);
+            unusedExplicitAlphabetEvents.remove(implicitAlphabetSet);
+
+            // Warn for event in the explicit alphabet but not in the implicit alphabet.
+            for (Expression eventRef: unusedExplicitAlphabetEvents) {
                 boolean monitored = monitorSet != null && (monitorSet.isEmpty() || monitorSet.contains(eventRef));
                 if (monitored) {
                     // Monitoring event that is not on any edge (essentially self looped in every location).
@@ -199,8 +203,8 @@ public class EventsPostChecker {
             }
         }
 
-        // Get actual alphabet. Either explicitly defined or the events on the edges.
-        EventRefSet actualAlphabet = (alphabetSetFixed == null) ? defaultAlphabet : alphabetSetFixed;
+        // Get actual alphabet. Either explicitly defined or implicitly as the events on the edges.
+        EventRefSet actualAlphabet = (explicitAlphabetSet == null) ? implicitAlphabetSet : explicitAlphabetSet;
 
         // Check for monitor events not in the actual alphabet.
         if (monitorSet != null) {

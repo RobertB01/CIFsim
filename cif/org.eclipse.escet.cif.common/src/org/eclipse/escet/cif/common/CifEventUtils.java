@@ -35,7 +35,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.EdgeEventImpl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
@@ -331,11 +330,11 @@ public class CifEventUtils {
      * </p>
      *
      * @param automaton The automaton for which to return the monitor events.
-     * @param alphabet The alphabet of the automaton, as obtained using the {@link #getAlphabetRefSet(Automaton)} method,
-     *     for that same automaton, May be {@code null} to let this method compute the alphabet, if needed.
+     * @param alphabet The alphabet of the automaton, as obtained using the {@link #getAlphabetRefSet(Automaton)}
+     *     method, for that same automaton. May be {@code null} to let this method compute the alphabet, if needed.
      * @return The monitor events of the automaton.
      */
-    public static EventRefSet getMonitors(Automaton automaton, EventRefSet alphabet) {
+    public static EventRefSet getMonitorsRefSet(Automaton automaton, EventRefSet alphabet) {
         // Handle no monitors.
         Monitors monitors = automaton.getMonitors();
         if (monitors == null) {
@@ -496,6 +495,11 @@ public class CifEventUtils {
     /**
      * Returns the events for the given edge. This includes events used to synchronize, send, and receive.
      *
+     * <p>
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
+     * </p>
+     *
      * @param edge The edge for which to return the events.
      * @return The events of the edge.
      */
@@ -576,11 +580,12 @@ public class CifEventUtils {
     }
 
     /**
-     * Returns a value indicating whether the two event reference expressions refer to the same event. Doesn't take into
-     * account wrapping expressions. Supports 'tau' events.
+     * Returns a value indicating whether the two event reference expressions refer to the same event. Supports 'tau'
+     * events.
      *
      * <p>
-     * This method only works correctly for reference expressions that are contained in the same scope.
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
      * </p>
      *
      * @param ref1 The first event reference expression.
@@ -598,16 +603,6 @@ public class CifEventUtils {
             Event event1 = ((EventExpression)ref1).getEvent();
             Event event2 = ((EventExpression)ref2).getEvent();
             return event1 == event2;
-        }
-
-        // Component instantiation via references.
-        if (ref1 instanceof CompInstWrapExpression && ref2 instanceof CompInstWrapExpression) {
-            CompInstWrapExpression wrap1 = (CompInstWrapExpression)ref1;
-            CompInstWrapExpression wrap2 = (CompInstWrapExpression)ref2;
-            if (wrap1.getInstantiation() != wrap2.getInstantiation()) {
-                return false;
-            }
-            return areSameEventRefs(wrap1.getReference(), wrap2.getReference());
         }
 
         // The two event references don't refer to the same event.

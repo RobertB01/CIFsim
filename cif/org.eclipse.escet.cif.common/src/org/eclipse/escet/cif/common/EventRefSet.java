@@ -19,21 +19,16 @@ import static org.eclipse.escet.common.java.Maps.map;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
 
 /**
- * Set of event references (event reference expressions). Ensures value equality, doesn't supports wrapping expressions.
+ * Set of event references (event reference expressions). Ensures value equality. Doesn't supports wrapping expressions.
  *
  * <p>
- * This class uses the {@link CifEventUtils#areSameEventRefs} method to determine value equality of event reference
- * expressions. As such, this class only works correctly for reference expressions that are contained in the same scope.
+ * This class does not support specifications that have component definitions/instantiations. In particular, it can't
+ * handle wrapping expressions for event references.
  * </p>
  *
  * <p>
@@ -114,16 +109,27 @@ public class EventRefSet implements Iterable<Expression> {
     }
 
     /**
-     * Removes an event reference to the set.
+     * Removes an event reference from the set.
      *
      * @param eventRef The event reference to remove.
-     * @return The removed event reference (equal to the provided event reference,) or {@code null} if no equal event
+     * @return The removed event reference (equal to the provided event reference) or {@code null} if no equal event
      *     reference was in the set.
      */
     public Expression remove(Expression eventRef) {
         EventRefWrapper wrapper = new EventRefWrapper(eventRef);
         EventRefWrapper removed = eventRefs.remove(wrapper);
         return (removed == null) ? null : removed.eventRef;
+    }
+
+    /**
+     * Removes all events from an event reference set from this set.
+     *
+     * @param eventRefSet The event reference set to remove.
+     */
+    public void remove(EventRefSet eventRefSet) {
+        for (Expression eventRef: eventRefSet) {
+            remove(eventRef);
+        }
     }
 
     @Override
@@ -192,18 +198,6 @@ public class EventRefSet implements Iterable<Expression> {
                 } else if (expr instanceof EventExpression) {
                     hash ^= ((EventExpression)expr).getEvent().hashCode();
                     return hash;
-                } else if (expr instanceof CompInstWrapExpression) {
-                    CompInstWrapExpression wrap = (CompInstWrapExpression)expr;
-                    hash ^= wrap.getInstantiation().hashCode();
-                    expr = wrap.getReference();
-                } else if (expr instanceof CompParamWrapExpression) {
-                    CompParamWrapExpression wrap = (CompParamWrapExpression)expr;
-                    CifType ptype = wrap.getParameter().getType();
-                    ptype = CifTypeUtils.normalizeType(ptype);
-                    ComponentDefType cdefType = (ComponentDefType)ptype;
-                    ComponentDef cdef = cdefType.getDefinition();
-                    hash ^= cdef.hashCode();
-                    expr = wrap.getReference();
                 } else {
                     String msg = "Unknown event ref expr: " + eventRef;
                     throw new RuntimeException(msg);

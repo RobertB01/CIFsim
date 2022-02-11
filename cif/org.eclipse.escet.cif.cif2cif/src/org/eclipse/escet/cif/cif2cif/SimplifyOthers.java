@@ -104,8 +104,7 @@ public class SimplifyOthers extends CifWalker implements CifToCifTransformation 
     }
 
     /**
-     * Removes duplicate events references from the list of event references. The event references must be contained in
-     * the same scope.
+     * Removes duplicate events references from the list of event references.
      *
      * <p>
      * If the event reference is contained in an {@link EdgeEvent}, the {@link EdgeEvent} is removed from its parent
