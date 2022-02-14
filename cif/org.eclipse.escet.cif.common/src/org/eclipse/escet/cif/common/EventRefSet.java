@@ -24,7 +24,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 
 /**
- * Set of event references (event reference expressions). Ensures value equality. Doesn't supports wrapping expressions.
+ * Set of event references (event reference expressions). Ensures value equality. Doesn't support wrapping expressions.
  *
  * <p>
  * This class does not support specifications that have component definitions/instantiations. In particular, it can't
@@ -122,11 +122,11 @@ public class EventRefSet implements Iterable<Expression> {
     }
 
     /**
-     * Removes all events from an event reference set from this set.
+     * Removes from this set all of the event references that are contained in the specified event reference set.
      *
-     * @param eventRefSet The event reference set to remove.
+     * @param eventRefSet The event reference set.
      */
-    public void remove(EventRefSet eventRefSet) {
+    public void removeAll(EventRefSet eventRefSet) {
         for (Expression eventRef: eventRefSet) {
             remove(eventRef);
         }
@@ -188,20 +188,13 @@ public class EventRefSet implements Iterable<Expression> {
 
         @Override
         public int hashCode() {
-            Expression expr = eventRef;
-            int hash = 0;
-            while (true) {
-                hash *= 2;
-                if (expr instanceof TauExpression) {
-                    hash *= 17;
-                    return hash;
-                } else if (expr instanceof EventExpression) {
-                    hash ^= ((EventExpression)expr).getEvent().hashCode();
-                    return hash;
-                } else {
-                    String msg = "Unknown event ref expr: " + eventRef;
-                    throw new RuntimeException(msg);
-                }
+            if (eventRef instanceof TauExpression) {
+                return 0;
+            } else if (eventRef instanceof EventExpression) {
+                return ((EventExpression)eventRef).getEvent().hashCode();
+            } else {
+                String msg = "Unknown event ref expr: " + eventRef;
+                throw new RuntimeException(msg);
             }
         }
     }

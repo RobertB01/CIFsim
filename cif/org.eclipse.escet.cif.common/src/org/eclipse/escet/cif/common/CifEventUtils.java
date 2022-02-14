@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.common;
 
+import static org.eclipse.escet.cif.common.CifScopeUtils.isParamRefExpr;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTauExpression;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -35,6 +36,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.EdgeEventImpl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
@@ -589,10 +591,20 @@ public class CifEventUtils {
      * </p>
      *
      * @param ref1 The first event reference expression.
-     * @param ref2 The first event reference expression.
+     * @param ref2 The second event reference expression.
      * @return {@code true} if the event reference expressions refer to the same event, {@code false} otherwise.
      */
     public static boolean areSameEventRefs(Expression ref1, Expression ref2) {
+        // Doesn't support via component parameter reference expression or event parameter reference expression.
+        if (isParamRefExpr(ref1) || isParamRefExpr(ref2)) {
+            throw new RuntimeException("Unexpected parameter reference.");
+        }
+
+        // Doesn't support via component instantiation expression.
+        if (ref1 instanceof CompInstWrapExpression || ref2 instanceof CompInstWrapExpression) {
+            throw new RuntimeException("Unexpected via component instantiation reference.");
+        }
+
         // Tau events.
         if (ref1 instanceof TauExpression && ref2 instanceof TauExpression) {
             return true;

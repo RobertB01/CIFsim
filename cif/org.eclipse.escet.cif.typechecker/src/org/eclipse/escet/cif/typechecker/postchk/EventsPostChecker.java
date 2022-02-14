@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -42,7 +42,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * <li>'Automaton.monitorsUniqueEvents' constraint.</li>
  * <li>'Edge.uniqueEvents' constraint.</li>
  * <li>'Automaton.validAlphabet' constraint.</li>
- * <li>'Automaton.monitorsSubsetAlphabet' constraints.</li>
+ * <li>'Automaton.monitorsSubsetAlphabet' constraint.</li>
  * </ul>
  * Also warns about the following dubious situations:
  * <ul>
@@ -83,24 +83,21 @@ public class EventsPostChecker {
     }
 
     /**
-     * Checks the automaton for violations of the 'Alphabet.uniqueEvents', 'Automaton.monitorsUniqueEvents' and
-     * 'Edge.uniqueEvents' constraints.
+     * Checks the automaton for various constraints and dubious situations (see {@link EventsPostChecker}).
      *
      * @param aut The automaton to check.
      * @param env The post check environment to use.
      */
     private static void check(Automaton aut, CifPostCheckEnv env) {
-        // Create a set of events that are in the explicit alphabet.
+        // Check whether there is an explicit alphabet declaration. If there is, collect the events in a set and check
+        // if there are duplicated events in there.
         EventRefSet explicitAlphabetSet = null;
-
-        // Check whether there is an explicit alphabet declaration. If there is, check if there are duplicated events
-        // in there.
-        Alphabet alphabet = aut.getAlphabet();
-        if (alphabet != null) {
+        Alphabet explicitAalphabet = aut.getAlphabet();
+        if (explicitAalphabet != null) {
             explicitAlphabetSet = new EventRefSet();
 
             // Add the events in the alphabet to 'explicitAlphabetSet' and check for duplicated events in the alphabet.
-            for (Expression eventRef: alphabet.getEvents()) {
+            for (Expression eventRef: explicitAalphabet.getEvents()) {
                 Expression duplicate = explicitAlphabetSet.add(eventRef);
                 if (duplicate != null) {
                     env.addProblem(ErrMsg.ALPHABET_DUPL_EVENT, eventRef.getPosition(), exprToStr(eventRef),
@@ -112,11 +109,9 @@ public class EventsPostChecker {
             }
         }
 
-        // Create a set of events that are monitored.
+        // Check whether there is an explicit monitor declaration. If there is, collect the events in a set and check if
+        // there are duplicated events in there.
         EventRefSet monitorSet = null;
-
-        // Check whether there is an explicit monitor declaration. If there is, check if there are duplicated events
-        // in there.
         Monitors monitors = aut.getMonitors();
         if (monitors != null) {
             monitorSet = new EventRefSet();
@@ -136,6 +131,7 @@ public class EventsPostChecker {
 
         // Check all edges. We create a set of events that are on edges. This is the implicit alphabet. If there is an
         // explicit alphabet, we check whether the events in the implicit alphabet are also in the explicit alphabet.
+        // Also checks for duplicated events on an edge.
         EventRefSet implicitAlphabetSet = new EventRefSet();
         for (Location loc: aut.getLocations()) {
             for (Edge edge: loc.getEdges()) {
@@ -184,7 +180,7 @@ public class EventsPostChecker {
         if (explicitAlphabetSet != null) {
             // Determine the set difference of the explicit alphabet and the implicit alphabet.
             EventRefSet unusedExplicitAlphabetEvents = new EventRefSet(explicitAlphabetSet);
-            unusedExplicitAlphabetEvents.remove(implicitAlphabetSet);
+            unusedExplicitAlphabetEvents.removeAll(implicitAlphabetSet);
 
             // Warn for event in the explicit alphabet but not in the implicit alphabet.
             for (Expression eventRef: unusedExplicitAlphabetEvents) {

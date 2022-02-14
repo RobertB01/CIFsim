@@ -236,7 +236,7 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
             // - 'Automaton.monitorsUniqueEvents' constraint.
             // - 'Edge.uniqueEvents' constraint.
             // - 'Automaton.validAlphabet' constraint.
-            // - 'Automaton.monitorsSubsetAlphabet' constraints.
+            // - 'Automaton.monitorsSubsetAlphabet' constraint.
             // Also warns about the following dubious situations:
             // - Event in explicit alphabet not on edge.
             // - Monitored event not on edge.
