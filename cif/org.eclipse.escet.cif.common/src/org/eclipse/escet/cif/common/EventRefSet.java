@@ -19,21 +19,16 @@ import static org.eclipse.escet.common.java.Maps.map;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
 
 /**
- * Set of event references (event reference expressions). Ensures value equality, and supports wrapping expressions.
+ * Set of event references (event reference expressions). Ensures value equality. Doesn't support wrapping expressions.
  *
  * <p>
- * This class uses the {@link CifEventUtils#areSameEventRefs} method to determine value equality of event reference
- * expressions. As such, this class only works correctly for reference expressions that are contained in the same scope.
+ * This class does not support specifications that have component definitions/instantiations. In particular, it can't
+ * handle wrapping expressions for event references.
  * </p>
  *
  * <p>
@@ -44,42 +39,27 @@ public class EventRefSet implements Iterable<Expression> {
     /** The set of event references. */
     protected final Map<EventRefWrapper, EventRefWrapper> eventRefs;
 
-    /**
-     * The equality notion to use to determine whether two references via component parameters are equal, or
-     * {@code null} if not applicable.
-     */
-    protected final EventEquality equality;
-
-    /**
-     * Constructor for the {@link EventRefSet} class. Constructs empty set.
-     *
-     * @param equality The equality notion to use to determine whether two references via component parameters are
-     *     equal, or {@code null} if not applicable.
-     */
-    public EventRefSet(EventEquality equality) {
-        this(map(), equality);
+    /** Constructor for the {@link EventRefSet} class. Constructs empty set. */
+    public EventRefSet() {
+        this(map());
     }
 
     /**
-     * Constructor for the {@link EventRefSet} class. Uses the same equality notion as the given set, to determine
-     * whether two references via component parameters are equal.
+     * Constructor for the {@link EventRefSet} class.
      *
      * @param set The event reference set to copy.
      */
     public EventRefSet(EventRefSet set) {
-        this(copy(set.eventRefs), set.equality);
+        this(copy(set.eventRefs));
     }
 
     /**
      * Constructor for the {@link EventRefSet} class.
      *
      * @param eventRefs The event references with which to initialize the set.
-     * @param equality The equality notion to use to determine whether two references via component parameters are
-     *     equal, or {@code null} if not applicable.
      */
-    private EventRefSet(Map<EventRefWrapper, EventRefWrapper> eventRefs, EventEquality equality) {
+    private EventRefSet(Map<EventRefWrapper, EventRefWrapper> eventRefs) {
         this.eventRefs = eventRefs;
-        this.equality = equality;
     }
 
     /**
@@ -129,16 +109,27 @@ public class EventRefSet implements Iterable<Expression> {
     }
 
     /**
-     * Removes an event reference to the set.
+     * Removes an event reference from the set.
      *
      * @param eventRef The event reference to remove.
-     * @return The removed event reference (equal to the provided event reference,) or {@code null} if no equal event
+     * @return The removed event reference (equal to the provided event reference) or {@code null} if no equal event
      *     reference was in the set.
      */
     public Expression remove(Expression eventRef) {
         EventRefWrapper wrapper = new EventRefWrapper(eventRef);
         EventRefWrapper removed = eventRefs.remove(wrapper);
         return (removed == null) ? null : removed.eventRef;
+    }
+
+    /**
+     * Removes from this set all of the event references that are contained in the specified event reference set.
+     *
+     * @param eventRefSet The event reference set.
+     */
+    public void removeAll(EventRefSet eventRefSet) {
+        for (Expression eventRef: eventRefSet) {
+            remove(eventRef);
+        }
     }
 
     @Override
@@ -165,7 +156,7 @@ public class EventRefSet implements Iterable<Expression> {
 
     /**
      * Wrapper around an event reference expression. The wrapper implements value equality and hashing. Event references
-     * as well as wrapping expressions are supported.
+     * are supported. Wrapping expressions are not supported.
      *
      * @see EventRefSet
      * @see CifEventUtils#areSameEventRefs
@@ -192,37 +183,18 @@ public class EventRefSet implements Iterable<Expression> {
                 return false;
             }
             EventRefWrapper other = (EventRefWrapper)obj;
-            return CifEventUtils.areSameEventRefs(eventRef, other.eventRef, equality);
+            return CifEventUtils.areSameEventRefs(eventRef, other.eventRef);
         }
 
         @Override
         public int hashCode() {
-            Expression expr = eventRef;
-            int hash = 0;
-            while (true) {
-                hash *= 2;
-                if (expr instanceof TauExpression) {
-                    hash *= 17;
-                    return hash;
-                } else if (expr instanceof EventExpression) {
-                    hash ^= ((EventExpression)expr).getEvent().hashCode();
-                    return hash;
-                } else if (expr instanceof CompInstWrapExpression) {
-                    CompInstWrapExpression wrap = (CompInstWrapExpression)expr;
-                    hash ^= wrap.getInstantiation().hashCode();
-                    expr = wrap.getReference();
-                } else if (expr instanceof CompParamWrapExpression) {
-                    CompParamWrapExpression wrap = (CompParamWrapExpression)expr;
-                    CifType ptype = wrap.getParameter().getType();
-                    ptype = CifTypeUtils.normalizeType(ptype);
-                    ComponentDefType cdefType = (ComponentDefType)ptype;
-                    ComponentDef cdef = cdefType.getDefinition();
-                    hash ^= cdef.hashCode();
-                    expr = wrap.getReference();
-                } else {
-                    String msg = "Unknown event ref expr: " + eventRef;
-                    throw new RuntimeException(msg);
-                }
+            if (eventRef instanceof TauExpression) {
+                return 0;
+            } else if (eventRef instanceof EventExpression) {
+                return ((EventExpression)eventRef).getEvent().hashCode();
+            } else {
+                String msg = "Unknown event ref expr: " + eventRef;
+                throw new RuntimeException(msg);
             }
         }
     }

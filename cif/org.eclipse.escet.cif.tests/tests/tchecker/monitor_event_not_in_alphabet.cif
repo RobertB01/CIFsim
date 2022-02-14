@@ -37,14 +37,24 @@ group def P():
 end
 
 group g:
-  plant def Q(P p1, p2):
-    alphabet p1.e;
-    // May be false positive, depending on instantiations.
-    monitor p2.e;
+  plant def Q(P p1, p2; event e1, e2):
+    alphabet p1.e, e1;
+    // In automaton q1, p2.e is missing in the alphabet. In automaton q2, p1.e and p2.e are the same event, and p2.e is
+    // thus in the alphabet.
+    // In automaton q1, e2 is missing in the alphabet. In automaton q2, e1 and e2 are the same event, and e2 is thus in
+    // the alphabet.
+    monitor p2.e, e2;
     location:
       initial;
-      edge p1.e;
+      edge p1.e, e1;
   end
+
+  p1: P();
+  p2: P();
+  event e1, e2;
+
+  q1: Q(p1, p2, e1, e2);
+  q2: Q(p1, p1, e1, e1);
 end
 
 ///

@@ -62,13 +62,21 @@ group g:
     event e;
   end
 
-  plant def Q(P p1, p2):
-    // May be false positive, depending on instantiations.
-    alphabet p1.e, p2.e;
+  p1: P();
+  p2: P();
+  event e1, e2;
+
+  plant def Q(P p1, p2; event e1, e2):
+    // In automaton q3, p2.e is globally disabled. In automaton q4, p1.e and p2.e are duplicated events.
+    // In automaton q3, e2 is globally disabled. In automaton q4, e1 and e2 are duplicated events.
+    alphabet p1.e, p2.e, e1, e2;
     location:
       initial;
-      edge p1.e;
+      edge p1.e, e1;
   end
+
+  q3: Q(p1, p2, e1, e2);
+  q4: Q(p1, p1, e1, e1);
 end
 
 group h:

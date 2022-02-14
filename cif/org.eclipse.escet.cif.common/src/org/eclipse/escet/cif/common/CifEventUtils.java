@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.common;
 
+import static org.eclipse.escet.cif.common.CifScopeUtils.isParamRefExpr;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTauExpression;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -25,7 +26,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -37,13 +37,9 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.EdgeEventImpl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
-import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 
 /** CIF event utility methods. */
@@ -119,17 +115,15 @@ public class CifEventUtils {
      * derived from the non-communication uses of events on the edges of the automaton.
      *
      * <p>
-     * This method supports specifications that have component definitions/instantiations. In particular, it can handle
-     * wrapping expressions for event references.
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
      * </p>
      *
      * @param automaton The automaton for which to return the alphabet.
-     * @param equality The equality notion to use to determine whether two references via component parameters are
-     *     equal, or {@code null} if not applicable.
      * @return The alphabet of the automaton.
      */
-    public static EventRefSet getAlphabet(Automaton automaton, EventEquality equality) {
-        EventRefSet alphabet = new EventRefSet(equality);
+    public static EventRefSet getAlphabetRefSet(Automaton automaton) {
+        EventRefSet alphabet = new EventRefSet();
         if (automaton.getAlphabet() != null) {
             // There can not be a 'tau' event in the alphabet.
             for (Expression eventRef: automaton.getAlphabet().getEvents()) {
@@ -333,33 +327,30 @@ public class CifEventUtils {
      * Returns the monitor events for the given automaton.
      *
      * <p>
-     * This method supports specifications that have component definitions/instantiations. In particular, it can handle
-     * wrapping expressions for event references.
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
      * </p>
      *
      * @param automaton The automaton for which to return the monitor events.
-     * @param equality The equality notion to use to determine whether two references via component parameters are
-     *     equal, or {@code null} if not applicable.
-     * @param alphabet The alphabet of the automaton, as obtained using the
-     *     {@link #getAlphabet(Automaton, EventEquality)} method, for that same automaton, and with the same equality
-     *     notion. May be {@code null} to let this method compute the alphabet, if needed.
+     * @param alphabet The alphabet of the automaton, as obtained using the {@link #getAlphabetRefSet(Automaton)}
+     *     method, for that same automaton. May be {@code null} to let this method compute the alphabet, if needed.
      * @return The monitor events of the automaton.
      */
-    public static EventRefSet getMonitors(Automaton automaton, EventEquality equality, EventRefSet alphabet) {
+    public static EventRefSet getMonitorsRefSet(Automaton automaton, EventRefSet alphabet) {
         // Handle no monitors.
         Monitors monitors = automaton.getMonitors();
         if (monitors == null) {
-            return new EventRefSet(equality);
+            return new EventRefSet();
         }
 
         // Handle monitors implicitly equal to alphabet.
         List<Expression> eventRefs = monitors.getEvents();
         if (eventRefs.isEmpty()) {
-            return (alphabet != null) ? alphabet : getAlphabet(automaton, equality);
+            return (alphabet != null) ? alphabet : getAlphabetRefSet(automaton);
         }
 
         // Handle explicitly specified monitors.
-        EventRefSet rslt = new EventRefSet(equality);
+        EventRefSet rslt = new EventRefSet();
         for (Expression eventRef: eventRefs) {
             rslt.add(eventRef);
         }
@@ -506,13 +497,16 @@ public class CifEventUtils {
     /**
      * Returns the events for the given edge. This includes events used to synchronize, send, and receive.
      *
+     * <p>
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
+     * </p>
+     *
      * @param edge The edge for which to return the events.
-     * @param equality The equality notion to use to determine whether two references via component parameters are
-     *     equal, or {@code null} if not applicable.
      * @return The events of the edge.
      */
-    public static EventRefSet getEvents(Edge edge, EventEquality equality) {
-        EventRefSet events = new EventRefSet(equality);
+    public static EventRefSet getEventsRefSet(Edge edge) {
+        EventRefSet events = new EventRefSet();
 
         // Add events from the edge.
         for (EdgeEvent edgeEvent: edge.getEvents()) {
@@ -588,20 +582,29 @@ public class CifEventUtils {
     }
 
     /**
-     * Returns a value indicating whether the two event reference expressions refer to the same event. Takes into
-     * account wrapping expressions. Supports 'tau' events.
+     * Returns a value indicating whether the two event reference expressions refer to the same event. Supports 'tau'
+     * events.
      *
      * <p>
-     * This method only works correctly for reference expressions that are contained in the same scope.
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
      * </p>
      *
      * @param ref1 The first event reference expression.
-     * @param ref2 The first event reference expression.
-     * @param equality The equality notion to use to determine whether two references via component parameters are
-     *     equal, or {@code null} if not applicable.
+     * @param ref2 The second event reference expression.
      * @return {@code true} if the event reference expressions refer to the same event, {@code false} otherwise.
      */
-    public static boolean areSameEventRefs(Expression ref1, Expression ref2, EventEquality equality) {
+    public static boolean areSameEventRefs(Expression ref1, Expression ref2) {
+        // Doesn't support via component parameter reference expression or event parameter reference expression.
+        if (isParamRefExpr(ref1) || isParamRefExpr(ref2)) {
+            throw new RuntimeException("Unexpected parameter reference.");
+        }
+
+        // Doesn't support via component instantiation expression.
+        if (ref1 instanceof CompInstWrapExpression || ref2 instanceof CompInstWrapExpression) {
+            throw new RuntimeException("Unexpected via component instantiation reference.");
+        }
+
         // Tau events.
         if (ref1 instanceof TauExpression && ref2 instanceof TauExpression) {
             return true;
@@ -612,61 +615,6 @@ public class CifEventUtils {
             Event event1 = ((EventExpression)ref1).getEvent();
             Event event2 = ((EventExpression)ref2).getEvent();
             return event1 == event2;
-        }
-
-        // Component instantiation via references.
-        if (ref1 instanceof CompInstWrapExpression && ref2 instanceof CompInstWrapExpression) {
-            CompInstWrapExpression wrap1 = (CompInstWrapExpression)ref1;
-            CompInstWrapExpression wrap2 = (CompInstWrapExpression)ref2;
-            if (wrap1.getInstantiation() != wrap2.getInstantiation()) {
-                return false;
-            }
-            return areSameEventRefs(wrap1.getReference(), wrap2.getReference(), equality);
-        }
-
-        // Component parameter via references. Note that (as documented in
-        // the method's Javadoc) two different parameters are considered to
-        // lead to different events, even though they may get instantiated
-        // with the same component. That is, this may lead to false negatives.
-        if (ref1 instanceof CompParamWrapExpression && ref2 instanceof CompParamWrapExpression) {
-            CompParamWrapExpression wrap1 = (CompParamWrapExpression)ref1;
-            CompParamWrapExpression wrap2 = (CompParamWrapExpression)ref2;
-
-            if (equality == null) {
-                // Event reference expressions with component parameter
-                // wrapping expressions unexpected.
-                throw new RuntimeException("equality == null");
-            }
-
-            if (equality == EventEquality.PESSIMISTIC) {
-                // Same parameters, then check recursively.
-                if (wrap1.getParameter() == wrap2.getParameter()) {
-                    return areSameEventRefs(wrap1.getReference(), wrap2.getReference(), equality);
-                }
-
-                // Different parameters, then unequal by definition.
-                return false;
-            } else {
-                Assert.check(equality == EventEquality.OPTIMISTIC);
-
-                // If different parameters of different types, then not
-                // equal.
-                CifType ptype1 = wrap1.getParameter().getType();
-                CifType ptype2 = wrap2.getParameter().getType();
-                ptype1 = CifTypeUtils.normalizeType(ptype1);
-                ptype2 = CifTypeUtils.normalizeType(ptype2);
-                ComponentDefType cdefType1 = (ComponentDefType)ptype1;
-                ComponentDefType cdefType2 = (ComponentDefType)ptype2;
-                ComponentDef cdef1 = cdefType1.getDefinition();
-                ComponentDef cdef2 = cdefType2.getDefinition();
-                if (cdef1 != cdef2) {
-                    return false;
-                }
-
-                // Same parameters, or different parameters of same type
-                // (component definition), then check recursively.
-                return areSameEventRefs(wrap1.getReference(), wrap2.getReference(), equality);
-            }
         }
 
         // The two event references don't refer to the same event.
