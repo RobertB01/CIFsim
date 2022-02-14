@@ -13,15 +13,17 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tools-cif2cif-chapter-convert-event-contr]]
-== Convert events to controllable
+[[tools-cif2cif-chapter-convert-uncontrollable-events-to-controllable]]
+== Convert uncontrollable events to controllable
 
-indexterm:[CIF to CIF transformer,convert events to controllable]
-indexterm:[convert events to controllable]
-indexterm:[events to controllable,convert]
-This CIF to CIF transformation converts the controllability status of events to controllable.
+indexterm:[CIF to CIF transformer,convert uncontrollable events to controllable]
+indexterm:[convert uncontrollable events to controllable]
+indexterm:[events,convert uncontrollable events to controllable]
+This CIF to CIF transformation converts uncontrollable events to controllable.
 
-indexterm:[convert events to controllable,supported specifications]
+As `tau` is neither controllable nor uncontrollable, it is not touched by this transformation.
+
+indexterm:[convert uncontrollable events to controllable,supported specifications]
 
 === Supported specifications
 
@@ -30,7 +32,7 @@ The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
-indexterm:[convert events to controllable,preprocessing]
+indexterm:[convert uncontrollable events to controllable,preprocessing]
 
 === Preprocessing
 
@@ -39,11 +41,11 @@ To increase the subset of specifications that can be transformed, apply the foll
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
-indexterm:[convert events to controllable,implementation]
+indexterm:[convert uncontrollable events to controllable,implementation]
 
 === Implementation details
 
-For each event in the CIF specification, the controllability status of that event is converted to controllable.
+Each uncontrollable event in the CIF specification is converted to controllable.
 For instance, the following specification:
 
 [source, cif]
@@ -82,4 +84,12 @@ end
 
 Event names with the special prefix `u_` are renamed to preserve the event naming convention, see <<lang-tut-extensions-synthesis-evtctrl>>.
 The prefix `u_` is replaced by `c_`.
-In case the new global name is already in use in the specification, a suffix is added.
+In case the new global name is already in use in the specification, a suffix is also added.
+
+=== Size considerations
+
+Uncontrollable events are modified, the size of the specification neither grows nor shrinks.
+
+=== Optimality
+
+n/a

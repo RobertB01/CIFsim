@@ -12,16 +12,16 @@
 //////////////////////////////////////////////////////////////////////////////
 
 group G:
-    controllable c_a;
-    automaton A:
-        controllable b;
+  controllable c_a;
+  automaton A:
+    controllable b;
 
-        location l1:
-            initial;marked;
-            edge c_a goto l2;
-        location l2:
-            edge b goto l1;
-    end
+    location l1:
+      initial;marked;
+      edge c_a goto l2;
+    location l2:
+      edge b goto l1;
+  end
 end
 
 uncontrollable u_a;
@@ -29,7 +29,7 @@ controllable c_a;
 event e;
 
 automaton B:
-    location l1:
-        initial;marked;
-        edge u_a,c_a,e;
+  location l1:
+    initial;marked;
+    edge u_a, c_a, e;
 end

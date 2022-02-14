@@ -590,6 +590,7 @@ public class CifScopeUtils {
      * @param scopeCache Cache with computation results for {@link #getSymbolNamesForScope}. May be {@code null} to not
      *     use a cache.
      * @return The names of the symbols.
+     * @see #getScope
      * @see #getObject
      */
     public static Set<String> getSymbolNamesForScope(PositionObject scope, ScopeCache scopeCache) {
@@ -614,6 +615,7 @@ public class CifScopeUtils {
      *     use a cache.
      * @return The names of the symbols.
      * @see #getObject
+     * @see #getScope
      */
     private static Set<String> getUncachedSymbolNamesForScope(PositionObject scope, ScopeCache scopeCache) {
         Set<String> rslt = set();

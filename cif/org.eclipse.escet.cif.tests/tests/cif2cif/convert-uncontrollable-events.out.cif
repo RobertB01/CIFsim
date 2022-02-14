@@ -1,4 +1,4 @@
-controllable c_a1;
+controllable c_a2;
 controllable c_a;
 event e;
 group G:
@@ -17,5 +17,5 @@ automaton B:
   location l1:
     initial;
     marked;
-    edge c_a1, c_a, e;
+    edge c_a2, c_a, e;
 end
