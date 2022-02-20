@@ -169,7 +169,7 @@ Uncontrolled system:
     Edge: (event: c_synch) (guard: a.l1 and b.l2)
     Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
-Restricting uncontrolled behavior using state plants.
+Restricting uncontrolled behavior using state plant invariants.
 
 Edge (event: p.c7) (guard: p.w = 5 and p.l1): guard: p.w = 5 and p.l1 -> false.
 Edge (event: p.c10) (guard: p.l1 and p.z = 1) (assignments: p.z := p.z + 1): guard: p.l1 and p.z = 1 -> false.

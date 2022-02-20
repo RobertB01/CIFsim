@@ -209,7 +209,7 @@ Initial (controlled system):           <bdd 18n 55p>
 Initial (removed by supervisor):       <bdd 20n 56p>
 Initial (added by supervisor):         <bdd 20n 76p>
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: <bdd 18n 55p> -> <bdd 13n 55p> [assume <bdd 14n 64p>].
 
 Simplification of controlled system under the assumption of the plants:

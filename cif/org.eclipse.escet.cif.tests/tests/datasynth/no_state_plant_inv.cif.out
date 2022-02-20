@@ -48,7 +48,7 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Restricting uncontrolled behavior using state plants.
+Restricting uncontrolled behavior using state plant invariants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

@@ -719,7 +719,7 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             dbg();
-            dbg("Restricting uncontrolled behavior using state plants.");
+            dbg("Restricting uncontrolled behavior using state plant invariants.");
         }
 
         boolean guardUpdated = false;
@@ -1699,7 +1699,7 @@ public class CifDataSynthesis {
                 return;
             }
             if (simplifications.contains(BddSimplify.INITIAL_UNCTRL)) {
-                assumptionTxts.add("uncontrolled system");
+                assumptionTxts.add("uncontrolled system initialization predicates");
 
                 BDD extra = aut.initialUnctrl.id();
                 assumption = assumption.andWith(extra);
@@ -1732,7 +1732,8 @@ public class CifDataSynthesis {
 
                 if (dbgEnabled && !aut.initialOutput.equals(newInitial)) {
                     dbg();
-                    dbg("Simplification of controlled system under the assumption of the %s:", assumptionsTxt);
+                    dbg("Simplification of controlled system initialization predicate under the assumption of the %s:",
+                            assumptionsTxt);
                     dbg("  Initial: %s -> %s [assume %s].", bddToStr(aut.initialOutput, aut), bddToStr(newInitial, aut),
                             bddToStr(assumption, aut));
                 }

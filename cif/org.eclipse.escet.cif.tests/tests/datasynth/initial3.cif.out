@@ -109,7 +109,7 @@ Initial (controlled system):           p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p
 Initial (removed by supervisor):       p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2)
 Initial (added by supervisor):         (p.x1 != 0 or (p.x2 != 0 or p.x3 != 0)) and (p.x1 != 2 or (p.x2 != 2 or p.x3 != 2))
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) -> p.x1 = 1 or p.x1 = 3 [assume p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))].
 
 Constructing output CIF specification.

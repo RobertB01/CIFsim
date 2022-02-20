@@ -162,7 +162,7 @@ Initial (controlled system):           p.b and p.x = 2 and (p.L1 and (p.y = 4 an
 Initial (removed by supervisor):       (p.b or (p.x = 2 or p.x = 3)) and (p.b or p.x = 0 or (p.x = 1 or p.L1)) and ((not p.b or p.x != 0) and (not p.b or p.x != 2 or (p.L2 or (p.y != 4 or p.v = p.Q)))) and ((not p.b or p.x != 2 or (p.L2 or (p.y != 2 or p.v = p.Q))) and (not p.b or p.x != 2 or (p.L2 or (p.y != 3 or p.v = p.Q))) and ((not p.b or (p.x != 2 or p.L1)) and ((not p.b or p.x != 1) and (not p.b or (p.x != 3 or p.L1)))))
 Initial (added by supervisor):         <bdd 17n 25p>
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: p.b and p.x = 2 and (p.L1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L1 and (p.y = 3 and p.v != p.Q))) -> p.b and (p.x = 0 or p.x = 2) and ((p.y = 2 or p.y = 4) and p.v != p.Q) or p.b and (p.x = 0 or p.x = 2) and (p.y = 3 and p.v != p.Q) [assume (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1))].
 
 Simplification of controlled system under the assumption of the plants:

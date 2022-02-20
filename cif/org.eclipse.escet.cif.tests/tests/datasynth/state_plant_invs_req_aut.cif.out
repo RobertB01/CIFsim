@@ -56,7 +56,7 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Restricting uncontrolled behavior using state plants.
+Restricting uncontrolled behavior using state plant invariants.
 
 Edge (event: A.c) (guard: not A.l1): guard: not A.l1 -> A.l2.
 Edge (event: A.u1) (guard: A.l2) (assignments: A := A.l3): guard: A.l2 -> false.

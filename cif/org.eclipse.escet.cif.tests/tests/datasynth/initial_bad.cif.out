@@ -152,7 +152,7 @@ Initial (controlled system):           p.l0 and p.x = 16
 Initial (removed by supervisor):       (not p.l0 or p.x != 16) and (not p.l2 and not p.l1)
 Initial (added by supervisor):         p.l0 and p.x = 16 or (p.l2 or p.l1)
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: p.l0 and p.x = 16 -> p.x = 16 [assume not p.l2 and not p.l1].
 
 Constructing output CIF specification.

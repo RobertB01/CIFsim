@@ -96,7 +96,7 @@ Initial (controlled system):           p.x = 2 and p.y = 2 or p.x = 1 and p.y = 
 Initial (removed by supervisor):       (p.x != 2 or p.y != 2) and (p.x != 1 or p.y != 1)
 Initial (added by supervisor):         p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1 -> p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1 [assume true].
 
 Constructing output CIF specification.

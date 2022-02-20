@@ -131,7 +131,7 @@ Initial (controlled system):           io.sensor and (p.test and p.b)
 Initial (removed by supervisor):       not io.sensor and (p.test and not p.b)
 Initial (added by supervisor):         io.sensor or (p.done or p.b)
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: io.sensor and (p.test and p.b) -> io.sensor [assume not io.sensor and (p.test and not p.b) or io.sensor and (p.test and p.b)].
 
 Constructing output CIF specification.
