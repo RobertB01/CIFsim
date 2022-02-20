@@ -174,9 +174,7 @@ public class SynthesisAutomaton {
      */
     public BDD markedInv;
 
-    /**
-     * State plant invariants (predicates) from the components. Is {@code null} if not yet or no longer available.
-     */
+    /** State plant invariants (predicates) from the components. Is {@code null} if not yet or no longer available. */
     public List<BDD> plantInvsComps;
 
     /**

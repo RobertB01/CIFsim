@@ -24,7 +24,7 @@ plant p:
     edge c4 when x < 5;                // Never enabled due to 'false' combination of automaton guard and plant.
     edge c5;                           // Never enabled due to 'false' combination of state/event excl plant and req.
     edge c6 when y = 5;                // Never enabled due to 'false' combination of guard and state requirement.
-    edge c7 when w = 5;                // Never enabled due to 'false' combination of guard and state plant.
+    edge c7 when w = 5;                // Never enabled due to 'false' combination of guard and state plant invariant.
     edge c8 when y = 4 do y := y + 1;  // Never enabled due to reaching 'y = 5', which is not allowed.
     edge c9 goto l2;                   // Never enabled after synthesis because of transition to deadlock location.
     edge c10 when z = 1 do z := z + 1; // Never enabled due to variable out of domain after assignment.

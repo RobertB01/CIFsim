@@ -254,7 +254,7 @@ Initial (controlled system):           p1.neither and f2.available and (f1.avail
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
-Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion plant invariants, state/event exclusion requirement invariants, state requirement invariants, and controlled behavior:
+Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion plant invariants, state/event exclusion requirement invariants, state plant invariants, state requirement invariants, and controlled behavior:
   Event p1.take_left: guard: <bdd 30n 26p> -> p1.right or p1.both or (f2.available or p2.right) or (p2.both or f3.available or (p4.neither or p4.right)) [assume <bdd 27n 27p>].
   Event p4.take_right: guard: <bdd 34n 26p> -> p1.neither or (p1.left or p2.neither) or (p2.left or p4.left or (p4.both or f4.available)) [assume <bdd 27n 27p>].
   Event p1.release_both: guard: <bdd 24n 9p> -> true [assume <bdd 24n 9p>].

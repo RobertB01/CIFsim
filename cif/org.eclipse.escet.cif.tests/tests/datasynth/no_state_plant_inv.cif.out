@@ -68,25 +68,16 @@ Backward controlled-behavior: true -> true [restricted to current/previous contr
 Backward reachability: iteration 1.
 Backward controlled-behavior: true [fixed point].
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
-
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: false [initialization predicate]
-Forward reachability: iteration 1.
-Controlled behavior: true -> false.
-
 Round 1: finished, all states are bad.
 
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: false)
+  State: (controlled-behavior: true)
 
 Controlled system:                     exactly 0 states.
 
-Initial (synthesis result):            false
+Initial (synthesis result):            true
 Initial (uncontrolled system):         p.x = 2 or p.x = 3
 Initial (controlled system):           false
 Initial (removed by supervisor):       p.x = 2 or p.x = 3

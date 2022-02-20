@@ -130,13 +130,18 @@ public class SynthesisEdge {
     }
 
     /**
-     * Global edge guard update, to be applied after the guards have been updated because of the state plant invariants
-     * and state/event exclusion requirement invariants. Must be invoked only once per edge. Must be invoked after an
-     * invocation of {@link #initApply} and before any invocation of {@link #preApply}.
+     * Global edge reinitialization. Edges must be reinitialized when the guards have been updated due to the state
+     * plant invariants and state/event exclusion requirement invariants. Must be invoked only once per edge. Must be
+     * invoked after an invocation of {@link #initApply}.
+     *
+     * <p>
+     * Since {@link org.eclipse.escet.cif.datasynth.CifDataSynthesis#applyStatePlantInvs} applies edges, it requires
+     * edges to be initialized. Hence, initialization cannot be done later and reinitialization is necessary.
+     * </p>
      *
      * @param doForward Whether to do forward reachability during synthesis.
      */
-    public void updateGuardPred(boolean doForward) {
+    public void reinitApply(boolean doForward) {
         Assert.check(update == null);
         Assert.check(updateGuard != null);
         BDD updateGuardNew = updateGuard.and(guard);
@@ -241,6 +246,9 @@ public class SynthesisEdge {
             // Forward reachability for bad state predicates is currently not
             // supported. We don't need it, so we can't test it.
             Assert.check(!bad);
+
+            // Applying error predicates during forward reachability is not supported.
+            Assert.check(!applyError);
 
             // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)
             BDD rslt = updateGuardRestricted.applyEx(pred, BDDFactory.and, aut.varSetOld);
