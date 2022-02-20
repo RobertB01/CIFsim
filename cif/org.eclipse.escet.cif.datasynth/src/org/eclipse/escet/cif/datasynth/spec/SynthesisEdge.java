@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.datasynth.CifDataSynthesis;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -135,8 +136,8 @@ public class SynthesisEdge {
      * invoked after an invocation of {@link #initApply}.
      *
      * <p>
-     * Since {@link org.eclipse.escet.cif.datasynth.CifDataSynthesis#applyStatePlantInvs} applies edges, it requires
-     * edges to be initialized. Hence, initialization cannot be done later and reinitialization is necessary.
+     * Since {@link CifDataSynthesis#applyStatePlantInvs} applies edges, it requires edges to be initialized. Hence,
+     * initialization cannot be done later and reinitialization is necessary.
      * </p>
      *
      * @param doForward Whether to do forward reachability during synthesis.
@@ -226,18 +227,16 @@ public class SynthesisEdge {
      * Applies the assignments of the edge, to a given predicate. The assignments can be applied forward (normally) or
      * backward (reversed).
      *
-     * <p>
-     * Forward reachability for bad state predicates is currently not supported.
-     * </p>
-     *
      * @param pred The predicate to which to apply the assignment in reverse. This predicate is {@link BDD#free freed}
      *     by this method.
-     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
+     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}). If
+     *     applying forward, bad states are currently not supported.
      * @param forward Whether to apply forward ({@code true}) or backward ({@code false}).
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, restrict the
      *     result to these states. May be {@code null} to not impose a restriction, which is semantically equivalent to
      *     providing 'true'.
-     * @param applyError Whether to apply the runtime error predicates.
+     * @param applyError Whether to apply the runtime error predicates. If applying forward, applying runtime error
+     *     predicates is currently not supported.
      * @return The resulting predicate.
      */
     public BDD apply(BDD pred, boolean bad, boolean forward, BDD restriction, boolean applyError) {

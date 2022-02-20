@@ -58,7 +58,7 @@ plant q:
     edge u1;                           // Never enabled due to 'false' state/event exclusion plant.
     edge u2 when p.x < 5;              // Never enabled due to 'false' combination of automaton guard and state/event exclusion plant.
     edge u3 when p.y = 5;              // Never enabled due to 'false' combination of guard and state requirement.
-    edge u4 when p.w = 5;              // Never enabled due to 'false' combination of guard and state plant.
+    edge u4 when p.w = 5;              // Never enabled due to 'false' combination of guard and state plant invariants.
 end
 
 plant q.u1 needs false;

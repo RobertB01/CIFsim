@@ -1694,7 +1694,7 @@ public class CifDataSynthesis {
 
             // If requested, the controlled system initialization predicate is simplified under the assumption of the
             // uncontrolled system initialization predicate, to obtain the additional initialization restrictions
-            // introduced by the controller with respect to the state plant invariants.
+            // introduced by the controller with respect to the uncontrolled system initialization predicate.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
