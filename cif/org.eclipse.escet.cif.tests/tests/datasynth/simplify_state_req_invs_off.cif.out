@@ -5,8 +5,8 @@ Converting CIF specification to internal format.
 CIF variables and location pointers:
   Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a        p3    0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..5]  p3.x  1      3 * 2     6 * 2       8 * 2       75%
+  1      location pointer   n/a        p     0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[0..5]  p.x   1      3 * 2     6 * 2       8 * 2       75%
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
   Total                                      2      8         16          20          80%
 
@@ -34,27 +34,27 @@ Invariant (components state plant inv):      true
 Invariant (locations state plant invariant): true
 Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   (p3.loc2 or (p3.x = 1 or 3 <= p3.x and p3.x <= 5)) and (p3.loc2 or p3.x != 1)
-Invariant (components state req invariant):  (p3.loc2 or (p3.x = 1 or 3 <= p3.x and p3.x <= 5)) and (p3.loc2 or p3.x != 1)
-Invariant (location state req invariant):    p3.loc1 or (p3.x = 4 or p3.x = 5)
-Invariant (locations state req invariant):   p3.loc1 or (p3.x = 4 or p3.x = 5)
-Invariant (system state req invariant):      p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5))
+Invariant (component state req invariant):   (p.loc2 or (p.x = 1 or 3 <= p.x and p.x <= 5)) and (p.loc2 or p.x != 1)
+Invariant (components state req invariant):  (p.loc2 or (p.x = 1 or 3 <= p.x and p.x <= 5)) and (p.loc2 or p.x != 1)
+Invariant (location state req invariant):    p.loc1 or (p.x = 4 or p.x = 5)
+Invariant (locations state req invariant):   p.loc1 or (p.x = 4 or p.x = 5)
+Invariant (system state req invariant):      p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))
 
 Initial   (discrete variable 1):             true
 Initial   (discrete variables):              true
 Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p3.loc1
-Initial   (auts/locs init predicate):        p3.loc1
-Initial   (uncontrolled system):             p3.loc1
-Initial   (system, combined init/plant inv): p3.loc1
-Initial   (system, combined init/state inv): p3.loc1 and p3.x = 4 or (p3.loc1 and p3.x = 5 or p3.loc1 and p3.x = 3)
+Initial   (aut/locs init predicate):         p.loc1
+Initial   (auts/locs init predicate):        p.loc1
+Initial   (uncontrolled system):             p.loc1
+Initial   (system, combined init/plant inv): p.loc1
+Initial   (system, combined init/state inv): p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3)
 
 Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p3.loc1
-Marked    (auts/locs marker predicate):      p3.loc1
-Marked    (uncontrolled system):             p3.loc1
-Marked    (system, combined mark/plant inv): p3.loc1
-Marked    (system, combined mark/state inv): p3.loc1 and p3.x = 4 or (p3.loc1 and p3.x = 5 or p3.loc1 and p3.x = 3)
+Marked    (aut/locs marker predicate):       p.loc1
+Marked    (auts/locs marker predicate):      p.loc1
+Marked    (uncontrolled system):             p.loc1
+Marked    (system, combined mark/plant inv): p.loc1
+Marked    (system, combined mark/state inv): p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3)
 
 State/event exclusion plants:
   None
@@ -64,62 +64,62 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: e3a) (guard: p3.loc1) (assignments: p3 := p3.loc2)
-    Edge: (event: e3a) (guard: p3.loc2) (assignments: p3 := p3.loc1)
+    Edge: (event: e) (guard: p.loc1) (assignments: p := p.loc2)
+    Edge: (event: e) (guard: p.loc2) (assignments: p := p.loc1)
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)).
+Initialized controlled-behavior predicate using invariants: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)).
 
 Extending controlled-behavior predicate using variable ranges.
 
-Controlled behavior: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)) -> p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)) [range: true, variable: discrete variable "p3.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
+Controlled behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [range: true, variable: discrete variable "p.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
 
-Extended controlled-behavior predicate using variable ranges: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)).
+Extended controlled-behavior predicate using variable ranges: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)).
 
 Restricting behavior using state/event exclusion requirements.
 
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p3.loc1 [marker predicate]
-Backward controlled-behavior: p3.loc1 -> p3.loc1 and p3.x = 4 or (p3.loc1 and p3.x = 5 or p3.loc1 and p3.x = 3) [restricted to current/previous controlled-behavior predicate: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5))]
+Backward controlled-behavior: p.loc1 [marker predicate]
+Backward controlled-behavior: p.loc1 -> p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) [restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p3.loc1 and p3.x = 4 or (p3.loc1 and p3.x = 5 or p3.loc1 and p3.x = 3) -> p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)) [backward reach with edge: (event: e3a) (guard: p3.loc2) (assignments: p3 := p3.loc1), restricted to current/previous controlled-behavior predicate: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5))]
+Backward controlled-behavior: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [backward reach with edge: (event: e) (guard: p.loc2) (assignments: p := p.loc1), restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
 Backward reachability: iteration 2.
-Backward controlled-behavior: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)) [fixed point].
+Backward controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (p3.loc2 or p3.x != 4) and (p3.loc2 or p3.x != 5) and ((p3.loc2 or p3.x != 3) and (p3.loc1 or 0 <= p3.x and p3.x <= 3)) [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: (p.loc2 or p.x != 4) and (p.loc2 or p.x != 5) and ((p.loc2 or p.x != 3) and (p.loc1 or 0 <= p.x and p.x <= 3)) [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p3.loc1 [initialization predicate]
-Forward controlled-behavior: p3.loc1 -> p3.loc1 and p3.x = 4 or (p3.loc1 and p3.x = 5 or p3.loc1 and p3.x = 3) [restricted to current/previous controlled-behavior predicate: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5))]
+Forward controlled-behavior: p.loc1 [initialization predicate]
+Forward controlled-behavior: p.loc1 -> p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) [restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
 Forward reachability: iteration 1.
-Forward controlled-behavior: p3.loc1 and p3.x = 4 or (p3.loc1 and p3.x = 5 or p3.loc1 and p3.x = 3) -> p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)) [forward reach with edge: (event: e3a) (guard: p3.loc1) (assignments: p3 := p3.loc2), restricted to current/previous controlled-behavior predicate: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5))]
+Forward controlled-behavior: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [forward reach with edge: (event: e) (guard: p.loc1) (assignments: p := p.loc2), restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
 Forward reachability: iteration 2.
-Forward controlled-behavior: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)) [fixed point].
+Forward controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [fixed point].
 
 Round 1: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: e3a) (guard: p3.loc1) (assignments: p3 := p3.loc2): guard: p3.loc1 -> p3.loc1 and (p3.x = 4 or p3.x = 5).
-Edge (event: e3a) (guard: p3.loc2) (assignments: p3 := p3.loc1): guard: p3.loc2 -> p3.loc2 and p3.x = 4 or (p3.loc2 and p3.x = 5 or p3.loc2 and p3.x = 3).
+Edge (event: e) (guard: p.loc1) (assignments: p := p.loc2): guard: p.loc1 -> p.loc1 and (p.x = 4 or p.x = 5).
+Edge (event: e) (guard: p.loc2) (assignments: p := p.loc1): guard: p.loc2 -> p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3).
 
 Final synthesis result:
-  State: (controlled-behavior: p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5)))
-    Edge: (event: e3a) (guard: p3.loc1 -> p3.loc1 and (p3.x = 4 or p3.x = 5)) (assignments: p3 := p3.loc2)
-    Edge: (event: e3a) (guard: p3.loc2 -> p3.loc2 and p3.x = 4 or (p3.loc2 and p3.x = 5 or p3.loc2 and p3.x = 3)) (assignments: p3 := p3.loc1)
+  State: (controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)))
+    Edge: (event: e) (guard: p.loc1 -> p.loc1 and (p.x = 4 or p.x = 5)) (assignments: p := p.loc2)
+    Edge: (event: e) (guard: p.loc2 -> p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3)) (assignments: p := p.loc1)
 
 Controlled system:                     exactly 5 states.
 
-Initial (synthesis result):            p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5))
-Initial (uncontrolled system):         p3.loc1
-Initial (controlled system):           p3.loc1 and p3.x = 4 or (p3.loc1 and p3.x = 5 or p3.loc1 and p3.x = 3)
-Initial (removed by supervisor):       p3.loc1 and (p3.x = 0 or p3.x = 2) or p3.loc1 and p3.x = 1
-Initial (added by supervisor):         (p3.loc2 or (p3.x = 1 or 3 <= p3.x and p3.x <= 5)) and (p3.loc2 or p3.x != 1)
+Initial (synthesis result):            p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))
+Initial (uncontrolled system):         p.loc1
+Initial (controlled system):           p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3)
+Initial (removed by supervisor):       p.loc1 and (p.x = 0 or p.x = 2) or p.loc1 and p.x = 1
+Initial (added by supervisor):         (p.loc2 or (p.x = 1 or 3 <= p.x and p.x <= 5)) and (p.loc2 or p.x != 1)
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/simplify_state_req_invs_off.ctrlsys.real.cif".

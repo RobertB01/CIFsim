@@ -1,27 +1,27 @@
-controllable e2a;
-controllable e2b;
-controllable e2c;
-controllable e2d;
-plant automaton p2:
+controllable c_a;
+controllable c_b;
+controllable c_c;
+controllable c_d;
+plant automaton p:
   disc int[0..5] x in any;
   location:
     initial;
     marked;
-    edge e2a do x := x + 1;
-    edge e2b when x = 3 or x = 5;
-    edge e2c when x >= 2;
-    edge e2d when x >= 3;
+    edge c_a do x := x + 1;
+    edge c_b when x = 3 or x = 5;
+    edge c_c when x >= 2;
+    edge c_d when x >= 3;
 end
 supervisor automaton sup:
-  alphabet e2a, e2b, e2c, e2d;
+  alphabet c_a, c_b, c_c, c_d;
   location:
     initial;
     marked;
-    edge e2a when p2.x != 5;
-    edge e2b when p2.x = 1 or (p2.x = 3 or p2.x = 5);
-    edge e2c when 2 <= p2.x and p2.x <= 5;
-    edge e2d when not(p2.x = 2 or p2.x = 3);
+    edge c_a when p.x != 5;
+    edge c_b when p.x = 1 or (p.x = 3 or p.x = 5);
+    edge c_c when 2 <= p.x and p.x <= 5;
+    edge c_d when not(p.x = 2 or p.x = 3);
 end
-supervisor invariant e2b needs p2.x >= 3;
-supervisor invariant p2.x = 1 disables e2c;
-supervisor invariant e2d needs p2.x >= 4;
+supervisor invariant c_b needs p.x >= 3;
+supervisor invariant p.x = 1 disables c_c;
+supervisor invariant c_d needs p.x >= 4;

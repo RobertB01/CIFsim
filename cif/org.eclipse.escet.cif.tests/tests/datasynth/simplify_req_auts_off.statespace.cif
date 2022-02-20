@@ -1,7 +1,7 @@
-controllable e1a;
-controllable e1b;
+controllable c_a;
+controllable c_b;
 automaton statespace:
-  alphabet e1a, e1b;
+  alphabet c_a, c_b;
   location loc1:
     initial;
     marked;
@@ -14,15 +14,15 @@ automaton statespace:
   location loc4:
     initial;
     marked;
-    edge e1a;
+    edge c_a;
   location loc5:
     initial;
     marked;
-    edge e1a;
-    edge e1b;
+    edge c_a;
+    edge c_b;
   location loc6:
     initial;
     marked;
-    edge e1a;
-    edge e1b;
+    edge c_a;
+    edge c_b;
 end

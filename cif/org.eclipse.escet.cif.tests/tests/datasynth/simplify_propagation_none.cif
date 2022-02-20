@@ -13,50 +13,50 @@
 
 // Uncontrollable event propagation.
 
-controllable e5a;
-uncontrollable e5b;
+controllable p_a;
+uncontrollable p_b;
 
-plant p5:
+plant p:
   disc int[0..5] x in any;
 
   location loc1:
     initial;
     marked;
-    edge e5a when x >= 3 goto loc2;
+    edge p_a when x >= 3 goto loc2;
 
   location loc2:
     marked;
-    edge e5b goto loc3;
+    edge p_b goto loc3;
 
   location loc3;
 end
 
 // Marking propagation.
 
-controllable e6a, e6b;
+controllable q_a, q_b;
 
-plant p6:
+plant q:
   location loc1:
     initial;
     marked;
-    edge e6a goto loc2;
-    edge e6b goto loc2;
+    edge q_a goto loc2;
+    edge q_b goto loc2;
 
   location loc2:
-    edge e6a goto loc3;
+    edge q_a goto loc3;
 
   location loc3:
-    edge e6b goto loc4;
+    edge q_b goto loc4;
 
   location loc4:
-    edge e6a goto loc1;
-    edge e6b goto loc5;
+    edge q_a goto loc1;
+    edge q_b goto loc5;
 
   location loc5:
-    edge e6a goto loc6;
+    edge q_a goto loc6;
 
   location loc6:
-    edge e6b goto loc7;
+    edge q_b goto loc7;
 
   location loc7;
 end

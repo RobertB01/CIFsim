@@ -11,22 +11,22 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-controllable e1a, e1b;
+controllable c_a, c_b;
 
-plant p1:
+plant p:
   disc int[0..5] x in any;
 
   location:
     initial;
     marked;
-    edge e1a when x >= 3;
-    edge e1b when x >= 3;
+    edge c_a when x >= 3;
+    edge c_b when x >= 3;
 end
 
-requirement r1:
+requirement r:
   location:
     initial;
     marked;
-    edge e1a when p1.x >= 2; // No restriction.
-    edge e1b when p1.x >= 4; // Disallow p1.x = 3.
+    edge c_a when p.x >= 2; // No restriction.
+    edge c_b when p.x >= 4; // Disallow p.x = 3.
 end
