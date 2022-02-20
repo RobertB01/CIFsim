@@ -32,7 +32,7 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
-=== Version 0.4
+=== Version 0.4 (2021-12-17)
 
 Improvements and fixes:
 
@@ -47,7 +47,7 @@ Its documentation is now part of the Eclipse ESCET development documentation (is
 `eclipse.ini` is now named `eclipse-escet.ini` (issue #98).
 * Eclipse ESCET now bundles Java 11.0.12 rather than Java 11.0.2 (issue #237).
 
-=== Version 0.3
+=== Version 0.3 (2021-10-01)
 
 Improvements and fixes:
 
@@ -57,7 +57,7 @@ Improvements and fixes:
 * Removed unsupported in-place update instructions from the documentation (issue #166).
 * Several small documentation fixes and improvements (issue #166).
 
-=== Version 0.2
+=== Version 0.2 (2021-07-07)
 
 Improvements and fixes:
 
@@ -74,7 +74,7 @@ Improvements and fixes:
 * Eclipse ESCET downloads for Linux previously included an 'executable' `about.html` file (issue #90).
 * Crash reports now indicate where and how to report issues (issue #33).
 
-=== Version 0.1
+=== Version 0.1 (2021-04-02)
 
 The first release of the Eclipse ESCET project and toolkit.
 This release is based on the initial contribution by the Eindhoven University of Technology (TU/e).

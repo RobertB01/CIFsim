@@ -28,7 +28,7 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 
 TBD
 
-=== Version 0.4
+=== Version 0.4 (2021-12-17)
 
 Improvements and fixes:
 
@@ -37,7 +37,7 @@ Improvements and fixes:
 * Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
 * Multiple small error message improvements (issue #248).
 
-=== Version 0.3
+=== Version 0.3 (2021-10-01)
 
 Improvements and fixes:
 
@@ -45,11 +45,11 @@ Improvements and fixes:
 * Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
 * Several small documentation fixes and improvements (issue #166).
 
-=== Version 0.2
+=== Version 0.2 (2021-07-07)
 
 This release contains no specific changes for ToolDef.
 
-=== Version 0.1
+=== Version 0.1 (2021-04-02)
 
 The first release of ToolDef as part of the Eclipse ESCET project.
 This release is based on the initial contribution by the Eindhoven University of Technology (TU/e).

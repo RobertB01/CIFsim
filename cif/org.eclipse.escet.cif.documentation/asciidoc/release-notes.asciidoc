@@ -28,7 +28,7 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 
 TBD
 
-=== Version 0.4
+=== Version 0.4 (2021-12-17)
 
 Language changes:
 
@@ -90,7 +90,7 @@ This allows referring to the enumeration literals by name when specifying proper
 In the Eclipse ESCET IDE it can now be found in the menu:CIF miscellaneous tools[] sub-menu (issue #188).
 * The CIF to yEd documentation has been updated for changes to recent yEd versions (issue #209).
 
-=== Version 0.3
+=== Version 0.3 (2021-10-01)
 
 Language changes:
 
@@ -121,7 +121,7 @@ Improvements and fixes:
 * Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
 * Several small documentation fixes and improvements (issues #36 and #166).
 
-=== Version 0.2
+=== Version 0.2 (2021-07-07)
 
 Language changes:
 
@@ -182,7 +182,7 @@ Therefore, simulating a synthesized supervisor no longer gives warnings for simu
 * CIF tutorial updated to remove explanation of list subtraction operator that doesn't exist in the language and implementation (issue #77).
 * CIF documentation updated to fix two broken links (issue #80).
 
-=== Version 0.1
+=== Version 0.1 (2021-04-02)
 
 The first release of CIF as part of the Eclipse ESCET project.
 This release is based on the initial contribution by the Eindhoven University of Technology (TU/e).
