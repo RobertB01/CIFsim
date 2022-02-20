@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.typechecker.postchk.CifPrintPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifSvgPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifTypeCheckerPostCheckEnv;
 import org.eclipse.escet.cif.typechecker.postchk.CyclePostChecker;
+import org.eclipse.escet.cif.typechecker.postchk.EventsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.SingleEventUsePerAutPostChecker;
 import org.eclipse.escet.cif.typechecker.scopes.CompInstScope;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
@@ -229,6 +230,18 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
 
             // Check 'Automaton.uniqueUsagePerEvent' constraint.
             SingleEventUsePerAutPostChecker.check(specNoCompDef, env);
+
+            // Checks the following:
+            // - 'Alphabet.uniqueEvents' constraint.
+            // - 'Automaton.monitorsUniqueEvents' constraint.
+            // - 'Edge.uniqueEvents' constraint.
+            // - 'Automaton.validAlphabet' constraint.
+            // - 'Automaton.monitorsSubsetAlphabet' constraint.
+            // Also warns about the following dubious situations:
+            // - Event in explicit alphabet not on edge.
+            // - Monitored event not on edge.
+            // - Monitoring an empty alphabet.
+            EventsPostChecker.check(specNoCompDef, env);
         }
 
         // Return type checking result.

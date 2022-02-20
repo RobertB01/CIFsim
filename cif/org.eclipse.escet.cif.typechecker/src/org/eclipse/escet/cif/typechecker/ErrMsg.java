@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -513,7 +513,7 @@ public enum ErrMsg {
             WARNING),
 
     // Edge.uniqueEvents
-    EDGE_DUPL_EVENT("Duplicate event \"%s\" on a single edge.", 1, WARNING),
+    EDGE_DUPL_EVENT("Duplicate event \"%s\" on a single edge in automaton \"%s\".", 2, WARNING),
 
     // AST related constraint.
     EDGE_NON_LOC_TARGET("\"%s\" is not a location.", 1, ERROR),

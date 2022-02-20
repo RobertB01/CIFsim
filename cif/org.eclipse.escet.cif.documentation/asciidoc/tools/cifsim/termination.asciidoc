@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -61,8 +61,8 @@ If the <<tools-cifsim-input-chapter-trace,trace input mode>> is used, and no mor
 
 The user can manually request termination of the simulation in several ways.
 
-Termination requests have no effect while the simulator interactively asks for input from the <<tools-cifsim-input-chapter-console,console>> or via the GUI of the <<tools-cifsim-input-chapter-gui,interactive GUI input component>>.
-However, once input is provided via the console and kbd:[Enter] is pressed, or a choice is made via the GUI, the termination request will be processed.
+Termination requests have no effect while the simulator interactively asks for input from the <<tools-cifsim-input-chapter-console,console>>.
+However, once input is provided via the console and kbd:[Enter] is pressed, the termination request will be processed.
 
 Termination requests issued between <<tools-cifsim-output-realtime-frames,intermediate frames>> are delayed until the next intermediate frame.
 
@@ -72,7 +72,7 @@ Termination of the simulation can be requested, when using the interactive <<too
 
 ==== Interactive GUI input
 
-Termination of the simulation can be requested, when using the interactive <<tools-cifsim-input-chapter-gui,interactive GUI input mode>>, by closing the GUI of the interactive GUI input component, when the simulator asks for input via that GUI.
+Termination of the simulation can be requested, when using the interactive <<tools-cifsim-input-chapter-gui,interactive GUI input mode>>, by closing the GUI of the interactive GUI input component, when the simulator asks for input via that GUI, or by clicking the console termination button.
 
 ==== Applications view
 

@@ -1,0 +1,10 @@
+FUNCTION func_dup: TupleStruct_1
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        farg_dup_a: DINT;
+    END_VAR
+
+BEGIN
+    func_dup := makeTupleStruct_1(field0:=farg_dup_a, field1:=farg_dup_a);
+    RETURN;
+END_FUNCTION

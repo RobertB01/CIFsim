@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,12 +13,10 @@
 
 package org.eclipse.escet.common.raildiagrams.graphics;
 
-import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.setLineWidth;
-
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
 
 /** Vertical line. */
 public class VertLine extends Area {
@@ -33,28 +31,28 @@ public class VertLine extends Area {
      * @param railColor Color of the line.
      * @param lineWidth Width of the line.
      */
-    public VertLine(Solver solver, String prefix, Color railColor, double lineWidth) {
+    public VertLine(Solver solver, String prefix, Color railColor, int lineWidth) {
         super(solver, prefix + ".vert");
         this.railColor = railColor;
 
-        solver.addEq(left, lineWidth, right);
+        solver.addEq(left, lineWidth - 1, right);
     }
 
     @Override
-    public void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd) {
-        double top = solver.getVarValue(this.top) + baseTop;
-        double bottom = solver.getVarValue(this.bottom) + baseTop - 1;
-        double left = solver.getVarValue(this.left) + baseLeft;
-        double right = solver.getVarValue(this.right) + baseLeft - 1;
-        double width = right - left + 1;
-        double center = (right + left + 1) / 2;
+    public Position2D[] getConnectPoints(int baseLeft, int baseTop, Solver solver) {
+        int top = solver.getVarValue(this.top) + baseTop;
+        int bottom = solver.getVarValue(this.bottom) + baseTop;
+        int left = solver.getVarValue(this.left) + baseLeft;
+        int right = solver.getVarValue(this.right) + baseLeft;
+        int width = right - left + 1;
 
-        if (bottom <= top) {
-            return;
+        Position2D[] connections = new Position2D[width * 2];
+        int index = 0;
+        for (int i = 0; i < width; i++) {
+            connections[index] = new Position2D(left + i, top - 1);
+            connections[index + 1] = new Position2D(left + i, bottom + 1);
+            index += 2;
         }
-
-        gd.setColor(railColor);
-        setLineWidth(gd, (int)width);
-        gd.drawLine((int)center, (int)top, (int)center, (int)bottom);
+        return connections;
     }
 }

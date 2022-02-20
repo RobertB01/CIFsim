@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -22,47 +22,31 @@ public class PlcNumberBitsOption extends EnumOption<PlcNumberBits> {
     /** Constructor for the {@link PlcNumberBitsOption} class. */
     public PlcNumberBitsOption() {
         super("PLC number bits",
-                "BITS is the maximum number of bits supported by the PLC for representing numeric values. "
-                        + "Allowed values are \"32\" and\"64\". [DEFAULT=64]",
-                'b', "number-bits", "BITS", PlcNumberBits.BITS_64, true,
+                "BITS is the maximum number of bits supported by the PLC for representing numeric values. Specifiy "
+                        + "\"auto\" to automatically determine the maximum number of bits, \"32\" for 32-bits, or "
+                        + "\"64\" for 64-bits. [DEFAULT=auto]",
+                'b', "number-bits", "BITS", PlcNumberBits.AUTO, true,
                 "The maximum number of bits supported by the PLC for representing numeric values.");
     }
 
     @Override
     protected String getDialogText(PlcNumberBits value) {
-        switch (value) {
-            case BITS_32:
-                return "32-bit";
-            case BITS_64:
-                return "64-bit";
-            default:
-                throw new RuntimeException("Unknown number of bits: " + value);
-        }
+        return value.dialogText;
     }
 
     @Override
     public PlcNumberBits parseValue(String optName, String value) {
-        if (value.equals("32")) {
-            return PlcNumberBits.BITS_32;
-        } else if (value.equals("64")) {
-            return PlcNumberBits.BITS_64;
+        for (PlcNumberBits option: PlcNumberBits.values()) {
+            if (value.equals(option.cmdValueTxt)) {
+                return option;
+            }
         }
-        throw new InvalidOptionException("Unknown option value.");
+        throw new InvalidOptionException("Unknown option value: " + value);
     }
 
     @Override
     public String[] getCmdLine(Object value) {
-        String valueTxt;
-        switch ((PlcNumberBits)value) {
-            case BITS_32:
-                valueTxt = "32";
-                break;
-            case BITS_64:
-                valueTxt = "64";
-                break;
-            default:
-                throw new RuntimeException("Unknown PLC number bits value.");
-        }
+        String valueTxt = ((PlcNumberBits)value).cmdValueTxt;
         return new String[] {"--" + cmdLong + "=" + valueTxt};
     }
 

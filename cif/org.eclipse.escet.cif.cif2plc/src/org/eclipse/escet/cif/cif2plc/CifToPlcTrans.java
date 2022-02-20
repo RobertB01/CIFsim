@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,6 +13,11 @@
 
 package org.eclipse.escet.cif.cif2plc;
 
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_300;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_400;
+import static org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption.getPlcOutputType;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType.STATE_TYPE;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType.BOOL_TYPE;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType.DINT_TYPE;
@@ -27,6 +32,7 @@ import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
 import static org.eclipse.escet.cif.common.CifTypeUtils.makeTupleType;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.common.CifValueUtils.makeTuple;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
@@ -67,6 +73,7 @@ import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeFunc;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeFuncOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcMaxIterOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcNumberBitsOption;
+import org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcProjectNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcResourceNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskCycleTimeOption;
@@ -182,6 +189,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF PLC code generator. */
@@ -226,6 +234,9 @@ public class CifToPlcTrans {
 
     /** The PLC struct type for the 'STATE' data type. */
     private PlcStructType stateStruct;
+
+    /** The optional prefix to use for static (persistent) variables. */
+    private final String staticVarPrefix;
 
     /** Mapping from named CIF objects to their PLC names, for global names only. */
     private Map<PositionObject, String> objNames = map();
@@ -293,9 +304,25 @@ public class CifToPlcTrans {
         constantsAllowed = !simplifyValues || ConvertEnumsOption.getValue() == ConvertEnums.CONSTS;
         formalInvokeArg = PlcFormalFuncInvokeArgOption.getValue();
         formalInvokeFunc = PlcFormalFuncInvokeFuncOption.getValue();
+        staticVarPrefix = PlcOutputTypeOption.isS7Output() ? "\"DB\"." : "";
+
+        if (PlcOutputTypeOption.isS7Output()
+                && (formalInvokeArg == PlcFormalFuncInvokeArg.NONE || formalInvokeFunc != PlcFormalFuncInvokeFunc.ALL))
+        {
+            // S7 requires formal function invocation for all functions with more than two arguments.
+            String msg = fmt("Formal function invocation is not enabled for all functions, while this is required for "
+                    + "%s code. Please set the \"Formal function invocation (arguments based)\" and \"Formal function "
+                    + "invocation (function kind based)\" options accordingly.", getPlcOutputType().dialogText);
+            throw new InvalidInputException(msg);
+        }
 
         // Determine largest int/real types based on option value.
         switch (PlcNumberBitsOption.getNumberBits()) {
+            case AUTO:
+                largeIntType = getPlcOutputType().largeIntType;
+                largeRealType = getPlcOutputType().largeRealType;
+                break;
+
             case BITS_32:
                 largeIntType = DINT_TYPE;
                 largeRealType = REAL_TYPE;
@@ -305,6 +332,9 @@ public class CifToPlcTrans {
                 largeIntType = LINT_TYPE;
                 largeRealType = LREAL_TYPE;
                 break;
+
+            default:
+                throw new RuntimeException("Unknown number of bits: " + PlcNumberBitsOption.getNumberBits());
         }
     }
 
@@ -382,6 +412,11 @@ public class CifToPlcTrans {
             // This transformation introduces new constants that are intentionally not removed if simplify values is
             // enabled.
             new EnumsToConsts().transform(spec);
+        } else if (PlcOutputTypeOption.isS7Output()) {
+            // Enumerations are not converted.
+            String msg = fmt("Enumerations are not converted, while this is required for %s code. Please set the "
+                    + "\"Convert enumerations\" option accordingly.", getPlcOutputType().dialogText);
+            throw new InvalidInputException(msg);
         }
 
         // Generate code.
@@ -532,34 +567,57 @@ public class CifToPlcTrans {
         // for the clock to be reset to zero.
         main.body.add();
         main.body.add("// Handle 'time' and cycle time.");
-        main.body.add("cnt := cnt + 1;");
+        main.body.add("%s := %s + 1;", genStaticVarRef("cnt"), genStaticVarRef("cnt"));
         main.body.add();
-        main.body.add("timer0(IN := curTimer = 0, PT := T#1D);");
-        main.body.add("timer1(IN := curTimer = 1, PT := T#1D);");
+
+        // Get timer text.
+        String timer0Txt = PlcOutputTypeOption.isS7Output() ? "timer0.TON" : "timer0";
+        String timer1Txt = PlcOutputTypeOption.isS7Output() ? "timer1.TON" : "timer1";
+
+        // Start the timer.
+        main.body.add("%s(IN := %s = 0, PT := T#1D);", timer0Txt, genStaticVarRef("curTimer"));
+        main.body.add("%s(IN := %s = 1, PT := T#1D);", timer1Txt, genStaticVarRef("curTimer"));
+
+        // Get the elapsed time of the timers.
         main.body.add("timerValue0 := timer0.ET;");
         main.body.add("timerValue1 := timer1.ET;");
         main.body.add();
-        main.body.add("lastTimerValue := curTimerValue;");
-        main.body.add("IF curTimer = 0 THEN");
+
+        // Calculate the last cycle time.
+        main.body.add("lastTimerValue := %s;", genStaticVarRef("curTimerValue"));
+        main.body.add("IF %s = 0 THEN", genStaticVarRef("curTimer"));
         main.body.indent();
-        main.body.add("curTimerValue := timerValue0;");
+        main.body.add("%s := timerValue0;", genStaticVarRef("curTimerValue"));
         main.body.dedent();
         main.body.add("ELSE");
         main.body.indent();
-        main.body.add("curTimerValue := timerValue1;");
+        main.body.add("%s := timerValue1;", genStaticVarRef("curTimerValue"));
         main.body.dedent();
         main.body.add("END_IF;");
-        main.body.add("curDeltaTime := curTimerValue - lastTimerValue;");
-        main.body.add("curDeltaSecs := %s / 1000;",
-                genFuncCall(fmt("TIME_TO_%s", largeRealType.name), true, "IN", "curDeltaTime"));
-        main.body.add("curTime := curTime + curDeltaSecs;");
+        main.body.add("curDeltaTime := %s - lastTimerValue;", genStaticVarRef("curTimerValue"));
+
+        // Convert time type to real type.
+        String conversionTxt;
+        if (PlcOutputTypeOption.isS7Output()) {
+            // S7 doesn't have time to real conversion directly.
+            String timeToInt = genFuncCall(fmt("TIME_TO_%s", largeIntType.name), true, "IN", "curDeltaTime");
+            conversionTxt = genFuncCall(fmt("%s_TO_%s", largeIntType.name, largeRealType.name), true, "IN", timeToInt);
+        } else {
+            conversionTxt = genFuncCall(fmt("TIME_TO_%s", largeRealType.name), true, "IN", "curDeltaTime");
+        }
+
+        // Calculate the last cycle time in seconds.
+        main.body.add("curDeltaSecs := %s / 1000;", conversionTxt);
+        main.body.add("%s := %s + curDeltaSecs;", genStaticVarRef("curTime"), genStaticVarRef("curTime"));
         main.body.add();
-        main.body.add("IF cnt MOD 10 = 0 THEN");
+
+        // Switch timers every 10 cycles.
+        main.body.add("IF %s MOD 10 = 0 THEN", genStaticVarRef("cnt"));
         main.body.indent();
-        main.body.add("curTimer := 1 - curTimer;");
-        main.body.add("curTimerValue := T#0S;");
-        main.body.add("timer0(IN := curTimer = 0, PT := T#1D);");
-        main.body.add("timer1(IN := curTimer = 1, PT := T#1D);");
+        main.body.add("%s := 1 - %s;", genStaticVarRef("curTimer"), genStaticVarRef("curTimer"));
+        main.body.add("%s := T#0S;", genStaticVarRef("curTimerValue"));
+        main.body.add("%s(IN := %s = 0, PT := T#1D);", timer0Txt, genStaticVarRef("curTimer"));
+        main.body.add("%s(IN := %s = 1, PT := T#1D);", timer1Txt, genStaticVarRef("curTimer"));
         main.body.add("timerValue0 := timer0.ET;");
         main.body.add("timerValue1 := timer1.ET;");
         main.body.dedent();
@@ -567,9 +625,9 @@ public class CifToPlcTrans {
 
         // Initialization and time delay.
         main.body.add();
-        main.body.add("IF first THEN");
+        main.body.add("IF %s THEN", genStaticVarRef("first"));
         main.body.indent();
-        main.body.add("first := FALSE;");
+        main.body.add("%s := FALSE;", genStaticVarRef("first"));
         main.body.add();
         main.body.add("// Initialize state variables for initial state.");
         stateVars = new StateInitVarOrderer().computeOrder(stateVars);
@@ -578,12 +636,14 @@ public class CifToPlcTrans {
             if (stateVar instanceof DiscVariable) {
                 DiscVariable var = (DiscVariable)stateVar;
                 Expression value = first(var.getValue().getValues());
-                main.body.add("state0.%s := %s;", getPlcName(stateVar), transExpr(value, "state0", false));
+                main.body.add("%s.%s := %s;", genStaticVarRef("state0"), getPlcName(stateVar),
+                        transExpr(value, genStaticVarRef("state0"), false));
             } else {
                 Assert.check(stateVar instanceof ContVariable);
                 ContVariable var = (ContVariable)stateVar;
                 Expression value = var.getValue();
-                main.body.add("state0.%s := %s;", getPlcName(stateVar), transExpr(value, "state0", false));
+                main.body.add("%s.%s := %s;", genStaticVarRef("state0"), getPlcName(stateVar),
+                        transExpr(value, genStaticVarRef("state0"), false));
             }
         }
         main.body.dedent();
@@ -598,11 +658,11 @@ public class CifToPlcTrans {
             }
             ContVariable var = (ContVariable)stateVar;
             String name = getPlcName(var);
-            String fc = genFuncCall("deriv" + name, false, "state", "state0");
-            main.body.add("state1.%s := state0.%s + curDeltaSecs * %s;", name, name, fc);
+            String fc = genFuncCall("deriv" + name, false, "state", genStaticVarRef("state0"));
+            main.body.add("state1.%s := %s.%s + curDeltaSecs * %s;", name, genStaticVarRef("state0"), name, fc);
         }
         main.body.add();
-        main.body.add("state0.curTime := curTime;");
+        main.body.add("%s.curTime := %s;", genStaticVarRef("state0"), genStaticVarRef("curTime"));
         for (Declaration stateVar: stateVars) {
             // Copy continuous variable values from state1 to state0.
             if (!(stateVar instanceof ContVariable)) {
@@ -610,7 +670,7 @@ public class CifToPlcTrans {
             }
             ContVariable var = (ContVariable)stateVar;
             String name = getPlcName(var);
-            main.body.add("state0.%s := state1.%s;", name, name);
+            main.body.add("%s.%s := state1.%s;", genStaticVarRef("state0"), name, name);
         }
         main.body.dedent();
         main.body.add("END_IF;");
@@ -657,7 +717,7 @@ public class CifToPlcTrans {
             main.body.add("loopCount := loopCount + 1;");
             main.body.add("IF loopCount >= %d THEN", maxIter);
             main.body.indent();
-            main.body.add("loopsKilled := loopsKilled + 1;");
+            main.body.add("%s := %s + 1;", genStaticVarRef("loopsKilled"), genStaticVarRef("loopsKilled"));
             main.body.add("EXIT;");
             main.body.dedent();
             main.body.add("END_IF;");
@@ -954,7 +1014,7 @@ public class CifToPlcTrans {
                     String varName = getPlcName(addrVar);
                     @SuppressWarnings("null")
                     String tmpName = addrVarsMap.get(addrVar);
-                    pou.body.add("%s = %s;", varName, tmpName);
+                    pou.body.add("%s := %s;", varName, tmpName);
                 }
             }
         } else if (stat instanceof BreakFuncStatement) {
@@ -1302,7 +1362,7 @@ public class CifToPlcTrans {
             UnaryOperator op = uexpr.getOperator();
             switch (op) {
                 case INVERSE:
-                    return genFuncCall("NOT", true, "IN1", childTxt);
+                    return genFuncCall("NOT", true, null, childTxt);
 
                 case NEGATE:
                     if (child instanceof IntExpression || child instanceof RealExpression) {
@@ -1326,9 +1386,10 @@ public class CifToPlcTrans {
             CifType ltype = normalizeType(bexpr.getLeft().getType());
             CifType rtype = normalizeType(bexpr.getRight().getType());
             BinaryOperator op = bexpr.getOperator();
+            Pair<String, String> leftRight;
             switch (op) {
                 case IMPLICATION:
-                    return fmt("%s OR (%s)", genFuncCall("NOT", true, "IN1", left), right);
+                    return fmt("%s OR (%s)", genFuncCall("NOT", true, null, left), right);
 
                 case BI_CONDITIONAL:
                     return fmt("(%s) = (%s)", left, right);
@@ -1348,16 +1409,24 @@ public class CifToPlcTrans {
                     throw new RuntimeException("precond violation");
 
                 case LESS_THAN:
-                    return fmt("(%s) < (%s)", left, right);
+                    // S7-400 and S7-300 only support less than on the same types.
+                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
+                    return fmt("(%s) < (%s)", leftRight.left, leftRight.right);
 
                 case LESS_EQUAL:
-                    return fmt("(%s) <= (%s)", left, right);
+                    // S7-400 and S7-300 only support less equal on the same types.
+                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
+                    return fmt("(%s) <= (%s)", leftRight.left, leftRight.right);
 
                 case GREATER_THAN:
-                    return fmt("(%s) > (%s)", left, right);
+                    // S7-400 and S7-300 only support greater than on the same types.
+                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
+                    return fmt("(%s) > (%s)", leftRight.left, leftRight.right);
 
                 case GREATER_EQUAL:
-                    return fmt("(%s) >= (%s)", left, right);
+                    // S7-400 and S7-300 only support greater equal on the same types.
+                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
+                    return fmt("(%s) >= (%s)", leftRight.left, leftRight.right);
 
                 case EQUAL:
                     // Comparing structure types is not allowed in IEC 61131-3,
@@ -1384,29 +1453,41 @@ public class CifToPlcTrans {
                     throw new RuntimeException("precond violation");
 
                 case ADDITION:
+                    // S7-400 and S7-300 only support addition on the same types.
+                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     if (ltype instanceof IntType || ltype instanceof RealType) {
-                        return fmt("(%s) + (%s)", left, right);
+                        return fmt("(%s) + (%s)", leftRight.left, leftRight.right);
                     }
 
                     throw new RuntimeException("precond violation");
 
                 case SUBTRACTION:
+                    // S7-400 and S7-300 only support subtraction on the same types.
+                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
                     if (ltype instanceof IntType || ltype instanceof RealType) {
-                        return fmt("(%s) - (%s)", left, right);
+                        return fmt("(%s) - (%s)", leftRight.left, leftRight.right);
                     }
 
                     throw new RuntimeException("precond violation");
 
                 case MULTIPLICATION:
-                    return fmt("(%s) * (%s)", left, right);
+                    // S7-400 and S7-300 only support multiplication on the same types.
+                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
+                    return fmt("(%s) * (%s)", leftRight.left, leftRight.right);
 
                 case DIVISION:
+                    // S7-400 and S7-300 only support division on the same types.
                     if (ltype instanceof IntType && rtype instanceof IntType) {
+                        // Left value will become real type.
+                        leftRight = convertBinaryLeftRight(left, right, newRealType(), rtype);
+
                         // Ensure real valued result.
                         String toName = fmt("DINT_TO_%s", largeRealType.name);
-                        return fmt("%s / (%s)", genFuncCall(toName, true, "IN", left), right);
+                        return fmt("%s / (%s)", genFuncCall(toName, true, "IN", leftRight.left), leftRight.right);
                     }
-                    return fmt("(%s) / (%s)", left, right);
+
+                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
+                    return fmt("(%s) / (%s)", leftRight.left, leftRight.right);
 
                 case INTEGER_DIVISION:
                     // Truncated towards zero in both CIF and IEC 61131-3.
@@ -1580,6 +1661,11 @@ public class CifToPlcTrans {
                         return genFuncCall("ABS", true, null, paramsTxt);
 
                     case CBRT:
+                        if (PlcOutputTypeOption.isS7Output()) {
+                            // Use reals to get real result. Use two real-typed values to support S7-400 and S7-300.
+                            return fmt("(%s) ** (1.0/3.0)", paramsTxt);
+                        }
+
                         // The 'a ** b' syntax seemed not to work in TwinCAT
                         // 3.1. Using the named function instead.
                         return genFuncCall("EXPT", true, list("IN1", "IN2"), list(paramsTxt, "1.0/3"));
@@ -1615,6 +1701,12 @@ public class CifToPlcTrans {
                         return genFuncCall("LN", true, null, paramsTxt);
 
                     case LOG:
+                        if (PlcOutputTypeOption.isS7Output()) {
+                            // S7 doesn't have a function for log10. But log10(x) = ln(x) / ln(10).
+                            return fmt("%s / %s", genFuncCall("LN", true, null, paramsTxt),
+                                    genFuncCall("LN", true, null, "10"));
+                        }
+
                         return genFuncCall("LOG", true, null, paramsTxt);
 
                     case MAXIMUM:
@@ -1642,10 +1734,43 @@ public class CifToPlcTrans {
                         throw new RuntimeException("precond violation");
 
                     case POWER: {
-                        // The 'a ** b' syntax seemed not to work in TwinCAT
-                        // 3.1. Using the named function instead.
                         CifType type0 = normalizeType(params.get(0).getType());
                         CifType type1 = normalizeType(params.get(1).getType());
+
+                        // S7-400 and S7-300 only support power on real types.
+                        if (getPlcOutputType() == S7_400 || getPlcOutputType() == S7_300) {
+                            String paramTxt0 = paramTxts.get(0);
+                            String paramTxt1 = paramTxts.get(1);
+                            if (type0 instanceof IntType) {
+                                String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
+                                paramTxt0 = genFuncCall(toName, true, "IN", paramTxt0);
+                            }
+
+                            if (type1 instanceof IntType) {
+                                String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
+                                paramTxt1 = genFuncCall(toName, true, "IN", paramTxt1);
+                            }
+
+                            String resultTxt = fmt("(%s) ** (%s)", paramTxt0, paramTxt1);
+
+                            // If the resulting type is integer, we need to convert that explicitly.
+                            FuncType functionType = (FuncType)normalizeType(fexpr.getType());
+                            CifType resultType = normalizeType(functionType.getReturnType());
+                            if (resultType instanceof IntType) {
+                                String toName = fmt("%s_TO_%s", largeRealType.name, largeIntType.name);
+                                resultTxt = genFuncCall(toName, true, "IN", resultTxt);
+                            }
+
+                            return resultTxt;
+                        }
+
+                        // S7-1500 and S7-1200 use the 'a ** b' syntax for power.
+                        if (getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200) {
+                            return fmt("(%s) ** (%s)", paramTxts.get(0), paramTxts.get(1));
+                        }
+
+                        // The 'a ** b' syntax seemed not to work in TwinCAT
+                        // 3.1. Using the named function instead.
                         if (type0 instanceof IntType && type1 instanceof IntType && !isRangeless((IntType)type0)
                                 && !isRangeless((IntType)type1))
                         {
@@ -1847,6 +1972,55 @@ public class CifToPlcTrans {
     }
 
     /**
+     * Converts two expressions to compatible types that can be used as left and right expressions in a binary
+     * expression. Only supports integer and real types.
+     *
+     * <p>
+     * For S7-400 and S7-300, the left and right expression in a binary expression must have the same type. If one
+     * expression has integer type and the other expression has real type, an int-to-real cast is added to the
+     * integer-typed expression.
+     * </p>
+     *
+     * @param left The left expression.
+     * @param right The right expression.
+     * @param ltype The normalized type of the left expression.
+     * @param rtype The normalized type of the right expression.
+     * @return The new left and right expressions.
+     */
+    private Pair<String, String> convertBinaryLeftRight(String left, String right, CifType ltype, CifType rtype) {
+        if (getPlcOutputType() != S7_400 && getPlcOutputType() != S7_300) {
+            return new Pair<>(left, right);
+        }
+
+        // Both integer-typed is supported.
+        if (ltype instanceof IntType && rtype instanceof IntType) {
+            return new Pair<>(left, right);
+        }
+
+        // Both real-typed is supported.
+        if (ltype instanceof RealType && rtype instanceof RealType) {
+            return new Pair<>(left, right);
+        }
+
+        // If the left expression is integer-typed, add an int-to-real cast.
+        if (ltype instanceof IntType) {
+            String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
+            left = genFuncCall(toName, true, "IN", left);
+            return new Pair<>(left, right);
+        }
+
+        // If the right expression is integer-typed, add an int-to-real cast.
+        if (rtype instanceof IntType) {
+            String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
+            right = genFuncCall(toName, true, "IN", right);
+            return new Pair<>(left, right);
+        }
+
+        throw new RuntimeException(
+                "precond violation: Binary expression left and right must be integer or real typed.");
+    }
+
+    /**
      * Transforms a CIF edge to PLC code.
      *
      * @param edge The CIF edge.
@@ -1903,14 +2077,14 @@ public class CifToPlcTrans {
         guard = NaryExpressionConverter.convert(guard);
 
         // Add event code.
-        c.add("IF %s THEN", transGuard(guard, 1, "state0", pou));
+        c.add("IF %s THEN", transGuard(guard, 1, genStaticVarRef("state0"), pou));
         c.indent();
         c.add("progress := TRUE;");
-        c.add("state1 := state0;");
+        c.add("state1 := %s;", genStaticVarRef("state0"));
         c.add();
         transUpdates(edge.getUpdates(), pou);
         c.add();
-        c.add("state0 := state1;");
+        c.add("%s := state1;", genStaticVarRef("state0"));
         c.dedent();
         c.add("END_IF;");
         c.dedent();
@@ -1959,7 +2133,7 @@ public class CifToPlcTrans {
                         throw new RuntimeException(msg);
                 }
                 if (inverse) {
-                    guard = genFuncCall("NOT", true, "IN1", guard);
+                    guard = genFuncCall("NOT", true, null, guard);
                 }
 
                 pou.body.add("IF %s THEN", guard);
@@ -2022,18 +2196,19 @@ public class CifToPlcTrans {
         if (update instanceof Assignment) {
             // Assignment.
             Assignment asgn = (Assignment)update;
-            transAssignment(asgn.getAddressable(), asgn.getValue(), "state0", "state1", pou, "%s", null);
+            transAssignment(asgn.getAddressable(), asgn.getValue(), genStaticVarRef("state0"), "state1", pou, "%s",
+                    null);
         } else {
             // 'if' update.
             Assert.check(update instanceof IfUpdate);
             IfUpdate ifUpd = (IfUpdate)update;
             CodeBox c = pou.body;
-            c.add("IF %s THEN", transPreds(ifUpd.getGuards(), "state0", false));
+            c.add("IF %s THEN", transPreds(ifUpd.getGuards(), genStaticVarRef("state0"), false));
             c.indent();
             transUpdates(ifUpd.getThens(), pou);
             c.dedent();
             for (ElifUpdate elifUpd: ifUpd.getElifs()) {
-                c.add("ELSIF %s THEN", transPreds(elifUpd.getGuards(), "state0", false));
+                c.add("ELSIF %s THEN", transPreds(elifUpd.getGuards(), genStaticVarRef("state0"), false));
                 c.indent();
                 transUpdates(elifUpd.getThens(), pou);
                 c.dedent();
@@ -2239,13 +2414,24 @@ public class CifToPlcTrans {
     }
 
     /**
+     * Generates a reference to a static (persistent) variable in IECT 61131-3 syntax. Prefixes the variable with
+     * {@link #staticVarPrefix}.
+     *
+     * @param varName The name of the static variable.
+     * @return The reference to the static variable.
+     */
+    private String genStaticVarRef(String varName) {
+        return staticVarPrefix + varName;
+    }
+
+    /**
      * Generates a function call in IEC 61131-3 syntax, taking into account when to use the formal function invocation
      * syntax.
      *
      * @param funcName The name of the function to call.
      * @param stdFunc Is the function a standard library/conversion function?
      * @param argName The name of the argument of the function, i.e. the formal argument name. Must be {@code null} iff
-     *     function is ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
+     *     function is NOT, ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
      * @param valueTxt The value to use as argument, i.e. the actual argument.
      * @return The function call text.
      * @see #formalInvokeArg
@@ -2262,7 +2448,7 @@ public class CifToPlcTrans {
      * @param funcName The name of the function to call.
      * @param stdFunc Is the function a standard library/conversion function?
      * @param argNames The names of the arguments of the function, i.e. the formal argument names. Must be {@code null}
-     *     iff function is ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
+     *     iff function is NOT, ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
      * @param valueTxts The values to use as arguments, i.e. the actual arguments.
      * @return The function call text.
      * @see #formalInvokeArg

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -21,7 +21,7 @@ import org.eclipse.escet.common.java.Assert;
  * Equality relation between two variables.
  *
  * <p>
- * The instance represents {@link #a} + {@link #offset} == {@link #b}.
+ * The instance represents {@code a + offset == b}.
  * </p>
  */
 public class EqRelation extends VariableRelation {
@@ -31,21 +31,21 @@ public class EqRelation extends VariableRelation {
     /** Variable 'b'. */
     public final Variable b;
 
-    /** Offset between the variables, {@link #b} - {@link #a}. */
-    public final double offset;
+    /** Offset between the variables, {@code b - a}. */
+    public final int offset;
 
     /**
      * Constructor of the {@link EqRelation} class.
      *
      * <p>
-     * Instance represents equality relation {@link #a} + {@link #offset} == {@link #b}.
+     * Instance represents equality relation {@code a + offset == b}.
      * </p>
      *
      * @param a Variable 'a'.
-     * @param offset Offset between the variables, {@link #b} - {@link #a}.
+     * @param offset Offset between the variables, {@code b - a}.
      * @param b Variable 'b'.
      */
-    public EqRelation(Variable a, double offset, Variable b) {
+    public EqRelation(Variable a, int offset, Variable b) {
         this.a = a;
         this.b = b;
         this.offset = offset;
@@ -55,9 +55,12 @@ public class EqRelation extends VariableRelation {
 
     @Override
     public String toString() {
-        if (offset == 0.0) {
+        if (offset == 0) {
             return fmt("Eq[%s == %s]", a, b);
+        } else if (offset < 0) {
+            return fmt("Eq[%s - %d == %s]", a, -offset, b);
+        } else {
+            return fmt("Eq[%s + %d == %s]", a, offset, b);
         }
-        return fmt("Eq[%s + %.2f == %s]", a, offset, b);
     }
 }

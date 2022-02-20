@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -18,10 +18,10 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 /** Class for storing a size. */
 public class Size2D {
     /** Width of the size. */
-    public final double width;
+    public final int width;
 
     /** Height of the size. */
-    public final double height;
+    public final int height;
 
     /**
      * Constructor of the {@link Size2D} class.
@@ -29,13 +29,13 @@ public class Size2D {
      * @param width Width of the size.
      * @param height Height of the size.
      */
-    public Size2D(double width, double height) {
+    public Size2D(int width, int height) {
         this.width = width;
         this.height = height;
     }
 
     @Override
     public String toString() {
-        return fmt("Size2D(%.1f, %.1f)", width, height);
+        return fmt("Size2D(%d, %d)", width, height);
     }
 }

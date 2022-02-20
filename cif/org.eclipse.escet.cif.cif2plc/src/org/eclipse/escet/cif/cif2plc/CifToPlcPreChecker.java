@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -34,6 +34,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption;
 import org.eclipse.escet.cif.common.CifAddressableUtils;
 import org.eclipse.escet.cif.common.CifAddressableUtils.DuplVarAsgnException;
 import org.eclipse.escet.cif.common.CifEvalException;
@@ -320,6 +321,15 @@ public class CifToPlcPreChecker extends CifWalker {
 
     @Override
     protected void preprocessListType(ListType type) {
+        // S7 transformation doesn't support list types. That is because S7 doesn't support functions returning arrays
+        // and doesn't support arrays of arrays.
+        if (PlcOutputTypeOption.isS7Output()) {
+            String msg = fmt("Unsupported type \"%s\": list types are currently not supported for %s output.",
+                    typeToStr(type), PlcOutputTypeOption.getPlcOutputType().dialogText);
+            problems.add(msg);
+            return;
+        }
+
         // We support arrays.
         if (isArrayType(type)) {
             return;

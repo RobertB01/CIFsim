@@ -1,7 +1,0 @@
-FUNCTION proj20_TupleStruct_3: BOOL
-VAR_INPUT
-    tuple: TupleStruct_3;
-END_VAR
-
-proj20_TupleStruct_3 := tuple.field20;
-END_FUNCTION

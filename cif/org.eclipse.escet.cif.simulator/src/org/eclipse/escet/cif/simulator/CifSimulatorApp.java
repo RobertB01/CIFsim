@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -63,6 +63,7 @@ import org.eclipse.escet.cif.simulator.runtime.ode.RootFinderAlgoOption;
 import org.eclipse.escet.cif.simulator.runtime.ode.RootFinderMaxCheckOption;
 import org.eclipse.escet.cif.simulator.runtime.ode.RootFinderMaxIterOption;
 import org.eclipse.escet.cif.simulator.runtime.ode.RootFinderRelTolOption;
+import org.eclipse.escet.common.app.framework.AppProperties;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -96,6 +97,22 @@ public class CifSimulatorApp extends Application<SimulatorOutputComponent> {
      * @param streams The streams to use for input, output, and error streams.
      */
     public CifSimulatorApp(AppStreams streams) {
+        super(streams);
+    }
+
+    /**
+     * Constructor for the {@link CifSimulatorApp} class.
+     *
+     * @param streams The application stream to use for the application, or {@code null} to use {@link System#in},
+     *     {@link System#out}, and {@link System#err} as streams.
+     * @param provider The output provider to use for the application, or {@code null} to ask the application for the
+     *     output provider.
+     * @param options The options to use for the application, or {@code null} to create a fresh {@link Options}
+     *     instance.
+     * @param properties The properties to use for the application, or {@code null} to create a fresh
+     *     {@link AppProperties} instance.
+     */
+    public CifSimulatorApp(AppStreams streams, OutputProvider<?> provider, Options options, AppProperties properties) {
         super(streams);
     }
 

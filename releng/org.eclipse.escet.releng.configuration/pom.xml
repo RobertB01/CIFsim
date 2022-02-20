@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the terms
+of the MIT License which is available at https://opensource.org/licenses/MIT
+
+SPDX-License-Identifier: MIT
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.escet</groupId>
+    <artifactId>org.eclipse.escet.releng.configuration</artifactId>
+    <version>0.5.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- The end-user readable version number. -->
+        <!-- The default is 'dev'. Jenkinsfile overrides this for releases only, to e.g. v0.1, v0.1-M1, v0.1-RC1. -->
+        <escet.version.enduser>dev</escet.version.enduser>
+
+        <!-- The version qualifier to use for all plugins/features/etc. -->
+        <!-- Remains 'dev' for non-Jenkins builds. Jenkinsfile overrides the qualifier to e.g., -->
+        <!-- 'v20210609-141908-dev' for development builds, 'v20210609-141908-M1' for milestone releases, -->
+        <!-- 'v20210609-141908-RC1' for release candidates, and 'v20210609-141908' for final releases. -->
+        <escet.version.qualifier>dev</escet.version.qualifier>
+
+        <!-- Ensure platform independent build by fixing encoding. Prevents warnings. -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+
+        <!-- Tycho version to use. -->
+        <tycho.version>2.5.0</tycho.version>
+        <tycho.extras.version>${tycho.version}</tycho.extras.version>
+
+        <!-- Documentation plug-in versions. -->
+        <asciidoctor.maven.plugin.version>2.1.0</asciidoctor.maven.plugin.version>
+        <asciidoctorj.version>2.4.3</asciidoctorj.version>
+        <asciidoctorj.diagram.version>2.1.0</asciidoctorj.diagram.version>
+        <asciidoctorj.pdf.version>1.5.4</asciidoctorj.pdf.version>
+        <jruby.version>9.2.15.0</jruby.version>
+
+        <!-- Checkstyle version. Should match version used by Eclipse Checkstyle Plugin. -->
+        <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
+        <checkstyle.version>8.41</checkstyle.version>
+
+        <!-- Eclipse Common Build Infrastructure version. -->
+        <eclipse.cbi.version>1.3.1</eclipse.cbi.version>
+
+        <!-- Eclipse Dash license tool. -->
+        <eclipse.dash.license.tool.version>0.0.1-SNAPSHOT</eclipse.dash.license.tool.version>
+
+        <!-- JaCoCo code coverage tool. -->
+        <jacoco.version>0.8.7</jacoco.version>
+    </properties>
+
+    <pluginRepositories>
+        <!-- Dash license plugin. -->
+        <!-- Given that this contains snapshots, this must be first. Looking for snapshots on release repos will give an 
+            error, regardless of whether the plugin is present there or not. -->
+        <pluginRepository>
+            <id>dash-licenses-snapshots</id>
+            <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+
+        <!-- Eclipse CBI releases. For CBI signing plugins. -->
+        <pluginRepository>
+            <id>eclipse.cbi</id>
+            <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <plugins>
+            <!-- Enable Tycho. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho.version}</version>
+
+                <!-- Enable extensions. -->
+                <extensions>true</extensions>
+            </plugin>
+
+            <!-- Configure Java compiler. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-compiler-plugin</artifactId>
+                <version>${tycho.version}</version>
+            </plugin>
+
+            <!-- Configure packaging of JARs. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-packaging-plugin</artifactId>
+                <version>${tycho.version}</version>
+
+                <configuration>
+                    <!-- Use property-based fixed qualifier for all plugins/features/etc. -->
+                    <forceContextQualifier>${escet.version.qualifier}</forceContextQualifier>
+
+                    <!-- Disable Maven descriptors in JAR bundles. -->
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Enable and configure target platform. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho.version}</version>
+                <configuration>
+                    <!-- Configure target platform file. -->
+                    <target>
+                        <file>
+                            ${maven.multiModuleProjectDirectory}/releng/org.eclipse.escet.releng.target/org.eclipse.escet.releng.target.target
+                        </file>
+                    </target>
+
+                    <!-- Let JustJ handle the execution environment. -->
+                    <!-- See https://www.eclipse.org/justj/?page=documentation for more information. -->
+                    <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-11.0.12</executionEnvironment>
+
+                    <!-- Special dependency for Eclipse JDT compiler tool fragment. -->
+                    <dependency-resolution>
+                        <extraRequirements>
+                            <requirement>
+                                <type>eclipse-plugin</type>
+                                <id>org.eclipse.jdt.compiler.tool</id>
+                                <versionRange>1.0.0</versionRange>
+                            </requirement>
+                        </extraRequirements>
+                    </dependency-resolution>
+
+                    <!-- Configure environments. -->
+                    <!-- Determines which environment specific bundles will be in target platform. -->
+                    <!-- Also determines the products to build. -->
+                    <environments>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>macosx</os>
+                            <ws>cocoa</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                    </environments>
+                </configuration>
+            </plugin>
+
+            <!-- Enable unit testing. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>3.0.0-M5</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- Enable source bundles/features. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-source-plugin</artifactId>
+                <version>${tycho.version}</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <missingSourcesAction>FAIL</missingSourcesAction>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>plugin-source</id>
+                        <goals>
+                            <goal>plugin-source</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>feature-source</id>
+                        <goals>
+                            <goal>feature-source</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- The following is needed for generated source features that are part of an update site. -->
+            <!-- Tycho will warn about this if not configured. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-plugin</artifactId>
+                <version>${tycho.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-p2-metadata</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>p2-metadata</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Enable JaCoCo code coverage. -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+
+                <configuration>
+                    <output>file</output>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <!-- This configuration prevents errors for m2eclipse. -->
+                <!-- It affects m2eclipse settings only. It has no influence on the Maven build itself.-->
+                <!-- It prevents the following error: -->
+                <!-- "Plugin execution not covered by lifecycle configuration: -->
+                <!-- org.eclipse.tycho:target-platform-configuration:2.5.0:target-platform -->
+                <!-- (execution: default-target-platform, phase: initialize)" -->
+                <!-- Note that according to the documentation of the Tycho Maven plugin: -->
+                <!-- "This mojo is actually not executable, and is only meant to host configuration." -->
+                <!-- It is thus safe to set the action to 'ignore' using lifecycle mapping metadata configuration. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.eclipse.tycho</groupId>
+                                        <artifactId>target-platform-configuration</artifactId>
+                                        <versionRange>[2.4.0,)</versionRange>
+                                        <goals>
+                                            <goal>target-platform</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+
+                <!-- AsciiDoctor documentation generation configuration. -->
+                <plugin>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <version>${asciidoctor.maven.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj</artifactId>
+                            <version>${asciidoctorj.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj-diagram</artifactId>
+                            <version>${asciidoctorj.diagram.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj-pdf</artifactId>
+                            <version>${asciidoctorj.pdf.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.jruby</groupId>
+                            <artifactId>jruby-complete</artifactId>
+                            <version>${jruby.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <requires>
+                            <require>asciidoctor-diagram</require>
+                        </requires>
+                        <!-- Attributes common to all documents. -->
+                        <attributes>
+                            <baseDir>${project.basedir}</baseDir>
+                            <attribute-missing>error</attribute-missing>
+                            <attribute-undefined>error</attribute-undefined>
+                            <asciimath />
+                            <revnumber>${escet.version.enduser}</revnumber>
+                            <last-update-label>false</last-update-label>
+                        </attributes>
+                    </configuration>
+                </plugin>
+
+                <!-- Eclipse Dash, license check, configuration. -->
+                <!-- Plugin executed manually, not during Maven build. -->
+                <!-- Can't integrate into Maven build yet, as won't fail. -->
+                <!-- See https://github.com/eclipse/dash-licenses/issues/70 -->
+                <plugin>
+                    <groupId>org.eclipse.dash</groupId>
+                    <artifactId>license-tool-plugin</artifactId>
+                    <version>${eclipse.dash.license.tool.version}</version>
+                    <configuration>
+                        <projectId>technology.escet</projectId>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <!-- Enable Checkstyle code analysis. -->
+        <profile>
+            <id>checkstyle-check</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/.checkstyle</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${maven.checkstyle.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>${checkstyle.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>checkstyle-validate</id>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <configLocation>checkstyle.xml</configLocation>
+                                    <consoleOutput>false</consoleOutput>
+                                    <failOnViolation>true</failOnViolation>
+                                    <violationSeverity>info</violationSeverity>
+                                </configuration>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Add default about.html to (source) bundles if not already present. -->
+        <profile>
+            <id>add-plugin-default-abouts</id>
+            <activation>
+                <file>
+                    <missing>${basedir}/about.html</missing>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-packaging-plugin</artifactId>
+                        <version>${tycho.version}</version>
+                        <configuration>
+                            <additionalFileSets>
+                                <fileSet>
+                                    <directory>${session.executionRootDirectory}/releng/legal-defaults</directory>
+                                    <includes>
+                                        <include>about.html</include>
+                                    </includes>
+                                </fileSet>
+                            </additionalFileSets>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-source-plugin</artifactId>
+                        <version>${tycho.version}</version>
+                        <configuration>
+                            <additionalFileSets>
+                                <fileSet>
+                                    <directory>${session.executionRootDirectory}/releng/legal-defaults</directory>
+                                    <includes>
+                                        <include>about.html</include>
+                                    </includes>
+                                </fileSet>
+                            </additionalFileSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Signing. -->
+        <profile>
+            <id>sign</id>
+            <build>
+                <plugins>
+                    <!-- Sign JARs. -->
+                    <plugin>
+                        <groupId>org.eclipse.cbi.maven.plugins</groupId>
+                        <artifactId>eclipse-jarsigner-plugin</artifactId>
+                        <version>${eclipse.cbi.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+</project>

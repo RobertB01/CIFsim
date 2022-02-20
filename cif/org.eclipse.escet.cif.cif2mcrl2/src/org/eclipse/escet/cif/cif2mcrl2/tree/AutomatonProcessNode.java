@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -35,6 +35,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
@@ -403,9 +404,11 @@ public class AutomatonProcessNode extends ProcessNode {
         } else if (expr instanceof IntExpression) {
             IntExpression ie = (IntExpression)expr;
             return Integer.toString(ie.getValue());
+        } else if (expr instanceof EnumLiteralExpression) {
+            EnumLiteralExpression ele = (EnumLiteralExpression)expr;
+            return names.getEnumLitName(ele.getLiteral());
         }
-        Assert.fail(fmt("Unexpected expression %s found.", expr));
-        return "???";
+        throw new RuntimeException("Unexpected expression: " + expr);
     }
 
     @Override

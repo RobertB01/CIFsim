@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -97,7 +97,7 @@ public class SequenceRow {
             solver.addLe(proxy.bottom, 0, bottom);
 
             if (prevProxy != null) {
-                solver.addEq(prevProxy.right, 0, proxy.left);
+                solver.addEq(prevProxy.right, 1, proxy.left);
             }
             prevProxy = proxy;
 

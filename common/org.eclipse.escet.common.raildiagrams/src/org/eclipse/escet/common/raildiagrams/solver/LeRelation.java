@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -21,7 +21,7 @@ import org.eclipse.escet.common.java.Assert;
  * Less or equal relation between two variables.
  *
  * <p>
- * The instance represents {@link #a} + {@link #lowBound} &lt;= {@link #b}.
+ * The instance represents {@code a + lowBound <= b}.
  * </p>
  */
 public class LeRelation extends VariableRelation {
@@ -31,21 +31,21 @@ public class LeRelation extends VariableRelation {
     /** Variable 'b'. */
     public final Variable b;
 
-    /** Lower-bound offset between the variables, at least {@link #b} - {@link #a}. */
-    public final double lowBound;
+    /** Lower-bound offset between the variables, at least {@code b - a}. */
+    public final int lowBound;
 
     /**
      * Constructor of the {@link LeRelation} class.
      *
      * <p>
-     * Instance represents equality relation {@link #a} + {@link #lowBound} &lt;= {@link #b}.
+     * Instance represents equality relation {@code a + lowBound <= b}.
      * </p>
      *
      * @param a Variable 'a'.
-     * @param lowBound Offset between the variables, is at least {@link #b} - {@link #a}.
+     * @param lowBound Offset between the variables, is at least {@code b - a}.
      * @param b Variable 'b'.
      */
-    public LeRelation(Variable a, double lowBound, Variable b) {
+    public LeRelation(Variable a, int lowBound, Variable b) {
         this.a = a;
         this.b = b;
         this.lowBound = lowBound;
@@ -57,7 +57,10 @@ public class LeRelation extends VariableRelation {
     public String toString() {
         if (lowBound == 0.0) {
             return fmt("Lt[%s <= %s]", a, b);
+        } else if (lowBound < 0) {
+            return fmt("Lt[%s - %d <= %s]", a, -lowBound, b);
+        } else {
+            return fmt("Lt[%s + %d <= %s]", a, lowBound, b);
         }
-        return fmt("Lt[%s + %.2f <= %s]", a, lowBound, b);
     }
 }

@@ -1,0 +1,9 @@
+FUNCTION alg_a: LREAL
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        state: STATE;
+    END_VAR
+
+BEGIN
+    alg_a := (state.cvar_c) + (derivcvar_c(state:=state));
+END_FUNCTION

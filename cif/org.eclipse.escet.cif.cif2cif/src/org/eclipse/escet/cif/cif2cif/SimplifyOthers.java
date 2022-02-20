@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -104,8 +104,7 @@ public class SimplifyOthers extends CifWalker implements CifToCifTransformation 
     }
 
     /**
-     * Removes duplicate events references from the list of event references. The event references must be contained in
-     * the same scope.
+     * Removes duplicate events references from the list of event references.
      *
      * <p>
      * If the event reference is contained in an {@link EdgeEvent}, the {@link EdgeEvent} is removed from its parent
@@ -119,7 +118,7 @@ public class SimplifyOthers extends CifWalker implements CifToCifTransformation 
             Expression eventRef = eventRefs.get(i);
             boolean duplicate = false;
             for (int j = eventRefs.size() - 1; j > i; j--) {
-                if (CifEventUtils.areSameEventRefs(eventRef, eventRefs.get(j), null)) {
+                if (CifEventUtils.areSameEventRefs(eventRef, eventRefs.get(j))) {
                     duplicate = true;
                     break;
                 }

@@ -1,0 +1,169 @@
+{
+    "scripts":
+    [
+        {
+            "script_name": "tooldef",
+            "plugin_name": "org.eclipse.escet.tooldef.interpreter",
+            "class_name": "org.eclipse.escet.tooldef.interpreter.ToolDefInterpreterApp"
+        },
+        {
+            "script_name": "setextgen",
+            "plugin_name": "org.eclipse.escet.setext.generator",
+            "class_name": "org.eclipse.escet.setext.generator.SeTextGeneratorApp"
+        },
+        {
+            "script_name": "chisim",
+            "plugin_name": "org.eclipse.escet.chi.simulator",
+            "class_name": "org.eclipse.escet.chi.simulator.SimulatorApplication"
+        },
+        {
+            "script_name": "cif2yed",
+            "plugin_name": "org.eclipse.escet.cif.cif2yed",
+            "class_name": "org.eclipse.escet.cif.cif2yed.CifToYedApp"
+        },
+        {
+            "script_name": "cifdatasynth",
+            "plugin_name": "org.eclipse.escet.cif.datasynth",
+            "class_name": "org.eclipse.escet.cif.datasynth.CifDataSynthesisApp"
+        },
+        {
+            "script_name": "cif2supremica",
+            "plugin_name": "org.eclipse.escet.cif.cif2supremica",
+            "class_name": "org.eclipse.escet.cif.cif2supremica.CifToSupremicaApp"
+        },
+        {
+            "script_name": "cifsim",
+            "plugin_name": "org.eclipse.escet.cif.simulator",
+            "class_name": "org.eclipse.escet.cif.simulator.CifSimulatorApp"
+        },
+        {
+            "script_name": "cif2mcrl2",
+            "plugin_name": "org.eclipse.escet.cif.cif2mcrl2",
+            "class_name": "org.eclipse.escet.cif.cif2mcrl2.Cif2Mcrl2Application"
+        },
+        {
+            "script_name": "cif2uppaal",
+            "plugin_name": "org.eclipse.escet.cif.cif2uppaal",
+            "class_name": "org.eclipse.escet.cif.cif2uppaal.CifToUppaalApp"
+        },
+        {
+            "script_name": "cifcodegen",
+            "plugin_name": "org.eclipse.escet.cif.codegen",
+            "class_name": "org.eclipse.escet.cif.codegen.CodeGenApp"
+        },
+        {
+            "script_name": "cif2plc",
+            "plugin_name": "org.eclipse.escet.cif.cif2plc",
+            "class_name": "org.eclipse.escet.cif.cif2plc.CifToPlcApp"
+        },
+        {
+            "script_name": "cif2cif",
+            "plugin_name": "org.eclipse.escet.cif.cif2cif.app",
+            "class_name": "org.eclipse.escet.cif.cif2cif.app.CifToCifApp"
+        },
+        {
+            "script_name": "cifmerge",
+            "plugin_name": "org.eclipse.escet.cif.merger",
+            "class_name": "org.eclipse.escet.cif.merger.CifMergerApp"
+        },
+        {
+            "script_name": "cifevtdis",
+            "plugin_name": "org.eclipse.escet.cif.eventdisabler",
+            "class_name": "org.eclipse.escet.cif.eventdisabler.EventDisablerApplication"
+        },
+        {
+            "script_name": "cifexplorer",
+            "plugin_name": "org.eclipse.escet.cif.explorer.app",
+            "class_name": "org.eclipse.escet.cif.explorer.app.ExplorerApplication"
+        },
+        {
+            "script_name": "cifprod",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.SynchronousProductApplication"
+        },
+        {
+            "script_name": "cifsupsynth",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.SupervisorSynthesisApplication"
+        },
+        {
+            "script_name": "cifsynthanalys",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisApplication"
+        },
+        {
+            "script_name": "cifncchk",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckApplication"
+        },
+        {
+            "script_name": "cifcontrollercheck",
+            "plugin_name": "org.eclipse.escet.cif.controllercheck",
+            "class_name": "org.eclipse.escet.cif.controllercheck.ControllerCheckApp"
+        },
+        {
+            "script_name": "cifctrlchk",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.ControllabilityCheckApplication"
+        },
+        {
+            "script_name": "ciflngeqv",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.LanguageEquivalenceCheckApplication"
+        },
+        {
+            "script_name": "cifnfadfa",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.NfaToDfaApplication"
+        },
+        {
+            "script_name": "cifdfamin",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.DfaMinimizationApplication"
+        },
+        {
+            "script_name": "cifproj",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.ProjectionApplication"
+        },
+        {
+            "script_name": "cifobschk",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.ObserverCheckApplication"
+        },
+        {
+            "script_name": "cifabstr",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.AutomatonAbstractionApplication"
+        },
+        {
+            "script_name": "ciftrimchk",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.TrimCheckApplication"
+        },
+        {
+            "script_name": "ciftrim",
+            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "class_name": "org.eclipse.escet.cif.eventbased.apps.TrimApplication"
+        }
+    ],
+    "configurations":
+    [
+        {
+            "name": "win32.win32.x86_64",
+            "extension": ".cmd",
+            "arguments": "%*",
+            "header": "@echo off\r\n\r\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\r\n:: Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation\r\n::\r\n:: See the NOTICE file(s) distributed with this work for additional\r\n:: information regarding copyright ownership.\r\n::\r\n:: This program and the accompanying materials are made available under the terms\r\n:: of the MIT License which is available at https://opensource.org/licenses/MIT\r\n::\r\n:: SPDX-License-Identifier: MIT\r\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
+            "eclipse": "%~dp0/../eclipse-escetc.exe",
+            "newline": "\r\n"
+        },
+        {
+            "name": "linux.gtk.x86_64",
+            "extension": "",
+            "arguments": "$*",
+            "header": "#!/bin/sh\n\n################################################################################\n# Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation\n#\n# See the NOTICE file(s) distributed with this work for additional\n# information regarding copyright ownership.\n#\n# This program and the accompanying materials are made available under the terms\n# of the MIT License which is available at https://opensource.org/licenses/MIT\n#\n# SPDX-License-Identifier: MIT\n################################################################################",
+            "eclipse": "\"$(dirname \"$(realpath \"$0\")\")\"/../eclipse-escet",
+            "newline": "\n"
+        }
+    ]
+}

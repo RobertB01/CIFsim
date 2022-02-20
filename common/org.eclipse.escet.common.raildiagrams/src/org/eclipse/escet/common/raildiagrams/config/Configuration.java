@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -19,7 +19,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeUppercase;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,6 +33,7 @@ import java.util.regex.Pattern;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
+import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Configuration data of the diagrams. */
@@ -56,16 +56,16 @@ public class Configuration {
     /** Cached font data information, lazily loaded. */
     private Map<NameKind, FontData> fontdataCache = map();
 
-    /** Graphics render engine. */
-    private Graphics2D gd;
+    /** Output target knowing about text sizes. */
+    private OutputTarget outputTarget;
 
     /**
      * Constructor of the {@link Configuration} class.
      *
-     * @param gd Graphics render engine.
+     * @param outputTarget Output target knowing about text sizes.
      */
-    public Configuration(Graphics2D gd) {
-        this.gd = gd;
+    public Configuration(OutputTarget outputTarget) {
+        this.outputTarget = outputTarget;
 
         // Read default properties and put into a map.
         Properties defaultConfig = new Properties();
@@ -85,8 +85,8 @@ public class Configuration {
      *
      * @return Width of the rail, is always non-negative.
      */
-    public double getRailWidth() {
-        return Math.max(0, getRealValue("rail.linewidth"));
+    public int getRailWidth() {
+        return Math.max(0, getIntValue("rail.linewidth"));
     }
 
     /**
@@ -107,7 +107,7 @@ public class Configuration {
      */
     public TextSizeOffset getTextSizeOffset(String text, NameKind nameKind) {
         FontData fd = getFont(nameKind);
-        return new TextSizeOffset(fd.getTextOffset(gd, text), fd.getTextSize(gd, text));
+        return outputTarget.getTextSizeOffset(text, fd);
     }
 
     /**
@@ -116,9 +116,9 @@ public class Configuration {
      * @param name Name of the requested value.
      * @return The stored value or {@code 1.0} if it does not exist.
      */
-    public double getRealValue(String name) {
+    public int getIntValue(String name) {
         String value = getPropertyValue(name);
-        return decodeReal(value, 1.0);
+        return decodeInt(value, 1);
     }
 
     /**
@@ -138,6 +138,11 @@ public class Configuration {
      * @return Color of the property if it was a valid color, else a default color.
      */
     public Color getRgbColor(String name) {
+        Color override = outputTarget.getOverrideColor(name);
+        if (override != null) {
+            return override;
+        }
+
         String colorText = getPropertyValue(name);
         return decodeColor(colorText);
     }
@@ -192,8 +197,8 @@ public class Configuration {
      * @param nameKind Kind of name.
      * @return Radius of the corners of the box around the name.
      */
-    public double getCornerRadius(NameKind nameKind) {
-        return getRealValue(nameKind.configPrefix + ".corner.radius");
+    public int getCornerRadius(NameKind nameKind) {
+        return getIntValue(nameKind.configPrefix + ".corner.radius");
     }
 
     /**
@@ -202,8 +207,8 @@ public class Configuration {
      * @param nameKind Kind of name.
      * @return The line-width of the box around a name.
      */
-    public double getBoxLineWidth(NameKind nameKind) {
-        return getRealValue(nameKind.configPrefix + ".box.linewidth");
+    public int getBoxLineWidth(NameKind nameKind) {
+        return getIntValue(nameKind.configPrefix + ".box.linewidth");
     }
 
     /**
@@ -290,7 +295,7 @@ public class Configuration {
      * @return The decoded color, or a default color if decoding failed.
      */
     private Color decodeColor(String colorText) {
-        Color defaultColor = Color.pink;
+        final Color defaultColor = Color.pink;
 
         if (colorText == null) {
             return defaultColor;
@@ -342,22 +347,6 @@ public class Configuration {
     private int decodeInt(String valueText, int defaultValue) {
         try {
             return Integer.parseInt(valueText);
-        } catch (NumberFormatException ex) {
-            // Bad numeric string, use the default.
-        }
-        return defaultValue;
-    }
-
-    /**
-     * Convert a piece of text to an integer number.
-     *
-     * @param valueText Text to convert.
-     * @param defaultValue Value to use if the conversion fails.
-     * @return The result value.
-     */
-    private double decodeReal(String valueText, double defaultValue) {
-        try {
-            return Double.parseDouble(valueText);
         } catch (NumberFormatException ex) {
             // Bad numeric string, use the default.
         }

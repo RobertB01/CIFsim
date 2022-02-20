@@ -1,0 +1,5 @@
+TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+    END_STRUCT;
+END_TYPE

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -19,11 +19,11 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
-import java.awt.Graphics2D;
 import java.util.List;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.Area;
+import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 
@@ -129,16 +129,16 @@ public abstract class DiagramElement {
      * @param xOffset Horizontal offset of the element in the picture.
      * @param yOffset Vertical offset of the element in the picture.
      */
-    public void dumpElementBox(String coordType, double xOffset, double yOffset) {
+    public void dumpElementBox(String coordType, int xOffset, int yOffset) {
         dbg("%s coordinates:", coordType);
         idbg();
-        dbg("%s-%s: x[%.1f--%.1f], y[%.1f--%.1f], connectTop=%.1f", kindName, id, xOffset + solver.getVarValue(left),
+        dbg("%s-%s: x[%d--%d], y[%d--%d], connectTop=%d", kindName, id, xOffset + solver.getVarValue(left),
                 xOffset + solver.getVarValue(right), yOffset + solver.getVarValue(top),
                 yOffset + solver.getVarValue(bottom), yOffset + solver.getVarValue(connectTop));
         idbg();
         for (ProxyDiagramElement proxy: childDiagramElements) {
             DiagramElement child = proxy.child;
-            dbg("%s-%s: x[%.1f--%.1f], y[%.1f--%.1f], connectTop=%.1f", child.kindName, child.id,
+            dbg("%s-%s: x[%d--%d], y[%d--%d], connectTop=%d", child.kindName, child.id,
                     xOffset + solver.getVarValue(proxy.left), xOffset + solver.getVarValue(proxy.right),
                     yOffset + solver.getVarValue(proxy.top), yOffset + solver.getVarValue(proxy.bottom),
                     yOffset + solver.getVarValue(proxy.connectTop));
@@ -156,10 +156,12 @@ public abstract class DiagramElement {
      *
      * @param left Left position of the area that may be used for painting.
      * @param top Top position of the area that may be used for painting.
-     * @param gd Graphics output handle.
+     * @param outputTarget Diagram to write.
      * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements for debugging.
      */
-    public void paint(double left, double top, Graphics2D gd, boolean dumpAbsCoords) {
+    public void paint(int left, int top, OutputTarget outputTarget, boolean dumpAbsCoords) {
+        outputTarget.addDiagramElement(left, top, solver, this);
+
         if (dumpAbsCoords) {
             writeDumpHeaderElements(this, null);
             dbg();
@@ -168,13 +170,13 @@ public abstract class DiagramElement {
         }
 
         for (Area graphic: graphics) {
-            graphic.paint(left, top, solver, gd);
+            outputTarget.addGraphic(left, top, solver, graphic);
         }
 
         for (ProxyDiagramElement childElement: childDiagramElements) {
-            double childLeft = left + solver.getVarValue(childElement.left);
-            double childTop = top + solver.getVarValue(childElement.top);
-            childElement.paint(childLeft, childTop, gd, dumpAbsCoords);
+            int childLeft = left + solver.getVarValue(childElement.left);
+            int childTop = top + solver.getVarValue(childElement.top);
+            childElement.paint(childLeft, childTop, outputTarget, dumpAbsCoords);
         }
     }
 }

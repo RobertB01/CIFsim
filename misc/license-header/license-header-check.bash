@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ################################################################################
-# Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+# Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -90,8 +90,8 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./DEPENDENCIES.txt:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./NOTICE.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./SECURITY.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./misc/license-header/license-header-list.txt:0$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.product.feature/extra_files/NOTICE.asciidoc:0$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.license.mit/NOTICE.asciidoc:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./product/org.eclipse.escet.product.feature/extra_files/NOTICE.asciidoc:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.license.mit/NOTICE.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./.*/empty.txt:0$"
 # Exclude expected test output files.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2mcrl2/.*.dbg.txt:0$"
@@ -101,6 +101,12 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/t
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_iec/.*.plcfunc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_iec/.*.plcprog:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_iec/.*.plctype:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_s7-.*/.*.scl:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_s7-.*/.*.udt:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_s7-.*/CONSTS.xml:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_s7-.*/DB.db:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_s7-.*/INPUTS.xml:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_s7-.*/timers.db:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_twincat/.*.plcproj:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_twincat/.*.sln:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/cif2plc/.*_twincat/.*.tsproj:0$"
@@ -156,8 +162,8 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.e
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.position.metamodel/docs/position_ecore_doc.tex:3$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.position.metamodel/model/autofix.py:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./misc/license-header/license-header-check.bash:2$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.product.branding/about.properties:2$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.product.branding/plugin.properties:2$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./product/org.eclipse.escet.product.branding/about.properties:2$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./product/org.eclipse.escet.product.branding/plugin.properties:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/asciidoc/index.asciidoc:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/asciidoc/legal.asciidoc:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.project.documentation/asciidoc/documentation.asciidoc:2$"
@@ -216,6 +222,8 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.d
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/choice.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/choice2.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/emptyalternating.rr:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/meta_terminals.props:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/meta_terminals.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/optional.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/refpath.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/sequence.rr:0$"
@@ -232,7 +240,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./.Xauthority-.*:0$"
 
 # Get license header count per file, using copyright statement from license header.
 # Exclude ones with exactly one match, as that is the expected/desired situation.
-grep -r -c $EXCLUDE_ARGS -E "Copyright \(c\) ([0-9]{4}, )?2021 Contributors to the Eclipse Foundation" . | \
+grep -r -c $EXCLUDE_ARGS -E "Copyright \(c\) ([0-9]{4}, )?2022 Contributors to the Eclipse Foundation" . | \
     grep -v "^.*:1$" | grep -v -E $POST_EXCLUDE_PATTERN > misc/license-header/license-header-list.txt
 
 # Print/check results.

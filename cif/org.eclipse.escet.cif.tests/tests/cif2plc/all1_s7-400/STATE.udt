@@ -1,0 +1,19 @@
+TYPE STATE:
+    STRUCT
+        curTime: REAL;
+        dvar_M_p_b: BOOL;
+        dvar_M_p_x: DINT;
+        dvar_M_p_y: REAL;
+        dvar_M_p_ve: DINT;
+        dvar_M_p_v1: DINT;
+        dvar_M_p_v2: TupleStruct_1;
+        dvar_M_p_v3: TupleStruct_2;
+        dvar_M_p_tv: TupleStruct_3;
+        dvar_M_p_j: DINT;
+        dvar_M_p_r: REAL;
+        cvar_M_p_t: REAL;
+        cvar_M_p_t2: REAL;
+        cvar_M_p_t3: REAL;
+        dvar_M_p: DINT;
+    END_STRUCT;
+END_TYPE

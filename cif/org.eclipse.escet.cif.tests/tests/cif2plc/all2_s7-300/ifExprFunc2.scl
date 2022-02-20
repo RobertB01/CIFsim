@@ -1,0 +1,13 @@
+FUNCTION ifExprFunc2: DINT
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        state: STATE;
+    END_VAR
+
+BEGIN
+    IF (state.dvar_M_p_vf) THEN
+        ifExprFunc2 := 8;
+    ELSE
+        ifExprFunc2 := 9;
+    END_IF;
+END_FUNCTION

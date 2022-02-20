@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -45,6 +45,17 @@ public class PlcTypeDecl extends PlcObject {
         c.add("TYPE %s:", name);
         c.indent();
         c.add(new HBox(type.toBox(), ";"));
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
+    }
+
+    @Override
+    public Box toBoxS7() {
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", name);
+        c.indent();
+        c.add(new HBox(type.toBoxS7(), ";"));
         c.dedent();
         c.add("END_TYPE");
         return c;

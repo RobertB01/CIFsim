@@ -1,0 +1,9 @@
+FUNCTION derivcvar_M_p_t3: LREAL
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        state: STATE;
+    END_VAR
+
+BEGIN
+    derivcvar_M_p_t3 := state.cvar_M_p_t3;
+END_FUNCTION

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -106,12 +106,12 @@ pipeline {
                     archiveArtifacts 'releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip'
 
                     // Update site.
-                    archiveArtifacts 'products/org.eclipse.escet.product/target/*-updatesite.zip'
+                    archiveArtifacts 'product/org.eclipse.escet.product/target/*-updatesite.zip'
 
                     // Product.
-                    archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-linux*.tar.gz'
-                    archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-mac*.dmg'
-                    archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-win*.zip'
+                    archiveArtifacts 'product/org.eclipse.escet.product/target/products/*-linux*.tar.gz'
+                    archiveArtifacts 'product/org.eclipse.escet.product/target/products/*-mac*.dmg'
+                    archiveArtifacts 'product/org.eclipse.escet.product/target/products/*-win*.zip'
 
                     // Code coverage.
                     archiveArtifacts 'releng/org.eclipse.escet.releng.tests/target/eclipse-escet-jacoco-aggregate.zip'
@@ -133,7 +133,7 @@ pipeline {
                 // Deploy downloads.
                 sh '''
                     mkdir -p deploy/update-site/
-                    unzip -q products/org.eclipse.escet.product/target/*-updatesite.zip -d deploy/update-site/
+                    unzip -q product/org.eclipse.escet.product/target/*-updatesite.zip -d deploy/update-site/
                 '''
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                     // Remove any existing directory for this release.
@@ -146,16 +146,16 @@ pipeline {
                     sh 'scp -r releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
 
                     // Update site (archive).
-                    sh 'scp -r products/org.eclipse.escet.product/target/*-updatesite.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
+                    sh 'scp -r product/org.eclipse.escet.product/target/*-updatesite.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
 
                     // Update site (extracted).
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/update-site/'
                     sh 'scp -r deploy/update-site/* ${DOWNLOADS_URL}/${RELEASE_VERSION}/update-site/'
 
                     // Product.
-                    sh 'scp -r products/org.eclipse.escet.product/target/products/*-linux*.tar.gz ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
-                    sh 'scp -r products/org.eclipse.escet.product/target/products/*-mac*.dmg ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
-                    sh 'scp -r products/org.eclipse.escet.product/target/products/*-win*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
+                    sh 'scp -r product/org.eclipse.escet.product/target/products/*-linux*.tar.gz ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
+                    sh 'scp -r product/org.eclipse.escet.product/target/products/*-mac*.dmg ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
+                    sh 'scp -r product/org.eclipse.escet.product/target/products/*-win*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
                 }
 
                 // Deploy websites.

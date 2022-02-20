@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -56,6 +56,38 @@ public class PlcGlobalVarList extends PlcObject {
         }
         c.dedent();
         c.add("END_VAR");
+        return c;
+    }
+
+    @Override
+    public Box toBoxS7() {
+        // S7 uses a 'tag table' for PLC I/O and constants. We write the tag table as an .xml file for easy importing in
+        // TIA Portal.
+        CodeBox c = new MemoryCodeBox(INDENT);
+
+        // The header.
+        c.add("<?xml version='1.0' encoding='utf-8'?>");
+        c.add("<Tagtable name='%s'>", name);
+        c.indent();
+
+        // The variables, either constants or input variables. 'type', 'value', 'name' and 'address' shouldn't contain
+        // XML characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
+        if (constants) {
+            for (PlcVariable constant: variables) {
+                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", constant.type, constant.value,
+                        constant.name);
+            }
+        } else {
+            for (PlcVariable var: variables) {
+                c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
+                        + "remark='' addr='%s'>%s</Tag>", var.type, var.address, var.name);
+            }
+        }
+        c.dedent();
+
+        // Close tag table.
+        c.add("</Tagtable>");
+
         return c;
     }
 }

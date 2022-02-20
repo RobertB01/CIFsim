@@ -1,0 +1,17 @@
+FUNCTION makeTupleStruct_2: TupleStruct_2
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        field0: BOOL;
+        field1: DINT;
+        field2: LREAL;
+    END_VAR
+    VAR_TEMP
+        rslt: TupleStruct_2;
+    END_VAR
+
+BEGIN
+    rslt.field0 := field0;
+    rslt.field1 := field1;
+    rslt.field2 := field2;
+    makeTupleStruct_2 := rslt;
+END_FUNCTION

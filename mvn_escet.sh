@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 ################################################################################
-# Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+# Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -14,4 +14,4 @@
 
 set -x
 
-mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,thirdparty,tooldef,products $*
+mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,thirdparty,tooldef,product $*

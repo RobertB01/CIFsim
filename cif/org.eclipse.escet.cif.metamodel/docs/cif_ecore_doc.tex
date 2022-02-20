@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+%% Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 %%
 %% See the NOTICE file(s) distributed with this work for additional
 %% information regarding copyright ownership.
@@ -102,8 +102,8 @@
 
 % Document settings.
 \title{Compositional Interchange Format (CIF) Metamodel Reference Documentation (Incubation)}
-\author{Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation}
-\date{Version 2021-12-05}
+\author{Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation}
+\date{Version 2021-12-11}
 \titlepic{\includegraphics[width=0.5\textwidth]{figures/eclipse-incubation.png}}
 
 % Start of document.
@@ -440,15 +440,19 @@ relative to the root of the current specification (the red scope).
 
 Note that functions, similar to components, introduce a sub-scope.
 
-Note that edges with a receive communication that receives a value in a
-`receive variable', introduce a sub-scope. This scope has only one declaration,
-the `receive variable'. This kind of sub-scope is special in the sense that
-it has no name, and as such the `receive variable' can't be reached using a
-relative reference, from outside that sub-scope. In fact, `receive variables'
-are only in scope for the updates of their edge. Note that as for all
-scopes, `receive variables' may hide other objects with the same name, from
-parent scopes.
-
+Note that tuple projection expressions may introduce a sub-scope. This scope has
+the tuple fields as objects. This kind of sub-scope is special in the sense that
+the fields are only in scope of the projection expression. Note that as for all
+scopes, fields may hide other objects with the same name, from parent scopes.
+Note that if it is a field reference, the textual reference to that field must be
+a single identifier. For instance, for a tuple-typed variable \texttt{t},
+\texttt{t[i]} can be a field reference but \texttt{t[i + 1]} can not. If the
+index expression is a reference to another object that can be referred to by a
+single identifier, then that object may be hidden by a tuple field with that same
+name. In such cases the object can't be referred to by a single identifier as the
+field name takes precedence, hiding the object. A more complex textual reference,
+such as a scope absolute reference, must then be used instead to refer to the
+object.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -466,7 +470,7 @@ parent scopes.
 \chapter{Legal}
 
 The material in this documentation is
-Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation.
+Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation.
 
 Eclipse ESCET and ESCET are trademarks of the Eclipse Foundation.
 Eclipse, and the Eclipse Logo are registered trademarks of the

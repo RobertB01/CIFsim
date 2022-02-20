@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -15,10 +15,9 @@ package org.eclipse.escet.common.raildiagrams.graphics;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 
-import java.awt.Graphics2D;
-
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
 
 /** An area in a diagram. */
 public abstract class Area {
@@ -50,8 +49,8 @@ public abstract class Area {
         left = solver.newVar(prefix + ".left");
         right = solver.newVar(prefix + ".right");
 
-        solver.addLe(left, 0, right);
-        solver.addLe(top, 0, bottom);
+        solver.addLe(left, -1, right);
+        solver.addLe(top, -1, bottom);
     }
 
     /**
@@ -61,19 +60,18 @@ public abstract class Area {
      * @param xOffset Horizontal offset of the element in the picture.
      * @param yOffset Vertical offset of the element in the picture.
      */
-    public void dump(Solver solver, double xOffset, double yOffset) {
-        dbg("%s: x[%.1f--%.1f], y[%.1f--%.1f]", prefix, xOffset + solver.getVarValue(left),
-                xOffset + solver.getVarValue(right), yOffset + solver.getVarValue(top),
-                yOffset + solver.getVarValue(bottom));
+    public void dump(Solver solver, int xOffset, int yOffset) {
+        dbg("%s: x[%d--%d], y[%d--%d]", prefix, xOffset + solver.getVarValue(left), xOffset + solver.getVarValue(right),
+                yOffset + solver.getVarValue(top), yOffset + solver.getVarValue(bottom));
     }
 
     /**
-     * Paint the graphic to the graphics output stream.
+     * Return a list of positions where other elements are expected to connect.
      *
-     * @param baseLeft Left-most position available for use.
-     * @param baseTop Top-most position available for use.
+     * @param baseLeft Left-most X coordinate available for the graphic.
+     * @param baseTop Top-most Y coordinate available for the graphic.
      * @param solver Solver containing values for all variables.
-     * @param gd Graphics stream handle.
+     * @return Positions expected to be used by other elements.
      */
-    public abstract void paint(double baseLeft, double baseTop, Solver solver, Graphics2D gd);
+    public abstract Position2D[] getConnectPoints(int baseLeft, int baseTop, Solver solver);
 }

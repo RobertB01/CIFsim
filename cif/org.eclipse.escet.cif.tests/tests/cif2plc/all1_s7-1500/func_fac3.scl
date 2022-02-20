@@ -1,0 +1,26 @@
+FUNCTION func_fac3: DINT
+{ S7_Optimized_Access := 'true' }
+    VAR_INPUT
+        farg2_fac3_a: DINT;
+    END_VAR
+    VAR_TEMP
+        farg_fac3_a: DINT;
+        fvar_fac3_rslt: DINT;
+    END_VAR
+
+BEGIN
+    farg_fac3_a := farg2_fac3_a;
+    // Initialize local variables.
+    fvar_fac3_rslt := 1;
+
+    // Actual function body.
+    WHILE (TRUE) DO
+        IF ((farg_fac3_a) < (1)) THEN
+            EXIT;
+        END_IF;
+        fvar_fac3_rslt := (fvar_fac3_rslt) * (farg_fac3_a);
+        farg_fac3_a := (farg_fac3_a) - (1);
+    END_WHILE;
+    func_fac3 := fvar_fac3_rslt;
+    RETURN;
+END_FUNCTION

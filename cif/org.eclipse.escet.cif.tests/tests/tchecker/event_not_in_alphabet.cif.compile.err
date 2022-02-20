@@ -1,6 +1,9 @@
 ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 20, column 15: Event "g.x.b" is missing in the alphabet of automaton "g.x".
 ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 20, column 18: Event "g.x.c" is missing in the alphabet of automaton "g.x".
-ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 34, column 16: Event "P.e" is missing in the alphabet of automaton "Q".
-WARNING: File "tchecker/event_not_in_alphabet.cif": Semantic warning at line 34, column 10: Duplicate event "P.e" on a single edge.
-WARNING: File "tchecker/event_not_in_alphabet.cif": Semantic warning at line 34, column 16: Duplicate event "P.e" on a single edge.
+ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 34, column 16: Event "p2.e" is missing in the alphabet of automaton "q1".
+ERROR: File "tchecker/event_not_in_alphabet.cif": Semantic error at line 34, column 26: Event "e2" is missing in the alphabet of automaton "q1".
+WARNING: File "tchecker/event_not_in_alphabet.cif": Semantic warning at line 34, column 10: Duplicate event "p1.e" on a single edge in automaton "q2".
+WARNING: File "tchecker/event_not_in_alphabet.cif": Semantic warning at line 34, column 16: Duplicate event "p1.e" on a single edge in automaton "q2".
+WARNING: File "tchecker/event_not_in_alphabet.cif": Semantic warning at line 34, column 22: Duplicate event "e1" on a single edge in automaton "q2".
+WARNING: File "tchecker/event_not_in_alphabet.cif": Semantic warning at line 34, column 26: Duplicate event "e1" on a single edge in automaton "q2".
 ERROR: Failed to load CIF file "tchecker/event_not_in_alphabet.cif": the file has errors.

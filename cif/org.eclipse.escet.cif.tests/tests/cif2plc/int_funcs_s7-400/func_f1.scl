@@ -1,0 +1,19 @@
+FUNCTION func_f1: DINT
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        farg2_f1_x: DINT;
+    END_VAR
+    VAR_TEMP
+        farg_f1_x: DINT;
+    END_VAR
+
+BEGIN
+    farg_f1_x := farg2_f1_x;
+    IF ((farg_f1_x) <= (0)) THEN
+        func_f1 := farg_f1_x;
+        RETURN;
+    END_IF;
+    farg_f1_x := (farg_f1_x) + (1);
+    func_f1 := func_f2(farg_f1_x);
+    RETURN;
+END_FUNCTION

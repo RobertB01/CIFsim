@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
+import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.Boxable;
 
 /** Base class for PLC objects. */
@@ -20,5 +21,14 @@ public abstract class PlcObject implements Boxable {
     @Override
     public final String toString() {
         return toBox().toString();
+    }
+
+    /**
+     * Returns a {@link Box} representation of the S7 output for this object.
+     *
+     * @return A {@link Box} representation of the S7 output for this object.
+     */
+    public Box toBoxS7() {
+        return toBox();
     }
 }

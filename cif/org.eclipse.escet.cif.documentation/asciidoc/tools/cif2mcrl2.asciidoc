@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -74,60 +74,61 @@ indexterm:[CIF to mCRL2 transformer,supported specifications]
 === Supported specifications
 
 The CIF to mCRL2 transformer supports a subset of CIF specifications.
+
+* Regarding variables:
+** Discrete variables are supported.
 The following restrictions apply:
-
-* The transformer ignores the supervisory kind of the automata.
-
-* Continuous variables are not supported.
-
-* Input variables are not supported.
-
-* Equations are not supported.
-
-* Initialization predicates are not supported, except for initialization predicates in a location.
-
-* Invariants are not supported.
-
-* Marker predicates are ignored.
-
-* Discrete variables must have type `bool`, `enum`, or `int`.
+*** They must have a `bool`, `enum`, or `int` type.
 The latter may have a range.
+*** Variables with multiple potential initial values are not supported.
+*** The initial value of a variable must be a statically evaluable.
+*** The transformation translates the range of integer variables if used, but it does not enforce that the variables remain within the minimum and maximum integer values.
+** Continuous variables are not supported.
+** Algebraic variables are supported, if their types and values are supported.
+** Input variables are not supported.
+** Equations are not supported.
 
-* Multiple potential initial values are not supported.
+* Regarding events:
+** Channels are not supported.
+** The `tau` event is not supported.
 
-* Initial value must be a constant.
+* Regarding automata:
+** There must be at least one automaton.
+** The supervisory kind of automata is ignored.
+** The initialization predicates in locations must be trivially `true` or `false`.
+** There must be exactly one initial location in each automaton.
+** Conditional updates are not supported, only assignment updates are allowed.
+** Multi-assignments are not supported.
+** Urgency of locations and edges is ignored.
 
-* There must be at least one automaton.
-
-* The transformation translates the range of integer variables if used, but it does not enforce the maximum and minimum integer value of CIF.
-
-In automata, there are a number of extra conditions:
-
-* The `initial` expression in locations must be constant.
-
-* There must be a single initial location in each automaton.
-
-* Conditional updates are not supported, only assignment updates are allowed.
-
-* Multi-assignments are not supported.
-
-* Channels are not supported.
-
-* The `tau` event is not supported.
-
-* Urgency of locations and edges is ignored.
-
-* Location references are not supported.
-
-* All expressions and sub-expressions must be of type `bool`, `enum`, or `int`.
+* Regarding expressions:
+** All expressions and sub-expressions must be of type `bool`, `enum`, or `int`.
 The latter may have a range.
+** Regarding boolean-typed expressions (resulting in a boolean as value):
+*** Boolean literals (`false` and `true`) are supported.
+*** Boolean-typed constants are supported.
+*** Boolean-typed discrete variables are supported.
+*** Boolean-typed algebraic variables are supported.
+*** Binary operators `and`, `or`, `==` and `!=` on boolean-typed arguments are supported.
+*** Unary operator `not` on boolean-typed arguments are supported.
+*** Location references are not supported.
+** Regarding enumeration-typed expressions (resulting in an enumeration literal as value):
+*** Enumeration literals are supported.
+*** Enumeration-typed constants are supported.
+*** Enumeration-typed discrete variables are supported.
+*** Enumeration-typed algebraic variables are supported.
+** Regarding integer-typed expressions (resulting in an integer as value):
+*** Integer literals are supported.
+*** Integer-typed constants are supported.
+*** Integer-typed discrete variables are supported.
+*** Integer-typed algebraic variables are supported.
+*** Binary operators `pass:c[+]`, `+*+` and `-` on integer-typed arguments are supported.
+*** Unary operators `-` and `pass:c[+]` on integer-typed arguments are supported.
 
-* Boolean constants, discrete variables, and operators `and`, `or`, `==`, `>=`, `>`, `+<=+`, `<`, `!=`, and `not` are allowed.
-
-* Enumeration constants, discrete variables, and operators `==` and `!=` are allowed.
-
-* Integer constants, discrete variables, binary operators `pass:c[+]`, `+*+`, `-`, and unary operators `-` and `pass:c[+]` are allowed.
-
+* Regarding other concepts:
+** Initialization predicates in components are not supported.
+** Invariants are not supported.
+** Marker predicates are ignored.
 * I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
 
@@ -146,8 +147,6 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 * <<tools-cif2cif-chapter-elim-alg-vars>>
 
 * <<tools-cif2cif-chapter-elim-consts>>
-
-* <<tools-cif2cif-chapter-enums-to-ints>>
 
 * <<tools-cif2cif-chapter-elim-monitors>>
 

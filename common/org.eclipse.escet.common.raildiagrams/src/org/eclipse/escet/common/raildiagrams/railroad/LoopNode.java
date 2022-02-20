@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -59,12 +59,12 @@ public class LoopNode extends DiagramElement {
 
     @Override
     public void create(Configuration config, int direction) {
-        double railWidth = config.getRailWidth();
+        int railWidth = config.getRailWidth();
         Color railColor = config.getRailColor();
-        double arcSize = config.getRealValue("loop.arc-radius");
-        double leftPadding = config.getRealValue("loop.padding.left");
-        double rightPadding = config.getRealValue("loop.padding.right");
-        double interrowPadding = config.getRealValue("loop.padding.vertical");
+        int arcSize = config.getIntValue("loop.arc-radius");
+        int leftPadding = config.getIntValue("loop.padding.left");
+        int rightPadding = config.getIntValue("loop.padding.right");
+        int interrowPadding = config.getIntValue("loop.padding.vertical");
 
         // Loop elements at the left.
         VertLine leftVertLine = new VertLine(solver, "loop-left-vert", railColor, railWidth);
@@ -152,7 +152,7 @@ public class LoopNode extends DiagramElement {
      * @param b Second arc to connect.
      * @param railWidth Width of the rail line.
      */
-    private void connectArcProxyHLineArc(Arc a, ProxyDiagramElement p, HorLine hl, Arc b, double railWidth) {
+    private void connectArcProxyHLineArc(Arc a, ProxyDiagramElement p, HorLine hl, Arc b, int railWidth) {
         p.connectLeft(solver, a, railWidth);
         p.connectRight(solver, hl);
         b.connectLine(solver, hl);
@@ -167,7 +167,7 @@ public class LoopNode extends DiagramElement {
      * @param b Second arc to connect.
      * @param railWidth Width of the rail line.
      */
-    private void connectArcHlineProxyArc(Arc a, HorLine hl, ProxyDiagramElement p, Arc b, double railWidth) {
+    private void connectArcHlineProxyArc(Arc a, HorLine hl, ProxyDiagramElement p, Arc b, int railWidth) {
         a.connectLine(solver, hl);
         p.connectLeft(solver, hl);
         p.connectRight(solver, b, railWidth);

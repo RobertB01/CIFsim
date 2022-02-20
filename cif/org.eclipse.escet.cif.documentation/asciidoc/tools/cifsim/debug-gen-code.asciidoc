@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -31,24 +31,23 @@ Otherwise, the generated code will be written to the directory containing the in
 
 Regardless, the code is also always written to a `cifcode` sub-directory.
 If this sub-directory does not yet exist, it is created.
-If it already exists, all existing `.java` files are removed from the sub-directory first, before the newly generated code is written.
+If it already exists, all relevant existing files, such as `.java` files, are removed from the sub-directory first, before the newly generated code is written.
 
 === Written files
 
-The generated code consists of Java files only.
-This results in several `.java` files being written to the `cifcode` directory.
-
-Additionally, an Eclipse launch configuration file (`+_cifsim_debug.launch+`) is written.
-This launch configuration can be used to reproduce the simulation implemented by the generated code.
-The launch configuration reproduces the simulation options that were used, and always shows the option dialog.
-The working directory for the simulation performed via the generated launch configuration is the same working directory as the original simulation.
+This results in several files being written to the `cifcode` directory.
+One of these files is `DebugSimulator.java`, which contains the simulation options that were used and always shows the option dialog.
+The working directory for the simulation performed via `DebugSimulator.java` is the same working directory as the original simulation.
 This allows additional files, such as configuration files, to be found.
+
+The `org.eclipse.escet.cif.simulator.debug` project contains a launch file (`debug-cif-simulator-generated-code.launch`) that can be used to reproduce the simulation implemented by the generated code.
+This launch configuration assumes that the code was generated in the `src` folder of the `org.eclipse.escet.cif.simulator.debug` project and was compiled to the `target/classes` folder of that project.
 
 === How to use
 
 To use this feature, follow these steps:
 
-* Import all CIF related source projects into your Eclipse workspace.
+* Start an Eclipse ESCET development environment.
 
 * Make sure your workspace is automatically rebuilt, by enabling the menu:Build Automatically[] option in the menu:Project[] menu.
 
@@ -68,7 +67,7 @@ To use this feature, follow these steps:
 
 * Set breakpoints in the generated Java code, or in the simulator code, as desired.
 
-* Right click the launch configuration in the `src/cifcode` directory, and choose menu:Debug as[_cifsim_debug].
+* Right click `debug-cif-simulator-generated-code.launch` in the `org.eclipse.escet.cif.simulator.debug` project, and choose menu:Debug as[debug-cif-simulator-generated-code.launch].
 
 * Debug the simulation, with the generated code, as you would any Java program.
 
@@ -76,11 +75,11 @@ indexterm:[CIF simulator,starting with generated code]
 
 === Starting the simulator with generated code
 
-The launch configuration that is written to disk with the generated code, uses the _Load debug code_ option (_Simulator_ category).
+The launch configuration that is used, uses the _Load debug code_ option (_Simulator_ category).
 Using this option, the classpath (directory) where the already generated code is located, is specified.
 By specifying it, the simulator knows from where to load it.
 
-Simulations not started from the generated launch configuration, generally don't use this option.
+Simulations not started from this launch configuration, generally don't use this option.
 They load the input specification, validate it, generate fresh code, and compile the code in-memory, or use <<tools-cifsim-repeated-sim-compile-once,compiled code files>>.
 
 Simulations using the generated code ignore all options related to <<tools-cifsim-chapter-repeated-simulation,repeated simulations>>.

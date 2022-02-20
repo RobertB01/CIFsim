@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -34,6 +34,20 @@ public class PlcStructType extends PlcType {
         c.indent();
         for (PlcVariable field: fields) {
             c.add(field);
+        }
+        c.dedent();
+        c.add("END_STRUCT");
+        return c;
+    }
+
+    @Override
+    public Box toBoxS7() {
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("STRUCT");
+        c.indent();
+        for (PlcVariable field: fields) {
+            // Only name and type, not address.
+            c.add("%s: %s;", field.name, field.type);
         }
         c.dedent();
         c.add("END_STRUCT");

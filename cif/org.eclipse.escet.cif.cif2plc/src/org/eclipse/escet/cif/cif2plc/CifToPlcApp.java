@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -37,6 +37,7 @@ import org.eclipse.escet.cif.cif2plc.options.SimplifyValuesOption;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.Iec611313Writer;
 import org.eclipse.escet.cif.cif2plc.writers.PlcOpenXmlWriter;
+import org.eclipse.escet.cif.cif2plc.writers.S7Writer;
 import org.eclipse.escet.cif.cif2plc.writers.TwinCatWriter;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -97,22 +98,11 @@ public class CifToPlcApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Get output type and path.
+        // Get output type.
         PlcOutputType outType = PlcOutputTypeOption.getPlcOutputType();
-        String outPath = null;
-        switch (outType) {
-            case PLC_OPEN_XML:
-                outPath = OutputFileOption.getDerivedPath(".cif", ".plcopen.xml");
-                break;
 
-            case IEC_61131_3:
-                outPath = OutputFileOption.getDerivedPath(".cif", "_plc");
-                break;
-
-            case TWINCAT:
-                outPath = OutputFileOption.getDerivedPath(".cif", "_twincat");
-                break;
-        }
+        // Get output path.
+        String outPath = OutputFileOption.getDerivedPath(".cif", outType.outFileExtOrDirPostfix);
         Assert.notNull(outPath);
         outPath = Paths.resolve(outPath);
 
@@ -141,6 +131,16 @@ public class CifToPlcApp extends Application<IOutputComponent> {
             case TWINCAT:
                 TwinCatWriter.write(project, outPath);
                 break;
+
+            case S7_1500:
+            case S7_1200:
+            case S7_400:
+            case S7_300:
+                S7Writer.write(project, outPath);
+                break;
+
+            default:
+                throw new RuntimeException("Unknown output type: " + outType);
         }
 
         // All done.

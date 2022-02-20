@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -36,8 +36,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -47,6 +45,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.escet.cif.common.CifCollectUtils;
+import org.eclipse.escet.cif.common.CifEnumUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -93,15 +93,9 @@ import org.eclipse.escet.common.app.framework.javacompiler.ResourceClassLoader;
 import org.eclipse.escet.common.app.framework.javacompiler.RuntimeClassLoader;
 import org.eclipse.escet.common.app.framework.javacompiler.RuntimeJavaCompiler;
 import org.eclipse.escet.common.app.framework.javacompiler.RuntimeJavaCompilerException;
-import org.eclipse.escet.common.app.framework.options.Option;
-import org.eclipse.escet.common.app.framework.options.OptionValue;
-import org.eclipse.escet.common.app.framework.options.Options;
-import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.PairTextComparer;
-import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.ui.PlatformUI;
 
@@ -201,7 +195,10 @@ public class CifCompilerContext {
     public static final String INPUT_SUB_STATE_FIELD_NAME = "i";
 
     /** The name of the debug project. */
-    public static final String DBG_PROJ = "org.eclipse.escet.cif.simulator.debug";
+    public static final String DBG_PROJ_NAME = "org.eclipse.escet.cif.simulator.debug";
+
+    /** The name of the debug simulator Java file. */
+    public static final String DBG_SIM_CLS_NAME = "DebugSimulator";
 
     /** File extension (excluding {@code "."}) of location names resource files. */
     public static final String FILE_EXT_LOC_NAMES = "locnames";
@@ -1160,7 +1157,9 @@ public class CifCompilerContext {
      */
     public Map<EnumDecl, EnumDecl> getEnumDeclReprs() {
         if (enumDeclReprs == null) {
-            enumDeclReprs = EnumCodeGenerator.getEnumDeclReprs(spec);
+            List<EnumDecl> enumDecls = list();
+            CifCollectUtils.collectEnumDecls(spec, enumDecls);
+            enumDeclReprs = CifEnumUtils.getEnumDeclReprs(enumDecls);
         }
         return enumDeclReprs;
     }
@@ -1345,7 +1344,7 @@ public class CifCompilerContext {
 
     /**
      * Writes the generated source code to disk, if debugging of the generated code is enabled. Also writes the resource
-     * files, and a launch configuration.
+     * files, and a Java file needed for debugging.
      */
     public void writeSourceCode() {
         // Make sure the debug option is enabled.
@@ -1362,7 +1361,7 @@ public class CifCompilerContext {
         if (Platform.isRunning() && PlatformUI.isWorkbenchRunning()) {
             // Look for the debug project, and use it.
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-            IProject project = root.getProject(DBG_PROJ);
+            IProject project = root.getProject(DBG_PROJ_NAME);
             if (project.exists()) {
                 IFolder folder = project.getFolder("src");
                 if (folder.exists()) {
@@ -1390,7 +1389,7 @@ public class CifCompilerContext {
         }
 
         // Clean the output directory, by removing all generated files.
-        String[] filters = {"*.java", "*.launch", "*." + FILE_EXT_LOC_NAMES, "*." + FILE_EXT_EDGE_DATA};
+        String[] filters = {"*.java", "*.dat", "*." + FILE_EXT_LOC_NAMES, "*." + FILE_EXT_EDGE_DATA};
         FilenameFilter filter = new WildcardFileFilter(filters);
         File[] files = pkgFile.listFiles(filter);
         if (files == null) {
@@ -1404,6 +1403,10 @@ public class CifCompilerContext {
             }
             file.delete();
         }
+
+        // Generate Java code for debugging the simulator.
+        String classesPath = Paths.resolve("../../target/classes", pkgPath);
+        DebugSimulatorCodeGenerator.gencodeDebugSimulator(classesPath, this);
 
         // Write the generated code files.
         for (JavaCodeFile file: code.values()) {
@@ -1439,74 +1442,15 @@ public class CifCompilerContext {
             }
         }
 
-        // Write the launch file.
-        String launchPath = Paths.join(pkgPath, "_cifsim_debug.launch");
-        writeLaunchFile(launchPath);
-    }
-
-    /**
-     * Generates and writes a launch file for debugging. Also refreshes the debugging project, if Eclipse is running,
-     * and it exists.
-     *
-     * @param launchPath The absolute local file system path of the launch file to write.
-     */
-    private void writeLaunchFile(String launchPath) {
-        // Generate command line. Note that it shouldn't matter in which order
-        // the option are given. We still sort them however, to get
-        // deterministic output for the contents of the launch file.
-        List<String> args = list();
-        Map<Option<?>, OptionValue<?>> opts = Options.getOptionMap();
-        for (Entry<Option<?>, OptionValue<?>> optPair: opts.entrySet()) {
-            Option<?> opt = optPair.getKey();
-            OptionValue<?> value = optPair.getValue();
-            for (String arg: opt.getCmdLine(value.getValue())) {
-                args.add(arg);
-            }
-        }
-        Collections.sort(args, Strings.SORTER);
-        for (int i = 0; i < args.size(); i++) {
-            String arg = args.get(i);
-            arg = arg.replace("\"", "\\\"");
-            if (arg.contains(" ")) {
-                arg = "\"" + arg + "\"";
-            }
-            arg = StringEscapeUtils.escapeXml(arg);
-            args.set(i, arg);
-        }
-        args.add("--debug-code=../bin");
-        args.add("--option-dialog=1");
-
-        // Generate launch file.
-        CodeBox c = new MemoryCodeBox();
-        c.add("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
-        c.add("<launchConfiguration type=\"org.eclipse.jdt.launching.localJavaApplication\">");
-        c.indent();
-
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.MAIN_TYPE\" "
-                + "value=\"org.eclipse.escet.cif.simulator.CifSimulatorApp\"/>");
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.PROGRAM_ARGUMENTS\" value=\""
-                + StringUtils.join(args, " ") + "\"/>");
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.PROJECT_ATTR\\\" "
-                + "value=\"org.eclipse.escet.cif.simulator.debug\"/>");
-        c.add("<stringAttribute key=\"org.eclipse.jdt.launching.WORKING_DIRECTORY\" value=\"%s\"/>",
-                Paths.getCurWorkingDir());
-
-        c.dedent();
-        c.add("</launchConfiguration>");
-
-        // Write launch file.
-        try {
-            c.writeToFile(launchPath);
-        } catch (InputOutputException e) {
-            String msg = fmt("Failed to write generated launch file \"%s\", for debugging.", launchPath);
-            throw new InputOutputException(msg, e);
-        }
+        // Remove the code for debugging the simulator, as that doesn't need to be compiled for simulation.
+        JavaCodeFile removed = code.remove(DBG_SIM_CLS_NAME);
+        Assert.notNull(removed);
 
         // Refresh the debug project.
         if (Platform.isRunning() && PlatformUI.isWorkbenchRunning()) {
             // Look for the debug project, and refresh it.
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-            IProject project = root.getProject(DBG_PROJ);
+            IProject project = root.getProject(DBG_PROJ_NAME);
             if (project.exists()) {
                 try {
                     project.refreshLocal(IResource.DEPTH_INFINITE, null);

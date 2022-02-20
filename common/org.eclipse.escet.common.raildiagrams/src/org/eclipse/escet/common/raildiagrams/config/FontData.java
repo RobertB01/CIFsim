@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,9 +13,12 @@
 
 package org.eclipse.escet.common.raildiagrams.config;
 
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
 import org.eclipse.escet.common.raildiagrams.util.Size2D;
@@ -49,38 +52,45 @@ public class FontData {
     }
 
     /**
-     * Compute the size of the provided text.
+     * Paint the provided text at the indicated position.
      *
      * @param gd Graphics context.
-     * @param text Text to measure.
-     * @return Size of the text.
+     * @param x X coordinate of the top-left position.
+     * @param y Y coordinate of the top-left position.
+     * @param color Color of the text.
+     * @param text Text to paint.
      */
-    public Size2D getTextSize(Graphics2D gd, String text) {
-        FontMetrics metrics = gd.getFontMetrics(font);
-        int width = metrics.stringWidth(text);
-        int heigt = metrics.getHeight();
-        return new Size2D(width, heigt);
+    public void paint(int x, int y, Color color, Graphics2D gd, String text) {
+        FontRenderContext renderContext = gd.getFontRenderContext();
+        TextLayout layout = new TextLayout(text, font, renderContext);
+        Rectangle2D bounds = layout.getPixelBounds(renderContext, 0, 0);
+        gd.setColor(color);
+        layout.draw(gd, (float)(x - bounds.getX()), (float)(y - bounds.getY()));
     }
 
     /**
-     * Compute the offset to print the provided text relative to its top-left corner.
+     * Get the size and top-left offset of the box around the provided text.
      *
      * @param gd Graphics context.
      * @param text Text to measure.
-     * @return Offset of the text relative to its top-left corner.
+     * @return Size and offset of the text.
      */
-    public Position2D getTextOffset(Graphics2D gd, String text) {
-        FontMetrics metrics = gd.getFontMetrics(font);
-        int ascent = metrics.getAscent();
-        return new Position2D(0, ascent);
+    public TextSizeOffset getTextSizeOffset(Graphics2D gd, String text) {
+        FontRenderContext renderContext = gd.getFontRenderContext();
+        TextLayout layout = new TextLayout(text, font, renderContext);
+        Rectangle2D bounds = layout.getPixelBounds(renderContext, 0, 0);
+        return new TextSizeOffset(new Position2D(0, 0),
+                new Size2D((int)Math.ceil(bounds.getWidth()), (int)Math.ceil(bounds.getHeight())));
     }
 
     /** Available styles of text. */
     public static enum FontStyle {
         /** Italic style. */
         ITALIC(Font.ITALIC),
+
         /** Bold style. */
         BOLD(Font.BOLD),
+
         /** Plain style. */
         PLAIN(Font.PLAIN);
 

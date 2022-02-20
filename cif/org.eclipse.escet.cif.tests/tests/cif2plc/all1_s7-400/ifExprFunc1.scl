@@ -1,0 +1,13 @@
+FUNCTION ifExprFunc1: DINT
+{ S7_Optimized_Access := 'false' }
+    VAR_INPUT
+        farg_fac_a: DINT;
+    END_VAR
+
+BEGIN
+    IF ((farg_fac_a) = (0)) THEN
+        ifExprFunc1 := 1;
+    ELSE
+        ifExprFunc1 := (func_fac((farg_fac_a) - (1))) * (farg_fac_a);
+    END_IF;
+END_FUNCTION

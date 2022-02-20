@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -18,10 +18,10 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 /** Class for storing a position. */
 public class Position2D {
     /** Horizontal position. */
-    public final double x;
+    public final int x;
 
     /** Vertical position. */
-    public final double y;
+    public final int y;
 
     /**
      * Constructor of the {@link Position2D} class.
@@ -29,13 +29,30 @@ public class Position2D {
      * @param x Horizontal position.
      * @param y Vertical position.
      */
-    public Position2D(double x, double y) {
+    public Position2D(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     @Override
     public String toString() {
-        return fmt("Position2D(%.1f, %.1f)", x, y);
+        return fmt("Position2D(%d, %d)", x, y);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Position2D)) {
+            return false;
+        }
+        Position2D otherPos = (Position2D)other;
+        return otherPos.x == x && otherPos.y == y;
+    }
+
+    @Override
+    public int hashCode() {
+        return x + 53 * y;
     }
 }

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -30,3 +30,18 @@ automaton b:
     edge e4;
 end
 
+///
+
+group def D():
+    event a;
+end
+
+automaton def A(D x):
+    alphabet x.a;
+    monitor x.a;
+    location l1:
+        initial;
+end
+
+X: D();
+B: A(X);

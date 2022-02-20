@@ -1,0 +1,84 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'true' }
+    VAR_TEMP
+        lastTimerValue: TIME;
+        curDeltaTime: TIME;
+        curDeltaSecs: LREAL;
+        state1: STATE;
+        progress: BOOL;
+        loopCount: INT;
+        timerValue0: TIME;
+        timerValue1: TIME;
+    END_VAR
+
+BEGIN
+
+    // Handle 'time' and cycle time.
+    "DB".cnt := "DB".cnt + 1;
+
+    timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+    timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+
+    lastTimerValue := "DB".curTimerValue;
+    IF "DB".curTimer = 0 THEN
+        "DB".curTimerValue := timerValue0;
+    ELSE
+        "DB".curTimerValue := timerValue1;
+    END_IF;
+    curDeltaTime := "DB".curTimerValue - lastTimerValue;
+    curDeltaSecs := DINT_TO_LREAL(TIME_TO_DINT(curDeltaTime)) / 1000;
+    "DB".curTime := "DB".curTime + curDeltaSecs;
+
+    IF "DB".cnt MOD 10 = 0 THEN
+        "DB".curTimer := 1 - "DB".curTimer;
+        "DB".curTimerValue := T#0S;
+        timer0.TON(IN := "DB".curTimer = 0, PT := T#1D);
+        timer1.TON(IN := "DB".curTimer = 1, PT := T#1D);
+        timerValue0 := timer0.ET;
+        timerValue1 := timer1.ET;
+    END_IF;
+
+    IF "DB".first THEN
+        "DB".first := FALSE;
+
+        // Initialize state variables for initial state.
+        "DB".state0.dvar_M_aut_x := 10;
+        "DB".state0.dvar_M_aut_y := func_f1(10);
+        "DB".state0.dvar_M_aut_z := func_f3(0);
+    ELSE
+        // Update continuous variables for time delay.
+
+        "DB".state0.curTime := "DB".curTime;
+    END_IF;
+
+    // Event loop.
+    WHILE TRUE DO
+        progress := FALSE;
+
+        // Event "tau".
+        IF NOT progress THEN
+            IF ("DB".state0.dvar_M_aut_y) = (0) THEN
+                progress := TRUE;
+                state1 := "DB".state0;
+
+                state1.dvar_M_aut_y := (ivar_i) + ("DB".state0.dvar_M_aut_z);
+
+                "DB".state0 := state1;
+            END_IF;
+        END_IF;
+
+        // Done with events?
+        IF NOT progress THEN
+            EXIT;
+        END_IF;
+
+        // Protect against events that are always enabled.
+        loopCount := loopCount + 1;
+        IF loopCount >= 100 THEN
+            "DB".loopsKilled := "DB".loopsKilled + 1;
+            EXIT;
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK

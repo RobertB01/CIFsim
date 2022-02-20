@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -47,12 +47,12 @@ public class BranchLabelNode extends DiagramElement {
 
     @Override
     public void create(Configuration config, int direction) {
-        double railwidth = config.getRailWidth();
-        double labelLeftPadding = config.getRealValue("branch-label.padding.left");
-        double labelTopPadding = config.getRealValue("branch-label.padding.top");
-        double labelRightPadding = config.getRealValue("branch-label.padding.right");
-        double labelBottomPadding = config.getRealValue("branch-label.padding.bottom");
-        double minWidth = config.getRealValue("branch-label.min-width");
+        int railwidth = config.getRailWidth();
+        int labelLeftPadding = config.getIntValue("branch-label.padding.left");
+        int labelTopPadding = config.getIntValue("branch-label.padding.top");
+        int labelRightPadding = config.getIntValue("branch-label.padding.right");
+        int labelBottomPadding = config.getIntValue("branch-label.padding.bottom");
+        int minWidth = config.getIntValue("branch-label.min-width");
         Color textColor = config.getRgbColor("branch-label.text.color");
         Color railColor = config.getRailColor();
 
@@ -68,8 +68,8 @@ public class BranchLabelNode extends DiagramElement {
         }
 
         // Compute size of the box holding the text, and the position of the text in it.
-        double labelWidth;
-        double horOffset;
+        int labelWidth;
+        int horOffset;
         if (minWidth <= labelLeftPadding + labelRightPadding + textSize.width) {
             // Padding and text decides.
             labelWidth = labelLeftPadding + labelRightPadding + textSize.width;
@@ -77,7 +77,7 @@ public class BranchLabelNode extends DiagramElement {
         } else {
             // minWidth decides, center the text in the remaining space.
             labelWidth = minWidth;
-            double remaining = minWidth - (labelLeftPadding + labelRightPadding + textSize.width);
+            int remaining = minWidth - (labelLeftPadding + labelRightPadding + textSize.width);
             horOffset = labelLeftPadding + remaining / 2;
         }
         textOffset = new Position2D(textOffset.x + horOffset, textOffset.y + labelTopPadding);
@@ -93,7 +93,7 @@ public class BranchLabelNode extends DiagramElement {
         solver.addEq(textArea.right, 0, right);
 
         solver.addEq(top, 0, textArea.top);
-        solver.addEq(textArea.bottom, 0, rail.top);
+        solver.addEq(textArea.bottom, 1, rail.top);
         solver.addEq(connectTop, 0, rail.top);
         solver.addEq(bottom, 0, rail.bottom);
 

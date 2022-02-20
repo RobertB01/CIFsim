@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -22,6 +22,7 @@ import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.set;
+import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -82,6 +83,7 @@ import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.emf.EMFPath;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
@@ -382,6 +384,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Copy actual parameter.
         newRef = deepclone(newRef);
 
+        // Use old position information for displaying potential warnings.
+        setPositionInfo(newRef, evtRef.getPosition());
+
         // Replace reference by actual argument.
         EMFHelper.updateParentContainment(evtRef, newRef);
 
@@ -400,6 +405,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Copy actual parameter.
         newRef = deepclone(newRef);
 
+        // Use old position information for displaying potential warnings.
+        setPositionInfo(newRef, locRef.getPosition());
+
         // Replace reference by actual argument.
         EMFHelper.updateParentContainment(locRef, newRef);
 
@@ -417,6 +425,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
 
         // Copy actual parameter.
         newRef = deepclone(newRef);
+
+        // Use old position information for displaying potential warnings.
+        setPositionInfo(newRef, compParamRef.getPosition());
 
         // Replace reference by actual argument.
         EMFHelper.updateParentContainment(compParamRef, newRef);
@@ -1403,8 +1414,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // component definition 'C' being instantiated as 'z'). That means that 'C' contains 'z', which is an instance
         // of 'C', which leads to self-instantiation, which is not allowed in CIF.
         //
-        // 4) Via component instantiation references and direct component references don't refer to a component parameter
-        // at all, and thus trivially don't lead to infinite recursions on them.
+        // 4) Via component instantiation references and direct component references don't refer to a component
+        // parameter at all, and thus trivially don't lead to infinite recursions on them.
         walkExpression(arg);
 
         // Get potentially updated actual argument.
@@ -1549,6 +1560,32 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             }
 
             return newInstWrap;
+        }
+    }
+
+    /**
+     * Sets the position information for the position object. For wrapping expressions, the position information is also
+     * set for the reference.
+     *
+     * @param obj The object.
+     * @param position The new position information.
+     */
+    private void setPositionInfo(PositionObject obj, Position position) {
+        obj.setPosition(position);
+
+        PositionObject ref = null;
+        if (obj instanceof CompParamWrapExpression) {
+            ref = ((CompParamWrapExpression)obj).getReference();
+        } else if (obj instanceof CompInstWrapExpression) {
+            ref = ((CompInstWrapExpression)obj).getReference();
+        } else if (obj instanceof CompParamWrapType) {
+            ref = ((CompParamWrapType)obj).getReference();
+        } else if (obj instanceof CompInstWrapType) {
+            ref = ((CompInstWrapType)obj).getReference();
+        }
+
+        if (ref != null) {
+            setPositionInfo(ref, copyPosition(position));
         }
     }
 }

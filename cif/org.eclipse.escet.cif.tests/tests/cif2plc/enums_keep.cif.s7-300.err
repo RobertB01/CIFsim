@@ -1,0 +1,1 @@
+ERROR: Enumerations are not converted, while this is required for S7-300 code. Please set the "Convert enumerations" option accordingly.

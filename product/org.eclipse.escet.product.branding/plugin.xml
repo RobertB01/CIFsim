@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+  Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+ 
+  SPDX-License-Identifier: MIT
+-->
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            description="Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) (Incubation)"
+            name="Eclipse ESCET (Incubation)">
+         <property
+               name="appName"
+               value="ESCET">
+         </property>
+         <property
+               name="aboutText"
+               value="%aboutText">
+         </property>
+         <property
+               name="introTitle"
+               value="Welcome to Eclipse ESCET (Incubation)">
+         </property>
+         <property
+               name="aboutImage"
+               value="images/escet_about.png">
+         </property>
+         <property
+               name="windowImages"
+               value="images/escet_16x16.png,images/escet_32x32.png,images/escet_48x48.png,images/escet_64x64.png,images/escet_128x128.png,images/escet_256x256.png">
+         </property>
+         <property
+               name="introBrandingImage"
+               value="product:images/escet_intro.png">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <introProductBinding
+            introId="org.eclipse.ui.intro.universal"
+            productId="org.eclipse.escet.product.branding.product">
+      </introProductBinding>
+   </extension>
+
+</plugin>

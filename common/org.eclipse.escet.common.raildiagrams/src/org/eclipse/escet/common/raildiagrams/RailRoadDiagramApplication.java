@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -14,16 +14,9 @@
 package org.eclipse.escet.common.raildiagrams;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.Color;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -35,6 +28,9 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.raildiagrams.config.ConfigFileOption;
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
+import org.eclipse.escet.common.raildiagrams.output.DebugImageOutput;
+import org.eclipse.escet.common.raildiagrams.output.NormalImageOutput;
+import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramParser;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
 import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
@@ -80,10 +76,20 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Setup graphics object.
-        // Image is needed for getting a Graphics2D instance to query text sizes.
-        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-        Configuration config = new Configuration(image.createGraphics());
+        // Setup output target and configuration.
+        OutputTarget outputTarget;
+        switch (OutputFormatOption.getFormat()) {
+            case DBG_IMAGES:
+                outputTarget = new DebugImageOutput();
+                break;
+            case IMAGES:
+                outputTarget = new NormalImageOutput();
+                break;
+            default:
+                throw new AssertionError("Unknown output format found: " + OutputFormatOption.getFormat());
+        }
+
+        Configuration config = new Configuration(outputTarget);
         if (isTerminationRequested()) {
             return 0;
         }
@@ -116,8 +122,8 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             //
             // First, compute required size for all boxes in the diagram.
             // Boxes are put under each other.
-            double diagramWidth = 0;
-            double diagramHeight = 0;
+            int diagramWidth = 0;
+            int diagramHeight = 0;
             for (RailRule rule: rules) {
                 rule.create(config, 1);
                 Size2D size = rule.getSize();
@@ -130,26 +136,17 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             }
 
             // Second, position everything and generate the graphic elements.
-            //
-            // Create the 'real' image.
-            Graphics2D gd;
-            {
-                int width = (int)Math.ceil(diagramWidth);
-                int height = (int)Math.ceil(diagramHeight);
+            int width = (int)Math.ceil(diagramWidth);
+            int height = (int)Math.ceil(diagramHeight);
 
-                image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-                gd = image.createGraphics();
-                gd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                gd.setColor(config.getRgbColor("diagram.background.color"));
-                gd.fillRect(0, 0, width, height);
-            }
+            Color bgColor = config.getRgbColor("diagram.background.color");
+            outputTarget.prepareOutputFile(width, height, bgColor);
 
             // Paint graphics to the image.
             boolean dumpAbsCoords = config.getDebugSetting(DebugDisplayKind.ABS_COORDINATES);
-            double top = 0;
+            int top = 0;
             for (RailRule rule: rules) {
-                rule.paint(0, top, gd, dumpAbsCoords);
+                rule.paint(0, top, outputTarget, dumpAbsCoords);
                 Size2D size = rule.getSize();
                 top += Math.ceil(size.height);
                 if (isTerminationRequested()) {
@@ -160,7 +157,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             // Write the image.
             String imageFile = WriteImageOption.getOutputPath(inputFile);
             if (imageFile != null) {
-                saveImage(image, imageFile);
+                outputTarget.writeOutputFile(imageFile);
             }
             if (isTerminationRequested()) {
                 return 0;
@@ -168,21 +165,6 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
         }
 
         return 0;
-    }
-
-    /**
-     * Save the created image to the file system.
-     *
-     * @param image Image to write.
-     * @param imageFile Name of the file to write.
-     */
-    private void saveImage(BufferedImage image, String imageFile) {
-        try {
-            ImageIO.write(image, "png", new File(imageFile));
-        } catch (IOException ex) {
-            String msg = fmt("Failed to write PNG image file \"%s\".", imageFile);
-            throw new RuntimeException(msg, ex);
-        }
     }
 
     @Override
@@ -196,7 +178,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
         OptionCategory diagramOpts = new OptionCategory("Generator", "Railroad diagram generation options.", list(),
                 list(Options.getInstance(FilesOption.class), Options.getInstance(ConfigFileOption.class),
-                        Options.getInstance(WriteImageOption.class)));
+                        Options.getInstance(WriteImageOption.class), Options.getInstance(OutputFormatOption.class)));
 
         OptionCategory options;
         options = new OptionCategory("Railroad Diagram Generator Tool Options",

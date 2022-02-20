@@ -1,0 +1,13 @@
+TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_p_v0: LREAL;
+        dvar_M_p_v1: DINT;
+        dvar_M_p_v2: DINT;
+        dvar_M_p_v3: DINT;
+        dvar_M_p_v99: LREAL;
+        dvar_M_p_vx: LREAL;
+        dvar_M_p_vr: TupleStruct_1;
+        dvar_M_p: DINT;
+    END_STRUCT;
+END_TYPE

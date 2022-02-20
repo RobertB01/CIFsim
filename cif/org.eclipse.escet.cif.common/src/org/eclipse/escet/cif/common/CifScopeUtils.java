@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -311,9 +311,17 @@ public class CifScopeUtils {
      * Is the given CIF object a scope?
      *
      * <p>
-     * Components, functions, and component definitions are scopes. Components that represent bodies of component
-     * definitions are not scopes, as the component definitions themselves are the scopes. Component instantiations are
-     * not scopes, as they don't contain anything (yet). They can be considered 'via' scopes, but not 'real' scopes.
+     * The following objects are scopes:
+     * <ul>
+     * <li>Components</li>
+     * <li>Functions</li>
+     * <li>Component definitions</li>
+     * <li>Tuple projection expressions with a constant reference as index expression</li>
+     * </ul>
+     *
+     * Components that represent bodies of component definitions are not scopes, as the component definitions themselves
+     * are the scopes. Component instantiations are not scopes, as they don't contain anything (yet). They can be
+     * considered 'via' scopes, but not 'real' scopes.
      * </p>
      *
      * @param obj The CIF object for which to determine whether it is a scope.
@@ -340,6 +348,30 @@ public class CifScopeUtils {
         if (obj instanceof Component) {
             PositionObject parent = (PositionObject)obj.eContainer();
             return !(parent instanceof ComponentDef);
+        }
+
+        // Projection expressions may be scopes for the fields of tuples being projected.
+        if (obj instanceof ProjectionExpression) {
+            // Only tuples contain fields.
+            ProjectionExpression projExpr = (ProjectionExpression)obj;
+            CifType t = CifTypeUtils.normalizeType(projExpr.getChild().getType());
+            if (!(t instanceof TupleType)) {
+                return false;
+            }
+
+            // The index expression of a tuple projection expression is either a field reference or a statically
+            // evaluable expression that results in an integer value. If it is a field reference, the textual reference
+            // to that field must be a single identifier. For instance, for a tuple-typed variable 't', 't[i]' can be a
+            // field reference but 't[i + 1]' can not. If the index expression is a reference to another object that can
+            // be referred to by a single identifier, then that object may be hidden by a tuple field with that same
+            // name. In such cases the object can't be referred to by a single identifier as the field name takes
+            // precedence, hiding the object. A more complex textual reference, such as a scope absolute reference, must
+            // then be used instead to refer to the object. Constants are the only objects that: can be referred to by a
+            // single identifier, can have an integer type, and are statically evaluable. In case of a tuple projection
+            // on a constant, we consider the projection expression as a scope that declares the tuple field names. This
+            // way, the pretty printer will consider the hidden objects and generate appropriate textual references to
+            // them.
+            return projExpr.getIndex() instanceof ConstantExpression;
         }
 
         // Remaining CIF objects are not scopes.
@@ -497,6 +529,24 @@ public class CifScopeUtils {
             return getObject(compdef.getBody(), name);
         }
 
+        // Tuple projection expressions.
+        if (scope instanceof ProjectionExpression) {
+            ProjectionExpression projExpr = (ProjectionExpression)scope;
+            CifType t = CifTypeUtils.normalizeType(projExpr.getChild().getType());
+            Assert.check(t instanceof TupleType);
+
+            // Fields.
+            TupleType tt = (TupleType)t;
+            for (Field field: tt.getFields()) {
+                String fieldName = field.getName();
+                if (fieldName != null) {
+                    if (fieldName.equals(name)) {
+                        return field;
+                    }
+                }
+            }
+        }
+
         // Functions.
         if (scope instanceof Function) {
             Function func = (Function)scope;
@@ -535,10 +585,6 @@ public class CifScopeUtils {
 
     /**
      * Returns the names of the symbols declared in the given scope.
-     *
-     * <p>
-     * May not be applied to tuple types, as they don't introduce an actual scope.
-     * </p>
      *
      * @param scope The scope. Must not be a 'via' scope (a component instantiation scope or component parameter scope).
      * @param scopeCache Cache with computation results for {@link #getSymbolNamesForScope}. May be {@code null} to not
@@ -625,6 +671,24 @@ public class CifScopeUtils {
             Set<String> bodyNames;
             bodyNames = getSymbolNamesForScope(compdef.getBody(), scopeCache);
             rslt.addAll(bodyNames);
+            return rslt;
+        }
+
+        // Tuple projection expressions.
+        if (scope instanceof ProjectionExpression) {
+            // Add fields of the tuple type.
+            ProjectionExpression projExpr = (ProjectionExpression)scope;
+            CifType t = CifTypeUtils.normalizeType(projExpr.getChild().getType());
+            Assert.check(t instanceof TupleType);
+
+            TupleType tt = (TupleType)t;
+            for (Field field: tt.getFields()) {
+                // Anonymous tuple fields may result from standard library functions.
+                if (field.getName() == null) {
+                    continue;
+                }
+                rslt.add(field.getName());
+            }
             return rslt;
         }
 

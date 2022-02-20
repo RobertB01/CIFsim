@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -27,6 +27,7 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 ** Update `dev-env-setup.asciidoc` to match new Eclipse version.
 ** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
 ** Update Eclipse and Orbit update site URLs in product (`org.eclipse.escet.product/escet.product`).
+** Update Eclipse and Orbit update site URLs in update site (`org.eclipse.escet.product/category.xml`).
 
 * Update target platform and address any issues
 ** Let Oomph regenerate the target platform, and commit any changes.
@@ -78,7 +79,7 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 To upgrade to a new Tycho version:
 
 * Update version in `org.eclipse.escet.root/.mvn/extensions.xml`.
-* Update version in `org.eclipse.escet.configuration/pom.xml`.
+* Update version in `org.eclipse.escet.releng.configuration/pom.xml`.
 * Check Tycho release notes for changes and adapt as necessary.
 * Run a <<development-building-and-testing-chapter-index,Maven build>>.
 * Ensure no errors or warnings during Maven build.
@@ -91,7 +92,7 @@ To upgrade to a new Java version:
 ** Update `JRE_CONTAINER` in all launch configurations (`.launch` files).
 ** Update Java versions in `org.eclipse.jdt.core.prefs` files.
 ** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
-** Update Java version for `executionEnvironment` in `org.eclipse.escet.configuration/pom.xml`.
+** Update Java version for `executionEnvironment` in `org.eclipse.escet.releng.configuration/pom.xml`.
 ** Update Java version in `Jenkinsfile`.
 ** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.
 ** Update Java keywords for `org.eclipse.escet.common.java.JavaCodeUtils.JAVA_IDS`.

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -24,15 +24,18 @@ The release notes may refer to issues, the details for which can be found at the
 
 See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 0.4
+=== Version 0.5
 
 TBD
+
+=== Version 0.4
 
 Improvements and fixes:
 
 * Introduced a brand new website (issue #35).
 * Many website URLs have changed due to various website structure changes (issues #35 and #73).
 * Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
+* Multiple small error message improvements (issue #248).
 
 === Version 0.3
 
