@@ -37,7 +37,8 @@ Improvements and fixes:
 * CIF type checker no longer produces the wrong warning for globally disabled event that are monitored, for events referred to via component parameters or component instantiations (issue #300).
 * CIF type checker no longer produces false positive/negative warnings and errors related to the use of events in component definitions/instantiations.
 This applies to the following checks: duplicate events in alphabets, duplicate monitor events, duplicate events on edges, events on edges not in alphabets, monitoring events not in alphabets, events in alphabet not on any edge, monitored event not on any edge, and monitoring an empty alphabet.
-It also has several other small improvements related to these checks, including improved warning messages and reporting the warnings at better positions (issues #298 and #301).
+It also has several other small improvements related to these checks, including improved warning messages and reporting the warnings at better positions.
+As a result of the changes, problems are no longer reported for non-instantiated component definitions (issues #298 and #301).
 * CIF simulator interactive GUI input component now has a horizontal scrollbar from the start, if applicable (issue #217).
 * CIF simulator termination by the red stop button no longer leaves the interactive GUI input component buttons enabled (issue #274).
 * CIF PLC code generator PLC number bits option now has a new automatic mode.
