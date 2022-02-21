@@ -590,8 +590,8 @@ public class CifScopeUtils {
      * @param scopeCache Cache with computation results for {@link #getSymbolNamesForScope}. May be {@code null} to not
      *     use a cache.
      * @return The names of the symbols.
-     * @see #getScope
      * @see #getObject
+     * @see #getScope
      */
     public static Set<String> getSymbolNamesForScope(PositionObject scope, ScopeCache scopeCache) {
         if (scopeCache != null) {

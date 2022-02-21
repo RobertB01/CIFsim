@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2018, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -30,8 +30,12 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 /**
- * Basic class to convert events with a controllability status. It contains one class to convert uncontrollable events
- * to controllable events and one class to convert all controllable events to uncontrollable events.
+ * Basic class to convert events with a controllability status.
+ *
+ * <p>
+ * It also contains an interface class to convert all uncontrollable events to controllable events and an interface
+ * class to convert all controllable events to uncontrollable events.
+ * </p>
  *
  * <p>
  * Precondition: Specifications with component definitions/instantiations are currently not supported.
@@ -68,10 +72,10 @@ public final class ConvertEventsControllability {
         List<Event> events = list();
         collectEvents(spec, events);
 
+        // Change the events.
         String prefixToReplace = toControllable ? "u_" : "c_";
         String prefixReplacement = toControllable ? "c_" : "u_";
 
-        // Change the events.
         ScopeCache scopeCache = new ScopeCache();
         for (Event event: events) {
             if (event.getControllable() != null && event.getControllable() != toControllable) {
@@ -104,7 +108,7 @@ public final class ConvertEventsControllability {
      * Precondition: Specifications with component definitions/instantiations are currently not supported.
      * </p>
      */
-    public static class ConvertUncontrollableEvents implements CifToCifTransformation {
+    public static class ConvertUncntrlEventsToCntrl implements CifToCifTransformation {
         @Override
         public void transform(Specification spec) {
             convert(spec, true);
@@ -118,7 +122,7 @@ public final class ConvertEventsControllability {
      * Precondition: Specifications with component definitions/instantiations are currently not supported.
      * </p>
      */
-    public static class ConvertControllableEvents implements CifToCifTransformation {
+    public static class ConvertCntrlEventsToUncntrl implements CifToCifTransformation {
         @Override
         public void transform(Specification spec) {
             convert(spec, false);

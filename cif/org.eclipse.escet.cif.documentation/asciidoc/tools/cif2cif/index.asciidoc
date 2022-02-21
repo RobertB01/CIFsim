@@ -99,8 +99,8 @@ A whole collection of CIF to CIF transformations is available.
 The available transformations are listed below, with a link to the information about the transformation, and the name to use for that transformation on the command line.
 
 * <<tools-cif2cif-chapter-add-default-init-values>> (`add-default-init-values`)
-* <<tools-cif2cif-chapter-convert-uncontrollable-events-to-controllable>> (`convert-uncontrollable-events`)
-* <<tools-cif2cif-chapter-convert-controllable-events-to-uncontrollable>> (`convert-controllable-events`)
+* <<tools-cif2cif-chapter-convert-uncontrollable-events-to-controllable>> (`convert-uncntrl-events-to-cntrl`)
+* <<tools-cif2cif-chapter-convert-controllable-events-to-uncontrollable>> (`convert-cntrl-events-to-uncntrl`)
 * <<tools-cif2cif-chapter-elim-alg-vars>> (`elim-alg-vars`)
 * <<tools-cif2cif-chapter-elim-aut-casts>> (`elim-aut-casts`)
 * <<tools-cif2cif-chapter-elim-comp-def-inst>> (`elim-comp-def-inst`)
