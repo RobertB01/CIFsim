@@ -33,7 +33,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
  * Basic class to convert events with a controllability status.
  *
  * <p>
- * It also contains an interface class to convert all uncontrollable events to controllable events and an interface
+ * It also contains an inner class to convert all uncontrollable events to controllable events and an inner
  * class to convert all controllable events to uncontrollable events.
  * </p>
  *
@@ -102,7 +102,7 @@ public final class ConvertEventsControllability {
     }
 
     /**
-     * In-place transformation that convert all uncontrollable events to controllable events.
+     * In-place transformation that converts all uncontrollable events to controllable events.
      *
      * <p>
      * Precondition: Specifications with component definitions/instantiations are currently not supported.
@@ -116,7 +116,7 @@ public final class ConvertEventsControllability {
     }
 
     /**
-     * In-place transformation that convert all controllable events to uncontrollable events.
+     * In-place transformation that converts all controllable events to uncontrollable events.
      *
      * <p>
      * Precondition: Specifications with component definitions/instantiations are currently not supported.

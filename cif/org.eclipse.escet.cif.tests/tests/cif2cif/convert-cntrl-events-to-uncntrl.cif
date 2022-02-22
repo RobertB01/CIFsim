@@ -17,7 +17,7 @@ group G:
     controllable b;
 
     location l1:
-      initial;marked;
+      initial; marked;
       edge c_a goto l2;
     location l2:
       edge b goto l1;
