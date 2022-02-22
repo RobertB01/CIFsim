@@ -28,6 +28,10 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 
 TBD
 
+Improvements and fixes:
+
+* The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue #314).
+
 === Version 0.4 (2021-12-17)
 
 Improvements and fixes:

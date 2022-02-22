@@ -32,6 +32,10 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+Improvements and fixes:
+
+* The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue #314).
+
 === Version 0.4 (2021-12-17)
 
 Improvements and fixes:
