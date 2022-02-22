@@ -125,6 +125,7 @@ The available transformations are listed below, with a link to the information a
 * <<tools-cif2cif-chapter-remove-print-decls>> (`remove-print-decls`)
 * <<tools-cif2cif-chapter-remove-pos-info>> (`remove-pos-info`)
 * <<tools-cif2cif-chapter-remove-reqs>> (`remove-reqs`)
+* <<tools-cif2cif-chapter-remove-unused-alg-vars>> (`remove-unused-alg-vars`)
 * <<tools-cif2cif-chapter-simplify-others>> (`simplify-others`)
 * <<tools-cif2cif-chapter-simplify-values>> (`simplify-values`)
 * <<tools-cif2cif-chapter-simplify-values-optimized>> (`simplify-values-optimized`)
