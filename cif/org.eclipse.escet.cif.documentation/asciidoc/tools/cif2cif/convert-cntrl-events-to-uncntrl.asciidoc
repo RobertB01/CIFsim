@@ -13,7 +13,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tools-cif2cif-chapter-convert-controllable-events-to-uncontrollable]]
+[[tools-cif2cif-chapter-convert-cntrl-events-to-uncntrl]]
 == Convert controllable events to uncontrollable
 
 indexterm:[CIF to CIF transformer,convert controllable events to uncontrollable]
