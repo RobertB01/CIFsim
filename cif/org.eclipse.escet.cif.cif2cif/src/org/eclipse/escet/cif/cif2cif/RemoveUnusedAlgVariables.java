@@ -37,11 +37,6 @@ import org.eclipse.escet.common.emf.EMFHelper;
  * In-place transformation that removes unused algebraic variables and their equations.
  *
  * <p>
- * Since algebraic variables are shortcuts for expressions, unused algebraic variables may clutter the model with
- * obsolete information.
- * </p>
- *
- * <p>
  * Precondition: Specifications with component definitions/instantiations are currently not supported.
  * </p>
  */
@@ -52,11 +47,12 @@ public class RemoveUnusedAlgVariables extends CifWalker implements CifToCifTrans
     /** All algebraic variables used in expressions outside value expressions of other algebraic variables. */
     private Set<AlgVariable> allUsedAlgVars = set();
 
-    /** Map of algebraic variables to the collection of algebraic variables used in its defining expression. */
+    /** Map of algebraic variables to the collection of algebraic variables used in its defining expressions. */
     private Map<AlgVariable, Set<AlgVariable>> algVarsReferredByAlgVar = map();
 
     /**
-     * If not {@code null}, the algebraic variable owning the value expression or equation that is currently analyzed.
+     * If not {@code null}, the algebraic variable owning the value expression or equation that is currently being
+     * analyzed.
      */
     private AlgVariable analyzingAlgVar = null;
 
@@ -67,8 +63,8 @@ public class RemoveUnusedAlgVariables extends CifWalker implements CifToCifTrans
     public void transform(Specification spec) {
         // Check no component definition/instantiation precondition.
         if (CifScopeUtils.hasCompDefInst(spec)) {
-            String msg = "Eliminating algebraic variables from a CIF specification with component definitions is "
-                    + "currently not supported.";
+            String msg = "Eliminating unused algebraic variables from a CIF specification with component "
+                    + "definitions is currently not supported.";
             throw new CifToCifPreconditionException(msg);
         }
 
@@ -92,7 +88,7 @@ public class RemoveUnusedAlgVariables extends CifWalker implements CifToCifTrans
             EMFHelper.removeFromParentContainment(uav);
         }
 
-        // Remove algebraic equations.
+        // Also remove equations of unused algebraic variables.
         for (Equation eq: algEquations) {
             if (unusedAlgVars.contains(eq.getVariable())) {
                 EMFHelper.removeFromParentContainment(eq);
@@ -132,12 +128,15 @@ public class RemoveUnusedAlgVariables extends CifWalker implements CifToCifTrans
     @Override
     protected void walkAlgVariableExpression(AlgVariableExpression algRef) {
         AlgVariable var = algRef.getVariable();
+        // If the algebraic variable is already considered as being used, don't bother finding more uses.
         if (allUsedAlgVars.contains(var)) {
             return;
         }
 
+        // Check whether the expression counts as use of the algebraic variable.
         if (analyzingAlgVar != null) {
-            // Expression is in alg var value expression.
+            // This algebraic variable reference is part of an expression that defines a value of another algebraic
+            // variable.
             Set<AlgVariable> vars = algVarsReferredByAlgVar.get(analyzingAlgVar);
             if (vars != null) {
                 vars.add(var);
@@ -145,7 +144,8 @@ public class RemoveUnusedAlgVariables extends CifWalker implements CifToCifTrans
                 algVarsReferredByAlgVar.put(analyzingAlgVar, set(var));
             }
         } else {
-            // Expression is not in alg var value expression.
+            // This algebraic variable reference is *not* part of an expression that defines a value of another
+            // algebraic variable.
             allUsedAlgVars.add(var);
         }
     }
