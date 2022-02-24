@@ -13,15 +13,14 @@
 
 include::../_part_attributes.asciidoc[]
 
-.. index::
 indexterm:[CIF to CIF transformer,remove unused algebraic variables]
 indexterm:[remove unused algebraic variables]
-indexterm:[unused algebraic variables,remove]
+indexterm:[algebraic variables,remove unused]
 
 [[tools-cif2cif-chapter-remove-unused-alg-vars]]
 == Remove unused algebraic variables
 
-This CIF to CIF transformation removes unused algebraic variables from the specification.
+This CIF to CIF transformation removes unused algebraic variables and their equations from the specification.
 As these removed algebraic variables are defined but not used, removing them does not alter the behavior modeled by the CIF specification.
 
 == Supported specifications
@@ -30,7 +29,6 @@ This transformation supports a subset of CIF specifications.
 The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
-* Automaton ``self`` references are not supported.
 
 == Preprocessing
 
@@ -38,12 +36,10 @@ No preprocessing is currently performed by this CIF to CIF transformation.
 To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
-* <<tools-cif2cif-chapter-elim-elim-self>>
 
 == Implementation details
 
-An algebraic variable is considered to be unused in a CIF specification if it is not used to compute a value in the model.
-For instance, the following specification:
+An algebraic variable is considered to be _unused_ in a CIF specification if it only occurs as an algebraic variable definition.
 
 [source, cif]
 ----
@@ -51,28 +47,29 @@ For instance, the following specification:
   alg bool var2 = true;
 
   plant A:
-    event a;
+    uncontrollable a;
     location:
+      initial;
       edge a when var1;
   end
 ----
 
-As algebraic variable `var2` is not used anywhere in the specification, it is transformed to the following specification:
+As algebraic variable `var2` is defined but not mentioned elsewhere in the specification it is removed.
+Algebraic variable `var1` is mentioned in an edge guard. It is therefore considered _used_ and preserved as you can see in the resulting specification:
 
 [source, cif]
 ----
   alg bool var1 = false;
 
   plant A:
-    event a;
+    uncontrollable a;
     location:
+      initial;
       edge a when var1;
   end
 ----
 
-Algebraic variables may also be used to define the value of another algebraic variable.
-If the outer algebraic variable is not used, usage of algebraic variables to define its value do *not* count as 'used' for the latter algebraic variables.
-
+As algebraic variables may be used to define other algebraic variables, removal of an algebraic variable may trigger more removals.
 For instance, the following specification:
 
 [source, cif]
@@ -82,27 +79,30 @@ For instance, the following specification:
   alg bool var3 = var2;
 
   plant A:
-    event a;
+    uncontrollable a;
     location:
+      initial;
       edge a when var1;
   end
 ----
 
-is transformed to the following specification:
+Algebraic variable `var3` is only defined but not mentioned elsewhere. It is thus considered _unused_ and removed.
+After the removal of `var3`, algebraic variable `var2` is not mentioned elsewhere anymore. It is thus now considered _unused_ as well and also removed.
+Algebraic variable `var1` is considered _used_ as before and not removed.
+
+The result is therefore:
 
 [source, cif]
 ----
   alg bool var1 = false;
 
   plant A:
-    event a;
+    uncontrollable a;
     location:
+      initial;
       edge a when var1;
   end
 ----
-
-While `var2` is used in defining the value of `var3`, `var2` is also considered to be unused, since `var3` is unused and `var2` is only used in defining the values of unused algebraic variables.
-Algebraic variable `var1` is used in the value of `var2`, but also in a guard in plant `A`. The latter causes `var1` not to be removed.
 
 == Renaming
 
