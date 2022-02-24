@@ -1,0 +1,21 @@
+uncontrollable u_a;
+uncontrollable u_a2;
+event e;
+group G:
+  uncontrollable u_a;
+  automaton A:
+    uncontrollable b;
+    location l1:
+      initial;
+      marked;
+      edge u_a goto l2;
+    location l2:
+      edge b goto l1;
+  end
+end
+automaton B:
+  location l1:
+    initial;
+    marked;
+    edge u_a, u_a2, e;
+end

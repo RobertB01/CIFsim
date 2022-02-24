@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2018, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group G:
+  controllable c_a;
+  automaton A:
+    controllable b;
+
+    location l1:
+      initial; marked;
+      edge c_a goto l2;
+    location l2:
+      edge b goto l1;
+  end
+end
+
+uncontrollable u_a;
+controllable c_a;
+event e;
+
+automaton B:
+  location l1:
+    initial; marked;
+    edge u_a, c_a, e;
+end

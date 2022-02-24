@@ -1,0 +1,21 @@
+controllable c_a2;
+controllable c_a;
+event e;
+group G:
+  controllable c_a;
+  automaton A:
+    controllable b;
+    location l1:
+      initial;
+      marked;
+      edge c_a goto l2;
+    location l2:
+      edge b goto l1;
+  end
+end
+automaton B:
+  location l1:
+    initial;
+    marked;
+    edge c_a2, c_a, e;
+end

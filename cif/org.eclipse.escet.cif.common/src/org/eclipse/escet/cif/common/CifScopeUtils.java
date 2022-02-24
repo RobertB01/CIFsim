@@ -591,6 +591,7 @@ public class CifScopeUtils {
      *     use a cache.
      * @return The names of the symbols.
      * @see #getObject
+     * @see #getScope
      */
     public static Set<String> getSymbolNamesForScope(PositionObject scope, ScopeCache scopeCache) {
         if (scopeCache != null) {
@@ -614,6 +615,7 @@ public class CifScopeUtils {
      *     use a cache.
      * @return The names of the symbols.
      * @see #getObject
+     * @see #getScope
      */
     private static Set<String> getUncachedSymbolNamesForScope(PositionObject scope, ScopeCache scopeCache) {
         Set<String> rslt = set();
