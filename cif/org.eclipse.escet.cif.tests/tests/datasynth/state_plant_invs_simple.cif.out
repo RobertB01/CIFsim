@@ -1,0 +1,126 @@
+Reading CIF file "datasynth/state_plant_invs_simple.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   A     0      3 * 2     5 * 2       8 * 2       ~63%
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                                1      6         10          16          ~63%
+
+Starting data-based synthesis.
+
+Invariant (component state plant invariant): not A.l3
+Invariant (component state plant invariant): not A.l4
+Invariant (components state plant inv):      not A.l3 and not A.l4
+Invariant (location state plant invariant):  not A.l5
+Invariant (locations state plant invariant): not A.l5
+Invariant (system state plant invariant):    A.l1 or A.l2
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         not A.l2
+Initial   (auts/locs init predicate):        not A.l2
+Initial   (uncontrolled system):             not A.l2
+Initial   (system, combined init/plant inv): A.l1
+Initial   (system, combined init/state inv): A.l1
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined mark/plant inv): A.l1 or A.l2
+Marked    (system, combined mark/state inv): A.l1 or A.l2
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: c) (guard: A.l1) (assignments: A := A.l2)
+    Edge: (event: u1) (guard: A.l2) (assignments: A := A.l3)
+    Edge: (event: u2) (guard: A.l2) (assignments: A := A.l4)
+    Edge: (event: u3) (guard: A.l2) (assignments: A := A.l5)
+
+Restricting behavior using state/event exclusion plants.
+
+Restricting uncontrolled behavior using state plant invariants.
+
+Edge (event: u1) (guard: A.l2) (assignments: A := A.l3): guard: A.l2 -> false.
+Edge (event: u2) (guard: A.l2) (assignments: A := A.l4): guard: A.l2 -> false.
+Edge (event: u3) (guard: A.l2) (assignments: A := A.l5): guard: A.l2 -> false.
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: location pointer for automaton "A" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: A.l1 [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: A.l1 -> A.l1 or A.l2 [forward reach with edge: (event: c) (guard: A.l1) (assignments: A := A.l2), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: A.l1 or A.l2 [fixed point].
+Controlled behavior: true -> A.l1 or A.l2.
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> A.l1 or A.l2 [restricted to current/previous controlled-behavior predicate: A.l1 or A.l2]
+Backward reachability: iteration 1.
+Backward controlled-behavior: A.l1 or A.l2 [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: not A.l1 and not A.l2 [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: A.l1 or A.l2)
+    Edge: (event: c) (guard: A.l1) (assignments: A := A.l2)
+    Edge: (event: u1) (guard: A.l2 -> false) (assignments: A := A.l3)
+    Edge: (event: u2) (guard: A.l2 -> false) (assignments: A := A.l4)
+    Edge: (event: u3) (guard: A.l2 -> false) (assignments: A := A.l5)
+
+Controlled system:                     exactly 2 states.
+
+Initial (synthesis result):            A.l1 or A.l2
+Initial (uncontrolled system):         not A.l2
+Initial (controlled system):           A.l1
+Initial (removed by supervisor):       not A.l1 and not A.l2
+Initial (added by supervisor):         A.l1 or A.l2
+
+Simplification of controlled system under the assumption of the plants:
+  Event c: guard: A.l1 -> true [assume A.l1].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/state_plant_invs_simple.ctrlsys.real.cif".

@@ -12,8 +12,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 plant p:
-  controllable c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12;
-  disc int[0..10] x, y;
+  controllable c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13;
+  disc int[0..10] w, x, y;
   disc int[0..1] z = 1;
   location l1:
     initial; marked;
@@ -24,18 +24,19 @@ plant p:
     edge c4 when x < 5;                // Never enabled due to 'false' combination of automaton guard and plant.
     edge c5;                           // Never enabled due to 'false' combination of state/event excl plant and req.
     edge c6 when y = 5;                // Never enabled due to 'false' combination of guard and state requirement.
-    edge c7 when y = 4 do y := y + 1;  // Never enabled due to reaching 'y = 5', which is not allowed.
-    edge c8 goto l2;                   // Never enabled after synthesis because of transition to deadlock location.
-    edge c9 when z = 1 do z := z + 1;  // Never enabled due to variable out of domain after assignment.
+    edge c7 when w = 5;                // Never enabled due to 'false' combination of guard and state plant invariant.
+    edge c8 when y = 4 do y := y + 1;  // Never enabled due to reaching 'y = 5', which is not allowed.
+    edge c9 goto l2;                   // Never enabled after synthesis because of transition to deadlock location.
+    edge c10 when z = 1 do z := z + 1; // Never enabled due to variable out of domain after assignment.
 
-    edge c10 when false;               // For two edges labeled with the same event, only one warning.
-    edge c10 when false;
+    edge c11 when false;               // For two edges labeled with the same event, only one warning.
+    edge c11 when false;
 
-    edge c11;                          // For two edges labeled with the same event, only warn when both edges are
-    edge c11 when false;               // disabled.
+    edge c12;                          // For two edges labeled with the same event, only warn when both edges are
+    edge c12 when false;               // disabled.
   location l2;
   location l3:
-    edge c12;                          // Never enabled due to origin location being unreachable.
+    edge c13;                          // Never enabled due to origin location being unreachable.
 end
 
 requirement p.c1 needs false;
@@ -47,19 +48,21 @@ requirement p.c5 needs p.x <= 5;
 plant       p.c5 needs p.x > 5;
 requirement p.c6 needs p.y >= 5;
 requirement p.y != 5;
+plant       p.w != 5;
 
 plant q:
-  uncontrollable u0, u1, u2;
-  disc int[0..10] x;
+  uncontrollable u0, u1, u2, u3, u4;
   location l1:
     initial; marked;
     edge u0 when false;                // Never enabled due to 'false' automaton guard.
     edge u1;                           // Never enabled due to 'false' state/event exclusion plant.
-    edge u2 when x < 5;                // Never enabled due to 'false' combination of automaton guard and plant.
+    edge u2 when p.x < 5;              // Never enabled due to 'false' combination of automaton guard and state/event exclusion plant.
+    edge u3 when p.y = 5;              // Never enabled due to 'false' combination of guard and state requirement.
+    edge u4 when p.w = 5;              // Never enabled due to 'false' combination of guard and state plant invariants.
 end
 
 plant q.u1 needs false;
-plant q.u2 needs q.x >= 5;
+plant q.u2 needs p.x >= 5;
 
 // c_synch and u_synch are never enabled because they are either disabled by automaton a or by automaton b.
 controllable c_off, c_synch;

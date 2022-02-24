@@ -1,0 +1,27 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable e;
+
+plant p:
+  disc int[0..9] x in any;
+
+  plant invariant x mod 2 = 1;
+
+  location:
+    initial;
+    marked;
+    edge e;
+end
+
+requirement e needs p.x > 4;

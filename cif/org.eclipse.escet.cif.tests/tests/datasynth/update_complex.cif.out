@@ -33,6 +33,10 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
@@ -46,13 +50,15 @@ Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.l1
 Initial   (auts/locs init predicate):        p.l1
 Initial   (uncontrolled system):             p.l1 and (p.y = 2 and p.sum = 3) or p.l1 and (p.y = 1 and p.sum = 3)
-Initial   (system, combined init/req inv):   p.l1 and (p.y = 2 and p.sum = 3) or p.l1 and (p.y = 1 and p.sum = 3)
+Initial   (system, combined init/plant inv): p.l1 and (p.y = 2 and p.sum = 3) or p.l1 and (p.y = 1 and p.sum = 3)
+Initial   (system, combined init/state inv): p.l1 and (p.y = 2 and p.sum = 3) or p.l1 and (p.y = 1 and p.sum = 3)
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       p.l2 and p.sum = 7
 Marked    (auts/locs marker predicate):      p.l2 and p.sum = 7
 Marked    (uncontrolled system):             p.l2 and p.sum = 7
-Marked    (system, combined marked/req inv): p.l2 and p.sum = 7
+Marked    (system, combined mark/plant inv): p.l2 and p.sum = 7
+Marked    (system, combined mark/state inv): p.l2 and p.sum = 7
 
 State/event exclusion plants:
   None
@@ -134,7 +140,7 @@ Initial (controlled system):           p.l1 and p.x = 2 and (p.y = 2 and (p.z = 
 Initial (removed by supervisor):       p.l1 and p.x = 0 and (p.y = 2 and p.sum = 3) or p.l1 and p.x = 0 and (p.y = 1 and p.sum = 3) or (p.l1 and p.x = 2 and (p.y = 2 and (p.z = 2 and p.sum = 3)) or p.l1 and p.x = 2 and (p.y = 1 and p.sum = 3)) or (p.l1 and p.x = 1 and (p.y = 2 and p.sum = 3) or p.l1 and p.x = 1 and (p.y = 1 and p.sum = 3) or (p.l1 and p.x = 3 and (p.y = 2 and (p.z = 3 and p.sum = 3)) or p.l1 and p.x = 3 and (p.y = 1 and (p.z = 2 and p.sum = 3))))
 Initial (added by supervisor):         <bdd 19n 52p>
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: p.l1 and p.x = 2 and (p.y = 2 and (p.z = 3 and p.sum = 3)) or (p.l1 and p.x = 3 and (p.y = 2 and (p.z = 2 and p.sum = 3)) or p.l1 and p.x = 3 and (p.y = 1 and (p.z = 3 and p.sum = 3))) -> p.x = 2 and (p.y = 2 and p.z = 3) or (p.x = 3 and (p.y = 2 and p.z = 2) or p.x = 3 and (p.y = 1 and p.z = 3)) [assume p.l1 and (p.y = 2 and p.sum = 3) or p.l1 and (p.y = 1 and p.sum = 3)].
 
 Constructing output CIF specification.

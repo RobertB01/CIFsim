@@ -1,38 +1,38 @@
-controllable e2a;
-controllable e2b;
-controllable e2c;
-controllable e2d;
+controllable c_a;
+controllable c_b;
+controllable c_c;
+controllable c_d;
 automaton statespace:
-  alphabet e2a, e2b, e2c, e2d;
+  alphabet c_a, c_b, c_c, c_d;
   location loc1:
     initial;
     marked;
-    edge e2a goto loc2;
+    edge c_a goto loc2;
   location loc2:
     initial;
     marked;
-    edge e2a goto loc3;
+    edge c_a goto loc3;
   location loc3:
     initial;
     marked;
-    edge e2a goto loc4;
-    edge e2c;
+    edge c_a goto loc4;
+    edge c_c;
   location loc4:
     initial;
     marked;
-    edge e2a goto loc5;
-    edge e2b;
-    edge e2c;
+    edge c_a goto loc5;
+    edge c_b;
+    edge c_c;
   location loc5:
     initial;
     marked;
-    edge e2a goto loc6;
-    edge e2c;
-    edge e2d;
+    edge c_a goto loc6;
+    edge c_c;
+    edge c_d;
   location loc6:
     initial;
     marked;
-    edge e2b;
-    edge e2c;
-    edge e2d;
+    edge c_b;
+    edge c_c;
+    edge c_d;
 end

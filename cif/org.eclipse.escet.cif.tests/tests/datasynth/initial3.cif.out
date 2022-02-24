@@ -18,6 +18,10 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
@@ -30,14 +34,16 @@ Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true
 Initial   (auts/locs init predicate):        true
 Initial   (uncontrolled system):             p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
-Initial   (system, combined init/req inv):   p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
+Initial   (system, combined init/plant inv): p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
+Initial   (system, combined init/state inv): p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
 
 Marked    (component marker predicate):      p.x3 = 1 or p.x3 = 3
 Marked    (components marker predicate):     p.x3 = 1 or p.x3 = 3
 Marked    (aut/locs marker predicate):       true
 Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             p.x3 = 1 or p.x3 = 3
-Marked    (system, combined marked/req inv): p.x3 = 1 or p.x3 = 3
+Marked    (system, combined mark/plant inv): p.x3 = 1 or p.x3 = 3
+Marked    (system, combined mark/state inv): p.x3 = 1 or p.x3 = 3
 
 State/event exclusion plants:
   None
@@ -103,7 +109,7 @@ Initial (controlled system):           p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p
 Initial (removed by supervisor):       p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2)
 Initial (added by supervisor):         (p.x1 != 0 or (p.x2 != 0 or p.x3 != 0)) and (p.x1 != 2 or (p.x2 != 2 or p.x3 != 2))
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) -> p.x1 = 1 or p.x1 = 3 [assume p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))].
 
 Constructing output CIF specification.

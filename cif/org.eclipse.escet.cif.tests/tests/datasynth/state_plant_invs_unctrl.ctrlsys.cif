@@ -1,0 +1,24 @@
+uncontrollable u0;
+uncontrollable u1;
+uncontrollable u2;
+uncontrollable u3;
+plant automaton A:
+  disc int[0..5] Vu1 = 0;
+  disc int[0..5] Vu2 = 0;
+  disc int[0..5] Vu3 = 0;
+  location:
+    initial;
+    marked;
+    edge u0;
+    edge u1 when Vu1 != 4 do Vu1 := Vu1 + 1;
+    edge u2 do Vu2 := Vu2 + 1;
+    edge u3 do Vu3 := Vu3 + 1;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end
+plant invariant A.Vu2 != 3;
+plant invariant A.Vu3 != 4;

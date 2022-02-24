@@ -52,6 +52,10 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
@@ -68,7 +72,8 @@ Initial   (aut/locs init predicate):         p3.neither
 Initial   (aut/locs init predicate):         p4.neither
 Initial   (auts/locs init predicate):        p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
 Initial   (uncontrolled system):             p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Initial   (system, combined init/req inv):   p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Initial   (system, combined init/plant inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Initial   (system, combined init/state inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       f1.available
@@ -81,7 +86,8 @@ Marked    (aut/locs marker predicate):       p3.neither
 Marked    (aut/locs marker predicate):       p4.neither
 Marked    (auts/locs marker predicate):      p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
 Marked    (uncontrolled system):             p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Marked    (system, combined marked/req inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Marked    (system, combined mark/plant inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Marked    (system, combined mark/state inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
 
 State/event exclusion plants:
   None
@@ -248,7 +254,7 @@ Initial (controlled system):           p1.neither and f2.available and (f1.avail
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
-Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion plant invariants, state/event exclusion requirement invariants, state requirement invariants, and controlled behavior:
+Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion plant invariants, state/event exclusion requirement invariants, state plant invariants, state requirement invariants, and controlled behavior:
   Event p1.take_left: guard: <bdd 30n 26p> -> p1.right or p1.both or (f2.available or p2.right) or (p2.both or f3.available or (p4.neither or p4.right)) [assume <bdd 27n 27p>].
   Event p4.take_right: guard: <bdd 34n 26p> -> p1.neither or (p1.left or p2.neither) or (p2.left or p4.left or (p4.both or f4.available)) [assume <bdd 27n 27p>].
   Event p1.release_both: guard: <bdd 24n 9p> -> true [assume <bdd 24n 9p>].

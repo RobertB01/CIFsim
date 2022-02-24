@@ -5,11 +5,15 @@ Converting CIF specification to internal format.
 CIF variables and location pointers:
   Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..5]  p2.x  0      3 * 2     6 * 2       8 * 2       75%
+  1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
   Total                                      1      6         12          16          75%
 
 Starting data-based synthesis.
+
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
 
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
@@ -21,31 +25,33 @@ Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true
 Initial   (auts/locs init predicate):        true
 Initial   (uncontrolled system):             true
-Initial   (system, combined init/req inv):   true
+Initial   (system, combined init/plant inv): true
+Initial   (system, combined init/state inv): true
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       true
 Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
-Marked    (system, combined marked/req inv): true
+Marked    (system, combined mark/plant inv): true
+Marked    (system, combined mark/state inv): true
 
 State/event exclusion plants:
   None
 
 State/event exclusion requirements:
-  Event "e2b" needs:
-    p2.x = 4 or (p2.x = 5 or p2.x = 3)
-  Event "e2c" needs:
-    p2.x != 1
-  Event "e2d" needs:
-    p2.x = 4 or p2.x = 5
+  Event "c_b" needs:
+    p.x = 4 or (p.x = 5 or p.x = 3)
+  Event "c_c" needs:
+    p.x != 1
+  Event "c_d" needs:
+    p.x = 4 or p.x = 5
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: e2a) (guard: true) (assignments: p2.x := p2.x + 1)
-    Edge: (event: e2b) (guard: p2.x = 5 or p2.x = 3)
-    Edge: (event: e2c) (guard: 2 <= p2.x and p2.x <= 5)
-    Edge: (event: e2d) (guard: p2.x = 4 or (p2.x = 5 or p2.x = 3))
+    Edge: (event: c_a) (guard: true) (assignments: p.x := p.x + 1)
+    Edge: (event: c_b) (guard: p.x = 5 or p.x = 3)
+    Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
+    Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3))
 
 Restricting behavior using state/event exclusion plants.
 
@@ -53,20 +59,20 @@ Initialized controlled-behavior predicate using invariants: true.
 
 Extending controlled-behavior predicate using variable ranges.
 
-Controlled behavior: true -> true [range: true, variable: discrete variable "p2.x" of type "int[0..5]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..5]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
 
 Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: e2d) (guard: p2.x = 4 or (p2.x = 5 or p2.x = 3)): guard: p2.x = 4 or (p2.x = 5 or p2.x = 3) -> p2.x = 4 or p2.x = 5 [requirement: p2.x = 4 or p2.x = 5].
+Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3)): guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5 [requirement: p.x = 4 or p.x = 5].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)
-    Edge: (event: e2a) (guard: true) (assignments: p2.x := p2.x + 1)
-    Edge: (event: e2b) (guard: p2.x = 5 or p2.x = 3)
-    Edge: (event: e2c) (guard: 2 <= p2.x and p2.x <= 5)
-    Edge: (event: e2d) (guard: p2.x = 4 or (p2.x = 5 or p2.x = 3) -> p2.x = 4 or p2.x = 5)
+    Edge: (event: c_a) (guard: true) (assignments: p.x := p.x + 1)
+    Edge: (event: c_b) (guard: p.x = 5 or p.x = 3)
+    Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
+    Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5)
 
 Round 1: started.
 
@@ -88,16 +94,16 @@ Round 1: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: e2a) (guard: true) (assignments: p2.x := p2.x + 1): guard: true -> p2.x != 5.
-Edge (event: e2c) (guard: 2 <= p2.x and p2.x <= 5): guard: 2 <= p2.x and p2.x <= 5 -> 2 <= p2.x and p2.x <= 5.
-Edge (event: e2d) (guard: p2.x = 4 or (p2.x = 5 or p2.x = 3) -> p2.x = 4 or p2.x = 5): guard: p2.x = 4 or p2.x = 5 -> p2.x = 4 or p2.x = 5.
+Edge (event: c_a) (guard: true) (assignments: p.x := p.x + 1): guard: true -> p.x != 5.
+Edge (event: c_c) (guard: 2 <= p.x and p.x <= 5): guard: 2 <= p.x and p.x <= 5 -> 2 <= p.x and p.x <= 5.
+Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5): guard: p.x = 4 or p.x = 5 -> p.x = 4 or p.x = 5.
 
 Final synthesis result:
   State: (controlled-behavior: true)
-    Edge: (event: e2a) (guard: true -> p2.x != 5) (assignments: p2.x := p2.x + 1)
-    Edge: (event: e2b) (guard: p2.x = 5 or p2.x = 3)
-    Edge: (event: e2c) (guard: 2 <= p2.x and p2.x <= 5 -> 2 <= p2.x and p2.x <= 5)
-    Edge: (event: e2d) (guard: p2.x = 4 or (p2.x = 5 or p2.x = 3) -> p2.x = 4 or p2.x = 5)
+    Edge: (event: c_a) (guard: true -> p.x != 5) (assignments: p.x := p.x + 1)
+    Edge: (event: c_b) (guard: p.x = 5 or p.x = 3)
+    Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5 -> 2 <= p.x and p.x <= 5)
+    Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5)
 
 Controlled system:                     exactly 6 states.
 

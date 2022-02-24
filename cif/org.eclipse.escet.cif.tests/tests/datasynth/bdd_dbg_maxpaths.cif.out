@@ -11,6 +11,10 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (component state req invariant):   p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
 Invariant (components state req invariant):  p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
 Invariant (locations state req invariant):   true
@@ -22,13 +26,15 @@ Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true
 Initial   (auts/locs init predicate):        true
 Initial   (uncontrolled system):             p.x = 5
-Initial   (system, combined init/req inv):   p.x = 5
+Initial   (system, combined init/plant inv): p.x = 5
+Initial   (system, combined init/state inv): p.x = 5
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       true
 Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
-Marked    (system, combined marked/req inv): p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
+Marked    (system, combined mark/plant inv): true
+Marked    (system, combined mark/state inv): p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
 
 State/event exclusion plants:
   None

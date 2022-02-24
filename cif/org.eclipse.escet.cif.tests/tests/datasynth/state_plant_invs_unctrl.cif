@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable u0, u1, u2, u3;
+
+plant A:
+  disc int[0..5] Vu1 = 0, Vu2 = 0, Vu3 = 0;
+
+  location:
+    initial; marked;
+    edge u0;                                 // Shouldn't get an extra guard from plant invariant.
+    edge u1 when Vu1 != 4 do Vu1 := Vu1 + 1; // Shouldn't get an extra guard from plant invariant.
+    edge u2               do Vu2 := Vu2 + 1; // Should get an extra guard from plant invariant, internally during synthesis.
+    edge u3               do Vu3 := Vu3 + 1; // Should get an extra guard from plant invariant, internally during synthesis.
+end
+
+// Results in an extra guard for u2. Simplification is not perfect, as it results in 'A.Vu2 != 2 and A.Vu2 != 3'.
+plant invariant A.Vu2 != 3;
+
+// Results in an extra guard for u3. Simplification is perfect, as it results in 'A.Vu3 != 3'.
+plant invariant A.Vu3 != 4;

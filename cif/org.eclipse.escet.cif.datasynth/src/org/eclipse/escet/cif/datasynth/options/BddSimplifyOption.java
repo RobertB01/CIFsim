@@ -40,15 +40,21 @@ public class BddSimplifyOption extends EnumSetOption<BddSimplify> {
                         "\"guards-se-excl-req-invs\" to simplify supervisor guards wrt state/event exclusion "
                         + "requirement invariants from the input specification, " +
 
+                        "\"guards-state-plant-invs\" to simplify supervisor guards wrt state plant invariants from the "
+                        + "input specification, " +
+
                         "\"guards-state-req-invs\" to simplify supervisor guards wrt state requirement invariants "
                         + "from the input specification, " +
 
                         "\"guards-ctrl-beh\" to simplify supervisor guards wrt controlled behavior, " +
 
+                        "\"initial-unctrl\" to simplify the initialization predicate of the controlled system wrt "
+                        + "the initialization predicate of the uncontrolled system, " +
+
                         "and/or " +
 
-                        "\"initial-unctrl\" to simplify the initialization predicate of the controlled system wrt "
-                        + "the initialization predicate of the uncontrolled system. " +
+                        "\"initial-state-plant-invs\" to simplify the initialization predicate of the controlled system wrt "
+                        + "the state plant invariants. " +
 
                         "Prefix a name with \"+\" to add it on top of the defaults, or with \\\"-\\\" to remove it "
                         + "from the defaults. " +
@@ -94,6 +100,9 @@ public class BddSimplifyOption extends EnumSetOption<BddSimplify> {
                 return "Supervisor guards wrt state/event exclusion requirement invariants from the input "
                         + "specification.";
 
+            case GUARDS_STATE_PLANT_INVS:
+                return "Supervisor guards wrt state plant invariants from the input specification.";
+
             case GUARDS_STATE_REQ_INVS:
                 return "Supervisor guards wrt state requirement invariants from the input specification.";
 
@@ -103,6 +112,9 @@ public class BddSimplifyOption extends EnumSetOption<BddSimplify> {
             case INITIAL_UNCTRL:
                 return "Initialization predicate of the controlled system wrt the initialization predicate of the "
                         + "uncontrolled system.";
+
+            case INITIAL_STATE_PLANT_INVS:
+                return "Initialization predicate of the controlled system wrt the state plant invariants.";
         }
         throw new RuntimeException("Unknown simplification: " + simplification);
     }

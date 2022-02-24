@@ -115,10 +115,16 @@ public class SynthesisAutomaton {
     public BDD initialUnctrl;
 
     /**
-     * Combined initialization and state requirement invariant predicates of the uncontrolled system. Conjunction of
-     * {@link #initialUnctrl} and {@link #reqInv}. Is {@code null} if not yet or no longer available.
+     * Combined initialization and state plant invariant predicates of the uncontrolled system. Conjunction of
+     * {@link #initialUnctrl} and {@link #plantInv}. Is {@code null} if not yet or no longer available.
      */
-    public BDD initialReqInv;
+    public BDD initialPlantInv;
+
+    /**
+     * Combined initialization and state invariant predicates of the uncontrolled system. Conjunction of
+     * {@link #initialPlantInv} and {@link #reqInv}. Is {@code null} if not yet or no longer available.
+     */
+    public BDD initialInv;
 
     /** Initialization predicate of the controlled system. Is {@code null} if not yet or no longer available. */
     public BDD initialCtrl;
@@ -157,10 +163,44 @@ public class SynthesisAutomaton {
     public BDD marked;
 
     /**
-     * Combined marking and state requirement invariant predicates of the uncontrolled system. Conjunction of
-     * {@link #marked} and {@link #reqInv}. Is {@code null} if not yet or no longer available.
+     * Combined marking and state plant invariant predicates for the uncontrolled system. Conjunction of {@link #marked}
+     * and {@link #plantInv}. Is {@code null} if not yet available.
      */
-    public BDD markedReqInv;
+    public BDD markedPlantInv;
+
+    /**
+     * Combined marking and state invariant predicates of the uncontrolled system. Conjunction of
+     * {@link #markedPlantInv} and {@link #reqInv}. Is {@code null} if not yet or no longer available.
+     */
+    public BDD markedInv;
+
+    /** State plant invariants (predicates) from the components. Is {@code null} if not yet or no longer available. */
+    public List<BDD> plantInvsComps;
+
+    /**
+     * State plant invariants (predicates) from the locations of the automata. Unlike initialization and marker
+     * predicates, these are not combined per automaton, but instead individual state plant invariants (predicates) are
+     * kept. Is {@code null} if not yet or no longer available.
+     */
+    public List<BDD> plantInvsLocs;
+
+    /**
+     * State plant invariant (predicate) for the components. Conjunction of {@link #plantInvsComps}. Is {@code null} if
+     * not yet or no longer available.
+     */
+    public BDD plantInvComps;
+
+    /**
+     * State plant invariant (predicate) for the locations of the automata. Conjunction of {@link #plantInvsLocs}. Is
+     * {@code null} if not yet or no longer available.
+     */
+    public BDD plantInvLocs;
+
+    /**
+     * State plant invariant (predicate) for the system. Conjunction of {@link #plantInvComps} and
+     * {@link #plantInvLocs}. Is {@code null} if not yet or no longer available.
+     */
+    public BDD plantInv;
 
     /**
      * State requirement invariants (predicates) from the components. Is {@code null} if not yet or no longer available.

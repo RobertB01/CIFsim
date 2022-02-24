@@ -1,0 +1,3 @@
+WARNING: Event "u1" is never enabled in the input specification, taking into account automaton guards, state/event exclusion invariants, and state plant invariants.
+WARNING: Event "u2" is never enabled in the input specification, taking into account automaton guards, state/event exclusion invariants, and state plant invariants.
+WARNING: Event "u3" is never enabled in the input specification, taking into account automaton guards, state/event exclusion invariants, and state plant invariants.

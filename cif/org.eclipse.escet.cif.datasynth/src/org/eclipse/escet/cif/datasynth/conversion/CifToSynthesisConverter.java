@@ -474,7 +474,9 @@ public class CifToSynthesisConverter {
         synthAut.initialComps = synthAut.factory.one();
         synthAut.initialLocs = synthAut.factory.one();
         convertInit(spec, synthAut, locPtrManager);
-        synthAut.initialUnctrl = synthAut.initialVars.and(synthAut.initialComps).and(synthAut.initialLocs);
+        BDD initialCompsAndLocs = synthAut.initialComps.and(synthAut.initialLocs);
+        synthAut.initialUnctrl = synthAut.initialVars.and(initialCompsAndLocs);
+        initialCompsAndLocs.free();
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
@@ -492,21 +494,40 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Check and convert state requirement invariants (predicates).
+        // Initialize state plant invariants (predicates).
+        synthAut.plantInvsComps = list();
+        synthAut.plantInvsLocs = list();
+        synthAut.plantInvComps = synthAut.factory.one();
+        synthAut.plantInvLocs = synthAut.factory.one();
+
+        // Initialize state requirement invariants (predicates).
         synthAut.reqInvsComps = list();
         synthAut.reqInvsLocs = list();
         synthAut.reqInvComps = synthAut.factory.one();
         synthAut.reqInvLocs = synthAut.factory.one();
-        convertStateReqInvs(spec, synthAut, locPtrManager);
+
+        // Convert state invariants.
+        convertStateInvs(spec, synthAut, locPtrManager);
+
+        // Determine state plant invariant for the system, combination of the state plant invariant for the components
+        // and the state plant invariant for the locations of the automata.
+        synthAut.plantInv = synthAut.plantInvComps.and(synthAut.plantInvLocs);
+
+        // Determine state requirement invariant for the system, combination of the state requirement invariant for the
+        // components and the state requirement invariant for the locations of automata.
         synthAut.reqInv = synthAut.reqInvComps.and(synthAut.reqInvLocs);
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
 
-        // Set combined predicates for both initialization and marking with state requirement invariants.
-        synthAut.initialReqInv = synthAut.initialUnctrl.and(synthAut.reqInv);
-        synthAut.markedReqInv = synthAut.marked.and(synthAut.reqInv);
+        // Set combined predicate for initialization with state invariants.
+        synthAut.initialPlantInv = synthAut.initialUnctrl.and(synthAut.plantInv);
+        synthAut.initialInv = synthAut.initialPlantInv.and(synthAut.reqInv);
+
+        // Set combined predicate for marking with state invariants.
+        synthAut.markedPlantInv = synthAut.marked.and(synthAut.plantInv);
+        synthAut.markedInv = synthAut.markedPlantInv.and(synthAut.reqInv);
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
@@ -540,7 +561,7 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Convert state/event exclusion plant invariants and requirement invariants.
+        // Convert state/event exclusion invariants.
         convertStateEvtExclInvs(spec, synthAut, locPtrManager);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
@@ -1812,13 +1833,13 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Converts state requirement invariants (predicates) from the components and the locations of automata.
+     * Converts state invariants (predicates) from the components and the locations of automata.
      *
-     * @param comp The component for which to convert state requirement invariants (predicates), recursively.
-     * @param synthAut The synthesis automaton to be updated with state requirement invariants (predicates) information.
+     * @param comp The component for which to convert state invariants (predicates), recursively.
+     * @param synthAut The synthesis automaton to be updated with state invariants (predicates) information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateReqInvs(ComplexComponent comp, SynthesisAutomaton synthAut,
+    private void convertStateInvs(ComplexComponent comp, SynthesisAutomaton synthAut,
             LocationPointerManager locPtrManager)
     {
         // State invariants (predicates) of the component.
@@ -1829,8 +1850,9 @@ public class CifToSynthesisConverter {
             }
 
             // Check kind.
-            if (inv.getSupKind() != SupKind.REQUIREMENT) {
-                String msg = fmt("Unsupported %s: for state invariants, only requirement invariants are supported.",
+            if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
+                String msg = fmt(
+                        "Unsupported %s: for state invariants, only plant and requirement invariants are supported.",
                         CifTextUtils.getComponentText1(comp));
                 problems.add(msg);
                 continue;
@@ -1838,9 +1860,9 @@ public class CifToSynthesisConverter {
 
             // Convert.
             Expression pred = inv.getPredicate();
-            BDD reqInvComp;
+            BDD invComp;
             try {
-                reqInvComp = convertPred(pred, false, synthAut);
+                invComp = convertPred(pred, false, synthAut);
             } catch (UnsupportedPredicateException ex) {
                 if (ex.expr != null) {
                     String msg = fmt("Unsupported %s: unsupported part \"%s\" of state invariant \"%s\": %s",
@@ -1852,16 +1874,26 @@ public class CifToSynthesisConverter {
             }
 
             // Store.
-            synthAut.reqInvsComps.add(reqInvComp);
-            synthAut.reqInvComps = synthAut.reqInvComps.andWith(reqInvComp.id());
+            switch (inv.getSupKind()) {
+                case PLANT:
+                    synthAut.plantInvsComps.add(invComp);
+                    synthAut.plantInvComps = synthAut.plantInvComps.andWith(invComp.id());
+                    break;
+                case REQUIREMENT:
+                    synthAut.reqInvsComps.add(invComp);
+                    synthAut.reqInvComps = synthAut.reqInvComps.andWith(invComp.id());
+                    break;
+                default:
+                    throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
+            }
         }
 
-        // State requirement invariants (predicates) of locations (automata only).
+        // State invariants (predicates) of locations (automata only).
         if (comp instanceof Automaton) {
             // Get automaton.
             Automaton aut = (Automaton)comp;
 
-            // Add state requirement invariants (predicates) from the locations.
+            // Add state invariants (predicates) from the locations.
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: loc.getInvariants()) {
                     // Skip non-state invariants.
@@ -1870,9 +1902,10 @@ public class CifToSynthesisConverter {
                     }
 
                     // Check kind.
-                    if (inv.getSupKind() != SupKind.REQUIREMENT) {
+                    if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
                         String msg = fmt(
-                                "Unsupported %s: for state invariants, only requirement invariants are supported.",
+                                "Unsupported %s: for state invariants, only plant and requirement invariants are "
+                                        + "supported.",
                                 CifTextUtils.getLocationText1(loc));
                         problems.add(msg);
                         continue;
@@ -1880,9 +1913,9 @@ public class CifToSynthesisConverter {
 
                     // Convert.
                     Expression pred = inv.getPredicate();
-                    BDD reqInvLoc;
+                    BDD invLoc;
                     try {
-                        reqInvLoc = convertPred(pred, false, synthAut);
+                        invLoc = convertPred(pred, false, synthAut);
                     } catch (UnsupportedPredicateException ex) {
                         if (ex.expr != null) {
                             String msg = fmt("Unsupported %s: unsupported part \"%s\" of state invariant \"%s\": %s",
@@ -1906,12 +1939,22 @@ public class CifToSynthesisConverter {
                         continue;
                     }
 
-                    reqInvLoc = srcLocPred.not().orWith(reqInvLoc);
+                    invLoc = srcLocPred.not().orWith(invLoc);
                     srcLocPred.free();
 
                     // Store.
-                    synthAut.reqInvsLocs.add(reqInvLoc);
-                    synthAut.reqInvLocs = synthAut.reqInvLocs.andWith(reqInvLoc.id());
+                    switch (inv.getSupKind()) {
+                        case PLANT:
+                            synthAut.plantInvsLocs.add(invLoc);
+                            synthAut.plantInvLocs = synthAut.plantInvLocs.andWith(invLoc.id());
+                            break;
+                        case REQUIREMENT:
+                            synthAut.reqInvsLocs.add(invLoc);
+                            synthAut.reqInvLocs = synthAut.reqInvLocs.andWith(invLoc.id());
+                            break;
+                        default:
+                            throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
+                    }
                 }
             }
         }
@@ -1919,7 +1962,7 @@ public class CifToSynthesisConverter {
         // Proceed recursively (groups only).
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                convertStateReqInvs((ComplexComponent)child, synthAut, locPtrManager);
+                convertStateInvs((ComplexComponent)child, synthAut, locPtrManager);
             }
         }
     }
@@ -1987,17 +2030,20 @@ public class CifToSynthesisConverter {
             }
 
             // Store copies of the BDD.
-            if (inv.getSupKind() == SupKind.PLANT) {
-                storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, compInv.id());
-                conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, compInv.id());
-            } else if (inv.getSupKind() == SupKind.REQUIREMENT) {
-                storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, compInv.id());
-                conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, compInv.id());
-                if (Boolean.TRUE.equals(event.getControllable())) {
-                    conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, compInv.id());
-                }
-            } else {
-                throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
+            switch (inv.getSupKind()) {
+                case PLANT:
+                    storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, compInv.id());
+                    conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, compInv.id());
+                    break;
+                case REQUIREMENT:
+                    storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, compInv.id());
+                    conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, compInv.id());
+                    if (Boolean.TRUE.equals(event.getControllable())) {
+                        conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, compInv.id());
+                    }
+                    break;
+                default:
+                    throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
             }
 
             // Free the original BDD.
@@ -2078,17 +2124,20 @@ public class CifToSynthesisConverter {
                     }
 
                     // Store copies of the BDD.
-                    if (inv.getSupKind() == SupKind.PLANT) {
-                        storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, locInv.id());
-                        conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, locInv.id());
-                    } else if (inv.getSupKind() == SupKind.REQUIREMENT) {
-                        storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, locInv.id());
-                        conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, locInv.id());
-                        if (Boolean.TRUE.equals(event.getControllable())) {
-                            conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, locInv.id());
-                        }
-                    } else {
-                        throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
+                    switch (inv.getSupKind()) {
+                        case PLANT:
+                            storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, locInv.id());
+                            conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, locInv.id());
+                            break;
+                        case REQUIREMENT:
+                            storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, locInv.id());
+                            conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, locInv.id());
+                            if (Boolean.TRUE.equals(event.getControllable())) {
+                                conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, locInv.id());
+                            }
+                            break;
+                        default:
+                            throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
                     }
 
                     // Free the original BDD.

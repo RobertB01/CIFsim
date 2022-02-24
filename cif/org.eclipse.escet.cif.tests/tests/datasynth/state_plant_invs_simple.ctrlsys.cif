@@ -1,0 +1,35 @@
+controllable c;
+uncontrollable u1;
+uncontrollable u2;
+uncontrollable u3;
+plant automaton A:
+  plant invariant not l4;
+  location l1:
+    initial;
+    marked;
+    edge c goto l2;
+  location l2:
+    marked;
+    edge u1 goto l3;
+    edge u2 goto l4;
+    edge u3 goto l5;
+  location l3:
+    initial;
+    marked;
+  location l4:
+    initial;
+    marked;
+  location l5:
+    initial;
+    marked;
+    plant invariant not l5;
+end
+supervisor automaton sup:
+  alphabet c;
+  initial A.l1;
+  location:
+    initial;
+    marked;
+    edge c when true;
+end
+plant invariant not A.l3;

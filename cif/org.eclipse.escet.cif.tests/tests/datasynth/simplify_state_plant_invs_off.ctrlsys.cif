@@ -1,0 +1,20 @@
+controllable e;
+plant automaton p:
+  disc int[0..5] x in any;
+  location loc1:
+    initial;
+    marked;
+    edge e goto loc2;
+  location loc2:
+    plant invariant x > 3;
+    edge e goto loc1;
+end
+supervisor automaton sup:
+  alphabet e;
+  initial p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3);
+  location:
+    initial;
+    marked;
+    edge e when p.loc1 and (p.x = 4 or p.x = 5) or p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3);
+end
+plant invariant p.loc1 => p.x > 2;

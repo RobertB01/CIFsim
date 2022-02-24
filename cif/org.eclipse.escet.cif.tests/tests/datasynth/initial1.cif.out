@@ -22,6 +22,10 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
@@ -46,7 +50,8 @@ Initial   (components init predicate):       <bdd 23n 48p>
 Initial   (aut/locs init predicate):         true
 Initial   (auts/locs init predicate):        true
 Initial   (uncontrolled system):             <bdd 27n 45p>
-Initial   (system, combined init/req inv):   <bdd 27n 45p>
+Initial   (system, combined init/plant inv): <bdd 27n 45p>
+Initial   (system, combined init/state inv): <bdd 27n 45p>
 
 Marked    (component marker predicate):      p.x5 != 1
 Marked    (component marker predicate):      p.x6 != 2
@@ -55,7 +60,8 @@ Marked    (components marker predicate):     <bdd 12n 64p>
 Marked    (aut/locs marker predicate):       true
 Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             <bdd 12n 64p>
-Marked    (system, combined marked/req inv): <bdd 12n 64p>
+Marked    (system, combined mark/plant inv): <bdd 12n 64p>
+Marked    (system, combined mark/state inv): <bdd 12n 64p>
 
 State/event exclusion plants:
   None
@@ -133,7 +139,7 @@ Initial (controlled system):           <bdd 32n 150p>
 Initial (removed by supervisor):       <bdd 37n 99p>
 Initial (added by supervisor):         <bdd 37n 473p>
 
-Simplification of controlled system under the assumption of the uncontrolled system:
+Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: <bdd 32n 150p> -> (p.x5 = 1 or (p.x5 = 3 or p.x5 = 5) or (p.x5 = 7 or p.x5 = 9 or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7)))) and (p.x5 = 1 or (p.x5 = 3 or p.x5 = 5) or (p.x5 = 7 or (p.x5 = 9 or not(p.x6 = 2 or p.x6 = 6)))) and ((p.x5 = 1 or p.x5 = 3 or (p.x5 = 5 or (p.x5 = 7 or p.x5 = 9)) or (p.x6 = 0 or (p.x6 = 2 or p.x6 = 4) or (p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7))))) and (not(p.x5 = 1 or p.x5 = 5) and (p.x5 != 9 or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7))))) and ((p.x5 != 9 or not(p.x6 = 2 or p.x6 = 6)) and (p.x5 != 9 or (p.x6 = 0 or p.x6 = 2) or (p.x6 = 4 or p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7)))) and ((not(p.x5 = 3 or p.x5 = 7) or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7))) and ((not(p.x5 = 3 or p.x5 = 7) or not(p.x6 = 2 or p.x6 = 6)) and (not(p.x5 = 3 or p.x5 = 7) or (p.x6 = 0 or p.x6 = 2) or (p.x6 = 4 or p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7))))))) [assume <bdd 27n 45p>].
 
 Constructing output CIF specification.

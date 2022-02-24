@@ -30,6 +30,10 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
@@ -40,7 +44,8 @@ Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.l1
 Initial   (auts/locs init predicate):        p.l1
 Initial   (uncontrolled system):             p.l1 and p.x = 0
-Initial   (system, combined init/req inv):   p.l1 and p.x = 0
+Initial   (system, combined init/plant inv): p.l1 and p.x = 0
+Initial   (system, combined init/state inv): p.l1 and p.x = 0
 
 Marked    (component marker predicate):      p.x != 4
 Marked    (component marker predicate):      p.x != 5
@@ -48,7 +53,8 @@ Marked    (components marker predicate):     0 <= p.x and p.x <= 3
 Marked    (aut/locs marker predicate):       (p.l2 or 2 <= p.x and p.x <= 5) and ((p.l1 or (p.x = 1 or 3 <= p.x and p.x <= 5)) and (p.l1 or p.x != 1))
 Marked    (auts/locs marker predicate):      (p.l2 or 2 <= p.x and p.x <= 5) and ((p.l1 or (p.x = 1 or 3 <= p.x and p.x <= 5)) and (p.l1 or p.x != 1))
 Marked    (uncontrolled system):             p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3
-Marked    (system, combined marked/req inv): p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3
+Marked    (system, combined mark/plant inv): p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3
+Marked    (system, combined mark/state inv): p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3
 
 State/event exclusion plants:
   None

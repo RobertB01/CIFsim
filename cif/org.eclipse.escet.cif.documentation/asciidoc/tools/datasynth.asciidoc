@@ -188,9 +188,8 @@ This includes the `tau` event, both explicitly used on edges, as well as implici
 * The use of channels (events with data types) in requirements is not supported.
 That is, requirements that send or receive (with or without data) are not supported.
 
-* Kindless/regular invariants and supervisor invariants are not supported.
-For state invariants, only requirement invariants are supported.
-For state/event exclusion invariants, both plant and requirement invariants are supported.
+* Only `plant` and `requirement` invariants are supported.
+Invariants with a `supervisor` kind, as well as kindless/regular invariants (without a supervisory kind) are not supported.
 
 * Continuous variables are not supported.
 
@@ -709,6 +708,11 @@ The following simplifications are available:
 | Supervisor guards of controllable events
 | State/event exclusion requirement invariants from the input specification, for the matching events
 
+| `guards-state-plant-invs`
+| yes
+| Supervisor guards of controllable events
+| State plant invariants from the input specification
+
 | `guards-state-req-invs`
 | yes
 | Supervisor guards of controllable events
@@ -723,6 +727,11 @@ The following simplifications are available:
 | yes
 | Initialization predicate of the controlled system
 | Initialization predicate of the uncontrolled system
+
+| `initial-state-plant-invs`
+| yes
+| Initialization predicate of the controlled system
+| State plant invariants from the input specification
 |===
 
 Which simplifications should be performed, can be specified using the _BDD predicate simplify_ option (see <<tools-datasynth-options,options>> section above).

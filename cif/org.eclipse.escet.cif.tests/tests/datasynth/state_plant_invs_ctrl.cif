@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c0, c1, c2, c3, c4;
+
+plant A:
+  disc int[0..5] Vc1 = 0, Vc2 = 0, Vc3 = 0, Vc4 = 0;
+
+  location:
+    initial; marked;
+    edge c0;                                 // Shouldn't get an extra guard from plant invariant.
+    edge c1 when Vc1 != 4 do Vc1 := Vc1 + 1; // Shouldn't get an extra guard from plant invariant.
+    edge c2               do Vc2 := Vc2 + 1; // Should get an extra guard from plant invariant.
+    edge c3               do Vc3 := Vc3 + 1; // Should get an extra guard from plant invariant.
+    edge c4               do Vc4 := Vc4 + 1; // Shouldn't get an extra guard from plant invariant.
+end
+
+// Results in an extra guard for c2. Simplification is not perfect, as it results in 'A.Vc2 != 2 and A.Vc2 != 3'.
+plant invariant A.Vc2 != 3;
+
+// Results in an extra guard for c3. Simplification is perfect, as it results in 'A.Vc3 != 3'.
+plant invariant A.Vc3 != 4;

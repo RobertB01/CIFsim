@@ -12,20 +12,20 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // State requirement invariants.
-controllable e3a;
+controllable e;
 
-plant p3:
+plant p:
   disc int[0..5] x in any;
 
   location loc1:
     initial;
     marked;
-    edge e3a goto loc2;
+    edge e goto loc2;
 
   location loc2:
     requirement x > 3;
 
-    edge e3a goto loc1;
+    edge e goto loc1;
 end
 
-requirement p3.loc1 => p3.x > 2;
+requirement p.loc1 => p.x > 2;

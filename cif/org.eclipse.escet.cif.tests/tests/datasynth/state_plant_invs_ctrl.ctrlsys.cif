@@ -1,0 +1,32 @@
+controllable c0;
+controllable c1;
+controllable c2;
+controllable c3;
+controllable c4;
+plant automaton A:
+  disc int[0..5] Vc1 = 0;
+  disc int[0..5] Vc2 = 0;
+  disc int[0..5] Vc3 = 0;
+  disc int[0..5] Vc4 = 0;
+  location:
+    initial;
+    marked;
+    edge c0;
+    edge c1 when Vc1 != 4 do Vc1 := Vc1 + 1;
+    edge c2 do Vc2 := Vc2 + 1;
+    edge c3 do Vc3 := Vc3 + 1;
+    edge c4 do Vc4 := Vc4 + 1;
+end
+supervisor automaton sup:
+  alphabet c0, c1, c2, c3, c4;
+  location:
+    initial;
+    marked;
+    edge c0 when true;
+    edge c1 when true;
+    edge c2 when not(A.Vc2 = 2 or A.Vc2 = 3);
+    edge c3 when A.Vc3 != 3;
+    edge c4 when A.Vc4 != 5;
+end
+plant invariant A.Vc2 != 3;
+plant invariant A.Vc3 != 4;

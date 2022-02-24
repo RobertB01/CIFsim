@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/no_inv.cif".
+Reading CIF file "datasynth/no_marked_req_inv.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -11,25 +11,30 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (component state req invariant):   p.x = 2
-Invariant (components state req invariant):  p.x = 2
-Invariant (location state req invariant):    p.x != 2
-Invariant (locations state req invariant):   p.x != 2
-Invariant (system state req invariant):      false
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
 
-Initial   (discrete variable 0):             p.x = 2 or p.x = 3
-Initial   (discrete variables):              p.x = 2 or p.x = 3
+Invariant (component state req invariant):   p.x = 1
+Invariant (components state req invariant):  p.x = 1
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      p.x = 1
+
+Initial   (discrete variable 0):             true
+Initial   (discrete variables):              true
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true
 Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             p.x = 2 or p.x = 3
-Initial   (system, combined init/req inv):   false
+Initial   (uncontrolled system):             true
+Initial   (system, combined init/plant inv): true
+Initial   (system, combined init/state inv): p.x = 1
 
 Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined marked/req inv): false
+Marked    (aut/locs marker predicate):       p.x = 3
+Marked    (auts/locs marker predicate):      p.x = 3
+Marked    (uncontrolled system):             p.x = 3
+Marked    (system, combined mark/plant inv): p.x = 3
+Marked    (system, combined mark/state inv): false
 
 State/event exclusion plants:
   None
@@ -42,7 +47,7 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: false.
+Initialized controlled-behavior predicate using invariants: p.x = 1.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -51,10 +56,11 @@ Restricting behavior using state/event exclusion requirements.
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> false [restricted to current/previous controlled-behavior predicate: false]
+Backward controlled-behavior: p.x = 3 [marker predicate]
+Backward controlled-behavior: p.x = 3 -> false [restricted to current/previous controlled-behavior predicate: p.x = 1]
 Backward reachability: iteration 1.
 Backward controlled-behavior: false [fixed point].
+Controlled behavior: p.x = 1 -> false.
 
 Round 1: finished, all states are bad.
 
@@ -66,7 +72,7 @@ Final synthesis result:
 Controlled system:                     exactly 0 states.
 
 Initial (synthesis result):            false
-Initial (uncontrolled system):         p.x = 2 or p.x = 3
+Initial (uncontrolled system):         true
 Initial (controlled system):           false
-Initial (removed by supervisor):       p.x = 2 or p.x = 3
-Initial (added by supervisor):         not(p.x = 2 or p.x = 3)
+Initial (removed by supervisor):       true
+Initial (added by supervisor):         false

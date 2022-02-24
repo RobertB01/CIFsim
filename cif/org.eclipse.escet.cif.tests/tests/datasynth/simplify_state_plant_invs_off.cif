@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// State plant invariants.
+controllable e;
+
+plant p:
+  disc int[0..5] x in any;
+
+  location loc1:
+    initial;
+    marked;
+    edge e goto loc2;
+
+  location loc2:
+    plant x > 3;
+
+    edge e goto loc1;
+end
+
+plant p.loc1 => p.x > 2;

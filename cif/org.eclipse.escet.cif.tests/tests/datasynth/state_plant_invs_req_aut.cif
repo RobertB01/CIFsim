@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+requirement A:
+  controllable c;
+  uncontrollable u1;
+
+  location l1:
+    initial; marked;
+    edge c goto l2;
+    edge u1;
+  location l2:
+    marked;
+    edge u1 goto l3;
+  location l3:
+    marked;
+    edge u1;
+end
+
+// State plant invariant should result in 'u1' being blocked in 'l2'. Since it is a state plant invariant it should
+// not result in synthesis making 'l2' unreachable. Hence, exactly two reachable locations.
+plant invariant not A.l3;
+
+plant X:
+  location:
+    initial; marked;
+end
