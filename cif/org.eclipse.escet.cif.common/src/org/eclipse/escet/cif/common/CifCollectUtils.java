@@ -17,6 +17,8 @@ import java.util.Collection;
 
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
+import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
+import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -184,10 +186,6 @@ public class CifCollectUtils {
     /**
      * Collect the {@link EnumDecl}s declared in the given component (recursively).
      *
-     * <p>
-     * Does not support component definition/instantiation.
-     * </p>
-     *
      * @param comp The component.
      * @param enumDecls The enumeration declarations collected so far. Is modified in-place.
      */
@@ -202,7 +200,12 @@ public class CifCollectUtils {
         // Collect recursively.
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                collectEnumDecls((ComplexComponent)child, enumDecls);
+                if (!(child instanceof ComponentInst)) {
+                    collectEnumDecls((ComplexComponent)child, enumDecls);
+                }
+            }
+            for (ComponentDef cdef: ((Group)comp).getDefinitions()) {
+                collectEnumDecls(cdef.getBody(), enumDecls);
             }
         }
     }

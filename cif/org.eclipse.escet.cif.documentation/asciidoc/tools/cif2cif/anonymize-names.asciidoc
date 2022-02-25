@@ -1,0 +1,184 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-anonymize-names]]
+== Anonymize names
+
+indexterm:[CIF to CIF transformer,anonymize names]
+indexterm:[name, anonymize]
+This CIF to CIF transformation anonymizes the names of all named objects in the CIF specification.
+
+Anonymization can be useful when the model is to be shared publicly, but contains confidential information.
+For instance, this can be useful when adding a confidential model to a bug report, when contributing it to model repositories, or when it is a part of a publication or thesis.
+
+Only the names of named objects are anonymized.
+The resulting specification may still contain string literals, references to file names, etc, that are not anonymized by this transformation.
+It remains your own responsibility to decide whether or anonymizing names is sufficient to allow a model to be made public or not.
+
+indexterm:[anonymize names,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
+
+* Automaton to string casts are not supported.
+
+indexterm:[anonymize names,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation.
+
+indexterm:[anonymize names,implementation]
+
+=== Implementation details
+
+The new names of objects are based on a fixed prefix that depends on what kind of object it is, followed by a number.
+The following table indicates the prefixes that are used for the different kinds of objects:
+
+[cols="1,4"]
+|===
+|Prefix | Kind of object
+
+|`alg`
+|<<lang-tut-reuse1-chapter-algebraic-variables,Algebraic variable>>
+
+|`aparam`
+|<<lang-tut-reuse2-aut-def-param-kinds-alg,Algebraic parameter>> of a component definition
+
+|`aut`
+|<<lang-tut-basics-chapter-automata,Automaton>>
+
+|`autdef`
+|<<lang-tut-reuse2-chapter-aut-def-inst,Automaton definition>>
+
+|`const`
+|<<lang-tut-reuse1-chapter-constants,Constant>>
+
+|`cparam`
+|<<lang-tut-reuse2-aut-def-param-kinds-aut,Component parameter>> of a component definition
+
+|`disc`
+|<<lang-tut-data-chapter-discrete-variables,Discrete variable>>
+
+|`enum`
+|<<lang-tut-values-chapter-enumerations,Enumeration>>
+
+|`eparam`
+|<<lang-tut-reuse2-aut-def-param-kinds-event,Event parameter>> of a component definition
+
+|`evt`
+|<<lang-tut-basics-automata-events,Event>>
+
+|`field`
+|<<lang-tut-values-chapter-tuples,Field>> of a tuple type
+
+|`fparam`
+|<<lang-tut-functions-chapter-internal-functions,Parameter>> of a user-defined function
+
+|`func`
+|<<lang-tut-functions-chapter-intro,User-defined function>>
+
+|`grp`
+|<<lang-tut-reuse2-chapter-groups,Group>>
+
+|`grpdef`
+|<<lang-tut-reuse2-chapter-group-defs,Group definition>>
+
+|`input`
+|<<lang-tut-reuse2-chapter-input-variables,Input variable>>
+
+|`inst`
+|<<lang-tut-reuse2-chapter-aut-def-inst,Component instantiation>>
+
+|`lit`
+|<<lang-tut-values-chapter-enumerations,Enumeration literal>>
+
+|`loc`
+|<<lang-tut-basics-automata-location,Location>> of an automaton
+
+|`lparam`
+|<<lang-tut-reuse2-aut-def-param-kinds-loc,Location parameter>> of a component definition
+
+|`type`
+|<<lang-tut-reuse1-chapter-type-declarations,Type declaration>>
+|===
+
+For most kinds of objects, each unique object of that kind gets a unique number as postfix.
+For instance, consider a specification with algebraic variables and constants:
+
+[source, cif]
+----
+group g:
+  alg bool at = true;
+  alg bool af = false;
+  const bool ct = true;
+  const bool cf = false;
+end
+
+alg bool at = true;
+alg bool af = false;
+const bool ct = true;
+const bool cf = false;
+----
+
+The result of anonymizing the names would be:
+
+[source, cif]
+----
+group grp1:
+  alg bool alg1 = true;
+  alg bool alg2 = false;
+  const bool const1 = true;
+  const bool const2 = false;
+end
+
+alg bool alg3 = true;
+alg bool alg4 = false;
+const bool const3 = true;
+const bool const4 = false;
+----
+
+The four algrebraic variables each get a different number as postfix, as do the constants.
+This makes it easy to find a specific named object based on its name.
+But algebraic variables and constants are numbered independently.
+
+For controllable and uncontrollable events, the new name is additionally prefixed with `c_` and `u_`, respectively.
+Events that are not controllable or uncontrollable don't get an additional prefix.
+
+Compatible enumerations have the same number of literals, and the same literal names in the same order.
+The new literal names for compatible enumerations will be identical, to ensure they remain compatible.
+
+Locations and tuple type fields without a name are not given a name.
+
+indexterm:[anonymize names,renaming]
+
+=== Renaming
+
+Renaming is performed as explained in the previous section.
+
+indexterm:[anonymize names,size considerations]
+
+=== Size considerations
+
+The only change to the specification is that objects are renamed.
+The new names could be shorter or longer than the original names.
+
+indexterm:[anonymize names,optimality]
+
+=== Optimality
+
+n/a
