@@ -43,65 +43,68 @@ An algebraic variable is considered to be _unused_ in a CIF specification if it 
 
 [source, cif]
 ----
-  alg bool var1 = false;
-  alg bool var2 = true;
+alg bool var1 = false;
+alg bool var2 = true;
 
-  plant A:
-    uncontrollable a;
-    location:
-      initial;
-      edge a when var1;
-  end
+plant A:
+  uncontrollable a;
+  location:
+    initial;
+    edge a when var1;
+end
 ----
 
 As algebraic variable `var2` is defined but not mentioned elsewhere in the specification it is removed.
-Algebraic variable `var1` is mentioned in an edge guard. It is therefore considered _used_ and preserved as you can see in the resulting specification:
+Algebraic variable `var1` is mentioned in an edge guard.
+It is therefore considered _used_ and preserved as you can see in the resulting specification:
 
 [source, cif]
 ----
-  alg bool var1 = false;
+alg bool var1 = false;
 
-  plant A:
-    uncontrollable a;
-    location:
-      initial;
-      edge a when var1;
-  end
+plant A:
+  uncontrollable a;
+  location:
+    initial;
+    edge a when var1;
+end
 ----
 
 As algebraic variables may be used to define other algebraic variables, removal of an algebraic variable may trigger more removals.
-For instance, the following specification:
+For instance, consider the following specification:
 
 [source, cif]
 ----
-  alg bool var1 = false;
-  alg bool var2 = not var1;
-  alg bool var3 = var2;
+alg bool var1 = false;
+alg bool var2 = not var1;
+alg bool var3 = var2;
 
-  plant A:
-    uncontrollable a;
-    location:
-      initial;
-      edge a when var1;
-  end
+plant A:
+  uncontrollable a;
+  location:
+    initial;
+    edge a when var1;
+end
 ----
 
-Algebraic variable `var3` is only defined but not mentioned elsewhere. It is thus considered _unused_ and removed.
-After the removal of `var3`, algebraic variable `var2` is not mentioned elsewhere anymore. It is thus now considered _unused_ as well and also removed.
+Algebraic variable `var3` is only defined but not mentioned elsewhere.
+It is thus considered _unused_ and removed.
+After the removal of `var3`, algebraic variable `var2` is not mentioned elsewhere anymore.
+It is thus now considered _unused_ as well and also removed.
 Algebraic variable `var1` is considered _used_ as before and not removed.
 
 The result is therefore:
 
 [source, cif]
 ----
-  alg bool var1 = false;
+alg bool var1 = false;
 
-  plant A:
-    uncontrollable a;
-    location:
-      initial;
-      edge a when var1;
-  end
+plant A:
+  uncontrollable a;
+  location:
+    initial;
+    edge a when var1;
+end
 ----
 
 === Renaming
