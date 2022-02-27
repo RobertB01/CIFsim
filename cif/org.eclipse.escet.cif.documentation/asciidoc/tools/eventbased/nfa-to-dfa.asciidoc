@@ -20,12 +20,13 @@ indexterm:[event-based NFA to DFA automaton conversion]
 indexterm:[tools,event-based NFA to DFA automaton conversion]
 indexterm:[event-based synthesis toolset,event-based NFA to DFA automaton conversion]
 indexterm:[event-based NFA to DFA automaton conversion,event-based synthesis toolset]
-The event-based NFA to DFA automaton conversion takes an non-deterministic automaton.
-The algorithm produces a deterministic automaton with the same language.
+The event-based NFA to DFA automaton conversion takes a non-deterministic automaton and produces a deterministic automaton with the same language.
+It thus determinizes the NFA to a DFA.
 
 The tool takes a `.cif` file containing a single automaton.
 The output is a `.cif` file containing a deterministic automaton that is language equivalent with the input automaton.
-The resulting automaton has the same kind as the input automaton.
+The resulting automaton has the same supervisory kind as the input automaton.
+The resulting DFA is not necessarily https://en.wikipedia.org/wiki/DFA_minimization[minimal], but can be minimized using the <<tools-eventbased-chapter-dfa-minimization,DFA minimizer>>.
 
 indexterm:[event-based NFA to DFA automaton conversion,start]
 

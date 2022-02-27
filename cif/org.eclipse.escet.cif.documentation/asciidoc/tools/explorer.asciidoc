@@ -22,11 +22,17 @@ indexterm:[single,state space,explorer]
 indexterm:[single,state space,generator]
 indexterm:[see: explorer,CIF explorer]
 The CIF explorer unfolds the state space expressed by a CIF specification, in an untimed setting.
+
 It takes a CIF model and iteratively explores the states using event transitions, unfolding the state space.
-Available output forms include a CIF automaton of the state space, and a report with details of the found states.
 Time transitions are never taken.
 The explorer will return a deadlock state when forced into a time step.
 Continuous variables are allowed, but behave much like discrete variables due to lack of time steps.
+
+Available output forms include a CIF automaton of the state space, and a report with details of the found states.
+
+The statespace is computed in terms of the states of the CIF specification, based on the current locations of its automata and the values of its variables.
+The resulting statespace is an NFA or a DFA, but is not necessarily https://en.wikipedia.org/wiki/DFA_minimization[minimal], even with the <<tools-cif-explorer-enable-edge-minimization,edge minimization>> option enabled.
+You can minimize it using the <<tools-eventbased-chapter-dfa-minimization,DFA minimizer>>, assuming the state space satisfies that tool's preconditions.
 
 indexterm:[CIF explorer,start]
 
@@ -51,6 +57,7 @@ Besides the general application options, the application has the following optio
 
 * _Input file path_: The absolute or relative file system path to the input CIF specification.
 
+[[tools-cif-explorer-enable-edge-minimization]]
 * _Enable edge minimization_: Enable edge minimization to remove duplicate edges of the state space, before printing statistics, and writing output files.
 Two edges are duplicates if they have the same source and target states, and the same event.
 The communication value, if any, is ignored.
