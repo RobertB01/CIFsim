@@ -44,13 +44,15 @@ Builds are in certain cases also automatically executed on our build server:
 
 * link:https://ci.eclipse.org/escet/[Eclipse ESCET Jenkins server]
 
+[[development-building-and-testing-force-build]]
+
 If they are not automatically executed, login to Jenkins, open the desired build and select menu:Scan GitLab Project Now[] to force GitLab to scan for new branches, commits, etc.
 
 Run tests in one of the following ways:
 
 * As part of the build, all tests will be performed as well.
 
-* A single `test-all` launch configuration to run all tests is available under the _Launch Group_ section of the _Run Configurations_ dialog.
+* A single _test-all_ launch configuration to run all tests is available under the _Launch Group_ section of the _Run Configurations_ dialog.
 
 * Launch configurations to run various subsets of the tests are also available, under the _JUnit Test_ and _JUnit Plug-in Test_ sections of the _Run Configurations_ dialog.
 

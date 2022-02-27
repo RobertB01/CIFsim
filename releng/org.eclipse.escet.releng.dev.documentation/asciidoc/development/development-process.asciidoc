@@ -224,6 +224,14 @@ Include multiple of them if appropriate.
 
 * Improvements are made as necessary, reviewed again, etc, until the branch is considered to be ready to merge.
 
+* Ensure the merge request is successfully built on Jenkins.
+
+** Jenkins builds merge requests separately from branches.
+It regularly scans the project for new merge requests and new commits to existing merge requests, but you can also <<development-building-and-testing-force-build,force a build>> for the merge request.
+This may also be necessary if Jenkins seems stuck while _Checking pipeline status_.
+
+** Ensure the last commit to the merge request is built, to allow merging the merge request.
+
 * The branch is merged and removed.
 
 * If the branch fully addressed the associated issue or issues, it/they should be closed.
