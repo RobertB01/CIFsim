@@ -19,11 +19,21 @@ include::_part_attributes.asciidoc[]
 This page explains step by step the various processes involved from preparing for a release to actually releasing it.
 The following topics are covered:
 
+* <<development-release-process-release-policy>>
 * <<development-release-process-plan-next-version>>
 * <<development-release-process-prepare-git-repo-for-next-version>>
 * <<development-release-process-working-on-a-release>>
 * <<development-release-process-prepare-release>>
 * <<development-release-process-perform-release>>
+
+[[development-release-process-release-policy]]
+=== Release policy
+
+The Eclipse ESCET project uses a time-based release policy.
+We generally release every three months, at the end of each quarter, typically on its last working day.
+
+We may however deviate from this.
+For instance, we may release earlier at the end of the year, well before the Christmas period.
 
 [[development-release-process-plan-next-version]]
 === Planning for a next version
