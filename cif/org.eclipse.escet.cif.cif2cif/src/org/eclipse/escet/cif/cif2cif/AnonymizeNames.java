@@ -47,6 +47,7 @@ import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
+import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.java.Assert;
 
@@ -258,9 +259,14 @@ public class AnonymizeNames extends CifWalker implements CifToCifTransformation 
 
     @Override
     protected void preprocessField(Field field) {
-        // Can globally number the fields, as tuple type compatibility is based on field types, not field names.
+        // Tuple type compatibility is based on field types, not field names.
+        // But a tuple-typed variable and a projection on that variable with a field name, must use matching names.
+        // Given that each tuple type has unique 'Field' class instances, we can't use global numbering.
+        // Hence, rather than global numbering, we number based on field indices.
         if (field.getName() != null) {
-            field.setName(getName("field"));
+            TupleType tupleType = (TupleType)field.eContainer();
+            int index = tupleType.getFields().indexOf(field);
+            field.setName("field" + Integer.toString(index + 1));
         }
     }
 }

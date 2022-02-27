@@ -203,7 +203,15 @@ automaton aut_locs2:
   location c;
 end
 
-// Tuple type fields, including nested projections.
+// Tuple type fields.
+automaton ttf_aut1:
+  disc tuple(int nr; real weight) box;
+  location:
+    initial;
+    edge do box[nr] := box[nr] + 1;
+end
+
+// Tuple type fields, with nested projections.
 type tt1 = tuple(tt2 a, b, c);
 type tt2 = tuple(int a, b, d);
 
@@ -219,7 +227,7 @@ invariant tup[c][b] = 8;
 invariant tup[c][d] = 9;
 
 // Tuple type fields without names, for standard library functions.
-automaton ttf_aut:
+automaton ttf_aut2:
   disc dist bool x;
   disc bool y;
   location:

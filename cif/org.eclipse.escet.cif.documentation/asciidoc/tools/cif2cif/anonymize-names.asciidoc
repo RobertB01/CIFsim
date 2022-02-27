@@ -162,7 +162,10 @@ Events that are not controllable or uncontrollable don't get an additional prefi
 Compatible enumerations have the same number of literals, and the same literal names in the same order.
 The new literal names for compatible enumerations will be identical, to ensure they remain compatible.
 
-Locations and tuple type fields without a name are not given a name.
+To ensure that compatible tuple types remain compatible, their field names are not numbered globally, but are instead based on their index within the tuple type.
+That is, for a tuple type `tuple(int nr; real weight)` the anonymized result is `tuple(int field1; real field2)`.
+
+Objects without a name, such as nameless locations, are not given a name.
 
 indexterm:[anonymize names,renaming]
 

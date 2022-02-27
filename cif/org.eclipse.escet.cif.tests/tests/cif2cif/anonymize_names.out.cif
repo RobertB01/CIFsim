@@ -26,7 +26,7 @@ input string input3;
 type type2 = bool;
 type type3 = type2;
 type type4 = tuple(type5 field1; type5 field2; type5 field3);
-type type5 = tuple(int field4; int field5; int field6);
+type type5 = tuple(int field1; int field2; int field3);
 const type4 const5 = ((1, 2, 3), (4, 5, 6), (7, 8, 9));
 automaton def autdef1(alg int aparam1; alg int aparam2; grpdef1 cparam1; grpdef1 cparam2; location lparam1; location lparam2; event eparam1; event eparam2; controllable c_eparam3; controllable c_eparam4; uncontrollable u_eparam5; uncontrollable u_eparam6):
   location loc8:
@@ -162,18 +162,24 @@ automaton aut5:
   location loc7;
 end
 automaton aut6:
-  disc dist bool disc5;
-  disc bool disc6;
+  disc tuple(int field1; real field2) disc5;
   location:
     initial;
-    edge do disc6 := (sample disc5)[0];
+    edge do disc5[field1] := disc5[field1] + 1;
 end
-invariant const5[field1][field4] = 1;
-invariant const5[field1][field5] = 2;
-invariant const5[field1][field6] = 3;
-invariant const5[field2][field4] = 4;
-invariant const5[field2][field5] = 5;
-invariant const5[field2][field6] = 6;
-invariant const5[field3][field4] = 7;
-invariant const5[field3][field5] = 8;
-invariant const5[field3][field6] = 9;
+automaton aut7:
+  disc dist bool disc6;
+  disc bool disc7;
+  location:
+    initial;
+    edge do disc7 := (sample disc6)[0];
+end
+invariant const5[field1][field1] = 1;
+invariant const5[field1][field2] = 2;
+invariant const5[field1][field3] = 3;
+invariant const5[field2][field1] = 4;
+invariant const5[field2][field2] = 5;
+invariant const5[field2][field3] = 6;
+invariant const5[field3][field1] = 7;
+invariant const5[field3][field2] = 8;
+invariant const5[field3][field3] = 9;
