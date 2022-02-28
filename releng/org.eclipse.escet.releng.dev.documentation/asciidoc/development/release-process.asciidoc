@@ -190,8 +190,10 @@ See e.g. https://www.eclipse.org/lists/escet-dev/msg00091.html (mail also sent t
 To perform a release (milestone, release candidate, or final release), i.e. actually release it, follow these steps:
 
 * Create a GitLab merge request from `develop` to `master`, and name it after the release.
-Then merge the merge request.
 Since `master` is a protected branch for the Eclipse ESCET GitLab, a GitLab merge request is the only way to update it.
+
+* Ensure the merge request is successfully <<development-building-and-testing-chapter-index,built on Jenkins>>.
+Then merge the merge request.
 
 * Check that the build on `master` succeeds in Jenkins.
 
