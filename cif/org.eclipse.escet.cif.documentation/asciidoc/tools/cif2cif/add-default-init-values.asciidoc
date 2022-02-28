@@ -88,8 +88,8 @@ indexterm:[add default initial values,size considerations]
 === Size considerations
 
 Since values are added, this transformation increases the size of the specification.
-For an array of 400 elements, with an array of 300 integers each, the default initial value consists of 1,200 integers.
-Add such an initial value can significantly increase the size of the model.
+For an array of 400 elements, with an array of 300 integers each, the default initial value consists of 120,000 integers.
+Adding such an initial value can significantly increase the size of the model.
 
 indexterm:[add default initial values,optimality]
 
