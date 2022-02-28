@@ -12,4 +12,4 @@
 :: SPDX-License-Identifier: MIT
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-.\mvn_escet.cmd clean verify %*
+.\mvn_escet.cmd -T 1C clean verify %*
