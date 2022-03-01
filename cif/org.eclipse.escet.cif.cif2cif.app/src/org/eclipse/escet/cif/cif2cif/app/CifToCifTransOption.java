@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
+import org.eclipse.escet.cif.cif2cif.AnonymizeNames;
 import org.eclipse.escet.cif.cif2cif.CifToCifTransformation;
 import org.eclipse.escet.cif.cif2cif.ConvertEventsControllability.ConvertCntrlEventsToUncntrl;
 import org.eclipse.escet.cif.cif2cif.ConvertEventsControllability.ConvertUncntrlEventsToCntrl;
@@ -96,6 +97,7 @@ public class CifToCifTransOption extends Option<String> {
         TRANSFORMATIONS = map();
 
         TRANSFORMATIONS.put("add-default-init-values", AddDefaultInitialValues.class);
+        TRANSFORMATIONS.put("anonymize-names", AnonymizeNames.class);
         TRANSFORMATIONS.put("convert-uncntrl-events-to-cntrl", ConvertUncntrlEventsToCntrl.class);
         TRANSFORMATIONS.put("convert-cntrl-events-to-uncntrl", ConvertCntrlEventsToUncntrl.class);
         TRANSFORMATIONS.put("elim-alg-vars", ElimAlgVariables.class);

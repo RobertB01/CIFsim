@@ -1,0 +1,236 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Automata, with discrete variables.
+automaton aut_disc:
+  disc bool a;
+  disc bool b;
+  event e;
+  location:
+    initial;
+    edge e do a := b;
+end
+
+group grp_disc:
+  automaton aut_disc:
+    disc bool a;
+    disc bool b;
+    event e;
+    location:
+      initial;
+      edge e do a := b;
+  end
+end
+
+// Automaton and group definitions, with parameters.
+automaton def ad1(alg int a, b; gd1 c, d; location e, f; event g, h; controllable i, j; uncontrollable k, l):
+  location first:
+    initial;
+    invariant a = b;
+    invariant c.x and d.x;
+    invariant e or not e or f or not f;
+    edge g goto second;
+  location second:
+    edge h goto third;
+  location third:
+    edge i goto fourth;
+  location fourth:
+    edge j goto fifth;
+  location fifth:
+    edge k goto sixth;
+  location sixth:
+    edge l;
+end
+
+automaton def ad2():
+  location:
+    initial;
+end
+
+group def gd1():
+  const bool x = true;
+end
+
+group def gd2():
+  const bool x = true;
+end
+
+// Groups.
+group g:
+  group g:
+    group g:
+    end
+  end
+end
+group g2:
+  group g2:
+    group g2:
+    end
+  end
+end
+
+// Component instantiations.
+i1: ad1(1, 1, i2, i2, aut_locs1.a, aut_locs1.a, ev1, ev1, ev3, ev3, ev5, ev5);
+i2: gd1();
+
+group grp_inst:
+  i3: ad1(2, 2, i4, i4, aut_locs1.b, aut_locs1.b, ev2, ev2, ev4, ev4, ev6, ev6);
+  i4: gd1();
+end
+
+// Algebraic variables.
+alg bool at = true, af = false;
+
+group grp_algs:
+  alg bool at = true, af = false;
+end
+
+// Constants.
+const bool ct = true, cf = false;
+
+group grp_consts:
+  const bool ct = true, cf = false;
+end
+
+// Continuous variables.
+cont cv1 der 1, cv2 der 2;
+
+group grp_conts:
+  cont cv1 der 1, cv2 der 2;
+end
+
+// User-defined functions, with parameters.
+func bool invert(bool x):
+  return not x;
+end
+
+func bool invert2(bool x):
+  return not x;
+end
+
+func bool conjunction(bool x, y):
+  return x and y;
+end
+
+group grp_funcs:
+  func bool invert(bool x):
+    return not x;
+  end
+end
+
+// Enumerations and literals.
+enum E1 = LA, LB;
+enum E2 = LC, LD;
+
+group grp_e:
+  enum E = LA, LB;
+  enum F = G, H;
+  alg E1 a1 = LA;
+  alg E2 a2 = LC;
+  alg E a = LB;
+end
+
+group def autdef_e():
+  enum E = LA, LB;
+  enum F = G, H;
+  enum X = Y, Z;
+  alg E1 a1 = LA;
+  alg E2 a2 = LC;
+  alg E a = LB;
+end
+
+// Events.
+event ev1, ev2;
+controllable ev3, ev4;
+uncontrollable ev5, ev6;
+
+group grp_events:
+  event ev1, ev2;
+  controllable ev3, ev4;
+  uncontrollable ev5, ev6;
+
+  automaton a:
+    location loc:
+      initial;
+      edge ev1, ev2, ev3, ev4, ev5, ev6;
+  end
+end
+
+// Input variables.
+input bool inp;
+input string in2;
+
+group grp_inputs:
+  input int inp;
+end
+
+// Type declarations.
+type t = bool;
+type t2 = t;
+
+group grp_types:
+  type t = t2;
+end
+
+// Locations.
+automaton aut_locs1:
+  event e;
+  location a:
+    initial;
+    edge e goto b;
+  location b:
+    edge e goto c;
+  location c;
+end
+
+automaton aut_locs2:
+  event e;
+  location d:
+    initial;
+    edge e goto b;
+  location b:
+    edge e goto c;
+  location c;
+end
+
+// Tuple type fields.
+automaton ttf_aut1:
+  disc tuple(int nr; real weight) box;
+  location:
+    initial;
+    edge do box[nr] := box[nr] + 1;
+end
+
+// Tuple type fields, with nested projections.
+type tt1 = tuple(tt2 a, b, c);
+type tt2 = tuple(int a, b, d);
+
+const tt1 tup = ((1, 2, 3), (4, 5, 6), (7, 8, 9));
+invariant tup[a][a] = 1;
+invariant tup[a][b] = 2;
+invariant tup[a][d] = 3;
+invariant tup[b][a] = 4;
+invariant tup[b][b] = 5;
+invariant tup[b][d] = 6;
+invariant tup[c][a] = 7;
+invariant tup[c][b] = 8;
+invariant tup[c][d] = 9;
+
+// Tuple type fields without names, for standard library functions.
+automaton ttf_aut2:
+  disc dist bool x;
+  disc bool y;
+  location:
+    initial;
+    edge do y := (sample x)[0];
+end

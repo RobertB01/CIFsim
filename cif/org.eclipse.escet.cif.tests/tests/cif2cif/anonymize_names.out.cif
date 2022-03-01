@@ -1,0 +1,185 @@
+alg bool alg6 = true;
+alg bool alg7 = false;
+const bool const3 = true;
+const bool const4 = false;
+cont cont3 der 1.0;
+cont cont4 der 2.0;
+func bool func2(bool fparam2):
+  return not fparam2;
+end
+func bool func3(bool fparam3):
+  return not fparam3;
+end
+func bool func4(bool fparam4; bool fparam5):
+  return fparam4 and fparam5;
+end
+enum enum3 = lit5, lit6;
+enum enum4 = lit7, lit8;
+event evt11;
+event evt12;
+controllable c_evt13;
+controllable c_evt14;
+uncontrollable u_evt15;
+uncontrollable u_evt16;
+input bool input2;
+input string input3;
+type type2 = bool;
+type type3 = type2;
+type type4 = tuple(type5 field1; type5 field2; type5 field3);
+type type5 = tuple(int field1; int field2; int field3);
+const type4 const5 = ((1, 2, 3), (4, 5, 6), (7, 8, 9));
+automaton def autdef1(alg int aparam1; alg int aparam2; grpdef1 cparam1; grpdef1 cparam2; location lparam1; location lparam2; event eparam1; event eparam2; controllable c_eparam3; controllable c_eparam4; uncontrollable u_eparam5; uncontrollable u_eparam6):
+  location loc8:
+    initial;
+    invariant aparam1 = aparam2;
+    invariant cparam1.const6 and cparam2.const6;
+    invariant lparam1 or not lparam1 or lparam2 or not lparam2;
+    edge eparam1 goto loc9;
+  location loc9:
+    edge eparam2 goto loc10;
+  location loc10:
+    edge c_eparam3 goto loc11;
+  location loc11:
+    edge c_eparam4 goto loc12;
+  location loc12:
+    edge u_eparam5 goto loc13;
+  location loc13:
+    edge u_eparam6;
+end
+automaton def autdef2():
+  location:
+    initial;
+end
+group def grpdef1():
+  const bool const6 = true;
+end
+group def grpdef2():
+  const bool const7 = true;
+end
+group def grpdef3():
+  enum enum5 = lit5, lit6;
+  enum enum6 = lit11, lit12;
+  enum enum7 = lit13, lit14;
+  alg enum3 alg8 = lit5;
+  alg enum4 alg9 = lit7;
+  alg enum5 alg10 = lit6;
+end
+automaton aut1:
+  disc bool disc1;
+  disc bool disc2;
+  event evt1;
+  location:
+    initial;
+    edge evt1 do disc1 := disc2;
+end
+group grp1:
+  automaton aut2:
+    disc bool disc3;
+    disc bool disc4;
+    event evt2;
+    location:
+      initial;
+      edge evt2 do disc3 := disc4;
+  end
+end
+group grp2:
+  group grp3:
+    group grp4:
+    end
+  end
+end
+group grp5:
+  group grp6:
+    group grp7:
+    end
+  end
+end
+inst1: autdef1(1, 1, inst2, inst2, aut4.loc2, aut4.loc2, evt11, evt11, c_evt13, c_evt13, u_evt15, u_evt15);
+inst2: grpdef1();
+group grp8:
+  inst3: autdef1(2, 2, inst4, inst4, aut4.loc3, aut4.loc3, evt12, evt12, c_evt14, c_evt14, u_evt16, u_evt16);
+  inst4: grpdef1();
+end
+group grp9:
+  alg bool alg1 = true;
+  alg bool alg2 = false;
+end
+group grp10:
+  const bool const1 = true;
+  const bool const2 = false;
+end
+group grp11:
+  cont cont1 der 1.0;
+  cont cont2 der 2.0;
+end
+group grp12:
+  func bool func1(bool fparam1):
+    return not fparam1;
+  end
+end
+group grp13:
+  enum enum1 = lit5, lit6;
+  enum enum2 = lit11, lit12;
+  alg enum3 alg3 = lit5;
+  alg enum4 alg4 = lit7;
+  alg enum1 alg5 = lit6;
+end
+group grp14:
+  event evt3;
+  event evt4;
+  controllable c_evt5;
+  controllable c_evt6;
+  uncontrollable u_evt7;
+  uncontrollable u_evt8;
+  automaton aut3:
+    location loc1:
+      initial;
+      edge evt3, evt4, c_evt5, c_evt6, u_evt7, u_evt8;
+  end
+end
+group grp15:
+  input int input1;
+end
+group grp16:
+  type type1 = type3;
+end
+automaton aut4:
+  event evt9;
+  location loc2:
+    initial;
+    edge evt9 goto loc3;
+  location loc3:
+    edge evt9 goto loc4;
+  location loc4;
+end
+automaton aut5:
+  event evt10;
+  location loc5:
+    initial;
+    edge evt10 goto loc6;
+  location loc6:
+    edge evt10 goto loc7;
+  location loc7;
+end
+automaton aut6:
+  disc tuple(int field1; real field2) disc5;
+  location:
+    initial;
+    edge do disc5[field1] := disc5[field1] + 1;
+end
+automaton aut7:
+  disc dist bool disc6;
+  disc bool disc7;
+  location:
+    initial;
+    edge do disc7 := (sample disc6)[0];
+end
+invariant const5[field1][field1] = 1;
+invariant const5[field1][field2] = 2;
+invariant const5[field1][field3] = 3;
+invariant const5[field2][field1] = 4;
+invariant const5[field2][field2] = 5;
+invariant const5[field2][field3] = 6;
+invariant const5[field3][field1] = 7;
+invariant const5[field3][field2] = 8;
+invariant const5[field3][field3] = 9;

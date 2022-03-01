@@ -19,6 +19,7 @@ string test_pattern = "*.cif";
 list string default_options = ["--devmode=1"];
 map(string:list string) test_options = {
    "cif2cif/add_default_init_values.cif":           ["-t add-default-init-values"],
+   "cif2cif/anonymize_names.cif":                   ["-t anonymize-names"],
    "cif2cif/convert-uncntrl-events-to-cntrl.cif":   ["-t convert-uncntrl-events-to-cntrl"],
    "cif2cif/convert-cntrl-events-to-uncntrl.cif":   ["-t convert-cntrl-events-to-uncntrl"],
    "cif2cif/elim_alg_vars1.cif":                    ["-t elim-alg-vars"],
