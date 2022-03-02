@@ -1,0 +1,23 @@
+input bool ivar;
+alg bool v1 = not ivar;
+alg bool v2;
+alg bool v3 = v2;
+alg bool v6 = false;
+alg bool v7 = false;
+plant automaton A:
+  uncontrollable a;
+  location:
+    initial;
+    marked;
+    edge a when v3;
+end
+plant automaton B:
+  controllable b;
+  disc bool cond = false;
+  location:
+    initial;
+    marked;
+    edge b do cond := v7;
+end
+requirement invariant A.a needs v6;
+equation v2 = v1;

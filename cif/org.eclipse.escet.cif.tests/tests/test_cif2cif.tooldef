@@ -67,6 +67,7 @@ map(string:list string) test_options = {
    "cif2cif/remove_print_decls.cif":                ["-t remove-print-decls"],
    "cif2cif/remove_reqs.cif":                       ["-t remove-reqs"],
    "cif2cif/remove_reqs_invalid.cif":               ["-t remove-reqs"],
+   "cif2cif/remove_unused_alg_vars.cif":            ["-t remove-unused-alg-vars"],
    "cif2cif/simplify_others.cif":                   ["-t simplify-others"],
    "cif2cif/simplify_values.cif":                   ["-t simplify-values"],
    "cif2cif/simplify_values_optimized.cif":         ["-t simplify-values-optimized"],
