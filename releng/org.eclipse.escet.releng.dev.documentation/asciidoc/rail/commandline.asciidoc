@@ -45,7 +45,8 @@ Note that the latter setting may cause a large amount of output and it may not b
 
 | `--gui=MODE`
 | `--gui=auto`
-| Whether to use GUI mode. Use `--gui=off` to disable the GUI entirely which is useful for headless systems, specify `--gui=on` to force-enable the GUI, or `--gui=auto` to use the GUI if one is available.
+| Whether to use GUI mode.
+Use `--gui=off` to disable the GUI entirely which is useful for headless systems, specify `--gui=on` to force-enable the GUI, or `--gui=auto` to use the GUI if one is available.
 
 | `--devmode=BOOL`
 | `--devmode=no`

@@ -103,7 +103,7 @@ Follow these steps to create a project in TIA Portal, import PLC code in it, and
 
 ** Unfold the project and select _Add new device_.
 
-** Select the device type (i.e. S7-1500, S7-1200, S7-400 or S7-300).
+** Select the device type (that is, S7-1500, S7-1200, S7-400 or S7-300).
 
 ** Select the device with the correct article number.
 

@@ -49,7 +49,8 @@ U ::= i+ == 1 and i == 0 and j == 3
 ----
 
 Almost there, except `i+` must become `i` and the existing `i` should be removed.
-This is what variable replacement does. Apply `replace(i+, i)` on `U` and you get a new `D` relation
+This is what variable replacement does.
+Apply `replace(i+, i)` on `U` and you get a new `D` relation
 
 [source]
 ----

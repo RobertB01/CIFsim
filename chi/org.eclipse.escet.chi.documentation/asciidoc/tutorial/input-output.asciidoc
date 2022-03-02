@@ -197,13 +197,15 @@ An example:
 int i = 5;
 real r = 3.14;
 
-write("%4d/%8.2f", i, r)
+write("Result:\n");
+write("%4d/%8.2f", i, r);
 ----
 
 This fragment has the effect that the values of `i` and `r` are written to the screen as follows:
 
 [source, console]
 ----
+Result:
    5/    3.14
 ----
 
@@ -277,13 +279,16 @@ An example is:
 ----
 int i = 5, j = 10;
 real r = 3.14;
-write("%6d\t%d\n\t%.2f\n", i, j, r)
+
+write("Result:\n");
+write("%6d\t%d\n\t%.2f\n", i, j, r);
 ----
 
 The result looks like:
 
 [source, console]
 ----
+Result:
      5  10
         3.14
 ----

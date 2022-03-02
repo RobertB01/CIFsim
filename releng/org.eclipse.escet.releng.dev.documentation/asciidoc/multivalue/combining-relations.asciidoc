@@ -38,7 +38,8 @@ The `i == 2` alternative of `X` does not occur in the new relation since `Y` doe
 Also note that all equalities are preserved from both relations, the `j == 1` equality and the `k == 3` equality are part of `Z` even though only one of the input relations stated them.
 The reason is that if an alternative in a relation does not say anything about a variable, it is assumed it may have any value (the not mentioned variable is independent).
 
-This also works if both relations are a disjunction. For example `P ::= X and Q` with
+This also works if both relations are a disjunction.
+For example `P ::= X and Q` with
 
 [source]
 ----
