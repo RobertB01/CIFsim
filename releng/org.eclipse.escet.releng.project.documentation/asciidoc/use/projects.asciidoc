@@ -124,8 +124,7 @@ Select the <<use-terminology-project,project>> or directory in which you want to
 Alternatively, right click on the project or directory instead, and from the popup menu select menu:New[File].
 
 In the _New File_ window, enter the _File name_, and click btn:[Finish].
-Make sure to give the file the correct file extension.
-E.g. CIF files should end with `.cif`.
+Make sure to give the file the correct file extension, for example CIF files should end with `.cif`.
 
 An editor for the new file opens, and you can start <<use-edit,editing it>>.
 

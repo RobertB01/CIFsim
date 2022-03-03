@@ -176,7 +176,8 @@ See e.g. https://projects.eclipse.org/projects/technology.escet/reviews/0.1-rele
 ** Submit the IP log.
 See e.g. https://dev.eclipse.org/ipzilla/show_bug.cgi?id=23179.
 
-** Request PMC approval. See e.g. https://www.eclipse.org/lists/technology-pmc/msg12371.html.
+** Request PMC approval.
+See e.g. https://www.eclipse.org/lists/technology-pmc/msg12371.html.
 
 ** Ask the EMO to schedule the release review and make it public.
 Consider that release reviews are to be scheduled to happen on the 1st or 3rd Wednesday of a month.
