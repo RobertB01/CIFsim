@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[engineering, synthesis-based]
+
+[[sbe-chapter-index]]
+== Synthesis-based engineering
+
+CIF supports synthesis-based engineering, an engineering approach to design and implement supervisory controllers.
+The engineering approach combines model-based engineering with computer-aided design to produce correct-by-construction controllers.
+It does so by as much as possible automating each step in the development process.
+
+Supervisory controller synthesis is a main element of synthesis-based engineering, and a key feature of CIF.
+It involves the automatic generation of supervisory controller models.
+Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
+Combined, they allow engineers to focus on _what_ the controller should do, rather than _how_ it should do it, and how this is to be implemented.
+
+Synthesis-based engineering has many more benefits.
+It for instance allows finding and correcting issues early on in the development process, rather than during later stages where correcting them is more costly.
+It also supports a comprehensive modular design and efficient incremental engineering.
+Ultimately, this reduces development time and improves the quality of the resulting supervisory controllers.
+
+<<sbe-supervisory-controllers>>::
+Explains what supervisory controllers are, in what types of systems you can find them, and where they are located within such systems.
+
+<<sbe-approaches>>::
+Discusses synthesis-based engineering of supervisory controllers, its benefits, and its relation to other engineering approaches.
+
+<<sbe-example>>::
+Demonstrates the value of synthesis-based engineering through an example.
+
+<<sbe-with-cif>>::
+Explains how the CIF language and toolset support synthesis-based engineering of supervisory controllers, based on the example.
+
+<<sbe-tips-tricks>>::
+Discusses some tips and tricks for applying synthesis-based engineering with CIF.
+
+<<sbe-challenges>>::
+Explains the challenges of embedding a synthesis-based engineering approach into industrial practice.

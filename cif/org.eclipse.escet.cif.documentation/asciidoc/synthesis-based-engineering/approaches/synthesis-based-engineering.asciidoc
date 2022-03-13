@@ -1,0 +1,248 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+indexterm:[engineering, synthesis-based]
+indexterm:[correct-by-construction]
+
+[[sbe-approaches-synthesis-based]]
+== Synthesis-based engineering
+
+Synthesis-based engineering is a form of <<sbe-approaches-model-based,model-based engineering>>.
+It uses supervisory controller synthesis (or simply supervisor synthesis) to automatically synthesize a correct-by-construction controller model.
+
+=== Synthesis-based engineering process
+
+The following figure shows a simplified development process for synthesis-based engineering of supervisory controllers:
+
+image:{sbe-imgsdir}/approaches/process_synthesis_based.png[]
+
+As with general model-based engineering, at the center is a controller model with a mathematical foundation.
+From the controller model, the control software can still be manually implemented or automatically generated.
+
+However, with synthesis-based engineering, the controller model is not manually modeled from design documents.
+Instead, it is automatically generated from models of the uncontrolled system (plant model) and control requirements (requirement model).
+
+The controller model must be validated, to ensure it is the desired controller, which satisfies the desired requirements.
+Verification to ensure that the controller (model) satisfies its specified requirements is however superfluous, as the synthesized controller model is correct-by-construction.
+
+[[sbe-approaches-synthesis-based-input-plant-req]]
+=== Input: plant and requirement models
+
+indexterm:[plant]
+indexterm:[requirement]
+indexterm:[system, uncontrolled]
+
+Supervisor synthesis requires two types of models as input.
+The first type of model is called a _plant_ model, after the concept of https://en.wikipedia.org/wiki/Plant_(control_theory)[plant] from https://en.wikipedia.org/wiki/Control_theory[control theory].
+Plant models describe capabilities or behavior of a physical system 'as is', without any integrated control.
+They represent the possible behavior of the uncontrolled system.
+The second type of model is called a _requirements_ model.
+Requirement models describe the requirements that the controller must adhere to.
+They model restrictions upon the behavior of the plants, to ensure that only the desired behavior remains.
+
+A plant model can for instance specify which sensors and actuators are present in the system.
+It may also specify their interdependencies.
+For instance, a sensor that indicates that a gate is open and a sensor that indicates it is closed, can under normal circumstances not be enabled at the same time.
+A plant model is often modeled as a state machine.
+The following figure shows as an example a the combined plant model for the two gate sensors:
+
+image:{sbe-imgsdir}/approaches/plant_gate_sensors.png[]
+
+Initially it is closed.
+As the gate is opened, the gate closed sensor goes off, and the gate is somewhere in between.
+Then it can be closed again, making the gate sensor go on.
+But the gate can also keep going further open, until it is fully opened, and the gate opened sensor goes on.
+There is can be closed again, making the gate opened sensor go off.
+The plant model clearly states that it is not possible for the gate to be closed and opened at the same time, as the plant model can only be in one state at a time.
+
+Plant models at the relatively low abstraction level of sensors and actuators are quite common.
+However, modeling and controlling (sub-)systems at a higher abstraction level is possible as well.
+See for more information the section on <<sbe-supervisory-controllers,supervisory controllers>>.
+
+indexterm:[requirement, functional]
+indexterm:[requirement, safety]
+
+A requirement model captures requirements.
+It may specify functional requirements, safety requirements, etc.
+For instance, the motor to open a gate may only be activated once the barrier to stop traffic is fully closed.
+Control requirements can also be specified as state machines, but often the use of a logical formula is more intuitive.
+Combining them is also possible.
+Well-formulated logical formulas are easy to understand, even for people without a mathematical background.
+As an example, consider a requirement in three forms: natural language, mathematical formula, and modeled in CIF:
+
+indexterm:[requirement, natural language]
+indexterm:[requirement, mathematical formula]
+indexterm:[requirement, cif]
+
+* Natural language: "The actuator to open the gate may only be activated if the barrier is fully closed."
+* Mathematical formula: gate_open_actuator.c_on => barrier_sensors.closed
+* Modeled in CIF as a <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion>> <<lang-tut-extensions-synthesis-invkind,requirement>>:
++
+[source, cif]
+----
+requirement gate_open_actuator.c_on needs barrier_sensors.closed;
+----
+
+indexterm:[synthesis]
+indexterm:[controller, synthesis]
+indexterm:[controller, supervisor]
+indexterm:[supervisor]
+indexterm:[supervisor, synthesis]
+
+=== Supervisory controller synthesis
+
+Supervisory controller synthesis generates from the plant and requirements models a controller model, a model of the control logic, named a supervisor or supervisory controller.
+The synthesized supervisor is correct-by-construction, i.e., it satisfy all the requirements in every situation.
+
+indexterm:[control, conditions]
+indexterm:[system, controlled]
+
+The supervisor may be represented as another state machine, but it may for instance also be a list of conditions under which actuators may be activated or deactivated.
+The synthesized supervisor as a state machine, or the plant model with the supervisor in the form of extra synthesized control conditions, forms the controlled system.
+
+The controlled system satisfies the following properties:
+
+indexterm:[safe]
+
+* **Safe:** It satisfies all specified requirements in all situations that the specified uncontrolled system can be in.
+
+indexterm:[controllable]
+
+* **Controllable:** It only limits controllable actions of the plant, e.g., it may prevent enabling or disabling an actuator, but can't prevent a sensor from going on or off.
+
+indexterm:[non-blocking]
+
+* **Non-blocking:** It doesn't block. Think of it as not having a livelock.
+
+indexterm:[permissive, maximally]
+indexterm:[restrictive, minimally]
+
+* **Maximally permissive:** It does not impose more restrictions that strictly necessary to enforce the previous properties, i.e., it is maximally permissive.
+In other words, the controlled system permits all safe, controllable, and non-blocking behaviors, i.e., it is minimally restrictive.
+
+[[sbe-approaches-synthesis-based-benefits]]
+=== Benefits of synthesis-based engineering
+
+Synthesis-based engineering has all the benefits of <<sbe-approaches-model-based-benefits,model-based engineering>>.
+Additionally, it has the following benefits:
+
+indexterm:[design, computer-aided]
+indexterm:[controller, reliability]
+
+Computer-aided design for improved quality at reduced effort and cost::
+Computer-aided design and automation shorten the development cycle and reduce human errors.
+This improves the quality and reliability of controllers, and reduces effort and costs.
++
+indexterm:[requirement, conflicting]
++
+More concretely, supervisor synthesis provides computer-aided design assistance.
+It can for instance automatically detect conflicting requirements.
+It will also detect that a certain activator may never be enabled in a certain state, because under certain specific conditions this may _later_ lead to an unavoidable unsafe state.
+For complex systems, this kind of situations is often difficult to foresee for human beings.
+It is therefore difficult to correctly manually model in a control model.
+
+indexterm:[correct-by-construction]
+
+Focus on the _what_ rather than the _how_::
+With synthesis-based engineering the controller model is automatically synthesized.
+From it, the implementation is automatically produced through code generation.
+Verification is not needed as the implementation is correct-by-construction.
+This essentially only leaves requirements design and validation to focus on.
+Engineers can thus focus on 'what should the controller do' (its requirements), rather than on 'how must the controller achieve this' (the controller design and implementation).
++
+An example is specifying a First-In-First-Out (FIFO) requirement.
+While specifying it may be quite easy, realizing the requirement in a control model may be complex due to the various situations that may arise in the system.
+Supervisory controller synthesis can evaluate all possible combinations of conditions and synthesize a controller that is mathematically correct for all of them.
+This kind of design automation is even more useful when multiple, complex and related requirements need to be considered.
+The synthesized supervisor is correct-by-construction for all requirements in all situations, preventing human errors.
+
+Verification exposes problems, synthesis solves them::
+Synthesis-based engineering goes far beyond <<sbe-approaches-verification-based,verification-based engineering>>.
+Formal verification exposes problems.
+It tells you that the controller model is not correct and in which situations, and you need to iteratively adapt it yourself.
+Each time formal verification produces a counter example to indicate a requirement violation, the controller model needs to be manually adapted.
+Contrary, supervisor synthesis provides solutions.
+It automatically synthesizes a controller model that satisfies all the requirements.
+Synthesis produces in one go a supervisor with all the additional conditions that must be enforced to ensure all requirements are satisfied.
+This makes verification of the controller model against its requirements superfluous, as the synthesized controller model is already correct-by-construction.
+
+indexterm:[design, freedom]
+indexterm:[permissive, maximally]
+indexterm:[restrictive, minimally]
+
+Maintain maximum design space freedom::
+Maximal permissiveness ensures that maximum design space freedom is maintained.
+When manually designing a controller, an engineer may favor simple control conditions that severely limit the design space.
+As synthesis produces maximally-permissive supervisors, it imposes minimal restrictions, while still satisfying all requirements.
+This leaves design space freedom to e.g. choose performance-optimal solution among safe alternatives.
+
+indexterm:[design, modular]
+indexterm:[engineering, incremental]
+
+Supports a comprehensive modular design and efficient incremental engineering::
+Each part of the plant and each requirement can be specified separately.
+This way it is easy to adapt specific plants or requirements, or add new ones.
+Modular specifications thus allow for efficient incremental engineering, as after each change a simple re-synthesis is enough to obtain a new correct-by-construction controller.
+
+Supports reuse and standardization::
+The separately specified plants and requirements can even be put in libraries with reusable standardized building blocks.
+This allows engineers to easily build up new specifications from existing proven building blocks, combining them in different ways.
+Ultimately this leads to more uniformity and improves efficiency.
+
+indexterm:[requirement, traceability]
+indexterm:[specification, modular]
+
+Intuitive specifications with fine-grained requirement traceability::
+Each plant and requirement can be specified separately, and has a clear purpose.
+This provides a good overview of the control requirements, and allows for fine-grained requirement traceability.
+This unlike the control model itself.
+There one requirement can have an effect on various parts (states) of the controller.
+It can thus be spread out over the controller model, and mixed with other requirements.
+Clear modular specifications avoid hiding undesired and unneeded behavior in a large/complex controller.
+
+See the <<sbe-example,synthesis-based engineering example>> section for a concrete example that shows the power of synthesis.
+
+=== Terminology
+
+The following terminology is often used when discussing synthesis-based engineering of supervisory controllers, in additional to <<sbe-approaches-model-based-terminology,model-based engineering terminology>>:
+
+indexterm:[method, correct-by-construction]
+
+Correct-by-construction formal method::
+A formal method that guarantees that the result of the method satisfies all requirements.
+
+indexterm:[engineering, synthesis-based]
+
+Synthesis-based engineering::
+A form of <<sbe-approaches-model-based,model-based engineering>> that uses supervisory controller synthesis (or simply supervisor synthesis) to automatically synthesize a correct-by-construction controller model.
+
+indexterm:[supervisor, synthesis]
+indexterm:[synthesis, supervisor]
+
+Supervisor synthesis::
+A correct-by-construction formal method that automatically synthesizes a supervisory controller.
+It involves the automatic generation, or synthesis, of a correct-by-construction controller model from a model of the uncontrolled system and a model of the control requirements.
+This is also called controller synthesis or supervisory controller synthesis.
+Supervisor synthesis makes verification of the resulting controller model against its requirements superfluous.
+Validation of the resulting controller model is still needed to ensure the specified requirements are indeed the desired requirements.
+
+indexterm:[system, uncontrolled]
+indexterm:[plant]
+
+Uncontrolled system::
+The system without any control.
+It is also called a https://en.wikipedia.org/wiki/Plant_(control_theory)[plant] in https://en.wikipedia.org/wiki/Control_theory[control theory].
+For instance, at a low abstraction level, this could be the individual actuators and sensors of a system.
+At a higher abstraction level, it could be a collection of controllers for subsystems.

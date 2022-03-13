@@ -1,0 +1,108 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[sbe-approaches]]
+== Engineering approaches for supervisory controller development
+
+<<sbe-supervisory-controllers,Supervisory controllers>> can be developed in various ways.
+The following figure gives an overview.
+It shows multiple approaches to design and engineer supervisory controllers, as well as how these approaches relate to each other:
+
+image:{sbe-imgsdir}/approaches/overview.png[]
+
+The rows of the table indicate typical steps involved in the development of supervisory controllers:
+
+indexterm:[requirement, design]
+indexterm:[requirement, functional]
+indexterm:[requirement, safety]
+indexterm:[requirement, extra-functional]
+
+* **Requirements design** focuses on what a controller for a (sub-)system must do.
+Functional and safety requirements may be specified, for instance requiring that pushing an emergency button stops all motors.
+Extra-functional requirements may also be specified, for instance requiring that a certain throughput should be achieved.
+
+indexterm:[controller, design]
+
+* **Controller design** focuses on how a controller should satisfy the requirements to efficiently and safely control the system.
+For instance, the various control states of the system may be specified, as well as how the controller reacts to changing sensor or other input signals by controlling actuators, e.g., enabling a motor.
+
+indexterm:[controller, realization]
+
+* Controllers may be **realized in software**.
+The software source code may for instance be written in Java, C or PLC programming languages.
+
+indexterm:[verification]
+
+* **Verification** involves checking the realized controller against its requirement and controller designs, to ensure that the controller is made in the right way.
+That is, the controller must be correctly realized as designed.
+
+indexterm:[validation]
+
+* **Validation** involves checking the realized controller and its design, to ensure that the right controller is made.
+That is, the requirements must be correct and complete, such that the controller ensures that the system operates safely and efficiently in all circumstances.
+
+The columns of the table indicate various engineering approaches.
+From left to right, they employ progressively more automation and computer assistance.
+Typically, the approaches can be characterized as follows:
+
+indexterm:[engineering, traditional]
+
+* **Traditional engineering** is document-based.
+Requirements are written down informally in large requirement documents.
+They are used as input for controller design documents.
+The documents are then handed over to a different person, team or supplier, for the implementation.
+Implementation of the controller in software is done through manual coding.
+Verification and validation involve testing at various levels, including unit testing, integration testing and system testing.
+Traditionally, all five steps are performed manually, which is laborious and error-prone.
+
+indexterm:[engineering, model-based]
+indexterm:[engineering, model-driven]
+
+* **Model-based engineering** or **model-driven engineering**, automates the realization step, and provides computer assistance especially for the verification and validation steps.
+It places models at the center of attention.
+The controller behavior is modeled in a formal way, allowing a computer to interpret and analyze it.
+That is, it is specified in a mathematically unambiguous way, for instance using state machines.
+Such models are considered the single source of truth.
+From them, all kinds of artifacts can be generated automatically, including the software code of the implementation.
+This ensures that the code is fault-free and behaves consistently with the behavior as expressed by the controller model.
+The models can also be used to partly automate verification, for instance through the use of model-based testing.
+Simulation models can be generated to allow simulating the system behavior and validating the requirements during early phases of development.
+
+indexterm:[engineering, verification-based]
+
+* **Verification-based engineering** automates the verification step.
+It uses formal verification, a mathematical technique that can automatically check the controller model against its requirements.
+It either indicates that the specified requirements are satisfied by the controller model, or it provides counter examples that indicate in which situations they are not satisfied.
+Through formal verification, the controller model can be iteratively adapted to satisfy all specified requirements.
+To employ formal verification, both the controller model and the requirements must be formally specified.
+
+indexterm:[engineering, synthesis-based]
+
+* **Synthesis-based engineering** automates the design of the controller.
+It uses supervisory controller synthesis to automatically synthesized a controller model from requirements and simple models of the uncontrolled system.
+This mathematical technique guarantees that the synthesized controller model satisfies all specified requirements.
+This makes verification of the controller model against its requirements superfluous, as the synthesized controller model is guaranteed correct-by-construction.
+With the controller design, realization and verification either being automated or unnecessary, only requirements design and validation remain.
+This allows engineers to focus on _what_ the controller should do, rather than _how_ it should achieve it.
+
+The use of model-based engineering combined with computer-aided design, through formal methods like formal verification and supervisory controller synthesis, has many advantages.
+It allows to produce unambiguous, complete, consistent, and up-to-date specifications, leading to higher quality controllers at similar or even lower effort and costs.
+
+After this general comparison of the approaches, the following provides more detailed information:
+
+* <<sbe-approaches-traditional>>
+* <<sbe-approaches-model-based>>
+* <<sbe-approaches-verification-based>>
+* <<sbe-approaches-synthesis-based>>

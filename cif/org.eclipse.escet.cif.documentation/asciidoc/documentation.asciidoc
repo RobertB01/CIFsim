@@ -27,6 +27,7 @@ include::_root_attributes.asciidoc[]
 
 CIF is a declarative modeling language for the specification of discrete event, timed, and hybrid systems as a collection of synchronizing automata.
 The CIF tooling supports the entire development process of controllers, including among others specification, supervisory controller synthesis, simulation-based validation and visualization, verification, real-time testing, and code generation.
+Combined they enable a synthesis-based engineering approach to efficiently and cost-effectively design and implement high-quality controllers.
 
 CIF is one of the tools of the Eclipse ESCET(TM) project.
 Visit the link:https://eclipse.org/escet[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
@@ -44,6 +45,7 @@ endif::website-output[]
 
 The documentation consists of:
 
+* <<sbe-chapter-index,CIF synthesis-based engineering manual>>
 * <<lang-tut-chapter-index,CIF language tutorial>>
 * <<lang-ref-chapter-index,CIF language reference manual>>
 * <<tools-chapter-index,CIF tool manual>>
@@ -55,6 +57,38 @@ The documentation consists of:
 A screenshot showing a CIF model and simulation:
 
 image::{imgsdir}/screenshot_ide.png[]
+
+// Synthesis-based engineering manual
+
+include::synthesis-based-engineering/index.asciidoc[]
+
+:leveloffset: +1
+
+include::synthesis-based-engineering/supervisory-controllers.asciidoc[]
+
+include::synthesis-based-engineering/approaches/index.asciidoc[]
+
+:leveloffset: +1
+
+include::synthesis-based-engineering/approaches/traditional-engineering.asciidoc[]
+
+include::synthesis-based-engineering/approaches/model-based-engineering.asciidoc[]
+
+include::synthesis-based-engineering/approaches/verification-based-engineering.asciidoc[]
+
+include::synthesis-based-engineering/approaches/synthesis-based-engineering.asciidoc[]
+
+:leveloffset: -1
+
+include::synthesis-based-engineering/example.asciidoc[]
+
+include::synthesis-based-engineering/with-cif.asciidoc[]
+
+include::synthesis-based-engineering/tips-and-tricks.asciidoc[]
+
+include::synthesis-based-engineering/challenges.asciidoc[]
+
+:leveloffset: -1
 
 // Language tutorial
 

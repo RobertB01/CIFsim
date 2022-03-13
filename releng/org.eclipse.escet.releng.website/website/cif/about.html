@@ -81,6 +81,27 @@
     <div class="px-4 pt-5">
       <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-xl-8 col-xxl-6">
+          <h4>Synthesis-based engineering</h4>
+          <p>
+            CIF supports synthesis-based engineering, an engineering approach to design and implement supervisory controllers.
+            The engineering approach combines model-based engineering with computer-aided design to produce correct-by-construction controllers.
+            It does so by as much as possible automating each step in the development process.
+          </p>
+          <p>
+            Supervisory controller synthesis is a main element of synthesis-based engineering, and a key feature of CIF.
+            It involves the automatic generation of supervisory controller models.
+            Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
+            Combined, they allow engineers to focus on <em>what</em> the controller should do, rather than <em>how</em> it should do it, and how this is to be implemented.
+          </p>
+          <p>
+            Synthesis-based engineering has many more benefits.
+            It for instance allows finding and correcting issues early on in the development process, rather than during later stages where correcting them is more costly.
+            It also supports a comprehensive modular design and efficient incremental engineering.
+            Ultimately, this reduces development time and improves the quality of the resulting supervisory controllers.
+          </p>
+          <p>
+            For more information, see the <a href="synthesis-based-engineering">synthesis-based engineering</a> documentation.
+          </p>
           <h4>CIF language</h4>
           <p>
             The CIF language is a powerful declarative automata-based modeling language for the specification of discrete event, timed (linear dynamics), and hybrid (piecewise continuous dynamics) systems.
@@ -119,18 +140,6 @@
           </p>
           <p>
             For more information, see the <a href="tools">tool documentation</a>.
-          </p>
-          <h4>Supervisory controller synthesis</h4>
-          <p>
-            Supervisory controller synthesis (or just, supervisor synthesis) is a key feature of CIF.
-            It involves the automatic generation of supervisory controllers from a specification of the uncontrolled system and the (safety) requirements that the controller needs to enforce.
-          </p>
-          <p>
-            This shifts controller design from 'how should the implementation work' to 'what should the controller do'.
-            Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
-          </p>
-          <p>
-            For more information, see the <a href="documentation.html">CIF documentation</a>.
           </p>
           <h4>CIF application</h4>
           <p>

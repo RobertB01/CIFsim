@@ -130,6 +130,7 @@ Examples of traces for the producer/consumer example are:
 The traces end with `+...+` to indicate that they are partial traces, that go beyond the part of the trace that is shown.
 These four traces however, cover all the possibilities for the first seven transitions.
 
+[[lang-tut-basics-chapter-synchronizing-events-statespace]]
 indexterm:[state space]
 All possible traces together form the _state space_, which represents all the possible behavior of a system.
 For the producer/consumer example, the state space is:

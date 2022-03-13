@@ -59,3 +59,7 @@ The following examples are available:
 * <<tools-cifsim-output-svgviz-chapter-example-tank>>
 * <<tools-cifsim-output-svgviz-chapter-example-lamps>>
 * <<tools-cifsim-output-svgviz-chapter-example-buffers-products>>
+
+Furthermore, examples of SVG visualization are available in other parts of the documentation:
+
+* <<sbe-with-cif>>

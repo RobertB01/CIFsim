@@ -29,7 +29,7 @@ done
 for f in `find . -name "*.png.svg"`; do
     echo "Converting $f"
     FILE=${f//.png.svg/.png}
-    inkscape --export-area-drawing --export-png=$FILE $FILE.svg
+    inkscape --export-area-drawing --export-type="png" --export-filename=$FILE $FILE.svg
 done
 
 # .png.tex

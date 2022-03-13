@@ -1,0 +1,278 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[sbe-tips-tricks]]
+== Tips and tricks for synthesis-based engineering
+
+This section discusses some tips and tricks for synthesis-based engineering:
+
+* <<sbe-tips-tricks-incremental-development>>
+* <<sbe-tips-tricks-modeling-plants>>
+* <<sbe-tips-tricks-modeling-requirements>>
+* <<sbe-tips-tricks-marking>>
+* <<sbe-tips-tricks-empty-supervisor>>
+* <<sbe-tips-tricks-performance>>
+
+indexterm:[development, incremental]
+
+[[sbe-tips-tricks-incremental-development]]
+=== Incremental development
+
+When developing a controller, it is often best to start with just a small part of the system.
+
+You first develop a controller for that small part, test it, and make sure it works properly.
+Then, you extend the controller to work for a larger part of the system, and you keep repeating this until the controller controls the entire system.
+That is, you go through the entire development process (including among others specification, synthesis, simulation, implementation) each time.
+And then you increase the part of the system covered by the <<sbe-approaches-synthesis-based-input-plant-req,plants and requirements>> for each iteration.
+Typically, for low-level controllers you should start with no more than a few sensors and actuators, with their corresponding events.
+
+This incremental development approach makes it easier to for instance figure out why your controller doesn't behave as expected, which of your requirements are conflicting, or for what other reason a supervisor can't be synthesized.
+
+indexterm:[plant, modeling]
+
+[[sbe-tips-tricks-modeling-plants]]
+=== Modeling plants
+
+indexterm:[actuator, digital]
+indexterm:[sensor, digital]
+
+Typically, for low-level controllers you should start with a <<lang-tut-extensions-synthesis-autkind,plant automaton>> per sensor and actuator.
+For the common case of digital sensors and actuators, you should model the <<lang-tut-basics-chapter-automata,automata>> with two <<lang-tut-basics-automata-location,locations>>, one where the sensor or actuator is off, and one where it is on.
+Which location should be the <<lang-tut-basics-automata-loc-init,initial>> location depends on the specific sensor or actuator.
+Digital sensors can go on and off, and as such have two associated <<lang-tut-extensions-synthesis-evtctrl,uncontrollable events>>.
+Similarly, digital actuators can be turned on or off as well, and have two associated <<lang-tut-extensions-synthesis-evtctrl,controllable events>>.
+
+Here are some examples of typical plant automata for low-level sensors and actuators:
+
+[source, cif]
+----
+plant Button:
+  uncontrollable u_pushed, u_released;
+
+  location Released:
+    initial; marked;
+    edge u_pushed goto Pushed;
+
+  location Pushed:
+    edge u_released goto Released;
+end
+
+plant Lamp:
+  controllable c_on, c_off;
+
+  location Off:
+    initial; marked;
+    edge c_on goto On;
+
+  location On:
+    edge c_off goto Off;
+end
+----
+
+indexterm:[plant, relations]
+
+Once you have the plants for the individual sensors and actuators, you can think about the relations between them.
+These relations should be physical relations, representing behavior present in the actual uncontrolled system.
+
+For instance, if a movement has two limit sensors, most likely they physically can't both be on at the same time.
+The individual plants of the two digital sensors however, can both be in their `On` states, as they are not in any way related.
+The easiest way to specify the relation is to use a <<lang-tut-extensions-synthesis-invkind,state plant invariant>>:
+
+----
+plant UpSensor:
+  uncontrollable u_on, u_off;
+
+  location Off:
+    initial; marked;
+    edge u_on goto On;
+
+  location On:
+    edge u_off goto Off;
+end
+
+plant DownSensor:
+  uncontrollable u_on, u_off;
+
+  location Off:
+    initial; marked;
+    edge u_on goto On;
+
+  location On:
+    edge u_off goto Off;
+end
+
+plant invariant not (UpSensor.On and DownSensor.On);
+----
+
+Alternatively, you may combine multiple plants into a single plant.
+To merge some plants, manually compute/model the <<tools-eventbased-chapter-product,product>> of the plants, and remove the original plant automata.
+Then, to express the relationship, remove the behavior that is not physically possible.
+However, typically using a plant invariant is easier.
+
+An alternative physical relationship, is the relation between sensors and actuators.
+In such cases, the relationship with the sensor(s) can usually be added to the actuator plant(s).
+
+By correctly incorporating all the physical restrictions present in the actual system, the tools can use this knowledge during synthesis.
+Essentially, by modeling the physical relations/restrictions, the uncontrollable events are enabled in much less (combinations of) locations of the plants.
+This means that the requirements are much less likely to block uncontrollable events.
+
+In other words, the modeled relationships of the plants restrict the behavior of the plant automata.
+However, these restrictions are also present in the physical system.
+Hence, without modeling such relationships, the plant model has more behavior than the physical system.
+Once the plant relations are correctly modeled, you may assume this relationship in the requirements, meaning you may assume that certain uncontrollable events can physically not occur in certain locations.
+The tools will then have enough knowledge of the system to come to the same conclusions.
+
+For instance, assume a certain sensor signal can only occur when the corresponding actuator is enabled.
+Modeling this relation ensures that 'blocking' such sensor signals in the requirements, when the actuator is off, is no longer 'illegal' behavior.
+
+[[sbe-tips-tricks-modeling-requirements]]
+=== Modeling requirements
+
+The hardest thing about modeling requirements, is that you have to think in restrictions, rather than in use cases.
+So, rather than 'first do this, then do that, then do that or that other thing, etc', you should think 'this or that is only allowed if/after this or that other thing'.
+Requirements should be as small and orthogonal as possible.
+
+Event-based requirements are modeled as <<lang-tut-extensions-synthesis-autkind,requirement automata>>.
+The simplest event-based requirements have only two locations, and form a loop of only two edges.
+Here is a typical example requirement that controls the plants from the section on <<sbe-tips-tricks-modeling-plants,modeling plants>>.
+It ensures that the lamp is on while the button is pushed, and off while it is released:
+
+[source, cif]
+----
+requirement LampOnWhileButtonPushed:
+  location Released:
+    initial; marked;
+    edge Button.u_pushed goto Pushed;
+    edge Lamp.c_off;
+
+  location Pushed:
+    edge Button.u_released goto Released;
+    edge Lamp.c_on;
+end
+----
+
+We can also model the requirements in a more state-based manner (referring to locations of automata) or data-based manner (<<lang-tut-data-chapter-locs-as-var,referring to locations of automata>>, as well as using <<lang-tut-data-chapter-discrete-variables,variables, guards, updates>>, and <<lang-tut-data-chapter-stat-invariants,invariants>>), which is often shorter and simpler.
+The requirement above can be modeled in a state-based manner as follows:
+
+[source, cif]
+----
+// Lamp on only while button is pushed.
+requirement Lamp1.c_off needs Button1.Released;
+requirement Lamp1.c_on  needs Button1.Pushed;
+----
+
+Having requirements block <<lang-tut-extensions-synthesis-evtctrl,uncontrollable events>> can easily lead to problems such as <<sbe-tips-tricks-empty-supervisor,empty supervisors>>.
+As mentioned in the section on <<sbe-tips-tricks-modeling-plants,modeling plants>>, correctly modeling the plant relations makes this easier.
+
+Generally, it is better to as much as possible use requirements that are pure restrictions.
+That is, use state-based requirements (<<lang-tut-data-chapter-stat-invariants,mutual state exclusion>> and <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion>> <<lang-tut-extensions-synthesis-invkind,requirements>>) instead of event-based requirements (<<lang-tut-extensions-synthesis-autkind,requirement>> <<lang-tut-basics-chapter-automata,automata>>), where applicable.
+Requirement automata may introduce additional state, which can lead to reduced <<sbe-tips-tricks-performance,performance>>.
+Using pure restriction requirements you are also less likely to get an <<sbe-tips-tricks-empty-supervisor,empty supervisor>>.
+
+indexterm:[marking]
+
+[[sbe-tips-tricks-marking]]
+=== Marking
+
+Every <<lang-tut-basics-chapter-automata,automaton>>, whether <<sbe-approaches-synthesis-based-input-plant-req,plant or requirement>>, must have at least one <<lang-tut-extensions-synthesis-marked,marked>> <<lang-tut-basics-automata-location,location>>.
+A marked location is a location that indicates a safe, stable, or resting state.
+
+Physical systems typically keep operating, repeating their behavior.
+Therefore, in practice, the entire system can often be brought back to the <<lang-tut-basics-automata-loc-init,initial>> state.
+As such, it is then typically enough to make the initial locations marked.
+
+An exception is automata that have some kind of initialization behavior/sequence.
+For such automata, make the first location that is part of the loop after the initialization sequence, a marked location.
+The locations from the initialization sequence can no longer be reached after initialization is finished.
+The first location after that initialization sequence is part of the 'normal' behavior and can be seen as the initial location of the behavior after initialization.
+
+indexterm:[supervisor, empty]
+
+[[sbe-tips-tricks-empty-supervisor]]
+=== Empty supervisor
+
+A common problem that can occur during supervisor synthesis is the 'empty supervisor' error.
+A variant of this is when synthesis results in a supervisor with only a few locations, typically two or three, or only a few dozen, depending on the size of your system.
+In such cases, where the resulting supervisor is not what you expect, you need to go back to the plants and requirements.
+
+Here are some hints to resolve this kind of problems:
+
+* Try to use an <<sbe-tips-tricks-incremental-development,incremental development>> approach.
+This ensures that if the supervisor is empty, you can be reasonably sure the problem is in the part you added since the last working version.
+If on the other hand you put the entire system in your model at once, and you get an empty supervisor, it is much more difficult to track down the cause.
+
+* Try to as much as possible use requirements that are <<sbe-tips-tricks-modeling-requirements,pure restrictions>>.
+
+* Make sure you have at least one marked location per automaton (plant as well as requirement automata).
+Usually, marking the initial location is sufficient.
+See also the <<sbe-tips-tricks-marking>> section.
+
+* Make sure your initial and marker states are consistent between all automata.
+For instance, if in a plant you can initially only push a button, and then release it, but if in a requirement automaton you must first release it before it can be pushed, you are likely to get an empty supervisor.
+
+* Make sure your requirements don't restrict the system too much.
+Be especially careful with blocking uncontrollable events in requirement automata.
+For every uncontrollable event in the alphabet of a requirement automaton, make sure that the requirement does not block the uncontrollable event.
+You can look at the plants, to see when the uncontrollable event is possible.
+Then you may ask yourself, for each location of the requirement, in which locations of the plant you can be at the same time.
+For such plant locations, you should whether the uncontrollable event is possible.
+It should then also be possible in the requirement.
+There are two ways to solve the blocking of an uncontrollable event by a requirement:
++
+--
+** The first solution is to correctly model the relations between the plants.
+For further details, see the <<sbe-tips-tricks-modeling-plants>> section.
+
+** The second solution is to add <<lang-tut-basics-shorter-notations-self-loop,self loops>> in the requirement to allow the uncontrollable event that was previously disabled by the requirement.
+--
++
+The first solution is recommended, but it does not always apply.
+If it is not possible to use the first solution, or if you already applied the first solution and still have the problem, you should use the second solution.
+However, never blindly add self loops.
+Always verify that this gives you the desired behavior!
+
+* You can try the synthesis with a subset of the requirements, to find out which requirement (or combination of requirements!) is causing the supervisor to become empty.
+
+indexterm:[synthesis, performance]
+
+[[sbe-tips-tricks-performance]]
+=== Synthesis performance
+
+Here are some hints to resolve performance problems and out-of-memory errors:
+
+indexterm:[synthesis, memory]
+
+* See the page of the Eclipse ESCET general toolkit documentation on link:https://www.eclipse.org/escet/performance/index.html[resolving performance and memory problems].
+In particular, make sure to give Java more memory.
+This should be the first thing you check.
+
+* Use the <<tools-chapter-datasynth,data-based synthesis tool>> rather than the <<tools-eventbased-chapter-supervisorsynthesis,event-based synthesis tool>>, as the former has much better performance.
+
+* If possible, use requirements that are <<sbe-tips-tricks-modeling-requirements,pure restrictions>>, as they only make the supervisor smaller.
+If you introduce memory (e.g. counters), or other forms of sequencing (e.g. to specify the order of controllable events), that usually increases the size of the supervisor.
+If possible, use requirements with only one location, or even better, use requirement invariants.
+For more information, see the <<lang-tut-data-chapter-stat-invariants>>, <<lang-tut-data-chapter-stat-evt-excl-invariants>> and <<lang-tut-extensions-synthesis-invkind>> sections of the CIF language tutorial.
+
+* Try to separate your requirements as much as possible, to keep them simple.
+Also, leave out any events from a requirement automaton that are not relevant to that specific requirement.
+
+* You can try to restrict more of the system, by adding more requirements, to get a smaller supervisor (with less behavior).
+
+* Avoid adding plants that you don't at all use in the requirements.
+For instance, don't add a button plant automaton if you don't use the button.
+
+* Try to avoid duplicate requirements that enforce the same behavior in different ways.
+
+* Check out the <<tools-datasynth-performance,performance>> section of the data-based synthesis tool documentation.

@@ -1,0 +1,40 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Manually modeled supervisor.
+
+import "fifo.plants.cif";
+
+supervisor sup:
+  alg int nrOfProdsInLoop = switch DISP: case Idle: 0 case Busy: 1 end +
+                            switch OP1:  case Idle: 0 case Busy: 1 end +
+                            switch OP2:  case Idle: 0 case Busy: 1 end +
+                            switch CHK:  case Idle: 0 else       1 end;
+
+  location:
+    initial;
+    marked;
+
+    edge c_done1 when // plant already ensures that OP1 will have a product and CHK is idle.
+            (DISP.Idle or DISP.curId = (((OP1.curId + 1) mod MAX_NR_OF_PRODS))),
+            (OP2.Idle  or OP2.curId  = (((OP1.curId + 1) mod MAX_NR_OF_PRODS)));
+
+    edge c_done2 when // plant already ensures that OP2 will have a product and CHK is idle.
+            (DISP.Idle or DISP.curId = (((OP2.curId + 1) mod MAX_NR_OF_PRODS))),
+            (OP1.Idle  or OP1.curId  = (((OP2.curId + 1) mod MAX_NR_OF_PRODS)));
+
+    edge c_start when nrOfProdsInLoop < 2 or (nrOfProdsInLoop = 2 and CHK.Success);
+
+    // Needed when MAX_NR_OF_PRODUCTS is 5 or larger.
+    edge c_enter when IO.cnt < 4;
+end
