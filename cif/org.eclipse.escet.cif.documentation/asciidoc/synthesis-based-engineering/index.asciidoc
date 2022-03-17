@@ -20,15 +20,16 @@ indexterm:[engineering, synthesis-based]
 
 CIF supports synthesis-based engineering, an engineering approach to design and implement supervisory controllers.
 The engineering approach combines model-based engineering with computer-aided design to produce correct-by-construction controllers.
-It does so by as much as possible automating each step in the development process.
+It does so by automating as many steps as possible in the development process.
 
 Supervisory controller synthesis is a main element of synthesis-based engineering, and a key feature of CIF.
 It involves the automatic generation of supervisory controller models.
-Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
+Implementation of the controller is achieved through (implementation language) code generation, improving speed and reducing the number of errors introduced at this stage.
 Combined, they allow engineers to focus on _what_ the controller should do, rather than _how_ it should do it, and how this is to be implemented.
 
 Synthesis-based engineering has many more benefits.
-It for instance allows finding and correcting issues early on in the development process, rather than during later stages where correcting them is more costly.
+As the engineering approach uses well-defined models, designs can be discussed, analyzed, model-checked, or simulated.
+That allows finding and correcting issues early in the development process, rather than during later stages where correcting them is more costly.
 It also supports a comprehensive modular design and efficient incremental engineering.
 Ultimately, this reduces development time and improves the quality of the resulting supervisory controllers.
 

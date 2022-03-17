@@ -54,7 +54,7 @@ It is typically responsible for the correct and safe behavior of a (sub-)system.
 For instance, it could be responsible for preventing damage to mechanical components or human operators.
 It may prevent collisions with or among mechanical components, or prevent mechanical components from overheating.
 It could control a single sub-system, coordinating one or more resource controllers.
-However, in case of a layered architecture, it could also coordinate multiple supervisory controllers from a lower layer.
+However, in case of a layered architecture, it could also coordinate multiple supervisory controllers of a lower layer.
 Supervisory controllers can thus be found at various levels of a system architecture.
 
 Some systems are fully automated, without the need for human intervention or control.

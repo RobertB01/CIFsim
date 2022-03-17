@@ -25,7 +25,7 @@ image:{sbe-imgsdir}/example_fifo_flow.png[]
 
 Products _enter_ at the _IO_ place.
 From there production can _start_ by moving them to the dispatcher (_DISP_).
-The dispatchers dispatches a product (_do1_ or _do2_) to one of two operators (_OP1_ or _OP2_) that perform the same operation.
+The dispatcher dispatches a product (_do1_ or _do2_) to one of two operators (_OP1_ or _OP2_) that perform the same operation.
 Once the operation is completed (_done1_ or _done2_), the product is moved to the checker (_CHK_).
 The product is either considered OK or not OK (NOK).
 If it is not OK, it must _redo_ the operation.
@@ -38,16 +38,16 @@ The moving of products through the system is visualized by the labeled black arr
 Each arrow corresponds to an actuator under the control of the controller.
 The controller can thus decide when to move products from one place to another.
 A sensor indicates the result of the check performed on processed products, indicating whether they are OK or not OK.
-This sensor is under the control of the system, not the controller.
+This sensor works autonomously, it is not controlled.
 
-=== Plants and requirements
+=== FIFO requirement
 
-The uncontrolled system (the plant) already ensures that:
+The example system, without any controller that controls it, already ensures that:
 
 * Products that _enter_ can only _start_, preventing them from exiting without having been processed.
 * Products that are not OK must _redo_ the operation.
 * Products that are OK must exit the operation area (_op_exit_).
-* Once a product is _finished_ it must _exit_, preventing it from being processed again.
+* Once a product passed _finished_ it must _exit_, preventing it from being processed again.
 
 For this example, we consider only a single requirement:
 
@@ -57,7 +57,7 @@ That is, if one product enters earlier than another, it must also exit earlier.
 
 Without additional control, the system does not satisfy this requirement, as it is possible for multiple products to enter the system and subsequently be processed concurrently.
 Then, if a later product finishes the operation earlier, or the earlier product requires rework, the later product may be done sooner and thus exit the system earlier.
-The controller must restrict the behavior of the uncontrolled system such that it satisfies the requirement.
+The controller must restrict the behavior of the system such that it satisfies the requirement.
 It can only do so by controlling the movement of products through the system.
 
 The requirement is specified in natural language as a short and simple sentence.
@@ -69,14 +69,15 @@ If the identifier of the current product on the _IO_ place is given by _curId_, 
 
 * _curId_ = _lastExitId_ + 1
 
-See the section on <<sbe-with-cif,synthesis-based engineering with CIF>> for how the plants and requirement of this example can be modeled in CIF.
+See the section on <<sbe-with-cif,synthesis-based engineering with CIF>> for how the example system and its requirement can be modeled in CIF.
 
 === Synthesis-based engineering
 
-There are various ways to ensure the requirement holds.
-For instance, a controller could disallow products to enter the system altogether.
-But that would not result in a useful controlled system.
-Another option is to only allow a single product to be processed at a time.
+There are various ways to ensure the FIFO requirement holds.
+A silly solution is to never allow products to enter the system.
+As there are then no products in the system, products also never leave the system.
+Therefore, all (non-existent) products are in FIFO order.
+Another slightly more useful option is to only allow a single product to be processed at a time.
 This would however severely limit the productivity of the system.
 It is actually not that trivial to decide the exact conditions under which the products may move, while still ensuring the FIFO requirement is satisfied.
 
@@ -85,21 +86,21 @@ This computes for each movement the minimal restriction that must be applied to 
 Through synthesis, we obtain a supervisory controller that restricts four movements:
 
 . Movement _start_ is only allowed if one of the following two conditions holds:
-** At the dispatcher place, two operator places, and checker place, there is in total at most one product.
-** At the dispatcher place and two operator places there is in total at most one product.
-And a product is at the checker and the check indicates the product is OK.
+** At the _DISP_ place, _OP1_ place, _OP2_ place, and _CHK_ place, there is in total at most one product.
+** At the _DISP_ place, _OP1_ place, and _OP2_ place, there is in total at most one product.
+And a product is at the _CHK_ place and the check indicates the product is OK.
 
 . Movement _done1_ is only allowed if the following two conditions both hold:
-** Either there is no product at the dispatcher, or it is a later product than at the first operator.
-** Either there is no product at the second operator, or it is a later product than at the first operator.
+** Either there is no product at the _DISP_ place, or it is a later product than at the _OP1_ place.
+** Either there is no product at the _OP2_ place, or it is a later product than at the _OP1_ place.
 
 . Similarly, movement _done2_ is only allowed if the following two conditions both hold:
-** Either there is no product at the dispatcher, or it is a later product than at the second operator.
-** Either there is no product at the first operator, or it is a later product than at the second operator.
+** Either there is no product at the _DISP_ place, or it is a later product than at the _OP2_ place.
+** Either there is no product at the _OP1_ place, or it is a later product than at the _OP2_ place.
 
 . Movement _enter_ is only allowed if less than four products are in the system.
 
-But why are these the optimal restrictions?
+But why are these the 'optimal' restrictions?
 
 It is important to realize that:
 
@@ -158,13 +159,13 @@ But then, by similar reasoning, no product must be at the _IO_ place.
 All of this is certainly a lot to consider!
 Would you have been able to figure all of this out by yourself?
 And how long would that have taken you?
-If you consider that this is only a simple example system, with only a single requirement, it is clear that having some computer assistance when engineering a controller can be very useful.
+Considering this is only a simple example system with only one non-trivial requirement, it is clear that having some computer assistance when engineering a more realistic controller can be very useful.
 
 === Example benefits of synthesis-based engineering
 
 Finally, let us consider some of the <<sbe-approaches-synthesis-based-benefits,benefits of synthesis-based engineering>> as it relates to this example:
 
-* Synthesis automatically computes the optimal control conditions.
+* Synthesis automatically computes the <<sbe-approaches-synthesis-based-properties,optimal>> control conditions.
 It should now be clear that this can *save a lot of effort*.
 
 * Manually engineering the controller can be quite tricky.
@@ -175,20 +176,20 @@ Synthesis can thus also *reduce human error*.
 * Through synthesis you only have to specify the requirement and synthesis automatically generates a correct-by-construction controller, from which you can automatically generate the implementation.
 For the simple to specify but difficult to implement example requirement, this allows you to *focus on _what_ the controller should do* (the requirement), *rather than _how_ the controller should do this* (the complex control conditions and their implementation).
 
-* As an alternative to synthesis, we could apply <<sbe-approaches-verification-based,formal verification>> on the uncontrolled system and requirement.
-However, we would get only a counter example representing a scenario where the requirement does not hold.
+* As an alternative to synthesis, we could apply <<sbe-approaches-verification-based,formal verification>> on the system model to check whether the FIFO requirement holds.
+However, as the requirement does _not_ hold on the system without a controller, we would get only a counter example representing a scenario indicating where the requirement does not hold.
 Likely, it would take several iterations and quite some thinking to manually arrive at the exact correct control conditions.
 *Compared to formal verification*, synthesis produces all the correct control conditions, *automatically and in a single iteration*.
 
 * An engineer that develops the controller manually, may well impose severe restrictions to avoid much of the complexity of satisfying the FIFO requirement.
-The control conditions produced by synthesis however, are *minimally restrictive*.
+The control conditions produced by synthesis however, are <<sbe-approaches-synthesis-based-maximally-permissive,*minimally restrictive*>>.
 Products may enter the system, start processing, be processed in parallel, and leave the processing loop, whenever possible.
 This ensures the *maximum throughput* of the system can still be achieved.
 
 * Synthesis-based engineering allows for a modular design.
 The various parts of the system, as well as the requirement, <<sbe-with-cif,can be *modeled>> separately*.
-This makes it easy to adapt the plant, to for instance allow an already OK product to bypass the processing loop.
-With minimal changes to the plant, and no changes to the requirement, a new supervisor can then be produced by the push of a button.
+This makes it easy to adapt the system (model), to for instance allow an already OK product to bypass the processing loop.
+With minimal changes to the system model, and no changes to the requirement, a new supervisor can then be produced by the push of a button.
 This allows for *incremental development* of the system and its controller.
 
 And again, consider that this is only a simple example system, with only a single requirement.

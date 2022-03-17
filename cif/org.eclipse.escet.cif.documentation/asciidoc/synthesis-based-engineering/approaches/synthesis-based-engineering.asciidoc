@@ -112,6 +112,7 @@ indexterm:[system, controlled]
 The supervisor may be represented as another state machine, but it may for instance also be a list of conditions under which actuators may be activated or deactivated.
 The synthesized supervisor as a state machine, or the plant model with the supervisor in the form of extra synthesized control conditions, forms the controlled system.
 
+[[sbe-approaches-synthesis-based-properties]]
 The controlled system satisfies the following properties:
 
 indexterm:[safe]
@@ -129,6 +130,7 @@ indexterm:[non-blocking]
 indexterm:[permissive, maximally]
 indexterm:[restrictive, minimally]
 
+[[sbe-approaches-synthesis-based-maximally-permissive]]
 * **Maximally permissive:** It does not impose more restrictions that strictly necessary to enforce the previous properties, i.e., it is maximally permissive.
 In other words, the controlled system permits all safe, controllable, and non-blocking behaviors, i.e., it is minimally restrictive.
 
