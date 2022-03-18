@@ -734,7 +734,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
      * @generated
      */
     @Override
-    public EAttribute getInvariant_SupKind()
+    public EAttribute getInvariant_Name()
     {
         return (EAttribute)invariantEClass.getEStructuralFeatures().get(0);
     }
@@ -745,9 +745,20 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
      * @generated
      */
     @Override
+    public EAttribute getInvariant_SupKind()
+    {
+        return (EAttribute)invariantEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EReference getInvariant_Predicate()
     {
-        return (EReference)invariantEClass.getEStructuralFeatures().get(1);
+        return (EReference)invariantEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -758,7 +769,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
     @Override
     public EAttribute getInvariant_InvKind()
     {
-        return (EAttribute)invariantEClass.getEStructuralFeatures().get(2);
+        return (EAttribute)invariantEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -769,7 +780,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
     @Override
     public EReference getInvariant_Event()
     {
-        return (EReference)invariantEClass.getEStructuralFeatures().get(3);
+        return (EReference)invariantEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -887,6 +898,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         ioDeclEClass = createEClass(IO_DECL);
 
         invariantEClass = createEClass(INVARIANT);
+        createEAttribute(invariantEClass, INVARIANT__NAME);
         createEAttribute(invariantEClass, INVARIANT__SUP_KIND);
         createEReference(invariantEClass, INVARIANT__PREDICATE);
         createEAttribute(invariantEClass, INVARIANT__INV_KIND);
@@ -1015,6 +1027,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         initEClass(ioDeclEClass, IoDecl.class, "IoDecl", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
         initEClass(invariantEClass, Invariant.class, "Invariant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getInvariant_Name(), this.getCifIdentifier(), "name", null, 0, 1, Invariant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getInvariant_SupKind(), this.getSupKind(), "supKind", null, 1, 1, Invariant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getInvariant_Predicate(), theExpressionsPackage.getExpression(), null, "predicate", null, 1, 1, Invariant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getInvariant_InvKind(), this.getInvKind(), "invKind", null, 1, 1, Invariant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

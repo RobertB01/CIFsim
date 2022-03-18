@@ -952,13 +952,22 @@ public interface CifPackage extends EPackage
     int INVARIANT__POSITION = PositionPackage.POSITION_OBJECT__POSITION;
 
     /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INVARIANT__NAME = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+
+    /**
      * The feature id for the '<em><b>Sup Kind</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INVARIANT__SUP_KIND = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+    int INVARIANT__SUP_KIND = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Predicate</b></em>' containment reference.
@@ -967,7 +976,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__PREDICATE = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
+    int INVARIANT__PREDICATE = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Inv Kind</b></em>' attribute.
@@ -976,7 +985,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__INV_KIND = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 2;
+    int INVARIANT__INV_KIND = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Event</b></em>' containment reference.
@@ -985,7 +994,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__EVENT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 3;
+    int INVARIANT__EVENT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 4;
 
     /**
      * The number of structural features of the '<em>Invariant</em>' class.
@@ -994,7 +1003,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 4;
+    int INVARIANT_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 5;
 
     /**
      * The number of operations of the '<em>Invariant</em>' class.
@@ -1441,6 +1450,17 @@ public interface CifPackage extends EPackage
     EClass getInvariant();
 
     /**
+     * Returns the meta object for the attribute '{@link org.eclipse.escet.cif.metamodel.cif.Invariant#getName <em>Name</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Name</em>'.
+     * @see org.eclipse.escet.cif.metamodel.cif.Invariant#getName()
+     * @see #getInvariant()
+     * @generated
+     */
+    EAttribute getInvariant_Name();
+
+    /**
      * Returns the meta object for the attribute '{@link org.eclipse.escet.cif.metamodel.cif.Invariant#getSupKind <em>Sup Kind</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1871,6 +1891,14 @@ public interface CifPackage extends EPackage
          * @generated
          */
         EClass INVARIANT = eINSTANCE.getInvariant();
+
+        /**
+         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute INVARIANT__NAME = eINSTANCE.getInvariant_Name();
 
         /**
          * The meta object literal for the '<em><b>Sup Kind</b></em>' attribute feature.
