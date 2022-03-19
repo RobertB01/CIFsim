@@ -255,11 +255,14 @@ Invariants : Invariant
            | Invariants "," Invariant
            ;
 
-Invariant : Expression
-          | Name                  "needs"    Expression
-          | NonEmptySetExpression "needs"    Expression
-          | Expression            "disables" Name
-          | Expression            "disables" NamesSet
+Invariant :                Expression
+          | Identifier ":" Expression
+          |                Name                  "needs"    Expression
+          | Identifier ":" Name                  "needs"    Expression 
+          |                NonEmptySetExpression "needs"    Expression
+          |                Expression            "disables" Name
+          | Identifier ":" Expression            "disables" Name
+          |                Expression            "disables" NamesSet
           ;
 
 NamesSet : "{" Names "}"

@@ -553,12 +553,15 @@ Invariants : Invariant
            ;
 
 {cif.AInvariant}
-Invariant : Expression
-          | Name                  @NEEDSKW    Expression
+Invariant :                    Expression
+          | Identifier COLONTK Expression
+          |                    Name                  @NEEDSKW    Expression
+          | Identifier COLONTK Name                  @NEEDSKW    Expression
             // NonEmptySetExpression instead of NamesSet to avoid conflict with Expression.
-          | NonEmptySetExpression @NEEDSKW    Expression
-          | Expression            @DISABLESKW Name
-          | Expression            @DISABLESKW NamesSet
+          |                    NonEmptySetExpression @NEEDSKW    Expression
+          |                    Expression            @DISABLESKW Name
+          | Identifier COLONTK Expression            @DISABLESKW Name
+          |                    Expression            @DISABLESKW NamesSet
           ;
 
 {List<tokens.AName>}
