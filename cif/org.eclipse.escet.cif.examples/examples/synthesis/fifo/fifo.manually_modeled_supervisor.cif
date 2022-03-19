@@ -26,12 +26,12 @@ supervisor sup:
     marked;
 
     edge c_done1 when // plant already ensures that OP1 will have a product and CHK is idle.
-            (DISP.Idle or DISP.curId = (((OP1.curId + 1) mod MAX_NR_OF_PRODS))),
-            (OP2.Idle  or OP2.curId  = (((OP1.curId + 1) mod MAX_NR_OF_PRODS)));
+            DISP.Idle or DISP.curId = (OP1.curId + 1) mod MAX_NR_OF_PRODS,
+            OP2.Idle  or OP2.curId  = (OP1.curId + 1) mod MAX_NR_OF_PRODS;
 
     edge c_done2 when // plant already ensures that OP2 will have a product and CHK is idle.
-            (DISP.Idle or DISP.curId = (((OP2.curId + 1) mod MAX_NR_OF_PRODS))),
-            (OP1.Idle  or OP1.curId  = (((OP2.curId + 1) mod MAX_NR_OF_PRODS)));
+            DISP.Idle or DISP.curId = (OP2.curId + 1) mod MAX_NR_OF_PRODS,
+            OP1.Idle  or OP1.curId  = (OP2.curId + 1) mod MAX_NR_OF_PRODS;
 
     edge c_start when nrOfProdsInLoop < 2 or (nrOfProdsInLoop = 2 and CHK.Success);
 

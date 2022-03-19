@@ -77,7 +77,7 @@ This is a step towards making the model the single source of truth.
 
 Synthesis-based engineering requires tool support to model plants and requirements, to synthesize supervisors, perform simulation, generate code, etc.
 Given that automation and computer-aided design are core principles, this is simply not feasible without appropriate tool support.
-Tools ideally support this entire development process of supervisory controllers, <<sbe-with-cif,such as CIF does>>.
+Tools ideally support as much of the development process of supervisory controllers as possible.
 
 Companies should however consider various aspects besides the features provided by the tools.
 They may for instance also consider whether they can get commercial support, and how to integrate the synthesized supervisors into their systems.

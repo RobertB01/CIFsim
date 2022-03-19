@@ -32,23 +32,28 @@ automaton monitors:
 end
 
 // Map the state of the plant to properties of elements of the SVG image.
+const string COLOR_IDLE = "#eee";
+const string COLOR_BUSY = "#aaeeff";
+const string COLOR_SUCCESS = "#c0ffc0";
+const string COLOR_FAILURE = "#ffc0c0";
+
 svgout id "max-nr-of-prods"   text value <string>MAX_NR_OF_PRODS;
 svgout id "last-entered-prod" text value if monitors.anyInput: <string>monitors.lastEnterId else "n/a" end;
 svgout id "last-exited-prod"  text value if monitors.anyOutput: <string>IO.lastExitId else "n/a" end;
 
-svgout id "io"       attr "fill" value if IO.Idle:   "#eee" else "#aaeeff" end;
-svgout id "disp"     attr "fill" value if DISP.Idle: "#eee" else "#aaeeff" end;
-svgout id "op1"      attr "fill" value if OP1.Idle:  "#eee" else "#aaeeff" end;
-svgout id "op2"      attr "fill" value if OP2.Idle:  "#eee" else "#aaeeff" end;
-svgout id "chk"      attr "fill" value if CHK.Idle:  "#eee" else "#aaeeff" end;
-svgout id "done"     attr "fill" value if DONE.Idle: "#eee" else "#aaeeff" end;
+svgout id "io"       attr "fill" value if IO.Idle:   COLOR_IDLE else COLOR_BUSY end;
+svgout id "disp"     attr "fill" value if DISP.Idle: COLOR_IDLE else COLOR_BUSY end;
+svgout id "op1"      attr "fill" value if OP1.Idle:  COLOR_IDLE else COLOR_BUSY end;
+svgout id "op2"      attr "fill" value if OP2.Idle:  COLOR_IDLE else COLOR_BUSY end;
+svgout id "chk"      attr "fill" value if CHK.Idle:  COLOR_IDLE else COLOR_BUSY end;
+svgout id "done"     attr "fill" value if DONE.Idle: COLOR_IDLE else COLOR_BUSY end;
 
-svgout id "io-cur"   attr "fill" value if IO.Idle:   "#eee" else "#aaeeff" end;
-svgout id "disp-cur" attr "fill" value if DISP.Idle: "#eee" else "#aaeeff" end;
-svgout id "op1-cur"  attr "fill" value if OP1.Idle:  "#eee" else "#aaeeff" end;
-svgout id "op2-cur"  attr "fill" value if OP2.Idle:  "#eee" else "#aaeeff" end;
-svgout id "chk-cur"  attr "fill" value if CHK.Idle:  "#eee" else "#aaeeff" end;
-svgout id "done-cur" attr "fill" value if DONE.Idle: "#eee" else "#aaeeff" end;
+svgout id "io-cur"   attr "fill" value if IO.Idle:   COLOR_IDLE else COLOR_BUSY end;
+svgout id "disp-cur" attr "fill" value if DISP.Idle: COLOR_IDLE else COLOR_BUSY end;
+svgout id "op1-cur"  attr "fill" value if OP1.Idle:  COLOR_IDLE else COLOR_BUSY end;
+svgout id "op2-cur"  attr "fill" value if OP2.Idle:  COLOR_IDLE else COLOR_BUSY end;
+svgout id "chk-cur"  attr "fill" value if CHK.Idle:  COLOR_IDLE else COLOR_BUSY end;
+svgout id "done-cur" attr "fill" value if DONE.Idle: COLOR_IDLE else COLOR_BUSY end;
 
 svgout id "io-cur-txt"   text value if IO.Idle:   "-" else <string>IO.curId   end;
 svgout id "disp-cur-txt" text value if DISP.Idle: "-" else <string>DISP.curId end;
@@ -57,14 +62,14 @@ svgout id "op2-cur-txt"  text value if OP2.Idle:  "-" else <string>OP2.curId  en
 svgout id "chk-cur-txt"  text value if CHK.Idle:  "-" else <string>CHK.curId  end;
 svgout id "done-cur-txt" text value if DONE.Idle: "-" else <string>DONE.curId end;
 
-svgout id "chk-rslt"    attr "visibility" value if CHK.Idle:      "hidden"  else "visible" end;
-svgout id "chk-unknown" attr "visibility" value if CHK.Busy:      "visible" else "hidden"  end;
-svgout id "chk-ok"      attr "visibility" value if CHK.Success:   "visible" else "hidden"  end;
-svgout id "chk-nok"     attr "visibility" value if CHK.NeedsRedo: "visible" else "hidden"  end;
+svgout id "chk-rslt"    attr "visibility" value if CHK.Idle:    "hidden"  else "visible" end;
+svgout id "chk-unknown" attr "visibility" value if CHK.Busy:    "visible" else "hidden"  end;
+svgout id "chk-ok"      attr "visibility" value if CHK.Success: "visible" else "hidden"  end;
+svgout id "chk-nok"     attr "visibility" value if CHK.Failure: "visible" else "hidden"  end;
 
 svgout id "chk-rslt" attr "fill" value switch CHK:
-                                         case Idle:      "#eee"
-                                         case Busy:      "#aaeeff"
-                                         case Success:   "#c0ffc0"
-                                         case NeedsRedo: "#ffc0c0"
+                                         case Idle:    COLOR_IDLE
+                                         case Busy:    COLOR_BUSY
+                                         case Success: COLOR_SUCCESS
+                                         case Failure: COLOR_FAILURE
                                        end;

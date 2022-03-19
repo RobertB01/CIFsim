@@ -22,7 +22,16 @@ It shows multiple approaches to design and engineer supervisory controllers, as 
 
 image:{sbe-imgsdir}/approaches/overview.png[]
 
-The rows of the table indicate typical steps involved in the development of supervisory controllers:
+The columns indicate various engineering approaches.
+From left to right, they employ progressively more automation and computer assistance.
+The rows of the table indicate typical steps involved in the development of supervisory controllers.
+The cells indicate for each approach what is involved for the particular step.
+The green colored cells indicate that the step involves mostly, or at least significant, manual work for the particular engineering approach.
+Contrarily, the gray colored cells indicate that the step is (mostly) automated for that approach.
+As the steps with more manual work generally require the most engineering effort, the green cells also indicate where the engineering focus is for a particular approach.
+Bold texts in cells indicate changes compared to the previous column.
+
+Typical steps involved in the development of supervisory controllers, as represented by the rows from top to bottom, are:
 
 indexterm:[requirement, design]
 indexterm:[requirement, functional]
@@ -45,17 +54,15 @@ The software source code may for instance be written in Java, C or PLC programmi
 
 indexterm:[verification]
 
-* **Verification** involves checking the realized controller against its requirement and controller designs, to ensure that the controller is made in the right way.
-That is, the controller must be correctly realized as designed.
+* **Verification** involves checking the realized controller against its requirements design and controller design, to ensure that the controller is correctly realized.
+It should behave as designed.
 
 indexterm:[validation]
 
 * **Validation** involves checking the realized controller and its design, to ensure that the right controller is made.
 That is, the requirements must be correct and complete, such that the controller ensures that the system operates safely and efficiently in all circumstances.
 
-The columns of the table indicate various engineering approaches.
-From left to right, they employ progressively more automation and computer assistance.
-Typically, the approaches can be characterized as follows:
+Typically, the various engineering approaches as represented by the columns from left to right, can be characterized as follows:
 
 indexterm:[engineering, traditional]
 
@@ -91,7 +98,7 @@ To employ formal verification, both the controller model and the requirements mu
 indexterm:[engineering, synthesis-based]
 
 * **Synthesis-based engineering** automates the design of the controller.
-It uses supervisory controller synthesis to automatically synthesized a controller model from requirements and simple models of the uncontrolled system.
+It uses supervisory controller synthesis to automatically synthesize a controller model from requirements and simple models of the uncontrolled system.
 This mathematical technique guarantees that the synthesized controller model satisfies all specified requirements.
 This makes verification of the controller model against its requirements superfluous, as the synthesized controller model is guaranteed correct-by-construction.
 With the controller design, realization and verification either being automated or unnecessary, only requirements design and validation remain.

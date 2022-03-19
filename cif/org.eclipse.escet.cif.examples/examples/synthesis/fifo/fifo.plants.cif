@@ -95,11 +95,11 @@ plant CHK:
 
   location Busy:
     edge u_ok goto Success;
-    edge u_nok goto NeedsRedo;
+    edge u_nok goto Failure;
 
   location Success:
     edge c_op_exit!curId do curId := 0 goto Idle;
-  location NeedsRedo:
+  location Failure:
     edge c_redo!curId do curId := 0 goto Idle;
 end
 

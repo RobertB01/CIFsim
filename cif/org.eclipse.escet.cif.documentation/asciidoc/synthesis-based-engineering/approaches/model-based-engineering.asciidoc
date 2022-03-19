@@ -108,7 +108,7 @@ indexterm:[model-based testing]
 +
 An example of this is verification by means of model-based testing.
 Instead of manually writing dozens or hundreds of tests, a computer can automatically generate thousands, millions or even more tests from the controller model.
-This allows to cover much more behavioral scenarios, increasing confidence in correctness of the the controller implementation.
+This allows to cover much more behavioral scenarios, increasing confidence in correctness of the controller implementation.
 +
 indexterm:[validation]
 indexterm:[simulation]
@@ -152,15 +152,16 @@ indexterm:[language, programming]
 Implementation-independent models separate design from implementation::
 Since a controller model is implementation-independent, there is a clear separation between design (specification) and realization (implementation).
 It allows generating implementation code for different platforms, such as industrial PCs or PLCs, with different programming languages, such as Java, C or PLC code, for 32 or 64 bits architectures, etc.
-It is also possible to switch to a different platform at a later time, or additionally generate code for other platforms.
+Additionally, controller models are vendor-independent, allowing to for instance generate PLC code for PLCs from different vendors.
+It is also possible to switch to a different platform or vendor at a later time, or additionally generate code for other platforms or vendors.
 
 indexterm:[model, single source of truth]
 
 Up-to-date models are the single source of truth::
-Model-based engineering thus put models at the center of attention.
+Model-based engineering places models at the center of attention.
 It is the models that are adapted if they are functionally incorrect, have inconsistencies, or new functionality is required.
 Techniques such as model-based testing, simulation, and code generation all operate on the models.
-The models are thus the 'single source of truth'.
+The models are therefore the 'single source of truth'.
 Contrary to documents, the models will be maintained.
 They remain up-to-date as they are the basis of all development during the entire life cycle of the system, including design, realization and maintenance.
 

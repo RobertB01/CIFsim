@@ -58,9 +58,9 @@ However, the edge cases and exceptional circumstances are just as important, esp
 +
 Consider for instance requirements for when the hardware fails, such as when a cable breaks or a sensor becomes defect.
 Such cases are often far more complex and the number of combinations/interactions that has to be considered can be immense.
-Ensuring that the textual descriptions of all these cases do not leads to inconsistencies is often practically undoable.
+Ensuring that the textual descriptions of all these cases do not lead to inconsistencies is often practically undoable.
 +
-A good domain expert will be able to limit the number of mistakes, such as missing requirements and contractions in the requirements specification, but typically can't completely eliminate them.
+A good domain expert will be able to limit the number of mistakes, such as missing requirements and contradictions in the requirements specification, but typically can't completely eliminate them.
 A good software/PLC engineer will surely spot some of the remaining mistakes during the implementation and testing of the controller.
 However, even thoroughly tested and delivered industrial code often still contains faults.
 Furthermore, if the specification is incomplete, software engineers will make their own choices, which may or may not match with what the domain expert had in mind.

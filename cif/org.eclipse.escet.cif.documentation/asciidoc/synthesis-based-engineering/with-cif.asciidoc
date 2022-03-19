@@ -241,14 +241,14 @@ Here are some examples:
 [source, cif]
 ----
 svgout id "max-nr-of-prods" text              value <string>MAX_NR_OF_PRODS;
-svgout id "io-cur-txt"      text              value if IO.Idle: "-" else <string>IO.curId end;
-svgout id "io"              attr "fill"       value if IO.Idle: "#eee" else "#aaeeff" end;
-svgout id "chk-rslt"        attr "visibility" value if CHK.Idle: "hidden" else "visible" end;
+svgout id "io-cur-txt"      text              value if IO.Idle:  "-"        else <string>IO.curId end;
+svgout id "io"              attr "fill"       value if IO.Idle:  COLOR_IDLE else COLOR_BUSY       end;
+svgout id "chk-rslt"        attr "visibility" value if CHK.Idle: "hidden"   else "visible"        end;
 svgout id "chk-rslt"        attr "fill"       value switch CHK:
-                                                      case Idle:      "#eee"
-                                                      case Busy:      "#aaeeff"
-                                                      case Success:   "#c0ffc0"
-                                                      case NeedsRedo: "#ffc0c0"
+                                                      case Idle:    COLOR_IDLE
+                                                      case Busy:    COLOR_BUSY
+                                                      case Success: COLOR_SUCCESS
+                                                      case Failure: COLOR_FAILURE
                                                     end;
 ----
 
