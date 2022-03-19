@@ -57,20 +57,28 @@ A transition like this will not happen in a day.
 Sharing experiences with other parties that have gone through a similar transition and/or are going through one can be of great benefit.
 Another way to reduce the risks is contracting an external party to help guide the process.
 
-Furthermore, risks can be reduced by step by step introducing the changes to the development process.
-This way models become more and more leading, throughout the development process:
+Furthermore, risks can be reduced by step by step introducing the changes to the development process, introducing more and more elements of <<sbe-approaches-model-based,model-based>>, <<sbe-approaches-verification-based,verification-based>> and <<sbe-approaches-synthesis-based,synthesis-based>> engineering.
+This way models become more and more leading, throughout the development process.
+For instance, you could follow these steps:
 
-* Increase the quality of requirements by specifying them formally in a <<sbe-approaches-model-based,model-based way>>, during early development phases.
+. *Start modeling (the requirements)*:
+Increase the quality of requirements by specifying them formally in a <<sbe-approaches-model-based,model-based way>>, during early development phases.
 This can already be combined with for instance simulation, to produce unambiguous specifications, leading to less mistakes and reduced rework.
 In this first step, the resulting requirements can still be put in a document and implemented manually.
 
-* Formally but manually specify the controller model in a model-based way, based on the formal requirements.
+. *Models as single source of truth*:
+Formally but manually specify the controller model in a model-based way, based on the formal requirements.
 From the model, automatically generate the controller code.
 This is a step towards making the model the single source of truth.
 
-* Employ more formal methods, such as <<sbe-approaches-verification-based,formal verification>>.
+. *Embrace formal methods*:
+In this step, employ more formal methods to go beyond simulation and testing.
+Use formal methods that have more guarantees on completeness.
+For instance, use <<sbe-approaches-verification-based,formal verification>> to guarantee that all specified requirements are satisfied.
+At the end of this step, you could fully adopt <<sbe-approaches-model-based,model-based>> and <<sbe-approaches-verification-based,verification-based>> engineering.
 
-* Fully adopt <<sbe-approaches-synthesis-based,synthesis-based engineering>>.
+. *Adopt synthesis-based engineering*:
+Use supervisory controller synthesis, and fully adopt <<sbe-approaches-verification-based,verification-based>>.
 
 [[sbe-challenges-tool-support]]
 === Tool support

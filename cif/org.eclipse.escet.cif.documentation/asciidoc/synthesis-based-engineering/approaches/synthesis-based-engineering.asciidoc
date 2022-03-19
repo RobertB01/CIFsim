@@ -32,13 +32,14 @@ As with general model-based engineering, at the center is a controller model wit
 From the controller model, the control software can still be manually implemented or automatically generated.
 
 However, with synthesis-based engineering, the controller model is not manually modeled from design documents.
-Instead, it is automatically generated from models of the uncontrolled system (plant model) and control requirements (requirement model).
+Instead, it is automatically generated from models of the uncontrolled system (plant model) and control requirements (requirements model).
 
-The controller model must be validated, to ensure it is the desired controller, which satisfies the desired requirements.
-Verification to ensure that the controller (model) satisfies its specified requirements is however superfluous, as the synthesized controller model is correct-by-construction.
+Verification to ensure that the controller (model) satisfies its specified requirements is then superfluous, as the synthesized controller model is correct-by-construction.
+The controller model must however still be validated to ensure it behaves as intended.
+The specified requirements could not be the desired requirements, as they could for instance be wrongly specified or too strict, resulting in the controller exhibiting unwanted or insufficient behavior.
 
 [[sbe-approaches-synthesis-based-input-plant-req]]
-=== Input: plant and requirement models
+=== Input: plant and requirements models
 
 indexterm:[plant]
 indexterm:[requirement]
@@ -49,7 +50,7 @@ The first type of model is called a _plant_ model, after the concept of https://
 Plant models describe capabilities or behavior of a physical system 'as is', without any integrated control.
 They represent the possible behavior of the uncontrolled system.
 The second type of model is called a _requirements_ model.
-Requirement models describe the requirements that the controller must adhere to.
+Requirements models describe the requirements that the controller must adhere to.
 They model restrictions upon the behavior of the plants, to ensure that only the desired behavior remains.
 
 A plant model can for instance specify which sensors and actuators are present in the system.
@@ -62,10 +63,10 @@ image:{sbe-imgsdir}/approaches/plant_gate_sensors.png[]
 
 Initially it is closed.
 As the gate is opened, the gate closed sensor goes off, and the gate is somewhere in between.
-Then it can be closed again, making the gate sensor go on.
-But the gate can also keep going further open, until it is fully opened, and the gate opened sensor goes on.
-There is can be closed again, making the gate opened sensor go off.
-The plant model clearly states that it is not possible for the gate to be closed and opened at the same time, as the plant model can only be in one state at a time.
+Then it can be closed again, making the gate closed sensor go on.
+But the gate can also keep going further open, until it is fully opened, and the gate open sensor goes on.
+There is can be closed again, making the gate open sensor go off.
+The plant model clearly states that it is not possible for the gate to be closed and open at the same time, as the plant model can only be in one state at a time.
 
 Plant models at the relatively low abstraction level of sensors and actuators are quite common.
 However, modeling and controlling (sub-)systems at a higher abstraction level is possible as well.
@@ -74,7 +75,7 @@ See for more information the section on <<sbe-supervisory-controllers,supervisor
 indexterm:[requirement, functional]
 indexterm:[requirement, safety]
 
-A requirement model captures requirements.
+A requirements model captures requirements.
 It may specify functional requirements, safety requirements, etc.
 For instance, the motor to open a gate may only be activated once the barrier to stop traffic is fully closed.
 Control requirements can also be specified as state machines, but often the use of a logical formula is more intuitive.
@@ -113,7 +114,7 @@ The supervisor may be represented as another state machine, but it may for insta
 The synthesized supervisor as a state machine, or the plant model with the supervisor in the form of extra synthesized control conditions, forms the controlled system.
 
 [[sbe-approaches-synthesis-based-properties]]
-The controlled system satisfies the following properties:
+The controlled system is guaranteed to satisfy the following properties:
 
 indexterm:[safe]
 
@@ -124,8 +125,10 @@ indexterm:[controllable]
 * **Controllable:** It only limits controllable actions of the plant, e.g., it may prevent enabling or disabling an actuator, but can't prevent a sensor from going on or off.
 
 indexterm:[non-blocking]
+indexterm:[liveness]
 
-* **Non-blocking:** It doesn't block. Think of it as not having a livelock.
+[[sbe-approaches-synthesis-based-non-blocking]]
+* **Non-blocking:** It doesn't block, i.e., a marked state can always be reached from every reachable state, thus ensuring a form of link:https://en.wikipedia.org/wiki/Liveness[liveness].
 
 indexterm:[permissive, maximally]
 indexterm:[restrictive, minimally]

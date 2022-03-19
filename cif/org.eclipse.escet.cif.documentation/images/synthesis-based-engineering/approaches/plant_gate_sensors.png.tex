@@ -33,13 +33,13 @@
 
   \node[state, initial]   (c)                  {closed};
   \node[state]            (b) [right=2cm of c] {in\_between};
-  \node[state]            (o) [right=2cm of b] {opened};
+  \node[state]            (o) [right=2cm of b] {open};
 
   \path[every node/.style={font=\sffamily\normalsize,outer sep=0pt}]
     (c) edge[bend left] node[above] {closed\_off} (b)
     (b) edge[bend left] node[below] {closed\_on}  (c)
-    (b) edge[bend left] node[above] {opened\_on}  (o)
-    (o) edge[bend left] node[below] {opened\_off} (b)
+    (b) edge[bend left] node[above] {open\_on}    (o)
+    (o) edge[bend left] node[below] {open\_off}   (b)
   ;
 
 \end{tikzpicture}

@@ -188,9 +188,10 @@ indexterm:[marking]
 
 Every <<lang-tut-basics-chapter-automata,automaton>>, whether <<sbe-approaches-synthesis-based-input-plant-req,plant or requirement>>, must have at least one <<lang-tut-extensions-synthesis-marked,marked>> <<lang-tut-basics-automata-location,location>>.
 A marked location is a location that indicates a safe, stable, or resting state.
+Synthesis <<sbe-approaches-synthesis-based-non-blocking,guarantees>> that a marked location can always be reached, thus ensuring a form of link:https://en.wikipedia.org/wiki/Liveness[liveness].
 
 Physical systems typically keep operating, repeating their behavior.
-Therefore, in practice, the entire system can often be brought back to the <<lang-tut-basics-automata-loc-init,initial>> state.
+Therefore, in practice, the entire system can often be brought back to the <<lang-tut-basics-automata-loc-init,initial>> <<lang-tut-basics-chapter-synchronizing-events-statespace,state>>.
 As such, it is then typically enough to make the initial locations marked.
 
 An exception is automata that have some kind of initialization behavior/sequence.

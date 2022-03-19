@@ -26,8 +26,6 @@ Traditionally, controllers are first specified in design documents.
 They for instance list their functional and safety requirements, describe their control states and indicate when the controller should actuate the various actuators depending on changing sensor signals.
 
 Subsequently, the controller is manually implemented in software code through the use of a programming language, such as PLC code for a PLC platform, or Java or C++ code for an industrial PC.
-This may for instance be done in-house within the company, by different teams or departments.
-However, the documents can also serve as input and as a contract to a supplier to develop the control software.
 
 indexterm:[verification]
 indexterm:[validation]
@@ -44,9 +42,13 @@ indexterm:[specification, ambiguity]
 Ambiguity::
 It is extremely difficult to unambiguously write down the control requirements in a document.
 Often textual descriptions in natural languages can be interpreted in various ways.
++
 The domain expert who writes the requirements has a certain mental picture in their mind.
 However, software engineers responsible for realizing these requirements in the software implementation may interpret them differently after forming their own mental picture.
 There is often a big gap between the specification of the design and its implementation.
++
+The documents may also serve as input or as a contract to a supplier to develop the control software.
+Then the impact and costs of ambiguity can be huge, much more so than when the implementation is done in-house within the company.
 
 indexterm:[specification, incomplete]
 indexterm:[specification, inconsistent]

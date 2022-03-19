@@ -21,7 +21,7 @@ indexterm:[engineering, verification-based]
 indexterm:[verification]
 
 Verification-based engineering is a form of <<sbe-approaches-model-based,model-based engineering>>.
-It uses formal verification to automate the verification that the controller model satisfies its requirements.
+It uses formal verification, or model checking, to automate the verification that the controller model satisfies its requirements.
 
 indexterm:[verification, formal]
 
