@@ -36,5 +36,5 @@ supervisor sup:
     edge c_start when nrOfProdsInLoop < 2 or (nrOfProdsInLoop = 2 and CHK.Success);
 
     // Needed when MAX_NR_OF_PRODUCTS is 5 or larger.
-    edge c_enter when IO.cnt < 4;
+    edge c_enter when INOUT.cnt < 4;
 end

@@ -73,15 +73,15 @@ We therefore define a maximum number of products (`MAX_NR_OF_PRODS`) that may be
 Product ids are then integer numbers in the range `[0 .. MAX_NR_OF_PRODS - 1]`, with both bounds being inclusive.
 This allows each product in the system to have a unique id.
 
-==== The _IO_ place
+==== The _INOUT_ place
 
 Each of the system's places that can holds a product is modeled as a <<lang-tut-extensions-synthesis-autkind,plant automaton>>.
 
-First we model the _IO_ place:
+First we model the _INOUT_ place:
 
 [source, cif]
 ----
-plant IO:
+plant INOUT:
   disc ProductId nextId = 0;
   disc ProductId curId = 0;
   disc ProductId lastExitId = MAX_NR_OF_PRODS - 1;
@@ -105,8 +105,8 @@ The <<lang-tut-basics-chapter-automata,automaton>> has several <<lang-tut-data-c
 
 * Variable `nextId` keeps track of the product id to use for the next product that enters the system.
 The first product to enter the system gets id `0`.
-* Variable `curId` represents the product id of the product that is currently located at the _IO_ place.
-However, its value is irrelevant when there is no product at the _IO_ place.
+* Variable `curId` represents the product id of the product that is currently located at the _INOUT_ place.
+However, its value is irrelevant when there is no product at the _INOUT_ place.
 * Variable `lastExitId` keeps track of the last product that exited the system.
 Given that products must enter and exit in FIFO order, and that the first product to enter gets id `0`, `lastExitId` is initialized to the largest possible product id.
 * Variable `cnt` counts the number of products currently in the system.
@@ -114,41 +114,41 @@ As initially there are no products in the system, it is initialized to `0`.
 The count is used to ensure `MAX_NR_OF_PRODS` can be honored.
 
 The automaton also has several <<lang-tut-basics-automata-location,locations>>.
-<<lang-tut-basics-automata-loc-init,Initially>> the _IO_ place is `Idle`, as it has no product.
+<<lang-tut-basics-automata-loc-init,Initially>> the _INOUT_ place is `Idle`, as it has no product.
 
 A product may only enter (by event `c_enter`) if the maximum number of products is not yet exceeded (`cnt < MAX_NR_OF_PRODS`).
-If a product enters, a product is present at the _IO_ location, and it moves to its `NewProduct` location (`goto NewProduct`).
-As a result of this, it also gets assigned the next product id (`curId := nextId`), then being the product currently located at the _IO_ place.
+The product then gets assigned the next product id (`curId := nextId`), it being a newly entered product currently located at the _INOUT_ place.
 As the next product id has then been used, it will be incremented by one to ensure the next product again gets a unique product id (`nextId := (nextId + 1)`).
 Given that the `ProductId` type only allows a finite number of ids, we loop around to avoid overflow (`mod MAX_NR_OF_PRODS`).
 We also update the number of products in the system (`cnt := cnt + 1`).
+The automaton then proceeds to its `NewProduct` location (`goto NewProduct`).
 
 In the `NewProduct` location, processing of a product may _start_ (event `c_start`) by sending it (`c_start!`) to the dispatcher (_DISP_).
 The product id is sent along (`!curId`) with this movement.
-After moving the product to the dispatcher, the _IO_ place no longer holds a product (`goto Idle`).
+After moving the product to the dispatcher, the _INOUT_ place no longer holds a product (`goto Idle`).
 The product id is reset to zero (`curId := 0`).
 This is optional, but keeps the state space smaller, leading to more efficient synthesis.
 
-While `Idle` the _IO_ place may receive a _finished_ product (`c_finished?`) from the _DONE_ place.
+While `Idle` the _INOUT_ place may receive a _finished_ product (`c_finished?`) from the _DONE_ place.
 The product id of the currently present product is then updated to that of the received product (`curId := ?`).
 The automaton then proceeds to the `FinishedProduct` location.
 
 There the product may exit (event `c_exit`) the system.
 It then becomes the last product to have exited the system (`lastExitId := curId`).
-There is then no longer a product at the _IO_ place.
+There is then no longer a product at the _INOUT_ place.
 Again the product id is reset to zero (`curId := 0`) to keep the state space smaller for efficient synthesis.
 As a product has left the system, the counter is also updated (`cnt := cnt - 1`).
 
 The `Idle` location is also a <<lang-tut-extensions-synthesis-marked,marked>> location.
-This specifies that the _IO_ place  must always be able to become idle again.
+This specifies that the _INOUT_ place  must always be able to become idle again.
 Through similar markings in the other places also the system as a whole must always be able to become idle again.
 
 ==== The other places
 
-For brevity, we'll not explain the remaining places in as much detail as the _IO_ place.
+For brevity, we'll not explain the remaining places in as much detail as the _INOUT_ place.
 We'll discuss each automaton for each place briefly:
 
-* The dispatcher (_DISP_) receives products (`c_start?`) from the _IO_ place.
+* The dispatcher (_DISP_) receives products (`c_start?`) from the _INOUT_ place.
 It forwards them to either the first (_OP1_) or second (_OP2_) operator, with `c_do1!curId` or `c_do2!curId`, respectively.
 
 * The operators (_OP1_ and _OP2_) simply receive a product from the dispatcher (_DISP_) and forward it to the checker (_CHK_), after some processing.
@@ -157,7 +157,7 @@ It forwards them to either the first (_OP1_) or second (_OP2_) operator, with `c
 It then determines whether the product is either OK (`u_ok`) or not OK (`u_nok`).
 It forwards OK products to the _DONE_ place by `c_op_exit`, and not OK products back to the dispatcher (_DISP_) by `c_redo`.
 
-* The _DONE_ place simplify forwards products from the checker (_CHK_) to the _IO_ place.
+* The _DONE_ place simplify forwards products from the checker (_CHK_) to the _INOUT_ place.
 
 === The FIFO requirement
 
@@ -181,11 +181,11 @@ We can easily model it as follows, using a <<lang-tut-extensions-synthesis-invki
 
 [source, cif]
 ----
-requirement IO.FinishedProduct => IO.curId = ((IO.lastExitId + 1) mod MAX_NR_OF_PRODS);
+requirement INOUT.FinishedProduct => INOUT.curId = ((INOUT.lastExitId + 1) mod MAX_NR_OF_PRODS);
 ----
 
-If the _IO_ place has a finished product (is in its `FinishedProduct` location), then a product is about to exit the system.
-We know the product id of the last product that exited (`IO.lastExitId`) and the product id of the product currently situated at the _IO_ place (`IO.curId`).
+If the _INOUT_ place has a finished product (is in its `FinishedProduct` location), then a product is about to exit the system.
+We know the product id of the last product that exited (`INOUT.lastExitId`) and the product id of the product currently situated at the _INOUT_ place (`INOUT.curId`).
 Products that enter the system get an id that is one higher than the previous product that entered (modulo the maximum number of products).
 The FIFO property can thus be ensured by requiring that when a product exits, it also has an id one higher than the last product that exited (again modulo the maximum number of products).
 From this, the requirement as specified follows directly.
@@ -241,9 +241,9 @@ Here are some examples:
 [source, cif]
 ----
 svgout id "max-nr-of-prods" text              value <string>MAX_NR_OF_PRODS;
-svgout id "io-cur-txt"      text              value if IO.Idle:  "-"        else <string>IO.curId end;
-svgout id "io"              attr "fill"       value if IO.Idle:  COLOR_IDLE else COLOR_BUSY       end;
-svgout id "chk-rslt"        attr "visibility" value if CHK.Idle: "hidden"   else "visible"        end;
+svgout id "inout-cur-txt"   text              value if INOUT.Idle: "-"        else <string>INOUT.curId end;
+svgout id "inout"           attr "fill"       value if INOUT.Idle: COLOR_IDLE else COLOR_BUSY          end;
+svgout id "chk-rslt"        attr "visibility" value if CHK.Idle:   "hidden"   else "visible"           end;
 svgout id "chk-rslt"        attr "fill"       value switch CHK:
                                                       case Idle:    COLOR_IDLE
                                                       case Busy:    COLOR_BUSY
@@ -269,7 +269,7 @@ If the product is not OK, the box is red with a cross mark.
 At the top left some additional information is provided.
 It indicates the maximum number of products that may be in the system, as configured via `MAX_NR_OF_PRODS`.
 It further indicates the product id of the last product that entered the system, or `n/a` if no product has entered the system yet.
-Finally, it indicates the product id of the last product that existed, as indicated by `IO.lastExitId`, or `n/a` if no product has exited thus far.
+Finally, it indicates the product id of the last product that existed, as indicated by `INOUT.lastExitId`, or `n/a` if no product has exited thus far.
 
 It can not be determined from the plant whether any products have entered or exited thus far, nor what is the product id of the last product that entered.
 To ensure this information is available to be used in the CIF/SVG output mappings, a monitor automaton is added to the simulation model that keep tracks of this information:
@@ -283,7 +283,7 @@ automaton monitors:
 
   location:
     initial;
-    edge c_enter do  anyInput := true, lastEnterId := IO.nextId;
+    edge c_enter do  anyInput := true, lastEnterId := INOUT.nextId;
     edge c_exit  do anyOutput := true;
 end
 ----

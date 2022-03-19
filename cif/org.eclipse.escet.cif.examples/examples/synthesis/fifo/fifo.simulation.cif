@@ -27,7 +27,7 @@ automaton monitors:
 
   location:
     initial;
-    edge c_enter do  anyInput := true, lastEnterId := IO.nextId;
+    edge c_enter do  anyInput := true, lastEnterId := INOUT.nextId;
     edge c_exit  do anyOutput := true;
 end
 
@@ -39,28 +39,28 @@ const string COLOR_FAILURE = "#ffc0c0";
 
 svgout id "max-nr-of-prods"   text value <string>MAX_NR_OF_PRODS;
 svgout id "last-entered-prod" text value if monitors.anyInput: <string>monitors.lastEnterId else "n/a" end;
-svgout id "last-exited-prod"  text value if monitors.anyOutput: <string>IO.lastExitId else "n/a" end;
+svgout id "last-exited-prod"  text value if monitors.anyOutput: <string>INOUT.lastExitId else "n/a" end;
 
-svgout id "io"       attr "fill" value if IO.Idle:   COLOR_IDLE else COLOR_BUSY end;
-svgout id "disp"     attr "fill" value if DISP.Idle: COLOR_IDLE else COLOR_BUSY end;
-svgout id "op1"      attr "fill" value if OP1.Idle:  COLOR_IDLE else COLOR_BUSY end;
-svgout id "op2"      attr "fill" value if OP2.Idle:  COLOR_IDLE else COLOR_BUSY end;
-svgout id "chk"      attr "fill" value if CHK.Idle:  COLOR_IDLE else COLOR_BUSY end;
-svgout id "done"     attr "fill" value if DONE.Idle: COLOR_IDLE else COLOR_BUSY end;
+svgout id "inout"    attr "fill" value if INOUT.Idle: COLOR_IDLE else COLOR_BUSY end;
+svgout id "disp"     attr "fill" value if DISP.Idle:  COLOR_IDLE else COLOR_BUSY end;
+svgout id "op1"      attr "fill" value if OP1.Idle:   COLOR_IDLE else COLOR_BUSY end;
+svgout id "op2"      attr "fill" value if OP2.Idle:   COLOR_IDLE else COLOR_BUSY end;
+svgout id "chk"      attr "fill" value if CHK.Idle:   COLOR_IDLE else COLOR_BUSY end;
+svgout id "done"     attr "fill" value if DONE.Idle:  COLOR_IDLE else COLOR_BUSY end;
 
-svgout id "io-cur"   attr "fill" value if IO.Idle:   COLOR_IDLE else COLOR_BUSY end;
-svgout id "disp-cur" attr "fill" value if DISP.Idle: COLOR_IDLE else COLOR_BUSY end;
-svgout id "op1-cur"  attr "fill" value if OP1.Idle:  COLOR_IDLE else COLOR_BUSY end;
-svgout id "op2-cur"  attr "fill" value if OP2.Idle:  COLOR_IDLE else COLOR_BUSY end;
-svgout id "chk-cur"  attr "fill" value if CHK.Idle:  COLOR_IDLE else COLOR_BUSY end;
-svgout id "done-cur" attr "fill" value if DONE.Idle: COLOR_IDLE else COLOR_BUSY end;
+svgout id "inout-cur" attr "fill" value if INOUT.Idle: COLOR_IDLE else COLOR_BUSY end;
+svgout id "disp-cur"  attr "fill" value if DISP.Idle:  COLOR_IDLE else COLOR_BUSY end;
+svgout id "op1-cur"   attr "fill" value if OP1.Idle:   COLOR_IDLE else COLOR_BUSY end;
+svgout id "op2-cur"   attr "fill" value if OP2.Idle:   COLOR_IDLE else COLOR_BUSY end;
+svgout id "chk-cur"   attr "fill" value if CHK.Idle:   COLOR_IDLE else COLOR_BUSY end;
+svgout id "done-cur"  attr "fill" value if DONE.Idle:  COLOR_IDLE else COLOR_BUSY end;
 
-svgout id "io-cur-txt"   text value if IO.Idle:   "-" else <string>IO.curId   end;
-svgout id "disp-cur-txt" text value if DISP.Idle: "-" else <string>DISP.curId end;
-svgout id "op1-cur-txt"  text value if OP1.Idle:  "-" else <string>OP1.curId  end;
-svgout id "op2-cur-txt"  text value if OP2.Idle:  "-" else <string>OP2.curId  end;
-svgout id "chk-cur-txt"  text value if CHK.Idle:  "-" else <string>CHK.curId  end;
-svgout id "done-cur-txt" text value if DONE.Idle: "-" else <string>DONE.curId end;
+svgout id "inout-cur-txt" text value if INOUT.Idle: "-" else <string>INOUT.curId end;
+svgout id "disp-cur-txt"  text value if DISP.Idle:  "-" else <string>DISP.curId  end;
+svgout id "op1-cur-txt"   text value if OP1.Idle:   "-" else <string>OP1.curId   end;
+svgout id "op2-cur-txt"   text value if OP2.Idle:   "-" else <string>OP2.curId   end;
+svgout id "chk-cur-txt"   text value if CHK.Idle:   "-" else <string>CHK.curId   end;
+svgout id "done-cur-txt"  text value if DONE.Idle:  "-" else <string>DONE.curId  end;
 
 svgout id "chk-rslt"    attr "visibility" value if CHK.Idle:    "hidden"  else "visible" end;
 svgout id "chk-unknown" attr "visibility" value if CHK.Busy:    "visible" else "hidden"  end;

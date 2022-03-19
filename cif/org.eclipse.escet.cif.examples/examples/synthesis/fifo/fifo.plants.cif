@@ -29,7 +29,7 @@ controllable ProductId c_op_exit;
 controllable ProductId c_finished;
 controllable c_exit;
 
-plant IO:
+plant INOUT:
   disc ProductId nextId = 0;
   disc ProductId curId = 0;
   disc ProductId lastExitId = MAX_NR_OF_PRODS - 1;

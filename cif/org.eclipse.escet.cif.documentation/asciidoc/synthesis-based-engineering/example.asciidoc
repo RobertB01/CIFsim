@@ -23,14 +23,14 @@ The following figure illustrates an example manufacturing system that processes 
 
 image:{sbe-imgsdir}/example_fifo_flow.png[]
 
-Products _enter_ at the _IO_ place.
+Products _enter_ at the _INOUT_ place.
 From there production can _start_ by moving them to the dispatcher (_DISP_).
 The dispatcher dispatches a product (_do1_ or _do2_) to one of two operators (_OP1_ or _OP2_) that perform the same operation.
 Once the operation is completed (_done1_ or _done2_), the product is moved to the checker (_CHK_).
 The product is either considered OK or not OK (NOK).
 If it is not OK, it must _redo_ the operation.
 This may be repeated until the operation is successful.
-The product then moves to _DONE_ (via _op_exit_) and back to _IO_ (via _finished_).
+The product then moves to _DONE_ (via _op_exit_) and back to _INOUT_ (via _finished_).
 There it may _exit_ the system.
 
 The gray boxes indicate places where at most one product can be located at a time.
@@ -64,8 +64,8 @@ The requirement is specified in natural language as a short and simple sentence.
 It can similarly be quite easily modeled.
 Each product that enters the system is given a unique identifying number, one higher than the previous product.
 As products _exit_ the system, the identifier of the last product that exited the system is stored (_lastExitId_).
-When a product is about to exit the system, it is in the _IO_ place.
-If the identifier of the current product on the _IO_ place is given by _curId_, then the requirement can be formulated as:
+When a product is about to exit the system, it is in the _INOUT_ place.
+If the identifier of the current product on the _INOUT_ place is given by _curId_, then the requirement can be formulated as:
 
 * _curId_ = _lastExitId_ + 1
 
@@ -141,20 +141,20 @@ Either there must be no product at those places, or it is later product.
 It only allows a product to enter if there are less than four products in the system.
 This means that the restriction ensures that at most four products are in the system at any time.
 Through realization _B_ we know at most three products may be in the processing loop.
-Then only at most one of the _IO_ and _DONE_ places may contain a product, for a total of four products in the system.
+Then only at most one of the _INOUT_ and _DONE_ places may contain a product, for a total of four products in the system.
 To understand why this is the case, consider the following:
 
-** A product could be at the _IO_ place.
+** A product could be at the _INOUT_ place.
 But then no product must be at the _DONE_ place.
-If there were a product at the _DONE_ place, there would be products at the _IO_, _DONE_ and _CHK_ places.
+If there were a product at the _DONE_ place, there would be products at the _INOUT_, _DONE_ and _CHK_ places.
 The product at the _CHK_ place could then not move to the _DONE_ place, as that already has a product.
-Similarly, the product at the _DONE_ place could then also not move to the already occupied _IO_ place.
-And the product at the _IO_ place could then not move to the _DISP_ place, as the processing loop is already maximally filled.
+Similarly, the product at the _DONE_ place could then also not move to the already occupied _INOUT_ place.
+And the product at the _INOUT_ place could then not move to the _DISP_ place, as the processing loop is already maximally filled.
 This would mean no product could move anywhere.
 This kind of deadlock is prevented by the fourth condition.
 
 ** A product could be at the _DONE_ place.
-But then, by similar reasoning, no product must be at the _IO_ place.
+But then, by similar reasoning, no product must be at the _INOUT_ place.
 
 All of this is certainly a lot to consider!
 Would you have been able to figure all of this out by yourself?
