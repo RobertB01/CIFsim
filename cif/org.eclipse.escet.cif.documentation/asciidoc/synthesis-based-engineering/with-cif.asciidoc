@@ -258,7 +258,7 @@ image:{sbe-imgsdir}/example_fifo_sim_viz.png[]
 
 A place is gray if there is no product.
 The smaller box next to it is then also gray and indicates `-`, for no product.
-An occupied place is light blue, with its smaller indicating the product id of the product that is present.
+An occupied place is blue, with its smaller indicating the product id of the product that is present.
 
 For the checker (_CHK_) a second small box is present.
 It is hidden if there is no product at the checker.

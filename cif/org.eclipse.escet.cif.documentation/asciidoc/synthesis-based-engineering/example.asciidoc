@@ -34,11 +34,11 @@ The product then moves to _DONE_ (via _op_exit_) and back to _INOUT_ (via _finis
 There it may _exit_ the system.
 
 The gray boxes indicate places where at most one product can be located at a time.
-The moving of products through the system is visualized by the labeled black arrows in the figure.
+The moving of products through the system is visualized by the labeled arrows in the figure.
 Each arrow corresponds to an actuator under the control of the controller.
 The controller can thus decide when to move products from one place to another.
 A sensor indicates the result of the check performed on processed products, indicating whether they are OK or not OK.
-This sensor works autonomously, it is not controlled.
+This sensor works autonomously, and is thus not controlled by the controller.
 
 === FIFO requirement
 

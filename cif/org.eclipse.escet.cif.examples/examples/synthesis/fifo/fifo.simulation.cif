@@ -32,10 +32,10 @@ automaton monitors:
 end
 
 // Map the state of the plant to properties of elements of the SVG image.
-const string COLOR_IDLE = "#eee";
-const string COLOR_BUSY = "#aaeeff";
-const string COLOR_SUCCESS = "#c0ffc0";
-const string COLOR_FAILURE = "#ffc0c0";
+const string COLOR_IDLE    = "#ccc";
+const string COLOR_BUSY    = "#88ccff";
+const string COLOR_SUCCESS = "#bbffbb";
+const string COLOR_FAILURE = "#ffbbbb";
 
 svgout id "max-nr-of-prods"   text value <string>MAX_NR_OF_PRODS;
 svgout id "last-entered-prod" text value if monitors.anyInput: <string>monitors.lastEnterId else "n/a" end;
