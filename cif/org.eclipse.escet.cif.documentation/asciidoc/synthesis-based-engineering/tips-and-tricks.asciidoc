@@ -23,6 +23,7 @@ This section discusses some tips and tricks for synthesis-based engineering:
 * <<sbe-tips-tricks-modeling-requirements>>
 * <<sbe-tips-tricks-marking>>
 * <<sbe-tips-tricks-empty-supervisor>>
+* <<sbe-tips-tricks-non-monolithic-synthesis>>
 * <<sbe-tips-tricks-performance>>
 
 indexterm:[development, incremental]
@@ -247,6 +248,25 @@ Always verify that this gives you the desired behavior!
 * You can try the synthesis with a subset of the requirements, to find out which requirement (or combination of requirements!) is causing the supervisor to become empty.
 
 indexterm:[synthesis, performance]
+
+[[sbe-tips-tricks-non-monolithic-synthesis]]
+=== Non-monolithic synthesis
+
+indexterm:[synthesis, scalability]
+indexterm:[synthesis, monolithic]
+indexterm:[synthesis, non-monolithic]
+
+A known concern for supervisory controller synthesis is its scalability.
+While a supervisor may be synthesized for smaller systems in seconds, for larger and more complex systems this may take considerably more time.
+Employing the proper techniques for the given situation is essential to mitigate this concern.
+
+indexterm:[supervisor, monolithic]
+
+Often, rather than synthesizing a single monolithic supervisor, multiple supervisors should be synthesized for different parts of the system, making use of the inherent structure of the system itself.
+Combining this with abstraction, higher-level supervisors can still be synthesized on top of lower-level supervisors, scaling to very large systems.
+
+Still, multiple syntheses will need to be performed.
+If you encounter scalability issues for some of them, divide the system further, or <<sbe-tips-tricks-performance,resolve the performance problems>> in another way.
 
 [[sbe-tips-tricks-performance]]
 === Synthesis performance

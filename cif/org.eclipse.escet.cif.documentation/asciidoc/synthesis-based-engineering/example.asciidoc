@@ -61,8 +61,8 @@ Then, if a later product finishes the operation earlier, or the earlier product 
 The controller must restrict the behavior of the system such that it satisfies the requirement.
 It can only do so by controlling the movement of products through the system.
 
-The requirement is specified in natural language as a short and simple sentence.
-It can similarly be quite easily modeled.
+The FIFO requirement is specified in natural language as a short and simple sentence.
+It can similarly be quite easily modeled, by tracking the order that products _enter_ and _exit_ the system.
 Each product that enters the system is given a unique identifying number, one higher than the previous product.
 As products _exit_ the system, the identifier of the last product that exited the system is stored (_lastExitId_).
 When a product is about to exit the system, it is in the _INOUT_ place.
