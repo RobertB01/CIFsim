@@ -35,7 +35,7 @@ indexterm:[controller, model]
 At the center is a controller model, a model of a controller that unambiguously specifies how the controller works.
 It precisely specifies how the state of the controller changes when a sensor signal changes, and under what conditions and in which states an actuator may be turned on or off.
 Ideally, the model has a mathematical foundation.
-It may for instance be modeled as a state machine.
+It may for instance be modeled as one or more state machines.
 
 indexterm:[requirement, functional]
 indexterm:[requirement, safety]
@@ -48,8 +48,8 @@ indexterm:[validation]
 indexterm:[method, formal]
 
 The controller model must be verified and validated.
-Verification involves checking and ultimately ensuring that the controller (model) satisfies its specified requirements.
-Validation involves checking that the controller exhibits the desired behavior, and thus ensuring it is the desired controller.
+Verification involves checking and ultimately ensuring that the system, controlled by the controller, satisfies its specified requirements.
+Validation involves checking that the controller ensures the desired system behavior, and thus ensuring it is the desired controller.
 Since a controller must satisfy its specified requirements, this includes validating the requirements to ensure they are the desired requirements.
 This may be supported by formal methods, methods with a mathematical foundation, and supported by computer tools.
 For instance, a controller model may be simulated.
@@ -59,7 +59,7 @@ indexterm:[language, programming]
 
 The control software is typically implemented using a programming language, such as PLC code for a PLC platform, or Java or C++ code for an industrial PC.
 This may for instance be done in-house within the company, by different teams or departments, or by a supplier.
-While manual implementation is possible, the code is often automatically generated.
+While manual implementation is possible, the code is often automatically generated from the controller model.
 
 [[sbe-approaches-model-based-benefits]]
 === Benefits of model-based engineering
@@ -74,7 +74,7 @@ indexterm:[DSL]
 Unambiguous and intuitive specifications::
 It is important that the models are formal models, with a mathematical meaning (semantics).
 Examples of formal models are state machines to model controllers and logical formulas for model requirements.
-The use of such formal models leads to unambiguous interpretation of control requirements.
+The use of such formal models leads to unambiguous interpretation of control requirements and controller behavior.
 +
 indexterm:[language, formal]
 indexterm:[language, domain-specific]
@@ -109,13 +109,13 @@ indexterm:[model-based testing]
 +
 An example of this is verification by means of model-based testing.
 Instead of manually writing dozens or hundreds of tests, a computer can automatically generate thousands, millions or even more tests from the controller model.
-This allows to cover much more behavioral scenarios, increasing confidence in correctness of the controller implementation.
+This allows covering much more behavioral scenarios, increasing confidence in correctness of the controller model and its implementation.
 +
 indexterm:[validation]
 indexterm:[simulation]
 +
 Another example of this is validation of the specification by means of simulation.
-Using simulation various execution scenarios can be examined, to give insight into the behavior of the controller.
+Using simulation various execution scenarios can be examined, to give insight into the behavior of the system being controlled by the controller.
 This provides new insights that can be used to further improve the specification.
 Especially for complex situations, which are difficult to understand, this is of great value.
 +
@@ -125,7 +125,7 @@ The controller model may then be adapted and tested again.
 This allows to effectively and iteratively improve the design, leading to more complete and consistent specifications, and therefore to better quality controllers.
 
 Address issues early to reduce effort and costs::
-A great benefit of model-based engineering is that this can be done already during the earlier phases of development, rather than only at later phases such as implementation or testing.
+A great benefit of model-based engineering is that verification and validation can be done already during the earlier phases of development, rather than only at later phases such as implementation or testing.
 It is well-known in industry that the later a mistake is found and fixed, the higher the effort and costs to do so.
 In practice, implementations developed using model-based engineering approaches are often produced more efficiently and with less mistakes.
 Through automation, changes can be incorporated more quickly into the models, and these can automatically be analyzed again.
@@ -187,7 +187,7 @@ The automatic generation of correct-by-construction control software from a cont
 indexterm:[control, requirement]
 
 Control requirements::
-Properties that a controlled system must satisfy, even if they are not satisfied in the uncontrolled system.
+Properties that a system must satisfy, even if they are not satisfied in the uncontrolled system.
 Examples include functional and safety properties.
 They are called control requirements, or simply requirements.
 
@@ -201,8 +201,19 @@ indexterm:[controller, model]
 
 Controller model::
 A model of a controller that unambiguously specifies how the entire controller works.
-Also called a <<sbe-supervisory-controllers,supervisory controller>>, supervisor, or simply controller, in https://en.wikipedia.org/wiki/Control_theory[control theory].
+Also called a <<sbe-supervisory-controllers,supervisory controller>>, or simply controller, in https://en.wikipedia.org/wiki/Control_theory[control theory].
 It precisely specifies how the state of the controller changes when a sensor signal changes, and under what conditions and in which states an actuator may be turned on or off.
+
+indexterm:[controller, validation]
+
+Controller validation::
+The process of checking and ultimately ensuring that the system being controlled by a controller exhibits the desired behavior, and thus ensuring that the controller is the desired controller.
+Since a controller (model) must satisfy its specified requirements, this includes validating the requirements to ensure they are the desired requirements.
+
+indexterm:[controller, verification]
+
+Controller verification::
+The process of checking and ultimately ensuring that the controller satisfies its specified requirements.
 
 indexterm:[DSL]
 indexterm:[language, domain-specific]
@@ -221,25 +232,14 @@ indexterm:[model]
 
 Model::
 An unambiguous representation of all relevant concepts, ideally with a mathematical foundation.
-For instance, a model of control requirements in the form of logical formulas, or a model of the controller represented as a state machine.
+For instance, a model of control requirements in the form of logical formulas, or a model of a controller represented as a state machine.
 
 indexterm:[engineering, model-based]
 
 Model-based development/engineering::
-Placing models at the center of the entire development process and the entire lifecycle of the system, including design, implementation and maintenance.
+Places models at the center of the entire development process and the entire lifecycle of the system, including design, implementation and maintenance.
 
 indexterm:[language, modeling]
 
 Modeling language::
 A language in which models can be specified, in an unambiguous way, and ideally also with mathematical foundation.
-
-indexterm:[validation]
-
-Validation::
-The process of checking and ultimately ensuring that the controller (or controller model) exhibits the desired behavior, and thus ensuring that the controller is the desired controller.
-Since a controller must satisfy its specified requirements, this includes validating the requirements to ensure they are the desired requirements.
-
-indexterm:[verification]
-
-Verification::
-The process of checking and ultimately ensuring that the controller satisfies its specified requirements.

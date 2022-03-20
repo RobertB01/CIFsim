@@ -36,7 +36,7 @@ Instead, it is automatically generated from models of the uncontrolled system (p
 
 Verification to ensure that the controller (model) satisfies its specified requirements is then superfluous, as the synthesized controller model is correct-by-construction.
 The controller model must however still be validated to ensure it behaves as intended.
-The specified requirements could not be the desired requirements, as they could for instance be wrongly specified or too strict, resulting in the controller exhibiting unwanted or insufficient behavior.
+The specified requirements could not be the desired requirements, as they could for instance be wrongly specified or too strict, resulting in the system being controlled by the controller exhibiting unwanted or insufficient behavior.
 
 [[sbe-approaches-synthesis-based-input-plant-req]]
 === Input: plant and requirements models
@@ -66,7 +66,23 @@ As the gate is opened, the gate closed sensor goes off, and the gate is somewher
 Then it can be closed again, making the gate closed sensor go on.
 But the gate can also keep going further open, until it is fully opened, and the gate open sensor goes on.
 There is can be closed again, making the gate open sensor go off.
-The plant model clearly states that it is not possible for the gate to be closed and open at the same time, as the plant model can only be in one state at a time.
+The plant model clearly states that it is not possible for the gate to be open and closed at the same time, as the plant model can only be in one state at a time.
+
+indexterm:[event]
+indexterm:[event, controllable]
+indexterm:[event, uncontrollable]
+
+Actions, such a sensor going on or off, or an actuator being turned on or off, are called _events_.
+Supervisor synthesis distinguishes two types of events, _controllable_ and _uncontrollable_ events.
+Controllable events can be controlled by the supervisory controller.
+Actuators are typically modelled as controllable events, such that the supervisory controller decides when to actuate them.
+Uncontrollable events operate autonomously, from the perspective of the supervisory controller.
+A controller can not prevent such events from occurring in the system.
+For instance, a user may push a button and the corresponding sensor will indicate whether the button is pushed or not.
+The events to indicate changes in the status of the sensor will happen.
+The supervisor can not prevent this.
+Another example of uncontrollable events is limit sensors of movements.
+When a movement is completed, its limit sensor will be activated, leading to an uncontrollable event being fired.
 
 Plant models at the relatively low abstraction level of sensors and actuators are quite common.
 However, modeling and controlling (sub-)systems at a higher abstraction level is possible as well.
@@ -104,14 +120,14 @@ indexterm:[supervisor, synthesis]
 
 === Supervisory controller synthesis
 
-Supervisory controller synthesis generates from the plant and requirements models a controller model, a model of the control logic, named a supervisor or supervisory controller.
+Supervisory controller synthesis generates from the plant and requirements models a controller model, a model of the control logic, named a _supervisor_ or supervisory controller.
 The synthesized supervisor is correct-by-construction, i.e., it satisfy all the requirements in every situation.
 
 indexterm:[control, conditions]
 indexterm:[system, controlled]
 
 The supervisor may be represented as another state machine, but it may for instance also be a list of conditions under which actuators may be activated or deactivated.
-The synthesized supervisor as a state machine, or the plant model with the supervisor in the form of extra synthesized control conditions, forms the controlled system.
+The synthesized supervisor as a state machine, or the plant model together with the supervisor in the form of extra synthesized control conditions, forms the _controlled system_.
 
 [[sbe-approaches-synthesis-based-properties]]
 The controlled system is guaranteed to satisfy the following properties:
@@ -122,20 +138,28 @@ indexterm:[safe]
 
 indexterm:[controllable]
 
-* **Controllable:** It only limits controllable actions of the plant, e.g., it may prevent enabling or disabling an actuator, but can't prevent a sensor from going on or off.
+* **Controllable:** It only limits controllable events of the plant, e.g., it may prevent enabling or disabling an actuator, but can't prevent a sensor from going on or off.
 
 indexterm:[non-blocking]
 indexterm:[liveness]
 
 [[sbe-approaches-synthesis-based-non-blocking]]
-* **Non-blocking:** It doesn't block, i.e., a marked state can always be reached from every reachable state, thus ensuring a form of link:https://en.wikipedia.org/wiki/Liveness[liveness].
+* **Non-blocking:** It doesn't block, i.e., a <<sbe-tips-tricks-marking,marked state>> can always be reached from every reachable state, thus ensuring a form of link:https://en.wikipedia.org/wiki/Liveness[liveness].
 
 indexterm:[permissive, maximally]
 indexterm:[restrictive, minimally]
 
 [[sbe-approaches-synthesis-based-maximally-permissive]]
-* **Maximally permissive:** It does not impose more restrictions that strictly necessary to enforce the previous properties, i.e., it is maximally permissive.
+* **Maximally permissive:** It does not impose more restrictions than strictly necessary to enforce the previous properties, i.e., it is maximally permissive.
 In other words, the controlled system permits all safe, controllable, and non-blocking behaviors, i.e., it is minimally restrictive.
+
+indexterm:[supervisor]
+indexterm:[controller]
+
+In practice the terms _supervisor_ and _controller_ are often used interchangeably.
+Formally however, they can be different.
+A _supervisor_ is maximally permissive and may still allow multiple (safe) choices, for instance between enabling multiple different actuators, or between enabling one actuator and disabling another one.
+A _controller_ is considered to explicitly choose specific controllable events rather than allowing multiple ones.
 
 [[sbe-approaches-synthesis-based-benefits]]
 === Benefits of synthesis-based engineering
@@ -155,8 +179,8 @@ indexterm:[requirement, conflicting]
 More concretely, supervisor synthesis provides computer-aided design assistance.
 It can for instance automatically detect conflicting requirements.
 It will also detect that a certain activator may never be enabled in a certain state, because under certain specific conditions this may _later_ lead to an unavoidable unsafe state.
-For complex systems, this kind of situations is often difficult to foresee for human beings.
-It is therefore difficult to correctly manually model in a control model.
+For complex systems, this kind of situations are often difficult to foresee for human beings.
+It is therefore difficult to correctly manually model them in a controller model.
 
 indexterm:[correct-by-construction]
 
@@ -165,10 +189,10 @@ With synthesis-based engineering the controller model is automatically synthesiz
 From it, the implementation is automatically produced through code generation.
 Verification is not needed as the implementation is correct-by-construction.
 This essentially only leaves requirements design and validation to focus on.
-Engineers can thus focus on 'what should the controller do' (its requirements), rather than on 'how must the controller achieve this' (the controller design and implementation).
+Engineers can thus focus on '_what_ should the controller do' (its requirements), rather than on '_how_ must the controller achieve this' (the controller design and implementation).
 +
 An example is specifying a First-In-First-Out (FIFO) requirement.
-While specifying it may be quite easy, realizing the requirement in a control model may be complex due to the various situations that may arise in the system.
+While specifying it may be quite easy, realizing the requirement in a controller model may be complex due to the various situations that may arise in the system.
 Supervisory controller synthesis can evaluate all possible combinations of conditions and synthesize a controller that is mathematically correct for all of them.
 This kind of design automation is even more useful when multiple, complex and related requirements need to be considered.
 The synthesized supervisor is correct-by-construction for all requirements in all situations, preventing human errors.
@@ -186,12 +210,15 @@ This makes verification of the controller model against its requirements superfl
 indexterm:[design, freedom]
 indexterm:[permissive, maximally]
 indexterm:[restrictive, minimally]
+indexterm:[supervisor]
+indexterm:[controller]
 
 Maintain maximum design space freedom::
 Maximal permissiveness ensures that maximum design space freedom is maintained.
 When manually designing a controller, an engineer may favor simple control conditions that severely limit the design space.
 As synthesis produces maximally-permissive supervisors, it imposes minimal restrictions, while still satisfying all requirements.
 This leaves design space freedom to e.g. choose performance-optimal solution among safe alternatives.
+A performance-optimal _controller_ may for instance be derived from a _supervisor_ model that allows multiple (safe) choices.
 
 indexterm:[design, modular]
 indexterm:[engineering, incremental]
@@ -212,8 +239,8 @@ indexterm:[specification, modular]
 Intuitive specifications with fine-grained requirement traceability::
 Each plant and requirement can be specified separately, and has a clear purpose.
 This provides a good overview of the control requirements, and allows for fine-grained requirement traceability.
-This unlike the control model itself.
-There one requirement can have an effect on various parts (states) of the controller.
+This unlike the controller model itself.
+There, one requirement can have an effect on various parts (states) of the controller.
 It can thus be spread out over the controller model, and mixed with other requirements.
 Clear modular specifications avoid hiding undesired and unneeded behavior in a large/complex controller.
 
@@ -226,31 +253,71 @@ They should <<sbe-challenges,consider and manage the challenges>> particular to 
 
 The following terminology is often used when discussing synthesis-based engineering of supervisory controllers, in additional to <<sbe-approaches-model-based-terminology,model-based engineering terminology>>:
 
+indexterm:[event, controllable]
+
+Controllable event::
+An event that is controlled (enabled or disabled) by the controller.
+Events to actuate (turn on or off) an actuator are often controllable events.
+
+indexterm:[system, controlled]
+
+Controlled system::
+The _uncontrolled system_ together with a _supervisor_ or _controller that controls it.
+This may be represented as a single state machine, or as a combination of the _plant_ model with the _supervisor_ or _controller_ model.
+
+indexterm:[controller]
+
+Controller::
+A controller model that explicitly chooses specific controllable events, rather than allowing multiple ones as a _supervisor_ may do.
+When this distinction is not relevant, _supervisor_ and _controller_ are often used interchangeably.
+
 indexterm:[method, correct-by-construction]
 
 Correct-by-construction formal method::
 A formal method that guarantees that the result of the method satisfies all requirements.
+
+indexterm:[event]
+
+Event::
+An action representing something that can happen in the system.
+For instance, there may be low-level actions for sensors going on or off, and actuators being turned on or off.
+There may also be higher level actions, such as a command to move an object from one location to another, a command to turn an entire subsystem on or off, or an event through which a subsystem indicates that an error has occurred.
 
 indexterm:[engineering, synthesis-based]
 
 Synthesis-based engineering::
 A form of <<sbe-approaches-model-based,model-based engineering>> that uses supervisory controller synthesis (or simply supervisor synthesis) to automatically synthesize a correct-by-construction controller model.
 
+indexterm:[supervisor]
+
+Supervisor::
+A maximally permissive controller model that may still allow multiple (safe) choices.
+Unlike a _controller_, it may for instance allow a choice between enabling multiple different actuators, or between enabling one actuator and disabling another one.
+When this distinction is not relevant, _supervisor_ and _controller_ are often used interchangeably.
+
 indexterm:[supervisor, synthesis]
 indexterm:[synthesis, supervisor]
 
 Supervisor synthesis::
-A correct-by-construction formal method that automatically synthesizes a supervisory controller.
-It involves the automatic generation, or synthesis, of a correct-by-construction controller model from a model of the uncontrolled system and a model of the control requirements.
+A correct-by-construction formal method that automatically synthesizes a _supervisor_.
+It involves the automatic generation, or synthesis, of a correct-by-construction controller model from a simple model of the to-be-controlled system and a model of the control requirements.
 This is also called controller synthesis or supervisory controller synthesis.
 Supervisor synthesis makes verification of the resulting controller model against its requirements superfluous.
-Validation of the resulting controller model is still needed to ensure the specified requirements are indeed the desired requirements.
+Validation of the resulting system being controlled by the controller (model) is still needed to ensure the specified requirements are indeed the desired requirements.
+
+indexterm:[event, uncontrollable]
+
+Uncontrollable event::
+An event that operates autonomously, from the perspective of the controller.
+Such events are not controlled by the controller, which can thus not prevent them from occurring.
+For instance, events of a sensor could indicate that a button was pushed or released.
+And events of a movement limit sensor could indicate that a movement has reached the end position, or that the moving object is no longer at that position.
 
 indexterm:[system, uncontrolled]
 indexterm:[plant]
 
-Uncontrolled system::
-The system without any control.
+Uncontrolled system / plant::
+The uncontrolled system is the system 'as is', without any control.
 It is also called a https://en.wikipedia.org/wiki/Plant_(control_theory)[plant] in https://en.wikipedia.org/wiki/Control_theory[control theory].
 For instance, at a low abstraction level, this could be the individual actuators and sensors of a system.
 At a higher abstraction level, it could be a collection of controllers for subsystems.

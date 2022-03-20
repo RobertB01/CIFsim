@@ -50,12 +50,12 @@ For instance, the various control states of the system may be specified, as well
 indexterm:[controller, realization]
 
 * Controllers may be **realized in software**.
-The software source code may for instance be written in Java, C or PLC programming languages.
+The software source code may for instance be implemented using Java, C or PLC programming languages.
 
 indexterm:[verification]
 
 * **Verification** involves checking the realized controller against its requirements design and controller design, to ensure that the controller is correctly realized.
-It should behave as designed.
+The system, controlled by the controller, should behave as designed.
 
 indexterm:[validation]
 
@@ -79,26 +79,27 @@ indexterm:[engineering, model-driven]
 
 * **Model-based engineering** or **model-driven engineering** automates the realization step, and provides computer assistance especially for the verification and validation steps.
 It places models at the center of attention.
-The controller behavior is modeled in a formal way, allowing a computer to interpret and analyze it.
+The controller is modeled in a formal way, allowing a computer to interpret and analyze its behavior.
 That is, it is specified in a mathematically unambiguous way, for instance using state machines.
 Such models are considered the single source of truth.
-From them, all kinds of artifacts can be generated automatically, including the software code of the implementation.
+From them, all kinds of artifacts can be generated automatically, including the software code of the controller's implementation.
 This ensures that the code is fault-free and behaves consistently with the behavior as expressed by the controller model.
 The models can also be used to partly automate verification, for instance through the use of model-based testing.
-Simulation models can be generated to allow simulating the system behavior and validating the requirements during early phases of development.
+Simulation models can be used to simulate the (controlled) system behavior and validate the requirements during early phases of development.
 
 indexterm:[engineering, verification-based]
 
 * **Verification-based engineering** is a form of model-based engineering with computer-assistance to automate the verification step.
 It uses formal verification, or model checking, a mathematical technique that can automatically check the controller model against its requirements.
-It either indicates that the specified requirements are satisfied by the controller model, or it provides counter examples that indicate in which situations they are not satisfied.
-Through formal verification, the controller model can be iteratively adapted to satisfy all specified requirements.
 To employ formal verification, both the controller model and the requirements must be formally specified.
+Formal verification then either indicates that the specified requirements are guaranteed to be satisfied by the controller model, or it provides counter examples that indicate in which situations they are not satisfied.
+This is exhaustive, as it considers every conceivable scenario, unlike testing, which typically covers only a limited number of scenarios.
+Through formal verification, the controller model can be iteratively adapted to satisfy all specified requirements in every possible situation.
 
 indexterm:[engineering, synthesis-based]
 
 * **Synthesis-based engineering** is a form of model-based engineering with computer-assistance to automate the design of the controller.
-It uses supervisory controller synthesis to automatically synthesize a controller model from requirements and simple models of the to-be-controlled system.
+It uses supervisory controller synthesis to automatically synthesize a controller model from requirements and a simple model of the to-be-controlled system.
 This mathematical technique guarantees that the synthesized controller model satisfies all specified requirements.
 This makes verification of the controller model against its requirements superfluous, as the synthesized controller model is guaranteed correct-by-construction.
 With the controller design, realization and verification either being automated or unnecessary, only requirements design and validation remain.
