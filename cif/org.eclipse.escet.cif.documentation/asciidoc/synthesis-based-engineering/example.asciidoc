@@ -28,9 +28,10 @@ From there production can _start_ by moving them to the dispatcher (_DISP_).
 The dispatcher dispatches a product (_do1_ or _do2_) to one of two operators (_OP1_ or _OP2_) that perform the same operation.
 Once the operation is completed (_done1_ or _done2_), the product is moved to the checker (_CHK_).
 The checker determines whether the operation has completed successfully or has failed.
-If the operation has failed, the system must _redo_ the operation on that product.
+If it has failed, the system must _redo_ the operation on that product.
 This may be repeated until the operation is successful.
-The product then moves to _DONE_ (via _op_exit_) and back to _INOUT_ (via _finished_).
+The product must then _leave_ the processing loop, moving to _DONE_.
+It is then _finished_ and moves back to _INOUT_.
 There it may _exit_ the system.
 
 The gray boxes indicate places where at most one product can be located at a time.
@@ -46,7 +47,7 @@ The example system, without any controller that controls it, already ensures tha
 
 * Products that _enter_ can only _start_, preventing them from exiting without having been processed.
 * Products that failed processing must _redo_ the operation.
-* Successfully processed products must exit the operation area (_op_exit_).
+* Successfully processed products must _leave_ the operation area.
 * Once a product passed _finished_ it must _exit_, preventing it from being processed again.
 
 For this example, we consider only a single requirement:
@@ -105,7 +106,7 @@ But why are these the 'optimal' restrictions?
 It is important to realize that:
 
 [upperalpha]
-. If a product is checked and found to be successfully processed, it can only exit (_op_exit_).
+. If a product is checked and found to be successfully processed, it can only _leave_.
 It can not be reprocessed (_redo_).
 If a product is moved to _CHK_ too early, a product that should exit the system before it can't overtake it anymore.
 This could lead to a violation of the FIFO property if another product that must exit earlier is for instance still being processed.
@@ -125,7 +126,7 @@ This directly follows from realization _B_.
 The first condition follows from the 'at most two products in the processing loop' rule.
 At most one product may be in the processing loop for another to enter it.
 The second condition describes the exception to this rule.
-There may be two products in the processing loop if one of them is a successfully processed product about to exit the processing loop.
+There may be two products in the processing loop if one of them is a successfully processed product about to leave the processing loop.
 
 * The second and third restrictions indicate when a product may move to be checked.
 These two restrictions follow directly from realization _A_.

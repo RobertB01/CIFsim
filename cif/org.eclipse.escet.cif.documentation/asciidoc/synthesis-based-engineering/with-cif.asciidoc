@@ -49,7 +49,7 @@ controllable ProductId c_done2;
 uncontrollable u_success;
 uncontrollable u_failure;
 controllable ProductId c_redo;
-controllable ProductId c_op_exit;
+controllable ProductId c_leave;
 controllable ProductId c_finished;
 controllable c_exit;
 ----
@@ -155,7 +155,7 @@ It forwards them to either the first (_OP1_) or second (_OP2_) operator, with `c
 
 * The checker (_CHK_) receives a product from one of the operators (`c_done1?, c_done2?`).
 It then determines whether the product was successfully processed (`u_success`) or processing has failed (`u_failed`).
-It forwards successfully processed products to the _DONE_ place by `c_op_exit`, while failed products are sent back to the dispatcher (_DISP_) by `c_redo`.
+It forwards successfully processed products to the _DONE_ place by `c_leave`, while failed products are sent back to the dispatcher (_DISP_) by `c_redo`.
 
 * The _DONE_ place simplify forwards products from the checker (_CHK_) to the _INOUT_ place.
 

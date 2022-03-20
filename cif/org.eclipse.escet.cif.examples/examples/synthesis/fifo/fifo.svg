@@ -49,15 +49,15 @@
      inkscape:document-units="mm"
      showgrid="false"
      units="px"
-     inkscape:zoom="11.313709"
-     inkscape:cx="971.77499"
-     inkscape:cy="258.10038"
+     inkscape:zoom="1"
+     inkscape:cx="535.71501"
+     inkscape:cy="272.61078"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
      inkscape:window-y="-4"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="op_exit"
      showguides="false" />
   <defs
      id="defs2">
@@ -584,7 +584,7 @@
            y="417.92841"
            x="662.08331"
            id="tspan36546-6-5-7-6"
-           sodipodi:role="line">op_exit</tspan></text>
+           sodipodi:role="line">leave</tspan></text>
     </g>
     <g
        id="finished">
