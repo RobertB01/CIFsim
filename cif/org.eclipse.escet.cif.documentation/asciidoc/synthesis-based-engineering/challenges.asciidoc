@@ -20,6 +20,8 @@ A <<sbe-approaches-synthesis-based,synthesis-based engineering>> approach has ma
 However, there can be challenges when embedding such a new approach into industrial practice.
 It is essential to be aware of them, and manage them explicitly.
 
+Most of the challenges that apply to a <<sbe-approaches-synthesis-based,synthesis-based engineering>> approach also apply to other <<sbe-approaches-model-based,model-based engineering>> approaches, including <<sbe-approaches-verification-based,verification-based engineering>>.
+
 The following challenges are discussed:
 
 * <<sbe-challenges-way-of-working>>
@@ -30,7 +32,7 @@ The following challenges are discussed:
 
 The use of model-based engineering, the modeling of behavioral specifications and control requirements, and the use of formal techniques such as supervisory controller synthesis, requires a certain mindset, knowledge and skills.
 It is important that personnel with the appropriate knowledge and expertise is present in a company.
-Having a team of properly trained experts that can assist with and steer the introduction of new techniques is essential.
+Having a team of properly trained and experienced experts that can assist with and steer the introduction of new techniques is essential.
 If a company does not have such experts, they could hire them.
 However, training and retraining for (part of) the existing personnel is often also required.
 
@@ -54,16 +56,16 @@ In this first step, the resulting requirements can still be put in a document an
 . *Models as single source of truth*:
 Formally but manually specify the controller model in a model-based way, based on the formal requirements.
 From the model, automatically generate the controller code.
-This is a step towards making the model the single source of truth.
+This is a step towards making the model the <<sbe-approaches-model-based-single-source-of-truth,single source of truth>>.
 
 . *Embrace formal methods*:
 In this step, employ more formal methods to go beyond simulation and testing.
 Use formal methods that have more guarantees on completeness.
-For instance, use <<sbe-approaches-verification-based,formal verification>> to guarantee that all specified requirements are satisfied.
+For instance, use <<sbe-approaches-verification-based,formal verification>> to guarantee that all specified requirements are satisfied in every conceivable situation.
 At the end of this step, you could fully adopt <<sbe-approaches-model-based,model-based>> and <<sbe-approaches-verification-based,verification-based>> engineering.
 
 . *Adopt synthesis-based engineering*:
-Use supervisory controller synthesis, and fully adopt <<sbe-approaches-verification-based,verification-based>>.
+Use supervisory controller synthesis, and fully adopt <<sbe-approaches-synthesis-based,synthesis-based engineering>>.
 
 [[sbe-challenges-tool-support]]
 === Tool support

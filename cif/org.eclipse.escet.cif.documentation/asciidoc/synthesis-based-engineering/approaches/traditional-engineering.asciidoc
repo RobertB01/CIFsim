@@ -30,12 +30,19 @@ Subsequently, the controller is manually implemented in software code through th
 indexterm:[verification]
 indexterm:[validation]
 
-Finally, the implementation is verified and validated.
+Finally, the implementation is verified and validated, typically by means of testing.
 Verification involves checking and ultimately ensuring that the controller satisfies its specified requirements.
 Validation involves checking that the controller exhibits the desired behavior, and thus ensuring it is the desired controller.
 Since a controller must satisfy its specified requirements, this includes validating the requirements to ensure they are the desired requirements.
 
-This approach has several disadvantages:
+[[sbe-approaches-traditional-downsides]]
+=== Downsides of traditional engineering
+
+Traditional engineering has been around for a long time.
+Companies typically know what works and what doesn't, and how to work around the various challenging aspects of it.
+It can work well, particularly for small and simple systems, developed by a well-managed but small team.
+However, the approach has several disadvantages.
+These become especially apparent when applying it to develop controllers for larger and more complex systems, developed by multiple teams, or with some development activities outsourced to suppliers:
 
 indexterm:[specification, ambiguity]
 
@@ -64,8 +71,10 @@ Ensuring that the textual descriptions of all these cases do not lead to inconsi
 +
 A good domain expert will be able to limit the number of mistakes, such as missing requirements and contradictions in the requirements specification, but typically can't completely eliminate them.
 A good software/PLC engineer will surely spot some of the remaining mistakes during the implementation and testing of the controller.
++
 However, even thoroughly tested and delivered industrial code often still contains faults.
 Furthermore, if the specification is incomplete, software engineers will make their own choices, which may or may not match with what the domain expert had in mind.
+Again, working with external suppliers, rather than doing the development in-house within the company, may aggravate these concerns.
 
 indexterm:[system, multi-disciplinary]
 

@@ -196,3 +196,6 @@ This allows for *incremental development* of the system and its controller.
 And again, consider that this is only a simple example system, with only a single requirement.
 Synthesis-based engineering has even more value when multiple, complex and related requirements need to be considered, or when controllers for many similar yet different systems need to be developed.
 See the section on <<sbe-approaches-synthesis-based-benefits,benefits of synthesis-based engineering>> for further benefits of the approach.
+
+Even though synthesis-based engineering has many benefits, companies should not underestimate how significantly different it is from <<sbe-approaches-traditional,traditional engineering>>.
+They should <<sbe-challenges,consider and manage the challenges>> particular to this engineering approach.

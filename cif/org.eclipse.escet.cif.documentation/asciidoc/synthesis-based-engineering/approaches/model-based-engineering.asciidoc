@@ -23,6 +23,7 @@ Model-based design, model-based software/system engineering and model-driven eng
 They place models at the center of the entire development process and the entire lifecycle of the system, including design, implementation and maintenance.
 The models fill the gap between the specification and implementation.
 
+[[sbe-approaches-model-based-process]]
 === Model-based engineering process
 
 The following figure shows a simplified development process for model-based engineering of supervisory controllers:
@@ -63,7 +64,7 @@ While manual implementation is possible, the code is often automatically generat
 [[sbe-approaches-model-based-benefits]]
 === Benefits of model-based engineering
 
-Model-based engineering has several advantages over <<sbe-approaches-traditional,traditional engineering>>:
+Model-based engineering directly addresses many of the <<sbe-approaches-traditional-downsides,downsides>> of <<sbe-approaches-traditional,traditional engineering>>:
 
 indexterm:[specification, unambiguous]
 indexterm:[specification, intuitive]
@@ -157,6 +158,7 @@ It is also possible to switch to a different platform or vendor at a later time,
 
 indexterm:[model, single source of truth]
 
+[[sbe-approaches-model-based-single-source-of-truth]]
 Up-to-date models are the single source of truth::
 Model-based engineering places models at the center of attention.
 It is the models that are adapted if they are functionally incorrect, have inconsistencies, or new functionality is required.
@@ -167,6 +169,10 @@ They remain up-to-date as they are the basis of all development during the entir
 
 The use of model-based engineering combined with computer-aided design through formal methods thus has many advantages.
 It allows for producing unambiguous, complete, consistent, and up-to-date specifications, leading to higher quality controllers at similar or even lower effort and costs.
+However, specific forms of model-based engineering, such as <<sbe-approaches-verification-based,verification-based>> and <<sbe-approaches-synthesis-based,synthesis-based>> engineering, can offer additional benefits.
+
+Even though model-based engineering has many benefits, companies should not underestimate how significantly different it is from traditional engineering.
+They should <<sbe-challenges,consider and manage the challenges>> particular to this engineering approach.
 
 [[sbe-approaches-model-based-terminology]]
 === Terminology

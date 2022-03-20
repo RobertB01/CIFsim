@@ -219,6 +219,9 @@ Clear modular specifications avoid hiding undesired and unneeded behavior in a l
 
 See the <<sbe-example,synthesis-based engineering example>> section for a concrete example that shows the power of synthesis.
 
+Even though synthesis-based engineering has many benefits, companies should not underestimate how significantly different it is from <<sbe-approaches-traditional,traditional engineering>> or even from lesser-automated forms of <<sbe-approaches-model-based,model-based engineering>>, such as <<sbe-approaches-verification-based,verification-based engineering>>.
+They should <<sbe-challenges,consider and manage the challenges>> particular to this engineering approach.
+
 === Terminology
 
 The following terminology is often used when discussing synthesis-based engineering of supervisory controllers, in additional to <<sbe-approaches-model-based-terminology,model-based engineering terminology>>:

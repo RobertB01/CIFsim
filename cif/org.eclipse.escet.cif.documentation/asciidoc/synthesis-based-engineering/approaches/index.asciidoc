@@ -77,7 +77,7 @@ Traditionally, all five steps are performed manually, which is laborious and err
 indexterm:[engineering, model-based]
 indexterm:[engineering, model-driven]
 
-* **Model-based engineering** or **model-driven engineering**, automates the realization step, and provides computer assistance especially for the verification and validation steps.
+* **Model-based engineering** or **model-driven engineering** automates the realization step, and provides computer assistance especially for the verification and validation steps.
 It places models at the center of attention.
 The controller behavior is modeled in a formal way, allowing a computer to interpret and analyze it.
 That is, it is specified in a mathematically unambiguous way, for instance using state machines.
@@ -89,16 +89,16 @@ Simulation models can be generated to allow simulating the system behavior and v
 
 indexterm:[engineering, verification-based]
 
-* **Verification-based engineering** automates the verification step.
-It uses formal verification, a mathematical technique that can automatically check the controller model against its requirements.
+* **Verification-based engineering** is a form of model-based engineering with computer-assistance to automate the verification step.
+It uses formal verification, or model checking, a mathematical technique that can automatically check the controller model against its requirements.
 It either indicates that the specified requirements are satisfied by the controller model, or it provides counter examples that indicate in which situations they are not satisfied.
 Through formal verification, the controller model can be iteratively adapted to satisfy all specified requirements.
 To employ formal verification, both the controller model and the requirements must be formally specified.
 
 indexterm:[engineering, synthesis-based]
 
-* **Synthesis-based engineering** automates the design of the controller.
-It uses supervisory controller synthesis to automatically synthesize a controller model from requirements and simple models of the uncontrolled system.
+* **Synthesis-based engineering** is a form of model-based engineering with computer-assistance to automate the design of the controller.
+It uses supervisory controller synthesis to automatically synthesize a controller model from requirements and simple models of the to-be-controlled system.
 This mathematical technique guarantees that the synthesized controller model satisfies all specified requirements.
 This makes verification of the controller model against its requirements superfluous, as the synthesized controller model is guaranteed correct-by-construction.
 With the controller design, realization and verification either being automated or unnecessary, only requirements design and validation remain.
