@@ -64,8 +64,8 @@ svgout id "done-cur-txt"  text value if DONE.Idle:  "-" else <string>DONE.curId 
 
 svgout id "chk-rslt"    attr "visibility" value if CHK.Idle:    "hidden"  else "visible" end;
 svgout id "chk-unknown" attr "visibility" value if CHK.Busy:    "visible" else "hidden"  end;
-svgout id "chk-ok"      attr "visibility" value if CHK.Success: "visible" else "hidden"  end;
-svgout id "chk-nok"     attr "visibility" value if CHK.Failure: "visible" else "hidden"  end;
+svgout id "chk-success" attr "visibility" value if CHK.Success: "visible" else "hidden"  end;
+svgout id "chk-failure" attr "visibility" value if CHK.Failure: "visible" else "hidden"  end;
 
 svgout id "chk-rslt" attr "fill" value switch CHK:
                                          case Idle:    COLOR_IDLE

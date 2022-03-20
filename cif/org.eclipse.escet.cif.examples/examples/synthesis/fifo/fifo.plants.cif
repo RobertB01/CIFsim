@@ -22,8 +22,8 @@ controllable ProductId c_do1;
 controllable ProductId c_do2;
 controllable ProductId c_done1;
 controllable ProductId c_done2;
-uncontrollable u_ok;
-uncontrollable u_nok;
+uncontrollable u_success;
+uncontrollable u_failure;
 controllable ProductId c_redo;
 controllable ProductId c_op_exit;
 controllable ProductId c_finished;
@@ -94,8 +94,8 @@ plant CHK:
     edge c_done1?, c_done2? do curId := ? goto Busy;
 
   location Busy:
-    edge u_ok goto Success;
-    edge u_nok goto Failure;
+    edge u_success goto Success;
+    edge u_failure goto Failure;
 
   location Success:
     edge c_op_exit!curId do curId := 0 goto Idle;

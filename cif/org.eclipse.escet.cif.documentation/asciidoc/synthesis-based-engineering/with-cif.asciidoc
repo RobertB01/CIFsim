@@ -35,7 +35,7 @@ image:{sbe-imgsdir}/example_fifo_flow.png[]
 
 Each of the arrows indicates a movement of products.
 We can model each arrow as a <<lang-tut-extensions-synthesis-evtctrl,controllable event>> that the supervisor can control.
-The checker (_CHK_) may indicate that a product is OK or not OK, which we can model as <<lang-tut-extensions-synthesis-evtctrl,uncontrollable events>>.
+The checker (_CHK_) may indicate that a product was processed successfully or that it failed, which we can model as <<lang-tut-extensions-synthesis-evtctrl,uncontrollable events>>.
 This leads to the following declarations:
 
 [source, cif]
@@ -46,8 +46,8 @@ controllable ProductId c_do1;
 controllable ProductId c_do2;
 controllable ProductId c_done1;
 controllable ProductId c_done2;
-uncontrollable u_ok;
-uncontrollable u_nok;
+uncontrollable u_success;
+uncontrollable u_failure;
 controllable ProductId c_redo;
 controllable ProductId c_op_exit;
 controllable ProductId c_finished;
@@ -154,8 +154,8 @@ It forwards them to either the first (_OP1_) or second (_OP2_) operator, with `c
 * The operators (_OP1_ and _OP2_) simply receive a product from the dispatcher (_DISP_) and forward it to the checker (_CHK_), after some processing.
 
 * The checker (_CHK_) receives a product from one of the operators (`c_done1?, c_done2?`).
-It then determines whether the product is either OK (`u_ok`) or not OK (`u_nok`).
-It forwards OK products to the _DONE_ place by `c_op_exit`, and not OK products back to the dispatcher (_DISP_) by `c_redo`.
+It then determines whether the product was successfully processed (`u_success`) or processing has failed (`u_failed`).
+It forwards successfully processed products to the _DONE_ place by `c_op_exit`, while failed products are sent back to the dispatcher (_DISP_) by `c_redo`.
 
 * The _DONE_ place simplify forwards products from the checker (_CHK_) to the _INOUT_ place.
 
@@ -262,9 +262,9 @@ An occupied place is blue, with its smaller indicating the product id of the pro
 
 For the checker (_CHK_) a second small box is present.
 It is hidden if there is no product at the checker.
-If a product is present for which a check has not yet been done, the box is blue and has a question mark.
-If the check has completed and the product is OK, the box is green and has a tick mark.
-If the product is not OK, the box is red with a cross mark.
+If a product is present for which a check has not yet been done, then the box is blue and has a question mark.
+If the check has completed and the product was processed successfully, then the box is green and has a tick mark.
+If processing the product failed, then the box is red with a cross mark.
 
 At the top left some additional information is provided.
 It indicates the maximum number of products that may be in the system, as configured via `MAX_NR_OF_PRODS`.

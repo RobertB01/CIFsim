@@ -27,8 +27,8 @@ Products _enter_ at the _INOUT_ place.
 From there production can _start_ by moving them to the dispatcher (_DISP_).
 The dispatcher dispatches a product (_do1_ or _do2_) to one of two operators (_OP1_ or _OP2_) that perform the same operation.
 Once the operation is completed (_done1_ or _done2_), the product is moved to the checker (_CHK_).
-The product is either considered OK or not OK (NOK).
-If it is not OK, it must _redo_ the operation.
+The checker determines whether the operation has completed successfully or has failed.
+If the operation has failed, the system must _redo_ the operation on that product.
 This may be repeated until the operation is successful.
 The product then moves to _DONE_ (via _op_exit_) and back to _INOUT_ (via _finished_).
 There it may _exit_ the system.
@@ -37,7 +37,7 @@ The gray boxes indicate places where at most one product can be located at a tim
 The moving of products through the system is visualized by the labeled arrows in the figure.
 Each arrow corresponds to an actuator under the control of the controller.
 The controller can thus decide when to move products from one place to another.
-A sensor indicates the result of the check performed on processed products, indicating whether they are OK or not OK.
+A sensor indicates the result of the check performed on processed products, indicating whether they are OK or not.
 This sensor works autonomously, and is thus not controlled by the controller.
 
 === FIFO requirement
@@ -45,8 +45,8 @@ This sensor works autonomously, and is thus not controlled by the controller.
 The example system, without any controller that controls it, already ensures that:
 
 * Products that _enter_ can only _start_, preventing them from exiting without having been processed.
-* Products that are not OK must _redo_ the operation.
-* Products that are OK must exit the operation area (_op_exit_).
+* Products that failed processing must _redo_ the operation.
+* Successfully processed products must exit the operation area (_op_exit_).
 * Once a product passed _finished_ it must _exit_, preventing it from being processed again.
 
 For this example, we consider only a single requirement:
@@ -88,7 +88,7 @@ Through synthesis, we obtain a supervisory controller that restricts four moveme
 . Movement _start_ is only allowed if one of the following two conditions holds:
 ** At the _DISP_ place, _OP1_ place, _OP2_ place, and _CHK_ place, there is in total at most one product.
 ** At the _DISP_ place, _OP1_ place, and _OP2_ place, there is in total at most one product.
-And a product is at the _CHK_ place and the check indicates the product is OK.
+And a product is at the _CHK_ place and the check indicates the product was successfully processed.
 
 . Movement _done1_ is only allowed if the following two conditions both hold:
 ** Either there is no product at the _DISP_ place, or it is a later product than at the _OP1_ place.
@@ -105,17 +105,17 @@ But why are these the 'optimal' restrictions?
 It is important to realize that:
 
 [upperalpha]
-. If a product is checked and found to be OK, it can only exit (_op_exit_).
+. If a product is checked and found to be successfully processed, it can only exit (_op_exit_).
 It can not be reprocessed (_redo_).
 If a product is moved to _CHK_ too early, a product that should exit the system before it can't overtake it anymore.
 This could lead to a violation of the FIFO property if another product that must exit earlier is for instance still being processed.
 
 . Only at most two products may be in the processing loop at any time.
 That is, at most at two of the _DISP_, _OP1_, _OP2_ and _CHK_ places there may be a product, at any time.
-This way, if a product is not OK, it can be redone over and over again, while the other product is at one of the operators.
+This way, if a product keeps failing to be processed successfully, it can be redone over and over again, while the other product is at one of the operators.
 With three or more products in the processing loop, this is not possible.
-An exception to 'at most two products in the processing loop' rule is when a product has been checked and found to be OK.
-Then, a third product may be present, as the OK product can then leave the processing loop and at most two products will remain in the processing loop.
+An exception to 'at most two products in the processing loop' rule is when a product has been checked and found to be successfully processed.
+Then, a third product may be present, as the successfully processed product can then leave the processing loop and at most two products will remain in the processing loop.
 
 Then the supervisor restrictions are quite logical:
 
@@ -125,7 +125,7 @@ This directly follows from realization _B_.
 The first condition follows from the 'at most two products in the processing loop' rule.
 At most one product may be in the processing loop for another to enter it.
 The second condition describes the exception to this rule.
-There may be two products in the processing loop if one of them is an OK product about to exit the processing loop.
+There may be two products in the processing loop if one of them is a successfully processed product about to exit the processing loop.
 
 * The second and third restrictions indicate when a product may move to be checked.
 These two restrictions follow directly from realization _A_.
@@ -188,7 +188,7 @@ This ensures the *maximum throughput* of the system can still be achieved.
 
 * Synthesis-based engineering allows for a modular design.
 The various parts of the system, as well as the requirement, <<sbe-with-cif,can be *modeled>> separately*.
-This makes it easy to adapt the system (model), to for instance allow an already OK product to bypass the processing loop.
+This makes it easy to adapt the system (model), to for instance allow products that do not require processing to bypass the processing loop.
 With minimal changes to the system model, and no changes to the requirement, a new supervisor can then be produced by the push of a button.
 This allows for *incremental development* of the system and its controller.
 
