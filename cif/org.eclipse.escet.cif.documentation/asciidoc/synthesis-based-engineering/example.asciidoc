@@ -39,7 +39,7 @@ The moving of products through the system is visualized by the labeled arrows in
 Each arrow corresponds to an actuator under the control of the controller.
 The controller can thus decide when to move products from one place to another.
 A sensor indicates the result of the check performed on processed products, indicating whether they are OK or not.
-This sensor works autonomously, and is thus not controlled by the controller.
+This sensor works autonomously and is thus not controlled by the controller.
 
 === FIFO requirement
 
@@ -89,7 +89,7 @@ Through synthesis, we obtain a supervisory controller that restricts four moveme
 . Movement _start_ is only allowed if one of the following two conditions holds:
 ** At the _DISP_ place, _OP1_ place, _OP2_ place, and _CHK_ place, there is in total at most one product.
 ** At the _DISP_ place, _OP1_ place, and _OP2_ place, there is in total at most one product.
-And a product is at the _CHK_ place and the check indicates the product was successfully processed.
+There is also a product at the _CHK_ place and the check indicates the product was successfully processed.
 
 . Movement _done1_ is only allowed if the following two conditions both hold:
 ** Either there is no product at the _DISP_ place, or it is a later product than at the _OP1_ place.
