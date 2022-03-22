@@ -30,21 +30,25 @@ TBD
 
 New features:
 
-* CIF PLC code generator now supports S7 output for SIMATIC controllers (issue #142).
+* The CIF documentation contains an extensive new section on synthesis-based engineering of supervisory controllers (issue #325).
+* The CIF PLC code generator now supports S7 output for SIMATIC controllers (issue #142).
+* The CIF data-based synthesis tool now supports state plant invariants (issue #107).
+* The CIF to CIF transformer has several new transformations, to anonymize the names of all named objects, convert controllable events to uncontrollable ones and vice versa, and remove unused algebraic variables and their equations (issues #306, #308 and #320).
 
 Improvements and fixes:
 
-* CIF type checker no longer produces the wrong warning for globally disabled event that are monitored, for events referred to via component parameters or component instantiations (issue #300).
-* CIF type checker no longer produces false positive/negative warnings and errors related to the use of events in component definitions/instantiations.
+* The CIF type checker no longer produces the wrong warning for globally disabled event that are monitored, for events referred to via component parameters or component instantiations (issue #300).
+* The CIF type checker no longer produces false positive/negative warnings and errors related to the use of events in component definitions/instantiations.
 This applies to the following checks: duplicate events in alphabets, duplicate monitor events, duplicate events on edges, events on edges not in alphabets, monitoring events not in alphabets, events in alphabet not on any edge, monitored event not on any edge, and monitoring an empty alphabet.
 It also has several other small improvements related to these checks, including improved warning messages and reporting the warnings at better positions.
 As a result of the changes, problems are no longer reported for non-instantiated component definitions (issues #298 and #301).
-* CIF simulator interactive GUI input component now has a horizontal scrollbar from the start, if applicable (issue #217).
-* CIF simulator termination by the red stop button no longer leaves the interactive GUI input component buttons enabled (issue #274).
-* CIF PLC code generator PLC number bits option now has a new automatic mode.
+* The CIF simulator interactive GUI input component now has a horizontal scrollbar from the start, if applicable (issue #217).
+* The CIF simulator being terminated by the red stop button no longer leaves the interactive GUI input component buttons enabled (issue #274).
+* The CIF PLC code generator PLC number bits option now has a new automatic mode.
 The default remains 64-bit for PLCopen XML, IEC 61131-3 and TwinCAT output (issue #142).
-* CIF PLC code generator now generates correct assignments to temporary variables for multi-assignments (issue #282).
-* CIF PLC code generator now generates calls to the `NOT` function without formal argument names (issue #286).
+* The CIF PLC code generator now generates correct assignments to temporary variables for multi-assignments (issue #282).
+* The CIF PLC code generator now generates calls to the `NOT` function without formal argument names (issue #286).
+* The CIF documentation has several small improvements (issues #271, #324 and #326).
 * The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue #314).
 
 === Version 0.4 (2021-12-17)
