@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[development, incremental]
+
+[[sbe-in-practice-advanced-incremental-development]]
+== Incremental controller development
+
+When <<sbe-in-practice,developing a controller>>, it is often best to start with just a small part of the system.
+
+You first develop a controller for that small part, <<sbe-in-practice-steps-validation,validate>> it, and make sure it works properly.
+Then, you extend the controller to work for a larger part of the system, and you keep repeating this until the controller controls the entire system.
+That is, you go through the entire development process (including among others specification, synthesis, simulation, implementation) each time.
+And then you increase the part of the system covered by the <<sbe-approaches-synthesis-based-input-plant-req,plants and requirements>> for each iteration.
+Typically, for low-level controllers you should start with no more than a few sensors and actuators, with their corresponding events.
+
+This incremental development approach makes it easier to for instance <<sbe-in-practice-advanced-too-limited-behavior,figure out>> why your controller doesn't behave as expected, which of your requirements are conflicting, or for what other reason a supervisor can't be synthesized.

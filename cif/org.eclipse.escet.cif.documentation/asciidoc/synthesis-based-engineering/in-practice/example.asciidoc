@@ -11,13 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-include::_part_attributes.asciidoc[]
+include::../_part_attributes.asciidoc[]
 
-[[sbe-with-cif]]
-== Synthesis-based engineering with CIF
+[[sbe-in-practice-example]]
+== Synthesis-based engineering in practice example
 
-CIF supports the entire development process of supervisory controllers using <<sbe-chapter-index,synthesis-based engineering>>.
-However, here we discuss only specification, supervisory controller synthesis, simulation and code generation.
+CIF supports the entire development process for <<sbe-approaches-synthesis-based,synthesis-based engineering>> of <<sbe-supervisory-controllers,supervisory controllers>>.
+The steps involved are described in the section on <<sbe-in-practice, synthesis-based engineering in practice>>.
+However, here we focus on specification, supervisory controller synthesis, simulation and code generation.
 
 We consider how a controller can be developed for the <<sbe-example,synthesis-based engineering example>>.
 This example is one of the many CIF examples.
@@ -36,7 +37,7 @@ image:{sbe-imgsdir}/example_fifo_flow.png[]
 Each of the arrows indicates a movement of products.
 We can model each arrow as a <<lang-tut-extensions-synthesis-evtctrl,controllable event>> that the supervisor can control.
 The checker (_CHK_) may indicate that a product was processed successfully or that it failed, which we can model as <<lang-tut-extensions-synthesis-evtctrl,uncontrollable events>>.
-This leads to the following declarations:
+This leads to the following <<sbe-in-practice-steps-modeling-the-events,event declarations>>:
 
 [source, cif]
 ----
@@ -75,7 +76,7 @@ This allows each product in the system to have a unique id.
 
 ==== The _INOUT_ place
 
-Each of the system's places that can holds a product is modeled as a <<lang-tut-extensions-synthesis-autkind,plant automaton>>.
+Each of the system's places that can holds a product is <<sbe-in-practice-steps-modeling-the-plant,modeled as>> a <<lang-tut-extensions-synthesis-autkind,plant automaton>>.
 
 First we model the _INOUT_ place:
 
@@ -140,8 +141,8 @@ Again the product id is reset to zero (`curId := 0`) to keep the state space sma
 As a product has left the system, the counter is also updated (`cnt := cnt - 1`).
 
 The `Idle` location is also a <<lang-tut-extensions-synthesis-marked,marked>> location.
-This specifies that the _INOUT_ place  must always be able to become idle again.
-Through similar markings in the other places also the system as a whole must always be able to become idle again.
+This specifies that the _INOUT_ place must always be able to become idle again.
+Through similar <<sbe-in-practice-steps-marking,markings>> in the other places also the system as a whole must always be able to become idle again.
 
 ==== The other places
 
@@ -163,17 +164,17 @@ It forwards successfully processed products to the _DONE_ place by `c_leave`, wh
 
 indexterm:[requirement, fifo]
 
-With the plants specified, we specify the requirement (file `fifo.plants_and_requirements.cif`).
+With the plants specified, we <<sbe-in-practice-steps-modeling-the-requirements,specify the requirement>> (file `fifo.plants_and_requirements.cif`).
 We specify it in a separate file, to allow using the plant model for both synthesis and simulation, as described later in this section.
 
-First, we import into this file the entire plant specification:
+First, we <<lang-tut-reuse2-chapter-imports,import>> into this file the entire plant specification:
 
 [source, cif]
 ----
 import "fifo.plants.cif";
 ----
 
-The requirement was given in natural language as:
+The requirement <<sbe-example-requirement,was given>> in natural language as:
 
 * Products must enter and exit the system in FIFO order.
 
@@ -192,7 +193,7 @@ From this, the requirement as specified follows directly.
 
 === Performing synthesis
 
-We can automatically compute a supervisory controller by applying supervisory controller synthesis.
+We can automatically compute a supervisory controller by <<sbe-in-practice-steps-synthesis,applying supervisory controller synthesis>>.
 For this, we'll use the CIF <<tools-chapter-datasynth,data-based synthesis tool>>.
 
 To be able to perform synthesis with the push of a button, a script is provided (file `do1_synthesize.tooldef`):
@@ -222,7 +223,7 @@ indexterm:[simulation, model]
 
 === Simulation model
 
-To validate the system controlled by the synthesized supervisor, it can be useful to simulate it.
+To <<sbe-in-practice-steps-validation,validate the system>> controlled by the synthesized supervisor, it can be useful to simulate it.
 We therefore specify a simulation model (file `fifo.simulation.cif`).
 
 This model first imports the synthesized supervisor:
@@ -232,7 +233,12 @@ This model first imports the synthesized supervisor:
 import "generated/fifo.synthesized.cif";
 ----
 
-It then specifies an <<tools-cifsim-output-svgviz-chapter-svg,SVG image>> to be used for <<tools-cifsim-output-svgviz-chapter-index,visualization of the system>>.
+It then specifies an <<tools-cifsim-output-svgviz-chapter-svg,SVG image>> to be used for <<tools-cifsim-output-svgviz-chapter-index,visualization of the system>>:
+
+[source, cif]
+----
+svgfile "fifo.svg";
+----
 
 The bulk of the specification consists of <<tools-cifsim-output-svgviz-chapter-svgout,CIF/SVG output mappings>> that map the state of the plant model to properties of elements of the SVG image.
 Some of them ensure that text labels have the correct text, others ensure that boxes have the correct fill color, etc.
@@ -326,5 +332,5 @@ However, for this example we include them, as they may prove illustrative.
 
 === Code generation
 
-Finally, from the synthesized supervisor an implementation of the controller may be automatically generated.
+Finally, from the synthesized supervisor an <<sbe-in-practice-steps-implementation,implementation of the controller>> may be automatically generated.
 CIF <<tools-chapter-index,has tools>> to generate code for several programming languages.

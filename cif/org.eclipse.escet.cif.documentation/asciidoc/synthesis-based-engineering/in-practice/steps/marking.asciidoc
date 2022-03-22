@@ -1,0 +1,40 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[marking]
+
+[[sbe-in-practice-steps-marking]]
+== Marking
+
+After <<sbe-in-practice-steps-modeling-the-plant,modeling the plants>> <<sbe-in-practice-steps-modeling-the-requirements,and requirements>>, marking should be considered.
+Every <<lang-tut-basics-chapter-automata,automaton>>, whether plant or requirement, must have at least one <<lang-tut-extensions-synthesis-marked,marked>> <<lang-tut-basics-automata-location,location>>.
+A marked location is a location that indicates a safe, stable, or resting state.
+Synthesis will <<sbe-approaches-synthesis-based-non-blocking,guarantee>> that a marked location can always be reached, thus ensuring a form of link:https://en.wikipedia.org/wiki/Liveness[liveness].
+
+Physical systems typically keep operating, repeating their behavior.
+Therefore, in practice, the entire system can often be brought back to the <<lang-tut-basics-automata-loc-init,initial>> <<lang-tut-basics-chapter-synchronizing-events-statespace,state>>.
+As such, it is then typically enough to make the initial locations marked.
+
+An exception is automata that have some kind of initialization behavior/sequence.
+For such automata, make the first location that is part of the loop after the initialization sequence, a marked location.
+The locations from the initialization sequence can no longer be reached after initialization is finished.
+The first location after that initialization sequence is part of the 'normal' behavior and can be seen as the initial location of the behavior after initialization.
+
+Note that marking every location reduces the value of supervisor synthesis, as it essentially disables its <<sbe-approaches-synthesis-based-non-blocking,non-blockingness guarantee>>.
+This may hide issues related to deadlocks and livelocks.
+
+For advanced uses of marking, see the CIF language tutorial section on <<lang-tut-extensions-synthesis-marked,marker predicates>>.
+
+The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-synthesis,synthesize a supervisor>>.

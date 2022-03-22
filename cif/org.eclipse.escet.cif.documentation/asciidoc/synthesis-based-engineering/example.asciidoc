@@ -41,6 +41,7 @@ The controller can thus decide when to move products from one place to another.
 A sensor indicates the result of the check performed on processed products, indicating whether they are OK or not.
 This sensor works autonomously and is thus not controlled by the controller.
 
+[[sbe-example-requirement]]
 === FIFO requirement
 
 The example system, without any controller that controls it, already ensures that:
@@ -70,7 +71,7 @@ If the identifier of the current product on the _INOUT_ place is given by _curId
 
 * _curId_ = _lastExitId_ + 1
 
-See the section on <<sbe-with-cif,synthesis-based engineering with CIF>> for how the example system and its requirement can be modeled in CIF.
+See the section on <<sbe-in-practice-example,synthesis-based engineering in practice example>> section for how the example system and its requirement can be modeled in CIF.
 
 === Synthesis-based engineering
 
@@ -188,7 +189,7 @@ Products may enter the system, start processing, be processed in parallel, and l
 This ensures the *maximum throughput* of the system can still be achieved.
 
 * Synthesis-based engineering allows for a modular design.
-The various parts of the system, as well as the requirement, <<sbe-with-cif,can be *modeled>> separately*.
+The various parts of the system, as well as the requirement, <<sbe-in-practice,can be *modeled>> separately*.
 This makes it easy to adapt the system (model), to for instance allow products that do not require processing to bypass the processing loop.
 With minimal changes to the system model, and no changes to the requirement, a new supervisor can then be produced by the push of a button.
 This allows for *incremental development* of the system and its controller.

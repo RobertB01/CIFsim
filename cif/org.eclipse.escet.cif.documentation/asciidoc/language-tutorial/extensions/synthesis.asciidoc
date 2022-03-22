@@ -43,7 +43,7 @@ CIF has several features that are used solely of modeling systems for the purpos
 These concepts are explained below.
 When a model is not used for supervisory controller synthesis, e.g. for simulation, these concepts are usually ignored.
 
-For an example of how these concepts can be used for modeling of a concrete example, see the section on <<sbe-with-cif,synthesis-based engineering with CIF>>.
+For an example of how these concepts can be used for modeling of a concrete example, see the <<sbe-in-practice-example,synthesis-based engineering in practice example>> section.
 
 indexterm:[automaton,supervisory kind]
 indexterm:[automaton,regular]

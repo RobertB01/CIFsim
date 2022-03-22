@@ -1,0 +1,75 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[sbe-in-practice]]
+== Synthesis-based engineering in practice
+
+This section explains concretely how to use the CIF language and toolset to apply synthesis-based engineering of supervisory controllers.
+Before reading this section, please familiarize yourself with:
+
+* The <<lang-tut-chapter-index,basics of the CIF language>>.
+* The <<sbe-approaches-synthesis-based,synthesis-based engineering>> approach.
+
+*Development process*
+
+The process to develop supervisory controllers using the synthesis-based engineering approach typically following several steps.
+We'll briefly discuss each of the steps and provide some practical guidance:
+
+<<sbe-in-practice-steps-modeling-the-events>>::
+Modeling the actions that can happen in the system as events.
+
+<<sbe-in-practice-steps-modeling-the-plant>>::
+Modeling the plant automata that represents the event behavior of the to-be-controlled system.
+
+<<sbe-in-practice-steps-modeling-plant-relations>>::
+Modeling the relations between the various plant automata.
+
+<<sbe-in-practice-steps-modeling-the-requirements>>::
+Modeling the requirements that restrict the behavior of the plant.
+
+<<sbe-in-practice-steps-marking>>::
+Dealing with marking of the plant and requirement automata.
+
+<<sbe-in-practice-steps-synthesis>>::
+Performing supervisor synthesis on the plant and requirements to automatically synthesize a supervisor.
+
+<<sbe-in-practice-steps-validation>>::
+Validating that the synthesized supervisor controls the system as desired.
+
+<<sbe-in-practice-steps-implementation>>::
+Implementing the validated supervisory controller using automatic code generation.
+
+*Advanced topics*
+
+Furthermore, the following more advanced information is available:
+
+<<sbe-in-practice-advanced-incremental-development>>::
+Explains how to incrementally develop your controller to prevent commonly encountered issues when applying synthesis-based engineering.
+
+<<sbe-in-practice-advanced-too-limited-behavior>>::
+Explains how to resolve issues with too limited controlled system behavior, for instance due to conflicting requirements, revealed through synthesis or validation.
+
+<<sbe-in-practice-advanced-performance>>::
+Explains how to resolve performance and memory issues for supervisor synthesis.
+
+<<sbe-in-practice-advanced-non-monolithic-synthesis>>::
+Explains how to incrementally develop your controller to prevent commonly encountered issues when applying synthesis-based engineering.
+
+*Practical example*
+
+For how this process can be used in practice, based on an example, see:
+
+* <<sbe-example>>
+* <<sbe-in-practice-example>>

@@ -41,4 +41,4 @@ Alternatively, select the file and press kbd:[F10].
 
 For the following examples, additional information is available:
 
-* <<sbe-with-cif,Supervisory controller synthesis FIFO example>>
+* <<sbe-in-practice-example,Supervisory controller synthesis FIFO example>>

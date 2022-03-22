@@ -82,9 +82,49 @@ include::synthesis-based-engineering/approaches/synthesis-based-engineering.asci
 
 include::synthesis-based-engineering/example.asciidoc[]
 
-include::synthesis-based-engineering/with-cif.asciidoc[]
+include::synthesis-based-engineering/in-practice/index.asciidoc[]
 
-include::synthesis-based-engineering/tips-and-tricks.asciidoc[]
+:leveloffset: +1
+
+== Steps
+
+:leveloffset: +1
+
+include::synthesis-based-engineering/in-practice/steps/modeling-events.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/steps/modeling-plant.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/steps/modeling-plant-relations.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/steps/modeling-requirements.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/steps/marking.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/steps/synthesis.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/steps/validation.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/steps/implementation.asciidoc[]
+
+:leveloffset: -1
+
+== Advanced
+
+:leveloffset: +1
+
+include::synthesis-based-engineering/in-practice/advanced/incremental-development.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/advanced/too-limited-behavior.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/advanced/synthesis-performance.asciidoc[]
+
+include::synthesis-based-engineering/in-practice/advanced/non-monolithic-synthesis.asciidoc[]
+
+:leveloffset: -1
+
+include::synthesis-based-engineering/in-practice/example.asciidoc[]
+
+:leveloffset: -1
 
 include::synthesis-based-engineering/challenges.asciidoc[]
 

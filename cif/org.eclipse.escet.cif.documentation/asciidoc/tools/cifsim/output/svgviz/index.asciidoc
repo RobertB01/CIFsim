@@ -62,4 +62,4 @@ The following examples are available:
 
 Furthermore, examples of SVG visualization are available in other parts of the documentation:
 
-* <<sbe-with-cif>>
+* <<sbe-in-practice-example>>

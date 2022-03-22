@@ -79,6 +79,6 @@ Companies should consider various aspects regarding the tools they use, such as 
 * Consider how active the community around the tool is.
 * Consider whether commercial support is available.
 
-The selected tools should also be used in the right way.
+The selected tools should also be used in <<sbe-in-practice,the right way>>.
 For instance, naively applying synthesis and trying to obtain a single monolithic supervisor for larger and more complex systems will likely not scale very well.
-Employing the <<sbe-tips-tricks-non-monolithic-synthesis,proper techniques>> for the given situation is essential to mitigate such concerns.
+Employing the <<sbe-in-practice-advanced-non-monolithic-synthesis,proper techniques>> for the given situation is essential to mitigate such concerns.

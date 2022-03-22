@@ -72,6 +72,7 @@ indexterm:[event]
 indexterm:[event, controllable]
 indexterm:[event, uncontrollable]
 
+[[sbe-approaches-synthesis-based-events]]
 Actions, such a sensor going on or off, or an actuator being turned on or off, are called _events_.
 Supervisor synthesis distinguishes two types of events, _controllable_ and _uncontrollable_ events.
 Controllable events can be controlled by the supervisory controller.
@@ -91,6 +92,7 @@ See for more information the section on <<sbe-supervisory-controllers,supervisor
 indexterm:[requirement, functional]
 indexterm:[requirement, safety]
 
+[[sbe-approaches-synthesis-based-requirements]]
 A requirements model captures requirements.
 It may specify functional requirements, safety requirements, etc.
 For instance, the motor to open a gate may only be activated once the barrier to stop traffic is fully closed.
@@ -118,6 +120,7 @@ indexterm:[controller, supervisor]
 indexterm:[supervisor]
 indexterm:[supervisor, synthesis]
 
+[[sbe-approaches-synthesis-synthesis]]
 === Supervisory controller synthesis
 
 Supervisory controller synthesis generates from the plant and requirements models a controller model, a model of the control logic, named a _supervisor_ or supervisory controller.
@@ -126,6 +129,7 @@ The synthesized supervisor is correct-by-construction, i.e., it satisfy all the 
 indexterm:[control, conditions]
 indexterm:[system, controlled]
 
+[[sbe-approaches-synthesis-controlled-system]]
 The supervisor may be represented as another state machine, but it may for instance also be a list of conditions under which actuators may be activated or deactivated.
 The synthesized supervisor as a state machine, or the plant model together with the supervisor in the form of extra synthesized control conditions, forms the _controlled system_.
 
@@ -144,7 +148,7 @@ indexterm:[non-blocking]
 indexterm:[liveness]
 
 [[sbe-approaches-synthesis-based-non-blocking]]
-* **Non-blocking:** It doesn't block, i.e., a <<sbe-tips-tricks-marking,marked state>> can always be reached from every reachable state, thus ensuring a form of link:https://en.wikipedia.org/wiki/Liveness[liveness].
+* **Non-blocking:** It doesn't block, i.e., a <<sbe-in-practice-steps-marking,marked>> <<lang-tut-basics-chapter-synchronizing-events-statespace,state>> can always be reached from every reachable state, thus ensuring a form of link:https://en.wikipedia.org/wiki/Liveness[liveness].
 
 indexterm:[permissive, maximally]
 indexterm:[restrictive, minimally]

@@ -42,11 +42,8 @@ Discusses synthesis-based engineering of supervisory controllers, its benefits, 
 <<sbe-example>>::
 Demonstrates the value of synthesis-based engineering through an example.
 
-<<sbe-with-cif>>::
-Explains how the CIF language and toolset support synthesis-based engineering of supervisory controllers, based on the example.
-
-<<sbe-tips-tricks>>::
-Discusses some tips and tricks for applying synthesis-based engineering with CIF.
+<<sbe-in-practice>>::
+Explains concretely how to use the CIF language and toolset to apply synthesis-based engineering of supervisory controllers.
 
 <<sbe-challenges>>::
 Explains the challenges of embedding a synthesis-based engineering approach into industrial practice.
