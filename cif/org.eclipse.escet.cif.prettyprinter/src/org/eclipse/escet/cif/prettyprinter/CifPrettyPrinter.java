@@ -341,6 +341,10 @@ public final class CifPrettyPrinter {
                     line.append(" ");
                 }
                 line.append("invariant ");
+                if (inv.getName() != null) {
+                    line.append(escapeIdentifier(inv.getName()));
+                    line.append(": ");
+                }
                 switch (inv.getInvKind()) {
                     case STATE:
                         line.append(pprint(inv.getPredicate()));
