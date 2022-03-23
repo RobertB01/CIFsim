@@ -26,6 +26,7 @@ import org.eclipse.escet.cif.common.CifRelativePathUtils;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
@@ -43,6 +44,7 @@ import org.eclipse.escet.cif.parser.ast.tokens.AStringToken;
 import org.eclipse.escet.cif.typechecker.SourceFile;
 import org.eclipse.escet.cif.typechecker.SymbolTableEntry;
 import org.eclipse.escet.cif.typechecker.declwrap.DeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.InvDeclWrap;
 import org.eclipse.escet.common.java.Assert;
 
 /**
@@ -103,11 +105,11 @@ public class SymbolScopeMerger {
 
         // Merge data of the imported scope into the main scope.
         mergeChildDecls(mainScope, impScope);
+        mergeChildInvs(mainScope, impScope);
         mergeChildScopes(mainScope, impScope, mainSource, impSource);
         mergeEquations(mainScope, impScope);
         mergeIoDecls(mainScope, impScope, mainSource, impSource);
         mainScope.astInitPreds.addAll(impScope.astInitPreds);
-        mainScope.astInvs.addAll(impScope.astInvs);
         mainScope.astMarkerPreds.addAll(impScope.astMarkerPreds);
     }
 
@@ -138,6 +140,30 @@ public class SymbolScopeMerger {
             } else {
                 throw new RuntimeException("Unexpected child decl: " + decl);
             }
+        }
+    }
+
+    /**
+     * Merges child invariants of a symbol scope for an imported source file into a symbol scope for the main source
+     * file.
+     *
+     * @param mainScope The symbol scope of the main source file. Must be a specification or group scope. Group
+     *     definition scopes are not supported.
+     * @param impScope The symbol scope of the imported source file. Must be a specification or group scope. Group
+     *     definition scopes are not supported.
+     */
+    private static void mergeChildInvs(ParentScope<?> mainScope, ParentScope<?> impScope) {
+        Group mainGroup = mainScope.getGroup();
+        List<Invariant> mainInvs = mainGroup.getInvariants();
+
+        for (InvDeclWrap invWrap: impScope.invariants) {
+            // Update symbol table.
+            mainScope.addInvariant(invWrap);
+            invWrap.changeParent(mainScope);
+
+            // Update metamodel.
+            Invariant inv = invWrap.getObject();
+            mainInvs.add(inv);
         }
     }
 

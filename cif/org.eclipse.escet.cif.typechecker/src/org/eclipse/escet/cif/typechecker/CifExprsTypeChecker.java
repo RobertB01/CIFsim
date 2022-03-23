@@ -192,6 +192,7 @@ import org.eclipse.escet.cif.parser.ast.expressions.AUnaryExpression;
 import org.eclipse.escet.cif.typechecker.declwrap.EnumDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EventDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FormalEventDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.InvDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.cif.typechecker.scopes.AutDefScope;
 import org.eclipse.escet.cif.typechecker.scopes.AutScope;
@@ -4931,6 +4932,11 @@ public class CifExprsTypeChecker {
         // Check for invalid references.
         if (entry instanceof EnumDeclWrap || entry instanceof TypeDeclWrap) {
             tchecker.addProblem(ErrMsg.TYPE_REF_IN_EXPR, expr.position, entry.getAbsName());
+            throw new SemanticException();
+        }
+
+        if (entry instanceof InvDeclWrap) {
+            tchecker.addProblem(ErrMsg.INV_REF_IN_EXPR, expr.position, entry.getAbsName());
             throw new SemanticException();
         }
 

@@ -1245,6 +1245,10 @@ public class CifTextUtils {
             String name = ((Location)obj).getName();
             Assert.notNull(name);
             return name;
+        } else if (obj instanceof Invariant) {
+            String name = ((Invariant)obj).getName();
+            Assert.notNull(name);
+            return name;
         } else if (obj instanceof FunctionParameter) {
             return ((FunctionParameter)obj).getParameter().getName();
         } else if (obj instanceof Field) {

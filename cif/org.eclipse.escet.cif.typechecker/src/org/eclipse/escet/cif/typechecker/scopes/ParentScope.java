@@ -13,45 +13,34 @@
 
 package org.eclipse.escet.cif.typechecker.scopes;
 
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInvariant;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
-import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.Group;
-import org.eclipse.escet.cif.metamodel.cif.InvKind;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
-import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.parser.ast.AEquation;
 import org.eclipse.escet.cif.parser.ast.AInitialDecl;
-import org.eclipse.escet.cif.parser.ast.AInvariant;
-import org.eclipse.escet.cif.parser.ast.AInvariantDecl;
 import org.eclipse.escet.cif.parser.ast.AMarkedDecl;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
-import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
-import org.eclipse.escet.cif.typechecker.CifEventRefTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.SymbolTableEntry;
@@ -69,6 +58,7 @@ import org.eclipse.escet.cif.typechecker.declwrap.FormalLocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InputVariableDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.InvDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.box.Box;
@@ -79,7 +69,6 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
-import org.eclipse.escet.setext.runtime.Token;
 
 /**
  * A parent scope in the symbol table of the CIF language.
@@ -99,6 +88,9 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
      */
     protected final Map<String, DeclWrap<?>> declarations = map();
 
+    /** The unnamed invariants of this scope. */
+    protected final Set<InvDeclWrap> invariants = set();
+
     /** Mapping from variable names to their equations. */
     public Map<String, List<AEquation>> astEquations = map();
 
@@ -111,9 +103,6 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
 
     /** Initialization predicates of this scope. */
     protected List<AInitialDecl> astInitPreds = list();
-
-    /** Invariants of this scope. */
-    protected List<AInvariantDecl> astInvs = list();
 
     /** Marker predicates of this scope. */
     protected List<AMarkedDecl> astMarkerPreds = list();
@@ -210,6 +199,24 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
     }
 
     /**
+     * Adds an invariant to this scope.
+     *
+     * @param inv The symbol table entry of the invariant to add.
+     */
+    public void addInvariant(InvDeclWrap inv) {
+        if (inv.getName() != null) {
+            // If invariant has a name, check name uniqueness.
+            checkUniqueName(inv);
+
+            // Store named invariant.
+            declarations.put(inv.getName(), inv);
+        } else {
+            // Store unnamed invariant.
+            invariants.add(inv);
+        }
+    }
+
+    /**
      * Adds a child scope to this scope.
      *
      * @param scope The symbol table entry of the child scope to add.
@@ -288,6 +295,7 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
         // Check all child declarations and scopes.
         boolean failed = false;
 
+        // Type check declarations. Only type checks named invariants.
         for (DeclWrap<?> decl: declarations.values()) {
             try {
                 decl.tcheckFull();
@@ -297,6 +305,17 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
             }
         }
 
+        // Type check unnamed invariants.
+        for (InvDeclWrap inv: invariants) {
+            try {
+                inv.tcheckFull();
+            } catch (SemanticException ex) {
+                // Ignore and continue.
+                failed = true;
+            }
+        }
+
+        // Type check child scopes.
         for (SymbolScope<?> child: children.values()) {
             try {
                 child.tcheckFull();
@@ -306,9 +325,8 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
             }
         }
 
-        // Type check initialization predicates, invariants, and marker
-        // predicates.
-        tcheckInitInvMarked();
+        // Type check initialization predicates and marker predicates.
+        tcheckInitMarked();
 
         // Complete the type checking of equations. Don't report that variables
         // are not in scope, if the equations was not added due to failure to
@@ -385,13 +403,12 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
     }
 
     /**
-     * Performs type checking on the initialization predicates, invariants, and marker predicates of this scope. Also
-     * adds them to the metamodel object.
+     * Performs type checking on the initialization predicates and marker predicates of this scope. Also adds them to
+     * the metamodel object.
      */
-    private void tcheckInitInvMarked() {
-        // Skip scopes that are not complex components. They should also not
-        // have any invariants etc.
-        if (astInitPreds.isEmpty() && astInvs.isEmpty() && astMarkerPreds.isEmpty()) {
+    private void tcheckInitMarked() {
+        // Skip scopes that do not have initialization predicates and marker predicates.
+        if (astInitPreds.isEmpty() && astMarkerPreds.isEmpty()) {
             return;
         }
 
@@ -413,11 +430,6 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
             }
         }
 
-        // Process invariants.
-        for (AInvariantDecl astInv: astInvs) {
-            tcheckInvs(astInv.kind, astInv.invariants, this, tchecker, ccomp.getInvariants());
-        }
-
         // Process marker predicates.
         for (AMarkedDecl astPreds: astMarkerPreds) {
             for (AExpression pred: astPreds.preds) {
@@ -432,104 +444,6 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
                 }
             }
         }
-    }
-
-    /**
-     * Performs type checking on invariants. Also adds them to the metamodel object.
-     *
-     * @param astKind The CIF AST supervisory kind token, or {@code null} if not specified.
-     * @param astInvs The CIF AST invariants.
-     * @param scope The scope in which the invariants are specified.
-     * @param tchecker The CIF type checker to use.
-     * @param mmInvs The list to which to add the metamodel invariants.
-     */
-    public static void tcheckInvs(Token astKind, List<AInvariant> astInvs, SymbolScope<?> scope,
-            CifTypeChecker tchecker, EList<Invariant> mmInvs)
-    {
-        // Process supervisory kind of the invariant.
-        SupKind supKind = transInvSupKind(astKind);
-
-        // Process invariants.
-        for (AInvariant astInv: astInvs) {
-            // Process invariant kind.
-            InvKind invKind = transInvKind(astInv.invKind);
-
-            // Process predicate.
-            AExpression astPred = astInv.predicate;
-            Expression pred = transExpression(astPred, BOOL_TYPE_HINT, scope, null, tchecker);
-
-            // Check predicate type.
-            CifType t = pred.getType();
-            CifType nt = CifTypeUtils.normalizeType(t);
-            if (!(nt instanceof BoolType)) {
-                tchecker.addProblem(ErrMsg.INV_NON_BOOL, astPred.position, CifTextUtils.typeToStr(t));
-                // Non-fatal error.
-            }
-
-            // Process event references.
-            List<Expression> eventRefs;
-            if (invKind == InvKind.STATE) {
-                // State (exclusion) invariant, so no event reference.
-                eventRefs = list((Expression)null);
-            } else {
-                // One or more event references.
-                eventRefs = listc(astInv.events.size());
-                for (AName event: astInv.events) {
-                    Expression eventRef = CifEventRefTypeChecker.checkEventRef(event, scope, tchecker);
-                    eventRefs.add(eventRef);
-                }
-            }
-
-            // Create and add invariants.
-            for (int i = 0; i < eventRefs.size(); i++) {
-                Expression eventRef = eventRefs.get(i);
-                Assert.ifAndOnlyIf(invKind == InvKind.STATE, eventRef == null);
-
-                Position invPos = astInv.position;
-                Expression invPred = pred;
-                if (i > 0) {
-                    invPred = deepclone(invPred);
-                }
-                if (i > 0) {
-                    invPos = copyPosition(invPos);
-                }
-
-                Invariant inv = newInvariant();
-                inv.setSupKind(supKind);
-                inv.setInvKind(invKind);
-                inv.setPosition(invPos);
-                inv.setPredicate(invPred);
-                inv.setEvent(eventRef);
-                mmInvs.add(inv);
-            }
-        }
-    }
-
-    /**
-     * Transforms a CIF AST invariant kind token to a CIF metamodel invariant kind.
-     *
-     * @param kind The CIF AST invariant kind. Is either a state/event exclusion kind token, or {@code null} for state
-     *     invariants.
-     * @return The CIF metamodel invariant kind.
-     */
-    private static InvKind transInvKind(Token kind) {
-        if (kind == null) {
-            return InvKind.STATE;
-        }
-        return InvKind.valueOf("EVENT_" + kind.text.toUpperCase(Locale.US));
-    }
-
-    /**
-     * Transforms a CIF AST invariant supervisory kind token to a CIF metamodel invariant supervisory kind.
-     *
-     * @param kind The CIF AST invariant supervisory kind token, or {@code null} if not specified.
-     * @return The CIF metamodel invariant supervisory kind.
-     */
-    private static SupKind transInvSupKind(Token kind) {
-        if (kind == null) {
-            return SupKind.NONE;
-        }
-        return SupKind.valueOf(kind.text.toUpperCase(Locale.US));
     }
 
     @Override
@@ -798,6 +712,9 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
                     // NOTE: Unused checks temporarily disabled to avoid false positives.
                     //
                     // description = "Type";
+                    continue;
+                } else if (decl instanceof InvDeclWrap) {
+                    // Invariants are never unused.
                     continue;
                 } else {
                     throw new RuntimeException("Unknown decl: " + decl);
