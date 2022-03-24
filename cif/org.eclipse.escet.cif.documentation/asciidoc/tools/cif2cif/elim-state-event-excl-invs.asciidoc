@@ -50,6 +50,8 @@ They are replaced with automata with self loops.
 Per component, the state/event exclusion invariants of the component (the top level scope of the specification, groups, automata), as well as those of its locations (only for automata), are partitioned per <<lang-tut-extensions-synthesis-invkind,supervisory kind>>.
 Per such partition, an automaton is created.
 
+State/event exclusion invariants with names lose their name, as self loops cannot be named.
+
 The automaton is put along side the component (for groups and automata), as sibling.
 For invariants in the top level scope of the specification, the new automaton is put in the top level scope of the specification.
 The new automaton gets the same name as the component that contained the invariants as prefix, with some postfixes.

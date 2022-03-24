@@ -79,6 +79,10 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * them, apply the {@link SimplifyValues} transformation after this transformation.
  * </p>
  *
+ * <p>
+ * This transformation removes the names of named invariants.
+ * </p>
+ *
  * @see ElimLocRefExprs
  * @see SimplifyValues
  */
