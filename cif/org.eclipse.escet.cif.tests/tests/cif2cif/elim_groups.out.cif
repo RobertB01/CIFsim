@@ -11,6 +11,7 @@ cont p_eq_x;
 automaton g1_p_p1:
   location l:
     initial;
+    invariant inv1: true;
 end
 automaton g1_p_p2:
   location l:
@@ -36,9 +37,10 @@ automaton x_y_z2:
     initial;
 end
 invariant c + g2_c + g4_A + g1_c2 > 0;
+invariant g1_inv2: true;
 invariant 0 = 0;
-plant invariant g1_c = 1;
-requirement invariant g2_c2 = 2;
+plant invariant g1_inv22: g1_c = 1;
+requirement invariant g2_inv3: g2_c2 = 2;
 invariant p_eq_a + p_eq_x > 0;
 equation p_eq_a = 1.0,
          p_eq_x' = 2.0;

@@ -52,8 +52,8 @@ import org.eclipse.escet.common.java.Sets;
  * </p>
  *
  * <p>
- * Since declarations of the groups are merged with the declarations of the specification, renaming may be necessary to
- * ensure uniquely named declarations.
+ * Since declarations and invariants of the groups are merged with the declarations and invariants of the specification,
+ * renaming may be necessary to ensure uniquely named declarations and invariants.
  * </p>
  *
  * <p>
@@ -102,9 +102,12 @@ public class ElimGroups implements CifToCifTransformation {
             liftedNames.add(absName);
         }
 
-        // Rename declarations to absolute names. Keep enumeration literal
-        // names. Meanwhile, collect lifted names.
+        // Rename declarations and invariants to absolute names. Keep
+        // enumeration literal names. Meanwhile, collect lifted names.
+        // Since we leave invariants in automata where they are, this won't
+        // influence the implicit supervisory kinds of invariants.
         List<Declaration> liftedDecls = list();
+        List<Invariant> liftedInvs = list();
         for (Group group: groups) {
             for (Declaration decl: group.getDeclarations()) {
                 // Store declarations to lift.
@@ -115,6 +118,18 @@ public class ElimGroups implements CifToCifTransformation {
                 decl.setName(absName);
                 liftedNames.add(absName);
             }
+
+            for (Invariant inv: group.getInvariants()) {
+                // Store invariants to lift.
+                liftedInvs.add(inv);
+
+                // Make name absolute, and add to lifted names.
+                if (inv.getName() != null) {
+                    String absName = CifTextUtils.getAbsName(inv, false).replace('.', '_');
+                    inv.setName(absName);
+                    liftedNames.add(absName);
+                }
+            }
         }
 
         // Remove groups, lift automata, and get names of objects declared
@@ -124,16 +139,12 @@ public class ElimGroups implements CifToCifTransformation {
         Set<String> specNames = CifScopeUtils.getSymbolNamesForScope(spec, null);
         components.addAll(automata);
 
-        // Lift all initial, invariant, and marker predicates, as well as
-        // equations. Since we leave invariants in automata where they are,
-        // this won't influence the implicit supervisory kinds of invariants.
+        // Lift all initial and marker predicates, as well as equations.
         List<Expression> specInitials = spec.getInitials();
-        List<Invariant> specInvariants = spec.getInvariants();
         List<Expression> specMarkeds = spec.getMarkeds();
         List<Equation> specEquations = spec.getEquations();
         for (Group group: groups) {
             specInitials.addAll(group.getInitials());
-            specInvariants.addAll(group.getInvariants());
             specMarkeds.addAll(group.getMarkeds());
             specEquations.addAll(group.getEquations());
         }
@@ -144,7 +155,7 @@ public class ElimGroups implements CifToCifTransformation {
             specIoDecls.addAll(group.getIoDecls());
         }
 
-        // Lift all declarations. Meanwhile, collect their names.
+        // Lift all declarations.
         List<Declaration> specDecls = spec.getDeclarations();
         for (Declaration decl: liftedDecls) {
             // Lift.
@@ -157,6 +168,9 @@ public class ElimGroups implements CifToCifTransformation {
                 }
             }
         }
+
+        // Lift all invariants.
+        spec.getInvariants().addAll(liftedInvs);
 
         // Rename lifted automata, if needed.
         Set<String> usedNames = Sets.copy(specNames);
@@ -197,6 +211,23 @@ public class ElimGroups implements CifToCifTransformation {
                     usedNames.add(lit.getName());
                 }
             }
+        }
+
+        // Rename lifted invariants, if needed.
+        for (Invariant inv: liftedInvs) {
+            // Skip nameless invariants.
+            if (inv.getName() == null) {
+                continue;
+            }
+
+            if (usedNames.contains(inv.getName())) {
+                // Rename invariant.
+                String oldName = inv.getName();
+                String newName = CifScopeUtils.getUniqueName(oldName, usedNames, liftedNames);
+                inv.setName(newName);
+                warn("Invariant \"%s\" is renamed to \"%s\".", oldName, newName);
+            }
+            usedNames.add(inv.getName());
         }
     }
 
