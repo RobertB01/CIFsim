@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.common;
 
-import static org.eclipse.escet.cif.common.CifCollectUtils.getComplexComponents;
+import static org.eclipse.escet.cif.common.CifCollectUtils.getComplexComponentsStream;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newGroup;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
@@ -30,7 +30,7 @@ public class CifCollectUtilsTest {
     public void testEmptyComponentStream() {
         Specification spec = newSpecification();
 
-        long numComponents = getComplexComponents(spec).count();
+        long numComponents = getComplexComponentsStream(spec).count();
         assertEquals(1, numComponents);
     }
 
@@ -44,7 +44,7 @@ public class CifCollectUtilsTest {
         Group grp2 = newGroup();
         grp1.getComponents().add(grp2);
 
-        long numComponents = getComplexComponents(spec).count();
+        long numComponents = getComplexComponentsStream(spec).count();
         assertEquals(4, numComponents);
     }
 }

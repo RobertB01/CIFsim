@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -44,6 +45,21 @@ public class CifCollectUtils {
     }
 
     /**
+     * Function that gives a stream of event declarations from the complex components tree.
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param comp Root complex component to search for events.
+     * @return Stream with the event declarations in the tree.
+     */
+    public static Stream<Event> getEventDeclarationsStream(ComplexComponent comp) {
+        return getComplexComponentsStream(comp).flatMap(cc -> cc.getDeclarations().stream())
+                .filter(decl -> decl instanceof Event).map(decl -> (Event)decl);
+    }
+
+    /**
      * Collect the events declared in the given component (recursively). Note that since the 'tau' event is not declared
      * explicitly, it will not be collected.
      *
@@ -55,12 +71,7 @@ public class CifCollectUtils {
      * @param events The events collected so far. Is modified in-place.
      */
     public static void collectEvents(ComplexComponent comp, Collection<Event> events) {
-        getComplexComponents(comp)
-                .forEach(cc ->
-                {
-                    cc.getDeclarations().stream().filter(decl -> decl instanceof Event)
-                            .forEach(decl -> events.add((Event)decl));
-                });
+        getEventDeclarationsStream(comp).collect(Collectors.toCollection(() -> events));
     }
 
     /**
@@ -74,11 +85,8 @@ public class CifCollectUtils {
      * @param ctrlEvents The controllable events collected so far. Is modified in-place.
      */
     public static void collectControllableEvents(ComplexComponent comp, Collection<Event> ctrlEvents) {
-        getComplexComponents(comp).forEach(cc -> {
-            cc.getDeclarations().stream().filter(decl -> decl instanceof Event
-                    && ((Event)decl).getControllable() != null && ((Event)decl).getControllable())
-                    .forEach(decl -> ctrlEvents.add((Event)decl));
-        });
+        getEventDeclarationsStream(comp).filter(ed -> ed.getControllable() != null && ed.getControllable())
+                .collect(Collectors.toCollection(() -> ctrlEvents));
     }
 
     /**
@@ -92,7 +100,8 @@ public class CifCollectUtils {
      * @param automata The automata collected so far. Is modified in-place.
      */
     public static void collectAutomata(ComplexComponent comp, Collection<Automaton> automata) {
-        getComplexComponents(comp).filter(cc -> cc instanceof Automaton).forEach(cc -> automata.add((Automaton)cc));
+        getComplexComponentsStream(comp).filter(cc -> cc instanceof Automaton).map(cc -> (Automaton)cc)
+                .collect(Collectors.toCollection(() -> automata));
     }
 
     /**
@@ -106,9 +115,9 @@ public class CifCollectUtils {
      * @param variables The discrete and input variables collected so far. Is modified in-place.
      */
     public static void collectDiscAndInputVariables(ComplexComponent comp, Collection<Declaration> variables) {
-        getComplexComponents(comp).forEach(cc -> {
+        getComplexComponentsStream(comp).forEach(cc -> {
             cc.getDeclarations().stream().filter(decl -> decl instanceof DiscVariable || decl instanceof InputVariable)
-                    .forEach(decl -> variables.add(decl));
+                    .collect(Collectors.toCollection(() -> variables));
         });
     }
 
@@ -123,7 +132,7 @@ public class CifCollectUtils {
      * @param declarations The declarations collected so far. Is modified in-place.
      */
     public static void collectDeclarations(ComplexComponent comp, Collection<Declaration> declarations) {
-        getComplexComponents(comp).forEach(cc -> declarations.addAll(cc.getDeclarations()));
+        getComplexComponentsStream(comp).forEach(cc -> declarations.addAll(cc.getDeclarations()));
     }
 
     /**
@@ -137,7 +146,7 @@ public class CifCollectUtils {
      * @param declarations The I/O declarations collected so far. Is modified in-place.
      */
     public static void collectIoDeclarations(ComplexComponent comp, Collection<IoDecl> declarations) {
-        getComplexComponents(comp).forEach(cc -> declarations.addAll(cc.getIoDecls()));
+        getComplexComponentsStream(comp).forEach(cc -> declarations.addAll(cc.getIoDecls()));
     }
 
     /**
@@ -149,7 +158,7 @@ public class CifCollectUtils {
     public static void collectEnumDecls(ComplexComponent comp, Collection<EnumDecl> enumDecls) {
         getComplexComponents(comp, true).forEach(cc -> {
             cc.getDeclarations().stream().filter(decl -> decl instanceof EnumDecl)
-                    .forEach(decl -> enumDecls.add((EnumDecl)decl));
+                    .map(decl -> (EnumDecl)decl).collect(Collectors.toCollection(() -> enumDecls));
         });
     }
 
@@ -233,10 +242,14 @@ public class CifCollectUtils {
     /**
      * Function providing a stream of complex components to process from the root.
      *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
      * @param comp Root component to traverse.
-     * @return Stream of contained complex component found in the root component.
+     * @return Stream of contained complex components found in the root component.
      */
-    public static Stream<ComplexComponent> getComplexComponents(ComplexComponent comp) {
+    public static Stream<ComplexComponent> getComplexComponentsStream(ComplexComponent comp) {
         return StreamSupport.stream(new ComplexComponentSpliterator(comp, false), false);
     }
 
@@ -245,7 +258,7 @@ public class CifCollectUtils {
      *
      * @param comp Root component to traverse.
      * @param traverseCompDefs Whether to search component definitions as well.
-     * @return Stream of contained complex component found in the root component.
+     * @return Stream of contained complex components found in the root component.
      */
     public static Stream<ComplexComponent> getComplexComponents(ComplexComponent comp, boolean traverseCompDefs) {
         return StreamSupport.stream(new ComplexComponentSpliterator(comp, traverseCompDefs), false);
