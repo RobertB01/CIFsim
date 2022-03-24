@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
 import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -478,6 +479,16 @@ public class CifScopeUtils {
                     }
                 }
             }
+
+            // Invariants.
+            for (Invariant inv: comp.getInvariants()) {
+                String invName = inv.getName();
+                if (invName != null) {
+                    if (invName.equals(name)) {
+                        return inv;
+                    }
+                }
+            }
         }
 
         // Groups (incl. specifications).
@@ -509,6 +520,15 @@ public class CifScopeUtils {
                 if (locName != null) {
                     if (locName.equals(name)) {
                         return loc;
+                    }
+                }
+                // Invariants in locations.
+                for (Invariant inv: loc.getInvariants()) {
+                    String invName = inv.getName();
+                    if (invName != null) {
+                        if (invName.equals(name)) {
+                            return inv;
+                        }
                     }
                 }
             }
@@ -622,8 +642,8 @@ public class CifScopeUtils {
 
         // Groups (incl. specifications).
         if (scope instanceof Group) {
-            // Add components, declarations (incl. enum literals) and
-            // component definitions.
+            // Add components, declarations (incl. enum literals),
+            // invariants and component definitions.
             Group group = (Group)scope;
             for (Component comp: group.getComponents()) {
                 rslt.add(comp.getName());
@@ -636,6 +656,12 @@ public class CifScopeUtils {
                     }
                 }
             }
+            for (Invariant inv: group.getInvariants()) {
+                String invName = inv.getName();
+                if (invName != null) {
+                    rslt.add(invName);
+                }
+            }
             for (ComponentDef cdef: group.getDefinitions()) {
                 rslt.add(cdef.getBody().getName());
             }
@@ -644,7 +670,7 @@ public class CifScopeUtils {
 
         // Automata.
         if (scope instanceof Automaton) {
-            // Add declarations (incl. enum literals) and locations.
+            // Add declarations (incl. enum literals), invariants and locations.
             Automaton aut = (Automaton)scope;
             for (Declaration decl: aut.getDeclarations()) {
                 rslt.add(decl.getName());
@@ -654,12 +680,27 @@ public class CifScopeUtils {
                     }
                 }
             }
+            for (Invariant inv: aut.getInvariants()) {
+                String invName = inv.getName();
+                if (invName != null) {
+                    rslt.add(invName);
+                }
+            }
             for (Location loc: aut.getLocations()) {
                 String locName = loc.getName();
                 if (locName != null) {
                     rslt.add(locName);
                 }
+
+                // Add invariant declared in the location.
+                for (Invariant inv: loc.getInvariants()) {
+                    String invName = inv.getName();
+                    if (invName != null) {
+                        rslt.add(invName);
+                    }
+                }
             }
+
             return rslt;
         }
 
