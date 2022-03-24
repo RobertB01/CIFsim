@@ -21,14 +21,15 @@ input bool c_input;
 
 type c_type = bool;
 
-invariant c_alg or c_const or c_input or c_aut.c_var2 or c_aut.c_var1 = c_lit;
+invariant c_inv: c_alg or c_const or c_input or c_aut.c_var2 or c_aut.c_var1 = c_lit;
 
 plant c_aut:
-  plant invariant true;
+  plant invariant c_inv1: true;
   disc c_enum c_var1 = c_lit;
   disc c_type c_var2 = true;
   location:
     initial;
+    invariant c_inv2: false;
 end
 
 plant def c_aut_def():
