@@ -67,11 +67,14 @@ public class CifCollectUtils {
      * Does not support component definition/instantiation.
      * </p>
      *
+     * @param <T> The type of the collection for storing the found events.
      * @param comp The component.
      * @param events The events collected so far. Is modified in-place.
+     * @return The updated events collection.
      */
-    public static void collectEvents(ComplexComponent comp, Collection<Event> events) {
+    public static <T extends Collection<Event>> T collectEvents(ComplexComponent comp, T events) {
         getEventDeclarationsStream(comp).collect(Collectors.toCollection(() -> events));
+        return events;
     }
 
     /**
@@ -81,12 +84,15 @@ public class CifCollectUtils {
      * Does not support component definition/instantiation.
      * </p>
      *
+     * @param <T> The type of the collection for storing the found controllable events.
      * @param comp The component.
      * @param ctrlEvents The controllable events collected so far. Is modified in-place.
+     * @return The updated controllable events collection.
      */
-    public static void collectControllableEvents(ComplexComponent comp, Collection<Event> ctrlEvents) {
+    public static <T extends Collection<Event>> T collectControllableEvents(ComplexComponent comp, T ctrlEvents) {
         getEventDeclarationsStream(comp).filter(ed -> ed.getControllable() != null && ed.getControllable())
                 .collect(Collectors.toCollection(() -> ctrlEvents));
+        return ctrlEvents;
     }
 
     /**
@@ -96,12 +102,15 @@ public class CifCollectUtils {
      * Does not support component definition/instantiation.
      * </p>
      *
+     * @param <T> The type of the collection for storing the found automata.
      * @param comp The component.
      * @param automata The automata collected so far. Is modified in-place.
+     * @return The updated automata collection.
      */
-    public static void collectAutomata(ComplexComponent comp, Collection<Automaton> automata) {
+    public static <T extends Collection<Automaton>> T collectAutomata(ComplexComponent comp, T automata) {
         getComplexComponentsStream(comp).filter(cc -> cc instanceof Automaton).map(cc -> (Automaton)cc)
                 .collect(Collectors.toCollection(() -> automata));
+        return automata;
     }
 
     /**
@@ -111,14 +120,18 @@ public class CifCollectUtils {
      * Does not support component definition/instantiation.
      * </p>
      *
+     * @param <T> The type of the collection for storing found discrete and input variables.
      * @param comp The component.
      * @param variables The discrete and input variables collected so far. Is modified in-place.
+     * @return The updated variables collection.
      */
-    public static void collectDiscAndInputVariables(ComplexComponent comp, Collection<Declaration> variables) {
-        getComplexComponentsStream(comp).forEach(cc -> {
-            cc.getDeclarations().stream().filter(decl -> decl instanceof DiscVariable || decl instanceof InputVariable)
-                    .collect(Collectors.toCollection(() -> variables));
-        });
+    public static <T extends Collection<Declaration>> T collectDiscAndInputVariables(ComplexComponent comp,
+            T variables)
+    {
+        getComplexComponentsStream(comp).flatMap(cc -> cc.getDeclarations().stream())
+                .filter(decl -> decl instanceof DiscVariable || decl instanceof InputVariable)
+                .collect(Collectors.toCollection(() -> variables));
+        return variables;
     }
 
     /**
@@ -128,11 +141,14 @@ public class CifCollectUtils {
      * Does not support component definition/instantiation.
      * </p>
      *
+     * @param <T> The type of the collection for storing found declarations.
      * @param comp The component.
      * @param declarations The declarations collected so far. Is modified in-place.
+     * @return The updated declarations collection.
      */
-    public static void collectDeclarations(ComplexComponent comp, Collection<Declaration> declarations) {
+    public static <T extends Collection<Declaration>> T collectDeclarations(ComplexComponent comp, T declarations) {
         getComplexComponentsStream(comp).forEach(cc -> declarations.addAll(cc.getDeclarations()));
+        return declarations;
     }
 
     /**
@@ -142,24 +158,29 @@ public class CifCollectUtils {
      * Does not support component definition/instantiation.
      * </p>
      *
+     * @param <T> The type of the collection for storing found I/O declarations.
      * @param comp The component.
      * @param declarations The I/O declarations collected so far. Is modified in-place.
+     * @return The updated I/O declarations collection.
      */
-    public static void collectIoDeclarations(ComplexComponent comp, Collection<IoDecl> declarations) {
+    public static <T extends Collection<IoDecl>> T collectIoDeclarations(ComplexComponent comp, T declarations) {
         getComplexComponentsStream(comp).forEach(cc -> declarations.addAll(cc.getIoDecls()));
+        return declarations;
     }
 
     /**
      * Collect the {@link EnumDecl}s declared in the given component (recursively).
      *
+     * @param <T> The type of the collection for storing found enum declarations.
      * @param comp The component.
      * @param enumDecls The enumeration declarations collected so far. Is modified in-place.
+     * @return The updated enum declarations collection.
      */
-    public static void collectEnumDecls(ComplexComponent comp, Collection<EnumDecl> enumDecls) {
-        getComplexComponents(comp, true).forEach(cc -> {
-            cc.getDeclarations().stream().filter(decl -> decl instanceof EnumDecl)
-                    .map(decl -> (EnumDecl)decl).collect(Collectors.toCollection(() -> enumDecls));
-        });
+    public static <T extends Collection<EnumDecl>> T collectEnumDecls(ComplexComponent comp, T enumDecls) {
+        getComplexComponents(comp, true).flatMap(cc -> cc.getDeclarations().stream())
+                .filter(decl -> decl instanceof EnumDecl).map(decl -> (EnumDecl)decl)
+                .collect(Collectors.toCollection(() -> enumDecls));
+        return enumDecls;
     }
 
     /** Class to construct a finite stream of {@link ComplexComponent} in the given root component. */
