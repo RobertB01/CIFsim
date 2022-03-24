@@ -125,6 +125,7 @@ public class SymbolScopeMerger {
     private static void mergeChildDecls(ParentScope<?> mainScope, ParentScope<?> impScope) {
         Group mainGroup = mainScope.getGroup();
         List<Declaration> mainDecls = mainGroup.getDeclarations();
+        List<Invariant> mainInvs = mainGroup.getInvariants();
 
         for (DeclWrap<?> declWrap: impScope.declarations.values()) {
             // Update symbol table.
@@ -137,6 +138,8 @@ public class SymbolScopeMerger {
                 mainDecls.add((Declaration)decl);
             } else if (decl instanceof EnumLiteral) {
                 // Enumeration is moved, so no need to move its literals.
+            } else if (decl instanceof Invariant) {
+                mainInvs.add((Invariant)decl);
             } else {
                 throw new RuntimeException("Unexpected child decl: " + decl);
             }
@@ -144,8 +147,8 @@ public class SymbolScopeMerger {
     }
 
     /**
-     * Merges child invariants of a symbol scope for an imported source file into a symbol scope for the main source
-     * file.
+     * Merges child nameless invariants of a symbol scope for an imported source file into a symbol scope for the main
+     * source file.
      *
      * @param mainScope The symbol scope of the main source file. Must be a specification or group scope. Group
      *     definition scopes are not supported.
