@@ -38,3 +38,7 @@ The version of the release is included in the suggested project name, allowing m
 Most examples also include a ToolDef <<tools-scripting-chapter-intro,script>> (`.tooldef` file) that can be used to perform various tasks, such as simulation.
 To execute such a script, right click a `.tooldef` file an choose menu:Execute ToolDef[].
 Alternatively, select the file and press kbd:[F10].
+
+For the following examples, additional information is available:
+
+* <<sbe-in-practice-example,Supervisory controller synthesis FIFO example>>

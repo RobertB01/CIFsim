@@ -64,6 +64,10 @@ Such a group is completely independent, and can be synthesized separately.
 The synthesis tool produces a new `.cif` file with the supervisor automaton (of kind `supervisor`) if the resulting automaton has at least an initial location.
 Otherwise, synthesis fails with a `Supervisor is empty` error, and no `.cif` file is written.
 
+When employing synthesis, consider also the <<tools-chapter-datasynth,data-based synthesis tool>>.
+It is often much more efficient when synthesizing supervisors for large and complex systems.
+It also supports a larger subset of CIF concepts.
+
 indexterm:[event-based supervisor synthesis,start]
 
 === Starting the supervisor synthesis tool

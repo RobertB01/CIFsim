@@ -1,0 +1,65 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+indexterm:[engineering, verification-based]
+
+[[sbe-approaches-verification-based]]
+== Verification-based engineering
+
+indexterm:[verification]
+
+Verification-based engineering is a form of <<sbe-approaches-model-based,model-based engineering>>.
+It uses formal verification to automate the verification that the controller model satisfies its requirements.
+
+=== Verification-based engineering process
+
+The following figure shows a simplified development process for verification-based engineering of supervisory controllers:
+
+image:{sbe-imgsdir}/approaches/process_verification_based.png[]
+
+indexterm:[verification, formal]
+indexterm:[verification, model checking]
+
+The verification-based engineering process is very much similar to the <<sbe-approaches-model-based-process,model-based engineering process>>.
+The only difference is the way the verification of the controller (model) against its specified requirements is performed.
+Verification-based engineering uses formal verification, or model checking, to mathematically prove a certain property holds.
+Such properties could for instance be the absence of deadlock or livelock, or that a bridge may only open if its corresponding traffic lights have been set to signal a red light.
+Formal verification can prove that such properties hold for every conceivable scenario.
+
+indexterm:[counter example]
+
+If a property does not hold, formal verification produces counter examples, typically in the form of a sequences of inputs that lead to states in the controller model where the property is not satisfied.
+This makes it possible to pinpoint the problem in the model, and address it.
+It is often an iterative process to address such issues, perform verification again, address more issues, perform verification again, etc.
+If no counter examples are produced, all verified properties are guaranteed to be satisfied by the controller model.
+
+To employ formal verification not only the controller model must be formally specified, but also the properties to check.
+This means that the requirements are no longer specified in natural language in documents, but in mathematically unambiguous specifications.
+An example is state machines that define the order in which things may happen, such as that a certain sensor must go on before an actuator can be enabled.
+Another example is logical formulas that indicate that certain combinations of states in the controller models should never occur, e.g., they could indicate a collision that is to be prevented.
+
+[[sbe-approaches-verification-based-benefits]]
+=== Benefits of verification-based engineering
+
+Verification-based engineering has all the benefits of <<sbe-approaches-model-based-benefits,model-based engineering>>.
+Additionally, it has the following benefit:
+
+Formal verification guarantees that the requirements are satisfied::
+Formal verification considers every conceivable scenario.
+It can therefore mathematically prove that a specified requirement is satisfied by the controller (model).
+It is thus more powerful than testing, which typically covers only a limited number of scenarios and is then not exhaustive.
+
+Even though verification-based engineering has many benefits, companies should not underestimate how significantly different it is from <<sbe-approaches-traditional,traditional engineering>> or even from lesser-automated forms of <<sbe-approaches-model-based,model-based engineering>>.
+They should <<sbe-challenges,consider and manage the challenges>> particular to this engineering approach.

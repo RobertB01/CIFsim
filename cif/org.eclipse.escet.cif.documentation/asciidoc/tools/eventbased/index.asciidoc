@@ -19,6 +19,7 @@ include::../_part_attributes.asciidoc[]
 indexterm:[event-based synthesis toolset]
 indexterm:[see: event-based supervisory control,event-based synthesis toolset]
 Synthesis, 'supervisor synthesis', or 'supervisory controller synthesis', is a generative technique, where one derives a (supervisor) automaton from a collection of plants and requirements.
+Synthesis is an essential part of the <<sbe-chapter-index,synthesis-based engineering>> approach to develop supervisory controllers.
 The resulting supervisor is maximally permissive under the conditions of being free of deadlocks, and always having the option of reaching a marked state.
 
 While there is only one true synthesis tool (the tool that actually derives a supervisor automaton from a collection of plant and requirement automata), other tools exist to support the process.
@@ -27,6 +28,10 @@ These tools together form the _event-based synthesis toolset_.
 These tools use and modify the sequences of events that can be performed.
 This in contrast to state-based tools, which operate primarily on the <<tools-cifsim-traces-state,state>> of the system.
 Event sequences directly hook into language theory, which places these tools firmly in the language theory mathematical framework.
+
+When employing synthesis, consider also the <<tools-chapter-datasynth,data-based synthesis tool>>.
+It is often much more efficient when synthesizing supervisors for large and complex systems.
+It also supports a larger subset of CIF concepts.
 
 indexterm:[event-based synthesis toolset,supported specifications]
 

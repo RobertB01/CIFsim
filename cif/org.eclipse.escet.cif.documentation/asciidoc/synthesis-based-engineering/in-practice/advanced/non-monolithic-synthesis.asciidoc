@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[synthesis, scalability]
+indexterm:[synthesis, monolithic]
+indexterm:[synthesis, non-monolithic]
+
+[[sbe-in-practice-advanced-non-monolithic-synthesis]]
+== Non-monolithic supervisor synthesis
+
+A known concern for supervisory controller synthesis is its scalability.
+While a supervisor may be synthesized for smaller systems in seconds, for larger and more complex systems this may take considerably more time.
+Employing the proper techniques for the given situation is essential to mitigate this concern.
+
+indexterm:[supervisor, monolithic]
+
+Often, rather than synthesizing a single monolithic supervisor, multiple supervisors should be synthesized for different parts of the system, making use of the inherent structure of the system itself.
+Combining this with abstraction, higher-level supervisors can still be synthesized on top of lower-level supervisors, scaling to very large systems.
+
+Still, multiple syntheses will need to be performed.
+If you encounter scalability issues for some of them, divide the system further, or <<sbe-in-practice-advanced-performance,resolve the performance problems>> in another way.

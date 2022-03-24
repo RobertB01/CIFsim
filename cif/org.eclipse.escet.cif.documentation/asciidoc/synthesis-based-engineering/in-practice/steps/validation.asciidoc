@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[supervisor, verification]
+indexterm:[supervisor, validation]
+
+[[sbe-in-practice-steps-validation]]
+== Validation
+
+After <<sbe-in-practice-steps-synthesis,applying supervisor synthesis>> it is time to analyze the resulting supervisor model.
+Verification to ensure that the synthesized supervisor satisfies its specified requirements is superfluous, as the synthesized model is correct-by-construction.
+
+The supervisor should however still be validated to ensure it behaves as intended.
+The specified requirements could not be the desired requirements, as they could for instance be wrongly specified or too strict, resulting in the system being controlled by the controller exhibiting unwanted or insufficient behavior.
+
+The <<tools-cifsim-chapter-index,CIF simulator>> can be used to simulate CIF specifications.
+Especially when combining this with <<tools-cifsim-output-svgviz-chapter-index,SVG visualization>> and <<tools-cifsim-input-svg-chapter-index,interactive simulation>>, it is a very powerful way to validate whether the supervisory controller controls the system as intended.
+This may for instance reveal that additional requirements are needed, or existing requirements need to be adapted.
+
+In case any issues are revealed through validation, for instance by means of simulation, these need to be addressed.
+Typically this involves changes to either the <<sbe-in-practice-steps-modeling-the-plant,plant model>> or <<sbe-in-practice-steps-modeling-the-requirements,requirements model>>.
+After such changes, the supervisor can be re-synthesized automatically.
+Changes can be made iteratively, until confidence in the correctness of the controller is high enough.
+
+The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-implementation,implement the supervisory controller>>.

@@ -1,0 +1,116 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Plant model.
+
+const int MAX_NR_OF_PRODS = 5;
+type ProductId = int[0 .. MAX_NR_OF_PRODS - 1];
+
+controllable c_enter;
+controllable ProductId c_start;
+controllable ProductId c_do1;
+controllable ProductId c_do2;
+controllable ProductId c_done1;
+controllable ProductId c_done2;
+uncontrollable u_success;
+uncontrollable u_failure;
+controllable ProductId c_redo;
+controllable ProductId c_leave;
+controllable ProductId c_finished;
+controllable c_exit;
+
+plant INOUT:
+  disc ProductId nextId = 0;
+  disc ProductId curId = 0;
+  disc ProductId lastExitId = MAX_NR_OF_PRODS - 1;
+  disc int[0..MAX_NR_OF_PRODS] cnt = 0;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_enter when cnt < MAX_NR_OF_PRODS do curId := nextId, nextId := (nextId + 1) mod MAX_NR_OF_PRODS, cnt := cnt + 1 goto NewProduct;
+    edge c_finished? do curId := ? goto FinishedProduct;
+
+  location NewProduct:
+    edge c_start!curId do curId := 0 goto Idle;
+
+  location FinishedProduct:
+    edge c_exit do lastExitId := curId, curId := 0, cnt := cnt - 1 goto Idle;
+end
+
+plant DISP:
+  disc ProductId curId = 0;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_start?, c_redo? do curId := ? goto Busy;
+
+  location Busy:
+    edge c_do1!curId do curId := 0 goto Idle;
+    edge c_do2!curId do curId := 0 goto Idle;
+end
+
+plant OP1:
+  disc ProductId curId = 0;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_do1? do curId := ? goto Busy;
+
+  location Busy:
+    edge c_done1!curId do curId := 0 goto Idle;
+end
+
+plant OP2:
+  disc ProductId curId = 0;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_do2? do curId := ? goto Busy;
+
+  location Busy:
+    edge c_done2!curId do curId := 0 goto Idle;
+end
+
+plant CHK:
+  disc ProductId curId = 0;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_done1?, c_done2? do curId := ? goto Busy;
+
+  location Busy:
+    edge u_success goto Success;
+    edge u_failure goto Failure;
+
+  location Success:
+    edge c_leave!curId do curId := 0 goto Idle;
+  location Failure:
+    edge c_redo!curId do curId := 0 goto Idle;
+end
+
+plant DONE:
+  disc ProductId curId = 0;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_leave? do curId := ? goto Busy;
+
+  location Busy:
+    edge c_finished!curId do curId := 0 goto Idle;
+end

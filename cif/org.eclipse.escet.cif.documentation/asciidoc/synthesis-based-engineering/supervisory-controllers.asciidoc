@@ -1,0 +1,63 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[controller, supervisory]
+
+[[sbe-supervisory-controllers]]
+== Supervisory controllers
+
+indexterm:[system]
+indexterm:[system, cyber-physical]
+
+Automated systems are all around us.
+For instance, hospitals use X-ray and MRI systems, industrial printers print books and magazines, lithography systems are essential for the production of computer chips, and waterway locks bring ships from one water level to another.
+In today's digital age, all these systems contain software that controls their operation.
+Such systems are often called https://en.wikipedia.org/wiki/Cyber-physical_system[cyber-physical systems], for the _physical_ part that consists of the hardware components being controlled, and the _cyber_ part that contains the software that controls those physical parts.
+
+indexterm:[system, sub-system]
+indexterm:[system, layer]
+indexterm:[system, architecture]
+indexterm:[component]
+
+Today's cyber-physical systems are often highly complex.
+To manage their complexity, they are typically step-by-step divided into sub-systems, sub-sub-systems, etc, each with their own responsibility.
+This way, at the most sub-divided level, _components_ are obtained that are small enough to be developed, tested and maintained in isolation.
+The components are often divided over several layers, to form a layered system architecture.
+
+The control of a system can similarly be sub-divided and layered.
+The following figure shows a traditional view on the control of a system:
+
+image:{sbe-imgsdir}/control_layers.png[]
+
+indexterm:[component, mechanical]
+indexterm:[controller, resource]
+
+At the bottom are the mechanical components, such as motors, switches, levers and valves.
+Their operation can be steered through actuators and their state of operation can be observed through sensors.
+Resource controllers provide a first level of control.
+They may for instance correct for sensor jitter, translate continuous signals to discrete ones, or detect and even correct anomalous situations.
+
+A https://en.wikipedia.org/wiki/Supervisory_control[supervisory controller] provides higher-level control.
+It is typically responsible for the correct and safe behavior of a (sub-)system.
+For instance, it could be responsible for preventing damage to mechanical components or human operators.
+It may prevent collisions with or among mechanical components, or prevent mechanical components from overheating.
+It could control a single sub-system, coordinating one or more resource controllers.
+However, in case of a layered architecture, it could also coordinate multiple supervisory controllers of a lower layer.
+Supervisory controllers can thus be found at various levels of a system architecture.
+
+Some systems are fully automated, without the need for human intervention or control.
+However, most systems provide some kind of human-machine interface that allows a human operator to monitor the system and if necessary control its operation.
+
+Regardless of the exact system architecture, and whether human intervention is possible or not, supervisory controllers play an essential role in the safe control of all kinds of cyber-physical systems, and can be found at various levels within such systems.

@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[supervisor, implement]
+
+[[sbe-in-practice-steps-implementation]]
+== Controller implementation
+
+Once a supervisory controller has been <<sbe-in-practice-steps-synthesis,synthesized>> and <<sbe-in-practice-steps-validation,validated>>, it is time to implement it.
+The control software is typically implemented using a programming language, such as PLC code for a PLC platform, or Java or C++ code for an industrial PC.
+This may for instance be done in-house within the company, by different teams or departments, or by an external supplier.
+
+While manual implementation is possible, the code is often automatically generated from the controller model.
+This automatically produces correct-by-construction code by generating the code from the correct-by-construction controller model.
+Automation prevents the kinds of subtle mistakes that humans make when they manually implement something, ensuring consistency between the controller model and implementation.
+Automation also improves efficiency.
+If the controller model is changed, with the push of a button a new correct-by-construction implementation can again quickly be generated.
+
+CIF supports code generation through the following tools:
+
+* <<tools-cif2plc-chapter-index,CIF PLC code generator>>: for PLC programming languages
+* <<tools-codegen-chapter-index,CIF code generator>>: for various other programming languages
+
+The documentation of these tools provide further details on how to use them.
+
+With a working implementation of the controller, this concludes the process to apply <<sbe-in-practice,synthesis-based engineering in practice>>.

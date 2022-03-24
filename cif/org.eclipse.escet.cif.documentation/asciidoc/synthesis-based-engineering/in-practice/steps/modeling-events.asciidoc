@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[event, determine]
+indexterm:[event, model]
+
+[[sbe-in-practice-steps-modeling-the-events]]
+== Modeling the events
+
+The first step to <<sbe-in-practice,apply synthesis-based engineering in practice>> is to identify the <<sbe-approaches-synthesis-based-events,actions that can happen>> in the system, and model them as <<lang-tut-extensions-synthesis-evtctrl,controllable and uncontrollable>> <<lang-tut-basics-chapter-automata,events>>.
+
+_Controllable_ events are under the control of the controller.
+They are outputs of the controller and inputs for the system being controlled.
+The controller determines when these events occur.
+Typical examples include turning an actuator on or off, or enabling or disabling a sub-system.
+
+_Uncontrollable_ events are outside of the control of the controller.
+They are inputs for the controller and outputs of the system being controlled.
+The controller can not prevent such events from occurring in the system.
+Typical examples include a sensor going on or off, such as for a button push sensor or a movement limit sensor.
+
+The events can be modeled in CIF as follows:
+
+[source, cif]
+----
+uncontrollable u_button_pushed, u_button_released;
+controllable c_turn_motor_on, c_turn_motor_off;
+----
+
+Controllable events are by convention given names starting with `c_`, while uncontrollable events start with `u_`.
+
+For channels, a special kind of events, see the CIF language tutorial:
+
+* <<lang-tut-channels-chapter-intro>>
+* <<lang-tut-channels-chapter-void>>
+* <<lang-tut-channels-chapter-chan-sync-combi>>
+
+The next step in the process is to <<sbe-in-practice-steps-modeling-the-plant,model the plant>>.
