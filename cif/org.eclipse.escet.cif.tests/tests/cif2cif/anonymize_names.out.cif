@@ -15,12 +15,12 @@ func bool func4(bool fparam4; bool fparam5):
 end
 enum enum3 = lit5, lit6;
 enum enum4 = lit7, lit8;
-event evt11;
 event evt12;
-controllable c_evt13;
+event evt13;
 controllable c_evt14;
-uncontrollable u_evt15;
+controllable c_evt15;
 uncontrollable u_evt16;
+uncontrollable u_evt17;
 input bool input2;
 input string input3;
 type type2 = bool;
@@ -28,6 +28,7 @@ type type3 = type2;
 type type4 = tuple(type5 field1; type5 field2; type5 field3);
 type type5 = tuple(int field1; int field2; int field3);
 const type4 const5 = ((1, 2, 3), (4, 5, 6), (7, 8, 9));
+event evt18;
 automaton def autdef1(alg int aparam1; alg int aparam2; grpdef1 cparam1; grpdef1 cparam2; location lparam1; location lparam2; event eparam1; event eparam2; controllable c_eparam3; controllable c_eparam4; uncontrollable u_eparam5; uncontrollable u_eparam6):
   location loc8:
     initial;
@@ -94,10 +95,10 @@ group grp5:
     end
   end
 end
-inst1: autdef1(1, 1, inst2, inst2, aut4.loc2, aut4.loc2, evt11, evt11, c_evt13, c_evt13, u_evt15, u_evt15);
+inst1: autdef1(1, 1, inst2, inst2, aut4.loc2, aut4.loc2, evt12, evt12, c_evt14, c_evt14, u_evt16, u_evt16);
 inst2: grpdef1();
 group grp8:
-  inst3: autdef1(2, 2, inst4, inst4, aut4.loc3, aut4.loc3, evt12, evt12, c_evt14, c_evt14, u_evt16, u_evt16);
+  inst3: autdef1(2, 2, inst4, inst4, aut4.loc3, aut4.loc3, evt13, evt13, c_evt15, c_evt15, u_evt17, u_evt17);
   inst4: grpdef1();
 end
 group grp9:
@@ -174,6 +175,17 @@ automaton aut7:
     initial;
     edge do disc7 := (sample disc6)[0];
 end
+automaton aut8:
+  event evt11;
+  invariant inv1: true;
+  invariant inv2: evt11 needs true;
+  invariant inv3: false disables evt11;
+  location:
+    initial;
+    invariant inv4: true;
+    invariant inv5: evt11 needs true;
+    invariant inv6: false disables evt11;
+end
 invariant const5[field1][field1] = 1;
 invariant const5[field1][field2] = 2;
 invariant const5[field1][field3] = 3;
@@ -183,3 +195,6 @@ invariant const5[field2][field3] = 6;
 invariant const5[field3][field1] = 7;
 invariant const5[field3][field2] = 8;
 invariant const5[field3][field3] = 9;
+invariant inv7: true;
+invariant inv8: evt18 needs true;
+invariant inv9: false disables evt18;

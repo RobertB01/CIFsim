@@ -234,3 +234,21 @@ automaton ttf_aut2:
     initial;
     edge do y := (sample x)[0];
 end
+
+// Invariants
+event e;
+invariant inv1: true;
+invariant inv2: e needs true;
+invariant inv3: false disables e;
+
+automaton aut_invs:
+  event e;
+  invariant inv1: true;
+  invariant inv2: e needs true;
+  invariant inv3: false disables e;
+  location:
+    initial;
+    invariant inv4: true;
+    invariant inv5: e needs true;
+    invariant inv6: false disables e;
+end
