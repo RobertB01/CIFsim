@@ -13,8 +13,8 @@
 
 include::_part_attributes.asciidoc[]
 
-[[development-upgrade-instructions-chapter-index]]
-== Upgrade instructions
+[[development-dependency-upgrades-chapter-index]]
+== Dependency upgrades
 
 The Eclipse ESCET toolset has various dependencies.
 From time to time, these dependencies need to be upgraded.
