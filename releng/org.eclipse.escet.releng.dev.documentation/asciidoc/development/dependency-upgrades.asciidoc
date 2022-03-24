@@ -103,7 +103,7 @@ Eclipse Tycho is used for the Eclipse ESCET build.
 
 The Eclipse ESCET upgrade policy for Tycho is:
 
-* Typically upgrading to a newer version can be done at any time it is considered relevant.
+* Typically upgrading to a newer version can be done at any time, if it is considered relevant.
 
 To upgrade to a new Tycho version:
 
