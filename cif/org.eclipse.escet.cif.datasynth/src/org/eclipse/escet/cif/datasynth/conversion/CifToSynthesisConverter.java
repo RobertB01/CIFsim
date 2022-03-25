@@ -197,7 +197,7 @@ public class CifToSynthesisConverter {
 
         // Precondition violations found.
         String msg = "Data-based supervisory controller synthesis failed due to unsatisfied preconditions:\n - "
-                + StringUtils.join(sortedstrings(problems), "\n - ");
+                + String.join("\n - ", sortedstrings(problems));
         throw new UnsupportedException(msg);
     }
 
@@ -2485,7 +2485,7 @@ public class CifToSynthesisConverter {
                     txt = fmt("\n    Group %d: %s", i + 1, txt);
                     guardsTxts.set(i, txt);
                 }
-                groupsTxt = StringUtils.join(guardsTxts, "");
+                groupsTxt = String.join("", guardsTxts);
             }
 
             // Report conflict.

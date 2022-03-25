@@ -22,8 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.java.Assert;
 
@@ -235,11 +235,13 @@ public class OptionCategory {
             getRoot().fillShortOptSet(shortNames);
 
             // Inform developer of duplicate short name problem.
+            String usedShortNames = sortedgeneric(shortNames).stream().map(k -> k.toString())
+                    .collect(Collectors.joining(", "));
             String msg = fmt(
                     "Duplicate short option name \"%s\" for application \"%s\" for options \"%s\" and \"%s\" "
                             + "(short names in use: %s).",
                     c, AppEnv.getApplication().getClass().getName(), opt.getClass().getName(),
-                    opt2.getClass().getName(), StringUtils.join(sortedgeneric(shortNames), ", "));
+                    opt2.getClass().getName(), usedShortNames);
             throw new IllegalArgumentException(msg);
         }
     }

@@ -42,6 +42,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -1267,7 +1268,8 @@ public class SeTextGenerator {
 
             // Write terminal ids.
             List<Integer> termIds = sortedgeneric(termIdSet);
-            code.add("{%s}, // state %d", StringUtils.join(termIds, ", "), si);
+            String termIdsText = intsToStr(termIds);
+            code.add("{%s}, // state %d", termIdsText, si);
         }
         code.dedent();
         code.add("};");
@@ -1345,7 +1347,7 @@ public class SeTextGenerator {
                     continue;
                 }
                 List<Integer> termIds = sortedgeneric(e.getValue());
-                lines.add(fmt("{%d, %s},", e.getKey(), StringUtils.join(termIds, ", ")));
+                lines.add(fmt("{%d, %s},", e.getKey(), intsToStr(termIds)));
             }
 
             if (lines.isEmpty()) {
@@ -1423,7 +1425,7 @@ public class SeTextGenerator {
                     continue;
                 }
                 List<Integer> popCnts = sortedgeneric(e.getValue());
-                lines.add(fmt("{%d, %s},", e.getKey(), StringUtils.join(popCnts, ", ")));
+                lines.add(fmt("{%d, %s},", e.getKey(), intsToStr(popCnts)));
             }
 
             if (lines.isEmpty()) {
@@ -1530,7 +1532,7 @@ public class SeTextGenerator {
                         continue;
                     }
                     List<Integer> popCnts = sortedgeneric(inner.getValue());
-                    lines.add(fmt("{%d, %d, %s},", outer.getKey(), inner.getKey(), StringUtils.join(popCnts, ", ")));
+                    lines.add(fmt("{%d, %d, %s},", outer.getKey(), inner.getKey(), intsToStr(popCnts)));
                 }
             }
 
@@ -1636,6 +1638,16 @@ public class SeTextGenerator {
             out("Parser class \"%s\" for %s symbol \"%s\" written to file \"%s\".", start.javaType.toString(),
                     start.getStartType(), start.symbol.name, javaFilePath);
         }
+    }
+
+    /**
+     * Convert a list of integer to a string with comma-separated values.
+     *
+     * @param integers Integer values to use in the result.
+     * @return The created string.
+     */
+    private static String intsToStr(List<Integer> integers) {
+        return integers.stream().map(termId -> termId.toString()).collect(Collectors.joining(", "));
     }
 
     /**

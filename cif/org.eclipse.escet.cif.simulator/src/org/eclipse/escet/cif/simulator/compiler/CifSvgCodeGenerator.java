@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -539,7 +539,8 @@ public class CifSvgCodeGenerator {
         }
 
         // Generate 'return' statement.
-        c.add("return new boolean[] {%s};", String.join(", ", interactiveEvents));
+        String boolValues = interactiveEvents.stream().map(b -> b.toString()).collect(Collectors.joining(", "));
+        c.add("return new boolean[] {%s};", boolValues);
     }
 
     /**

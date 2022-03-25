@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIHandler;
@@ -514,7 +513,7 @@ public class Paths {
                 && absRelDirParts[0].endsWith(":"))
         {
             return (absTargetParts.length == 1 && absTargetParts[0].endsWith(":")) ? absTargetParts[0] + "/"
-                    : StringUtils.join(absTargetParts, '/');
+                    : String.join("/", absTargetParts);
         }
 
         // Walk up to common directory, from absolute relative directory.
@@ -536,7 +535,7 @@ public class Paths {
 
         // Join and return the result using '/' separators.
         return (rsltParts.size() == 1 && rsltParts.get(0).endsWith(":")) ? rsltParts.get(0) + "/"
-                : StringUtils.join(rsltParts, '/');
+                : String.join("/", rsltParts);
     }
 
     /**

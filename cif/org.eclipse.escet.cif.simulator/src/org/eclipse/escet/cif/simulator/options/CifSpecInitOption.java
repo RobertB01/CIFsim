@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionGroup;
 import org.eclipse.escet.common.app.framework.options.Options;
@@ -102,7 +101,7 @@ public class CifSpecInitOption extends Option<List<String>> {
             public void setToValue(List<String> value) {
                 // Join initializations together, one per line.
                 String[] inits = value.toArray(new String[0]);
-                initText.setText(StringUtils.join(inits, Strings.NL));
+                initText.setText(String.join(Strings.NL, inits));
             }
 
             @Override

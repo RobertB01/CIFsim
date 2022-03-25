@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -100,7 +99,7 @@ public class RemoveRequirements implements CifToCifTransformation {
             String msg = "Removing requirements from a CIF specification failed due to the remaining part of the "
                     + "specification using declarations that are declared in the requirement automata that are to be "
                     + "removed, or a location of a requirement automaton contains invariants that cannot be removed:\n "
-                    + "- " + StringUtils.join(sortedstrings(problemMessages), "\n - ");
+                    + "- " + String.join("\n - ", sortedstrings(problemMessages));
             throw new CifToCifPreconditionException(msg);
         }
     }

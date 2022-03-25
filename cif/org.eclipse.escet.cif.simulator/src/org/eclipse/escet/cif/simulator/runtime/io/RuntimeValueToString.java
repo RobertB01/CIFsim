@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.simulator.runtime.CifSimulatorMath;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;

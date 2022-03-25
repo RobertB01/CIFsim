@@ -21,7 +21,6 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.PrintFileIntoDecls;
 import org.eclipse.escet.cif.cif2cif.SvgFileIntoDecls;

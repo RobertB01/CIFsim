@@ -18,8 +18,8 @@ import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.Position;
@@ -127,7 +127,7 @@ public class JavaType extends SeTextObject {
         rslt.append(className);
         if (genericTypeParams != null) {
             rslt.append("<");
-            rslt.append(StringUtils.join(genericTypeParams, ", "));
+            rslt.append(genericTypeParams.stream().map(p -> p.toString()).collect(Collectors.joining(", ")));
             rslt.append(">");
         }
         return rslt.toString();

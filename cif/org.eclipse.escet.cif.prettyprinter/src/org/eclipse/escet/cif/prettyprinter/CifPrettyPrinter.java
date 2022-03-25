@@ -1373,7 +1373,7 @@ public final class CifPrettyPrinter {
         for (CifType type: types) {
             typeTxts.add(pprint(type));
         }
-        return StringUtils.join(typeTxts, separator);
+        return String.join(separator, typeTxts);
     }
 
     /**

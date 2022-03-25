@@ -38,8 +38,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 /** Unit tests for the methods of the {@link Lists} class. */
@@ -683,7 +683,7 @@ public class ListsTest {
 
                 String expected = (b < 0) ? EXPECTED_NEG[e + 5][b + 5] : EXPECTED_POS[e + 5][b];
                 List<String> actualLst = slice(input, beginIndex, endIndex);
-                String actual = StringUtils.join(actualLst, "");
+                String actual = String.join("", actualLst);
 
                 String msg = fmt("slice(\"abcd\", %s, %s)", beginIndex, endIndex);
                 if (DEBUG) {
@@ -708,7 +708,7 @@ public class ListsTest {
 
                 String expected = "";
                 List<Integer> actualLst = slice(input, beginIndex, endIndex);
-                String actual = StringUtils.join(actualLst, "");
+                String actual = actualLst.stream().map(i -> i.toString()).collect(Collectors.joining());
 
                 assertEquals(expected, actual);
             }

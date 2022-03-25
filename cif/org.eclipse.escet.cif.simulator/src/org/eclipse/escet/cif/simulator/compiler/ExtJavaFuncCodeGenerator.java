@@ -25,7 +25,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;

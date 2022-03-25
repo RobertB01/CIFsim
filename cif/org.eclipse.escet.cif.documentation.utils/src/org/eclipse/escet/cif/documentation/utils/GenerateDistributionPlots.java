@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.documentation.utils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.simulator.runtime.distributions.BernoulliDistribution;
 import org.eclipse.escet.cif.simulator.runtime.distributions.BetaDistribution;
 import org.eclipse.escet.cif.simulator.runtime.distributions.BinomialDistribution;

@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.cif2yed.options.ModelFilter;
 import org.eclipse.escet.cif.cif2yed.options.ModelFiltersOption;
 import org.eclipse.escet.cif.common.CifEdgeUtils;

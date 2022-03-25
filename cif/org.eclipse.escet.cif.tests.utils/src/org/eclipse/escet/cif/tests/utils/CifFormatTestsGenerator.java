@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.FormatDecoder;
 import org.eclipse.escet.common.java.FormatDescription;
@@ -53,7 +52,7 @@ public class CifFormatTestsGenerator {
         List<String> flagsList = list();
         while (iter.hasNext()) {
             List<String> item = iter.next();
-            flagsList.add(StringUtils.join(item, ""));
+            flagsList.add(String.join("", item));
         }
 
         // Get all format patterns.
@@ -66,7 +65,7 @@ public class CifFormatTestsGenerator {
         List<String> patternList = list();
         while (iter.hasNext()) {
             List<String> item = iter.next();
-            patternList.add("%" + StringUtils.join(item, ""));
+            patternList.add("%" + String.join("", item));
         }
 
         // Remove invalid patterns.

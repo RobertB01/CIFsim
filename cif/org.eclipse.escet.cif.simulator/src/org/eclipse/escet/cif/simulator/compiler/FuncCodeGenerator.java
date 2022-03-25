@@ -32,7 +32,6 @@ import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.CifExtFuncUtils;
 import org.eclipse.escet.cif.common.FuncLocalVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
