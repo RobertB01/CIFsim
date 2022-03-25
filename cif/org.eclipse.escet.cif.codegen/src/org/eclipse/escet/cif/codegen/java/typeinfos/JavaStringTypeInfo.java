@@ -22,7 +22,6 @@ import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
@@ -201,7 +200,7 @@ public class JavaStringTypeInfo extends StringTypeInfo {
         if (!argCodes.isEmpty()) {
             rslt.append(", ");
         }
-        rslt.append(StringUtils.join(argCodes, ", "));
+        rslt.append(String.join(", ", argCodes));
         rslt.append(")");
 
         result.setDataValue(new JavaDataValue(rslt.toString()));

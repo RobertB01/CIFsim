@@ -34,7 +34,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimMonitors;
@@ -485,7 +484,7 @@ public class CifToUppaal {
                         assignmentTxts.add(asgn);
                     }
                     assignmentTxts.add(fmt("%s = %d", getUppaalName(aut, "LP_"), targetIdx));
-                    String asgnTxt = StringUtils.join(assignmentTxts, ", ");
+                    String asgnTxt = String.join(", ", assignmentTxts);
 
                     // Add assignment 'label' element.
                     Element asgnElem = doc.createElement("label");
@@ -615,7 +614,7 @@ public class CifToUppaal {
         for (Automaton aut: automata) {
             txts.add(fmt("%s = %s", getUppaalName(aut, "OLDLP_"), getUppaalName(aut, "LP_")));
         }
-        return StringUtils.join(txts, ", ");
+        return String.join(", ", txts);
     }
 
     /**
@@ -636,7 +635,7 @@ public class CifToUppaal {
         instantiations.add(getUppaalName(sendAut, null));
 
         txt.add();
-        txt.add("system %s;", StringUtils.join(instantiations, ", "));
+        txt.add("system %s;", String.join(", ", instantiations));
 
         // Add 'system' element.
         Element systemElem = doc.createElement("system");
@@ -690,7 +689,7 @@ public class CifToUppaal {
             }
             txts.add(txt);
         }
-        return StringUtils.join(txts, " && ");
+        return String.join(" && ", txts);
     }
 
     /**

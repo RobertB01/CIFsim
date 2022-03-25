@@ -19,7 +19,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.setext.parser.ast.scanner.Terminal;
@@ -102,7 +101,7 @@ public class LookaheadItem {
         }
         Collections.sort(lookaheadTxts, Strings.SORTER);
         rslt.append("{");
-        rslt.append(StringUtils.join(lookaheadTxts, ", "));
+        rslt.append(String.join(", ", lookaheadTxts));
         rslt.append("}");
         if (!simple) {
             rslt.append("]");

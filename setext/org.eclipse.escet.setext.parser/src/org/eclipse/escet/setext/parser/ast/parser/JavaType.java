@@ -150,7 +150,7 @@ public class JavaType extends SeTextObject {
             for (JavaType param: genericTypeParams) {
                 paramTxts.add(param.toSimpleString());
             }
-            rslt.append(StringUtils.join(paramTxts, ", "));
+            rslt.append(String.join(", ", paramTxts));
             rslt.append(">");
         }
         return rslt.toString();

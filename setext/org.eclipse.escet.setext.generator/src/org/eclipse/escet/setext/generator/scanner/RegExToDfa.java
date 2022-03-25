@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
@@ -289,7 +288,7 @@ public class RegExToDfa {
             }
             Collections.sort(termTxts, Strings.SORTER);
             String msg = fmt("Two or more terminals have the same priority and they are overlapping (their languages "
-                    + "have at least one string in common): %s.", StringUtils.join(termTxts, ", "));
+                    + "have at least one string in common): %s.", String.join(", ", termTxts));
             throw new InvalidInputException(msg);
         }
     }

@@ -862,7 +862,7 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
         }
 
         // Get full label text.
-        String text = StringUtils.join(texts, "\n");
+        String text = String.join("\n", texts);
 
         // Add edge label.
         Element edgeLblElem = doc.createElement("y:EdgeLabel");

@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
@@ -912,7 +911,7 @@ public abstract class Parser<T> {
             expTermsTxt = first(expTermsTxts) + " or " + last(expTermsTxts);
         } else {
             List<String> ts = expTermsTxts.subList(0, expTermsTxts.size() - 1);
-            expTermsTxt = StringUtils.join(ts, ", ");
+            expTermsTxt = String.join(", ", ts);
             expTermsTxt += ", or " + last(expTermsTxts);
         }
 

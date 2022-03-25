@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.swt.SWT;
@@ -92,7 +91,7 @@ public class InputFileOption extends Option<List<String>> {
             }
 
             String msg = fmt("Exactly one input file was expected, but %d input files were provided: %s.", value.size(),
-                    StringUtils.join(inputs, ", "));
+                    String.join(", ", inputs));
             throw new InvalidOptionException(msg);
         }
     }

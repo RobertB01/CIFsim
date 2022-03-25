@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
@@ -289,7 +288,7 @@ public class RegExToDfaTest {
             txts.add(c.toString() + ": " + set2str(followSet));
         }
         Collections.sort(txts, Strings.SORTER);
-        String actual = "{" + StringUtils.join(txts, ", ") + "}";
+        String actual = "{" + String.join(", ", txts) + "}";
 
         // Check actual against expected.
         assertEquals(expected, actual);
@@ -307,6 +306,6 @@ public class RegExToDfaTest {
             txts.add(re.toString());
         }
         Collections.sort(txts, Strings.SORTER);
-        return "{" + StringUtils.join(txts, ", ") + "}";
+        return "{" + String.join(", ", txts) + "}";
     }
 }

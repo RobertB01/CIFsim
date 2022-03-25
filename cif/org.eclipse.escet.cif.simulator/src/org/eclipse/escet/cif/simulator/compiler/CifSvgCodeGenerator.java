@@ -388,7 +388,7 @@ public class CifSvgCodeGenerator {
         if (interactiveIds.isEmpty()) {
             c.add("return Collections.emptySet();");
         } else {
-            c.add("return set(%s);", StringUtils.join(interactiveIds, ", "));
+            c.add("return set(%s);", String.join(", ", interactiveIds));
         }
 
         c.dedent();
@@ -539,7 +539,7 @@ public class CifSvgCodeGenerator {
         }
 
         // Generate 'return' statement.
-        c.add("return new boolean[] {%s};", StringUtils.join(interactiveEvents, ", "));
+        c.add("return new boolean[] {%s};", String.join(", ", interactiveEvents));
     }
 
     /**

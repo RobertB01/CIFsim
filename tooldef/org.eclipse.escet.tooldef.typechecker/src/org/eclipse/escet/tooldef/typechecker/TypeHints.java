@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.tooldef.common.ToolDefTextUtils;
 import org.eclipse.escet.tooldef.common.ToolDefTypeEqWrap;
 import org.eclipse.escet.tooldef.common.ToolDefTypeUtils;
@@ -91,6 +90,6 @@ public class TypeHints implements Iterable<ToolDefType> {
         for (ToolDefType hint: this) {
             texts.add(ToolDefTextUtils.typeToStr(hint, false));
         }
-        return fmt("%s(%s)", getClass().getSimpleName(), StringUtils.join(texts, ", "));
+        return fmt("%s(%s)", getClass().getSimpleName(), String.join(", ", texts));
     }
 }

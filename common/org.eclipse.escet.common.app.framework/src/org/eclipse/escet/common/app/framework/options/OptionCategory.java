@@ -152,7 +152,7 @@ public class OptionCategory {
             }
             current = parent;
         }
-        return StringUtils.join(names, ", ");
+        return String.join(", ", names);
     }
 
     /**

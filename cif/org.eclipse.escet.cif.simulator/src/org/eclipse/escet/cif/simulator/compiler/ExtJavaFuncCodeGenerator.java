@@ -93,7 +93,7 @@ public class ExtJavaFuncCodeGenerator {
             CifType paramType = param.getParameter().getType();
             paramTypes.add(typeToJavaClsStr(paramType, false));
         }
-        c.add("Class<?>[] paramTypes = {%s};", StringUtils.join(paramTypes, ", "));
+        c.add("Class<?>[] paramTypes = {%s};", String.join(", ", paramTypes));
 
         c.add("Class<?> expReturnType = %s;", typeToJavaClsStr(retType, true));
         c.add("method = ExtFuncs.loadJavaMethod(cifFuncName, className, methodName, classPath, specFileDir, "
@@ -109,7 +109,7 @@ public class ExtJavaFuncCodeGenerator {
             paramNames.add(ctxt.getFuncParamMethodParamName(var));
         }
         c.add("Object rslt = ExtFuncs.invokeJavaMethodAsync(SPEC.ctxt, method, cifToJava(%s));",
-                StringUtils.join(paramNames, ", "));
+                String.join(", ", paramNames));
 
         // Generate code for converting the method result back to CIF.
         c.add("return javaToCif(rslt);");
@@ -150,7 +150,7 @@ public class ExtJavaFuncCodeGenerator {
 
         // Method header.
         c.add();
-        c.add("private Object[] cifToJava(%s) {", StringUtils.join(paramTxts, ", "));
+        c.add("private Object[] cifToJava(%s) {", String.join(", ", paramTxts));
         c.indent();
 
         // Add result variable.

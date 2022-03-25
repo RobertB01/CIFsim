@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CurlyBraceIfElseGenerator;
 import org.eclipse.escet.cif.codegen.ExprCode;
@@ -87,7 +86,7 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
         code.add(" */");
 
         TypeInfo retTi = ctxt.typeToTarget(getReturnType());
-        code.add("public static %s %s(%s) {", retTi.getTargetType(), funcName, StringUtils.join(paramTxts, ", "));
+        code.add("public static %s %s(%s) {", retTi.getTargetType(), funcName, String.join(", ", paramTxts));
         code.indent();
 
         addFunctionBody(function, code, ctxt);

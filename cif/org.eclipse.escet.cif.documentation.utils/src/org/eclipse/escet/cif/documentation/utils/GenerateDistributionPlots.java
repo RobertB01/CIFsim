@@ -401,8 +401,8 @@ public class GenerateDistributionPlots {
             org.apache.commons.math3.distribution.IntegerDistribution idealDistr, String name, String[] params)
     {
         // Get file name base, and readable distribution name.
-        String fileName = name + "_" + StringUtils.join(params, "_");
-        String distrName = name + "(" + StringUtils.join(params, ", ") + ")";
+        String fileName = name + "_" + String.join("_", params);
+        String distrName = name + "(" + String.join(", ", params) + ")";
 
         // Print the distribution we are working on.
         System.out.println(distrName);
@@ -497,8 +497,8 @@ public class GenerateDistributionPlots {
             org.apache.commons.math3.distribution.RealDistribution idealDistr, String name, String[] params)
     {
         // Get file name base, and readable distribution name.
-        String fileName = name + "_" + StringUtils.join(params, "_");
-        String distrName = name + "(" + StringUtils.join(params, ", ") + ")";
+        String fileName = name + "_" + String.join("_", params);
+        String distrName = name + "(" + String.join(", ", params) + ")";
 
         // Print the distribution we are working on.
         System.out.println(distrName);

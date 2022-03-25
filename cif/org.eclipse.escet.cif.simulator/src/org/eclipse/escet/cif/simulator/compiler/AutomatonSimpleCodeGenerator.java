@@ -108,7 +108,7 @@ public class AutomatonSimpleCodeGenerator {
             boolean monitor = monitors.contains(event);
             monitorValues.add(String.valueOf(monitor));
         }
-        c.add("return new boolean[] {%s};", StringUtils.join(monitorValues, ", "));
+        c.add("return new boolean[] {%s};", String.join(", ", monitorValues));
         c.dedent();
         c.add("}");
 

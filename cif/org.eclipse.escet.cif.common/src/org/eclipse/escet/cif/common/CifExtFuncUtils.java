@@ -121,7 +121,7 @@ public class CifExtFuncUtils {
                 entry = PlatformUriUtils.getRelativePath(entry, relDir);
                 entries[i] = entry;
             }
-            parts[3] = StringUtils.join(entries, ";");
+            parts[3] = String.join(";", entries);
             return mergeExtJavaRef(parts);
         } else {
             throw new IllegalArgumentException("Uknown language: " + langName);

@@ -789,7 +789,7 @@ public class SeTextGenerator {
                             if (parts.isEmpty()) {
                                 parts.add("/* empty */");
                             }
-                            stream.printfln("%s %s %s", prefix, sep, StringUtils.join(parts, " "));
+                            stream.printfln("%s %s %s", prefix, sep, String.join(" ", parts));
                         }
                     }
                     stream.printfln("%s ;", nameSpaces);
@@ -1156,7 +1156,7 @@ public class SeTextGenerator {
                     String hookName = "hooks.parse" + reduce.nonterminal.name + ruleNrStr;
 
                     code.add("%s o = %s(%s);", reduce.nonterminal.returnType.toSimpleString(), hookName,
-                            StringUtils.join(paramTxts, ", "));
+                            String.join(", ", paramTxts));
                     code.add();
                     code.add("reduce = true;");
                     code.add("reduceNonTerminal = %d;", reduceId);
@@ -1582,7 +1582,7 @@ public class SeTextGenerator {
                 code.add("/**");
                 code.add(" * Parser call back hook for rule/production:");
                 code.add(" *");
-                code.add(" * <p>{@code %s : %s;}</p>", nonterminal.name, StringUtils.join(ruleTxts, " "));
+                code.add(" * <p>{@code %s : %s;}</p>", nonterminal.name, String.join(" ", ruleTxts));
                 code.add(" *");
 
                 List<String> argTxts = list();
@@ -1619,7 +1619,7 @@ public class SeTextGenerator {
                 ruleNrStr = StringUtils.leftPad(ruleNrStr, maxRuleNrLen, '0');
 
                 code.add("public %s parse%s%s(%s);", nonterminal.returnType.toSimpleString(), nonterminal.name,
-                        ruleNrStr, StringUtils.join(argTxts, ", "));
+                        ruleNrStr, String.join(", ", argTxts));
             }
         }
         code.dedent();
@@ -1812,7 +1812,7 @@ public class SeTextGenerator {
                 }
 
                 code.indent();
-                code.add("@Override // %s : %s;", nonterminal.name, StringUtils.join(ruleTxts, " "));
+                code.add("@Override // %s : %s;", nonterminal.name, String.join(" ", ruleTxts));
                 code.dedent();
 
                 List<String> argTxts = list();
@@ -1846,7 +1846,7 @@ public class SeTextGenerator {
 
                 code.indent();
                 code.add("public %s parse%s%s(%s) {", nonterminal.returnType.toSimpleString(), nonterminal.name,
-                        ruleNrStr, StringUtils.join(argTxts, ", "));
+                        ruleNrStr, String.join(", ", argTxts));
                 code.indent();
                 code.add("// return null;");
                 code.dedent();

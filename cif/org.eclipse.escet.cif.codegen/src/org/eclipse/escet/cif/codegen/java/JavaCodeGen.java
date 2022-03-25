@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CodeGen;
 import org.eclipse.escet.cif.codegen.CurlyBraceIfElseGenerator;
@@ -410,7 +409,7 @@ public class JavaCodeGen extends CodeGen {
             } else if (printConds.size() == 1) {
                 printCond = first(printConds);
             } else {
-                printCond = "(" + StringUtils.join(printConds, " || ") + ")";
+                printCond = "(" + String.join(" || ", printConds) + ")";
             }
 
             code.add("if %s {", printCond);

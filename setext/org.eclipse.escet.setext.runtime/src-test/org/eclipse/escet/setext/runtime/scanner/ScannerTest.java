@@ -24,7 +24,6 @@ import java.io.StringWriter;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.DummyApplication;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -299,7 +298,7 @@ public class ScannerTest {
             tokenTxts.add(fmt("%d=%s @%s", token.id, Strings.stringToJava(token.text), posTxt));
         }
 
-        String actual = StringUtils.join(tokenTxts, ", ");
+        String actual = String.join(", ", tokenTxts);
         assertEquals(expected, actual);
     }
 

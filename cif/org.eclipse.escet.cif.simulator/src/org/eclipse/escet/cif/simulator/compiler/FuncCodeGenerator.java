@@ -159,7 +159,7 @@ public class FuncCodeGenerator {
         // Add 'evalFunc' method.
         c.add();
         c.add("@Override");
-        c.add("public %s evalFunc(%s) {", gencodeType(retType, ctxt), StringUtils.join(paramTxts, ", "));
+        c.add("public %s evalFunc(%s) {", gencodeType(retType, ctxt), String.join(", ", paramTxts));
         c.indent();
 
         // Start of 'try'.
@@ -517,6 +517,6 @@ public class FuncCodeGenerator {
 
         // Add 'evalFunc' method.
         c.add("public abstract %s evalFunc(%s);", gencodeType(funcType.getReturnType(), ctxt),
-                StringUtils.join(paramTxts, ", "));
+                String.join(", ", paramTxts));
     }
 }

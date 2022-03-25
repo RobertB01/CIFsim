@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.setext.parser.ast.Symbol;
 import org.eclipse.escet.setext.parser.ast.parser.NonTerminal;
@@ -149,7 +148,7 @@ public class T427Test {
                 firstTxts.add(firstSymbol.name);
             }
             Collections.sort(firstTxts, Strings.SORTER);
-            actual[i] = "{" + StringUtils.join(firstTxts, ", ") + "}";
+            actual[i] = "{" + String.join(", ", firstTxts) + "}";
         }
 
         // Compare expected/actual.
@@ -202,7 +201,7 @@ public class T427Test {
                 firstTxts.add(firstSymbol.name);
             }
             Collections.sort(firstTxts, Strings.SORTER);
-            actual[i] = "{" + StringUtils.join(firstTxts, ", ") + "}";
+            actual[i] = "{" + String.join(", ", firstTxts) + "}";
         }
 
         // Compare expected/actual.

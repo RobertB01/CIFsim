@@ -102,7 +102,7 @@ public class CifSpecOption extends Option<List<String>> {
             String msg = fmt(
                     "The CIF simulator expects exactly one CIF specification file (\".cif\" file) or compiled code "
                             + "file (\".cifcode\" file) to simulate, but %d files were provided: %s.",
-                    value.size(), StringUtils.join(inputs, ", "));
+                    value.size(), String.join(", ", inputs));
             throw new InvalidOptionException(msg);
         }
     }

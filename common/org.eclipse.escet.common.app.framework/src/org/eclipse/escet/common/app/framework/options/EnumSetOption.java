@@ -247,7 +247,7 @@ public abstract class EnumSetOption<T extends Enum<T>> extends Option<EnumSet<T>
         for (T literal: literalSet) {
             txts.add(literal.name().toLowerCase(Locale.US).replace('_', '-'));
         }
-        return new String[] {"--" + cmdLong + "=" + StringUtils.join(txts, ", ")};
+        return new String[] {"--" + cmdLong + "=" + String.join(", ", txts)};
     }
 
     /**

@@ -43,7 +43,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -1636,7 +1635,7 @@ public class CifEvalUtils {
         for (Object obj: objs) {
             txts.add(objToStr(obj));
         }
-        return StringUtils.join(txts, ", ");
+        return String.join(", ", txts);
     }
 
     /**
@@ -1696,7 +1695,7 @@ public class CifEvalUtils {
             for (Object elem: set) {
                 txts.add(objToStr(elem));
             }
-            return "{" + StringUtils.join(txts, ", ") + "}";
+            return "{" + String.join(", ", txts) + "}";
         }
 
         if (obj instanceof StdLibFunction) {
@@ -1713,7 +1712,7 @@ public class CifEvalUtils {
             for (Entry<Object, Object> entry: dict.entrySet()) {
                 txts.add(objToStr(entry.getKey()) + ": " + objToStr(entry.getValue()));
             }
-            return "{" + StringUtils.join(txts, ", ") + "}";
+            return "{" + String.join(", ", txts) + "}";
         }
 
         if (obj instanceof Component) {

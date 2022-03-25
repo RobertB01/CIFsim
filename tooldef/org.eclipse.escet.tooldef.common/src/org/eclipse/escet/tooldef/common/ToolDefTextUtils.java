@@ -458,7 +458,7 @@ public class ToolDefTextUtils {
         for (Expression expr: exprs) {
             txts.add(exprToStr(expr));
         }
-        return StringUtils.join(txts, ", ");
+        return String.join(", ", txts);
     }
 
     /**
@@ -748,7 +748,7 @@ public class ToolDefTextUtils {
             for (ToolDefType t: ttype.getFields()) {
                 frslts.add(typeToStr(t, normalize));
             }
-            return rslt + StringUtils.join(frslts, ", ") + ")";
+            return rslt + String.join(", ", frslts) + ")";
         }
 
         // Reference types.

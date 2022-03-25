@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.tooldef.common.ToolDefTextUtils;
@@ -476,21 +475,21 @@ public class ToolDefRuntimeUtils {
             for (Object elem: lvalue) {
                 elems.add(valueToStr(elem));
             }
-            return "[" + StringUtils.join(elems, ", ") + "]";
+            return "[" + String.join(", ", elems) + "]";
         } else if (value instanceof ToolDefSet<?>) {
             ToolDefSet<?> svalue = (ToolDefSet<?>)value;
             List<String> elems = listc(svalue.size());
             for (Object elem: svalue) {
                 elems.add(valueToStr(elem));
             }
-            return "{" + StringUtils.join(elems, ", ") + "}";
+            return "{" + String.join(", ", elems) + "}";
         } else if (value instanceof ToolDefMap<?, ?>) {
             ToolDefMap<?, ?> mvalue = (ToolDefMap<?, ?>)value;
             List<String> entries = listc(mvalue.size());
             for (Entry<?, ?> entry: mvalue.entrySet()) {
                 entries.add(valueToStr(entry.getKey()) + ": " + valueToStr(entry.getValue()));
             }
-            return "{" + StringUtils.join(entries, ", ") + "}";
+            return "{" + String.join(", ", entries) + "}";
         } else {
             throw new RuntimeException("Unknown runtime value: " + value);
         }

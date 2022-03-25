@@ -140,7 +140,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
                     for (String path: mergedPaths) {
                         paths.add("\"" + path + "\"");
                     }
-                    String mergedPathsTxt = StringUtils.join(paths, ", ");
+                    String mergedPathsTxt = String.join(", ", paths);
                     String msg = fmt("Merging CIF specification%s %s with CIF specification \"%s\" failed.",
                             (mergedPaths.size() == 1) ? "" : "s", mergedPathsTxt, curFilePath);
                     throw new UnsupportedException(msg, e);
@@ -173,7 +173,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
             for (String path: mergedPaths) {
                 paths.add("\"" + path + "\"");
             }
-            String mergedPathsTxt = StringUtils.join(paths, ", ");
+            String mergedPathsTxt = String.join(", ", paths);
 
             String msg = fmt("Merging CIF specifications %s failed.", mergedPathsTxt);
             throw new UnsupportedException(msg);

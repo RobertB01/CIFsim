@@ -130,7 +130,7 @@ public class RuntimeValueToString {
         for (T elem: value) {
             elems.add(runtimeToString(elem));
         }
-        return "[" + StringUtils.join(elems, ", ") + "]";
+        return "[" + String.join(", ", elems) + "]";
     }
 
     /**
@@ -149,7 +149,7 @@ public class RuntimeValueToString {
         for (T elem: value) {
             elems.add(runtimeToString(elem));
         }
-        return "{" + StringUtils.join(elems, ", ") + "}";
+        return "{" + String.join(", ", elems) + "}";
     }
 
     /**
@@ -169,6 +169,6 @@ public class RuntimeValueToString {
         for (Entry<K, V> pair: value.entrySet()) {
             elems.add(runtimeToString(pair.getKey()) + ": " + runtimeToString(pair.getValue()));
         }
-        return "{" + StringUtils.join(elems, ", ") + "}";
+        return "{" + String.join(", ", elems) + "}";
     }
 }

@@ -115,7 +115,7 @@ public class CifFormatPatternCodeGenerator {
         if (!argCodes.isEmpty()) {
             rslt.append(", ");
         }
-        rslt.append(StringUtils.join(argCodes, ", "));
+        rslt.append(String.join(", ", argCodes));
         rslt.append(")");
         return rslt.toString();
     }

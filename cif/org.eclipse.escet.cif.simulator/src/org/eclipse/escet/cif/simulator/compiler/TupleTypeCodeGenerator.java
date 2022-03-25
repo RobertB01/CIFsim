@@ -80,7 +80,7 @@ public class TupleTypeCodeGenerator {
 
         // Add constructor.
         c.add();
-        c.add("public %s(%s) {", className, StringUtils.join(paramTxts, ", "));
+        c.add("public %s(%s) {", className, String.join(", ", paramTxts));
         c.indent();
         for (String name: names) {
             c.add("this.%s = %s;", name, name);
@@ -92,7 +92,7 @@ public class TupleTypeCodeGenerator {
         c.add();
         c.add("public %s copy() {", className);
         c.indent();
-        c.add("return new %s(%s);", className, StringUtils.join(names, ", "));
+        c.add("return new %s(%s);", className, String.join(", ", names));
         c.dedent();
         c.add("}");
 

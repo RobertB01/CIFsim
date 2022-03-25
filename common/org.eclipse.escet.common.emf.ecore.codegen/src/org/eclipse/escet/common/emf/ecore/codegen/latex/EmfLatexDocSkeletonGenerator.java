@@ -153,7 +153,7 @@ public class EmfLatexDocSkeletonGenerator extends EmfLatexCodeGenerator {
             for (EPackage subPkg: pkg.getESubpackages()) {
                 lst1.add(getEPackageRef(subPkg));
             }
-            box.add("\\item[Sub-packages] " + StringUtils.join(lst1, ", "));
+            box.add("\\item[Sub-packages] " + String.join(", ", lst1));
         }
         box.add("\\end{description}");
         box.add();
@@ -267,7 +267,7 @@ public class EmfLatexDocSkeletonGenerator extends EmfLatexCodeGenerator {
             for (EClass derived: deriveds) {
                 derivedTxts.add(fmt("\\%sclass{%s}", getRootPackageName(derived), derived.getName()));
             }
-            box.add(StringUtils.join(derivedTxts, ", "));
+            box.add(String.join(", ", derivedTxts));
         }
         box.add();
 

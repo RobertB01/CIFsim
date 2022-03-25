@@ -99,7 +99,7 @@ public class DefaultValueCodeGenerator {
                 for (Field field: ttype.getFields()) {
                     argTxts.add(getDefaultValueCode(field.getType(), ctxt));
                 }
-                c.add("return new %s(%s);", ctxt.getTupleTypeClassName(ttype), StringUtils.join(argTxts, ", "));
+                c.add("return new %s(%s);", ctxt.getTupleTypeClassName(ttype), String.join(", ", argTxts));
             } else {
                 throw new RuntimeException("Unknown container type: " + type);
             }

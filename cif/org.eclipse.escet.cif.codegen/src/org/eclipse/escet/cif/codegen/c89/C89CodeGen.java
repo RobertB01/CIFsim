@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CodeGen;
 import org.eclipse.escet.cif.codegen.CurlyBraceIfElseGenerator;
@@ -803,7 +802,7 @@ public class C89CodeGen extends CodeGen {
         if (conds.size() == 1) {
             return conds.get(0);
         }
-        return StringUtils.join(conds, " || ");
+        return String.join(" || ", conds);
     }
 
     /**
