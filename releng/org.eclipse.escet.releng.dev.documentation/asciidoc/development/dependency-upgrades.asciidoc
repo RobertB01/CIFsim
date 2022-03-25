@@ -13,16 +13,36 @@
 
 include::_part_attributes.asciidoc[]
 
-[[development-upgrade-instructions-chapter-index]]
-== Upgrade instructions
+[[development-dependency-upgrades-chapter-index]]
+== Dependency upgrades
 
-To upgrade to a new Eclipse Platform/IDE/SDK version:
+The Eclipse ESCET toolset has various dependencies.
+From time to time, these dependencies need to be upgraded.
+This page discusses for some of the major dependencies _when_ to upgrade and _how_ to upgrade:
+
+* <<development-dependency-upgrades-eclipse>>
+* <<development-dependency-upgrades-tycho>>
+* <<development-dependency-upgrades-java>>
+
+[[development-dependency-upgrades-eclipse]]
+=== Eclipse Platform/IDE upgrades
+
+The Eclipse ESCET IDE is based on the Eclipse IDE, which in turn is based on the Eclipse Platform.
+The Eclipse IDE is also used as the development environment of choice for Eclipse ESCET development.
+
+The Eclipse ESCET upgrade policy for the Eclipse Platform/IDE is:
+
+* Considering the overhead, only upgrade if there is a use for it.
+For instance, if we need a bug fix, some new feature, or so.
+* Upgrade to a new Eclipse version at least once a year, to stay current.
+
+To upgrade to a new Eclipse Platform/IDE version:
 
 * New development environment
 ** <<development-dev-env-setup-chapter-index,Set up a new development environment>> for the new Eclipse IDE version.
 
 * Version updates
-** Look up Orbit version for the new Eclipse Platform/IDE/SDK release, see https://download.eclipse.org/tools/orbit/downloads/.
+** Look up Orbit version for the new Eclipse Platform/IDE release, see https://download.eclipse.org/tools/orbit/downloads/.
 ** Update Oomph setup (`org.eclipse.escet.setup`), configuring new Eclipse IDE and Orbit versions.
 ** Update `dev-env-setup.asciidoc` to match new Eclipse version.
 ** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
@@ -76,6 +96,15 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 ** Run `misc/license-check-dependencies/license-check-dependencies.sh` and update `DEPENDENCIES.txt` according to the output.
 ** Run `misc/license-check-dependencies/license-check-dependencies.sh` again, to ensure `DEPENDENCIES.txt` is up-to-date.
 
+[[development-dependency-upgrades-tycho]]
+=== Tycho upgrades
+
+Eclipse Tycho is used for the Eclipse ESCET build.
+
+The Eclipse ESCET upgrade policy for Tycho is:
+
+* Typically upgrading to a newer version can be done at any time, if it is considered relevant.
+
 To upgrade to a new Tycho version:
 
 * Update version in `org.eclipse.escet.root/.mvn/extensions.xml`.
@@ -83,6 +112,22 @@ To upgrade to a new Tycho version:
 * Check Tycho release notes for changes and adapt as necessary.
 * Run a <<development-building-and-testing-chapter-index,Maven build>>.
 * Ensure no errors or warnings during Maven build.
+
+[[development-dependency-upgrades-java]]
+=== Java upgrades
+
+Most of the Eclipse ESCET source code is written in Java.
+
+The Eclipse ESCET upgrade policy for Java is:
+
+* Considering the overhead, only upgrade if there is a use for it.
+For instance, if we need a bug fix, some new feature, or so.
+* Upgrade when a Java version we use is no longer actively supported.
+* Only upgrade to a Java LTS release.
+* Don't upgrade to newer Java versions immediately, but only after (industrial) adoption is high enough.
+As a general guideline, if at least 50% of developers, users and enterprises use the new LTS version, consider upgrading.
+Java usage is regularly surveyed, and reports can typically be found online.
+For instance, the link:https://outreach.jakartaee.org/2021-developer-survey-report[2021 Jakarta EE Developer Survey Report] of the Eclipse Jakarta EE project indicates that in 2021 about 58% of the developers and 11% of the enterprises used Java 11.
 
 To upgrade to a new Java version:
 
