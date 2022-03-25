@@ -34,6 +34,7 @@ TBD
 
 Improvements and fixes:
 
+* Some small changes to the documentation (issue #271).
 * The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue #314).
 
 === Version 0.4 (2021-12-17)
