@@ -146,3 +146,20 @@ It is generally recommended to place an invariant inside an automaton if the con
 indexterm:[location,invariant]
 Furthermore, invariants can be placed in a location.
 Such an invariant only has to hold while the location in which it is specified is the current location of its automaton.
+
+=== Naming state (exclusion) invariants
+In some cases, it might be useful to given invariants names.
+It may improve the readability of the model and it makes it easier to refer to them in text.
+Names can be given as follows.
+
+[source, cif]
+----
+// Multiple named invariants.
+invariant positiveCount: count >= 0;
+invariant maximumCount: count <= 5;
+
+// Shorter notation for multiple named invariants.
+invariant positiveCount: count >= 0, maximumCount: count <= 5;
+----
+
+Invariant names must be unique.
