@@ -39,7 +39,7 @@ public class AInvariant extends ACifObject {
     /**
      * Constructor for the {@link AInvariant} class.
      *
-     * @param name The name.
+     * @param name The name, or {@code null}.
      * @param predicate The predicate.
      * @param invKind The invariant kind. Is either a state/event exclusion kind token, or {@code null} for state
      *     invariants.
