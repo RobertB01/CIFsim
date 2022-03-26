@@ -1103,6 +1103,10 @@ public class CifTextUtils {
                 txt.append(" ");
             }
             txt.append("invariant ");
+            if (inv.getName() != null) {
+                txt.append(inv.getName());
+                txt.append(": ");
+            }
         }
 
         switch (inv.getInvKind()) {
