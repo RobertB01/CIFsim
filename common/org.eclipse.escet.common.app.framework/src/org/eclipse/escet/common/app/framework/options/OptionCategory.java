@@ -235,7 +235,7 @@ public class OptionCategory {
             getRoot().fillShortOptSet(shortNames);
 
             // Inform developer of duplicate short name problem.
-            String usedShortNames = sortedgeneric(shortNames).stream().map(k -> k.toString())
+            String usedShortNames = sortedgeneric(shortNames).stream().map(String::valueOf)
                     .collect(Collectors.joining(", "));
             String msg = fmt(
                     "Duplicate short option name \"%s\" for application \"%s\" for options \"%s\" and \"%s\" "

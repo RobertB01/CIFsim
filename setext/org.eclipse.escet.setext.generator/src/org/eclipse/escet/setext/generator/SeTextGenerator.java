@@ -1267,9 +1267,7 @@ public class SeTextGenerator {
             }
 
             // Write terminal ids.
-            List<Integer> termIds = sortedgeneric(termIdSet);
-            String termIdsText = intsToStr(termIds);
-            code.add("{%s}, // state %d", termIdsText, si);
+            code.add("{%s}, // state %d", intsToStr(sortedgeneric(termIdSet)), si);
         }
         code.dedent();
         code.add("};");
@@ -1641,13 +1639,13 @@ public class SeTextGenerator {
     }
 
     /**
-     * Convert a list of integer to a string with comma-separated values.
+     * Convert a list of integers to a string with comma-separated values.
      *
-     * @param integers Integer values to use in the result.
+     * @param integers Integer values to convert.
      * @return The created string.
      */
     private static String intsToStr(List<Integer> integers) {
-        return integers.stream().map(termId -> termId.toString()).collect(Collectors.joining(", "));
+        return integers.stream().map(String::valueOf).collect(Collectors.joining(", "));
     }
 
     /**

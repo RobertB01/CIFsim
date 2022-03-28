@@ -369,7 +369,7 @@ public class FormatDecoderTest {
                     continue TESTS;
                 }
             }
-            String rslt = fds.stream().map(fd -> fd.toString()).collect(Collectors.joining());
+            String rslt = fds.stream().map(String::valueOf).collect(Collectors.joining());
             assertEquals(test, rslt);
         }
     }
@@ -458,7 +458,7 @@ public class FormatDecoderTest {
         }
 
         List<FormatDescription> fds = new FormatDecoder().decode(combi);
-        String rslt = fds.stream().map(fd -> fd.toString()).collect(Collectors.joining());
+        String rslt = fds.stream().map(String::valueOf).collect(Collectors.joining());
         assertEquals(combi, rslt);
     }
 
@@ -488,9 +488,9 @@ public class FormatDecoderTest {
         Set<String> results = set();
         for (int i = 0; i < 1000; i++) {
             Collections.shuffle(flags, random);
-            String test = fmt("%%%s10d", flags.stream().map(flag ->flag.toString()).collect(Collectors.joining()));
+            String test = fmt("%%%s10d", flags.stream().map(String::valueOf).collect(Collectors.joining()));
             List<FormatDescription> fds = new FormatDecoder().decode(test);
-            String result = fds.stream().map(fd ->fd.toString()).collect(Collectors.joining());
+            String result = fds.stream().map(String::valueOf).collect(Collectors.joining());
             results.add(result);
         }
         assertEquals(1, results.size());

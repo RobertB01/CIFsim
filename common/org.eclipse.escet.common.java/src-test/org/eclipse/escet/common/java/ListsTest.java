@@ -708,7 +708,7 @@ public class ListsTest {
 
                 String expected = "";
                 List<Integer> actualLst = slice(input, beginIndex, endIndex);
-                String actual = actualLst.stream().map(i -> i.toString()).collect(Collectors.joining());
+                String actual = actualLst.stream().map(String::valueOf).collect(Collectors.joining());
 
                 assertEquals(expected, actual);
             }

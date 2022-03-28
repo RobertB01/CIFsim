@@ -127,7 +127,7 @@ public class JavaType extends SeTextObject {
         rslt.append(className);
         if (genericTypeParams != null) {
             rslt.append("<");
-            rslt.append(genericTypeParams.stream().map(p -> p.toString()).collect(Collectors.joining(", ")));
+            rslt.append(genericTypeParams.stream().map(String::valueOf).collect(Collectors.joining(", ")));
             rslt.append(">");
         }
         return rslt.toString();
