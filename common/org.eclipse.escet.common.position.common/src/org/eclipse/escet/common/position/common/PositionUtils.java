@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Objects;
 
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionFactory;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -234,7 +235,7 @@ public class PositionUtils {
     }
 
     /**
-     * Creates a new position for a sub-range of range covered by the given position.
+     * Creates a new position for a sub-range covered by the given position.
      *
      * @param orig The original position. Must not span multiple lines.
      * @param offset The 0-based offset, from the start of the original position. Must be in the range
@@ -258,5 +259,35 @@ public class PositionUtils {
         rslt.setStartColumn(rslt.getStartColumn() + offset);
         rslt.setEndColumn(rslt.getStartColumn() + length - 1);
         return rslt;
+    }
+
+    /**
+     * Convert a {@link TextPosition} to a {@link Position}.
+     *
+     * @param textPos Position to copy.
+     * @return A fresh copy of the provided position.
+     */
+    public static Position toPosition(TextPosition textPos) {
+        Position pos = PositionFactory.eINSTANCE.createPosition();
+        pos.setSource(textPos.source);
+        pos.setLocation(textPos.location);
+        pos.setStartLine(textPos.startLine);
+        pos.setEndLine(textPos.endLine);
+        pos.setStartColumn(textPos.startColumn);
+        pos.setEndColumn(textPos.endColumn);
+        pos.setStartOffset(textPos.startOffset);
+        pos.setEndOffset(textPos.endOffset);
+        return pos;
+    }
+
+    /**
+     * Convert a {@link Position} to a {@link TextPosition}.
+     *
+     * @param pos Position to copy.
+     * @return The created position.
+     */
+    public static TextPosition toTextPosition(Position pos) {
+        return new TextPosition(pos.getLocation(), pos.getSource(), pos.getStartLine(), pos.getStartColumn(),
+                pos.getEndLine(), pos.getEndColumn(), pos.getStartOffset(), pos.getEndOffset());
     }
 }
