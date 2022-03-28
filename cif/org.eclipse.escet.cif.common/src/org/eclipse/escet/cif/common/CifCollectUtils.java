@@ -45,6 +45,31 @@ public class CifCollectUtils {
     }
 
     /**
+     * Function providing a stream of complex components to process, including the provided root component.
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param comp Root component to traverse.
+     * @return Stream of contained complex components found, including the root component.
+     */
+    public static Stream<ComplexComponent> getComplexComponentsStream(ComplexComponent comp) {
+        return StreamSupport.stream(new ComplexComponentSpliterator(comp, false), false);
+    }
+
+    /**
+     * Function providing a stream of complex components to process, including the provided root component.
+     *
+     * @param comp Root component to traverse.
+     * @param traverseCompDefs Whether to search component definitions as well.
+     * @return Stream of contained complex components found, including the root component.
+     */
+    public static Stream<ComplexComponent> getComplexComponentsStream(ComplexComponent comp, boolean traverseCompDefs) {
+        return StreamSupport.stream(new ComplexComponentSpliterator(comp, traverseCompDefs), false);
+    }
+
+    /**
      * Function that gives a stream of event declarations from the complex components tree.
      *
      * <p>
@@ -114,6 +139,23 @@ public class CifCollectUtils {
     }
 
     /**
+     * Collect the {@link Declaration}s declared in the given component (recursively).
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param <T> The type of the collection for storing found declarations.
+     * @param comp The component.
+     * @param declarations The declarations collected so far. Is modified in-place.
+     * @return The updated declarations collection.
+     */
+    public static <T extends Collection<Declaration>> T collectDeclarations(ComplexComponent comp, T declarations) {
+        getComplexComponentsStream(comp).forEach(cc -> declarations.addAll(cc.getDeclarations()));
+        return declarations;
+    }
+
+    /**
      * Collect the discrete and input variables declared in the given component (recursively).
      *
      * <p>
@@ -132,23 +174,6 @@ public class CifCollectUtils {
                 .filter(decl -> decl instanceof DiscVariable || decl instanceof InputVariable)
                 .collect(Collectors.toCollection(() -> variables));
         return variables;
-    }
-
-    /**
-     * Collect the {@link Declaration}s declared in the given component (recursively).
-     *
-     * <p>
-     * Does not support component definition/instantiation.
-     * </p>
-     *
-     * @param <T> The type of the collection for storing found declarations.
-     * @param comp The component.
-     * @param declarations The declarations collected so far. Is modified in-place.
-     * @return The updated declarations collection.
-     */
-    public static <T extends Collection<Declaration>> T collectDeclarations(ComplexComponent comp, T declarations) {
-        getComplexComponentsStream(comp).forEach(cc -> declarations.addAll(cc.getDeclarations()));
-        return declarations;
     }
 
     /**
@@ -265,30 +290,5 @@ public class CifCollectUtils {
         public Spliterator<ComplexComponent> trySplit() {
             return null; // Don't allow splitting the stream.
         }
-    }
-
-    /**
-     * Function providing a stream of complex components to process, including the provided root component.
-     *
-     * <p>
-     * Does not support component definition/instantiation.
-     * </p>
-     *
-     * @param comp Root component to traverse.
-     * @return Stream of contained complex components found, including the root component.
-     */
-    public static Stream<ComplexComponent> getComplexComponentsStream(ComplexComponent comp) {
-        return StreamSupport.stream(new ComplexComponentSpliterator(comp, false), false);
-    }
-
-    /**
-     * Function providing a stream of complex components to process, including the provided root component.
-     *
-     * @param comp Root component to traverse.
-     * @param traverseCompDefs Whether to search component definitions as well.
-     * @return Stream of contained complex components found, including the root component.
-     */
-    public static Stream<ComplexComponent> getComplexComponentsStream(ComplexComponent comp, boolean traverseCompDefs) {
-        return StreamSupport.stream(new ComplexComponentSpliterator(comp, traverseCompDefs), false);
     }
 }
