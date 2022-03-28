@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -388,7 +388,7 @@ public class CifSvgCodeGenerator {
         if (interactiveIds.isEmpty()) {
             c.add("return Collections.emptySet();");
         } else {
-            c.add("return set(%s);", StringUtils.join(interactiveIds, ", "));
+            c.add("return set(%s);", String.join(", ", interactiveIds));
         }
 
         c.dedent();
@@ -539,7 +539,8 @@ public class CifSvgCodeGenerator {
         }
 
         // Generate 'return' statement.
-        c.add("return new boolean[] {%s};", StringUtils.join(interactiveEvents, ", "));
+        String boolValues = interactiveEvents.stream().map(b -> b.toString()).collect(Collectors.joining(", "));
+        c.add("return new boolean[] {%s};", boolValues);
     }
 
     /**

@@ -559,7 +559,7 @@ public class BuiltInDataTools {
      * @return The joined texts.
      */
     public static String join(List<String> texts) {
-        return StringUtils.join(texts, "");
+        return String.join("", texts);
     }
 
     /**
@@ -570,7 +570,7 @@ public class BuiltInDataTools {
      * @return The joined texts.
      */
     public static String join(List<String> texts, String separator) {
-        return StringUtils.join(texts, separator);
+        return String.join(separator, texts);
     }
 
     /**

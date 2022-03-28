@@ -197,7 +197,7 @@ public class CifToSynthesisConverter {
 
         // Precondition violations found.
         String msg = "Data-based supervisory controller synthesis failed due to unsatisfied preconditions:\n - "
-                + StringUtils.join(sortedstrings(problems), "\n - ");
+                + String.join("\n - ", sortedstrings(problems));
         throw new UnsupportedException(msg);
     }
 
@@ -332,7 +332,7 @@ public class CifToSynthesisConverter {
 
             String msg = fmt("Unsupported %s: requirement uses channel%s: %s.",
                     CifTextUtils.getComponentText1(requirements.get(i)), (commEvents.size() == 1) ? "" : "s",
-                    StringUtils.join(names, ", "));
+                    String.join(", ", names));
             problems.add(msg);
         }
 
@@ -859,7 +859,7 @@ public class CifToSynthesisConverter {
                 }
                 Collections.sort(names, Strings.SORTER);
                 String msg = fmt("Invalid BDD variable order: the following are missing from the specified order: %s.",
-                        StringUtils.join(names, ", "));
+                        String.join(", ", names));
                 throw new InvalidOptionException(msg);
             }
 
@@ -2471,7 +2471,7 @@ public class CifToSynthesisConverter {
                     guardTxts.add("\"" + guardsTxt + "\"");
                 }
                 Assert.check(!guardTxts.isEmpty());
-                guardsTxts.add(StringUtils.join(guardTxts, ", "));
+                guardsTxts.add(String.join(", ", guardTxts));
             }
             Assert.check(!guardsTxts.isEmpty());
 
@@ -2485,7 +2485,7 @@ public class CifToSynthesisConverter {
                     txt = fmt("\n    Group %d: %s", i + 1, txt);
                     guardsTxts.set(i, txt);
                 }
-                groupsTxt = StringUtils.join(guardsTxts, "");
+                groupsTxt = String.join("", guardsTxts);
             }
 
             // Report conflict.
@@ -2986,7 +2986,7 @@ public class CifToSynthesisConverter {
                 }
                 List<String> sortedNames = Sets.sortedgeneric(names, Strings.SORTER);
                 String msg = fmt("Invalid edge order: the following are missing from the specified order: %s.",
-                        StringUtils.join(sortedNames, ", "));
+                        String.join(", ", sortedNames));
                 throw new InvalidOptionException(msg);
             }
 

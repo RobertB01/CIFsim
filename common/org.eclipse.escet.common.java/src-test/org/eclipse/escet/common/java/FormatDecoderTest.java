@@ -26,8 +26,8 @@ import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 /** Unit tests for the {@link FormatDecoder} class. */
@@ -369,7 +369,7 @@ public class FormatDecoderTest {
                     continue TESTS;
                 }
             }
-            String rslt = StringUtils.join(fds, "");
+            String rslt = fds.stream().map(String::valueOf).collect(Collectors.joining());
             assertEquals(test, rslt);
         }
     }
@@ -458,7 +458,7 @@ public class FormatDecoderTest {
         }
 
         List<FormatDescription> fds = new FormatDecoder().decode(combi);
-        String rslt = StringUtils.join(fds, "");
+        String rslt = fds.stream().map(String::valueOf).collect(Collectors.joining());
         assertEquals(combi, rslt);
     }
 
@@ -488,9 +488,9 @@ public class FormatDecoderTest {
         Set<String> results = set();
         for (int i = 0; i < 1000; i++) {
             Collections.shuffle(flags, random);
-            String test = fmt("%%%s10d", StringUtils.join(flags, ""));
+            String test = fmt("%%%s10d", flags.stream().map(String::valueOf).collect(Collectors.joining()));
             List<FormatDescription> fds = new FormatDecoder().decode(test);
-            String result = StringUtils.join(fds, "");
+            String result = fds.stream().map(String::valueOf).collect(Collectors.joining());
             results.add(result);
         }
         assertEquals(1, results.size());
@@ -600,7 +600,7 @@ public class FormatDecoderTest {
         Set<String> results = set();
         for (int i = 0; i < 1000; i++) {
             Collections.shuffle(flags, random);
-            String pattern = fmt("%%%s10d", StringUtils.join(flags, ""));
+            String pattern = fmt("%%%s10d", String.join("", flags));
             String result = fmt(pattern, 12345);
             results.add(result);
         }

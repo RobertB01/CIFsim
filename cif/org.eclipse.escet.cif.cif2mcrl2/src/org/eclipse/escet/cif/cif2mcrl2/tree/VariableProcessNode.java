@@ -21,7 +21,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.cif2mcrl2.NameMaps;
 import org.eclipse.escet.cif.cif2mcrl2.storage.VariableData;
 import org.eclipse.escet.common.box.VBox;
@@ -104,7 +103,7 @@ public class VariableProcessNode extends ProcessNode {
         actions.add(varSync);
         actions.add(behRead);
         actions.add(behWrite);
-        String actionsStr = StringUtils.join(actions, ", ");
+        String actionsStr = String.join(", ", actions);
         code.add(fmt("act %s : %s;", actionsStr, varType));
         code.add();
 

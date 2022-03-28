@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -119,7 +118,7 @@ public class CifToSupremicaPreChecker extends CifWalker {
         Collections.sort(problems, Strings.SORTER);
         if (!problems.isEmpty()) {
             String msg = "CIF to Supremica transformation failed due to unsatisfied preconditions:\n - "
-                    + StringUtils.join(problems, "\n - ");
+                    + String.join("\n - ", problems);
             throw new UnsupportedException(msg);
         }
     }

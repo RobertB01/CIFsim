@@ -95,7 +95,7 @@ public class Cif2Mcrl2PreChecker {
         Collections.sort(problems, Strings.SORTER);
         if (!problems.isEmpty()) {
             String msg = "CIF to mCRL2 transformation failed due to unsatisfied preconditions:\n - "
-                    + StringUtils.join(problems, "\n - ");
+                    + String.join("\n - ", problems);
             throw new UnsupportedException(msg);
         }
     }

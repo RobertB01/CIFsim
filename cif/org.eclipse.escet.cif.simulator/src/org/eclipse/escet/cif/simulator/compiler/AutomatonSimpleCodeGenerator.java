@@ -25,7 +25,6 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -108,7 +107,7 @@ public class AutomatonSimpleCodeGenerator {
             boolean monitor = monitors.contains(event);
             monitorValues.add(String.valueOf(monitor));
         }
-        c.add("return new boolean[] {%s};", StringUtils.join(monitorValues, ", "));
+        c.add("return new boolean[] {%s};", String.join(", ", monitorValues));
         c.dedent();
         c.add("}");
 

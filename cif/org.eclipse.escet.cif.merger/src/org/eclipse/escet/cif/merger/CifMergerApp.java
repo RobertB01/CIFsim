@@ -21,7 +21,6 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.PrintFileIntoDecls;
 import org.eclipse.escet.cif.cif2cif.SvgFileIntoDecls;
@@ -140,7 +139,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
                     for (String path: mergedPaths) {
                         paths.add("\"" + path + "\"");
                     }
-                    String mergedPathsTxt = StringUtils.join(paths, ", ");
+                    String mergedPathsTxt = String.join(", ", paths);
                     String msg = fmt("Merging CIF specification%s %s with CIF specification \"%s\" failed.",
                             (mergedPaths.size() == 1) ? "" : "s", mergedPathsTxt, curFilePath);
                     throw new UnsupportedException(msg, e);
@@ -173,7 +172,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
             for (String path: mergedPaths) {
                 paths.add("\"" + path + "\"");
             }
-            String mergedPathsTxt = StringUtils.join(paths, ", ");
+            String mergedPathsTxt = String.join(", ", paths);
 
             String msg = fmt("Merging CIF specifications %s failed.", mergedPathsTxt);
             throw new UnsupportedException(msg);

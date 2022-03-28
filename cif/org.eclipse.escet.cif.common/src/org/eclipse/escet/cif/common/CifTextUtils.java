@@ -269,7 +269,7 @@ public class CifTextUtils {
             for (CifType paramType: ftype.getParamTypes()) {
                 paramTypes.add(typeToStr(paramType));
             }
-            return "func " + typeToStr(ftype.getReturnType()) + "(" + StringUtils.join(paramTypes, ", ") + ")";
+            return "func " + typeToStr(ftype.getReturnType()) + "(" + String.join(", ", paramTypes) + ")";
         }
 
         if (type instanceof DictType) {
@@ -289,7 +289,7 @@ public class CifTextUtils {
                     fields.add(ftype + " " + field.getName());
                 }
             }
-            return "tuple(" + StringUtils.join(fields, "; ") + ")";
+            return "tuple(" + String.join("; ", fields) + ")";
         }
 
         if (type instanceof DistType) {
@@ -357,7 +357,7 @@ public class CifTextUtils {
         for (Expression expr: exprs) {
             txts.add(exprToStr(expr));
         }
-        return StringUtils.join(txts, ", ");
+        return String.join(", ", txts);
     }
 
     /**

@@ -29,7 +29,6 @@ import static org.eclipse.escet.common.java.Strings.stringToJava;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
@@ -311,7 +310,7 @@ public class C89IntTypeInfo extends IntTypeInfo implements C89TypeInfo {
             code.add("fprintf(stderr, \"            at \" %s \"\\n\");", indexedVarName);
         } else {
             code.add("fprintf(stderr, \"            at \" %s \"\\n\", %s);", indexedVarName,
-                    StringUtils.join(arguments, ", "));
+                    String.join(", ", arguments));
         }
         code.add("RangeErrorDetected();");
         code.dedent();

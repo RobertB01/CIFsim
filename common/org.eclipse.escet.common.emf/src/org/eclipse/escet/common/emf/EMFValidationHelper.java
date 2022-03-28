@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
@@ -51,7 +50,7 @@ public class EMFValidationHelper {
         List<String> messages = list(msg);
         messages.addAll(diagMsgs);
 
-        throw new EMFValidationException(StringUtils.join(messages, "\n"));
+        throw new EMFValidationException(String.join("\n", messages));
     }
 
     /**
@@ -130,7 +129,7 @@ public class EMFValidationHelper {
         if ((code & Diagnostic.INFO) > 0) {
             rslt.add("INFO");
         }
-        return StringUtils.join(rslt, ", ");
+        return String.join(", ", rslt);
     }
 
     /**

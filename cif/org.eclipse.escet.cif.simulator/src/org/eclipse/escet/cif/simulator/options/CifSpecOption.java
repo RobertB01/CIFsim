@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionGroup;
@@ -102,7 +101,7 @@ public class CifSpecOption extends Option<List<String>> {
             String msg = fmt(
                     "The CIF simulator expects exactly one CIF specification file (\".cif\" file) or compiled code "
                             + "file (\".cifcode\" file) to simulate, but %d files were provided: %s.",
-                    value.size(), StringUtils.join(inputs, ", "));
+                    value.size(), String.join(", ", inputs));
             throw new InvalidOptionException(msg);
         }
     }

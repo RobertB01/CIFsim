@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.setext.parser.ast.SeTextObject;
 
 /** A single parser rule (or production) for a {@link NonTerminal non-terminal}. */
@@ -45,6 +44,6 @@ public class ParserRule extends SeTextObject {
         for (ParserRulePart part: symbols) {
             txts.add(part.toString());
         }
-        return StringUtils.join(txts, " ");
+        return String.join(" ", txts);
     }
 }

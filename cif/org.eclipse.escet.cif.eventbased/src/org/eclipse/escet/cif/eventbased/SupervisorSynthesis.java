@@ -168,7 +168,7 @@ public class SupervisorSynthesis {
             }
             String msg = fmt(
                     "Event%s %s %s in the alphabet of the requirements, but not in the alphabet of the plants.",
-                    (alphabet.size() == 1) ? "" : "s", StringUtils.join(eventNames, ", "),
+                    (alphabet.size() == 1) ? "" : "s", String.join(", ", eventNames),
                     (alphabet.size() == 1) ? "is" : "are");
             throw new InvalidModelException(msg);
         }
@@ -253,7 +253,7 @@ public class SupervisorSynthesis {
                     mesg.add(constructGroupLine(number, group));
                     number++;
                 }
-                OutputProvider.warn(StringUtils.join(mesg, "\n"));
+                OutputProvider.warn(String.join("\n", mesg));
                 warnCount++;
             }
         }
@@ -283,7 +283,7 @@ public class SupervisorSynthesis {
 
         Collections.sort(names, Strings.SORTER);
         String line = (names.size() == 1) ? "automaton" : "automata";
-        line = fmt(" - Group %d consists of %s %s.", number, line, StringUtils.join(names, ", "));
+        line = fmt(" - Group %d consists of %s %s.", number, line, String.join(", ", names));
         return line;
     }
 

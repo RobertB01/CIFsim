@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.app.framework.io.MemAppStream;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.setext.parser.ast.Specification;
@@ -244,7 +243,7 @@ public class T448Test {
                 items.add(item.toString());
             }
             Collections.sort(items, Strings.SORTER);
-            actual[idx] = StringUtils.join(items, ", ");
+            actual[idx] = String.join(", ", items);
             idx++;
         }
 

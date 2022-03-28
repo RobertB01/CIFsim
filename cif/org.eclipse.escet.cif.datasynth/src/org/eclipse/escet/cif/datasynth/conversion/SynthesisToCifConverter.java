@@ -67,7 +67,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.cif2cif.CifToCifPreconditionException;
 import org.eclipse.escet.cif.cif2cif.RemoveRequirements;
 import org.eclipse.escet.cif.common.CifScopeUtils;
@@ -822,7 +821,7 @@ public class SynthesisToCifConverter {
             }
             String msg1 = fmt("Can't put supervisor in namespace \"%s\".", namespace);
             String msg2 = fmt("The namespace is not empty, as it contains the following declarations: %s.",
-                    StringUtils.join(sortedNames, ", "));
+                    String.join(", ", sortedNames));
             Exception ex = new InvalidOptionException(msg2);
             throw new InvalidOptionException(msg1, ex);
         }

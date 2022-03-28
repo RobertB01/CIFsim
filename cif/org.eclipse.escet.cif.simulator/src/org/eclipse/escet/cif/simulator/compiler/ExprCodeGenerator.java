@@ -28,7 +28,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
@@ -148,7 +147,7 @@ public class ExprCodeGenerator {
             }
             txts.add(txt);
         }
-        return StringUtils.join(txts, " && ");
+        return String.join(" && ", txts);
     }
 
     /**
@@ -177,7 +176,7 @@ public class ExprCodeGenerator {
         for (Expression expr: exprs) {
             txts.add(gencodeExpr(expr, ctxt, state));
         }
-        return StringUtils.join(txts, ", ");
+        return String.join(", ", txts);
     }
 
     /**
@@ -969,8 +968,8 @@ public class ExprCodeGenerator {
         }
 
         // Generate code for key/value arrays.
-        String keysTxt = fmt("array(%s)", StringUtils.join(keyTxts, ", "));
-        String valuesTxt = fmt("array(%s)", StringUtils.join(valueTxts, ", "));
+        String keysTxt = fmt("array(%s)", String.join(", ", keyTxts));
+        String valuesTxt = fmt("array(%s)", String.join(", ", valueTxts));
 
         // Return the code for the dictionary literal.
         return fmt("addpairs(%s, %s, %s)", rslt, keysTxt, valuesTxt);

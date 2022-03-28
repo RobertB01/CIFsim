@@ -487,7 +487,7 @@ public final class CifPrettyPrinter {
                     pprint(param.getParameter().getType()) + " " + escapeIdentifier(param.getParameter().getName()));
         }
         String header = fmt("func %s %s(%s):", pprintTypes(function.getReturnTypes(), ", "),
-                escapeIdentifier(function.getName()), StringUtils.join(paramTxts, "; "));
+                escapeIdentifier(function.getName()), String.join("; ", paramTxts));
 
         // Add header and body.
         if (function instanceof ExternalFunction) {
@@ -620,7 +620,7 @@ public final class CifPrettyPrinter {
             names.add(escapeIdentifier(lit.getName()));
         }
 
-        code.add("enum %s = %s;", escapeIdentifier(enumDecl.getName()), StringUtils.join(names, ", "));
+        code.add("enum %s = %s;", escapeIdentifier(enumDecl.getName()), String.join(", ", names));
     }
 
     /**
@@ -693,7 +693,7 @@ public final class CifPrettyPrinter {
         } else {
             kindTxt = "group";
         }
-        code.add("%s def %s(%s):", kindTxt, escapeIdentifier(compBody.getName()), StringUtils.join(paramTxts, "; "));
+        code.add("%s def %s(%s):", kindTxt, escapeIdentifier(compBody.getName()), String.join("; ", paramTxts));
         code.indent();
 
         // Add body.
@@ -1373,7 +1373,7 @@ public final class CifPrettyPrinter {
         for (CifType type: types) {
             typeTxts.add(pprint(type));
         }
-        return StringUtils.join(typeTxts, separator);
+        return String.join(separator, typeTxts);
     }
 
     /**
@@ -1430,7 +1430,7 @@ public final class CifPrettyPrinter {
                 Assert.notNull(field.getName());
                 fieldTxts.add(pprint(field.getType()) + " " + escapeIdentifier(field.getName()));
             }
-            return fmt("tuple(%s)", StringUtils.join(fieldTxts, "; "));
+            return fmt("tuple(%s)", String.join("; ", fieldTxts));
         } else if (type instanceof FuncType) {
             FuncType ftype = (FuncType)type;
             List<CifType> paramTypes = ftype.getParamTypes();

@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.simulator.runtime.CifSimulatorMath;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
@@ -130,7 +129,7 @@ public class RuntimeValueToString {
         for (T elem: value) {
             elems.add(runtimeToString(elem));
         }
-        return "[" + StringUtils.join(elems, ", ") + "]";
+        return "[" + String.join(", ", elems) + "]";
     }
 
     /**
@@ -149,7 +148,7 @@ public class RuntimeValueToString {
         for (T elem: value) {
             elems.add(runtimeToString(elem));
         }
-        return "{" + StringUtils.join(elems, ", ") + "}";
+        return "{" + String.join(", ", elems) + "}";
     }
 
     /**
@@ -169,6 +168,6 @@ public class RuntimeValueToString {
         for (Entry<K, V> pair: value.entrySet()) {
             elems.add(runtimeToString(pair.getKey()) + ": " + runtimeToString(pair.getValue()));
         }
-        return "{" + StringUtils.join(elems, ", ") + "}";
+        return "{" + String.join(", ", elems) + "}";
     }
 }

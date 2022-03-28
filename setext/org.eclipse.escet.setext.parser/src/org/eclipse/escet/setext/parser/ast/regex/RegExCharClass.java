@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 
@@ -99,6 +98,6 @@ public class RegExCharClass extends RegEx {
         for (RegExChars cs: chars) {
             txts.add(cs.toString());
         }
-        return fmt("[%s%s]", negated ? "^" : "", StringUtils.join(txts, ""));
+        return fmt("[%s%s]", negated ? "^" : "", String.join("", txts));
     }
 }

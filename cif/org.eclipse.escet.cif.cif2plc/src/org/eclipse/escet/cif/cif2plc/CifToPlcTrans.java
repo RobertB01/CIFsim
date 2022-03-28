@@ -49,7 +49,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
@@ -1307,7 +1306,7 @@ public class CifToPlcTrans {
         for (Expression pred: preds) {
             txts.add(fmt("(%s)", transExpr(pred, state, init)));
         }
-        return StringUtils.join(txts, " AND ");
+        return String.join(" AND ", txts);
     }
 
     /**
@@ -1636,7 +1635,7 @@ public class CifToPlcTrans {
             for (Expression param: params) {
                 paramTxts.add(transExpr(param, state, init));
             }
-            String paramsTxt = StringUtils.join(paramTxts, ", ");
+            String paramsTxt = String.join(", ", paramTxts);
 
             Expression fexpr = fcexpr.getFunction();
             if (fexpr instanceof FunctionExpression) {
@@ -1877,7 +1876,7 @@ public class CifToPlcTrans {
             // case we can't use literals, so we generate a function per array
             // type.
             if (init) {
-                return fmt("[%s]", StringUtils.join(elemTxts, ", "));
+                return fmt("[%s]", String.join(", ", elemTxts));
             } else {
                 ListType ltype = (ListType)normalizeType(lexpr.getType());
                 List<String> argTxts = listc(lexpr.getElements().size());
@@ -1911,7 +1910,7 @@ public class CifToPlcTrans {
                     String fieldTxt = getPlcName(field);
                     fieldTxts.add(fmt("%s:=%s", fieldTxt, elemTxts.get(i)));
                 }
-                return fmt("(%s)", StringUtils.join(fieldTxts, ", "));
+                return fmt("(%s)", String.join(", ", fieldTxts));
             } else {
                 TupleType ttype = (TupleType)normalizeType(texpr.getType());
                 List<String> argTxts = listc(texpr.getFields().size());
@@ -2495,7 +2494,7 @@ public class CifToPlcTrans {
 
         // Non-formal syntax.
         if (!useFormal) {
-            return fmt("%s(%s)", funcName, StringUtils.join(valueTxts, ", "));
+            return fmt("%s(%s)", funcName, String.join(", ", valueTxts));
         }
 
         // Formal syntax.
@@ -2504,6 +2503,6 @@ public class CifToPlcTrans {
         for (int i = 0; i < argNames.size(); i++) {
             argTxts.add(argNames.get(i) + ":=" + valueTxts.get(i));
         }
-        return fmt("%s(%s)", funcName, StringUtils.join(argTxts, ", "));
+        return fmt("%s(%s)", funcName, String.join(", ", argTxts));
     }
 }

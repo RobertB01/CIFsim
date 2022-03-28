@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.swt.SWT;
@@ -99,7 +98,7 @@ public class FilesOption extends Option<List<String>> {
             public void setToValue(List<String> value) {
                 // Join files together, one per line.
                 String[] files = value.toArray(new String[0]);
-                filesText.setText(StringUtils.join(files, Strings.NL));
+                filesText.setText(String.join(Strings.NL, files));
             }
 
             @Override
