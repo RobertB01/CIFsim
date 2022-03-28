@@ -18,9 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Locale;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.common.PositionUtils;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Semantic problem information. */
 public class SemanticProblem implements Comparable<SemanticProblem> {
@@ -31,7 +29,7 @@ public class SemanticProblem implements Comparable<SemanticProblem> {
     public final SemanticProblemSeverity severity;
 
     /** Position information. */
-    public final Position position;
+    public final TextPosition position;
 
     /**
      * Constructor for the {@link SemanticProblem} class.
@@ -40,7 +38,7 @@ public class SemanticProblem implements Comparable<SemanticProblem> {
      * @param severity The severity of the problem.
      * @param position Position information.
      */
-    public SemanticProblem(String message, SemanticProblemSeverity severity, Position position) {
+    public SemanticProblem(String message, SemanticProblemSeverity severity, TextPosition position) {
         Assert.notNull(message);
         Assert.notNull(position);
         this.message = message;
@@ -51,68 +49,36 @@ public class SemanticProblem implements Comparable<SemanticProblem> {
     @Override
     public boolean equals(Object obj) {
         SemanticProblem other = (SemanticProblem)obj;
-        return severity == other.severity && //
-                PositionUtils.equalPositions(position, other.position) && //
-                message.equals(other.message);
+        return severity == other.severity && position.equals(other.position) && message.equals(other.message);
     }
 
     @Override
     public int hashCode() {
-        return severity.hashCode() ^ //
-                PositionUtils.hashPosition(position) ^ //
-                message.hashCode();
+        return severity.hashCode() ^ position.hashCode() ^ message.hashCode();
     }
 
     @Override
     public int compareTo(SemanticProblem other) {
         // Compare severity.
-        int rslt = severity.compareTo(other.severity);
-        if (rslt != 0) {
-            return rslt;
+        int result = severity.compareTo(other.severity);
+        if (result == 0) {
+            // Compare position.
+            result = position.compareTo(other.position);
         }
-
-        // Compare position.
-        String src1 = position.getSource();
-        String src2 = other.position.getSource();
-        if (src1 == null && src2 != null) {
-            return -1;
+        if (result == 0) {
+            // Compare message.
+            result = message.compareTo(other.message);
         }
-        if (src1 != null && src2 == null) {
-            return 1;
-        }
-        if (src1 != null && src2 != null) {
-            rslt = Strings.SORTER.compare(src1, src2);
-            if (rslt != 0) {
-                return rslt;
-            }
-        }
-
-        rslt = Strings.SORTER.compare(position.getLocation(), other.position.getLocation());
-        if (rslt != 0) {
-            return rslt;
-        }
-
-        rslt = Integer.valueOf(position.getStartOffset()).compareTo(other.position.getStartOffset());
-        if (rslt != 0) {
-            return rslt;
-        }
-
-        rslt = Integer.valueOf(position.getEndOffset()).compareTo(other.position.getEndOffset());
-        if (rslt != 0) {
-            return rslt;
-        }
-
-        // Compare message.
-        return Strings.SORTER.compare(message, other.message);
+        return result;
     }
 
     @Override
     public String toString() {
-        String src = position.getSource();
+        String src = position.source;
         if (src == null) {
             src = "";
         }
         return fmt("%sSemantic %s at line %d, column %d: %s", src, severity.name().toLowerCase(Locale.US),
-                position.getStartLine(), position.getStartColumn(), message);
+                position.startLine, position.startColumn, message);
     }
 }
