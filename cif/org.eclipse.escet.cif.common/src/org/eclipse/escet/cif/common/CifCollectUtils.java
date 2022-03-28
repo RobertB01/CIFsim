@@ -209,7 +209,7 @@ public class CifCollectUtils {
     }
 
     /**
-     * Constructs a finite stream of {@link ComplexComponent} starting with the given root component.
+     * Constructs a finite stream of {@link ComplexComponent}s starting with the given root component.
      *
      * <p>
      * Modifying the structure of the {@link Component} tree reachable from the root component is not safe after
