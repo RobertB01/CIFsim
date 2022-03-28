@@ -177,25 +177,41 @@ public class CifCollectUtils {
      * @return The updated enum declarations collection.
      */
     public static <T extends Collection<EnumDecl>> T collectEnumDecls(ComplexComponent comp, T enumDecls) {
-        getComplexComponents(comp, true).flatMap(cc -> cc.getDeclarations().stream())
+        getComplexComponentsStream(comp, true).flatMap(cc -> cc.getDeclarations().stream())
                 .filter(decl -> decl instanceof EnumDecl).map(decl -> (EnumDecl)decl)
                 .collect(Collectors.toCollection(() -> enumDecls));
         return enumDecls;
     }
 
-    /** Class to construct a finite stream of {@link ComplexComponent} in the given root component. */
+    /**
+     * Constructs a finite stream of {@link ComplexComponent} starting with the given root component.
+     *
+     * <p>
+     * Modifying the structure of the {@link Component} tree reachable from the root component is not safe after
+     * constructing a {@link ComplexComponentSpliterator} instance for it. It may store found components internally
+     * before providing them to the stream.
+     * </p>
+     */
     private static class ComplexComponentSpliterator implements Spliterator<ComplexComponent> {
         /** Whether to search component definitions as well. */
         private final boolean traverseCompDefs;
 
         /** Queue with discovered complex components that have not been processed yet. */
-        private Deque<ComplexComponent> notDone = new ArrayDeque<>();
+        private Deque<ComplexComponent> notDone = new ArrayDeque<>(32);
 
         /**
          * Constructor of the {@link ComplexComponentSpliterator} class.
          *
+         * <p>
+         * The provided root component and its nested {@link ComplexComponent}s are included in the generated stream.
+         * </p>
+         * <p>
+         * After construction of an instance, the component tree reachable from the root component should not be
+         * modified.
+         * </p>
+         *
          * @param traverseCompDefs Whether to search component definitions as well.
-         * @param comp Root component to traverse for all its {@link ComplexComponent}s.
+         * @param comp Root component to traverse.
          */
         public ComplexComponentSpliterator(ComplexComponent comp, boolean traverseCompDefs) {
             this.traverseCompDefs = traverseCompDefs;
@@ -204,21 +220,12 @@ public class CifCollectUtils {
 
         @Override
         public int characteristics() {
-            return DISTINCT | IMMUTABLE | NONNULL | ORDERED;
+            return DISTINCT | NONNULL | ORDERED;
         }
 
         @Override
         public long estimateSize() {
-            long estimate = 0;
-            for (ComplexComponent comp: notDone) {
-                if (comp instanceof Group) {
-                    Group grp = (Group)comp;
-                    estimate += grp.getComponents().size();
-                } else {
-                    estimate++;
-                }
-            }
-            return estimate; // Under-estimated size.
+            return Long.MAX_VALUE;
         }
 
         @Override
@@ -261,27 +268,27 @@ public class CifCollectUtils {
     }
 
     /**
-     * Function providing a stream of complex components to process from the root.
+     * Function providing a stream of complex components to process, including the provided root component.
      *
      * <p>
      * Does not support component definition/instantiation.
      * </p>
      *
      * @param comp Root component to traverse.
-     * @return Stream of contained complex components found in the root component.
+     * @return Stream of contained complex components found, including the root component.
      */
     public static Stream<ComplexComponent> getComplexComponentsStream(ComplexComponent comp) {
         return StreamSupport.stream(new ComplexComponentSpliterator(comp, false), false);
     }
 
     /**
-     * Function providing a stream of complex components to process from the root.
+     * Function providing a stream of complex components to process, including the provided root component.
      *
      * @param comp Root component to traverse.
      * @param traverseCompDefs Whether to search component definitions as well.
-     * @return Stream of contained complex components found in the root component.
+     * @return Stream of contained complex components found, including the root component.
      */
-    public static Stream<ComplexComponent> getComplexComponents(ComplexComponent comp, boolean traverseCompDefs) {
+    public static Stream<ComplexComponent> getComplexComponentsStream(ComplexComponent comp, boolean traverseCompDefs) {
         return StreamSupport.stream(new ComplexComponentSpliterator(comp, traverseCompDefs), false);
     }
 }
