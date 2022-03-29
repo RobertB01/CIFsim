@@ -15,6 +15,7 @@ package org.eclipse.escet.chi.typecheck;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
+import static org.eclipse.escet.common.position.common.PositionUtils.toTextPosition;
 
 import java.util.List;
 import java.util.Set;
@@ -341,7 +342,7 @@ public class CheckContext {
      */
     public void addWarning(Message msg, Position pos, String... args) {
         Assert.check(msg.getSeverity() == SemanticProblemSeverity.WARNING);
-        tchk.addProblem(msg.format(args), msg.getSeverity(), pos);
+        tchk.addProblem(msg.format(args), msg.getSeverity(), toTextPosition(pos));
     }
 
     /**
@@ -353,6 +354,6 @@ public class CheckContext {
      */
     public void addError(Message msg, Position pos, String... args) {
         Assert.check(msg.getSeverity() == SemanticProblemSeverity.ERROR);
-        tchk.addProblem(msg.format(args), msg.getSeverity(), pos);
+        tchk.addProblem(msg.format(args), msg.getSeverity(), toTextPosition(pos));
     }
 }
