@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.iodecls.svg;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** A CIF/SVG input mapping. */
 public class ASvgIn extends AIoDecl {
@@ -36,7 +36,7 @@ public class ASvgIn extends AIoDecl {
      * @param svgFile The SVG file to which the mapping applies, or {@code null} to inherit the SVG file.
      * @param position Position information.
      */
-    public ASvgIn(AExpression svgId, ASvgInEvent event, ASvgFile svgFile, Position position) {
+    public ASvgIn(AExpression svgId, ASvgInEvent event, ASvgFile svgFile, TextPosition position) {
         super(position);
         this.svgId = svgId;
         this.event = event;

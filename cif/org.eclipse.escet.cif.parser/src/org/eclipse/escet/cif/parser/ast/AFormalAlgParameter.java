@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Formal algebraic parameter. */
 public class AFormalAlgParameter extends AFormalParameter {
@@ -34,7 +34,7 @@ public class AFormalAlgParameter extends AFormalParameter {
      * @param names The names of the parameters.
      * @param position Position information.
      */
-    public AFormalAlgParameter(ACifType type, List<AIdentifier> names, Position position) {
+    public AFormalAlgParameter(ACifType type, List<AIdentifier> names, TextPosition position) {
         super(position);
         this.type = type;
         this.names = names;

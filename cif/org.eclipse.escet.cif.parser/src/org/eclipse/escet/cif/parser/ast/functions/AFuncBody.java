@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.functions;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Function body. */
 public abstract class AFuncBody extends ACifObject {
@@ -23,7 +23,7 @@ public abstract class AFuncBody extends ACifObject {
      *
      * @param position Position information, or {@code null} if not applicable.
      */
-    public AFuncBody(Position position) {
+    public AFuncBody(TextPosition position) {
         super(position);
     }
 }

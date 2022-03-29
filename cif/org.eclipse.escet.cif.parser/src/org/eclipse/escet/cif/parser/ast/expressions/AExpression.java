@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.expressions;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** CIF expression. */
 public abstract class AExpression extends ACifObject {
@@ -23,7 +23,7 @@ public abstract class AExpression extends ACifObject {
      *
      * @param position Position information.
      */
-    public AExpression(Position position) {
+    public AExpression(TextPosition position) {
         super(position);
     }
 }

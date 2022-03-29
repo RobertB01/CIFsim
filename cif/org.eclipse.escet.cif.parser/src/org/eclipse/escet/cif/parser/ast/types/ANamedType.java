@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.types;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Named type (type reference, enumeration reference, etc). */
 public class ANamedType extends ACifType {
@@ -27,7 +27,7 @@ public class ANamedType extends ACifType {
      * @param name The name of the named type.
      * @param position Position information.
      */
-    public ANamedType(AName name, Position position) {
+    public ANamedType(AName name, TextPosition position) {
         super(position);
         this.name = name;
     }

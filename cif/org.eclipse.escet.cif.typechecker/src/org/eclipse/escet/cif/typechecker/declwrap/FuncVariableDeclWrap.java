@@ -131,7 +131,7 @@ public class FuncVariableDeclWrap extends DeclWrap<DiscVariable> {
 
         // Construct VariableValue.
         VariableValue values2 = newVariableValue();
-        values2.setPosition(values1.position);
+        values2.setPosition(values1.createPosition());
         mmDecl.setValue(values2);
 
         // Exactly one value. Get value.

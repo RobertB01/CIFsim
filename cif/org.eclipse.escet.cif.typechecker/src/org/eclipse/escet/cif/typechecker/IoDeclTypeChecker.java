@@ -28,7 +28,7 @@ import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgIn;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgMove;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgOut;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** CIF I/O declaration checker. */
@@ -61,8 +61,8 @@ public class IoDeclTypeChecker {
      * @param comp The component to which to add the I/O declarations. This is the component of the scope.
      */
     public void check(List<AIoDecl> astIoDecls, ParentScope<?> scope, ComplexComponent comp) {
-        Position svgFilePos = null;
-        Position printFilePos = null;
+        TextPosition svgFilePos = null;
+        TextPosition printFilePos = null;
         List<IoDecl> ioDecls = comp.getIoDecls();
         for (AIoDecl astIoDecl: astIoDecls) {
             // Process and add to metamodel.

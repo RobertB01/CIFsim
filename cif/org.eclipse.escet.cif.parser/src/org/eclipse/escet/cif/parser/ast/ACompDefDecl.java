@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Token;
 
 /** Component definition. */
@@ -43,7 +43,7 @@ public class ACompDefDecl extends ADecl {
      * @param position Position information.
      */
     public ACompDefDecl(Token kind, AIdentifier name, List<AFormalParameter> parameters, AComponentBody body,
-            Position position)
+            TextPosition position)
     {
         super(position);
         this.kind = kind;

@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.functions;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Return internal function statement. */
 public class AReturnFuncStatement extends AFuncStatement {
@@ -29,7 +29,7 @@ public class AReturnFuncStatement extends AFuncStatement {
      * @param values The return values of the return internal function statement.
      * @param position Position information.
      */
-    public AReturnFuncStatement(List<AExpression> values, Position position) {
+    public AReturnFuncStatement(List<AExpression> values, TextPosition position) {
         super(position);
         this.values = values;
     }

@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.declarations;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Discrete variable. Also used for local variables of internal functions. */
 public class ADiscVariable extends ACifObject {
@@ -32,7 +32,7 @@ public class ADiscVariable extends ACifObject {
      * @param value The initial value of the discrete variable, or {@code null} for the default value.
      * @param position Position information.
      */
-    public ADiscVariable(AIdentifier name, AVariableValue value, Position position) {
+    public ADiscVariable(AIdentifier name, AVariableValue value, TextPosition position) {
         super(position);
         this.name = name;
         this.value = value;

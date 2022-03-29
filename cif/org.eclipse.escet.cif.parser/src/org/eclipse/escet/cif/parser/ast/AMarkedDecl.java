@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Marker predicates. */
 public class AMarkedDecl extends ADecl {
@@ -30,7 +30,7 @@ public class AMarkedDecl extends ADecl {
      * @param preds Marker predicates.
      * @param position Position information.
      */
-    public AMarkedDecl(List<AExpression> preds, Position position) {
+    public AMarkedDecl(List<AExpression> preds, TextPosition position) {
         super(position);
         this.preds = preds;
         Assert.check(!preds.isEmpty());

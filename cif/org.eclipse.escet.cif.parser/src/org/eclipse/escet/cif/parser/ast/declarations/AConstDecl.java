@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Constant declaration. */
 public class AConstDecl extends ADecl {
@@ -34,7 +34,7 @@ public class AConstDecl extends ADecl {
      * @param constants The constants that are part of this constant declaration.
      * @param position Position information.
      */
-    public AConstDecl(ACifType type, List<AConstant> constants, Position position) {
+    public AConstDecl(ACifType type, List<AConstant> constants, TextPosition position) {
         super(position);
         this.type = type;
         this.constants = constants;

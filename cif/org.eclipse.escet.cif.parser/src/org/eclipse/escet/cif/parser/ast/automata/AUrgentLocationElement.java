@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.automata;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Urgent location element. */
 public class AUrgentLocationElement extends ALocationElement {
@@ -22,7 +22,7 @@ public class AUrgentLocationElement extends ALocationElement {
      *
      * @param position Position information.
      */
-    public AUrgentLocationElement(Position position) {
+    public AUrgentLocationElement(TextPosition position) {
         super(position);
     }
 }

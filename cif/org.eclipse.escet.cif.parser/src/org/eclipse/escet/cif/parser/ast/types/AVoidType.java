@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Void type. */
 public class AVoidType extends ACifType {
@@ -22,7 +22,7 @@ public class AVoidType extends ACifType {
      *
      * @param position Position information.
      */
-    public AVoidType(Position position) {
+    public AVoidType(TextPosition position) {
         super(position);
     }
 }

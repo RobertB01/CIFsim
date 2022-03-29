@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.declarations;
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Type definition. */
 public class ATypeDef extends ACifObject {
@@ -33,7 +33,7 @@ public class ATypeDef extends ACifObject {
      * @param name The name of the type definition.
      * @param position Position information.
      */
-    public ATypeDef(ACifType type, AIdentifier name, Position position) {
+    public ATypeDef(ACifType type, AIdentifier name, TextPosition position) {
         super(position);
         this.type = type;
         this.name = name;

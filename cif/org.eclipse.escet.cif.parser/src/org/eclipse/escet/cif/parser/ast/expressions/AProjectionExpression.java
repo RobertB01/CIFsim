@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Projection expression. */
 public class AProjectionExpression extends AExpression {
@@ -30,7 +30,7 @@ public class AProjectionExpression extends AExpression {
      * @param index The index of the projection expression.
      * @param position Position information.
      */
-    public AProjectionExpression(AExpression child, AExpression index, Position position) {
+    public AProjectionExpression(AExpression child, AExpression index, TextPosition position) {
         super(position);
         this.child = child;
         this.index = index;

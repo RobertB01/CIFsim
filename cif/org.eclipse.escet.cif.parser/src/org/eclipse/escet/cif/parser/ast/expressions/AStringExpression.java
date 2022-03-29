@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** String literal expression. */
 public class AStringExpression extends AExpression {
@@ -27,7 +27,7 @@ public class AStringExpression extends AExpression {
      *     sequences.
      * @param position Position information.
      */
-    public AStringExpression(String value, Position position) {
+    public AStringExpression(String value, TextPosition position) {
         super(position);
         this.value = value;
     }

@@ -19,7 +19,7 @@ import org.eclipse.escet.cif.parser.ast.functions.AFuncBody;
 import org.eclipse.escet.cif.parser.ast.functions.AFuncParam;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Function declaration. */
 public class AFuncDecl extends ADecl {
@@ -45,7 +45,7 @@ public class AFuncDecl extends ADecl {
      * @param position Position information.
      */
     public AFuncDecl(AIdentifier name, List<ACifType> returnTypes, List<AFuncParam> parameters, AFuncBody body,
-            Position position)
+            TextPosition position)
     {
         super(position);
         this.name = name;

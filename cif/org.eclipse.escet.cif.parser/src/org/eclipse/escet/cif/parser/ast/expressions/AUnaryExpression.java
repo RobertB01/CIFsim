@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Unary expression. */
 public class AUnaryExpression extends AExpression {
@@ -30,7 +30,7 @@ public class AUnaryExpression extends AExpression {
      * @param child The child expression of the unary expression.
      * @param position Position information.
      */
-    public AUnaryExpression(String operator, AExpression child, Position position) {
+    public AUnaryExpression(String operator, AExpression child, TextPosition position) {
         super(position);
         this.operator = operator;
         this.child = child;

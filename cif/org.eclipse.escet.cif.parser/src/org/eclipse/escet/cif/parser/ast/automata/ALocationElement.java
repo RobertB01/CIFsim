@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.automata;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An element of a location. */
 public abstract class ALocationElement extends ACifObject {
@@ -23,7 +23,7 @@ public abstract class ALocationElement extends ACifObject {
      *
      * @param position Position information.
      */
-    public ALocationElement(Position position) {
+    public ALocationElement(TextPosition position) {
         super(position);
     }
 }

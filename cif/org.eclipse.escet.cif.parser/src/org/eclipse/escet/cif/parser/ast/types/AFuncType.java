@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.types;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Function type. */
 public class AFuncType extends ACifType {
@@ -32,7 +32,7 @@ public class AFuncType extends ACifType {
      * @param paramTypes The parameter types of the function type.
      * @param position Position information.
      */
-    public AFuncType(ACifType returnType, List<ACifType> paramTypes, Position position) {
+    public AFuncType(ACifType returnType, List<ACifType> paramTypes, TextPosition position) {
         super(position);
         this.returnType = returnType;
         this.paramTypes = paramTypes;

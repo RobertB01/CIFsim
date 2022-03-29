@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Import declaration. */
 public class AImportDecl extends ADecl {
@@ -28,7 +28,7 @@ public class AImportDecl extends ADecl {
      * @param imports Imports.
      * @param position Position information.
      */
-    public AImportDecl(List<AImport> imports, Position position) {
+    public AImportDecl(List<AImport> imports, TextPosition position) {
         super(position);
         this.imports = imports;
     }

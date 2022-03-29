@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.types;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Type range. */
 public class ARange extends ACifObject {
@@ -36,7 +36,7 @@ public class ARange extends ACifObject {
      *     types, but not for integer types.
      * @param position Position information.
      */
-    public ARange(AExpression lower, AExpression upper, Position position) {
+    public ARange(AExpression lower, AExpression upper, TextPosition position) {
         super(position);
         this.lower = lower;
         this.upper = upper;

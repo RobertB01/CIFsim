@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.declarations;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Type definitions declaration. */
 public class ATypeDefDecl extends ADecl {
@@ -29,7 +29,7 @@ public class ATypeDefDecl extends ADecl {
      * @param typeDefs The type definitions that are part of this type definitions declaration.
      * @param position Position information.
      */
-    public ATypeDefDecl(List<ATypeDef> typeDefs, Position position) {
+    public ATypeDefDecl(List<ATypeDef> typeDefs, TextPosition position) {
         super(position);
         this.typeDefs = typeDefs;
     }

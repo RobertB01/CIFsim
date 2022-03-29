@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Namespace declaration. */
 public class ANamespaceDecl extends ADecl {
@@ -27,7 +27,7 @@ public class ANamespaceDecl extends ADecl {
      * @param name Namespace name.
      * @param position Position information.
      */
-    public ANamespaceDecl(AName name, Position position) {
+    public ANamespaceDecl(AName name, TextPosition position) {
         super(position);
         this.name = name;
     }

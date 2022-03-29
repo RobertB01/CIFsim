@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Formal component parameter. */
 public class AFormalComponentParameter extends AFormalParameter {
@@ -34,7 +34,7 @@ public class AFormalComponentParameter extends AFormalParameter {
      * @param names The names of the parameters.
      * @param position Position information.
      */
-    public AFormalComponentParameter(AName type, List<AIdentifier> names, Position position) {
+    public AFormalComponentParameter(AName type, List<AIdentifier> names, TextPosition position) {
         super(position);
         this.type = type;
         this.names = names;

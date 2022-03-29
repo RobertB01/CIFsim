@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.functions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** External function body. */
 public class AExternalFuncBody extends AFuncBody {
@@ -26,7 +26,7 @@ public class AExternalFuncBody extends AFuncBody {
      * @param functionRef A textual reference to the external function.
      * @param position Position information.
      */
-    public AExternalFuncBody(String functionRef, Position position) {
+    public AExternalFuncBody(String functionRef, TextPosition position) {
         super(position);
         this.functionRef = functionRef;
     }

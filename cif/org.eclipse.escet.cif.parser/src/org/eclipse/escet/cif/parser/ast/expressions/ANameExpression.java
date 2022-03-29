@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.expressions;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Name/reference expression. */
 public class ANameExpression extends AExpression {
@@ -31,7 +31,7 @@ public class ANameExpression extends AExpression {
      * @param derivative Whether the reference is a derivative reference.
      * @param position Position information.
      */
-    public ANameExpression(AName name, boolean derivative, Position position) {
+    public ANameExpression(AName name, boolean derivative, TextPosition position) {
         super(position);
         this.name = name;
         this.derivative = derivative;

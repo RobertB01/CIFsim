@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.tokens;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Reference name token. */
 public class AName extends ACifObject {
@@ -27,7 +27,7 @@ public class AName extends ACifObject {
      * @param name Reference name. May include {@code $} characters.
      * @param position Position information.
      */
-    public AName(String name, Position position) {
+    public AName(String name, TextPosition position) {
         super(position);
         this.name = name.replace("$", "");
     }

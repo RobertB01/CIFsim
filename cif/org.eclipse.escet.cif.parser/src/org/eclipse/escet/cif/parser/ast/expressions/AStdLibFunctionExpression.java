@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Standard library function reference expression. */
 public class AStdLibFunctionExpression extends AExpression {
@@ -26,7 +26,7 @@ public class AStdLibFunctionExpression extends AExpression {
      * @param function The standard library function, as scanned text.
      * @param position Position information.
      */
-    public AStdLibFunctionExpression(String function, Position position) {
+    public AStdLibFunctionExpression(String function, TextPosition position) {
         super(position);
         this.function = function;
     }

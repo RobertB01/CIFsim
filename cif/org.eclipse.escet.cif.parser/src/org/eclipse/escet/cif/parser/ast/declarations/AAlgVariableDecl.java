@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Algebraic variable declaration. */
 public class AAlgVariableDecl extends ADecl {
@@ -34,7 +34,7 @@ public class AAlgVariableDecl extends ADecl {
      * @param variables The algebraic variables that are part of this algebraic variable declaration.
      * @param position Position information.
      */
-    public AAlgVariableDecl(ACifType type, List<AAlgVariable> variables, Position position) {
+    public AAlgVariableDecl(ACifType type, List<AAlgVariable> variables, TextPosition position) {
         super(position);
         this.type = type;
         this.variables = variables;

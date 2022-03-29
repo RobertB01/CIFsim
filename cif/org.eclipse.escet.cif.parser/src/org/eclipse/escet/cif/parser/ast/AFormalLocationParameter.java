@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Formal location parameter. */
 public class AFormalLocationParameter extends AFormalParameter {
@@ -29,7 +29,7 @@ public class AFormalLocationParameter extends AFormalParameter {
      * @param names The names of the parameters.
      * @param position Position information.
      */
-    public AFormalLocationParameter(List<AIdentifier> names, Position position) {
+    public AFormalLocationParameter(List<AIdentifier> names, TextPosition position) {
         super(position);
         this.names = names;
     }

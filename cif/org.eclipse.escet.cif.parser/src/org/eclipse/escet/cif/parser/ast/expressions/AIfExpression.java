@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.expressions;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** If expression. */
 public class AIfExpression extends AExpression {
@@ -41,7 +41,7 @@ public class AIfExpression extends AExpression {
      * @param position Position information.
      */
     public AIfExpression(List<AExpression> guards, AExpression then, List<AElifExpression> elifs, AExpression elseExpr,
-            Position position)
+            TextPosition position)
     {
         super(position);
         this.guards = guards;

@@ -15,8 +15,6 @@ package org.eclipse.escet.cif.parser;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
-import static org.eclipse.escet.common.position.common.PositionUtils.mergePositions;
 
 import java.util.List;
 
@@ -150,8 +148,7 @@ import org.eclipse.escet.cif.parser.ast.types.AStringType;
 import org.eclipse.escet.cif.parser.ast.types.ATupleType;
 import org.eclipse.escet.cif.parser.ast.types.AVoidType;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.common.PositionUtils;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Parser;
 import org.eclipse.escet.setext.runtime.Token;
 import org.eclipse.escet.setext.runtime.exceptions.CustomSyntaxException;
@@ -420,7 +417,7 @@ public final class CifParserHooks implements CifParser.Hooks {
     public ASpecification parseSpecification1(AGroupBody a1) {
         String src = parser.getSource();
         String loc = parser.getLocation();
-        return new ASpecification(a1, PositionUtils.createDummy(loc, src));
+        return new ASpecification(a1, TextPosition.createDummy(loc, src));
     }
 
     @Override // GroupBody : OptGroupDecls;
@@ -470,19 +467,19 @@ public final class CifParserHooks implements CifParser.Hooks {
         if (a6 instanceof AInternalFuncBody) {
             parser.addFoldRange(t1.position, ((AInternalFuncBody)a6).endPos);
         }
-        return new AFuncDecl(a3, l2, l4, a6, copyPosition(a3.position));
+        return new AFuncDecl(a3, l2, l4, a6, a3.position);
     }
 
     @Override // GroupDecl : Identifier COLONTK Name ActualParms @SEMICOLTK;
     public ADecl parseGroupDecl06(AIdentifier a1, AName a3, List<AExpression> l4, Token t5) {
         parser.addFoldRange(a1.position, t5.position);
-        return new ACompInstDecl(a1, a3, l4, copyPosition(a1.position));
+        return new ACompInstDecl(a1, a3, l4, a1.position);
     }
 
     @Override // GroupDecl : @GROUPKW DEFKW Identifier FormalParms COLONTK GroupBody @ENDKW;
     public ADecl parseGroupDecl07(Token t1, AIdentifier a3, List<AFormalParameter> l4, AGroupBody a6, Token t7) {
         parser.addFoldRange(t1, t7);
-        return new ACompDefDecl(null, a3, l4, a6, copyPosition(a3.position));
+        return new ACompDefDecl(null, a3, l4, a6, a3.position);
     }
 
     @Override // GroupDecl : OptSupKind @AUTOMATONKW DEFKW Identifier FormalParms COLONTK AutomatonBody @ENDKW;
@@ -491,32 +488,32 @@ public final class CifParserHooks implements CifParser.Hooks {
     {
         Token firstToken = (t1 != null) ? t1 : t2;
         parser.addFoldRange(firstToken, t8);
-        return new ACompDefDecl(t1, a4, l5, a7, copyPosition(a4.position));
+        return new ACompDefDecl(t1, a4, l5, a7, a4.position);
     }
 
     @Override // GroupDecl : SupKind DEFKW Identifier FormalParms COLONTK AutomatonBody @ENDKW;
     public ADecl parseGroupDecl09(Token t1, AIdentifier a3, List<AFormalParameter> l4, AAutomatonBody a6, Token t7) {
         parser.addFoldRange(t1, t7);
-        return new ACompDefDecl(t1, a3, l4, a6, copyPosition(a3.position));
+        return new ACompDefDecl(t1, a3, l4, a6, a3.position);
     }
 
     @Override // GroupDecl : @GROUPKW Identifier COLONTK GroupBody @ENDKW;
     public ADecl parseGroupDecl10(Token t1, AIdentifier a2, AGroupBody a4, Token t5) {
         parser.addFoldRange(t1, t5);
-        return new ACompDecl(null, a2, a4, copyPosition(a2.position));
+        return new ACompDecl(null, a2, a4, a2.position);
     }
 
     @Override // GroupDecl : OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
     public ADecl parseGroupDecl11(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         Token firstToken = (t1 != null) ? t1 : t2;
         parser.addFoldRange(firstToken, t6);
-        return new ACompDecl(t1, a3, a5, copyPosition(a3.position));
+        return new ACompDecl(t1, a3, a5, a3.position);
     }
 
     @Override // GroupDecl : SupKind Identifier COLONTK AutomatonBody @ENDKW;
     public ADecl parseGroupDecl12(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
         parser.addFoldRange(t1, t5);
-        return new ACompDecl(t1, a2, a4, copyPosition(a2.position));
+        return new ACompDecl(t1, a2, a4, a2.position);
     }
 
     @Override // OptAutDecls : ;
@@ -589,12 +586,12 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Decl : Controllability Identifiers SEMICOLTK;
     public ADecl parseDecl06(Token t1, List<AIdentifier> l2) {
-        return new AEventDecl(t1, l2, null, copyPosition(t1.position));
+        return new AEventDecl(t1, l2, null, t1.position);
     }
 
     @Override // Decl : Controllability EventType Identifiers SEMICOLTK;
     public ADecl parseDecl07(Token t1, ACifType a2, List<AIdentifier> l3) {
-        return new AEventDecl(t1, l3, a2, copyPosition(t1.position));
+        return new AEventDecl(t1, l3, a2, t1.position);
     }
 
     @Override // Decl : @CONSTKW Type ConstantDefs SEMICOLTK;
@@ -654,12 +651,12 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Imports : StringToken;
     public List<AImport> parseImports1(AStringToken a1) {
-        return list(new AImport(a1, copyPosition(a1.position)));
+        return list(new AImport(a1, a1.position));
     }
 
     @Override // Imports : Imports COMMATK StringToken;
     public List<AImport> parseImports2(List<AImport> l1, AStringToken a3) {
-        l1.add(new AImport(a3, copyPosition(a3.position)));
+        l1.add(new AImport(a3, a3.position));
         return l1;
     }
 
@@ -670,45 +667,45 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // TypeDefs : Identifier EQTK Type;
     public List<ATypeDef> parseTypeDefs1(AIdentifier a1, ACifType a3) {
-        return list(new ATypeDef(a3, a1, copyPosition(a1.position)));
+        return list(new ATypeDef(a3, a1, a1.position));
     }
 
     @Override // TypeDefs : TypeDefs COMMATK Identifier EQTK Type;
     public List<ATypeDef> parseTypeDefs2(List<ATypeDef> l1, AIdentifier a3, ACifType a5) {
-        l1.add(new ATypeDef(a5, a3, copyPosition(a3.position)));
+        l1.add(new ATypeDef(a5, a3, a3.position));
         return l1;
     }
 
     @Override // ConstantDefs : Identifier EQTK Expression;
     public List<AConstant> parseConstantDefs1(AIdentifier a1, AExpression a3) {
-        return list(new AConstant(a1, a3, copyPosition(a1.position)));
+        return list(new AConstant(a1, a3, a1.position));
     }
 
     @Override // ConstantDefs : ConstantDefs COMMATK Identifier EQTK Expression;
     public List<AConstant> parseConstantDefs2(List<AConstant> l1, AIdentifier a3, AExpression a5) {
-        l1.add(new AConstant(a3, a5, copyPosition(a3.position)));
+        l1.add(new AConstant(a3, a5, a3.position));
         return l1;
     }
 
     @Override // AlgVarsDefs : Identifier;
     public List<AAlgVariable> parseAlgVarsDefs1(AIdentifier a1) {
-        return list(new AAlgVariable(a1, null, copyPosition(a1.position)));
+        return list(new AAlgVariable(a1, null, a1.position));
     }
 
     @Override // AlgVarsDefs : Identifier EQTK Expression;
     public List<AAlgVariable> parseAlgVarsDefs2(AIdentifier a1, AExpression a3) {
-        return list(new AAlgVariable(a1, a3, copyPosition(a1.position)));
+        return list(new AAlgVariable(a1, a3, a1.position));
     }
 
     @Override // AlgVarsDefs : AlgVarsDefs COMMATK Identifier;
     public List<AAlgVariable> parseAlgVarsDefs3(List<AAlgVariable> l1, AIdentifier a3) {
-        l1.add(new AAlgVariable(a3, null, copyPosition(a3.position)));
+        l1.add(new AAlgVariable(a3, null, a3.position));
         return l1;
     }
 
     @Override // AlgVarsDefs : AlgVarsDefs COMMATK Identifier EQTK Expression;
     public List<AAlgVariable> parseAlgVarsDefs4(List<AAlgVariable> l1, AIdentifier a3, AExpression a5) {
-        l1.add(new AAlgVariable(a3, a5, copyPosition(a3.position)));
+        l1.add(new AAlgVariable(a3, a5, a3.position));
         return l1;
     }
 
@@ -756,25 +753,25 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // FuncVarDecl : Identifier;
     public List<ADiscVariable> parseFuncVarDecl1(AIdentifier a1) {
-        return list(new ADiscVariable(a1, null, copyPosition(a1.position)));
+        return list(new ADiscVariable(a1, null, a1.position));
     }
 
     @Override // FuncVarDecl : Identifier EQTK Expression;
     public List<ADiscVariable> parseFuncVarDecl2(AIdentifier a1, AExpression a3) {
-        AVariableValue value = new AVariableValue(list(a3), copyPosition(a3.position));
-        return list(new ADiscVariable(a1, value, copyPosition(a1.position)));
+        AVariableValue value = new AVariableValue(list(a3), a3.position);
+        return list(new ADiscVariable(a1, value, a1.position));
     }
 
     @Override // FuncVarDecl : FuncVarDecl COMMATK Identifier;
     public List<ADiscVariable> parseFuncVarDecl3(List<ADiscVariable> l1, AIdentifier a3) {
-        l1.add(new ADiscVariable(a3, null, copyPosition(a3.position)));
+        l1.add(new ADiscVariable(a3, null, a3.position));
         return l1;
     }
 
     @Override // FuncVarDecl : FuncVarDecl COMMATK Identifier EQTK Expression;
     public List<ADiscVariable> parseFuncVarDecl4(List<ADiscVariable> l1, AIdentifier a3, AExpression a5) {
-        AVariableValue value = new AVariableValue(list(a5), copyPosition(a5.position));
-        l1.add(new ADiscVariable(a3, value, copyPosition(a3.position)));
+        AVariableValue value = new AVariableValue(list(a5), a5.position);
+        l1.add(new ADiscVariable(a3, value, a3.position));
         return l1;
     }
 
@@ -856,12 +853,12 @@ public final class CifParserHooks implements CifParser.Hooks {
     }
 
     @Override // CoreEdge : EdgeEvents OptEdgeGuard OptEdgeUrgent OptEdgeUpdate;
-    public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, Position p3, List<AUpdate> l4) {
+    public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, TextPosition p3, List<AUpdate> l4) {
         return new ACoreEdge(l1, l2, p3, l4);
     }
 
     @Override // CoreEdge : WHENKW Expressions OptEdgeUrgent OptEdgeUpdate;
-    public ACoreEdge parseCoreEdge2(List<AExpression> l2, Position p3, List<AUpdate> l4) {
+    public ACoreEdge parseCoreEdge2(List<AExpression> l2, TextPosition p3, List<AUpdate> l4) {
         List<AEdgeEvent> events = list();
         return new ACoreEdge(events, l2, p3, l4);
     }
@@ -891,12 +888,12 @@ public final class CifParserHooks implements CifParser.Hooks {
     }
 
     @Override // OptEdgeUrgent : ;
-    public Position parseOptEdgeUrgent1() {
+    public TextPosition parseOptEdgeUrgent1() {
         return null;
     }
 
     @Override // OptEdgeUrgent : @NOWKW;
-    public Position parseOptEdgeUrgent2(Token t1) {
+    public TextPosition parseOptEdgeUrgent2(Token t1) {
         return t1.position;
     }
 
@@ -924,13 +921,13 @@ public final class CifParserHooks implements CifParser.Hooks {
     @Override // EdgeEvent : @TAUKW;
     public AEdgeEvent parseEdgeEvent1(Token t1) {
         AExpression eventRef = new ATauExpression(t1.position);
-        return new AEdgeEvent(Direction.NONE, eventRef, null, copyPosition(t1.position));
+        return new AEdgeEvent(Direction.NONE, eventRef, null, t1.position);
     }
 
     @Override // EdgeEvent : Name;
     public AEdgeEvent parseEdgeEvent2(AName a1) {
         AExpression eventRef = new ANameExpression(a1, false, a1.position);
-        return new AEdgeEvent(Direction.NONE, eventRef, null, copyPosition(a1.position));
+        return new AEdgeEvent(Direction.NONE, eventRef, null, a1.position);
     }
 
     @Override // EdgeEvent : Name @EXCLAMATIONTK;
@@ -1108,17 +1105,17 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // FormalDeclaration : Controllability EventParamIds;
     public AFormalParameter parseFormalDeclaration3(Token t1, List<AFormalEventParameterPart> l2) {
-        return new AFormalEventParameter(t1, l2, null, copyPosition(t1.position));
+        return new AFormalEventParameter(t1, l2, null, t1.position);
     }
 
     @Override // FormalDeclaration : Controllability EventType EventParamIds;
     public AFormalParameter parseFormalDeclaration4(Token t1, ACifType a2, List<AFormalEventParameterPart> l3) {
-        return new AFormalEventParameter(t1, l3, a2, copyPosition(t1.position));
+        return new AFormalEventParameter(t1, l3, a2, t1.position);
     }
 
     @Override // FormalDeclaration : Name Identifiers;
     public AFormalParameter parseFormalDeclaration5(AName a1, List<AIdentifier> l2) {
-        return new AFormalComponentParameter(a1, l2, copyPosition(a1.position));
+        return new AFormalComponentParameter(a1, l2, a1.position);
     }
 
     @Override // FormalDeclaration : @LOCATIONKW Identifiers;
@@ -1188,23 +1185,22 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // DiscDecl : Identifier;
     public ADiscVariable parseDiscDecl1(AIdentifier a1) {
-        return new ADiscVariable(a1, null, copyPosition(a1.position));
+        return new ADiscVariable(a1, null, a1.position);
     }
 
     @Override // DiscDecl : Identifier INKW @ANYKW;
     public ADiscVariable parseDiscDecl2(AIdentifier a1, Token t3) {
-        return new ADiscVariable(a1, new AVariableValue(null, t3.position), copyPosition(a1.position));
+        return new ADiscVariable(a1, new AVariableValue(null, t3.position), a1.position);
     }
 
     @Override // DiscDecl : Identifier EQTK Expression;
     public ADiscVariable parseDiscDecl3(AIdentifier a1, AExpression a3) {
-        return new ADiscVariable(a1, new AVariableValue(list(a3), copyPosition(a1.position)),
-                copyPosition(a1.position));
+        return new ADiscVariable(a1, new AVariableValue(list(a3), a1.position), a1.position);
     }
 
     @Override // DiscDecl : Identifier INKW CUROPENTK Expressions CURCLOSETK;
     public ADiscVariable parseDiscDecl4(AIdentifier a1, List<AExpression> l4) {
-        return new ADiscVariable(a1, new AVariableValue(l4, copyPosition(a1.position)), copyPosition(a1.position));
+        return new ADiscVariable(a1, new AVariableValue(l4, a1.position), a1.position);
     }
 
     @Override // ContDecls : ContDecl;
@@ -1220,12 +1216,12 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // ContDecl : Identifier OptDerivative;
     public AContVariable parseContDecl1(AIdentifier a1, AExpression a2) {
-        return new AContVariable(a1, null, a2, copyPosition(a1.position));
+        return new AContVariable(a1, null, a2, a1.position);
     }
 
     @Override // ContDecl : Identifier EQTK Expression OptDerivative;
     public AContVariable parseContDecl2(AIdentifier a1, AExpression a3, AExpression a4) {
-        return new AContVariable(a1, a3, a4, copyPosition(a1.position));
+        return new AContVariable(a1, a3, a4, a1.position);
     }
 
     @Override // OptDerivative : ;
@@ -1266,7 +1262,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // InvariantDecls : SupKind Invariants SEMICOLTK;
     public AInvariantDecl parseInvariantDecls2(Token t1, List<AInvariant> l2) {
-        return new AInvariantDecl(t1, l2, copyPosition(t1.position));
+        return new AInvariantDecl(t1, l2, t1.position);
     }
 
     @Override // Invariants : Invariant;
@@ -1282,12 +1278,12 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Invariant : Expression;
     public AInvariant parseInvariant1(AExpression a1) {
-        return new AInvariant(a1, null, null, copyPosition(a1.position));
+        return new AInvariant(a1, null, null, a1.position);
     }
 
     @Override // Invariant : Name @NEEDSKW Expression;
     public AInvariant parseInvariant2(AName a1, Token t2, AExpression a3) {
-        return new AInvariant(a3, t2, list(a1), copyPosition(t2.position));
+        return new AInvariant(a3, t2, list(a1), t2.position);
     }
 
     @Override // Invariant : NonEmptySetExpression @NEEDSKW Expression;
@@ -1302,17 +1298,17 @@ public final class CifParserHooks implements CifParser.Hooks {
                 throw new CustomSyntaxException(msg, elem.position);
             }
         }
-        return new AInvariant(a3, t2, events, copyPosition(t2.position));
+        return new AInvariant(a3, t2, events, t2.position);
     }
 
     @Override // Invariant : Expression @DISABLESKW Name;
     public AInvariant parseInvariant4(AExpression a1, Token t2, AName a3) {
-        return new AInvariant(a1, t2, list(a3), copyPosition(t2.position));
+        return new AInvariant(a1, t2, list(a3), t2.position);
     }
 
     @Override // Invariant : Expression @DISABLESKW NamesSet;
     public AInvariant parseInvariant5(AExpression a1, Token t2, List<AName> l3) {
-        return new AInvariant(a1, t2, l3, copyPosition(t2.position));
+        return new AInvariant(a1, t2, l3, t2.position);
     }
 
     @Override // NamesSet : CUROPENTK Names CURCLOSETK;
@@ -1367,12 +1363,12 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Addressable : Identifier;
     public AExpression parseAddressable1(AIdentifier a1) {
-        return new ANameExpression(new AName(a1.id, a1.position), false, copyPosition(a1.position));
+        return new ANameExpression(new AName(a1.id, a1.position), false, a1.position);
     }
 
     @Override // Addressable : Identifier Projections;
     public AExpression parseAddressable2(AIdentifier a1, List<AProjectionExpression> l2) {
-        AExpression refExpr = new ANameExpression(new AName(a1.id, a1.position), false, copyPosition(a1.position));
+        AExpression refExpr = new ANameExpression(new AName(a1.id, a1.position), false, a1.position);
         AProjectionExpression rslt = null;
         for (AProjectionExpression proj: l2) {
             if (rslt == null) {
@@ -1567,7 +1563,7 @@ public final class CifParserHooks implements CifParser.Hooks {
     public ASvgOut parseSvgOut1(Token t1, AExpression a3, AStringToken a4, AExpression a6, ASvgFile a7, Token t8) {
         parser.addFoldRange(t1.position, t8.position);
         AStringToken svgAttr = a4.txt.isEmpty() ? null : a4;
-        Position svgTextPos = a4.txt.isEmpty() ? a4.position : null;
+        TextPosition svgTextPos = a4.txt.isEmpty() ? a4.position : null;
         return new ASvgOut(a3, svgAttr, svgTextPos, a6, a7, t1.position);
     }
 
@@ -1772,7 +1768,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Type : @INTKW SQOPENTK Expression DOTDOTTK Expression SQCLOSETK;
     public ACifType parseType03(Token t1, AExpression a3, AExpression a5) {
-        return new AIntType(new ARange(a3, a5, copyPosition(t1.position)), t1.position);
+        return new AIntType(new ARange(a3, a5, t1.position), t1.position);
     }
 
     @Override // Type : @REALKW;
@@ -1792,12 +1788,12 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Type : @LISTKW SQOPENTK Expression SQCLOSETK Type;
     public ACifType parseType07(Token t1, AExpression a3, ACifType a5) {
-        return new AListType(a5, new ARange(a3, null, copyPosition(t1.position)), t1.position);
+        return new AListType(a5, new ARange(a3, null, t1.position), t1.position);
     }
 
     @Override // Type : @LISTKW SQOPENTK Expression DOTDOTTK Expression SQCLOSETK Type;
     public ACifType parseType08(Token t1, AExpression a3, AExpression a5, ACifType a7) {
-        return new AListType(a7, new ARange(a3, a5, copyPosition(t1.position)), t1.position);
+        return new AListType(a7, new ARange(a3, a5, t1.position), t1.position);
     }
 
     @Override // Type : @SETKW Type;
@@ -1833,7 +1829,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Type : Name;
     public ACifType parseType15(AName a1) {
-        return new ANamedType(a1, copyPosition(a1.position));
+        return new ANamedType(a1, a1.position);
     }
 
     @Override // Fields : Field;
@@ -2045,14 +2041,12 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // FuncExpression : StdLibFunction PAROPENTK PARCLOSETK;
     public AExpression parseFuncExpression6(Token t1) {
-        return new AFuncCallExpression(new AStdLibFunctionExpression(t1.text, t1.position), null,
-                copyPosition(t1.position));
+        return new AFuncCallExpression(new AStdLibFunctionExpression(t1.text, t1.position), null, t1.position);
     }
 
     @Override // FuncExpression : StdLibFunction PAROPENTK Expressions PARCLOSETK;
     public AExpression parseFuncExpression7(Token t1, List<AExpression> l3) {
-        return new AFuncCallExpression(new AStdLibFunctionExpression(t1.text, t1.position), l3,
-                copyPosition(t1.position));
+        return new AFuncCallExpression(new AStdLibFunctionExpression(t1.text, t1.position), l3, t1.position);
     }
 
     @Override // ExpressionFactor : @TRUEKW;
@@ -2141,12 +2135,12 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // ExpressionFactor : Name;
     public AExpression parseExpressionFactor17(AName a1) {
-        return new ANameExpression(a1, false, copyPosition(a1.position));
+        return new ANameExpression(a1, false, a1.position);
     }
 
     @Override // ExpressionFactor : Name @APOSTROPHETK;
     public AExpression parseExpressionFactor18(AName a1, Token t2) {
-        return new ANameExpression(a1, true, mergePositions(a1.position, t2.position));
+        return new ANameExpression(a1, true, TextPosition.mergePositions(a1.position, t2.position));
     }
 
     @Override // ExpressionFactor : @QUESTIONTK;
@@ -2217,7 +2211,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Name : Identifier;
     public AName parseName1(AIdentifier a1) {
-        return new AName(a1.id, copyPosition(a1.position));
+        return new AName(a1.id, a1.position);
     }
 
     @Override // Name : @RELATIVENAMETK;

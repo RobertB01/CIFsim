@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /**
  * Empty set or dictionary expression.
@@ -27,7 +27,7 @@ public class AEmptySetDictExpression extends AExpression {
      *
      * @param position Position information.
      */
-    public AEmptySetDictExpression(Position position) {
+    public AEmptySetDictExpression(TextPosition position) {
         super(position);
     }
 }

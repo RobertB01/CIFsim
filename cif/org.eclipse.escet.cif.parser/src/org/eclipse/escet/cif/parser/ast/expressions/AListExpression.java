@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.expressions;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** List expression. */
 public class AListExpression extends AExpression {
@@ -28,7 +28,7 @@ public class AListExpression extends AExpression {
      * @param elements The elements of the list expression.
      * @param position Position information.
      */
-    public AListExpression(List<AExpression> elements, Position position) {
+    public AListExpression(List<AExpression> elements, TextPosition position) {
         super(position);
         this.elements = elements;
     }

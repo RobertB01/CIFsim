@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.iodecls.print;
 
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AStringToken;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** A print file I/O declaration. */
 public class APrintFile extends AIoDecl {
@@ -32,7 +32,7 @@ public class APrintFile extends AIoDecl {
      *     {@code "/"} and {@code "\"} as path separators.
      * @param position Position information.
      */
-    public APrintFile(AStringToken path, Position position) {
+    public APrintFile(AStringToken path, TextPosition position) {
         super(position);
         this.path = path;
     }

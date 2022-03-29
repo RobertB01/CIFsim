@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Binary expression. */
 public class ABinaryExpression extends AExpression {
@@ -34,7 +34,7 @@ public class ABinaryExpression extends AExpression {
      * @param right The right child of the binary expression.
      * @param position Position information.
      */
-    public ABinaryExpression(String operator, AExpression left, AExpression right, Position position) {
+    public ABinaryExpression(String operator, AExpression left, AExpression right, TextPosition position) {
         super(position);
         this.operator = operator;
         this.left = left;

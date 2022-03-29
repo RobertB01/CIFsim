@@ -21,7 +21,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
 
 import java.util.List;
 import java.util.Locale;
@@ -76,6 +75,7 @@ import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.box.VBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
@@ -485,13 +485,10 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
                 Expression eventRef = eventRefs.get(i);
                 Assert.ifAndOnlyIf(invKind == InvKind.STATE, eventRef == null);
 
-                Position invPos = astInv.position;
+                Position invPos = astInv.createPosition();
                 Expression invPred = pred;
                 if (i > 0) {
                     invPred = deepclone(invPred);
-                }
-                if (i > 0) {
-                    invPos = copyPosition(invPos);
                 }
 
                 Invariant inv = newInvariant();
@@ -564,7 +561,7 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
 
     @Override
     @SuppressWarnings("null")
-    protected SymbolTableEntry resolve1(Position position, String id, String done, CifTypeChecker tchecker,
+    protected SymbolTableEntry resolve1(TextPosition position, String id, String done, CifTypeChecker tchecker,
             SymbolScope<?> origScope)
     {
         SymbolTableEntry child = children.get(id);

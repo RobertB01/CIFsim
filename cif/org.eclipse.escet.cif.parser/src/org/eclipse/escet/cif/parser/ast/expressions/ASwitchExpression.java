@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.expressions;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Switch expression. */
 public class ASwitchExpression extends AExpression {
@@ -32,7 +32,7 @@ public class ASwitchExpression extends AExpression {
      * @param cases The cases of the 'switch' expression.
      * @param position Position information.
      */
-    public ASwitchExpression(AExpression value, List<ASwitchCase> cases, Position position) {
+    public ASwitchExpression(AExpression value, List<ASwitchCase> cases, TextPosition position) {
         super(position);
         this.value = value;
         this.cases = cases;

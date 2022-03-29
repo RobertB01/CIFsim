@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** List type. */
 public class AListType extends ACifType {
@@ -30,7 +30,7 @@ public class AListType extends ACifType {
      * @param range The range of the list type, or {@code null}.
      * @param position Position information.
      */
-    public AListType(ACifType elementType, ARange range, Position position) {
+    public AListType(ACifType elementType, ARange range, TextPosition position) {
         super(position);
         this.elementType = elementType;
         this.range = range;

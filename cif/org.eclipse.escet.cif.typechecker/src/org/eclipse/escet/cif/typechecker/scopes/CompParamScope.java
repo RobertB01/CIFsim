@@ -28,7 +28,7 @@ import org.eclipse.escet.cif.typechecker.SymbolTableEntry;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** Component parameter scope. */
@@ -134,7 +134,7 @@ public class CompParamScope extends SymbolScope<ComponentParameter> {
     }
 
     @Override
-    protected SymbolTableEntry resolve1(Position position, String id, String done, CifTypeChecker tchecker,
+    protected SymbolTableEntry resolve1(TextPosition position, String id, String done, CifTypeChecker tchecker,
             SymbolScope<?> origScope)
     {
         // Something is resolved via this parameter, so the parameter is used.

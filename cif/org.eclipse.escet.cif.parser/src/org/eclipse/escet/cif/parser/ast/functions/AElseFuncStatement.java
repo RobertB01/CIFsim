@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.functions;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An 'else' part of an 'if' internal function statement. */
 public class AElseFuncStatement extends ACifObject {
@@ -29,7 +29,7 @@ public class AElseFuncStatement extends ACifObject {
      * @param elses The statements of the 'else'.
      * @param position Position information.
      */
-    public AElseFuncStatement(List<AFuncStatement> elses, Position position) {
+    public AElseFuncStatement(List<AFuncStatement> elses, TextPosition position) {
         super(position);
         this.elses = elses;
     }

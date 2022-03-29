@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.automata;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Marker predicates of a location. */
 public class AMarkedLocationElement extends ALocationElement {
@@ -29,7 +29,7 @@ public class AMarkedLocationElement extends ALocationElement {
      * @param preds The marker predicates of the location, or {@code null}.
      * @param position Position information.
      */
-    public AMarkedLocationElement(List<AExpression> preds, Position position) {
+    public AMarkedLocationElement(List<AExpression> preds, TextPosition position) {
         super(position);
         this.preds = preds;
     }

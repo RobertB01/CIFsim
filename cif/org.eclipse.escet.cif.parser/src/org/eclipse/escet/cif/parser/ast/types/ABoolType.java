@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Boolean type. */
 public class ABoolType extends ACifType {
@@ -22,7 +22,7 @@ public class ABoolType extends ACifType {
      *
      * @param position Position information.
      */
-    public ABoolType(Position position) {
+    public ABoolType(TextPosition position) {
         super(position);
     }
 }

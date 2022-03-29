@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.expressions;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Function call expression. */
 public class AFuncCallExpression extends AExpression {
@@ -32,7 +32,7 @@ public class AFuncCallExpression extends AExpression {
      * @param arguments The arguments of the function call expression, or {@code null}.
      * @param position Position information.
      */
-    public AFuncCallExpression(AExpression function, List<AExpression> arguments, Position position) {
+    public AFuncCallExpression(AExpression function, List<AExpression> arguments, TextPosition position) {
         super(position);
         this.function = function;
         this.arguments = arguments;

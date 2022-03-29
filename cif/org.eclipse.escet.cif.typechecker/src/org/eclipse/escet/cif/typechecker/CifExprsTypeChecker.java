@@ -694,10 +694,10 @@ public class CifExprsTypeChecker {
      */
     private static BoolExpression transBoolExpression(ABoolExpression expr, CifType hint, SymbolScope<?> scope) {
         BoolType type = newBoolType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
 
         BoolExpression rslt = newBoolExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setValue(expr.value);
         rslt.setType(type);
 
@@ -728,12 +728,12 @@ public class CifExprsTypeChecker {
 
         // Construct metamodel representation.
         IntExpression intExpr = newIntExpression();
-        intExpr.setPosition(expr.position);
+        intExpr.setPosition(expr.createPosition());
         intExpr.setValue(value);
 
         // Set type. Ignore integer type hints, including their range bounds.
         IntType type = newIntType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
         type.setLower(value);
         type.setUpper(value);
         intExpr.setType(type);
@@ -785,10 +785,10 @@ public class CifExprsTypeChecker {
         Assert.check(value >= 0.0);
 
         RealType type = newRealType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
 
         RealExpression rslt = newRealExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setValue(expr.value);
         rslt.setType(type);
         return rslt;
@@ -804,10 +804,10 @@ public class CifExprsTypeChecker {
      */
     private static StringExpression transStringExpression(AStringExpression expr, CifType hint, SymbolScope<?> scope) {
         StringType type = newStringType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
 
         StringExpression rslt = newStringExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setValue(expr.value);
         rslt.setType(type);
 
@@ -835,10 +835,10 @@ public class CifExprsTypeChecker {
 
         // Transform.
         RealType type = newRealType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
 
         TimeExpression rslt = newTimeExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(type);
 
         return rslt;
@@ -942,7 +942,7 @@ public class CifExprsTypeChecker {
         // Create cast expression.
         CastExpression rslt = newCastExpression();
         rslt.setChild(child);
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(ttype);
         return rslt;
     }
@@ -1017,7 +1017,7 @@ public class CifExprsTypeChecker {
 
         // Initialize result.
         UnaryExpression rslt = newUnaryExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setChild(child);
         rslt.setOperator(op);
 
@@ -1054,7 +1054,7 @@ public class CifExprsTypeChecker {
                     IntType itype = (IntType)nctype;
 
                     IntType type = newIntType();
-                    type.setPosition(copyPosition(expr.position));
+                    type.setPosition(expr.createPosition());
 
                     rslt.setType(type);
 
@@ -1074,7 +1074,7 @@ public class CifExprsTypeChecker {
                     }
                 } else {
                     RealType type = newRealType();
-                    type.setPosition(copyPosition(expr.position));
+                    type.setPosition(expr.createPosition());
                     rslt.setType(type);
                 }
 
@@ -1404,7 +1404,7 @@ public class CifExprsTypeChecker {
 
         // Initialize result.
         BinaryExpression rslt = newBinaryExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setLeft(left);
         rslt.setRight(right);
         rslt.setOperator(op);
@@ -1422,7 +1422,7 @@ public class CifExprsTypeChecker {
                 }
 
                 BoolType type = newBoolType();
-                type.setPosition(copyPosition(expr.position));
+                type.setPosition(expr.createPosition());
 
                 rslt.setType(type);
                 break;
@@ -1466,7 +1466,7 @@ public class CifExprsTypeChecker {
                 }
 
                 BoolType type = newBoolType();
-                type.setPosition(copyPosition(expr.position));
+                type.setPosition(expr.createPosition());
 
                 rslt.setType(type);
                 break;
@@ -1485,7 +1485,7 @@ public class CifExprsTypeChecker {
                 }
 
                 BoolType type = newBoolType();
-                type.setPosition(copyPosition(expr.position));
+                type.setPosition(expr.createPosition());
 
                 rslt.setType(type);
                 break;
@@ -1498,7 +1498,7 @@ public class CifExprsTypeChecker {
                     // int[l1..u1], int[l2..u2] -> int[l1+l2..u1+u2]
                     // int, int -> int
                     IntType type = newIntType();
-                    type.setPosition(copyPosition(expr.position));
+                    type.setPosition(expr.createPosition());
 
                     resultType = type;
 
@@ -1529,7 +1529,7 @@ public class CifExprsTypeChecker {
                     // real, int -> real
                     // real, real -> real
                     RealType type = newRealType();
-                    type.setPosition(copyPosition(expr.position));
+                    type.setPosition(expr.createPosition());
                     resultType = type;
                 } else if (nltype instanceof ListType && nrtype instanceof ListType) {
                     // list t, list t -> list t
@@ -1589,7 +1589,7 @@ public class CifExprsTypeChecker {
                     // int, int -> int
 
                     IntType type = newIntType();
-                    type.setPosition(copyPosition(expr.position));
+                    type.setPosition(expr.createPosition());
 
                     resultType = type;
 
@@ -1620,7 +1620,7 @@ public class CifExprsTypeChecker {
                     // real, int -> real
                     // real, real -> real
                     RealType type = newRealType();
-                    type.setPosition(copyPosition(expr.position));
+                    type.setPosition(expr.createPosition());
                     resultType = type;
                 } else if (nltype instanceof SetType && nrtype instanceof SetType) {
                     // set t, set t -> set t
@@ -1673,7 +1673,7 @@ public class CifExprsTypeChecker {
                     // int, int -> int
 
                     IntType type = newIntType();
-                    type.setPosition(copyPosition(expr.position));
+                    type.setPosition(expr.createPosition());
 
                     resultType = type;
 
@@ -1704,7 +1704,7 @@ public class CifExprsTypeChecker {
                     // real, int -> real
                     // real, real -> real
                     RealType type = newRealType();
-                    type.setPosition(copyPosition(expr.position));
+                    type.setPosition(expr.createPosition());
                     resultType = type;
                 }
 
@@ -1733,7 +1733,7 @@ public class CifExprsTypeChecker {
                 }
 
                 RealType type = newRealType();
-                type.setPosition(copyPosition(expr.position));
+                type.setPosition(expr.createPosition());
 
                 rslt.setType(type);
                 break;
@@ -1754,7 +1754,7 @@ public class CifExprsTypeChecker {
                 }
 
                 IntType type = newIntType();
-                type.setPosition(copyPosition(expr.position));
+                type.setPosition(expr.createPosition());
 
                 rslt.setType(type);
 
@@ -1797,7 +1797,7 @@ public class CifExprsTypeChecker {
                 }
 
                 IntType type = newIntType();
-                type.setPosition(copyPosition(expr.position));
+                type.setPosition(expr.createPosition());
 
                 rslt.setType(type);
 
@@ -1837,7 +1837,7 @@ public class CifExprsTypeChecker {
                             && CifTypeUtils.supportsValueEquality(ltype))
                     {
                         resultType = newBoolType();
-                        resultType.setPosition(copyPosition(expr.position));
+                        resultType.setPosition(expr.createPosition());
                     }
                 } else if (nrtype instanceof SetType) {
                     // t, set t -> bool
@@ -1845,7 +1845,7 @@ public class CifExprsTypeChecker {
                     SetType stype = (SetType)nrtype;
                     if (checkTypeCompat(ltype, stype.getElementType(), RangeCompat.IGNORE)) {
                         resultType = newBoolType();
-                        resultType.setPosition(copyPosition(expr.position));
+                        resultType.setPosition(expr.createPosition());
                     }
                 } else if (nrtype instanceof DictType) {
                     // k, dict(k:v) -> bool
@@ -1853,7 +1853,7 @@ public class CifExprsTypeChecker {
                     DictType dtype = (DictType)nrtype;
                     if (checkTypeCompat(ltype, dtype.getKeyType(), RangeCompat.IGNORE)) {
                         resultType = newBoolType();
-                        resultType.setPosition(copyPosition(expr.position));
+                        resultType.setPosition(expr.createPosition());
                     }
                 }
 
@@ -1882,7 +1882,7 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType type = newBoolType();
-                type.setPosition(copyPosition(expr.position));
+                type.setPosition(expr.createPosition());
 
                 rslt.setType(type);
                 break;
@@ -2025,13 +2025,13 @@ public class CifExprsTypeChecker {
                 if (field.getName().equals(name)) {
                     // Found a matching field.
                     IntType type = newIntType();
-                    type.setPosition(copyPosition(nameExpr.position));
+                    type.setPosition(nameExpr.createPosition());
                     type.setLower(i);
                     type.setUpper(i);
 
                     FieldExpression fieldRef = newFieldExpression();
                     fieldRef.setField(field);
-                    fieldRef.setPosition(nameExpr.position);
+                    fieldRef.setPosition(nameExpr.createPosition());
                     fieldRef.setType(type);
                     index = fieldRef;
 
@@ -2187,7 +2187,7 @@ public class CifExprsTypeChecker {
         ProjectionExpression rslt = newProjectionExpression();
         rslt.setChild(child);
         rslt.setIndex(index);
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(resultType);
         return rslt;
     }
@@ -2263,7 +2263,7 @@ public class CifExprsTypeChecker {
         rslt.setChild(child);
         rslt.setBegin(begin);
         rslt.setEnd(end);
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
 
         // Result type.
         if (nctype instanceof StringType) {
@@ -2423,7 +2423,7 @@ public class CifExprsTypeChecker {
     {
         // Initialize result.
         FunctionCallExpression rslt = newFunctionCallExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
 
         // Get AST arguments.
         List<AExpression> astArgs = (expr.arguments == null) ? Collections.emptyList() : expr.arguments;
@@ -2572,12 +2572,12 @@ public class CifExprsTypeChecker {
 
         // Initialize result.
         FunctionCallExpression mmCall = newFunctionCallExpression();
-        mmCall.setPosition(astCall.position);
+        mmCall.setPosition(astCall.createPosition());
 
         StdLibFunctionExpression mmStdLib = newStdLibFunctionExpression();
         mmCall.setFunction(mmStdLib);
         mmStdLib.setFunction(func);
-        mmStdLib.setPosition(astStdLib.position);
+        mmStdLib.setPosition(astStdLib.createPosition());
 
         // Get AST arguments.
         List<AExpression> astArgs = (astCall.arguments == null) ? Collections.emptyList() : astCall.arguments;
@@ -3076,7 +3076,7 @@ public class CifExprsTypeChecker {
         // Initialize standard library function reference result type.
         FuncType resultType = newFuncType();
         mmStdLib.setType(resultType);
-        resultType.setPosition(copyPosition(astStdLib.position));
+        resultType.setPosition(astStdLib.createPosition());
         for (int i = 0; i < atypes.length; i++) {
             resultType.getParamTypes().add(deepclone(atypes[i]));
         }
@@ -3102,7 +3102,7 @@ public class CifExprsTypeChecker {
                 }
 
                 RealType type = newRealType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3119,7 +3119,7 @@ public class CifExprsTypeChecker {
 
                 if (ntype instanceof IntType) {
                     IntType itype = newIntType();
-                    itype.setPosition(copyPosition(astStdLib.position));
+                    itype.setPosition(astStdLib.createPosition());
 
                     resultType.setReturnType(itype);
 
@@ -3142,7 +3142,7 @@ public class CifExprsTypeChecker {
                 } else {
                     Assert.check(ntype instanceof RealType);
                     RealType type = newRealType();
-                    type.setPosition(copyPosition(astStdLib.position));
+                    type.setPosition(astStdLib.createPosition());
                     resultType.setReturnType(type);
                 }
 
@@ -3157,7 +3157,7 @@ public class CifExprsTypeChecker {
                 }
 
                 RealType type = newRealType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3170,7 +3170,7 @@ public class CifExprsTypeChecker {
                 }
 
                 IntType type = newIntType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3226,7 +3226,7 @@ public class CifExprsTypeChecker {
                 }
 
                 BoolType type = newBoolType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3239,7 +3239,7 @@ public class CifExprsTypeChecker {
                 }
 
                 RealType type = newRealType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3252,7 +3252,7 @@ public class CifExprsTypeChecker {
                 }
 
                 IntType type = newIntType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3280,7 +3280,7 @@ public class CifExprsTypeChecker {
                         pattern.getPosition());
 
                 StringType type = newStringType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3294,7 +3294,7 @@ public class CifExprsTypeChecker {
                 }
 
                 RealType type = newRealType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3314,7 +3314,7 @@ public class CifExprsTypeChecker {
 
                 if (natypes[0] instanceof IntType && natypes[1] instanceof IntType) {
                     IntType type = newIntType();
-                    type.setPosition(copyPosition(astStdLib.position));
+                    type.setPosition(astStdLib.createPosition());
 
                     resultType.setReturnType(type);
 
@@ -3332,7 +3332,7 @@ public class CifExprsTypeChecker {
                     }
                 } else {
                     RealType type = newRealType();
-                    type.setPosition(copyPosition(astStdLib.position));
+                    type.setPosition(astStdLib.createPosition());
                     resultType.setReturnType(type);
                 }
 
@@ -3354,7 +3354,7 @@ public class CifExprsTypeChecker {
 
                 if (natypes[0] instanceof IntType && natypes[1] instanceof IntType) {
                     IntType type = newIntType();
-                    type.setPosition(copyPosition(astStdLib.position));
+                    type.setPosition(astStdLib.createPosition());
 
                     resultType.setReturnType(type);
 
@@ -3372,7 +3372,7 @@ public class CifExprsTypeChecker {
                     }
                 } else {
                     RealType type = newRealType();
-                    type.setPosition(copyPosition(astStdLib.position));
+                    type.setPosition(astStdLib.createPosition());
                     resultType.setReturnType(type);
                 }
 
@@ -3452,7 +3452,7 @@ public class CifExprsTypeChecker {
                         int[] resultRange = getPowResultRange(l1, u1, l2, u2);
 
                         IntType itype = newIntType();
-                        itype.setPosition(copyPosition(astStdLib.position));
+                        itype.setPosition(astStdLib.createPosition());
 
                         resultType.setReturnType(itype);
 
@@ -3465,7 +3465,7 @@ public class CifExprsTypeChecker {
 
                 if (!done) {
                     RealType type = newRealType();
-                    type.setPosition(copyPosition(astStdLib.position));
+                    type.setPosition(astStdLib.createPosition());
                     resultType.setReturnType(type);
                 }
 
@@ -3480,7 +3480,7 @@ public class CifExprsTypeChecker {
                 }
 
                 IntType type = newIntType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3495,7 +3495,7 @@ public class CifExprsTypeChecker {
                 }
 
                 RealType type = newRealType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3510,7 +3510,7 @@ public class CifExprsTypeChecker {
                 }
 
                 IntType itype = newIntType();
-                itype.setPosition(copyPosition(astStdLib.position));
+                itype.setPosition(astStdLib.createPosition());
 
                 resultType.setReturnType(itype);
 
@@ -3542,7 +3542,7 @@ public class CifExprsTypeChecker {
                 }
 
                 IntType type = newIntType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
 
                 if (natypes[0] instanceof ListType && !CifTypeUtils.isRangeless((ListType)natypes[0])) {
                     ListType ltype = (ListType)natypes[0];
@@ -3562,7 +3562,7 @@ public class CifExprsTypeChecker {
                 }
 
                 RealType type = newRealType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 resultType.setReturnType(type);
                 break;
             }
@@ -3575,10 +3575,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newBoolType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3593,10 +3593,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newRealType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3611,10 +3611,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newIntType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3634,11 +3634,11 @@ public class CifExprsTypeChecker {
                 }
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
 
                 if (natypes[0] instanceof IntType && !isRangeless((IntType)natypes[0])) {
                     CifType stype = newIntType();
-                    stype.setPosition(copyPosition(astStdLib.position));
+                    stype.setPosition(astStdLib.createPosition());
                     type.setSampleType(stype);
                 } else {
                     type.setSampleType(deepclone(atypes[0]));
@@ -3656,10 +3656,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newRealType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3674,10 +3674,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newRealType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3692,10 +3692,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newRealType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3710,10 +3710,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newIntType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3729,10 +3729,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newRealType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3747,10 +3747,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newIntType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3761,10 +3761,10 @@ public class CifExprsTypeChecker {
                 // () -> dist real
 
                 CifType stype = newRealType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3781,10 +3781,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newRealType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -3796,17 +3796,17 @@ public class CifExprsTypeChecker {
                 // real, real -> dist real
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
 
                 resultType.setReturnType(type);
 
                 if (natypes[0] instanceof IntType && natypes[1] instanceof IntType) {
                     CifType stype = newIntType();
-                    stype.setPosition(copyPosition(astStdLib.position));
+                    stype.setPosition(astStdLib.createPosition());
                     type.setSampleType(stype);
                 } else if (natypes[0] instanceof RealType && natypes[1] instanceof RealType) {
                     CifType stype = newRealType();
-                    stype.setPosition(copyPosition(astStdLib.position));
+                    stype.setPosition(astStdLib.createPosition());
                     type.setSampleType(stype);
                 } else {
                     addFcallArgProblem(astStdLib, args, tchecker);
@@ -3823,10 +3823,10 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType stype = newRealType();
-                stype.setPosition(copyPosition(astStdLib.position));
+                stype.setPosition(astStdLib.createPosition());
 
                 DistType type = newDistType();
-                type.setPosition(copyPosition(astStdLib.position));
+                type.setPosition(astStdLib.createPosition());
                 type.setSampleType(stype);
 
                 resultType.setReturnType(type);
@@ -4055,14 +4055,14 @@ public class CifExprsTypeChecker {
 
         // Create list type. Ignore list type hint, including its range bounds.
         ListType type = newListType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
         type.setElementType(etype);
         type.setLower(elems.size());
         type.setUpper(elems.size());
 
         // Create list expression.
         ListExpression rslt = newListExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(type);
         rslt.getElements().addAll(elems);
         return rslt;
@@ -4094,7 +4094,7 @@ public class CifExprsTypeChecker {
         }
 
         // Complete the metamodel representation and return it.
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(deepclone(hint));
         return rslt;
     }
@@ -4161,12 +4161,12 @@ public class CifExprsTypeChecker {
 
         // Create set type.
         SetType type = newSetType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
         type.setElementType(etype);
 
         // Create set expression.
         SetExpression rslt = newSetExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(type);
         rslt.getElements().addAll(elems);
         return rslt;
@@ -4207,7 +4207,7 @@ public class CifExprsTypeChecker {
 
         // Get tuple type.
         TupleType ttype = newTupleType();
-        ttype.setPosition(copyPosition(expr.position));
+        ttype.setPosition(expr.createPosition());
         for (Expression elem: elems) {
             // Add nameless field to tuple type.
             Field field = newField();
@@ -4225,7 +4225,7 @@ public class CifExprsTypeChecker {
 
         // Create tuple expression.
         TupleExpression rslt = newTupleExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(ttype);
         rslt.getFields().addAll(elems);
         return rslt;
@@ -4264,7 +4264,7 @@ public class CifExprsTypeChecker {
             Expression value = transExpression(apair.value, valueHint, scope, context, tchecker);
 
             DictPair pair = newDictPair();
-            pair.setPosition(apair.position);
+            pair.setPosition(apair.createPosition());
             pair.setKey(key);
             pair.setValue(value);
             pairs.add(pair);
@@ -4328,12 +4328,12 @@ public class CifExprsTypeChecker {
 
         // Create dictionary expression.
         DictType type = newDictType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
         type.setKeyType(ktype);
         type.setValueType(vtype);
 
         DictExpression rslt = newDictExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(type);
         rslt.getPairs().addAll(pairs);
         return rslt;
@@ -4353,7 +4353,7 @@ public class CifExprsTypeChecker {
             ExprContext context, CifTypeChecker tchecker)
     {
         IfExpression rslt = newIfExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
 
         // Guards.
         List<Expression> guards = rslt.getGuards();
@@ -4394,7 +4394,7 @@ public class CifExprsTypeChecker {
         List<ElifExpression> elifs = rslt.getElifs();
         for (AElifExpression elif: expr.elifs) {
             ElifExpression elifRslt = newElifExpression();
-            elifRslt.setPosition(elif.position);
+            elifRslt.setPosition(elif.createPosition());
             elifs.add(elifRslt);
 
             // Guards.
@@ -4450,7 +4450,7 @@ public class CifExprsTypeChecker {
             ExprContext context, CifTypeChecker tchecker)
     {
         SwitchExpression rslt = newSwitchExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
 
         // Value.
         Expression value = transExpression(expr.value, NO_TYPE_HINT, scope, context, tchecker);
@@ -4553,7 +4553,7 @@ public class CifExprsTypeChecker {
     {
         // Create metamodel representation.
         SwitchCase cse = newSwitchCase();
-        cse.setPosition(astCase.position);
+        cse.setPosition(astCase.createPosition());
 
         // Key.
         AExpression astKey = astCase.key;
@@ -4982,10 +4982,10 @@ public class CifExprsTypeChecker {
      */
     private static Expression transTauExpression(ATauExpression expr, CifType hint, SymbolScope<?> scope) {
         BoolType type = newBoolType();
-        type.setPosition(copyPosition(expr.position));
+        type.setPosition(expr.createPosition());
 
         TauExpression rslt = newTauExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(type);
 
         return rslt;
@@ -5019,7 +5019,7 @@ public class CifExprsTypeChecker {
 
         // Construct metamodel representation.
         ReceivedExpression rslt = newReceivedExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         rslt.setType(deepclone(context.receiveType));
         return rslt;
     }
@@ -5045,7 +5045,7 @@ public class CifExprsTypeChecker {
 
         // Construct metamodel representation.
         SelfExpression rslt = newSelfExpression();
-        rslt.setPosition(expr.position);
+        rslt.setPosition(expr.createPosition());
         if (scope instanceof AutScope) {
             Automaton aut = ((AutScope)scope).getObject();
             ComponentType type = newComponentType();

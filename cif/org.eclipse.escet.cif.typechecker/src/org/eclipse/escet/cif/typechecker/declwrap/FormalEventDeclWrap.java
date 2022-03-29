@@ -139,7 +139,7 @@ public class FormalEventDeclWrap extends DeclWrap<EventParameter> {
 
             // Update flag information.
             flags[flagIdx] = true;
-            flagsPos[flagIdx] = flag.position;
+            flagsPos[flagIdx] = flag.createPosition();
         }
 
         mmDecl.setSendFlag(flags[0]);
