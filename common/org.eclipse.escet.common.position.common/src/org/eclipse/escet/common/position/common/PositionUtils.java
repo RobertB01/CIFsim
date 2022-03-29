@@ -15,8 +15,6 @@ package org.eclipse.escet.common.position.common;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.Objects;
-
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
@@ -28,18 +26,6 @@ public class PositionUtils {
     /** Constructor for the {@link PositionUtils} class. */
     private PositionUtils() {
         // Static class.
-    }
-
-    /**
-     * Creates and returns a dummy {@link Position} object, covering the first character in the input, without source
-     * information.
-     *
-     * @param location The location of the source file that contains the position. Must be an absolute local file system
-     *     path, with platform specific path separators. The path does not have to refer to an existing file.
-     * @return {@link Position} covering the first character of the input, and without source information.
-     */
-    public static Position createDummy(String location) {
-        return createDummy(location, null);
     }
 
     /**
@@ -136,91 +122,6 @@ public class PositionUtils {
                     position.getEndLine(), position.getEndColumn()));
         }
         return txt.toString();
-    }
-
-    /**
-     * Merges two positions and returns the merged position (the minimal position that spans both original positions).
-     *
-     * @param p1 The first position.
-     * @param p2 The second position.
-     * @return The merged position.
-     */
-    public static Position mergePositions(Position p1, Position p2) {
-        Assert.notNull(p1);
-        Assert.notNull(p2);
-
-        // Sources must be equal.
-        Assert.check((p1.getSource() == null) == (p2.getSource() == null));
-        if (p1.getSource() != null && p2.getSource() != null) {
-            Assert.check(p1.getSource().equals(p2.getSource()));
-        }
-
-        // Locations must be equal.
-        Assert.check(p1.getLocation().equals(p2.getLocation()));
-
-        // Construct merged position.
-        Position p = PositionFactory.eINSTANCE.createPosition();
-        p.setSource(p1.getSource());
-        p.setLocation(p1.getLocation());
-        if (p1.getStartOffset() < p2.getStartOffset()) {
-            p.setStartOffset(p1.getStartOffset());
-            p.setStartLine(p1.getStartLine());
-            p.setStartColumn(p1.getStartColumn());
-        } else {
-            p.setStartOffset(p2.getStartOffset());
-            p.setStartLine(p2.getStartLine());
-            p.setStartColumn(p2.getStartColumn());
-        }
-        if (p1.getEndOffset() > p2.getEndOffset()) {
-            p.setEndOffset(p1.getEndOffset());
-            p.setEndLine(p1.getEndLine());
-            p.setEndColumn(p1.getEndColumn());
-        } else {
-            p.setEndOffset(p2.getEndOffset());
-            p.setEndLine(p2.getEndLine());
-            p.setEndColumn(p2.getEndColumn());
-        }
-
-        // Return merged position.
-        return p;
-    }
-
-    /**
-     * Do the two given positions represent the same positions, in the same source (file)?
-     *
-     * @param p1 The first position.
-     * @param p2 The second position.
-     * @return {@code true} if the two given positions represent the same positions, in the same source (file),
-     *     {@code false} otherwise.
-     */
-    public static boolean equalPositions(Position p1, Position p2) {
-        return Objects.equals( //
-                p1.getSource(), p2.getSource()) && //
-                p1.getLocation().equals(p2.getLocation()) && //
-                p1.getStartOffset() == p2.getStartOffset() && //
-                p1.getStartLine() == p2.getStartLine() && //
-                p1.getStartColumn() == p2.getStartColumn() && //
-                p1.getEndOffset() == p2.getEndOffset() && //
-                p1.getEndLine() == p2.getEndLine() && //
-                p1.getEndColumn() == p2.getEndColumn();
-    }
-
-    /**
-     * Hashes the given position.
-     *
-     * @param position The position to hash.
-     * @return The hash of the given position.
-     */
-    public static int hashPosition(Position position) {
-        String src = position.getSource();
-        return (src == null ? 0 : src.hashCode()) ^ //
-                position.getLocation().hashCode() ^ //
-                position.getStartOffset() ^ //
-                position.getStartLine() ^ //
-                position.getStartColumn() ^ //
-                (position.getEndOffset() * 17) ^ //
-                (position.getEndLine() * 17) ^ //
-                (position.getEndColumn() * 17);
     }
 
     /**
