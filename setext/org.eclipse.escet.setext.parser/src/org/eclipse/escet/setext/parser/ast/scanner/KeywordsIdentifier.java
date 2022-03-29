@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast.scanner;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Identifier;
 import org.eclipse.escet.setext.parser.ast.SeTextObject;
 import org.eclipse.escet.setext.parser.ast.TerminalDescription;
@@ -44,7 +44,9 @@ public class KeywordsIdentifier extends SeTextObject {
      * @param description The description of the terminal in end user readable text, or {@code null} if not available.
      * @param position Position information.
      */
-    public KeywordsIdentifier(Identifier keyword, Identifier func, TerminalDescription description, Position position) {
+    public KeywordsIdentifier(Identifier keyword, Identifier func, TerminalDescription description,
+            TextPosition position)
+    {
         super(position);
         this.keyword = keyword;
         this.func = func;

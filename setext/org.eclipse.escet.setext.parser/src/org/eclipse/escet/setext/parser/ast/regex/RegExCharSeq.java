@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 import java.util.Set;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /**
  * A sequence of characters for a regular expression character class.
@@ -39,7 +39,7 @@ public class RegExCharSeq extends RegExChars {
      * @param end The end character of the character sequence.
      * @param position Position information.
      */
-    public RegExCharSeq(RegExChar start, RegExChar end, Position position) {
+    public RegExCharSeq(RegExChar start, RegExChar end, TextPosition position) {
         super(position);
         this.start = start;
         this.end = end;

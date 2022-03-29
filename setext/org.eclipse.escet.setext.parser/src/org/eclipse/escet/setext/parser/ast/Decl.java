@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** SeText declaration. */
 public abstract class Decl extends SeTextObject {
@@ -22,7 +22,7 @@ public abstract class Decl extends SeTextObject {
      *
      * @param position Position information.
      */
-    public Decl(Position position) {
+    public Decl(TextPosition position) {
         super(position);
     }
 }

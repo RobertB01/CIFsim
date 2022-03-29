@@ -13,19 +13,19 @@
 
 package org.eclipse.escet.setext.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Base class of SeText classes. */
 public abstract class SeTextObject {
     /** Position information, or {@code null} if not available. */
-    public Position position;
+    public TextPosition position;
 
     /**
      * Constructor for the {@link SeTextObject} class.
      *
      * @param position Position information, or {@code null} if not available.
      */
-    public SeTextObject(Position position) {
+    public SeTextObject(TextPosition position) {
         this.position = position;
     }
 }

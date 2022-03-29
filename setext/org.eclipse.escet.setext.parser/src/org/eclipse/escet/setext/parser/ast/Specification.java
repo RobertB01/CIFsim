@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.parser.JavaType;
 import org.eclipse.escet.setext.parser.ast.parser.NonTerminal;
 import org.eclipse.escet.setext.parser.ast.parser.StartSymbol;
@@ -58,7 +58,7 @@ public class Specification extends SeTextObject {
      * @param decls The declarations of the specification.
      * @param position Position information.
      */
-    public Specification(List<Decl> decls, Position position) {
+    public Specification(List<Decl> decls, TextPosition position) {
         super(position);
         this.decls = decls;
     }

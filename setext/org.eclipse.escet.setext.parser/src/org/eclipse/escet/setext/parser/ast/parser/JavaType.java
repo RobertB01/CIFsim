@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.SeTextObject;
 
 /** SeText Java type representation. */
@@ -63,7 +63,7 @@ public class JavaType extends SeTextObject {
      *     have at least one parameter otherwise.
      * @param position Position information.
      */
-    public JavaType(String className, List<JavaType> genericTypeParams, Position position) {
+    public JavaType(String className, List<JavaType> genericTypeParams, TextPosition position) {
         super(position);
         this.className = className;
         this.genericTypeParams = genericTypeParams;

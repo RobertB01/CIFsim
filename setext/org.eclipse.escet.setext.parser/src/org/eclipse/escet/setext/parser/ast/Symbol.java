@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** SeText grammar symbol. */
 public abstract class Symbol extends Decl {
@@ -26,7 +26,7 @@ public abstract class Symbol extends Decl {
      * @param name The name of the symbol. May be {@code null} for terminals.
      * @param position Position information.
      */
-    public Symbol(String name, Position position) {
+    public Symbol(String name, TextPosition position) {
         super(position);
         this.name = name;
     }

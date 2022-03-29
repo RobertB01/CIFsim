@@ -15,21 +15,21 @@ package org.eclipse.escet.setext.runtime.exceptions;
 
 import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /**
  * Exception indicating a syntax exception. Scanners and parsers should only throw exceptions that extend this class.
  */
 public abstract class SyntaxException extends ApplicationException {
     /** The position information (possibly including source information) for the syntax error. */
-    private final Position position;
+    private final TextPosition position;
 
     /**
      * Constructor for the {@link SyntaxException} class.
      *
      * @param position The position information (possibly including source information) for the syntax error.
      */
-    public SyntaxException(Position position) {
+    public SyntaxException(TextPosition position) {
         Assert.notNull(position);
         this.position = position;
     }
@@ -39,7 +39,7 @@ public abstract class SyntaxException extends ApplicationException {
      *
      * @return The position information (possibly including source information) for the syntax error.
      */
-    public Position getPosition() {
+    public TextPosition getPosition() {
         return position;
     }
 

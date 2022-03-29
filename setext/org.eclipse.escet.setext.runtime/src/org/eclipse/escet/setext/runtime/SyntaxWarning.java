@@ -16,9 +16,7 @@ package org.eclipse.escet.setext.runtime;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.common.PositionUtils;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Syntax warning information. */
 public class SyntaxWarning implements Comparable<SyntaxWarning> {
@@ -26,7 +24,7 @@ public class SyntaxWarning implements Comparable<SyntaxWarning> {
     public final String message;
 
     /** Position information. */
-    public final Position position;
+    public final TextPosition position;
 
     /**
      * Constructor for the {@link SyntaxWarning} class.
@@ -34,7 +32,7 @@ public class SyntaxWarning implements Comparable<SyntaxWarning> {
      * @param message The message describing the syntax warning.
      * @param position Position information.
      */
-    public SyntaxWarning(String message, Position position) {
+    public SyntaxWarning(String message, TextPosition position) {
         Assert.notNull(message);
         Assert.notNull(position);
         this.message = message;
@@ -44,12 +42,12 @@ public class SyntaxWarning implements Comparable<SyntaxWarning> {
     @Override
     public boolean equals(Object obj) {
         SyntaxWarning other = (SyntaxWarning)obj;
-        return PositionUtils.equalPositions(position, other.position) && message.equals(other.message);
+        return position.equals(other.position) && message.equals(other.message);
     }
 
     @Override
     public int hashCode() {
-        return PositionUtils.hashPosition(position) ^ message.hashCode();
+        return position.hashCode() ^ message.hashCode();
     }
 
     @Override
@@ -57,47 +55,22 @@ public class SyntaxWarning implements Comparable<SyntaxWarning> {
         int rslt = 0;
 
         // Compare position.
-        String src1 = position.getSource();
-        String src2 = other.position.getSource();
-        if (src1 == null && src2 != null) {
-            return -1;
-        }
-        if (src1 != null && src2 == null) {
-            return 1;
-        }
-        if (src1 != null && src2 != null) {
-            rslt = Strings.SORTER.compare(src1, src2);
-            if (rslt != 0) {
-                return rslt;
-            }
-        }
-
-        rslt = Strings.SORTER.compare(position.getLocation(), other.position.getLocation());
-        if (rslt != 0) {
-            return rslt;
-        }
-
-        rslt = Integer.valueOf(position.getStartOffset()).compareTo(other.position.getStartOffset());
-        if (rslt != 0) {
-            return rslt;
-        }
-
-        rslt = Integer.valueOf(position.getEndOffset()).compareTo(other.position.getEndOffset());
+        rslt = position.compareTo(other.position);
         if (rslt != 0) {
             return rslt;
         }
 
         // Compare message.
-        return Strings.SORTER.compare(message, other.message);
+        return message.compareTo(other.message);
     }
 
     @Override
     public String toString() {
-        String src = position.getSource();
+        String src = position.source;
         if (src == null) {
             src = "";
         }
-        return fmt("%sSyntax warning at line %d, column %d: %s", src, position.getStartLine(),
-                position.getStartColumn(), message);
+        return fmt("%sSyntax warning at line %d, column %d: %s", src, position.startLine, position.startColumn,
+                message);
     }
 }

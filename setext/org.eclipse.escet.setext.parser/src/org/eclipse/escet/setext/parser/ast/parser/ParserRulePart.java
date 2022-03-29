@@ -14,7 +14,7 @@
 package org.eclipse.escet.setext.parser.ast.parser;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.SeTextObject;
 import org.eclipse.escet.setext.parser.ast.Symbol;
 
@@ -40,7 +40,7 @@ public class ParserRulePart extends SeTextObject {
      * @param callBackArg Whether to include this part in the arguments of the call-back method. Only affects terminals.
      * @param position Position information.
      */
-    public ParserRulePart(String name, boolean callBackArg, Position position) {
+    public ParserRulePart(String name, boolean callBackArg, TextPosition position) {
         super(position);
         this.name = name;
         this.callBackArg = callBackArg;

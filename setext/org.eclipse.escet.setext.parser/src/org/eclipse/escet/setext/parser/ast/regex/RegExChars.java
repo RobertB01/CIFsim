@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast.regex;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Regular expression character(s). */
 public abstract class RegExChars extends RegEx {
@@ -22,7 +22,7 @@ public abstract class RegExChars extends RegEx {
      *
      * @param position Position information.
      */
-    public RegExChars(Position position) {
+    public RegExChars(TextPosition position) {
         super(position);
     }
 }

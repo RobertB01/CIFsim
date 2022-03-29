@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Plain identifier token. */
 public class Identifier extends SeTextObject {
@@ -26,7 +26,7 @@ public class Identifier extends SeTextObject {
      * @param id Identifier. May include {@code $} characters.
      * @param position Position information.
      */
-    public Identifier(String id, Position position) {
+    public Identifier(String id, TextPosition position) {
         super(position);
         this.id = id.replace("$", "");
     }

@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast.scanner;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Decl;
 import org.eclipse.escet.setext.parser.ast.parser.JavaType;
 
@@ -28,7 +28,7 @@ public class ScannerDecl extends Decl {
      * @param scannerClass The scanner Java class to generate.
      * @param position Position information.
      */
-    public ScannerDecl(JavaType scannerClass, Position position) {
+    public ScannerDecl(JavaType scannerClass, TextPosition position) {
         super(position);
         this.scannerClass = scannerClass;
     }

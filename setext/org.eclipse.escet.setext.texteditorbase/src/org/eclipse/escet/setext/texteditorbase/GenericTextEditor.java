@@ -34,7 +34,7 @@ import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.common.typechecker.TypeChecker;
 import org.eclipse.escet.setext.runtime.DebugMode;
@@ -613,12 +613,12 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
      * @param markerId The marker identifier to use to create the marker.
      * @param severity The Eclipse text editor marker severity. See also {@link IMarker#SEVERITY}.
      */
-    private void addMarker(IDocument document, IFile file, Position position, String msg, String markerId,
+    private void addMarker(IDocument document, IFile file, TextPosition position, String msg, String markerId,
             int severity)
     {
         // Get start and end offsets.
-        int start = position.getStartOffset();
-        int end = position.getEndOffset() + 1;
+        int start = position.startOffset;
+        int end = position.endOffset + 1;
         if (end >= document.getLength()) {
             // Correct for premature EOF, which is just one character after
             // the end of the document.
@@ -636,9 +636,9 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
 
         // Construct marker attributes.
         Map<String, Object> map = map();
-        map.put(IMarker.LINE_NUMBER, position.getStartLine());
+        map.put(IMarker.LINE_NUMBER, position.startLine);
         map.put(IMarker.MESSAGE, msg);
-        map.put(IMarker.LOCATION, fmt("line %d, column %d", position.getStartLine(), position.getStartColumn()));
+        map.put(IMarker.LOCATION, fmt("line %d, column %d", position.startLine, position.startColumn));
         map.put(IMarker.SEVERITY, severity);
         map.put(IMarker.CHAR_START, start);
         map.put(IMarker.CHAR_END, end);

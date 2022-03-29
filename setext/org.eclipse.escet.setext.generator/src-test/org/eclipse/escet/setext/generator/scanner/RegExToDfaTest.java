@@ -33,8 +33,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.common.PositionUtils;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.regex.RegEx;
 import org.eclipse.escet.setext.parser.ast.regex.RegExChar;
 import org.junit.After;
@@ -44,7 +43,7 @@ import org.junit.Test;
 /** Units tests for the {@link RegExToDfa} class. */
 public class RegExToDfaTest {
     /** Dummy position information for regular expressions. */
-    static final Position DUMMY_POS = PositionUtils.createDummy("/dummy.file");
+    static final TextPosition DUMMY_POS = TextPosition.createDummy("/dummy.file");
 
     /** {@code @eof} regular expression. */
     private static final RegEx RE_EOF = new RegExChar(-1, DUMMY_POS);

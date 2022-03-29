@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Terminal description with end user readable text. */
 public class TerminalDescription extends SeTextObject {
@@ -26,7 +26,7 @@ public class TerminalDescription extends SeTextObject {
      * @param description The description text.
      * @param position Position information.
      */
-    public TerminalDescription(String description, Position position) {
+    public TerminalDescription(String description, TextPosition position) {
         super(position);
         this.description = description;
     }
