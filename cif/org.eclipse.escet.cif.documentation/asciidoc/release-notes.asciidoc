@@ -24,13 +24,12 @@ The release notes may refer to issues, the details for which can be found at the
 
 See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 0.5
-
-TBD
+=== Version 0.5 (2022-03-29)
 
 New features:
 
-* The CIF documentation contains an extensive new section on synthesis-based engineering of supervisory controllers (issue #325).
+* The CIF documentation contains an extensive new section on synthesis-based engineering of supervisory controllers (issues #325 and #334).
+* The CIF examples contain a new FIFO example, to showcase the power of supervisory controller synthesis. It is also described in the new synthesis-based engineering documentation (issue #325).
 * The CIF PLC code generator now supports S7 output for SIMATIC controllers (issue #142).
 * The CIF data-based synthesis tool now supports state plant invariants (issue #107).
 * The CIF to CIF transformer has several new transformations, to anonymize the names of all named objects, convert controllable events to uncontrollable ones and vice versa, and remove unused algebraic variables and their equations (issues #306, #308 and #320).
