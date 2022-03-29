@@ -17,8 +17,8 @@ import java.net.MalformedURLException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.escet.common.app.framework.PlatformUtils;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.java.UncachedUrlClassLoader.OpenUrlException;
-import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.typechecker.SemanticException;
 import org.eclipse.escet.tooldef.common.ClassLoaderObtainer;
 import org.osgi.framework.Bundle;
@@ -26,7 +26,7 @@ import org.osgi.framework.Bundle;
 /** Class loader obtainer for ToolDef imports. */
 public class ImportClassLoaderObtainer extends ClassLoaderObtainer {
     /** The position information to use to report problems. */
-    private final Position pos;
+    private final TextPosition pos;
 
     /** The type checker context. */
     private final CheckerContext ctxt;
@@ -42,7 +42,7 @@ public class ImportClassLoaderObtainer extends ClassLoaderObtainer {
      * @param useText The text describing what is being imported. Must be either {@code "Java code"} or
      *     {@code "ToolDef script"}.
      */
-    public ImportClassLoaderObtainer(Position pos, CheckerContext ctxt, String useText) {
+    public ImportClassLoaderObtainer(TextPosition pos, CheckerContext ctxt, String useText) {
         this.pos = pos;
         this.ctxt = ctxt;
         this.useText = useText;

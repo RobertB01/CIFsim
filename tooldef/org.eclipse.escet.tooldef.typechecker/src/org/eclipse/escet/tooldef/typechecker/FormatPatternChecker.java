@@ -23,6 +23,7 @@ import org.eclipse.escet.common.java.FormatDecoder;
 import org.eclipse.escet.common.java.FormatDescription;
 import org.eclipse.escet.common.java.FormatDescription.Conversion;
 import org.eclipse.escet.common.java.Numbers;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.common.PositionUtils;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.typechecker.SemanticException;
@@ -281,8 +282,8 @@ public class FormatPatternChecker {
      * @param fd The format description for which to obtain the sub position.
      * @return The sub position.
      */
-    private static Position createSubPos(Position pos, FormatDescription fd) {
+    private static TextPosition createSubPos(Position pos, FormatDescription fd) {
         // Increase 'offset' by one, to account for double quote.
-        return PositionUtils.getSubRange(pos, fd.offset + 1, fd.length);
+        return PositionUtils.toTextPosition(PositionUtils.getSubRange(pos, fd.offset + 1, fd.length));
     }
 }
