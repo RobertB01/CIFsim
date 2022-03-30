@@ -11,7 +11,6 @@ Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="0.5.0",
  org.eclipse.escet.setext.parser;bundle-version="0.5.0",
  org.eclipse.escet.setext.typechecker;bundle-version="0.5.0",
  org.eclipse.escet.common.java;bundle-version="0.5.0",
- org.eclipse.escet.common.position.metamodel;bundle-version="0.5.0",
  org.eclipse.escet.setext.runtime;bundle-version="0.5.0"
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.setext.io
