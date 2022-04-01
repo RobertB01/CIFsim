@@ -1,0 +1,22 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:common" import *;
+
+dsm_clustering("themePark.csv",
+              "-m debug",
+              "--evaporation=2",
+              "--inflation=1.5",
+              "--bus-factor=3",
+              "--convergence=1e-10",
+              "--stepcount=2");
