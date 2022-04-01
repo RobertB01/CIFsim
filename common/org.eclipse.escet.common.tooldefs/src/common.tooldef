@@ -1,0 +1,25 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// DSM clustring
+tool int dsm_clustering(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                        bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.common.dsm.app", "org.eclipse.escet.common.dsm.app.DsmApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int dsm_clustering(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                        bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.common.dsm.app", "org.eclipse.escet.common.dsm.app.DsmApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
