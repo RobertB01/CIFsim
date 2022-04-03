@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET CIF Tests Utils (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.tests.utils;singleton:=true
-Bundle-Version: 0.5.0.qualifier
+Bundle-Version: 0.6.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.cif.tests.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.cif.tests.utils
-Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.5.0"
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.6.0"
