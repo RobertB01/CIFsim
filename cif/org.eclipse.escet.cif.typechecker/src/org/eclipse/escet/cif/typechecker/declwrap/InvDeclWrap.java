@@ -36,7 +36,7 @@ public class InvDeclWrap extends DeclWrap<Invariant> {
     /** The CIF AST representation of the invariant declaration. */
     private final AInvariant astInv;
 
-    /** The CIF AST name of the referenced event, or {@code null}. */
+    /** The CIF AST name of the referenced event, or {@code null} for state invariants. */
     private final AName event;
 
     /**
@@ -45,7 +45,7 @@ public class InvDeclWrap extends DeclWrap<Invariant> {
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this declaration.
      * @param astInv The CIF AST representation of the invariant.
-     * @param event The CIF AST name of the referenced event, or {@code null}.
+     * @param event The CIF AST name of the referenced event, or {@code null} for state invariants.
      * @param mmInv The CIF metamodel representation of the invariant.
      */
     public InvDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, AInvariant astInv, AName event, Invariant mmInv) {

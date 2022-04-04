@@ -88,8 +88,8 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
      */
     protected final Map<String, DeclWrap<?>> declarations = map();
 
-    /** The unnamed invariants of this scope. */
-    protected final Set<InvDeclWrap> invariants = set();
+    /** The nameless invariants of this scope. */
+    protected final Set<InvDeclWrap> namelessInvariants = set();
 
     /** Mapping from variable names to their equations. */
     public Map<String, List<AEquation>> astEquations = map();
@@ -205,14 +205,14 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
      */
     public void addInvariant(InvDeclWrap inv) {
         if (inv.getName() != null) {
-            // If invariant has a name, check name uniqueness.
+            // If the invariant has a name, check name uniqueness.
             checkUniqueName(inv);
 
             // Store named invariant.
             declarations.put(inv.getName(), inv);
         } else {
-            // Store unnamed invariant.
-            invariants.add(inv);
+            // Store nameless invariant.
+            namelessInvariants.add(inv);
         }
     }
 
@@ -295,7 +295,7 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
         // Check all child declarations and scopes.
         boolean failed = false;
 
-        // Type check declarations. Only type checks named invariants.
+        // Type check declarations. For invariants, this includes only the named ones.
         for (DeclWrap<?> decl: declarations.values()) {
             try {
                 decl.tcheckFull();
@@ -305,8 +305,8 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
             }
         }
 
-        // Type check unnamed invariants.
-        for (InvDeclWrap inv: invariants) {
+        // Type check nameless invariants.
+        for (InvDeclWrap inv: namelessInvariants) {
             try {
                 inv.tcheckFull();
             } catch (SemanticException ex) {

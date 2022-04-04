@@ -650,13 +650,11 @@ public class SymbolScopeBuilder {
             }
         }
 
-        // Skip adding nameless locations to the symbol table and metamodel.
-        if (loc.name == null) {
-            return;
+        // Add named locations to the symbol table.
+        if (loc.name != null) {
+            LocationDeclWrap wrapper = new LocationDeclWrap(tchecker, parent, loc2);
+            parent.addDeclaration(wrapper);
         }
-
-        LocationDeclWrap wrapper = new LocationDeclWrap(tchecker, parent, loc2);
-        parent.addDeclaration(wrapper);
     }
 
     /**
@@ -837,7 +835,7 @@ public class SymbolScopeBuilder {
      *
      * @param invs The invariants to add.
      * @param parent The parent symbol scope to which to add the invariants.
-     * @param mmInvs The list to which to add the metamodel invariants. Can be the invariants in an automaton or in a
+     * @param mmInvs The list to which to add the metamodel invariants. Can be the invariants in a component or in a
      *     location.
      */
     private void addInvariants(ACifObject invs, ParentScope<?> parent, EList<Invariant> mmInvs) {
@@ -856,47 +854,47 @@ public class SymbolScopeBuilder {
         }
 
         // Add the individual invariants.
-        for (AInvariant inv1: invariants) {
+        for (AInvariant astInv: invariants) {
             // Get the invariant name.
-            AIdentifier invName = inv1.name;
+            AIdentifier invName = astInv.name;
 
             // Process invariant kind.
-            InvKind invKind = transInvKind(inv1.invKind);
+            InvKind invKind = transInvKind(astInv.invKind);
 
-            // Process event references.
+            // Consider (multiple) event references.
             int numberOfInvariants;
             if (invKind == InvKind.STATE) {
                 // State (exclusion) invariant, so no event reference.
                 numberOfInvariants = 1;
             } else {
                 // One or more event references.
-                numberOfInvariants = inv1.events.size();
+                numberOfInvariants = astInv.events.size();
 
-                // Parser does not allow an invariant with multiple event references to be named. This assures there
+                // Syntax does not allow an invariant with multiple event references to be named. This assures there
                 // won't be metamodel invariants with the same name.
                 Assert.implies(numberOfInvariants > 1, invName == null);
             }
 
             // Create and add invariants.
             for (int i = 0; i < numberOfInvariants; i++) {
-                Position invPos = invName == null ? inv1.position : invName.position;
+                Position invPos = invName == null ? astInv.position : invName.position;
                 if (i > 0) {
                     invPos = copyPosition(invPos);
                 }
 
-                Invariant inv2 = newInvariant();
+                Invariant mmInv = newInvariant();
                 if (invName != null) {
-                    inv2.setName(invName.id);
+                    mmInv.setName(invName.id);
                 }
-                inv2.setInvKind(invKind);
-                inv2.setSupKind(supKind);
-                inv2.setPosition(invPos);
+                mmInv.setInvKind(invKind);
+                mmInv.setSupKind(supKind);
+                mmInv.setPosition(invPos);
 
-                AName event = inv1.events == null ? null : inv1.events.get(i);
-                InvDeclWrap wrapper = new InvDeclWrap(tchecker, parent, inv1, event, inv2);
+                AName event = astInv.events == null ? null : astInv.events.get(i);
+                InvDeclWrap wrapper = new InvDeclWrap(tchecker, parent, astInv, event, mmInv);
                 parent.addInvariant(wrapper);
 
-                mmInvs.add(inv2);
+                mmInvs.add(mmInv);
             }
         }
     }
@@ -1182,7 +1180,7 @@ public class SymbolScopeBuilder {
      *     invariants.
      * @return The CIF metamodel invariant kind.
      */
-    public static InvKind transInvKind(Token kind) {
+    private static InvKind transInvKind(Token kind) {
         if (kind == null) {
             return InvKind.STATE;
         }
@@ -1195,7 +1193,7 @@ public class SymbolScopeBuilder {
      * @param kind The CIF AST invariant supervisory kind token, or {@code null} if not specified.
      * @return The CIF metamodel invariant supervisory kind.
      */
-    public static SupKind transInvSupKind(Token kind) {
+    private static SupKind transInvSupKind(Token kind) {
         if (kind == null) {
             return SupKind.NONE;
         }

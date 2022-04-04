@@ -319,15 +319,11 @@ public class AutScope extends ParentScope<Automaton> {
         for (int i = 0; i < astBody.locations.size(); i++) {
             ALocation loc1 = astBody.locations.get(i);
 
-            // Add location if nameless. Note that named locations are already
-            // present, as they were added when creating the symbol table.
-            if (loc1.name == null) {
-                // Nameless location must be only location in automaton (no
-                // other named or nameless locations).
-                if (mmAut.getLocations().size() != 1) {
-                    tchecker.addProblem(ErrMsg.NAMELESS_LOC_NOT_ALONE, loc1.position, CifTextUtils.getAbsName(mmAut));
-                    throw new SemanticException();
-                }
+            // If the location is nameless, it must be the only location in the
+            // automaton (no other named or nameless locations).
+            if (loc1.name == null && mmAut.getLocations().size() != 1) {
+                tchecker.addProblem(ErrMsg.NAMELESS_LOC_NOT_ALONE, loc1.position, CifTextUtils.getAbsName(mmAut));
+                throw new SemanticException();
             }
 
             // Get metamodel location.
@@ -406,7 +402,7 @@ public class AutScope extends ParentScope<Automaton> {
                     }
                 }
             } else if (elem instanceof AInvariantLocationElement) {
-                // Location invariants are handled when the symbolic scope is build.
+                // Location invariants were already handled when building the symbol table.
             } else if (elem instanceof AEquationLocationElement) {
                 // Skip checking of equations for variables that are not in
                 // scope, if any of the variables failed checking, as equations

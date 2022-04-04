@@ -242,12 +242,13 @@ become local algebraic variables in that component (the body).
 
 \begin{constraints}
 \citem{ComponentDef.uniqueDecls}
-  The names of all parameters and declarations in the body of the component
-  definition, must be unique within that component definition. For
+  The names of all parameters, declarations and invariants in the body of the
+  component definition, must be unique within that component definition. For
   bodies that are automata, we have to take into account the names of all
-  declarations (including locations) of those automata. For bodies that are
-  groups, we have to take into account the names of all declarations,
-  child components, and component definitions, of those groups.
+  declarations (including locations) and invariants (including location
+  invariants) of those automata. For bodies that are groups, we have to take
+  into account the names of all declarations, child components, and component
+  definitions, of those groups.
 \end{constraints}
 }
 
@@ -486,8 +487,8 @@ between initialization predicates, and between marker predicates.
 
 \begin{constraints}
 \citem{Group.uniqueDecls}
-  The names of all declarations, child components, and component definitions
-  defined in a group must be unique within that group.
+  The names of all declarations, invariants, child components, and component
+  definitions defined in a group must be unique within that group.
 \end{constraints}
 }
 
@@ -1155,8 +1156,8 @@ between initialization predicates, and between marker predicates.
 
 \begin{constraints}
 \citem{Automaton.uniqueDecls}
-  The names of all declarations and locations defined in an automaton must
-  be unique within that automaton.
+  The names of all declarations, invariants and locations defined in an
+  automaton must be unique within that automaton.
 \citem{Automaton.validAlphabet}
   If an alphabet is specified, it must contain at least the events that occur
   on the edges of this automaton (excluding communication usage by means of

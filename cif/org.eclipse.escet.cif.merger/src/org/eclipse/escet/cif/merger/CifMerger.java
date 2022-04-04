@@ -173,7 +173,7 @@ public class CifMerger {
         mergedComp.getInitials().addAll(otherComp.getInitials());
         mergedComp.getMarkeds().addAll(otherComp.getMarkeds());
 
-        // Merge unnamed invariants.
+        // Merge nameless invariants.
         Iterator<Invariant> invIterator = otherComp.getInvariants().iterator();
         while (invIterator.hasNext()) {
             Invariant inv = invIterator.next();
