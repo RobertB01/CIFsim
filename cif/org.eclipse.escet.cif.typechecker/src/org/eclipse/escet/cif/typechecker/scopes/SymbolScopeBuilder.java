@@ -141,6 +141,7 @@ import org.eclipse.escet.cif.typechecker.declwrap.FuncParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InputVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InvDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.InvariantTypeCheckInfo;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.app.framework.PlatformUriUtils;
@@ -890,11 +891,21 @@ public class SymbolScopeBuilder {
                 mmInv.setSupKind(supKind);
                 mmInv.setPosition(invPos);
 
-                AName event = astInv.events == null ? null : astInv.events.get(i);
-                InvDeclWrap wrapper = new InvDeclWrap(tchecker, parent, astInv, event, mmInv);
-                parent.addInvariant(wrapper);
-
+                // Add invariant to metamodel.
                 mmInvs.add(mmInv);
+
+                // Create an 'InvariantTypeCheckInfo' object for type checking the invariant later.
+                AName event = astInv.events == null ? null : astInv.events.get(i);
+                InvariantTypeCheckInfo invariantTypeCheckInfo = new InvariantTypeCheckInfo(astInv, event, mmInv);
+
+                if (astInv.name != null) {
+                    // For named invariants, create a wrapper.
+                    InvDeclWrap wrapper = new InvDeclWrap(tchecker, parent, invariantTypeCheckInfo);
+                    parent.addInvariant(wrapper);
+                } else {
+                    // For nameless invariants, add it to the parent's nameless invariants.
+                    parent.namelessInvariants.add(invariantTypeCheckInfo);
+                }
             }
         }
     }

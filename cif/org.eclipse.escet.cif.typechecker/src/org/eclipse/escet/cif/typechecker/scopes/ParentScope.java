@@ -17,12 +17,10 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HI
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -59,6 +57,7 @@ import org.eclipse.escet.cif.typechecker.declwrap.FuncParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InputVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InvDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.InvariantTypeCheckInfo;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.box.Box;
@@ -89,7 +88,7 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
     protected final Map<String, DeclWrap<?>> declarations = map();
 
     /** The nameless invariants of this scope. */
-    protected final Set<InvDeclWrap> namelessInvariants = set();
+    protected final List<InvariantTypeCheckInfo> namelessInvariants = list();
 
     /** Mapping from variable names to their equations. */
     public Map<String, List<AEquation>> astEquations = map();
@@ -199,21 +198,16 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
     }
 
     /**
-     * Adds an invariant to this scope.
+     * Adds a named invariant to this scope.
      *
      * @param inv The symbol table entry of the invariant to add.
      */
     public void addInvariant(InvDeclWrap inv) {
-        if (inv.getName() != null) {
-            // If the invariant has a name, check name uniqueness.
-            checkUniqueName(inv);
+        // Check name uniqueness.
+        checkUniqueName(inv);
 
-            // Store named invariant.
-            declarations.put(inv.getName(), inv);
-        } else {
-            // Store nameless invariant.
-            namelessInvariants.add(inv);
-        }
+        // Store child invariant.
+        declarations.put(inv.getName(), inv);
     }
 
     /**
@@ -306,9 +300,9 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
         }
 
         // Type check nameless invariants.
-        for (InvDeclWrap inv: namelessInvariants) {
+        for (InvariantTypeCheckInfo namelessInvariant: namelessInvariants) {
             try {
-                inv.tcheckFull();
+                InvDeclWrap.tcheckFull(tchecker, this, namelessInvariant);
             } catch (SemanticException ex) {
                 // Ignore and continue.
                 failed = true;
