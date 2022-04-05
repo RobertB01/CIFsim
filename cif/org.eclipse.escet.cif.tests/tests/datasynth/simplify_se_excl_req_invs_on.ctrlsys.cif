@@ -22,6 +22,6 @@ supervisor automaton sup:
     edge c_c when 2 <= p.x and p.x <= 5;
     edge c_d when not(p.x = 2 or p.x = 3);
 end
-supervisor invariant c_b needs p.x >= 3;
-supervisor invariant p.x = 1 disables c_c;
-supervisor invariant c_d needs p.x >= 4;
+supervisor invariant reqInv1: c_b needs p.x >= 3;
+supervisor invariant reqInv2: p.x = 1 disables c_c;
+supervisor invariant reqInv3: c_d needs p.x >= 4;
