@@ -1074,8 +1074,8 @@ public class CifTextUtils {
     }
 
     /**
-     * Converts a CIF invariant to a textual representation derived from the CIF ASCII syntax. The supervisory kind
-     * keyword and 'invariant' keyword may optionally be included.
+     * Converts a CIF invariant to a textual representation derived from the CIF ASCII syntax. The name, supervisory
+     * kind keyword and 'invariant' keyword may optionally be included.
      *
      * <p>
      * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
@@ -1090,7 +1090,8 @@ public class CifTextUtils {
      * </p>
      *
      * @param inv The CIF invariant to convert.
-     * @param inclPrefix Whether to include the supervisory kind (if specified) and 'invariant' keyword as a prefix.
+     * @param inclPrefix Whether to include the name, supervisory kind (if specified) and 'invariant' keyword as a
+     *     prefix.
      * @return The textual representation of the CIF invariant.
      * @see #exprToStr
      */

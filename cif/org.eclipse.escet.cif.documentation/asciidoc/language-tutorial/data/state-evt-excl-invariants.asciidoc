@@ -192,9 +192,10 @@ In general, for all state/event invariants, multiple events may be given, if the
 The events must then be separated by spaces and be enclosed in curly brackets (`+{...}+`).
 
 === Naming state/event exclusion invariants
-In some cases, it might be useful to given invariants names.
-It may improve the readability of the model and it makes it easier to refer to them in text.
-Names can be given as follows.
+
+In some cases, it might be useful to give names to invariants.
+It may improve the readability of the model and it makes it easier to refer to them.
+Names can be given as follows:
 
 [source, cif]
 ----
@@ -202,4 +203,4 @@ invariant controller: motor.turn_on needs door.closed and emergency_button.relea
 ----
 
 Invariant names must be unique.
-As a result, it it not possible to give a name to a combined invariant for multiple events.
+It is therefore not possible to give a name to a combined invariant that applies to multiple events.

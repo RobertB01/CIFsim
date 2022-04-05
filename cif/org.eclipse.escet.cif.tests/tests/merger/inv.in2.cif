@@ -15,8 +15,8 @@ event e;
 
 group g:
   invariant inv2_1: true;
-  invariant inv3_2: e needs true;
-  invariant inv4_3: false disables e;
+  invariant inv2_2: e needs true;
+  invariant inv2_3: false disables e;
 end
 
 group x:

@@ -104,8 +104,6 @@ public class ElimGroups implements CifToCifTransformation {
 
         // Rename declarations and invariants to absolute names. Keep
         // enumeration literal names. Meanwhile, collect lifted names.
-        // Since we leave invariants in automata where they are, this won't
-        // influence the implicit supervisory kinds of invariants.
         List<Declaration> liftedDecls = list();
         List<Invariant> liftedInvs = list();
         for (Group group: groups) {

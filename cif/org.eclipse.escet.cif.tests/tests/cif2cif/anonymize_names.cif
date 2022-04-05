@@ -235,7 +235,7 @@ automaton ttf_aut2:
     edge do y := (sample x)[0];
 end
 
-// Invariants
+// Invariants.
 event e;
 invariant inv1: true;
 invariant inv2: e needs true;

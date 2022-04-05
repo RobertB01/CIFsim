@@ -534,12 +534,12 @@ public class SymbolScopeBuilder {
             addTypeDefs(((ATypeDefDecl)decl).typeDefs, parent);
         } else if (decl instanceof AInputVariableDecl) {
             addInputVars((AInputVariableDecl)decl, parent);
-        } else if (decl instanceof AInvariantDecl) {
-            addInvariants(decl, parent, parent.getComplexComponent().getInvariants());
         } else if (decl instanceof AIoDecl) {
             parent.astIoDecls.add((AIoDecl)decl);
         } else if (decl instanceof AInitialDecl) {
             parent.astInitPreds.add((AInitialDecl)decl);
+        } else if (decl instanceof AInvariantDecl) {
+            addInvariants(decl, parent, parent.getComplexComponent().getInvariants());
         } else if (decl instanceof AMarkedDecl) {
             parent.astMarkerPreds.add((AMarkedDecl)decl);
         } else if (decl instanceof AEquationDecl) {

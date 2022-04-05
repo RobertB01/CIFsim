@@ -522,6 +522,7 @@ public class CifScopeUtils {
                         return loc;
                     }
                 }
+
                 // Invariants in locations.
                 for (Invariant inv: loc.getInvariants()) {
                     String invName = inv.getName();
@@ -692,7 +693,7 @@ public class CifScopeUtils {
                     rslt.add(locName);
                 }
 
-                // Add invariant declared in the location.
+                // Add invariants declared in the location.
                 for (Invariant inv: loc.getInvariants()) {
                     String invName = inv.getName();
                     if (invName != null) {

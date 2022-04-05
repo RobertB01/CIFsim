@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.merger;
 
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.escet.cif.common.CifEvalUtils.objToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.controllabilityToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
@@ -36,7 +37,6 @@ import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -174,14 +174,8 @@ public class CifMerger {
         mergedComp.getMarkeds().addAll(otherComp.getMarkeds());
 
         // Merge nameless invariants.
-        Iterator<Invariant> invIterator = otherComp.getInvariants().iterator();
-        while (invIterator.hasNext()) {
-            Invariant inv = invIterator.next();
-            if (inv.getName() == null) {
-                invIterator.remove();
-                mergedComp.getInvariants().add(inv);
-            }
-        }
+        mergedComp.getInvariants()
+                .addAll(otherComp.getInvariants().stream().filter(inv -> inv.getName() == null).collect(toList()));
 
         // Merge equations.
         mergedComp.getEquations().addAll(otherComp.getEquations());

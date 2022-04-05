@@ -105,7 +105,7 @@ public class SymbolScopeMerger {
 
         // Merge data of the imported scope into the main scope.
         mergeChildDecls(mainScope, impScope);
-        mergeChildInvs(mainScope, impScope);
+        mergeChildNamelessInvs(mainScope, impScope);
         mergeChildScopes(mainScope, impScope, mainSource, impSource);
         mergeEquations(mainScope, impScope);
         mergeIoDecls(mainScope, impScope, mainSource, impSource);
@@ -155,7 +155,7 @@ public class SymbolScopeMerger {
      * @param impScope The symbol scope of the imported source file. Must be a specification or group scope. Group
      *     definition scopes are not supported.
      */
-    private static void mergeChildInvs(ParentScope<?> mainScope, ParentScope<?> impScope) {
+    private static void mergeChildNamelessInvs(ParentScope<?> mainScope, ParentScope<?> impScope) {
         Group mainGroup = mainScope.getGroup();
         List<Invariant> mainInvs = mainGroup.getInvariants();
 
