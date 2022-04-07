@@ -15,4 +15,4 @@
 
 import "fifo.plants.cif";
 
-requirement INOUT.FinishedProduct => INOUT.curId = ((INOUT.lastExitId + 1) mod MAX_NR_OF_PRODS);
+requirement FIFO: INOUT.FinishedProduct => INOUT.curId = ((INOUT.lastExitId + 1) mod MAX_NR_OF_PRODS);
