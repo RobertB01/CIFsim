@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionValue;
@@ -98,7 +97,7 @@ public class DebugSimulatorCodeGenerator {
         c.add("properties.set(\"user.dir\", \"%s\");", curWorkingDirPath);
         c.add("CifSimulatorApp app = new CifSimulatorApp(null, null, null, properties);");
         c.add();
-        c.add("String[] arguments = {" + StringUtils.join(args, ", ") + "};");
+        c.add("String[] arguments = {" + String.join(", ", args) + "};");
         c.add("app.run(arguments);");
         c.dedent();
         c.add("}");

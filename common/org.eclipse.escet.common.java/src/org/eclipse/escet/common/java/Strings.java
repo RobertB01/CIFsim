@@ -163,7 +163,7 @@ public final class Strings {
         for (String s: sa) {
             rslt.add(stringToJava(s));
         }
-        return StringUtils.join(rslt, ", ");
+        return String.join(", ", rslt);
     }
 
     /**

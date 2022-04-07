@@ -18,6 +18,7 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[supervisory controller synthesis]
 Supervisory controller synthesis (or supervisor synthesis, or just synthesis) is a generative technique, where one derives a supervisory controller from a collection of plants and requirements.
+Synthesis is the main ingredient of the <<sbe-chapter-index,synthesis-based engineering>> approach to develop supervisory controllers.
 Synthesis allows to focus on the _what_, i.e. which requirements should hold, rather than on the _how_, i.e. how to implement this in a controller.
 
 indexterm:[plant]
@@ -32,8 +33,7 @@ They represents behavior that is allowed in the controlled system, or more preci
 In other words, requirements restrict the behavior of the plants, to ensure that only the desired behavior remains.
 The goal of supervisory controller synthesis is to compute a supervisory controller (or _supervisor_) that enforces the requirements, assuming the behavior of the plants, additionally preventing deadlock and livelock, and without restricting the system any further than is required.
 
-It is beyond the scope of the CIF language tutorial to go into the details of supervisory controller synthesis.
-However, CIF has several features that are used solely of modeling systems for the purpose of supervisory controller synthesis:
+CIF has several features that are used solely of modeling systems for the purpose of supervisory controller synthesis:
 
 * <<lang-tut-extensions-synthesis-autkind>>
 * <<lang-tut-extensions-synthesis-invkind>>
@@ -42,6 +42,8 @@ However, CIF has several features that are used solely of modeling systems for t
 
 These concepts are explained below.
 When a model is not used for supervisory controller synthesis, e.g. for simulation, these concepts are usually ignored.
+
+For an example of how these concepts can be used for modeling of a concrete example, see the <<sbe-in-practice-example,synthesis-based engineering in practice example>> section.
 
 indexterm:[automaton,supervisory kind]
 indexterm:[automaton,regular]
@@ -53,7 +55,7 @@ indexterm:[automaton,supervisor]
 [[lang-tut-extensions-synthesis-autkind]]
 === Automaton kinds
 
-For supervisory controller synthesis, different kinds of automata are treated in different ways.
+For supervisory controller synthesis, different kinds of <<lang-tut-basics-chapter-automata,automata>> are treated in different ways.
 Regular automata, as used in the language tutorial so far, are specified using only the `automaton` keyword.
 Regular automata do not specify a kind for supervisory controller synthesis, and are therefore sometimes also referred to as kindless automata.
 Synthesis tools typically require knowledge about the purpose of each of the automata, and therefore don't support regular automata.

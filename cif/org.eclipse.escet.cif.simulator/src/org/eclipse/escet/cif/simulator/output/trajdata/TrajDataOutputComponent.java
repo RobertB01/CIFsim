@@ -141,7 +141,7 @@ public class TrajDataOutputComponent extends NullSimulatorOutputComponent {
         for (RuntimeStateObjectMeta meta: metas) {
             names.add(meta.name);
         }
-        header = "# " + StringUtils.join(names, " ");
+        header = "# " + String.join(" ", names);
 
         // Initialize the widths.
         if (sep != null) {

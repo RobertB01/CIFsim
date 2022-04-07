@@ -21,6 +21,8 @@ indexterm:[tools,data-based supervisory controller synthesis]
 indexterm:[synthesis,data-based]
 The data-based supervisory controller synthesis tool performs data-based supervisory controller synthesis, or simply data-based synthesis.
 It can be used to <<lang-tut-extensions-chapter-synthesis,synthesize>> a supervisor for an untimed CIF specification, with data (e.g. <<lang-tut-data-chapter-discrete-variables,discrete variables>>).
+Synthesis is an essential part of the <<sbe-chapter-index,synthesis-based engineering>> approach to develop supervisory controllers.
+
 For a CIF specification with plants and requirements, the tool computes a supervisor.
 The supervisor restricts the plants in such a way that the resulting controlled system satisfies the following properties:
 
@@ -1147,6 +1149,7 @@ See the <<tools-datasynth-options,options>> section above for details.
 
 indexterm:[data-based supervisory controller synthesis,performance]
 
+[[tools-datasynth-performance]]
 === Performance
 
 The following <<tools-datasynth-options,options>> have an effect on the performance of data-based synthesis:

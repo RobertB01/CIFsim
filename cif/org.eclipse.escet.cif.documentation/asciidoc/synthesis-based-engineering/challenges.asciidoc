@@ -1,0 +1,84 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[sbe-challenges]]
+== Challenges in applying synthesis-based engineering
+
+A <<sbe-approaches-synthesis-based,synthesis-based engineering>> approach has many advantages over a more <<sbe-approaches-traditional,traditional engineering approach>>.
+However, there can be challenges when embedding such a new approach into industrial practice.
+It is essential to be aware of them, and manage them explicitly.
+
+Most of the challenges that apply to a <<sbe-approaches-synthesis-based,synthesis-based engineering>> approach also apply to other <<sbe-approaches-model-based,model-based engineering>> approaches, including <<sbe-approaches-verification-based,verification-based engineering>>.
+
+The following challenges are discussed:
+
+* <<sbe-challenges-way-of-working>>
+* <<sbe-challenges-tool-support>>
+
+[[sbe-challenges-way-of-working]]
+=== Change in way-of-working
+
+The use of model-based engineering, the modeling of behavioral specifications and control requirements, and the use of formal techniques such as supervisory controller synthesis, requires a certain mindset, knowledge and skills.
+It is important that personnel with the appropriate knowledge and expertise is present in a company.
+Having a team of properly trained and experienced experts that can assist with and steer the introduction of new techniques is essential.
+If a company does not have such experts, they could hire them.
+However, training and retraining for (part of) the existing personnel is often also required.
+
+Furthermore, model-based engineering partly also requires a different way of working compared to traditional engineering approaches.
+It is important to understand the effects on the company's development process, as well as its culture.
+The various pros and cons must be evaluated, and any impediments must be identified and addressed.
+
+A transition like this will not happen in a day.
+Sharing experiences with other parties that have gone through a similar transition and/or are going through one can be of great benefit.
+Another way to reduce the risks is contracting an external party to help guide the process.
+
+Furthermore, risks can be reduced by step by step introducing the changes to the development process, introducing more and more elements of <<sbe-approaches-model-based,model-based>>, <<sbe-approaches-verification-based,verification-based>> and <<sbe-approaches-synthesis-based,synthesis-based>> engineering.
+This way models become more and more leading, throughout the development process.
+For instance, you could follow these steps:
+
+. *Start modeling (the requirements)*:
+Increase the quality of requirements by specifying them formally in a <<sbe-approaches-model-based,model-based way>>, during early development phases.
+This can already be combined with for instance simulation, to produce unambiguous specifications, leading to less mistakes and reduced rework.
+In this first step, the resulting requirements can still be put in a document and implemented manually.
+
+. *Models as single source of truth*:
+Formally but manually specify the controller model in a model-based way, based on the formal requirements.
+From the model, automatically generate the controller code.
+This is a step towards making the model the <<sbe-approaches-model-based-single-source-of-truth,single source of truth>>.
+
+. *Embrace formal methods*:
+In this step, employ more formal methods to go beyond simulation and testing.
+Use formal methods that have more guarantees on completeness.
+For instance, use <<sbe-approaches-verification-based,formal verification>> to guarantee that all specified requirements are satisfied in every conceivable situation.
+At the end of this step, you could fully adopt <<sbe-approaches-model-based,model-based>> and <<sbe-approaches-verification-based,verification-based>> engineering.
+
+. *Adopt synthesis-based engineering*:
+Use supervisory controller synthesis, and fully adopt <<sbe-approaches-synthesis-based,synthesis-based engineering>>.
+
+[[sbe-challenges-tool-support]]
+=== Tool support
+
+Synthesis-based engineering requires tool support to model plants and requirements, to synthesize supervisors, perform simulation, generate code, etc.
+Given that automation and computer-aided design are core principles, this is simply not feasible without appropriate tool support.
+Companies should consider various aspects regarding the tools they use, such as the following:
+
+* Tools ideally support as much of the development process of supervisory controllers as possible.
+* Consider how to integrate the synthesized supervisors into the system.
+* Consider how active the community around the tool is.
+* Consider whether commercial support is available.
+
+The selected tools should also be used in <<sbe-in-practice,the right way>>.
+For instance, naively applying synthesis and trying to obtain a single monolithic supervisor for larger and more complex systems will likely not scale very well.
+Employing the <<sbe-in-practice-advanced-non-monolithic-synthesis,proper techniques>> for the given situation is essential to mitigate such concerns.

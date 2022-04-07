@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[supervisor, synthesis]
+indexterm:[synthesis, tools]
+
+[[sbe-in-practice-steps-synthesis]]
+== Supervisor synthesis
+
+Having <<sbe-in-practice-steps-modeling-the-plant,modeled the plants>> <<sbe-in-practice-steps-modeling-the-requirements,and requirements>>, the supervisory controller can automatically be synthesized.
+Supervisory controller synthesis (or simply supervisor synthesis) automatically generates a _supervisor_, from the models of the uncontrolled system (plant model) and control requirements (requirements model).
+
+The synthesized supervisor is correct-by-construction, satisfying various <<sbe-approaches-synthesis-based-properties,properties>>.
+It is _safe_ (satisfies all the requirements), _controllable_ (limits only controllable events, not uncontrollable ones), is non-blocking (does not block, a form of liveness), and is maximally permissive (imposes no more restrictions than is necessary).
+
+CIF supports supervisor synthesis through the following tools:
+
+* <<tools-chapter-datasynth,Data-based supervisory controller synthesis tool>>
+* <<tools-eventbased-chapter-supervisorsynthesis,Event-based supervisory controller synthesis tool>>
+
+The data-based synthesis tool is generally more efficient and supports a larger subset of CIF language concepts.
+It is therefore recommended over the event-based synthesis tool.
+
+The documentation of these tools provide further details on how to use them.
+
+The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-validation,perform validation>>.

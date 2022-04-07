@@ -26,7 +26,6 @@ import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
@@ -249,7 +248,7 @@ public class C99StringTypeInfo extends StringTypeInfo implements C99TypeInfo {
                 if (part.flags.contains(",")) {
                     flagsParts.add("FMTFLAGS_GROUPS");
                 }
-                flags = flagsParts.isEmpty() ? "FMTFLAGS_NONE" : StringUtils.join(flagsParts, "|");
+                flags = flagsParts.isEmpty() ? "FMTFLAGS_NONE" : String.join("|", flagsParts);
             }
 
             String width = part.width;

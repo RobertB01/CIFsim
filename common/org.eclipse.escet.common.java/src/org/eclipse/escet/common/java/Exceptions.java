@@ -17,8 +17,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 /** Helper class with exceptions related functionality. */
 public final class Exceptions {
     /** Constructor for the {@link Exceptions} class. */
@@ -43,7 +41,7 @@ public final class Exceptions {
         if (ex.getCause() != null) {
             exToStrAddCauses(ex.getCause(), rslt);
         }
-        return StringUtils.join(rslt, Strings.NL);
+        return String.join(Strings.NL, rslt);
     }
 
     /**

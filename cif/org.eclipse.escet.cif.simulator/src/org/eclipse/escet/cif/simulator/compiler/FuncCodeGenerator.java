@@ -32,7 +32,6 @@ import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.CifExtFuncUtils;
 import org.eclipse.escet.cif.common.FuncLocalVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -159,7 +158,7 @@ public class FuncCodeGenerator {
         // Add 'evalFunc' method.
         c.add();
         c.add("@Override");
-        c.add("public %s evalFunc(%s) {", gencodeType(retType, ctxt), StringUtils.join(paramTxts, ", "));
+        c.add("public %s evalFunc(%s) {", gencodeType(retType, ctxt), String.join(", ", paramTxts));
         c.indent();
 
         // Start of 'try'.
@@ -517,6 +516,6 @@ public class FuncCodeGenerator {
 
         // Add 'evalFunc' method.
         c.add("public abstract %s evalFunc(%s);", gencodeType(funcType.getReturnType(), ctxt),
-                StringUtils.join(paramTxts, ", "));
+                String.join(", ", paramTxts));
     }
 }

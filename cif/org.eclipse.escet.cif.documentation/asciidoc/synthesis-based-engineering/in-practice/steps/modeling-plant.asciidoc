@@ -1,0 +1,66 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[plant, modeling]
+
+[[sbe-in-practice-steps-modeling-the-plant]]
+== Modeling the plant
+
+After <<sbe-in-practice-steps-modeling-the-events,modeling the events>>, the <<sbe-approaches-synthesis-based-input-plant-req,plant>> needs to be modeled.
+It represents the uncontrolled system, the system 'as is' without the controller.
+
+indexterm:[actuator, digital]
+indexterm:[sensor, digital]
+
+Typically, for low-level controllers, start with a <<lang-tut-extensions-synthesis-autkind,plant automaton>> per sensor and actuator.
+For the common case of digital sensors and actuators, model the <<lang-tut-basics-chapter-automata,automata>> with two <<lang-tut-basics-automata-location,locations>>, one where the sensor or actuator is off, and one where it is on.
+Which location should be the <<lang-tut-basics-automata-loc-init,initial>> location depends on the specific sensor or actuator.
+Digital sensors can go on and off, and as such have two associated <<lang-tut-extensions-synthesis-evtctrl,uncontrollable events>>.
+Similarly, digital actuators can be turned on or off, and have two associated <<lang-tut-extensions-synthesis-evtctrl,controllable events>>.
+
+Here are some examples of typical plant automata for low-level sensors and actuators:
+
+[source, cif]
+----
+plant Button:
+  uncontrollable u_pushed, u_released;
+
+  location Released:
+    initial; marked;
+    edge u_pushed goto Pushed;
+
+  location Pushed:
+    edge u_released goto Released;
+end
+
+plant Lamp:
+  controllable c_on, c_off;
+
+  location Off:
+    initial; marked;
+    edge c_on goto On;
+
+  location On:
+    edge c_off goto Off;
+end
+----
+
+The events that belong to a specific sensor or actuator are typically <<lang-tut-basics-chapter-event-placement,placed>> within the corresponding automaton.
+Other events are often placed outside the automata.
+
+See a later step for how to <<sbe-in-practice-steps-marking,deal with marking>>.
+The CIF language tutorial has lessons on using <<lang-tut-data-chapter-discrete-variables,variables, guards and updates>>.
+
+The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-modeling-plant-relations,model plant relations>>.

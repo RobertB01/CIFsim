@@ -81,7 +81,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
@@ -2475,7 +2474,7 @@ public class CifExprsTypeChecker {
                 }
 
                 tchecker.addProblem(ErrMsg.FCALL_WRONG_ARG_TYPES, expr.position, funcText,
-                        StringUtils.join(argTypes, ", "));
+                        String.join(", ", argTypes));
                 throw new SemanticException();
             }
         }
@@ -3881,7 +3880,7 @@ public class CifExprsTypeChecker {
             argTypeTexts.add("\"" + CifTextUtils.typeToStr(arg.getType()) + "\"");
         }
         tchecker.addProblem(ErrMsg.FCALL_WRONG_ARG_TYPES, expr.position, "\"" + expr.function + "\"",
-                StringUtils.join(argTypeTexts, ", "));
+                String.join(", ", argTypeTexts));
         throw new SemanticException();
     }
 

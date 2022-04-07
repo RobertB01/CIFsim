@@ -19,7 +19,6 @@ import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.ExprCodeGen;
@@ -241,7 +240,7 @@ public class JavaExprCodeGen extends ExprCodeGen {
             }
             preds[i] = fmt("(%s)", predCodes.get(i).getData());
         }
-        result.setDataValue(new JavaDataValue(StringUtils.join(preds, " && ")));
+        result.setDataValue(new JavaDataValue(String.join(" && ", preds)));
         return result;
     }
 }

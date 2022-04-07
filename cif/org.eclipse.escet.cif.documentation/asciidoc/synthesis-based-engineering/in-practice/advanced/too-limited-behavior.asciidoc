@@ -1,0 +1,72 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[validation, issues]
+
+[[sbe-in-practice-advanced-too-limited-behavior]]
+== Resolving issues with too limited behavior
+
+<<sbe-in-practice-steps-synthesis,Supervisor synthesis>> always produces correct-by-construction supervisors, based on the <<sbe-in-practice-steps-modeling-the-plant,plant>> and <<sbe-in-practice-steps-modeling-the-requirements,requirements models>> that you provide as input.
+However, if you for instance provide too restrictive or conflicting requirements, or forget to model the <<sbe-in-practice-steps-modeling-plant-relations,plant relations>>, you may not get the desired <<sbe-approaches-synthesis-controlled-system,controlled system>> behavior.
+Such issues are often found during <<sbe-in-practice-steps-validation,validation>>.
+
+indexterm:[supervisor, empty]
+
+Another way this may manifest itself, is by supervisor synthesis producing an 'empty supervisor' error.
+This means that synthesis has determined that no supervisor can ever safely satisfy the requirements that you specified.
+
+However, the resulting supervisor supervisor doesn't have to be 'empty'.
+Synthesis could also have restricted so much of the behavior that little behavior remains, in order to satisfy the (conflicting) requirements you provided.
+The resulting supervisor could for instance have only a few states, but it may also have thousands or millions of states, while still missing important system behavior.
+
+In such cases, where the resulting supervisor is not what you expect or desire, you need to go back to your plants and requirements.
+Here are some hints to resolve this kind of problems:
+
+* Try to use an <<sbe-in-practice-advanced-incremental-development,incremental development>> approach.
+This ensures that if you encounter problems with missing behavior, you can be reasonably sure the problem is in the part you added since the last working version.
+If on the other hand you put the entire system in your model at once, and you get for instance an 'empty supervisor' error, it is much more difficult to track down the cause.
+
+* Try to as much as possible use requirements that are <<sbe-in-practice-steps-modeling-the-requirements,pure restrictions>>.
+
+* Make sure you have at least one marked location per automaton (plant as well as requirement automata).
+Usually, marking the initial location is sufficient.
+See also the section on <<sbe-in-practice-steps-marking,dealing with marking>>.
+
+* Make sure your <<lang-tut-basics-automata-loc-init,initial>> and <<sbe-in-practice-steps-marking,marked>> locations are consistent between all automata.
+For instance, if in a plant you can initially only push a button, and then release it, but if in a requirement automaton you must first release it before it can be pushed, you are likely to get an empty supervisor.
+
+* Make sure your requirements don't restrict the system too much.
+Be especially careful with blocking uncontrollable events in requirement automata.
++
+For every uncontrollable event in the alphabet of a requirement automaton, make sure that the requirement does not block the uncontrollable event.
+You can look at the plants, to see when the uncontrollable event is possible.
+Then you may ask yourself, for each location of the requirement, in which locations of the plant you can be at the same time.
+For such plant locations, you should check whether the uncontrollable event is possible.
+It should then also be possible in the requirement.
+There are two ways to solve the blocking of an uncontrollable event by a requirement:
++
+--
+** The first solution is to correctly model the relations between the plants.
+For further details, see the section on <<sbe-in-practice-steps-modeling-plant-relations,modeling plant relations>>.
+
+** The second solution is to add <<lang-tut-basics-shorter-notations-self-loop,self loops>> in the requirement to allow the uncontrollable event that was previously disabled by the requirement.
+--
++
+The first solution is recommended, but it does not always apply.
+If it is not possible to use the first solution, or if you already applied the first solution and still have the problem, you could use the second solution.
+However, never blindly add self loops.
+Always verify that this gives you the desired behavior!
+
+* Try to synthesize a supervisor with a subset of the requirements, to find out which requirement (or combination of requirements!) is causing the lack of behavior.

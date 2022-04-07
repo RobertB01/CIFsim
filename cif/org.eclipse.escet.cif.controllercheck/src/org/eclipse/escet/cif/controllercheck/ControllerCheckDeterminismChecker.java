@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -79,7 +78,7 @@ public class ControllerCheckDeterminismChecker {
         Collections.sort(problems, Strings.SORTER);
         if (!problems.isEmpty()) {
             String msg = "CIF controller properties check application failed due to unsatisfied preconditions:\n - "
-                    + StringUtils.join(problems, "\n - ");
+                    + String.join("\n - ", problems);
             throw new UnsupportedException(msg);
         }
     }

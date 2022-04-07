@@ -21,7 +21,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifMath;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -78,7 +77,7 @@ public class ExplorerPreChecker extends CifWalker {
 
         // If we have any problems, the specification is unsupported.
         String msg = "State space exploration failed due to unsatisfied preconditions:\n - "
-                + StringUtils.join(sortedstrings(problems), "\n - ");
+                + String.join("\n - ", sortedstrings(problems));
         throw new UnsupportedException(msg);
     }
 

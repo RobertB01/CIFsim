@@ -28,7 +28,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
@@ -109,7 +108,7 @@ public class CifToUppaalPreChecker extends CifWalker {
         Collections.sort(problems, Strings.SORTER);
         if (!problems.isEmpty()) {
             String msg = "CIF to UPPAAL transformation failed due to unsatisfied preconditions:\n - "
-                    + StringUtils.join(problems, "\n - ");
+                    + String.join("\n - ", problems);
             throw new UnsupportedException(msg);
         }
     }

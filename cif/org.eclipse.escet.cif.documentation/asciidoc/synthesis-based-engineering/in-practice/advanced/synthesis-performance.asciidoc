@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[synthesis, performance]
+
+[[sbe-in-practice-advanced-performance]]
+== Supervisor synthesis performance
+
+There are several ways to altogether avoid performance and out-of-memory issues when applying <<sbe-in-practice-steps-synthesis,supervisor synthesis>>:
+
+* Use the <<tools-chapter-datasynth,data-based synthesis tool>> rather than the <<tools-eventbased-chapter-supervisorsynthesis,event-based synthesis tool>>, as the former has much better performance.
+
+* Rather than synthesizing a single monolithic supervisor, employ <<sbe-in-practice-advanced-non-monolithic-synthesis,non-monolithic synthesis>> to make use of the inherent structure of your system.
+
+However, if you still suffer such issues, consider the following to resolve them:
+
+indexterm:[synthesis, memory]
+
+* See the page of the Eclipse ESCET general toolkit documentation on link:https://www.eclipse.org/escet/performance/index.html[resolving performance and memory problems].
+In particular, make sure to give Java more memory.
+This should be the first thing you check.
+
+* If possible, use requirements that are <<sbe-in-practice-steps-modeling-the-requirements,pure restrictions>>, as they only make the supervisor smaller.
+If you introduce memory (e.g. counters), or other forms of sequencing (e.g. to specify the order of controllable events), that usually increases the size of the supervisor.
+If possible, use requirements with only one location, or even better, use requirement invariants.
+For more information, see the <<lang-tut-data-chapter-stat-invariants>>, <<lang-tut-data-chapter-stat-evt-excl-invariants>> and <<lang-tut-extensions-synthesis-invkind>> sections of the CIF language tutorial.
+
+* Try to separate your requirements as much as possible, to keep them simple.
+Also, leave out any events from a requirement automaton that are not relevant to that specific requirement.
+
+* You can try to restrict more of the system, by adding more requirements, to get a smaller supervisor (with less behavior).
+
+* Avoid adding plants that you don't at all use in the requirements.
+For instance, don't add a button plant automaton if you don't use the button.
+
+* Try to avoid duplicate requirements that enforce the same behavior in different ways.
+
+* Check out the <<tools-datasynth-performance,performance>> section of the data-based synthesis tool documentation.

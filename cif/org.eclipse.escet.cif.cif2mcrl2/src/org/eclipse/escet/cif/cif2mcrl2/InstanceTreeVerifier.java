@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.cif2mcrl2.storage.AutomatonData;
 import org.eclipse.escet.cif.cif2mcrl2.storage.VariableData;
 import org.eclipse.escet.cif.cif2mcrl2.tree.AutomatonProcessNode;
@@ -91,7 +90,7 @@ public class InstanceTreeVerifier {
         if (!problems.isEmpty()) {
             Collections.sort(problems, Strings.SORTER);
             String msg = "CIF to mCRL2 transformation failed due to missing automata or discrete variables:\n - "
-                    + StringUtils.join(problems, "\n - ");
+                    + String.join("\n - ", problems);
             throw new UnsupportedException(msg);
         }
 

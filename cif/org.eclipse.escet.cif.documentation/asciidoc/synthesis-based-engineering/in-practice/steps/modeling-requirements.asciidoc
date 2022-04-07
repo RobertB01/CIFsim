@@ -1,0 +1,66 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[requirement, modeling]
+
+[[sbe-in-practice-steps-modeling-the-requirements]]
+== Modeling the requirements
+
+After <<sbe-in-practice-steps-modeling-the-plant,modeling the plant>> and <<sbe-in-practice-steps-modeling-plant-relations,plant relations>>, the <<sbe-approaches-synthesis-based-requirements,requirements>> should be modeled as well.
+
+The hardest thing about modeling the requirements, is that you have to think in restrictions, rather than in use cases.
+So, rather than 'first do this, then do that, then do that or that other thing, etc', you should think 'this or that is only allowed if/after this or that other thing'.
+Requirements should be as small and orthogonal as possible.
+
+Event-based requirements are modeled as <<lang-tut-extensions-synthesis-autkind,requirement automata>>.
+The simplest event-based requirements have only two locations, and form a loop of only two edges.
+Here is a typical example requirement that controls the plants from the section on <<sbe-in-practice-steps-modeling-the-plant,modeling the plant>>.
+It ensures that the lamp is on while the button is pushed, and off while it is released:
+
+[source, cif]
+----
+requirement LampOnWhileButtonPushed:
+  location Released:
+    initial; marked;
+    edge Button.u_pushed goto Pushed;
+    edge Lamp.c_off;
+
+  location Pushed:
+    edge Button.u_released goto Released;
+    edge Lamp.c_on;
+end
+----
+
+We can also model the requirements in a more state-based manner (<<lang-tut-data-chapter-locs-as-var,referring to locations>> of automata) or data-based manner (referring to locations of automata, as well as using <<lang-tut-data-chapter-discrete-variables,variables, guards, updates>>, and <<lang-tut-data-chapter-stat-invariants,invariants>>), which is often shorter and simpler.
+The requirement above can be modeled in a state-based manner using <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion>> <<lang-tut-extensions-synthesis-invkind,requirements>> as follows:
+
+[source, cif]
+----
+// Lamp on only while button is pushed.
+requirement Lamp.c_off needs Button.Released;
+requirement Lamp.c_on  needs Button.Pushed;
+----
+
+Having requirements block <<lang-tut-extensions-synthesis-evtctrl,uncontrollable events>> can easily lead to unnecessarily <<sbe-in-practice-advanced-too-limited-behavior,restricting too much>> of the system behavior.
+As mentioned in the section on <<sbe-in-practice-steps-modeling-plant-relations,modeling plant relations>>, correctly modeling such relations makes this easier.
+
+Generally, it is better to as much as possible use requirements that are pure restrictions.
+That is, use state-based requirements (<<lang-tut-data-chapter-stat-invariants,mutual state exclusion>> and <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion>> <<lang-tut-extensions-synthesis-invkind,requirements>>) instead of event-based requirements (<<lang-tut-extensions-synthesis-autkind,requirement>> <<lang-tut-basics-chapter-automata,automata>>), where applicable.
+Requirement automata may introduce additional state, which can lead to reduced <<sbe-in-practice-advanced-performance,performance>>.
+Using pure restriction requirements you are also less likely to unnecessarily <<sbe-in-practice-advanced-too-limited-behavior,restrict too much>> of the system behavior.
+
+The CIF language tutorial has lessons on using <<lang-tut-data-chapter-discrete-variables,variables, guards and updates>>.
+
+The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-marking,deal with marking>>.

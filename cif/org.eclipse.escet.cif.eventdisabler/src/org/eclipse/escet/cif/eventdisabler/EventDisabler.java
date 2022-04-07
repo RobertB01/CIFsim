@@ -38,10 +38,12 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -356,7 +358,7 @@ public class EventDisabler {
             for (Declaration decl: scope.getDeclarations()) {
                 if (decl.getName().equals(name)) {
                     String msg = fmt("Can't disable event \"%s\": \"%s\" is not a component.", absName,
-                            StringUtils.join(names, '.', 0, i + 1));
+                            Arrays.stream(names).limit(i + 1).collect(Collectors.joining(".")));
                     throw new InvalidInputException(msg);
                 }
             }
@@ -364,7 +366,7 @@ public class EventDisabler {
             // Automata can't have child scopes.
             if (scope instanceof Automaton) {
                 String msg = fmt("Can't disable event \"%s\": \"%s\" is an automaton.", absName,
-                        StringUtils.join(names, '.', 0, i));
+                        Arrays.stream(names).limit(i).collect(Collectors.joining(".")));
                 throw new InvalidInputException(msg);
             }
 

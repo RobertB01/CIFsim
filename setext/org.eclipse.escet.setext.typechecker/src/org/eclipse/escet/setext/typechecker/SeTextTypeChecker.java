@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.common.PositionUtils;
@@ -911,7 +910,7 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
                     names.add(unreachable.name);
                 }
                 Collections.sort(names, Strings.SORTER);
-                addProblem(Message.MAIN_UNREACHABLES, main.position, main.name.id, StringUtils.join(names, ", "));
+                addProblem(Message.MAIN_UNREACHABLES, main.position, main.name.id, String.join(", ", names));
             }
         }
     }

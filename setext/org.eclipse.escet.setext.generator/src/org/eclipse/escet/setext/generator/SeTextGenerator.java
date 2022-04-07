@@ -42,6 +42,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -789,7 +790,7 @@ public class SeTextGenerator {
                             if (parts.isEmpty()) {
                                 parts.add("/* empty */");
                             }
-                            stream.printfln("%s %s %s", prefix, sep, StringUtils.join(parts, " "));
+                            stream.printfln("%s %s %s", prefix, sep, String.join(" ", parts));
                         }
                     }
                     stream.printfln("%s ;", nameSpaces);
@@ -1156,7 +1157,7 @@ public class SeTextGenerator {
                     String hookName = "hooks.parse" + reduce.nonterminal.name + ruleNrStr;
 
                     code.add("%s o = %s(%s);", reduce.nonterminal.returnType.toSimpleString(), hookName,
-                            StringUtils.join(paramTxts, ", "));
+                            String.join(", ", paramTxts));
                     code.add();
                     code.add("reduce = true;");
                     code.add("reduceNonTerminal = %d;", reduceId);
@@ -1266,8 +1267,7 @@ public class SeTextGenerator {
             }
 
             // Write terminal ids.
-            List<Integer> termIds = sortedgeneric(termIdSet);
-            code.add("{%s}, // state %d", StringUtils.join(termIds, ", "), si);
+            code.add("{%s}, // state %d", intsToStr(sortedgeneric(termIdSet)), si);
         }
         code.dedent();
         code.add("};");
@@ -1345,7 +1345,7 @@ public class SeTextGenerator {
                     continue;
                 }
                 List<Integer> termIds = sortedgeneric(e.getValue());
-                lines.add(fmt("{%d, %s},", e.getKey(), StringUtils.join(termIds, ", ")));
+                lines.add(fmt("{%d, %s},", e.getKey(), intsToStr(termIds)));
             }
 
             if (lines.isEmpty()) {
@@ -1423,7 +1423,7 @@ public class SeTextGenerator {
                     continue;
                 }
                 List<Integer> popCnts = sortedgeneric(e.getValue());
-                lines.add(fmt("{%d, %s},", e.getKey(), StringUtils.join(popCnts, ", ")));
+                lines.add(fmt("{%d, %s},", e.getKey(), intsToStr(popCnts)));
             }
 
             if (lines.isEmpty()) {
@@ -1530,7 +1530,7 @@ public class SeTextGenerator {
                         continue;
                     }
                     List<Integer> popCnts = sortedgeneric(inner.getValue());
-                    lines.add(fmt("{%d, %d, %s},", outer.getKey(), inner.getKey(), StringUtils.join(popCnts, ", ")));
+                    lines.add(fmt("{%d, %d, %s},", outer.getKey(), inner.getKey(), intsToStr(popCnts)));
                 }
             }
 
@@ -1582,7 +1582,7 @@ public class SeTextGenerator {
                 code.add("/**");
                 code.add(" * Parser call back hook for rule/production:");
                 code.add(" *");
-                code.add(" * <p>{@code %s : %s;}</p>", nonterminal.name, StringUtils.join(ruleTxts, " "));
+                code.add(" * <p>{@code %s : %s;}</p>", nonterminal.name, String.join(" ", ruleTxts));
                 code.add(" *");
 
                 List<String> argTxts = list();
@@ -1619,7 +1619,7 @@ public class SeTextGenerator {
                 ruleNrStr = StringUtils.leftPad(ruleNrStr, maxRuleNrLen, '0');
 
                 code.add("public %s parse%s%s(%s);", nonterminal.returnType.toSimpleString(), nonterminal.name,
-                        ruleNrStr, StringUtils.join(argTxts, ", "));
+                        ruleNrStr, String.join(", ", argTxts));
             }
         }
         code.dedent();
@@ -1636,6 +1636,16 @@ public class SeTextGenerator {
             out("Parser class \"%s\" for %s symbol \"%s\" written to file \"%s\".", start.javaType.toString(),
                     start.getStartType(), start.symbol.name, javaFilePath);
         }
+    }
+
+    /**
+     * Convert a list of integers to a string with comma-separated values.
+     *
+     * @param integers Integer values to convert.
+     * @return The created string.
+     */
+    private static String intsToStr(List<Integer> integers) {
+        return integers.stream().map(String::valueOf).collect(Collectors.joining(", "));
     }
 
     /**
@@ -1812,7 +1822,7 @@ public class SeTextGenerator {
                 }
 
                 code.indent();
-                code.add("@Override // %s : %s;", nonterminal.name, StringUtils.join(ruleTxts, " "));
+                code.add("@Override // %s : %s;", nonterminal.name, String.join(" ", ruleTxts));
                 code.dedent();
 
                 List<String> argTxts = list();
@@ -1846,7 +1856,7 @@ public class SeTextGenerator {
 
                 code.indent();
                 code.add("public %s parse%s%s(%s) {", nonterminal.returnType.toSimpleString(), nonterminal.name,
-                        ruleNrStr, StringUtils.join(argTxts, ", "));
+                        ruleNrStr, String.join(", ", argTxts));
                 code.indent();
                 code.add("// return null;");
                 code.dedent();

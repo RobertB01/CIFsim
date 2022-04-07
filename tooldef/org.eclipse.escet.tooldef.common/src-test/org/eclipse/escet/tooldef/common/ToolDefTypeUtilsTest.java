@@ -55,7 +55,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
@@ -322,7 +321,7 @@ public class ToolDefTypeUtilsTest {
             for (ToolDefType t: types) {
                 txts.add(typeToStr(t));
             }
-            actuals[i] = fmt("%-20s: %s", typeToStr(type), StringUtils.join(txts, ", "));
+            actuals[i] = fmt("%-20s: %s", typeToStr(type), String.join(", ", txts));
             // System.out.println("\"" + actuals[i] + "\",");
             i++;
         }
@@ -395,7 +394,7 @@ public class ToolDefTypeUtilsTest {
             for (ToolDefType t: types) {
                 txts.add(typeToStr(t));
             }
-            actuals[i] = fmt("%-20s: %s", typeToStr(type), StringUtils.join(txts, ", "));
+            actuals[i] = fmt("%-20s: %s", typeToStr(type), String.join(", ", txts));
             // System.out.println("\"" + actuals[i] + "\",");
             i++;
         }
@@ -501,7 +500,7 @@ public class ToolDefTypeUtilsTest {
         }
 
         // Compare.
-        assertEquals(expected, StringUtils.join(actuals, ", "));
+        assertEquals(expected, String.join(", ", actuals));
     }
 
     @Test

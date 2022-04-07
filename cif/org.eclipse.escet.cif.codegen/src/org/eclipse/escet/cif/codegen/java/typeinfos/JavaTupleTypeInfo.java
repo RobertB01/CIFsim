@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
@@ -95,7 +94,7 @@ public class JavaTupleTypeInfo extends TupleTypeInfo {
             code.add(" * @param %s The %s field.", names[i], Numbers.toOrdinal(i + 1));
         }
         code.add(" */");
-        code.add("public %s(%s) {", className, StringUtils.join(paramTxts, ", "));
+        code.add("public %s(%s) {", className, String.join(", ", paramTxts));
         code.indent();
         for (String name: names) {
             code.add("this.%s = %s;", name, name);
@@ -108,7 +107,7 @@ public class JavaTupleTypeInfo extends TupleTypeInfo {
         code.add("@Override");
         code.add("public %s copy() {", className);
         code.indent();
-        code.add("return new %s(%s);", className, StringUtils.join(names, ", "));
+        code.add("return new %s(%s);", className, String.join(", ", names));
         code.dedent();
         code.add("}");
 
@@ -117,7 +116,7 @@ public class JavaTupleTypeInfo extends TupleTypeInfo {
         code.add("@Override");
         code.add("public int hashCode() {");
         code.indent();
-        code.add("return hashObjs(%s);", StringUtils.join(names, ", "));
+        code.add("return hashObjs(%s);", String.join(", ", names));
         code.dedent();
         code.add("}");
 

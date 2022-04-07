@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -153,7 +152,7 @@ public class EmfLatexDocSkeletonGenerator extends EmfLatexCodeGenerator {
             for (EPackage subPkg: pkg.getESubpackages()) {
                 lst1.add(getEPackageRef(subPkg));
             }
-            box.add("\\item[Sub-packages] " + StringUtils.join(lst1, ", "));
+            box.add("\\item[Sub-packages] " + String.join(", ", lst1));
         }
         box.add("\\end{description}");
         box.add();
@@ -267,7 +266,7 @@ public class EmfLatexDocSkeletonGenerator extends EmfLatexCodeGenerator {
             for (EClass derived: deriveds) {
                 derivedTxts.add(fmt("\\%sclass{%s}", getRootPackageName(derived), derived.getName()));
             }
-            box.add(StringUtils.join(derivedTxts, ", "));
+            box.add(String.join(", ", derivedTxts));
         }
         box.add();
 

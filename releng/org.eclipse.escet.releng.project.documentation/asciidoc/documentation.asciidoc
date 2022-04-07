@@ -20,7 +20,7 @@ include::_root_attributes.asciidoc[]
 // Use this for asciidoc documents containing a title.
 :doctype: book
 
-= Eclipse ESCET(TM) general tookit documentation (Incubation)
+= Eclipse ESCET(TM) general toolkit documentation (Incubation)
 :author: Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
 

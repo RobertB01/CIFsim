@@ -53,7 +53,7 @@ The following topics are discussed in more detail:
 * <<development-building-and-testing-chapter-index>>
 * <<development-release-process-chapter-index>>
 * <<development-third-party-tools-chapter-index>>
-* <<development-upgrade-instructions-chapter-index>>
+* <<development-dependency-upgrades-chapter-index>>
 * <<legal-chapter-index>>
 
 *Common libraries and development tools*
@@ -94,7 +94,7 @@ include::development/release-process.asciidoc[]
 
 include::development/third-party-tools.asciidoc[]
 
-include::development/upgrade-instructions.asciidoc[]
+include::development/dependency-upgrades.asciidoc[]
 
 :leveloffset: -1
 

@@ -23,8 +23,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-
 /** {@link Set}s helper methods. */
 public class Sets {
     /** Constructor for the {@link Sets} class. */
@@ -235,7 +233,7 @@ public class Sets {
             l.add(o.toString());
         }
         Collections.sort(l, Strings.SORTER);
-        return fmt("{%s}", StringUtils.join(l, ", "));
+        return fmt("{%s}", String.join(", ", l));
     }
 
     /**

@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.codegen.typeinfos;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
@@ -43,7 +42,7 @@ public abstract class TupleTypeInfo extends ContainerTypeInfo {
         for (int i = 0; i < childInfos.length; i++) {
             parts[i + 1] = childInfos[i].getTypeName();
         }
-        return StringUtils.join(parts);
+        return String.join("", parts);
     }
 
     /**

@@ -28,12 +28,15 @@ See also the release notes for the specific tools for more information:
 * link:https://eclipse.org/escet/chi/release-notes.html[Chi release notes]
 * link:https://eclipse.org/escet/tooldef/release-notes.html[ToolDef release notes]
 
-=== Version 0.5
+=== Version 0.6
 
 TBD
 
+=== Version 0.5 (2022-03-29)
+
 Improvements and fixes:
 
+* Some small changes to the documentation and website (issues #271 and #335).
 * The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue #314).
 
 === Version 0.4 (2021-12-17)

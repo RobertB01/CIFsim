@@ -47,6 +47,7 @@ EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.slx"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=MANIFEST.MF"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.bib"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.json"
+EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.pptx"
 # Exclude text files where Eclipse removes comments when editing them.
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.aird"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.ecore"

@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.cif2yed.options.ModelFilter;
 import org.eclipse.escet.cif.cif2yed.options.ModelFiltersOption;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
@@ -862,7 +861,7 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
         }
 
         // Get full label text.
-        String text = StringUtils.join(texts, "\n");
+        String text = String.join("\n", texts);
 
         // Add edge label.
         Element edgeLblElem = doc.createElement("y:EdgeLabel");

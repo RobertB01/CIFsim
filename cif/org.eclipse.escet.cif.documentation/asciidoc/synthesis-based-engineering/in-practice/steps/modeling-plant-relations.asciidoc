@@ -1,0 +1,82 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+indexterm:[plant, relations]
+
+[[sbe-in-practice-steps-modeling-plant-relations]]
+== Modeling plant relations
+
+After <<sbe-in-practice-steps-modeling-the-plant,modeling the plant>>, for instance the individual sensors and actuators, the relations between the plant automata are to be considered.
+These relations should be physical relations, representing behavioral restrictions present in the actual uncontrolled system.
+
+For instance, consider a movement with two limit sensors:
+
+[source, cif]
+----
+plant UpSensor:
+  uncontrollable u_on, u_off;
+
+  location Off:
+    initial; marked;
+    edge u_on goto On;
+
+  location On:
+    edge u_off goto Off;
+end
+
+plant DownSensor:
+  uncontrollable u_on, u_off;
+
+  location Off:
+    initial; marked;
+    edge u_on goto On;
+
+  location On:
+    edge u_off goto Off;
+end
+----
+
+Most likely the two sensors physically can't both be on at the same time.
+The individual plant automata of the two digital sensors however, <<lang-tut-basics-chapter-synchronizing-events-statespace,can both be in>> their `On` states, as they are not yet in any way related.
+The easiest way to specify such a relation is to use a <<lang-tut-extensions-synthesis-invkind,state plant invariant>>:
+
+[source, cif]
+----
+plant invariant not (UpSensor.On and DownSensor.On);
+----
+
+Alternatively, you may combine multiple plants into a single plant.
+To merge some plants, manually compute/model the <<tools-eventbased-chapter-product,product>> of the plants, and remove the original plant automata.
+Then, to express the relationship, remove the behavior that is not physically possible.
+However, typically using a plant invariant is easier.
+
+An alternative physical relationship, is the relation between sensors and actuators.
+In such cases, the relationship with the sensor(s) can usually be added directly to the actuator plant(s).
+
+By correctly incorporating all the physical restrictions present in the actual system, the tools can use this knowledge during synthesis.
+Essentially, by modeling the physical relations/restrictions, the uncontrollable events are enabled in much less (combinations of) locations of the plant automata.
+This means that the requirements are much less likely to block uncontrollable events.
+
+In other words, the modeled relationships of the plants restrict the behavior of the plant automata.
+However, these restrictions are also present in the physical system.
+Hence, without modeling such relationships, the plant model has more behavior than the physical system.
+Once the plant relations are correctly modeled, you may assume this relationship in the requirements, meaning you may assume that certain uncontrollable events can physically not occur in certain locations.
+The tools will then have enough knowledge of the system to come to the same conclusions.
+
+For instance, assume a certain sensor signal can only occur when the corresponding actuator is enabled.
+A movement limit sensor may for instance only be able to go on once a movement completes, which in turn can only happen by enabling the corresponding movement actuator.
+Modeling this relation ensures that 'blocking' such sensor signals in the requirements, when the actuator is off, is no longer considered 'illegal' behavior.
+
+The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-modeling-the-requirements,model the requirements>>.

@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Numbers;
 import org.eclipse.escet.common.position.metamodel.position.Position;
@@ -249,7 +248,7 @@ public class ToolInvokeChecker {
         }
 
         // Return single message.
-        return StringUtils.join(msgs, ", ");
+        return String.join(", ", msgs);
     }
 
     /**

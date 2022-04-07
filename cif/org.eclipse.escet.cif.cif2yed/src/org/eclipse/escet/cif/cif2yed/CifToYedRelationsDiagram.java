@@ -1722,7 +1722,7 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
             List<String> commonPrefix = getCommonPrefix(srcId, tgtId);
             for (int i = commonPrefix.size(); i > 0; i--) {
                 List<String> prefix = commonPrefix.subList(0, i);
-                String instId = StringUtils.join(prefix, ":");
+                String instId = String.join(":", prefix);
                 if (instIds.contains(instId)) {
                     elem.getParentNode().removeChild(elem);
                     return;
@@ -1804,7 +1804,7 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
                 String[] parts = StringUtils.split(id, ":");
                 for (int i = parts.length - 1; i > 0; i--) {
                     String[] prefix = (String[])ArrayUtils.subarray(parts, 0, i);
-                    String instId = StringUtils.join(prefix, ":");
+                    String instId = String.join(":", prefix);
                     if (instIds.contains(instId)) {
                         elem.getParentNode().removeChild(elem);
                         return;

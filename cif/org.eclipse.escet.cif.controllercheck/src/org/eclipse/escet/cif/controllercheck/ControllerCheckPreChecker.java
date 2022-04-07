@@ -29,7 +29,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
@@ -93,7 +92,7 @@ public class ControllerCheckPreChecker extends CifWalker {
         // If we have any problems, the specification is unsupported.
         if (!problems.isEmpty()) {
             String msg = "CIF controller properties check application failed due to unsatisfied preconditions:\n - "
-                    + StringUtils.join(sortedstrings(problems), "\n - ");
+                    + String.join("\n - ", sortedstrings(problems));
             throw new UnsupportedException(msg);
         }
     }

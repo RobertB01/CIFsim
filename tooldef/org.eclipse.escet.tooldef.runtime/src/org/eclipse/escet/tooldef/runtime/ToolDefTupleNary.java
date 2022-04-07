@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 
 /**
@@ -103,6 +102,6 @@ public class ToolDefTupleNary<P, R extends ToolDefTuple> extends ToolDefTuple {
         txts.add(ToolDefRuntimeUtils.valueToStr(pair.left));
         txts.add(ToolDefRuntimeUtils.valueToStr(pair.right));
 
-        return "(" + StringUtils.join(txts, ", ") + ")";
+        return "(" + String.join(", ", txts) + ")";
     }
 }
