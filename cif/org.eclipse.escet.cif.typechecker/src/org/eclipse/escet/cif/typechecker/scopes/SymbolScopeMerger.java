@@ -44,7 +44,7 @@ import org.eclipse.escet.cif.parser.ast.tokens.AStringToken;
 import org.eclipse.escet.cif.typechecker.SourceFile;
 import org.eclipse.escet.cif.typechecker.SymbolTableEntry;
 import org.eclipse.escet.cif.typechecker.declwrap.DeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.InvariantTypeCheckInfo;
+import org.eclipse.escet.cif.typechecker.declwrap.InvariantInfo;
 import org.eclipse.escet.common.java.Assert;
 
 /**
@@ -159,7 +159,7 @@ public class SymbolScopeMerger {
         Group mainGroup = mainScope.getGroup();
         List<Invariant> mainInvs = mainGroup.getInvariants();
 
-        for (InvariantTypeCheckInfo namelessInvariant: impScope.namelessInvariants) {
+        for (InvariantInfo namelessInvariant: impScope.namelessInvariants) {
             // Update symbol table.
             mainScope.namelessInvariants.add(namelessInvariant);
 

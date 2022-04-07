@@ -57,7 +57,7 @@ import org.eclipse.escet.cif.typechecker.declwrap.FuncParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InputVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InvDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.InvariantTypeCheckInfo;
+import org.eclipse.escet.cif.typechecker.declwrap.InvariantInfo;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.box.Box;
@@ -88,7 +88,7 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
     protected final Map<String, DeclWrap<?>> declarations = map();
 
     /** The nameless invariants of this scope. */
-    protected final List<InvariantTypeCheckInfo> namelessInvariants = list();
+    protected final List<InvariantInfo> namelessInvariants = list();
 
     /** Mapping from variable names to their equations. */
     public Map<String, List<AEquation>> astEquations = map();
@@ -193,21 +193,30 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
         // Check name uniqueness.
         checkUniqueName(decl);
 
-        // Store child declaration.
+        // Store declaration.
         declarations.put(decl.getName(), decl);
     }
 
     /**
-     * Adds a named invariant to this scope.
+     * Adds an invariant to this scope.
      *
-     * @param inv The symbol table entry of the invariant to add.
+     * @param invariantInfo The type check info of the invariant to add.
      */
-    public void addInvariant(InvDeclWrap inv) {
-        // Check name uniqueness.
-        checkUniqueName(inv);
+    public void addInvariant(InvariantInfo invariantInfo) {
+        if (invariantInfo.astInv.name != null) {
+            // For named invariants, create a symbol table entry.
+            InvDeclWrap wrapper = new InvDeclWrap(tchecker, this, invariantInfo);
 
-        // Store child invariant.
-        declarations.put(inv.getName(), inv);
+            // Check name uniqueness.
+            checkUniqueName(wrapper);
+
+            // Store invariant.
+            declarations.put(wrapper.getName(), wrapper);
+
+        } else {
+            // For nameless invariants, add it to the nameless invariants of this scope.
+            namelessInvariants.add(invariantInfo);
+        }
     }
 
     /**
@@ -300,7 +309,7 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
         }
 
         // Type check nameless invariants.
-        for (InvariantTypeCheckInfo namelessInvariant: namelessInvariants) {
+        for (InvariantInfo namelessInvariant: namelessInvariants) {
             try {
                 InvDeclWrap.tcheckFull(tchecker, this, namelessInvariant);
             } catch (SemanticException ex) {

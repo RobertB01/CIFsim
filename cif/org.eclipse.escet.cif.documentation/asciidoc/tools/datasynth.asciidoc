@@ -345,6 +345,7 @@ indexterm:[data-based supervisory controller synthesis,requirements]
 
 Three types of requirements are supported:
 <<lang-tut-data-chapter-stat-invariants,state invariants>>, <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>, and <<lang-tut-extensions-synthesis-autkind,requirement automata>>.
+For state invariants and state/event exclusion invariants, both named and unnamed variants are supported.
 
 State invariants are global conditions over the values of variables (and locations of automata) that must always hold.
 Such requirements are sometimes also called mutual state exclusions.
@@ -354,7 +355,7 @@ Here are some examples:
 ----
 requirement invariant x != 0 and not p.b;
 requirement invariant x > 5;
-requirement invariant not(x = 1 and y = 1) or q.x = a;
+requirement R1: invariant not(x = 1 and y = 1) or q.x = a;
 
 requirement (x = 1 and y = 1) or (x = 2 and y = 2);
 requirement (3 <= x and x < = 5) or (2 <= y and y <= 7);
@@ -369,6 +370,7 @@ Here are some examples:
 requirement invariant buffer.c_add    needs buffer.count < 5;
 requirement invariant buffer.c_remove needs buffer.count > 0;
 requirement invariant button.on = 1 disables lamp.c_turn_on;
+requirement invariant R3: buffer.c_remove needs buffer.count > 0;
 
 requirement {lamp.c_turn_on, motor.c_turn_on} needs button.Off;
 requirement p.x = 3 and p.y > 7 disables p.u_something;

@@ -33,18 +33,18 @@ import org.eclipse.escet.common.java.Assert;
 /** Invariant declaration wrapper. */
 public class InvDeclWrap extends DeclWrap<Invariant> {
     /** The necessary information to type check the invariant. */
-    private final InvariantTypeCheckInfo invariantTypeCheckInfo;
+    private final InvariantInfo invariantInfo;
 
     /**
      * Constructor for the {@link InvDeclWrap} class.
      *
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this invariant.
-     * @param invariantTypeCheckInfo The necessary information to type check the invariant.
+     * @param invariantInfo The necessary information to type check the invariant.
      */
-    public InvDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, InvariantTypeCheckInfo invariantTypeCheckInfo) {
-        super(tchecker, scope, invariantTypeCheckInfo.mmInv);
-        this.invariantTypeCheckInfo = invariantTypeCheckInfo;
+    public InvDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, InvariantInfo invariantInfo) {
+        super(tchecker, scope, invariantInfo.mmInv);
+        this.invariantInfo = invariantInfo;
         Assert.check(mmDecl.getName() != null);
     }
 
@@ -73,7 +73,7 @@ public class InvDeclWrap extends DeclWrap<Invariant> {
         tcheckForUse();
 
         // Do the 'full' check.
-        tcheckFull(tchecker, scope, invariantTypeCheckInfo);
+        tcheckFull(tchecker, scope, invariantInfo);
 
         // This invariant is now fully checked.
         status = CheckStatus.FULL;
@@ -87,7 +87,7 @@ public class InvDeclWrap extends DeclWrap<Invariant> {
      * @param invariantCheckObject The necessary information to type check the invariant.
      */
     public static void tcheckFull(CifTypeChecker tchecker, ParentScope<?> scope,
-            InvariantTypeCheckInfo invariantCheckObject)
+            InvariantInfo invariantCheckObject)
     {
         // Process predicate.
         AExpression astPred = invariantCheckObject.astInv.predicate;

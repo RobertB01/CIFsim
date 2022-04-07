@@ -17,8 +17,11 @@ import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.parser.ast.AInvariant;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 
-/** The necessary information to type check an invariant. */
-public class InvariantTypeCheckInfo {
+/**
+ * The necessary information to type check a named and nameless invariant. For named ones, instances of this class are
+ * wrapped in an {@link InvDeclWrap} for inclusion into the symbol table.
+ */
+public class InvariantInfo {
     /** The CIF AST representation of the invariant. */
     public final AInvariant astInv;
 
@@ -29,13 +32,13 @@ public class InvariantTypeCheckInfo {
     public final Invariant mmInv;
 
     /**
-     * Constructor for the {@link InvariantTypeCheckInfo} class.
+     * Constructor for the {@link InvariantInfo} class.
      *
      * @param astInv The CIF AST representation of the invariant.
      * @param event The CIF AST name of the referenced event, or {@code null} for state invariants.
      * @param mmInv The CIF metamodel representation of the invariant.
      */
-    public InvariantTypeCheckInfo(AInvariant astInv, AName event, Invariant mmInv) {
+    public InvariantInfo(AInvariant astInv, AName event, Invariant mmInv) {
         this.astInv = astInv;
         this.event = event;
         this.mmInv = mmInv;
