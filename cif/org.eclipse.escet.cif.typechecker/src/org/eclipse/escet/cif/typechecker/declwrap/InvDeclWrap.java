@@ -84,15 +84,13 @@ public class InvDeclWrap extends DeclWrap<Invariant> {
      *
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this invariant.
-     * @param invariantCheckObject The necessary information to type check the invariant.
+     * @param invariantInfo The necessary information to type check the invariant.
      */
-    public static void tcheckFull(CifTypeChecker tchecker, ParentScope<?> scope,
-            InvariantInfo invariantCheckObject)
-    {
+    public static void tcheckFull(CifTypeChecker tchecker, ParentScope<?> scope, InvariantInfo invariantInfo) {
         // Process predicate.
-        AExpression astPred = invariantCheckObject.astInv.predicate;
+        AExpression astPred = invariantInfo.astInv.predicate;
         Expression pred = transExpression(astPred, BOOL_TYPE_HINT, scope, null, tchecker);
-        invariantCheckObject.mmInv.setPredicate(pred);
+        invariantInfo.mmInv.setPredicate(pred);
 
         // Check predicate type.
         CifType t = pred.getType();
@@ -103,9 +101,9 @@ public class InvDeclWrap extends DeclWrap<Invariant> {
         }
 
         // Check event reference.
-        if (invariantCheckObject.event != null) {
-            Expression eventRef = CifEventRefTypeChecker.checkEventRef(invariantCheckObject.event, scope, tchecker);
-            invariantCheckObject.mmInv.setEvent(eventRef);
+        if (invariantInfo.event != null) {
+            Expression eventRef = CifEventRefTypeChecker.checkEventRef(invariantInfo.event, scope, tchecker);
+            invariantInfo.mmInv.setEvent(eventRef);
         }
     }
 }

@@ -189,7 +189,7 @@ If the _INOUT_ place has a finished product (is in its `FinishedProduct` locatio
 We know the product id of the last product that exited (`INOUT.lastExitId`) and the product id of the product currently situated at the _INOUT_ place (`INOUT.curId`).
 Products that enter the system get an id that is one higher than the previous product that entered (modulo the maximum number of products).
 The FIFO property can thus be ensured by requiring that when a product exits, it also has an id one higher than the last product that exited (again modulo the maximum number of products).
-From this, requirement _FIFO_ follows directly.
+From this, requirement `FIFO` follows directly.
 
 === Performing synthesis
 

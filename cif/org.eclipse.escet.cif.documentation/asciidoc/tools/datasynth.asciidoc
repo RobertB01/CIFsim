@@ -347,7 +347,7 @@ indexterm:[data-based supervisory controller synthesis,requirements]
 
 Three types of requirements are supported:
 <<lang-tut-data-chapter-stat-invariants,state invariants>>, <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>, and <<lang-tut-extensions-synthesis-autkind,requirement automata>>.
-For state invariants and state/event exclusion invariants, both named and unnamed variants are supported.
+For state invariants and state/event exclusion invariants, both named and nameless variants are supported.
 
 State invariants are global conditions over the values of variables (and locations of automata) that must always hold.
 Such requirements are sometimes also called mutual state exclusions.
