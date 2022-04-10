@@ -16,8 +16,10 @@ package org.eclipse.escet.common.asciidoc.html.multipage;
 import java.nio.file.Path;
 import java.util.Objects;
 
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import com.google.common.base.Verify;
 
 /** AsciiDoc multi-page HTML utility methods. */
 class AsciiDocHtmlUtil {
@@ -59,7 +61,7 @@ class AsciiDocHtmlUtil {
         // Add section reference.
         if (singlePageId != null) {
             String multiPageId = toPage.sectionIdRenames.getOrDefault(singlePageId, singlePageId);
-            Assert.check(toPage.multiPageIds.contains(multiPageId), multiPageId);
+            Verify.verify(toPage.multiPageIds.contains(multiPageId), multiPageId);
             String firstId = toPage.multiPageIds.isEmpty() ? null : toPage.multiPageIds.iterator().next();
             if (!Objects.equals(multiPageId, firstId)) { // Add section id if not the page title id.
                 href += "#" + multiPageId;
@@ -81,9 +83,21 @@ class AsciiDocHtmlUtil {
      */
     static Path sourcePathToOutputPath(Path sourcePath) {
         String fileName = sourcePath.getFileName().toString();
-        Assert.check(fileName.endsWith(".asciidoc"), fileName);
-        fileName = Strings.slice(fileName, 0, -".asciidoc".length());
+        Verify.verify(fileName.endsWith(".asciidoc"), fileName);
+        fileName = fileName.substring(0, fileName.length() - ".asciidoc".length());
         fileName += ".html";
         return sourcePath.resolveSibling(fileName);
+    }
+
+    /**
+     * Returns the single element from the given elements.
+     *
+     * @param elements The list for which to get the single element.
+     * @return The single element.
+     * @throws IllegalArgumentException If the list does not have exactly one element.
+     */
+    static Element single(Elements elements) {
+        Verify.verify(elements.size() == 1, elements.toString());
+        return elements.get(0);
     }
 }

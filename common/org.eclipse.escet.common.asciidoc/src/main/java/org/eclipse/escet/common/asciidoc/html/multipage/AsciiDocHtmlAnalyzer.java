@@ -13,25 +13,25 @@
 
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
-import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.reverse;
-import static org.eclipse.escet.common.java.Lists.single;
-import static org.eclipse.escet.common.java.Maps.mapc;
-import static org.eclipse.escet.common.java.Pair.pair;
-import static org.eclipse.escet.common.java.Sets.set;
-import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocHtmlUtil.single;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.NodeVisitor;
+
+import com.google.common.base.Verify;
 
 /** AsciiDoc HTML analyzer. */
 class AsciiDocHtmlAnalyzer {
@@ -53,32 +53,32 @@ class AsciiDocHtmlAnalyzer {
     static void analyze(Document doc, AsciiDocHtmlPages htmlPages) {
         // Check that not yet partitioned, and initialize.
         for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
-            Assert.areEqual(htmlPage.breadcrumbs, null);
-            Assert.areEqual(htmlPage.singlePageIds, null);
-            Assert.areEqual(htmlPage.singlePageNodes, null);
-            htmlPage.singlePageIds = set();
-            htmlPage.singlePageNodes = list();
+            Verify.verify(htmlPage.breadcrumbs == null);
+            Verify.verify(htmlPage.singlePageIds == null);
+            Verify.verify(htmlPage.singlePageNodes == null);
+            htmlPage.singlePageIds = new LinkedHashSet<>();
+            htmlPage.singlePageNodes = new ArrayList<>();
         }
 
         // Map ids of non-home pages to their pages.
-        Map<String, AsciiDocHtmlPage> idToPages = mapc(htmlPages.pages.size());
+        Map<String, AsciiDocHtmlPage> idToPages = new HashMap<>(htmlPages.pages.size());
         for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
             if (!htmlPage.sourceFile.isRootAsciiDocFile) {
                 AsciiDocHtmlPage prev = idToPages.put(htmlPage.sourceFile.sourceId, htmlPage);
                 if (prev != null) {
-                    Assert.fail(fmt("Duplicate source id: %s, for sources: %s and %s", htmlPage.sourceFile.sourceId,
-                            prev.sourceFile.relPath, htmlPage.sourceFile.relPath));
+                    throw new RuntimeException(String.format("Duplicate source id: %s, for sources: %s and %s",
+                            htmlPage.sourceFile.sourceId, prev.sourceFile.relPath, htmlPage.sourceFile.relPath));
                 }
             }
         }
-        Assert.areEqual(idToPages.size() + 1, htmlPages.pages.size());
+        Verify.verify(idToPages.size() + 1 == htmlPages.pages.size());
 
         // Walk over HTML 'content' and assign all nodes to a single page. Also create the TOC.
         Deque<Pair<AsciiDocHtmlPage, Integer>> pageStack = new LinkedList<>();
-        pageStack.push(pair(htmlPages.homePage, 0));
+        pageStack.push(ImmutablePair.of(htmlPages.homePage, 0));
 
         Deque<Pair<AsciiDocTocEntry, Integer>> tocStack = new LinkedList<>();
-        tocStack.push(pair(new AsciiDocTocEntry(htmlPages.homePage, doc.title(), null), 0));
+        tocStack.push(ImmutablePair.of(new AsciiDocTocEntry(htmlPages.homePage, doc.title(), null), 0));
 
         Element elemContent = single(doc.select("#content"));
         elemContent.children().traverse(new NodeVisitor() {
@@ -91,26 +91,26 @@ class AsciiDocHtmlAnalyzer {
                     AsciiDocHtmlPage elemPage = idToPages.get(id);
                     if (elemPage != null) {
                         // New page.
-                        Assert.check(elemPage.sourceFile.sourceId.equals(id));
-                        pageStack.push(pair(elemPage, depth));
+                        Verify.verify(elemPage.sourceFile.sourceId.equals(id));
+                        pageStack.push(ImmutablePair.of(elemPage, depth));
 
-                        AsciiDocTocEntry curTocEntry = tocStack.peek().left;
+                        AsciiDocTocEntry curTocEntry = tocStack.peek().getLeft();
                         AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(elemPage, elemPage.sourceFile.title,
                                 elemPage.sourceFile.sourceId);
                         curTocEntry.children.add(newTocEntry);
-                        tocStack.push(pair(newTocEntry, depth));
+                        tocStack.push(ImmutablePair.of(newTocEntry, depth));
 
                         // Store reversed stack as breadcrumbs.
-                        elemPage.breadcrumbs = reverse(
-                                pageStack.stream().map(e -> e.left).collect(Collectors.toList()));
+                        elemPage.breadcrumbs = pageStack.stream().map(e -> e.getLeft()).collect(Collectors.toList());
+                        Collections.reverse(elemPage.breadcrumbs);
                     } else {
                         // Same page.
                         if (elem.tagName().matches("h\\d+")) {
                             String entryTitle = elem.text();
-                            AsciiDocTocEntry curTocEntry = tocStack.peek().left;
+                            AsciiDocTocEntry curTocEntry = tocStack.peek().getLeft();
                             AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(curTocEntry.page, entryTitle, id);
                             curTocEntry.children.add(newTocEntry);
-                            tocStack.push(pair(newTocEntry, depth));
+                            tocStack.push(ImmutablePair.of(newTocEntry, depth));
                         }
                     }
                 }
@@ -119,40 +119,40 @@ class AsciiDocHtmlAnalyzer {
                 if (node instanceof Element) {
                     String id = ((Element)node).id();
                     if (!id.isBlank()) {
-                        pageStack.peek().left.singlePageIds.add(id);
+                        pageStack.peek().getLeft().singlePageIds.add(id);
                     }
                 }
 
                 // Detect sibling node of other nodes of current page. This ensures we don't collect all nodes, but
                 // only 'root' ones, not all descendants of 'root' nodes.
-                if (depth == pageStack.peek().right) {
-                    pageStack.peek().left.singlePageNodes.add(node);
+                if (depth == pageStack.peek().getRight()) {
+                    pageStack.peek().getLeft().singlePageNodes.add(node);
                 }
             }
 
             @Override
             public void tail(Node node, int depth) {
                 // Detect end of page.
-                if (depth < pageStack.peek().right) {
+                if (depth < pageStack.peek().getRight()) {
                     pageStack.pop();
                 }
 
                 // Detect end of TOC entry.
-                if (depth < tocStack.peek().right) {
+                if (depth < tocStack.peek().getRight()) {
                     tocStack.pop();
                 }
             }
         });
-        Assert.areEqual(pageStack.size(), 1);
-        Assert.areEqual(tocStack.size(), 1);
+        Verify.verify(pageStack.size() == 1);
+        Verify.verify(tocStack.size() == 1);
 
         // Ensure content for each page.
         for (AsciiDocHtmlPage page: htmlPages.pages) {
-            Assert.check(!page.singlePageNodes.isEmpty(), "No nodes for page: " + page.sourceFile.relPath.toString());
+            Verify.verify(!page.singlePageNodes.isEmpty(), "No nodes for page: " + page.sourceFile.relPath.toString());
         }
 
         // Return the TOC.
-        Assert.areEqual(tocStack.peek().right, 0);
-        htmlPages.toc = tocStack.pop().left;
+        Verify.verify(tocStack.peek().getRight() == 0);
+        htmlPages.toc = tocStack.pop().getLeft();
     }
 }
