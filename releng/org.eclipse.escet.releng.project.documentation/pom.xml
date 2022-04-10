@@ -128,70 +128,45 @@
 
             <!-- Split single-page HTML to multi-page HTML. -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <mainClass>
-                        org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocMultiPageHtmlSplitter
-                    </mainClass>
-                    <includePluginDependencies>true</includePluginDependencies>
-                    <includeProjectDependencies>true</includeProjectDependencies>
-                </configuration>
+                <groupId>org.eclipse.escet</groupId>
+                <artifactId>org.eclipse.escet.common.asciidoc</artifactId>
+                <version>${project.version}</version>
                 <executions>
                     <execution>
-                        <id>eclipse-help-multi-html-split</id>
+                        <id>eclipse-help-multi-page-html-split</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>java</goal>
+                            <goal>multi-page-html-split</goal>
                         </goals>
                         <configuration>
-                            <arguments>
-                                <argument>${project.basedir}/asciidoc</argument>
-                                <argument>${project.build.directory}/eclipse-help-intermediate/documentation.html</argument>
-                                <argument>${project.build.directory}/eclipse-help</argument>
-                                <argument>--eclipse-help</argument>
-                            </arguments>
+                            <sourceRootPath>${project.basedir}/asciidoc</sourceRootPath>
+                            <rootBaseName>documentation</rootBaseName>
+                            <singleHtmlPagePath>
+                                ${project.build.directory}/eclipse-help-intermediate/documentation.html
+                            </singleHtmlPagePath>
+                            <outputRootPath>${project.build.directory}/eclipse-help</outputRootPath>
+                            <htmlType>ECLIPSE_HELP</htmlType>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>website-multi-html-split</id>
+                        <id>website-multi-page-html-split</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>java</goal>
+                            <goal>multi-page-html-split</goal>
                         </goals>
                         <configuration>
-                            <arguments>
-                                <argument>${project.basedir}/asciidoc</argument>
-                                <argument>${project.build.directory}/website-intermediate/documentation.html</argument>
-                                <argument>${project.build.directory}/website</argument>
-                                <argument>--website</argument>
-                                <argument>Eclipse ESCET™ website</argument>
-                                <argument>.</argument>
-                            </arguments>
+                            <sourceRootPath>${project.basedir}/asciidoc</sourceRootPath>
+                            <rootBaseName>documentation</rootBaseName>
+                            <singleHtmlPagePath>
+                                ${project.build.directory}/website-intermediate/documentation.html
+                            </singleHtmlPagePath>
+                            <outputRootPath>${project.build.directory}/website</outputRootPath>
+                            <htmlType>WEBSITE</htmlType>
+                            <parentWebsiteName>Eclipse ESCET™ website</parentWebsiteName>
+                            <parentWebsiteLink>.</parentWebsiteLink>
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.eclipse.escet</groupId>
-                        <artifactId>org.eclipse.escet.common.asciidoc</artifactId>
-                        <version>${project.version}</version>
-                        <type>eclipse-plugin</type>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.eclipse.escet</groupId>
-                        <artifactId>org.eclipse.escet.common.java</artifactId>
-                        <version>${project.version}</version>
-                        <type>eclipse-plugin</type>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.eclipse.escet</groupId>
-                        <artifactId>org.eclipse.escet.common.app.framework</artifactId>
-                        <version>${project.version}</version>
-                        <type>eclipse-plugin</type>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!-- Copy non-HTML files from intermediate output folders to final output folders. -->

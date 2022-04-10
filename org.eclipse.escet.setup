@@ -143,6 +143,18 @@
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
+        name="org.eclipse.m2e.core">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.m2e.core/eclipse.m2.downloadSources"
+          value="true"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.m2e.core/eclipse.m2.autoUpdateProjects"
+          value="true"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
         name="org.eclipse.oomph.setup.ui">
       <setupTask
           xsi:type="setup:PreferenceTask"
