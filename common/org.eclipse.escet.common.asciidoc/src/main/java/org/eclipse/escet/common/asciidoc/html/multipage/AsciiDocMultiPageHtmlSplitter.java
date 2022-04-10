@@ -162,8 +162,9 @@ public class AsciiDocMultiPageHtmlSplitter {
                 sourceFiles.add(sourceFile);
             }
         }
-        logger.accept(String.format(Locale.US, "%d AsciiDoc source files found, %d analyzed.", sourcePaths.size(),
-                sourceFiles.size()));
+        int ignoreCount = sourcePaths.size() - sourceFiles.size();
+        logger.accept(String.format(Locale.US, "%d AsciiDoc source files found, %d analyzed, %d ignored.",
+                sourcePaths.size(), sourceFiles.size(), ignoreCount));
 
         // Analyze AsciiDoc-generated single-page HTML file.
         logger.accept("Analyzing AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());

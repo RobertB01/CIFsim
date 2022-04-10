@@ -681,7 +681,7 @@ class AsciiDocHtmlModifier {
                 continue;
             }
 
-            // Handle relative paths.
+            // Ensure it is a relative path to an entire file.
             Verify.verify(uriScheme == null);
             Verify.verify(uri.getUserInfo() == null);
             Verify.verify(uri.getHost() == null);
@@ -691,10 +691,23 @@ class AsciiDocHtmlModifier {
             Verify.verify(uri.getFragment() == null);
             Verify.verifyNotNull(uri.getPath());
             Verify.verify(ref.equals(uri.getPath()));
+
+            // Get absolute path of file referred to by href.
             Path hrefAbsTarget = sourceRootPath.resolve(ref);
+
+            // Relativize it against the source file.
             Path rootPathForNewRelHref = page.sourceFile.absPath.getParent();
             String newRelHref = rootPathForNewRelHref.relativize(hrefAbsTarget).toString();
+            if (newRelHref.isEmpty()) {
+                newRelHref = ".";
+            }
+
+            // Ensure the correct path separators.
+            Verify.verify(!ref.contains("\\"), ref);
+            newRelHref = newRelHref.replace("\\", "/");
             Verify.verify(!newRelHref.contains("\\"), newRelHref);
+
+            // Set new href attribute value.
             elem.attr(attrName, newRelHref);
         }
     }
