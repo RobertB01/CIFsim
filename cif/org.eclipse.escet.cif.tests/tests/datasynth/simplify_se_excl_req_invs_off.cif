@@ -26,6 +26,6 @@ plant p:
     edge c_d when x >= 3;
 end
 
-requirement c_b needs p.x >= 3;   // No restriction.
-requirement p.x = 1 disables c_c; // No restriction.
-requirement c_d needs p.x >= 4;   // Disallow p.x = 3;
+requirement reqInv1: c_b needs p.x >= 3;   // No restriction.
+requirement reqInv2: p.x = 1 disables c_c; // No restriction.
+requirement reqInv3: c_d needs p.x >= 4;   // Disallow p.x = 3;

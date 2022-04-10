@@ -190,3 +190,17 @@ The first two invariants have the same condition, but restrict different events.
 The third invariant has the same condition, but restricts both events.
 In general, for all state/event invariants, multiple events may be given, if they share the same condition.
 The events must then be separated by spaces and be enclosed in curly brackets (`+{...}+`).
+
+=== Naming state/event exclusion invariants
+
+In some cases, it might be useful to give names to invariants.
+It may improve the readability of the model and it makes it easier to refer to them.
+Names can be given as follows:
+
+[source, cif]
+----
+invariant controller: motor.turn_on needs door.closed and emergency_button.released;
+----
+
+Invariant names must be unique.
+It is therefore not possible to give a name to a combined invariant that applies to multiple events.

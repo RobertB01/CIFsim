@@ -33,10 +33,12 @@ group a:
         disc bool disc1b;
         location:
           initial;
+          invariant inv1: false;
           edge evtparam1;
           edge event1b? do disc1b := ?;
       end
       invariant algparam1 > 0 or locparam1 or compparam1.loc1b;
+      invariant inv1: true;
     end
     automaton def autdef2():
       location loc2b:
@@ -47,10 +49,12 @@ group a:
         disc bool disc2b;
         location:
           initial;
+          invariant inv2: false;
           edge evtparam2;
           edge event2b? do disc2b := ?;
       end
       invariant algparam2 > 0 or locparam2 or compparam2.loc2b;
+      invariant inv2: true;
     end
     automaton aut1a:
       disc bool disc1a = true;
@@ -74,5 +78,7 @@ group a:
     inst2b: grpdef2(inst2a, const2, event2a, aut2a.loc2a);
     group group2:
     end
+    invariant inv1: true;
+    invariant inv2: true;
   end
 end

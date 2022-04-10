@@ -24,7 +24,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdgeReceiv
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdgeSend;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newElifUpdate;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfUpdate;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newMonitors;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.NO_TYPE_HINT;
@@ -320,20 +319,11 @@ public class AutScope extends ParentScope<Automaton> {
         for (int i = 0; i < astBody.locations.size(); i++) {
             ALocation loc1 = astBody.locations.get(i);
 
-            // Add location if nameless. Note that named locations are already
-            // present, as they were added when creating the symbol table.
-            if (loc1.name == null) {
-                // Nameless location must be only location in automaton (no
-                // other named or nameless locations).
-                if (!mmAut.getLocations().isEmpty()) {
-                    tchecker.addProblem(ErrMsg.NAMELESS_LOC_NOT_ALONE, loc1.position, CifTextUtils.getAbsName(mmAut));
-                    throw new SemanticException();
-                }
-
-                // Add nameless location.
-                Location loc2 = newLocation();
-                loc2.setPosition(loc1.position);
-                mmAut.getLocations().add(loc2);
+            // If the location is nameless, it must be the only location in the
+            // automaton (no other named or nameless locations).
+            if (loc1.name == null && mmAut.getLocations().size() != 1) {
+                tchecker.addProblem(ErrMsg.NAMELESS_LOC_NOT_ALONE, loc1.position, CifTextUtils.getAbsName(mmAut));
+                throw new SemanticException();
             }
 
             // Get metamodel location.
@@ -412,8 +402,7 @@ public class AutScope extends ParentScope<Automaton> {
                     }
                 }
             } else if (elem instanceof AInvariantLocationElement) {
-                AInvariantLocationElement invElem = (AInvariantLocationElement)elem;
-                ParentScope.tcheckInvs(invElem.kind, invElem.invariants, autScope, tchecker, mmLoc.getInvariants());
+                // Location invariants were already handled when building the symbol table.
             } else if (elem instanceof AEquationLocationElement) {
                 // Skip checking of equations for variables that are not in
                 // scope, if any of the variables failed checking, as equations

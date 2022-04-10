@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+group g:
+  invariant inv1_1: true;
+  invariant inv1_2: e needs true;
+  invariant inv1_3: false disables e;
+end
+
+automaton x:
+  invariant inv1_4: true;
+  invariant inv1_5: e needs true;
+  invariant inv1_6: false disables e;
+  location l:
+    initial;
+    invariant inv1_7: true;
+    invariant inv1_8: e needs true;
+    invariant inv1_9: false disables e;
+end
+
+invariant inv1_10: true;
+invariant inv1_11: e needs true;
+invariant inv1_12: false disables e;

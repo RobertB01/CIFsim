@@ -22,6 +22,6 @@ supervisor automaton sup:
     edge c_c when 2 <= p.x and p.x <= 5;
     edge c_d when p.x = 4 or p.x = 5;
 end
-plant invariant c_b needs p.x >= 3;
-plant invariant p.x = 1 disables c_c;
-plant invariant c_d needs p.x >= 4;
+plant invariant plantInv1: c_b needs p.x >= 3;
+plant invariant plantInv2: p.x = 1 disables c_c;
+plant invariant plantInv3: c_d needs p.x >= 4;

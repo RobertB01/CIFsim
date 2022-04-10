@@ -242,12 +242,13 @@ become local algebraic variables in that component (the body).
 
 \begin{constraints}
 \citem{ComponentDef.uniqueDecls}
-  The names of all parameters and declarations in the body of the component
-  definition, must be unique within that component definition. For
-  bodies that are automata, we have to take into account the names of all
-  declarations (including locations) of those automata. For bodies that are
-  groups, we have to take into account the names of all declarations,
-  child components, and component definitions, of those groups.
+  The names of all parameters, as well as the declarations and invariants in
+  the body of the component definition, must be unique within that component
+  definition. For bodies that are automata, we have to take into account the
+  names of all declarations (including locations) and invariants (including
+  location invariants) of those automata. For bodies that are groups, we have
+  to take into account the names of all declarations, child components, and
+  component definitions, of those groups.
 \end{constraints}
 }
 
@@ -486,8 +487,8 @@ between initialization predicates, and between marker predicates.
 
 \begin{constraints}
 \citem{Group.uniqueDecls}
-  The names of all declarations, child components, and component definitions
-  defined in a group must be unique within that group.
+  The names of all declarations, invariants, child components, and component
+  definitions defined in a group must be unique within that group.
 \end{constraints}
 }
 
@@ -501,8 +502,8 @@ The component definitions of the group component.
 
 % Invariant (class)
 \newcommand{\clsdocuInvariant}{
-An invariant, with optional supervisory kind. Can either represent a state
-(exclusion) invariant, or a state/event exclusion invariant.
+An invariant, with optional name and supervisory kind. Can either represent a
+state (exclusion) invariant, or a state/event exclusion invariant.
 }
 
 \newcommand{\featdocuInvariantevent}{
@@ -526,6 +527,16 @@ expressions to be used. See also Section~\ref{sec:scoping}.
 The invariant kind of the invariant. Indicates whether the invariant is a state
 (exclusion) invariant, or a state/event exclusion invariant, and if applicable,
 in what form it was written.
+}
+
+\newcommand{\featdocuInvariantname}{
+The name of the invariant.
+
+\begin{constraints}
+\citemnf{Invariant.name}
+  Invariant names must not start with \texttt{e\_}, \texttt{c\_}, or
+  \texttt{u\_}, as those prefixes are reserved for events.
+\end{constraints}
 }
 
 \newcommand{\featdocuInvariantpredicate}{
@@ -1145,8 +1156,8 @@ between initialization predicates, and between marker predicates.
 
 \begin{constraints}
 \citem{Automaton.uniqueDecls}
-  The names of all declarations and locations defined in an automaton must
-  be unique within that automaton.
+  The names of all declarations, invariants and locations defined in an
+  automaton must be unique within that automaton.
 \citem{Automaton.validAlphabet}
   If an alphabet is specified, it must contain at least the events that occur
   on the edges of this automaton (excluding communication usage by means of

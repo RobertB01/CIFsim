@@ -26,6 +26,6 @@ plant p:
     edge c_d when x >= 3;
 end
 
-plant c_b needs p.x >= 3;   // No restriction.
-plant p.x = 1 disables c_c; // No restriction.
-plant c_d needs p.x >= 4;   // Disallow p.x = 3;
+plant plantInv1: c_b needs p.x >= 3;   // No restriction.
+plant plantInv2: p.x = 1 disables c_c; // No restriction.
+plant plantInv3: c_d needs p.x >= 4;   // Disallow p.x = 3;

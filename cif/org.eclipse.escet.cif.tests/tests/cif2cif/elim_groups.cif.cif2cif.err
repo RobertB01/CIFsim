@@ -4,3 +4,4 @@ WARNING: Declaration "g2_c" is renamed to "g2_c2".
 WARNING: Declaration "g3_E" is renamed to "g3_E2".
 WARNING: Enumeration literal "A" is renamed to "A2". This may have changed the semantics of the specification. It may also cause the specification to be become invalid. It is highly recommended to avoid this renaming!
 WARNING: Enumeration literal "B" is renamed to "B2". This may have changed the semantics of the specification. It may also cause the specification to be become invalid. It is highly recommended to avoid this renaming!
+WARNING: Invariant "g1_inv2" is renamed to "g1_inv22".

@@ -48,6 +48,33 @@ group g:
   supervisor invariant 6 = 6;
   supervisor invariant 7 = 7;
 end
+group h:
+  automaton a:
+    invariant inv1: 1 = 1;
+    plant invariant inv2: 2 = 2;
+    requirement invariant inv3: 3 = 3;
+    requirement invariant inv4: 4 = 4;
+    supervisor invariant inv5: 5 = 5;
+    supervisor invariant inv6: 6 = 6;
+    supervisor invariant inv7: 7 = 7;
+    location l:
+      initial;
+      invariant inv1l: 1 = 1;
+      plant invariant inv2l: 2 = 2;
+      requirement invariant inv3l: 3 = 3;
+      requirement invariant inv4l: 4 = 4;
+      supervisor invariant inv5l: 5 = 5;
+      supervisor invariant inv6l: 6 = 6;
+      supervisor invariant in7l: 7 = 7;
+  end
+  invariant inv1: 1 = 1;
+  plant invariant inv2: 2 = 2;
+  requirement invariant inv3: 3 = 3;
+  requirement invariant inv4: 4 = 4;
+  supervisor invariant inv5: 5 = 5;
+  supervisor invariant inv6: 6 = 6;
+  supervisor invariant inv7: 7 = 7;
+end
 invariant 1 = 1;
 plant invariant 2 = 2;
 requirement invariant 3 = 3;
@@ -76,3 +103,16 @@ plant invariant e needs 11 = 11;
 plant invariant f needs 11 = 11;
 plant invariant 12 = 12 disables f;
 plant invariant 12 = 12 disables e;
+invariant inv1: 1 = 1;
+plant invariant inv2: 2 = 2;
+requirement invariant inv3: 3 = 3;
+requirement invariant inv4: 4 = 4;
+supervisor invariant inv5: 5 = 5;
+supervisor invariant inv6: 6 = 6;
+supervisor invariant inv7: 7 = 7;
+invariant inv8: 8 = 8;
+invariant inv9: e needs 9 = 9;
+invariant inv10: 10 = 10 disables e;
+plant invariant inv13: 8 = 8;
+plant invariant inv14: e needs 9 = 9;
+plant invariant inv15: 10 = 10 disables e;

@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.merger;
 
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.escet.cif.common.CifEvalUtils.objToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.controllabilityToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
@@ -50,6 +51,7 @@ import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -171,8 +173,9 @@ public class CifMerger {
         mergedComp.getInitials().addAll(otherComp.getInitials());
         mergedComp.getMarkeds().addAll(otherComp.getMarkeds());
 
-        // Merge invariants.
-        mergedComp.getInvariants().addAll(otherComp.getInvariants());
+        // Merge nameless invariants.
+        mergedComp.getInvariants()
+                .addAll(otherComp.getInvariants().stream().filter(inv -> inv.getName() == null).collect(toList()));
 
         // Merge equations.
         mergedComp.getEquations().addAll(otherComp.getEquations());
@@ -668,6 +671,8 @@ public class CifMerger {
                         ((Group)comp1).getComponents().add((Component)child2);
                     } else if (child2 instanceof Declaration) {
                         comp1.getDeclarations().add((Declaration)child2);
+                    } else if (child2 instanceof Invariant) {
+                        comp1.getInvariants().add((Invariant)child2);
                     } else {
                         // Skip enum literals, as the enum itself is moved or
                         // merged.
@@ -685,6 +690,8 @@ public class CifMerger {
                         ((Group)comp2).getComponents().add((Component)child1);
                     } else if (child1 instanceof Declaration) {
                         comp2.getDeclarations().add((Declaration)child1);
+                    } else if (child1 instanceof Invariant) {
+                        comp1.getInvariants().add((Invariant)child1);
                     } else {
                         // Skip enum literals, as the enum itself is moved or
                         // merged.
@@ -742,9 +749,11 @@ public class CifMerger {
         Group group = (comp instanceof Group) ? (Group)comp : null;
         Automaton aut = (comp instanceof Automaton) ? (Automaton)comp : null;
 
-        // Get children size (does not take enumeration literals into account),
-        // used to initialize the mapping, for performance reasons only.
+        // Get children size (does not take enumeration literals and named
+        // location invariants into account), used to initialize the mapping,
+        // for performance reasons only.
         int size = comp.getDeclarations().size();
+        size += comp.getInvariants().size();
         if (group != null) {
             size += group.getComponents().size();
         }
@@ -764,15 +773,20 @@ public class CifMerger {
             }
         }
 
-        // Add locations of automaton.
+        // Add locations and named location invariants of automaton.
         if (aut != null) {
             for (Location loc: aut.getLocations()) {
-                if (loc.getName() == null) {
-                    continue;
+                if (loc.getName() != null) {
+                    prev = rslt.put(loc.getName(), loc);
+                    Assert.check(prev == null);
                 }
 
-                prev = rslt.put(loc.getName(), loc);
-                Assert.check(prev == null);
+                for (Invariant inv: loc.getInvariants()) {
+                    if (inv.getName() != null) {
+                        prev = rslt.put(inv.getName(), inv);
+                        Assert.check(prev == null);
+                    }
+                }
             }
         }
 
@@ -786,6 +800,14 @@ public class CifMerger {
                     prev = rslt.put(lit.getName(), lit);
                     Assert.check(prev == null);
                 }
+            }
+        }
+
+        // Add named invariants of component.
+        for (Invariant inv: comp.getInvariants()) {
+            if (inv.getName() != null) {
+                prev = rslt.put(inv.getName(), inv);
+                Assert.check(prev == null);
             }
         }
 
@@ -901,6 +923,10 @@ public class CifMerger {
         } else if (obj1 instanceof DiscVariable && obj2 instanceof DiscVariable) {
             String msg = fmt(
                     "Merging objects with name \"%s\" failed: merging two discrete variables is not supported.",
+                    getAbsName(obj1));
+            throw new UnsupportedException(msg);
+        } else if (obj1 instanceof Invariant && obj2 instanceof Invariant) {
+            String msg = fmt("Merging objects with name \"%s\" failed: merging two invariants is not supported.",
                     getAbsName(obj1));
             throw new UnsupportedException(msg);
         } else {

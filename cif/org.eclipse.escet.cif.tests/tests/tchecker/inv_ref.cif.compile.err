@@ -1,0 +1,3 @@
+ERROR: File "tchecker/inv_ref.cif": Semantic error at line 19, column 14: Cannot use "inv1" as a value, as it is an invariant.
+ERROR: File "tchecker/inv_ref.cif": Semantic error at line 24, column 6: Cannot use "inv2" as a value, as it is an invariant.
+ERROR: Failed to load CIF file "tchecker/inv_ref.cif": the file has errors.

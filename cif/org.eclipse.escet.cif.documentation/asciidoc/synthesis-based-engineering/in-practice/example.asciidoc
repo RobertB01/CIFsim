@@ -182,14 +182,14 @@ We can easily model it as follows, using a <<lang-tut-extensions-synthesis-invki
 
 [source, cif]
 ----
-requirement INOUT.FinishedProduct => INOUT.curId = ((INOUT.lastExitId + 1) mod MAX_NR_OF_PRODS);
+requirement FIFO: INOUT.FinishedProduct => INOUT.curId = ((INOUT.lastExitId + 1) mod MAX_NR_OF_PRODS);
 ----
 
 If the _INOUT_ place has a finished product (is in its `FinishedProduct` location), then a product is about to exit the system.
 We know the product id of the last product that exited (`INOUT.lastExitId`) and the product id of the product currently situated at the _INOUT_ place (`INOUT.curId`).
 Products that enter the system get an id that is one higher than the previous product that entered (modulo the maximum number of products).
 The FIFO property can thus be ensured by requiring that when a product exits, it also has an id one higher than the last product that exited (again modulo the maximum number of products).
-From this, the requirement as specified follows directly.
+From this, requirement `FIFO` follows directly.
 
 === Performing synthesis
 

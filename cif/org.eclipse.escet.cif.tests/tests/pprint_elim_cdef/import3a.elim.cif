@@ -41,10 +41,12 @@ group a:
         disc bool disc1b;
         location:
           initial;
+          invariant inv1: false;
           edge event1a;
           edge event1b? do disc1b := ?;
       end
       invariant algparam1 > 0 or aut1a.loc1a or inst1a.loc1b;
+      invariant inv1: true;
     end
     group group1:
     end
@@ -65,12 +67,16 @@ group a:
         disc bool disc2b;
         location:
           initial;
+          invariant inv2: false;
           edge event2a;
           edge event2b? do disc2b := ?;
       end
       invariant algparam2 > 0 or aut2a.loc2a or inst2a.loc2b;
+      invariant inv2: true;
     end
     group group2:
     end
+    invariant inv1: true;
+    invariant inv2: true;
   end
 end

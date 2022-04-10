@@ -59,6 +59,7 @@ public enum ErrMsg {
     // Declaration.name
     // EnumLiteral.name
     // Location.name
+    // Invariant.name
     RESERVED_NAME_PREFIX(
             "Name of \"%s\" is invalid, as names starting with \"e_\", \"c_\", or \"u_\" are reserved for events.", 1,
             WARNING),
@@ -283,6 +284,9 @@ public enum ErrMsg {
 
     // AST related constraint.
     TYPE_REF_IN_EXPR("Cannot use \"%s\" as a value, as it is a type.", 1, ERROR),
+
+    // AST related constraint.
+    INV_REF_IN_EXPR("Cannot use \"%s\" as a value, as it is an invariant.", 1, ERROR),
 
     // UnaryExpression.type
     UNOP_INVALID_CHILD_TYPE("Unary operator \"%s\" can not be applied to a value of type \"%s\".", 2, ERROR),

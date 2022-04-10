@@ -39,3 +39,6 @@ automaton a:
   location:
     initial;
 end
+
+invariant inv: true;
+type i = inv;
