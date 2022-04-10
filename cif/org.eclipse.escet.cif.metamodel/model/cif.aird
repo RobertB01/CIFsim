@@ -8,7 +8,7 @@
     <semanticResources>platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.genmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_OSL6AHcKEeWuLduNN8gYTg">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f7p6QIleEeqQaNL0VWGLjw" name="cif" repPath="#_Py10cHcKEeWuLduNN8gYTg" changeId="42d7c8cc-1cd7-437f-8d36-ebd2431bf1ac">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f7p6QIleEeqQaNL0VWGLjw" name="cif" repPath="#_Py10cHcKEeWuLduNN8gYTg" changeId="1a4abefa-accf-4d6e-8f47-12dfbf0c5b4c">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="cif.ecore#/"/>
       </ownedRepresentationDescriptors>
@@ -251,7 +251,7 @@
           <children xmi:type="notation:Node" xmi:id="_Qdes43cKEeWuLduNN8gYTg" type="5007"/>
           <children xmi:type="notation:Node" xmi:id="_Qdes5HcKEeWuLduNN8gYTg" type="7004">
             <children xmi:type="notation:Node" xmi:id="_Mb6GkKdoEeys0_bqsX-3Kg" type="3010" element="_PiEBoKbYEeys0_bqsX-3Kg">
-              <styles xmi:type="notation:FontStyle" xmi:id="_Mb6GkadoEeys0_bqsX-3Kg" fontName="Segoe UI" fontHeight="8"/>
+              <styles xmi:type="notation:FontStyle" xmi:id="_Mb6GkadoEeys0_bqsX-3Kg" fontName="Sans" fontHeight="8" bold="true"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_Mb6GkqdoEeys0_bqsX-3Kg"/>
             </children>
             <children xmi:type="notation:Node" xmi:id="_QdhJKXcKEeWuLduNN8gYTg" type="3010" element="_QdQDYHcKEeWuLduNN8gYTg">
@@ -1418,6 +1418,8 @@
         <target xmi:type="ecore:EAttribute" href="cif.ecore#//Invariant/name"/>
         <semanticElements xmi:type="ecore:EAttribute" href="cif.ecore#//Invariant/name"/>
         <ownedStyle xmi:type="diagram:BundledImage" uid="_ZZINYqbYEeys0_bqsX-3Kg" labelAlignment="LEFT">
+          <customFeatures>labelFormat</customFeatures>
+          <labelFormat>bold</labelFormat>
           <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
