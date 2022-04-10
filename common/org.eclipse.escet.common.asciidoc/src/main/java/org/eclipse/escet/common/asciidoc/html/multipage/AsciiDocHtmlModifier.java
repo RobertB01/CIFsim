@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -75,9 +76,11 @@ class AsciiDocHtmlModifier {
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
      * @param parentWebsiteLink The relative path of the parent website to link to, if {@code htmlType} is
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
+     * @param logger The logger to use.
      */
     static void generateAndWriteModifiedPages(Document singlePageDoc, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
-            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink)
+            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink,
+            Consumer<String> logger)
     {
         // Determine new section ids.
         determineNewSectionIds(htmlPages);
@@ -87,7 +90,7 @@ class AsciiDocHtmlModifier {
             try {
                 // Debug output.
                 if (DEBUG) {
-                    System.out.println("Modifying page: " + page.sourceFile.relPath);
+                    logger.accept("Modifying page: " + page.sourceFile.relPath);
                 }
 
                 // Clone the original single-page HTML file for this page.
