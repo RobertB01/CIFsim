@@ -96,9 +96,10 @@ public class AsciiDocMultiPageHtmlSplitter {
                 throw new RuntimeException("Unknown HTML type: " + htmlType);
         }
 
+        String htmlFileExt = ".html";
         String rootBaseName = singleHtmlPagePath.getFileName().toString();
-        Verify.verify(rootBaseName.endsWith(".html"));
-        rootBaseName = rootBaseName.substring(0, rootBaseName.length() - ".html".length());
+        Verify.verify(rootBaseName.endsWith(htmlFileExt));
+        rootBaseName = rootBaseName.substring(0, rootBaseName.length() - htmlFileExt.length());
 
         splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType, parentWebsiteName, parentWebsiteLink,
                 rootBaseName, System.out::println);

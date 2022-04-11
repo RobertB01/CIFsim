@@ -18,6 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -69,8 +71,9 @@ class AsciiDocSourceFileAnalyzer {
             int idIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("[["))
                     .findFirst().getAsInt();
             String idLine = sourceContent.get(idIndex);
-            Verify.verify(idLine.endsWith("]]"), idLine);
-            sourceId = idLine.substring(2, idLine.length() - 2); // [[id]]
+            Matcher matcher = Pattern.compile("\\[\\[(.*)\\]\\]").matcher(idLine); // [[id]]
+            Verify.verify(matcher.matches(), idLine);
+            sourceId = matcher.group(1);
 
             // Sanity check: no markup in id.
             Verify.verify(sourceId.matches("[a-z0-9-]+"), sourceId);
