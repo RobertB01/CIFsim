@@ -69,6 +69,7 @@
     </genClasses>
     <genClasses image="false" ecoreClass="cif.ecore#//IoDecl"/>
     <genClasses ecoreClass="cif.ecore#//Invariant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//Invariant/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//Invariant/supKind"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//Invariant/predicate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//Invariant/invKind"/>

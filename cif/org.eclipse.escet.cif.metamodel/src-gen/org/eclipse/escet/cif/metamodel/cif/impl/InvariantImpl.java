@@ -39,6 +39,7 @@ import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectI
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.eclipse.escet.cif.metamodel.cif.impl.InvariantImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.impl.InvariantImpl#getSupKind <em>Sup Kind</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.impl.InvariantImpl#getPredicate <em>Predicate</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.impl.InvariantImpl#getInvKind <em>Inv Kind</em>}</li>
@@ -49,6 +50,26 @@ import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectI
  */
 public class InvariantImpl extends PositionObjectImpl implements Invariant
 {
+    /**
+     * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getName()
+     * @generated
+     * @ordered
+     */
+    protected static final String NAME_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getName()
+     * @generated
+     * @ordered
+     */
+    protected String name = NAME_EDEFAULT;
+
     /**
      * The default value of the '{@link #getSupKind() <em>Sup Kind</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -128,6 +149,31 @@ public class InvariantImpl extends PositionObjectImpl implements Invariant
     protected EClass eStaticClass()
     {
         return CifPackage.Literals.INVARIANT;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void setName(String newName)
+    {
+        String oldName = name;
+        name = newName;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, CifPackage.INVARIANT__NAME, oldName, name));
     }
 
     /**
@@ -308,6 +354,8 @@ public class InvariantImpl extends PositionObjectImpl implements Invariant
     {
         switch (featureID)
         {
+            case CifPackage.INVARIANT__NAME:
+                return getName();
             case CifPackage.INVARIANT__SUP_KIND:
                 return getSupKind();
             case CifPackage.INVARIANT__PREDICATE:
@@ -330,6 +378,9 @@ public class InvariantImpl extends PositionObjectImpl implements Invariant
     {
         switch (featureID)
         {
+            case CifPackage.INVARIANT__NAME:
+                setName((String)newValue);
+                return;
             case CifPackage.INVARIANT__SUP_KIND:
                 setSupKind((SupKind)newValue);
                 return;
@@ -356,6 +407,9 @@ public class InvariantImpl extends PositionObjectImpl implements Invariant
     {
         switch (featureID)
         {
+            case CifPackage.INVARIANT__NAME:
+                setName(NAME_EDEFAULT);
+                return;
             case CifPackage.INVARIANT__SUP_KIND:
                 setSupKind(SUP_KIND_EDEFAULT);
                 return;
@@ -382,6 +436,8 @@ public class InvariantImpl extends PositionObjectImpl implements Invariant
     {
         switch (featureID)
         {
+            case CifPackage.INVARIANT__NAME:
+                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case CifPackage.INVARIANT__SUP_KIND:
                 return supKind != SUP_KIND_EDEFAULT;
             case CifPackage.INVARIANT__PREDICATE:
@@ -405,7 +461,9 @@ public class InvariantImpl extends PositionObjectImpl implements Invariant
         if (eIsProxy()) return super.toString();
 
         StringBuilder result = new StringBuilder(super.toString());
-        result.append(" (supKind: ");
+        result.append(" (name: ");
+        result.append(name);
+        result.append(", supKind: ");
         result.append(supKind);
         result.append(", invKind: ");
         result.append(invKind);

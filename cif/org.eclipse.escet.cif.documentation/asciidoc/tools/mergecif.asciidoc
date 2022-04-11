@@ -372,6 +372,8 @@ Merging two literals from different enumerations (which then have different name
 
 Type declarations and enumerations can be merged, as long as the type of the type declaration is compatible with the enumeration.
 
+Invariants can never be merged with other objects of the same name.
+
 User-defined functions can never be merged with other objects of the same name.
 
 indexterm:[CIF merger,merge problems]

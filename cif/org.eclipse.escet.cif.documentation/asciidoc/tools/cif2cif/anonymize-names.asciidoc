@@ -101,6 +101,9 @@ The following table indicates the prefixes that are used for the different kinds
 |`input`
 |<<lang-tut-reuse2-chapter-input-variables,Input variable>>
 
+|`inv`
+|<<lang-tut-data-chapter-stat-invariants,State (exclusion) invariants>> and <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>
+
 |`inst`
 |<<lang-tut-reuse2-chapter-aut-def-inst,Component instantiation>>
 
@@ -165,7 +168,7 @@ The new literal names for compatible enumerations will be identical, to ensure t
 To ensure that compatible tuple types remain compatible, their field names are not numbered globally, but are instead based on their index within the tuple type.
 That is, for a tuple type `tuple(int nr; real weight)` the anonymized result is `tuple(int field1; real field2)`.
 
-Objects without a name, such as nameless locations, are not given a name.
+Objects without a name, such as nameless locations or nameless invariants, are not given a name.
 
 indexterm:[anonymize names,renaming]
 

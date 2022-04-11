@@ -27,6 +27,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link org.eclipse.escet.cif.metamodel.cif.Invariant#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.Invariant#getSupKind <em>Sup Kind</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.Invariant#getPredicate <em>Predicate</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.Invariant#getInvKind <em>Inv Kind</em>}</li>
@@ -39,6 +40,28 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  */
 public interface Invariant extends PositionObject
 {
+    /**
+     * Returns the value of the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Name</em>' attribute.
+     * @see #setName(String)
+     * @see org.eclipse.escet.cif.metamodel.cif.CifPackage#getInvariant_Name()
+     * @model dataType="org.eclipse.escet.cif.metamodel.cif.CifIdentifier"
+     * @generated
+     */
+    String getName();
+
+    /**
+     * Sets the value of the '{@link org.eclipse.escet.cif.metamodel.cif.Invariant#getName <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Name</em>' attribute.
+     * @see #getName()
+     * @generated
+     */
+    void setName(String value);
+
     /**
      * Returns the value of the '<em><b>Sup Kind</b></em>' attribute.
      * The literals are from the enumeration {@link org.eclipse.escet.cif.metamodel.cif.SupKind}.

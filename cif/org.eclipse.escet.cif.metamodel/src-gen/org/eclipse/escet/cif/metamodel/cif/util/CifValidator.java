@@ -22,8 +22,8 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
-
 import org.eclipse.emf.ecore.util.EcoreValidator;
+
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 import org.eclipse.escet.cif.metamodel.cif.*;

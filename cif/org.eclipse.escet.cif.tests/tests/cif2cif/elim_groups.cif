@@ -16,6 +16,7 @@ const int g2_c = 0;
 const int g4_A = 0;
 
 invariant c + g2_c + g4_A + g1.c2 > 0;
+invariant g1_inv2: true;
 
 enum g3_E = A, B;
 
@@ -26,6 +27,7 @@ group g1:
   group p:
     automaton p1:
       location l:
+        invariant inv1: true;
         initial;
     end
     automaton p2:
@@ -34,12 +36,12 @@ group g1:
     end
   end
 
-  plant invariant c = 1;
+  plant invariant inv2: c = 1;
 end
 
 group g2:
   const int c = 2;
-  requirement invariant c = 2;
+  requirement invariant inv3: c = 2;
 end
 
 group g3:

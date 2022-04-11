@@ -853,14 +853,14 @@ public final class CifParserHooks implements CifParser.Hooks {
     }
 
     @Override // CoreEdge : EdgeEvents OptEdgeGuard OptEdgeUrgent OptEdgeUpdate;
-    public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, TextPosition p3, List<AUpdate> l4) {
-        return new ACoreEdge(l1, l2, p3, l4);
+    public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, TextPosition t3, List<AUpdate> l4) {
+        return new ACoreEdge(l1, l2, t3, l4);
     }
 
     @Override // CoreEdge : WHENKW Expressions OptEdgeUrgent OptEdgeUpdate;
-    public ACoreEdge parseCoreEdge2(List<AExpression> l2, TextPosition p3, List<AUpdate> l4) {
+    public ACoreEdge parseCoreEdge2(List<AExpression> l2, TextPosition t3, List<AUpdate> l4) {
         List<AEdgeEvent> events = list();
-        return new ACoreEdge(events, l2, p3, l4);
+        return new ACoreEdge(events, l2, t3, l4);
     }
 
     @Override // CoreEdge : @NOWKW OptEdgeUpdate;
@@ -1278,16 +1278,26 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Invariant : Expression;
     public AInvariant parseInvariant1(AExpression a1) {
-        return new AInvariant(a1, null, null, a1.position);
+        return new AInvariant(null, a1, null, null, a1.position);
+    }
+
+    @Override // Invariant : Identifier COLONTK Expression;
+    public AInvariant parseInvariant2(AIdentifier a1, AExpression a3) {
+        return new AInvariant(a1, a3, null, null, a3.position);
     }
 
     @Override // Invariant : Name @NEEDSKW Expression;
-    public AInvariant parseInvariant2(AName a1, Token t2, AExpression a3) {
-        return new AInvariant(a3, t2, list(a1), t2.position);
+    public AInvariant parseInvariant3(AName a1, Token t2, AExpression a3) {
+        return new AInvariant(null, a3, t2, list(a1), t2.position);
+    }
+
+    @Override // Invariant : Identifier COLONTK Name @NEEDSKW Expression;
+    public AInvariant parseInvariant4(AIdentifier a1, AName a3, Token t4, AExpression a5) {
+        return new AInvariant(a1, a5, t4, list(a3), t4.position);
     }
 
     @Override // Invariant : NonEmptySetExpression @NEEDSKW Expression;
-    public AInvariant parseInvariant3(ASetExpression a1, Token t2, AExpression a3) {
+    public AInvariant parseInvariant5(ASetExpression a1, Token t2, AExpression a3) {
         Assert.check(!a1.elements.isEmpty());
         List<AName> events = listc(a1.elements.size());
         for (AExpression elem: a1.elements) {
@@ -1298,17 +1308,22 @@ public final class CifParserHooks implements CifParser.Hooks {
                 throw new CustomSyntaxException(msg, elem.position);
             }
         }
-        return new AInvariant(a3, t2, events, t2.position);
+        return new AInvariant(null, a3, t2, events, t2.position);
     }
 
     @Override // Invariant : Expression @DISABLESKW Name;
-    public AInvariant parseInvariant4(AExpression a1, Token t2, AName a3) {
-        return new AInvariant(a1, t2, list(a3), t2.position);
+    public AInvariant parseInvariant6(AExpression a1, Token t2, AName a3) {
+        return new AInvariant(null, a1, t2, list(a3), t2.position);
+    }
+
+    @Override // Invariant : Identifier COLONTK Expression @DISABLESKW Name;
+    public AInvariant parseInvariant7(AIdentifier a1, AExpression a3, Token t4, AName a5) {
+        return new AInvariant(a1, a3, t4, list(a5), t4.position);
     }
 
     @Override // Invariant : Expression @DISABLESKW NamesSet;
-    public AInvariant parseInvariant5(AExpression a1, Token t2, List<AName> l3) {
-        return new AInvariant(a1, t2, l3, t2.position);
+    public AInvariant parseInvariant8(AExpression a1, Token t2, List<AName> l3) {
+        return new AInvariant(null, a1, t2, l3, t2.position);
     }
 
     @Override // NamesSet : CUROPENTK Names CURCLOSETK;

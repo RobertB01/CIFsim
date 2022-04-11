@@ -58,7 +58,7 @@ All declarations, invariants, initialization predicates, marker predicates, and 
 The automata are lifted to the top level of the specification as well.
 Subsequently, the groups are removed.
 
-In order to be able to track the origin of automata and declarations, they are named after their absolute names.
+In order to be able to track the origin of automata, declarations and invariants, they are named after their absolute names.
 For a group `x`, with a group `y`, with a constant `z`, the absolute name of the constant is `x.y.z`.
 The constant is lifted to the top level of the specification, and named `x_y_z`.
 
@@ -68,7 +68,7 @@ For instance, this specification:
 ----
 group a:
   const int x = 5;
-  invariant x > 4;
+  invariant inv: x > 4;
 end
 
 group p:
@@ -84,7 +84,7 @@ is transformed to the following specification:
 [source, cif]
 ----
 const int a_x = 5;
-invariant a_x > 4;
+invariant a_inv: a_x > 4;
 
 automaton p_q:
   event e;
@@ -97,7 +97,7 @@ indexterm:[eliminate groups,renaming]
 [[tools-cif2cif-elim-groups-renaming]]
 === Renaming
 
-Since declarations of the specification are merged with the declarations of the groups and with automata, renaming may be necessary to ensure uniquely named declarations.
+Since declarations (and invariants) of the specification are merged with the declarations of the groups and with automata, renaming may be necessary to ensure uniquely named declarations.
 For instance, for a group `x`, with a group `y`, with a constant `z`, the absolute name of the constant is `x.y.z`.
 The constant is lifted to the top level of the specification, and renamed to `x_y_z`.
 However, if the specification already contains a declaration of another constant, automaton, etc named `x_y_z`, then the lifted constant is renamed to `x_y_z2` instead.

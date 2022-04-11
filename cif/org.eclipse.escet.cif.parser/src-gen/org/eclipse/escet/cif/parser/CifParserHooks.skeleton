@@ -1104,23 +1104,38 @@ implements CifParser.Hooks
         // return null;
     }
 
+    @Override // Invariant : Identifier COLONTK Expression;
+    public AInvariant parseInvariant2(AIdentifier a1, AExpression a3) {
+        // return null;
+    }
+
     @Override // Invariant : Name @NEEDSKW Expression;
-    public AInvariant parseInvariant2(AName a1, Token t2, AExpression a3) {
+    public AInvariant parseInvariant3(AName a1, Token t2, AExpression a3) {
+        // return null;
+    }
+
+    @Override // Invariant : Identifier COLONTK Name @NEEDSKW Expression;
+    public AInvariant parseInvariant4(AIdentifier a1, AName a3, Token t4, AExpression a5) {
         // return null;
     }
 
     @Override // Invariant : NonEmptySetExpression @NEEDSKW Expression;
-    public AInvariant parseInvariant3(ASetExpression a1, Token t2, AExpression a3) {
+    public AInvariant parseInvariant5(ASetExpression a1, Token t2, AExpression a3) {
         // return null;
     }
 
     @Override // Invariant : Expression @DISABLESKW Name;
-    public AInvariant parseInvariant4(AExpression a1, Token t2, AName a3) {
+    public AInvariant parseInvariant6(AExpression a1, Token t2, AName a3) {
+        // return null;
+    }
+
+    @Override // Invariant : Identifier COLONTK Expression @DISABLESKW Name;
+    public AInvariant parseInvariant7(AIdentifier a1, AExpression a3, Token t4, AName a5) {
         // return null;
     }
 
     @Override // Invariant : Expression @DISABLESKW NamesSet;
-    public AInvariant parseInvariant5(AExpression a1, Token t2, List<AName> l3) {
+    public AInvariant parseInvariant8(AExpression a1, Token t2, List<AName> l3) {
         // return null;
     }
 

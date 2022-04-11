@@ -1,4 +1,4 @@
-ERROR: File "tchecker/nameless_loc_not_alone.cif": Semantic error at line 17, column 5: Nameless location in automaton "g.x" cannot coexist with other locations in the same automaton.
+ERROR: File "tchecker/nameless_loc_not_alone.cif": Semantic error at line 16, column 5: Nameless location in automaton "g.x" cannot coexist with other locations in the same automaton.
 ERROR: File "tchecker/nameless_loc_not_alone.cif": Semantic error at line 24, column 5: Nameless location in automaton "h.x" cannot coexist with other locations in the same automaton.
 ERROR: File "tchecker/nameless_loc_not_alone.cif": Semantic error at line 30, column 5: Nameless location in automaton "i.x" cannot coexist with other locations in the same automaton.
 ERROR: Failed to load CIF file "tchecker/nameless_loc_not_alone.cif": the file has errors.

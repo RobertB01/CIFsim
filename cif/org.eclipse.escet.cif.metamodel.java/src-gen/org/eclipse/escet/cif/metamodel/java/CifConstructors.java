@@ -2313,18 +2313,22 @@ public class CifConstructors {
      *
      * @param event The "event" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "event", or to set it later.
      * @param invKind The "invKind" of the new "Invariant". Multiplicity [1..1]. May be {@code null} to set the "invKind" later.
+     * @param name The "name" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "name", or to set it later.
      * @param position The "position" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param predicate The "predicate" of the new "Invariant". Multiplicity [1..1]. May be {@code null} to set the "predicate" later.
      * @param supKind The "supKind" of the new "Invariant". Multiplicity [1..1]. May be {@code null} to set the "supKind" later.
      * @return A new instance of the {@link Invariant} class.
      */
-    public static Invariant newInvariant(Expression event, InvKind invKind, Position position, Expression predicate, SupKind supKind) {
+    public static Invariant newInvariant(Expression event, InvKind invKind, String name, Position position, Expression predicate, SupKind supKind) {
         Invariant rslt_ = newInvariant();
         if (event != null) {
             rslt_.setEvent(event);
         }
         if (invKind != null) {
             rslt_.setInvKind(invKind);
+        }
+        if (name != null) {
+            rslt_.setName(name);
         }
         if (position != null) {
             rslt_.setPosition(position);

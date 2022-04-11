@@ -31,6 +31,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFunctionPa
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newGroup;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInternalFunction;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInvariant;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationParameter;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
@@ -46,6 +47,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.escet.cif.metamodel.cif.AlgParameter;
@@ -54,6 +56,8 @@ import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
 import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.InvKind;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
@@ -72,6 +76,7 @@ import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.parser.CifParser;
+import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.ACompDecl;
 import org.eclipse.escet.cif.parser.ast.ACompDefDecl;
 import org.eclipse.escet.cif.parser.ast.ACompInstDecl;
@@ -88,6 +93,7 @@ import org.eclipse.escet.cif.parser.ast.AFuncDecl;
 import org.eclipse.escet.cif.parser.ast.AImport;
 import org.eclipse.escet.cif.parser.ast.AImportDecl;
 import org.eclipse.escet.cif.parser.ast.AInitialDecl;
+import org.eclipse.escet.cif.parser.ast.AInvariant;
 import org.eclipse.escet.cif.parser.ast.AInvariantDecl;
 import org.eclipse.escet.cif.parser.ast.AMarkedDecl;
 import org.eclipse.escet.cif.parser.ast.ANamespaceDecl;
@@ -95,6 +101,7 @@ import org.eclipse.escet.cif.parser.ast.ASpecification;
 import org.eclipse.escet.cif.parser.ast.automata.AAlphabetDecl;
 import org.eclipse.escet.cif.parser.ast.automata.AAutomatonBody;
 import org.eclipse.escet.cif.parser.ast.automata.AEquationLocationElement;
+import org.eclipse.escet.cif.parser.ast.automata.AInvariantLocationElement;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
 import org.eclipse.escet.cif.parser.ast.automata.ALocationElement;
 import org.eclipse.escet.cif.parser.ast.automata.AMonitorDecl;
@@ -116,6 +123,7 @@ import org.eclipse.escet.cif.parser.ast.functions.AFuncParam;
 import org.eclipse.escet.cif.parser.ast.functions.AInternalFuncBody;
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
+import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.SourceFile;
@@ -132,6 +140,7 @@ import org.eclipse.escet.cif.typechecker.declwrap.FormalLocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InputVariableDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.InvariantInfo;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.app.framework.PlatformUriUtils;
@@ -529,7 +538,7 @@ public class SymbolScopeBuilder {
         } else if (decl instanceof AInitialDecl) {
             parent.astInitPreds.add((AInitialDecl)decl);
         } else if (decl instanceof AInvariantDecl) {
-            parent.astInvs.add((AInvariantDecl)decl);
+            addInvariants(decl, parent, parent.getComplexComponent().getInvariants());
         } else if (decl instanceof AMarkedDecl) {
             parent.astMarkerPreds.add((AMarkedDecl)decl);
         } else if (decl instanceof AEquationDecl) {
@@ -616,32 +625,36 @@ public class SymbolScopeBuilder {
     private void addLocation(ALocation loc, ParentScope<?> parent) {
         Assert.check(parent instanceof AutScope || parent instanceof AutDefScope);
 
-        // Add equations from the location to the automaton scope.
+        // Add location to the automaton scope.
+        Location loc2 = newLocation();
+        if (loc.name != null) {
+            loc2.setName(loc.name.id);
+            loc2.setPosition(loc.name.createPosition());
+        } else {
+            loc2.setPosition(loc.createPosition());
+        }
+
+        // Add location to parent object.
+        parent.getAutomaton().getLocations().add(loc2);
+
+        // Add invariants and equations from the location to the automaton scope.
         if (loc.elements != null) {
             for (ALocationElement lelem: loc.elements) {
                 if (lelem instanceof AEquationLocationElement) {
                     List<AEquation> eqns;
                     eqns = ((AEquationLocationElement)lelem).equations;
                     parent.addEquations(eqns);
+                } else if (lelem instanceof AInvariantLocationElement) {
+                    addInvariants(lelem, parent, loc2.getInvariants());
                 }
             }
         }
 
-        // Skip adding nameless locations to the symbol table and metamodel.
-        if (loc.name == null) {
-            return;
+        // Add named locations to the symbol table.
+        if (loc.name != null) {
+            LocationDeclWrap wrapper = new LocationDeclWrap(tchecker, parent, loc2);
+            parent.addDeclaration(wrapper);
         }
-
-        // Add location to the automaton scope.
-        Location loc2 = newLocation();
-        loc2.setName(loc.name.id);
-        loc2.setPosition(loc.name.createPosition());
-
-        LocationDeclWrap wrapper = new LocationDeclWrap(tchecker, parent, loc2);
-        parent.addDeclaration(wrapper);
-
-        // Add location to parent object.
-        parent.getAutomaton().getLocations().add(loc2);
     }
 
     /**
@@ -814,6 +827,74 @@ public class SymbolScopeBuilder {
             parent.addDeclaration(wrapper);
 
             parent.getComplexComponent().getDeclarations().add(var2);
+        }
+    }
+
+    /**
+     * Add invariants to the given parent symbol scope.
+     *
+     * @param invs The invariants to add.
+     * @param parent The parent symbol scope to which to add the invariants.
+     * @param mmInvs The list to which to add the metamodel invariants. Can be the invariants in a component or in a
+     *     location.
+     */
+    private void addInvariants(ACifObject invs, ParentScope<?> parent, EList<Invariant> mmInvs) {
+        List<AInvariant> invariants = null;
+        SupKind supKind = null;
+        if (invs instanceof AInvariantDecl) {
+            invariants = ((AInvariantDecl)invs).invariants;
+            // Process supervisory kind of the invariant.
+            supKind = transInvSupKind(((AInvariantDecl)invs).kind);
+        } else if (invs instanceof AInvariantLocationElement) {
+            invariants = ((AInvariantLocationElement)invs).invariants;
+            // Process supervisory kind of the invariant.
+            supKind = transInvSupKind(((AInvariantLocationElement)invs).kind);
+        } else {
+            throw new RuntimeException("Unknown/unexpected invariants: " + invs);
+        }
+
+        // Add the individual invariants.
+        for (AInvariant astInv: invariants) {
+            // Get the invariant name.
+            AIdentifier invName = astInv.name;
+
+            // Process invariant kind.
+            InvKind invKind = transInvKind(astInv.invKind);
+
+            // Consider (multiple) event references.
+            int numberOfInvariants;
+            if (invKind == InvKind.STATE) {
+                // State (exclusion) invariant, so no event reference.
+                numberOfInvariants = 1;
+            } else {
+                // One or more event references.
+                numberOfInvariants = astInv.events.size();
+
+                // Syntax does not allow an invariant with multiple event references to be named. This assures there
+                // won't be metamodel invariants with the same name.
+                Assert.implies(numberOfInvariants > 1, invName == null);
+            }
+
+            // Create and add invariants.
+            for (int i = 0; i < numberOfInvariants; i++) {
+                Position invPos = invName == null ? astInv.createPosition() : invName.createPosition();
+
+                Invariant mmInv = newInvariant();
+                if (invName != null) {
+                    mmInv.setName(invName.id);
+                }
+                mmInv.setInvKind(invKind);
+                mmInv.setSupKind(supKind);
+                mmInv.setPosition(invPos);
+
+                // Add invariant to metamodel.
+                mmInvs.add(mmInv);
+
+                // Add invariant type check information to the parent scope, to be checked later.
+                AName event = astInv.events == null ? null : astInv.events.get(i);
+                InvariantInfo invariantInfo = new InvariantInfo(astInv, event, mmInv);
+                parent.addInvariant(invariantInfo);
+            }
         }
     }
 
@@ -1089,5 +1170,32 @@ public class SymbolScopeBuilder {
 
         // New source file. Add it to the queue for further processing.
         tchecker.sourceFiles.add(newSourceFile);
+    }
+
+    /**
+     * Transforms a CIF AST invariant kind token to a CIF metamodel invariant kind.
+     *
+     * @param kind The CIF AST invariant kind. Is either a state/event exclusion kind token, or {@code null} for state
+     *     invariants.
+     * @return The CIF metamodel invariant kind.
+     */
+    private static InvKind transInvKind(Token kind) {
+        if (kind == null) {
+            return InvKind.STATE;
+        }
+        return InvKind.valueOf("EVENT_" + kind.text.toUpperCase(Locale.US));
+    }
+
+    /**
+     * Transforms a CIF AST invariant supervisory kind token to a CIF metamodel invariant supervisory kind.
+     *
+     * @param kind The CIF AST invariant supervisory kind token, or {@code null} if not specified.
+     * @return The CIF metamodel invariant supervisory kind.
+     */
+    private static SupKind transInvSupKind(Token kind) {
+        if (kind == null) {
+            return SupKind.NONE;
+        }
+        return SupKind.valueOf(kind.text.toUpperCase(Locale.US));
     }
 }

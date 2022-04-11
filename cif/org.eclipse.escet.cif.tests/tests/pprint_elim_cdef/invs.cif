@@ -75,3 +75,40 @@ group g:
       plant 12 = 12 disables {f, e};
   end
 end
+
+            invariant inv1: 1 = 1;
+plant       invariant inv2: 2 = 2;
+requirement invariant inv3: 3 = 3, inv4: 4 = 4;
+supervisor  invariant inv5: 5 = 5, inv6: 6 = 6, inv7: 7 = 7;
+
+invariant inv8: 8 = 8;
+invariant inv9: e needs 9 = 9;
+invariant inv10: 10 = 10 disables e;
+// invariant inv11: {e, f} needs 11 = 11;    // Syntax does not allow this.
+// invariant inv12: 12 = 12 disables {f, e}; // Syntax does not allow this.
+
+plant inv13: 8 = 8;
+plant inv14: e needs 9 = 9;
+plant inv15: 10 = 10 disables e;
+
+group h:
+              invariant inv1: 1 = 1;
+  plant       invariant inv2: 2 = 2;
+  requirement invariant inv3: 3 = 3, inv4: 4 = 4;
+  supervisor  invariant inv5: 5 = 5, inv6: 6 = 6, inv7: 7 = 7;
+
+  automaton a:
+                invariant inv1: 1 = 1;
+    plant       invariant inv2: 2 = 2;
+    requirement invariant inv3: 3 = 3, inv4: 4 = 4;
+    supervisor  invariant inv5: 5 = 5, inv6: 6 = 6, inv7: 7 = 7;
+
+    location l:
+      initial;
+
+                  invariant inv1l: 1 = 1;
+      plant       invariant inv2l: 2 = 2;
+      requirement invariant inv3l: 3 = 3, inv4l: 4 = 4;
+      supervisor  invariant inv5l: 5 = 5, inv6l: 6 = 6, in7l: 7 = 7;
+  end
+end

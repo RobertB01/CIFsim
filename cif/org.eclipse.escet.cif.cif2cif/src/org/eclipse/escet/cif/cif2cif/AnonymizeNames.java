@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
 import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -267,6 +268,13 @@ public class AnonymizeNames extends CifWalker implements CifToCifTransformation 
             TupleType tupleType = (TupleType)field.eContainer();
             int index = tupleType.getFields().indexOf(field);
             field.setName("field" + Integer.toString(index + 1));
+        }
+    }
+
+    @Override
+    protected void preprocessInvariant(Invariant inv) {
+        if (inv.getName() != null) {
+            inv.setName(getName("inv"));
         }
     }
 }

@@ -110,13 +110,13 @@ For instance, consider the following CIF specification:
 
 [source, cif]
 ----
-invariant lamp.on or lamp.off;      // Regular/kindless invariant.
+invariant inv1: lamp.on or lamp.off;      // Regular/kindless invariant.
 
 plant lamp:
   event turn_on, turn_off;
 
-  requirement invariant not off;    // Requirement invariant. Long form.
-  requirement not off;              // Requirement invariant. Short form.
+  requirement invariant req1: not off;    // Requirement invariant. Long form.
+  requirement req2: not off;              // Requirement invariant. Short form.
 
   location off:
     initial;
@@ -127,9 +127,10 @@ plant lamp:
 end
 ----
 
-The first invariant, above the `lamp` automaton, does not specify an additional supervisory kind keyword, are is therefore a regular invariant, also called a kindless invariant.
-The second invariant, in the `lamp` automaton, explicitly specifies a `requirement` kind and is therefore a requirement invariant.
-The third and last invariant is identical to the second invariant, except that the `invariant` keyword has been omitted.
+The `inv1` invariant, does not specify an additional supervisory kind keyword.
+It is therefore a regular invariant, also called a kindless invariant.
+The `req1` invariant, in the `lamp` automaton, explicitly specifies a `requirement` kind and is therefore a requirement invariant.
+The `req2` invariant is identical to the `req1` invariant, except that the `invariant` keyword has been omitted.
 It is also a requirement invariant, but written in a shorter form.
 
 There are two forms of invariants:

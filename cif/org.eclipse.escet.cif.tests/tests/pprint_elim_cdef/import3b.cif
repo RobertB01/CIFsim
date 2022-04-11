@@ -23,6 +23,7 @@ event event2a;
 event bool event2b;
 input bool input2;
 type type2 = bool;
+invariant inv2: true;
 
 func real func2(int funcparam2):
   real funcvar2 = 2.0;
@@ -46,6 +47,7 @@ end
 group def grpdef2(autdef2 compparam2; alg real algparam2; event evtparam2;
                   location locparam2):
   invariant algparam2 > 0 or locparam2 or compparam2.loc2b;
+  invariant inv2: true;
 
   automaton aut2b:
     disc bool disc2b;
@@ -54,6 +56,7 @@ group def grpdef2(autdef2 compparam2; alg real algparam2; event evtparam2;
       initial;
       edge evtparam2;
       edge event2b? do disc2b := ?;
+      invariant inv2: false;
   end
 end
 
