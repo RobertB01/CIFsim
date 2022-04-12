@@ -66,7 +66,6 @@ import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.box.VBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.TextPosition;
-import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
