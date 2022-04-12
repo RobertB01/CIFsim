@@ -26,7 +26,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.cif2yed.options.SyntaxHighlightingOption;
 import org.eclipse.escet.cif.cif2yed.options.TransparentEdgeLabelsOption;
 import org.eclipse.escet.cif.metamodel.cif.Specification;

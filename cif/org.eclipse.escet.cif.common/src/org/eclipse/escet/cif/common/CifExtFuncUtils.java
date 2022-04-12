@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.common;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.PlatformUriUtils;
 import org.eclipse.escet.common.java.Assert;
 

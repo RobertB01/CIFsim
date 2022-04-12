@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;

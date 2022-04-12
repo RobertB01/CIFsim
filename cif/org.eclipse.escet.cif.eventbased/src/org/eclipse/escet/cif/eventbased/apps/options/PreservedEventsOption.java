@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.eventbased.apps.options;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 

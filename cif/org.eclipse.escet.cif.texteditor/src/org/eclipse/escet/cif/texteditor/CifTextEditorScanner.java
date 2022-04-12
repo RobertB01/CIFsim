@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.texteditor;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.cif.parser.CifScanner;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
 import org.eclipse.escet.setext.texteditorbase.RuleBasedScannerEx;
@@ -38,7 +38,7 @@ public class CifTextEditorScanner extends RuleBasedScannerEx {
         // Keywords copied from CIF scanner.
         String[] keywords = CifScanner.getKeywords("Keywords");
         String[] supKinds = CifScanner.getKeywords("SupKind");
-        keywords = (String[])ArrayUtils.addAll(keywords, supKinds);
+        keywords = ArrayUtils.addAll(keywords, supKinds);
         String[] stdlibfuncs = CifScanner.getKeywords("StdLibFunction");
         String[] operators = CifScanner.getKeywords("Operator");
 

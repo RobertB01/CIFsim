@@ -40,8 +40,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2yed.options.RelationKind;
 import org.eclipse.escet.cif.cif2yed.options.RelationKindsOption;
@@ -1803,7 +1803,7 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
             if (!nodeIds.contains(id) && getChildElem(elem, "graph") == null) {
                 String[] parts = StringUtils.split(id, ":");
                 for (int i = parts.length - 1; i > 0; i--) {
-                    String[] prefix = (String[])ArrayUtils.subarray(parts, 0, i);
+                    String[] prefix = ArrayUtils.subarray(parts, 0, i);
                     String instId = String.join(":", prefix);
                     if (instIds.contains(instId)) {
                         elem.getParentNode().removeChild(elem);

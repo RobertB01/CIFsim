@@ -24,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Strings;
 

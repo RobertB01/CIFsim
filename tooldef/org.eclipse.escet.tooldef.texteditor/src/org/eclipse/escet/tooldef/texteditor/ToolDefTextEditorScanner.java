@@ -15,7 +15,7 @@ package org.eclipse.escet.tooldef.texteditor;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
 import org.eclipse.escet.setext.texteditorbase.RuleBasedScannerEx;
 import org.eclipse.escet.setext.texteditorbase.detectors.GenericWhitespaceDetector;
@@ -46,7 +46,7 @@ public class ToolDefTextEditorScanner extends RuleBasedScannerEx {
         };
         String[] builtins = {};
         for (String[] elems: builtinss) {
-            builtins = (String[])ArrayUtils.addAll(builtins, elems);
+            builtins = ArrayUtils.addAll(builtins, elems);
         }
 
         // Regular expression patterns for identifiers and names.

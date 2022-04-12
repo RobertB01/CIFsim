@@ -41,7 +41,7 @@ import static org.eclipse.escet.common.position.common.PositionUtils.copyPositio
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
