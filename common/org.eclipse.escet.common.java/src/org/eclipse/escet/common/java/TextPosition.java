@@ -121,6 +121,7 @@ public class TextPosition implements Comparable<TextPosition> {
         Assert.check(startOffset >= 0);
         Assert.check(endLine >= 1 && endLine >= startLine);
         Assert.check(endColumn >= 1);
+        Assert.implies(startLine == endLine, startColumn <= endColumn);
         Assert.check(endOffset >= 0 && endOffset >= startOffset);
     }
 
@@ -145,33 +146,62 @@ public class TextPosition implements Comparable<TextPosition> {
             throw new NullPointerException();
         }
 
-        // Compare the data of both positions, first the location and source.
+        // Try to order on location.
         int result = location.compareTo(other.location);
+        if (result != 0) {
+            return result;
+        }
 
-        if (result == 0) {
-            if (source == null) {
-                if (other.source != null) {
-                    return -1;
-                }
-                // Else fall-through to next comparison.
+        // Try to order on source, null is smaller than non-null.
+        if (source == null) {
+            if (other.source != null) {
+                return -1;
+            }
+            // Else fall-through to next comparison.
+        } else {
+            if (other.source == null) {
+                return 1;
             } else {
-                if (other.source == null) {
-                    return 1;
-                } else {
-                    result = source.compareTo(other.source);
+                result = source.compareTo(other.source);
+                if (result != 0) {
+                    return result;
                 }
             }
         }
 
-        // If no decision has been made at this point, both positions are in the same file and thus should have the
-        // same offset to line/column mapping function. Use the offsets first as that likely makes a quick decision.
-        result = updateResult(result, startOffset, other.startOffset);
-        result = updateResult(result, endOffset, other.endOffset);
-        result = updateResult(result, startLine, other.startLine);
-        result = updateResult(result, endLine, other.endLine);
-        result = updateResult(result, startColumn, other.startColumn);
-        result = updateResult(result, endColumn, other.endColumn);
-        return result;
+        // If no decision has been made at this point, both positions are in the same file.
+
+        // Try to order on start offset.
+        if (startOffset != other.startOffset) {
+            return startOffset < other.startOffset ? -1 : 1;
+        }
+
+        // Try to order on end offset.
+        if (endOffset != other.endOffset) {
+            return endOffset < other.endOffset ? -1 : 1;
+        }
+
+        // Try to order on start line.
+        if (startLine != other.startLine) {
+            return startLine < other.startLine ? -1 : 1;
+        }
+
+        // Try to order on end line.
+        if (endLine != other.endLine) {
+            return endLine < other.endLine ? -1 : 1;
+        }
+
+        // Try to order on start column.
+        if (startColumn != other.startColumn) {
+            return startColumn < other.startColumn ? -1 : 1;
+        }
+
+        // Try to order on end column.
+        if (endColumn != other.endColumn) {
+            return endColumn < other.endColumn ? -1 : 1;
+        }
+
+        return 0; // Both positions are truly equal.
     }
 
     @Override
@@ -206,22 +236,7 @@ public class TextPosition implements Comparable<TextPosition> {
     }
 
     /**
-     * If necessary compute an updated compare result, else return the old decision.
-     *
-     * @param compareResult Existing compare result.
-     * @param value First value to compare against if the compare result needs more comparisons.
-     * @param otherValue Second value to compare against if the compare result needs more comparisons.
-     * @return The possibly updated compare result.
-     */
-    private int updateResult(int compareResult, int value, int otherValue) {
-        if (compareResult == 0 && value != otherValue) {
-            compareResult = (value < otherValue) ? -1 : 1;
-        }
-        return compareResult;
-    }
-
-    /**
-     * Construct a dummy position containing the first character of the of the given location.
+     * Construct a dummy position containing the first character of the given location without source identification.
      *
      * @param location The location of the source file that contains the position. Must be an absolute path with
      *     platform-specific path separators, but does not need to exist at the file system.
@@ -232,7 +247,7 @@ public class TextPosition implements Comparable<TextPosition> {
     }
 
     /**
-     * Construct a dummy position containing the first character of the of the given location and source.
+     * Construct a dummy position containing the first character of the given location and source.
      *
      * @param location The location of the source file that contains the position. Must be an absolute path with
      *     platform-specific path separators, but does not need to exist at the file system.
@@ -255,12 +270,12 @@ public class TextPosition implements Comparable<TextPosition> {
         Assert.notNull(p2);
 
         // Locations must be equal.
-        Assert.check(p1.location.equals(p2.location));
+        Assert.areEqual(p1.location, p2.location);
 
         // Sources must be equal.
         Assert.check((p1.source == null) == (p2.source == null));
         if (p1.source != null && p2.source != null) {
-            Assert.check(p1.source.equals(p2.source));
+            Assert.areEqual(p1.source, p2.source);
         }
 
         // Construct merged position.

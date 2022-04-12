@@ -61,15 +61,18 @@ public class SemanticProblem implements Comparable<SemanticProblem> {
     public int compareTo(SemanticProblem other) {
         // Compare severity.
         int result = severity.compareTo(other.severity);
-        if (result == 0) {
-            // Compare position.
-            result = position.compareTo(other.position);
+        if (result != 0) {
+            return result;
         }
-        if (result == 0) {
-            // Compare message.
-            result = message.compareTo(other.message);
+
+        // Compare position.
+        result = position.compareTo(other.position);
+        if (result != 0) {
+            return result;
         }
-        return result;
+
+        // Compare message.
+        return message.compareTo(other.message);
     }
 
     @Override
