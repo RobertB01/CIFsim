@@ -13,28 +13,26 @@
 
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
-import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Strings.fmt;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
-import org.eclipse.escet.common.app.framework.XmlSupport;
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import com.google.common.base.Verify;
 
 /**
  * AsciiDoc multi-page HTML splitter.
@@ -72,14 +70,14 @@ public class AsciiDocMultiPageHtmlSplitter {
      */
     public static void main(String[] args) throws IOException {
         System.out.println("Command line arguments: " + Arrays.toString(args));
-        Assert.check(args.length == 4 || args.length == 6, args);
+        Verify.verify(args.length == 4 || args.length == 6, Arrays.toString(args));
 
         Path sourceRootPath = Paths.get(args[0]);
         Path singleHtmlPagePath = Paths.get(args[1]);
         Path outputRootPath = Paths.get(args[2]);
 
         String htmlTypeText = args[3];
-        Assert.check(htmlTypeText.startsWith("--"));
+        Verify.verify(htmlTypeText.startsWith("--"));
         htmlTypeText = htmlTypeText.substring(2).replace("-", "_").toUpperCase(Locale.US);
         HtmlType htmlType = HtmlType.valueOf(htmlTypeText);
 
@@ -87,10 +85,10 @@ public class AsciiDocMultiPageHtmlSplitter {
         String parentWebsiteLink = null;
         switch (htmlType) {
             case ECLIPSE_HELP:
-                Assert.check(args.length == 4, args);
+                Verify.verify(args.length == 4, Arrays.toString(args));
                 break;
             case WEBSITE:
-                Assert.check(args.length == 6, args);
+                Verify.verify(args.length == 6, Arrays.toString(args));
                 parentWebsiteName = args[4];
                 parentWebsiteLink = args[5];
                 break;
@@ -98,12 +96,13 @@ public class AsciiDocMultiPageHtmlSplitter {
                 throw new RuntimeException("Unknown HTML type: " + htmlType);
         }
 
+        String htmlFileExt = ".html";
         String rootBaseName = singleHtmlPagePath.getFileName().toString();
-        Assert.check(rootBaseName.endsWith(".html"));
-        rootBaseName = Strings.slice(rootBaseName, null, -".html".length());
+        Verify.verify(rootBaseName.endsWith(htmlFileExt));
+        rootBaseName = rootBaseName.substring(0, rootBaseName.length() - htmlFileExt.length());
 
         splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType, parentWebsiteName, parentWebsiteLink,
-                rootBaseName);
+                rootBaseName, System.out::println);
     }
 
     /**
@@ -120,18 +119,20 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param parentWebsiteLink The relative path of the parent website to link to, if {@code htmlType} is
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
      * @param rootBaseName The base name (file name excluding file extension) of the root AsciiDoc file.
+     * @param logger The logger to use.
      * @throws IOException In case of an I/O error.
      */
     public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath, HtmlType htmlType,
-            String parentWebsiteName, String parentWebsiteLink, String rootBaseName) throws IOException
+            String parentWebsiteName, String parentWebsiteLink, String rootBaseName, Consumer<String> logger)
+            throws IOException
     {
         // Check arguments.
-        Assert.areEqual(parentWebsiteName != null, htmlType == HtmlType.WEBSITE);
-        Assert.areEqual(parentWebsiteLink != null, htmlType == HtmlType.WEBSITE);
+        Verify.verify((parentWebsiteName != null) == (htmlType == HtmlType.WEBSITE));
+        Verify.verify((parentWebsiteLink != null) == (htmlType == HtmlType.WEBSITE));
 
         // Check inputs exist.
-        Assert.check(Files.isDirectory(sourceRootPath), sourceRootPath);
-        Assert.check(Files.isRegularFile(singleHtmlPagePath), singleHtmlPagePath);
+        Verify.verify(Files.isDirectory(sourceRootPath), sourceRootPath.toString());
+        Verify.verify(Files.isRegularFile(singleHtmlPagePath), singleHtmlPagePath.toString());
 
         // Ensure empty directory for output.
         if (Files.isDirectory(outputRootPath)) {
@@ -140,17 +141,17 @@ public class AsciiDocMultiPageHtmlSplitter {
         Files.createDirectories(outputRootPath);
 
         // Read and parse AsciiDoc-generated single-page HTML file.
-        System.out.println("Reading AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
+        logger.accept("Reading AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
         String generatedHtmlContent = Files.readString(singleHtmlPagePath, StandardCharsets.UTF_8);
         Document singlePageDoc = Jsoup.parse(generatedHtmlContent);
 
         // Find AsciiDoc source files.
-        System.out.println("Finding and analyzing AsciiDoc source files located in: " + sourceRootPath.toString());
+        logger.accept("Finding and analyzing AsciiDoc source files located in: " + sourceRootPath.toString());
         sourceRootPath = sourceRootPath.toAbsolutePath().normalize();
         List<Path> sourcePaths = getSourcePaths(sourceRootPath);
 
         // Analyze AsciiDoc source files.
-        List<AsciiDocSourceFile> sourceFiles = listc(sourcePaths.size());
+        List<AsciiDocSourceFile> sourceFiles = new ArrayList<>(sourcePaths.size());
         for (Path sourcePath: sourcePaths) {
             AsciiDocSourceFile sourceFile;
             try {
@@ -162,37 +163,39 @@ public class AsciiDocMultiPageHtmlSplitter {
                 sourceFiles.add(sourceFile);
             }
         }
-        System.out.println(fmt("%d AsciiDoc source files found, %d analyzed.", sourcePaths.size(), sourceFiles.size()));
+        int ignoreCount = sourcePaths.size() - sourceFiles.size();
+        logger.accept(String.format(Locale.US, "%d AsciiDoc source files found, %d analyzed, %d ignored.",
+                sourcePaths.size(), sourceFiles.size(), ignoreCount));
 
         // Analyze AsciiDoc-generated single-page HTML file.
-        System.out.println("Analyzing AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
+        logger.accept("Analyzing AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
         AsciiDocHtmlPages htmlPages = new AsciiDocHtmlPages(sourceFiles);
-        Assert.areEqual(htmlPages.homePage.sourceFile.getBaseName(), rootBaseName);
+        Verify.verify(htmlPages.homePage.sourceFile.getBaseName().equals(rootBaseName));
         AsciiDocHtmlAnalyzer.analyze(singlePageDoc, htmlPages);
 
         // Generate and write multiple HTML files, one per page.
-        System.out.println("Generating multi-page HTML files at: " + outputRootPath.toString());
+        logger.accept("Generating multi-page HTML files at: " + outputRootPath.toString());
         AsciiDocHtmlModifier.generateAndWriteModifiedPages(singlePageDoc, htmlPages, sourceRootPath, outputRootPath,
-                htmlType, parentWebsiteName, parentWebsiteLink);
+                htmlType, parentWebsiteName, parentWebsiteLink, logger);
 
         // Copy single AsciiDoc-generated HTML file to output directory, with different name.
         if (htmlType == HtmlType.WEBSITE) {
-            System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
+            logger.accept("Copying single-page HTML file to: " + outputRootPath.toString());
             Path singlePathOutputPath = outputRootPath.resolve(rootBaseName + "-single-page.html");
-            Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath);
+            Verify.verify(!Files.exists(singlePathOutputPath), singlePathOutputPath.toString());
             Files.copy(singleHtmlPagePath, singlePathOutputPath);
         }
 
         // Generate Eclipse help 'toc.xml' file.
         if (htmlType == HtmlType.ECLIPSE_HELP) {
             Path tocXmlPath = outputRootPath.resolve("toc.xml");
-            System.out.println("Generating Eclipse help TOC at: " + tocXmlPath.toString());
+            logger.accept("Generating Eclipse help TOC at: " + tocXmlPath.toString());
             org.w3c.dom.Document tocXmlDoc = AsciiDocEclipseHelpTocUtil.tocToEclipseHelpXml(htmlPages.toc);
-            XmlSupport.writeFile(tocXmlDoc, "TOC", tocXmlPath.toString());
+            AsciiDocEclipseHelpTocUtil.writeTocXmlFile(tocXmlDoc, tocXmlPath.toString());
         }
 
         // Done.
-        System.out.println("DONE: AsciiDoc multi-page HTML split completed.");
+        logger.accept("DONE: AsciiDoc multi-page HTML split completed.");
     }
 
     /**

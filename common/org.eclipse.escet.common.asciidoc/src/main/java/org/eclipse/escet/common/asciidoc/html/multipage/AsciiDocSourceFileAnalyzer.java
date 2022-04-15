@@ -13,18 +13,18 @@
 
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
+
+import com.google.common.base.Verify;
 
 /** AsciiDoc source file analyzer. */
 class AsciiDocSourceFileAnalyzer {
@@ -46,7 +46,7 @@ class AsciiDocSourceFileAnalyzer {
         // Skip special files.
         String fileName = sourcePath.getFileName().toString();
         if (fileName.toString().startsWith("_")) {
-            Assert.check(fileName.equals("_root_attributes.asciidoc") || fileName.equals("_part_attributes.asciidoc")
+            Verify.verify(fileName.equals("_root_attributes.asciidoc") || fileName.equals("_part_attributes.asciidoc")
                     || fileName.equals("_local_attributes.asciidoc"), fileName);
             return null;
         }
@@ -71,37 +71,39 @@ class AsciiDocSourceFileAnalyzer {
             int idIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("[["))
                     .findFirst().getAsInt();
             String idLine = sourceContent.get(idIndex);
-            Assert.check(idLine.endsWith("]]"), idLine);
-            sourceId = Strings.slice(idLine, 2, -2); // [[id]]
+            Matcher matcher = Pattern.compile("\\[\\[(.*)\\]\\]").matcher(idLine); // [[id]]
+            Verify.verify(matcher.matches(), idLine);
+            sourceId = matcher.group(1);
 
             // Sanity check: no markup in id.
-            Assert.check(sourceId.matches("[a-z0-9-]+"), sourceId);
+            Verify.verify(sourceId.matches("[a-z0-9-]+"), sourceId);
 
             // Get title.
             int titleIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("="))
                     .findFirst().getAsInt();
             String titleLine = sourceContent.get(titleIndex);
-            Assert.check(titleLine.startsWith("== "), titleLine);
+            Verify.verify(titleLine.startsWith("== "), titleLine);
             title = titleLine.substring(3); // == Title
 
             // Sanity check: source id is the id for the page title header.
-            Assert.areEqual(idIndex + 1, titleIndex);
+            Verify.verify(idIndex + 1 == titleIndex);
 
             // Sanitize title.
             // - Check for balanced backticks and remove backticks.
-            Assert.check(StringUtils.countMatches(title, "`") % 2 == 0, title);
+            Verify.verify(StringUtils.countMatches(title, "`") % 2 == 0, title);
             title = title.replace("`", "");
 
             // Sanity check: stripped title.
-            Assert.areEqual(title, title.strip());
+            Verify.verify(title.equals(title.strip()));
 
             // Sanity check: no markup in title.
             String patternTitleWordNormalChars = "[a-zA-Z0-9, ]";
             String patternTitleWordWithSpecialChar = "[a-zA-Z0-9][\\-/'][a-zA-Z0-9]";
-            String patternTitleWord = fmt("%s|%s", patternTitleWordNormalChars, patternTitleWordWithSpecialChar);
-            String patternTitleWordWithParentheses = fmt("\\((%s)+\\)", patternTitleWord);
-            String patternTitle = fmt("(%s|%s)+", patternTitleWord, patternTitleWordWithParentheses);
-            Assert.check(title.matches(patternTitle), title);
+            String patternTitleWord = String.format("%s|%s", patternTitleWordNormalChars,
+                    patternTitleWordWithSpecialChar);
+            String patternTitleWordWithParentheses = String.format("\\((%s)+\\)", patternTitleWord);
+            String patternTitle = String.format("(%s|%s)+", patternTitleWord, patternTitleWordWithParentheses);
+            Verify.verify(title.matches(patternTitle), title);
         }
 
         // Return the information.

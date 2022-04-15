@@ -4,5 +4,4 @@ Bundle-Name: ESCET ToolDef Documentation (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.tooldef.documentation;singleton:=true
 Bundle-Version: 0.6.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Require-Bundle: org.eclipse.help,
- org.eclipse.escet.common.asciidoc;bundle-version="0.6.0"
+Require-Bundle: org.eclipse.help

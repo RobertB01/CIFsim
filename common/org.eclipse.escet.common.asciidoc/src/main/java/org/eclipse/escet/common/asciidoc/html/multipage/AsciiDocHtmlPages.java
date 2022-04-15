@@ -13,11 +13,11 @@
 
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
-import static org.eclipse.escet.common.java.Lists.single;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.google.common.base.Verify;
 
 /** Information about all HTML page of a set of multi-page HTML files. */
 public class AsciiDocHtmlPages {
@@ -41,7 +41,9 @@ public class AsciiDocHtmlPages {
                 .unmodifiableList(sourceFiles.stream().map(f -> new AsciiDocHtmlPage(f)).collect(Collectors.toList()));
 
         // Find the home page.
-        this.homePage = single(
-                pages.stream().filter(p -> p.sourceFile.isRootAsciiDocFile).collect(Collectors.toList()));
+        List<AsciiDocHtmlPage> homePages = pages.stream().filter(p -> p.sourceFile.isRootAsciiDocFile)
+                .collect(Collectors.toList());
+        Verify.verify(homePages.size() == 1);
+        this.homePage = homePages.get(0);
     }
 }

@@ -15,8 +15,7 @@ package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import java.nio.file.Path;
 
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
+import com.google.common.base.Verify;
 
 /** Information about an AsciiDoc source file. */
 class AsciiDocSourceFile {
@@ -67,8 +66,8 @@ class AsciiDocSourceFile {
      */
     String getBaseName() {
         String fileName = relPath.getFileName().toString();
-        Assert.check(fileName.endsWith(".asciidoc"));
-        String baseName = Strings.slice(fileName, null, -".asciidoc".length());
+        Verify.verify(fileName.endsWith(".asciidoc"));
+        String baseName = fileName.substring(0, fileName.length() - ".asciidoc".length());
         return baseName;
     }
 }

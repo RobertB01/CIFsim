@@ -13,21 +13,16 @@
 
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
-import static org.eclipse.escet.common.java.Lists.copy;
-import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Lists.single;
-import static org.eclipse.escet.common.java.Maps.copy;
-import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Sets.difference;
-import static org.eclipse.escet.common.java.Sets.intersection;
-import static org.eclipse.escet.common.java.Sets.list2set;
-import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocHtmlUtil.single;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,21 +30,22 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Lists;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
+import com.google.common.base.Verify;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
+import com.google.common.collect.Sets;
 
 /** AsciiDoc-generated single-page HTML modifier. */
 class AsciiDocHtmlModifier {
@@ -75,9 +71,11 @@ class AsciiDocHtmlModifier {
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
      * @param parentWebsiteLink The relative path of the parent website to link to, if {@code htmlType} is
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
+     * @param logger The logger to use.
      */
     static void generateAndWriteModifiedPages(Document singlePageDoc, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
-            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink)
+            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink,
+            Consumer<String> logger)
     {
         // Determine new section ids.
         determineNewSectionIds(htmlPages);
@@ -87,7 +85,7 @@ class AsciiDocHtmlModifier {
             try {
                 // Debug output.
                 if (DEBUG) {
-                    System.out.println("Modifying page: " + page.sourceFile.relPath);
+                    logger.accept("Modifying page: " + page.sourceFile.relPath);
                 }
 
                 // Clone the original single-page HTML file for this page.
@@ -188,10 +186,10 @@ class AsciiDocHtmlModifier {
             List<Node> singlePageNodes)
     {
         // Sanity check.
-        Assert.check(singlePageDoc != multiPageDoc);
+        Verify.verify(singlePageDoc != multiPageDoc);
 
         // Determine the cloned nodes, per node.
-        List<Node> multiPageNodes = listc(singlePageNodes.size());
+        List<Node> multiPageNodes = new ArrayList<>(singlePageNodes.size());
         for (Node singlePageNode: singlePageNodes) {
             // Get path.
             LinkedList<Node> path = new LinkedList<>();
@@ -213,13 +211,13 @@ class AsciiDocHtmlModifier {
 
             // Sanity checks.
             if (singlePageNode.getClass() != curNode.getClass()) {
-                Assert.fail(singlePageNode.getClass() + " / " + curNode.getClass());
+                throw new RuntimeException(singlePageNode.getClass() + " / " + curNode.getClass());
             }
             if (singlePageNode instanceof Element) {
                 Element singlePageElem = (Element)singlePageNode;
                 Element curElem = (Element)curNode;
                 if (!singlePageElem.tagName().equals(curElem.tagName())) {
-                    Assert.fail(singlePageElem.tagName() + " / " + curElem.tagName());
+                    throw new RuntimeException(singlePageElem.tagName() + " / " + curElem.tagName());
                 }
             }
 
@@ -247,13 +245,13 @@ class AsciiDocHtmlModifier {
      */
     private static void determineNewSectionIds(AsciiDocHtmlPages htmlPages) {
         // Determine section id renames, for the entire TOC (all pages).
-        Map<String, String> renames = map();
+        Map<String, String> renames = new LinkedHashMap<>();
         fillSectionIdRenameMap(htmlPages.toc, renames);
 
         // We need unique ids, per page.
         for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
             // Get page renames.
-            Map<String, String> pageRenames = copy(renames);
+            Map<String, String> pageRenames = new LinkedHashMap<>(renames);
             pageRenames.keySet().retainAll(htmlPage.singlePageIds);
 
             // Ensure no duplicate new ids for this page.
@@ -279,10 +277,11 @@ class AsciiDocHtmlModifier {
             } while (duplicateFound);
 
             // Check no overlap between remaining existing ids and new ids for this page.
-            Set<String> remainingExistingIds = difference(htmlPage.singlePageIds, pageRenames.keySet());
-            Set<String> pageNewIds = list2set(pageRenames.values().stream().collect(Collectors.toList()));
-            Set<String> overlapRemainingVsNewIds = intersection(remainingExistingIds, pageNewIds);
-            Assert.check(overlapRemainingVsNewIds.isEmpty(),
+            Set<String> remainingExistingIds = Sets.difference(htmlPage.singlePageIds, pageRenames.keySet());
+            Set<String> pageNewIds = pageRenames.values().stream()
+                    .collect(Collectors.toCollection(() -> new LinkedHashSet<>()));
+            Set<String> overlapRemainingVsNewIds = Sets.intersection(remainingExistingIds, pageNewIds);
+            Verify.verify(overlapRemainingVsNewIds.isEmpty(),
                     "Overlap between new section IDs and remaining non-section IDs: " + overlapRemainingVsNewIds
                             + " on page: " + htmlPage.sourceFile.relPath);
 
@@ -314,11 +313,11 @@ class AsciiDocHtmlModifier {
         while (newId.endsWith("-")) {
             newId = newId.substring(0, newId.length() - 1);
         }
-        Assert.check(!newId.isEmpty());
+        Verify.verify(!newId.isEmpty());
 
         // Store new id.
         String previous = renames.put(tocEntry.refId, newId);
-        Assert.areEqual(previous, null);
+        Verify.verify(previous == null);
 
         // Process children.
         for (AsciiDocTocEntry childEntry: tocEntry.children) {
@@ -379,19 +378,21 @@ class AsciiDocHtmlModifier {
         // Move copyright/version.
         Element elemBodyCopyrightVersion = single(doc.select("#header div.details"));
         elemBodyCopyrightVersion.remove();
-        Assert.areEqual(elemBodyCopyrightVersion.children().size(), 3, elemBodyCopyrightVersion);
+        Verify.verify(elemBodyCopyrightVersion.children().size() == 3, elemBodyCopyrightVersion.toString());
         Elements elemBodyCopyrightVersionSpans = elemBodyCopyrightVersion.children().select("span");
-        Assert.areEqual(elemBodyCopyrightVersionSpans.size(), 2, elemBodyCopyrightVersionSpans);
+        Verify.verify(elemBodyCopyrightVersionSpans.size() == 2, elemBodyCopyrightVersionSpans.toString());
         elemBodyCopyrightVersionSpans.removeAttr("id");
         elemBodyCopyrightVersionSpans.removeAttr("class");
-        for (Element elem: Lists.reverse(elemBodyCopyrightVersionSpans)) {
+        List<Element> elemBodyCopyrightVersionSpansReversed = new ArrayList<>(elemBodyCopyrightVersionSpans);
+        Collections.reverse(elemBodyCopyrightVersionSpansReversed);
+        for (Element elem: elemBodyCopyrightVersionSpansReversed) {
             elemBodyFooterText.prependChild(elem);
             elemBodyFooterText.prepend(" | ");
         }
 
         // Move title.
         Element elemBodyTitle = single(doc.select("#header h1"));
-        Assert.check(elemBodyTitle.children().isEmpty(), elemBodyTitle);
+        Verify.verify(elemBodyTitle.children().isEmpty(), elemBodyTitle.toString());
         elemBodyTitle.tagName("span");
         elemBodyFooterText.prependChild(elemBodyTitle);
     }
@@ -469,7 +470,7 @@ class AsciiDocHtmlModifier {
                         modified = true;
                     } else if (sectElem.children().size() == 1) {
                         Element sectChildElem = sectElem.child(0);
-                        List<Node> sectChildNodes = copy(sectElem.childNodes());
+                        List<Node> sectChildNodes = new ArrayList<>(sectElem.childNodes());
                         sectChildNodes.remove(sectChildElem);
                         if (sectChildElem.tagName().matches("h\\d+") && haveNoContent(sectChildNodes)) {
                             // Section with only a wrapper header name (all actual content is on other pages).
@@ -497,7 +498,7 @@ class AsciiDocHtmlModifier {
                     return false;
                 }
             } else {
-                Assert.fail("Unexpected node: " + node.getClass().getName());
+                throw new RuntimeException("Unexpected node: " + node.getClass().getName());
             }
         }
         return true;
@@ -520,8 +521,8 @@ class AsciiDocHtmlModifier {
                 minHeaderNr = Math.min(headerNr, minHeaderNr);
             }
         }
-        Assert.check(minHeaderNr > 0, minHeaderNr);
-        Assert.check(minHeaderNr < Integer.MAX_VALUE, minHeaderNr);
+        Verify.verify(minHeaderNr > 0, Integer.toString(minHeaderNr));
+        Verify.verify(minHeaderNr < Integer.MAX_VALUE, Integer.toString(minHeaderNr));
 
         // Normalize header numbers to ensure minimum header number is '2'.
         for (Element elem: elemContent.getAllElements()) {
@@ -529,7 +530,7 @@ class AsciiDocHtmlModifier {
             if (matcher.matches()) {
                 int headerNr = Integer.parseInt(matcher.group(1), 10);
                 int newHeaderNr = headerNr - minHeaderNr + 2;
-                Assert.check(newHeaderNr <= 6, newHeaderNr); // Only h1-h6 are defined in HTML.
+                Verify.verify(newHeaderNr <= 6, Integer.toString(newHeaderNr)); // Only h1-h6 are defined in HTML.
                 elem.tagName("h" + newHeaderNr);
             }
         }
@@ -555,11 +556,11 @@ class AsciiDocHtmlModifier {
 
         // Sanity checks.
         if (htmlPages.homePage == page) {
-            Assert.areEqual(tocLinkCurPageCount, 0);
+            Verify.verify(tocLinkCurPageCount == 0);
         } else {
             // If the TOC level setting used to generate the single page HTML file is too limited, the page will not be
             // in the TOC, and this will fail (count is zero).
-            Assert.areEqual(tocLinkCurPageCount, 1);
+            Verify.verify(tocLinkCurPageCount == 1);
         }
     }
 
@@ -575,11 +576,11 @@ class AsciiDocHtmlModifier {
             for (Element elem: sectionHeaderElements) {
                 // Get current section id.
                 String elemId = elem.attr("id");
-                Assert.notNull(elemId, elem.tagName());
+                Verify.verifyNotNull(elemId, elem.tagName());
 
                 // Get new section id.
                 String newId = page.sectionIdRenames.get(elemId);
-                Assert.notNull(newId, elemId);
+                Verify.verifyNotNull(newId, elemId);
 
                 // Rename.
                 elem.attr("id", newId);
@@ -601,9 +602,9 @@ class AsciiDocHtmlModifier {
         // Rename this TOC entry.
         if (tocEntry.page == page && tocEntry.refId != null) {
             String newRefId = page.sectionIdRenames.get(tocEntry.refId);
-            Assert.notNull(newRefId, tocEntry.refId);
+            Verify.verifyNotNull(newRefId, tocEntry.refId);
             tocEntry.refId = newRefId;
-            Assert.check(tocEntry.page.multiPageIds.contains(newRefId), newRefId);
+            Verify.verify(tocEntry.page.multiPageIds.contains(newRefId), newRefId);
         }
 
         // Rename children.
@@ -651,11 +652,11 @@ class AsciiDocHtmlModifier {
                 if (allowEmptyRefIfNoChildren) {
                     // Occurs for 'a.href' for bibliography entries.
                     // But then they have no child nodes, and are thus not clickable.
-                    Assert.areEqual(elem.childNodeSize(), 0);
+                    Verify.verify(elem.childNodeSize() == 0);
                     continue;
                 } else {
                     throw new RuntimeException(
-                            fmt("Undefined '%s.%s' for %s", tagName, attrName, page.sourceFile.relPath));
+                            String.format("Undefined '%s.%s' for %s", tagName, attrName, page.sourceFile.relPath));
                 }
             }
 
@@ -669,7 +670,8 @@ class AsciiDocHtmlModifier {
                         continue ELEMS_LOOP;
                     }
                 }
-                Assert.fail(fmt("No page found that defines '%s.%s' id: %s", tagName, attrName, id));
+                throw new RuntimeException(
+                        String.format("No page found that defines '%s.%s' id: %s", tagName, attrName, id));
             }
 
             // Get referenced URI. Skip 'http', 'https' and 'mailto' references.
@@ -679,21 +681,33 @@ class AsciiDocHtmlModifier {
                 continue;
             }
 
-            // Handle relative paths.
-            Assert.areEqual(uriScheme, null);
-            Assert.areEqual(uri.getUserInfo(), null);
-            Assert.areEqual(uri.getHost(), null);
-            Assert.areEqual(uri.getPort(), -1);
-            Assert.areEqual(uri.getAuthority(), null);
-            Assert.areEqual(uri.getQuery(), null);
-            Assert.areEqual(uri.getFragment(), null);
-            Assert.notNull(uri.getPath());
-            Assert.areEqual(ref, uri.getPath());
-            String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(ref, sourceRootPath.toString());
-            String rootPathForNewRelHref = page.sourceFile.absPath.getParent().toString();
-            String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
-                    rootPathForNewRelHref);
-            Assert.check(!newRelHref.contains("\\"), newRelHref);
+            // Ensure it is a relative path to an entire file.
+            Verify.verify(uriScheme == null);
+            Verify.verify(uri.getUserInfo() == null);
+            Verify.verify(uri.getHost() == null);
+            Verify.verify(uri.getPort() == -1);
+            Verify.verify(uri.getAuthority() == null);
+            Verify.verify(uri.getQuery() == null);
+            Verify.verify(uri.getFragment() == null);
+            Verify.verifyNotNull(uri.getPath());
+            Verify.verify(ref.equals(uri.getPath()));
+
+            // Get absolute path of file referred to by href.
+            Path hrefAbsTarget = sourceRootPath.resolve(ref);
+
+            // Relativize it against the source file.
+            Path rootPathForNewRelHref = page.sourceFile.absPath.getParent();
+            String newRelHref = rootPathForNewRelHref.relativize(hrefAbsTarget).toString();
+            if (newRelHref.isEmpty()) {
+                newRelHref = ".";
+            }
+
+            // Ensure the correct path separators.
+            Verify.verify(!ref.contains("\\"), ref);
+            newRelHref = newRelHref.replace("\\", "/");
+            Verify.verify(!newRelHref.contains("\\"), newRelHref);
+
+            // Set new href attribute value.
             elem.attr(attrName, newRelHref);
         }
     }

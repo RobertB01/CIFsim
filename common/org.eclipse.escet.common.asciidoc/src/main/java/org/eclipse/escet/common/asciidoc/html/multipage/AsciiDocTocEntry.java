@@ -13,8 +13,7 @@
 
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
-import static org.eclipse.escet.common.java.Lists.list;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /** AsciiDoc Table of Contents (TOC) entry, corresponding to a section in an AsciiDoc document. */
@@ -29,7 +28,7 @@ class AsciiDocTocEntry {
     String refId;
 
     /** The child TOC entries. */
-    final List<AsciiDocTocEntry> children = list();
+    final List<AsciiDocTocEntry> children = new ArrayList<>();
 
     /**
      * Constructor for the {@link AsciiDocTocEntry} class.
