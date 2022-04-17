@@ -73,13 +73,34 @@ Replace `vN.N` by the version, e.g. `v0.1`, `v0.1.1` or `v1.0`.
 ** For _Title_ enter the version, e.g. `v0.1`, `v0.1.1` or `v1.0`.
 
 ** For _Description_ enter `See also https://projects.eclipse.org/projects/technology.escet/releases/N.N.`.
-Replace `N.N` by the actual release record version, `0.1`, `0.1.1` or `1.0`.
+Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`.
 
 ** For _Start date_ select the first day after the _Due date_ of the previous version.
 
 ** For _End date_ select the same date as the planned release date of the release record.
 
 ** Click _Create milestone_.
+
+* Create release issues:
+
+** Go to https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones.
+
+** Sign in with your Eclipse Foundation account using the link at the top-right of the page.
+
+** Click _New issue_.
+
+** For _Title_ enter `Release vN.N-M1`.
+Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`.
+
+** For _Milestone_ select the just created GitLab milestone.
+
+** For _Labels_ select _RelEng_ and _Type::Enhancement_.
+
+** Click _Create issue_.
+
+** Repeat these steps to create issues for the release candidate (`Release vN.N-RC1`) and final release (`Release vN.N`).
+
+** If a <<development-release-process-prepare-release,release review is needed>>, create an issue for that as well (`Release review for vN.N`).
 
 [[development-release-process-prepare-git-repo-for-next-version]]
 === Preparing Git repository for a next version
@@ -190,13 +211,27 @@ See e.g. https://www.eclipse.org/lists/escet-dev/msg00091.html (mail also sent t
 
 To perform a release (milestone, release candidate, or final release), i.e. actually release it, follow these steps:
 
-* Create a GitLab merge request from `develop` to `master`, and name it after the release.
-Since `master` is a protected branch for the Eclipse ESCET GitLab, a GitLab merge request is the only way to update it.
+* Merge `develop` to `master`:
 
-* Ensure the merge request is successfully <<development-building-and-testing-chapter-index,built on Jenkins>>.
-Then merge the merge request.
+** Since `master` is a protected branch for the Eclipse ESCET GitLab, a GitLab merge request is the only way to update it.
 
-* Check that the build on `master` succeeds in Jenkins.
+** Create a GitLab merge request from `develop` to `master`.
+
+** For _Title_ enter `#NNN develop to master for vN.N`.
+Replace `#NNN` by the relevant issue number.
+Replace `N.N` by the release version, e.g. `1.0-M1`, `1.0-RC1` or `1.0`.
+
+** Replace the automatically generated but incomplete _Description_ by `Addresses #NNN`.
+Replace `#NNN` by the relevant issue number.
+
+** For _Milestone_ select the relevant milestone.
+
+** For _Labels_ select _RelEng_ and _Type::Enhancement_.
+
+** Click _Create merge request_.
+
+** Wait for the <<development-building-and-testing-chapter-index,builds on Jenkins>> to successfully complete and press _Merge_.
+Alternatively, press _Merge when pipeline succeeds_ to automatically merge the merge request once the build succeeds.
 
 * Add a tag on the commit in `master` that is to be released.
 Only version tags with a specific syntax will be picked up by Jenkins to be released.
@@ -220,16 +255,17 @@ Jenkins will then automatically build and release a new version from that tag.
 
 * All releases are available at https://download.eclipse.org/escet/.
 For a version `v0.1`, the downloads will be located at `\https://download.eclipse.org/escet/v0.1`.
-+
-Note that according to the Eclipse Foundation Wiki page link:https://wiki.eclipse.org/IT_Infrastructure_Doc[IT Infrastructure Doc], "Once your files are on the `download.eclipse.org` server, they are immediately available to the general public.
+
+** End users should however be referred to https://eclipse.org/escet/download.html instead of to `download.eclipse.org`.
+The buttons on this web page serve downloads via a mirror script.
+This ensures that a nearby mirror is selected, for faster downloads.
+It also ensures that downloads are counted in the download statistics.
+Furthermore, it transparently handles files moved from `download.eclipse.org` to `archive.eclipse.org`.
+
+** According to the Eclipse Foundation Wiki page link:https://wiki.eclipse.org/IT_Infrastructure_Doc[IT Infrastructure Doc], "Once your files are on the `download.eclipse.org` server, they are immediately available to the general public.
 However, for release builds, we ask that you wait at least four hours for our mirror sites to fetch the new files before linking to them.
 It typically takes a day or two for all the mirror sites to synchronize with us and get new files."
-+
-That same wiki page also notes that "Although you can link directly to `download.eclipse.org/yourfile.zip`, you can also use the _Find a Mirror_ script [...].
-Using this script allows you to view download statistics and allows users to pick a nearby mirror site for their download."
-It further indicates that "P2 repositories are not normally accessed via the mirror selection script."
-The _Find a Mirror_ script also transparently handles files moved from `download.eclipse.org` to `archive.eclipse.org`.
-End users should thus be referred to https://eclipse.org/escet/download.html instead of to `download.eclipse.org`, to ensure the mirror script is used for faster downloads and to ensure downloads count in the download statistics.
+Immediately after the downloads being available, downloading them may thus be slower, even if the mirror script is used.
 
 * Jenkins will automatically push the website for the new release to the website Git repository, in a directory for the specific release.
 For a version `v0.1`, the website can be accessed at `\https://eclipse.org/escet/v0.1`.
@@ -275,6 +311,13 @@ The standard visible website can be accessed at `https://eclipse.org/escet`.
 Depending on browser cache settings and other factors, it may be necessary to force refresh your browser for it to pick up the changes on the server.
 
 * Remove/archive old releases:
+
+** For every release (including milestones and release candidates), remove the builds for all previously built tags.
+In Jenkins, while logged in, go to link:https://ci.eclipse.org/escet/job/ESCET%20build/view/tags/[].
+Select the tag name in the _Name_ column to go the tags page.
+There, on the left, the various builds are indicated by `#n`, with `n` some number.
+In the drop down menu of a build, select `Delete build #n` to remove it.
+When asked to confirm, click _Yes_.
 
 ** For every release (not a milestone or release candidate), remove all milestones and release candidates of the previous version and older.
 E.g. for `v0.2`, remove `v0.1-M1`, `v0.1-M2`, `v0.1-RC1`, etc.

@@ -232,7 +232,12 @@ This may also be necessary if Jenkins seems stuck while _Checking pipeline statu
 
 ** Ensure the last commit to the merge request is built, to allow merging the merge request.
 
-* The branch is merged and removed.
+* Merge the branch:
+
+** Make sure the _Delete source branch_ option is selected.
+
+** Wait for the builds on Jenkins to successfully complete and press _Merge_.
+Alternatively, press _Merge when pipeline succeeds_ to automatically merge the merge request once the build succeeds.
 
 * If the branch fully addressed the associated issue or issues, it/they should be closed.
 
