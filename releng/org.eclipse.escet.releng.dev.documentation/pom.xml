@@ -126,12 +126,25 @@
                 </executions>
             </plugin>
 
-            <!-- Split single-page HTML to multi-page HTML. -->
+            <!-- Check AsciiDoc sources and split multi-page HTML. -->
             <plugin>
                 <groupId>org.eclipse.escet</groupId>
                 <artifactId>org.eclipse.escet.common.asciidoc</artifactId>
                 <version>${project.version}</version>
                 <executions>
+                    <!-- Check AsciiDoc source files, beyond what Checkstyle already checks. -->
+                    <execution>
+                        <id>source-check</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>source-check</goal>
+                        </goals>
+                        <configuration>
+                            <sourceRootPath>${project.basedir}/asciidoc</sourceRootPath>
+                        </configuration>
+                    </execution>
+
+                    <!-- Split single-page HTML to multi-page HTML. -->
                     <execution>
                         <id>eclipse-help-multi-page-html-split</id>
                         <phase>generate-resources</phase>
