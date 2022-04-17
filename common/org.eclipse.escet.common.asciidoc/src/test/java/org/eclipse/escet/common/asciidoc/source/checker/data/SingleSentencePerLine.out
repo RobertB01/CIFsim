@@ -1,0 +1,10 @@
+Checking 1 AsciiDoc source file(s).
+Found 8 problems:
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SingleSentencePerLine.asciidoc, line 14, column 5: Multiple sentences on the same source line.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SingleSentencePerLine.asciidoc, line 14, column 11: Multiple sentences on the same source line.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SingleSentencePerLine.asciidoc, line 15, column 5: Multiple sentences on the same source line.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SingleSentencePerLine.asciidoc, line 15, column 11: Multiple sentences on the same source line.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SingleSentencePerLine.asciidoc, line 16, column 5: Multiple sentences on the same source line.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SingleSentencePerLine.asciidoc, line 16, column 11: Multiple sentences on the same source line.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SingleSentencePerLine.asciidoc, line 21, column 5: Multiple sentences on the same source line.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SingleSentencePerLine.asciidoc, line 21, column 11: Multiple sentences on the same source line.

@@ -1,0 +1,8 @@
+Checking 1 AsciiDoc source file(s).
+Found 6 problems:
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SourceBlockIndent.asciidoc, line 20, column 1: Source block does not have any content.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SourceBlockIndent.asciidoc, line 27, column 2: Indented code block.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SourceBlockIndent.asciidoc, line 32, column 1: Indented code block.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SourceBlockIndent.asciidoc, line 36, column 2: Indented code block.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SourceBlockIndent.asciidoc, line 41, column 3: Indented code block.
+ - File src\test\java\org\eclipse\escet\common\asciidoc\source\checker\data\SourceBlockIndent.asciidoc, line 48, column 1: Indented code block.
