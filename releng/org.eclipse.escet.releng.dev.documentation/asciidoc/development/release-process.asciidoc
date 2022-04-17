@@ -310,6 +310,50 @@ If successful you should see the changes at the Git server's web view, at https:
 The standard visible website can be accessed at `https://eclipse.org/escet`.
 Depending on browser cache settings and other factors, it may be necessary to force refresh your browser for it to pick up the changes on the server.
 
+* Inform others about the new release:
+
+** In the relevant GitLab issue, for final releases, post the following comment, where `N.N` is to be replaced by the actual release version, e.g. `0.1` or `1.0`:
++
+[source]
+----
+I just released vN.N:
+
+- https://eclipse.org/escet/
+- https://eclipse.org/escet/download.html
+- https://eclipse.org/escet/release-notes.html
+
+And here are the permalinks:
+
+- https://eclipse.org/escet/vN.N
+- https://eclipse.org/escet/vN.N/download.html
+- https://eclipse.org/escet/vN.N/release-notes.html
+
+Note that mirrors may still need to sync, so downloads may be a bit slower until then.
+----
+
+** In the relevant GitLab issue, for milestones and release candidates, post the following comment, where `N.N-NNN` is to be replaced by the actual release version, e.g. `0.1-M1` or `1.0-RC1`:
++
+[source]
+----
+I just released vN.N-NNN:
+
+- https://eclipse.org/escet/vN.N-NNN
+- https://eclipse.org/escet/vN.N-NNN/download.html
+- https://eclipse.org/escet/vN.N-NNN/release-notes.html
+
+Note that mirrors may still need to sync, so downloads may be a bit slower until then.
+----
+
+** Also send an email to the <<development-dev-list-chapter-index,escet-dev list>> with similar content.
+
+* Clean up after the release:
+
+** Close the GitLab issue for the release.
+
+** For a final release, ensure all issues in the GitLab milestone are closed.
+
+** For a final release, close the GitLab milestone.
+
 * Remove/archive old releases:
 
 ** For every release (including milestones and release candidates), remove the builds for all previously built tags.
