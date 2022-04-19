@@ -164,12 +164,12 @@ public class CifResource extends ResourceImpl {
 
         @Override
         public int getLine() {
-            return error.getPosition().getStartLine();
+            return error.getPosition().startLine;
         }
 
         @Override
         public int getColumn() {
-            return error.getPosition().getEndLine();
+            return error.getPosition().endLine;
         }
 
         @Override
@@ -204,12 +204,12 @@ public class CifResource extends ResourceImpl {
 
         @Override
         public int getLine() {
-            return warning.position.getStartLine();
+            return warning.position.startLine;
         }
 
         @Override
         public int getColumn() {
-            return warning.position.getEndLine();
+            return warning.position.endLine;
         }
 
         @Override
@@ -244,12 +244,12 @@ public class CifResource extends ResourceImpl {
 
         @Override
         public int getLine() {
-            return problem.position.getStartLine();
+            return problem.position.startLine;
         }
 
         @Override
         public int getColumn() {
-            return problem.position.getEndLine();
+            return problem.position.endLine;
         }
 
         @Override

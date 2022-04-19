@@ -61,7 +61,7 @@ public class CifPrintTypeChecker {
     public PrintFile checkPrintFile(APrintFile astPrintFile) {
         PrintFile printFile = newPrintFile();
         printFile.setPath(astPrintFile.path.txt);
-        printFile.setPosition(astPrintFile.position);
+        printFile.setPosition(astPrintFile.createPosition());
         return printFile;
     }
 
@@ -75,7 +75,7 @@ public class CifPrintTypeChecker {
     public Print checkPrint(APrint astPrint, ParentScope<?> scope) {
         // Create metamodel representation.
         Print print = newPrint();
-        print.setPosition(astPrint.position);
+        print.setPosition(astPrint.createPosition());
 
         // Check texts to print.
         if (astPrint.txt.pre != null) {
@@ -140,7 +140,7 @@ public class CifPrintTypeChecker {
         if (astPrint.file != null) {
             PrintFile printFile = newPrintFile();
             printFile.setPath(astPrint.file.path.txt);
-            printFile.setPosition(astPrint.file.path.position);
+            printFile.setPosition(astPrint.file.path.createPosition());
             print.setFile(printFile);
         }
 
@@ -157,7 +157,7 @@ public class CifPrintTypeChecker {
      */
     public PrintFor checkPrintFor(APrintFor astPrintFor, ParentScope<?> scope) {
         PrintFor printFor = newPrintFor();
-        printFor.setPosition(astPrintFor.position);
+        printFor.setPosition(astPrintFor.createPosition());
         printFor.setKind(Enum.valueOf(PrintForKind.class, astPrintFor.kind.name()));
         if (astPrintFor.name != null) {
             AName name = new AName(astPrintFor.name, astPrintFor.position);

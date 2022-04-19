@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Tau event reference expression. */
 public class ATauExpression extends AExpression {
@@ -22,7 +22,7 @@ public class ATauExpression extends AExpression {
      *
      * @param position Position information.
      */
-    public ATauExpression(Position position) {
+    public ATauExpression(TextPosition position) {
         super(position);
     }
 }

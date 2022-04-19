@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /**
  * Base class for type checkers.
@@ -243,7 +243,7 @@ public abstract class TypeChecker<TIn, TOut> {
      * @param severity The severity of the problem.
      * @param position Position information.
      */
-    public void addProblem(String message, SemanticProblemSeverity severity, Position position) {
+    public void addProblem(String message, SemanticProblemSeverity severity, TextPosition position) {
         addProblem(new SemanticProblem(message, severity, position));
     }
 
@@ -273,7 +273,7 @@ public abstract class TypeChecker<TIn, TOut> {
      * @param message The message describing the semantic warning.
      * @param position Position information.
      */
-    public void addWarning(String message, Position position) {
+    public void addWarning(String message, TextPosition position) {
         addProblem(message, SemanticProblemSeverity.WARNING, position);
     }
 
@@ -283,7 +283,7 @@ public abstract class TypeChecker<TIn, TOut> {
      * @param message The message describing the semantic error.
      * @param position Position information.
      */
-    public void addError(String message, Position position) {
+    public void addError(String message, TextPosition position) {
         addProblem(message, SemanticProblemSeverity.ERROR, position);
     }
 

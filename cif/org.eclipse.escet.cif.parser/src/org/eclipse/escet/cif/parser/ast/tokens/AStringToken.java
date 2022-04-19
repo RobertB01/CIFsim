@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.tokens;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** CIF string literal token. No escape sequences are recognized. */
 public class AStringToken extends ACifObject {
@@ -28,7 +28,7 @@ public class AStringToken extends ACifObject {
      * @param txt String text, including the surrounding quotes, and escape sequences.
      * @param position Position information.
      */
-    public AStringToken(String txt, Position position) {
+    public AStringToken(String txt, TextPosition position) {
         this(txt, position, true);
     }
 
@@ -40,7 +40,7 @@ public class AStringToken extends ACifObject {
      * @param position Position information.
      * @param process Whether to remove to the surrounding quotes, and escape sequences from the 'txt'.
      */
-    public AStringToken(String txt, Position position, boolean process) {
+    public AStringToken(String txt, TextPosition position, boolean process) {
         super(position);
         this.txt = process ? Strings.unescape(Strings.slice(txt, 1, -1)) : txt;
     }

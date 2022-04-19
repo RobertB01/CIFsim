@@ -22,8 +22,7 @@ import java.io.StringReader;
 import java.util.List;
 
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
-import org.eclipse.escet.common.position.metamodel.position.PositionFactory;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.exceptions.ScanException;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
@@ -245,15 +244,8 @@ public abstract class Scanner {
     protected Token acceptOrError() {
         if (acceptOffset == -1) {
             // No longest match available. Scanning failed.
-            Position pos = PositionFactory.eINSTANCE.createPosition();
-            pos.setSource(src);
-            pos.setLocation(location);
-            pos.setStartOffset(curOffset);
-            pos.setEndOffset(curOffset);
-            pos.setStartLine(curLine);
-            pos.setEndLine(curLine);
-            pos.setStartColumn(curColumn);
-            pos.setEndColumn(curColumn);
+            TextPosition pos = new TextPosition(location, src, curLine, curColumn, curLine, curColumn, curOffset,
+                    curOffset);
 
             buffer.unread(1);
             int codePoint = buffer.read();
@@ -295,15 +287,8 @@ public abstract class Scanner {
         }
 
         // Construct position information for the match.
-        Position pos = PositionFactory.eINSTANCE.createPosition();
-        pos.setSource(src);
-        pos.setLocation(location);
-        pos.setStartOffset(startOffset);
-        pos.setStartLine(startLine);
-        pos.setStartColumn(startColumn);
-        pos.setEndOffset(acceptOffset);
-        pos.setEndLine(acceptLine);
-        pos.setEndColumn(acceptColumn);
+        TextPosition pos = new TextPosition(location, src, startLine, startColumn, acceptLine, acceptColumn,
+                startOffset, acceptOffset);
 
         // Construct token.
         Token token = new Token(txt, accept, pos);
@@ -429,8 +414,8 @@ public abstract class Scanner {
     private void debugScanner(Token token) {
         String txt = token.isEof() ? "<eof>" : Strings.stringToJava(token.text);
 
-        String posTxt = fmt("%d:%d-%d:%d", token.position.getStartLine(), token.position.getStartColumn(),
-                token.position.getEndLine(), token.position.getEndColumn());
+        String posTxt = fmt("%d:%d-%d:%d", token.position.startLine, token.position.startColumn, token.position.endLine,
+                token.position.endColumn);
 
         String stateTxt = scannerStates[scannerState];
 

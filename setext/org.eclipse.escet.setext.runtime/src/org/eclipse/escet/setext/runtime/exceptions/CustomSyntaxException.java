@@ -16,7 +16,7 @@ package org.eclipse.escet.setext.runtime.exceptions;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Exception indicating a syntax error occurred. This is a {@link SyntaxException} with custom message. */
 public class CustomSyntaxException extends SyntaxException {
@@ -29,7 +29,7 @@ public class CustomSyntaxException extends SyntaxException {
      * @param message Message describing the syntax error.
      * @param position The position information (possibly including source information) for the syntax error.
      */
-    public CustomSyntaxException(String message, Position position) {
+    public CustomSyntaxException(String message, TextPosition position) {
         super(position);
         Assert.notNull(message);
         this.message = message;
@@ -37,11 +37,11 @@ public class CustomSyntaxException extends SyntaxException {
 
     @Override
     public String getMessage() {
-        String src = getPosition().getSource();
+        String src = getPosition().source;
         if (src == null) {
             src = "";
         }
-        return fmt("%sSyntax error at line %d, column %d: %s", src, getPosition().getStartLine(),
-                getPosition().getStartColumn(), message);
+        return fmt("%sSyntax error at line %d, column %d: %s", src, getPosition().startLine, getPosition().startColumn,
+                message);
     }
 }

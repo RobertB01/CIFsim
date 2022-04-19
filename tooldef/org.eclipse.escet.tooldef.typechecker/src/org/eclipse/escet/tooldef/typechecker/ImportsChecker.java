@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.position.common.PositionUtils.toPosition;
 import static org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors.newBoolType;
 import static org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors.newDoubleType;
 import static org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors.newIntType;
@@ -51,6 +52,7 @@ import java.util.Set;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
@@ -109,8 +111,8 @@ public class ImportsChecker {
      */
     private static void tcheck(ToolDefImport imp, CheckerContext ctxt) {
         // Get position of the import.
-        Position importPos = (imp.getAsName() != null) ? imp.getAsName().position
-                : (imp.getOrigName() == null) ? imp.getPosition() : imp.getOrigName().position;
+        Position importPos = (imp.getAsName() != null) ? toPosition(imp.getAsName().position)
+                : (imp.getOrigName() == null) ? imp.getPosition() : toPosition(imp.getOrigName().position);
 
         // Get root type checker context resulting from type checking the
         // ToolDef script referred to by the import.
@@ -286,7 +288,7 @@ public class ImportsChecker {
 
         // Parse imported file.
         String relSrcRef = imp.getSource().text;
-        Position sourcePos = imp.getSource().position;
+        TextPosition sourcePos = imp.getSource().position;
         String absSrcRef;
         Script script;
 
@@ -479,7 +481,7 @@ public class ImportsChecker {
     private static void tcheck(JavaImport imp, CheckerContext ctxt) {
         // Get class loader.
         String pluginName = imp.getPluginName() == null ? null : imp.getPluginName().text;
-        Position pluginPos = imp.getPluginName() == null ? null : imp.getPluginName().position;
+        TextPosition pluginPos = imp.getPluginName() == null ? null : imp.getPluginName().position;
         ClassLoaderObtainer clObtainer = new ImportClassLoaderObtainer(pluginPos, ctxt, "Java code");
         ClassLoader classLoader = clObtainer.getClassLoader(pluginName);
 
@@ -569,7 +571,7 @@ public class ImportsChecker {
             toolName = imp.getAsName().text;
         }
 
-        Position toolPos = imp.getMethodName().position;
+        TextPosition toolPos = imp.getMethodName().position;
         if (imp.getAsName() != null) {
             toolPos = imp.getAsName().position;
         }
@@ -611,7 +613,7 @@ public class ImportsChecker {
 
         // Create ToolDef tool.
         String pluginName = imp.getPluginName() == null ? null : imp.getPluginName().text;
-        return newJavaTool(method, imp.getMethodName().text, toolName, params, pluginName, deepclone(toolPos),
+        return newJavaTool(method, imp.getMethodName().text, toolName, params, pluginName, toPosition(toolPos),
                 (retType == null) ? null : list(retType), typeParams);
     }
 
@@ -628,7 +630,7 @@ public class ImportsChecker {
      * @param isReturn Whether this type is the top level type of a return value, and may thus be 'void'.
      * @return The ToolDef type, or {@code null} for 'void'.
      */
-    private static ToolDefType convertJavaType(Type type, String useText, Position pos,
+    private static ToolDefType convertJavaType(Type type, String useText, TextPosition pos,
             Map<TypeVariable<Method>, TypeParam> typeParamMap, CheckerContext ctxt, boolean isVariadic,
             boolean isReturn)
     {
@@ -768,7 +770,7 @@ public class ImportsChecker {
      * @param ctxt The type checker context.
      * @return The ToolDef tool parameter.
      */
-    private static ToolParameter convertJavaParam(int idx, Parameter param, Position pos,
+    private static ToolParameter convertJavaParam(int idx, Parameter param, TextPosition pos,
             Map<TypeVariable<Method>, TypeParam> typeParamMap, CheckerContext ctxt)
     {
         // Get the name of the method parameter. We ask the name via
@@ -786,6 +788,6 @@ public class ImportsChecker {
         Assert.notNull(type);
 
         // Create tool parameter.
-        return newToolParameter(name, deepclone(pos), type, null, variadic);
+        return newToolParameter(name, toPosition(pos), type, null, variadic);
     }
 }

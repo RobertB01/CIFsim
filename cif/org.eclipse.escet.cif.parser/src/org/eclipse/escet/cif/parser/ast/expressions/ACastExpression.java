@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.expressions;
 
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Cat expression. */
 public class ACastExpression extends AExpression {
@@ -31,7 +31,7 @@ public class ACastExpression extends AExpression {
      * @param type The target type of the cast expression.
      * @param position Position information.
      */
-    public ACastExpression(AExpression child, ACifType type, Position position) {
+    public ACastExpression(AExpression child, ACifType type, TextPosition position) {
         super(position);
         this.child = child;
         this.type = type;

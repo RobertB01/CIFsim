@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.expressions;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** A case of a 'switch' expression. */
 public class ASwitchCase extends ACifObject {
@@ -31,7 +31,7 @@ public class ASwitchCase extends ACifObject {
      * @param value The value of the 'switch' case.
      * @param position Position information.
      */
-    public ASwitchCase(AExpression key, AExpression value, Position position) {
+    public ASwitchCase(AExpression key, AExpression value, TextPosition position) {
         super(position);
         this.key = key;
         this.value = value;

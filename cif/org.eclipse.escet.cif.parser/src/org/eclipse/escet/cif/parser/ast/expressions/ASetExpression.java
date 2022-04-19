@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.expressions;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /**
  * Set expression, for non-empty sets.
@@ -32,7 +32,7 @@ public class ASetExpression extends AExpression {
      * @param elements The elements of the set expression. Contains at least one element.
      * @param position Position information.
      */
-    public ASetExpression(List<AExpression> elements, Position position) {
+    public ASetExpression(List<AExpression> elements, TextPosition position) {
         super(position);
         this.elements = elements;
     }

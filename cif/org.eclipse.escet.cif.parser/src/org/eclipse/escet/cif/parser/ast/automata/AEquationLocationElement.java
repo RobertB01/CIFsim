@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.automata;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.AEquation;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Equations of a location. */
 public class AEquationLocationElement extends ALocationElement {
@@ -29,7 +29,7 @@ public class AEquationLocationElement extends ALocationElement {
      * @param equations The equations of the location.
      * @param position Position information.
      */
-    public AEquationLocationElement(List<AEquation> equations, Position position) {
+    public AEquationLocationElement(List<AEquation> equations, TextPosition position) {
         super(position);
         this.equations = equations;
     }

@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.automata;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.AInvariant;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Token;
 
 /** Invariants of a location. */
@@ -34,7 +34,7 @@ public class AInvariantLocationElement extends ALocationElement {
      * @param invariants The invariants of the location.
      * @param position Position information.
      */
-    public AInvariantLocationElement(Token kind, List<AInvariant> invariants, Position position) {
+    public AInvariantLocationElement(Token kind, List<AInvariant> invariants, TextPosition position) {
         super(position);
         this.kind = kind;
         this.invariants = invariants;

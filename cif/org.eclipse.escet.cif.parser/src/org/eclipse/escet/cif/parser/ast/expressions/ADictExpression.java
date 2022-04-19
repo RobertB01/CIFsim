@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.expressions;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /**
  * Dictionary expression, for non-empty dictionaries.
@@ -32,7 +32,7 @@ public class ADictExpression extends AExpression {
      * @param pairs The key/value pairs of the dictionary expression. Contains at least one pair.
      * @param position Position information.
      */
-    public ADictExpression(List<ADictPair> pairs, Position position) {
+    public ADictExpression(List<ADictPair> pairs, TextPosition position) {
         super(position);
         this.pairs = pairs;
     }

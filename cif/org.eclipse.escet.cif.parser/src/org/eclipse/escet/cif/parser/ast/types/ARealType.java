@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Real type. */
 public class ARealType extends ACifType {
@@ -22,7 +22,7 @@ public class ARealType extends ACifType {
      *
      * @param position Position information.
      */
-    public ARealType(Position position) {
+    public ARealType(TextPosition position) {
         super(position);
     }
 }

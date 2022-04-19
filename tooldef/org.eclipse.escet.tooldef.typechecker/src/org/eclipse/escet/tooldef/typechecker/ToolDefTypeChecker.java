@@ -30,7 +30,7 @@ import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
 import org.eclipse.escet.common.typechecker.TypeChecker;
@@ -293,7 +293,7 @@ public class ToolDefTypeChecker extends TypeChecker<Script, Script> {
      * @throws SemanticException If a registered library cannot be found, or multiple matching registered libraries are
      *     found.
      */
-    public String resolveImport(String path, Position pos, CheckerContext ctxt) {
+    public String resolveImport(String path, TextPosition pos, CheckerContext ctxt) {
         if (path.startsWith("lib:")) {
             // Get library name.
             String name = path.substring("lib:".length());

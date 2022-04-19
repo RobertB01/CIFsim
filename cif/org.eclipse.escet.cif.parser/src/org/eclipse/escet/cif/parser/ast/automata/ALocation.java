@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Location. */
 public class ALocation extends ADecl {
@@ -34,7 +34,7 @@ public class ALocation extends ADecl {
      * @param elements The elements of the location, or {@code null}.
      * @param position Position information.
      */
-    public ALocation(AIdentifier name, List<ALocationElement> elements, Position position) {
+    public ALocation(AIdentifier name, List<ALocationElement> elements, TextPosition position) {
         super(position);
         this.name = name;
         this.elements = elements;

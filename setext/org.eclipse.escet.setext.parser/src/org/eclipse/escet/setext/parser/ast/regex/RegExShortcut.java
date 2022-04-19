@@ -15,7 +15,7 @@ package org.eclipse.escet.setext.parser.ast.regex;
 
 import java.util.Set;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.scanner.ShortcutDecl;
 
 /**
@@ -36,7 +36,7 @@ public class RegExShortcut extends RegEx {
      * @param name The name of the shortcut.
      * @param position Position information.
      */
-    public RegExShortcut(String name, Position position) {
+    public RegExShortcut(String name, TextPosition position) {
         super(position);
         this.name = name;
     }

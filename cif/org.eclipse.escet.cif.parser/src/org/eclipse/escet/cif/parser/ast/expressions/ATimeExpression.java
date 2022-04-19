@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Time variable reference expression. */
 public class ATimeExpression extends AExpression {
@@ -22,7 +22,7 @@ public class ATimeExpression extends AExpression {
      *
      * @param position Position information.
      */
-    public ATimeExpression(Position position) {
+    public ATimeExpression(TextPosition position) {
         super(position);
     }
 }

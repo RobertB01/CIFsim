@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Dictionary type. */
 public class ADictType extends ACifType {
@@ -30,7 +30,7 @@ public class ADictType extends ACifType {
      * @param valueType The value type of the dictionary type.
      * @param position Position information.
      */
-    public ADictType(ACifType keyType, ACifType valueType, Position position) {
+    public ADictType(ACifType keyType, ACifType valueType, TextPosition position) {
         super(position);
         this.keyType = keyType;
         this.valueType = valueType;

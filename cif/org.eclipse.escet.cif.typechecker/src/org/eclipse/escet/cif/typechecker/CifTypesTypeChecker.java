@@ -76,7 +76,7 @@ import org.eclipse.escet.cif.typechecker.scopes.GroupDefScope;
 import org.eclipse.escet.cif.typechecker.scopes.SymbolScope;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Numbers;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** Type checker for CIF types. */
@@ -97,17 +97,17 @@ public class CifTypesTypeChecker {
     public static CifType transCifType(ACifType type, SymbolScope<?> scope, CifTypeChecker tchecker) {
         if (type instanceof ABoolType) {
             BoolType rslt = newBoolType();
-            rslt.setPosition(type.position);
+            rslt.setPosition(type.createPosition());
             return rslt;
         } else if (type instanceof AIntType) {
             return transIntType((AIntType)type, scope, tchecker);
         } else if (type instanceof ARealType) {
             RealType rslt = newRealType();
-            rslt.setPosition(type.position);
+            rslt.setPosition(type.createPosition());
             return rslt;
         } else if (type instanceof AStringType) {
             StringType rslt = newStringType();
-            rslt.setPosition(type.position);
+            rslt.setPosition(type.createPosition());
             return rslt;
         } else if (type instanceof AListType) {
             return transListType((AListType)type, scope, tchecker);
@@ -125,7 +125,7 @@ public class CifTypesTypeChecker {
             return transNamedType((ANamedType)type, scope, tchecker);
         } else if (type instanceof AVoidType) {
             VoidType rslt = newVoidType();
-            rslt.setPosition(type.position);
+            rslt.setPosition(type.createPosition());
             return rslt;
         } else {
             throw new RuntimeException("Unknown type: " + type);
@@ -144,7 +144,7 @@ public class CifTypesTypeChecker {
         // Special case for integer types without a range.
         if (type.range == null) {
             IntType rslt = newIntType();
-            rslt.setPosition(type.position);
+            rslt.setPosition(type.createPosition());
             return rslt;
         }
 
@@ -190,7 +190,7 @@ public class CifTypesTypeChecker {
         }
 
         IntType rslt = newIntType();
-        rslt.setPosition(type.position);
+        rslt.setPosition(type.createPosition());
         rslt.setLower(lower);
         rslt.setUpper(upper);
         return rslt;
@@ -207,7 +207,7 @@ public class CifTypesTypeChecker {
     private static ListType transListType(AListType type, SymbolScope<?> scope, CifTypeChecker tchecker) {
         // Create metamodel type.
         ListType rslt = newListType();
-        rslt.setPosition(type.position);
+        rslt.setPosition(type.createPosition());
 
         // Check range.
         if (type.range != null) {
@@ -308,7 +308,7 @@ public class CifTypesTypeChecker {
 
         // Create metamodel type.
         SetType stype = newSetType();
-        stype.setPosition(type.position);
+        stype.setPosition(type.createPosition());
         stype.setElementType(etype);
         return stype;
     }
@@ -344,7 +344,7 @@ public class CifTypesTypeChecker {
 
         // Create metamodel type.
         FuncType ftype = newFuncType();
-        ftype.setPosition(type.position);
+        ftype.setPosition(type.createPosition());
         ftype.setReturnType(rtype);
         ftype.getParamTypes().addAll(ptypes);
         return ftype;
@@ -377,7 +377,7 @@ public class CifTypesTypeChecker {
 
         // Create metamodel type.
         DictType dtype = newDictType();
-        dtype.setPosition(type.position);
+        dtype.setPosition(type.createPosition());
         dtype.setKeyType(ktype);
         dtype.setValueType(vtype);
         return dtype;
@@ -394,7 +394,7 @@ public class CifTypesTypeChecker {
     private static TupleType transTupleType(ATupleType type, SymbolScope<?> scope, CifTypeChecker tchecker) {
         // Get and check fields.
         List<Field> fields = list();
-        Map<String, Position> fieldMap = map();
+        Map<String, TextPosition> fieldMap = map();
         for (AField afield: type.fields) {
             // Check field type.
             CifType ftype = transCifType(afield.type, scope, tchecker);
@@ -408,12 +408,12 @@ public class CifTypesTypeChecker {
             for (AIdentifier id: afield.names) {
                 Field field = newField();
                 field.setName(id.id);
-                field.setPosition(id.position);
+                field.setPosition(id.createPosition());
                 field.setType(deepclone(ftype));
                 fields.add(field);
 
                 // Make sure the names of the fields are unique.
-                Position prevPos = fieldMap.get(id.id);
+                TextPosition prevPos = fieldMap.get(id.id);
                 if (prevPos != null) {
                     // Name conflicts with other field.
                     tchecker.addProblem(ErrMsg.DUPLICATE_FIELD_NAME, prevPos, id.id);
@@ -433,7 +433,7 @@ public class CifTypesTypeChecker {
 
         // Create metamodel type.
         TupleType ttype = newTupleType();
-        ttype.setPosition(type.position);
+        ttype.setPosition(type.createPosition());
         ttype.getFields().addAll(fields);
         return ttype;
     }
@@ -455,7 +455,7 @@ public class CifTypesTypeChecker {
         {
             // Create metamodel type.
             DistType dtype = newDistType();
-            dtype.setPosition(type.position);
+            dtype.setPosition(type.createPosition());
             dtype.setSampleType(stype);
             return dtype;
         }

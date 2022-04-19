@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.declarations;
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Algebraic variable. */
 public class AAlgVariable extends ACifObject {
@@ -33,7 +33,7 @@ public class AAlgVariable extends ACifObject {
      * @param value The value of the algebraic variable, or {@code null} if not specified.
      * @param position Position information.
      */
-    public AAlgVariable(AIdentifier name, AExpression value, Position position) {
+    public AAlgVariable(AIdentifier name, AExpression value, TextPosition position) {
         super(position);
         this.name = name;
         this.value = value;

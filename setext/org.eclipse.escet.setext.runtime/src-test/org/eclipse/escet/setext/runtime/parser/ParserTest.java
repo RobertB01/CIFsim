@@ -105,24 +105,24 @@ public class ParserTest {
             parser.parseString("+", LOC);
         } catch (ParseException e) {
             assertEquals("+", e.getTokenText());
-            assertEquals(0, e.getPosition().getStartOffset());
-            assertEquals(1, e.getPosition().getStartLine());
-            assertEquals(1, e.getPosition().getStartColumn());
-            assertEquals(0, e.getPosition().getEndOffset());
-            assertEquals(1, e.getPosition().getEndLine());
-            assertEquals(1, e.getPosition().getEndColumn());
+            assertEquals(0, e.getPosition().startOffset);
+            assertEquals(1, e.getPosition().startLine);
+            assertEquals(1, e.getPosition().startColumn);
+            assertEquals(0, e.getPosition().endOffset);
+            assertEquals(1, e.getPosition().endLine);
+            assertEquals(1, e.getPosition().endColumn);
         }
 
         try {
             parser.parseString("\n+", LOC);
         } catch (ParseException e) {
             assertEquals("+", e.getTokenText());
-            assertEquals(1, e.getPosition().getStartOffset());
-            assertEquals(2, e.getPosition().getStartLine());
-            assertEquals(1, e.getPosition().getStartColumn());
-            assertEquals(1, e.getPosition().getEndOffset());
-            assertEquals(2, e.getPosition().getEndLine());
-            assertEquals(1, e.getPosition().getEndColumn());
+            assertEquals(1, e.getPosition().startOffset);
+            assertEquals(2, e.getPosition().startLine);
+            assertEquals(1, e.getPosition().startColumn);
+            assertEquals(1, e.getPosition().endOffset);
+            assertEquals(2, e.getPosition().endLine);
+            assertEquals(1, e.getPosition().endColumn);
         }
     }
 
@@ -135,24 +135,24 @@ public class ParserTest {
             parser.parseString("5", LOC);
         } catch (ParseException e) {
             assertEquals(null, e.getTokenText());
-            assertEquals(1, e.getPosition().getStartOffset());
-            assertEquals(1, e.getPosition().getStartLine());
-            assertEquals(2, e.getPosition().getStartColumn());
-            assertEquals(1, e.getPosition().getEndOffset());
-            assertEquals(1, e.getPosition().getEndLine());
-            assertEquals(2, e.getPosition().getEndColumn());
+            assertEquals(1, e.getPosition().startOffset);
+            assertEquals(1, e.getPosition().startLine);
+            assertEquals(2, e.getPosition().startColumn);
+            assertEquals(1, e.getPosition().endOffset);
+            assertEquals(1, e.getPosition().endLine);
+            assertEquals(2, e.getPosition().endColumn);
         }
 
         try {
             parser.parseString("\n5", LOC);
         } catch (ParseException e) {
             assertEquals(null, e.getTokenText());
-            assertEquals(2, e.getPosition().getStartOffset());
-            assertEquals(2, e.getPosition().getStartLine());
-            assertEquals(2, e.getPosition().getStartColumn());
-            assertEquals(2, e.getPosition().getEndOffset());
-            assertEquals(2, e.getPosition().getEndLine());
-            assertEquals(2, e.getPosition().getEndColumn());
+            assertEquals(2, e.getPosition().startOffset);
+            assertEquals(2, e.getPosition().startLine);
+            assertEquals(2, e.getPosition().startColumn);
+            assertEquals(2, e.getPosition().endOffset);
+            assertEquals(2, e.getPosition().endLine);
+            assertEquals(2, e.getPosition().endColumn);
         }
     }
 

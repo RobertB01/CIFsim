@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Component instantiation. */
 public class ACompInstDecl extends ADecl {
@@ -39,7 +39,7 @@ public class ACompInstDecl extends ADecl {
      * @param parameters The parameters of the component instantiation.
      * @param position Position information.
      */
-    public ACompInstDecl(AIdentifier instName, AName defName, List<AExpression> parameters, Position position) {
+    public ACompInstDecl(AIdentifier instName, AName defName, List<AExpression> parameters, TextPosition position) {
         super(position);
         this.instName = instName;
         this.defName = defName;

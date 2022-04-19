@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.iodecls.svg;
 
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AStringToken;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An SVG file I/O declaration. */
 public class ASvgFile extends AIoDecl {
@@ -32,7 +32,7 @@ public class ASvgFile extends AIoDecl {
      *     {@code "\"} as path separators.
      * @param position Position information.
      */
-    public ASvgFile(AStringToken svgPath, Position position) {
+    public ASvgFile(AStringToken svgPath, TextPosition position) {
         super(position);
         this.svgPath = svgPath;
     }

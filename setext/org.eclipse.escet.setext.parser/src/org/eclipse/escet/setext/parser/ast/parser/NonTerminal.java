@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Symbol;
 
 /** Non-terminal symbol. */
@@ -41,7 +41,9 @@ public class NonTerminal extends Symbol {
      * @param generated Whether this non-terminal was generated from a group of keywords.
      * @param position Position information.
      */
-    public NonTerminal(JavaType returnType, String name, List<ParserRule> rules, boolean generated, Position position) {
+    public NonTerminal(JavaType returnType, String name, List<ParserRule> rules, boolean generated,
+            TextPosition position)
+    {
         super(name, position);
         this.returnType = returnType;
         this.rules = rules;

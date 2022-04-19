@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Boolean literal expression. */
 public class ABoolExpression extends AExpression {
@@ -26,7 +26,7 @@ public class ABoolExpression extends AExpression {
      * @param value The value of the boolean expression.
      * @param position Position information.
      */
-    public ABoolExpression(boolean value, Position position) {
+    public ABoolExpression(boolean value, TextPosition position) {
         super(position);
         this.value = value;
     }

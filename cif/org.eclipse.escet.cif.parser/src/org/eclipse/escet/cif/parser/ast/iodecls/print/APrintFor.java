@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.iodecls.print;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** A 'for' filter of a {@link APrint}. */
 public class APrintFor extends ACifObject {
@@ -33,7 +33,7 @@ public class APrintFor extends ACifObject {
      *     otherwise.
      * @param position Position information.
      */
-    public APrintFor(APrintForKind kind, String name, Position position) {
+    public APrintFor(APrintForKind kind, String name, TextPosition position) {
         super(position);
         this.kind = kind;
         this.name = name;

@@ -15,7 +15,7 @@ package org.eclipse.escet.setext.parser.ast.regex;
 
 import java.util.Set;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Kleene star regular expression (zero or more occurrences). */
 public class RegExStar extends RegEx {
@@ -28,7 +28,7 @@ public class RegExStar extends RegEx {
      * @param child Child regular expression.
      * @param position Position information.
      */
-    public RegExStar(RegEx child, Position position) {
+    public RegExStar(RegEx child, TextPosition position) {
         super(position);
         this.child = child;
     }

@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast.scanner;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Decl;
 import org.eclipse.escet.setext.parser.ast.regex.RegEx;
 
@@ -35,7 +35,7 @@ public class ShortcutDecl extends Decl {
      * @param regEx The regular expression.
      * @param position Position information.
      */
-    public ShortcutDecl(String name, RegEx regEx, Position position) {
+    public ShortcutDecl(String name, RegEx regEx, TextPosition position) {
         super(position);
         this.name = name;
         this.regEx = regEx;

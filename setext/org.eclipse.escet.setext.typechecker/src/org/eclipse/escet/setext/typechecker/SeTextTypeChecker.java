@@ -31,8 +31,7 @@ import java.util.Stack;
 
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.common.PositionUtils;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.typechecker.SemanticException;
 import org.eclipse.escet.common.typechecker.TypeChecker;
 import org.eclipse.escet.setext.parser.ast.Decl;
@@ -89,7 +88,7 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
      * @param position Position information.
      * @param args The arguments to use when formatting the problem message.
      */
-    public void addProblem(Message message, Position position, String... args) {
+    public void addProblem(Message message, TextPosition position, String... args) {
         addProblem(message.format(args), message.getSeverity(), position);
     }
 
@@ -211,7 +210,7 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
 
         // Make sure regular expression does not accept empty string.
         if (terminal.regEx.acceptsEmptyString() && !skipEmptyTermCheck) {
-            Position pos = (terminal.name == null) ? terminal.regEx.position : terminal.position;
+            TextPosition pos = (terminal.name == null) ? terminal.regEx.position : terminal.position;
             String name = (terminal.name == null) ? "" : " \"" + terminal.name + "\"";
             addProblem(Message.TERM_ACCEPTS_EMPTY_STR, pos, name);
         }
@@ -266,8 +265,7 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
         }
 
         // Create JavaType for non-terminal.
-        Position javaTypePos = PositionUtils.copyPosition(kwterminal.position);
-        JavaType javaType = new JavaType(TOKEN_CLASS_NAME, null, javaTypePos);
+        JavaType javaType = new JavaType(TOKEN_CLASS_NAME, null, kwterminal.position);
 
         // Create rules for non-terminal.
         List<ParserRule> rules = list();
@@ -326,17 +324,17 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
      * @param position The position information for the keyword.
      * @return The regular expression the given keyword.
      */
-    private RegEx keywordToRegEx(String keyword, Position position) {
+    private RegEx keywordToRegEx(String keyword, TextPosition position) {
         int[] codePoints = Strings.getCodePoints(keyword);
         List<RegEx> chars = listc(codePoints.length);
         for (int idx = 0; idx < codePoints.length; idx++) {
             int codePoint = codePoints[idx];
 
             // We currently only support ASCII characters.
-            Assert.check(position.getStartLine() == position.getEndLine());
-            Position charPos = PositionUtils.copyPosition(position);
-            charPos.setStartOffset(charPos.getStartOffset() + idx);
-            charPos.setStartColumn(charPos.getStartColumn() + idx);
+            Assert.check(position.startLine == position.endLine);
+            TextPosition charPos = new TextPosition(position.location, position.source, position.startLine,
+                    position.startColumn + idx, position.endLine, position.endColumn, position.startOffset + idx,
+                    position.endOffset);
 
             chars.add(new RegExChar(codePoint, charPos));
         }
@@ -486,7 +484,7 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
         }
 
         // Make sure each scanner state has at most one EOF acceptance.
-        Map<String, Position> eofMap = map();
+        Map<String, TextPosition> eofMap = map();
         for (Terminal terminal: spec.terminals) {
             // Skip non-EOF terminals.
             if (!(terminal.regEx instanceof RegExChar)) {
@@ -709,7 +707,7 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
     /** Type checks start symbols (incl. main). */
     private void tcheckStartSymbols() {
         int cnt = 0;
-        Map<NonTerminal, Position> startNonTerms = map();
+        Map<NonTerminal, TextPosition> startNonTerms = map();
 
         for (Decl decl: spec.decls) {
             // Skip non start symbol declarations.
@@ -1055,7 +1053,7 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
     /** Check for duplicate generated scanner/parser classes. */
     private void checkDuplicateGenClasses() {
         // Initialize mapping.
-        Map<String, Position> classNames = map();
+        Map<String, TextPosition> classNames = map();
 
         // Check parser class names.
         for (StartSymbol start: spec.getStartSymbols()) {

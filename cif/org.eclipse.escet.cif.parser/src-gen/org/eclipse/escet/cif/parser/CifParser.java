@@ -73,7 +73,7 @@ import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.parser.ast.tokens.AStringToken;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
 import org.eclipse.escet.cif.parser.ast.types.AField;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Parser;
 import org.eclipse.escet.setext.runtime.ParserHooksBase;
 import org.eclipse.escet.setext.runtime.Token;
@@ -35723,7 +35723,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 134: {
                 // Reduce OptEdgeUrgent : ;
                 doReduce1(token, 28);
-                Position o = hooks.parseOptEdgeUrgent1();
+                TextPosition o = hooks.parseOptEdgeUrgent1();
 
                 reduce = true;
                 reduceNonTerminal = 28;
@@ -35750,7 +35750,7 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce1(token, 28);
                 Object o1 = doReduce2();
 
-                Position o = hooks.parseOptEdgeUrgent2((Token)o1);
+                TextPosition o = hooks.parseOptEdgeUrgent2((Token)o1);
 
                 reduce = true;
                 reduceNonTerminal = 28;
@@ -35839,7 +35839,7 @@ public final class CifParser extends Parser<ASpecification> {
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                ACoreEdge o = hooks.parseCoreEdge1((List<AEdgeEvent>)o1, (List<AExpression>)o2, (Position)o3, (List<AUpdate>)o4);
+                ACoreEdge o = hooks.parseCoreEdge1((List<AEdgeEvent>)o1, (List<AExpression>)o2, (TextPosition)o3, (List<AUpdate>)o4);
 
                 reduce = true;
                 reduceNonTerminal = 26;
@@ -38624,7 +38624,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 134: {
                 // Reduce OptEdgeUrgent : ;
                 doReduce1(token, 28);
-                Position o = hooks.parseOptEdgeUrgent1();
+                TextPosition o = hooks.parseOptEdgeUrgent1();
 
                 reduce = true;
                 reduceNonTerminal = 28;
@@ -38683,7 +38683,7 @@ public final class CifParser extends Parser<ASpecification> {
                 Object o2 = doReduce2();
                 doReduce2();
 
-                ACoreEdge o = hooks.parseCoreEdge2((List<AExpression>)o2, (Position)o3, (List<AUpdate>)o4);
+                ACoreEdge o = hooks.parseCoreEdge2((List<AExpression>)o2, (TextPosition)o3, (List<AUpdate>)o4);
 
                 reduce = true;
                 reduceNonTerminal = 26;
@@ -103792,11 +103792,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * @param l1 {@code EdgeEvents}.
          * @param l2 {@code OptEdgeGuard}.
-         * @param p3 {@code OptEdgeUrgent}.
+         * @param t3 {@code OptEdgeUrgent}.
          * @param l4 {@code OptEdgeUpdate}.
          * @return The parser call back hook result.
          */
-        public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, Position p3, List<AUpdate> l4);
+        public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, TextPosition t3, List<AUpdate> l4);
 
         /**
          * Parser call back hook for rule/production:
@@ -103804,11 +103804,11 @@ public final class CifParser extends Parser<ASpecification> {
          * <p>{@code CoreEdge : WHENKW Expressions OptEdgeUrgent OptEdgeUpdate;}</p>
          *
          * @param l2 {@code Expressions}.
-         * @param p3 {@code OptEdgeUrgent}.
+         * @param t3 {@code OptEdgeUrgent}.
          * @param l4 {@code OptEdgeUpdate}.
          * @return The parser call back hook result.
          */
-        public ACoreEdge parseCoreEdge2(List<AExpression> l2, Position p3, List<AUpdate> l4);
+        public ACoreEdge parseCoreEdge2(List<AExpression> l2, TextPosition t3, List<AUpdate> l4);
 
         /**
          * Parser call back hook for rule/production:
@@ -103857,7 +103857,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * @return The parser call back hook result.
          */
-        public Position parseOptEdgeUrgent1();
+        public TextPosition parseOptEdgeUrgent1();
 
         /**
          * Parser call back hook for rule/production:
@@ -103867,7 +103867,7 @@ public final class CifParser extends Parser<ASpecification> {
          * @param t1 {@code NOWKW}.
          * @return The parser call back hook result.
          */
-        public Position parseOptEdgeUrgent2(Token t1);
+        public TextPosition parseOptEdgeUrgent2(Token t1);
 
         /**
          * Parser call back hook for rule/production:

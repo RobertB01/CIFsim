@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Slice expression. */
 public class ASliceExpression extends AExpression {
@@ -34,7 +34,7 @@ public class ASliceExpression extends AExpression {
      * @param end The end index of the slice expression, or {@code null}.
      * @param position Position information.
      */
-    public ASliceExpression(AExpression child, AExpression begin, AExpression end, Position position) {
+    public ASliceExpression(AExpression child, AExpression begin, AExpression end, TextPosition position) {
         super(position);
         this.child = child;
         this.begin = begin;

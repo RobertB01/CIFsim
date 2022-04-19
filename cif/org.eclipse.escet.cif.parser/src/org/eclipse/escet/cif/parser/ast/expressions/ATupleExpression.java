@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.expressions;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Tuple expression. */
 public class ATupleExpression extends AExpression {
@@ -28,7 +28,7 @@ public class ATupleExpression extends AExpression {
      * @param elements The elements of the tuple expression.
      * @param position Position information.
      */
-    public ATupleExpression(List<AExpression> elements, Position position) {
+    public ATupleExpression(List<AExpression> elements, TextPosition position) {
         super(position);
         this.elements = elements;
     }

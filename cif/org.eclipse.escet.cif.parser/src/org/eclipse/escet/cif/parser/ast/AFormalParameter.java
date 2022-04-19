@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Formal parameter for a component definition. */
 public abstract class AFormalParameter extends ACifObject {
@@ -22,7 +22,7 @@ public abstract class AFormalParameter extends ACifObject {
      *
      * @param position Position information.
      */
-    public AFormalParameter(Position position) {
+    public AFormalParameter(TextPosition position) {
         super(position);
     }
 }

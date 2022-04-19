@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Ranged integer type. */
 public class AIntType extends ACifType {
@@ -26,7 +26,7 @@ public class AIntType extends ACifType {
      * @param range The range of the integer type, or {@code null}.
      * @param position Position information.
      */
-    public AIntType(ARange range, Position position) {
+    public AIntType(ARange range, TextPosition position) {
         super(position);
         this.range = range;
     }

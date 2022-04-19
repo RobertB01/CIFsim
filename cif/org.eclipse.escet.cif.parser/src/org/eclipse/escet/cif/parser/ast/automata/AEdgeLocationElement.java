@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.automata;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Edge location element. */
 public class AEdgeLocationElement extends ALocationElement {
@@ -31,7 +31,7 @@ public class AEdgeLocationElement extends ALocationElement {
      * @param target The target location of the edge location element, or {@code null} for self-loops.
      * @param position Position information.
      */
-    public AEdgeLocationElement(ACoreEdge coreEdge, AIdentifier target, Position position) {
+    public AEdgeLocationElement(ACoreEdge coreEdge, AIdentifier target, TextPosition position) {
         super(position);
         this.coreEdge = coreEdge;
         this.target = target;

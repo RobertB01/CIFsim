@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Received value reference expression. */
 public class AReceivedExpression extends AExpression {
@@ -22,7 +22,7 @@ public class AReceivedExpression extends AExpression {
      *
      * @param position Position information.
      */
-    public AReceivedExpression(Position position) {
+    public AReceivedExpression(TextPosition position) {
         super(position);
     }
 }

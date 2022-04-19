@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.PlatformUriUtils;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.typechecker.TypeChecker;
 
 /** Metadata on a CIF source file. */
@@ -37,13 +37,13 @@ public class SourceFile {
      * The position information of the import in the importing file, from which this source file is imported, or
      * {@code null} for the main file.
      */
-    public final Position importingPos;
+    public final TextPosition importingPos;
 
     /**
      * The position information of the import in the {@link #main} file to which to report problems for this file, or
      * {@code null} for main files.
      */
-    public final Position problemPos;
+    public final TextPosition problemPos;
 
     /**
      * Constructor for the {@link SourceFile} class.
@@ -57,7 +57,7 @@ public class SourceFile {
      * @param problemPos The position information of the import in the main file to which to report problems for this
      *     file, or {@code null} for main files.
      */
-    public SourceFile(String absPath, boolean main, Position importingPos, Position problemPos) {
+    public SourceFile(String absPath, boolean main, TextPosition importingPos, TextPosition problemPos) {
         this.absPath = absPath;
         this.main = main;
         this.importingPos = importingPos;

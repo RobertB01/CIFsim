@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Token;
 
 /** Events declaration. */
@@ -40,7 +40,7 @@ public class AEventDecl extends ADecl {
      * @param type The type of the event, or {@code null} if no type.
      * @param position Position information.
      */
-    public AEventDecl(Token controllability, List<AIdentifier> names, ACifType type, Position position) {
+    public AEventDecl(Token controllability, List<AIdentifier> names, ACifType type, TextPosition position) {
         super(position);
         this.controllability = controllability;
         this.names = names;

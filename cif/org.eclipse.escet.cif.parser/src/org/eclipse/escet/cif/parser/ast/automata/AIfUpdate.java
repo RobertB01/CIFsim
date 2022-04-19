@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.automata;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** If update. */
 public class AIfUpdate extends AUpdate {
@@ -42,7 +42,7 @@ public class AIfUpdate extends AUpdate {
      * @param position Position information.
      */
     public AIfUpdate(List<AExpression> guards, List<AUpdate> thens, List<AElifUpdate> elifs, List<AUpdate> elses,
-            Position position)
+            TextPosition position)
     {
         super(position);
         this.guards = guards;

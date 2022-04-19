@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.functions;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.declarations.ADiscVariableDecl;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Internal function body. */
 public class AInternalFuncBody extends AFuncBody {
@@ -27,7 +27,7 @@ public class AInternalFuncBody extends AFuncBody {
     public final List<AFuncStatement> statements;
 
     /** The position information of the {@code end} keyword. */
-    public final Position endPos;
+    public final TextPosition endPos;
 
     /**
      * Constructor for the {@link AInternalFuncBody} class.
@@ -36,7 +36,7 @@ public class AInternalFuncBody extends AFuncBody {
      * @param statements The statements of the internal function.
      * @param endPos The position information of the {@code end} keyword.
      */
-    public AInternalFuncBody(List<ADiscVariableDecl> variables, List<AFuncStatement> statements, Position endPos) {
+    public AInternalFuncBody(List<ADiscVariableDecl> variables, List<AFuncStatement> statements, TextPosition endPos) {
         super(null);
         this.variables = variables;
         this.statements = statements;

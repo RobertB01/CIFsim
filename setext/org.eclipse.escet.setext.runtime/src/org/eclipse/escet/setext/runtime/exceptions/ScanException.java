@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Locale;
 
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Exception indicating a scanning (lexing) error occurred. */
 public class ScanException extends SyntaxException {
@@ -31,7 +31,7 @@ public class ScanException extends SyntaxException {
      * @param codePoint The Unicode code point at which scanning failed, or {@code -1} for premature end of input.
      * @param position The position information (possibly including source information) for the scan error.
      */
-    public ScanException(int codePoint, Position position) {
+    public ScanException(int codePoint, TextPosition position) {
         super(position);
         this.codePoint = codePoint;
     }
@@ -47,20 +47,20 @@ public class ScanException extends SyntaxException {
 
     @Override
     public String getMessage() {
-        String src = getPosition().getSource();
+        String src = getPosition().source;
         if (src == null) {
             src = "";
         }
 
         if (codePoint == -1) {
             return fmt("%sScanning failed at line %d, column %d, due to premature end of input.", src,
-                    getPosition().getStartLine(), getPosition().getStartColumn());
+                    getPosition().startLine, getPosition().startColumn);
         }
 
         String codePointTxt = Strings.isGraphicCodePoint(codePoint) ? Strings.codePointToStr(codePoint) : "";
 
         return fmt("%sScanning failed for character \"%s\" (Unicode U+%s) at line %d, column %d.", src, codePointTxt,
-                Integer.toHexString(codePoint).toUpperCase(Locale.US), getPosition().getStartLine(),
-                getPosition().getStartColumn());
+                Integer.toHexString(codePoint).toUpperCase(Locale.US), getPosition().startLine,
+                getPosition().startColumn);
     }
 }

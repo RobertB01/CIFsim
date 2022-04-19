@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Automaton 'self' reference expression. */
 public class ASelfExpression extends AExpression {
@@ -22,7 +22,7 @@ public class ASelfExpression extends AExpression {
      *
      * @param position Position information.
      */
-    public ASelfExpression(Position position) {
+    public ASelfExpression(TextPosition position) {
         super(position);
     }
 }

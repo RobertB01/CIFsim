@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.declarations;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Continuous variable declaration. */
 public class AContVariableDecl extends ADecl {
@@ -29,7 +29,7 @@ public class AContVariableDecl extends ADecl {
      * @param variables The continuous variables that are part of this continuous variable declaration.
      * @param position Position information.
      */
-    public AContVariableDecl(List<AContVariable> variables, Position position) {
+    public AContVariableDecl(List<AContVariable> variables, TextPosition position) {
         super(position);
         this.variables = variables;
     }

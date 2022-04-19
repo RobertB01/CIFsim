@@ -65,7 +65,7 @@ import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.box.VBox;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -481,7 +481,7 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
 
     @Override
     @SuppressWarnings("null")
-    protected SymbolTableEntry resolve1(Position position, String id, String done, CifTypeChecker tchecker,
+    protected SymbolTableEntry resolve1(TextPosition position, String id, String done, CifTypeChecker tchecker,
             SymbolScope<?> origScope)
     {
         SymbolTableEntry child = children.get(id);

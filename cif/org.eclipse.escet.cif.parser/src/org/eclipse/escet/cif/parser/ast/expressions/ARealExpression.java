@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Real literal expression. */
 public class ARealExpression extends AExpression {
@@ -26,7 +26,7 @@ public class ARealExpression extends AExpression {
      * @param value The value of the real literal expression, as scanned text.
      * @param position Position information.
      */
-    public ARealExpression(String value, Position position) {
+    public ARealExpression(String value, TextPosition position) {
         super(position);
         this.value = value;
     }

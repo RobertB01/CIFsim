@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.declarations;
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Continuous variable. */
 public class AContVariable extends ACifObject {
@@ -37,7 +37,7 @@ public class AContVariable extends ACifObject {
      * @param derivative The derivative of the continuous variable, or {@code null} if not specified.
      * @param position Position information.
      */
-    public AContVariable(AIdentifier name, AExpression value, AExpression derivative, Position position) {
+    public AContVariable(AIdentifier name, AExpression value, AExpression derivative, TextPosition position) {
         super(position);
         this.name = name;
         this.value = value;

@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AStringToken;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Import. */
 public class AImport extends ACifObject {
@@ -31,7 +31,7 @@ public class AImport extends ACifObject {
      *     {@code "/"} and {@code "\"} as path separators.
      * @param position Position information.
      */
-    public AImport(AStringToken source, Position position) {
+    public AImport(AStringToken source, TextPosition position) {
         super(position);
         this.source = source;
     }

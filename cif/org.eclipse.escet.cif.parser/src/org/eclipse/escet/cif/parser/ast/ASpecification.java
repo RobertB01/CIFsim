@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Specification. */
 public class ASpecification extends ACifObject {
@@ -26,7 +26,7 @@ public class ASpecification extends ACifObject {
      * @param body The body of the specification.
      * @param position Position information.
      */
-    public ASpecification(AGroupBody body, Position position) {
+    public ASpecification(AGroupBody body, TextPosition position) {
         super(position);
         this.body = body;
     }

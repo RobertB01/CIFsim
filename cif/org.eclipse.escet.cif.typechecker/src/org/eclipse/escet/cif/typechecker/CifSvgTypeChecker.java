@@ -27,6 +27,7 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HI
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.NO_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.STRING_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
+import static org.eclipse.escet.common.position.common.PositionUtils.toPosition;
 
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class CifSvgTypeChecker {
     public SvgFile checkSvgFile(ASvgFile astSvgFile, ParentScope<?> scope) {
         SvgFile svgFile = newSvgFile();
         svgFile.setPath(astSvgFile.svgPath.txt);
-        svgFile.setPosition(astSvgFile.svgPath.position);
+        svgFile.setPosition(astSvgFile.svgPath.createPosition());
         return svgFile;
     }
 
@@ -97,7 +98,7 @@ public class CifSvgTypeChecker {
     public SvgCopy checkSvgCopy(ASvgCopy astSvgCopy, ParentScope<?> scope) {
         // Create metamodel representation.
         SvgCopy svgCopy = newSvgCopy();
-        svgCopy.setPosition(astSvgCopy.position);
+        svgCopy.setPosition(astSvgCopy.createPosition());
 
         // Check 'id' expression.
         Expression id = transExpression(astSvgCopy.svgId, STRING_TYPE_HINT, scope, null, tchecker);
@@ -162,7 +163,7 @@ public class CifSvgTypeChecker {
     public SvgMove checkSvgMove(ASvgMove astSvgMove, ParentScope<?> scope) {
         // Create metamodel representation.
         SvgMove svgMove = newSvgMove();
-        svgMove.setPosition(astSvgMove.position);
+        svgMove.setPosition(astSvgMove.createPosition());
 
         // Check 'id' expression.
         Expression id = transExpression(astSvgMove.svgId, STRING_TYPE_HINT, scope, null, tchecker);
@@ -216,7 +217,7 @@ public class CifSvgTypeChecker {
     public SvgOut checkSvgOut(ASvgOut astSvgOut, ParentScope<?> scope) {
         // Create metamodel representation.
         SvgOut svgOut = newSvgOut();
-        svgOut.setPosition(astSvgOut.position);
+        svgOut.setPosition(astSvgOut.createPosition());
 
         // Check 'id' expression.
         Expression id = transExpression(astSvgOut.svgId, STRING_TYPE_HINT, scope, null, tchecker);
@@ -232,9 +233,9 @@ public class CifSvgTypeChecker {
         // Set attribute/text.
         if (astSvgOut.svgAttr != null) {
             svgOut.setAttr(astSvgOut.svgAttr.txt);
-            svgOut.setAttrTextPos(astSvgOut.svgAttr.position);
+            svgOut.setAttrTextPos(astSvgOut.svgAttr.createPosition());
         } else {
-            svgOut.setAttrTextPos(astSvgOut.svgTextPos);
+            svgOut.setAttrTextPos(toPosition(astSvgOut.svgTextPos));
         }
 
         // Check value.
@@ -265,7 +266,7 @@ public class CifSvgTypeChecker {
     public SvgIn checkSvgIn(ASvgIn astSvgIn, ParentScope<?> scope) {
         // Create metamodel representation.
         SvgIn svgIn = newSvgIn();
-        svgIn.setPosition(astSvgIn.position);
+        svgIn.setPosition(astSvgIn.createPosition());
 
         // Check 'id' expression.
         Expression id = transExpression(astSvgIn.svgId, STRING_TYPE_HINT, scope, null, tchecker);

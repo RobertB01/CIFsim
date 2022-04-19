@@ -15,7 +15,7 @@ package org.eclipse.escet.setext.parser.ast.scanner;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Decl;
 import org.eclipse.escet.setext.parser.ast.Identifier;
 import org.eclipse.escet.setext.parser.ast.Symbol;
@@ -37,7 +37,7 @@ public class TerminalsDecl extends Decl {
      * @param terminals The terminal symbols to recognize.
      * @param position Position information.
      */
-    public TerminalsDecl(Identifier state, List<Symbol> terminals, Position position) {
+    public TerminalsDecl(Identifier state, List<Symbol> terminals, TextPosition position) {
         super(position);
         this.state = state;
         this.terminals = terminals;

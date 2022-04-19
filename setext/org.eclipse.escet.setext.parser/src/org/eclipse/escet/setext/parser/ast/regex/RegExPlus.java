@@ -15,7 +15,7 @@ package org.eclipse.escet.setext.parser.ast.regex;
 
 import java.util.Set;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Plus regular expression (one or more occurrences). */
 public class RegExPlus extends RegEx {
@@ -28,7 +28,7 @@ public class RegExPlus extends RegEx {
      * @param child Child regular expression.
      * @param position Position information.
      */
-    public RegExPlus(RegEx child, Position position) {
+    public RegExPlus(RegEx child, TextPosition position) {
         super(position);
         this.child = child;
     }

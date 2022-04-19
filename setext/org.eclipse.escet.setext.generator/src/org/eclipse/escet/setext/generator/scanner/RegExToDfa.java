@@ -34,8 +34,7 @@ import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.common.PositionUtils;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.generator.parser.LALR1ParserGenerator;
 import org.eclipse.escet.setext.parser.ast.regex.RegEx;
 import org.eclipse.escet.setext.parser.ast.regex.RegExAlts;
@@ -75,7 +74,7 @@ public class RegExToDfa {
         Assert.check(!terminals.isEmpty());
 
         // Create dummy position information object.
-        Position dummyPos = PositionUtils.createDummy("/dummy.file");
+        TextPosition dummyPos = TextPosition.createDummy("/dummy.file");
 
         // Construct end marker per terminal, and add them at the end of the
         // regular expression.

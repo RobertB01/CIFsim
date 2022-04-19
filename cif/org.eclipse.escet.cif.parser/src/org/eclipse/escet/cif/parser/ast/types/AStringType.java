@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** String type. */
 public class AStringType extends ACifType {
@@ -22,7 +22,7 @@ public class AStringType extends ACifType {
      *
      * @param position Position information.
      */
-    public AStringType(Position position) {
+    public AStringType(TextPosition position) {
         super(position);
     }
 }

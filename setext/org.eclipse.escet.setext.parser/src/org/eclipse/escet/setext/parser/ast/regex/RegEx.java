@@ -16,7 +16,7 @@ package org.eclipse.escet.setext.parser.ast.regex;
 import java.util.Set;
 
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.SeTextObject;
 
 /** Regular expression. */
@@ -26,7 +26,7 @@ public abstract class RegEx extends SeTextObject {
      *
      * @param position Position information.
      */
-    public RegEx(Position position) {
+    public RegEx(TextPosition position) {
         super(position);
     }
 

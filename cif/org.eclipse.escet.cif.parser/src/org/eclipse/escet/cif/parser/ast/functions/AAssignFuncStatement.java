@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.functions;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Assignment internal function statement. */
 public class AAssignFuncStatement extends AFuncStatement {
@@ -33,7 +33,7 @@ public class AAssignFuncStatement extends AFuncStatement {
      * @param values The values of the assignment internal function statement.
      * @param position Position information.
      */
-    public AAssignFuncStatement(List<AExpression> addressables, List<AExpression> values, Position position) {
+    public AAssignFuncStatement(List<AExpression> addressables, List<AExpression> values, TextPosition position) {
         super(position);
         this.addressables = addressables;
         this.values = values;

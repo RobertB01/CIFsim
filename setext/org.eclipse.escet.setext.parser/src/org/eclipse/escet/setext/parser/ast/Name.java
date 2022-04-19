@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Reference name token. */
 public class Name extends SeTextObject {
@@ -26,7 +26,7 @@ public class Name extends SeTextObject {
      * @param name Reference name. May include {@code $} characters.
      * @param position Position information.
      */
-    public Name(String name, Position position) {
+    public Name(String name, TextPosition position) {
         super(position);
         this.name = name.replace("$", "");
     }

@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.tokens;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Event parameter flag token. */
 public class AEventParamFlag extends ACifObject {
@@ -27,7 +27,7 @@ public class AEventParamFlag extends ACifObject {
      * @param flag The flag. Must be {@code "!"}, {@code "?"}, or {@code "~"}.
      * @param position Position information.
      */
-    public AEventParamFlag(String flag, Position position) {
+    public AEventParamFlag(String flag, TextPosition position) {
         super(position);
         this.flag = flag;
     }

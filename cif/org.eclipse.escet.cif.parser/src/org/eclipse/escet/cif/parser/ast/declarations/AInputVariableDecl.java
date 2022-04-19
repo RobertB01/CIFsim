@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Input variable declaration. */
 public class AInputVariableDecl extends ADecl {
@@ -35,7 +35,7 @@ public class AInputVariableDecl extends ADecl {
      * @param names The names of the input variables.
      * @param position Position information.
      */
-    public AInputVariableDecl(ACifType type, List<AIdentifier> names, Position position) {
+    public AInputVariableDecl(ACifType type, List<AIdentifier> names, TextPosition position) {
         super(position);
         this.type = type;
         this.names = names;

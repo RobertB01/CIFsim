@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Token;
 
 /** Formal event parameter. */
@@ -39,7 +39,7 @@ public class AFormalEventParameter extends AFormalParameter {
      * @param position Position information.
      */
     public AFormalEventParameter(Token controllability, List<AFormalEventParameterPart> parts, ACifType type,
-            Position position)
+            TextPosition position)
     {
         super(position);
         this.controllability = controllability;

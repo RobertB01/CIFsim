@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An 'elif' update part of 'if' update. */
 public class AElifUpdate extends ACifObject {
@@ -34,7 +34,7 @@ public class AElifUpdate extends ACifObject {
      * @param thens The 'then' updates of the 'elif' update.
      * @param position Position information.
      */
-    public AElifUpdate(List<AExpression> guards, List<AUpdate> thens, Position position) {
+    public AElifUpdate(List<AExpression> guards, List<AUpdate> thens, TextPosition position) {
         super(position);
         this.guards = guards;
         this.thens = thens;

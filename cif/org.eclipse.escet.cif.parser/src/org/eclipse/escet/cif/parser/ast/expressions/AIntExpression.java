@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.expressions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Integer literal expression. */
 public class AIntExpression extends AExpression {
@@ -26,7 +26,7 @@ public class AIntExpression extends AExpression {
      * @param value The value of the integer literal expression, as scanned text.
      * @param position Position information.
      */
-    public AIntExpression(String value, Position position) {
+    public AIntExpression(String value, TextPosition position) {
         super(position);
         this.value = value;
     }

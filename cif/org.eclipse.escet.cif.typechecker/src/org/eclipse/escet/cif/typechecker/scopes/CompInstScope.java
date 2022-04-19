@@ -50,7 +50,7 @@ import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Numbers;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** Component instantiation scope. */
@@ -344,8 +344,8 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
      * @param paramIdxTxt The text to use in error messages to identify the actual parameter by index.
      * @param compDef The component definition that is being instantiated.
      */
-    private void checkEventUsage(EventParameter formal, EventParameter actual, Position position, String paramIdxTxt,
-            ComponentDef compDef)
+    private void checkEventUsage(EventParameter formal, EventParameter actual, TextPosition position,
+            String paramIdxTxt, ComponentDef compDef)
     {
         // Interpret flags of both event parameters.
         boolean formalSend = CifEventUtils.eventParamSupportsSend(formal);
@@ -387,7 +387,7 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
     }
 
     @Override
-    protected SymbolTableEntry resolve1(Position position, String id, String done, CifTypeChecker tchecker,
+    protected SymbolTableEntry resolve1(TextPosition position, String id, String done, CifTypeChecker tchecker,
             SymbolScope<?> origScope)
     {
         // Check scope enough to be able to resolve 'via' this scope.

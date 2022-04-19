@@ -23,8 +23,7 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
-import org.eclipse.escet.common.position.common.PositionUtils;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.regex.RegEx;
 import org.eclipse.escet.setext.parser.ast.regex.RegExChar;
 import org.junit.After;
@@ -49,7 +48,7 @@ public class RegExTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testToString() {
-        final Position DUMMY_POS = PositionUtils.createDummy("/dummy.file");
+        final TextPosition DUMMY_POS = TextPosition.createDummy("/dummy.file");
         final RegEx RE_EOF = new RegExChar(-1, DUMMY_POS);
         final RegEx RE_MARKER2 = new RegExChar(-2, DUMMY_POS);
         final RegEx RE_MARKER3 = new RegExChar(-3, DUMMY_POS);
