@@ -59,36 +59,48 @@ public class AsciiDocSourceCheckContext {
         Pattern sourceBlockDashesPattern = Pattern.compile("----+");
 
         // Analyze all the lines.
-        boolean inSourceBlock = false;
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
-            int lineNr = i + 1;
+        int lineIdx = 0;
+        LINES:
+        while (lineIdx < lines.size()) {
+            String line = lines.get(lineIdx);
 
-            if (!inSourceBlock) {
-                // In normal text.
-                Matcher matcher = sourceBlockHeaderPattern.matcher(line);
-                if (matcher.find()) {
-                    // Check and process next line, which should have dashes.
-                    Verify.verify(i + 1 < lines.size(), Integer.toString(lineNr));
-                    String nextLine = lines.get(i + 1);
-                    Verify.verify(sourceBlockDashesPattern.matcher(nextLine).matches(), nextLine);
-                    i++; // ignore checkstyle ModifiedControlVariableCheck (control variable incremented on purpose)
+            // Detect and handle source block.
+            Matcher matcher = sourceBlockHeaderPattern.matcher(line);
+            if (matcher.find()) {
+                // Store line index for later.
+                int blockLineIdx = lineIdx;
 
-                    // New source block.
-                    inSourceBlock = true;
-                    sourceBlocks.add(new AsciiDocSourceCodeBlock(lineNr, new ArrayList<>()));
-                } else {
-                    normalLines.add(new AsciiDocSourceLine(lineNr, line));
-                }
-            } else {
-                // In source block.
-                Matcher matcher = sourceBlockDashesPattern.matcher(line);
-                if (matcher.matches()) {
-                    inSourceBlock = false; // End of source block.
-                } else {
-                    sourceBlocks.get(sourceBlocks.size() - 1).lines.add(new AsciiDocSourceLine(lineNr, line));
+                // Check and process next line, which should have dashes.
+                lineIdx++;
+                Verify.verify(lineIdx < lines.size(), Integer.toString(lineIdx));
+                line = lines.get(lineIdx);
+                Verify.verify(sourceBlockDashesPattern.matcher(line).matches(), line);
+
+                // Collect lines of the source block.
+                List<AsciiDocSourceLine> blockLines = new ArrayList<>();
+                while (true) {
+                    // Get next line.
+                    lineIdx++;
+                    Verify.verify(lineIdx < lines.size(), Integer.toString(lineIdx));
+                    line = lines.get(lineIdx);
+
+                    // Check for end of source block.
+                    matcher = sourceBlockDashesPattern.matcher(line);
+                    if (matcher.matches()) {
+                        // Add the source block.
+                        sourceBlocks.add(new AsciiDocSourceCodeBlock(blockLineIdx + 1, blockLines));
+                        lineIdx++;
+                        continue LINES;
+                    }
+
+                    // Just another line in the source block.
+                    blockLines.add(new AsciiDocSourceLine(lineIdx + 1, line));
                 }
             }
+
+            // Normal line.
+            normalLines.add(new AsciiDocSourceLine(lineIdx + 1, line));
+            lineIdx++;
         }
     }
 

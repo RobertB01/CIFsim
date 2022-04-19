@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.common.asciidoc.source.checker;
 
+import java.util.Collections;
 import java.util.List;
 
 /** An AsciiDoc source code block. */
@@ -31,6 +32,6 @@ public class AsciiDocSourceCodeBlock {
      */
     public AsciiDocSourceCodeBlock(int lineNr, List<AsciiDocSourceLine> lines) {
         this.lineNr = lineNr;
-        this.lines = lines;
+        this.lines = Collections.unmodifiableList(lines);
     }
 }
