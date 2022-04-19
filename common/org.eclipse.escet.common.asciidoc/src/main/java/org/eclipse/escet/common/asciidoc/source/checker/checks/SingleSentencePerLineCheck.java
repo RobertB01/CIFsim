@@ -24,7 +24,7 @@ public class SingleSentencePerLineCheck extends AsciiDocSourceFileCheck {
     @Override
     public void check(AsciiDocSourceCheckContext context) {
         // Compile regular expression patterns.
-        Pattern endOfSentencePattern = Pattern.compile("[a-z](?<eos>\\.) +[A-Z]"); // Heuristic pattern.
+        Pattern endOfSentencePattern = Pattern.compile("[a-z](?<eos>[.!?]) +[A-Z]"); // Heuristic pattern.
         Pattern commentLinePattern = Pattern.compile("^ *(//)");
 
         // Check each normal line.

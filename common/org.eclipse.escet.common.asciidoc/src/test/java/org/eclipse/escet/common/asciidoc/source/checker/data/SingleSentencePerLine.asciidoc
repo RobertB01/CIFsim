@@ -12,13 +12,13 @@
 //////////////////////////////////////////////////////////////////////////////
 
 Some. Text. Here.
-Some. Text. Here.
-Some. Text. Here.
+Some! Text! Here.
+Some? Text? Here.
 [source]
 ----
 Some. Text. Here.
 ----
-Some. Text. Here.
+Some. Text. Here again, after the source block.
 Some other text that is OK.
 
 Some more OK text.

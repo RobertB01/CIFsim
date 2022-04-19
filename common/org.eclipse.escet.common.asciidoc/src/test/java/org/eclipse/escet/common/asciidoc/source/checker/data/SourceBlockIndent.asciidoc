@@ -36,12 +36,6 @@ Some text.
    abc
   def
 ----
-[source]
-----
-     abc
-    def
-   ghi
-----
 
 [source]
 ----
