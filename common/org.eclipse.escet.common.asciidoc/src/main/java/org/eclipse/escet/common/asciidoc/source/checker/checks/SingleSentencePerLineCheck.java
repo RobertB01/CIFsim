@@ -16,8 +16,8 @@ package org.eclipse.escet.common.asciidoc.source.checker.checks;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.escet.common.asciidoc.source.checker.AsciiDocSourceCheckContext;
+import org.eclipse.escet.common.asciidoc.source.checker.AsciiDocSourceLine;
 
 /** Checks that there is a single sentence per line. */
 public class SingleSentencePerLineCheck extends AsciiDocSourceFileCheck {
@@ -28,19 +28,17 @@ public class SingleSentencePerLineCheck extends AsciiDocSourceFileCheck {
         Pattern commentLinePattern = Pattern.compile("^ *(//)");
 
         // Check each normal line.
-        for (Pair<Integer, String> numberedLine: context.normalLines) {
-            String line = numberedLine.getRight();
-
+        for (AsciiDocSourceLine numberedLine: context.normalLines) {
             // Ignore comment lines.
-            if (commentLinePattern.matcher(line).find()) {
+            if (commentLinePattern.matcher(numberedLine.line).find()) {
                 continue;
             }
 
             // Check line.
-            Matcher matcher = endOfSentencePattern.matcher(line);
+            Matcher matcher = endOfSentencePattern.matcher(numberedLine.line);
             while (matcher.find()) {
                 int column = matcher.start("eos") + 1;
-                context.addProblem(numberedLine.getLeft(), column, "Multiple sentences on the same source line.");
+                context.addProblem(numberedLine.lineNr, column, "Multiple sentences on the same source line.");
             }
         }
     }

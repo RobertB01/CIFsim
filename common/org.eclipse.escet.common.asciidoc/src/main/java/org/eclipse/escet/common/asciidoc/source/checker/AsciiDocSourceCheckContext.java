@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.base.Verify;
 
 /** AsciiDoc source file check context. */
@@ -35,14 +32,11 @@ public class AsciiDocSourceCheckContext {
     /** The problems found so far. To be extended with newly found problems. */
     private final List<AsciiDocSourceProblem> problems;
 
-    /** The normal lines, as pairs of 1-based line numbers and the actual lines. */
-    public final List<Pair<Integer, String>> normalLines = new ArrayList<>();
+    /** The normal lines. */
+    public final List<AsciiDocSourceLine> normalLines = new ArrayList<>();
 
-    /**
-     * The source blocks, as pairs indicating the start of the source block (a 1-based line number) and the lines of the
-     * source block (pairs of 1-based line numbers and the actual lines).
-     */
-    public final List<Pair<Integer, List<Pair<Integer, String>>>> sourceBlocks = new ArrayList<>();
+    /** The source (code) blocks. */
+    public final List<AsciiDocSourceCodeBlock> sourceBlocks = new ArrayList<>();
 
     /**
      * Constructor for the {@link AsciiDocSourceCheckContext} class.
@@ -82,9 +76,9 @@ public class AsciiDocSourceCheckContext {
 
                     // New source block.
                     inSourceBlock = true;
-                    sourceBlocks.add(ImmutablePair.of(lineNr, new ArrayList<>()));
+                    sourceBlocks.add(new AsciiDocSourceCodeBlock(lineNr, new ArrayList<>()));
                 } else {
-                    normalLines.add(ImmutablePair.of(lineNr, line));
+                    normalLines.add(new AsciiDocSourceLine(lineNr, line));
                 }
             } else {
                 // In source block.
@@ -92,7 +86,7 @@ public class AsciiDocSourceCheckContext {
                 if (matcher.matches()) {
                     inSourceBlock = false; // End of source block.
                 } else {
-                    sourceBlocks.get(sourceBlocks.size() - 1).getRight().add(ImmutablePair.of(lineNr, line));
+                    sourceBlocks.get(sourceBlocks.size() - 1).lines.add(new AsciiDocSourceLine(lineNr, line));
                 }
             }
         }
