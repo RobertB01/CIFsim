@@ -18,7 +18,7 @@ import java.util.List;
 
 /** An AsciiDoc source (code) block. */
 public class AsciiDocSourceCodeBlock {
-    /** The 1-based line index of the source code block header within its AsciiDoc source file. */
+    /** The 1-based line number of the source code block header within its AsciiDoc source file. */
     public final int lineNr;
 
     /** The content of source code block. May be empty. */
@@ -27,7 +27,7 @@ public class AsciiDocSourceCodeBlock {
     /**
      * Constructor for the {@link AsciiDocSourceCodeBlock} class.
      *
-     * @param lineNr The 1-based line index of the source code block header within its AsciiDoc source file.
+     * @param lineNr The 1-based line number of the source code block header within its AsciiDoc source file.
      * @param lines The content of source code block. May be empty.
      */
     public AsciiDocSourceCodeBlock(int lineNr, List<AsciiDocSourceLine> lines) {

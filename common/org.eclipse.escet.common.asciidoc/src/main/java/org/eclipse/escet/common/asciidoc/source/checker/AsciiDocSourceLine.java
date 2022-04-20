@@ -15,7 +15,7 @@ package org.eclipse.escet.common.asciidoc.source.checker;
 
 /** A numbered AsciiDoc source line. */
 public class AsciiDocSourceLine {
-    /** The 1-based index of the line within its AsciiDoc source file. */
+    /** The 1-based line number of the line within its AsciiDoc source file. */
     public final int lineNr;
 
     /** The content of the line. */
@@ -24,7 +24,7 @@ public class AsciiDocSourceLine {
     /**
      * Constructor for the {@link AsciiDocSourceLine} class.
      *
-     * @param lineNr The 1-based index of the line within its AsciiDoc source file.
+     * @param lineNr The 1-based line number of the line within its AsciiDoc source file.
      * @param line The content of the line.
      */
     public AsciiDocSourceLine(int lineNr, String line) {
