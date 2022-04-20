@@ -33,7 +33,8 @@ TBD
 New features:
 
 * The CIF documentation contains an extensive new section on synthesis-based engineering of supervisory controllers (issues #325 and #334).
-* The CIF examples contain a new FIFO example, to showcase the power of supervisory controller synthesis. It is also described in the new synthesis-based engineering documentation (issue #325).
+* The CIF examples contain a new FIFO example, to showcase the power of supervisory controller synthesis.
+It is also described in the new synthesis-based engineering documentation (issue #325).
 * The CIF PLC code generator now supports S7 output for SIMATIC controllers (issue #142).
 * The CIF data-based synthesis tool now supports state plant invariants (issue #107).
 * The CIF to CIF transformer has several new transformations, to anonymize the names of all named objects, convert controllable events to uncontrollable ones and vice versa, and remove unused algebraic variables and their equations (issues #306, #308 and #320).
