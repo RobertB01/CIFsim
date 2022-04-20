@@ -21,6 +21,9 @@ indexterm:[linearize,product]
 indexterm:[synchronization,eliminate]
 This CIF to CIF transformation performs process-algebraic linearization, thereby eliminating parallel composition, event synchronization and channel communication.
 
+This transformation <<tools-cif2cif-linearize-product-nondet,maintains non-determinism>>, preserving the specification's full behavior, at the expensive of a <<tools-cif2cif-chapter-linearize-product-implementation-events,possible exponential blow-up>> of the specification in terms of number of edges.
+To eliminate non-determinism, resulting in specifications with smaller state spaces, at the expense of not preserving the specification's full behavior, use the <<tools-cif2cif-chapter-linearize-merge,linearize (merge)>> CIF to CIF transformation instead.
+
 indexterm:[linearize,supported specifications]
 
 === Supported specifications
@@ -50,6 +53,7 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 
 indexterm:[linearize,implementation]
 
+[[tools-cif2cif-chapter-linearize-product-implementation]]
 === Implementation details
 
 A location pointer variable is introduced for each original automaton with at least two locations, and the use of locations in expressions is eliminated.
@@ -79,6 +83,7 @@ They are each put in the group that replaces their respective original automaton
 Similarly, the invariants of the locations of the original automata are also each moved to their corresponding groups.
 And the initialization and marker predicates specified in automata, as well as invariants specified in automata, are moved there as well.
 
+[[tools-cif2cif-chapter-linearize-product-implementation-events]]
 For the `tau` event, a self loop is created per original `tau` edge.
 For all other events, the link:https://en.wikipedia.org/wiki/Cartesian_product[Cartesian product] of all edges is created, combining the edges in all possible combinations.
 This results in self loops for all non-`tau` events, where the combination of all self loops maintains all non-deterministic choices of the original specification.
@@ -169,6 +174,7 @@ Within `M`, `p` refers to the location point variable and thus all references to
 
 indexterm:[linearize,non-determinism]
 
+[[tools-cif2cif-linearize-product-nondet]]
 ==== Non-determinism
 
 If the original automata have non-determinism, this choice is maintained as part of this transformation.
