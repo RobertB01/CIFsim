@@ -16,19 +16,19 @@ package org.eclipse.escet.common.asciidoc.source.checker;
 import java.util.Collections;
 import java.util.List;
 
-/** An AsciiDoc source code block. */
+/** An AsciiDoc source (code) block. */
 public class AsciiDocSourceCodeBlock {
-    /** The 1-based index of the source code block within its AsciiDoc source file. */
+    /** The 1-based line index of the source code block header within its AsciiDoc source file. */
     public final int lineNr;
 
-    /** The content of source code block. */
+    /** The content of source code block. May be empty. */
     public final List<AsciiDocSourceLine> lines;
 
     /**
      * Constructor for the {@link AsciiDocSourceCodeBlock} class.
      *
-     * @param lineNr The 1-based index of the source code block within its AsciiDoc source file.
-     * @param lines The content of source code block.
+     * @param lineNr The 1-based line index of the source code block header within its AsciiDoc source file.
+     * @param lines The content of source code block. May be empty.
      */
     public AsciiDocSourceCodeBlock(int lineNr, List<AsciiDocSourceLine> lines) {
         this.lineNr = lineNr;
