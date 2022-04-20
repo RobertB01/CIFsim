@@ -36,8 +36,15 @@ SPDX-License-Identifier: MIT
 
         <!-- Specify Java version for Maven plugin compilation. -->
         <!-- Tycho takes this from files within the projects, but Maven plugins are not compiled with Tycho. -->
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <escet.java.version>11</escet.java.version>
+        <maven.compiler.source>${escet.java.version}</maven.compiler.source>
+        <maven.compiler.target>${escet.java.version}</maven.compiler.target>
+
+        <!-- Minimal Maven version to use. -->
+        <maven.minimal.version>3.8.1</maven.minimal.version>
+
+        <!-- Maven enforcer version. -->
+        <maven.enforcer.version>3.0.0</maven.enforcer.version>
 
         <!-- Tycho version to use. -->
         <tycho.version>2.7.1</tycho.version>
@@ -85,6 +92,31 @@ SPDX-License-Identifier: MIT
 
     <build>
         <plugins>
+            <!-- Enforce prerequisite versions. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven.enforcer.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>${escet.java.version}</version>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>${maven.minimal.version}</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Enable Tycho. -->
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>

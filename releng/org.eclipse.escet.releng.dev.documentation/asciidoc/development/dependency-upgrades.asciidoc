@@ -90,6 +90,7 @@ To upgrade to a new Eclipse Platform/IDE version:
 ** Ensure the Maven version in `misc/license-check-dependencies/Jenkinsfile` matches the embedded Maven version.
 ** Update versions of Maven plugins (`maven-plugin-*`) to match new Maven version (`org.eclipse.escet.common.asciidoc/pom.xml`).
 ** Update version of the `maven-plugin-plugin` if needed (`org.eclipse.escet.releng.configuration/pom.xml`).
+** Update `maven.minimal.version` to match the embedded Maven version (`org.eclipse.escet.releng.configuration/pom.xml`).
 
 * Validation
 ** Run a <<development-building-and-testing-chapter-index,Maven build>>.
@@ -140,7 +141,7 @@ To upgrade to a new Java version:
 ** Update `JRE_CONTAINER` in all launch configurations (`.launch` files).
 ** Update Java versions in `org.eclipse.jdt.core.prefs` files.
 ** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
-** Update Java version for `maven.compiler.source` and `maven.compiler.target` in `org.eclipse.escet.releng.configuration/pom.xml`.
+** Update Java version for `escet.java.version` in `org.eclipse.escet.releng.configuration/pom.xml`.
 ** Update Java version for `executionEnvironment` in `org.eclipse.escet.releng.configuration/pom.xml`.
 ** Update Java version in `Jenkinsfile`.
 ** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.
