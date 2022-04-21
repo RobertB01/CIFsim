@@ -83,7 +83,7 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 
 * Create release issues:
 
-** Go to https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones.
+** Go to https://gitlab.eclipse.org/eclipse/escet/escet/-/issues.
 
 ** Sign in with your Eclipse Foundation account using the link at the top-right of the page.
 
@@ -256,7 +256,7 @@ Jenkins will then automatically build and release a new version from that tag.
 * All releases are available at https://download.eclipse.org/escet/.
 For a version `v0.1`, the downloads will be located at `\https://download.eclipse.org/escet/v0.1`.
 
-** End users should however be referred to https://eclipse.org/escet/download.html instead of to `download.eclipse.org`.
+** End users should however be referred to https://eclipse.org/escet/download.html instead of `download.eclipse.org`.
 The buttons on this web page serve downloads via a mirror script.
 This ensures that a nearby mirror is selected, for faster downloads.
 It also ensures that downloads are counted in the download statistics.
