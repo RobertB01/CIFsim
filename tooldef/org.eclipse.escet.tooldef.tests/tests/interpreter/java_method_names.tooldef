@@ -11,9 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Plugin 'org.apache.commons.lang' is compiled with Java < 8.
-// So no method names available: get 'arg0' instead of 'bool'.
-import org.apache.commons.lang:org.apache.commons.lang.BooleanUtils.negate;
+// No parameter names available: get 'arg0' instead of 'bool'.
+import org.apache.commons.lang3:org.apache.commons.lang3.BooleanUtils.negate;
 
 outln("%s", negate(true));
 outln("%s", negate(arg0=true));
