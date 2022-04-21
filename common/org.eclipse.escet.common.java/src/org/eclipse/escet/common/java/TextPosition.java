@@ -28,36 +28,38 @@ public class TextPosition implements Comparable<TextPosition> {
     public final String source;
 
     /**
-     * The {@code 1}-based line index of the start (inclusive) of the position region, counted from the start of the
-     * text.
+     * The {@code 1}-based line index of the start (inclusive) of the position region with respect to the start of the
+     * source text.
      */
     public final int startLine;
 
     /**
-     * The {@code 1}-based line index of the end (inclusive) of the position region, counted from the start of the text.
+     * The {@code 1}-based line index of the end (inclusive) of the position region with respect to the start of the
+     * source text.
      */
     public final int endLine;
 
     /**
-     * The {@code 1}-based column index of the start (inclusive) of the position region, counted from the start of the
-     * text.
+     * The {@code 1}-based codepoint index at the {@code startLine} of the start (inclusive) of the position region with
+     * respect to the start of the line.
      */
     public final int startColumn;
 
     /**
-     * The {@code 1}-based column index of the end (inclusive) of the position region, counted from the start of the
-     * text.
+     * The {@code 1}-based codepoint index at the {@code endLine} of the end (inclusive) of the position region with
+     * respect to the start of the line.
      */
     public final int endColumn;
 
     /**
-     * The {@code 0}-based byte index of the start (inclusive) of the position region, counted from the start of the
-     * text.
+     * The {@code 0}-based codepoint index of the start (inclusive) of the position region with respect to the start of
+     * the source text.
      */
     public final int startOffset;
 
     /**
-     * The {@code 0}-based byte index of the end (inclusive) of the position region, counted from the start of the text.
+     * The {@code 0}-based codepoint index of the end (inclusive) of the position region with respect to the start of
+     * the source text.
      */
     public final int endOffset;
 
@@ -66,18 +68,18 @@ public class TextPosition implements Comparable<TextPosition> {
      *
      * @param location The location of the source file that contains the position. Must be an absolute path with
      *     platform-specific path separators, but does not need to exist at the file system.
-     * @param startLine The {@code 1}-based line index of the start (inclusive) of the position region, counted from the
-     *     start of the text.
-     * @param startColumn The {@code 1}-based column index of the start (inclusive) of the position region, counted from
-     *     the start of the text.
-     * @param endLine The {@code 1}-based line index of the end (inclusive) of the position region, counted from the
-     *     start of the text.
-     * @param endColumn The {@code 1}-based column index of the end (inclusive) of the position region, counted from the
-     *     start of the text.
-     * @param startOffset The {@code 0}-based byte index of the start (inclusive) of the position region, counted from
-     *     the start of the text.
-     * @param endOffset The {@code 0}-based byte index of the end (inclusive) of the position region, counted from the
-     *     start of the text.
+     * @param startLine The {@code 1}-based line index of the start (inclusive) of the position region with respect to
+     *     the start of the source text.
+     * @param startColumn The {@code 1}-based codepoint index at the {@code startLine} of the start (inclusive) of the
+     *     position region with respect to the start of the line.
+     * @param endLine The {@code 1}-based line index of the end (inclusive) of the position region with respect to the
+     *     start of the source text.
+     * @param endColumn The {@code 1}-based codepoint index at the {@code endLine} of the end (inclusive) of the
+     *     position region with respect to the start of the line.
+     * @param startOffset The {@code 0}-based codepoint index of the start (inclusive) of the position region with
+     *     respect to the start of the source text.
+     * @param endOffset The {@code 0}-based codepoint index of the end (inclusive) of the position region with respect
+     *     to the start of the source text.
      */
     public TextPosition(String location, int startLine, int startColumn, int endLine, int endColumn, int startOffset,
             int endOffset)
@@ -91,18 +93,18 @@ public class TextPosition implements Comparable<TextPosition> {
      * @param location The location of the source file that contains the position. Must be an absolute path with
      *     platform-specific path separators, but does not need to exist at the file system.
      * @param source Source identification (usually a filename), may be {@code null}.
-     * @param startLine The {@code 1}-based line index of the start (inclusive) of the position region, counted from the
-     *     start of the text.
-     * @param startColumn The {@code 1}-based column index of the start (inclusive) of the position region, counted from
-     *     the start of the text.
-     * @param endLine The {@code 1}-based line index of the end (inclusive) of the position region, counted from the
-     *     start of the text.
-     * @param endColumn The {@code 1}-based column index of the end (inclusive) of the position region, counted from the
-     *     start of the text.
-     * @param startOffset The {@code 0}-based byte index of the start (inclusive) of the position region, counted from
-     *     the start of the text.
-     * @param endOffset The {@code 0}-based byte index of the end (inclusive) of the position region, counted from the
-     *     start of the text.
+     * @param startLine The {@code 1}-based line index of the start (inclusive) of the position region with respect to
+     *     the start of the source text.
+     * @param startColumn The {@code 1}-based codepoint index at the {@code startLine} of the start (inclusive) of the
+     *     position region with respect to the start of the line.
+     * @param endLine The {@code 1}-based line index of the end (inclusive) of the position region with respect to the
+     *     start of the source text.
+     * @param endColumn The {@code 1}-based codepoint index at the {@code endLine} of the end (inclusive) of the
+     *     position region with respect to the start of the line.
+     * @param startOffset The {@code 0}-based codepoint index of the start (inclusive) of the position region with
+     *     respect to the start of the source text.
+     * @param endOffset The {@code 0}-based codepoint index of the end (inclusive) of the position region with respect
+     *     to the start of the source text.
      */
     public TextPosition(String location, String source, int startLine, int startColumn, int endLine, int endColumn,
             int startOffset, int endOffset)
