@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Discrete variable declaration. Also used for local variables of internal functions. */
 public class ADiscVariableDecl extends ADecl {
@@ -34,7 +34,7 @@ public class ADiscVariableDecl extends ADecl {
      * @param variables The discrete variables that are part of this discrete variable declaration.
      * @param position Position information, or {@code null} for local variables of functions.
      */
-    public ADiscVariableDecl(ACifType type, List<ADiscVariable> variables, Position position) {
+    public ADiscVariableDecl(ACifType type, List<ADiscVariable> variables, TextPosition position) {
         super(position);
         this.type = type;
         this.variables = variables;

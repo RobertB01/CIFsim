@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.iodecls.svg;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An SVG move declaration. */
 public class ASvgMove extends AIoDecl {
@@ -40,7 +40,7 @@ public class ASvgMove extends AIoDecl {
      * @param svgFile The SVG file to which the declaration applies, or {@code null} to inherit the SVG file.
      * @param position Position information.
      */
-    public ASvgMove(AExpression svgId, AExpression x, AExpression y, ASvgFile svgFile, Position position) {
+    public ASvgMove(AExpression svgId, AExpression x, AExpression y, ASvgFile svgFile, TextPosition position) {
         super(position);
         this.svgId = svgId;
         this.x = x;

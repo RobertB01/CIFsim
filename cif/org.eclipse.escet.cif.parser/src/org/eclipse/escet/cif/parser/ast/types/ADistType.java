@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Distribution type. */
 public class ADistType extends ACifType {
@@ -26,7 +26,7 @@ public class ADistType extends ACifType {
      * @param sampleType The sample type of the distribution type.
      * @param position Position information.
      */
-    public ADistType(ACifType sampleType, Position position) {
+    public ADistType(ACifType sampleType, TextPosition position) {
         super(position);
         this.sampleType = sampleType;
     }

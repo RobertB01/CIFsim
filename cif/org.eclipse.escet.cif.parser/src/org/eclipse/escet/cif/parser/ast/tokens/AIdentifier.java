@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.tokens;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Plain identifier token. */
 public class AIdentifier extends ACifObject {
@@ -27,7 +27,7 @@ public class AIdentifier extends ACifObject {
      * @param id Identifier. May include {@code $} characters.
      * @param position Position information.
      */
-    public AIdentifier(String id, Position position) {
+    public AIdentifier(String id, TextPosition position) {
         super(position);
         this.id = id.replace("$", "");
     }

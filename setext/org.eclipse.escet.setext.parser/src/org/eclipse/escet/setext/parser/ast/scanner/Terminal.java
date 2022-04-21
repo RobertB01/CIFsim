@@ -19,7 +19,7 @@ import java.util.Comparator;
 
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Identifier;
 import org.eclipse.escet.setext.parser.ast.Symbol;
 import org.eclipse.escet.setext.parser.ast.TerminalDescription;
@@ -70,7 +70,7 @@ public class Terminal extends Symbol {
      * @param position Position information.
      */
     public Terminal(String name, RegEx regEx, Identifier func, Identifier newState, TerminalDescription description,
-            Position position)
+            TextPosition position)
     {
         super(name, position);
         this.regEx = regEx;

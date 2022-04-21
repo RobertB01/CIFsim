@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.automata;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Assignment. */
 public class AAssignmentUpdate extends AUpdate {
@@ -31,7 +31,7 @@ public class AAssignmentUpdate extends AUpdate {
      * @param value The new value of the variable.
      * @param position Position information.
      */
-    public AAssignmentUpdate(AExpression addressable, AExpression value, Position position) {
+    public AAssignmentUpdate(AExpression addressable, AExpression value, TextPosition position) {
         super(position);
         this.addressable = addressable;
         this.value = value;

@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.functions;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Break internal function statement. */
 public class ABreakFuncStatement extends AFuncStatement {
@@ -22,7 +22,7 @@ public class ABreakFuncStatement extends AFuncStatement {
      *
      * @param position Position information.
      */
-    public ABreakFuncStatement(Position position) {
+    public ABreakFuncStatement(TextPosition position) {
         super(position);
     }
 }

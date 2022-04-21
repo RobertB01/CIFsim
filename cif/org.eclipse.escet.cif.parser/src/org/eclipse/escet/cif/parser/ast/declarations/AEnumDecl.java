@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Enumeration declaration. */
 public class AEnumDecl extends ADecl {
@@ -34,7 +34,7 @@ public class AEnumDecl extends ADecl {
      * @param literals The enumeration literals that are part of the enumeration.
      * @param position Position information.
      */
-    public AEnumDecl(String name, List<AIdentifier> literals, Position position) {
+    public AEnumDecl(String name, List<AIdentifier> literals, TextPosition position) {
         super(position);
         this.name = name;
         this.literals = literals;

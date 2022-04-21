@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Character class regular expression (matches any of the characters in the class). */
 public class RegExCharClass extends RegEx {
@@ -38,7 +38,7 @@ public class RegExCharClass extends RegEx {
      * @param chars The characters that make up the class. Must not be empty.
      * @param position Position information.
      */
-    public RegExCharClass(boolean negated, List<RegExChars> chars, Position position) {
+    public RegExCharClass(boolean negated, List<RegExChars> chars, TextPosition position) {
         super(position);
         this.negated = negated;
         this.chars = chars;

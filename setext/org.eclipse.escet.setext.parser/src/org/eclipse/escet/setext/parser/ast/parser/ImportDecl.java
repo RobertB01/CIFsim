@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast.parser;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Decl;
 
 /** Import declaration, to import a Java type or package. This class is no longer used after type checking. */
@@ -38,7 +38,7 @@ public class ImportDecl extends Decl {
      *     should be derived from the type or package name.
      * @param position Position information.
      */
-    public ImportDecl(JavaType javaType, String name, Position position) {
+    public ImportDecl(JavaType javaType, String name, TextPosition position) {
         super(position);
         this.javaType = javaType;
         this.name = name;

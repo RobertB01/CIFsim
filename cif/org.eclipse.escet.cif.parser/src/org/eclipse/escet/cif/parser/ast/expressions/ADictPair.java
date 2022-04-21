@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.expressions;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Dictionary key/value pair. */
 public class ADictPair extends ACifObject {
@@ -31,7 +31,7 @@ public class ADictPair extends ACifObject {
      * @param value The value of the key/value pair.
      * @param position Position information.
      */
-    public ADictPair(AExpression key, AExpression value, Position position) {
+    public ADictPair(AExpression key, AExpression value, TextPosition position) {
         super(position);
         this.key = key;
         this.value = value;

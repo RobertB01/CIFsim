@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.automata;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An update of an edge. */
 public abstract class AUpdate extends ACifObject {
@@ -23,7 +23,7 @@ public abstract class AUpdate extends ACifObject {
      *
      * @param position Position information.
      */
-    public AUpdate(Position position) {
+    public AUpdate(TextPosition position) {
         super(position);
     }
 }

@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.parser.JavaType;
 
 /** Hooks class declaration. Specifies the class where to find the implementation of the scanner/parser hook methods. */
@@ -27,7 +27,7 @@ public class HooksDecl extends Decl {
      * @param hooksClass The hooks Java class.
      * @param position Position information.
      */
-    public HooksDecl(JavaType hooksClass, Position position) {
+    public HooksDecl(JavaType hooksClass, TextPosition position) {
         super(position);
         this.hooksClass = hooksClass;
     }

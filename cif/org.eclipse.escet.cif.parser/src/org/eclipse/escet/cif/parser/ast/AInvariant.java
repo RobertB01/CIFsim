@@ -19,7 +19,7 @@ import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Token;
 
 /** Invariant. */
@@ -46,7 +46,7 @@ public class AInvariant extends ACifObject {
      * @param events The textual references to the events, or {@code null} for state invariants.
      * @param position Position information.
      */
-    public AInvariant(AIdentifier name, AExpression predicate, Token invKind, List<AName> events, Position position) {
+    public AInvariant(AIdentifier name, AExpression predicate, Token invKind, List<AName> events, TextPosition position) {
         super(position);
         this.name = name;
         this.predicate = predicate;

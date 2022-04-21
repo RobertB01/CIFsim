@@ -17,7 +17,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.Set;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Dot regular expression (matches any character except newline). */
 public class RegExDot extends RegEx {
@@ -26,7 +26,7 @@ public class RegExDot extends RegEx {
      *
      * @param position Position information.
      */
-    public RegExDot(Position position) {
+    public RegExDot(TextPosition position) {
         super(position);
     }
 

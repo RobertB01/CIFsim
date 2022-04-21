@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AStringToken;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** A CIF/SVG output mapping. */
 public class ASvgOut extends AIoDecl {
@@ -28,7 +28,7 @@ public class ASvgOut extends AIoDecl {
     public final AStringToken svgAttr;
 
     /** The position of the {@code text} keyword, or {@code null} to set an attribute instead. */
-    public final Position svgTextPos;
+    public final TextPosition svgTextPos;
 
     /** The expression to evaluate to obtain the value to set. */
     public final AExpression value;
@@ -46,8 +46,8 @@ public class ASvgOut extends AIoDecl {
      * @param svgFile The SVG file to which the mapping applies, or {@code null} to inherit the SVG file.
      * @param position Position information.
      */
-    public ASvgOut(AExpression svgId, AStringToken svgAttr, Position svgTextPos, AExpression value, ASvgFile svgFile,
-            Position position)
+    public ASvgOut(AExpression svgId, AStringToken svgAttr, TextPosition svgTextPos, AExpression value,
+            ASvgFile svgFile, TextPosition position)
     {
         super(position);
         this.svgId = svgId;

@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.automata;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Event reference on an edge. */
 public class AEdgeEvent extends ACifObject {
@@ -36,7 +36,7 @@ public class AEdgeEvent extends ACifObject {
      * @param value The value of the send, or {@code null} if not available.
      * @param position Position information.
      */
-    public AEdgeEvent(Direction direction, AExpression eventRef, AExpression value, Position position) {
+    public AEdgeEvent(Direction direction, AExpression eventRef, AExpression value, TextPosition position) {
         super(position);
         this.direction = direction;
         this.eventRef = eventRef;

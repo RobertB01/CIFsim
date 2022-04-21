@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.expressions;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An 'elif' expression part of an 'if' expression. */
 public class AElifExpression extends ACifObject {
@@ -33,7 +33,7 @@ public class AElifExpression extends ACifObject {
      * @param then The 'then' expression of the 'elif' expression.
      * @param position Position information.
      */
-    public AElifExpression(List<AExpression> guards, AExpression then, Position position) {
+    public AElifExpression(List<AExpression> guards, AExpression then, TextPosition position) {
         super(position);
         this.guards = guards;
         this.then = then;

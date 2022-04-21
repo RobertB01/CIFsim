@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast.types;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Tuple type. */
 public class ATupleType extends ACifType {
@@ -28,7 +28,7 @@ public class ATupleType extends ACifType {
      * @param fields The fields of the tuple type.
      * @param position Position information.
      */
-    public ATupleType(List<AField> fields, Position position) {
+    public ATupleType(List<AField> fields, TextPosition position) {
         super(position);
         this.fields = fields;
     }

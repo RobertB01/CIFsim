@@ -35,7 +35,7 @@ import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.app.framework.output.StreamOutputComponent;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.Scanner;
 import org.eclipse.escet.setext.runtime.Token;
@@ -86,24 +86,24 @@ public class ScannerTest {
                 test("c", null, optimize);
             } catch (ScanException e) {
                 assertEquals('c', e.getCodePoint());
-                assertEquals(0, e.getPosition().getStartOffset());
-                assertEquals(1, e.getPosition().getStartLine());
-                assertEquals(1, e.getPosition().getStartColumn());
-                assertEquals(0, e.getPosition().getEndOffset());
-                assertEquals(1, e.getPosition().getEndLine());
-                assertEquals(1, e.getPosition().getEndColumn());
+                assertEquals(0, e.getPosition().startOffset);
+                assertEquals(1, e.getPosition().startLine);
+                assertEquals(1, e.getPosition().startColumn);
+                assertEquals(0, e.getPosition().endOffset);
+                assertEquals(1, e.getPosition().endLine);
+                assertEquals(1, e.getPosition().endColumn);
             }
 
             try {
                 test("\nc", null, optimize);
             } catch (ScanException e) {
                 assertEquals('c', e.getCodePoint());
-                assertEquals(1, e.getPosition().getStartOffset());
-                assertEquals(2, e.getPosition().getStartLine());
-                assertEquals(1, e.getPosition().getStartColumn());
-                assertEquals(1, e.getPosition().getEndOffset());
-                assertEquals(2, e.getPosition().getEndLine());
-                assertEquals(1, e.getPosition().getEndColumn());
+                assertEquals(1, e.getPosition().startOffset);
+                assertEquals(2, e.getPosition().startLine);
+                assertEquals(1, e.getPosition().startColumn);
+                assertEquals(1, e.getPosition().endOffset);
+                assertEquals(2, e.getPosition().endLine);
+                assertEquals(1, e.getPosition().endColumn);
             }
         }
     }
@@ -116,72 +116,72 @@ public class ScannerTest {
                 test("d", null, optimize);
             } catch (ScanException e) {
                 assertEquals('d', e.getCodePoint());
-                assertEquals(0, e.getPosition().getStartOffset());
-                assertEquals(1, e.getPosition().getStartLine());
-                assertEquals(1, e.getPosition().getStartColumn());
-                assertEquals(0, e.getPosition().getEndOffset());
-                assertEquals(1, e.getPosition().getEndLine());
-                assertEquals(1, e.getPosition().getEndColumn());
+                assertEquals(0, e.getPosition().startOffset);
+                assertEquals(1, e.getPosition().startLine);
+                assertEquals(1, e.getPosition().startColumn);
+                assertEquals(0, e.getPosition().endOffset);
+                assertEquals(1, e.getPosition().endLine);
+                assertEquals(1, e.getPosition().endColumn);
             }
 
             try {
                 test("bd", null, optimize);
             } catch (ScanException e) {
                 assertEquals('d', e.getCodePoint());
-                assertEquals(1, e.getPosition().getStartOffset());
-                assertEquals(1, e.getPosition().getStartLine());
-                assertEquals(2, e.getPosition().getStartColumn());
-                assertEquals(1, e.getPosition().getEndOffset());
-                assertEquals(1, e.getPosition().getEndLine());
-                assertEquals(2, e.getPosition().getEndColumn());
+                assertEquals(1, e.getPosition().startOffset);
+                assertEquals(1, e.getPosition().startLine);
+                assertEquals(2, e.getPosition().startColumn);
+                assertEquals(1, e.getPosition().endOffset);
+                assertEquals(1, e.getPosition().endLine);
+                assertEquals(2, e.getPosition().endColumn);
             }
 
             try {
                 test("\nd", null, optimize);
             } catch (ScanException e) {
                 assertEquals('d', e.getCodePoint());
-                assertEquals(1, e.getPosition().getStartOffset());
-                assertEquals(2, e.getPosition().getStartLine());
-                assertEquals(1, e.getPosition().getStartColumn());
-                assertEquals(1, e.getPosition().getEndOffset());
-                assertEquals(2, e.getPosition().getEndLine());
-                assertEquals(1, e.getPosition().getEndColumn());
+                assertEquals(1, e.getPosition().startOffset);
+                assertEquals(2, e.getPosition().startLine);
+                assertEquals(1, e.getPosition().startColumn);
+                assertEquals(1, e.getPosition().endOffset);
+                assertEquals(2, e.getPosition().endLine);
+                assertEquals(1, e.getPosition().endColumn);
             }
 
             try {
                 test("b\nd", null, optimize);
             } catch (ScanException e) {
                 assertEquals('d', e.getCodePoint());
-                assertEquals(2, e.getPosition().getStartOffset());
-                assertEquals(2, e.getPosition().getStartLine());
-                assertEquals(1, e.getPosition().getStartColumn());
-                assertEquals(2, e.getPosition().getEndOffset());
-                assertEquals(2, e.getPosition().getEndLine());
-                assertEquals(1, e.getPosition().getEndColumn());
+                assertEquals(2, e.getPosition().startOffset);
+                assertEquals(2, e.getPosition().startLine);
+                assertEquals(1, e.getPosition().startColumn);
+                assertEquals(2, e.getPosition().endOffset);
+                assertEquals(2, e.getPosition().endLine);
+                assertEquals(1, e.getPosition().endColumn);
             }
 
             try {
                 test("b\nbd", null, optimize);
             } catch (ScanException e) {
                 assertEquals('d', e.getCodePoint());
-                assertEquals(3, e.getPosition().getStartOffset());
-                assertEquals(2, e.getPosition().getStartLine());
-                assertEquals(2, e.getPosition().getStartColumn());
-                assertEquals(3, e.getPosition().getEndOffset());
-                assertEquals(2, e.getPosition().getEndLine());
-                assertEquals(2, e.getPosition().getEndColumn());
+                assertEquals(3, e.getPosition().startOffset);
+                assertEquals(2, e.getPosition().startLine);
+                assertEquals(2, e.getPosition().startColumn);
+                assertEquals(3, e.getPosition().endOffset);
+                assertEquals(2, e.getPosition().endLine);
+                assertEquals(2, e.getPosition().endColumn);
             }
 
             try {
                 test("b\nb\n\nd", null, optimize);
             } catch (ScanException e) {
                 assertEquals('d', e.getCodePoint());
-                assertEquals(5, e.getPosition().getStartOffset());
-                assertEquals(4, e.getPosition().getStartLine());
-                assertEquals(1, e.getPosition().getStartColumn());
-                assertEquals(5, e.getPosition().getEndOffset());
-                assertEquals(4, e.getPosition().getEndLine());
-                assertEquals(1, e.getPosition().getEndColumn());
+                assertEquals(5, e.getPosition().startOffset);
+                assertEquals(4, e.getPosition().startLine);
+                assertEquals(1, e.getPosition().startColumn);
+                assertEquals(5, e.getPosition().endOffset);
+                assertEquals(4, e.getPosition().endLine);
+                assertEquals(1, e.getPosition().endColumn);
             }
         }
     }
@@ -194,24 +194,24 @@ public class ScannerTest {
                 test("a", null, optimize);
             } catch (ScanException e) {
                 assertEquals(-1, e.getCodePoint());
-                assertEquals(1, e.getPosition().getStartOffset());
-                assertEquals(1, e.getPosition().getStartLine());
-                assertEquals(2, e.getPosition().getStartColumn());
-                assertEquals(1, e.getPosition().getEndOffset());
-                assertEquals(1, e.getPosition().getEndLine());
-                assertEquals(2, e.getPosition().getEndColumn());
+                assertEquals(1, e.getPosition().startOffset);
+                assertEquals(1, e.getPosition().startLine);
+                assertEquals(2, e.getPosition().startColumn);
+                assertEquals(1, e.getPosition().endOffset);
+                assertEquals(1, e.getPosition().endLine);
+                assertEquals(2, e.getPosition().endColumn);
             }
 
             try {
                 test("\na", null, optimize);
             } catch (ScanException e) {
                 assertEquals(-1, e.getCodePoint());
-                assertEquals(2, e.getPosition().getStartOffset());
-                assertEquals(2, e.getPosition().getStartLine());
-                assertEquals(2, e.getPosition().getStartColumn());
-                assertEquals(2, e.getPosition().getEndOffset());
-                assertEquals(2, e.getPosition().getEndLine());
-                assertEquals(2, e.getPosition().getEndColumn());
+                assertEquals(2, e.getPosition().startOffset);
+                assertEquals(2, e.getPosition().startLine);
+                assertEquals(2, e.getPosition().startColumn);
+                assertEquals(2, e.getPosition().endOffset);
+                assertEquals(2, e.getPosition().endLine);
+                assertEquals(2, e.getPosition().endColumn);
             }
         }
     }
@@ -288,12 +288,11 @@ public class ScannerTest {
         List<String> tokenTxts = list();
         for (Token token: tokens) {
             String posTxt;
-            Position pos = token.position;
+            TextPosition pos = token.position;
             if (pos == null) {
                 posTxt = "";
             } else {
-                posTxt = pos.getStartLine() + ":" + pos.getStartColumn() + "-" + pos.getEndLine() + ":"
-                        + pos.getEndColumn();
+                posTxt = pos.startLine + ":" + pos.startColumn + "-" + pos.endLine + ":" + pos.endColumn;
             }
             tokenTxts.add(fmt("%d=%s @%s", token.id, Strings.stringToJava(token.text), posTxt));
         }

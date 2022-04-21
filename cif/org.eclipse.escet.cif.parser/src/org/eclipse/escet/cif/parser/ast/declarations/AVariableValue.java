@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Initial values for an {@link ADiscVariable}. */
 public class AVariableValue extends ACifObject {
@@ -35,7 +35,7 @@ public class AVariableValue extends ACifObject {
      *     domain is a valid initial value.
      * @param position Position information.
      */
-    public AVariableValue(List<AExpression> values, Position position) {
+    public AVariableValue(List<AExpression> values, TextPosition position) {
         super(position);
         Assert.check(values == null || values.size() > 0);
         this.values = values;

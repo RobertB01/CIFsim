@@ -15,7 +15,7 @@ package org.eclipse.escet.setext.parser.ast.scanner;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Identifier;
 import org.eclipse.escet.setext.parser.ast.Symbol;
 
@@ -37,7 +37,7 @@ public class KeywordsTerminal extends Symbol {
      * @param keywords The keywords.
      * @param position Position information.
      */
-    public KeywordsTerminal(String name, List<KeywordsIdentifier> keywords, Position position) {
+    public KeywordsTerminal(String name, List<KeywordsIdentifier> keywords, TextPosition position) {
         super(name, position);
         this.keywords = keywords;
     }

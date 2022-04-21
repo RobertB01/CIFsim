@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.setext.parser.ast.parser;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Decl;
 import org.eclipse.escet.setext.parser.ast.Identifier;
 import org.eclipse.escet.setext.parser.ast.Symbol;
@@ -46,7 +46,7 @@ public class StartSymbol extends Decl {
      * @param javaType The Java class for the generated parser for this start symbol.
      * @param position Position information.
      */
-    public StartSymbol(boolean main, Identifier name, JavaType javaType, Position position) {
+    public StartSymbol(boolean main, Identifier name, JavaType javaType, TextPosition position) {
         super(position);
         this.main = main;
         this.name = name;

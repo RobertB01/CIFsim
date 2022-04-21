@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.parser.ast;
 
 import java.util.List;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Equations. */
 public class AEquationDecl extends ADecl {
@@ -28,7 +28,7 @@ public class AEquationDecl extends ADecl {
      * @param equations Equations.
      * @param position Position information.
      */
-    public AEquationDecl(List<AEquation> equations, Position position) {
+    public AEquationDecl(List<AEquation> equations, TextPosition position) {
         super(position);
         this.equations = equations;
     }

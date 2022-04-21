@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Set;
 
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Single character regular expression (matches the exact character). */
 public class RegExChar extends RegExChars {
@@ -37,7 +37,7 @@ public class RegExChar extends RegExChars {
      *     characters. See also {@link #character} for the meaning of negative values.
      * @param position Position information.
      */
-    public RegExChar(int character, Position position) {
+    public RegExChar(int character, TextPosition position) {
         super(position);
         this.character = character;
     }

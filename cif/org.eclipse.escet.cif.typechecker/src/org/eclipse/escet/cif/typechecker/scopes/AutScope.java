@@ -114,6 +114,7 @@ import org.eclipse.escet.cif.typechecker.declwrap.FormalLocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
@@ -294,7 +295,7 @@ public class AutScope extends ParentScope<Automaton> {
                 // Convert monitors.
                 astMonitor = (AMonitorDecl)decl;
                 Monitors mmMonitors = newMonitors();
-                mmMonitors.setPosition(astMonitor.position);
+                mmMonitors.setPosition(astMonitor.createPosition());
                 mmAut.setMonitors(mmMonitors);
 
                 // Process monitor events.
@@ -370,17 +371,17 @@ public class AutScope extends ParentScope<Automaton> {
         }
 
         // Process all but the edges.
-        Position urgPos = null;
+        TextPosition urgPos = null;
         for (ALocationElement elem: astLoc.elements) {
             if (elem instanceof AInitialLocationElement) {
                 List<AExpression> preds = ((AInitialLocationElement)elem).preds;
                 if (preds == null) {
                     BoolType type = newBoolType();
-                    type.setPosition(elem.position);
+                    type.setPosition(elem.createPosition());
 
                     BoolExpression pred = newBoolExpression();
                     pred.setValue(true);
-                    pred.setPosition(elem.position);
+                    pred.setPosition(elem.createPosition());
                     pred.setType(type);
 
                     mmLoc.getInitials().add(pred);
@@ -425,11 +426,11 @@ public class AutScope extends ParentScope<Automaton> {
                 List<AExpression> preds = ((AMarkedLocationElement)elem).preds;
                 if (preds == null) {
                     BoolType type = newBoolType();
-                    type.setPosition(elem.position);
+                    type.setPosition(elem.createPosition());
 
                     BoolExpression pred = newBoolExpression();
                     pred.setValue(true);
-                    pred.setPosition(elem.position);
+                    pred.setPosition(elem.createPosition());
                     pred.setType(type);
 
                     mmLoc.getMarkeds().add(pred);
@@ -487,7 +488,7 @@ public class AutScope extends ParentScope<Automaton> {
     {
         // Construct and add edge.
         Edge edge = newEdge();
-        edge.setPosition(astEdge.position);
+        edge.setPosition(astEdge.createPosition());
         loc.getEdges().add(edge);
 
         // Process urgency.
@@ -666,7 +667,7 @@ public class AutScope extends ParentScope<Automaton> {
                     edgeEvent = newEdgeReceive();
                     break;
             }
-            edgeEvent.setPosition(astEdgeEvent.position);
+            edgeEvent.setPosition(astEdgeEvent.createPosition());
             edgeEvent.setEvent(eventRef);
             if (direction == Direction.SEND) {
                 ((EdgeSend)edgeEvent).setValue(value);
@@ -854,7 +855,7 @@ public class AutScope extends ParentScope<Automaton> {
     {
         // Construct assignment.
         Assignment asgn = newAssignment();
-        asgn.setPosition(astUpdate.position);
+        asgn.setPosition(astUpdate.createPosition());
 
         // Type check and set addressable expression.
         Expression addr = typeCheckAddressable(astUpdate.addressable, scope, context, tchecker);
@@ -891,7 +892,7 @@ public class AutScope extends ParentScope<Automaton> {
     {
         // Construct 'if' update.
         IfUpdate update = newIfUpdate();
-        update.setPosition(astUpdate.position);
+        update.setPosition(astUpdate.createPosition());
 
         // Guards.
         List<Expression> guards = update.getGuards();
@@ -924,7 +925,7 @@ public class AutScope extends ParentScope<Automaton> {
         List<ElifUpdate> elifs = update.getElifs();
         for (AElifUpdate elif1: astUpdate.elifs) {
             ElifUpdate elif2 = newElifUpdate();
-            elif2.setPosition(elif1.position);
+            elif2.setPosition(elif1.createPosition());
             elifs.add(elif2);
 
             // Guards.

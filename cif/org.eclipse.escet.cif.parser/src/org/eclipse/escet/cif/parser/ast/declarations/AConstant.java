@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.declarations;
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Constant. */
 public class AConstant extends ACifObject {
@@ -33,7 +33,7 @@ public class AConstant extends ACifObject {
      * @param value The value of the constant.
      * @param position Position information.
      */
-    public AConstant(AIdentifier name, AExpression value, Position position) {
+    public AConstant(AIdentifier name, AExpression value, TextPosition position) {
         super(position);
         this.name = name;
         this.value = value;

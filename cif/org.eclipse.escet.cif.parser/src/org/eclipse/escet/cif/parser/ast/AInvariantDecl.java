@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast;
 import java.util.List;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Token;
 
 /** Invariant declaration. */
@@ -34,7 +34,7 @@ public class AInvariantDecl extends ADecl {
      * @param invariants Invariants.
      * @param position Position information.
      */
-    public AInvariantDecl(Token kind, List<AInvariant> invariants, Position position) {
+    public AInvariantDecl(Token kind, List<AInvariant> invariants, TextPosition position) {
         super(position);
         this.kind = kind;
         this.invariants = invariants;

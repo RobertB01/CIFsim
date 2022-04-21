@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Equation. */
 public class AEquation extends ACifObject {
@@ -43,7 +43,7 @@ public class AEquation extends ACifObject {
      * @param value The value for the (derivative of) the variable.
      * @param position Position information.
      */
-    public AEquation(AIdentifier variable, boolean derivative, AExpression value, Position position) {
+    public AEquation(AIdentifier variable, boolean derivative, AExpression value, TextPosition position) {
         super(position);
         this.variable = variable;
         this.derivative = derivative;

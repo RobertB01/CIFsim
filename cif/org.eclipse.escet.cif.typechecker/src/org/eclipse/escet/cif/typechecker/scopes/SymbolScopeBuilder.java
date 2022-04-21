@@ -38,7 +38,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecificat
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeDecl;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
+import static org.eclipse.escet.common.position.common.PositionUtils.getSubRange;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -147,7 +147,7 @@ import org.eclipse.escet.common.app.framework.PlatformUriUtils;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.common.PositionUtils;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.typechecker.SemanticException;
 import org.eclipse.escet.setext.runtime.Token;
@@ -168,7 +168,7 @@ public class SymbolScopeBuilder {
      * Mapping from {@link SourceFile#absPath absolute paths} of source files imported from {@link #sourceFile}, to the
      * position information for their imports. Used to detect duplicate imports in {@link #sourceFile}.
      */
-    private Map<String, Position> imports = map();
+    private Map<String, TextPosition> imports = map();
 
     /**
      * Constructor for the {@link SymbolScopeBuilder} class.
@@ -257,7 +257,7 @@ public class SymbolScopeBuilder {
         // Construct object.
         Specification obj = newSpecification();
         obj.setName("specification");
-        obj.setPosition(spec.position);
+        obj.setPosition(spec.createPosition());
 
         // Construct scope.
         SpecScope specScope = new SpecScope(obj, tchecker);
@@ -285,7 +285,7 @@ public class SymbolScopeBuilder {
     private ParentScope<?> processNamespaces(ASpecification spec, SpecScope specScope) {
         ParentScope<?> rslt = specScope;
 
-        Position prevNamespacePos = null;
+        TextPosition prevNamespacePos = null;
         for (ADecl decl: spec.body.decls) {
             // Get namespace declaration.
             if (!(decl instanceof ANamespaceDecl)) {
@@ -308,8 +308,8 @@ public class SymbolScopeBuilder {
                 // the whole namespace name is on a single line, as the tokens
                 // can't contain new line characters.
                 int length = groupName.length();
-                Position groupPos = nsDecl.name.position;
-                groupPos = PositionUtils.getSubRange(groupPos, offset, groupName.length());
+                Position groupPos = nsDecl.name.createPosition();
+                groupPos = getSubRange(groupPos, offset, groupName.length());
                 offset += length + 1; // Next group name after the dot.
 
                 // Construct group.
@@ -378,7 +378,7 @@ public class SymbolScopeBuilder {
             ACompDecl group1 = (ACompDecl)decl;
             Group group2 = newGroup();
             group2.setName(group1.name.id);
-            group2.setPosition(group1.position);
+            group2.setPosition(group1.createPosition());
             Assert.check(group1.kind == null);
 
             // Construct scope and store elements for later.
@@ -391,12 +391,12 @@ public class SymbolScopeBuilder {
             // Construct component definition.
             ACompDefDecl compdef1 = (ACompDefDecl)decl;
             ComponentDef compdef2 = newComponentDef();
-            compdef2.setPosition(compdef1.position);
+            compdef2.setPosition(compdef1.createPosition());
 
             // Construct body.
             Group body = newGroup();
             body.setName(compdef1.name.id);
-            body.setPosition(copyPosition(compdef1.position));
+            body.setPosition(compdef1.createPosition());
             Assert.check(compdef1.kind == null);
             compdef2.setBody(body);
 
@@ -435,7 +435,7 @@ public class SymbolScopeBuilder {
             ACompDecl aut1 = (ACompDecl)decl;
             Automaton aut2 = newAutomaton();
             aut2.setName(aut1.name.id);
-            aut2.setPosition(aut1.position);
+            aut2.setPosition(aut1.createPosition());
             aut2.setKind(transAutKind(aut1.kind));
 
             // Construct scope and store elements for later.
@@ -449,12 +449,12 @@ public class SymbolScopeBuilder {
             // Construct component definition.
             ACompDefDecl compdef1 = (ACompDefDecl)decl;
             ComponentDef compdef2 = newComponentDef();
-            compdef2.setPosition(compdef1.position);
+            compdef2.setPosition(compdef1.createPosition());
 
             // Construct body.
             Automaton body = newAutomaton();
             body.setName(compdef1.name.id);
-            body.setPosition(copyPosition(compdef1.position));
+            body.setPosition(compdef1.createPosition());
             body.setKind(transAutKind(compdef1.kind));
             compdef2.setBody(body);
 
@@ -503,7 +503,7 @@ public class SymbolScopeBuilder {
         // Construct object.
         ComponentInst obj = newComponentInst();
         obj.setName(compinst.instName.id);
-        obj.setPosition(compinst.position);
+        obj.setPosition(compinst.createPosition());
 
         // Construct scope.
         new CompInstScope(obj, compinst, parent, tchecker);
@@ -629,9 +629,9 @@ public class SymbolScopeBuilder {
         Location loc2 = newLocation();
         if (loc.name != null) {
             loc2.setName(loc.name.id);
-            loc2.setPosition(loc.name.position);
+            loc2.setPosition(loc.name.createPosition());
         } else {
-            loc2.setPosition(loc.position);
+            loc2.setPosition(loc.createPosition());
         }
 
         // Add location to parent object.
@@ -667,7 +667,7 @@ public class SymbolScopeBuilder {
         for (AAlgVariable var1: decls.variables) {
             AlgVariable var2 = newAlgVariable();
             var2.setName(var1.name.id);
-            var2.setPosition(var1.position);
+            var2.setPosition(var1.createPosition());
 
             AlgVariableDeclWrap wrapper = new AlgVariableDeclWrap(tchecker, parent, decls, var1, var2);
             parent.addDeclaration(wrapper);
@@ -686,7 +686,7 @@ public class SymbolScopeBuilder {
         for (AIdentifier var1: decls.names) {
             InputVariable var2 = newInputVariable();
             var2.setName(var1.id);
-            var2.setPosition(var1.position);
+            var2.setPosition(var1.createPosition());
 
             InputVariableDeclWrap wrapper = new InputVariableDeclWrap(tchecker, parent, decls, var2);
             parent.addDeclaration(wrapper);
@@ -705,7 +705,7 @@ public class SymbolScopeBuilder {
         for (AContVariable var1: decls.variables) {
             ContVariable var2 = newContVariable();
             var2.setName(var1.name.id);
-            var2.setPosition(var1.position);
+            var2.setPosition(var1.createPosition());
 
             ContVariableDeclWrap wrapper = new ContVariableDeclWrap(tchecker, parent, var1, var2);
             parent.addDeclaration(wrapper);
@@ -724,7 +724,7 @@ public class SymbolScopeBuilder {
         for (AConstant const1: decls.constants) {
             Constant const2 = newConstant();
             const2.setName(const1.name.id);
-            const2.setPosition(const1.position);
+            const2.setPosition(const1.createPosition());
 
             ConstDeclWrap wrapper = new ConstDeclWrap(tchecker, parent, decls, const1, const2);
             parent.addDeclaration(wrapper);
@@ -748,7 +748,7 @@ public class SymbolScopeBuilder {
         for (AIdentifier event1: decls.names) {
             Event event2 = newEvent();
             event2.setName(event1.id);
-            event2.setPosition(event1.position);
+            event2.setPosition(event1.createPosition());
             event2.setControllable(controllable);
 
             EventDeclWrap wrapper = new EventDeclWrap(tchecker, parent, decls, event2);
@@ -768,7 +768,7 @@ public class SymbolScopeBuilder {
         // Add enumeration declaration.
         EnumDecl enum2 = newEnumDecl();
         enum2.setName(decl.name);
-        enum2.setPosition(decl.position);
+        enum2.setPosition(decl.createPosition());
 
         EnumDeclWrap wrapper = new EnumDeclWrap(tchecker, parent, enum2);
         parent.addDeclaration(wrapper);
@@ -781,7 +781,7 @@ public class SymbolScopeBuilder {
         for (AIdentifier literalId: decl.literals) {
             EnumLiteral literal = newEnumLiteral();
             literal.setName(literalId.id);
-            literal.setPosition(literalId.position);
+            literal.setPosition(literalId.createPosition());
 
             EnumLiteralDeclWrap literalWrapper = new EnumLiteralDeclWrap(tchecker, parent, literal);
             parent.addDeclaration(literalWrapper);
@@ -800,7 +800,7 @@ public class SymbolScopeBuilder {
         for (ATypeDef tdef: defs) {
             TypeDecl tdecl = newTypeDecl();
             tdecl.setName(tdef.name.id);
-            tdecl.setPosition(tdef.position);
+            tdecl.setPosition(tdef.createPosition());
 
             TypeDeclWrap wrapper = new TypeDeclWrap(tchecker, parent, tdef, tdecl);
             parent.addDeclaration(wrapper);
@@ -821,7 +821,7 @@ public class SymbolScopeBuilder {
         for (ADiscVariable var1: decls.variables) {
             DiscVariable var2 = newDiscVariable();
             var2.setName(var1.name.id);
-            var2.setPosition(var1.position);
+            var2.setPosition(var1.createPosition());
 
             DiscVariableDeclWrap wrapper = new DiscVariableDeclWrap(tchecker, parent, decls, var1, var2);
             parent.addDeclaration(wrapper);
@@ -877,10 +877,7 @@ public class SymbolScopeBuilder {
 
             // Create and add invariants.
             for (int i = 0; i < numberOfInvariants; i++) {
-                Position invPos = invName == null ? astInv.position : invName.position;
-                if (i > 0) {
-                    invPos = copyPosition(invPos);
-                }
+                Position invPos = invName == null ? astInv.createPosition() : invName.createPosition();
 
                 Invariant mmInv = newInvariant();
                 if (invName != null) {
@@ -933,11 +930,11 @@ public class SymbolScopeBuilder {
         for (AIdentifier id: params.names) {
             AlgVariable var = newAlgVariable();
             var.setName(id.id);
-            var.setPosition(id.position);
+            var.setPosition(id.createPosition());
 
             AlgParameter algParam = newAlgParameter();
             algParam.setVariable(var);
-            algParam.setPosition(copyPosition(id.position));
+            algParam.setPosition(id.createPosition());
 
             FormalAlgDeclWrap wrapper = new FormalAlgDeclWrap(tchecker, parent, params, algParam);
             parent.addDeclaration(wrapper);
@@ -958,7 +955,7 @@ public class SymbolScopeBuilder {
             // Construct object.
             ComponentParameter compParam = newComponentParameter();
             compParam.setName(id.id);
-            compParam.setPosition(id.position);
+            compParam.setPosition(id.createPosition());
 
             // Construct scope.
             new CompParamScope(compParam, params.type, parent, tchecker);
@@ -984,13 +981,13 @@ public class SymbolScopeBuilder {
             // Create event declaration.
             Event event = newEvent();
             event.setName(part.name.id);
-            event.setPosition(part.name.position);
+            event.setPosition(part.name.createPosition());
             event.setControllable(controllable);
 
             // Create event parameter.
             EventParameter eventParam = newEventParameter();
             eventParam.setEvent(event);
-            eventParam.setPosition(copyPosition(part.name.position));
+            eventParam.setPosition(part.name.createPosition());
 
             // Create symbol table entry.
             FormalEventDeclWrap wrapper = new FormalEventDeclWrap(tchecker, parent, params, part, eventParam);
@@ -1011,11 +1008,11 @@ public class SymbolScopeBuilder {
         for (AIdentifier id: params.names) {
             Location loc = newLocation();
             loc.setName(id.id);
-            loc.setPosition(id.position);
+            loc.setPosition(id.createPosition());
 
             LocationParameter locParam = newLocationParameter();
             locParam.setLocation(loc);
-            locParam.setPosition(copyPosition(id.position));
+            locParam.setPosition(id.createPosition());
 
             FormalLocationDeclWrap wrapper = new FormalLocationDeclWrap(tchecker, parent, locParam);
             parent.addDeclaration(wrapper);
@@ -1037,7 +1034,7 @@ public class SymbolScopeBuilder {
             // Construct function object.
             InternalFunction ifunc = newInternalFunction();
             ifunc.setName(func.name.id);
-            ifunc.setPosition(func.position);
+            ifunc.setPosition(func.createPosition());
 
             // Construct scope.
             FunctionScope scope = new FunctionScope(ifunc, func, parent, tchecker);
@@ -1061,7 +1058,7 @@ public class SymbolScopeBuilder {
             // Construct function object.
             ExternalFunction efunc = newExternalFunction();
             efunc.setName(func.name.id);
-            efunc.setPosition(func.position);
+            efunc.setPosition(func.createPosition());
 
             // Add external function reference. We need this to be available,
             // to be able to correct paths for imports, in the symbol scope
@@ -1091,10 +1088,10 @@ public class SymbolScopeBuilder {
         for (AIdentifier id: params.names) {
             DiscVariable var = newDiscVariable();
             var.setName(id.id);
-            var.setPosition(copyPosition(id.position));
+            var.setPosition(id.createPosition());
 
             FunctionParameter param = newFunctionParameter();
-            param.setPosition(id.position);
+            param.setPosition(id.createPosition());
             param.setParameter(var);
 
             FuncParamDeclWrap wrapper = new FuncParamDeclWrap(tchecker, parent, params, param);
@@ -1114,7 +1111,7 @@ public class SymbolScopeBuilder {
         for (ADiscVariable var1: vars.variables) {
             DiscVariable var2 = newDiscVariable();
             var2.setName(var1.name.id);
-            var2.setPosition(var1.position);
+            var2.setPosition(var1.createPosition());
 
             FuncVariableDeclWrap wrapper = new FuncVariableDeclWrap(tchecker, parent, vars, var1, var2);
             parent.addDeclaration(wrapper);
@@ -1146,7 +1143,7 @@ public class SymbolScopeBuilder {
         String impAbsPath = sourceFile.resolve(impPath);
 
         // Create new source file metadata.
-        Position problemPos = sourceFile.main ? imp.position : sourceFile.problemPos;
+        TextPosition problemPos = sourceFile.main ? imp.position : sourceFile.problemPos;
         SourceFile newSourceFile = new SourceFile(impAbsPath, false, imp.position, problemPos);
 
         // Check for self-import.
@@ -1156,7 +1153,7 @@ public class SymbolScopeBuilder {
         }
 
         // Check for duplicate import in a single file.
-        Position prevPos = imports.put(impAbsPath, imp.position);
+        TextPosition prevPos = imports.put(impAbsPath, imp.position);
         if (prevPos != null) {
             String relPath = newSourceFile.getRelativePathFrom(mainFile);
 

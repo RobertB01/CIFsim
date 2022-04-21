@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.functions;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An 'if' internal function statement. */
 public class AIfFuncStatement extends AFuncStatement {
@@ -42,7 +42,7 @@ public class AIfFuncStatement extends AFuncStatement {
      * @param position Position information.
      */
     public AIfFuncStatement(List<AExpression> guards, List<AFuncStatement> thens, List<AElifFuncStatement> elifs,
-            AElseFuncStatement elseStat, Position position)
+            AElseFuncStatement elseStat, TextPosition position)
     {
         super(position);
         this.guards = guards;

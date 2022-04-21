@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.iodecls.print;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** A print I/O declaration. */
 public class APrint extends AIoDecl {
@@ -41,7 +41,7 @@ public class APrint extends AIoDecl {
      * @param file The 'file' to use, or {@code null} if not available.
      * @param position Position information.
      */
-    public APrint(APrintTxt txt, List<APrintFor> fors, APrintWhen when, APrintFile file, Position position) {
+    public APrint(APrintTxt txt, List<APrintFor> fors, APrintWhen when, APrintFile file, TextPosition position) {
         super(position);
         this.txt = txt;
         this.fors = fors;

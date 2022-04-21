@@ -16,7 +16,7 @@ package org.eclipse.escet.setext.runtime;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Scanner token. */
 public class Token {
@@ -30,7 +30,7 @@ public class Token {
     public final int id;
 
     /** The position information for the scanned text. May be {@code null} if not available. */
-    public final Position position;
+    public final TextPosition position;
 
     /**
      * Constructor for the {@link Token} class.
@@ -39,7 +39,7 @@ public class Token {
      * @param id The unique id of the recognized terminal.
      * @param position The position information for the scanned text. May be {@code null} if not available.
      */
-    public Token(String text, int id, Position position) {
+    public Token(String text, int id, TextPosition position) {
         this.text = text;
         this.originalText = text;
         this.id = id;
@@ -63,8 +63,8 @@ public class Token {
         if (position == null) {
             posTxt = "";
         } else {
-            posTxt = position.getStartLine() + ":" + position.getStartColumn() + "-" + position.getEndLine() + ":"
-                    + position.getEndColumn();
+            posTxt = position.startLine + ":" + position.startColumn + "-" + position.endLine + ":"
+                    + position.endColumn;
         }
         return fmt("Token(%d, %s, %s)", id, Strings.stringToJava(text), posTxt);
     }

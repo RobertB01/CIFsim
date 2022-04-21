@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
+import static org.eclipse.escet.common.position.common.PositionUtils.toTextPosition;
 import static org.eclipse.escet.tooldef.common.ToolDefTextUtils.getAbsDescr;
 import static org.eclipse.escet.tooldef.common.ToolDefTypeUtils.areDistinguishableTypes;
 import static org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors.newToolParamExpression;
@@ -35,6 +36,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectImpl;
@@ -147,8 +149,19 @@ public class CheckerContext extends PositionObjectImpl {
      * @param args The message arguments.
      */
     public void addProblem(Message msg, Position position, String... args) {
+        addProblem(msg, toTextPosition(position), args);
+    }
+
+    /**
+     * Reports a problem to the user, by adding the problem to the type checker problems.
+     *
+     * @param msg The message to use.
+     * @param position The position for which to report the problem.
+     * @param args The message arguments.
+     */
+    public void addProblem(Message msg, TextPosition position, String... args) {
         // Make sure the position information is valid for the current file.
-        if (position == null || !position.getLocation().equals(tchecker.getSourceFilePath())) {
+        if (position == null || !position.location.equals(tchecker.getSourceFilePath())) {
             String inMsg = msg.severity.toString() + ": " + msg.format(args);
             Exception inner = new RuntimeException(inMsg);
             String exMsg = (position == null) ? "Missing position info" : "Position info wrong file";

@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Monitor events. */
 public class AMonitorDecl extends ADecl {
@@ -30,7 +30,7 @@ public class AMonitorDecl extends ADecl {
      * @param events The events of the monitor set. May be empty to default to alphabet.
      * @param position Position information.
      */
-    public AMonitorDecl(List<AName> events, Position position) {
+    public AMonitorDecl(List<AName> events, TextPosition position) {
         super(position);
         this.events = events;
     }

@@ -16,7 +16,7 @@ package org.eclipse.escet.setext.runtime.exceptions;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Exception indicating a parse error occurred. */
 public class ParseException extends SyntaxException {
@@ -42,7 +42,7 @@ public class ParseException extends SyntaxException {
      *     of input.
      * @param position The position information (possibly including source information) for the parse error.
      */
-    public ParseException(String tokenText, Position position) {
+    public ParseException(String tokenText, TextPosition position) {
         this(tokenText, position, null, null);
     }
 
@@ -57,7 +57,7 @@ public class ParseException extends SyntaxException {
      * @param expectedTermsText An end user readable description of the terminals expected, instead of the current
      *     terminal. Is {@code null} if and only if {@code foundTermText} is {@code null}.
      */
-    public ParseException(String tokenText, Position position, String foundTermText, String expectedTermsText) {
+    public ParseException(String tokenText, TextPosition position, String foundTermText, String expectedTermsText) {
         super(position);
         this.tokenText = tokenText;
         this.foundTermText = foundTermText;
@@ -76,7 +76,7 @@ public class ParseException extends SyntaxException {
 
     @Override
     public String getMessage() {
-        String src = getPosition().getSource();
+        String src = getPosition().source;
         if (src == null) {
             src = "";
         }
@@ -84,7 +84,7 @@ public class ParseException extends SyntaxException {
                 : fmt(", at or near \"%s\"", tokenText);
         String postTerms = (foundTermText == null) ? ""
                 : fmt(" (found %s, expected %s)", foundTermText, expectedTermsText);
-        return fmt("%sParsing failed at line %d, column %d%s%s.", src, getPosition().getStartLine(),
-                getPosition().getStartColumn(), postToken, postTerms);
+        return fmt("%sParsing failed at line %d, column %d%s%s.", src, getPosition().startLine,
+                getPosition().startColumn, postToken, postTerms);
     }
 }

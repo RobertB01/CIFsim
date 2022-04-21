@@ -48,6 +48,7 @@ To upgrade to a new Eclipse Platform/IDE version:
 ** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
 ** Update Eclipse and Orbit update site URLs in product (`org.eclipse.escet.product/escet.product`).
 ** Update Eclipse and Orbit update site URLs in update site (`org.eclipse.escet.product/category.xml`).
+** Update Maven plugin third party dependency versions to match Orbit versions (`org.eclipse.escet.common.asciidoc/pom.xml`).
 
 * Update target platform and address any issues
 ** Let Oomph regenerate the target platform, and commit any changes.
@@ -87,6 +88,9 @@ To upgrade to a new Eclipse Platform/IDE version:
 ** Check the embedded Maven version, by navigating to menu:Run[Run Configurations...], selecting the _build_ launch configuration under _Maven Build_, and observing the _Maven Runtime_ version.
 ** Ensure the Maven version in `Jenkinsfile` matches the embedded Maven version.
 ** Ensure the Maven version in `misc/license-check-dependencies/Jenkinsfile` matches the embedded Maven version.
+** Update versions of Maven plugins (`maven-plugin-*`) to match new Maven version (`org.eclipse.escet.common.asciidoc/pom.xml`).
+** Update version of the `maven-plugin-plugin` if needed (`org.eclipse.escet.releng.configuration/pom.xml`).
+** Update `maven.minimal.version` to match the embedded Maven version (`org.eclipse.escet.releng.configuration/pom.xml`).
 
 * Validation
 ** Run a <<development-building-and-testing-chapter-index,Maven build>>.
@@ -137,6 +141,7 @@ To upgrade to a new Java version:
 ** Update `JRE_CONTAINER` in all launch configurations (`.launch` files).
 ** Update Java versions in `org.eclipse.jdt.core.prefs` files.
 ** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
+** Update Java version for `escet.java.version` in `org.eclipse.escet.releng.configuration/pom.xml`.
 ** Update Java version for `executionEnvironment` in `org.eclipse.escet.releng.configuration/pom.xml`.
 ** Update Java version in `Jenkinsfile`.
 ** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.

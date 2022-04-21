@@ -34,6 +34,18 @@ SPDX-License-Identifier: MIT
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 
+        <!-- Specify Java version for Maven plugin compilation. -->
+        <!-- Tycho takes this from files within the projects, but Maven plugins are not compiled with Tycho. -->
+        <escet.java.version>11</escet.java.version>
+        <maven.compiler.source>${escet.java.version}</maven.compiler.source>
+        <maven.compiler.target>${escet.java.version}</maven.compiler.target>
+
+        <!-- Minimal Maven version to use. -->
+        <maven.minimal.version>3.8.1</maven.minimal.version>
+
+        <!-- Maven enforcer version. -->
+        <maven.enforcer.version>3.0.0</maven.enforcer.version>
+
         <!-- Tycho version to use. -->
         <tycho.version>2.7.1</tycho.version>
         <tycho.extras.version>${tycho.version}</tycho.extras.version>
@@ -80,6 +92,31 @@ SPDX-License-Identifier: MIT
 
     <build>
         <plugins>
+            <!-- Enforce prerequisite versions. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven.enforcer.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>${escet.java.version}</version>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>${maven.minimal.version}</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Enable Tycho. -->
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
@@ -161,6 +198,9 @@ SPDX-License-Identifier: MIT
                             <ws>cocoa</ws>
                             <arch>x86_64</arch>
                         </environment>
+
+                    <!-- For building and using Maven plugins during the build. -->
+                    <pomDependencies>consider</pomDependencies>
                     </environments>
                 </configuration>
             </plugin>
@@ -256,6 +296,7 @@ SPDX-License-Identifier: MIT
                 <!-- Note that according to the documentation of the Tycho Maven plugin: -->
                 <!-- "This mojo is actually not executable, and is only meant to host configuration." -->
                 <!-- It is thus safe to set the action to 'ignore' using lifecycle mapping metadata configuration. -->
+                <!-- Similarly, we ignore the problem for other plugin executions. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -270,6 +311,32 @@ SPDX-License-Identifier: MIT
                                         <versionRange>[2.4.0,)</versionRange>
                                         <goals>
                                             <goal>target-platform</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-plugin-plugin</artifactId>
+                                        <versionRange>[3.2,)</versionRange>
+                                        <goals>
+                                            <goal>descriptor</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-checkstyle-plugin</artifactId>
+                                        <versionRange>[3.1.2,)</versionRange>
+                                        <goals>
+                                            <goal>check</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
@@ -335,6 +402,13 @@ SPDX-License-Identifier: MIT
                     <configuration>
                         <projectId>technology.escet</projectId>
                     </configuration>
+                </plugin>
+
+                <!-- Use more recent Maven Plugin plugin. Otherwise building Maven plugins fails. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>3.6.4</version>
                 </plugin>
             </plugins>
         </pluginManagement>

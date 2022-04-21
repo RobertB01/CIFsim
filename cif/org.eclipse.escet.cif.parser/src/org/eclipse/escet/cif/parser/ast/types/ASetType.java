@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast.types;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Set type. */
 public class ASetType extends ACifType {
@@ -26,7 +26,7 @@ public class ASetType extends ACifType {
      * @param elementType The element type of the set type.
      * @param position Position information.
      */
-    public ASetType(ACifType elementType, Position position) {
+    public ASetType(ACifType elementType, TextPosition position) {
         super(position);
         this.elementType = elementType;
     }

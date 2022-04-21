@@ -10,6 +10,5 @@ Export-Package: org.eclipse.escet.common.typechecker
 Require-Bundle: org.eclipse.escet.common.position.metamodel;bundle-version="0.6.0",
  org.eclipse.escet.common.java;bundle-version="0.6.0",
  org.eclipse.escet.common.emf;bundle-version="0.6.0",
- org.eclipse.escet.common.app.framework;bundle-version="0.6.0",
- org.eclipse.escet.common.position.common;bundle-version="0.6.0"
+ org.eclipse.escet.common.app.framework;bundle-version="0.6.0"
 Automatic-Module-Name: org.eclipse.escet.common.typechecker

@@ -15,8 +15,7 @@ package org.eclipse.escet.setext.runtime.exceptions;
 
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
-import org.eclipse.escet.common.position.metamodel.position.PositionFactory;
+import org.eclipse.escet.common.java.TextPosition;
 import org.junit.Test;
 
 /** Unit tests for the {@link CustomSyntaxException} class. */
@@ -24,19 +23,14 @@ import org.junit.Test;
 public class CustomSyntaxExceptionTest {
     @Test
     public void testCustomSyntaxExToStrNoSrc() {
-        Position pos = PositionFactory.eINSTANCE.createPosition();
-        pos.setStartLine(1);
-        pos.setStartColumn(2);
+        TextPosition pos = new TextPosition("/location", 1, 2, 1, 2, 1, 1);
         Exception ex = new CustomSyntaxException("Some msg.", pos);
         assertEquals("Syntax error at line 1, column 2: Some msg.", ex.toString());
     }
 
     @Test
     public void testCustomSyntaxExToStrWithSrc() {
-        Position pos = PositionFactory.eINSTANCE.createPosition();
-        pos.setSource("File \"file.ext\": ");
-        pos.setStartLine(1);
-        pos.setStartColumn(2);
+        TextPosition pos = new TextPosition("/location", "File \"file.ext\": ", 1, 2, 1, 2, 1, 1);
         Exception ex = new CustomSyntaxException("Some msg.", pos);
         assertEquals("File \"file.ext\": Syntax error at line 1, column 2: Some msg.", ex.toString());
     }

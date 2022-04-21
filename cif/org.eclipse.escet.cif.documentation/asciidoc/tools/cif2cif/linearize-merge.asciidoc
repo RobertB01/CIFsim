@@ -21,6 +21,9 @@ indexterm:[linearize,merge]
 indexterm:[synchronization,eliminate]
 This CIF to CIF transformation performs process-algebraic linearization, thereby eliminating parallel composition, event synchronization and channel communication.
 
+This transformation <<tools-cif2cif-linearize-merge-nondet,eliminates non-determinism>>, resulting in specifications with smaller state spaces, at the expense of not preserving the specification's full behavior.
+To maintain non-determinism, preserving the specification's full behavior, at the expensive of a possible exponential blow-up of the specification in terms of number of edges, use the <<tools-cif2cif-chapter-linearize-product,linearize (product)>> CIF to CIF transformation instead.
+
 indexterm:[linearize,supported specifications]
 
 === Supported specifications

@@ -216,7 +216,7 @@ public class AlgVariableDeclWrap extends DeclWrap<AlgVariable> {
 
                 // Construct new equation metamodel object, and store it.
                 Equation eqn = newEquation();
-                eqn.setPosition(astEqn.position);
+                eqn.setPosition(astEqn.createPosition());
                 eqn.setDerivative(astEqn.derivative);
                 eqn.setVariable(mmDecl);
 

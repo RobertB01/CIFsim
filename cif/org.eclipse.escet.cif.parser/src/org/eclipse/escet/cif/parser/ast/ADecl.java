@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.parser.ast;
 
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** CIF declaration. Note that it is much broader than the declarations package in the metamodel. */
 public abstract class ADecl extends ACifObject {
@@ -22,7 +22,7 @@ public abstract class ADecl extends ACifObject {
      *
      * @param position Position information.
      */
-    public ADecl(Position position) {
+    public ADecl(TextPosition position) {
         super(position);
     }
 }

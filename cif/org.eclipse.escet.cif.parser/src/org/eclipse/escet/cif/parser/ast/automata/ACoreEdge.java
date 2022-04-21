@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Edge. */
 public class ACoreEdge extends ACifObject {
@@ -28,7 +28,7 @@ public class ACoreEdge extends ACifObject {
     public final List<AExpression> guards;
 
     /** The position information of the urgency of the edge, or {@code null} if the edge is not urgent. */
-    public final Position urgentPos;
+    public final TextPosition urgentPos;
 
     /** The updates of the edge. */
     public final List<AUpdate> updates;
@@ -41,7 +41,7 @@ public class ACoreEdge extends ACifObject {
      * @param urgentPos The position information of the urgency of the edge, or {@code null} if the edge is not urgent.
      * @param updates The updates of the edge.
      */
-    public ACoreEdge(List<AEdgeEvent> events, List<AExpression> guards, Position urgentPos, List<AUpdate> updates) {
+    public ACoreEdge(List<AEdgeEvent> events, List<AExpression> guards, TextPosition urgentPos, List<AUpdate> updates) {
         super(null);
         this.events = events;
         this.guards = guards;

@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.position.common.PositionUtils.toTextPosition;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ import org.eclipse.escet.cif.typechecker.scopes.SpecScope;
 import org.eclipse.escet.cif.typechecker.scopes.SymbolScopeBuilder;
 import org.eclipse.escet.common.app.framework.io.StdAppStream;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.EcoreTypeChecker;
@@ -278,15 +280,26 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
      * @param args The arguments to use when formatting the problem message.
      */
     public void addProblem(ErrMsg message, Position position, String... args) {
+        addProblem(message, toTextPosition(position), args);
+    }
+
+    /**
+     * Adds a semantic problem to the list of problems found so far.
+     *
+     * @param message The CIF type checker problem message describing the semantic problem.
+     * @param position Position information of the problem.
+     * @param args The arguments to use when formatting the problem message.
+     */
+    public void addProblem(ErrMsg message, TextPosition position, String... args) {
         // Look up the source file.
-        String sourcePath = position.getLocation();
+        String sourcePath = position.location;
         SourceFile sourceFile = sourceFiles.get(sourcePath);
         if (sourceFile == null) {
             throw new RuntimeException("No SourceFile found: " + sourcePath);
         }
 
         // Get problem reporting position in the main file.
-        Position reportPos = sourceFile.main ? position : sourceFile.problemPos;
+        TextPosition reportPos = sourceFile.main ? position : sourceFile.problemPos;
 
         // Format message, and prefix with file path if not the main file.
         String formattedMsg = message.format(args);

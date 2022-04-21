@@ -115,6 +115,7 @@ import org.eclipse.escet.common.app.framework.PlatformUriUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Numbers;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
@@ -318,7 +319,7 @@ public class FunctionScope extends ParentScope<Function> {
      * @param extRef The external implementation reference.
      * @param position Position information for the external implementation reference.
      */
-    private void tcheckExtJavaFunc(ExternalFunction func, String extRef, Position position) {
+    private void tcheckExtJavaFunc(ExternalFunction func, String extRef, TextPosition position) {
         // Check class path entries.
         String[] parts = splitExtJavaRef(extRef);
         String classPath = parts[3];
@@ -435,7 +436,7 @@ public class FunctionScope extends ParentScope<Function> {
             // Create assignment statement, and add it to the parent.
             AAssignFuncStatement asgn = (AAssignFuncStatement)stat;
             AssignmentFuncStatement astat = newAssignmentFuncStatement();
-            astat.setPosition(stat.position);
+            astat.setPosition(stat.createPosition());
             stats.add(astat);
 
             // Type check and set addressable.
@@ -530,7 +531,7 @@ public class FunctionScope extends ParentScope<Function> {
         } else if (stat instanceof ABreakFuncStatement) {
             // Create break statement, and add it to the parent.
             BreakFuncStatement bstat = newBreakFuncStatement();
-            bstat.setPosition(stat.position);
+            bstat.setPosition(stat.createPosition());
             stats.add(bstat);
 
             // Check 'in while' constraint.
@@ -544,7 +545,7 @@ public class FunctionScope extends ParentScope<Function> {
         } else if (stat instanceof AContinueFuncStatement) {
             // Create continue statement, and add it to the parent.
             ContinueFuncStatement cstat = newContinueFuncStatement();
-            cstat.setPosition(stat.position);
+            cstat.setPosition(stat.createPosition());
             stats.add(cstat);
 
             // Check 'in while' constraint.
@@ -559,7 +560,7 @@ public class FunctionScope extends ParentScope<Function> {
             // Create if statement, and add it to the parent.
             AIfFuncStatement astat = (AIfFuncStatement)stat;
             IfFuncStatement istat = newIfFuncStatement();
-            istat.setPosition(stat.position);
+            istat.setPosition(stat.createPosition());
             stats.add(istat);
 
             // Guards.
@@ -587,7 +588,7 @@ public class FunctionScope extends ParentScope<Function> {
             List<ElifFuncStatement> elifs = istat.getElifs();
             for (AElifFuncStatement elif1: astat.elifs) {
                 ElifFuncStatement elif2 = newElifFuncStatement();
-                elif2.setPosition(elif1.position);
+                elif2.setPosition(elif1.createPosition());
                 elifs.add(elif2);
 
                 // Guards.
@@ -633,7 +634,7 @@ public class FunctionScope extends ParentScope<Function> {
         } else if (stat instanceof AReturnFuncStatement) {
             // Create return statement, and add it to the parent.
             ReturnFuncStatement rstat = newReturnFuncStatement();
-            rstat.setPosition(stat.position);
+            rstat.setPosition(stat.createPosition());
             stats.add(rstat);
 
             // Get type hints for the return values.
@@ -680,7 +681,7 @@ public class FunctionScope extends ParentScope<Function> {
             // Create while statement, and add it to the parent.
             AWhileFuncStatement awhile = (AWhileFuncStatement)stat;
             WhileFuncStatement wstat = newWhileFuncStatement();
-            wstat.setPosition(stat.position);
+            wstat.setPosition(stat.createPosition());
             stats.add(wstat);
 
             // Type check guards.
@@ -767,7 +768,9 @@ public class FunctionScope extends ParentScope<Function> {
     }
 
     @Override
-    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker, SymbolScope<?> originScope) {
+    public SymbolTableEntry resolve(TextPosition position, String name, CifTypeChecker tchecker,
+            SymbolScope<?> originScope)
+    {
         // Paranoia check: we should only resolve things inside of a function,
         // for internal functions, and not for external functions.
         Assert.check(obj instanceof InternalFunction);

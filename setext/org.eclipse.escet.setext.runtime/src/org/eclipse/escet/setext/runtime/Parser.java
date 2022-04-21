@@ -40,7 +40,7 @@ import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.exceptions.ParseException;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
@@ -177,23 +177,23 @@ public abstract class Parser<T> {
      * @throws IllegalArgumentException If the start position does not start before the end position.
      * @throws IllegalArgumentException If the end position does not end after the start position.
      */
-    public void addFoldRange(Position start, Position end) {
+    public void addFoldRange(TextPosition start, TextPosition end) {
         // Skip if we're not collecting fold ranges.
         if (foldRanges == null) {
             return;
         }
 
         // Validation.
-        if (start.getStartOffset() >= end.getStartOffset()) {
+        if (start.startOffset >= end.startOffset) {
             throw new IllegalArgumentException("start.start >= end.start");
         }
-        if (end.getEndOffset() <= start.getEndOffset()) {
+        if (end.endOffset <= start.endOffset) {
             throw new IllegalArgumentException("end.end <= start.end");
         }
 
         // Add range.
-        int first = start.getStartOffset();
-        int last = end.getEndOffset();
+        int first = start.startOffset;
+        int last = end.endOffset;
         addFoldRange(first, last + 1 - first);
     }
 
@@ -229,7 +229,7 @@ public abstract class Parser<T> {
      * @param message The message describing the syntax warning.
      * @param position Position information.
      */
-    public void addWarning(String message, Position position) {
+    public void addWarning(String message, TextPosition position) {
         warnings.add(new SyntaxWarning(message, position));
     }
 

@@ -14,14 +14,12 @@
 package org.eclipse.escet.setext.parser;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
 
 import java.util.List;
 
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.position.common.PositionUtils;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.Decl;
 import org.eclipse.escet.setext.parser.ast.HooksDecl;
 import org.eclipse.escet.setext.parser.ast.Identifier;
@@ -103,14 +101,14 @@ public final class SeTextHooks implements SeTextScanner.Hooks, SeTextParser.Hook
         List<Decl> decls = list();
         String src = parser.getSource();
         String loc = parser.getLocation();
-        return new Specification(decls, PositionUtils.createDummy(loc, src));
+        return new Specification(decls, TextPosition.createDummy(loc, src));
     }
 
     @Override // Specification : Decls;
     public Specification parseSpecification2(List<Decl> l1) {
         String src = parser.getSource();
         String loc = parser.getLocation();
-        return new Specification(l1, PositionUtils.createDummy(loc, src));
+        return new Specification(l1, TextPosition.createDummy(loc, src));
     }
 
     @Override // Decls : Decl;
@@ -204,20 +202,20 @@ public final class SeTextHooks implements SeTextScanner.Hooks, SeTextParser.Hook
 
     @Override // KeywordsIdentifiers : Identifier OptFunc OptTermDescr;
     public List<KeywordsIdentifier> parseKeywordsIdentifiers1(Identifier i1, Identifier i2, TerminalDescription t3) {
-        return list(new KeywordsIdentifier(i1, i2, t3, copyPosition(i1.position)));
+        return list(new KeywordsIdentifier(i1, i2, t3, i1.position));
     }
 
     @Override // KeywordsIdentifiers : KeywordsIdentifiers Identifier OptFunc OptTermDescr;
     public List<KeywordsIdentifier> parseKeywordsIdentifiers2(List<KeywordsIdentifier> l1, Identifier i2, Identifier i3,
             TerminalDescription t4)
     {
-        l1.add(new KeywordsIdentifier(i2, i3, t4, copyPosition(i2.position)));
+        l1.add(new KeywordsIdentifier(i2, i3, t4, i2.position));
         return l1;
     }
 
     @Override // RegExTerminal : OptRegExId RegExString OptFunc OptNewState OptTermDescr SEMICOLTK;
     public Terminal parseRegExTerminal1(Identifier i1, RegEx r2, Identifier i3, Identifier i4, TerminalDescription t5) {
-        Position p = (i1 != null) ? i1.position : r2.position;
+        TextPosition p = (i1 != null) ? i1.position : r2.position;
         String name = (i1 != null) ? i1.id : null;
         return new Terminal(name, r2, i3, i4, t5, p);
     }
@@ -409,7 +407,7 @@ public final class SeTextHooks implements SeTextScanner.Hooks, SeTextParser.Hook
     @Override // RegExString : @REGEXSTARTTK RegEx @REGEXENDTK;
     public RegEx parseRegExString1(Token t1, RegEx r2, Token t3) {
         if (r2.position == null) {
-            r2.position = PositionUtils.mergePositions(t1.position, t3.position);
+            r2.position = TextPosition.mergePositions(t1.position, t3.position);
         }
         return r2;
     }

@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.parser.ast.functions;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** While internal function statement. */
 public class AWhileFuncStatement extends AFuncStatement {
@@ -33,7 +33,7 @@ public class AWhileFuncStatement extends AFuncStatement {
      * @param statements The body statements of the while internal function statement.
      * @param position Position information.
      */
-    public AWhileFuncStatement(List<AExpression> guards, List<AFuncStatement> statements, Position position) {
+    public AWhileFuncStatement(List<AExpression> guards, List<AFuncStatement> statements, TextPosition position) {
         super(position);
         this.guards = guards;
         this.statements = statements;

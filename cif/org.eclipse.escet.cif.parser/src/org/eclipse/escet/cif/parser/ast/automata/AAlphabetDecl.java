@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** Alphabet. */
 public class AAlphabetDecl extends ADecl {
@@ -30,7 +30,7 @@ public class AAlphabetDecl extends ADecl {
      * @param events The events of the alphabet, or {@code null}.
      * @param position Position information.
      */
-    public AAlphabetDecl(List<AName> events, Position position) {
+    public AAlphabetDecl(List<AName> events, TextPosition position) {
         super(position);
         this.events = events;
     }

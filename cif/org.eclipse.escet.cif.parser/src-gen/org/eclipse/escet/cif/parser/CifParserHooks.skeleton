@@ -67,7 +67,7 @@ import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.parser.ast.tokens.AStringToken;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
 import org.eclipse.escet.cif.parser.ast.types.AField;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Parser;
 import org.eclipse.escet.setext.runtime.Token;
 
@@ -725,12 +725,12 @@ implements CifParser.Hooks
     }
 
     @Override // CoreEdge : EdgeEvents OptEdgeGuard OptEdgeUrgent OptEdgeUpdate;
-    public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, Position p3, List<AUpdate> l4) {
+    public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, TextPosition t3, List<AUpdate> l4) {
         // return null;
     }
 
     @Override // CoreEdge : WHENKW Expressions OptEdgeUrgent OptEdgeUpdate;
-    public ACoreEdge parseCoreEdge2(List<AExpression> l2, Position p3, List<AUpdate> l4) {
+    public ACoreEdge parseCoreEdge2(List<AExpression> l2, TextPosition t3, List<AUpdate> l4) {
         // return null;
     }
 
@@ -755,12 +755,12 @@ implements CifParser.Hooks
     }
 
     @Override // OptEdgeUrgent : ;
-    public Position parseOptEdgeUrgent1() {
+    public TextPosition parseOptEdgeUrgent1() {
         // return null;
     }
 
     @Override // OptEdgeUrgent : @NOWKW;
-    public Position parseOptEdgeUrgent2(Token t1) {
+    public TextPosition parseOptEdgeUrgent2(Token t1) {
         // return null;
     }
 

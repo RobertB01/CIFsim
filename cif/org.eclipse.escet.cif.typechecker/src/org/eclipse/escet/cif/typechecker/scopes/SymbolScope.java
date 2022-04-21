@@ -37,7 +37,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVaria
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeRef;
-import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
+import static org.eclipse.escet.common.position.common.PositionUtils.toPosition;
 
 import java.util.List;
 
@@ -106,6 +106,7 @@ import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.box.Boxable;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
@@ -208,7 +209,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      *     {@code null} to skip checking.
      * @return The resolved symbol table entry.
      */
-    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker,
+    public SymbolTableEntry resolve(TextPosition position, String name, CifTypeChecker tchecker,
             SymbolScope<?> originScope)
     {
         // Root absolute name.
@@ -271,7 +272,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * @param entry The resolved symbol table entry for the reference.
      * @param originScope The scope from where the reference originates. May be {@code null} to not give a warning.
      */
-    private void warnIfConvolutedReference(Position position, CifTypeChecker tchecker, SymbolTableEntry entry,
+    private void warnIfConvolutedReference(TextPosition position, CifTypeChecker tchecker, SymbolTableEntry entry,
             SymbolScope<?> originScope)
     {
         // Skip if origin scope is not supplied.
@@ -324,7 +325,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * <ul>
      * <li>{@code $} characters have already been removed by the parser.</li>
      * <li>{@code ^} and {@code .} prefixes have already been handled by the
-     * {@link #resolve(Position, String, CifTypeChecker, SymbolScope)} method.</li>
+     * {@link #resolve(TextPosition, String, CifTypeChecker, SymbolScope)} method.</li>
      * </ul>
      *
      * @param position Position information for the textual reference.
@@ -339,7 +340,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      *     {@code null} to skip checking.
      * @return The resolved symbol table entry.
      */
-    private SymbolTableEntry resolve(Position position, String name, String done, CifTypeChecker tchecker,
+    private SymbolTableEntry resolve(TextPosition position, String name, String done, CifTypeChecker tchecker,
             SymbolScope<?> origScope, SymbolScope<?> originScope)
     {
         // Paranoia checking.
@@ -397,7 +398,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * <ul>
      * <li>{@code $} characters have already been removed by the parser.</li>
      * <li>{@code ^} and {@code .} prefixes have already been handled by the
-     * {@link #resolve(Position, String, CifTypeChecker, SymbolScope)} method.</li>
+     * {@link #resolve(TextPosition, String, CifTypeChecker, SymbolScope)} method.</li>
      * </ul>
      *
      * <p>
@@ -414,7 +415,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      *     is a 'via' resolve. May otherwise only be {@code null} if the caller is sure that resolving won't fail.
      * @return The resolved symbol table entry.
      */
-    protected abstract SymbolTableEntry resolve1(Position position, String id, String done, CifTypeChecker tchecker,
+    protected abstract SymbolTableEntry resolve1(TextPosition position, String id, String done, CifTypeChecker tchecker,
             SymbolScope<?> origScope);
 
     /**
@@ -441,7 +442,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * @param tchecker The type checker to which to add 'resolve' failures, if any.
      * @return The resolved object, as a possibly wrapped reference expression.
      */
-    public Expression resolveAsExpr(String name, Position position, String done, CifTypeChecker tchecker) {
+    public Expression resolveAsExpr(String name, TextPosition position, String done, CifTypeChecker tchecker) {
         // Root absolute name.
         if (name.startsWith("^")) {
             Assert.check(done.isEmpty());
@@ -516,14 +517,14 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
                     // Add wrapping expression to result (type is set below).
                     CompInstWrapExpression wrap = newCompInstWrapExpression();
-                    wrap.setPosition(copyPosition(position));
+                    wrap.setPosition(toPosition(position));
                     wrap.setInstantiation(iscope.getObject());
                     wrap.setReference(rslt);
                     rslt = wrap;
 
                     // Create skeleton type wrapper instance.
                     CompInstWrapType instWrapType = newCompInstWrapType();
-                    instWrapType.setPosition(copyPosition(position));
+                    instWrapType.setPosition(toPosition(position));
                     instWrapType.setInstantiation(iscope.getObject());
                     wrapType = instWrapType;
                 } else {
@@ -534,14 +535,14 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
                     // Add wrapping expression to result (type is set below).
                     CompParamWrapExpression wrap = newCompParamWrapExpression();
-                    wrap.setPosition(copyPosition(position));
+                    wrap.setPosition(toPosition(position));
                     wrap.setParameter(pscope.getObject());
                     wrap.setReference(rslt);
                     rslt = wrap;
 
                     // Create skeleton type wrapper instance.
                     CompParamWrapType paramWrapType = newCompParamWrapType();
-                    paramWrapType.setPosition(copyPosition(position));
+                    paramWrapType.setPosition(toPosition(position));
                     paramWrapType.setParameter(pscope.getObject());
                     wrapType = paramWrapType;
                 }
@@ -595,7 +596,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             AlgVariable a = ((AlgVariableDeclWrap)entry).getObject();
 
             AlgVariableExpression rslt = newAlgVariableExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setVariable(a);
             rslt.setType(EMFHelper.deepclone(a.getType()));
 
@@ -604,7 +605,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             Constant c = ((ConstDeclWrap)entry).getObject();
 
             ConstantExpression rslt = newConstantExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setConstant(c);
             rslt.setType(EMFHelper.deepclone(c.getType()));
 
@@ -616,10 +617,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             ContVariable v = ((ContVariableDeclWrap)entry).getObject();
 
             RealType t = newRealType();
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             ContVariableExpression rslt = newContVariableExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
             rslt.setType(t);
             return rslt;
@@ -627,7 +628,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             DiscVariable v = ((DiscVariableDeclWrap)entry).getObject();
 
             DiscVariableExpression rslt = newDiscVariableExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
             rslt.setType(EMFHelper.deepclone(v.getType()));
 
@@ -640,10 +641,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             EnumType t = newEnumType();
             t.setEnum(e);
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             EnumLiteralExpression rslt = newEnumLiteralExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setLiteral(l);
             rslt.setType(t);
 
@@ -652,10 +653,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             Event e = ((EventDeclWrap)entry).getObject();
 
             BoolType t = newBoolType();
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             EventExpression rslt = newEventExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setEvent(e);
             rslt.setType(t);
 
@@ -664,7 +665,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             AlgVariable a = ((FormalAlgDeclWrap)entry).getObject().getVariable();
 
             AlgVariableExpression rslt = newAlgVariableExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setVariable(a);
             rslt.setType(EMFHelper.deepclone(a.getType()));
 
@@ -673,10 +674,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             Event e = ((FormalEventDeclWrap)entry).getObject().getEvent();
 
             BoolType t = newBoolType();
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             EventExpression rslt = newEventExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setEvent(e);
             rslt.setType(t);
 
@@ -685,10 +686,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             Location l = ((FormalLocationDeclWrap)entry).getObject().getLocation();
 
             BoolType t = newBoolType();
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             LocationExpression rslt = newLocationExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setLocation(l);
             rslt.setType(t);
 
@@ -697,7 +698,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             DiscVariable v = ((FuncParamDeclWrap)entry).getObject().getParameter();
 
             DiscVariableExpression rslt = newDiscVariableExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
             rslt.setType(EMFHelper.deepclone(v.getType()));
 
@@ -706,7 +707,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             DiscVariable v = ((FuncVariableDeclWrap)entry).getObject();
 
             DiscVariableExpression rslt = newDiscVariableExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
             rslt.setType(EMFHelper.deepclone(v.getType()));
 
@@ -715,7 +716,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             InputVariable v = ((InputVariableDeclWrap)entry).getObject();
 
             InputVariableExpression rslt = newInputVariableExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
             rslt.setType(EMFHelper.deepclone(v.getType()));
 
@@ -724,10 +725,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             Location l = ((LocationDeclWrap)entry).getObject();
 
             BoolType t = newBoolType();
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             LocationExpression rslt = newLocationExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setLocation(l);
             rslt.setType(t);
 
@@ -741,10 +742,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             ComponentType t = newComponentType();
             t.setComponent(c);
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             ComponentExpression rslt = newComponentExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setComponent(c);
             rslt.setType(t);
 
@@ -754,10 +755,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             ComponentType t = newComponentType();
             t.setComponent(c);
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             ComponentExpression rslt = newComponentExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setComponent(c);
             rslt.setType(t);
 
@@ -769,10 +770,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             ComponentType t = newComponentType();
             t.setComponent(c);
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             ComponentExpression rslt = newComponentExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setComponent(c);
             rslt.setType(t);
 
@@ -781,10 +782,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             ComponentParameter p = ((CompParamScope)entry).getObject();
 
             CifType t = EMFHelper.deepclone(p.getType());
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
 
             CompParamExpression rslt = newCompParamExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setParameter(p);
             rslt.setType(t);
 
@@ -796,14 +797,14 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             FuncType t = newFuncType();
             t.setReturnType(EMFHelper.deepclone(returnType));
-            t.setPosition(copyPosition(position));
+            t.setPosition(toPosition(position));
             for (FunctionParameter param: f.getParameters()) {
                 CifType paramType = param.getParameter().getType();
                 t.getParamTypes().add(EMFHelper.deepclone(paramType));
             }
 
             FunctionExpression rslt = newFunctionExpression();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setFunction(f);
             rslt.setType(t);
 
@@ -835,7 +836,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * @param tchecker The type checker to which to add 'resolve' failures, if any.
      * @return The resolved object, as a possibly wrapped reference type.
      */
-    public CifType resolveAsType(String name, Position position, String done, CifTypeChecker tchecker) {
+    public CifType resolveAsType(String name, TextPosition position, String done, CifTypeChecker tchecker) {
         // Root absolute name.
         if (name.startsWith("^")) {
             Assert.check(done.isEmpty());
@@ -899,7 +900,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
                 CompInstScope iscope = (CompInstScope)scope;
 
                 CompInstWrapType wrap = newCompInstWrapType();
-                wrap.setPosition(copyPosition(position));
+                wrap.setPosition(toPosition(position));
                 wrap.setInstantiation(iscope.getObject());
                 wrap.setReference(rslt);
 
@@ -910,7 +911,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
                 CompParamScope pscope = (CompParamScope)scope;
 
                 CompParamWrapType wrap = newCompParamWrapType();
-                wrap.setPosition(copyPosition(position));
+                wrap.setPosition(toPosition(position));
                 wrap.setParameter(pscope.getObject());
                 wrap.setReference(rslt);
 
@@ -934,7 +935,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             EnumDecl e = ((EnumDeclWrap)entry).getObject();
 
             EnumType rslt = newEnumType();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setEnum(e);
 
             return rslt;
@@ -960,7 +961,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             TypeDecl t = ((TypeDeclWrap)entry).getObject();
 
             TypeRef rslt = newTypeRef();
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
             rslt.setType(t);
 
             return rslt;
@@ -969,7 +970,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             ComponentDefType rslt = newComponentDefType();
             rslt.setDefinition(d);
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
 
             return rslt;
         } else if (entry instanceof AutScope) {
@@ -977,7 +978,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             ComponentType rslt = newComponentType();
             rslt.setComponent(c);
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
 
             return rslt;
         } else if (entry instanceof CompInstScope) {
@@ -985,7 +986,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             ComponentType rslt = newComponentType();
             rslt.setComponent(c);
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
 
             return rslt;
         } else if (entry instanceof GroupDefScope) {
@@ -993,7 +994,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             ComponentDefType rslt = newComponentDefType();
             rslt.setDefinition(d);
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
 
             return rslt;
         } else if (entry instanceof GroupScope) {
@@ -1001,7 +1002,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             ComponentType rslt = newComponentType();
             rslt.setComponent(c);
-            rslt.setPosition(copyPosition(position));
+            rslt.setPosition(toPosition(position));
 
             return rslt;
         } else if (entry instanceof CompParamScope) {

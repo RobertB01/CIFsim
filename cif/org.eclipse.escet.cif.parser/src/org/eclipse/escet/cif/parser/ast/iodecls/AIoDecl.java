@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.iodecls;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
-import org.eclipse.escet.common.position.metamodel.position.Position;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** CIF I/O declaration. */
 public abstract class AIoDecl extends ADecl {
@@ -23,7 +23,7 @@ public abstract class AIoDecl extends ADecl {
      *
      * @param position Position information.
      */
-    public AIoDecl(Position position) {
+    public AIoDecl(TextPosition position) {
         super(position);
     }
 }
