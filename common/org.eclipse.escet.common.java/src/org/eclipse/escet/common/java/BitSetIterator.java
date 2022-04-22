@@ -16,16 +16,20 @@ package org.eclipse.escet.common.java;
 import java.util.BitSet;
 import java.util.Iterator;
 
-/** Iterator class for {@link BitSet}. */
+/** Iterator class for iterating over true bits in a {@link BitSet}. */
 public class BitSetIterator implements Iterable<Integer>, Iterator<Integer> {
     /** Bit set to iterate over. */
-    private BitSet bitSet;
+    private final BitSet bitSet;
 
-    /** Next bit index to return. */
+    /** Next bit index to return, negative indices mean there is no next index anymore. */
     private int nextIndex;
 
     /**
      * Constructor of the {@link BitSetIterator} class.
+     *
+     * <p>
+     * Iterates over indices of the true bits in the set in increasing index order.
+     * </p>
      *
      * @param bitSet Bit set to iterate over.
      */
@@ -36,9 +40,13 @@ public class BitSetIterator implements Iterable<Integer>, Iterator<Integer> {
     /**
      * Constructor of the {@link BitSetIterator} class.
      *
+     * <p>
+     * Iterates over indices of the true bits in the set in increasing index order, at or after index {@code fromIndex}.
+     * </p>
+     *
      * @param bitSet Bit set to iterate over.
      * @param fromIndex Start iterating from the first true bit at or after this index.
-     * @throws IndexOutOfBoundsException if the specified index is negative.
+     * @throws IndexOutOfBoundsException If the specified index is negative.
      */
     public BitSetIterator(BitSet bitSet, int fromIndex) {
         this.bitSet = bitSet;

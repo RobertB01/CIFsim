@@ -114,7 +114,7 @@ public final class Strings {
         // Build a new string of the desired length.
         StringBuilder stringBuilder = new StringBuilder(desiredLength);
         while (desiredLength > 0) {
-            int addLength = Math.max(desiredLength, INDENT_CACHE.length - 1);
+            int addLength = Math.min(desiredLength, INDENT_CACHE.length - 1);
             stringBuilder.append(INDENT_CACHE[addLength]);
             desiredLength -= addLength;
         }

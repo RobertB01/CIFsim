@@ -32,10 +32,11 @@ public class BitSets {
     }
 
     /**
-     * Construct an empty bit set of the given size (may allocate more).
+     * Construct an empty bit set of the given size.
      *
      * @param n Requested size of the bit set.
      * @return The created bit set.
+     * @throws NegativeArraySizeException If {@code n} is negative.
      */
     public static BitSet bitset(int n) {
         return new BitSet(n);
@@ -64,22 +65,12 @@ public class BitSets {
     }
 
     /**
-     * Create a new bit set of the requested size (may allocate more), with all bits up-to the requested size set
-     * to {@code false}.
-     *
-     * @param n Requested size of the bit set.
-     * @return The created bit set.
-     */
-    public static BitSet zeroes(int n) {
-        return bitset(n);
-    }
-
-    /**
-     * Create a new bit set of the requested size (may allocate more), with all bits at least up-to the requested
+     * Create a new bit set of the requested size, with all bits at least up-to the requested
      * size set to {@code true}.
      *
      * @param n Requested size of the bit set.
      * @return The created bit set.
+     * @throws IndexOutOfBoundsException If {@code n} is negative.
      */
     public static BitSet ones(int n) {
         BitSet bs = bitset(n);
@@ -88,11 +79,12 @@ public class BitSets {
     }
 
     /**
-     * Invert the provided bitset, up to <em>n</em> bits.
+     * Invert the provided bitset, up to bit index {@code n}.
      *
-     * @param bs Bit set to invert.
+     * @param bs Bit set to invert and truncate.
      * @param n Number of bits to invert.
-     * @return The inverted bit set (all bits that are not in <em>b</em>s up to bit number <em>n</em>).
+     * @return The inverted bit set (all bits that are not in {code bs} up to bit number <em>n</em>).
+     * @throws IndexOutOfBoundsException If {@code n} is negative.
      */
     public static BitSet invert(BitSet bs, int n) {
         BitSet result = ones(n);
@@ -130,6 +122,7 @@ public class BitSets {
      *
      * @param bs Bit set to update.
      * @param bitNumbers Bit indices to set.
+     * @throws IndexOutOfBoundsException If a bit number is negative.
      */
     public static void setBits(BitSet bs, int... bitNumbers) {
         for (int i: bitNumbers) {
