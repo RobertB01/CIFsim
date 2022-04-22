@@ -409,8 +409,6 @@
       <requirement
           name="org.apache.commons.io"/>
       <requirement
-          name="org.apache.commons.lang"/>
-      <requirement
           name="org.apache.commons.lang3"/>
       <requirement
           name="org.apache.commons.math3"/>

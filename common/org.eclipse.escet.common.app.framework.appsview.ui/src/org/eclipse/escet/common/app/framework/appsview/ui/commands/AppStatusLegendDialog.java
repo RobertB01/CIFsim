@@ -15,7 +15,7 @@ package org.eclipse.escet.common.app.framework.appsview.ui.commands;
 
 import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.appsview.ui.icons.AppStatusIcons;
 import org.eclipse.escet.common.app.framework.management.AppStatus;
 import org.eclipse.jface.dialogs.Dialog;

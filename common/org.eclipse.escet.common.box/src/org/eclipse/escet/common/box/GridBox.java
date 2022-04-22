@@ -17,7 +17,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.java.Strings;
 
 /** Box that combines sub-boxes in a grid (or matrix). This class does not support jagged grids. */

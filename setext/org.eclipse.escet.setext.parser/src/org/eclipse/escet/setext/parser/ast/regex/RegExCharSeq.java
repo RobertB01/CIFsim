@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.Set;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.eclipse.escet.common.java.TextPosition;
 
 /**
@@ -80,8 +79,7 @@ public class RegExCharSeq extends RegExChars {
 
     @Override
     public int getBindingStrength() {
-        // Binding strength is irrelevant for this class.
-        throw new NotImplementedException();
+        throw new AssertionError("Binding strength is irrelevant for this class.");
     }
 
     @Override

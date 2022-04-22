@@ -15,7 +15,7 @@ package org.eclipse.escet.chi.runtime;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.chi.runtime.data.DefinitionKind;
 import org.eclipse.escet.common.java.Assert;
 

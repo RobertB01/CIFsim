@@ -17,7 +17,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Iterator;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
 import org.eclipse.escet.setext.texteditorbase.scanners.GenericPartitionScanner;
@@ -221,7 +221,7 @@ public abstract class CodeHighlighter implements AutoCloseable {
             int start = range.start;
             int end = range.start + range.length;
             String rangeCode = code.substring(start, end);
-            rangeCode = StringEscapeUtils.escapeHtml(rangeCode);
+            rangeCode = StringEscapeUtils.escapeHtml4(rangeCode);
             rangeCode = rangeCode.replace(" ", "&nbsp;");
             rangeCode = rangeCode.replace("\t", "&nbsp;");
             rangeCode = rangeCode.replace("\r", "");

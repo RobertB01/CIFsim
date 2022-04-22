@@ -29,7 +29,7 @@ import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpInterface;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.AutomatonHelper;

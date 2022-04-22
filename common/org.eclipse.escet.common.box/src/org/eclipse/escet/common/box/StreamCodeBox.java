@@ -16,7 +16,7 @@ package org.eclipse.escet.common.box;
 import java.io.Closeable;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 
 /**

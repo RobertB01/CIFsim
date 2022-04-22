@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.common.app.framework;
 
-import static org.apache.commons.lang.SystemUtils.IS_OS_WINDOWS;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.junit.Assert.assertEquals;
 

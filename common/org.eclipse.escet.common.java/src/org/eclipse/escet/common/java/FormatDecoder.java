@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.java.FormatDescription.Conversion;
 
 /** Format pattern decoder. */

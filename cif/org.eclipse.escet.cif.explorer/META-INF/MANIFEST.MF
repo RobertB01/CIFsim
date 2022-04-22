@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="0.6.0",
  org.eclipse.escet.cif.typechecker;bundle-version="0.6.0",
  org.eclipse.escet.common.typechecker;bundle-version="0.6.0",
  org.eclipse.escet.common.java;bundle-version="0.6.0",
- org.apache.commons.lang;bundle-version="2.6.0",
+ org.apache.commons.lang3;bundle-version="3.1.0",
  org.eclipse.escet.common.box;bundle-version="0.6.0"
 Export-Package: org.eclipse.escet.cif.explorer,
  org.eclipse.escet.cif.explorer.app,
