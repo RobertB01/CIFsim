@@ -12,14 +12,14 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // DSM clustring
-tool int dsm_clustering(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
-                        bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+tool int dsmclustering(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                       bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
     return app("org.eclipse.escet.common.dsm.app", "org.eclipse.escet.common.dsm.app.DsmApplication", args, stdin, stdout, stderr,
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
 
-tool int dsm_clustering(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
-                        bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+tool int dsmclustering(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                       bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
     return app("org.eclipse.escet.common.dsm.app", "org.eclipse.escet.common.dsm.app.DsmApplication", args, stdin, stdout, stderr,
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
