@@ -5,11 +5,13 @@
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.0.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.0.mode" value="inherit"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.0.name" value="test-chi-codegen"/>
+
     <stringAttribute key="org.eclipse.debug.core.launchGroup.1.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.1.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.1.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.1.mode" value="inherit"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.1.name" value="test-chi-runtime"/>
+
     <stringAttribute key="org.eclipse.debug.core.launchGroup.10.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.10.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.10.enabled" value="true"/>
@@ -100,6 +102,11 @@
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.26.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.26.mode" value="inherit"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.26.name" value="test-tooldef-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.action" value="NONE"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.27.adoptIfRunning" value="false"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.27.enabled" value="true"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.mode" value="inherit"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.name" value="test-common-dsm"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.3.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.3.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.3.enabled" value="true"/>
