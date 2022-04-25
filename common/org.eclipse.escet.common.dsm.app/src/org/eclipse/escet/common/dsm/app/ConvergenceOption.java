@@ -22,7 +22,7 @@ public class ConvergenceOption extends DoubleOption {
     private static final String NAME = "Convergence limit";
 
     /** Description of the option. */
-    private static final String DESCRIPTION = "Allowed remaining nummerical error for convergence of the algorithm."
+    private static final String DESCRIPTION = "Allowed remaining numerical error for convergence of the algorithm."
             + "Between 0 and 1. [DEFAULT=1e-4].";
 
     /** Short option name. */

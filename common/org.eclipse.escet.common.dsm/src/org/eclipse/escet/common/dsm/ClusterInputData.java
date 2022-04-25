@@ -28,7 +28,7 @@ import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
  */
 public class ClusterInputData {
     /**
-     * Adjacency matrix of the nodes, <em>(i, j)</em> is the non-negative weight of node <em>i</em> to node <em>j</em>.
+     * Adjacency matrix of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to node {@code j}.
      */
     public final RealMatrix adjacencies;
 
@@ -72,8 +72,8 @@ public class ClusterInputData {
     /**
      * Constructor of the {@link ClusterInputData} class.
      *
-     * @param adjacencies Adjacency graph of the nodes, <em>(i, j)</em> is the non-negative weight of
-     *      node <em>i</em> to node <em>j</em>.
+     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of
+     *      node {@code i} to node {@code j}.
      * @param labels Names of the nodes.
      */
     public ClusterInputData(RealMatrix adjacencies, Label[] labels) {
@@ -83,8 +83,8 @@ public class ClusterInputData {
     /**
      * Constructor of the {@link ClusterInputData} class.
      *
-     * @param adjacencies Adjacency graph of the nodes, <em>(i, j)</em> is the non-negative weight of
-     *      node <em>i</em> to node <em>j</em>.
+     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of
+     *      node {@code i} to node {@code j}.
      * @param labels Names of the nodes.
      * @param evap Evaporation constant.
      * @param stepCount Matrix exponentiation factor (number of steps taken each iteration).

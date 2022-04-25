@@ -32,12 +32,12 @@ public class DsmHelper {
     /**
      * Shuffle array according to a provided shuffle table.
      *
-     * <p>Entry <em>i</em> containing <em>j</em> indicates that in the output on index <em>i</em> the value is
-     * placed that is in the supplied array on index <em>j</em>.</p>
+     * <p>Entry {@code i} containing {@code j} indicates that in the output on index {@code i} the value is
+     * placed that is in the supplied array on index {@code j}.</p>
      *
      * @param <T> Element type of the array values.
      * @param array Array to shuffle.
-     * @param shuffleTable Shuffle table, each entry <em>i</em> contains the original
+     * @param shuffleTable Shuffle table, each entry {@code i} contains the original
      *      index of the node.
      * @return The shuffled labels.
      */

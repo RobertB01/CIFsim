@@ -18,10 +18,10 @@ import org.eclipse.escet.common.dsm.Group;
 /** Interface for getting parent node and group information in sub-matrix context. */
 public interface SubNode {
     /**
-     * Return the first node in the parent matrix related to this node which is at least <em>startNode</em>.
+     * Return the first node in the parent matrix related to this node which is at least {@code startNode}.
      *
      * @param startNode Parent node to start the search.
-     * @return First parent node at or beyond <em>startNode</em> or {@code -1} if there is no such parent node.
+     * @return First parent node at or beyond {@code startNode} or {@code -1} if there is no such parent node.
      */
     public int firstParentNode(int startNode);
 

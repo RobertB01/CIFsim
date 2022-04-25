@@ -63,8 +63,8 @@ public class Main {
     /**
      * Compute flow-based hierarchical Markov clustering of nodes in a graph.
      *
-     * @param adjacencies Adjacency graph of the nodes, <em>(i, j)</em> is the non-negative weight of
-     *      node <em>i</em> to node <em>j</em>.
+     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of
+     *      node {@code i} to node {@code j}.
      * @param labels Names of the nodes.
      * @param evap Evaporation constant.
      * @param stepCount Matrix exponentiation factor (number of steps taken each iteration).
@@ -171,7 +171,7 @@ public class Main {
      * Compute how to re-order nodes such that all groups are contiguous.
      *
      * @param group Group to re-order.
-     * @return Re-ordering of nodes of the group, each entry <em>i</em>.contains the original index of that node.
+     * @return Re-ordering of nodes of the group, each entry {@code i}.contains the original index of that node.
      */
     private static int[] computeShuffle(Group group) {
         final int size = group.members.cardinality();
@@ -249,7 +249,7 @@ public class Main {
     /**
      * Shuffle the rows and columns of the adjacency matrix according to how nodes shuffle.
      *
-     * @param nodeShuffle Shuffle table, each entry <em>i</em> contains the original
+     * @param nodeShuffle Shuffle table, each entry {@code i} contains the original
      *      index of the node.
      * @param adjacencies Matrix to shuffle.
      * @return The shuffled matrix.

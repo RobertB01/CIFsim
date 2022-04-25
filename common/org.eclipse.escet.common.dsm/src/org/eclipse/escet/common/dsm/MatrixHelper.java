@@ -207,7 +207,7 @@ public class MatrixHelper {
     /**
      * Shuffle the rows of the matrix.
      *
-     * @param rowShuffle Shuffle table, each entry <em>i</em> contains the original
+     * @param rowShuffle Shuffle table, each entry {@code i} contains the original
      *      index of the row.
      * @param m Matrix to shuffle.
      * @return The shuffled matrix.
@@ -227,7 +227,7 @@ public class MatrixHelper {
     /**
      * Shuffle the columns of the matrix.
      *
-     * @param columnShuffle Shuffle table, each entry <em>i</em> contains the original
+     * @param columnShuffle Shuffle table, each entry {@code i} contains the original
      *      index of the column.
      * @param m Matrix to shuffle.
      * @return The shuffled matrix.

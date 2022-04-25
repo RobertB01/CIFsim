@@ -20,7 +20,7 @@ public class Dsm {
     /**
      * Mapping of new node indices from original node indices.
      *
-     * <p>Each entry <em>i</em> contains the original node index.</p>
+     * <p>Each entry {@code i} contains the original node index.</p>
      */
     public int[] nodeShuffle;
 

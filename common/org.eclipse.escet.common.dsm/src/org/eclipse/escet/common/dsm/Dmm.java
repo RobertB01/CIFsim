@@ -18,7 +18,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 /** Data storage of a domain mapping matrix. */
 public class Dmm {
     /**
-     * Adjacency matrix of the nodes, <em>(i, j)</em> is the non-negative weight of node <em>i</em> to node <em>j</em>.
+     * Adjacency matrix of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to node {@code j}.
      */
     public RealMatrix adjacencies;
 
@@ -31,8 +31,8 @@ public class Dmm {
     /**
      * Constructor of the {@link Dmm} class.
      *
-     * @param adjacencies Adjacency graph of the nodes, <em>(i, j)</em> is the non-negative weight of
-     *      node <em>i</em> to node <em>j</em>.
+     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of
+     *      node {@code i} to node {@code j}.
      * @param rowLabels Names of the labels of the elements along the rows
      * @param columnLabels Names of the labels of the elements along the columns.
      */

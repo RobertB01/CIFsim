@@ -87,7 +87,7 @@ public class SubMatrixFunctions {
     }
 
     /**
-     * Copy data from the parent matrix into a new sub matrix as described by the <em>subNodes</em>.
+     * Copy data from the parent matrix into a new sub matrix as described by the {@code subNodes}.
      *
      * @param parentMatrix Data to copy.
      * @param subNodes Description how and what to copy.
@@ -206,7 +206,7 @@ public class SubMatrixFunctions {
      * Retrieve the single parent node (index) from the sub node.
      *
      * @param subNode Node to inspect.
-     * @return The contained single parent node from the <em>subNode</em>.
+     * @return The contained single parent node from the {@code subNode}.
      */
     private static int getSingleNode(SubNode subNode) {
         Assert.check(subNode.getGroup() == null);
