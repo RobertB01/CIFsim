@@ -22,6 +22,8 @@ Figure~\ref{fig:pkg:position} shows the \textit{position} package.
 The position package contains classes used to represent position information,
 for source tracking. A position is represented as a continuous region in a
 textual source (the \emph{source text}).
+Positions are expressed as offset from the start of the text and as line and
+column pair. Lines are delimited by a line-feed codepoint (U+000A).
 
 The \positionclass{Position} class represents actual position information.
 The abstract \positionclass{PositionObject} class can be used as a base class
@@ -45,8 +47,8 @@ Position (source tracking) information.
 }
 
 \newcommand{\featdocuPositionendColumn}{
-The 1-based column index of the end (inclusive) of the position region, with
-respect to the start of the source text.
+The 1-based codepoint index at the \texttt{endLine} of the end (inclusive) of
+the position region with respect to the start of the line.
 
 \begin{constraints}
 \citem{Position.endColumnValue}
@@ -55,7 +57,7 @@ respect to the start of the source text.
 }
 
 \newcommand{\featdocuPositionendLine}{
-The 1-based line index of the end (inclusive) of the position region, with
+The 1-based line index of the end (inclusive) of the position region with
 respect to the start of the source text.
 
 \begin{constraints}
@@ -65,7 +67,7 @@ respect to the start of the source text.
 }
 
 \newcommand{\featdocuPositionendOffset}{
-The 0-based byte index of the end (inclusive) of the position region, with
+The 0-based codepoint index of the end (inclusive) of the position region with
 respect to the start of the source text.
 
 \begin{constraints}
@@ -86,8 +88,8 @@ Optional source identification. Usually, this is a file name.
 }
 
 \newcommand{\featdocuPositionstartColumn}{
-The 1-based column index of the start (inclusive) of the position region, with
-respect to the start of the source text.
+The 1-based codepoint index at the \texttt{startLine} of the start (inclusive)
+of the position region with respect to the start of the line.
 
 \begin{constraints}
 \citem{Position.startColumnValue}
@@ -96,7 +98,7 @@ respect to the start of the source text.
 }
 
 \newcommand{\featdocuPositionstartLine}{
-The 1-based line index of the start (inclusive) of the position region, with
+The 1-based line index of the start (inclusive) of the position region with
 respect to the start of the source text.
 
 \begin{constraints}
@@ -106,7 +108,7 @@ respect to the start of the source text.
 }
 
 \newcommand{\featdocuPositionstartOffset}{
-The 0-based byte index of the start (inclusive) of the position region,
+The 0-based codepoint index of the start (inclusive) of the position region
 with respect to the start of the source text.
 
 \begin{constraints}
