@@ -49,7 +49,7 @@ public class ReadWriteMatrix {
      *
      * @param line Text line to analyze.
      * @param start Start index for analyzing. Should be a character in the line.
-     * @return <code>null</code> if match failed, else a match result with various relevant indices.
+     * @return {@code null} if match failed, else a match result with various relevant indices.
      */
     private static MatchResult matchWord(String line, int start) {
         Assert.check(start >= 0 || start < line.length());
@@ -92,7 +92,7 @@ public class ReadWriteMatrix {
      *
      * @param line Text line to analyze.
      * @param start Start index for analyzing. Should point at a character in the line.
-     * @return <code>null</code> if match failed, else a match result with various relevant indices.
+     * @return {@code null} if match failed, else a match result with various relevant indices.
      */
     private static MatchResult matchSep(String line, int start) {
         Assert.check(start >= 0 || start < line.length());
@@ -213,7 +213,7 @@ public class ReadWriteMatrix {
      * @param inp Input stream.
      * @return Rows of columns of texts. Note that the number of columns at each line may be different.
      *      Also, no checking is performed whether the number of lines and columns match.
-     * @throws InputOutputException when a line of text could not be read.
+     * @throws InputOutputException When a line of text could not be read.
      */
     private static List<List<String>> readMatrixLines(BufferedReader inp) {
         List<List<String>> matrixValues = list();

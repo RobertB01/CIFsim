@@ -28,7 +28,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Normalize the columns of the given matrix (sum becomes 1, if not all 0).
+     * Normalize the columns of the given matrix (sum becomes {@code 1}, if not all {@code 0}).
      *
      * @param m The matrix to normalize.
      * @return The resulting normalized matrix.
@@ -38,7 +38,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Normalize the columns of the given matrix (sum becomes 1, if not all 0).
+     * Normalize the columns of the given matrix (sum becomes {@code 1}, if not all {@code 0}).
      *
      * @param m The matrix to normalize.
      * @param copyData Whether to construct a new matrix as result.
@@ -57,7 +57,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Normalize the rows of the given matrix (sum becomes 1, if not all 0).
+     * Normalize the rows of the given matrix (sum becomes {@code 1}, if not all {@code 0}).
      *
      * @param m The matrix to normalize.
      * @return The resulting normalized matrix.
@@ -67,7 +67,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Normalize the rows of the given matrix (sum becomes 1, if not all 0).
+     * Normalize the rows of the given matrix (sum becomes {@code 1}, if not all {@code 0}).
      *
      * @param m The matrix to normalize.
      * @param copyData Whether to construct a new matrix as result.
@@ -86,7 +86,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Normalize the provided sequence of real values (sum becomes 1 if not all 0).
+     * Normalize the provided sequence of real values (sum becomes {@code 1} if not all {@code 0}).
      *
      * @param sequence Sequence to normalize. Is updated in-place.
      */
@@ -120,7 +120,7 @@ public class MatrixHelper {
     /**
      * Prune small values of the given matrix away.
      *
-     * <p>Values below 'cutValue' are cleared to {@code 0}, while retaining normalized columns.</p>
+     * <p>Values below {@code cutValue} are cleared to {@code 0}, while retaining normalized columns.</p>
      *
      * @param m Matrix to prune, is modified in-place.
      * @param cutValues Smallest value for each column in the matrix that is not cleared.
@@ -154,7 +154,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Sets the values of the main diagonal to 0. Non-square matrices are ignored.
+     * Sets the values of the main diagonal to {@code 0}. Non-square matrices are ignored.
      *
      * @param m Matrix of which to clear main diagonal, is modified in-place.
      */
@@ -169,7 +169,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Returns the result of exponentiating each entry of the supplied matrix by d.
+     * Returns the result of exponentiating each entry of the supplied matrix by {@code d}.
      *
      * @param m Matrix to exponentiate entries for.
      * @param d Value to exponentiate all entries by.
@@ -180,7 +180,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Returns the result of exponentiating each entry of the supplied matrix by d.
+     * Returns the result of exponentiating each entry of the supplied matrix by {code d}.
      *
      * @param m Matrix to exponentiate entries for.
      * @param d Value to exponentiate all entries by.
@@ -245,7 +245,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Creates a matrix with all entries set to 1.
+     * Creates a matrix with all entries set to {@code 1}.
      *
      * @param nrows Number of rows.
      * @param ncols Number of columns.
@@ -314,7 +314,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Find indices of for which the entry equals the given value in a one-dimensional matrix.
+     * Find indices of the matrix where the value equals the given value in a one-dimensional matrix.
      *
      * @param m A one-dimensional matrix.
      * @param value The value to match.
@@ -331,7 +331,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Find the row indices for which the entry equals the given value.
+     * Find the row indices of a single column matrix where the value equals the given value.
      *
      * @param m A matrix with a single column.
      * @param value The value to match.
@@ -350,7 +350,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Find the column indices for which the entry equals the given value.
+     * Find the column indices of a single row matrix where the value equals the given value.
      *
      * @param m A matrix with a single row.
      * @param value The value to match.

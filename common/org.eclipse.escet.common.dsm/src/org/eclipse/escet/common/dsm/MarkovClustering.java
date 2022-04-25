@@ -38,7 +38,7 @@ public class MarkovClustering {
     /**
      * Compute the Markov clustering of the provided matrix.
      *
-     * <p>Implements<br>
+     * <p>Implements:
      * S. van Dongen, "Graph Clustering via a Discrete Uncoupling Process",
      * SIAM journal on Matrix Analysis and Applications,
      * 30(1): 121-141, 2008.</p>
@@ -59,7 +59,7 @@ public class MarkovClustering {
         final int size = m.getRowDimension();
 
         OutputProvider.dbg();
-        OutputProvider.dbg("Input to Markov");
+        OutputProvider.dbg("Input to Markov: ");
         OutputProvider.dbg(m.toString());
 
         // Iterate to stable probabilities.
@@ -76,7 +76,7 @@ public class MarkovClustering {
             prune(m, pruningLimit);
         }
 
-        OutputProvider.dbg("Output from Markov");
+        OutputProvider.dbg("Output from Markov: ");
         OutputProvider.dbg(m.toString());
         OutputProvider.dbg();
 
@@ -118,8 +118,8 @@ public class MarkovClustering {
      * @return Whether convergence has been reached.
      */
     private static boolean convergenceReached(RealMatrix matP, RealMatrix matQ, double epsilon) {
-        Assert.check(matP.getColumnDimension() == matQ.getColumnDimension());
-        Assert.check(matP.getRowDimension() == matQ.getRowDimension());
+        Assert.areEqual(matP.getColumnDimension(), matQ.getColumnDimension());
+        Assert.areEqual(matP.getRowDimension(), matQ.getRowDimension());
 
         for (int i = 0; i < matP.getRowDimension(); i++) {
             for (int j = 0; j < matP.getColumnDimension(); j++) {

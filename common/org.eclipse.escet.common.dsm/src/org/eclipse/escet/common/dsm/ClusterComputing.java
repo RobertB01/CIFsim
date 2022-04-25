@@ -67,7 +67,7 @@ public class ClusterComputing {
         // Bottom-up group construction by clustering.
         List<Group> groups = list();
         BitSet availableNodes = copy(parentAvailable);
-        for (;;) {
+        while (true) {
             // Build sub-matrix.
             SubNode[] subNodes = makeSubNodes(groups, parentAvailable);
             RealMatrix subAdjacencies = fillSubMatrix(parentAdjacencies, subNodes);
@@ -135,7 +135,7 @@ public class ClusterComputing {
         final int n = m.getRowDimension();
         Assert.check(m.isSquare());
 
-        // Compute Win
+        // Compute Win.
         double[] kins = new double[n]; // Sum of each column, or 1 of sum is 0.
         for (int j = 0; j < n; j++) {
             double sum = 0;
@@ -146,7 +146,7 @@ public class ClusterComputing {
         }
         RealMatrix winMat = new DiagonalMatrix(kins);
 
-        // Compute Wout
+        // Compute Wout.
         double[] kouts = new double[n]; // Sum of each row, or 1 if sum is 0.
         for (int i = 0; i < n; i++) {
             double sum = 0;
@@ -157,7 +157,7 @@ public class ClusterComputing {
         }
         RealMatrix woutMat = new DiagonalMatrix(kouts);
 
-        // Compute B1 and B2
+        // Compute B1 and B2.
         double[] b1s = new double[n];
         for (int i = 0; i < n; i++) {
             b1s[i] = 1 / (kouts[i] * evap);

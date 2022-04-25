@@ -25,14 +25,14 @@ import org.eclipse.escet.common.java.Assert;
 /**
  * Class for storing nested groups (subsets) of nodes.
  *
- * <p>Elementary groups are constructed with {@code Group(GroupType groupType, BitSet members)}
+ * <p>Elementary groups are constructed with {@link #Group(GroupType groupType, BitSet members)}
  * while groups containing other groups are constructed
- * with {@code Group(GroupType groupType, List<Group> childGroups)}. In the latter
+ * with {@link #Group(GroupType groupType, BitSet localNodes, List childGroups)}. In the latter
  * case, child groups may not overlap.</p>
  *
  * <p>The group does not enforce any inherent member properties other than
  * non-overlapping at the same level. In particular, there may be holes in a group
- * and/or between groups, and a group does not need to be a single block consecutive nodes.</p>
+ * and/or between groups, and a group does not need to be a single block of consecutive nodes.</p>
  */
 public class Group {
     /** Kind of group. */
@@ -41,7 +41,7 @@ public class Group {
     /**
      * Member nodes of the group and its children (should not be modified).
      *
-     *  <p>Union of the child groups and the local nodes.</p>
+     * <p>Union of the child groups and the local nodes.</p>
      */
     public final BitSet members;
 
@@ -152,8 +152,13 @@ public class Group {
 
     /** Available kinds of groups. */
     public static enum GroupType {
-        /** Group forms a bus. */ BUS,
-        /** Group forms a cluster. */ CLUSTER,
-        /** Group has no relation. */ COLLECTION,
+        /** Group forms a bus. */
+        BUS,
+
+        /** Group forms a cluster. */
+        CLUSTER,
+
+        /** Group has no relation. */
+        COLLECTION,
     }
 }

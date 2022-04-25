@@ -14,12 +14,13 @@
 package org.eclipse.escet.common.dsm.app;
 
 import static org.eclipse.escet.common.dsm.DsmHelper.shuffleArray;
-import static org.eclipse.escet.common.dsm.Main.flowBasedMarkovClustering;
+import static org.eclipse.escet.common.dsm.DsmClustering.flowBasedMarkovClustering;
 import static org.eclipse.escet.common.dsm.io.ReadWriteMatrix.readMatrixFile;
 import static org.eclipse.escet.common.dsm.io.ReadWriteMatrix.writeGroups;
 import static org.eclipse.escet.common.dsm.io.ReadWriteMatrix.writeMatrixFile;
 import static org.eclipse.escet.common.java.Lists.list;
 
+import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;

@@ -15,10 +15,10 @@ package org.eclipse.escet.common.dsm.app;
 
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
-import org.eclipse.escet.common.dsm.BusDetectionAlgorithms;
+import org.eclipse.escet.common.dsm.BusDetectionAlgorithm;
 
 /** DSM option to specify the type of bus to detect. */
-public class DsmBusDetectionAlgorithmOption extends EnumOption<BusDetectionAlgorithms> {
+public class DsmBusDetectionAlgorithmOption extends EnumOption<BusDetectionAlgorithm> {
     /** Name of the option. */
     private static final String NAME = "Bus detection algorithm";
 
@@ -35,7 +35,7 @@ public class DsmBusDetectionAlgorithmOption extends EnumOption<BusDetectionAlgor
     private static final String CMD_VALUE = "BUSDETALG";
 
     /** Default value of the option. */
-    private static final BusDetectionAlgorithms DEFAULT_VALUE = BusDetectionAlgorithms.NO_BUS;
+    private static final BusDetectionAlgorithm DEFAULT_VALUE = BusDetectionAlgorithm.NO_BUS;
 
     /** Whether to show the option in a dialogue box. */
     private static final boolean SHOW_IN_DIALOG = true;
@@ -49,7 +49,7 @@ public class DsmBusDetectionAlgorithmOption extends EnumOption<BusDetectionAlgor
     }
 
     @Override
-    protected String getDialogText(BusDetectionAlgorithms alg) {
+    protected String getDialogText(BusDetectionAlgorithm alg) {
         switch (alg) {
             case NO_BUS:
                 return "No bus";
@@ -66,7 +66,7 @@ public class DsmBusDetectionAlgorithmOption extends EnumOption<BusDetectionAlgor
      *
      * @return The bus detection algorithm.
      */
-    public static BusDetectionAlgorithms getBusAlgorithm() {
+    public static BusDetectionAlgorithm getBusAlgorithm() {
         return Options.get(DsmBusDetectionAlgorithmOption.class);
     }
 }

@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.common.dsm;
 
-import static org.eclipse.escet.common.dsm.BusDetectionAlgorithms.NO_BUS;
+import static org.eclipse.escet.common.dsm.BusDetectionAlgorithm.NO_BUS;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.apache.commons.math3.linear.RealMatrix;
@@ -60,7 +60,7 @@ public class ClusterInputData {
     public double epsilon;
 
     /** Bus detection algorithm. */
-    public BusDetectionAlgorithms busDetectionAlgorithm;
+    public BusDetectionAlgorithm busDetectionAlgorithm;
 
     /**
      * Tuning factor for selecting bus nodes. The effect of the tuning factor depends on the chosen algorithm.
@@ -94,7 +94,7 @@ public class ClusterInputData {
      * @param busInclusion Tuning factor for the bus detection algorithm.
      */
     public ClusterInputData(RealMatrix adjacencies, Label[] labels, double evap, int stepCount,
-                            double inflation, double epsilon, BusDetectionAlgorithms busDetectionAlgorithm,
+                            double inflation, double epsilon, BusDetectionAlgorithm busDetectionAlgorithm,
                             double busInclusion)
     {
         this.adjacencies = adjacencies;
@@ -112,16 +112,16 @@ public class ClusterInputData {
      * is compatible with the chosen bus detection algorithm.
      *
      * <p>The following checks are performed depending on the chosen bus detection algorithm:<ul>
-     * <li>{@link BusDetectionAlgorithms#NO_BUS}: no checks are performed.</li>
-     * <li>{@link BusDetectionAlgorithms#FIX_POINT}: the new value should be between 1.0 and 4.0 (boundaries included).</li>
-     * <li>{@link BusDetectionAlgorithms#TOP_K}: the new value will first be truncated, as the algorithm only handles
+     * <li>{@link BusDetectionAlgorithm#NO_BUS}: no checks are performed.</li>
+     * <li>{@link BusDetectionAlgorithm#FIX_POINT}: the new value should be between 1.0 and 4.0 (boundaries included).</li>
+     * <li>{@link BusDetectionAlgorithm#TOP_K}: the new value will first be truncated, as the algorithm only handles
      *      integer values. The truncated value should be between 0 and the number of elements in the DSM (boundaries
      *      included).</li>
      * </ul></p>
      *
      * @param newValue The new value for the bus inclusion factor.
-     * @throws InvalidInputException when the new value does not satisfy the checks.
-     * @throws UnsupportedException when an unknown bus detection algorithm is stored in this class.
+     * @throws InvalidInputException When the new value does not satisfy the checks.
+     * @throws UnsupportedException When an unknown bus detection algorithm is stored in this class.
      */
     public void setBusInclusionFactor(double newValue) {
         switch(busDetectionAlgorithm) {
@@ -134,8 +134,8 @@ public class ClusterInputData {
                     busInclusion = newValue;
                 } else {
                     String msg = fmt("Bus factor values for the fixed-point algorithm are only allowed to be between " +
-                                     "1.0 and 4.0 (including the boundaries). The supplied value of %d is outside " +
-                                     "this interval.");
+                                     "1.0 and 4.0 (including the boundaries). The supplied value of %f is outside " +
+                                     "this interval.", newValue);
                     throw new InvalidInputException(msg);
                 }
                 break;
@@ -147,7 +147,7 @@ public class ClusterInputData {
                 } else {
                     String msg = fmt("Bus factor values for the top-k algorithm are only allowed to be between " +
                                      "0 and the number of elements of the DSM (which is %d in this case). The " +
-                                     "supplied value of %d is outside this interval.", adjacencies.getRowDimension(),
+                                     "supplied value of %f is outside this interval.", adjacencies.getRowDimension(),
                                      newValue);
                     throw new InvalidInputException(msg);
                 }

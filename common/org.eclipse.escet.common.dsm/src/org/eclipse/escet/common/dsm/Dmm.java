@@ -45,7 +45,7 @@ public class Dmm {
     /**
      * Copy constructor of the {@link Dmm} class.
      *
-     * @param dmm The dmm to shallow copy.
+     * @param dmm The DMM to shallow copy.
      */
     public Dmm(Dmm dmm) {
         this.adjacencies = dmm.adjacencies;

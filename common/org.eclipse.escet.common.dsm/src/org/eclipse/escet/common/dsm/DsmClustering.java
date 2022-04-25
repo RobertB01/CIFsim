@@ -38,13 +38,22 @@ import org.eclipse.escet.common.java.Assert;
 /**
  * Functions for finding a bus and hierarchical clusters.
  *
- * <p>Implements<br>
- * T. Wilschut, L.F.P. Etman, J.E. Rooda, and I.J.B.F. Adan. "Multilevel flow-based Markov clustering for design
- * structure matrices." Journal of Mechanical Design 139, no. 12 (2017).</p>
+ * <p>
+ * Paper describing the method:
+ * T. Wilschut, L.F.P. Etman, J.E. Rooda, and I.J.B.F. Adan: Multi-level flow-based Markov clustering for design
+ * structure matrices, Journal of Mechanical Design : Transactions of the ASME, Dec 2017,
+ * 139(12): 121402, https://doi.org/10.1115/1.4037626
+ * </p>
+ *
+ * <p>
+ * PhD thesis, referred to as [Wilschut 2018]:
+ * Wilschut T. System specification and design structuring methods for a lock product platform. Eindhoven:
+ * Technische Universiteit Eindhoven, 2018. 178 p.
+ * </p>
  */
-public class Main {
-    /** Constructor for the static {@link Main} class. */
-    private Main() {
+public class DsmClustering {
+    /** Constructor for the static {@link DsmClustering} class. */
+    private DsmClustering() {
         // Static class.
     }
 
@@ -76,10 +85,10 @@ public class Main {
      */
     public static Dsm flowBasedMarkovClustering(RealMatrix adjacencies, Label[] labels,
                                                 double evap, int stepCount, double inflation, double epsilon,
-                                                BusDetectionAlgorithms busDetectionAlgorithm, double busInclusion)
+                                                BusDetectionAlgorithm busDetectionAlgorithm, double busInclusion)
     {
         final int size = adjacencies.getRowDimension();
-        OutputProvider.dbg("flow-based Markov clustering for %d nodes.", size);
+        OutputProvider.dbg("Flow-based Markov clustering for %d nodes.", size);
 
         List<Group> groups = list();
         RealMatrix adjacenciesOriginal = adjacencies.copy();
@@ -103,7 +112,7 @@ public class Main {
         Group busGroup = hierarchicalClustering(adjacencies, busNodes, evap, stepCount, inflation, epsilon,
                                                 GroupType.BUS);
         if (busGroup != null) {
-            OutputProvider.dbg("bus-group found:");
+            OutputProvider.dbg("Bus-group found:");
             busGroup.dbgDump("  ");
 
             Assert.implies(busGroup.childGroups.size() == 1, busGroup.localNodes != null);
@@ -117,7 +126,7 @@ public class Main {
         Group nonbusGroup = hierarchicalClustering(adjacencies, nonbusNodes, evap, stepCount, inflation, epsilon,
                                                    GroupType.CLUSTER);
         if (nonbusGroup != null) {
-            OutputProvider.dbg("clustering-group found:");
+            OutputProvider.dbg("Clustering-group found:");
             nonbusGroup.dbgDump("  ");
 
             Assert.implies(nonbusGroup.childGroups.size() == 1, nonbusGroup.localNodes != null);
@@ -138,7 +147,7 @@ public class Main {
         }
 
         Dsm dsm = shuffleNodes(adjacenciesOriginal, labels, rootGroup);
-        OutputProvider.dbg("Shuffled nodes of groups near each other.");
+        OutputProvider.dbg("Shuffled nodes of groups near each other:");
         dsm.rootGroup.dbgDump("  ");
         return dsm;
     }
@@ -155,12 +164,12 @@ public class Main {
         int[] nodeShuffle = computeShuffle(rootGroup);
         if (OutputProvider.dodbg()) {
             OutputProvider.dbg();
-            OutputProvider.dbg("Node mapping new <- original");
+            OutputProvider.dbg("Node mapping new <- original: ");
             for (int i = 0; i < nodeShuffle.length; i++) {
-                OutputProvider.dbg("      %d <- %d", i, nodeShuffle[i]);
+                OutputProvider.dbg("  %d <- %d", i, nodeShuffle[i]);
             }
+            OutputProvider.dbg();
         }
-        OutputProvider.dbg();
 
         adjacencies = shuffleMatrix(nodeShuffle, adjacencies);
         labels = shuffleArray(labels, nodeShuffle);
@@ -234,15 +243,7 @@ public class Main {
             }
 
             // Both bus or both non-bus, sort on descending size.
-            int g1Size = g1.members.cardinality();
-            int g2Size = g2.members.cardinality();
-            if (g1Size < g2Size) {
-                return -1;
-            }
-            if (g1Size > g2Size) {
-                return 1;
-            }
-            return 0;
+            return Integer.compare(g1.members.cardinality(), g2.members.cardinality());
         }
     }
 
@@ -254,7 +255,7 @@ public class Main {
      * @param adjacencies Matrix to shuffle.
      * @return The shuffled matrix.
      */
-    public static RealMatrix shuffleMatrix(int[] nodeShuffle, RealMatrix adjacencies) {
+    private static RealMatrix shuffleMatrix(int[] nodeShuffle, RealMatrix adjacencies) {
         final int size = nodeShuffle.length;
         Assert.check(adjacencies.getColumnDimension() == size);
         Assert.check(adjacencies.getRowDimension() == size);

@@ -51,7 +51,7 @@ public class Dsm {
     /**
      * Copy constructor of the {@link Dsm} class.
      *
-     * @param dsm The dsm to shallow copy from.
+     * @param dsm The DSM to shallow copy.
      */
     public Dsm(Dsm dsm) {
         this(dsm.nodeShuffle, dsm.adjacencies, dsm.labels, dsm.rootGroup);

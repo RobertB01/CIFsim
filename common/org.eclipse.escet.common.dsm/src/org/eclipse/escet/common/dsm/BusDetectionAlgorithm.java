@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.common.dsm;
 
-/** Bus detection algorithms. */
-public enum BusDetectionAlgorithms {
+/** Available bus detection algorithms. */
+public enum BusDetectionAlgorithm {
     /** No bus detection. */
     NO_BUS,
 

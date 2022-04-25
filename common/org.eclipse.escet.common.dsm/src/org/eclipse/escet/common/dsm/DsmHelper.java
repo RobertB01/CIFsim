@@ -54,7 +54,7 @@ public class DsmHelper {
     }
 
     /**
-     * Get the bus nodes from a group.
+     * Get the nodes of a bus group.
      *
      * @param gr The group to analyze.
      * @return The bus nodes in the group.
@@ -76,10 +76,10 @@ public class DsmHelper {
     }
 
     /**
-     * Get the first group of bus type.
+     * Get the first group with a bus type.
      *
      * @param gr The root group to search in.
-     * @return The first group of bus type, or {@code null} if no such group is found.
+     * @return The first group with a bus type, or {@code null} if no such group is found.
      */
     public static Group getBusGroup(Group gr) {
         if (gr.groupType == BUS) {
@@ -101,10 +101,10 @@ public class DsmHelper {
     }
 
     /**
-     * Get the first group of cluster type.
+     * Get the first group with a cluster type.
      *
      * @param gr The root group to search in.
-     * @return The first group of cluster type, or {@code null} if no such group is found.
+     * @return The first group with a cluster type, or {@code null} if no such group is found.
      */
     public static Group getNonbusGroup(Group gr) {
         if (gr.groupType == BUS) {
