@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeUppercase;
 
 import java.awt.Color;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -80,7 +81,9 @@ public class Configuration {
         // Read default properties and put into a map.
         Properties defaultConfig = new Properties();
         String defaultConfigPath = Configuration.class.getPackageName().replace(".", "/") + "/default.properties";
-        try (InputStream stream = getClass().getClassLoader().getResourceAsStream(defaultConfigPath)) {
+        try (InputStream rstream = getClass().getClassLoader().getResourceAsStream(defaultConfigPath);
+             InputStream stream = new BufferedInputStream(rstream))
+        {
             defaultConfig.load(stream);
         } catch (IOException ex) {
             throw new RuntimeException("Failed to read default railroad diagram generator configuration.", ex);
@@ -414,7 +417,9 @@ public class Configuration {
     public void loadPropertiesFile(Path path) throws IOException {
         Properties props = new Properties();
 
-        try (FileInputStream stream = new FileInputStream(path.toFile())) {
+        try (FileInputStream fstream = new FileInputStream(path.toFile());
+             InputStream stream = new BufferedInputStream(fstream))
+        {
             props.load(stream);
         } catch (FileNotFoundException ex) {
             throw new IOException(fmt("Could not open file \"%s\".", path), ex);
