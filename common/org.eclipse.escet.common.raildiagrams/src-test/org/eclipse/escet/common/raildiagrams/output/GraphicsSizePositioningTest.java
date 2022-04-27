@@ -16,6 +16,7 @@ package org.eclipse.escet.common.raildiagrams.output;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.Color;
+import java.util.function.Consumer;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
@@ -46,7 +47,8 @@ public class GraphicsSizePositioningTest {
     @Before
     public void setup() {
         OutputTarget target = new NormalImageOutput();
-        config = new Configuration(target);
+        Consumer<String> debugLogger = null;
+        config = new Configuration(target, debugLogger);
         solver = new Solver();
     }
 

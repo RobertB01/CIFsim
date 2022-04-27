@@ -22,6 +22,9 @@ import static org.junit.Assert.assertEquals;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.function.Consumer;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
@@ -39,6 +42,9 @@ import org.junit.Test;
 public class DebugImageOutputTest {
     /** If not {@code null} the directory to dump arc test images for manual inspection. */
     private final String testDumpDir = null;
+
+    /** The debug logger to use. */
+    private final Consumer<String> debugLogger = null;
 
     /** Output generator instance for testing. */
     private ImageOutput output;
@@ -72,9 +78,9 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testEmptyHorLine() {
+    public void testEmptyHorLine() throws IOException {
         final int lineWidth = 1;
-        Configuration config = new Configuration(output);
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
@@ -84,7 +90,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestHLineimg0_%d.png", testDumpDir, File.separator, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
@@ -93,9 +99,9 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testHorLineOneDistance() {
+    public void testHorLineOneDistance() throws IOException {
         final int lineWidth = 1;
-        Configuration config = new Configuration(output);
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
@@ -106,7 +112,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestHLineimg1_%d.png", testDumpDir, File.separator, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
@@ -116,9 +122,9 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testHorLineTwoDistance() {
+    public void testHorLineTwoDistance() throws IOException {
         final int lineWidth = 1;
-        Configuration config = new Configuration(output);
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         HorLine hLine = new HorLine(solver, "prefix", Color.BLACK, lineWidth);
@@ -129,7 +135,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestHLineimg2_%d.png", testDumpDir, File.separator, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(2, 5)));
@@ -140,9 +146,9 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testEmptyVertLine() {
+    public void testEmptyVertLine() throws IOException {
         final int lineWidth = 1;
-        Configuration config = new Configuration(output);
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
@@ -152,7 +158,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestVLineimg0_%d.png", testDumpDir, File.separator, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
@@ -161,9 +167,9 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testVertLineOneDistance() {
+    public void testVertLineOneDistance() throws IOException {
         final int lineWidth = 1;
-        Configuration config = new Configuration(output);
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
@@ -174,7 +180,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestVLineimg1_%d.png", testDumpDir, File.separator, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
@@ -184,9 +190,9 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testVertLineTwoDistance() {
+    public void testVertLineTwoDistance() throws IOException {
         final int lineWidth = 1;
-        Configuration config = new Configuration(output);
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         VertLine vLine = new VertLine(solver, "prefix", Color.BLACK, lineWidth);
@@ -197,7 +203,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestVLineimg2_%d.png", testDumpDir, File.separator, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         assertEquals(convertRGB(CONNECT_POINT), convertRGB(result.getRGB(3, 4)));
@@ -208,25 +214,25 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBottomRightArc11w1() {
+    public void testBottomRightArc11w1() throws IOException {
         tryBottomRightArc(11, 1);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBottomRightArc10w2() {
+    public void testBottomRightArc10w2() throws IOException {
         tryBottomRightArc(10, 2);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBottomRightArc14w3() {
+    public void testBottomRightArc14w3() throws IOException {
         tryBottomRightArc(14, 3);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBottomRightArc15w4() {
+    public void testBottomRightArc15w4() throws IOException {
         tryBottomRightArc(15, 4);
     }
 
@@ -235,9 +241,10 @@ public class DebugImageOutputTest {
      *
      * @param size Size of the arc.
      * @param lineWidth Width of the line.
+     * @throws IOException In case of an I/O error.
      */
-    private void tryBottomRightArc(int size, int lineWidth) {
-        Configuration config = new Configuration(output);
+    private void tryBottomRightArc(int size, int lineWidth) throws IOException {
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
@@ -255,7 +262,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestBRimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         for (int i = 0; i < lineWidth; i++) {
@@ -268,25 +275,25 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testTopLeftArc11w1() {
+    public void testTopLeftArc11w1() throws IOException {
         tryTopLeftArc(11, 1);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testTopLeftArc10w2() {
+    public void testTopLeftArc10w2() throws IOException {
         tryTopLeftArc(10, 2);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testTopLeftArc14w3() {
+    public void testTopLeftArc14w3() throws IOException {
         tryTopLeftArc(14, 3);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testTopLeftArc15w4() {
+    public void testTopLeftArc15w4() throws IOException {
         tryTopLeftArc(15, 4);
     }
 
@@ -295,9 +302,10 @@ public class DebugImageOutputTest {
      *
      * @param size Size of the arc.
      * @param lineWidth Width of the line.
+     * @throws IOException In case of an I/O error.
      */
-    private void tryTopLeftArc(int size, int lineWidth) {
-        Configuration config = new Configuration(output);
+    private void tryTopLeftArc(int size, int lineWidth) throws IOException {
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
@@ -315,7 +323,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestTLimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         for (int i = 0; i < lineWidth; i++) {
@@ -328,25 +336,25 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBottomLeftArc11w1() {
+    public void testBottomLeftArc11w1() throws IOException {
         tryBottomLeftArc(11, 1);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBottomLeftArc10w2() {
+    public void testBottomLeftArc10w2() throws IOException {
         tryBottomLeftArc(10, 2);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBottomLeftArc14w3() {
+    public void testBottomLeftArc14w3() throws IOException {
         tryBottomLeftArc(14, 3);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBottomLeftArc15w4() {
+    public void testBottomLeftArc15w4() throws IOException {
         tryBottomLeftArc(15, 4);
     }
 
@@ -355,9 +363,10 @@ public class DebugImageOutputTest {
      *
      * @param size Size of the arc.
      * @param lineWidth Width of the line.
+     * @throws IOException In case of an I/O error.
      */
-    private void tryBottomLeftArc(int size, int lineWidth) {
-        Configuration config = new Configuration(output);
+    private void tryBottomLeftArc(int size, int lineWidth) throws IOException {
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
@@ -375,7 +384,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestBLimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         for (int i = 0; i < lineWidth; i++) {
@@ -388,25 +397,25 @@ public class DebugImageOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testTopRightArc11w1() {
+    public void testTopRightArc11w1() throws IOException {
         tryTopRightArc(11, 1);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testTopRightArc10w2() {
+    public void testTopRightArc10w2() throws IOException {
         tryTopRightArc(10, 2);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testTopRightArc14w3() {
+    public void testTopRightArc14w3() throws IOException {
         tryTopRightArc(14, 3);
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testTopRightArc15w4() {
+    public void testTopRightArc15w4() throws IOException {
         tryTopRightArc(15, 4);
     }
 
@@ -415,9 +424,10 @@ public class DebugImageOutputTest {
      *
      * @param size Size of the arc.
      * @param lineWidth Width of the line.
+     * @throws IOException In case of an I/O error.
      */
-    private void tryTopRightArc(int size, int lineWidth) {
-        Configuration config = new Configuration(output);
+    private void tryTopRightArc(int size, int lineWidth) throws IOException {
+        Configuration config = new Configuration(output, debugLogger);
 
         output.prepareOutputFile(64, 32, Color.WHITE);
         final int xpos = 3;
@@ -435,7 +445,7 @@ public class DebugImageOutputTest {
         BufferedImage result = output.getOutput();
         if (testDumpDir != null) {
             String fname = fmt("%s%stestTRimg_%d_%d.png", testDumpDir, File.separator, size, lineWidth);
-            output.writeOutputFile(fname);
+            output.writeOutputFile(Paths.get(fname));
         }
 
         for (int i = 0; i < lineWidth; i++) {

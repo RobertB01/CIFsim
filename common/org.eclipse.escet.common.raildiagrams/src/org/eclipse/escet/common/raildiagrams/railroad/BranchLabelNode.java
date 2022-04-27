@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
 import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
 import java.awt.Color;
@@ -62,9 +60,9 @@ public class BranchLabelNode extends DiagramElement {
         Size2D textSize = textSizeOffset.size;
         Position2D textOffset = textSizeOffset.offset;
 
-        if (dodbg() && config.getDebugSetting(DebugDisplayKind.STRUCTURE)) {
-            writeDumpHeaderElements(this, null);
-            dbg();
+        if (config.dodbg() && config.getDebugSetting(DebugDisplayKind.STRUCTURE)) {
+            writeDumpHeaderElements(config, this, null);
+            config.dbg();
         }
 
         // Compute size of the box holding the text, and the position of the text in it.
@@ -101,19 +99,19 @@ public class BranchLabelNode extends DiagramElement {
 
         boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
         boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
-        if ((dumpEquations || dumpRelCoords) && dodbg()) {
-            writeDumpHeaderElements(this, null);
-            dbg();
+        if ((dumpEquations || dumpRelCoords) && config.dodbg()) {
+            writeDumpHeaderElements(config, this, null);
+            config.dbg();
             if (dumpEquations) {
-                solver.dumpRelations();
-                dbg();
+                solver.dumpRelations(config);
+                config.dbg();
             }
 
             if (dumpRelCoords) {
-                dumpElementBox();
-                textArea.dump(solver, 0, 0);
-                rail.dump(solver, 0, 0);
-                dbg();
+                dumpElementBox(config);
+                textArea.dump(config, solver, 0, 0);
+                rail.dump(config, solver, 0, 0);
+                config.dbg();
             }
         }
     }

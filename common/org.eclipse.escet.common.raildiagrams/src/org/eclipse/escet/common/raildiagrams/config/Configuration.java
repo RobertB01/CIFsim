@@ -23,15 +23,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
 import org.eclipse.escet.common.raildiagrams.output.OutputTarget;
 import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
@@ -59,13 +61,21 @@ public class Configuration {
     /** Output target knowing about text sizes. */
     private OutputTarget outputTarget;
 
+    /** The debug logger to use, or {@code null} to not perform debug logging. */
+    private Consumer<String> debugLogger;
+
+    /** The level of indentation for debug logging. */
+    private int debugLevel = 0;
+
     /**
      * Constructor of the {@link Configuration} class.
      *
      * @param outputTarget Output target knowing about text sizes.
+     * @param debugLogger The debug logger to use, or {@code null} to not perform debug logging.
      */
-    public Configuration(OutputTarget outputTarget) {
+    public Configuration(OutputTarget outputTarget, Consumer<String> debugLogger) {
         this.outputTarget = outputTarget;
+        this.debugLogger = debugLogger;
 
         // Read default properties and put into a map.
         Properties defaultConfig = new Properties();
@@ -77,6 +87,48 @@ public class Configuration {
         }
         for (String key: defaultConfig.stringPropertyNames()) {
             defaultProperties.put(key, defaultConfig.getProperty(key));
+        }
+    }
+
+    /**
+     * Returns whether debug output is enabled.
+     *
+     * @return {@code true} if debug output is enabled, {@code false} otherwise.
+     */
+    public boolean dodbg() {
+        return debugLogger != null;
+    }
+
+    /** Increases the debug indentation level by one. */
+    public void idbg() {
+        debugLevel++;
+    }
+
+    /** Decreases the debug indentation level by one. */
+    public void ddbg() {
+        Assert.check(debugLevel > 0);
+        debugLevel--;
+    }
+
+    /** Outputs an empty line of debug text, if debugging is enabled, and does nothing otherwise. */
+    public void dbg() {
+        dbg("");
+    }
+
+    /**
+     * Outputs a formatted line of debug text, if debugging is enabled, and does nothing otherwise.
+     *
+     * @param text The line of text to output, as format pattern.
+     * @param args The format pattern arguments.
+     */
+    public void dbg(String text, Object... args) {
+        if (dodbg()) {
+            String formattedText = fmt(text, args);
+            if (debugLevel > 0) {
+                formattedText = Strings.indent(formattedText, debugLevel * 4);
+            }
+            formattedText = formattedText.stripTrailing();
+            debugLogger.accept(formattedText);
         }
     }
 
@@ -356,17 +408,18 @@ public class Configuration {
     /**
      * Load a properties file into the configuration.
      *
-     * @param path The absolute path to the properties file.
+     * @param path The path to the properties file.
+     * @throws IOException In case of an I/O error.
      */
-    public void loadPropertiesFile(String path) {
+    public void loadPropertiesFile(Path path) throws IOException {
         Properties props = new Properties();
 
-        try (FileInputStream stream = new FileInputStream(path)) {
+        try (FileInputStream stream = new FileInputStream(path.toFile())) {
             props.load(stream);
         } catch (FileNotFoundException ex) {
-            throw new InputOutputException(fmt("Could not open file \"%s\".", path), ex);
+            throw new IOException(fmt("Could not open file \"%s\".", path), ex);
         } catch (IOException ex) {
-            throw new InputOutputException(fmt("Could not read file \"%s\".", path), ex);
+            throw new IOException(fmt("Could not read file \"%s\".", path), ex);
         }
 
         // Extract the strings from the loaded properties and copy them to the global map.

@@ -13,10 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.solver;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -33,6 +29,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 
 /**
  * Set of variables that are equal to each other, modulo some offset.
@@ -95,8 +92,9 @@ public class EqualityCluster {
      * </p>
      *
      * @param dumpSolving Whether to dump details of solving the position equations.
+     * @param config Configuration to use.
      */
-    public void initialize(boolean dumpSolving) {
+    public void initialize(boolean dumpSolving, Configuration config) {
         // Singleton equality cluster have no equations to initialize from.
         if (equalities.isEmpty()) {
             Assert.check(variables.size() == 1);
@@ -135,12 +133,12 @@ public class EqualityCluster {
                     variables.put(eqRel.a, offsetA);
                     variables.put(eqRel.b, offsetB);
                     Assert.check(-offsetA + eqRel.offset + offsetB == 0);
-                    if (dumpSolving && dodbg()) {
-                        dbg();
-                        dbg("%s:", eqRel);
-                        idbg();
-                        dbg("init-eq, first: %s = %d, %s = %d", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
-                        ddbg();
+                    if (dumpSolving && config.dodbg()) {
+                        config.dbg();
+                        config.dbg("%s:", eqRel);
+                        config.idbg();
+                        config.dbg("init-eq, first: %s = %d, %s = %d", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
+                        config.ddbg();
                     }
                     first = false;
                     // eqRel completely done.
@@ -171,12 +169,13 @@ public class EqualityCluster {
                         offsetA = offsetB + eqRel.offset;
                         variables.put(eqRel.a, offsetA);
                         Assert.check(-offsetA + eqRel.offset + offsetB == 0);
-                        if (dumpSolving && dodbg()) {
-                            dbg();
-                            dbg("[add-A] %s:", eqRel);
-                            idbg();
-                            dbg("init-eq, new a: %s = %d, %s = %d", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
-                            ddbg();
+                        if (dumpSolving && config.dodbg()) {
+                            config.dbg();
+                            config.dbg("[add-A] %s:", eqRel);
+                            config.idbg();
+                            config.dbg("init-eq, new a: %s = %d, %s = %d", eqRel.a, 100 - offsetA, eqRel.b,
+                                    100 - offsetB);
+                            config.ddbg();
                         }
                         continue;
                     }
@@ -197,18 +196,19 @@ public class EqualityCluster {
                         offsetB = offsetA - eqRel.offset;
                         variables.put(eqRel.b, offsetB);
                         Assert.check(-offsetA + eqRel.offset + offsetB == 0);
-                        if (dumpSolving && dodbg()) {
-                            dbg();
-                            dbg("[add-B] %s:", eqRel);
-                            idbg();
-                            dbg("init-eq, new b: %s = %d, %s = %d", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
-                            ddbg();
+                        if (dumpSolving && config.dodbg()) {
+                            config.dbg();
+                            config.dbg("[add-B] %s:", eqRel);
+                            config.idbg();
+                            config.dbg("init-eq, new b: %s = %d, %s = %d", eqRel.a, 100 - offsetA, eqRel.b,
+                                    100 - offsetB);
+                            config.ddbg();
                         }
                         continue;
                     } else {
                         // Both are here. There are cycles in the equality relations.
                         if (dumpSolving) {
-                            dumpEqualityCycle(eqRel);
+                            dumpEqualityCycle(config, eqRel);
                         }
 
                         Assert.check(-offsetA + eqRel.offset + offsetB == 0,
@@ -232,41 +232,43 @@ public class EqualityCluster {
     /**
      * Dump the data in the equality cluster.
      *
+     * @param config Configuration to use.
      * @param name Name of the node performing a solve.
      */
-    public void dump(String name) {
-        if (!dodbg()) {
+    public void dump(Configuration config, String name) {
+        if (!config.dodbg()) {
             return;
         }
 
-        dbg("Equality cluster of %s:", name);
-        idbg();
+        config.dbg("Equality cluster of %s:", name);
+        config.idbg();
         for (Entry<Variable, Integer> entry: variables.entrySet()) {
-            dbg("C == %s + %s", entry.getKey(), entry.getValue());
+            config.dbg("C == %s + %s", entry.getKey(), entry.getValue());
         }
-        ddbg();
+        config.ddbg();
     }
 
     /**
      * Dump an equality dependency cycle to the debug output.
      *
+     * @param config Configuration to use.
      * @param eqRel Equality relation that introduced a cycle.
      */
-    private void dumpEqualityCycle(EqRelation eqRel) {
+    private void dumpEqualityCycle(Configuration config, EqRelation eqRel) {
         List<Variable> addedVars = list();
         Set<EqRelation> addedRels = set();
         Map<Variable, EqRelation> relByVar = map();
         addedVars.add(eqRel.a);
         int idx = findCycle(addedVars, addedRels, relByVar);
         if (idx >= 0) {
-            dbg("Cycle with %s:", addedVars.get(idx));
-            idbg();
+            config.dbg("Cycle with %s:", addedVars.get(idx));
+            config.idbg();
             for (; idx < addedVars.size(); idx++) {
                 Variable w = addedVars.get(idx);
                 EqRelation r = relByVar.get(w);
-                dbg("%s due to %s", w, r != null ? r : "-");
+                config.dbg("%s due to %s", w, r != null ? r : "-");
             }
-            ddbg();
+            config.ddbg();
         }
     }
 
@@ -316,10 +318,11 @@ public class EqualityCluster {
      *
      * @param leRel Less-equal relation to check.
      * @param dumpSolving Whether to dump details of solving the position equations.
+     * @param config Configuration to use.
      */
-    public void checkLeRelation(LeRelation leRel, boolean dumpSolving) {
-        if (dumpSolving && dodbg()) {
-            dbg("checkLEReleation: %s", leRel);
+    public void checkLeRelation(LeRelation leRel, boolean dumpSolving, Configuration config) {
+        if (dumpSolving && config.dodbg()) {
+            config.dbg("checkLEReleation: %s", leRel);
         }
         int offsetA = variables.get(leRel.a);
         int offsetB = variables.get(leRel.b);
@@ -342,8 +345,9 @@ public class EqualityCluster {
      * @param varValues Storage of variable assignments.
      * @param cValue The common C value to use for assigning variables.
      * @param dumpSolving Whether to dump details of solving the position equations.
+     * @param config Configuration to use.
      */
-    public void assignVariables(int[] varValues, int cValue, boolean dumpSolving) {
+    public void assignVariables(int[] varValues, int cValue, boolean dumpSolving, Configuration config) {
         for (Entry<Variable, Integer> entry: variables.entrySet()) {
             int varValue = cValue - entry.getValue();
             // To allow for empty elements, compare with -1 rather than 0.
@@ -355,17 +359,17 @@ public class EqualityCluster {
             varValues[varIndex] = varValue;
         }
         // Dump the variables in increasing value.
-        if (dumpSolving && dodbg()) {
+        if (dumpSolving && config.dodbg()) {
             List<Variable> sortedVars = listc(variables.size());
             for (Variable v: variables.keySet()) {
                 sortedVars.add(v);
             }
             Collections.sort(sortedVars, new VarValueComparer(varValues));
-            idbg();
+            config.idbg();
             for (Variable v: sortedVars) {
-                dbg("%s = %d", v, varValues[v.index]);
+                config.dbg("%s = %d", v, varValues[v.index]);
             }
-            ddbg();
+            config.ddbg();
         }
     }
 

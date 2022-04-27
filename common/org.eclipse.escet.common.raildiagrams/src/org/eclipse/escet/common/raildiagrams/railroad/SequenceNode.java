@@ -13,10 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -158,29 +154,29 @@ public class SequenceNode extends DiagramElement {
 
         boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
         boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
-        if ((dumpEquations || dumpRelCoords) && dodbg()) {
-            writeDumpHeaderElements(this, null);
-            idbg();
+        if ((dumpEquations || dumpRelCoords) && config.dodbg()) {
+            writeDumpHeaderElements(config, this, null);
+            config.idbg();
             boolean first = true;
             for (SequenceRow row: rows) {
                 if (first) {
                     first = false;
                 } else {
-                    dbg();
+                    config.dbg();
                 }
                 for (DiagramElement element: row.elements) {
-                    dbg("Child %s", getElementName(element));
+                    config.dbg("Child %s", getElementName(element));
                 }
             }
-            ddbg();
+            config.ddbg();
 
             if (dumpEquations) {
-                solver.dumpRelations();
-                dbg();
+                solver.dumpRelations(config);
+                config.dbg();
             }
             if (dumpRelCoords) {
-                dumpElementBox();
-                dbg();
+                dumpElementBox(config);
+                config.dbg();
             }
         }
     }

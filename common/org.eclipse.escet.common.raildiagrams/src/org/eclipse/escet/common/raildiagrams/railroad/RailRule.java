@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.raildiagrams.graphics.TextArea.makeTextArea;
 import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
@@ -93,17 +91,17 @@ public class RailRule extends DiagramElement {
 
         boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
         boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
-        if ((dumpEquations || dumpRelCoords) && dodbg()) {
-            writeDumpHeaderElements(this, list(rootNode));
-            dbg();
+        if ((dumpEquations || dumpRelCoords) && config.dodbg()) {
+            writeDumpHeaderElements(config, this, list(rootNode));
+            config.dbg();
 
             if (dumpEquations) {
-                solver.dumpRelations();
-                dbg();
+                solver.dumpRelations(config);
+                config.dbg();
             }
             if (dumpRelCoords) {
-                dumpElementBox();
-                dbg();
+                dumpElementBox(config);
+                config.dbg();
             }
         }
     }

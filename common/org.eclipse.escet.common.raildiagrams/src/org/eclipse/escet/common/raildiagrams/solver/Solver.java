@@ -13,10 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.solver;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -102,19 +98,23 @@ public class Solver {
         addRelation(leRel);
     }
 
-    /** Dump the variables and relations for debugging. */
-    public void dumpRelations() {
-        if (!dodbg()) {
+    /**
+     * Dump the variables and relations for debugging.
+     *
+     * @param config Configuration to use.
+     */
+    public void dumpRelations(Configuration config) {
+        if (!config.dodbg()) {
             return;
         }
 
-        dbg("Relations:");
-        idbg();
+        config.dbg("Relations:");
+        config.idbg();
         for (VariableRelation r: relations) {
-            dbg("%s", r);
+            config.dbg("%s", r);
         }
-        ddbg();
-        dbg();
+        config.ddbg();
+        config.dbg();
     }
 
     /** Dump relations in unit tests. */
@@ -146,19 +146,19 @@ public class Solver {
         constructEqualityClusters();
         addSingletonEqualities();
         for (EqualityCluster cluster: equalityClusters) {
-            cluster.initialize(dumpSolving);
+            cluster.initialize(dumpSolving, config);
         }
         if (dumpSolving) {
             for (EqualityCluster cluster: equalityClusters) {
-                cluster.dump(name);
+                cluster.dump(config, name);
             }
         }
 
         // Build a cluster graph with less-equal relations, and verify it has no cycles.
-        makeLessEqualGraph(dumpSolving);
+        makeLessEqualGraph(dumpSolving, config);
         checkNoCycles();
 
-        solution = assignValues(dumpSolving); // And finally, assign values to the variables.
+        solution = assignValues(dumpSolving, config); // And finally, assign values to the variables.
     }
 
     /**
@@ -250,8 +250,9 @@ public class Solver {
      * Assign the {@link LeRelation}s to the found (and initialized) equality clusters.
      *
      * @param dumpSolving Whether to dump details of solving the position equations.
+     * @param config Configuration to use.
      */
-    private void makeLessEqualGraph(boolean dumpSolving) {
+    private void makeLessEqualGraph(boolean dumpSolving, Configuration config) {
         for (VariableRelation rel: relations) {
             if (!(rel instanceof LeRelation)) {
                 continue;
@@ -264,7 +265,7 @@ public class Solver {
             Assert.notNull(clB, fmt("Variable '%s' is not a variable here", leRel.b));
             if (clA == clB) {
                 // Both variables are in the same equality cluster, verify it.
-                clA.checkLeRelation(leRel, dumpSolving);
+                clA.checkLeRelation(leRel, dumpSolving, config);
                 continue;
             }
             LeClusterRelation clLeRel = new LeClusterRelation(leRel, clA, clB);
@@ -352,9 +353,10 @@ public class Solver {
      * Walk along the equality clusters, and decide about variable values.
      *
      * @param dumpSolving Whether to dump details of solving the position equations.
+     * @param config Configuration to use.
      * @return Values assigned to the variables.
      */
-    private int[] assignValues(boolean dumpSolving) {
+    private int[] assignValues(boolean dumpSolving, Configuration config) {
         // Assigned values to the variables, negative value means no value has been assigned yet.
         int[] varValues = new int[variables.size()];
         Arrays.fill(varValues, -10);
@@ -386,9 +388,9 @@ public class Solver {
                     // First cluster in the chain.
                     int cValue = cluster.getMinimalValidC();
                     if (dumpSolving) {
-                        dbg("Smallest cluster: minimal C = %d", cValue);
+                        config.dbg("Smallest cluster: minimal C = %d", cValue);
                     }
-                    cluster.assignVariables(varValues, cValue, dumpSolving);
+                    cluster.assignVariables(varValues, cValue, dumpSolving, config);
                     assignedClusters.add(cluster);
                     addSuccessorClusters(cluster.remoteBiggers, nextActiveClusters);
                     progress = true;
@@ -396,9 +398,9 @@ public class Solver {
                     // All predecessors done.
                     int cValue = cluster.getMinimalValidC(varValues);
                     if (dumpSolving) {
-                        dbg("next cluster: minimal C = %d", cValue);
+                        config.dbg("next cluster: minimal C = %d", cValue);
                     }
-                    cluster.assignVariables(varValues, cValue, dumpSolving);
+                    cluster.assignVariables(varValues, cValue, dumpSolving, config);
                     assignedClusters.add(cluster);
                     addSuccessorClusters(cluster.remoteBiggers, nextActiveClusters);
                     progress = true;

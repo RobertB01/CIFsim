@@ -15,6 +15,8 @@ package org.eclipse.escet.common.raildiagrams.output;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.Path;
 
 import org.eclipse.escet.common.raildiagrams.graphics.Area;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
@@ -41,7 +43,7 @@ public class NormalImageOutput extends ImageOutput {
     }
 
     @Override
-    public void writeOutputFile(String path) {
+    public void writeOutputFile(Path path) throws IOException {
         currentDiagram.saveImage(path);
     }
 }
