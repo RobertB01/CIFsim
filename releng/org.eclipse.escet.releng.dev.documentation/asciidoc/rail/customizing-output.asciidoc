@@ -527,7 +527,7 @@ include::{incdir-rail}/sequence_loops.rr[]
 
 This results in:
 
-image::{rail-imgsdir}/sequence_loops.png[Sequence of loops]
+image::{rail-imgsdir}/sequence_loops.rr.png[Sequence of loops]
 
 Other nodes all have some space at either end, making it less apparent in those cases.
 
