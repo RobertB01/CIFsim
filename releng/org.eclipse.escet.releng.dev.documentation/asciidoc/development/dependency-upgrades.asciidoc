@@ -90,7 +90,6 @@ To upgrade to a new Eclipse Platform/IDE version:
 ** Ensure the Maven version in `misc/license-check-dependencies/Jenkinsfile` matches the embedded Maven version.
 ** Update versions of Maven plugins (`maven-plugin-*`) to match new Maven version (`org.eclipse.escet.common.asciidoc/pom.xml`).
 ** Update version of the `maven-plugin-plugin` if needed (`org.eclipse.escet.releng.configuration/pom.xml`).
-** Update `maven.minimal.version` to match the embedded Maven version (`org.eclipse.escet.releng.configuration/pom.xml`).
 
 * Validation
 ** Run a <<development-building-and-testing-chapter-index,Maven build>>.
@@ -111,8 +110,9 @@ The Eclipse ESCET upgrade policy for Tycho is:
 
 To upgrade to a new Tycho version:
 
-* Update version in `org.eclipse.escet.root/.mvn/extensions.xml`.
-* Update version in `org.eclipse.escet.releng.configuration/pom.xml`.
+* Update `version` in `org.eclipse.escet.root/.mvn/extensions.xml`.
+* Update `tycho.version` in `org.eclipse.escet.releng.configuration/pom.xml`.
+* Update `maven.minimal.version` in `org.eclipse.escet.releng.configuration/pom.xml`, if the new Tycho version requires a higher Maven version.
 * Check Tycho release notes for changes and adapt as necessary.
 * Run a <<development-building-and-testing-chapter-index,Maven build>>.
 * Ensure no errors or warnings during Maven build.
