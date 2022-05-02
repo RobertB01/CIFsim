@@ -101,6 +101,10 @@ For more information, see the section on <<tools-datasynth-stats,statistics>> be
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
 
+* _Requirement reference warning_: Whether to warn for plant automata or plant invariants that reference requirement automata.
+Is enabled by default.
+Disabling this warning may increase the performance of synthesis.
+
 Internally during synthesis, predicates are represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 There are various options that can influence the use of BDDs.
 The following options are part of the _BDD_ sub-category of the _Synthesis_ category:
@@ -948,6 +952,10 @@ The synthesis algorithm also checks whether there are events that are never enab
 If such a problem is detected, a warning is printed to the console.
 Among others, checks are included for events that are forbidden by automaton guards, event/state exclusion plant and requirement invariants, and state plant invariants.
 
+The synthesis algorithm also checks for plant invariants or plant automata that reference requirement automata.
+If such a problem is detected, a warning is printed to the console.
+Among others, references in guards, updates, invariant predicates, initialization predicates, marked predicates and initial values for discrete variables are detected.
+
 indexterm:[data-based supervisory controller synthesis,variable order]
 
 [[tools-datasynth-var-order]]
@@ -1244,6 +1252,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Event warning
 | <<tools-detasynth-early-prob-detect>> and <<tools-datasynth-supervisor>>
 | Warning for never enabled events
+| Disable for better performance
+
+| Warnings
+| Requirement reference warning
+| <<tools-detasynth-early-prob-detect>>
+| Warning for plants that reference requirements
 | Disable for better performance
 |===
 
