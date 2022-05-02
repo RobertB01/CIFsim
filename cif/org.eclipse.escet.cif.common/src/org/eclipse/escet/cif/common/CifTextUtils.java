@@ -757,8 +757,8 @@ public class CifTextUtils {
      */
     public static String updatesToStr(List<Update> updates) {
         List<String> txts = listc(updates.size());
-        for (Update expr: updates) {
-            txts.add(updateToStr(expr));
+        for (Update update: updates) {
+            txts.add(updateToStr(update));
         }
         return String.join(", ", txts);
     }
@@ -812,7 +812,6 @@ public class CifTextUtils {
         }
 
         throw new RuntimeException("Unknown update: " + update);
-
     }
 
     /**
