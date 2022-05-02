@@ -1,0 +1,67 @@
+WARNING: Plant invariant "<bool>R.l" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "not R.l" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R.l or true" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "true or R.l" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "if R.l: true elif true: true else true end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "if true: R.l elif true: true else true end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "if true: true elif R.l: true else true end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "if true: true elif true: R.l else true end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "if true: true elif true: true else R.l end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "switch R.l: case true: true else true end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "switch true: case R.l: true else true end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "switch true: case true: R.l else true end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "switch true: case true: true else R.l end" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "[true, false][0:R.v][0]" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "[true, false][R.v:1][0]" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "[R.l, false][0:1][0]" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "f(R.l)" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R.l in [true, false]" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "true in [R.l, false]" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R.l in {true}" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "true in {R.l}" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "a2[0]" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "true in {R.l: true}" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "true in {true: R.l}" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R.l in {true: true}" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R.v = 3" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "a" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "b" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R2.c" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R3.c" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "c1 = 0.0" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "c2 = 0.0" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R4.c = 0.0" in the top level scope of the specification references a requirement.
+WARNING: Plant invariant "R.l" in the top level scope of the specification references a requirement.
+WARNING: Initial value of plant discrete variables "P1.d" references a requirement.
+WARNING: Plant initialization predicate "R.l" in the location of automaton "P2" references a requirement.
+WARNING: Plant marked predicate "R.l" in the location of automaton "P3" references a requirement.
+WARNING: Plant edge guard "R.l" in the location of automaton "P4" references a requirement.
+WARNING: Plant edge update "P5.d := R.l" in the location of automaton "P5" references a requirement.
+WARNING: Plant edge update "if R.l: P6.d := true elif true: P6.d := true else P6.d := true end" in the location of automaton "P6" references a requirement.
+WARNING: Plant edge update "if true: P6.d := R.l elif true: P6.d := true else P6.d := true end" in the location of automaton "P6" references a requirement.
+WARNING: Plant edge update "if true: P6.d := true elif R.l: P6.d := true else P6.d := true end" in the location of automaton "P6" references a requirement.
+WARNING: Plant edge update "if true: P6.d := true elif true: P6.d := R.l else P6.d := true end" in the location of automaton "P6" references a requirement.
+WARNING: Plant edge update "if true: P6.d := true elif true: P6.d := true else P6.d := R.l end" in the location of automaton "P6" references a requirement.
+WARNING: plant invariant "true" in the location of automaton "R5".
+ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
+ - Unsupported linearized edges: non-determinism detected for edges of controllable event "P6.c_e" with overlapping guards: "true", "true", "true", "true", "true".
+ - Unsupported location of automaton "P1": for state invariants, only plant and requirement invariants are supported.
+ - Unsupported specification: unsupported part "<bool>R.l" of state invariant "<bool>R.l": predicate is not supported.
+ - Unsupported specification: unsupported part "[R.l, false][0:1][0]" of state invariant "[R.l, false][0:1][0]": predicate is not supported.
+ - Unsupported specification: unsupported part "[true, false][0:R.v][0]" of state invariant "[true, false][0:R.v][0]": predicate is not supported.
+ - Unsupported specification: unsupported part "[true, false][R.v:1][0]" of state invariant "[true, false][R.v:1][0]": predicate is not supported.
+ - Unsupported specification: unsupported part "a2[0]" of state invariant "a2[0]": predicate is not supported.
+ - Unsupported specification: unsupported part "c1 = 0.0" of state invariant "c1 = 0.0": binary operator "=" on values of types "real" and "real" is not supported.
+ - Unsupported specification: unsupported part "c2 = 0.0" of state invariant "c2 = 0.0": binary operator "=" on values of types "real" and "real" is not supported.
+ - Unsupported specification: unsupported part "f(R.l)" of state invariant "f(R.l)": predicate is not supported.
+ - Unsupported specification: unsupported part "R.l in [true, false]" of state invariant "R.l in [true, false]": binary operator "in" is not supported.
+ - Unsupported specification: unsupported part "R.l in {true: true}" of state invariant "R.l in {true: true}": binary operator "in" is not supported.
+ - Unsupported specification: unsupported part "R.l in {true}" of state invariant "R.l in {true}": binary operator "in" is not supported.
+ - Unsupported specification: unsupported part "R4.c = 0.0" of state invariant "R4.c = 0.0": binary operator "=" on values of types "real" and "real" is not supported.
+ - Unsupported specification: unsupported part "true in [R.l, false]" of state invariant "true in [R.l, false]": binary operator "in" is not supported.
+ - Unsupported specification: unsupported part "true in {R.l: true}" of state invariant "true in {R.l: true}": binary operator "in" is not supported.
+ - Unsupported specification: unsupported part "true in {R.l}" of state invariant "true in {R.l}": binary operator "in" is not supported.
+ - Unsupported specification: unsupported part "true in {true: R.l}" of state invariant "true in {true: R.l}": binary operator "in" is not supported.
+ - Unsupported update: assignments to continuous variables are not supported.
+ - Unsupported update: conditional updates ('if' updates) are not supported.
+ - Unsupported variable "R.v": variables with rangeless integer types are not supported.
