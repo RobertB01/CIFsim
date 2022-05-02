@@ -43,14 +43,14 @@ public class DsmInflationOption extends DoubleOption {
     /** Maximum value of the option. */
     private static final Double MAX_VALUE = 4.0;
 
-    /** Whether to show the option in a dialogue box. */
+    /** Whether to show the option in a dialog box. */
     private static final boolean SHOW_IN_DIALOG = true;
 
-    /** Description of the option in the dialogue box. */
-    private static final String DIALOG_DESCR = DESCRIPTION;
+    /** Description of the option in the dialog box. */
+    private static final String DIALOG_DESCR = "Inflation factor.";
 
     /** Label to use as prefix in the dialog box. */
-    private static final String DIALOG_OPTION_TEXT = CMD_VALUE + ":";
+    private static final String DIALOG_OPTION_TEXT = NAME + ":";
 
     /** Constructor of the {@link DsmInflationOption} class. */
     public DsmInflationOption() {

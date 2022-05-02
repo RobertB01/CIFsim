@@ -15,7 +15,7 @@ package org.eclipse.escet.common.java;
 
 import java.util.BitSet;
 
-/** Common functions around bit sets. */
+/** Common functions around bitsets. */
 public class BitSets {
     /** Constructor of the static {@link BitSets} class. */
     private BitSets() {
@@ -23,19 +23,19 @@ public class BitSets {
     }
 
     /**
-     * Construct an empty bit set with unspecified size.
+     * Construct an empty bitset with unspecified size.
      *
-     * @return The created bit set.
+     * @return The created bitset.
      */
     public static BitSet bitset() {
         return new BitSet();
     }
 
     /**
-     * Construct an empty bit set of the given size.
+     * Construct an empty bitset of the given size.
      *
-     * @param n Requested size of the bit set.
-     * @return The created bit set.
+     * @param n Requested size of the bitset.
+     * @return The created bitset.
      * @throws NegativeArraySizeException If {@code n} is negative.
      */
     public static BitSet bitset(int n) {
@@ -43,10 +43,10 @@ public class BitSets {
     }
 
     /**
-     * Construct a bit set with the indicated bits set.
+     * Construct a bitset with the indicated bits set.
      *
      * @param indices Bit numbers of bits that should be set.
-     * @return The created bit set.
+     * @return The created bitset.
      */
     public static BitSet makeBitset(int... indices) {
         BitSet bs = bitset();
@@ -55,7 +55,7 @@ public class BitSets {
     }
 
     /**
-     * Make an independent copy of the provided bit set.
+     * Make an independent copy of the provided bitset.
      *
      * @param bs Bit set to copy.
      * @return The created independent copy.
@@ -65,11 +65,11 @@ public class BitSets {
     }
 
     /**
-     * Create a new bit set of the requested size, with all bits at least up-to the requested
+     * Create a new bitset of the requested size, with all bits at least up-to the requested
      * size set to {@code true}.
      *
-     * @param n Requested size of the bit set.
-     * @return The created bit set.
+     * @param n Requested size of the bitset.
+     * @return The created bitset.
      * @throws IndexOutOfBoundsException If {@code n} is negative.
      */
     public static BitSet ones(int n) {
@@ -83,7 +83,7 @@ public class BitSets {
      *
      * @param bs Bit set to invert and truncate.
      * @param n Number of bits to invert.
-     * @return The inverted bit set (all bits that are not in {code bs} up to bit number <em>n</em>).
+     * @return The inverted bitset (all bits that are not in {@code bs} up to bit number {@code n}).
      * @throws IndexOutOfBoundsException If {@code n} is negative.
      */
     public static BitSet invert(BitSet bs, int n) {
@@ -103,7 +103,7 @@ public class BitSets {
     }
 
     /**
-     * Decide whether the bit set spans a consecutive range of {@code true} bits.
+     * Decide whether the bitset spans a consecutive range of {@code true} bits.
      *
      * @param bs Bit set to check.
      * @return Whether all {@code true} bits are consecutively ordered in the set.
@@ -131,7 +131,7 @@ public class BitSets {
     }
 
     /**
-     * Get an array with the indices of the bitset which are set to true.
+     * Get an array with the indices of the bitset which are set to {@code true}.
      *
      * @param bs The bitset.
      * @return The array with indices.
@@ -153,33 +153,10 @@ public class BitSets {
     }
 
     /**
-     * Get an array with the indices of the bitset which are set to true starting at a given position.
-     *
-     * @param bs The bitset.
-     * @param start The start position.
-     * @return The array with indices.
-     */
-    public static int[] getTrueBits(BitSet bs, int start) {
-        int[] result = new int[bs.get(0, start).cardinality()];
-        int free = 0;
-
-        for (int i = bs.nextSetBit(start); i >= 0; i = bs.nextSetBit(i + 1)) {
-            result[free] = i;
-            free++;
-
-            if (i == Integer.MAX_VALUE) {
-                break; // Or (i + 1) would overflow.
-            }
-        }
-
-        return result;
-    }
-
-    /**
      * Wrapper function for iterating over set bits of a {@link BitSet}.
      *
      * @param bitSet Bit set to iterate over.
-     * @return Iterable over the supplied bit set.
+     * @return Iterable over the supplied bitset.
      */
     public static Iterable<Integer> iterateTrueBits(BitSet bitSet) {
         return new BitSetIterator(bitSet);
@@ -189,9 +166,9 @@ public class BitSets {
      * Wrapper function for iterating over set bits of a {@link BitSet}.
      *
      * @param bitSet Bit set to iterate over.
-     * @param fromIndex Start iterating from the first true bit on or after this index.
-     * @return Iterable over the supplied bit set.
-     * @throws IndexOutOfBoundsException if the specified index is negative.
+     * @param fromIndex Start iterating from the first {@code true} bit at or after this index.
+     * @return Iterable over the supplied bitset.
+     * @throws IndexOutOfBoundsException If the specified index is negative.
      */
     public static Iterable<Integer> iterateTrueBits(BitSet bitSet, int fromIndex) {
         return new BitSetIterator(bitSet, fromIndex);

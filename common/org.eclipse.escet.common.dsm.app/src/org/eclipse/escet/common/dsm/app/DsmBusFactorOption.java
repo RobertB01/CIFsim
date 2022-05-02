@@ -31,7 +31,7 @@ public class DsmBusFactorOption extends DoubleOption {
     private static final String CMD_LONG = "bus-factor";
 
     /** Name of the optional value. */
-    private static final String CMD_VALUE = NAME;
+    private static final String CMD_VALUE = "BUSFACTOR";
 
     /** Default value of the option. */
     private static final double DEFAULT_VALUE = 2;
@@ -42,14 +42,14 @@ public class DsmBusFactorOption extends DoubleOption {
     /** Maximum value of the option. */
     private static final Double MAX_VALUE = 10000.0;
 
-    /** Whether to show the option in a dialogue box. */
+    /** Whether to show the option in a dialog box. */
     private static final boolean SHOW_IN_DIALOG = true;
 
-    /** Description of the option in the dialogue box. */
-    private static final String DIALOG_DESCR = DESCRIPTION;
+    /** Description of the option in the dialog box. */
+    private static final String DIALOG_DESCR = "Bus factor.";
 
     /** Label to use as prefix in the dialog box. */
-    private static final String DIALOG_OPTION_TEXT = CMD_VALUE + ":";
+    private static final String DIALOG_OPTION_TEXT = NAME + ":";
 
     /** Constructor of the {@link DsmBusFactorOption} class. */
     public DsmBusFactorOption() {

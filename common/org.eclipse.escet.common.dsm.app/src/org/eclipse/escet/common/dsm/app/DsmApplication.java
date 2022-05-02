@@ -13,14 +13,13 @@
 
 package org.eclipse.escet.common.dsm.app;
 
-import static org.eclipse.escet.common.dsm.DsmHelper.shuffleArray;
 import static org.eclipse.escet.common.dsm.DsmClustering.flowBasedMarkovClustering;
-import static org.eclipse.escet.common.dsm.io.ReadWriteMatrix.readMatrixFile;
-import static org.eclipse.escet.common.dsm.io.ReadWriteMatrix.writeGroups;
-import static org.eclipse.escet.common.dsm.io.ReadWriteMatrix.writeMatrixFile;
+import static org.eclipse.escet.common.dsm.DsmHelper.shuffleArray;
+import static org.eclipse.escet.common.dsm.io.ReadMatrix.readMatrixFile;
+import static org.eclipse.escet.common.dsm.io.WriteMatrix.writeGroups;
+import static org.eclipse.escet.common.dsm.io.WriteMatrix.writeMatrixFile;
 import static org.eclipse.escet.common.java.Lists.list;
 
-import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -63,7 +62,7 @@ public class DsmApplication extends Application<IOutputComponent> {
 
     @Override
     public String getAppName() {
-        return "DSM Clustering Tool";
+        return "DSM clustering tool";
     }
 
     @Override
@@ -85,17 +84,12 @@ public class DsmApplication extends Application<IOutputComponent> {
         Dsm dsm = flowBasedMarkovClustering(inputData);
         String outPath = Paths.resolve(OutputFileOption.getDerivedPath(".csv", "_out.csv"));
 
-        FileAppStream outHandle = null;
-        try {
-            outHandle = new FileAppStream(outPath);
+        try (FileAppStream stream = new FileAppStream(outPath)) {
             Label[] labels = shuffleArray(inputData.labels, dsm.nodeShuffle);
-            writeMatrixFile(outHandle, dsm.adjacencies, labels);
+            writeMatrixFile(stream, dsm.adjacencies, labels);
             if (OutputGroupsOption.getOutputGroupsOptionValue()) {
-                writeGroups(outHandle, dsm.rootGroup);
+                writeGroups(stream, dsm.rootGroup);
             }
-        } finally {
-            if (outHandle != null)
-                outHandle.close();
         }
         return 0;
     }
@@ -109,8 +103,8 @@ public class DsmApplication extends Application<IOutputComponent> {
     protected OptionCategory getAllOptions() {
         OptionCategory generalOpts = getGeneralOptionCategory();
 
-        OptionCategory clusterOpts = new OptionCategory("Clustering Options",
-                "Options to steer the clustering algorithms", list(),
+        OptionCategory clusterOpts = new OptionCategory("Clustering",
+                "Options to steer the clustering algorithms.", list(),
                 list(Options.getInstance(InputFileOption.class), Options.getInstance(OutputFileOption.class),
                         Options.getInstance(DsmEvaporationOption.class), Options.getInstance(DsmInflationOption.class),
                         Options.getInstance(DsmBusDetectionAlgorithmOption.class),
@@ -118,7 +112,7 @@ public class DsmApplication extends Application<IOutputComponent> {
                         Options.getInstance(OutputGroupsOption.class), Options.getInstance(DsmStepCountOption.class)));
 
         OptionCategory options;
-        options = new OptionCategory("DSM Clustering Tool Options", "All options for the DSM Clustering Tool.",
+        options = new OptionCategory("DSM Clustering Tool Options", "All options for the DSM clustering tool.",
                 list(generalOpts, clusterOpts), list());
         return options;
     }

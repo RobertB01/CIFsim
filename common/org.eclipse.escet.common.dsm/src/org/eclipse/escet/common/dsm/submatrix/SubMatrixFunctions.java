@@ -27,12 +27,12 @@ import org.eclipse.escet.common.dsm.Group.GroupType;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * Functions around constructing sub matrices from a parent matrix, and convert grouped sub matrix results back to the
+ * Functions around constructing sub matrices from a parent matrix, and converting grouped sub matrix results back to the
  * parent.
  *
  * <p>
  * The {@link #makeSubNodes} function takes the top-level already existing groups of the parent matrix as well as the
- * set nodes available for grouping (which should at least exclude nodes in the groups), and builds a {@link SubNode}
+ * set of nodes available for grouping (which should at least exclude nodes in the groups), and builds a {@link SubNode}
  * array that describes each node in the sub-matrix.
  * </p>
  *
@@ -106,10 +106,8 @@ public class SubMatrixFunctions {
                 // si != sj, not on main diagonal.
 
                 double total = 0;
-                int pi = subNodes[si].firstParentNode(0);
-                for (; pi >= 0; pi = subNodes[si].firstParentNode(pi + 1)) {
-                    int pj = subNodes[sj].firstParentNode(0);
-                    for (; pj >= 0; pj = subNodes[sj].firstParentNode(pj + 1)) {
+                for (int pi = subNodes[si].firstParentNode(0); pi >= 0; pi = subNodes[si].firstParentNode(pi + 1)) {
+                    for (int pj = subNodes[sj].firstParentNode(0); pj >= 0; pj = subNodes[sj].firstParentNode(pj + 1)) {
                         total += parentMatrix.getEntry(pi, pj);
                     }
                 }

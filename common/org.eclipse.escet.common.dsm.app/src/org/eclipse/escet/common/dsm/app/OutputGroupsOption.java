@@ -31,19 +31,19 @@ public class OutputGroupsOption extends BooleanOption {
     private static final String CMD_LONG = "output-groups";
 
     /** Name of the option value. */
-    private static final String CMD_VALUE = NAME;
+    private static final String CMD_VALUE = "OUTPGROUPS";
 
     /** Default value of the option. */
     private static final boolean DEFAULT_VALUE = true;
 
-    /** Whether to show the option in a dialogue box. */
+    /** Whether to show the option in a dialog box. */
     private static final boolean SHOW_IN_DIALOG = true;
 
-    /** Description of the option in the dialogue box. */
-    private static final String DIALOG_DESCR = DESCRIPTION;
+    /** Description of the option in the dialog box. */
+    private static final String DIALOG_DESCR = "Output bus and cluster node groups.";
 
     /** Label to use as prefix in the dialog box. */
-    private static final String DIALOG_OPTION_TEXT = CMD_VALUE + ":";
+    private static final String DIALOG_OPTION_TEXT = NAME + ":";
 
     /** Constructor of the {@link OutputGroupsOption} class. */
     public OutputGroupsOption() {
