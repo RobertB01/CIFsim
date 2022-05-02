@@ -25,14 +25,17 @@ import org.eclipse.escet.common.java.Assert;
 /**
  * Class for storing nested groups (subsets) of nodes.
  *
- * <p>Elementary groups are constructed with {@link #Group(GroupType groupType, BitSet members)}
- * while groups containing other groups are constructed
- * with {@link #Group(GroupType groupType, BitSet localNodes, List childGroups)}. In the latter
- * case, child groups may not overlap.</p>
+ * <p>
+ * Elementary groups are constructed with {@link #Group(GroupType groupType, BitSet members)} while groups containing
+ * other groups are constructed with {@link #Group(GroupType groupType, BitSet localNodes, List childGroups)}. In the
+ * latter case, child groups may not overlap.
+ * </p>
  *
- * <p>The group does not enforce any inherent member properties other than
- * non-overlapping at the same level. In particular, there may be holes in a group
- * and/or between groups, and a group does not need to be a single block of consecutive nodes.</p>
+ * <p>
+ * The group does not enforce any inherent member properties other than non-overlapping at the same level. In
+ * particular, there may be holes in a group and/or between groups, and a group does not need to be a single block of
+ * consecutive nodes.
+ * </p>
  */
 public class Group {
     /** Kind of group. */
@@ -41,7 +44,9 @@ public class Group {
     /**
      * Member nodes of the group and its children (should not be modified).
      *
-     * <p>Union of the child groups and the local nodes.</p>
+     * <p>
+     * Union of the child groups and the local nodes.
+     * </p>
      */
     public final BitSet members;
 
@@ -118,8 +123,7 @@ public class Group {
     }
 
     /**
-     * Get the index of the first node of this group. Returns {@code -1} if the base
-     * position has not been settled yet.
+     * Get the index of the first node of this group. Returns {@code -1} if the base position has not been settled yet.
      *
      * @return Index of the first node after shuffling it to the right spot.
      */
@@ -130,8 +134,7 @@ public class Group {
     /**
      * Get the number of nodes covered by this group after settling its position in the nodes.
      *
-     * @return {@code -1} if the position has not yet been settled, else the number of
-     *      nodes covered by this group.
+     * @return {@code -1} if the position has not yet been settled, else the number of nodes covered by this group.
      */
     public int getShuffledSize() {
         if (shuffledBase < 0) {
@@ -143,8 +146,7 @@ public class Group {
     /**
      * Return whether this is a leaf group.
      *
-     * @return {@code true} if the group is an elementary group,
-     *      {@code false} if it is a composition of child groups.
+     * @return {@code true} if the group is an elementary group, {@code false} if it is a composition of child groups.
      */
     public boolean isElementary() {
         return childGroups.isEmpty();

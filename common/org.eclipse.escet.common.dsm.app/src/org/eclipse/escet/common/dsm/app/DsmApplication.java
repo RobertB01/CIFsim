@@ -103,8 +103,8 @@ public class DsmApplication extends Application<IOutputComponent> {
     protected OptionCategory getAllOptions() {
         OptionCategory generalOpts = getGeneralOptionCategory();
 
-        OptionCategory clusterOpts = new OptionCategory("Clustering",
-                "Options to steer the clustering algorithms.", list(),
+        OptionCategory clusterOpts = new OptionCategory("Clustering", "Options to steer the clustering algorithms.",
+                list(),
                 list(Options.getInstance(InputFileOption.class), Options.getInstance(OutputFileOption.class),
                         Options.getInstance(DsmEvaporationOption.class), Options.getInstance(DsmInflationOption.class),
                         Options.getInstance(DsmBusDetectionAlgorithmOption.class),

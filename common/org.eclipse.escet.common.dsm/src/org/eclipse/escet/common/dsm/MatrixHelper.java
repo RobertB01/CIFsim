@@ -41,13 +41,11 @@ public class MatrixHelper {
      * Normalize the columns of the given matrix (sum becomes {@code 1}, if not all {@code 0}).
      *
      * @param m The matrix to normalize.
-     * @param copyData Whether to construct a new matrix as result.
-     *      If {@code false}, the given matrix is modified.
+     * @param copyData Whether to construct a new matrix as result. If {@code false}, the given matrix is modified.
      * @return The resulting normalized matrix.
      */
     public static RealMatrix normalizeColumns(RealMatrix m, boolean copyData) {
-        RealMatrix result = (copyData) ? new BlockRealMatrix(m.getRowDimension(), m.getColumnDimension())
-                                        : m;
+        RealMatrix result = (copyData) ? new BlockRealMatrix(m.getRowDimension(), m.getColumnDimension()) : m;
         for (int j = 0; j < m.getColumnDimension(); j++) {
             double[] col = m.getColumn(j);
             normalizeArray(col);
@@ -70,13 +68,11 @@ public class MatrixHelper {
      * Normalize the rows of the given matrix (sum becomes {@code 1}, if not all {@code 0}).
      *
      * @param m The matrix to normalize.
-     * @param copyData Whether to construct a new matrix as result.
-     *      If {@code false}, the given matrix is modified.
+     * @param copyData Whether to construct a new matrix as result. If {@code false}, the given matrix is modified.
      * @return The resulting normalized matrix.
      */
     public static RealMatrix normalizeRows(RealMatrix m, boolean copyData) {
-        RealMatrix result = (copyData) ? new BlockRealMatrix(m.getRowDimension(), m.getColumnDimension())
-                                       : m;
+        RealMatrix result = (copyData) ? new BlockRealMatrix(m.getRowDimension(), m.getColumnDimension()) : m;
         for (int i = 0; i < m.getRowDimension(); i++) {
             double[] row = m.getRow(i);
             normalizeArray(row);
@@ -120,7 +116,9 @@ public class MatrixHelper {
     /**
      * Prune small values of the given matrix away.
      *
-     * <p>Values below {@code cutValue} are cleared to {@code 0}, while retaining normalized columns.</p>
+     * <p>
+     * Values below {@code cutValue} are cleared to {@code 0}, while retaining normalized columns.
+     * </p>
      *
      * @param m Matrix to prune, is modified in-place.
      * @param cutValues Smallest value for each column in the matrix that is not cleared.
@@ -184,16 +182,14 @@ public class MatrixHelper {
      *
      * @param m Matrix to exponentiate entries for.
      * @param d Value to exponentiate all entries by.
-     * @param copyData Whether to construct a new matrix as result.
-     *      If {@code false}, the given matrix is modified.
+     * @param copyData Whether to construct a new matrix as result. If {@code false}, the given matrix is modified.
      * @return The resulting matrix.
      */
     public static RealMatrix scalarPower(RealMatrix m, double d, boolean copyData) {
         final int numCols = m.getColumnDimension();
         final int numRows = m.getRowDimension();
 
-        RealMatrix result = (copyData) ? new BlockRealMatrix(numRows, numCols)
-                                       : m;
+        RealMatrix result = (copyData) ? new BlockRealMatrix(numRows, numCols) : m;
 
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
@@ -207,8 +203,7 @@ public class MatrixHelper {
     /**
      * Shuffle the rows of the matrix.
      *
-     * @param rowShuffle Shuffle table, each entry {@code i} contains the original
-     *      index of the row.
+     * @param rowShuffle Shuffle table, each entry {@code i} contains the original index of the row.
      * @param m Matrix to shuffle.
      * @return The shuffled matrix.
      */
@@ -227,8 +222,7 @@ public class MatrixHelper {
     /**
      * Shuffle the columns of the matrix.
      *
-     * @param columnShuffle Shuffle table, each entry {@code i} contains the original
-     *      index of the column.
+     * @param columnShuffle Shuffle table, each entry {@code i} contains the original index of the column.
      * @param m Matrix to shuffle.
      * @return The shuffled matrix.
      */

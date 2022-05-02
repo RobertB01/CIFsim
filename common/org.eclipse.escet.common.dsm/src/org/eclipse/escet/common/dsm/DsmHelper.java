@@ -32,13 +32,14 @@ public class DsmHelper {
     /**
      * Shuffle array according to a provided shuffle table.
      *
-     * <p>Entry {@code i} containing {@code j} indicates that in the output on index {@code i} the value is
-     * placed that is in the supplied array on index {@code j}.</p>
+     * <p>
+     * Entry {@code i} containing {@code j} indicates that in the output on index {@code i} the value is placed that is
+     * in the supplied array on index {@code j}.
+     * </p>
      *
      * @param <T> Element type of the array values.
      * @param array Array to shuffle.
-     * @param shuffleTable Shuffle table, each entry {@code i} contains the original
-     *      index of the node.
+     * @param shuffleTable Shuffle table, each entry {@code i} contains the original index of the node.
      * @return The shuffled labels.
      */
     public static <T> T[] shuffleArray(T[] array, int[] shuffleTable) {
@@ -69,7 +70,7 @@ public class DsmHelper {
         }
 
         BitSet result = bitset();
-        for (Group child : gr.childGroups) {
+        for (Group child: gr.childGroups) {
             result.or(getBusNodes(child));
         }
         return result;
@@ -90,7 +91,7 @@ public class DsmHelper {
         }
         Assert.check(gr.groupType == COLLECTION);
 
-        for (Group child : gr.childGroups) {
+        for (Group child: gr.childGroups) {
             if (child.groupType == BUS) {
                 return child;
             }
@@ -115,7 +116,7 @@ public class DsmHelper {
         }
         Assert.check(gr.groupType == COLLECTION);
 
-        for (Group child : gr.childGroups) {
+        for (Group child: gr.childGroups) {
             if (child.groupType == CLUSTER) {
                 return child;
             }

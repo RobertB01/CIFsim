@@ -39,16 +39,14 @@ import org.eclipse.escet.common.java.Assert;
  * Functions for finding a bus and hierarchical clusters.
  *
  * <p>
- * Paper describing the method:
- * T. Wilschut, L.F.P. Etman, J.E. Rooda, and I.J.B.F. Adan: Multi-level flow-based Markov clustering for design
- * structure matrices, Journal of Mechanical Design : Transactions of the ASME, Dec 2017,
- * 139(12): 121402, https://doi.org/10.1115/1.4037626
+ * Paper describing the method: T. Wilschut, L.F.P. Etman, J.E. Rooda, and I.J.B.F. Adan: Multi-level flow-based Markov
+ * clustering for design structure matrices, Journal of Mechanical Design : Transactions of the ASME, Dec 2017, 139(12):
+ * 121402, https://doi.org/10.1115/1.4037626
  * </p>
  *
  * <p>
- * PhD thesis, referred to as [Wilschut 2018]:
- * Wilschut T. System specification and design structuring methods for a lock product platform. Eindhoven:
- * Technische Universiteit Eindhoven, 2018. 178 p.
+ * PhD thesis, referred to as [Wilschut 2018]: Wilschut T. System specification and design structuring methods for a
+ * lock product platform. Eindhoven: Technische Universiteit Eindhoven, 2018. 178 p.
  * </p>
  */
 public class DsmClustering {
@@ -65,15 +63,14 @@ public class DsmClustering {
      */
     public static Dsm flowBasedMarkovClustering(ClusterInputData inputData) {
         return flowBasedMarkovClustering(inputData.adjacencies, inputData.labels, inputData.evap, inputData.stepCount,
-                                         inputData.inflation, inputData.epsilon, inputData.busDetectionAlgorithm,
-                                         inputData.busInclusion);
+                inputData.inflation, inputData.epsilon, inputData.busDetectionAlgorithm, inputData.busInclusion);
     }
 
     /**
      * Compute flow-based hierarchical Markov clustering of nodes in a graph.
      *
-     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of
-     *      node {@code i} to node {@code j}.
+     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
+     *     node {@code j}.
      * @param labels Names of the nodes.
      * @param evap Evaporation constant.
      * @param stepCount Matrix exponentiation factor (number of steps taken each iteration).
@@ -83,9 +80,8 @@ public class DsmClustering {
      * @param busInclusion Tuning factor for the bus detection algorithm.
      * @return The computed clustered DSM.
      */
-    public static Dsm flowBasedMarkovClustering(RealMatrix adjacencies, Label[] labels,
-                                                double evap, int stepCount, double inflation, double epsilon,
-                                                BusDetectionAlgorithm busDetectionAlgorithm, double busInclusion)
+    public static Dsm flowBasedMarkovClustering(RealMatrix adjacencies, Label[] labels, double evap, int stepCount,
+            double inflation, double epsilon, BusDetectionAlgorithm busDetectionAlgorithm, double busInclusion)
     {
         final int size = adjacencies.getRowDimension();
         OutputProvider.dbg("Flow-based Markov clustering for %d nodes.", size);
@@ -110,7 +106,7 @@ public class DsmClustering {
             }
         }
         Group busGroup = hierarchicalClustering(adjacencies, busNodes, evap, stepCount, inflation, epsilon,
-                                                GroupType.BUS);
+                GroupType.BUS);
         if (busGroup != null) {
             OutputProvider.dbg("Bus-group found:");
             busGroup.dbgDump("  ");
@@ -124,7 +120,7 @@ public class DsmClustering {
         BitSet nonbusNodes = ones(size);
         nonbusNodes.andNot(busNodes);
         Group nonbusGroup = hierarchicalClustering(adjacencies, nonbusNodes, evap, stepCount, inflation, epsilon,
-                                                   GroupType.CLUSTER);
+                GroupType.CLUSTER);
         if (nonbusGroup != null) {
             OutputProvider.dbg("Clustering-group found:");
             nonbusGroup.dbgDump("  ");
@@ -217,7 +213,7 @@ public class DsmClustering {
         if (group.localNodes != null) {
             // Assign local nodes.
 
-            for (int i : iterateTrueBits(group.localNodes)) {
+            for (int i: iterateTrueBits(group.localNodes)) {
                 nodeShuffle[base] = i;
                 base++;
             }
@@ -250,8 +246,7 @@ public class DsmClustering {
     /**
      * Shuffle the rows and columns of the adjacency matrix according to how nodes shuffle.
      *
-     * @param nodeShuffle Shuffle table, each entry {@code i} contains the original
-     *      index of the node.
+     * @param nodeShuffle Shuffle table, each entry {@code i} contains the original index of the node.
      * @param adjacencies Matrix to shuffle.
      * @return The shuffled matrix.
      */

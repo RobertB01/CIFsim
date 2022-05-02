@@ -65,8 +65,7 @@ public class BitSets {
     }
 
     /**
-     * Create a new bitset of the requested size, with all bits at least up-to the requested
-     * size set to {@code true}.
+     * Create a new bitset of the requested size, with all bits at least up-to the requested size set to {@code true}.
      *
      * @param n Requested size of the bitset.
      * @return The created bitset.

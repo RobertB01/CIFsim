@@ -23,8 +23,10 @@ import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 /**
  * Data storage of input data for the clustering algorithm.
  *
- * <p>Only the adjacency matrix and labels need to be set during construction of the instance. All other parameters can
- * be freely changed, giving a lot of freedom in tuning them for the problem at hand.</p>
+ * <p>
+ * Only the adjacency matrix and labels need to be set during construction of the instance. All other parameters can be
+ * freely changed, giving a lot of freedom in tuning them for the problem at hand.
+ * </p>
  */
 public class ClusterInputData {
     /**
@@ -36,26 +38,23 @@ public class ClusterInputData {
     public final Label[] labels;
 
     /**
-     * Evaporation constant.
-     * Named μ in the algorithm, between 1.5 and 3.5, default 2.5.
+     * Evaporation constant. Named μ in the algorithm, between 1.5 and 3.5, default 2.5.
      */
     public double evap;
 
     /**
-     * Matrix exponentiation factor (number of steps taken each iteration).
-     * Named α in the algorithm, default 2, usually doesn't need adjustment.
+     * Matrix exponentiation factor (number of steps taken each iteration). Named α in the algorithm, default 2, usually
+     * doesn't need adjustment.
      */
     public int stepCount;
 
     /**
-     * Inflation coefficient.
-     * Named β in the algorithm, between 1.5 and 3.5, default 2.5.
+     * Inflation coefficient. Named β in the algorithm, between 1.5 and 3.5, default 2.5.
      */
     public double inflation;
 
     /**
-     * Numeric convergence limit.
-     * Default value 1e-4.
+     * Numeric convergence limit. Default value 1e-4.
      */
     public double epsilon;
 
@@ -65,15 +64,17 @@ public class ClusterInputData {
     /**
      * Tuning factor for selecting bus nodes. The effect of the tuning factor depends on the chosen algorithm.
      *
-     * <p>Never directly change the value, but use the {@link #setBusInclusionFactor} method instead.</p>
+     * <p>
+     * Never directly change the value, but use the {@link #setBusInclusionFactor} method instead.
+     * </p>
      */
     public double busInclusion;
 
     /**
      * Constructor of the {@link ClusterInputData} class.
      *
-     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of
-     *      node {@code i} to node {@code j}.
+     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
+     *     node {@code j}.
      * @param labels Names of the nodes.
      */
     public ClusterInputData(RealMatrix adjacencies, Label[] labels) {
@@ -83,8 +84,8 @@ public class ClusterInputData {
     /**
      * Constructor of the {@link ClusterInputData} class.
      *
-     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of
-     *      node {@code i} to node {@code j}.
+     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
+     *     node {@code j}.
      * @param labels Names of the nodes.
      * @param evap Evaporation constant.
      * @param stepCount Matrix exponentiation factor (number of steps taken each iteration).
@@ -93,9 +94,8 @@ public class ClusterInputData {
      * @param busDetectionAlgorithm The bus detection algorithm to apply.
      * @param busInclusion Tuning factor for the bus detection algorithm.
      */
-    public ClusterInputData(RealMatrix adjacencies, Label[] labels, double evap, int stepCount,
-                            double inflation, double epsilon, BusDetectionAlgorithm busDetectionAlgorithm,
-                            double busInclusion)
+    public ClusterInputData(RealMatrix adjacencies, Label[] labels, double evap, int stepCount, double inflation,
+            double epsilon, BusDetectionAlgorithm busDetectionAlgorithm, double busInclusion)
     {
         this.adjacencies = adjacencies;
         this.labels = labels;
@@ -108,23 +108,27 @@ public class ClusterInputData {
     }
 
     /**
-     * Set the bus inclusion factor to the supplied new value. Checks are performed whether the newly supplied value
-     * is compatible with the chosen bus detection algorithm.
+     * Set the bus inclusion factor to the supplied new value. Checks are performed whether the newly supplied value is
+     * compatible with the chosen bus detection algorithm.
      *
-     * <p>The following checks are performed depending on the chosen bus detection algorithm:<ul>
+     * <p>
+     * The following checks are performed depending on the chosen bus detection algorithm:
+     * <ul>
      * <li>{@link BusDetectionAlgorithm#NO_BUS}: no checks are performed.</li>
-     * <li>{@link BusDetectionAlgorithm#FIX_POINT}: the new value should be between 1.0 and 4.0 (boundaries included).</li>
+     * <li>{@link BusDetectionAlgorithm#FIX_POINT}: the new value should be between 1.0 and 4.0 (boundaries
+     * included).</li>
      * <li>{@link BusDetectionAlgorithm#TOP_K}: the new value will first be truncated, as the algorithm only handles
-     *      integer values. The truncated value should be between 0 and the number of elements in the DSM (boundaries
-     *      included).</li>
-     * </ul></p>
+     * integer values. The truncated value should be between 0 and the number of elements in the DSM (boundaries
+     * included).</li>
+     * </ul>
+     * </p>
      *
      * @param newValue The new value for the bus inclusion factor.
      * @throws InvalidInputException When the new value does not satisfy the checks.
      * @throws UnsupportedException When an unknown bus detection algorithm is stored in this class.
      */
     public void setBusInclusionFactor(double newValue) {
-        switch(busDetectionAlgorithm) {
+        switch (busDetectionAlgorithm) {
             case NO_BUS:
                 busInclusion = newValue;
                 break;
@@ -133,9 +137,9 @@ public class ClusterInputData {
                 if (newValue >= 1.0 && newValue <= 4.0) {
                     busInclusion = newValue;
                 } else {
-                    String msg = fmt("Bus factor values for the fixed-point algorithm are only allowed to be between " +
-                                     "1.0 and 4.0 (including the boundaries). The supplied value of %f is outside " +
-                                     "this interval.", newValue);
+                    String msg = fmt("Bus factor values for the fixed-point algorithm are only allowed to be between "
+                            + "1.0 and 4.0 (including the boundaries). The supplied value of %f is outside "
+                            + "this interval.", newValue);
                     throw new InvalidInputException(msg);
                 }
                 break;
@@ -145,10 +149,11 @@ public class ClusterInputData {
                 if (newValue >= 0 && newValue <= adjacencies.getRowDimension()) {
                     busInclusion = newValue;
                 } else {
-                    String msg = fmt("Bus factor values for the top-k algorithm are only allowed to be between " +
-                                     "0 and the number of elements of the DSM (which is %d in this case). The " +
-                                     "supplied value of %f is outside this interval.", adjacencies.getRowDimension(),
-                                     newValue);
+                    String msg = fmt(
+                            "Bus factor values for the top-k algorithm are only allowed to be between "
+                                    + "0 and the number of elements of the DSM (which is %d in this case). The "
+                                    + "supplied value of %f is outside this interval.",
+                            adjacencies.getRowDimension(), newValue);
                     throw new InvalidInputException(msg);
                 }
                 break;
@@ -157,6 +162,5 @@ public class ClusterInputData {
                 String msg = fmt("Unsupported bus detection algorithm encountered: %s.", busDetectionAlgorithm);
                 throw new UnsupportedException(msg);
         }
-
     }
 }

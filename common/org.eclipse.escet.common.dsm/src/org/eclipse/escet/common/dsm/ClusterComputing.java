@@ -56,9 +56,8 @@ public class ClusterComputing {
      * @param topLevelGroupType Type of group for the top-level cluster.
      * @return Hierarchical clustering, or {@code null} if there is nothing to cluster.
      */
-    public static Group hierarchicalClustering(RealMatrix parentAdjacencies, BitSet parentAvailable,
-                                               double evap, int stepCount, double inflation, double epsilon,
-                                               GroupType topLevelGroupType)
+    public static Group hierarchicalClustering(RealMatrix parentAdjacencies, BitSet parentAvailable, double evap,
+            int stepCount, double inflation, double epsilon, GroupType topLevelGroupType)
     {
         if (parentAvailable.isEmpty()) {
             return null; // No nodes for clustering available.
@@ -84,7 +83,7 @@ public class ClusterComputing {
             OutputProvider.dbg(probData.probabilities.toString());
 
             List<BitSet> clusters = markovClustering(probData.probabilities, stepCount, inflation,
-                                                     probData.pruningLimits, epsilon);
+                    probData.pruningLimits, epsilon);
 
             // Merge new clusters into the parent nodes.
             groups = convertSubGroups(subNodes, clusters, clusters.size() == 1 ? topLevelGroupType : GroupType.CLUSTER);
@@ -191,7 +190,7 @@ public class ClusterComputing {
 
         // Construct probability matrix.
         RealMatrix matP = new BlockRealMatrix(n, n);
-        double [] column = new double[n];
+        double[] column = new double[n];
         // Element-wise sum columns of rim and rdm, and normalize.
         for (int j = 0; j < n; j++) {
             for (int i = 0; i < n; i++) {

@@ -38,10 +38,10 @@ public class MarkovClustering {
     /**
      * Compute the Markov clustering of the provided matrix.
      *
-     * <p>Implements:
-     * S. van Dongen, "Graph Clustering via a Discrete Uncoupling Process",
-     * SIAM journal on Matrix Analysis and Applications,
-     * 30(1): 121-141, 2008.</p>
+     * <p>
+     * Implements: S. van Dongen, "Graph Clustering via a Discrete Uncoupling Process", SIAM journal on Matrix Analysis
+     * and Applications, 30(1): 121-141, 2008.
+     * </p>
      *
      * @param m Probability matrix to cluster, contents is destroyed during the call.
      * @param stepCount Matrix exponentiation factor (number of steps taken each iteration).
@@ -50,8 +50,8 @@ public class MarkovClustering {
      * @param epsilon Convergence limit.
      * @return Clusters of the provided matrix.
      */
-    public static List<BitSet> markovClustering(RealMatrix m, int stepCount, double inflation,
-                                                double[] pruningLimit, double epsilon)
+    public static List<BitSet> markovClustering(RealMatrix m, int stepCount, double inflation, double[] pruningLimit,
+            double epsilon)
     {
         Assert.check(stepCount > 0);
         Assert.check(m.isSquare());
@@ -84,7 +84,7 @@ public class MarkovClustering {
         Map<Integer, BitSet> clusterMap = map(); // Set columns for each non-empty row.
         List<BitSet> clusters = list();
         for (int j = 0; j < size; j++) {
-            double [] col = m.getColumn(j);
+            double[] col = m.getColumn(j);
 
             int largestRow = 0;
             double largest = 0;
@@ -110,7 +110,9 @@ public class MarkovClustering {
     /**
      * Compute whether convergence has been reached between two matrices.
      *
-     * <p>Both matrices must have the same dimensions.</p>
+     * <p>
+     * Both matrices must have the same dimensions.
+     * </p>
      *
      * @param matP First matrix to use.
      * @param matQ Second matrix to use.

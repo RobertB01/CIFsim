@@ -36,9 +36,11 @@ public class BusComputing {
     /**
      * Compute which nodes of the matrix should be considered a bus node using the top-k method.
      *
-     * <p>Implements the bus-detection algorithm where the top gamma nodes are selected with the highest
-     * connection degree. Note that it might be possible that the first node outside the top gamma nodes has
-     * the same connection degree as the last node inside the top gamma nodes.</p>
+     * <p>
+     * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
+     * Note that it might be possible that the first node outside the top gamma nodes has the same connection degree as
+     * the last node inside the top gamma nodes.
+     * </p>
      *
      * @param dependencies Matrix with dependencies between the nodes.
      * @param gamma Tuning factor for selecting bus nodes based on the connection degree.
@@ -52,13 +54,15 @@ public class BusComputing {
     /**
      * Compute which nodes of the matrix should be considered a bus node using the top-k method.
      *
-     * <p>Implements the bus-detection algorithm where the top gamma nodes are selected with the highest
-     * connection degree. Note that it might be possible that the first node outside the top gamma nodes has
-     * the same connection degree as the last node inside the top gamma nodes.</p>
+     * <p>
+     * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
+     * Note that it might be possible that the first node outside the top gamma nodes has the same connection degree as
+     * the last node inside the top gamma nodes.
+     * </p>
      *
      * @param dependencies Matrix with dependencies between the nodes.
-     * @param gamma Tuning factor for selecting bus nodes based on the connection degree. The truncated integer value
-     *      is used.
+     * @param gamma Tuning factor for selecting bus nodes based on the connection degree. The truncated integer value is
+     *     used.
      * @return Set of nodes that should be part of the bus.
      */
     public static BitSet computeTopKBus(RealMatrix dependencies, double gamma) {
@@ -67,17 +71,19 @@ public class BusComputing {
     }
 
     /**
-    * Compute which nodes of the matrix should be considered a bus node using the top-k method.
-    *
-    * <p>Implements the bus-detection algorithm where the top gamma nodes are selected with the highest
-    * connection degree. Note that it might be possible that the first node outside the top gamma nodes has
-     * the same connection degree as the last node inside the top gamma nodes.</p>
-    *
-    * @param dependencies Matrix with dependencies between the nodes.
-    * @param gamma Tuning factor for selecting bus nodes based on the connection degree.
-    * @param availableNodes Nodes that may be considered to become part of the bus.
-    * @return Set of nodes that should be part of the bus.
-    */
+     * Compute which nodes of the matrix should be considered a bus node using the top-k method.
+     *
+     * <p>
+     * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
+     * Note that it might be possible that the first node outside the top gamma nodes has the same connection degree as
+     * the last node inside the top gamma nodes.
+     * </p>
+     *
+     * @param dependencies Matrix with dependencies between the nodes.
+     * @param gamma Tuning factor for selecting bus nodes based on the connection degree.
+     * @param availableNodes Nodes that may be considered to become part of the bus.
+     * @return Set of nodes that should be part of the bus.
+     */
     public static BitSet computeTopKBus(RealMatrix dependencies, int gamma, BitSet availableNodes) {
         return internalComputeTopKBus(dependencies, gamma, copy(availableNodes));
     }
@@ -85,13 +91,15 @@ public class BusComputing {
     /**
      * Compute which nodes of the matrix should be considered a bus node using the top-k method.
      *
-     * <p>Implements the bus-detection algorithm where the top gamma nodes are selected with the highest
-     * connection degree. Note that it might be possible that the first node outside the top gamma nodes has
-     * the same connection degree as the last node inside the top gamma nodes.</p>
+     * <p>
+     * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
+     * Note that it might be possible that the first node outside the top gamma nodes has the same connection degree as
+     * the last node inside the top gamma nodes.
+     * </p>
      *
      * @param dependencies Matrix with dependencies between the nodes.
-     * @param gamma Tuning factor for selecting bus nodes based on the connection degree. The truncated integer value
-     *      is used.
+     * @param gamma Tuning factor for selecting bus nodes based on the connection degree. The truncated integer value is
+     *     used.
      * @param availableNodes Nodes that may be considered to become part of the bus.
      * @return Set of nodes that should be part of the bus.
      */
@@ -102,9 +110,11 @@ public class BusComputing {
     /**
      * Compute which nodes of the matrix should be considered a bus node using the top-k method.
      *
-     * <p>Implements the bus-detection algorithm where the top gamma nodes are selected with the highest
-     * connection degree. Note that it might be possible that the first node outside the top gamma nodes has
-     * the same connection degree as the last node inside the top gamma nodes.</p>
+     * <p>
+     * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
+     * Note that it might be possible that the first node outside the top gamma nodes has the same connection degree as
+     * the last node inside the top gamma nodes.
+     * </p>
      *
      * @param dependencies Matrix with dependencies between the nodes.
      * @param gamma Tuning factor for selecting bus nodes based on the connection degree.
@@ -120,12 +130,14 @@ public class BusComputing {
     /**
      * Identify the largest {@code k} integers from a list.
      *
-     * <p>If the value of the {@code k}-th and the {@code k+1}-th largest integers are the same, the {@code k+1}-th
-     * index is not included in the result. This ensures that always {@code k} indices are returned.</p>
+     * <p>
+     * If the value of the {@code k}-th and the {@code k+1}-th largest integers are the same, the {@code k+1}-th index
+     * is not included in the result. This ensures that always {@code k} indices are returned.
+     * </p>
      *
      * @param array The integer array.
      * @param k The number of top indices to select. Must be a value between 0 and size of the provided array, including
-     *      the boundary values.
+     *     the boundary values.
      * @return Array with the indices of the top {@code k} elements.
      */
     private static int[] indicesOfLargestElements(int[] array, int k) {
@@ -140,7 +152,8 @@ public class BusComputing {
         }
 
         // Sort the array of pairs in descending order of the original array values.
-        Arrays.sort(pairs, (Pair<Integer, Integer> p1, Pair<Integer, Integer> p2) -> Integer.compare(p2.right, p1.right));
+        Arrays.sort(pairs,
+                (Pair<Integer, Integer> p1, Pair<Integer, Integer> p2) -> Integer.compare(p2.right, p1.right));
 
         // Extract the original indices, which are located in the left-hand side of each pairs.
         int[] result = new int[k];
@@ -154,7 +167,9 @@ public class BusComputing {
     /**
      * Compute which nodes of the matrix should be considered a bus node using the fixed point algorithm.
      *
-     * <p>Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.</p>
+     * <p>
+     * Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.
+     * </p>
      *
      * @param dependencies Matrix with dependencies between the nodes.
      * @param gamma Tuning factor for selecting bus nodes relative to the median connection degree.
@@ -168,7 +183,9 @@ public class BusComputing {
     /**
      * Compute which nodes of the matrix should be considered a bus node using the fixed point algorithm.
      *
-     * <p>Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.</p>
+     * <p>
+     * Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.
+     * </p>
      *
      * @param dependencies Matrix with dependencies between the nodes.
      * @param gamma Tuning factor for selecting bus nodes relative to the median connection degree.
@@ -182,7 +199,9 @@ public class BusComputing {
     /**
      * Compute which nodes of the matrix should be considered a bus node using the fixed-point method.
      *
-     * <p>Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.</p>
+     * <p>
+     * Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.
+     * </p>
      *
      * @param dependencies Matrix with dependencies between the nodes.
      * @param gamma Tuning factor for selecting bus nodes relative to the median connection degree.
@@ -207,7 +226,7 @@ public class BusComputing {
             busNodes.or(newBusNodes);
 
             // Set bus node degrees to zero.
-            for (int i : iterateTrueBits(busNodes)) {
+            for (int i: iterateTrueBits(busNodes)) {
                 degrees[i] = 0;
             }
 
@@ -227,17 +246,17 @@ public class BusComputing {
     private static int[] computeInOutDegrees(RealMatrix m, BitSet availableNodes) {
         int[] result = new int[availableNodes.cardinality()];
         int resultIndex = 0;
-        for (int nodeIdx : iterateTrueBits(availableNodes)) {
+        for (int nodeIdx: iterateTrueBits(availableNodes)) {
             int degrees = 0;
             // Count incoming edges.
-            for (int col : iterateTrueBits(availableNodes)) {
+            for (int col: iterateTrueBits(availableNodes)) {
                 if (m.getEntry(nodeIdx, col) > 0) {
                     degrees++;
                 }
             }
 
             // Count outgoing edges.
-            for (int row : iterateTrueBits(availableNodes)) {
+            for (int row: iterateTrueBits(availableNodes)) {
                 if (m.getEntry(row, nodeIdx) > 0) {
                     degrees++;
                 }
@@ -277,7 +296,6 @@ public class BusComputing {
 
         if (nonZeroSize % 2 == 0) {
             return (copiedArray[firstNonZero + nonZeroSize / 2] + copiedArray[firstNonZero + nonZeroSize / 2 - 1]) / 2;
-
         } else {
             return copiedArray[firstNonZero + nonZeroSize / 2];
         }
@@ -294,7 +312,7 @@ public class BusComputing {
     private static BitSet selectBusNodes(int[] degrees, double threshold, BitSet availableNodes) {
         BitSet busNodes = bitset(availableNodes.size());
 
-        for (int nodeIdx : iterateTrueBits(availableNodes)) {
+        for (int nodeIdx: iterateTrueBits(availableNodes)) {
             if (degrees[nodeIdx] >= threshold) {
                 busNodes.set(nodeIdx);
             }

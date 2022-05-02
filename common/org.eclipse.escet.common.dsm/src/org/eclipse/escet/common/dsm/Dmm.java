@@ -31,8 +31,8 @@ public class Dmm {
     /**
      * Constructor of the {@link Dmm} class.
      *
-     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of
-     *      node {@code i} to node {@code j}.
+     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
+     *     node {@code j}.
      * @param rowLabels Names of the labels of the elements along the rows
      * @param columnLabels Names of the labels of the elements along the columns.
      */
