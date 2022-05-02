@@ -34,8 +34,12 @@ import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
+import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -327,9 +331,7 @@ public class CifTextUtils {
     }
 
     /**
-     * Converts CIF expressions to a textual representation derived from the CIF ASCII syntax. References to
-     * declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and without absolute
-     * reference prefixes ({@code ^}).
+     * Converts CIF expressions to a textual representation derived from the CIF ASCII syntax.
      *
      * <p>
      * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
@@ -727,6 +729,90 @@ public class CifTextUtils {
         }
 
         throw new RuntimeException("Unknown expr: " + expr);
+    }
+
+    /**
+     * Converts CIF updates to a textual representation derived from the CIF ASCII syntax.
+     *
+     * <p>
+     * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
+     * without absolute reference prefixes ({@code ^}). Note that wrapping expressions in updates are silently
+     * discarded, and two declarations referred to via different instantiations, will both result in the same textual
+     * representation, which refers to the original declaration, regardless of via what it was referenced.
+     * </p>
+     *
+     * <p>
+     * This method, unlike the methods of the {@code CifPrettyPrinter}, supports updates that are not contained in a
+     * specification (and thus have no scope).
+     * </p>
+     *
+     * <p>
+     * Updates are converted to string, and joined using {@code ", "}.
+     * </p>
+     *
+     * @param updates The CIF updates to convert.
+     * @return The textual representation of the CIF updates.
+     * @see #updateToStr
+     * @see #exprToStr
+     */
+    public static String updatesToStr(List<Update> updates) {
+        List<String> txts = listc(updates.size());
+        for (Update expr: updates) {
+            txts.add(updateToStr(expr));
+        }
+        return String.join(", ", txts);
+    }
+
+    /**
+     * Converts a CIF update to a textual representation derived from the CIF ASCII syntax.
+     *
+     * <p>
+     * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
+     * without absolute reference prefixes ({@code ^}). Note that wrapping expressions in updates are silently
+     * discarded, and two declarations referred to via different instantiations, will both result in the same textual
+     * representation, which refers to the original declaration, regardless of via what it was referenced.
+     * </p>
+     *
+     * <p>
+     * This method, unlike the methods of the {@code CifPrettyPrinter}, supports expressions that are not contained in a
+     * specification (and thus have no scope).
+     * </p>
+     *
+     * @param update The CIF update to convert.
+     * @return The textual representation of the CIF expression.
+     * @see #exprToStr
+     */
+    public static String updateToStr(Update update) {
+        if (update instanceof Assignment) {
+            Assignment assignment = (Assignment)update;
+            return exprToStr(assignment.getAddressable()) + " := " + exprToStr(assignment.getValue());
+        }
+
+        if (update instanceof IfUpdate) {
+            IfUpdate ifUpdate = (IfUpdate)update;
+
+            StringBuilder txt = new StringBuilder();
+            txt.append("if ");
+            txt.append(exprsToStr(ifUpdate.getGuards()));
+            txt.append(": ");
+            txt.append(updatesToStr(ifUpdate.getThens()));
+
+            for (ElifUpdate elif: ifUpdate.getElifs()) {
+                txt.append(" elif ");
+                txt.append(exprsToStr(elif.getGuards()));
+                txt.append(": ");
+                txt.append(updatesToStr(elif.getThens()));
+            }
+
+            txt.append(" else ");
+            txt.append(updatesToStr(ifUpdate.getElses()));
+            txt.append(" end");
+
+            return txt.toString();
+        }
+
+        throw new RuntimeException("Unknown update: " + update);
+
     }
 
     /**
