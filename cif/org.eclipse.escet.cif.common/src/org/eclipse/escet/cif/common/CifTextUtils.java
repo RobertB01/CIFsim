@@ -1470,4 +1470,26 @@ public class CifTextUtils {
         }
         return fmt("group \"%s\"", getAbsName(comp));
     }
+
+    /**
+     * Returns an end-user readable textual (reference) representation of a parent (either a location or a component),
+     * mostly for use in error messages.
+     *
+     * <p>
+     * Can for instance be used in {@code "... in %s."} messages.
+     * </p>
+     *
+     * @param parent The parent. Component definition and instantiation are not supported.
+     * @return The end-user readable textual (reference) representation of the parent.
+     * @see #getLocationText2
+     * @see #getComponentText2
+     */
+    public static String getParentText2(EObject parent) {
+        if (parent instanceof Location) {
+            return getLocationText2((Location)parent);
+        } else {
+            Assert.check(parent instanceof ComplexComponent);
+            return getComponentText2((ComplexComponent)parent);
+        }
+    }
 }
