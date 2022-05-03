@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.output.DebugImageOutput;
 import org.eclipse.escet.common.raildiagrams.output.NormalImageOutput;
@@ -61,7 +62,7 @@ public class RailRoadDiagramGenerator {
         Assert.check(args.length == 3 || args.length == 4, Arrays.toString(args));
         Path inputPath = Paths.get(args[0]);
         Path outputPath = Paths.get(args[1]);
-        OutputFormat outputFormat = OutputFormat.valueOf(args[2]);
+        OutputFormat outputFormat = OutputFormat.valueOf(Strings.makeUppercase(args[2]).replace('-', '_'));
         Path configPath = (args.length == 3) ? null : Paths.get(args[3]);
 
         generate(inputPath, configPath, outputPath, outputFormat, null, System.err::println);
