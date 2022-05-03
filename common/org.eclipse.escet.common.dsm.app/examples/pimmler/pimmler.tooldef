@@ -13,8 +13,14 @@
 
 from "lib:common" import *;
 
-// Original matrix from: [Pimmler and Eppinger 1994]
-// Results from: Page 24-25 of [Wilschut 2018]
+// Original matrix from:
+// T. U. Pimmler and S. D. Eppinger. Integration analysis of product decompositions. In
+// Proceedings of the ASME Design Theory and Methodology Conference, pages 1–10,
+// Minneapolis, Minnesota, USA, 1994
+
+// Results from:
+// Wilschut T. System specification and design structuring methods for a
+// lock product platform. Eindhoven: Technische Universiteit Eindhoven, 2018. 178 p.
 
 dsm_clustering("pimmler.csv",
               "-o pimmler1_out.csv",
