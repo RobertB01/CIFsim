@@ -33,7 +33,7 @@ indexterm:[DSM clustering,start]
 
 The clustering tool can be started in the following ways:
 
-* In Eclipse, right click a `.csv` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:Cluster a DSM... .
+* In Eclipse, right click a `.dsm` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:Cluster a DSM... .
 
 * Use the `dsmclustering` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
@@ -46,10 +46,10 @@ indexterm:[DSM clustering,options]
 
 Besides the general application options, this application has the following options:
 
-* _Input file path_: The absolute or relative file system path to the input CSV input file.
+* _Input file path_: The absolute or relative file system path to the input DSM input file.
 
-* _Output file path_: The absolute or relative file system path for writing the generated CSV output file.
-By default, the output file path is the same as the input file path, but with the `.csv` extension removed (if it exists), and the `_output.csv` extension added.
+* _Output file path_: The absolute or relative file system path for writing the generated DSM output file.
+By default, the output file path is the same as the input file path, but with the `.dsm` extension removed (if it exists), and the `_output.dsm` extension added.
 By setting this option, the default is overridden by the given value.
 
 * _Evaporation factor_: Factor that influences when a node is considered to be part of a cluster.

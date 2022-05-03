@@ -82,7 +82,7 @@ public class DsmApplication extends Application<IOutputComponent> {
         inputData.stepCount = DsmStepCountOption.getStepCountValue();
 
         Dsm dsm = flowBasedMarkovClustering(inputData);
-        String outPath = Paths.resolve(OutputFileOption.getDerivedPath(".csv", "_out.csv"));
+        String outPath = Paths.resolve(OutputFileOption.getDerivedPath(".dsm", "_out.dsm"));
 
         try (FileAppStream stream = new FileAppStream(outPath)) {
             Label[] labels = shuffleArray(inputData.labels, dsm.nodeShuffle);

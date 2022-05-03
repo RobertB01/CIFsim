@@ -30,7 +30,7 @@
             <iterate>
                <adapt type="org.eclipse.core.resources.IFile">
                   <test property="org.eclipse.core.resources.name"
-                        value="*.csv"/>
+                        value="*.dsm"/>
                </adapt>
             </iterate>
             <count value="1"/>
