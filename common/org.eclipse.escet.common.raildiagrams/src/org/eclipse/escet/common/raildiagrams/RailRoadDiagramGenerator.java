@@ -21,11 +21,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.output.DebugImageOutput;
@@ -59,12 +57,24 @@ public class RailRoadDiagramGenerator {
      * @throws IOException In case of an I/O error.
      */
     public static void main(String[] args) throws IOException {
-        Assert.check(args.length == 3 || args.length == 4, Arrays.toString(args));
+        // Process command line arguments.
+        if (args.length != 3 && args.length != 4) {
+            System.err.printf("Expected 3 or 4 command line arguments, but got %d.%n", args.length);
+            System.exit(1);
+        }
         Path inputPath = Paths.get(args[0]);
         Path outputPath = Paths.get(args[1]);
-        OutputFormat outputFormat = OutputFormat.valueOf(Strings.makeUppercase(args[2]).replace('-', '_'));
+        OutputFormat outputFormat;
+        try {
+            outputFormat = OutputFormat.valueOf(Strings.makeUppercase(args[2]).replace('-', '_'));
+        } catch (IllegalArgumentException e) {
+            System.err.printf("Invalid output type: %s%n", args[2]);
+            System.exit(1);
+            return; // Never reached.
+        }
         Path configPath = (args.length == 3) ? null : Paths.get(args[3]);
 
+        // Generate railroad diagram image.
         generate(inputPath, configPath, outputPath, outputFormat, null, System.err::println);
     }
 
