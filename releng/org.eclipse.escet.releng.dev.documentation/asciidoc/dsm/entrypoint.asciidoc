@@ -18,6 +18,10 @@ include::_part_attributes.asciidoc[]
 
 For a user, the entry point is the `Main.flowBasedMarkovClustering` function which takes the following parameters:
 
+indexterm:[DSM library,Markov clustering parameters]
+
+.Markov clustering function parameters
+[[clustering-function-parameter-table]]
 [cols="1,1,1,4", opts="header"]
 |===
 | Parameter | Algorithmic name | Empirical useful range | Description

@@ -27,7 +27,6 @@ Such a set of nodes is named a _bus_.
 The DSM clustering tool aims to heuristically find such a bus and clusters.
 The implemented algorithm is based on <<wilschut>>.
 
-
 indexterm:[DSM clustering,start]
 
 === Starting the clustering tool
@@ -81,7 +80,6 @@ Changing this values is rarely needed.
 
 * _Output groups_: Whether to output the node numbers in the bus and each cluster.
 Default is `true`.
-
 
 indexterm:[DSM clustering,computing]
 

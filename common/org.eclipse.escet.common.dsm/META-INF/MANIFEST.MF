@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ECSET Common Design Structure Matrix Functionality (Incubation)
+Bundle-Name: ESCET Common Design Structure Matrix Functionality (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.dsm;singleton:=true
 Bundle-Version: 0.6.0.qualifier
 Bundle-Vendor: Eclipse ESCET

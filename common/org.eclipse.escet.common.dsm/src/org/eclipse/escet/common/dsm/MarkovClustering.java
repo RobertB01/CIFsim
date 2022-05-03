@@ -67,7 +67,9 @@ public class MarkovClustering {
         RealMatrix prev = null; // Previous matrix for checking convergence.
         while (prev == null || !convergenceReached(m, prev, epsilon)) {
             k = k + 1;
-            Assert.check(k < 50, "Max number of iterations exceeded.");
+            // Publication says the algorithm should terminate, this Assert check is just to prevent
+            // getting stuck forever if something fails.
+            Assert.check(k < 500000, "Max number of iterations exceeded.");
 
             prev = m.copy();
             m = m.power(stepCount);

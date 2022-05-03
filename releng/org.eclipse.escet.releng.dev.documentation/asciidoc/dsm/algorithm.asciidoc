@@ -16,7 +16,7 @@ include::_part_attributes.asciidoc[]
 [[dsm-algorithm]]
 === Algorithm and code
 
-The algorithm is defined in <<Wilschut2017>>. The link between names of parameters in the algorithm and the code is listed in the table above.
+The algorithm is defined in <<Wilschut2017>>. The link between names of parameters in the algorithm and the code is listed in the <<clustering-function-parameter-table>> table.
 
 The algorithm finds a bus, and performs bottom-up clustering of both the bus nodes and the non-bus nodes. The bus detection algorithm is coded in the `BusComputing` class, while a clustering step is handled in the `ClusterComputing` class.
 

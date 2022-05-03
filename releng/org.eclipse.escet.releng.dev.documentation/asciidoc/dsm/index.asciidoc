@@ -22,6 +22,9 @@ Such a set of nodes is named a _bus_.
 
 This library documentation describes how to perform such clustering and bus-detection at Java function level.
 
+indexterm:[DSM library,implementation]
+indexterm:[DSM library,java]
+
 The following topics explain the library in more detail:
 
 * <<dsm-entrypoint>>
