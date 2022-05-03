@@ -15,6 +15,7 @@ package org.eclipse.escet.common.dsm.io;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.spaces;
+import static org.eclipse.escet.common.java.Strings.trimRight;
 
 import java.util.Arrays;
 
@@ -70,7 +71,7 @@ public class WriteMatrix {
 
         // Write the lines.
         for (int i = 0; i < size; i++) {
-            outHandle.println(lines[i].toString());
+            outHandle.println(trimRight(lines[i].toString()));
         }
     }
 
@@ -161,7 +162,7 @@ public class WriteMatrix {
         int base = group.getShuffledBase();
         int size = group.getShuffledSize();
         if (base >= 0) {
-            outHandle.printf(" from %d to %d\n", base + 1, base + size); // 1-based !
+            outHandle.printf(" from %d to %d%n", base + 1, base + size); // 1-based !
         }
 
         for (Group child: group.childGroups) {
