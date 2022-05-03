@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.doout
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.lang.reflect.Method;
+import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
@@ -29,7 +29,6 @@ import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.BDDFactory.GCStats;
-import com.github.javabdd.BDDFactory.ReorderStats;
 
 /** BDD utility methods. */
 public class BddUtils {
@@ -111,83 +110,57 @@ public class BddUtils {
     }
 
     /**
-     * By default BDD factory callbacks print information to stdout/stderr. This method registers custom callbacks, that
-     * by default don't do anything. This prevents output being printed to stdout/stderr. If requested, the callbacks
-     * may print some statistics, using the application framework.
+     * If requested, register BDD factory callbacks that print some statistics.
      *
-     * @param factory The BDD factory for which to override the default callbacks.
+     * @param factory The BDD factory for which to register the callbacks.
      * @param doGcStats Whether to output BDD GC statistics.
      * @param doResizeStats Whether to output BDD resize statistics.
+     * @param doContinuousPerformanceStats Whether to output continuous BDD performance statistics.
+     * @param continuousOpMisses The list into which to collect continuous operation misses samples.
+     * @param continuousUsedBddNodes The list into which to collect continuous used BDD nodes statistics samples.
      */
-    public static void setBddCallbacks(BDDFactory factory, boolean doGcStats, boolean doResizeStats) {
-        Class<?> cls = BddUtils.class;
-        Class<?>[] cbParams;
-        Method callback;
-
+    public static void registerBddCallbacks(BDDFactory factory, boolean doGcStats, boolean doResizeStats,
+            boolean doContinuousPerformanceStats, List<Long> continuousOpMisses, List<Integer> continuousUsedBddNodes)
+    {
         // Register BDD garbage collection callback.
-        doGcStats = doGcStats && doout();
-        String gcMethodName = doGcStats ? "bddGcStatsCallback" : "bddGcNullCallback";
-        cbParams = new Class<?>[] {int.class, GCStats.class};
-        try {
-            callback = cls.getDeclaredMethod(gcMethodName, cbParams);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
+        if (doGcStats && doout()) {
+            factory.registerGcStatsCallback(BddUtils::bddGcStatsCallback);
         }
-        factory.registerGCCallback(null, callback);
-
-        // Register BDD variable reordering callback.
-        cbParams = new Class<?>[] {boolean.class, ReorderStats.class};
-        try {
-            callback = cls.getDeclaredMethod("bddReOrderNullCallback", cbParams);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
-        }
-        factory.registerReorderCallback(null, callback);
 
         // Register BDD internal node array resize callback.
-        doResizeStats = doResizeStats && doout();
-        String resizeMethodName = doResizeStats ? "bddResizeStatsCallback" : "bddResizeNullCallback";
-        cbParams = new Class<?>[] {int.class, int.class};
-        try {
-            callback = cls.getDeclaredMethod(resizeMethodName, cbParams);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
+        if (doResizeStats && doout()) {
+            factory.registerResizeStatsCallback(BddUtils::bddResizeStatsCallback);
         }
-        factory.registerResizeCallback(null, callback);
-    }
 
-    /**
-     * Callback invoked when the BDD library performs garbage collection on its internal data structures. Does not do
-     * anything.
-     *
-     * @param pre Whether the callback is invoked just before garbage collection ({@code 1}) or just after it
-     *     ({@code 0}).
-     * @param stats The garbage collection statistics.
-     */
-    public static void bddGcNullCallback(int pre, GCStats stats) {
-        // Callback that does nothing.
+        // Register continuous BDD performance statistics callback.
+        if (doContinuousPerformanceStats) {
+            factory.registerContinuousStatsCallback((n, o) -> {
+                continuousOpMisses.add(o);
+                continuousUsedBddNodes.add(n);
+            });
+        }
     }
 
     /**
      * Callback invoked when the BDD library performs garbage collection on its internal data structures. Prints
      * statistics.
      *
-     * @param pre Whether the callback is invoked just before garbage collection ({@code 1}) or just after it
-     *     ({@code 0}).
      * @param stats The garbage collection statistics.
+     * @param pre Whether the callback is invoked just before garbage collection ({@code true}) or just after it
+     *     ({@code false}).
      */
-    public static void bddGcStatsCallback(int pre, GCStats stats) {
+    private static void bddGcStatsCallback(GCStats stats, boolean pre) {
         StringBuilder txt = new StringBuilder();
         txt.append("BDD ");
-        txt.append((pre == 1) ? "pre " : "post");
+        txt.append(pre ? "pre " : "post");
         txt.append(" garbage collection: #");
-        txt.append(fmt("%,d", stats.num + 1 - ((pre == 1) ? 0 : 1)));
+        txt.append(fmt("%,d", stats.num + 1 - (pre ? 0 : 1)));
         txt.append(", ");
         txt.append(fmt("%,13d", stats.freenodes));
         txt.append(" of ");
         txt.append(fmt("%,13d", stats.nodes));
         txt.append(" nodes free");
-        if (pre == 0) {
+        if (!pre) {
             txt.append(", ");
             txt.append(fmt("%,13d", stats.time));
             txt.append(" ms, ");
@@ -198,33 +171,12 @@ public class BddUtils {
     }
 
     /**
-     * Callback invoked when the BDD library performs variable reordering.
-     *
-     * @param pre Whether the callback is invoked just before variable reordering ({@code true}) or just after it
-     *     ({@code false}).
-     * @param stats The variable reordering statistics.
-     */
-    public static void bddReOrderNullCallback(boolean pre, ReorderStats stats) {
-        // Callback that does nothing.
-    }
-
-    /**
-     * Callback invoked when the BDD library resizes its internal node array. Does not do anything.
-     *
-     * @param oldSize The old size of the internal node array.
-     * @param newSize The new size of the internal node array.
-     */
-    public static void bddResizeNullCallback(int oldSize, int newSize) {
-        // Callback that does nothing.
-    }
-
-    /**
      * Callback invoked when the BDD library resizes its internal node array. Prints statistics.
      *
      * @param oldSize The old size of the internal node array.
      * @param newSize The new size of the internal node array.
      */
-    public static void bddResizeStatsCallback(int oldSize, int newSize) {
+    private static void bddResizeStatsCallback(int oldSize, int newSize) {
         out("BDD node table resize: from %,13d nodes to %,13d nodes", oldSize, newSize);
     }
 }
