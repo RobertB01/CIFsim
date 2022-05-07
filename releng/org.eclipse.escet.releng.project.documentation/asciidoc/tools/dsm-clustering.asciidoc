@@ -24,7 +24,7 @@ In addition, in a lot of cases, there is a set of nodes that connect to many oth
 Such a set of nodes is named a _bus_.
 
 The DSM clustering tool aims to heuristically find such a bus and clusters.
-The implemented algorithm is based on <<wilschut>>.
+The implemented algorithm is based on <<wilschut17>>.
 
 indexterm:[DSM clustering,start]
 
@@ -99,7 +99,7 @@ Bus detection uses connectivity of the nodes, which is the sum of their in and o
 Currently, the following bus detection algorithm options are available:
 
 * _Fix-point algorithm_, named `fix-point` in the tool.
-This is the fix-point algorithm as introduced in <<wilschut>>.
+This is the fix-point algorithm as introduced in <<wilschut17>>.
 The algorithm repeatedly adds new nodes to the bus with a connectivity higher than the median connectivity of non-bus nodes multiplied by _bus factor_.
 The final set of bus nodes is obtained when such new nodes no longer exist.
 The value of _bus factor_ should be between `1` and `4` (boundaries included).
@@ -115,4 +115,4 @@ No bus detection mechanism is applied, so no bus elements are detected.
 [bibliography]
 === References
 
-* [[[wilschut]]] T. Wilschut, L.F.P. Etman, J.E. Rooda, and I.J.B.F. Adan: Multi-level flow-based Markov clustering for design structure matrices, Journal of Mechanical Design : Transactions of the ASME, Dec 2017, 139(12): 121402, https://doi.org/10.1115/1.4037626
+* [[[wilschut17,Wilschut et al. (2017)]]] T. Wilschut, L.F.P. Etman, J.E. Rooda and I.J.B.F. Adan, "Multilevel Flow-Based Markov Clustering for Design Structure Matrices", Journal of Mechanical Design, volume 139, issue 12, 2017, doi:link:https://doi.org/10.1115/1.4037626[10.1115/1.4037626]
