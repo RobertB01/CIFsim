@@ -13,7 +13,7 @@
 
 from "lib:common" import *;
 
-dsm_clustering("theme_park.dsm",
+dsmclustering("theme_park.dsm",
               "-m debug",
               "--evaporation=2",
               "--inflation=1.5",

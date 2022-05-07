@@ -22,7 +22,7 @@ from "lib:common" import *;
 // Wilschut T. System specification and design structuring methods for a
 // lock product platform. Eindhoven: Technische Universiteit Eindhoven, 2018. 178 p.
 
-dsm_clustering("pimmler.dsm",
+dsmclustering("pimmler.dsm",
               "-o pimmler1_out.dsm",
               "-m debug",
               "--evaporation=1.5",
@@ -31,7 +31,7 @@ dsm_clustering("pimmler.dsm",
               "--convergence=1e-10",
               "--stepcount=2");
 
-dsm_clustering("pimmler.dsm",
+dsmclustering("pimmler.dsm",
               "-o pimmler2_out.dsm",
               "-m debug",
               "--evaporation=2.5",
@@ -40,7 +40,7 @@ dsm_clustering("pimmler.dsm",
               "--convergence=1e-10",
               "--stepcount=2");
 
-dsm_clustering("pimmler.dsm",
+dsmclustering("pimmler.dsm",
               "-o pimmler3_out.dsm",
               "-m debug",
               "--evaporation=1.5",
@@ -49,7 +49,7 @@ dsm_clustering("pimmler.dsm",
               "--convergence=1e-10",
               "--stepcount=2");
 
-dsm_clustering("pimmler.dsm",
+dsmclustering("pimmler.dsm",
               "-o pimmler4_out.dsm",
               "-m debug",
               "--evaporation=1.5",
@@ -58,7 +58,7 @@ dsm_clustering("pimmler.dsm",
               "--convergence=1e-10",
               "--stepcount=2");
 
-dsm_clustering("pimmler.dsm",
+dsmclustering("pimmler.dsm",
               "-o pimmler5_out.dsm",
               "-m debug",
               "--evaporation=1.5",
