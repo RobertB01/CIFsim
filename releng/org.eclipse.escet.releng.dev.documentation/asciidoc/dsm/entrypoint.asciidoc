@@ -14,9 +14,9 @@
 include::_part_attributes.asciidoc[]
 
 [[dsm-entrypoint]]
-=== Code organization
+== Code organization
 
-For a user, the entry point is the `Main.flowBasedMarkovClustering` function which takes the following parameters:
+For a user, the entry point is the `DsmClustering.flowBasedMarkovClustering` method which takes the following parameters:
 
 indexterm:[DSM library,Markov clustering parameters]
 

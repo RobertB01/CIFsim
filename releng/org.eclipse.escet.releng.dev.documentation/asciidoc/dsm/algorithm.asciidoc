@@ -14,7 +14,7 @@
 include::_part_attributes.asciidoc[]
 
 [[dsm-algorithm]]
-=== Algorithm and code
+== Algorithm and code
 
 The algorithm is defined in <<Wilschut2017>>. The link between names of parameters in the algorithm and the code is listed in the <<clustering-function-parameter-table>> table.
 

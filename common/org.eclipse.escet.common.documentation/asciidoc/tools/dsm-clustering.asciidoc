@@ -15,7 +15,7 @@ include::_part_attributes.asciidoc[]
 include::_local_attributes.asciidoc[]
 
 [[tools-chapter-dsm-clustering]]
-=== Design Structure Matrix (DSM) clustering
+== Design Structure Matrix (DSM) clustering
 
 indexterm:[DSM clustering]
 indexterm:[tools,DSM clustering]
@@ -33,10 +33,11 @@ indexterm:[DSM clustering,start]
 
 The clustering tool can be started in the following ways:
 
-* In Eclipse, right click a `.dsm` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:Cluster a DSM... .
+* In Eclipse, right click a `.dsm` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:Cluster a DSM...[].
+
+* Right click an open text editor for a `.dsm` file and choose menu:Cluster a DSM...[].
 
 * Use the `dsmclustering` tool in a ToolDef script.
-See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `dsmclustering` command line tool.
 

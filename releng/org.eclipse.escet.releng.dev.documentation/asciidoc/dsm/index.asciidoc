@@ -20,7 +20,7 @@ One way to find structure in a graph is by seeing it as a collection of _cluster
 In addition, in a lot of cases, there is a set of nodes that connect to many other nodes in the graph (or in terms of clusters, one cluster connects with many other clusters).
 Such a set of nodes is named a _bus_.
 
-This library documentation describes how to perform such clustering and bus-detection at Java function level.
+This library documentation describes how to perform such clustering and bus-detection at Java method level.
 
 indexterm:[DSM library,implementation]
 indexterm:[DSM library,java]

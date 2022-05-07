@@ -13,10 +13,10 @@
 
 include::_part_attributes.asciidoc[]
 
-[[dsm-busdetection]]
-=== Bus detection algorithms
-
 indexterm:[DSM library,busdetection]
+
+[[dsm-busdetection]]
+== Bus detection algorithms
 
 The original bus detection mechanism, as introduced in <<wilschut>>, is named the fixed-point
 algorithm. When this algorithm is selected, `double busInclusion` corresponds to the parameter
