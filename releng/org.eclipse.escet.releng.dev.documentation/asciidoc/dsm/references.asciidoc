@@ -13,8 +13,8 @@
 
 include::_part_attributes.asciidoc[]
 
+[bibliography]
 [[dsm-references]]
 == References
 
 * [[[wilschut17,Wilschut et al. (2017)]]] T. Wilschut, L.F.P. Etman, J.E. Rooda and I.J.B.F. Adan, "Multilevel Flow-Based Markov Clustering for Design Structure Matrices", Journal of Mechanical Design, volume 139, issue 12, 2017, doi:link:https://doi.org/10.1115/1.4037626[10.1115/1.4037626]
-
