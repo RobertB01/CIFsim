@@ -41,7 +41,7 @@
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <command
                commandId="org.eclipse.escet.common.dsm.app.DsmAppCommandHandler"
-               icon="icons/cluster_dsm.png"
+               icon="icons/dsm.png"
                label="&amp;Cluster a DSM">
             <visibleWhen>
                <or>
@@ -55,5 +55,16 @@
             </visibleWhen>
          </command>
       </menuContribution>
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+         name="Design Structure Matrix Text Editor"
+         class="org.eclipse.ui.editors.text.TextEditor"
+         id="org.eclipse.escet.common.dsm.app.DsmTextEditor"
+         contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+         default="true"
+         extensions="dsm"
+         icon="icons/dsm.png">
+      </editor>
    </extension>
 </plugin>
