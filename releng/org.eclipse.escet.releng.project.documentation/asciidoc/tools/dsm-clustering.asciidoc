@@ -46,7 +46,7 @@ indexterm:[DSM clustering,options]
 
 Besides the general application options, this application has the following options:
 
-* _Input file path_: The absolute or relative file system path to the input DSM input file.
+* _Input file path_: The absolute or relative file system path to the <<tools-dsm-input,input DSM file>>.
 
 * _Output file path_: The absolute or relative file system path for writing the generated DSM output file.
 By default, the output file path is the same as the input file path, but with the `.dsm` extension removed (if it exists), and the `_output.dsm` extension added.
@@ -80,6 +80,28 @@ Changing this values is rarely needed.
 
 * _Output groups_: Whether to output the node numbers in the bus and each cluster.
 Default is `true`.
+
+indexterm:[DSM clustering,input]
+
+[[tools-dsm-input]]
+=== DSM file format
+
+A Design Structure Matrix (DSM) file is a CSV-like file that contains an _N_ times _N_ matrix of values.
+Each line of the file contains a row of the matrix.
+Within the line, values are separated by commas.
+Both integer and real values are supported, such as `0`, `1`, `1.5`, `1e3` and `1.5e-4`.
+Before the first number at each row there should be a label indicating the name of the element of that row.
+Optionally, above the first line of data there may be a line of column labels as well.
+Labels that include a comma or space should be surrounded by double quotes, like `"Some test, and more text"`.
+
+The following example shows a DSM for a two by two adjacency matrix of elements `A` and `B`, with column labels:
+
+[source, dsm]
+----
+ , A  , B
+A, 1  , 0
+B, 0.5, 0.1
+----
 
 indexterm:[DSM clustering,computing]
 
