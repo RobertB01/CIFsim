@@ -31,6 +31,7 @@ public class CifBenchmarksWizard extends CopyFilesNewProjectWizard {
     @Override
     protected Map<String, String> getPathsToCopy() {
         Map<String, String> entries = map();
+        entries.put("benchmarks/festo", "FESTO");
         return entries;
     }
 }
