@@ -64,7 +64,8 @@ indexterm:[DSM library,Markov clustering parameters]
 | `double busInclusion`
 | -
 | -
-| Tuning factor for selecting bus nodes. Interpretation depends on the chosen bus detection algorithm.
+| Tuning factor for selecting bus nodes.
+Interpretation depends on the chosen bus detection algorithm.
 |===
 
 The function computes how to group the nodes into a bus and hierarchical clusters by shuffling the nodes into a different order.

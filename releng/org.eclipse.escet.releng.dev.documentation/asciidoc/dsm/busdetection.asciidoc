@@ -18,9 +18,7 @@ indexterm:[DSM library,busdetection]
 [[dsm-busdetection]]
 == Bus detection algorithms
 
-The original bus detection mechanism, as introduced in <<wilschut>>, is named the fixed-point
-algorithm. When this algorithm is selected, `double busInclusion` corresponds to the parameter
-ɣ in the paper.
+The original bus detection mechanism, as introduced in <<wilschut>>, is named the fixed-point algorithm.
+When this algorithm is selected, `double busInclusion` corresponds to the parameter ɣ in the paper.
 
-The top-k bus detection algorithm selects the nodes with the highest connectivity, where the number
-of nodes to select as bus nodes is supplied by the user.
+The top-k bus detection algorithm selects the nodes with the highest connectivity, where the number of nodes to select as bus nodes is supplied by the user.

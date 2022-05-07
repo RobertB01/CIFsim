@@ -16,14 +16,19 @@ include::_part_attributes.asciidoc[]
 [[dsm-algorithm]]
 == Algorithm and code
 
-The algorithm is defined in <<Wilschut2017>>. The link between names of parameters in the algorithm and the code is listed in the <<clustering-function-parameter-table>> table.
+The algorithm is defined in <<Wilschut2017>>.
+The link between names of parameters in the algorithm and the code is listed in the <<clustering-function-parameter-table>> table.
 
-The algorithm finds a bus, and performs bottom-up clustering of both the bus nodes and the non-bus nodes. The bus detection algorithm is coded in the `BusComputing` class, while a clustering step is handled in the `ClusterComputing` class.
+The algorithm finds a bus, and performs bottom-up clustering of both the bus nodes and the non-bus nodes.
+The bus detection algorithm is coded in the `BusComputing` class, while a clustering step is handled in the `ClusterComputing` class.
 
-All these operations work on or produce subsets of nodes. A subset is represented by a `BitSet` instance in code, over nodes in its associated matrix. The clustering hierarchy is stored in `Group` instances.
+All these operations work on or produce subsets of nodes.
+A subset is represented by a `BitSet` instance in code, over nodes in its associated matrix.
+The clustering hierarchy is stored in `Group` instances.
 
 The Markov clustering algorithm however assumes a complete matrix rather than a subset of it, where previously found clusters are compressed into a single node.
 This conversion is handled by the `submatrix.SubMatrixFunctions` functions that construct and use a `SubNode` translation table to convert the overall matrix to a sub-matrix, and convert clustering results in the sub-matrix back to groups in the overall matrix.
 
-After all computing steps are finished, a `Group` hierarchy describes which nodes and groups belong to which cluster. From this information a shuffle array is constructed, relating result nodes back to originating nodes.
+After all computing steps are finished, a `Group` hierarchy describes which nodes and groups belong to which cluster.
+From this information a shuffle array is constructed, relating result nodes back to originating nodes.
 That array is then used to construct the resulting labels and the resulting adjacency matrix.
