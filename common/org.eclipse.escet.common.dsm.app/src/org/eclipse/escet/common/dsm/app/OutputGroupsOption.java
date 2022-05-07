@@ -22,7 +22,8 @@ public class OutputGroupsOption extends BooleanOption {
     private static final String NAME = "Output groups";
 
     /** Description of the option. */
-    private static final String DESCRIPTION = "Whether to output bus and cluster node groups. [DEFAULT=yes].";
+    private static final String DESCRIPTION = "Whether to output bus and cluster node groups (BOOL=yes) or not "
+            + "(BOOL=no). [DEFAULT=yes].";
 
     /** Short option name. */
     private static final Character CMD_SHORT = null;
@@ -31,7 +32,7 @@ public class OutputGroupsOption extends BooleanOption {
     private static final String CMD_LONG = "output-groups";
 
     /** Name of the option value. */
-    private static final String CMD_VALUE = "OUTPGROUPS";
+    private static final String CMD_VALUE = "BOOL";
 
     /** Default value of the option. */
     private static final boolean DEFAULT_VALUE = true;
@@ -40,10 +41,10 @@ public class OutputGroupsOption extends BooleanOption {
     private static final boolean SHOW_IN_DIALOG = true;
 
     /** Description of the option in the dialog box. */
-    private static final String DIALOG_DESCR = "Output bus and cluster node groups.";
+    private static final String DIALOG_DESCR = "Whether to output bus and cluster node groups.";
 
     /** Label to use as prefix in the dialog box. */
-    private static final String DIALOG_OPTION_TEXT = NAME + ":";
+    private static final String DIALOG_OPTION_TEXT = "Output bus and cluster node groups";
 
     /** Constructor of the {@link OutputGroupsOption} class. */
     public OutputGroupsOption() {

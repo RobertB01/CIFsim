@@ -22,7 +22,7 @@ public class DsmStepCountOption extends IntegerOption {
     private static final String NAME = "Step count";
 
     /** Description of the option. */
-    private static final String DESCRIPTION = "Number of visited nodes in an iteration."
+    private static final String DESCRIPTION = "Number of visited nodes in an iteration. "
             + "Between 1 and 4, is rarely modified. [DEFAULT=2].";
 
     /** Short option name. */
@@ -32,7 +32,7 @@ public class DsmStepCountOption extends IntegerOption {
     private static final String CMD_LONG = "stepcount";
 
     /** Name of the optional value. */
-    private static final String CMD_VALUE = NAME;
+    private static final String CMD_VALUE = "STEPCNT";
 
     /** Default value of the option. */
     private static final int DEFAULT_VALUE = 2;
@@ -50,7 +50,7 @@ public class DsmStepCountOption extends IntegerOption {
     private static final boolean SHOW_IN_DIALOG = true;
 
     /** Description of the option in the dialog box. */
-    private static final String DIALOG_DESCR = "Number of visited nodes.";
+    private static final String DIALOG_DESCR = "Number of visited nodes in an iteration.";
 
     /** Label to use as prefix in the dialog box. */
     private static final String DIALOG_OPTION_TEXT = NAME + ":";

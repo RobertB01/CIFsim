@@ -37,16 +37,16 @@ public class DsmBusFactorOption extends DoubleOption {
     private static final double DEFAULT_VALUE = 2;
 
     /** Minimum value of the option. */
-    private static final Double MIN_VALUE = 0.0;
+    private static final double MIN_VALUE = 0.0;
 
     /** Maximum value of the option. */
-    private static final Double MAX_VALUE = 10000.0;
+    private static final double MAX_VALUE = Integer.MAX_VALUE;
 
     /** Whether to show the option in a dialog box. */
     private static final boolean SHOW_IN_DIALOG = true;
 
     /** Description of the option in the dialog box. */
-    private static final String DIALOG_DESCR = "Bus factor.";
+    private static final String DIALOG_DESCR = "Bus factor for the bus detection algorithms.";
 
     /** Label to use as prefix in the dialog box. */
     private static final String DIALOG_OPTION_TEXT = NAME + ":";

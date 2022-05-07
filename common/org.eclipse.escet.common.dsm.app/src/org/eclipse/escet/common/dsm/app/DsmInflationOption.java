@@ -32,22 +32,22 @@ public class DsmInflationOption extends DoubleOption {
     private static final String CMD_LONG = "inflation";
 
     /** Name of the optional value. */
-    private static final String CMD_VALUE = NAME;
+    private static final String CMD_VALUE = "INFL";
 
     /** Default value of the option. */
     private static final double DEFAULT_VALUE = 2.0;
 
     /** Minimum value of the option. */
-    private static final Double MIN_VALUE = 1.0;
+    private static final double MIN_VALUE = 1.0;
 
     /** Maximum value of the option. */
-    private static final Double MAX_VALUE = 4.0;
+    private static final double MAX_VALUE = 4.0;
 
     /** Whether to show the option in a dialog box. */
     private static final boolean SHOW_IN_DIALOG = true;
 
     /** Description of the option in the dialog box. */
-    private static final String DIALOG_DESCR = "Inflation factor.";
+    private static final String DIALOG_DESCR = "Inflation factor to increase gap between low and high values.";
 
     /** Label to use as prefix in the dialog box. */
     private static final String DIALOG_OPTION_TEXT = NAME + ":";
