@@ -12,7 +12,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
-include::_local_attributes.asciidoc[]
 
 [[tools-chapter-dsm-clustering]]
 == Design Structure Matrix (DSM) clustering

@@ -14,7 +14,7 @@
 include::_part_attributes.asciidoc[]
 
 [[use-chapter-index]]
-== Using Eclipse ESCET IDE
+== Using the Eclipse ESCET IDE
 
 After you have downloaded and extracted the Eclipse ESCET IDE, you can start using it.
 The following information is available to get you started on using the Eclipse ESCET IDE in general, and applies to the various tools in the toolkit:
