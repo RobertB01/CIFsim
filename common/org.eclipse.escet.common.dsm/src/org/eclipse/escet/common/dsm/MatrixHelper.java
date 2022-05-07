@@ -178,7 +178,7 @@ public class MatrixHelper {
     }
 
     /**
-     * Returns the result of exponentiating each entry of the supplied matrix by {code d}.
+     * Returns the result of exponentiating each entry of the supplied matrix by {@code d}.
      *
      * @param m Matrix to exponentiate entries for.
      * @param d Value to exponentiate all entries by.

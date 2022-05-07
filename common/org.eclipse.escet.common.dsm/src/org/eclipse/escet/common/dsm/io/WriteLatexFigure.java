@@ -25,7 +25,7 @@ import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.Group;
 
-/** Generate a LaTeX tikz figure showing the DSM and write it. */
+/** Generate a LaTeX TikZ figure showing the DSM and write it. */
 public class WriteLatexFigure {
     /** Constructor of the {@link WriteLatexFigure} class. */
     private WriteLatexFigure() {
@@ -33,10 +33,10 @@ public class WriteLatexFigure {
     }
 
     /**
-     * Write the clustered dsm and labels to the file in LaTeX tikz format.
+     * Write the clustered DSM and labels to the file in LaTeX TikZ format.
      *
      * @param outHandle Handle to the output file.
-     * @param dsm Dsm with adjacency information.
+     * @param dsm DSM with adjacency information.
      */
     public static void writeMatrixLatexFigureToStream(AppStream outHandle, Dsm dsm) {
         CodeBox codeBox = createMatrixLatexFigure(dsm);
@@ -44,9 +44,9 @@ public class WriteLatexFigure {
     }
 
     /**
-     * Creates LaTeX code of a tikz figure of the clustered dsm and labels.
+     * Creates LaTeX code of a TikZ figure of the clustered DSM and labels.
      *
-     * @param dsm Dsm with adjacency information.
+     * @param dsm DSM with adjacency information.
      * @return The generated text.
      */
     public static CodeBox createMatrixLatexFigure(Dsm dsm) {
@@ -55,7 +55,7 @@ public class WriteLatexFigure {
         // Construct a line of text for each row.
         int size = dsm.adjacencies.getRowDimension();
 
-        // Begin tikz environment.
+        // Begin TikZ environment.
         codeBox.add("\\begin{tikzpicture}[every node/.style={font=\\huge}, scale=0.3, transform shape]");
 
         // Draw the grid.
@@ -78,22 +78,22 @@ public class WriteLatexFigure {
             codeBox.add();
         }
 
-        // End tikz environment.
+        // End TikZ environment.
         codeBox.dedent();
         codeBox.add("\\end{tikzpicture}");
         return codeBox;
     }
 
     /**
-     * Write the cluster outlines to the file in Latex tikz format.
+     * Write the cluster outlines to the file in LaTeX TikZ format.
      *
-     * @param dsm The dsm to write the clusters for.
+     * @param dsm The DSM to write the clusters for.
      * @param codeBox The codebox to write to.
      */
     private static void writeClustersLatex(Dsm dsm, CodeBox codeBox) {
         int size = dsm.adjacencies.getColumnDimension();
 
-        // Print tikz line that defines the cluster lines properties.
+        // Print TikZ line that defines the cluster lines properties.
         codeBox.add("% Cluster lines.");
         codeBox.add("\\draw[line width=1pt, line cap=rect]");
 
@@ -105,13 +105,13 @@ public class WriteLatexFigure {
             writeGroupLatex(gr, size, codeBox);
         }
 
-        // Print closing semicolon for the tikz \draw.
+        // Print closing semicolon for the TikZ \draw.
         codeBox.dedent();
         codeBox.add(";");
     }
 
     /**
-     * Write the outline of the group and its children to the file in Latex tikz format.
+     * Write the outline of the group and its children to the file in LaTeX TikZ format.
      *
      * @param group Group to write (recursively).
      * @param sizeDsm The size of the matrix.
@@ -136,7 +136,7 @@ public class WriteLatexFigure {
     }
 
     /**
-     * Write the specified label in the row or the column of a dsm to the file in the LaTeX tikz format.
+     * Write the specified label in the row or the column of a DSM to the file in the LaTeX TikZ format.
      *
      * @param label The label to print.
      * @param index The destination row / column index.
@@ -146,7 +146,7 @@ public class WriteLatexFigure {
      * @param codeBox The codebox to write to.
      */
     private static void writeLabelLatex(String label, int index, boolean labelsOnRow, int size, CodeBox codeBox) {
-        // In Latex the _ needs to be escaped in text.
+        // In LaTeX the '_' needs to be escaped in text.
         label = label.replace("_", "\\_");
         String labelRow = labelsOnRow ? fmt(label + " - %s", index + 1) : fmt("%s", index + 1);
         String labelColumn = !labelsOnRow ? fmt("%s - " + label, index + 1) : fmt("%s", index + 1);
@@ -165,9 +165,9 @@ public class WriteLatexFigure {
     }
 
     /**
-     * Write the specified row of a dsm to the file in the LaTeX tikz format.
+     * Write the specified row of a DSM to the file in the LaTeX TikZ format.
      *
-     * @param dsm Dsm with adjacency information.
+     * @param dsm DSM with adjacency information.
      * @param row The index of the row to print.
      * @param codeBox The codebox to write to.
      */

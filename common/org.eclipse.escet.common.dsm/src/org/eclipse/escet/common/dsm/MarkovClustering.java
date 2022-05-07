@@ -59,7 +59,7 @@ public class MarkovClustering {
         final int size = m.getRowDimension();
 
         OutputProvider.dbg();
-        OutputProvider.dbg("Input to Markov: ");
+        OutputProvider.dbg("Input to Markov:");
         OutputProvider.dbg(m.toString());
 
         // Iterate to stable probabilities.
@@ -78,7 +78,7 @@ public class MarkovClustering {
             prune(m, pruningLimit);
         }
 
-        OutputProvider.dbg("Output from Markov: ");
+        OutputProvider.dbg("Output from Markov:");
         OutputProvider.dbg(m.toString());
         OutputProvider.dbg();
 

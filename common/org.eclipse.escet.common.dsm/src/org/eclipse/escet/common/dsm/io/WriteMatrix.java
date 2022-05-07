@@ -91,7 +91,7 @@ public class WriteMatrix {
      * Append a left-aligned column of texts to the lines.
      *
      * @param texts Text to add to each row.
-     * @param lines Lines created so far. They are assumed to have equal length, and are modified in-place
+     * @param lines Lines created so far. They are assumed to have equal length, and are modified in-place.
      */
     private static void appendLeftAlignedColumn(String[] texts, StringBuilder[] lines) {
         if (texts.length == 0) {
@@ -108,7 +108,7 @@ public class WriteMatrix {
      * Append a right-aligned column of texts to the lines.
      *
      * @param texts Text to add to each row.
-     * @param lines Lines created so far. They are assumed to have equal length, and are modified in-place
+     * @param lines Lines created so far. They are assumed to have equal length, and are modified in-place.
      */
     private static void appendRightAlignedColumn(String[] texts, StringBuilder[] lines) {
         if (texts.length == 0) {
@@ -156,7 +156,7 @@ public class WriteMatrix {
                 outHandle.print(indent + "- collection");
                 break;
             default:
-                throw new RuntimeException(fmt("Unexpected groupType \"%s\" found."));
+                throw new RuntimeException(fmt("Unexpected groupType \"%s\" found.", group.groupType));
         }
 
         int base = group.getShuffledBase();

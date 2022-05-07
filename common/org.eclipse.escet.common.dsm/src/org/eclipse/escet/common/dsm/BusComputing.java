@@ -26,7 +26,14 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 
-/** Functions for computing buses. */
+/**
+ * Functions for computing buses.
+ *
+ * <p>
+ * PhD thesis, referred to as [Wilschut 2018]: Wilschut T. System specification and design structuring methods for a
+ * lock product platform. Eindhoven: Technische Universiteit Eindhoven, 2018. 178 p.
+ * </p>
+ */
 public class BusComputing {
     /** Constructor of the static {@link BusComputing} class. */
     private BusComputing() {
@@ -34,7 +41,7 @@ public class BusComputing {
     }
 
     /**
-     * Compute which nodes of the matrix should be considered a bus node using the top-k method.
+     * Compute which nodes of the matrix should be considered a bus node using the top-k algorithm.
      *
      * <p>
      * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
@@ -52,7 +59,7 @@ public class BusComputing {
     }
 
     /**
-     * Compute which nodes of the matrix should be considered a bus node using the top-k method.
+     * Compute which nodes of the matrix should be considered a bus node using the top-k algorithm.
      *
      * <p>
      * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
@@ -71,7 +78,7 @@ public class BusComputing {
     }
 
     /**
-     * Compute which nodes of the matrix should be considered a bus node using the top-k method.
+     * Compute which nodes of the matrix should be considered a bus node using the top-k algorithm.
      *
      * <p>
      * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
@@ -89,7 +96,7 @@ public class BusComputing {
     }
 
     /**
-     * Compute which nodes of the matrix should be considered a bus node using the top-k method.
+     * Compute which nodes of the matrix should be considered a bus node using the top-k algorithm.
      *
      * <p>
      * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
@@ -108,7 +115,7 @@ public class BusComputing {
     }
 
     /**
-     * Compute which nodes of the matrix should be considered a bus node using the top-k method.
+     * Compute which nodes of the matrix should be considered a bus node using the top-k algorithm.
      *
      * <p>
      * Implements the bus-detection algorithm where the top gamma nodes are selected with the highest connection degree.
@@ -152,8 +159,7 @@ public class BusComputing {
         }
 
         // Sort the array of pairs in descending order of the original array values.
-        Arrays.sort(pairs,
-                (Pair<Integer, Integer> p1, Pair<Integer, Integer> p2) -> Integer.compare(p2.right, p1.right));
+        Arrays.sort(pairs, (p1, p2) -> Integer.compare(p2.right, p1.right));
 
         // Extract the original indices, which are located in the left-hand side of each pairs.
         int[] result = new int[k];
@@ -165,7 +171,7 @@ public class BusComputing {
     }
 
     /**
-     * Compute which nodes of the matrix should be considered a bus node using the fixed point algorithm.
+     * Compute which nodes of the matrix should be considered a bus node using the fixed-point algorithm.
      *
      * <p>
      * Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.
@@ -181,7 +187,7 @@ public class BusComputing {
     }
 
     /**
-     * Compute which nodes of the matrix should be considered a bus node using the fixed point algorithm.
+     * Compute which nodes of the matrix should be considered a bus node using the fixed-point algorithm.
      *
      * <p>
      * Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.
@@ -197,7 +203,7 @@ public class BusComputing {
     }
 
     /**
-     * Compute which nodes of the matrix should be considered a bus node using the fixed-point method.
+     * Compute which nodes of the matrix should be considered a bus node using the fixed-point algorithm.
      *
      * <p>
      * Implements the bus-detection as described in [Wilschut 2018], Section 2.2.4, Page 21.

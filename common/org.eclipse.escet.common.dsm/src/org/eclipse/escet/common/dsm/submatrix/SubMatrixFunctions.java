@@ -27,8 +27,8 @@ import org.eclipse.escet.common.dsm.Group.GroupType;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * Functions around constructing sub matrices from a parent matrix, and converting grouped sub matrix results back to the
- * parent.
+ * Functions around constructing sub matrices from a parent matrix, and converting grouped sub matrix results back to
+ * the parent.
  *
  * <p>
  * The {@link #makeSubNodes} function takes the top-level already existing groups of the parent matrix as well as the

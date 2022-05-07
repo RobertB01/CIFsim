@@ -23,7 +23,7 @@ public class DsmBusDetectionAlgorithmOption extends EnumOption<BusDetectionAlgor
     private static final String NAME = "Bus detection algorithm";
 
     /** Description of the option. */
-    private static final String DESCRIPTION = "Which bus detection algorithm to use. Use 'no-bus' to skip bus detection, 'fix-point' for using the fix-point algorithm, and 'top-k' for selecting the K top-nodes. [DEFAULT=no-bus].";
+    private static final String DESCRIPTION = "Which bus detection algorithm to use. Use 'no-bus' to skip bus detection, 'fix-point' for using the fixed-point algorithm, and 'top-k' for selecting the K top-nodes. [DEFAULT=no-bus].";
 
     /** Short option name. */
     private static final Character CMD_SHORT = null;
@@ -54,7 +54,7 @@ public class DsmBusDetectionAlgorithmOption extends EnumOption<BusDetectionAlgor
             case NO_BUS:
                 return "No bus";
             case FIX_POINT:
-                return "Fix point";
+                return "Fixed point";
             case TOP_K:
                 return "Top k nodes";
         }

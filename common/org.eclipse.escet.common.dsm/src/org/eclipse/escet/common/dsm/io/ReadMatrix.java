@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -44,7 +43,7 @@ public class ReadMatrix {
      * @return {@code null} if match failed, else a match result with various relevant indices.
      */
     private static MatchResult matchWord(String line, int start) {
-        Assert.check(start >= 0 || start < line.length());
+        Assert.check(start >= 0 && start < line.length());
 
         // Find first non-space at or after 'start'.
         int index = start;
@@ -87,7 +86,7 @@ public class ReadMatrix {
      * @return {@code null} if match failed, else a match result with various relevant indices.
      */
     private static MatchResult matchSep(String line, int start) {
-        Assert.check(start >= 0 || start < line.length());
+        Assert.check(start >= 0 && start < line.length());
 
         int index = start;
         while (index < line.length() && Character.isWhitespace(line.charAt(index))) {
@@ -150,7 +149,7 @@ public class ReadMatrix {
      */
     private static ClusterInputData convertToMatrix(List<List<String>> matrixLines) {
         // Decide on the size of the matrix.
-        // Note that rows are expected to be one bigger, since the first column is labels.
+        // Note that rows are expected to be one longer than columns, since the first column is labels.
         //
         int matRowCount = matrixLines.size();
         int matColcount = 0;
@@ -203,8 +202,8 @@ public class ReadMatrix {
      * Read the matrix elements as rows and columns of texts.
      *
      * @param inp Input stream.
-     * @return Rows of columns of texts. Note that the number of columns at each line may be different.
-     *      Also, no checking is performed whether the number of lines and columns match.
+     * @return Rows of columns of texts. Note that the number of columns at each line may be different. Also, no
+     *     checking is performed whether the number of lines and columns match.
      * @throws InputOutputException When a line of text could not be read.
      */
     private static List<List<String>> readMatrixLines(BufferedReader inp) {
@@ -229,37 +228,31 @@ public class ReadMatrix {
     /**
      * Read the CSV-like adjacency and label data from the file with the provided name.
      *
-     * <p>True CSV is a complicated format, so this code only does a subset.</p>
-     * <p>It assumes NxN numeric (real) values, as N lines of N comma or pipe separated numbers at a line.
-     * Before the first number at each row should be a label designating the name of the element of that row.
-     * Optionally, above the first line of data may be a line of labels as well.</p>
-     * <p>Example:
-     * <pre>
+     * <p>
+     * True CSV is a complicated format, so this code only does a subset.
+     * </p>
+     * <p>
+     * It assumes NxN numeric (real) values, as N lines of N comma separated numbers at a line. Before the first number
+     * at each row should be a label designating the name of the element of that row. Optionally, above the first line
+     * of data may be a line of labels as well.
+     * </p>
+     * <p>
+     * Example: <pre>
      * "",  "A", "B"
      * "A",  1,   0
      * "B", 0.5, 0.1
-     * </pre>shows a 2x2 adjacency matrix of elements A and B with an additional first line of labels.</p>
+     * </pre>shows a 2x2 adjacency matrix of elements A and B with an additional first line of labels.
+     * </p>
      *
-     * @param filename Name of the file to read.
+     * @param filepath Path of the file to read.
      * @return The read data.
      */
-    public static ClusterInputData readMatrixFile(String filename) {
-        BufferedReader handle = null;
-        try {
-            handle = new BufferedReader(new FileReader(filename));
-        } catch (FileNotFoundException ex) {
-            throw new InputOutputException(fmt("Failed to open input file \"%s\".", filename), ex);
-        }
-
-        try {
-            List<List<String>> matrixLines = readMatrixLines(handle);
+    public static ClusterInputData readMatrixFile(String filepath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
+            List<List<String>> matrixLines = readMatrixLines(reader);
             return convertToMatrix(matrixLines);
-        } finally {
-            try {
-                handle.close();
-            } catch (IOException ex) {
-                throw new InputOutputException(fmt("Failed to close file \"%s\".", filename), ex);
-            }
+        } catch (IOException ex) {
+            throw new InputOutputException(fmt("Failed to read input file \"%s\".", filepath), ex);
         }
     }
 }

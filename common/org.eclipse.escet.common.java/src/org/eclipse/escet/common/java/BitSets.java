@@ -47,6 +47,7 @@ public class BitSets {
      *
      * @param indices Bit numbers of bits that should be set.
      * @return The created bitset.
+     * @throws IndexOutOfBoundsException If a bit number is negative.
      */
     public static BitSet makeBitset(int... indices) {
         BitSet bs = bitset();
@@ -57,7 +58,7 @@ public class BitSets {
     /**
      * Make an independent copy of the provided bitset.
      *
-     * @param bs Bit set to copy.
+     * @param bs Bitset to copy.
      * @return The created independent copy.
      */
     public static BitSet copy(BitSet bs) {
@@ -80,7 +81,7 @@ public class BitSets {
     /**
      * Invert the provided bitset, up to bit index {@code n}.
      *
-     * @param bs Bit set to invert and truncate.
+     * @param bs Bitset to invert and truncate.
      * @param n Number of bits to invert.
      * @return The inverted bitset (all bits that are not in {@code bs} up to bit number {@code n}).
      * @throws IndexOutOfBoundsException If {@code n} is negative.
@@ -94,7 +95,7 @@ public class BitSets {
     /**
      * Get the index of the first {@code true} bit in the set.
      *
-     * @param bs Bit set to check.
+     * @param bs Bitset to check.
      * @return Index of the first {@code true} bit, or {@code -1} if there is no such bit.
      */
     public static int first(BitSet bs) {
@@ -104,7 +105,7 @@ public class BitSets {
     /**
      * Decide whether the bitset spans a consecutive range of {@code true} bits.
      *
-     * @param bs Bit set to check.
+     * @param bs Bitset to check.
      * @return Whether all {@code true} bits are consecutively ordered in the set.
      */
     public static boolean isConsecutive(BitSet bs) {
@@ -119,7 +120,7 @@ public class BitSets {
     /**
      * Set all bits indicated by the bit numbers.
      *
-     * @param bs Bit set to update.
+     * @param bs Bitset to update.
      * @param bitNumbers Bit indices to set.
      * @throws IndexOutOfBoundsException If a bit number is negative.
      */
@@ -154,7 +155,7 @@ public class BitSets {
     /**
      * Wrapper function for iterating over set bits of a {@link BitSet}.
      *
-     * @param bitSet Bit set to iterate over.
+     * @param bitSet Bitset to iterate over.
      * @return Iterable over the supplied bitset.
      */
     public static Iterable<Integer> iterateTrueBits(BitSet bitSet) {
@@ -164,7 +165,7 @@ public class BitSets {
     /**
      * Wrapper function for iterating over set bits of a {@link BitSet}.
      *
-     * @param bitSet Bit set to iterate over.
+     * @param bitSet Bitset to iterate over.
      * @param fromIndex Start iterating from the first {@code true} bit at or after this index.
      * @return Iterable over the supplied bitset.
      * @throws IndexOutOfBoundsException If the specified index is negative.

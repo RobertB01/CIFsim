@@ -160,7 +160,7 @@ public class DsmClustering {
         int[] nodeShuffle = computeShuffle(rootGroup);
         if (OutputProvider.dodbg()) {
             OutputProvider.dbg();
-            OutputProvider.dbg("Node mapping new <- original: ");
+            OutputProvider.dbg("Node mapping new <- original:");
             for (int i = 0; i < nodeShuffle.length; i++) {
                 OutputProvider.dbg("  %d <- %d", i, nodeShuffle[i]);
             }
@@ -204,7 +204,7 @@ public class DsmClustering {
         group.setShuffledBase(base);
 
         Collections.sort(group.childGroups, GroupComparator.COMPARATOR);
-        // Assign child groups
+        // Assign child groups.
         for (Group child: group.childGroups) {
             int nextFree = assignGroups(nodeShuffle, base, child);
             Assert.check(base + child.members.cardinality() == nextFree);
@@ -212,7 +212,6 @@ public class DsmClustering {
         }
         if (group.localNodes != null) {
             // Assign local nodes.
-
             for (int i: iterateTrueBits(group.localNodes)) {
                 nodeShuffle[base] = i;
                 base++;
