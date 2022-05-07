@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-from "lib:common" import *;
+from "lib:escet" import *;
 
 dsmclustering("theme_park.dsm",
               "-m debug",

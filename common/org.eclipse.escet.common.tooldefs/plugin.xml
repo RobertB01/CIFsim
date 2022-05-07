@@ -13,6 +13,6 @@
 -->
 <plugin>
    <extension point="org.eclipse.escet.tooldef.library">
-      <library name="common"/>
+      <library name="escet"/>
    </extension>
 </plugin>
