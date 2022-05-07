@@ -90,9 +90,13 @@ A Design Structure Matrix (DSM) file is a CSV-like file that contains an _N_ tim
 Each line of the file contains a row of the matrix.
 Within the line, values are separated by commas.
 Both integer and real values are supported, such as `0`, `1`, `1.5`, `1e3` and `1.5e-4`.
+Negative values, `NaN` and infinite values are not allowed.
 Before the first number at each row there should be a label indicating the name of the element of that row.
 Optionally, above the first line of data there may be a line of column labels as well.
-Labels that include a comma or space should be surrounded by double quotes, like `"Some test, and more text"`.
+If column labels are present, the top-left cells of the matrix must be empty, and the row and column labels must match.
+Rows that are shorter than other rows are automatically extended with additional zero values.
+Zero values may be omitted.
+Labels that include a comma or space should be surrounded by double quotes, like `"Some text, and more text"`.
 
 The following example shows a DSM for a two by two adjacency matrix of elements `A` and `B`, with column labels:
 

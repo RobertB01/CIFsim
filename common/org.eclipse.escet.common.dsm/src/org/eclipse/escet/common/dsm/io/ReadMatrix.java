@@ -13,13 +13,18 @@
 
 package org.eclipse.escet.common.dsm.io;
 
+import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.slice;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.slice;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -30,110 +35,75 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Code for reading and writing a matrix. */
 public class ReadMatrix {
+    /** Whitespace regular expression pattern. */
+    private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
+
+    /** Matrix quoted entry regular expression pattern. */
+    private static final Pattern QUOTED_ENTRY_PATTERN = Pattern.compile("\\\"[^\\\"]*\\\"");
+
+    /** Matrix regular entry regular expression pattern. */
+    private static final Pattern REGULAR_ENTRY_PATTERN = Pattern.compile("[^, ]*");
+
+    /** Matrix entry separator regular expression pattern. */
+    private static final Pattern SEPARATOR_PATTERN = Pattern.compile(",");
+
     /** Constructor of the static {@link ReadMatrix} class. */
     private ReadMatrix() {
         // Static class.
     }
 
     /**
-     * Match a 'word' to a matrix input line.
+     * Parse a line of text to its entries.
      *
-     * @param line Text line to analyze.
-     * @param start Start index for analyzing. Should be a character in the line.
-     * @return {@code null} if match failed, else a match result with various relevant indices.
+     * @param line Line to parse.
+     * @return The entries.
+     * @throws IOException In case of a parse error.
      */
-    private static MatchResult matchWord(String line, int start) {
-        Assert.check(start >= 0 && start < line.length());
-
-        // Find first non-space at or after 'start'.
-        int index = start;
-        while (index < line.length() && Character.isWhitespace(line.charAt(index))) {
-            index++;
-        }
-        if (index >= line.length()) {
-            return null;
-        }
-
-        // Grab the next word from the string.
-        int groupStart = index;
-        if (line.charAt(index) == '"') {
-            // Parse quoted word.
-            index++;
-            while (index < line.length() && line.charAt(index) != '"') {
-                index++;
-            }
-            if (index < line.length()) { // Don't skip non-existing closing quote.
-                index++;
-            }
-            return new MatchResult(start, index, groupStart + 1, index);
-        } else {
-            // Parse non-quoted word.
-            while (index < line.length()) {
-                if (Character.isWhitespace(line.charAt(index)) || line.charAt(index) == ',') {
-                    break;
-                }
-                index++;
-            }
-            return new MatchResult(start, index, groupStart, index);
-        }
-    }
-
-    /**
-     * Match a separator to a matrix input line.
-     *
-     * @param line Text line to analyze.
-     * @param start Start index for analyzing. Should point at a character in the line.
-     * @return {@code null} if match failed, else a match result with various relevant indices.
-     */
-    private static MatchResult matchSep(String line, int start) {
-        Assert.check(start >= 0 && start < line.length());
-
-        int index = start;
-        while (index < line.length() && Character.isWhitespace(line.charAt(index))) {
-            index++;
-        }
-        if (index >= line.length()) {
-            return null;
-        }
-
-        if (line.charAt(index) == ',') {
-            return new MatchResult(start, index + 1, index, index + 1);
-        }
-        return null;
-    }
-
-    /**
-     * Read words from a line of text.
-     *
-     * @param line Line to read.
-     * @return The read words.
-     */
-    private static List<String> parseLine(String line) {
+    private static List<String> parseLine(String line) throws IOException {
         List<String> entries = list();
+
+        Matcher whitespaceMatcher = WHITESPACE_PATTERN.matcher(line);
+        Matcher quotedEntryMatcher = QUOTED_ENTRY_PATTERN.matcher(line);
+        Matcher regularEntryMatcher = REGULAR_ENTRY_PATTERN.matcher(line);
+        Matcher separatorMatcher = SEPARATOR_PATTERN.matcher(line);
 
         int index = 0;
         while (true) {
-            if (index >= line.length()) {
-                break;
+            // Skip whitespace.
+            if (whitespaceMatcher.find(index) && whitespaceMatcher.start() == index) {
+                index += whitespaceMatcher.end() - index;
             }
 
-            MatchResult matchResult = matchWord(line, index);
-            if (matchResult == null) {
-                break;
+            // Parse an entry.
+            if (quotedEntryMatcher.find(index) && quotedEntryMatcher.start() == index) {
+                String entry = slice(quotedEntryMatcher.group(), 1, -1);
+                entries.add(entry);
+                index += quotedEntryMatcher.end() - index;
+            } else {
+                Assert.check(regularEntryMatcher.find(index));
+                Assert.areEqual(regularEntryMatcher.start(), index);
+                String entry = regularEntryMatcher.group();
+                entries.add(entry);
+                index += regularEntryMatcher.end() - index;
             }
-            entries.add(line.substring(matchResult.groupStart, matchResult.groupEnd));
 
-            index = matchResult.matchEnd;
-            if (index >= line.length()) {
-                break;
+            // Skip whitespace.
+            if (whitespaceMatcher.find(index) && whitespaceMatcher.start() == index) {
+                index += whitespaceMatcher.end() - index;
             }
 
-            matchResult = matchSep(line, index);
-            if (matchResult == null) {
+            // Parse a separator.
+            if (separatorMatcher.find(index) && separatorMatcher.start() == index) {
+                index += separatorMatcher.end() - index;
+            } else {
                 break;
             }
-            index = matchResult.matchEnd;
         }
+
+        if (index != line.length()) {
+            throw new IOException(fmt("Failed to parse matrix line at position %d.", index + 1));
+        }
+
         return entries;
     }
 
@@ -146,48 +116,61 @@ public class ReadMatrix {
      *
      * @param matrixLines Read input, rows of columns of texts.
      * @return The found cluster input data (adjacency values and labels).
+     * @throws IOException In case of a conversion error.
      */
-    private static ClusterInputData convertToMatrix(List<List<String>> matrixLines) {
+    static ClusterInputData convertToMatrix(List<List<String>> matrixLines) throws IOException {
         // Decide on the size of the matrix.
-        // Note that rows are expected to be one longer than columns, since the first column is labels.
-        //
+        // Note that rows may be one longer than columns, as row labels are mandatory, while column labels are optional.
         int matRowCount = matrixLines.size();
-        int matColcount = 0;
-        for (List<String> row: matrixLines) {
-            matColcount = Math.max(matColcount, row.size());
-        }
+        int matColcount = matrixLines.stream().map(row -> row.size()).max(Math::max).orElseGet(() -> 0);
 
         int firstDataLine; // First line containing data.
         if (matRowCount > 1 && matRowCount == matColcount) {
+            // First line has column labels.
             firstDataLine = 1;
         } else if (matRowCount >= 1 && matRowCount + 1 == matColcount) {
-            // First line is data.
+            // First line has data.
             firstDataLine = 0;
         } else {
             String msg = "Matrix data is not square, found %d rows and %d columns, excluding first label column.";
-            throw new InputOutputException(fmt(msg, matRowCount, matColcount - 1));
+            throw new IOException(fmt(msg, matRowCount, matColcount - 1));
         }
 
         int size = matRowCount - firstDataLine;
         RealMatrix adjMat = new BlockRealMatrix(size, size);
-        Label[] labels = new Label[size];
+        Label[] rowLabels = new Label[size];
 
         // Copy data to matrix.
         for (int row = 0; row < size; row++) {
             List<String> line = matrixLines.get(firstDataLine + row);
-            labels[row] = (line.size() > 0) ? new Label(line.get(0)) : new Label("");
+            rowLabels[row] = (line.size() > 0) ? new Label(line.get(0)) : new Label("");
             int col = 0;
             for (; col < size; col++) {
                 if (line.size() <= col + 1) {
                     break;
                 }
 
+                String valueText = line.get(col + 1);
                 double value;
-                try {
-                    value = Math.max(0, Double.parseDouble(line.get(col + 1)));
-                } catch (NumberFormatException ex) {
-                    value = 0;
+                if (valueText.isBlank()) {
+                    value = 0.0;
+                } else {
+                    try {
+                        value = Double.parseDouble(valueText);
+                    } catch (NumberFormatException ex) {
+                        throw new IOException(fmt("Value \"%s\" is not numeric.", valueText));
+                    }
                 }
+                if (value < 0) {
+                    throw new IOException(fmt("Value \"%s\" is negative.", valueText));
+                }
+                if (Double.isNaN(value)) {
+                    throw new IOException(fmt("Value \"%s\" is not a number.", valueText));
+                }
+                if (Double.isInfinite(value)) {
+                    throw new IOException(fmt("Value \"%s\" is infinite.", valueText));
+                }
+
                 adjMat.setEntry(row, col, value);
             }
             for (; col < size; col++) {
@@ -195,31 +178,61 @@ public class ReadMatrix {
             }
         }
 
-        return new ClusterInputData(adjMat, labels);
+        // Check column labels, if any.
+        if (firstDataLine == 1) {
+            // Check top-left cell.
+            List<String> firstLine = matrixLines.get(0);
+            String topLeftCell = first(firstLine);
+            if (!topLeftCell.isEmpty()) {
+                throw new IOException(
+                        fmt("The top-left cell of the matrix contains \"%s\" rather than being empty.", topLeftCell));
+            }
+
+            // Check row vs column labels.
+            Label[] colLabels = slice(firstLine, 1, null).stream().map(l -> new Label(l)).toArray(l -> new Label[l]);
+            Assert.areEqual(rowLabels.length, size);
+            Assert.areEqual(colLabels.length, size);
+            for (int i = 0; i < size; i++) {
+                if (!rowLabels[i].equals(colLabels[i])) {
+                    throw new IOException(
+                            fmt("Row label \"%s\" is different from column label \"%s\".", rowLabels[i], colLabels[i]));
+                }
+            }
+        }
+
+        // Return cluster input data.
+        return new ClusterInputData(adjMat, rowLabels);
     }
 
     /**
      * Read the matrix elements as rows and columns of texts.
      *
-     * @param inp Input stream.
+     * @param reader The reader to use.
      * @return Rows of columns of texts. Note that the number of columns at each line may be different. Also, no
      *     checking is performed whether the number of lines and columns match.
-     * @throws InputOutputException When a line of text could not be read.
+     * @throws IOException In case of an I/O or parse error.
      */
-    private static List<List<String>> readMatrixLines(BufferedReader inp) {
+    static List<List<String>> readMatrixLines(BufferedReader reader) throws IOException {
         List<List<String>> matrixValues = list();
+        int lineNr = 0;
         while (true) {
+            lineNr++;
             String line;
             try {
-                line = inp.readLine();
+                line = reader.readLine();
             } catch (IOException ex) {
-                throw new InputOutputException("Failed to read a text line.", ex);
+                throw new IOException(fmt("Failed to read matrix line %d.", lineNr), ex);
             }
             if (line == null) {
                 break; // EOF reached.
             }
 
-            List<String> words = parseLine(line);
+            List<String> words;
+            try {
+                words = parseLine(line);
+            } catch (IOException ex) {
+                throw new IOException(fmt("Failed to parse matrix line %d.", lineNr), ex);
+            }
             matrixValues.add(words);
         }
         return matrixValues;
@@ -252,7 +265,7 @@ public class ReadMatrix {
             List<List<String>> matrixLines = readMatrixLines(reader);
             return convertToMatrix(matrixLines);
         } catch (IOException ex) {
-            throw new InputOutputException(fmt("Failed to read input file \"%s\".", filepath), ex);
+            throw new InputOutputException(fmt("Failed to read or interpret matrix file \"%s\".", filepath), ex);
         }
     }
 }
