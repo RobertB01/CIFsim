@@ -162,8 +162,9 @@ public class WriteMatrix {
         int base = group.getShuffledBase();
         int size = group.getShuffledSize();
         if (base >= 0) {
-            outHandle.printf(" from %d to %d%n", base + 1, base + size); // 1-based !
+            outHandle.printf(" from %d to %d", base + 1, base + size); // 1-based!
         }
+        outHandle.newLine();
 
         for (Group child: group.childGroups) {
             writeGroups(outHandle, child, indent + "- ");
