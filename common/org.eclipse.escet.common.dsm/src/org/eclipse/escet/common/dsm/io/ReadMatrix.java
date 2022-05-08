@@ -71,30 +71,30 @@ public class ReadMatrix {
         while (true) {
             // Skip whitespace.
             if (whitespaceMatcher.find(index) && whitespaceMatcher.start() == index) {
-                index += whitespaceMatcher.end() - index;
+                index = whitespaceMatcher.end();
             }
 
             // Parse an entry.
             if (quotedEntryMatcher.find(index) && quotedEntryMatcher.start() == index) {
                 String entry = slice(quotedEntryMatcher.group(), 1, -1);
                 entries.add(entry);
-                index += quotedEntryMatcher.end() - index;
+                index = quotedEntryMatcher.end();
             } else {
                 Assert.check(regularEntryMatcher.find(index));
                 Assert.areEqual(regularEntryMatcher.start(), index);
                 String entry = regularEntryMatcher.group();
                 entries.add(entry);
-                index += regularEntryMatcher.end() - index;
+                index = regularEntryMatcher.end();
             }
 
             // Skip whitespace.
             if (whitespaceMatcher.find(index) && whitespaceMatcher.start() == index) {
-                index += whitespaceMatcher.end() - index;
+                index = whitespaceMatcher.end();
             }
 
             // Parse a separator.
             if (separatorMatcher.find(index) && separatorMatcher.start() == index) {
-                index += separatorMatcher.end() - index;
+                index = separatorMatcher.end();
             } else {
                 break;
             }
