@@ -64,6 +64,7 @@ These libraries and development tools are shared by the various end-user languag
 Information on the following libraries and development tools is available:
 
 * <<app-framework-chapter-index>>
+* <<dsm-chapter-index>>
 * <<multivalue-chapter-index>>
 * <<rail-chapter-index>>
 * <<setext-chapter-index>>
@@ -125,6 +126,22 @@ include::app-framework/implement-your-application.asciidoc[]
 include::app-framework/registration.asciidoc[]
 
 include::app-framework/execution.asciidoc[]
+
+:leveloffset: -1
+
+// DSM library
+
+include::dsm/index.asciidoc[]
+
+:leveloffset: +1
+
+include::dsm/entrypoint.asciidoc[]
+
+include::dsm/algorithm.asciidoc[]
+
+include::dsm/busdetection.asciidoc[]
+
+include::dsm/references.asciidoc[]
 
 :leveloffset: -1
 

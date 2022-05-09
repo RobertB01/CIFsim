@@ -1,0 +1,144 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tools-chapter-dsm-clustering]]
+== Design Structure Matrix (DSM) clustering
+
+indexterm:[DSM clustering]
+indexterm:[tools,DSM clustering]
+
+One way to find structure in a graph is by seeing it as a collection of _clustered nodes_, where two nodes within a single cluster are more connected to each other than two nodes in different clusters.
+In addition, in a lot of cases, there is a set of nodes that connect to many other nodes in the graph (or in terms of clusters, one cluster connects with many other clusters).
+Such a set of nodes is named a _bus_.
+
+The DSM clustering tool aims to heuristically find such a bus and clusters.
+The implemented algorithm is based on <<wilschut17>>.
+
+indexterm:[DSM clustering,start]
+
+=== Starting the clustering tool
+
+The clustering tool can be started in the following ways:
+
+* In Eclipse, right click a `.dsm` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:Cluster a DSM...[].
+
+* Right click an open text editor for a `.dsm` file and choose menu:Cluster a DSM...[].
+
+* Use the `dsmclustering` tool in a ToolDef script.
+
+* Use the `dsmclustering` command line tool.
+
+indexterm:[DSM clustering,options]
+
+=== Options
+
+Besides the general application options, this application has the following options:
+
+* _Input file path_: The absolute or relative file system path to the <<tools-dsm-input,input DSM file>>.
+
+* _Output file path_: The absolute or relative file system path for writing the generated DSM output file.
+By default, the output file path is the same as the input file path, but with the `.dsm` extension removed (if it exists), and the `_output.dsm` extension added.
+By setting this option, the default is overridden by the given value.
+
+* _Evaporation factor_: Factor that influences when a node is considered to be part of a cluster.
+Higher values leads to higher connection requirements between nodes, which leads to fewer nodes in a single cluster and thus more (smaller) clusters.
+Between `1.0` and `10.0`, default value is `2.0`.
+
+* _Inflation factor_: Factor that influences how fast large values increase and small values decrease, where the small values are eventually eliminated.
+Higher values of the factor speed up the process.
+Between `1.0` and `4.0`, default value is `2.0`.
+
+* _Bus detection algorithm_: The bus detection algorithm to apply.
+By default, no bus is detected.
+See <<tools-dsm-busdetection>> below for more details.
+
+* _Bus factor_: Factor that influences when a node is considered to be part of the bus.
+The actual interpretation of this factor depends on the chosen bus detection algorithm.
+Default value is `2`.
+For more information, see <<tools-dsm-busdetection>> below for more details.
+
+* _Convergence limit_: Allowed remaining numerical error before considering termination of the algorithm.
+Higher values end the computation sooner at the cost of less precision in the results.
+Values are between `0` and `1` (where `0` is not achievable, and `1` is not precise enough).
+Default value is `1e-4`.
+
+* _Step count_: Number of additional nodes to visit each iteration.
+Between `1` and `4`, default value is `2`.
+Changing this values is rarely needed.
+
+* _Output groups_: Whether to output the node numbers in the bus and each cluster.
+Default is `true`.
+
+indexterm:[DSM clustering,input]
+
+[[tools-dsm-input]]
+=== DSM file format
+
+A Design Structure Matrix (DSM) file is a CSV-like file that contains an _N_ times _N_ matrix of values.
+Each line of the file contains a row of the matrix.
+Within the line, values are separated by commas.
+Both integer and real values are supported, such as `0`, `1`, `1.5`, `1e3` and `1.5e-4`.
+Negative values, `NaN` and infinite values are not allowed.
+Before the first number at each row there should be a label indicating the name of the element of that row.
+Optionally, above the first line of data there may be a line of column labels as well.
+If column labels are present, the top-left cells of the matrix must be empty, and the row and column labels must match.
+Rows that are shorter than other rows are automatically extended with additional zero values.
+Zero values may be omitted.
+Labels that include a comma or space should be surrounded by double quotes, like `"Some text, and more text"`.
+
+The following example shows a DSM for a two by two adjacency matrix of elements `A` and `B`, with column labels:
+
+[source, dsm]
+----
+ , A  , B
+A, 1  , 0
+B, 0.5, 0.1
+----
+
+indexterm:[DSM clustering,computing]
+
+=== Computing a clustered DSM
+
+Since the DSM clustering tool is based on heuristics, and typically much of the input values in the graph are not hard numbers, there are often several valid answers where some of the answers match your expectations better.
+
+It is therefore recommended to experiment with the various factors somewhat to see what other answers are possible, and whether they make sense.
+
+indexterm:[DSM clustering,bus detection]
+
+[[tools-dsm-busdetection]]
+=== Bus detection algorithms
+
+Bus detection uses connectivity of the nodes, which is the sum of their in and out degrees.
+
+Currently, the following bus detection algorithm options are available:
+
+* _Fix-point algorithm_, named `fix-point` in the tool.
+This is the fix-point algorithm as introduced in <<wilschut17>>.
+The algorithm repeatedly adds new nodes to the bus with a connectivity higher than the median connectivity of non-bus nodes multiplied by _bus factor_.
+The final set of bus nodes is obtained when such new nodes no longer exist.
+The value of _bus factor_ should be between `1` and `4` (boundaries included).
+
+* _Top-k algorithm_, named `top-k` in the tool.
+This bus detection algorithm selects the nodes with the highest connectivity, where the number of nodes to select as bus nodes is _bus factor_.
+The value of _bus factor_ should be an integer between `0` and the number of elements in the DSM.
+Real numbers are truncated.
+
+* _No bus_, named `no-bus` in the tool.
+No bus detection mechanism is applied, so no bus elements are detected.
+
+[bibliography]
+=== References
+
+* [[[wilschut17,Wilschut et al. (2017)]]] T. Wilschut, L.F.P. Etman, J.E. Rooda and I.J.B.F. Adan, "Multilevel Flow-Based Markov Clustering for Design Structure Matrices", Journal of Mechanical Design, volume 139, issue 12, 2017, doi:link:https://doi.org/10.1115/1.4037626[10.1115/1.4037626]

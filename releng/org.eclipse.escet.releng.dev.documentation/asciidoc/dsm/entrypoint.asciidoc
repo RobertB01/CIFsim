@@ -1,0 +1,73 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[dsm-entrypoint]]
+== Code organization
+
+For a user, the entry point is the `DsmClustering.flowBasedMarkovClustering` method which takes the following parameters:
+
+indexterm:[DSM library,Markov clustering parameters]
+
+.Markov clustering function parameters
+[[clustering-function-parameter-table]]
+[cols="1,1,1,4", opts="header"]
+|===
+| Parameter | Algorithmic name | Empirical useful range | Description
+
+| `RealMatrix adjacencies`
+| -
+| -
+| Adjacency matrix between the nodes, non-negative element `(r,c)` denotes the weight of the connection from node `r` to node `c`.
+
+| `Label[] labels`
+| -
+| -
+| Labels of the nodes.
+
+| `double evap`
+| μ
+| Between `1.5` and `3.5`
+| Influence factor of distance between nodes.
+
+| `int stepCount`
+| α
+| Normally `2`
+| Number of steps taken each iteration in the Markov clustering.
+
+| `double inflation`
+| β
+| Between `1.5` and `3.5`
+| Speed factor of deciding clusters.
+
+| `double epsilon`
+| ε
+| -
+| Convergence limit.
+
+| `BusDetectionAlgorithms busDetectionAlgorithm`
+| -
+| -
+| The bus detection algorithm to apply.
+
+| `double busInclusion`
+| -
+| -
+| Tuning factor for selecting bus nodes.
+Interpretation depends on the chosen bus detection algorithm.
+|===
+
+The function computes how to group the nodes into a bus and hierarchical clusters by shuffling the nodes into a different order.
+
+The result is a `Dsm` instance, which contains how the original nodes were shuffled to obtain the result, a shuffled version of the provided adjacency matrix and labels, and a tree describing the nested clustering hierarchy, with the `getShuffledBase` and `getShuffledSize` methods providing the node offset and length of each group in the shuffled version.

@@ -1,0 +1,68 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:escet" import *;
+
+// Original matrix from:
+// T. U. Pimmler and S. D. Eppinger. Integration analysis of product decompositions. In
+// Proceedings of the ASME Design Theory and Methodology Conference, pages 1–10,
+// Minneapolis, Minnesota, USA, 1994
+
+// Results from:
+// Wilschut T. System specification and design structuring methods for a
+// lock product platform. Eindhoven: Technische Universiteit Eindhoven, 2018. 178 p.
+
+dsmclustering("pimmler.dsm",
+              "-o pimmler1_out.dsm",
+              "-m debug",
+              "--evaporation=1.5",
+              "--inflation=2",
+              "--bus-factor=1.8",
+              "--convergence=1e-10",
+              "--stepcount=2");
+
+dsmclustering("pimmler.dsm",
+              "-o pimmler2_out.dsm",
+              "-m debug",
+              "--evaporation=2.5",
+              "--inflation=2.5",
+              "--bus-factor=1.8",
+              "--convergence=1e-10",
+              "--stepcount=2");
+
+dsmclustering("pimmler.dsm",
+              "-o pimmler3_out.dsm",
+              "-m debug",
+              "--evaporation=1.5",
+              "--inflation=2",
+              "--bus-factor=1.5",
+              "--convergence=1e-10",
+              "--stepcount=2");
+
+dsmclustering("pimmler.dsm",
+              "-o pimmler4_out.dsm",
+              "-m debug",
+              "--evaporation=1.5",
+              "--inflation=2",
+              "--bus-factor=1.2",
+              "--convergence=1e-10",
+              "--stepcount=2");
+
+dsmclustering("pimmler.dsm",
+              "-o pimmler5_out.dsm",
+              "-m debug",
+              "--evaporation=1.5",
+              "--inflation=1.5",
+              "--bus-factor=1.2",
+              "--convergence=1e-10",
+              "--stepcount=2");

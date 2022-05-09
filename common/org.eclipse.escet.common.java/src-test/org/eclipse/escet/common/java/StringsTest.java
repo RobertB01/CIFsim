@@ -168,4 +168,37 @@ public class StringsTest {
             }
         }
     }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testIndent() {
+        String text = "abc";
+        assertEquals(text, Strings.indent(text, -100));
+        assertEquals(text, Strings.indent(text, -10));
+        assertEquals(text, Strings.indent(text, -1));
+        assertEquals(text, Strings.indent(text, 0));
+        assertEquals(" " + text, Strings.indent(text, 1));
+        assertEquals("     " + text, Strings.indent(text, 5));
+
+        String longIndent = Strings.indent(text, 95);
+        assertTrue(longIndent.endsWith(text));
+        assertEquals(95 + text.length(), longIndent.length());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testSpaces() {
+        assertEquals("", Strings.spaces(-10));
+        assertEquals("", Strings.spaces(-1));
+        assertEquals("", Strings.spaces(0));
+        assertEquals(" ", Strings.spaces(1));
+        assertEquals("   ", Strings.spaces(3));
+
+        for (int length = -100; length < 120; length += 4) {
+            String text = Strings.spaces(length);
+            long expectedLength = (length <= 0) ? 0 : length;
+            assertEquals(expectedLength, text.chars().count());
+            assertTrue(text.chars().allMatch(v -> v == 32));
+        }
+    }
 }

@@ -34,32 +34,32 @@
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.14.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.14.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.14.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.14.name" value="test-common-java"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.14.name" value="test-common-dsm"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.15.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.15.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.15.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.15.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.15.name" value="test-common-multivaluetrees"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.15.name" value="test-common-java"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.16.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.16.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.16.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.16.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.16.name" value="test-common-raildiagrams"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.16.name" value="test-common-multivaluetrees"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.17.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.17.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.17.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.17.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.17.name" value="test-setext-generator"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.17.name" value="test-common-raildiagrams"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.18.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.18.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.18.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.18.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.18.name" value="test-setext-runtime"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.18.name" value="test-setext-generator"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.19.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.19.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.19.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.19.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.19.name" value="test-setext-texteditor"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.19.name" value="test-setext-runtime"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.2.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.2.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.2.enabled" value="true"/>
@@ -69,37 +69,47 @@
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.20.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.20.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.20.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.20.name" value="test-tooldef-common"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.20.name" value="test-setext-texteditor"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.21.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.21.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.21.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.21.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.21.name" value="test-tooldef-runtime"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.21.name" value="test-tooldef-common"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.22.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.22.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.22.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.22.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.22.name" value="test-chi-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.22.name" value="test-tooldef-runtime"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.23.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.23.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.23.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.23.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.23.name" value="test-cif-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.23.name" value="test-chi-integration"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.24.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.24.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.24.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.24.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.24.name" value="test-common-emf"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.24.name" value="test-cif-integration"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.25.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.25.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.25.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.25.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.25.name" value="test-setext-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.25.name" value="test-common-emf"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.26.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.26.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.26.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.26.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.26.name" value="test-tooldef-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.26.name" value="test-common-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.action" value="NONE"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.27.adoptIfRunning" value="false"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.27.enabled" value="true"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.mode" value="inherit"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.name" value="test-setext-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.28.action" value="NONE"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.28.adoptIfRunning" value="false"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.28.enabled" value="true"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.28.mode" value="inherit"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.28.name" value="test-tooldef-integration"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.3.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.3.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.3.enabled" value="true"/>
