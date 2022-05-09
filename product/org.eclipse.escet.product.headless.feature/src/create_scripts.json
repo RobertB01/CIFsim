@@ -17,6 +17,11 @@
             "class_name": "org.eclipse.escet.chi.simulator.SimulatorApplication"
         },
         {
+            "script_name": "dsmclustering",
+            "plugin_name": "org.eclipse.escet.common.dsm.app",
+            "class_name": "org.eclipse.escet.common.dsm.app.DsmApplication"
+        },
+        {
             "script_name": "cif2yed",
             "plugin_name": "org.eclipse.escet.cif.cif2yed",
             "class_name": "org.eclipse.escet.cif.cif2yed.CifToYedApp"

@@ -87,27 +87,38 @@ public final class Strings {
      * Indents a given string with a given number of spaces.
      *
      * @param text The text to indent.
-     * @param amount The amount of spaces to indent with.
+     * @param indentLength The number of spaces to indent with, non-positive lengths are ignored.
      * @return The indented text.
      */
-    public static String indent(String text, int amount) {
-        if (amount >= 0 && amount < INDENT_CACHE.length) {
-            return INDENT_CACHE[amount] + text;
-        }
-        return StringUtils.leftPad(text, text.length() + amount);
+    public static String indent(String text, int indentLength) {
+        return spaces(indentLength) + text;
     }
 
     /**
-     * Returns a string with the given amount of spaces in it.
+     * Returns a string with the desired number of spaces in it.
      *
-     * @param amount The amount of spaces.
-     * @return A string with the given amount of spaces in it.
+     * @param desiredLength The desired number of spaces, non-positive values give zero spaces.
+     * @return A string with the given desired number of spaces in it.
      */
-    public static String spaces(int amount) {
-        if (amount >= 0 && amount < INDENT_CACHE.length) {
-            return INDENT_CACHE[amount];
+    public static String spaces(int desiredLength) {
+        // Ignore non-positive requests.
+        if (desiredLength <= 0) {
+            return "";
         }
-        return StringUtils.leftPad("", amount);
+
+        // Grab an existing string if possible.
+        if (desiredLength < INDENT_CACHE.length) {
+            return INDENT_CACHE[desiredLength];
+        }
+
+        // Build a new string of the desired length.
+        StringBuilder stringBuilder = new StringBuilder(desiredLength);
+        while (desiredLength > 0) {
+            int addLength = Math.min(desiredLength, INDENT_CACHE.length - 1);
+            stringBuilder.append(INDENT_CACHE[addLength]);
+            desiredLength -= addLength;
+        }
+        return stringBuilder.toString();
     }
 
     /**
@@ -295,7 +306,7 @@ public final class Strings {
             if (idx == b.length() - 1) {
                 // String ends with escape character: premature end of string.
                 throw new IllegalArgumentException(
-                        "String ends with escape character (premature end of string) in " + Strings.stringToJava(s));
+                        "String ends with escape character (premature end of string) in " + stringToJava(s));
             }
 
             char ss = b.charAt(idx + 1);
@@ -314,7 +325,7 @@ public final class Strings {
                     break;
                 default:
                     // Invalid escape sequence.
-                    String msg = fmt("Invalid escape sequence at position %d in %s.", idx, Strings.stringToJava(s));
+                    String msg = fmt("Invalid escape sequence at position %d in %s.", idx, stringToJava(s));
                     throw new IllegalArgumentException(msg);
             }
 

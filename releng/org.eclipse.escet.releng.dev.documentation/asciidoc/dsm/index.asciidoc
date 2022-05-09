@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[dsm-chapter-index]]
+== Design Structure Matrix (DSM) library
+
+One way to find structure in a graph is by seeing it as a collection of _clustered nodes_, where two nodes within a single cluster are more connected to each other than two nodes in different clusters.
+In addition, in a lot of cases, there is a set of nodes that connect to many other nodes in the graph (or in terms of clusters, one cluster connects with many other clusters).
+Such a set of nodes is named a _bus_.
+
+This library documentation describes how to perform such clustering and bus-detection at Java method level.
+
+indexterm:[DSM library,implementation]
+indexterm:[DSM library,java]
+
+The following topics explain the library in more detail:
+
+* <<dsm-entrypoint>>
+* <<dsm-algorithm>>
+* <<dsm-busdetection>>
+* <<dsm-references>>

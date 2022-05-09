@@ -11,10 +11,10 @@
  -->
 
 <site>
-   <feature url="features/com.github.javabdd.feature_2.0.0.qualifier.jar" id="com.github.javabdd.feature" version="2.0.0.qualifier">
+   <feature url="features/com.github.javabdd.feature_3.0.0.qualifier.jar" id="com.github.javabdd.feature" version="3.0.0.qualifier">
       <category name="org.eclipse.escet.thirdparty.category"/>
    </feature>
-   <feature url="features/com.github.javabdd.feature.source_2.0.0.qualifier.jar" id="com.github.javabdd.feature.source" version="2.0.0.qualifier">
+   <feature url="features/com.github.javabdd.feature.source_3.0.0.qualifier.jar" id="com.github.javabdd.feature.source" version="3.0.0.qualifier">
       <category name="org.eclipse.escet.thirdparty.category"/>
    </feature>
    <feature url="features/org.eclipse.escet.chi.feature_0.6.0.qualifier.jar" id="org.eclipse.escet.chi.feature" version="0.6.0.qualifier">

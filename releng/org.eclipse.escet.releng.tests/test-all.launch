@@ -34,7 +34,11 @@
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.14.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.14.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.14.mode" value="inherit"/>
+<<<<<<< HEAD
     <stringAttribute key="org.eclipse.debug.core.launchGroup.14.name" value="test-common-box"/>
+=======
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.14.name" value="test-common-dsm"/>
+>>>>>>> refs/remotes/origin/develop
     <stringAttribute key="org.eclipse.debug.core.launchGroup.15.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.15.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.15.enabled" value="true"/>
@@ -99,12 +103,26 @@
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.26.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.26.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.26.mode" value="inherit"/>
+<<<<<<< HEAD
     <stringAttribute key="org.eclipse.debug.core.launchGroup.26.name" value="test-setext-integration"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.27.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.27.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.27.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.27.mode" value="inherit"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.27.name" value="test-tooldef-integration"/>
+=======
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.26.name" value="test-common-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.action" value="NONE"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.27.adoptIfRunning" value="false"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.27.enabled" value="true"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.mode" value="inherit"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.27.name" value="test-setext-integration"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.28.action" value="NONE"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.28.adoptIfRunning" value="false"/>
+    <booleanAttribute key="org.eclipse.debug.core.launchGroup.28.enabled" value="true"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.28.mode" value="inherit"/>
+    <stringAttribute key="org.eclipse.debug.core.launchGroup.28.name" value="test-tooldef-integration"/>
+>>>>>>> refs/remotes/origin/develop
     <stringAttribute key="org.eclipse.debug.core.launchGroup.3.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.3.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.3.enabled" value="true"/>

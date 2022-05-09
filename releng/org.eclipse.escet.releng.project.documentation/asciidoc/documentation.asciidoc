@@ -39,11 +39,13 @@ ifdef::website-output[]
 TIP: You can link:eclipse-escet-project-incubation-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
-This documentation includes general information related to the Eclipse ESCET toolkit as a whole.
+This documentation includes general information related to the Eclipse ESCET toolkit as a whole, as well as its general tools.
 The following information is available:
 
 * <<use-chapter-index>>
 * <<performance-chapter-index>>
+* Tools
+** <<tools-chapter-dsm-clustering>>
 * <<release-notes-chapter-index>>
 * <<legal-chapter-index>>
 
@@ -93,6 +95,10 @@ include::performance/close-running-apps.asciidoc[]
 include::performance/tweak-perf-settings.asciidoc[]
 
 :leveloffset: -1
+
+// Tools
+
+include::tools/dsm-clustering.asciidoc[]
 
 // Release notes
 

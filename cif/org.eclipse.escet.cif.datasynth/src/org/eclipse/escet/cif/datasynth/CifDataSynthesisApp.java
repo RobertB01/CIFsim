@@ -68,10 +68,10 @@ import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.GridBox;
+import org.eclipse.escet.common.java.Assert;
 
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.BDDFactory.CacheStats;
-import com.github.javabdd.BDDFactory.ContinuousStats;
 import com.github.javabdd.JFactory;
 
 /** CIF data-based supervisory controller synthesis application. */
@@ -223,16 +223,16 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         Set<SynthesisStatistics> stats = SynthesisStatisticsOption.getStatistics();
         boolean doGcStats = stats.contains(SynthesisStatistics.BDD_GC_COLLECT);
         boolean doResizeStats = stats.contains(SynthesisStatistics.BDD_GC_RESIZE);
-        BddUtils.setBddCallbacks(factory, doGcStats, doResizeStats);
+        boolean doContinuousPerformanceStats = stats.contains(SynthesisStatistics.BDD_PERF_CONT);
+        List<Long> continuousOpMisses = list();
+        List<Integer> continuousUsedBddNodes = list();
+        BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
+                continuousOpMisses, continuousUsedBddNodes);
 
         boolean doCacheStats = stats.contains(SynthesisStatistics.BDD_PERF_CACHE);
-        boolean doContinuousPerformanceStats = stats.contains(SynthesisStatistics.BDD_PERF_CONT);
         boolean doMaxBddNodesStats = stats.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
         if (doCacheStats || doContinuousPerformanceStats) {
             factory.getCacheStats().enableMeasurements();
-        }
-        if (doContinuousPerformanceStats) {
-            factory.getContinuousStats().enableMeasurements();
         }
         if (doMaxBddNodesStats) {
             factory.getMaxUsedBddNodesStats().enableMeasurements();
@@ -299,7 +299,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 printBddCacheStats(factory.getCacheStats());
             }
             if (doContinuousPerformanceStats) {
-                printBddContinuousPerformanceStats(factory.getContinuousStats());
+                printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes);
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
@@ -371,13 +371,13 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
     /**
      * Print the continuous BDD performance statistics to a file.
      *
-     * @param stats The continuous BDD performance statistics to print.
+     * @param operationsSamples The collected continuous operation misses samples.
+     * @param nodesSamples The collected continuous used BDD nodes statistics samples.
      */
-    private void printBddContinuousPerformanceStats(ContinuousStats stats) {
-        // Collect the statistics.
-        List<Long> operations = stats.getOperationsStats();
-        List<Integer> nodes = stats.getNodesStats();
-        int numberOfDataPoints = nodes.size();
+    private void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples) {
+        // Get number of data points.
+        Assert.areEqual(operationsSamples.size(), nodesSamples.size());
+        int numberOfDataPoints = operationsSamples.size();
 
         // Get the file to print to.
         String outPath = ContinuousPerformanceStatisticsFileOption.getPath();
@@ -391,8 +391,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             int lastNodes = -1;
             for (int i = 0; i < numberOfDataPoints; i++) {
                 // Only print new data points.
-                long nextOperations = operations.get(i);
-                int nextNodes = nodes.get(i);
+                long nextOperations = operationsSamples.get(i);
+                int nextNodes = nodesSamples.get(i);
                 if (nextOperations != lastOperations || nextNodes != lastNodes) {
                     lastOperations = nextOperations;
                     lastNodes = nextNodes;

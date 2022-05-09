@@ -1,0 +1,25 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+tool copy_files(string dirpath, string old_ext, string new_ext):
+    list string paths = find(dirpath, "*." + old_ext, dirs=false);
+    for i in range(paths):: paths[i] = replace(pathjoin(dirpath, paths[i]), "\\", "/");
+    for path in paths:
+        string path2 = chfileext(path, old_ext, new_ext);
+        mvfile(path, path2, overwrite=true);
+    end
+end
+
+copy_files(".", "out.real", "out");
+copy_files(".", "err.real", "err");
+copy_files(".", "dsm.real", "dsm");
