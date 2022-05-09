@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2018, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -17,15 +17,15 @@ import "definitions.cif";
 
 // Plant:
 // Sensors
-S_product        : TwoStateSensor(false);
-S_inductive      : TwoStateSensor(false);
-S_optical        : TwoStateSensor(false);
-S_slidefull      : TwoStateSensor(false);
-S_gate1_opened   : TwoStateSensor(true);
-S_gate1_closed   : TwoStateSensor(false);
-S_gate2_opened   : TwoStateSensor(true);
-S_gate2_closed   : TwoStateSensor(false);
-S_Sinitialized   : TwoStateSensor(false);
+S_product      : TwoStateSensor(false);
+S_inductive    : TwoStateSensor(false);
+S_optical      : TwoStateSensor(false);
+S_slidefull    : TwoStateSensor(false);
+S_gate1_opened : TwoStateSensor(true);
+S_gate1_closed : TwoStateSensor(false);
+S_gate2_opened : TwoStateSensor(true);
+S_gate2_closed : TwoStateSensor(false);
+S_Sinitialized : TwoStateSensor(false);
 
 // Actuators
 A_conveyer       : TwoStateActuator(false);
@@ -34,28 +34,29 @@ A_gate2          : TwoStateActuator(false);
 A_stopperretract : TwoStateActuator(false);
 
 plant STimer:
-    controllable c_on, c_reset; uncontrollable u_timeout;
-    location Off:
-        initial; marked;
-        edge c_on goto Running;
-    location Running:
-        edge u_timeout goto Timeout;
-        edge c_reset goto Off;
-    location Timeout:
-        edge c_reset goto Off;
+  controllable c_on, c_reset; uncontrollable u_timeout;
+  location Off:
+    initial; marked;
+    edge c_on goto Running;
+  location Running:
+    edge u_timeout goto Timeout;
+    edge c_reset goto Off;
+  location Timeout:
+    edge c_reset goto Off;
 end
 
 // Dynamics
-// gate1 dynamics, sensors are mutually exclusive
+// Gate1 dynamics, sensors are mutually exclusive.
 plant S_gate1_opened.u_on needs S_gate1_closed.Off;
 plant S_gate1_closed.u_on needs S_gate1_opened.Off;
 
+// Gate2 dynamics, sensors are mutually exclusive.
 plant S_gate2_opened.u_on needs S_gate2_closed.Off;
 plant S_gate2_closed.u_on needs S_gate2_opened.Off;
 
 // Requirements
 // Initialization
-// Actuators are only allowed to enable/disable when the station is initialized
+// Actuators are only allowed to enable/disable when the station is initialized.
 requirement {A_conveyer.c_on, A_conveyer.c_off, A_gate1.c_on, A_gate1.c_off,
              A_gate2.c_on, A_gate2.c_off, A_stopperretract.c_on, A_stopperretract.c_off}
       needs S_Sinitialized.On;
@@ -65,49 +66,49 @@ requirement STimer.c_on    needs S_product.On;
 requirement STimer.c_reset needs S_slidefull.On;
 
 // Conveyer
-// Conveyer is allowed to enable when there is a product
+// Conveyer is allowed to enable when there is a product.
 requirement A_conveyer.c_on  needs S_product.On;
 
-// Conveyer is allowed to disable when product is in the slide
+// Conveyer is allowed to disable when product is in the slide.
 requirement A_conveyer.c_off needs S_slidefull.On;
 
 
 // Stopper
 // Stopper is allowed to retract when:
-//   - There is a product that has been identified (Timeout)
-//   - The slide is not full
+//   - There is a product that has been identified (Timeout).
+//   - The slide is not full.
 
 requirement A_stopperretract.c_on  needs STimer.Timeout;
 requirement A_stopperretract.c_on  needs S_slidefull.Off;
 
-// Stopper is allowed to extend when the product entered the buffer
+// Stopper is allowed to extend when the product entered the buffer.
 requirement A_stopperretract.c_off needs S_slidefull.On;
 
 // Gates
-// The gates are only allowed to close when they are fully open
+// The gates are only allowed to close when they are fully open.
 requirement A_gate1.c_on needs S_gate1_opened.On;
 requirement A_gate2.c_on needs S_gate2_opened.On;
 
-// The gates are only allowed to open when they are fully closed
+// The gates are only allowed to open when they are fully closed.
 requirement A_gate1.c_off needs S_gate1_closed.On;
 requirement A_gate2.c_off needs S_gate2_closed.On;
 
-// Gate1 is only allowed to close when there is a plastic product before the stopper
+// Gate1 is only allowed to close when there is a plastic product before the stopper.
 requirement A_gate1.c_on needs S_optical.On;
 requirement A_gate1.c_on needs S_inductive.Off;
 requirement A_gate1.c_on needs STimer.Timeout;
 
-// Gate1 is only allowed to open when product entered the buffer
+// Gate1 is only allowed to open when product entered the buffer.
 requirement A_gate1.c_off needs S_slidefull.On;
 
-// Gate2 is only allowed to close when there is a metal product before the stopper
+// Gate2 is only allowed to close when there is a metal product before the stopper.
 requirement A_gate2.c_on needs S_optical.On;
 requirement A_gate2.c_on needs S_inductive.On;
 requirement A_gate2.c_on needs STimer.Timeout;
 
-// Gate2 is only allowed to open when product entered the buffer
+// Gate2 is only allowed to open when product entered the buffer.
 requirement A_gate2.c_off needs S_slidefull.On;
 
-// Gate1 and 2 are only allowed to actuate when the stopper is closed
+// Gate1 and 2 are only allowed to actuate when the stopper is closed.
 requirement {A_gate1.c_on, A_gate1.c_off} needs A_stopperretract.Off;
 requirement {A_gate2.c_on, A_gate2.c_off} needs A_stopperretract.Off;
