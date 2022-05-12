@@ -160,7 +160,7 @@ requirement ClampDrill:
   location Five:
     edge A_drilldown.c_off goto Six;
   location Six:
-    edge A_drillup.c_on goto seven;
+    edge A_drillup.c_on goto Seven;
   location Seven:
     edge A_drill.c_off goto Eight;
   location Eight:
