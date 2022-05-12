@@ -13,9 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
@@ -117,38 +114,43 @@ public abstract class DiagramElement {
      */
     public abstract void create(Configuration config, int direction);
 
-    /** Dump relative coordinates of the element. */
-    public void dumpElementBox() {
-        dumpElementBox("Relative", 0, 0);
+    /**
+     * Dump relative coordinates of the element.
+     *
+     * @param config Configuration to use.
+     */
+    public void dumpElementBox(Configuration config) {
+        dumpElementBox(config, "Relative", 0, 0);
     }
 
     /**
      * Dump coordinates of the element.
      *
+     * @param config Configuration to use.
      * @param coordType Text to describe the type of coordinates.
      * @param xOffset Horizontal offset of the element in the picture.
      * @param yOffset Vertical offset of the element in the picture.
      */
-    public void dumpElementBox(String coordType, int xOffset, int yOffset) {
-        dbg("%s coordinates:", coordType);
-        idbg();
-        dbg("%s-%s: x[%d--%d], y[%d--%d], connectTop=%d", kindName, id, xOffset + solver.getVarValue(left),
+    public void dumpElementBox(Configuration config, String coordType, int xOffset, int yOffset) {
+        config.dbg("%s coordinates:", coordType);
+        config.idbg();
+        config.dbg("%s-%s: x[%d--%d], y[%d--%d], connectTop=%d", kindName, id, xOffset + solver.getVarValue(left),
                 xOffset + solver.getVarValue(right), yOffset + solver.getVarValue(top),
                 yOffset + solver.getVarValue(bottom), yOffset + solver.getVarValue(connectTop));
-        idbg();
+        config.idbg();
         for (ProxyDiagramElement proxy: childDiagramElements) {
             DiagramElement child = proxy.child;
-            dbg("%s-%s: x[%d--%d], y[%d--%d], connectTop=%d", child.kindName, child.id,
+            config.dbg("%s-%s: x[%d--%d], y[%d--%d], connectTop=%d", child.kindName, child.id,
                     xOffset + solver.getVarValue(proxy.left), xOffset + solver.getVarValue(proxy.right),
                     yOffset + solver.getVarValue(proxy.top), yOffset + solver.getVarValue(proxy.bottom),
                     yOffset + solver.getVarValue(proxy.connectTop));
         }
-        ddbg();
-        dbg();
+        config.ddbg();
+        config.dbg();
         for (Area graphic: graphics) {
-            graphic.dump(solver, xOffset, yOffset);
+            graphic.dump(config, solver, xOffset, yOffset);
         }
-        ddbg();
+        config.ddbg();
     }
 
     /**
@@ -158,15 +160,16 @@ public abstract class DiagramElement {
      * @param top Top position of the area that may be used for painting.
      * @param outputTarget Diagram to write.
      * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements for debugging.
+     * @param config Configuration to use.
      */
-    public void paint(int left, int top, OutputTarget outputTarget, boolean dumpAbsCoords) {
+    public void paint(int left, int top, OutputTarget outputTarget, boolean dumpAbsCoords, Configuration config) {
         outputTarget.addDiagramElement(left, top, solver, this);
 
         if (dumpAbsCoords) {
-            writeDumpHeaderElements(this, null);
-            dbg();
-            dumpElementBox("Absolute", left, top);
-            dbg();
+            writeDumpHeaderElements(config, this, null);
+            config.dbg();
+            dumpElementBox(config, "Absolute", left, top);
+            config.dbg();
         }
 
         for (Area graphic: graphics) {
@@ -176,7 +179,7 @@ public abstract class DiagramElement {
         for (ProxyDiagramElement childElement: childDiagramElements) {
             int childLeft = left + solver.getVarValue(childElement.left);
             int childTop = top + solver.getVarValue(childElement.top);
-            childElement.paint(childLeft, childTop, outputTarget, dumpAbsCoords);
+            childElement.paint(childLeft, childTop, outputTarget, dumpAbsCoords, config);
         }
     }
 }

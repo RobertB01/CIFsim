@@ -19,8 +19,8 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferInt;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
@@ -98,13 +98,14 @@ public class Image {
      * Save the image to a PNG file at the indicated path.
      *
      * @param path Destination of the file.
+     * @throws IOException In case of an I/O error.
      */
-    public void saveImage(String path) {
+    public void saveImage(Path path) throws IOException {
         try {
-            ImageIO.write(image, "png", new File(path));
+            ImageIO.write(image, "png", path.toFile());
         } catch (IOException ex) {
             String msg = fmt("Failed to write PNG image file \"%s\".", path);
-            throw new RuntimeException(msg, ex);
+            throw new IOException(msg, ex);
         }
     }
 }

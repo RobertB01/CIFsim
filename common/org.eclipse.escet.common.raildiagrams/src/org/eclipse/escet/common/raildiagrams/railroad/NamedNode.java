@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
 import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
 import java.awt.Color;
@@ -174,17 +172,17 @@ public class NamedNode extends DiagramElement {
 
         boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
         boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
-        if ((dumpEquations || dumpRelCoords) && dodbg()) {
-            writeDumpHeaderElements(this, null);
-            dbg();
+        if ((dumpEquations || dumpRelCoords) && config.dodbg()) {
+            writeDumpHeaderElements(config, this, null);
+            config.dbg();
 
             if (dumpEquations) {
-                solver.dumpRelations();
-                dbg();
+                solver.dumpRelations(config);
+                config.dbg();
             }
             if (dumpRelCoords) {
-                dumpElementBox();
-                dbg();
+                dumpElementBox(config);
+                config.dbg();
             }
         }
     }

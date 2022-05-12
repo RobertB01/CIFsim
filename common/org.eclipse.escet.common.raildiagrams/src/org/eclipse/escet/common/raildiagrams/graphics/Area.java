@@ -13,8 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams.graphics;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
@@ -56,13 +55,15 @@ public abstract class Area {
     /**
      * Dump coordinates of the area to debug output.
      *
+     * @param config Configuration to use.
      * @param solver Solver storing the relative positions.
      * @param xOffset Horizontal offset of the element in the picture.
      * @param yOffset Vertical offset of the element in the picture.
      */
-    public void dump(Solver solver, int xOffset, int yOffset) {
-        dbg("%s: x[%d--%d], y[%d--%d]", prefix, xOffset + solver.getVarValue(left), xOffset + solver.getVarValue(right),
-                yOffset + solver.getVarValue(top), yOffset + solver.getVarValue(bottom));
+    public void dump(Configuration config, Solver solver, int xOffset, int yOffset) {
+        config.dbg("%s: x[%d--%d], y[%d--%d]", prefix, xOffset + solver.getVarValue(left),
+                xOffset + solver.getVarValue(right), yOffset + solver.getVarValue(top),
+                yOffset + solver.getVarValue(bottom));
     }
 
     /**

@@ -13,10 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
@@ -94,9 +90,9 @@ public class ChoiceNode extends DiagramElement {
         BottomRightArc lastRightArc = null;
         altProxies = listc(alternatives.size());
         for (DiagramElement alt: alternatives) {
-            idbg();
+            config.idbg();
             alt.create(config, direction);
-            ddbg();
+            config.ddbg();
             ProxyDiagramElement altProxy = addDiagramElement(alt, fmt("alt-%d", i));
             altProxies.add(altProxy);
 
@@ -170,23 +166,23 @@ public class ChoiceNode extends DiagramElement {
         solver.addEq(rightVer.bottom, 1, lastRightArc.top);
 
         boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
-        if (dumpEquations && dodbg()) {
-            writeDumpHeaderElements(this, alternatives);
-            dbg();
+        if (dumpEquations && config.dodbg()) {
+            writeDumpHeaderElements(config, this, alternatives);
+            config.dbg();
 
-            solver.dumpRelations();
-            dbg();
+            solver.dumpRelations(config);
+            config.dbg();
         }
         solver.solve("choice", config);
 
         boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
-        if (dumpRelCoords && dodbg()) {
-            writeDumpHeaderElements(this, alternatives);
-            dbg();
+        if (dumpRelCoords && config.dodbg()) {
+            writeDumpHeaderElements(config, this, alternatives);
+            config.dbg();
 
             if (dumpRelCoords) {
-                dumpElementBox();
-                dbg();
+                dumpElementBox(config);
+                config.dbg();
             }
         }
     }

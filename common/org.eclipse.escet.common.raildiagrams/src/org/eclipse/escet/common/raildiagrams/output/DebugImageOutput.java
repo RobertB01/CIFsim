@@ -18,6 +18,8 @@ import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGra
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.Path;
 
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
 import org.eclipse.escet.common.raildiagrams.graphics.Area;
@@ -160,7 +162,7 @@ public class DebugImageOutput extends ImageOutput {
     }
 
     @Override
-    public void writeOutputFile(String path) {
+    public void writeOutputFile(Path path) throws IOException {
         result.saveImage(path);
     }
 

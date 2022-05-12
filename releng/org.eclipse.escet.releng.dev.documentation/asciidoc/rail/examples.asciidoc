@@ -30,7 +30,7 @@ include::{incdir-rail}/sequence.rr[]
 A diagram starts with its name, a colon, the syntax that should be shown (in this case the sequence `A`, `B`, `C`), and finally, a semicolon as terminator.
 This gives the following result.
 
-image::{rail-imgsdir}/sequence.png[Sequence]
+image::{rail-imgsdir}/sequence.rr.png[Sequence]
 
 As rail diagrams are read from left to right, following a line without taking a sharp turn, the resulting image is not a surprise.
 
@@ -46,7 +46,7 @@ include::{incdir-rail}/choice.rr[]
 
 This results in:
 
-image::{rail-imgsdir}/choice.png[Choice]
+image::{rail-imgsdir}/choice.rr.png[Choice]
 
 Note that as sequence has higher priority than choice, the `B` and `C` sequence forms one alternative.
 You can use parentheses to break the priority chain, e.g.:
@@ -58,7 +58,7 @@ include::{incdir-rail}/choice2.rr[]
 
 This gives a sequence of choices:
 
-image::{rail-imgsdir}/choice2.png[Sequence of choice]
+image::{rail-imgsdir}/choice2.rr.png[Sequence of choice]
 
 === Optional
 
@@ -71,7 +71,7 @@ include::{incdir-rail}/optional.rr[]
 
 This results in:
 
-image::{rail-imgsdir}/optional.png[Optional]
+image::{rail-imgsdir}/optional.rr.png[Optional]
 
 The dedicated optional syntax (`?`) is often more convenient than using the choice syntax.
 
@@ -86,7 +86,7 @@ include::{incdir-rail}/alternating.rr[]
 
 This results in:
 
-image::{rail-imgsdir}/alternating.png[Alternating between A and B]
+image::{rail-imgsdir}/alternating.rr.png[Alternating between A and B]
 
 You can make one (or both) of the paths empty, which results in the normal EBNF repetition semantics.
 Below, node `A` must occur at least once, while node `B` may also be skipped.
@@ -98,7 +98,7 @@ include::{incdir-rail}/emptyalternating.rr[]
 
 This gives:
 
-image::{rail-imgsdir}/emptyalternating.png[A+ and B*]
+image::{rail-imgsdir}/emptyalternating.rr.png[A+ and B*]
 
 The third repetition is an alternative for the `B` sequence.
 It avoids the caveat with repetition due to the right-to-left visiting order of the bottom path, made more clearly visible in the following example:
@@ -110,7 +110,7 @@ include::{incdir-rail}/abcd.rr[]
 
 It results in:
 
-image::{rail-imgsdir}/abcd.png[ABCD]
+image::{rail-imgsdir}/abcd.rr.png[ABCD]
 
 It describes EBNF `AB(CDAB)*`, and the tool translates it correctly, but the bottom path does not read nicely, as you have to read that part from right to left.
 
@@ -132,7 +132,7 @@ include::{incdir-rail}/abcdefgh.rr[]
 
 This gives:
 
-image::{rail-imgsdir}/abcdefgh.png[ABCDEFGH]
+image::{rail-imgsdir}/abcdefgh.rr.png[ABCDEFGH]
 
 The double backslash breaks the '`line`' and it continues below on the next line.
 You cannot break the empty sequence, and each row must have at least one node.
@@ -147,7 +147,7 @@ The program has a bracketed string for that:
 include::{incdir-rail}/refpath.rr[]
 ----
 
-image::{rail-imgsdir}/refpath.png[Recursion]
+image::{rail-imgsdir}/refpath.rr.png[Recursion]
 
 Now you can say that the `[nest]` path recursively applies the rule, while the `[exit]` path ends the recursion.
 
@@ -170,12 +170,12 @@ Fragment of the properties file related to this diagram that says the terminal n
 
 [source, properties]
 ----
-include::{incdir-rail}/terminals.props[]
+include::{incdir-rail}/terminals.rr.props[]
 ----
 
 And the generated output is then:
 
-image::{rail-imgsdir}/terminals.png[Terminals]
+image::{rail-imgsdir}/terminals.rr.png[Terminals]
 
 === Meta-terminals
 
@@ -199,12 +199,12 @@ Fragment of the properties file related to this diagram stating the displayed te
 
 [source, properties]
 ----
-include::{incdir-rail}/meta_terminals.props[]
+include::{incdir-rail}/meta_terminals.rr.props[]
 ----
 
 And the generated output is then:
 
-image::{rail-imgsdir}/meta_terminals.png[Terminals]
+image::{rail-imgsdir}/meta_terminals.rr.png[Terminals]
 
 The text around the diagram should describe the allowed syntax of `VariableName`.
 

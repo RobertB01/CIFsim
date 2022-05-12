@@ -14,6 +14,8 @@
 package org.eclipse.escet.common.raildiagrams.output;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.nio.file.Path;
 
 import org.eclipse.escet.common.raildiagrams.config.FontData;
 import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
@@ -45,8 +47,9 @@ public abstract class OutputTarget {
      * Write output file to the provided destination.
      *
      * @param path File system path to write to.
+     * @throws IOException In case of an I/O error.
      */
-    public abstract void writeOutputFile(String path);
+    public abstract void writeOutputFile(Path path) throws IOException;
 
     /**
      * A diagram element is added to the output.

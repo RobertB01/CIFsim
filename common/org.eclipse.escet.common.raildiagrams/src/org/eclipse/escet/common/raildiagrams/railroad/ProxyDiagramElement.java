@@ -16,6 +16,7 @@ package org.eclipse.escet.common.raildiagrams.railroad;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;
@@ -145,8 +146,9 @@ public class ProxyDiagramElement {
      * @param top Coordinate of the top edge.
      * @param outputTarget Diagram to write.
      * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements for debugging.
+     * @param config Configuration to use.
      */
-    public void paint(int left, int top, OutputTarget outputTarget, boolean dumpAbsCoords) {
-        child.paint(left, top, outputTarget, dumpAbsCoords);
+    public void paint(int left, int top, OutputTarget outputTarget, boolean dumpAbsCoords, Configuration config) {
+        child.paint(left, top, outputTarget, dumpAbsCoords, config);
     }
 }

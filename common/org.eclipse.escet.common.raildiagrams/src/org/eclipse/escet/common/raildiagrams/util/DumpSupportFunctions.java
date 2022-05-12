@@ -13,13 +13,11 @@
 
 package org.eclipse.escet.common.raildiagrams.util;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.railroad.DiagramElement;
 import org.eclipse.escet.common.raildiagrams.railroad.ProxyDiagramElement;
 
@@ -43,38 +41,44 @@ public class DumpSupportFunctions {
     /**
      * Write a element header to debug output.
      *
+     * @param config Configuration to use.
      * @param element Element to write.
      * @param childElements Children of the element.
      */
-    public static void writeDumpHeaderElements(DiagramElement element, List<DiagramElement> childElements) {
-        dbg("==========================================");
-        dbg("Element %s:", getElementName(element));
+    public static void writeDumpHeaderElements(Configuration config, DiagramElement element,
+            List<DiagramElement> childElements)
+    {
+        config.dbg("==========================================");
+        config.dbg("Element %s:", getElementName(element));
 
         if (childElements != null) {
-            idbg();
+            config.idbg();
             for (DiagramElement child: childElements) {
-                dbg("Child %s", getElementName(child));
+                config.dbg("Child %s", getElementName(child));
             }
-            ddbg();
+            config.ddbg();
         }
     }
 
     /**
      * Write a element header to debug output.
      *
+     * @param config Configuration to use.
      * @param element Element to write.
      * @param childElements Children of the element.
      */
-    public static void writeDumpHeaderProxies(DiagramElement element, List<ProxyDiagramElement> childElements) {
-        dbg("==========================================");
-        dbg("Element %s:", getElementName(element));
+    public static void writeDumpHeaderProxies(Configuration config, DiagramElement element,
+            List<ProxyDiagramElement> childElements)
+    {
+        config.dbg("==========================================");
+        config.dbg("Element %s:", getElementName(element));
 
         if (childElements != null) {
-            idbg();
+            config.idbg();
             for (ProxyDiagramElement child: childElements) {
-                dbg("Child %s", getElementName(child.child));
+                config.dbg("Child %s", getElementName(child.child));
             }
-            ddbg();
+            config.ddbg();
         }
     }
 }
