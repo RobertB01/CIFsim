@@ -18,12 +18,12 @@ indexterm:[examples]
 [[examples-chapter-index]]
 == CIF examples
 
-CIF ships with several examples.
+CIF ships with several examples and benchmark models.
 To obtain these examples, follow these steps:
 
 * Start the Eclipse ESCET IDE.
 * Click menu:File[New > Example...].
-* Select _CIF Examples_ and click btn:[Next].
+* Select _CIF Examples_ or _CIF Benchmarks_ and click btn:[Next].
 * Choose the name of the new project that will be created.
 * Choose a location for the new project, on your hard disk.
 If you leave the _Use default location_ option enabled, the new project will be created in workspace directory.

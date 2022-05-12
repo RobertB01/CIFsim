@@ -59,7 +59,7 @@ For each change to the CIF language, follow these steps:
 * Update type checker (`org.eclipse.escet.cif.typechecker`).
 ** Add new constraints to the error and problem messages (`ErrMsg.java`).
 ** Verify the implementation by running `chk.bash`.
-* Update example models for changed syntax and constraints (`org.eclipse.escet.cif.examples`).
+* Update example and benchmark models for changed syntax and constraints (`org.eclipse.escet.cif.examples`).
 * Update pretty printer including set of keywords (`org.eclipse.escet.cif.prettyprinter`).
 * Update common methods (`org.eclipse.escet.cif.common`).
 * Update CIF to CIF transformations and other tools.

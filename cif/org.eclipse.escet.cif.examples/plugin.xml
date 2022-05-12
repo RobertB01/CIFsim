@@ -27,5 +27,15 @@
             Create a project that contains various CIF examples.
          </description>
       </wizard>
+      <wizard category="org.eclipse.ui.Examples/org.eclipse.escet.cif.examples.category"
+              class="org.eclipse.escet.cif.examples.CifBenchmarksWizard"
+              icon="icons/cif_examples.png"
+              id="org.eclipse.escet.cif.examples.CifBenchmarksWizard"
+              name="CIF Benchmarks"
+              project="true">
+         <description>
+            Create a project that contains various CIF benchmarks.
+         </description>
+      </wizard>
    </extension>
 </plugin>
