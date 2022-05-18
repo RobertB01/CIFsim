@@ -137,7 +137,7 @@ group def Culvert():
       edge u_off goto noflow;
   end
 
-  // Dynamics
+  // Dynamics.
   plant u_off needs A.closed;
   plant u_on  needs A.open;
 
@@ -465,7 +465,7 @@ requirement emergencystop.pushed disables
    gate_D_N.c_close,   gate_D_S.c_close, gate_U_N.c_close, gate_U_S.c_close} ;
 
 // Global requirements.
-// SF: culvert/paddle - culvert/paddle
+// SF: culvert/paddle - culvert/paddle.
 requirement culvert_N.S.flow or culvert_N.A.open or
             culvert_S.S.flow or culvert_S.A.open
             disables {pad_N.c_open, pad_S.c_open};
@@ -476,7 +476,7 @@ requirement not pad_N.S1.closed or not pad_N.S2.closed or
             not pad_S.S3.closed or     pad_S.A.opening
             disables {culvert_N.c_enable, culvert_S.c_enable};
 
-// SF: gate - culvert/paddle
+// SF: gate - culvert/paddle.
 requirement not gate_U_N.S.closed or gate_U_N.Dir.opening or
             not gate_U_S.S.closed or gate_U_S.Dir.opening
             disables {pad_N.c_open, pad_S.c_open};
@@ -485,14 +485,14 @@ requirement not gate_D_N.S.closed or gate_D_N.Dir.opening or
             not gate_D_S.S.closed or gate_D_S.Dir.opening
             disables {culvert_N.c_enable, culvert_S.c_enable};
 
-// SF: equal water - gate
-requirement s_equal_D.off //Sensor indicates no equal water
+// SF: equal water - gate.
+requirement s_equal_D.off // Sensor indicates no equal water.
             disables {gate_D_N.c_open, gate_D_S.c_open};
 
 requirement s_equal_U.off
             disables {gate_U_N.c_open, gate_U_S.c_open};
 
-// SF: culvert/paddle - gate
+// SF: culvert/paddle - gate.
 requirement culvert_N.S.flow or culvert_N.A.open or
             culvert_S.S.flow or culvert_S.A.open
             disables {gate_D_N.c_open, gate_D_S.c_open};
@@ -503,7 +503,7 @@ requirement not pad_N.S1.closed or not pad_N.S2.closed or
             not pad_S.S3.closed or     pad_S.A.opening
             disables {gate_U_N.c_open, gate_U_S.c_open};
 
-// SF: gate - gate
+// SF: gate - gate.
 requirement not gate_U_N.S.closed or gate_U_N.Dir.opening or
             not gate_U_S.S.closed or gate_U_S.Dir.opening
             disables {gate_D_N.c_open, gate_D_S.c_open};
@@ -512,7 +512,7 @@ requirement not gate_D_N.S.closed or gate_D_N.Dir.opening or
             not gate_D_S.S.closed or gate_D_S.Dir.opening
             disables {gate_U_N.c_open, gate_U_S.c_open};
 
-// SF: leaving aspect - entering aspect
+// SF: leaving aspect - entering aspect.
 requirement out_D_N.S.green or out_D_N.A.green or
             out_D_S.S.green or out_D_S.A.green
             disables {in_D_N.c_green, in_D_S.c_green};
@@ -521,7 +521,7 @@ requirement out_U_N.S.green or out_U_N.A.green or
             out_U_S.S.green or out_U_S.A.green
             disables {in_U_N.c_green, in_U_S.c_green};
 
-// SF: entering aspect - leaving aspect
+// SF: entering aspect - leaving aspect.
 requirement in_D_N.S.green or in_D_N.A.green or
             in_D_S.S.green or in_D_S.A.green
             disables {out_D_N.c_green, out_D_S.c_green};
@@ -530,7 +530,7 @@ requirement in_U_N.S.green or in_U_N.A.green or
             in_U_S.S.green or in_U_S.A.green
             disables {out_U_N.c_green, out_U_S.c_green};
 
-// SF: gate - entering aspect
+// SF: gate - entering aspect.
 requirement not gate_D_N.S.open or gate_D_N.Dir.closing or
             not gate_D_S.S.open or gate_D_S.Dir.closing
             disables {in_D_N.c_green, in_D_S.c_green};
@@ -561,7 +561,7 @@ requirement not out_U_N.S.red or not out_U_N.A.red or
             not out_U_S.S.red or not out_U_S.A.red
             disables {gate_U_N.c_close, gate_U_S.c_close};
 
-// SF: gate - leaving aspect
+// SF: gate - leaving aspect.
 requirement not gate_D_N.S.open or gate_D_N.Dir.closing or
             not gate_D_S.S.open or gate_D_S.Dir.closing
             disables {out_D_N.c_green, out_D_S.c_green};
