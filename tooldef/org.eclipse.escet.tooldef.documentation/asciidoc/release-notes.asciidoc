@@ -28,6 +28,10 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 
 TBD
 
+Improvements and fixes:
+
+* Small website style improvements (issue #367).
+
 === Version 0.5 (2022-03-29)
 
 Improvements and fixes:

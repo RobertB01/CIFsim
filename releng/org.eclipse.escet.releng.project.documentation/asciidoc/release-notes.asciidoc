@@ -32,6 +32,11 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+Improvements and fixes:
+
+* Added new Design Structure Matrix (DSM) clustering tool (issue #344).
+* Small website style improvements (issue #367).
+
 === Version 0.5 (2022-03-29)
 
 Improvements and fixes:
