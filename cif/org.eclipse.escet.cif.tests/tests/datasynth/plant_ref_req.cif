@@ -146,15 +146,30 @@ plant P2:
     marked;
 end
 
-// Marked predicate.
+// Marker predicate.
 plant P3:
   location:
     initial;
     marked R.l;
 end
 
-// Edge guard.
+// Invariants.
 plant P4:
+  plant R.l;
+  location:
+    initial;
+    marked;
+end
+
+requirement R5:
+  plant R.l;
+  location:
+    initial;
+    marked;
+end
+
+// Edge guard.
+plant P5:
   controllable c_e;
   location:
     initial;
@@ -163,7 +178,7 @@ plant P4:
 end
 
 // Edge update.
-plant P5:
+plant P6:
   controllable c_e;
   disc bool d;
   location:
@@ -173,7 +188,7 @@ plant P5:
 end
 
 // Edge conditional update.
-plant P6:
+plant P7:
   controllable c_e;
   disc bool d;
   location:
@@ -187,7 +202,7 @@ plant P6:
 end
 
 // Plant invariant in location of requirement automaton.
-requirement R5:
+requirement R6:
   location:
     initial; marked;
     plant true;
