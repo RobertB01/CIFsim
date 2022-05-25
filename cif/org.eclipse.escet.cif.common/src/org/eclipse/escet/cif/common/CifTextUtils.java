@@ -774,12 +774,12 @@ public class CifTextUtils {
      * </p>
      *
      * <p>
-     * This method, unlike the methods of the {@code CifPrettyPrinter}, supports expressions that are not contained in a
+     * This method, unlike the methods of the {@code CifPrettyPrinter}, supports updates that are not contained in a
      * specification (and thus have no scope).
      * </p>
      *
      * @param update The CIF update to convert.
-     * @return The textual representation of the CIF expression.
+     * @return The textual representation of the CIF update.
      * @see #exprToStr
      */
     public static String updateToStr(Update update) {
@@ -804,10 +804,12 @@ public class CifTextUtils {
                 txt.append(updatesToStr(elif.getThens()));
             }
 
-            txt.append(" else ");
-            txt.append(updatesToStr(ifUpdate.getElses()));
-            txt.append(" end");
+            if (!ifUpdate.getElses().isEmpty()) {
+                txt.append(" else ");
+                txt.append(updatesToStr(ifUpdate.getElses()));
+            }
 
+            txt.append(" end");
             return txt.toString();
         }
 
@@ -1471,24 +1473,24 @@ public class CifTextUtils {
     }
 
     /**
-     * Returns an end-user readable textual (reference) representation of a parent (either a location or a component),
-     * mostly for use in error messages.
+     * Returns an end-user readable textual (reference) representation of a location or component, mostly for use in
+     * error messages.
      *
      * <p>
      * Can for instance be used in {@code "... in %s."} messages.
      * </p>
      *
-     * @param parent The parent. Component definition and instantiation are not supported.
+     * @param obj The {@link Location} or {@link Component} for which to return the textual representation.
      * @return The end-user readable textual (reference) representation of the parent.
      * @see #getLocationText2
      * @see #getComponentText2
      */
-    public static String getParentText2(EObject parent) {
-        if (parent instanceof Location) {
-            return getLocationText2((Location)parent);
+    public static String getLocationOrComponentText2(EObject obj) {
+        if (obj instanceof Location) {
+            return getLocationText2((Location)obj);
         } else {
-            Assert.check(parent instanceof ComplexComponent);
-            return getComponentText2((ComplexComponent)parent);
+            Assert.check(obj instanceof ComplexComponent);
+            return getComponentText2((ComplexComponent)obj);
         }
     }
 }

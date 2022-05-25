@@ -15,8 +15,8 @@ package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.common.CifTextUtils.getLocationOrComponentText2;
 import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText2;
-import static org.eclipse.escet.cif.common.CifTextUtils.getParentText2;
 import static org.eclipse.escet.cif.common.CifTextUtils.invToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.updateToStr;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
@@ -53,6 +53,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.DictPair;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FieldExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
@@ -72,21 +73,21 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunctionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StringExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TimeExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.common.java.Assert;
 
-/** Checker for plant invariants or plant automata that reference requirement automata. */
-public class CifDataSynthesisRequirementReferenceChecker {
-    /** Constructor for the {@link CifDataSynthesisRequirementReferenceChecker} class. */
-    private CifDataSynthesisRequirementReferenceChecker() {
+/** Checker that checks for plants referencing requirements. */
+public class CifDataSynthesisPlantsRefsReqsChecker {
+    /** Constructor for the {@link CifDataSynthesisPlantsRefsReqsChecker} class. */
+    private CifDataSynthesisPlantsRefsReqsChecker() {
         // Static class.
     }
 
     /**
-     * Checks whether there are plant automata or plant invariants that reference a discrete variable, continuous
-     * variable or location that is part of a requirement automata.
+     * Checks whether a plant references a requirement state.
      *
      * @param spec The CIF specification to check.
      */
@@ -108,8 +109,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
     }
 
     /**
-     * Checks whether there are plant automata or plant invariants that reference a discrete variable, continuous
-     * variable or location that is part of a requirement automata.
+     * Checks whether a plant references a requirement state.
      *
      * @param group The group to check.
      */
@@ -131,13 +131,12 @@ public class CifDataSynthesisRequirementReferenceChecker {
     }
 
     /**
-     * Checks whether a plant automaton references a discrete variable, continuous variable or location that is part of
-     * a requirement automata.
+     * Checks whether a plant references a requirement state.
      *
      * @param aut The automaton to check.
      */
     private static void check(Automaton aut) {
-        // If the automaton is a plant, check if it contains references to requirements.
+        // If the automaton is a plant, check whether it contains references to requirements.
         if (aut.getKind() == SupKind.PLANT) {
             // Check whether discrete variables have initial values that reference requirements.
             for (Declaration decl: aut.getDeclarations()) {
@@ -152,7 +151,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
                 for (Expression value: variableValue.getValues()) {
                     if (referencesReq(value)) {
-                        warn("Initial value of plant discrete variables \"%s\" references a requirement.",
+                        warn("An initial value of plant discrete variables \"%s\" references a requirement state.",
                                 getAbsName(decl));
                     }
                 }
@@ -163,15 +162,15 @@ public class CifDataSynthesisRequirementReferenceChecker {
                 // Check initialization predicates.
                 for (Expression initPred: loc.getInitials()) {
                     if (referencesReq(initPred)) {
-                        warn("Plant initialization predicate \"%s\" in %s references a requirement.",
-                                exprToStr(initPred), getParentText2(loc));
+                        warn("Plant initialization predicate \"%s\" in %s references a requirement state.",
+                                exprToStr(initPred), getLocationText2(loc));
                     }
                 }
 
                 // Check marker predicates.
                 for (Expression markPred: loc.getMarkeds()) {
                     if (referencesReq(markPred)) {
-                        warn("Plant marked predicate \"%s\" in %s references a requirement.", exprToStr(markPred),
+                        warn("Plant marker predicate \"%s\" in %s references a requirement state.", exprToStr(markPred),
                                 getLocationText2(loc));
                     }
                 }
@@ -181,32 +180,38 @@ public class CifDataSynthesisRequirementReferenceChecker {
                     // Check edge guards.
                     for (Expression guard: edge.getGuards()) {
                         if (referencesReq(guard)) {
-                            warn("Plant edge guard \"%s\" in %s references a requirement.", exprToStr(guard),
-                                    getParentText2(loc));
+                            warn("Plant edge guard \"%s\" in %s references a requirement state.", exprToStr(guard),
+                                    getLocationText2(loc));
                         }
                     }
 
-                    // check edge updates.
+                    // Check edge updates.
                     for (Update update: edge.getUpdates()) {
                         if (referencesReq(update)) {
-                            warn("Plant edge update \"%s\" in %s references a requirement.", updateToStr(update),
-                                    getParentText2(loc));
+                            warn("Plant edge update \"%s\" in %s references a requirement state.", updateToStr(update),
+                                    getLocationText2(loc));
                         }
                     }
                 }
             }
         }
 
-        // If the automaton is a requirement, check if it has plant invariants in locations, as these depend on the
+        // If the automaton is a requirement, check whether it has plant invariants in locations, as these depend on the
         // location of the requirement.
         if (aut.getKind() == SupKind.REQUIREMENT) {
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: loc.getInvariants()) {
                     if (inv.getSupKind() == SupKind.PLANT) {
-                        warn("plant invariant \"%s\" in %s.", invToStr(inv, false), getParentText2(loc));
+                        warn("plant invariant \"%s\" in %s implicitly depends on requirement state.",
+                                invToStr(inv, false), getLocationText2(loc));
                     }
                 }
             }
+        }
+
+        // Check invariants in automaton.
+        for (Invariant inv: aut.getInvariants()) {
+            check(inv);
         }
 
         // Check invariants in locations.
@@ -218,8 +223,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
     }
 
     /**
-     * Checks whether a plant invariant references a discrete variable, continuous variable or location that is part of
-     * a requirement automata.
+     * Checks whether a plant invariant references a requirement state.
      *
      * @param inv The plant invariant to check.
      */
@@ -232,14 +236,13 @@ public class CifDataSynthesisRequirementReferenceChecker {
         // If the invariant references a requirement, show a warning.
         Expression pred = inv.getPredicate();
         if (referencesReq(pred)) {
-            warn("Plant invariant \"%s\" in %s references a requirement.", exprToStr(pred),
-                    getParentText2(inv.eContainer()));
+            warn("Plant invariant \"%s\" in %s references a requirement state.", exprToStr(pred),
+                    getLocationOrComponentText2(inv.eContainer()));
         }
     }
 
     /**
-     * Checks whether an update references a discrete variable, continuous variable or location that is part of a
-     * requirement automata.
+     * Checks whether an update references a requirement state.
      *
      * @param update The update to check.
      * @return {@code true} if the update reference a discrete variable, continuous variable or location that is part of
@@ -280,7 +283,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
                 }
             }
 
-            // Check else's.
+            // Check elses.
             for (Update elseUpdate: ifUpdate.getElses()) {
                 if (referencesReq(elseUpdate)) {
                     return true;
@@ -295,8 +298,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
     }
 
     /**
-     * Checks whether an expression references a discrete variable, continuous variable or location that is part of a
-     * requirement automata.
+     * Checks whether an expression references a requirement state.
      *
      * @param expr The expression to check.
      * @return {@code true} if the expression references a discrete variable, continuous variable or location that is
@@ -305,34 +307,26 @@ public class CifDataSynthesisRequirementReferenceChecker {
     private static boolean referencesReq(Expression expr) {
         if (expr instanceof BoolExpression) {
             return false;
-        }
-        if (expr instanceof IntExpression) {
+        } else if (expr instanceof IntExpression) {
             return false;
-        }
-        if (expr instanceof RealExpression) {
+        } else if (expr instanceof RealExpression) {
             return false;
-        }
-        if (expr instanceof StringExpression) {
+        } else if (expr instanceof StringExpression) {
             return false;
-        }
-        if (expr instanceof TimeExpression) {
+        } else if (expr instanceof TimeExpression) {
             return false;
-        }
-        if (expr instanceof CastExpression) {
+        } else if (expr instanceof CastExpression) {
             Expression child = ((CastExpression)expr).getChild();
             return referencesReq(child);
-        }
-        if (expr instanceof UnaryExpression) {
+        } else if (expr instanceof UnaryExpression) {
             Expression child = ((UnaryExpression)expr).getChild();
             return referencesReq(child);
-        }
-        if (expr instanceof BinaryExpression) {
+        } else if (expr instanceof BinaryExpression) {
             BinaryExpression bexpr = (BinaryExpression)expr;
             Expression left = bexpr.getLeft();
             Expression right = bexpr.getRight();
             return referencesReq(left) || referencesReq(right);
-        }
-        if (expr instanceof IfExpression) {
+        } else if (expr instanceof IfExpression) {
             IfExpression iexpr = (IfExpression)expr;
 
             // Check if guard.
@@ -366,8 +360,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
             // No requirement reference found.
             return false;
-        }
-        if (expr instanceof SwitchExpression) {
+        } else if (expr instanceof SwitchExpression) {
             SwitchExpression sexpr = (SwitchExpression)expr;
 
             // Check the value.
@@ -389,14 +382,12 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
             // No requirement reference found.
             return false;
-        }
-        if (expr instanceof ProjectionExpression) {
+        } else if (expr instanceof ProjectionExpression) {
             ProjectionExpression pexpr = (ProjectionExpression)expr;
             Expression child = pexpr.getChild();
             Expression index = pexpr.getIndex();
             return referencesReq(child) || referencesReq(index);
-        }
-        if (expr instanceof SliceExpression) {
+        } else if (expr instanceof SliceExpression) {
             SliceExpression sexpr = (SliceExpression)expr;
             if (referencesReq(sexpr.getChild())) {
                 return true;
@@ -414,8 +405,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
             // No requirement reference found.
             return false;
-        }
-        if (expr instanceof FunctionCallExpression) {
+        } else if (expr instanceof FunctionCallExpression) {
             // Check the parameters.
             for (Expression param: ((FunctionCallExpression)expr).getParams()) {
                 if (referencesReq(param)) {
@@ -423,10 +413,9 @@ public class CifDataSynthesisRequirementReferenceChecker {
                 }
             }
 
-            // No requirement reference found.
-            return false;
-        }
-        if (expr instanceof ListExpression) {
+            // Check function.
+            return referencesReq(((FunctionCallExpression)expr).getFunction());
+        } else if (expr instanceof ListExpression) {
             ListExpression lexpr = (ListExpression)expr;
             for (Expression elem: lexpr.getElements()) {
                 if (referencesReq(elem)) {
@@ -436,8 +425,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
             // No requirement reference found.
             return false;
-        }
-        if (expr instanceof SetExpression) {
+        } else if (expr instanceof SetExpression) {
             SetExpression sexpr = (SetExpression)expr;
             for (Expression elem: sexpr.getElements()) {
                 if (referencesReq(elem)) {
@@ -447,8 +435,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
             // No requirement reference found.
             return false;
-        }
-        if (expr instanceof TupleExpression) {
+        } else if (expr instanceof TupleExpression) {
             TupleExpression texpr = (TupleExpression)expr;
             for (Expression field: texpr.getFields()) {
                 if (referencesReq(field)) {
@@ -458,8 +445,7 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
             // No requirement reference found.
             return false;
-        }
-        if (expr instanceof DictExpression) {
+        } else if (expr instanceof DictExpression) {
             DictExpression dexpr = (DictExpression)expr;
             for (DictPair pair: dexpr.getPairs()) {
                 if (referencesReq(pair.getKey()) || referencesReq(pair.getValue())) {
@@ -469,24 +455,18 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
             // No requirement reference found.
             return false;
-        }
-        if (expr instanceof ConstantExpression) {
+        } else if (expr instanceof ConstantExpression) {
             Constant constant = ((ConstantExpression)expr).getConstant();
             return referencesReq(constant.getValue());
-        }
-        if (expr instanceof EnumLiteralExpression) {
+        } else if (expr instanceof EnumLiteralExpression) {
             return false;
-        }
-        if (expr instanceof FieldExpression) {
+        } else if (expr instanceof FieldExpression) {
             return false;
-        }
-        if (expr instanceof StdLibFunctionExpression) {
+        } else if (expr instanceof StdLibFunctionExpression) {
             return false;
-        }
-        if (expr instanceof FunctionExpression) {
+        } else if (expr instanceof FunctionExpression) {
             return false;
-        }
-        if (expr instanceof DiscVariableExpression) {
+        } else if (expr instanceof DiscVariableExpression) {
             DiscVariable var = ((DiscVariableExpression)expr).getVariable();
 
             // If the parent is a requirement automaton, it is a reference to a requirement.
@@ -509,17 +489,13 @@ public class CifDataSynthesisRequirementReferenceChecker {
 
             // No requirement reference found.
             return false;
-        }
-
-        if (expr instanceof AlgVariableExpression) {
+        } else if (expr instanceof AlgVariableExpression) {
             AlgVariable var = ((AlgVariableExpression)expr).getVariable();
 
             // Check the value(s).
             Expression value = CifEquationUtils.getSingleValueForAlgVar(var);
             return referencesReq(value);
-        }
-
-        if (expr instanceof ContVariableExpression) {
+        } else if (expr instanceof ContVariableExpression) {
             ContVariable var = ((ContVariableExpression)expr).getVariable();
 
             // If the parent is a requirement automaton, it is a reference to a requirement.
@@ -533,21 +509,15 @@ public class CifDataSynthesisRequirementReferenceChecker {
             Expression derivative = CifEquationUtils.getSingleDerivativeForContVar(var);
 
             return referencesReq(value) || referencesReq(derivative);
-        }
-
-        if (expr instanceof InputVariableExpression) {
+        } else if (expr instanceof InputVariableExpression) {
             return false;
-        }
-
-        if (expr instanceof LocationExpression) {
+        } else if (expr instanceof LocationExpression) {
             Location loc = ((LocationExpression)expr).getLocation();
 
             // Check whether the parent automaton is a requirement.
             Automaton aut = (Automaton)loc.eContainer();
             return aut.getKind() == SupKind.REQUIREMENT;
-        }
-
-        if (expr instanceof ComponentExpression) {
+        } else if (expr instanceof ComponentExpression) {
             Component component = ((ComponentExpression)expr).getComponent();
 
             if (component instanceof Group) {
@@ -557,19 +527,24 @@ public class CifDataSynthesisRequirementReferenceChecker {
                 Automaton aut = (Automaton)component;
                 return aut.getKind() == SupKind.REQUIREMENT;
             }
-        }
+        } else if (expr instanceof SelfExpression) {
+            EObject parent = expr.eContainer();
 
-        if (expr instanceof SelfExpression) {
+            // Find the automaton that this self expression references.
+            while (!(parent instanceof Automaton)) {
+                parent = parent.eContainer();
+            }
+            Automaton aut = (Automaton)parent;
+
+            // Check automaton.
+            return aut.getKind() == SupKind.REQUIREMENT;
+        } else if (expr instanceof ReceivedExpression) {
+            return false;
+        } else if (expr instanceof TauExpression) {
+            return false;
+        } else if (expr instanceof EventExpression) {
             return false;
         }
-
-        if (expr instanceof ReceivedExpression) {
-            return false;
-        }
-
-        // Not allowed in the initial values of state variables:
-        // - TauExpression (not allowed as value)
-        // - EventExpression (not allowed as value)
 
         // Should have been eliminated:
         // - CompParamExpression

@@ -954,7 +954,7 @@ Among others, checks are included for events that are forbidden by automaton gua
 
 The synthesis algorithm also checks for plant invariants or plant automata that reference requirement automata.
 If such a problem is detected, a warning is printed to the console.
-Among others, references in guards, updates, invariant predicates, initialization predicates, marked predicates and initial values for discrete variables are detected.
+Among others, references in guards, updates, invariant predicates, initialization predicates, marker predicates and initial values for discrete variables are detected.
 
 indexterm:[data-based supervisory controller synthesis,variable order]
 
