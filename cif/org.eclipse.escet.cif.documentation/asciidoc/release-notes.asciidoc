@@ -28,6 +28,20 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 
 TBD
 
+Language changes:
+
+* Invariants can now be given a name (issue #323).
+
+New features:
+
+* Added a CIF benchmark models import wizard, with several benchmarking models, similar to the CIF examples import wizard (issue #364).
+
+Improvements and fixes:
+
+* Some improvements to the documentation of the CIF to CIF linearize merge/product transformations (issue #354).
+* Improved bibliography references in documentation (issue #365).
+* Small website style improvements (issue #367).
+
 === Version 0.5 (2022-03-29)
 
 New features:
