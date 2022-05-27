@@ -13,14 +13,16 @@
 
 package org.eclipse.escet.cif.datasynth.varorder;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
+import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 import org.eclipse.escet.common.java.PermuteUtils;
 
-/** Implementation of the sliding window algorithm for automatic variable ordering. */
-public class SlidingWindowVarOrderer extends AutoVarOrderer {
+/** Sliding window algorithm variable ordering heuristic. */
+public class SlidingWindowVarOrderer implements VarOrderer {
     /** The maximum length of the window. */
-    public final int maxLen;
+    private final int maxLen;
 
     /**
      * Constructor for the {@link SlidingWindowVarOrderer} class.
@@ -32,72 +34,68 @@ public class SlidingWindowVarOrderer extends AutoVarOrderer {
     }
 
     @Override
-    protected void initializeAlgo() {
-        // Nothing to do.
-    }
+    public SynthesisVariable[] order(VarOrdererHelper helper, SynthesisVariable[] inputOrder, boolean dbgEnabled,
+            int dbgLevel)
+    {
+        // Get variable count.
+        int varCnt = helper.getVarCnt();
 
-    @Override
-    protected void cleanupAlgo() {
-        // Nothing to do.
-    }
-
-    @Override
-    protected void computeOrder() {
-        // Debug output: starting.
+        // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            dbg();
-            dbg("  Applying sliding window algorithm:");
+            helper.dbg(dbgLevel, "Applying sliding window algorithm.");
         }
 
         // Determine window length.
         int length = Math.min(maxLen, varCnt);
         if (dbgEnabled) {
-            dbg("    Window length: %,d", length);
+            helper.dbg(dbgLevel, "Window length: %,d", length);
         }
 
-        // Initialize total span.
-        long bestSpan = computeTotalSpan(bestIndices);
+        // Initialize current indices and total span.
+        int[] curIndices = helper.getNewIndices(inputOrder);
+        long curSpan = helper.computeTotalSpan(curIndices);
         if (dbgEnabled) {
-            dbg();
-            dbg("    Total span: %,20d (total) %,20.2f (avg/edge) [before]", bestSpan, (double)bestSpan / edges.length);
+            helper.dbgTotalSpan(dbgLevel, curSpan, "before");
         }
 
-        // Compute for all windows.
+        // Process all windows.
         int[] window = new int[length];
         int permCnt = PermuteUtils.factorial(window.length);
         int[][] windowPerms = new int[permCnt][window.length];
         for (int offset = 0; offset <= (varCnt - length); offset++) {
             // Fill window and all permutations.
-            System.arraycopy(bestIndices, offset, window, 0, length);
+            System.arraycopy(curIndices, offset, window, 0, length);
             PermuteUtils.permute(window, windowPerms);
 
             // Compute total span for each order.
             int bestIdx = -1;
-            int[] order = bestIndices.clone();
+            int[] windowIndices = curIndices.clone();
             for (int i = 0; i < windowPerms.length; i++) {
                 int[] windowPerm = windowPerms[i];
-                System.arraycopy(windowPerm, 0, order, offset, length);
-                long span = computeTotalSpan(order);
-                if (span < bestSpan) {
-                    bestSpan = span;
+                System.arraycopy(windowPerm, 0, windowIndices, offset, length);
+                long windowSpan = helper.computeTotalSpan(windowIndices);
+                if (windowSpan < curSpan) {
+                    curSpan = windowSpan;
                     bestIdx = i;
                 }
             }
 
-            // Update best order if improved by this window.
+            // Update order if improved by this window.
             if (bestIdx >= 0) {
-                System.arraycopy(windowPerms[bestIdx], 0, bestIndices, offset, length);
+                System.arraycopy(windowPerms[bestIdx], 0, curIndices, offset, length);
 
                 if (dbgEnabled) {
-                    dbg("    Total span: %,20d (total) %,20.2f (avg/edge) [window %d..%d]", bestSpan,
-                            (double)bestSpan / edges.length, offset, offset + length - 1);
+                    helper.dbgTotalSpan(dbgLevel, curSpan, fmt("window %d..%d", offset, offset + length - 1));
                 }
             }
         }
 
-        // Debug output for result.
+        // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            dbg("    Total span: %,20d (total) %,20.2f (avg/edge) [after]", bestSpan, (double)bestSpan / edges.length);
+            helper.dbgTotalSpan(dbgLevel, curSpan, "after");
         }
+
+        // Return the resulting order.
+        return helper.reorder(curIndices);
     }
 }

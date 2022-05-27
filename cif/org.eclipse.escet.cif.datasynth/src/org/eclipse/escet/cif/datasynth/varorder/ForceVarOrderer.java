@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.datasynth.varorder;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -22,101 +21,85 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+
 /**
- * Implementation of the FORCE algorithm for automatic variable ordering.
+ * FORCE variable ordering heuristic.
  *
  * <p>
- * Based on the paper: Fadi A. Aloul, Igor L. Markov, Karem A. Sakallah, FORCE: A Fast and Easy-To-Implement
- * Variable-Ordering Heuristic, GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI, Pages 116-119,
- * ACM New York, April 2003.
+ * Based on the paper: Fadi A. Aloul, Igor L. Markov, Karem A. Sakallah, "FORCE: A Fast and Easy-To-Implement
+ * Variable-Ordering Heuristic", GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119,
+ * 2003, doi:<a href="https://doi.org/10.1145/764808.764839">10.1145/764808.764839</a>.
  * </p>
  */
-public class ForceVarOrderer extends AutoVarOrderer {
-    /**
-     * The location of each vertex, i.e. l<sub>v</sub> and l<sub>v</sub>' in the paper. The vertices are variables, in
-     * increasing order of their variable indices.
-     */
-    private double[] locations;
-
-    /** Pairs of {@link #newIndices variable indices} and {@link #locations}. */
-    private List<IdxLocPair> idxLocPairs;
-
-    /** The center of gravity for each {@link #edges edge}. */
-    private double[] cogs;
-
-    /**
-     * Per vertex, the number of {@link #edges} of which it is a part. The vertices are the variables, in increasing
-     * order of their variable indices.
-     */
-    private int[] edgeCounts;
-
+public class ForceVarOrderer implements VarOrderer {
     @Override
-    protected void initializeAlgo() {
-        // Initialize 'locations'.
-        locations = new double[varCnt];
+    public SynthesisVariable[] order(VarOrdererHelper helper, SynthesisVariable[] inputOrder, boolean dbgEnabled,
+            int dbgLevel)
+    {
+        // Get hyper-edges.
+        int varCnt = helper.getVarCnt();
+        BitSet[] hyperEdges = helper.getHyperEdges();
 
-        // Initialize 'idxLocPairs'.
-        idxLocPairs = listc(varCnt);
+        // Debug output before applying the algorithm.
+        if (dbgEnabled) {
+            helper.dbg(dbgLevel, "Applying FORCE algorithm.");
+        }
+
+        // Create 'locations' storage: per variable/vertex (in their original order), its location, i.e. l[v] in the
+        // paper.
+        double[] locations = new double[varCnt];
+
+        // Create 'idxLocPairs' storage: pairs of variable indices (from their original order) and locations.
+        List<IdxLocPair> idxLocPairs = listc(varCnt);
         for (int i = 0; i < varCnt; i++) {
             idxLocPairs.add(new IdxLocPair());
         }
 
-        // Initialize 'cogs'.
-        cogs = new double[edges.length];
+        // Crate 'cogs' storage: the center of gravity for each hyper-edge.
+        double[] cogs = new double[hyperEdges.length];
 
-        // Initialize 'edgeCounts'.
-        edgeCounts = new int[varCnt];
-        for (BitSet edge: edges) {
+        // Initialize 'edgeCounts': per variable/vertex, the number of hyper-edges of which it is a part.
+        int[] edgeCounts = new int[varCnt];
+        for (BitSet edge: hyperEdges) {
             for (int i = 0; i < varCnt; i++) {
                 if (edge.get(i)) {
                     edgeCounts[i]++;
                 }
             }
         }
-    }
 
-    @Override
-    protected void cleanupAlgo() {
-        locations = null;
-        idxLocPairs = null;
-        cogs = null;
-        edgeCounts = null;
-    }
-
-    @Override
-    protected void computeOrder() {
-        // Debug output: starting.
-        if (dbgEnabled) {
-            dbg();
-            dbg("  Applying FORCE algorithm:");
-        }
+        // Initialize variable orders: for each variable (in their original order), its new 0-based index.
+        int[] curOrder; // Current order computed by the algorithm.
+        int[] bestOrder; // Best order computed the algorithm.
+        curOrder = helper.getNewIndices(inputOrder);
+        bestOrder = curOrder.clone();
 
         // Determine maximum number of iterations.
         int maxIter = (int)Math.ceil(Math.log(varCnt));
         maxIter *= 10;
         if (dbgEnabled) {
-            dbg("    Maximum number of iterations: %,d", maxIter);
+            helper.dbg(dbgLevel, "Maximum number of iterations: %,d", maxIter);
         }
 
         // Initialize total span.
-        long curTotalSpan = computeTotalSpan(newIndices);
+        long curTotalSpan = helper.computeTotalSpan(curOrder);
         long bestTotalSpan = curTotalSpan;
         if (dbgEnabled) {
-            dbg();
-            dbg("    Total span: %,20d (total) %,20.2f (avg/edge) [before]", curTotalSpan,
-                    (double)curTotalSpan / edges.length);
+            helper.dbgTotalSpan(dbgLevel, curTotalSpan, "before");
         }
 
         // Perform iterations of the algorithm.
         for (int curIter = 0; curIter < maxIter; curIter++) {
             // Compute center of gravity for each edge.
-            for (int i = 0; i < edges.length; i++) {
-                BitSet edge = edges[i];
+            for (int i = 0; i < hyperEdges.length; i++) {
+                BitSet edge = hyperEdges[i];
                 double cog = 0;
                 int cnt = 0;
                 for (int j = 0; j < varCnt; j++) {
                     if (edge.get(j)) {
-                        cog += newIndices[j];
+                        cog += curOrder[j];
                         cnt++;
                     }
                 }
@@ -125,8 +108,8 @@ public class ForceVarOrderer extends AutoVarOrderer {
 
             // Compute (new) locations.
             Arrays.fill(locations, 0.0);
-            for (int i = 0; i < edges.length; i++) {
-                BitSet edge = edges[i];
+            for (int i = 0; i < hyperEdges.length; i++) {
+                BitSet edge = hyperEdges[i];
                 for (int j = 0; j < varCnt; j++) {
                     if (edge.get(j)) {
                         locations[j] += cogs[i];
@@ -137,7 +120,7 @@ public class ForceVarOrderer extends AutoVarOrderer {
                 locations[i] /= edgeCounts[i];
             }
 
-            // Determine new indices.
+            // Determine a new order, and update the current order to that order.
             for (int i = 0; i < varCnt; i++) {
                 IdxLocPair pair = idxLocPairs.get(i);
                 pair.idx = i;
@@ -145,31 +128,27 @@ public class ForceVarOrderer extends AutoVarOrderer {
             }
             Collections.sort(idxLocPairs);
             for (int i = 0; i < varCnt; i++) {
-                newIndices[idxLocPairs.get(i).idx] = i;
+                curOrder[idxLocPairs.get(i).idx] = i;
             }
 
             // Get new total span.
-            long newTotalSpan = computeTotalSpan(newIndices);
+            long newTotalSpan = helper.computeTotalSpan(curOrder);
             if (dbgEnabled) {
-                dbg("    Total span: %,20d (total) %,20.2f (avg/edge) [iteration %,d]", newTotalSpan,
-                        (double)newTotalSpan / edges.length, curIter + 1);
+                helper.dbgTotalSpan(dbgLevel, newTotalSpan, fmt("iteration %,d", curIter + 1));
             }
 
-            // Stop when total span stops changing. We could stop as soon as
-            // it stops decreasing. However, we may end up in a local optimum.
-            // By continuing, and allowing increases, we can get out of the
-            // local optimum, and try to find a better local or global optimum.
-            // We could potentially get stuck in an oscillation. However, we
-            // have a maximum on the number of iterations, so it always
-            // terminates. We may spend more iterations than needed, but the
-            // FORCE algorithm is fast, so it is not expected to be an issue.
+            // Stop when total span stops changing. We could stop as soon as it stops decreasing. However, we may end
+            // up in a local optimum. By continuing, and allowing increases, we can get out of the local optimum, and
+            // try to find a better local or global optimum. We could potentially get stuck in an oscillation. However,
+            // we have a maximum on the number of iterations, so it always terminates. We may spend more iterations
+            // than needed, but the FORCE algorithm is fast, so it is not expected to be an issue.
             if (newTotalSpan == curTotalSpan) {
                 break;
             }
 
-            // Update best order, if new order is better than current best.
+            // Update best order, if new order is better than the current best order.
             if (newTotalSpan < bestTotalSpan) {
-                System.arraycopy(newIndices, 0, bestIndices, 0, varCnt);
+                System.arraycopy(curOrder, 0, bestOrder, 0, varCnt);
                 bestTotalSpan = newTotalSpan;
             }
 
@@ -177,17 +156,18 @@ public class ForceVarOrderer extends AutoVarOrderer {
             curTotalSpan = newTotalSpan;
         }
 
-        // Debug output for result.
+        // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            dbg("    Total span: %,20d (total) %,20.2f (avg/edge) [after]", bestTotalSpan,
-                    (double)bestTotalSpan / edges.length);
+            helper.dbgTotalSpan(dbgLevel, bestTotalSpan, "after");
         }
+
+        // Return the resulting order.
+        return helper.reorder(bestOrder);
     }
 
     /**
-     * A pair of an {@link ForceVarOrderer#newIndices variable index} and a {@link ForceVarOrderer#locations location}.
-     * Can be compared, first in ascending order based on location, and secondly in ascending order based on variable
-     * index.
+     * A pair of a variable index (from the original variable order) and a location. Can be compared, first in ascending
+     * order based on location, and secondly in ascending order based on variable index.
      */
     private static class IdxLocPair implements Comparable<IdxLocPair> {
         /** The variable index. */
