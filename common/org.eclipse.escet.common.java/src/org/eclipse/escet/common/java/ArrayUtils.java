@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.common.java;
 
+import java.lang.reflect.Array;
+
 /** Array helper methods. */
 public class ArrayUtils {
     /** Constructor for the {@link ArrayUtils} class. */
@@ -30,5 +32,22 @@ public class ArrayUtils {
     @SafeVarargs
     public static <T> T[] array(T... elems) {
         return elems;
+    }
+
+    /**
+     * Reverses the given arrow.
+     *
+     * @param <T> The type of the elements of the array.
+     * @param array The array to reverse. Is not modified.
+     * @return The reverse array.
+     */
+    public static <T> T[] reverse(T[] array) {
+        int n = array.length;
+        @SuppressWarnings("unchecked")
+        T[] reversed = (T[])Array.newInstance(array.getClass().getComponentType(), n);
+        for (int i = 0; i < n; i++) {
+            reversed[n - i - 1] = array[i];
+        }
+        return reversed;
     }
 }
