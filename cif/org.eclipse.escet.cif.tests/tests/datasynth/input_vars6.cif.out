@@ -11,10 +11,7 @@ CIF variables and location pointers:
   -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
   Total                                    3      6         12          12          100%
 
-Applying automatic variable ordering:
-  Number of hyperedges: 0
-
-  Skipping automatic ordering: no hyperedges.
+Skipping automatic variable ordering: no hyper-edges.
 
 Starting data-based synthesis.
 
