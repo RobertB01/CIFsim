@@ -46,7 +46,7 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Automatic variable ordering hyper-edge creator. */
-public class HyperEdgeCreator {
+class HyperEdgeCreator {
     /** The synthesis variables. */
     private SynthesisVariable[] variables;
 
@@ -63,7 +63,7 @@ public class HyperEdgeCreator {
      * @param variables The synthesis variables.
      * @return The hyper-edges.
      */
-    public List<BitSet> getHyperEdges(Specification spec, SynthesisVariable[] variables) {
+    List<BitSet> getHyperEdges(Specification spec, SynthesisVariable[] variables) {
         // Initialization.
         this.variables = variables;
         this.hyperEdges = list();
