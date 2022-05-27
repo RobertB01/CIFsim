@@ -44,6 +44,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.copy;
+import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
@@ -52,7 +53,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -96,11 +96,11 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.AutoVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.CombiVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.ForceVarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.SequenceVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.SlidingWindowVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.helper.HyperEdgeCreator;
+import org.eclipse.escet.cif.datasynth.varorder.VarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -879,8 +879,13 @@ public class CifToSynthesisConverter {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void applyVariableReorder(SynthesisAutomaton synthAut, Specification spec, boolean dbgEnabled) {
-        // Skip if no variables.
+        // Skip, including debug output printing, if no variables are present.
         if (synthAut.variables.length == 0) {
+            return;
+        }
+
+        // Skip, including debug output printing, if any conversion issues.
+        if (Arrays.asList(synthAut.variables).contains(null)) {
             return;
         }
 
@@ -889,23 +894,42 @@ public class CifToSynthesisConverter {
             debugCifVars(synthAut);
         }
 
-        // If no automatic ordering enabled, don't apply it.
+        // Only apply a variable ordering algorithm if at least one of them is enabled.
         boolean doForce = BddForceVarOrderOption.isEnabled();
         boolean doSlidWin = BddSlidingWindowVarOrderOption.isEnabled();
-        boolean doAny = doForce || doSlidWin;
-        if (!doAny) {
+        if (!doForce && !doSlidWin) {
             if (dbgEnabled) {
+                dbg();
+                dbg("Skipping automatic variable ordering: no algorithms selected.");
                 dbg();
             }
             return;
         }
 
-        // Create hyperedges.
-        HyperEdgeCreator creator = new HyperEdgeCreator();
-        List<BitSet> hyperEdges = creator.getHyperEdges(spec, synthAut.variables);
+        // Only apply a variable ordering algorithm if there are at least two variables (to order).
+        if (synthAut.variables.length < 2) {
+            if (dbgEnabled) {
+                dbg();
+                dbg("Skipping automatic variable ordering: only one variable present.");
+                dbg();
+            }
+            return;
+        }
+
+        // Only apply a variable ordering algorithm if there are hyper-edges. This ensures that there are actual
+        // variable relations upon which to base the new order. It also avoids division by zero issues.
+        VarOrdererHelper helper = new VarOrdererHelper(spec, synthAut.variables);
+        if (helper.getHyperEdges().length == 0) {
+            if (dbgEnabled) {
+                dbg();
+                dbg("Skipping automatic variable ordering: no hyper-edges.");
+                dbg();
+            }
+            return;
+        }
 
         // Get algorithms to apply.
-        List<AutoVarOrderer> orderers = list();
+        List<VarOrderer> orderers = list();
         if (doForce) {
             orderers.add(new ForceVarOrderer());
         }
@@ -913,22 +937,37 @@ public class CifToSynthesisConverter {
             int maxLen = BddSlidingWindowSizeOption.getMaxLen();
             orderers.add(new SlidingWindowVarOrderer(maxLen));
         }
-
-        AutoVarOrderer orderer;
-        if (orderers.size() == 1) {
-            orderer = first(orderers);
-        } else {
-            CombiVarOrderer combi = new CombiVarOrderer();
-            combi.children.addAll(orderers);
-            orderer = combi;
-        }
+        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequenceVarOrderer(orderers);
 
         // Apply algorithm.
-        boolean reordered = orderer.order(synthAut, hyperEdges, dbgEnabled);
+        if (dbgEnabled) {
+            dbg();
+            dbg("Applying automatic variable ordering:");
+            dbg("  Number of hyper-edges: %,d", helper.getHyperEdges().length);
+            dbg();
+        }
+        SynthesisVariable[] curOrder = synthAut.variables;
+        SynthesisVariable[] newOrder = orderer.order(helper, synthAut.variables, dbgEnabled, 1);
+
+        // If the new order differs from the current order, reorder.
+        boolean orderChanged = !Arrays.equals(curOrder, newOrder);
+        if (dbgEnabled) {
+            dbg();
+            dbg("Variable order %schanged.", orderChanged ? "" : "un");
+        }
+
+        if (orderChanged) {
+            Assert.areEqual(curOrder.length, newOrder.length); // Same length.
+            Assert.areEqual(list2set(Arrays.asList(curOrder)), list2set(Arrays.asList(newOrder))); // Same variables.
+            synthAut.variables = newOrder;
+            for (int i = 0; i < synthAut.variables.length; i++) {
+                synthAut.variables[i].group = i;
+            }
+        }
 
         // Print variable debugging information after automatic ordering.
         if (dbgEnabled) {
-            if (reordered) {
+            if (orderChanged) {
                 debugCifVars(synthAut);
             }
             dbg();
