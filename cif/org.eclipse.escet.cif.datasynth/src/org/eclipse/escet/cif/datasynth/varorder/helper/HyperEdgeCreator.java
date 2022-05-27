@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter.ComparisonCollector;
-import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter.VariableCollector;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
@@ -48,31 +45,31 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
-/** Automatic variable ordering hyperedge creator. */
-class HyperEdgeCreator {
-    /** The synthesis automaton. */
-    private SynthesisAutomaton synthAut;
+/** Automatic variable ordering hyper-edge creator. */
+public class HyperEdgeCreator {
+    /** The synthesis variables. */
+    private SynthesisVariable[] variables;
 
-    /** The hyperedges created so far. */
+    /** The hyper-edges created so far. */
     private List<BitSet> hyperEdges = list();
 
-    /** Mapping from events to the CIF variable objects to put on the hyperedge for that event. */
+    /** Mapping from events to the CIF variable objects to put on the hyper-edge for that event. */
     private Map<Event, Set<PositionObject>> eventHyperEdges = map();
 
     /**
-     * Creates and returns hyperedges for the given CIF specification.
+     * Creates and returns hyper-edges for the given CIF specification.
      *
      * @param spec The CIF specification.
-     * @param synthAut The synthesis automaton.
-     * @return The hyperedges.
+     * @param variables The synthesis variables.
+     * @return The hyper-edges.
      */
-    public List<BitSet> getHyperEdges(Specification spec, SynthesisAutomaton synthAut) {
+    public List<BitSet> getHyperEdges(Specification spec, SynthesisVariable[] variables) {
         // Initialization.
-        this.synthAut = synthAut;
+        this.variables = variables;
         this.hyperEdges = list();
         this.eventHyperEdges = map();
 
-        // Create hyperedges.
+        // Create hyper-edges.
         addHyperEdges(spec);
         for (Set<PositionObject> vars: eventHyperEdges.values()) {
             addHyperEdge(vars);
@@ -81,7 +78,7 @@ class HyperEdgeCreator {
         // Cleanup.
         List<BitSet> rslt = hyperEdges;
         this.eventHyperEdges = null;
-        this.synthAut = null;
+        this.variables = null;
         this.hyperEdges = null;
 
         // Return the hyperedges.
@@ -89,12 +86,12 @@ class HyperEdgeCreator {
     }
 
     /**
-     * Add hyper edges for the given component, recursively.
+     * Add hyper-edges for the given component, recursively.
      *
      * @param comp The component.
      */
     private void addHyperEdges(ComplexComponent comp) {
-        // Add a hyperedge per invariant of the component.
+        // Add a hyper-edge per invariant of the component.
         for (Invariant inv: comp.getInvariants()) {
             Expression pred = inv.getPredicate();
             VariableCollector varCollector = new VariableCollector();
@@ -103,11 +100,11 @@ class HyperEdgeCreator {
             addHyperEdge(vars);
         }
 
-        // Add hyperedges for CIF automata.
+        // Add hyper-edges for CIF automata.
         if (comp instanceof Automaton) {
             Automaton aut = (Automaton)comp;
             for (Location loc: aut.getLocations()) {
-                // Add a hyperedge per invariant of the location.
+                // Add a hyper-edge per invariant of the location.
                 for (Invariant inv: comp.getInvariants()) {
                     Expression pred = inv.getPredicate();
                     VariableCollector varCollector = new VariableCollector();
@@ -116,7 +113,7 @@ class HyperEdgeCreator {
                     addHyperEdge(vars);
                 }
 
-                // Add hyperedges for the edges of the CIF automaton.
+                // Add hyper-edges for the edges of the CIF automaton.
                 for (Edge edge: loc.getEdges()) {
                     addHyperEdges(aut, edge);
                 }
@@ -139,7 +136,7 @@ class HyperEdgeCreator {
      * @param edge The edge.
      */
     private void addHyperEdges(Automaton aut, Edge edge) {
-        // Add hyperedge for each comparison in the guards.
+        // Add hyper-edge for each comparison in the guards.
         for (Expression guard: edge.getGuards()) {
             ComparisonCollector cmpCollector = new ComparisonCollector();
             List<BinaryExpression> cmps = cmpCollector.collectComparisons(guard);
@@ -152,10 +149,10 @@ class HyperEdgeCreator {
             }
         }
 
-        // Add hyperedges for updates.
+        // Add hyper-edges for updates.
         addHyperEdges(edge.getUpdates());
 
-        // Collect information for hyperedges to create for each event.
+        // Collect information for hyper-edges to create for each event.
         Automaton lpAut = (aut.getLocations().size() < 2) ? null : aut;
         for (EdgeEvent edgeEvent: edge.getEvents()) {
             // Skip 'tau' events.
@@ -212,27 +209,25 @@ class HyperEdgeCreator {
     }
 
     /**
-     * Add a hyperedge for the given CIF variable objects. Creating and adding a hyperedge is skipped if no CIF
+     * Add a hyper-edge for the given CIF variable objects. Creating and adding a hyper-edge is skipped if no CIF
      * variable objects are provided.
      *
      * @param vars The CIF variable objects.
      */
     private void addHyperEdge(Set<PositionObject> vars) {
-        // Skip creation of hyperedges without any variables.
+        // Skip creation of hyper-edges without any variables.
         if (vars.isEmpty()) {
             return;
         }
 
         // Create bit set.
-        BitSet hyperEdge = new BitSet(synthAut.variables.length);
+        BitSet hyperEdge = new BitSet(variables.length);
         for (PositionObject var: vars) {
             int matchIdx = -1;
-            for (int i = 0; i < synthAut.variables.length; i++) {
-                // Skip conversion failures.
-                SynthesisVariable synthVar = synthAut.variables[i];
-                if (synthVar == null) {
-                    continue;
-                }
+            for (int i = 0; i < variables.length; i++) {
+                // Get synthesis variable.
+                SynthesisVariable synthVar = variables[i];
+                Assert.notNull(synthVar == null);
 
                 // Check for matching variable.
                 boolean match = false;
@@ -267,7 +262,7 @@ class HyperEdgeCreator {
             hyperEdge.set(matchIdx);
         }
 
-        // Add hyperedge.
+        // Add hyper-edge.
         hyperEdges.add(hyperEdge);
     }
 }

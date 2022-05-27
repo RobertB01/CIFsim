@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -35,7 +35,7 @@ class ComparisonCollector extends CifWalker {
      * @param expr The expression in which to collect, recursively.
      * @return The collected comparison binary expressions.
      */
-    public List<BinaryExpression> collectComparisons(Expression expr) {
+    List<BinaryExpression> collectComparisons(Expression expr) {
         // Initialization.
         comparisons = list();
 

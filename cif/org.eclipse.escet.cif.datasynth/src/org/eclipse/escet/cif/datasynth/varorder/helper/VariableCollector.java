@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -40,7 +40,7 @@ class VariableCollector extends CifWalker {
      * @param update The update.
      * @param cifVarObjs The CIF variable objects collected so far. Is extended in-place.
      */
-    public void collectCifVarObjs(Update update, Set<PositionObject> cifVarObjs) {
+    void collectCifVarObjs(Update update, Set<PositionObject> cifVarObjs) {
         this.cifVarObjs = cifVarObjs;
         walkUpdate(update);
         this.cifVarObjs = null;
@@ -52,7 +52,7 @@ class VariableCollector extends CifWalker {
      * @param expr The expression.
      * @param cifVarObjs The CIF variable objects collected so far. Is extended in-place.
      */
-    public void collectCifVarObjs(Expression expr, Set<PositionObject> cifVarObjs) {
+    void collectCifVarObjs(Expression expr, Set<PositionObject> cifVarObjs) {
         this.cifVarObjs = cifVarObjs;
         walkExpression(expr);
         this.cifVarObjs = null;

@@ -902,7 +902,7 @@ public class CifToSynthesisConverter {
 
         // Create hyperedges.
         HyperEdgeCreator creator = new HyperEdgeCreator();
-        List<BitSet> hyperEdges = creator.getHyperEdges(spec, synthAut);
+        List<BitSet> hyperEdges = creator.getHyperEdges(spec, synthAut.variables);
 
         // Get algorithms to apply.
         List<AutoVarOrderer> orderers = list();
