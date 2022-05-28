@@ -1480,7 +1480,7 @@ public class CifTextUtils {
      * Can for instance be used in {@code "... in %s."} messages.
      * </p>
      *
-     * @param obj The {@link Location} or {@link Component} for which to return the textual representation.
+     * @param obj The {@link Location} or {@link ComplexComponent} for which to return the textual representation.
      * @return The end-user readable textual (reference) representation of the parent.
      * @see #getLocationText2
      * @see #getComponentText2

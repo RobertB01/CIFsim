@@ -20,8 +20,14 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText2;
 import static org.eclipse.escet.cif.common.CifTextUtils.invToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.updateToStr;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
+import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Sets.set;
+
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.escet.cif.common.CifAddressableUtils;
 import org.eclipse.escet.cif.common.CifEquationUtils;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -81,13 +87,16 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Checker that checks for plants referencing requirements. */
 public class CifDataSynthesisPlantsRefsReqsChecker {
+    /** Assigned variables per automaton. */
+    private static final Map<Automaton, Set<Declaration>> ASSIGNED_VARIABLES = map();
+
     /** Constructor for the {@link CifDataSynthesisPlantsRefsReqsChecker} class. */
     private CifDataSynthesisPlantsRefsReqsChecker() {
         // Static class.
     }
 
     /**
-     * Checks whether a plant references a requirement state.
+     * Checks whether a plant references requirement state.
      *
      * @param spec The CIF specification to check.
      */
@@ -109,7 +118,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
     }
 
     /**
-     * Checks whether a plant references a requirement state.
+     * Checks whether a plant references requirement state.
      *
      * @param group The group to check.
      */
@@ -131,7 +140,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
     }
 
     /**
-     * Checks whether a plant references a requirement state.
+     * Checks whether a plant references requirement state.
      *
      * @param aut The automaton to check.
      */
@@ -151,7 +160,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
 
                 for (Expression value: variableValue.getValues()) {
                     if (referencesReq(value)) {
-                        warn("An initial value of plant discrete variables \"%s\" references a requirement state.",
+                        warn("An initial value of plant discrete variables \"%s\" references requirement state.",
                                 getAbsName(decl));
                     }
                 }
@@ -162,7 +171,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 // Check initialization predicates.
                 for (Expression initPred: loc.getInitials()) {
                     if (referencesReq(initPred)) {
-                        warn("Plant initialization predicate \"%s\" in %s references a requirement state.",
+                        warn("Plant initialization predicate \"%s\" in %s references requirement state.",
                                 exprToStr(initPred), getLocationText2(loc));
                     }
                 }
@@ -170,7 +179,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 // Check marker predicates.
                 for (Expression markPred: loc.getMarkeds()) {
                     if (referencesReq(markPred)) {
-                        warn("Plant marker predicate \"%s\" in %s references a requirement state.", exprToStr(markPred),
+                        warn("Plant marker predicate \"%s\" in %s references requirement state.", exprToStr(markPred),
                                 getLocationText2(loc));
                     }
                 }
@@ -180,7 +189,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                     // Check edge guards.
                     for (Expression guard: edge.getGuards()) {
                         if (referencesReq(guard)) {
-                            warn("Plant edge guard \"%s\" in %s references a requirement state.", exprToStr(guard),
+                            warn("Plant edge guard \"%s\" in %s references requirement state.", exprToStr(guard),
                                     getLocationText2(loc));
                         }
                     }
@@ -188,7 +197,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                     // Check edge updates.
                     for (Update update: edge.getUpdates()) {
                         if (referencesReq(update)) {
-                            warn("Plant edge update \"%s\" in %s references a requirement state.", updateToStr(update),
+                            warn("Plant edge update \"%s\" in %s references requirement state.", updateToStr(update),
                                     getLocationText2(loc));
                         }
                     }
@@ -202,7 +211,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: loc.getInvariants()) {
                     if (inv.getSupKind() == SupKind.PLANT) {
-                        warn("plant invariant \"%s\" in %s implicitly depends on requirement state.",
+                        warn("Plant invariant \"%s\" in %s implicitly depends on requirement state.",
                                 invToStr(inv, false), getLocationText2(loc));
                     }
                 }
@@ -223,7 +232,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
     }
 
     /**
-     * Checks whether a plant invariant references a requirement state.
+     * Checks whether a plant invariant references requirement state.
      *
      * @param inv The plant invariant to check.
      */
@@ -236,17 +245,16 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
         // If the invariant references a requirement, show a warning.
         Expression pred = inv.getPredicate();
         if (referencesReq(pred)) {
-            warn("Plant invariant \"%s\" in %s references a requirement state.", exprToStr(pred),
+            warn("Plant invariant \"%s\" in %s references requirement state.", exprToStr(pred),
                     getLocationOrComponentText2(inv.eContainer()));
         }
     }
 
     /**
-     * Checks whether an update references a requirement state.
+     * Checks whether an update references requirement state.
      *
      * @param update The update to check.
-     * @return {@code true} if the update reference a discrete variable, continuous variable or location that is part of
-     *     a requirement automata, {@code false} otherwise.
+     * @return {@code true} if the update references requirement state, {@code false} otherwise.
      */
     private static boolean referencesReq(Update update) {
         if (update instanceof Assignment) {
@@ -298,11 +306,10 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
     }
 
     /**
-     * Checks whether an expression references a requirement state.
+     * Checks whether an expression references requirement state.
      *
      * @param expr The expression to check.
-     * @return {@code true} if the expression references a discrete variable, continuous variable or location that is
-     *     part of a requirement automata, {@code false} otherwise.
+     * @return {@code true} if the expression references requirement state, {@code false} otherwise.
      */
     private static boolean referencesReq(Expression expr) {
         if (expr instanceof BoolExpression) {
@@ -498,10 +505,24 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
         } else if (expr instanceof ContVariableExpression) {
             ContVariable var = ((ContVariableExpression)expr).getVariable();
 
-            // If the parent is a requirement automaton, it is a reference to a requirement.
+            // If the parent is a requirement automaton that assigns to this variable, it is a reference to a
+            // requirement.
             EObject parent = var.eContainer();
             if (parent instanceof Automaton && ((Automaton)parent).getKind() == SupKind.REQUIREMENT) {
-                return true;
+                Automaton aut = (Automaton)parent;
+                Set<Declaration> assignedVariables = ASSIGNED_VARIABLES.get(aut);
+
+                // See if assigned variables are collected before. If not, collect and save.
+                if (assignedVariables == null) {
+                    assignedVariables = set();
+                    CifAddressableUtils.collectAddrVars(aut, assignedVariables);
+                    ASSIGNED_VARIABLES.put(aut, assignedVariables);
+                }
+
+                // Check if the continuous variable is assigned.
+                if (assignedVariables.contains(var)) {
+                    return true;
+                }
             }
 
             // Check the value and the derivative(s).

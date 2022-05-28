@@ -124,6 +124,16 @@ requirement R4:
 end
 plant R4.c = 0;
 
+// Continuous variable expression - not assigned - should not give a warning.
+requirement R5:
+  cont c = 0 der 0;
+  controllable c_e;
+  location:
+    initial; marked;
+    edge c_e;
+end
+plant R5.c = 0;
+
 // Location expression.
 plant R.l;
 
@@ -161,7 +171,7 @@ plant P4:
     marked;
 end
 
-requirement R5:
+requirement R6:
   plant R.l;
   location:
     initial;
@@ -202,7 +212,7 @@ plant P7:
 end
 
 // Plant invariant in location of requirement automaton.
-requirement R6:
+requirement R7:
   location:
     initial; marked;
     plant true;

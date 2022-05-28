@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.datasynth.options;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Plant referencing requirements warnings option. */
+/** Plants referencing requirements warnings option. */
 public class PlantsRefReqsWarnOption extends BooleanOption {
     /** Constructor for the {@link PlantsRefReqsWarnOption} class. */
     public PlantsRefReqsWarnOption() {
@@ -44,7 +44,7 @@ public class PlantsRefReqsWarnOption extends BooleanOption {
                 true,
 
                 // optDialogDescr
-                "Whether to warn for plant automata or plant invariants that reference requirement automata.",
+                "Whether to warn for plants that reference requirements.",
 
                 // optDialogCheckboxText
                 "Warn for plants that reference requirements");
