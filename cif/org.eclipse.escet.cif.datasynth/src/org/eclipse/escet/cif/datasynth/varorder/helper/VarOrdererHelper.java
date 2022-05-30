@@ -44,7 +44,7 @@ public class VarOrdererHelper {
 
     /**
      * The hyper-edges representation of the CIF specification. Each hyper-edge bitset represents related variables.
-     * Each bit in a hyper-edge bitset represents a synthesis variable (CIF variable in both its old and new version).
+     * Each bit in a hyper-edge bitset represents a synthesis variable.
      */
     private final BitSet[] hyperEdges;
 
@@ -73,8 +73,7 @@ public class VarOrdererHelper {
 
     /**
      * Create hyper-edges representing relations between variables of the CIF specification. Each hyper-edge bitset
-     * represents related variables. Each bit in a hyper-edge bitset represents a synthesis variable (CIF variable in
-     * both its old and new version).
+     * represents related variables. Each bit in a hyper-edge bitset represents a synthesis variable.
      *
      * @return The hyper-edges.
      */
@@ -89,8 +88,7 @@ public class VarOrdererHelper {
 
     /**
      * Returns hyper-edges representing relations between variables of the CIF specification. Each hyper-edge bitset
-     * represents related variables. Each bit in a hyper-edge bitset represents a synthesis variable (CIF variable in
-     * both its old and new version).
+     * represents related variables. Each bit in a hyper-edge bitset represents a synthesis variable.
      *
      * @return The hyper-edges.
      */

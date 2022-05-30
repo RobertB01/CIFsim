@@ -69,11 +69,11 @@ public class ForceVarOrderer implements VarOrderer {
             }
         }
 
-        // Initialize variable orders: for each variable (in their original order), its new 0-based index.
-        int[] curOrder; // Current order computed by the algorithm.
-        int[] bestOrder; // Best order computed the algorithm.
-        curOrder = helper.getNewIndices(inputOrder);
-        bestOrder = curOrder.clone();
+        // Initialize variable indices: for each variable (in their original order), its new 0-based index.
+        int[] curIndices; // Current indices computed by the algorithm.
+        int[] bestIndices; // Best indices computed by the algorithm.
+        curIndices = helper.getNewIndices(inputOrder);
+        bestIndices = curIndices.clone();
 
         // Determine maximum number of iterations.
         int maxIter = (int)Math.ceil(Math.log(varCnt));
@@ -83,7 +83,7 @@ public class ForceVarOrderer implements VarOrderer {
         }
 
         // Initialize total span.
-        long curTotalSpan = helper.computeTotalSpan(curOrder);
+        long curTotalSpan = helper.computeTotalSpan(curIndices);
         long bestTotalSpan = curTotalSpan;
         if (dbgEnabled) {
             helper.dbgTotalSpan(dbgLevel, curTotalSpan, "before");
@@ -97,7 +97,7 @@ public class ForceVarOrderer implements VarOrderer {
                 double cog = 0;
                 int cnt = 0;
                 for (int j: BitSets.iterateTrueBits(edge)) {
-                    cog += curOrder[j];
+                    cog += curIndices[j];
                     cnt++;
                 }
                 cogs[i] = cog / cnt;
@@ -115,7 +115,7 @@ public class ForceVarOrderer implements VarOrderer {
                 locations[i] /= edgeCounts[i];
             }
 
-            // Determine a new order, and update the current order to that order.
+            // Determine a new order, and update the current indices to reflect that order.
             for (int i = 0; i < varCnt; i++) {
                 IdxLocPair pair = idxLocPairs.get(i);
                 pair.idx = i;
@@ -123,11 +123,11 @@ public class ForceVarOrderer implements VarOrderer {
             }
             Collections.sort(idxLocPairs);
             for (int i = 0; i < varCnt; i++) {
-                curOrder[idxLocPairs.get(i).idx] = i;
+                curIndices[idxLocPairs.get(i).idx] = i;
             }
 
             // Get new total span.
-            long newTotalSpan = helper.computeTotalSpan(curOrder);
+            long newTotalSpan = helper.computeTotalSpan(curIndices);
             if (dbgEnabled) {
                 helper.dbgTotalSpan(dbgLevel, newTotalSpan, fmt("iteration %,d", curIter + 1));
             }
@@ -143,7 +143,7 @@ public class ForceVarOrderer implements VarOrderer {
 
             // Update best order, if new order is better than the current best order.
             if (newTotalSpan < bestTotalSpan) {
-                System.arraycopy(curOrder, 0, bestOrder, 0, varCnt);
+                System.arraycopy(curIndices, 0, bestIndices, 0, varCnt);
                 bestTotalSpan = newTotalSpan;
             }
 
@@ -156,8 +156,8 @@ public class ForceVarOrderer implements VarOrderer {
             helper.dbgTotalSpan(dbgLevel, bestTotalSpan, "after");
         }
 
-        // Return the resulting order.
-        return helper.reorder(bestOrder);
+        // Return the best order.
+        return helper.reorder(bestIndices);
     }
 
     /**
