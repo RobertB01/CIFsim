@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Strings;
 
 /**
@@ -127,16 +128,12 @@ public class VarOrdererHelper {
     public long computeTotalSpan(int[] newIndices) {
         // Total span is the sum of the span of the edges.
         long totalSpan = 0;
-        for (int i = 0; i < hyperEdges.length; i++) {
+        for (BitSet edge: hyperEdges) {
             // Get minimum and maximum index of the vertices of the edge.
-            BitSet edge = hyperEdges[i];
             int minIdx = Integer.MAX_VALUE;
             int maxIdx = 0;
-            for (int j = 0; j < variables.length; j++) {
-                if (!edge.get(j)) {
-                    continue;
-                }
-                int newIdx = newIndices[j];
+            for (int i: BitSets.iterateTrueBits(edge)) {
+                int newIdx = newIndices[i];
                 minIdx = Math.min(minIdx, newIdx);
                 maxIdx = Math.max(maxIdx, newIdx);
             }

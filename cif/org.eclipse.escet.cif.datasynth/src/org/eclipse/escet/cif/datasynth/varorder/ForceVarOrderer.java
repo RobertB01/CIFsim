@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.common.java.BitSets;
 
 /**
  * FORCE variable ordering heuristic.
@@ -63,10 +64,8 @@ public class ForceVarOrderer implements VarOrderer {
         // Initialize 'edgeCounts': per variable/vertex, the number of hyper-edges of which it is a part.
         int[] edgeCounts = new int[varCnt];
         for (BitSet edge: hyperEdges) {
-            for (int i = 0; i < varCnt; i++) {
-                if (edge.get(i)) {
-                    edgeCounts[i]++;
-                }
+            for (int i: BitSets.iterateTrueBits(edge)) {
+                edgeCounts[i]++;
             }
         }
 
@@ -97,11 +96,9 @@ public class ForceVarOrderer implements VarOrderer {
                 BitSet edge = hyperEdges[i];
                 double cog = 0;
                 int cnt = 0;
-                for (int j = 0; j < varCnt; j++) {
-                    if (edge.get(j)) {
-                        cog += curOrder[j];
-                        cnt++;
-                    }
+                for (int j: BitSets.iterateTrueBits(edge)) {
+                    cog += curOrder[j];
+                    cnt++;
                 }
                 cogs[i] = cog / cnt;
             }
@@ -110,10 +107,8 @@ public class ForceVarOrderer implements VarOrderer {
             Arrays.fill(locations, 0.0);
             for (int i = 0; i < hyperEdges.length; i++) {
                 BitSet edge = hyperEdges[i];
-                for (int j = 0; j < varCnt; j++) {
-                    if (edge.get(j)) {
-                        locations[j] += cogs[i];
-                    }
+                for (int j: BitSets.iterateTrueBits(edge)) {
+                    locations[j] += cogs[i];
                 }
             }
             for (int i = 0; i < varCnt; i++) {
