@@ -38,7 +38,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
             int dbgLevel)
     {
         // Get variable count.
-        int varCnt = helper.getVarCnt();
+        int varCnt = inputOrder.length;
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {

@@ -894,10 +894,18 @@ public class CifToSynthesisConverter {
             debugCifVars(synthAut);
         }
 
+        // Get algorithms to apply.
+        List<VarOrderer> orderers = list();
+        if (BddForceVarOrderOption.isEnabled()) {
+            orderers.add(new ForceVarOrderer());
+        }
+        if (BddSlidingWindowVarOrderOption.isEnabled()) {
+            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
+            orderers.add(new SlidingWindowVarOrderer(maxLen));
+        }
+
         // Only apply a variable ordering algorithm if at least one of them is enabled.
-        boolean doForce = BddForceVarOrderOption.isEnabled();
-        boolean doSlidWin = BddSlidingWindowVarOrderOption.isEnabled();
-        if (!doForce && !doSlidWin) {
+        if (orderers.isEmpty()) {
             if (dbgEnabled) {
                 dbg();
                 dbg("Skipping automatic variable ordering: no algorithms selected.");
@@ -916,8 +924,8 @@ public class CifToSynthesisConverter {
             return;
         }
 
-        // Only apply a variable ordering algorithm if there are hyper-edges. This ensures that there are actual
-        // variable relations upon which to base the new order. It also avoids division by zero issues.
+        // Only apply a variable ordering algorithm if there are hyper-edges, to ensures that variable relations exist
+        // for improving the variable order. It also avoids division by zero issues.
         VarOrdererHelper helper = new VarOrdererHelper(spec, synthAut.variables);
         if (helper.getHyperEdges().length == 0) {
             if (dbgEnabled) {
@@ -928,17 +936,6 @@ public class CifToSynthesisConverter {
             return;
         }
 
-        // Get algorithms to apply.
-        List<VarOrderer> orderers = list();
-        if (doForce) {
-            orderers.add(new ForceVarOrderer());
-        }
-        if (doSlidWin) {
-            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen));
-        }
-        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequenceVarOrderer(orderers);
-
         // Apply algorithm.
         if (dbgEnabled) {
             dbg();
@@ -946,6 +943,7 @@ public class CifToSynthesisConverter {
             dbg("  Number of hyper-edges: %,d", helper.getHyperEdges().length);
             dbg();
         }
+        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequenceVarOrderer(orderers);
         SynthesisVariable[] curOrder = synthAut.variables;
         SynthesisVariable[] newOrder = orderer.order(helper, synthAut.variables, dbgEnabled, 1);
 

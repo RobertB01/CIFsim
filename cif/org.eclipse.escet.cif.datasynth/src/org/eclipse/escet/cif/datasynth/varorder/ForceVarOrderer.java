@@ -40,7 +40,7 @@ public class ForceVarOrderer implements VarOrderer {
             int dbgLevel)
     {
         // Get hyper-edges.
-        int varCnt = helper.getVarCnt();
+        int varCnt = inputOrder.length;
         BitSet[] hyperEdges = helper.getHyperEdges();
 
         // Debug output before applying the algorithm.

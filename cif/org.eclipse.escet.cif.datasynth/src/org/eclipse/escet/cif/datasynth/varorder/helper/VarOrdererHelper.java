@@ -63,15 +63,6 @@ public class VarOrdererHelper {
     }
 
     /**
-     * Returns the number of synthesis variables of the CIF specification.
-     *
-     * @return The number of synthesis variables.
-     */
-    public int getVarCnt() {
-        return variables.length;
-    }
-
-    /**
      * Create hyper-edges representing relations between variables of the CIF specification. Each hyper-edge bitset
      * represents related variables. Each bit in a hyper-edge bitset represents a synthesis variable.
      *
