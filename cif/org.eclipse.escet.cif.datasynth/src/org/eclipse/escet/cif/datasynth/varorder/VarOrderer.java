@@ -21,8 +21,13 @@ public interface VarOrderer {
     /**
      * Apply the variable ordering algorithm, to order the variables.
      *
+     * <p>
+     * In general, there are no guarantees that the new order is always a 'better' order, though some algorithms may
+     * offer such guarantees. Some heuristic algorithms may in certain cases even produce 'worse' orders.
+     * </p>
+     *
      * @param helper Helper for variable ordering algorithms.
-     * @param inputOrder The input variable order.
+     * @param inputOrder The input variable order (to attempt) to improve. Must not be changed in-place.
      * @param dbgEnabled Whether debug output is enabled.
      * @param dbgLevel The debug indentation level.
      * @return The new variable order, as produced by the algorithm.
