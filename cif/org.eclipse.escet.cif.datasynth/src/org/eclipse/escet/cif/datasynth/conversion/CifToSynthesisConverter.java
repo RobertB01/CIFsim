@@ -97,7 +97,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.ForceVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.SequenceVarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.SequentialVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.SlidingWindowVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.VarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
@@ -943,7 +943,7 @@ public class CifToSynthesisConverter {
             dbg("  Number of hyper-edges: %,d", helper.getHyperEdges().length);
             dbg();
         }
-        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequenceVarOrderer(orderers);
+        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
         SynthesisVariable[] curOrder = synthAut.variables;
         SynthesisVariable[] newOrder = orderer.order(helper, synthAut.variables, dbgEnabled, 1);
 

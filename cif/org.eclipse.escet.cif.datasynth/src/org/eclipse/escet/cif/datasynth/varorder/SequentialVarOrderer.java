@@ -20,19 +20,19 @@ import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * Variable ordering algorithm that applies multiple other algorithms in sequence, each to the result of the previous
+ * Variable ordering algorithm that applies multiple other algorithms sequentially, each to the result of the previous
  * algorithm.
  */
-public class SequenceVarOrderer implements VarOrderer {
+public class SequentialVarOrderer implements VarOrderer {
     /** The sequence of algorithms to apply, in order. */
     private final List<VarOrderer> algorithms;
 
     /**
-     * Constructor for the {@link SequenceVarOrderer} class.
+     * Constructor for the {@link SequentialVarOrderer} class.
      *
      * @param algorithms The sequence of algorithms to apply, in order. Must be at least two algorithms.
      */
-    public SequenceVarOrderer(List<VarOrderer> algorithms) {
+    public SequentialVarOrderer(List<VarOrderer> algorithms) {
         this.algorithms = algorithms;
         Assert.check(algorithms.size() >= 2);
     }
@@ -43,7 +43,7 @@ public class SequenceVarOrderer implements VarOrderer {
     {
         // Debug output before applying the algorithms.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying %d algorithms, in sequence:", algorithms.size());
+            helper.dbg(dbgLevel, "Applying %d algorithms, sequentially:", algorithms.size());
         }
 
         // Initialize variable order to the input variable order.
