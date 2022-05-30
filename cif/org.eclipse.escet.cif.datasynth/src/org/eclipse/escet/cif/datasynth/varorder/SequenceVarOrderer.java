@@ -43,7 +43,7 @@ public class SequenceVarOrderer implements VarOrderer {
     {
         // Debug output before applying the algorithms.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying multiple algorithms, in sequence:");
+            helper.dbg(dbgLevel, "Applying %d algorithms, in sequence:", algorithms.size());
         }
 
         // Initialize variable order to the input variable order.
