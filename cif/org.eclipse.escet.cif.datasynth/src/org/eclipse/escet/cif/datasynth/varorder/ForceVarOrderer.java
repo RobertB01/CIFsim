@@ -95,12 +95,10 @@ public class ForceVarOrderer implements VarOrderer {
             for (int i = 0; i < hyperEdges.length; i++) {
                 BitSet edge = hyperEdges[i];
                 double cog = 0;
-                int cnt = 0;
                 for (int j: BitSets.iterateTrueBits(edge)) {
                     cog += curIndices[j];
-                    cnt++;
                 }
-                cogs[i] = cog / cnt;
+                cogs[i] = cog / edge.cardinality();
             }
 
             // Compute (new) locations.
