@@ -17,7 +17,7 @@ CIF variables and location pointers:
 Applying automatic variable ordering:
   Number of hyper-edges: 8
 
-  Applying multiple algorithms, in sequence:
+  Applying 2 algorithms, sequentially:
     Applying FORCE algorithm.
     Maximum number of iterations: 20
     Total span:                    6 (total)                 0.75 (avg/edge) [before]
