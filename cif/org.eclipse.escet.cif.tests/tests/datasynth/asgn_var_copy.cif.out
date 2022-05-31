@@ -14,23 +14,22 @@ CIF variables and location pointers:
   Total                                      5      28        50          72          ~69%
 
 Applying automatic variable ordering:
-  Number of hyperedges: 8
+  Number of hyper-edges: 8
 
-  Applying FORCE algorithm:
+  Applying 2 algorithms, sequentially:
+    Applying FORCE algorithm.
     Maximum number of iterations: 20
-
     Total span:                    8 (total)                 1.00 (avg/edge) [before]
     Total span:                    6 (total)                 0.75 (avg/edge) [iteration 1]
     Total span:                    6 (total)                 0.75 (avg/edge) [iteration 2]
     Total span:                    6 (total)                 0.75 (avg/edge) [after]
 
-  Applying sliding window algorithm:
+    Applying sliding window algorithm.
     Window length: 4
-
     Total span:                    6 (total)                 0.75 (avg/edge) [before]
     Total span:                    6 (total)                 0.75 (avg/edge) [after]
 
-  Variable order changed.
+Variable order changed.
 
 CIF variables and location pointers:
   Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used

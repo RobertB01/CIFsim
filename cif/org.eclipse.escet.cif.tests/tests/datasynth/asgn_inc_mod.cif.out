@@ -9,6 +9,8 @@ CIF variables and location pointers:
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
   Total                                      1      6         10          16          ~63%
 
+Skipping automatic variable ordering: only one variable present.
+
 Starting data-based synthesis.
 
 Invariant (components state plant inv):      true

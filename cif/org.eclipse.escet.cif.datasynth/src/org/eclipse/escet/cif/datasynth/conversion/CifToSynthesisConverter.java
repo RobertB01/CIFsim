@@ -44,6 +44,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.copy;
+import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
@@ -52,7 +53,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -96,10 +96,11 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.AutoVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.CombiVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.ForceVarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.SequentialVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.SlidingWindowVarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.VarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -149,7 +150,6 @@ import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
-import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
@@ -879,8 +879,13 @@ public class CifToSynthesisConverter {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void applyVariableReorder(SynthesisAutomaton synthAut, Specification spec, boolean dbgEnabled) {
-        // Skip if no variables.
+        // Skip, including debug output printing, if no variables are present.
         if (synthAut.variables.length == 0) {
+            return;
+        }
+
+        // Skip, including debug output printing, if any conversion issues.
+        if (Arrays.asList(synthAut.variables).contains(null)) {
             return;
         }
 
@@ -889,386 +894,81 @@ public class CifToSynthesisConverter {
             debugCifVars(synthAut);
         }
 
-        // If no automatic ordering enabled, don't apply it.
-        boolean doForce = BddForceVarOrderOption.isEnabled();
-        boolean doSlidWin = BddSlidingWindowVarOrderOption.isEnabled();
-        boolean doAny = doForce || doSlidWin;
-        if (!doAny) {
+        // Get algorithms to apply.
+        List<VarOrderer> orderers = list();
+        if (BddForceVarOrderOption.isEnabled()) {
+            orderers.add(new ForceVarOrderer());
+        }
+        if (BddSlidingWindowVarOrderOption.isEnabled()) {
+            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
+            orderers.add(new SlidingWindowVarOrderer(maxLen));
+        }
+
+        // Only apply a variable ordering algorithm if at least one of them is enabled.
+        if (orderers.isEmpty()) {
             if (dbgEnabled) {
+                dbg();
+                dbg("Skipping automatic variable ordering: no algorithms selected.");
                 dbg();
             }
             return;
         }
 
-        // Create hyperedges.
-        HyperEdgeCreator creator = new HyperEdgeCreator();
-        List<BitSet> hyperEdges = creator.getHyperEdges(spec, synthAut);
-
-        // Get algorithms to apply.
-        List<AutoVarOrderer> orderers = list();
-        if (doForce) {
-            orderers.add(new ForceVarOrderer());
-        }
-        if (doSlidWin) {
-            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen));
+        // Only apply a variable ordering algorithm if there are at least two variables (to order).
+        if (synthAut.variables.length < 2) {
+            if (dbgEnabled) {
+                dbg();
+                dbg("Skipping automatic variable ordering: only one variable present.");
+                dbg();
+            }
+            return;
         }
 
-        AutoVarOrderer orderer;
-        if (orderers.size() == 1) {
-            orderer = first(orderers);
-        } else {
-            CombiVarOrderer combi = new CombiVarOrderer();
-            combi.children.addAll(orderers);
-            orderer = combi;
+        // Only apply a variable ordering algorithm if there are hyper-edges, to ensures that variable relations exist
+        // for improving the variable order. It also avoids division by zero issues.
+        VarOrdererHelper helper = new VarOrdererHelper(spec, synthAut.variables);
+        if (helper.getHyperEdges().length == 0) {
+            if (dbgEnabled) {
+                dbg();
+                dbg("Skipping automatic variable ordering: no hyper-edges.");
+                dbg();
+            }
+            return;
         }
 
         // Apply algorithm.
-        boolean reordered = orderer.order(synthAut, hyperEdges, dbgEnabled);
+        if (dbgEnabled) {
+            dbg();
+            dbg("Applying automatic variable ordering:");
+            dbg("  Number of hyper-edges: %,d", helper.getHyperEdges().length);
+            dbg();
+        }
+        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
+        SynthesisVariable[] curOrder = synthAut.variables;
+        SynthesisVariable[] newOrder = orderer.order(helper, synthAut.variables, dbgEnabled, 1);
+
+        // If the new order differs from the current order, reorder.
+        boolean orderChanged = !Arrays.equals(curOrder, newOrder);
+        if (dbgEnabled) {
+            dbg();
+            dbg("Variable order %schanged.", orderChanged ? "" : "un");
+        }
+
+        if (orderChanged) {
+            Assert.areEqual(curOrder.length, newOrder.length); // Same length.
+            Assert.areEqual(list2set(Arrays.asList(curOrder)), list2set(Arrays.asList(newOrder))); // Same variables.
+            synthAut.variables = newOrder;
+            for (int i = 0; i < synthAut.variables.length; i++) {
+                synthAut.variables[i].group = i;
+            }
+        }
 
         // Print variable debugging information after automatic ordering.
         if (dbgEnabled) {
-            if (reordered) {
+            if (orderChanged) {
                 debugCifVars(synthAut);
             }
             dbg();
-        }
-    }
-
-    /** Automatic variable ordering hyperedge creator. */
-    private static class HyperEdgeCreator {
-        /** The synthesis automaton. */
-        private SynthesisAutomaton synthAut;
-
-        /** The hyperedges created so far. */
-        private List<BitSet> hyperEdges = list();
-
-        /** Mapping from events to the CIF variable objects to put on the hyperedge for that event. */
-        private Map<Event, Set<PositionObject>> eventHyperEdges = map();
-
-        /**
-         * Creates and returns hyperedges for the given CIF specification.
-         *
-         * @param spec The CIF specification.
-         * @param synthAut The synthesis automaton.
-         * @return The hyperedges.
-         */
-        public List<BitSet> getHyperEdges(Specification spec, SynthesisAutomaton synthAut) {
-            // Initialization.
-            this.synthAut = synthAut;
-            this.hyperEdges = list();
-            this.eventHyperEdges = map();
-
-            // Create hyperedges.
-            addHyperEdges(spec);
-            for (Set<PositionObject> vars: eventHyperEdges.values()) {
-                addHyperEdge(vars);
-            }
-
-            // Cleanup.
-            List<BitSet> rslt = hyperEdges;
-            this.eventHyperEdges = null;
-            this.synthAut = null;
-            this.hyperEdges = null;
-
-            // Return the hyperedges.
-            return rslt;
-        }
-
-        /**
-         * Add hyper edges for the given component, recursively.
-         *
-         * @param comp The component.
-         */
-        private void addHyperEdges(ComplexComponent comp) {
-            // Add a hyperedge per invariant of the component.
-            for (Invariant inv: comp.getInvariants()) {
-                Expression pred = inv.getPredicate();
-                VariableCollector varCollector = new VariableCollector();
-                Set<PositionObject> vars = set();
-                varCollector.collectCifVarObjs(pred, vars);
-                addHyperEdge(vars);
-            }
-
-            // Add hyperedges for CIF automata.
-            if (comp instanceof Automaton) {
-                Automaton aut = (Automaton)comp;
-                for (Location loc: aut.getLocations()) {
-                    // Add a hyperedge per invariant of the location.
-                    for (Invariant inv: comp.getInvariants()) {
-                        Expression pred = inv.getPredicate();
-                        VariableCollector varCollector = new VariableCollector();
-                        Set<PositionObject> vars = set();
-                        varCollector.collectCifVarObjs(pred, vars);
-                        addHyperEdge(vars);
-                    }
-
-                    // Add hyperedges for the edges of the CIF automaton.
-                    for (Edge edge: loc.getEdges()) {
-                        addHyperEdges(aut, edge);
-                    }
-                }
-            }
-
-            // Recursively add for child components.
-            if (comp instanceof Group) {
-                Group group = (Group)comp;
-                for (Component child: group.getComponents()) {
-                    addHyperEdges((ComplexComponent)child);
-                }
-            }
-        }
-
-        /**
-         * Add hyper edges for the given edge of a CIF automaton.
-         *
-         * @param aut The CIF automaton that contains the edge.
-         * @param edge The edge.
-         */
-        private void addHyperEdges(Automaton aut, Edge edge) {
-            // Add hyperedge for each comparison in the guards.
-            for (Expression guard: edge.getGuards()) {
-                ComparisonCollector cmpCollector = new ComparisonCollector();
-                List<BinaryExpression> cmps = cmpCollector.collectComparisons(guard);
-                for (BinaryExpression cmp: cmps) {
-                    VariableCollector varCollector = new VariableCollector();
-                    Set<PositionObject> vars = set();
-                    varCollector.collectCifVarObjs(cmp.getLeft(), vars);
-                    varCollector.collectCifVarObjs(cmp.getRight(), vars);
-                    addHyperEdge(vars);
-                }
-            }
-
-            // Add hyperedges for updates.
-            addHyperEdges(edge.getUpdates());
-
-            // Collect information for hyperedges to create for each event.
-            Automaton lpAut = (aut.getLocations().size() < 2) ? null : aut;
-            for (EdgeEvent edgeEvent: edge.getEvents()) {
-                // Skip 'tau' events.
-                Expression eventRef = edgeEvent.getEvent();
-                if (eventRef instanceof TauExpression) {
-                    continue;
-                }
-
-                // Get variable objects already collected for the event.
-                Event event = ((EventExpression)eventRef).getEvent();
-                Set<PositionObject> vars = eventHyperEdges.get(event);
-                if (vars == null) {
-                    vars = set();
-                    eventHyperEdges.put(event, vars);
-                }
-
-                // Add variable objects from guards and updates.
-                VariableCollector varCollector = new VariableCollector();
-                for (Expression guard: edge.getGuards()) {
-                    varCollector.collectCifVarObjs(guard, vars);
-                }
-                for (Update update: edge.getUpdates()) {
-                    varCollector.collectCifVarObjs(update, vars);
-                }
-
-                // Add location pointer variable (if applicable), as source location is always in guard, and target
-                // location is assigned to the location pointer (for all but self loop edges).
-                if (lpAut != null) {
-                    vars.add(lpAut);
-                }
-            }
-        }
-
-        /**
-         * Add hyper edges for the given updates of a CIF automaton edge.
-         *
-         * @param updates The updates.
-         */
-        private void addHyperEdges(List<Update> updates) {
-            for (Update update: updates) {
-                // Skip all but assignments. Precondition checked elsewhere.
-                if (!(update instanceof Assignment)) {
-                    continue;
-                }
-                Assignment asgn = (Assignment)update;
-
-                // Add hyperedge per assignment.
-                VariableCollector varCollector = new VariableCollector();
-                Set<PositionObject> vars = set();
-                varCollector.collectCifVarObjs(asgn.getAddressable(), vars);
-                varCollector.collectCifVarObjs(asgn.getValue(), vars);
-                addHyperEdge(vars);
-            }
-        }
-
-        /**
-         * Add a hyperedge for the given CIF variable objects. Creating and adding a hyperedge is skipped if no CIF
-         * variable objects are provided.
-         *
-         * @param vars The CIF variable objects.
-         */
-        private void addHyperEdge(Set<PositionObject> vars) {
-            // Skip creation of hyperedges without any variables.
-            if (vars.isEmpty()) {
-                return;
-            }
-
-            // Create bit set.
-            BitSet hyperEdge = new BitSet(synthAut.variables.length);
-            for (PositionObject var: vars) {
-                int matchIdx = -1;
-                for (int i = 0; i < synthAut.variables.length; i++) {
-                    // Skip conversion failures.
-                    SynthesisVariable synthVar = synthAut.variables[i];
-                    if (synthVar == null) {
-                        continue;
-                    }
-
-                    // Check for matching variable.
-                    boolean match = false;
-                    if (synthVar instanceof SynthesisDiscVariable) {
-                        SynthesisDiscVariable sdv = (SynthesisDiscVariable)synthVar;
-                        if (sdv.var == var) {
-                            match = true;
-                        }
-                    } else if (synthVar instanceof SynthesisInputVariable) {
-                        SynthesisInputVariable siv = (SynthesisInputVariable)synthVar;
-                        if (siv.var == var) {
-                            match = true;
-                        }
-                    } else if (synthVar instanceof SynthesisLocPtrVariable) {
-                        SynthesisLocPtrVariable slpv = (SynthesisLocPtrVariable)synthVar;
-                        if (slpv.aut == var) {
-                            match = true;
-                        }
-                    } else {
-                        throw new RuntimeException("Unknown synthesis variable: " + synthVar);
-                    }
-
-                    // Done if match found.
-                    if (match) {
-                        matchIdx = i;
-                        break;
-                    }
-                }
-
-                // Must have found a match.
-                Assert.check(matchIdx >= 0);
-                hyperEdge.set(matchIdx);
-            }
-
-            // Add hyperedge.
-            hyperEdges.add(hyperEdge);
-        }
-    }
-
-    /** Comparison binary expression collector. */
-    private static class ComparisonCollector extends CifWalker {
-        /** The comparison binary expressions collected so far. */
-        private List<BinaryExpression> comparisons;
-
-        /**
-         * Collect and return the comparison binary expressions in the given expression.
-         *
-         * @param expr The expression in which to collect, recursively.
-         * @return The collected comparison binary expressions.
-         */
-        public List<BinaryExpression> collectComparisons(Expression expr) {
-            // Initialization.
-            comparisons = list();
-
-            // Collect.
-            walkExpression(expr);
-
-            // Cleanup and return the collected comparisons.
-            List<BinaryExpression> rslt = comparisons;
-            comparisons = null;
-            return rslt;
-        }
-
-        @Override
-        @SuppressWarnings("incomplete-switch")
-        public void preprocessBinaryExpression(BinaryExpression expr) {
-            switch (expr.getOperator()) {
-                case EQUAL:
-                case UNEQUAL:
-                case LESS_EQUAL:
-                case LESS_THAN:
-                case GREATER_EQUAL:
-                case GREATER_THAN:
-                    comparisons.add(expr);
-                    break;
-            }
-        }
-
-        @Override
-        protected void preprocessAlgVariableExpression(AlgVariableExpression expr) {
-            // Get the possible values of the variable.
-            AlgVariable var = expr.getVariable();
-            List<Expression> values = CifEquationUtils.getValuesForAlgVar(var, false);
-
-            // Collect for each possible value.
-            for (Expression value: values) {
-                walkExpression(value);
-            }
-        }
-    }
-
-    /** CIF variable object collector. */
-    private static class VariableCollector extends CifWalker {
-        /** The CIF variable objects collected so far. */
-        private Set<PositionObject> cifVarObjs;
-
-        /**
-         * Collect CIF variable objects in the given update, recursively.
-         *
-         * @param update The update.
-         * @param cifVarObjs The CIF variable objects collected so far. Is extended in-place.
-         */
-        public void collectCifVarObjs(Update update, Set<PositionObject> cifVarObjs) {
-            this.cifVarObjs = cifVarObjs;
-            walkUpdate(update);
-            this.cifVarObjs = null;
-        }
-
-        /**
-         * Collect CIF variable objects in the given expression, recursively.
-         *
-         * @param expr The expression.
-         * @param cifVarObjs The CIF variable objects collected so far. Is extended in-place.
-         */
-        public void collectCifVarObjs(Expression expr, Set<PositionObject> cifVarObjs) {
-            this.cifVarObjs = cifVarObjs;
-            walkExpression(expr);
-            this.cifVarObjs = null;
-        }
-
-        @Override
-        protected void preprocessDiscVariableExpression(DiscVariableExpression expr) {
-            cifVarObjs.add(expr.getVariable());
-        }
-
-        @Override
-        protected void preprocessInputVariableExpression(InputVariableExpression expr) {
-            cifVarObjs.add(expr.getVariable());
-        }
-
-        @Override
-        protected void preprocessLocationExpression(LocationExpression expr) {
-            // Only add automaton if location pointer variable will be created for it.
-            Location loc = expr.getLocation();
-            Automaton aut = CifLocationUtils.getAutomaton(loc);
-            if (aut.getLocations().size() > 1) {
-                cifVarObjs.add(aut);
-            }
-        }
-
-        @Override
-        protected void preprocessAlgVariableExpression(AlgVariableExpression expr) {
-            // Obtain single value expression, to get 'if' expression over locations, if equations per location are
-            // used. That way, the location pointer variable (for the automaton) is also collected.
-            AlgVariable var = expr.getVariable();
-            Expression value = CifEquationUtils.getSingleValueForAlgVar(var);
-
-            // Collect in the value expression.
-            walkExpression(value);
         }
     }
 
