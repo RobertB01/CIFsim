@@ -82,6 +82,7 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
+import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
 import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
@@ -96,6 +97,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.DcshVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.ForceVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.SequentialVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.SlidingWindowVarOrderer;
@@ -896,6 +898,9 @@ public class CifToSynthesisConverter {
 
         // Get algorithms to apply.
         List<VarOrderer> orderers = list();
+        if (BddDcshVarOrderOption.isEnabled()) {
+            orderers.add(new DcshVarOrderer());
+        }
         if (BddForceVarOrderOption.isEnabled()) {
             orderers.add(new ForceVarOrderer());
         }

@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter;
 import org.eclipse.escet.cif.datasynth.conversion.SynthesisToCifConverter;
+import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
 import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
@@ -422,6 +423,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         bddOpts.add(Options.getInstance(BddOutputOption.class));
         bddOpts.add(Options.getInstance(BddOutputNamePrefixOption.class));
         bddOpts.add(Options.getInstance(BddVariableOrderOption.class));
+        bddOpts.add(Options.getInstance(BddDcshVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddForceVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddSlidingWindowVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddSlidingWindowSizeOption.class));
