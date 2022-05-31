@@ -53,7 +53,7 @@ public class VarOrdererHelperTest {
         // Reorder the variables.
         int[] newIndices = {0, 4, 1, 2, 3}; // For each variable in 'variables', its new 0-based index.
         VarOrdererHelper helper = new VarOrdererHelper(spec, variables);
-        SynthesisVariable[] ordered = helper.reorder(newIndices); // ordered[newIndices[i]] = variables[i]
+        SynthesisVariable[] ordered = helper.reorder(newIndices); // Invariant: ordered[newIndices[i]] == variables[i]
 
         // Check the result.
         assertSame(a, ordered[0]);
