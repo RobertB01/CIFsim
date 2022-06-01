@@ -1480,17 +1480,27 @@ public class CifTextUtils {
      * Can for instance be used in {@code "... in %s."} messages.
      * </p>
      *
-     * @param obj The {@link Location} or {@link ComplexComponent} for which to return the textual representation.
-     * @return The end-user readable textual (reference) representation of the parent.
+     * @param locOrComp The {@link Location} (which must be a location of an automaton, and not a location parameter) or
+     *     {@link ComplexComponent} (component definition and instantiation are not supported).
+     * @return
+     *     <ul>
+     *     <li>For locations: {@code "location \"LOC\" of automaton \"AUT\""} if the location has name {@code LOC} and
+     *     the automaton it is a part of has absolute name {@code AUT}, or {@code "the location of automaton \"AUT\""}
+     *     if the location has no name, and the automaton it is a part of has absolute name {@code AUT}.</li>
+     *     <li>For components: {@code "the top level scope of the specification"} for specifications,
+     *     {@code "group \"NAME\""} for other groups, {@code "automaton \"NAME\""} for automata, where {@code NAME} is
+     *     the absolute name of the component, with escaping of identifiers.</li>
+     *     </ul>
+     *
      * @see #getLocationText2
      * @see #getComponentText2
      */
-    public static String getLocationOrComponentText2(EObject obj) {
-        if (obj instanceof Location) {
-            return getLocationText2((Location)obj);
+    public static String getLocationOrComponentText2(EObject locOrComp) {
+        if (locOrComp instanceof Location) {
+            return getLocationText2((Location)locOrComp);
         } else {
-            Assert.check(obj instanceof ComplexComponent);
-            return getComponentText2((ComplexComponent)obj);
+            Assert.check(locOrComp instanceof ComplexComponent);
+            return getComponentText2((ComplexComponent)locOrComp);
         }
     }
 }

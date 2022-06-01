@@ -106,6 +106,18 @@ requirement R3:
 end
 plant R3.c;
 
+// Equations.
+plant P1:
+  alg bool ab1, ab2;
+  cont c1, c2;
+  equation ab1 = R.l;       // Not part of the plant.
+  equation c1' = R.v * 1.0; // Not part of the plant.
+  location:
+    initial;
+    equation ab2 = R.l;       // Part of the plant.
+    equation c2' = R.v * 1.0; // Part of the plant.
+end
+
 // Continuous variable expression - value.
 cont c1 = if R.l: 1.0 else 0.0 end der -1;
 plant c1 = 0;
@@ -141,7 +153,7 @@ plant R.l;
 // Cannot make component expressions.
 
 // Initial value of discrete variable.
-plant P1:
+plant P2:
   disc bool d = R.l;
   location:
     initial;
@@ -150,21 +162,21 @@ plant P1:
 end
 
 // Initialization predicate.
-plant P2:
+plant P3:
   location:
     initial R.l;
     marked;
 end
 
 // Marker predicate.
-plant P3:
+plant P4:
   location:
     initial;
     marked R.l;
 end
 
 // Invariants.
-plant P4:
+plant P5:
   plant R.l;
   location:
     initial;
@@ -179,7 +191,7 @@ requirement R6:
 end
 
 // Edge guard.
-plant P5:
+plant P6:
   controllable c_e;
   location:
     initial;
@@ -188,7 +200,7 @@ plant P5:
 end
 
 // Edge update.
-plant P6:
+plant P7:
   controllable c_e;
   disc bool d;
   location:
@@ -198,7 +210,7 @@ plant P6:
 end
 
 // Edge conditional update.
-plant P7:
+plant P8:
   controllable c_e;
   disc bool d;
   location:

@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifAddressableUtils;
 import org.eclipse.escet.cif.common.CifEquationUtils;
 import org.eclipse.escet.cif.metamodel.cif.Component;
+import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -145,9 +146,9 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
      * @param aut The automaton to check.
      */
     private static void check(Automaton aut) {
-        // If the automaton is a plant, check whether it contains references to requirements.
+        // If the automaton is a plant, check whether it references requirement state.
         if (aut.getKind() == SupKind.PLANT) {
-            // Check whether discrete variables have initial values that reference requirements.
+            // Check whether discrete variables have initial values that references requirement state.
             for (Declaration decl: aut.getDeclarations()) {
                 if (!(decl instanceof DiscVariable)) {
                     continue;
@@ -166,7 +167,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // Check whether locations have elements that reference requirements.
+            // Check whether locations have elements that reference requirement state.
             for (Location loc: aut.getLocations()) {
                 // Check initialization predicates.
                 for (Expression initPred: loc.getInitials()) {
@@ -180,6 +181,14 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 for (Expression markPred: loc.getMarkeds()) {
                     if (referencesReq(markPred)) {
                         warn("Plant marker predicate \"%s\" in %s references requirement state.", exprToStr(markPred),
+                                getLocationText2(loc));
+                    }
+                }
+
+                // Check equations.
+                for (Equation equation: loc.getEquations()) {
+                    if (referencesReq(equation.getValue())) {
+                        warn("Plant equation \"%s\" in %s references requirement state.", exprToStr(equation.getValue()),
                                 getLocationText2(loc));
                     }
                 }
@@ -242,7 +251,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
             return;
         }
 
-        // If the invariant references a requirement, show a warning.
+        // If the invariant references requirement state, show a warning.
         Expression pred = inv.getPredicate();
         if (referencesReq(pred)) {
             warn("Plant invariant \"%s\" in %s references requirement state.", exprToStr(pred),
@@ -298,7 +307,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else {
             throw new RuntimeException("Unexpected update: " + update);
@@ -365,7 +374,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 return true;
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else if (expr instanceof SwitchExpression) {
             SwitchExpression sexpr = (SwitchExpression)expr;
@@ -387,7 +396,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else if (expr instanceof ProjectionExpression) {
             ProjectionExpression pexpr = (ProjectionExpression)expr;
@@ -410,7 +419,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else if (expr instanceof FunctionCallExpression) {
             // Check the parameters.
@@ -430,7 +439,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else if (expr instanceof SetExpression) {
             SetExpression sexpr = (SetExpression)expr;
@@ -440,7 +449,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else if (expr instanceof TupleExpression) {
             TupleExpression texpr = (TupleExpression)expr;
@@ -450,7 +459,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else if (expr instanceof DictExpression) {
             DictExpression dexpr = (DictExpression)expr;
@@ -460,7 +469,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else if (expr instanceof ConstantExpression) {
             Constant constant = ((ConstantExpression)expr).getConstant();
@@ -476,7 +485,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
         } else if (expr instanceof DiscVariableExpression) {
             DiscVariable var = ((DiscVariableExpression)expr).getVariable();
 
-            // If the parent is a requirement automaton, it is a reference to a requirement.
+            // If the parent is a requirement automaton, it is a reference to requirement state.
             EObject parent = var.eContainer();
             if (parent instanceof Automaton && ((Automaton)parent).getKind() == SupKind.REQUIREMENT) {
                 return true;
@@ -494,7 +503,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 }
             }
 
-            // No requirement reference found.
+            // No reference to requirement state found.
             return false;
         } else if (expr instanceof AlgVariableExpression) {
             AlgVariable var = ((AlgVariableExpression)expr).getVariable();
@@ -505,8 +514,8 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
         } else if (expr instanceof ContVariableExpression) {
             ContVariable var = ((ContVariableExpression)expr).getVariable();
 
-            // If the parent is a requirement automaton that assigns to this variable, it is a reference to a
-            // requirement.
+            // If the parent is a requirement automaton that assigns to this variable, it is a reference to requirement
+            // state.
             EObject parent = var.eContainer();
             if (parent instanceof Automaton && ((Automaton)parent).getKind() == SupKind.REQUIREMENT) {
                 Automaton aut = (Automaton)parent;
@@ -519,17 +528,20 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                     ASSIGNED_VARIABLES.put(aut, assignedVariables);
                 }
 
-                // Check if the continuous variable is assigned.
+                // Check whether the continuous variable is assigned.
                 if (assignedVariables.contains(var)) {
                     return true;
                 }
             }
 
-            // Check the value and the derivative(s).
-            Expression value = var.getValue();
-            Expression derivative = CifEquationUtils.getSingleDerivativeForContVar(var);
+            // Check the value.
+            if (var.getValue() != null && referencesReq(var.getValue())) {
+                return true;
+            }
 
-            return referencesReq(value) || referencesReq(derivative);
+            // Check derivative(s).
+            Expression derivative = CifEquationUtils.getSingleDerivativeForContVar(var);
+            return referencesReq(derivative);
         } else if (expr instanceof InputVariableExpression) {
             return false;
         } else if (expr instanceof LocationExpression) {

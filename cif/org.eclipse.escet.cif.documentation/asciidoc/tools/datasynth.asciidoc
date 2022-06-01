@@ -101,7 +101,7 @@ For more information, see the section on <<tools-datasynth-stats,statistics>> be
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
 
-* _Requirement reference warning_: Whether to warn for plant automata or plant invariants that reference requirement automata.
+* _Plants referencing requirements warnings_: Whether to warn for plants that reference requirements.
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
 
@@ -1255,7 +1255,7 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Disable for better performance
 
 | Warnings
-| Requirement reference warning
+| Plants referencing requirements warnings
 | <<tools-detasynth-early-prob-detect>>
 | Warning for plants that reference requirements
 | Disable for better performance
