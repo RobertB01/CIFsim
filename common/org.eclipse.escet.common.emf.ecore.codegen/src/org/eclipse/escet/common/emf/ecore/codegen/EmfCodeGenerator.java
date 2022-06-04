@@ -47,7 +47,7 @@ public abstract class EmfCodeGenerator {
      * Loads an {@link EPackage} via reflection.
      *
      * @param pkgClassName The full name of the {@link EPackage} Java class. For instance, {@code
-     *      "bla.somelang.v1x0x0.metamodel.somelang.SomeLangPackage"}.
+     *      "bla.somelang.metamodel.somelang.SomeLangPackage"}.
      * @param path The path to add to the Java class path to allow the main package Java class to be found. For
      *     instance, {@code "bin"}. It is allowed to add multiple paths. For instance, {@code "bin|../bin"}.
      * @return The loaded {@link EPackage}.

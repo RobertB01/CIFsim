@@ -45,12 +45,12 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
      * @param args Application arguments:
      *     <ul>
      *     <li>The full name of the main {@link EPackage} Java class. For instance, {@code
-     *           "bla.somelang.v1x0x0.metamodel.somelang.SomeLangPackage"}.</li>
+     *           "bla.somelang.metamodel.somelang.SomeLangPackage"}.</li>
      *     <li>The path to add to the Java class path to allow the main package Java class to be found. For instance,
      *     {@code "bin"}. It is allowed to add multiple paths. For instance, {@code "bin|../bin"}.</li>
-     *     <li>The output file name path. For instance, {@code "src/bla/somelang/v1x0x0/metamodel/java"}.</li>
+     *     <li>The output file name path. For instance, {@code "src/bla/somelang/metamodel/java"}.</li>
      *     <li>The output class name. For instance, {@code "SomeLangConstructors"}.</li>
-     *     <li>The output package name. For instance, {@code "bla.somelang.v1x0x0.metamodel.java"}.</li>
+     *     <li>The output package name. For instance, {@code "bla.somelang.metamodel.java"}.</li>
      *     </ul>
      * @throws IOException In case the code could not be written to a file; or in case the java class path extension
      *     path is invalid.
