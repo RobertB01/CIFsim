@@ -69,7 +69,7 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      *           "bla.somelang.metamodel.somelang.SomeLangPackage"}.</li>
      *     <li>The path to add to the Java class path to allow the main package Java class to be found. For instance,
      *     {@code "bin"}. It is allowed to add multiple paths. For instance, {@code "bin|../bin"}.</li>
-     *     <li>The output file path. For instance, {@code "src/bla/somelang/metamodel/java"}.</li>
+     *     <li>The output directory path. For instance, {@code "src/bla/somelang/metamodel/java"}.</li>
      *     <li>The model walker output class name. For instance, {@code "SomeLangWalker"}.</li>
      *     <li>The composite model walker output class name. For instance, {@code "CompositeSomeLangWalker"}.</li>
      *     <li>The output package name. For instance, {@code "bla.somelang.metamodel.java"}.</li>

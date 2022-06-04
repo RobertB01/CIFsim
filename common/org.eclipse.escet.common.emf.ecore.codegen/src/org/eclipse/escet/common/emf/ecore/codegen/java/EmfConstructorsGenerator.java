@@ -48,7 +48,7 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
      *           "bla.somelang.metamodel.somelang.SomeLangPackage"}.</li>
      *     <li>The path to add to the Java class path to allow the main package Java class to be found. For instance,
      *     {@code "bin"}. It is allowed to add multiple paths. For instance, {@code "bin|../bin"}.</li>
-     *     <li>The output file name path. For instance, {@code "src/bla/somelang/metamodel/java"}.</li>
+     *     <li>The output directory path. For instance, {@code "src/bla/somelang/metamodel/java"}.</li>
      *     <li>The output class name. For instance, {@code "SomeLangConstructors"}.</li>
      *     <li>The output package name. For instance, {@code "bla.somelang.metamodel.java"}.</li>
      *     </ul>
@@ -80,7 +80,7 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
         box.writeToFile(outputFilePath);
 
         // We are done.
-        System.out.print("Code written to: " + outputFilePath);
+        System.out.printf("Code written to: %s%n", outputFilePath);
     }
 
     /**
