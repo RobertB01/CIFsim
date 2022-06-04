@@ -39,6 +39,16 @@ import org.eclipse.escet.common.java.JavaCodeUtils;
  * Java model walker class generator for Ecore models.
  *
  * <p>
+ * Generates:
+ * <ul>
+ * <li>Model walkers that walks over the model, providing various methods to override and operate on the model.</li>
+ * <li>Composite model walkers. They support combining multiple model walkers. This allows one to separate a large model
+ * walker into separate smaller, simpler, easier-to-maintain model walkers and combining them to functionally obtain
+ * back the original larger model walker.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
  * The following Ecore features are currently not supported, and may lead to invalid code:
  * <ul>
  * <li>Multiple inheritance.</li>
@@ -49,9 +59,9 @@ import org.eclipse.escet.common.java.JavaCodeUtils;
  */
 public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
     /**
-     * Generate model walker class code for an {@link EPackage}, including all its sub-packages (recursively). Note that
-     * structural features that have types outside of the supplied package result in the exploration of additional
-     * packages.
+     * Generate a model walker and composite model walker for an {@link EPackage}, including all its sub-packages
+     * (recursively). Note that structural features that have types outside of the supplied package result in the
+     * exploration of additional packages.
      *
      * @param args Application arguments:
      *     <ul>
@@ -59,8 +69,9 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      *           "bla.somelang.v1x0x0.metamodel.somelang.SomeLangPackage"}.</li>
      *     <li>The path to add to the Java class path to allow the main package Java class to be found. For instance,
      *     {@code "bin"}. It is allowed to add multiple paths. For instance, {@code "bin|../bin"}.</li>
-     *     <li>The output file name path. For instance, {@code "src/bla/somelang/v1x0x0/metamodel/java"}.</li>
-     *     <li>The output class name. For instance, {@code "SomeLangWalker"}.</li>
+     *     <li>The output file path. For instance, {@code "src/bla/somelang/v1x0x0/metamodel/java"}.</li>
+     *     <li>The model walker output class name. For instance, {@code "SomeLangWalker"}.</li>
+     *     <li>The composite model walker output class name. For instance, {@code "CompositeSomeLangWalker"}.</li>
      *     <li>The output package name. For instance, {@code "bla.somelang.v1x0x0.metamodel.java"}.</li>
      *     <li>The name of the {@link EClass} that is the root of all instances of the metamodel.</li>
      *     </ul>
@@ -74,26 +85,33 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
             throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException
     {
         // Process arguments.
-        Assert.check(args.length == 6);
+        Assert.check(args.length == 7);
         String mainPkgClassName = args[0];
         String binPath = args[1];
         String outputPath = args[2];
-        String outputClassName = args[3];
-        String outputPackageName = args[4];
-        String rootClassName = args[5];
+        String outputClassNameWalker = args[3];
+        String outputClassNameComposite = args[4];
+        String outputPackageName = args[5];
+        String rootClassName = args[6];
 
         // Resolve the package.
         EPackage mainPkg = loadEPackage(mainPkgClassName, binPath);
 
         // Generate code for the package.
-        CodeBox box = generate(mainPkg, rootClassName, outputClassName, outputPackageName);
+        CodeBox boxWalker = generateWalker(mainPkg, rootClassName, outputClassNameWalker, outputPackageName);
+        CodeBox boxComposite = generateCompositeWalker(mainPkg, rootClassName, outputClassNameWalker,
+                outputClassNameComposite, outputPackageName);
 
         // Try to write the code to a file.
-        String outputFilePath = new File(new File(outputPath), outputClassName + ".java").getAbsolutePath();
-        box.writeToFile(outputFilePath);
+        String outputFilePathWalker = new File(new File(outputPath), outputClassNameWalker + ".java").getAbsolutePath();
+        String outputFilePathComposite = new File(new File(outputPath), outputClassNameComposite + ".java")
+                .getAbsolutePath();
+        boxWalker.writeToFile(outputFilePathWalker);
+        boxComposite.writeToFile(outputFilePathComposite);
 
         // We are done.
-        System.out.print("Code written to: " + outputFilePath);
+        System.out.printf("Walker code written to: %s%n", outputFilePathWalker);
+        System.out.printf("Composite walker code written to: %s%n", outputFilePathComposite);
     }
 
     /**
@@ -101,11 +119,11 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      *
      * @param startPackage The {@link EPackage} to generate the code for.
      * @param rootClassName The name of the {@link EClass} that is the root of all instances of the metamodel.
-     * @param genClassName The name of the Java class to generate.
+     * @param genClassNameWalker The name of the model walker Java class to generate.
      * @param genPackageName The name of the package that the generated Java class will be a part of.
      * @return The generated code.
      */
-    private static CodeBox generate(EPackage startPackage, String rootClassName, String genClassName,
+    private static CodeBox generateWalker(EPackage startPackage, String rootClassName, String genClassNameWalker,
             String genPackageName)
     {
         CodeBox box = new MemoryCodeBox();
@@ -223,27 +241,180 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         box.add(" * method a proper name, parameters, etc. They may even allow multiple public");
         box.add(" * methods to allow starting from multiple classes.</p>");
         box.add(" */");
-        box.add("public abstract class %s {", genClassName);
+        box.add("public abstract class %s {", genClassNameWalker);
+
         boolean first = true;
         for (EClass cls: classes) {
             if (!first) {
                 box.add();
             }
-            genModelWalkerClass(cls, classes, box);
+            generateWalkerMethods(cls, classes, box);
             first = false;
         }
+
         box.add("}");
         return box;
     }
 
     /**
-     * Generate model walker class code for an {@link EClass}.
+     * Generate composite model walker class code for an {@link EPackage}.
+     *
+     * @param startPackage The {@link EPackage} to generate the code for.
+     * @param rootClassName The name of the {@link EClass} that is the root of all instances of the metamodel.
+     * @param genClassNameWalker The name of the model walker Java class to generate.
+     * @param genClassNameComposite The name of the composite model walker Java class to generate.
+     * @param genPackageName The name of the package that the generated Java class will be a part of.
+     * @return The generated code.
+     */
+    private static CodeBox generateCompositeWalker(EPackage startPackage, String rootClassName,
+            String genClassNameWalker, String genClassNameComposite, String genPackageName)
+    {
+        CodeBox box = new MemoryCodeBox();
+
+        List<EPackage> packages = list(startPackage);
+        List<EClass> classes;
+        while (true) {
+            boolean done = true;
+            Set<EClass> classSet = set();
+
+            // Get all classes for the packages and their sub-packages.
+            for (EPackage pkg: packages) {
+                classSet.addAll(getClasses(pkg, true));
+            }
+
+            // Add all classes that are used as types of the features.
+            Set<EClass> classSet2 = copy(classSet);
+            for (EClass cls: classSet2) {
+                for (EStructuralFeature feat: cls.getEAllStructuralFeatures()) {
+                    if (feat.getEType() instanceof EClass) {
+                        classSet.add((EClass)feat.getEType());
+                    }
+                }
+            }
+
+            // From the classes, get the root packages. If we have any new
+            // ones, we are not yet done, as we need another iteration.
+            for (EClass cls: classSet) {
+                EPackage newPackage = getRootPackage(cls);
+                if (!packages.contains(newPackage)) {
+                    packages.add(newPackage);
+                    done = false;
+                }
+            }
+
+            // If we are done, save the classes.
+            if (done) {
+                classes = sortedgeneric(classSet, new EClassSorter());
+                break;
+            }
+        }
+
+        box.add("//////////////////////////////////////////////////////////////////////////////");
+        box.add("// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation");
+        box.add("//");
+        box.add("// See the NOTICE file(s) distributed with this work for additional");
+        box.add("// information regarding copyright ownership.");
+        box.add("//");
+        box.add("// This program and the accompanying materials are made available");
+        box.add("// under the terms of the MIT License which is available at");
+        box.add("// https://opensource.org/licenses/MIT");
+        box.add("//");
+        box.add("// SPDX-License-Identifier: MIT");
+        box.add("//////////////////////////////////////////////////////////////////////////////");
+        box.add();
+        box.add("// Generated using the \"org.eclipse.escet.common.emf.ecore.codegen\" project.");
+        box.add();
+        box.add("// Disable Eclipse Java formatter for generated code file:");
+        box.add("// @formatter:off");
+        box.add();
+        box.add("package %s;", genPackageName);
+        box.add();
+
+        List<String> imports = listc(classes.size());
+
+        for (EClass impClass: classes) {
+            imports.add(getJavaTypeName(impClass));
+        }
+
+        for (String imp: JavaCodeUtils.formatImports(imports, genPackageName)) {
+            box.add(imp);
+        }
+        box.add();
+
+        box.add("/**");
+        box.add(" * A composite walker for \"%s\" models.", startPackage.getName());
+        box.add(" *");
+        box.add(" * <p>The composite walker works as follows:");
+        box.add(" * <ul>");
+        box.add(" *  <li>Performs a top-down depth-first walk over the object tree, using the");
+        box.add(" *   containment hierarchy.</li>");
+        box.add(" *  <li>No particular order should be assumed for walking over the child");
+        box.add(" *    features.</li>");
+        box.add(" *  <li>For each object encountered, pre-processing is performed before walking");
+        box.add(" *    over the children, and post-processing is performed after walking over");
+        box.add(" *    the children.</li>");
+        box.add(" *  <li>Pre-processing for objects is done by crawling up the inheritance");
+        box.add(" *    hierarchy of the object, performing pre-processing for each of the");
+        box.add(" *    types encountered in the type hierarchy. The pre-processing methods are");
+        box.add(" *    invoked from most general to most specific class (super classes before");
+        box.add(" *    base classes).</li>");
+        box.add(" *  <li>Post-processing for objects is done by crawling up the inheritance");
+        box.add(" *    hierarchy of the object, performing post-processing for each of the");
+        box.add(" *    types encountered in the type hierarchy. The post-processing methods are");
+        box.add(" *    invoked from most specific to most general class (base classes before");
+        box.add(" *    super classes).</li>");
+        box.add(" * </ul>");
+        box.add(" * </p>");
+        box.add(" *");
+        box.add(" * <p>A composite walking does not perform any pre-processing or post-processing");
+        box.add(" * by itself. It can be configured with any number of other (composite or");
+        box.add(" * non-composite) model walkers. As pre-processing and post-processing the");
+        box.add(" * composite model walker invokes pre-processing and post-processing on each");
+        box.add(" * 'other' model walker, in the order they are supplied. The walking and");
+        box.add(" * crawling methods of the non-composite of the 'other' model walkers are not");
+        box.add(" * used.</p>");
+        box.add(" *");
+        box.add(" * <p>This abstract walker class has no public methods. It is up to the derived");
+        box.add(" * classes to add a public method as entry method. They can decide which");
+        box.add(" * classes are to be used as starting point, and they can give the public");
+        box.add(" * method a proper name, parameters, etc. They may even allow multiple public");
+        box.add(" * methods to allow starting from multiple classes.</p>");
+        box.add(" */");
+        box.add("public abstract class %s extends %s {", genClassNameComposite, genClassNameWalker);
+
+        box.indent();
+        box.add("/** The walkers to be composed by this composite walker. */");
+        box.add("private %s[] walkers;", genClassNameWalker);
+        box.dedent();
+        box.add();
+
+        box.indent();
+        box.add("/**");
+        box.add(" * Constructor of the {@link %s} class.", genClassNameComposite);
+        box.add(" *");
+        box.add(" * @param walkers The walkers to be composed by this composite walker.");
+        box.add(" */");
+        box.add("public %s(%s[] walkers) {", genClassNameComposite, genClassNameWalker);
+        box.add("    this.walkers = walkers;");
+        box.add("}");
+        box.dedent();
+
+        for (EClass cls: classes) {
+            generateCompositeWalkerMethods(cls, genClassNameWalker, box);
+        }
+
+        box.add("}");
+        return box;
+    }
+
+    /**
+     * Generate model walker methods code for an {@link EClass}.
      *
      * @param cls The {@link EClass} to generate the code for.
      * @param classes The candidate derived classes for the given 'cls'.
      * @param box The generated code (appended in-place).
      */
-    private static void genModelWalkerClass(EClass cls, List<EClass> classes, CodeBox box) {
+    private static void generateWalkerMethods(EClass cls, List<EClass> classes, CodeBox box) {
         List<EClass> derivedClasses = getDerivedClasses(cls, classes);
 
         // Walking function.
@@ -375,6 +546,37 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         box.add(" */");
         box.add("protected void postprocess%s(%s obj) {", cls.getName(), cls.getName());
         box.add("    // Derived classes may override this method to do actual processing.");
+        box.add("}");
+        box.dedent();
+    }
+
+    /**
+     * Generate composite model walker methods code for an {@link EClass}.
+     *
+     * @param cls The {@link EClass} to generate the code for.
+     * @param genClassNameWalker The name of the model walker Java class to generate.
+     * @param box The generated code (appended in-place).
+     */
+    private static void generateCompositeWalkerMethods(EClass cls, String genClassNameWalker, CodeBox box) {
+        // Pre-processing function.
+        box.add();
+        box.indent();
+        box.add("@Override");
+        box.add("protected void preprocess%s(%s obj) {", cls.getName(), cls.getName());
+        box.add("    for (%s walker: walkers) {", genClassNameWalker);
+        box.add("        walker.preprocess%s(obj);", cls.getName());
+        box.add("    }");
+        box.add("}");
+        box.dedent();
+
+        // Post-processing function.
+        box.add();
+        box.indent();
+        box.add("@Override");
+        box.add("protected void postprocess%s(%s obj) {", cls.getName(), cls.getName());
+        box.add("    for (%s walker: walkers) {", genClassNameWalker);
+        box.add("        walker.postprocess%s(obj);", cls.getName());
+        box.add("    }");
         box.add("}");
         box.dedent();
     }
