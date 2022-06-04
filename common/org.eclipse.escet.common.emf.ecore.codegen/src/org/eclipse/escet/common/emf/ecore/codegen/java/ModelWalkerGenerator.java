@@ -73,7 +73,6 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      *     <li>The model walker output class name. For instance, {@code "SomeLangWalker"}.</li>
      *     <li>The composite model walker output class name. For instance, {@code "CompositeSomeLangWalker"}.</li>
      *     <li>The output package name. For instance, {@code "bla.somelang.v1x0x0.metamodel.java"}.</li>
-     *     <li>The name of the {@link EClass} that is the root of all instances of the metamodel.</li>
      *     </ul>
      * @throws IOException In case the code could not be written to a file; or in case the java class path extension
      *     path is invalid.
@@ -85,22 +84,21 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
             throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException
     {
         // Process arguments.
-        Assert.check(args.length == 7);
+        Assert.check(args.length == 6, args.length);
         String mainPkgClassName = args[0];
         String binPath = args[1];
         String outputPath = args[2];
         String outputClassNameWalker = args[3];
         String outputClassNameComposite = args[4];
         String outputPackageName = args[5];
-        String rootClassName = args[6];
 
         // Resolve the package.
         EPackage mainPkg = loadEPackage(mainPkgClassName, binPath);
 
         // Generate code for the package.
-        CodeBox boxWalker = generateWalker(mainPkg, rootClassName, outputClassNameWalker, outputPackageName);
-        CodeBox boxComposite = generateCompositeWalker(mainPkg, rootClassName, outputClassNameWalker,
-                outputClassNameComposite, outputPackageName);
+        CodeBox boxWalker = generateWalker(mainPkg, outputClassNameWalker, outputPackageName);
+        CodeBox boxComposite = generateCompositeWalker(mainPkg, outputClassNameWalker, outputClassNameComposite,
+                outputPackageName);
 
         // Try to write the code to a file.
         String outputFilePathWalker = new File(new File(outputPath), outputClassNameWalker + ".java").getAbsolutePath();
@@ -118,14 +116,11 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      * Generate model walker class code for an {@link EPackage}.
      *
      * @param startPackage The {@link EPackage} to generate the code for.
-     * @param rootClassName The name of the {@link EClass} that is the root of all instances of the metamodel.
      * @param genClassNameWalker The name of the model walker Java class to generate.
      * @param genPackageName The name of the package that the generated Java class will be a part of.
      * @return The generated code.
      */
-    private static CodeBox generateWalker(EPackage startPackage, String rootClassName, String genClassNameWalker,
-            String genPackageName)
-    {
+    private static CodeBox generateWalker(EPackage startPackage, String genClassNameWalker, String genPackageName) {
         CodeBox box = new MemoryCodeBox();
 
         List<EPackage> packages = list(startPackage);
@@ -260,14 +255,13 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      * Generate composite model walker class code for an {@link EPackage}.
      *
      * @param startPackage The {@link EPackage} to generate the code for.
-     * @param rootClassName The name of the {@link EClass} that is the root of all instances of the metamodel.
      * @param genClassNameWalker The name of the model walker Java class to generate.
      * @param genClassNameComposite The name of the composite model walker Java class to generate.
      * @param genPackageName The name of the package that the generated Java class will be a part of.
      * @return The generated code.
      */
-    private static CodeBox generateCompositeWalker(EPackage startPackage, String rootClassName,
-            String genClassNameWalker, String genClassNameComposite, String genPackageName)
+    private static CodeBox generateCompositeWalker(EPackage startPackage, String genClassNameWalker,
+            String genClassNameComposite, String genPackageName)
     {
         CodeBox box = new MemoryCodeBox();
 
