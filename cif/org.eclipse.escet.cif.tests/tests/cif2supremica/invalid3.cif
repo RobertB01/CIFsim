@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 plant p:
-  disc bool b in any;
+  disc bool b in any; // Multiple potential initial values.
 
   location:
     initial b; // Non-static eval.
