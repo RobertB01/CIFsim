@@ -36,6 +36,9 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
     /** Whether to disallow {@link UnaryOperator#NEGATE} on integer numbers. */
     public boolean disallowNegateInts;
 
+    /** Whether to disallow {@link UnaryOperator#NEGATE} on ranged integer numbers. */
+    public boolean disallowNegateIntsRanged;
+
     /** Whether to disallow {@link UnaryOperator#NEGATE} on rangeless integer numbers. */
     public boolean disallowNegateIntsRangeless;
 
@@ -47,6 +50,9 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
 
     /** Whether to disallow {@link UnaryOperator#PLUS} on integer numbers. */
     public boolean disallowPlusInts;
+
+    /** Whether to disallow {@link UnaryOperator#PLUS} on ranged integer numbers. */
+    public boolean disallowPlusIntsRanged;
 
     /** Whether to disallow {@link UnaryOperator#PLUS} on rangeless integer numbers. */
     public boolean disallowPlusIntsRangeless;
@@ -75,10 +81,18 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
                         if (ctype instanceof IntType) {
                             addExprViolationOperand(unExpr);
                         }
-                    } else if (disallowNegateIntsRangeless) {
-                        CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
-                        if (ctype instanceof IntType && CifTypeUtils.isRangeless((IntType)ctype)) {
-                            addExprViolationOperand(unExpr);
+                    } else {
+                        if (disallowNegateIntsRanged) {
+                            CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
+                            if (ctype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ctype)) {
+                                addExprViolationOperand(unExpr);
+                            }
+                        }
+                        if (disallowNegateIntsRangeless) {
+                            CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
+                            if (ctype instanceof IntType && CifTypeUtils.isRangeless((IntType)ctype)) {
+                                addExprViolationOperand(unExpr);
+                            }
                         }
                     }
                     if (disallowNegateReals) {
@@ -98,10 +112,18 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
                         if (ctype instanceof IntType) {
                             addExprViolationOperand(unExpr);
                         }
-                    } else if (disallowPlusIntsRangeless) {
-                        CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
-                        if (ctype instanceof IntType && CifTypeUtils.isRangeless((IntType)ctype)) {
-                            addExprViolationOperand(unExpr);
+                    } else {
+                        if (disallowPlusIntsRanged) {
+                            CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
+                            if (ctype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ctype)) {
+                                addExprViolationOperand(unExpr);
+                            }
+                        }
+                        if (disallowPlusIntsRangeless) {
+                            CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
+                            if (ctype instanceof IntType && CifTypeUtils.isRangeless((IntType)ctype)) {
+                                addExprViolationOperand(unExpr);
+                            }
                         }
                     }
                     if (disallowPlusReals) {

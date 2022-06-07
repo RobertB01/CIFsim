@@ -197,7 +197,9 @@ public class CifToSupremicaPreChecker {
         // operand, and plus (+) on a ranged integer operand.
         NoSpecificUnaryExprsCheck unCheck = new NoSpecificUnaryExprsCheck();
         unCheck.disallowNegateIntsRangeless = true;
+        unCheck.disallowNegateReals = true;
         unCheck.disallowPlusIntsRangeless = true;
+        unCheck.disallowPlusReals = true;
         unCheck.disallowSample = true;
         preconditions.add(unCheck);
 

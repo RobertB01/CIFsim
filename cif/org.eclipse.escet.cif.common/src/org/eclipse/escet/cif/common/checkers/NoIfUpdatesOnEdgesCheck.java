@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * CIF check that does not 'if' updates on edges.
+ * CIF check that does not allow 'if' updates on edges.
  *
  * @note This check is included in {@link OnlySimpleAssignmentsCheck}.
  */

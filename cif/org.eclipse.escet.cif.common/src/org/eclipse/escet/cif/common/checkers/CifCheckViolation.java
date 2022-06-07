@@ -24,8 +24,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 /** CIF check condition violation. */
 public class CifCheckViolation {
     /**
-     * The named CIF object for which the violation is reported, or {@code null} for report it for the CIF
-     * specification.
+     * The named CIF object for which the violation is reported, or {@code null} to report it for the CIF specification.
      */
     private final PositionObject object;
 
@@ -35,10 +34,11 @@ public class CifCheckViolation {
     /**
      * Constructor for the {@link CifCheckViolation} class.
      *
-     * @param object The named CIF object for which the violation is reported, or {@code null} for report it for the CIF
+     * @param object The named CIF object for which the violation is reported, or {@code null} to report it for the CIF
      *     specification.
      * @param message The message describing the violation. E.g., {@code "event is a channel"},
-     *     {@code "automaton is a kindless/regular automaton"} or {@code "specification has no automata"}.
+     *     {@code "automaton is a kindless automaton, lacking a supervisory kind"} or
+     *     {@code "specification has no automata"}.
      */
     public CifCheckViolation(PositionObject object, String message) {
         this.object = object;

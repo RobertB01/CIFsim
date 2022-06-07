@@ -40,10 +40,11 @@ public abstract class CifCheck extends CifWalker {
     /**
      * Add a violation.
      *
-     * @param object The named CIF object for which the violation is reported, or {@code null} for report it for the CIF
+     * @param object The named CIF object for which the violation is reported, or {@code null} to report it for the CIF
      *     specification.
      * @param message The message describing the violation. E.g., {@code "event is a channel"},
-     *     {@code "automaton is a kindless/regular automaton"} or {@code "specification has no automata"}.
+     *     {@code "automaton is a kindless automaton, lacking a supervisory kind"} or
+     *     {@code "specification has no automata"}.
      */
     protected void addViolation(PositionObject object, String message) {
         violations.add(new CifCheckViolation(object, message));

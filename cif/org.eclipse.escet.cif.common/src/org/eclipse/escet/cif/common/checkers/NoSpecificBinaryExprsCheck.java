@@ -34,6 +34,12 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
     /** Whether to disallow {@link BinaryOperator#ADDITION}. */
     public boolean disallowAddition;
 
+    /** Whether to disallow {@link BinaryOperator#ADDITION} on integers. */
+    public boolean disallowAdditionInts;
+
+    /** Whether to disallow {@link BinaryOperator#ADDITION} on ranged integers. */
+    public boolean disallowAdditionIntsRanged;
+
     /** Whether to disallow {@link BinaryOperator#ADDITION} on rangeless integers. */
     public boolean disallowAdditionIntsRangeless;
 
@@ -85,6 +91,12 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
     /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL}. */
     public boolean disallowGreaterEqual;
 
+    /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL} on integers. */
+    public boolean disallowGreaterEqualInts;
+
+    /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL} on ranged integers. */
+    public boolean disallowGreaterEqualIntsRanged;
+
     /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL} on rangeless integers. */
     public boolean disallowGreaterEqualIntsRangeless;
 
@@ -93,6 +105,12 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
 
     /** Whether to disallow {@link BinaryOperator#GREATER_THAN}. */
     public boolean disallowGreaterThan;
+
+    /** Whether to disallow {@link BinaryOperator#GREATER_THAN} on integers. */
+    public boolean disallowGreaterThanInts;
+
+    /** Whether to disallow {@link BinaryOperator#GREATER_THAN} on ranged integers. */
+    public boolean disallowGreaterThanIntsRanged;
 
     /** Whether to disallow {@link BinaryOperator#GREATER_THAN} on rangeless integers. */
     public boolean disallowGreaterThanIntsRangeless;
@@ -106,11 +124,23 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
     /** Whether to disallow {@link BinaryOperator#INTEGER_DIVISION}. */
     public boolean disallowIntegerDivision;
 
+    /** Whether to disallow {@link BinaryOperator#INTEGER_DIVISION} on integers. */
+    public boolean disallowIntegerDivisionInts;
+
+    /** Whether to disallow {@link BinaryOperator#INTEGER_DIVISION} on ranged integers. */
+    public boolean disallowIntegerDivisionIntsRanged;
+
     /** Whether to disallow {@link BinaryOperator#INTEGER_DIVISION} on rangeless integers. */
     public boolean disallowIntegerDivisionIntsRangeless;
 
     /** Whether to disallow {@link BinaryOperator#LESS_EQUAL}. */
     public boolean disallowLessEqual;
+
+    /** Whether to disallow {@link BinaryOperator#LESS_EQUAL} on integers. */
+    public boolean disallowLessEqualInts;
+
+    /** Whether to disallow {@link BinaryOperator#LESS_EQUAL} on ranged integers. */
+    public boolean disallowLessEqualIntsRanged;
 
     /** Whether to disallow {@link BinaryOperator#LESS_EQUAL} on rangeless integers. */
     public boolean disallowLessEqualIntsRangeless;
@@ -121,6 +151,12 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
     /** Whether to disallow {@link BinaryOperator#LESS_THAN}. */
     public boolean disallowLessThan;
 
+    /** Whether to disallow {@link BinaryOperator#LESS_THAN} on integers. */
+    public boolean disallowLessThanInts;
+
+    /** Whether to disallow {@link BinaryOperator#LESS_THAN} on ranged integers. */
+    public boolean disallowLessThanIntsRanged;
+
     /** Whether to disallow {@link BinaryOperator#LESS_THAN} on rangeless integers. */
     public boolean disallowLessThanIntsRangeless;
 
@@ -130,11 +166,23 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
     /** Whether to disallow {@link BinaryOperator#MODULUS}. */
     public boolean disallowModulus;
 
+    /** Whether to disallow {@link BinaryOperator#MODULUS} on integers. */
+    public boolean disallowModulusInts;
+
+    /** Whether to disallow {@link BinaryOperator#MODULUS} on ranged integers. */
+    public boolean disallowModulusIntsRanged;
+
     /** Whether to disallow {@link BinaryOperator#MODULUS} on rangeless integers. */
     public boolean disallowModulusIntsRangeless;
 
     /** Whether to disallow {@link BinaryOperator#MULTIPLICATION}. */
     public boolean disallowMultiplication;
+
+    /** Whether to disallow {@link BinaryOperator#MULTIPLICATION} on integers. */
+    public boolean disallowMultiplicationInts;
+
+    /** Whether to disallow {@link BinaryOperator#MULTIPLICATION} on ranged integers. */
+    public boolean disallowMultiplicationIntsRanged;
 
     /** Whether to disallow {@link BinaryOperator#MULTIPLICATION} on rangeless integers. */
     public boolean disallowMultiplicationIntsRangeless;
@@ -147,6 +195,12 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
 
     /** Whether to disallow {@link BinaryOperator#SUBTRACTION}. */
     public boolean disallowSubtraction;
+
+    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on integers. */
+    public boolean disallowSubtractionInts;
+
+    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on ranged integers. */
+    public boolean disallowSubtractionIntsRanged;
 
     /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on rangeless integers. */
     public boolean disallowSubtractionIntsRangeless;
@@ -174,13 +228,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowAddition) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowAdditionIntsRangeless) {
+                    if (disallowAdditionInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowAdditionIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowAdditionIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                     if (disallowAdditionReals) {
@@ -281,13 +352,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowGreaterEqual) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowGreaterEqualIntsRangeless) {
+                    if (disallowGreaterEqualInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowGreaterEqualIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowGreaterEqualIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                     if (disallowGreaterEqualReals) {
@@ -303,13 +391,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowGreaterThan) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowGreaterThanIntsRangeless) {
+                    if (disallowGreaterThanInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowGreaterThanIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowGreaterThanIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                     if (disallowGreaterThanReals) {
@@ -330,13 +435,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowIntegerDivision) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowIntegerDivisionIntsRangeless) {
+                    if (disallowIntegerDivisionInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowIntegerDivisionIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowIntegerDivisionIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                 }
@@ -345,13 +467,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowLessEqual) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowLessEqualIntsRangeless) {
+                    if (disallowLessEqualInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowLessEqualIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowLessEqualIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                     if (disallowLessEqualReals) {
@@ -367,13 +506,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowLessThan) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowLessThanIntsRangeless) {
+                    if (disallowLessThanInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowLessThanIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowLessThanIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                     if (disallowLessThanReals) {
@@ -389,13 +545,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowModulus) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowModulusIntsRangeless) {
+                    if (disallowModulusInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowModulusIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowModulusIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                 }
@@ -404,13 +577,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowMultiplication) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowMultiplicationIntsRangeless) {
+                    if (disallowMultiplicationInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowMultiplicationIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowMultiplicationIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                     if (disallowMultiplicationReals) {
@@ -431,13 +621,30 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 if (disallowSubtraction) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowSubtractionIntsRangeless) {
+                    if (disallowSubtractionInts) {
                         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
                         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-                        if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
-                        {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
+                        }
+                    } else {
+                        if (disallowSubtractionIntsRanged) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
+                        }
+                        if (disallowSubtractionIntsRangeless) {
+                            CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
+                            CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype)))
+                            {
+                                addExprViolationOperand(binExpr);
+                            }
                         }
                     }
                     if (disallowSubtractionReals) {
