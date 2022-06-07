@@ -188,6 +188,6 @@ public class NoSpecificTypesCheck extends CifCheck {
      * @param description The description of the type.
      */
     private void addTypeViolation(CifType type, String description) {
-        super.addViolation(getNamedAncestorOrSelf(type), fmt("%s \"%s\"", description, typeToStr(type)));
+        super.addViolation(getNamedAncestorOrSelf(type), fmt("uses %s \"%s\"", description, typeToStr(type)));
     }
 }

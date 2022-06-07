@@ -495,6 +495,7 @@ public class NoSpecificExprsCheck extends CifCheck {
      * @param description The description of the expression.
      */
     private void addExprViolation(Expression expr, String description) {
-        super.addViolation(getNamedAncestorOrSelf(expr), fmt("%s \"%s\"", description, exprToStr(expr)));
+        super.addViolation(getNamedAncestorOrSelf(expr),
+                fmt("uses %s \"%s\"", description, exprToStr(expr)));
     }
 }
