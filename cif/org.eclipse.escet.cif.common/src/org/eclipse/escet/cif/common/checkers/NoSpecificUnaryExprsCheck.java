@@ -83,21 +83,19 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
                             addExprViolationOperand(unExpr);
                         }
                     } else {
-                        if (disallowNegateIntsRanged) {
-                            if (ctype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ctype)) {
-                                addExprViolationOperand(unExpr);
-                            }
-                        }
-                        if (disallowNegateIntsRangeless) {
-                            if (ctype instanceof IntType && CifTypeUtils.isRangeless((IntType)ctype)) {
-                                addExprViolationOperand(unExpr);
-                            }
-                        }
-                    }
-                    if (disallowNegateReals) {
-                        if (ctype instanceof RealType) {
+                        if (disallowNegateIntsRanged && ctype instanceof IntType
+                                && !CifTypeUtils.isRangeless((IntType)ctype))
+                        {
                             addExprViolationOperand(unExpr);
                         }
+                        if (disallowNegateIntsRangeless && ctype instanceof IntType
+                                && CifTypeUtils.isRangeless((IntType)ctype))
+                        {
+                            addExprViolationOperand(unExpr);
+                        }
+                    }
+                    if (disallowNegateReals && ctype instanceof RealType) {
+                        addExprViolationOperand(unExpr);
                     }
                 }
                 break;
@@ -110,21 +108,19 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
                             addExprViolationOperand(unExpr);
                         }
                     } else {
-                        if (disallowPlusIntsRanged) {
-                            if (ctype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ctype)) {
-                                addExprViolationOperand(unExpr);
-                            }
-                        }
-                        if (disallowPlusIntsRangeless) {
-                            if (ctype instanceof IntType && CifTypeUtils.isRangeless((IntType)ctype)) {
-                                addExprViolationOperand(unExpr);
-                            }
-                        }
-                    }
-                    if (disallowPlusReals) {
-                        if (ctype instanceof RealType) {
+                        if (disallowPlusIntsRanged && ctype instanceof IntType
+                                && !CifTypeUtils.isRangeless((IntType)ctype))
+                        {
                             addExprViolationOperand(unExpr);
                         }
+                        if (disallowPlusIntsRangeless && ctype instanceof IntType
+                                && CifTypeUtils.isRangeless((IntType)ctype))
+                        {
+                            addExprViolationOperand(unExpr);
+                        }
+                    }
+                    if (disallowPlusReals && ctype instanceof RealType) {
+                        addExprViolationOperand(unExpr);
                     }
                 }
                 break;
