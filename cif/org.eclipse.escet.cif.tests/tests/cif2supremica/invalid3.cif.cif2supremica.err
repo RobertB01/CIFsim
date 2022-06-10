@@ -1,3 +1,3 @@
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "p": failed to determine whether the automaton's location is an initial location, as one of its initialization predicates can not be statically evaluated.
- - Unsupported "p.b": discrete variable has multiple potential initial values.
+ - Unsupported "p.b": discrete variable has multiple potential initial values (any value in its domain).
