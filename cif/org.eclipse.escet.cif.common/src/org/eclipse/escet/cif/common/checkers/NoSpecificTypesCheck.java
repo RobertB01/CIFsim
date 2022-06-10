@@ -17,6 +17,8 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
+
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
@@ -36,142 +38,109 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF check that does not allow certain types. */
 public class NoSpecificTypesCheck extends CifCheck {
-    /** Whether to disallow component definition types. */
-    public boolean disallowCompDefTypes;
+    /** The types, or sub-types, to disallow. */
+    private final EnumSet<NoSpecificType> disalloweds;
 
-    /** Whether to disallow component types. */
-    public boolean disallowCompTypes;
-
-    /** Whether to disallow dictionary types. */
-    public boolean disallowDictTypes;
-
-    /** Whether to disallow distribution types. */
-    public boolean disallowDistTypes;
-
-    /** Whether to disallow enumeration types. */
-    public boolean disallowEnumTypes;
-
-    /** Whether to disallow function types. Note that this includes standard library function types. */
-    public boolean disallowFuncTypes;
-
-    /** Whether to disallow all integer types (ranged and rangeless ones). */
-    public boolean disallowIntTypes;
-
-    /** Whether to disallow rangeless integer types. */
-    public boolean disallowIntTypesRangeless;
-
-    /** Whether to disallow all list types (array and non-array ones). */
-    public boolean disallowListTypes;
-
-    /** Whether to disallow non-array list types. */
-    public boolean disallowListTypesNonArray;
-
-    /** Whether to disallow real types. */
-    public boolean disallowRealTypes;
-
-    /** Whether to disallow set types. */
-    public boolean disallowSetTypes;
-
-    /** Whether to disallow string types. */
-    public boolean disallowStringTypes;
-
-    /** Whether to disallow tuple types. Note that tuple types are also used for multi-assignments. */
-    public boolean disallowTupleTypes;
-
-    /** Whether to disallow void types (of channels). */
-    public boolean disallowVoidTypes;
+    /**
+     * Constructor for the {@link NoSpecificTypesCheck} class.
+     *
+     * @param disalloweds The types, or sub-types, to disallow.
+     */
+    public NoSpecificTypesCheck(EnumSet<NoSpecificType> disalloweds) {
+        this.disalloweds = disalloweds;
+    }
 
     @Override
     protected void preprocessComponentDefType(ComponentDefType compDefType) {
-        if (disallowCompDefTypes) {
+        if (disalloweds.contains(NoSpecificType.COMP_DEF_TYPES)) {
             addTypeViolation(compDefType, "component definition type");
         }
     }
 
     @Override
     protected void preprocessComponentType(ComponentType compType) {
-        if (disallowCompTypes) {
+        if (disalloweds.contains(NoSpecificType.COMP_TYPES)) {
             addTypeViolation(compType, "component type");
         }
     }
 
     @Override
     protected void preprocessDictType(DictType dictType) {
-        if (disallowDictTypes) {
+        if (disalloweds.contains(NoSpecificType.DICT_TYPES)) {
             addTypeViolation(dictType, "dictionary type");
         }
     }
 
     @Override
     protected void preprocessDistType(DistType distType) {
-        if (disallowDistTypes) {
+        if (disalloweds.contains(NoSpecificType.DIST_TYPES)) {
             addTypeViolation(distType, "distribution type");
         }
     }
 
     @Override
     protected void preprocessEnumType(EnumType enumType) {
-        if (disallowEnumTypes) {
+        if (disalloweds.contains(NoSpecificType.ENUM_TYPES)) {
             addTypeViolation(enumType, "enumeration type");
         }
     }
 
     @Override
     protected void preprocessFuncType(FuncType funcType) {
-        if (disallowFuncTypes) {
+        if (disalloweds.contains(NoSpecificType.FUNC_TYPES)) {
             addTypeViolation(funcType, "function type");
         }
     }
 
     @Override
     protected void preprocessIntType(IntType intType) {
-        if (disallowIntTypes) {
+        if (disalloweds.contains(NoSpecificType.INT_TYPES)) {
             addTypeViolation(intType, "integer type");
-        } else if (disallowIntTypesRangeless && CifTypeUtils.isRangeless(intType)) {
+        } else if (disalloweds.contains(NoSpecificType.INT_TYPES_RANGELESS) && CifTypeUtils.isRangeless(intType)) {
             addTypeViolation(intType, "rangeless integer type");
         }
     }
 
     @Override
     protected void preprocessListType(ListType listType) {
-        if (disallowListTypes) {
+        if (disalloweds.contains(NoSpecificType.LIST_TYPES)) {
             addTypeViolation(listType, "list type");
-        } else if (disallowListTypesNonArray && !CifTypeUtils.isArrayType(listType)) {
+        } else if (disalloweds.contains(NoSpecificType.LIST_TYPES_NON_ARRAY) && !CifTypeUtils.isArrayType(listType)) {
             addTypeViolation(listType, "non-array list type");
         }
     }
 
     @Override
     protected void preprocessRealType(RealType realType) {
-        if (disallowRealTypes) {
+        if (disalloweds.contains(NoSpecificType.REAL_TYPES)) {
             addTypeViolation(realType, "real type");
         }
     }
 
     @Override
     protected void preprocessSetType(SetType setType) {
-        if (disallowSetTypes) {
+        if (disalloweds.contains(NoSpecificType.SET_TYPES)) {
             addTypeViolation(setType, "set type");
         }
     }
 
     @Override
     protected void preprocessStringType(StringType stringType) {
-        if (disallowStringTypes) {
+        if (disalloweds.contains(NoSpecificType.STRING_TYPES)) {
             addTypeViolation(stringType, "string type");
         }
     }
 
     @Override
     protected void preprocessTupleType(TupleType tupleType) {
-        if (disallowTupleTypes) {
+        if (disalloweds.contains(NoSpecificType.TUPLE_TYPES)) {
             addTypeViolation(tupleType, "tuple type");
         }
     }
 
     @Override
     protected void preprocessVoidType(VoidType voidType) {
-        if (disallowVoidTypes) {
+        if (disalloweds.contains(NoSpecificType.VOID_TYPES)) {
             addTypeViolation(voidType, "void type");
         }
     }
@@ -189,5 +158,53 @@ public class NoSpecificTypesCheck extends CifCheck {
      */
     private void addTypeViolation(CifType type, String description) {
         super.addViolation(getNamedSelfOrAncestor(type), fmt("uses %s \"%s\"", description, typeToStr(type)));
+    }
+
+    /** The type, or sub-type, to disallow. */
+    public static enum NoSpecificType {
+        /** Disallow component definition types. */
+        COMP_DEF_TYPES,
+
+        /** Disallow component types. */
+        COMP_TYPES,
+
+        /** Disallow dictionary types. */
+        DICT_TYPES,
+
+        /** Disallow distribution types. */
+        DIST_TYPES,
+
+        /** Disallow enumeration types. */
+        ENUM_TYPES,
+
+        /** Disallow function types. Note that this includes standard library function types. */
+        FUNC_TYPES,
+
+        /** Disallow all integer types (ranged and rangeless ones). */
+        INT_TYPES,
+
+        /** Disallow rangeless integer types. */
+        INT_TYPES_RANGELESS,
+
+        /** Disallow all list types (array and non-array ones). */
+        LIST_TYPES,
+
+        /** Disallow non-array list types. */
+        LIST_TYPES_NON_ARRAY,
+
+        /** Disallow real types. */
+        REAL_TYPES,
+
+        /** Disallow set types. */
+        SET_TYPES,
+
+        /** Disallow string types. */
+        STRING_TYPES,
+
+        /** Disallow tuple types. Note that tuple types are also used for multi-assignments. */
+        TUPLE_TYPES,
+
+        /** Disallow void types (of channels). */
+        VOID_TYPES,
     }
 }

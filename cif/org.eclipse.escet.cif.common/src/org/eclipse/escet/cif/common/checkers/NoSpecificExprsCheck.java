@@ -17,6 +17,8 @@ import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
@@ -66,154 +68,36 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF check that does not allow certain expressions. */
 public class NoSpecificExprsCheck extends CifCheck {
-    /** Whether to disallow references to algebraic variables. */
-    public boolean disallowAlgVarRefs;
+    /** The expressions to disallow. */
+    private final EnumSet<NoSpecificExpr> disalloweds;
 
-    /** Whether to disallow references to all functions (user-defined and standard library ones). */
-    public boolean disallowFuncRefs;
-
-    /** Whether to disallow references to all user-defined functions (internal and external ones). */
-    public boolean disallowFuncRefsUserDef;
-
-    /** Whether to disallow references to internal user-defined functions. */
-    public boolean disallowFuncRefsUserDefInt;
-
-    /** Whether to disallow references to external user-defined functions. */
-    public boolean disallowFuncRefsUserDefExt;
-
-    /** Whether to disallow references to standard library functions. */
-    public boolean disallowFuncRefsStdLib;
-
-    /** Whether to disallow all binary expressions. */
-    public boolean disallowBinExprs;
-
-    /** Whether to disallow boolean literals. */
-    public boolean disallowBoolLits;
-
-    /** Whether to disallow all cast expressions. */
-    public boolean disallowCastExprs;
-
-    /** Whether to disallow cast expressions that cast to a different type. */
-    public boolean disallowCastExprsNonEqualType;
-
-    /** Whether to disallow all component references (explicit components and 'self' references). */
-    public boolean disallowCompRefs;
-
-    /** Whether to disallow explicit component references. */
-    public boolean disallowCompRefsExplicit;
-
-    /** Whether to disallow component 'self' references. */
-    public boolean disallowCompRefsSelf;
-
-    /** Whether to disallow component parameter references. */
-    public boolean disallowCompParamRefs;
-
-    /** Whether to disallow constant references. */
-    public boolean disallowConstRefs;
-
-    /** Whether to disallow continuous variable references. */
-    public boolean disallowContVarRefs;
-
-    /** Whether to disallow dictionary literals. */
-    public boolean disallowDictLits;
-
-    /** Whether to disallow discrete variable references. */
-    public boolean disallowDiscVarRefs;
-
-    /** Whether to disallow user-defined function parameter references. */
-    public boolean disallowUserDefFuncParamRefs;
-
-    /** Whether to disallow references to local variables of internal user-defined functions. */
-    public boolean disallowIntUserDefFuncLocalVarRefs;
-
-    /** Whether to disallow enumeration literal references. */
-    public boolean disallowEnumLitRefs;
-
-    /** Whether to disallow tuple field references. */
-    public boolean disallowTupleFieldRefs;
-
-    /** Whether to disallow function calls (for user-defined functions and standard library functions). */
-    public boolean disallowFuncCalls;
-
-    /** Whether to disallow 'if' expressions (conditional expressions). */
-    public boolean disallowIfExprs;
-
-    /** Whether to disallow input variable references. */
-    public boolean disallowInputVarRefs;
-
-    /** Whether to disallow integer number literals. */
-    public boolean disallowIntLits;
-
-    /** Whether to disallow list literals. */
-    public boolean disallowListLits;
-
-    /** Whether to disallow location references. */
-    public boolean disallowLocRefs;
-
-    /** Whether to disallow projection expressions. */
-    public boolean disallowProjectionExprs;
-
-    /** Whether to disallow projection expressions on lists. */
-    public boolean disallowProjectionExprsLists;
-
-    /** Whether to disallow projection expressions on dictionaries. */
-    public boolean disallowProjectionExprsDicts;
-
-    /** Whether to disallow projection expressions on strings. */
-    public boolean disallowProjectionExprsStrings;
-
-    /** Whether to disallow projection expressions on tuples. */
-    public boolean disallowProjectionExprsTuples;
-
-    /** Whether to disallow projection expressions on tuples using index. */
-    public boolean disallowProjectionExprsTuplesIndex;
-
-    /** Whether to disallow projection expressions on tuples using field. */
-    public boolean disallowProjectionExprsTuplesField;
-
-    /** Whether to disallow real number expressions. */
-    public boolean disallowRealLits;
-
-    /** Whether to disallow received value expressions. */
-    public boolean disallowReceiveExprs;
-
-    /** Whether to disallow set literals. */
-    public boolean disallowSetLits;
-
-    /** Whether to disallow slice expressions. */
-    public boolean disallowSliceExprs;
-
-    /** Whether to disallow string literals. */
-    public boolean disallowStringLits;
-
-    /** Whether to disallow switch expressions. */
-    public boolean disallowSwitchExprs;
-
-    /** Whether to disallow 'time' variable references. */
-    public boolean disallowTimeVarRefs;
-
-    /** Whether to disallow tuple literal expressions. */
-    public boolean disallowTupleLits;
-
-    /** Whether to disallow all unary expressions. */
-    public boolean disallowUnExprs;
+    /**
+     * Constructor for the {@link NoSpecificExprsCheck} class.
+     *
+     * @param disalloweds The expressions to disallow.
+     */
+    public NoSpecificExprsCheck(EnumSet<NoSpecificExpr> disalloweds) {
+        this.disalloweds = disalloweds;
+    }
 
     @Override
     protected void preprocessAlgVariableExpression(AlgVariableExpression algRef) {
-        if (disallowAlgVarRefs) {
+        if (disalloweds.contains(NoSpecificExpr.ALG_VAR_REFS)) {
             addExprViolation(algRef, "algebraic variable reference");
         }
     }
 
     @Override
     protected void preprocessFunctionExpression(FunctionExpression userDefFuncRef) {
-        if ((disallowFuncRefs || disallowFuncRefsUserDef || disallowFuncRefsUserDefInt)
+        if ((disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF)
+                || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF_INT))
                 && userDefFuncRef.getFunction() instanceof InternalFunction)
         {
             addExprViolation(userDefFuncRef, "internal user-defined function reference");
         }
 
-        if ((disallowFuncRefs || disallowFuncRefsUserDef || disallowFuncRefsUserDefExt)
+        if ((disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF)
+                || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF_EXT))
                 && userDefFuncRef.getFunction() instanceof ExternalFunction)
         {
             addExprViolation(userDefFuncRef, "external user-defined function reference");
@@ -222,30 +106,30 @@ public class NoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessStdLibFunctionExpression(StdLibFunctionExpression stdLibRef) {
-        if (disallowFuncRefs || disallowFuncRefsStdLib) {
+        if (disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_STD_LIB)) {
             addExprViolation(stdLibRef, "standard library function reference");
         }
     }
 
     @Override
     protected void preprocessBinaryExpression(BinaryExpression binExpr) {
-        if (disallowBinExprs) {
+        if (disalloweds.contains(NoSpecificExpr.BINARY_EXPRS)) {
             addExprViolation(binExpr, "binary expression");
         }
     }
 
     @Override
     protected void preprocessBoolExpression(BoolExpression boolLit) {
-        if (disallowBoolLits) {
+        if (disalloweds.contains(NoSpecificExpr.BOOL_LITS)) {
             addExprViolation(boolLit, "boolean literal");
         }
     }
 
     @Override
     protected void preprocessCastExpression(CastExpression castExpr) {
-        if (disallowCastExprs) {
+        if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS)) {
             addExprViolation(castExpr, "cast expression");
-        } else if (disallowCastExprsNonEqualType) {
+        } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE)) {
             CifType ctype = castExpr.getChild().getType();
             CifType rtype = castExpr.getType();
             if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
@@ -258,35 +142,35 @@ public class NoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessComponentExpression(ComponentExpression compRef) {
-        if (disallowCompRefs || disallowCompRefsExplicit) {
+        if (disalloweds.contains(NoSpecificExpr.COMP_REFS) || disalloweds.contains(NoSpecificExpr.COMP_REFS_EXPLICIT)) {
             addExprViolation(compRef, "component reference");
         }
     }
 
     @Override
     protected void preprocessCompParamExpression(CompParamExpression compParamRef) {
-        if (disallowCompParamRefs) {
+        if (disalloweds.contains(NoSpecificExpr.COMP_PARAM_REFS)) {
             addExprViolation(compParamRef, "component parameter reference");
         }
     }
 
     @Override
     protected void preprocessConstantExpression(ConstantExpression constRef) {
-        if (disallowConstRefs) {
+        if (disalloweds.contains(NoSpecificExpr.CONST_REFS)) {
             addExprViolation(constRef, "constant reference");
         }
     }
 
     @Override
     protected void preprocessContVariableExpression(ContVariableExpression contRef) {
-        if (disallowContVarRefs) {
+        if (disalloweds.contains(NoSpecificExpr.CONT_VAR_REFS)) {
             addExprViolation(contRef, "continuous variable reference");
         }
     }
 
     @Override
     protected void preprocessDictExpression(DictExpression dictLit) {
-        if (disallowDictLits) {
+        if (disalloweds.contains(NoSpecificExpr.DICT_LITS)) {
             addExprViolation(dictLit, "dictionary literal");
         }
     }
@@ -295,15 +179,15 @@ public class NoSpecificExprsCheck extends CifCheck {
     protected void preprocessDiscVariableExpression(DiscVariableExpression discRef) {
         EObject parent = discRef.getVariable().eContainer();
         if (parent instanceof ComplexComponent) {
-            if (disallowDiscVarRefs) {
+            if (disalloweds.contains(NoSpecificExpr.DISC_VAR_REFS)) {
                 addExprViolation(discRef, "discrete variable reference");
             }
         } else if (parent instanceof FunctionParameter) {
-            if (disallowUserDefFuncParamRefs) {
+            if (disalloweds.contains(NoSpecificExpr.USER_DEF_FUNC_PARAM_REFS)) {
                 addExprViolation(discRef, "user-defined function parameter reference");
             }
         } else if (parent instanceof InternalFunction) {
-            if (disallowIntUserDefFuncLocalVarRefs) {
+            if (disalloweds.contains(NoSpecificExpr.INT_USER_DEF_FUNC_LOCAL_VAR_REFS)) {
                 addExprViolation(discRef, "internal user-defined function local variable reference");
             }
         } else {
@@ -313,97 +197,97 @@ public class NoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessEnumLiteralExpression(EnumLiteralExpression enumLitRef) {
-        if (disallowEnumLitRefs) {
+        if (disalloweds.contains(NoSpecificExpr.ENUM_LIT_REFS)) {
             addExprViolation(enumLitRef, "enumeration literal reference");
         }
     }
 
     @Override
     protected void preprocessFieldExpression(FieldExpression fieldRef) {
-        if (disallowTupleFieldRefs) {
+        if (disalloweds.contains(NoSpecificExpr.TUPLE_FIELD_REFS)) {
             addExprViolation(fieldRef, "tuple field reference");
         }
     }
 
     @Override
     protected void preprocessFunctionCallExpression(FunctionCallExpression funcCall) {
-        if (disallowFuncCalls) {
+        if (disalloweds.contains(NoSpecificExpr.FUNC_CALLS)) {
             addExprViolation(funcCall, "function call");
         }
     }
 
     @Override
     protected void preprocessIfExpression(IfExpression ifExpr) {
-        if (disallowIfExprs) {
+        if (disalloweds.contains(NoSpecificExpr.IF_EXPRS)) {
             addExprViolation(ifExpr, "conditional expression");
         }
     }
 
     @Override
     protected void preprocessInputVariableExpression(InputVariableExpression inputRef) {
-        if (disallowInputVarRefs) {
+        if (disalloweds.contains(NoSpecificExpr.INPUT_VAR_REFS)) {
             addExprViolation(inputRef, "input variable reference");
         }
     }
 
     @Override
     protected void preprocessIntExpression(IntExpression intLit) {
-        if (disallowIntLits) {
+        if (disalloweds.contains(NoSpecificExpr.INT_LITS)) {
             addExprViolation(intLit, "integer number literal");
         }
     }
 
     @Override
     protected void preprocessListExpression(ListExpression listLit) {
-        if (disallowListLits) {
+        if (disalloweds.contains(NoSpecificExpr.LIST_LITS)) {
             addExprViolation(listLit, "list literal");
         }
     }
 
     @Override
     protected void preprocessLocationExpression(LocationExpression locRef) {
-        if (disallowLocRefs) {
+        if (disalloweds.contains(NoSpecificExpr.LOC_REFS)) {
             addExprViolation(locRef, "location reference");
         }
     }
 
     @Override
     protected void preprocessProjectionExpression(ProjectionExpression projExpr) {
-        if (disallowProjectionExprs) {
+        if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS)) {
             addExprViolation(projExpr, "projection expression");
         } else {
-            if (disallowProjectionExprsLists) {
+            if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_LISTS)) {
                 CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                 if (ctype instanceof ListType) {
                     addExprViolation(projExpr, "list projection expression");
                 }
             }
-            if (disallowProjectionExprsDicts) {
+            if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_DICTS)) {
                 CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                 if (ctype instanceof DictType) {
                     addExprViolation(projExpr, "dictionary projection expression");
                 }
             }
-            if (disallowProjectionExprsStrings) {
+            if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_STRINGS)) {
                 CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                 if (ctype instanceof StringType) {
                     addExprViolation(projExpr, "string projection expression");
                 }
             }
-            if (disallowProjectionExprsTuples) {
+            if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_TUPLES)) {
                 CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                 if (ctype instanceof TupleType) {
                     addExprViolation(projExpr, "tuple projection expression");
                 }
             } else {
-                if (disallowProjectionExprsTuplesIndex) {
+                if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_TUPLES_INDEX)) {
                     CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                     CifType itype = CifTypeUtils.normalizeType(projExpr.getIndex().getType());
                     if (ctype instanceof TupleType && itype instanceof IntType) {
                         addExprViolation(projExpr, "tuple index-projection expression");
                     }
                 }
-                if (disallowProjectionExprsTuplesField) {
+                if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_TUPLES_FIELD)) {
                     CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                     if (ctype instanceof TupleType && projExpr.getIndex() instanceof FieldExpression) {
                         addExprViolation(projExpr, "tuple field-projection expression");
@@ -415,70 +299,70 @@ public class NoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessRealExpression(RealExpression realLit) {
-        if (disallowRealLits) {
+        if (disalloweds.contains(NoSpecificExpr.REAL_LITS)) {
             addExprViolation(realLit, "real number literal");
         }
     }
 
     @Override
     protected void preprocessReceivedExpression(ReceivedExpression receivedExpr) {
-        if (disallowReceiveExprs) {
+        if (disalloweds.contains(NoSpecificExpr.RECEIVE_EXPRS)) {
             addExprViolation(receivedExpr, "received value expression");
         }
     }
 
     @Override
     protected void preprocessSelfExpression(SelfExpression selfRef) {
-        if (disallowCompRefs || disallowCompRefsSelf) {
+        if (disalloweds.contains(NoSpecificExpr.COMP_REFS) || disalloweds.contains(NoSpecificExpr.COMP_REFS_SELF)) {
             addExprViolation(selfRef, "component reference");
         }
     }
 
     @Override
     protected void preprocessSetExpression(SetExpression setLit) {
-        if (disallowSetLits) {
+        if (disalloweds.contains(NoSpecificExpr.SET_LITS)) {
             addExprViolation(setLit, "set literal");
         }
     }
 
     @Override
     protected void preprocessSliceExpression(SliceExpression sliceExpr) {
-        if (disallowSliceExprs) {
+        if (disalloweds.contains(NoSpecificExpr.SLICE_EXPRS)) {
             addExprViolation(sliceExpr, "slice expression");
         }
     }
 
     @Override
     protected void preprocessStringExpression(StringExpression stringLit) {
-        if (disallowStringLits) {
+        if (disalloweds.contains(NoSpecificExpr.STRING_LITS)) {
             addExprViolation(stringLit, "string literal");
         }
     }
 
     @Override
     protected void preprocessSwitchExpression(SwitchExpression switchExpr) {
-        if (disallowSwitchExprs) {
+        if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS)) {
             addExprViolation(switchExpr, "switch expression");
         }
     }
 
     @Override
     protected void preprocessTimeExpression(TimeExpression timeRef) {
-        if (disallowTimeVarRefs) {
+        if (disalloweds.contains(NoSpecificExpr.TIME_VAR_REFS)) {
             addExprViolation(timeRef, "time variable reference");
         }
     }
 
     @Override
     protected void preprocessTupleExpression(TupleExpression tupleLit) {
-        if (disallowTupleLits) {
+        if (disalloweds.contains(NoSpecificExpr.TUPLE_LITS)) {
             addExprViolation(tupleLit, "tuple literal");
         }
     }
 
     @Override
     protected void preprocessUnaryExpression(UnaryExpression unExpr) {
-        if (disallowUnExprs) {
+        if (disalloweds.contains(NoSpecificExpr.UNARY_EXPRS)) {
             addExprViolation(unExpr, "unary expression");
         }
     }
@@ -495,7 +379,141 @@ public class NoSpecificExprsCheck extends CifCheck {
      * @param description The description of the expression.
      */
     private void addExprViolation(Expression expr, String description) {
-        super.addViolation(getNamedSelfOrAncestor(expr),
-                fmt("uses %s \"%s\"", description, exprToStr(expr)));
+        super.addViolation(getNamedSelfOrAncestor(expr), fmt("uses %s \"%s\"", description, exprToStr(expr)));
+    }
+
+    /** The expression to disallow. */
+    public static enum NoSpecificExpr {
+        /** Disallow references to algebraic variables. */
+        ALG_VAR_REFS,
+
+        /** Disallow references to all functions (user-defined and standard library ones). */
+        FUNC_REFS,
+
+        /** Disallow references to all user-defined functions (internal and external ones). */
+        FUNC_REFS_USER_DEF,
+
+        /** Disallow references to internal user-defined functions. */
+        FUNC_REFS_USER_DEF_INT,
+
+        /** Disallow references to external user-defined functions. */
+        FUNC_REFS_USER_DEF_EXT,
+
+        /** Disallow references to standard library functions. */
+        FUNC_REFS_STD_LIB,
+
+        /** Disallow all binary expressions. */
+        BINARY_EXPRS,
+
+        /** Disallow boolean literals. */
+        BOOL_LITS,
+
+        /** Disallow all cast expressions. */
+        CAST_EXPRS,
+
+        /** Disallow cast expressions that cast to a different type. */
+        CAST_EXPRS_NON_EQUAL_TYPE,
+
+        /** Disallow all component references (explicit components and 'self' references). */
+        COMP_REFS,
+
+        /** Disallow explicit component references. */
+        COMP_REFS_EXPLICIT,
+
+        /** Disallow component 'self' references. */
+        COMP_REFS_SELF,
+
+        /** Disallow component parameter references. */
+        COMP_PARAM_REFS,
+
+        /** Disallow constant references. */
+        CONST_REFS,
+
+        /** Disallow continuous variable references. */
+        CONT_VAR_REFS,
+
+        /** Disallow dictionary literals. */
+        DICT_LITS,
+
+        /** Disallow discrete variable references. */
+        DISC_VAR_REFS,
+
+        /** Disallow user-defined function parameter references. */
+        USER_DEF_FUNC_PARAM_REFS,
+
+        /** Disallow references to local variables of internal user-defined functions. */
+        INT_USER_DEF_FUNC_LOCAL_VAR_REFS,
+
+        /** Disallow enumeration literal references. */
+        ENUM_LIT_REFS,
+
+        /** Disallow tuple field references. */
+        TUPLE_FIELD_REFS,
+
+        /** Disallow function calls (for user-defined functions and standard library functions). */
+        FUNC_CALLS,
+
+        /** Disallow 'if' expressions (conditional expressions). */
+        IF_EXPRS,
+
+        /** Disallow input variable references. */
+        INPUT_VAR_REFS,
+
+        /** Disallow integer number literals. */
+        INT_LITS,
+
+        /** Disallow list literals. */
+        LIST_LITS,
+
+        /** Disallow location references. */
+        LOC_REFS,
+
+        /** Disallow projection expressions. */
+        PROJECTION_EXPRS,
+
+        /** Disallow projection expressions on lists. */
+        PROJECTION_EXPRS_LISTS,
+
+        /** Disallow projection expressions on dictionaries. */
+        PROJECTION_EXPRS_DICTS,
+
+        /** Disallow projection expressions on strings. */
+        PROJECTION_EXPRS_STRINGS,
+
+        /** Disallow projection expressions on tuples. */
+        PROJECTION_EXPRS_TUPLES,
+
+        /** Disallow projection expressions on tuples using index. */
+        PROJECTION_EXPRS_TUPLES_INDEX,
+
+        /** Disallow projection expressions on tuples using field. */
+        PROJECTION_EXPRS_TUPLES_FIELD,
+
+        /** Disallow real number expressions. */
+        REAL_LITS,
+
+        /** Disallow received value expressions. */
+        RECEIVE_EXPRS,
+
+        /** Disallow set literals. */
+        SET_LITS,
+
+        /** Disallow slice expressions. */
+        SLICE_EXPRS,
+
+        /** Disallow string literals. */
+        STRING_LITS,
+
+        /** Disallow switch expressions. */
+        SWITCH_EXPRS,
+
+        /** Disallow 'time' variable references. */
+        TIME_VAR_REFS,
+
+        /** Disallow tuple literal expressions. */
+        TUPLE_LITS,
+
+        /** Disallow all unary expressions. */
+        UNARY_EXPRS,
     }
 }

@@ -19,6 +19,8 @@ import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
+
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
@@ -32,194 +34,17 @@ import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 
 /** CIF check that does not allow certain binary expressions. */
 public class NoSpecificBinaryExprsCheck extends CifCheck {
-    /** Whether to disallow {@link BinaryOperator#ADDITION}. */
-    public boolean disallowAddition;
+    /** The binary operators, or binary operators operating on certain operand types, to disallow. */
+    private final EnumSet<NoSpecificBinaryOp> disalloweds;
 
-    /** Whether to disallow {@link BinaryOperator#ADDITION} on integers. */
-    public boolean disallowAdditionInts;
-
-    /** Whether to disallow {@link BinaryOperator#ADDITION} on ranged integers. */
-    public boolean disallowAdditionIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#ADDITION} on rangeless integers. */
-    public boolean disallowAdditionIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#ADDITION} on reals. */
-    public boolean disallowAdditionReals;
-
-    /** Whether to disallow {@link BinaryOperator#ADDITION} on lists. */
-    public boolean disallowAdditionLists;
-
-    /** Whether to disallow {@link BinaryOperator#ADDITION} on strings. */
-    public boolean disallowAdditionStrings;
-
-    /** Whether to disallow {@link BinaryOperator#ADDITION} on dictionaries. */
-    public boolean disallowAdditionDicts;
-
-    /** Whether to disallow {@link BinaryOperator#BI_CONDITIONAL}. */
-    public boolean disallowBiconditional;
-
-    /** Whether to disallow {@link BinaryOperator#CONJUNCTION}. */
-    public boolean disallowConjunction;
-
-    /** Whether to disallow {@link BinaryOperator#CONJUNCTION} on sets. */
-    public boolean disallowConjunctionSets;
-
-    /** Whether to disallow {@link BinaryOperator#DISJUNCTION}. */
-    public boolean disallowDisjunction;
-
-    /** Whether to disallow {@link BinaryOperator#DISJUNCTION} on sets. */
-    public boolean disallowDisjunctionSets;
-
-    /** Whether to disallow {@link BinaryOperator#DIVISION}. */
-    public boolean disallowDivision;
-
-    /** Whether to disallow {@link BinaryOperator#ELEMENT_OF}. */
-    public boolean disallowElementOf;
-
-    /** Whether to disallow {@link BinaryOperator#ELEMENT_OF} on lists. */
-    public boolean disallowElementOfLists;
-
-    /** Whether to disallow {@link BinaryOperator#ELEMENT_OF} on sets. */
-    public boolean disallowElementOfSets;
-
-    /** Whether to disallow {@link BinaryOperator#ELEMENT_OF} on dictionaries. */
-    public boolean disallowElementOfDicts;
-
-    /** Whether to disallow {@link BinaryOperator#EQUAL}. */
-    public boolean disallowEqual;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL}. */
-    public boolean disallowGreaterEqual;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL} on integers. */
-    public boolean disallowGreaterEqualInts;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL} on ranged integers. */
-    public boolean disallowGreaterEqualIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL} on rangeless integers. */
-    public boolean disallowGreaterEqualIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_EQUAL} on reals. */
-    public boolean disallowGreaterEqualReals;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_THAN}. */
-    public boolean disallowGreaterThan;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_THAN} on integers. */
-    public boolean disallowGreaterThanInts;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_THAN} on ranged integers. */
-    public boolean disallowGreaterThanIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_THAN} on rangeless integers. */
-    public boolean disallowGreaterThanIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#GREATER_THAN} on reals. */
-    public boolean disallowGreaterThanReals;
-
-    /** Whether to disallow {@link BinaryOperator#IMPLICATION}. */
-    public boolean disallowImplication;
-
-    /** Whether to disallow {@link BinaryOperator#INTEGER_DIVISION}. */
-    public boolean disallowIntegerDivision;
-
-    /** Whether to disallow {@link BinaryOperator#INTEGER_DIVISION} on integers. */
-    public boolean disallowIntegerDivisionInts;
-
-    /** Whether to disallow {@link BinaryOperator#INTEGER_DIVISION} on ranged integers. */
-    public boolean disallowIntegerDivisionIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#INTEGER_DIVISION} on rangeless integers. */
-    public boolean disallowIntegerDivisionIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_EQUAL}. */
-    public boolean disallowLessEqual;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_EQUAL} on integers. */
-    public boolean disallowLessEqualInts;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_EQUAL} on ranged integers. */
-    public boolean disallowLessEqualIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_EQUAL} on rangeless integers. */
-    public boolean disallowLessEqualIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_EQUAL} on reals. */
-    public boolean disallowLessEqualReals;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_THAN}. */
-    public boolean disallowLessThan;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_THAN} on integers. */
-    public boolean disallowLessThanInts;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_THAN} on ranged integers. */
-    public boolean disallowLessThanIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_THAN} on rangeless integers. */
-    public boolean disallowLessThanIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#LESS_THAN} on reals. */
-    public boolean disallowLessThanReals;
-
-    /** Whether to disallow {@link BinaryOperator#MODULUS}. */
-    public boolean disallowModulus;
-
-    /** Whether to disallow {@link BinaryOperator#MODULUS} on integers. */
-    public boolean disallowModulusInts;
-
-    /** Whether to disallow {@link BinaryOperator#MODULUS} on ranged integers. */
-    public boolean disallowModulusIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#MODULUS} on rangeless integers. */
-    public boolean disallowModulusIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#MULTIPLICATION}. */
-    public boolean disallowMultiplication;
-
-    /** Whether to disallow {@link BinaryOperator#MULTIPLICATION} on integers. */
-    public boolean disallowMultiplicationInts;
-
-    /** Whether to disallow {@link BinaryOperator#MULTIPLICATION} on ranged integers. */
-    public boolean disallowMultiplicationIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#MULTIPLICATION} on rangeless integers. */
-    public boolean disallowMultiplicationIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#MULTIPLICATION} on reals. */
-    public boolean disallowMultiplicationReals;
-
-    /** Whether to disallow {@link BinaryOperator#SUBSET}. */
-    public boolean disallowSubset;
-
-    /** Whether to disallow {@link BinaryOperator#SUBTRACTION}. */
-    public boolean disallowSubtraction;
-
-    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on integers. */
-    public boolean disallowSubtractionInts;
-
-    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on ranged integers. */
-    public boolean disallowSubtractionIntsRanged;
-
-    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on rangeless integers. */
-    public boolean disallowSubtractionIntsRangeless;
-
-    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on reals. */
-    public boolean disallowSubtractionReals;
-
-    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on lists. */
-    public boolean disallowSubtractionLists;
-
-    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on sets. */
-    public boolean disallowSubtractionSets;
-
-    /** Whether to disallow {@link BinaryOperator#SUBTRACTION} on dictionaries. */
-    public boolean disallowSubtractionDicts;
-
-    /** Whether to disallow {@link BinaryOperator#UNEQUAL}. */
-    public boolean disallowUnequal;
+    /**
+     * Constructor for the {@link NoSpecificBinaryExprsCheck} class.
+     *
+     * @param disalloweds The binary operators, or binary operators operating on certain operand types, to disallow.
+     */
+    public NoSpecificBinaryExprsCheck(EnumSet<NoSpecificBinaryOp> disalloweds) {
+        this.disalloweds = disalloweds;
+    }
 
     @Override
     protected void preprocessBinaryExpression(BinaryExpression binExpr) {
@@ -228,160 +53,182 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
         switch (op) {
             case ADDITION:
-                if (disallowAddition) {
+                if (disalloweds.contains(NoSpecificBinaryOp.ADDITION)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowAdditionInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowAdditionIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowAdditionIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
                     }
-                    if (disallowAdditionReals && (ltype instanceof RealType || rtype instanceof RealType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_REALS)
+                            && (ltype instanceof RealType || rtype instanceof RealType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
-                    if (disallowAdditionLists && (ltype instanceof ListType || rtype instanceof ListType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_LISTS)
+                            && (ltype instanceof ListType || rtype instanceof ListType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
-                    if (disallowAdditionStrings && (ltype instanceof StringType || rtype instanceof StringType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_STRINGS)
+                            && (ltype instanceof StringType || rtype instanceof StringType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
-                    if (disallowAdditionDicts && (ltype instanceof DictType || rtype instanceof DictType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_DICTS)
+                            && (ltype instanceof DictType || rtype instanceof DictType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
                 }
                 break;
             case BI_CONDITIONAL:
-                if (disallowBiconditional) {
+                if (disalloweds.contains(NoSpecificBinaryOp.BI_CONDITIONAL)) {
                     addExprViolationOperator(binExpr);
                 }
                 break;
             case CONJUNCTION:
-                if (disallowConjunction) {
+                if (disalloweds.contains(NoSpecificBinaryOp.CONJUNCTION)) {
                     addExprViolationOperator(binExpr);
-                } else if (disallowConjunctionSets && (ltype instanceof SetType || rtype instanceof SetType)) {
+                } else if (disalloweds.contains(NoSpecificBinaryOp.CONJUNCTION_SETS)
+                        && (ltype instanceof SetType || rtype instanceof SetType))
+                {
                     addExprViolationOperand(binExpr);
                 }
                 break;
             case DISJUNCTION:
-                if (disallowDisjunction) {
+                if (disalloweds.contains(NoSpecificBinaryOp.DISJUNCTION)) {
                     addExprViolationOperator(binExpr);
-                } else if (disallowDisjunctionSets && (ltype instanceof SetType || rtype instanceof SetType)) {
+                } else if (disalloweds.contains(NoSpecificBinaryOp.DISJUNCTION_SETS)
+                        && (ltype instanceof SetType || rtype instanceof SetType))
+                {
                     addExprViolationOperand(binExpr);
                 }
                 break;
             case DIVISION:
-                if (disallowDivision) {
+                if (disalloweds.contains(NoSpecificBinaryOp.DIVISION)) {
                     addExprViolationOperator(binExpr);
                 }
                 break;
             case ELEMENT_OF:
-                if (disallowElementOf) {
+                if (disalloweds.contains(NoSpecificBinaryOp.ELEMENT_OF)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowElementOfLists && (ltype instanceof ListType || rtype instanceof ListType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.ELEMENT_OF_LISTS)
+                            && (ltype instanceof ListType || rtype instanceof ListType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
-                    if (disallowElementOfSets && (ltype instanceof SetType || rtype instanceof SetType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.ELEMENT_OF_SETS)
+                            && (ltype instanceof SetType || rtype instanceof SetType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
-                    if (disallowElementOfDicts && (ltype instanceof DictType || rtype instanceof DictType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.ELEMENT_OF_DICTS)
+                            && (ltype instanceof DictType || rtype instanceof DictType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
                 }
                 break;
             case EQUAL:
-                if (disallowEqual) {
+                if (disalloweds.contains(NoSpecificBinaryOp.EQUAL)) {
                     addExprViolationOperator(binExpr);
                 }
                 break;
             case GREATER_EQUAL:
-                if (disallowGreaterEqual) {
+                if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowGreaterEqualInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowGreaterEqualIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowGreaterEqualIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
                     }
-                    if (disallowGreaterEqualReals && (ltype instanceof RealType || rtype instanceof RealType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL_REALS)
+                            && (ltype instanceof RealType || rtype instanceof RealType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
                 }
                 break;
             case GREATER_THAN:
-                if (disallowGreaterThan) {
+                if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowGreaterThanInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowGreaterThanIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowGreaterThanIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
                     }
-                    if (disallowGreaterThanReals && (ltype instanceof RealType || rtype instanceof RealType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN_REALS)
+                            && (ltype instanceof RealType || rtype instanceof RealType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
                 }
                 break;
             case IMPLICATION:
-                if (disallowImplication) {
+                if (disalloweds.contains(NoSpecificBinaryOp.IMPLICATION)) {
                     addExprViolationOperator(binExpr);
                 }
                 break;
             case INTEGER_DIVISION:
-                if (disallowIntegerDivision) {
+                if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowIntegerDivisionInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowIntegerDivisionIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowIntegerDivisionIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
@@ -391,75 +238,79 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 }
                 break;
             case LESS_EQUAL:
-                if (disallowLessEqual) {
+                if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowLessEqualInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowLessEqualIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowLessEqualIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
                     }
-                    if (disallowLessEqualReals && (ltype instanceof RealType || rtype instanceof RealType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL_REALS)
+                            && (ltype instanceof RealType || rtype instanceof RealType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
                 }
                 break;
             case LESS_THAN:
-                if (disallowLessThan) {
+                if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowLessThanInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowLessThanIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowLessThanIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
                     }
-                    if (disallowLessThanReals && (ltype instanceof RealType || rtype instanceof RealType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN_REALS)
+                            && (ltype instanceof RealType || rtype instanceof RealType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
                 }
                 break;
             case MODULUS:
-                if (disallowModulus) {
+                if (disalloweds.contains(NoSpecificBinaryOp.MODULUS)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowModulusInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowModulusIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowModulusIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
@@ -469,75 +320,85 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
                 }
                 break;
             case MULTIPLICATION:
-                if (disallowMultiplication) {
+                if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowMultiplicationInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowMultiplicationIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowMultiplicationIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
                     }
-                    if (disallowMultiplicationReals && (ltype instanceof RealType || rtype instanceof RealType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION_REALS)
+                            && (ltype instanceof RealType || rtype instanceof RealType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
                 }
                 break;
             case SUBSET:
-                if (disallowSubset) {
+                if (disalloweds.contains(NoSpecificBinaryOp.SUBSET)) {
                     addExprViolationOperator(binExpr);
                 }
                 break;
             case SUBTRACTION:
-                if (disallowSubtraction) {
+                if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION)) {
                     addExprViolationOperator(binExpr);
                 } else {
-                    if (disallowSubtractionInts) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
                             addExprViolationOperand(binExpr);
                         }
                     } else {
-                        if (disallowSubtractionIntsRanged
+                        if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
-                        if (disallowSubtractionIntsRangeless
+                        if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
                             addExprViolationOperand(binExpr);
                         }
                     }
-                    if (disallowSubtractionReals && (ltype instanceof RealType || rtype instanceof RealType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_REALS)
+                            && (ltype instanceof RealType || rtype instanceof RealType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
-                    if (disallowSubtractionLists && (ltype instanceof ListType || rtype instanceof ListType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_LISTS)
+                            && (ltype instanceof ListType || rtype instanceof ListType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
-                    if (disallowSubtractionSets && (ltype instanceof SetType || rtype instanceof SetType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_SETS)
+                            && (ltype instanceof SetType || rtype instanceof SetType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
-                    if (disallowSubtractionDicts && (ltype instanceof DictType || rtype instanceof DictType)) {
+                    if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_DICTS)
+                            && (ltype instanceof DictType || rtype instanceof DictType))
+                    {
                         addExprViolationOperand(binExpr);
                     }
                 }
                 break;
             case UNEQUAL:
-                if (disallowUnequal) {
+                if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL)) {
                     addExprViolationOperator(binExpr);
                 }
                 break;
@@ -568,5 +429,197 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
         super.addViolation(getNamedSelfOrAncestor(binExpr),
                 fmt("uses binary operator \"%s\" on operands of types \"%s\" and \"%s\" in binary expression \"%s\"",
                         operatorToStr(binExpr.getOperator()), typeToStr(ltype), typeToStr(rtype), exprToStr(binExpr)));
+    }
+
+    /** The binary operator, or binary operator operating on certain operand types, to disallow. */
+    public static enum NoSpecificBinaryOp {
+        /** Disallow {@link BinaryOperator#ADDITION}. */
+        ADDITION,
+
+        /** Disallow {@link BinaryOperator#ADDITION} on integers. */
+        ADDITION_INTS,
+
+        /** Disallow {@link BinaryOperator#ADDITION} on ranged integers. */
+        ADDITION_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#ADDITION} on rangeless integers. */
+        ADDITION_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#ADDITION} on reals. */
+        ADDITION_REALS,
+
+        /** Disallow {@link BinaryOperator#ADDITION} on lists. */
+        ADDITION_LISTS,
+
+        /** Disallow {@link BinaryOperator#ADDITION} on strings. */
+        ADDITION_STRINGS,
+
+        /** Disallow {@link BinaryOperator#ADDITION} on dictionaries. */
+        ADDITION_DICTS,
+
+        /** Disallow {@link BinaryOperator#BI_CONDITIONAL}. */
+        BI_CONDITIONAL,
+
+        /** Disallow {@link BinaryOperator#CONJUNCTION}. */
+        CONJUNCTION,
+
+        /** Disallow {@link BinaryOperator#CONJUNCTION} on sets. */
+        CONJUNCTION_SETS,
+
+        /** Disallow {@link BinaryOperator#DISJUNCTION}. */
+        DISJUNCTION,
+
+        /** Disallow {@link BinaryOperator#DISJUNCTION} on sets. */
+        DISJUNCTION_SETS,
+
+        /** Disallow {@link BinaryOperator#DIVISION}. */
+        DIVISION,
+
+        /** Disallow {@link BinaryOperator#ELEMENT_OF}. */
+        ELEMENT_OF,
+
+        /** Disallow {@link BinaryOperator#ELEMENT_OF} on lists. */
+        ELEMENT_OF_LISTS,
+
+        /** Disallow {@link BinaryOperator#ELEMENT_OF} on sets. */
+        ELEMENT_OF_SETS,
+
+        /** Disallow {@link BinaryOperator#ELEMENT_OF} on dictionaries. */
+        ELEMENT_OF_DICTS,
+
+        /** Disallow {@link BinaryOperator#EQUAL}. */
+        EQUAL,
+
+        /** Disallow {@link BinaryOperator#GREATER_EQUAL}. */
+        GREATER_EQUAL,
+
+        /** Disallow {@link BinaryOperator#GREATER_EQUAL} on integers. */
+        GREATER_EQUAL_INTS,
+
+        /** Disallow {@link BinaryOperator#GREATER_EQUAL} on ranged integers. */
+        GREATER_EQUAL_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#GREATER_EQUAL} on rangeless integers. */
+        GREATER_EQUAL_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#GREATER_EQUAL} on reals. */
+        GREATER_EQUAL_REALS,
+
+        /** Disallow {@link BinaryOperator#GREATER_THAN}. */
+        GREATER_THAN,
+
+        /** Disallow {@link BinaryOperator#GREATER_THAN} on integers. */
+        GREATER_THAN_INTS,
+
+        /** Disallow {@link BinaryOperator#GREATER_THAN} on ranged integers. */
+        GREATER_THAN_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#GREATER_THAN} on rangeless integers. */
+        GREATER_THAN_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#GREATER_THAN} on reals. */
+        GREATER_THAN_REALS,
+
+        /** Disallow {@link BinaryOperator#IMPLICATION}. */
+        IMPLICATION,
+
+        /** Disallow {@link BinaryOperator#INTEGER_DIVISION}. */
+        INTEGER_DIVISION,
+
+        /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on integers. */
+        INTEGER_DIVISION_INTS,
+
+        /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on ranged integers. */
+        INTEGER_DIVISION_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on rangeless integers. */
+        INTEGER_DIVISION_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#LESS_EQUAL}. */
+        LESS_EQUAL,
+
+        /** Disallow {@link BinaryOperator#LESS_EQUAL} on integers. */
+        LESS_EQUAL_INTS,
+
+        /** Disallow {@link BinaryOperator#LESS_EQUAL} on ranged integers. */
+        LESS_EQUAL_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#LESS_EQUAL} on rangeless integers. */
+        LESS_EQUAL_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#LESS_EQUAL} on reals. */
+        LESS_EQUAL_REALS,
+
+        /** Disallow {@link BinaryOperator#LESS_THAN}. */
+        LESS_THAN,
+
+        /** Disallow {@link BinaryOperator#LESS_THAN} on integers. */
+        LESS_THAN_INTS,
+
+        /** Disallow {@link BinaryOperator#LESS_THAN} on ranged integers. */
+        LESS_THAN_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#LESS_THAN} on rangeless integers. */
+        LESS_THAN_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#LESS_THAN} on reals. */
+        LESS_THAN_REALS,
+
+        /** Disallow {@link BinaryOperator#MODULUS}. */
+        MODULUS,
+
+        /** Disallow {@link BinaryOperator#MODULUS} on integers. */
+        MODULUS_INTS,
+
+        /** Disallow {@link BinaryOperator#MODULUS} on ranged integers. */
+        MODULUS_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#MODULUS} on rangeless integers. */
+        MODULUS_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#MULTIPLICATION}. */
+        MULTIPLICATION,
+
+        /** Disallow {@link BinaryOperator#MULTIPLICATION} on integers. */
+        MULTIPLICATION_INTS,
+
+        /** Disallow {@link BinaryOperator#MULTIPLICATION} on ranged integers. */
+        MULTIPLICATION_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#MULTIPLICATION} on rangeless integers. */
+        MULTIPLICATION_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#MULTIPLICATION} on reals. */
+        MULTIPLICATION_REALS,
+
+        /** Disallow {@link BinaryOperator#SUBSET}. */
+        SUBSET,
+
+        /** Disallow {@link BinaryOperator#SUBTRACTION}. */
+        SUBTRACTION,
+
+        /** Disallow {@link BinaryOperator#SUBTRACTION} on integers. */
+        SUBTRACTION_INTS,
+
+        /** Disallow {@link BinaryOperator#SUBTRACTION} on ranged integers. */
+        SUBTRACTION_INTS_RANGED,
+
+        /** Disallow {@link BinaryOperator#SUBTRACTION} on rangeless integers. */
+        SUBTRACTION_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#SUBTRACTION} on reals. */
+        SUBTRACTION_REALS,
+
+        /** Disallow {@link BinaryOperator#SUBTRACTION} on lists. */
+        SUBTRACTION_LISTS,
+
+        /** Disallow {@link BinaryOperator#SUBTRACTION} on sets. */
+        SUBTRACTION_SETS,
+
+        /** Disallow {@link BinaryOperator#SUBTRACTION} on dictionaries. */
+        SUBTRACTION_DICTS,
+
+        /** Disallow {@link BinaryOperator#UNEQUAL}. */
+        UNEQUAL,
     }
 }

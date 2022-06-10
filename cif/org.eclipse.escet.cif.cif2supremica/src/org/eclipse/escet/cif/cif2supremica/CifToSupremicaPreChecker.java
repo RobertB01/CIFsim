@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.cif2supremica;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
@@ -27,9 +28,13 @@ import org.eclipse.escet.cif.common.checkers.NoInputVariablesCheck;
 import org.eclipse.escet.cif.common.checkers.NoKindlessAutomataCheck;
 import org.eclipse.escet.cif.common.checkers.NoKindlessStateEvtExclInvsCheck;
 import org.eclipse.escet.cif.common.checkers.NoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.common.checkers.NoSpecificExprsCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.common.checkers.NoSpecificTypesCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.common.checkers.NoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.common.checkers.NoStateInvsInLocsCheck;
 import org.eclipse.escet.cif.common.checkers.NoUrgentEdgesCheck;
 import org.eclipse.escet.cif.common.checkers.NoUrgentLocationsCheck;
@@ -123,35 +128,35 @@ public class CifToSupremicaPreChecker {
         preconditions.add(new NoChannelsCheck());
 
         // Only the following data types are supported: boolean types, ranged integer types, and enumeration types.
-        NoSpecificTypesCheck typesCheck = new NoSpecificTypesCheck();
-        typesCheck.disallowDictTypes = true;
-        typesCheck.disallowDistTypes = true;
-        typesCheck.disallowFuncTypes = true; // User-defined and stdlib both unsupported.
-        typesCheck.disallowIntTypesRangeless = true;
-        typesCheck.disallowListTypes = true;
-        typesCheck.disallowRealTypes = true;
-        typesCheck.disallowSetTypes = true;
-        typesCheck.disallowStringTypes = true;
-        typesCheck.disallowTupleTypes = true; // Tuples, tuple types, and multi-assignments are unsupported.
+        NoSpecificTypesCheck typesCheck = new NoSpecificTypesCheck(EnumSet.of( //
+                NoSpecificType.DICT_TYPES, //
+                NoSpecificType.DIST_TYPES, //
+                NoSpecificType.FUNC_TYPES, //
+                NoSpecificType.INT_TYPES_RANGELESS, //
+                NoSpecificType.LIST_TYPES, //
+                NoSpecificType.REAL_TYPES, //
+                NoSpecificType.SET_TYPES, //
+                NoSpecificType.STRING_TYPES, //
+                NoSpecificType.TUPLE_TYPES));
         preconditions.add(typesCheck);
 
         // Only the following expressions are supported: boolean literal values, integer literal values, binary
         // expressions (partially, see below), unary expressions (partially, see below), and references to constants,
         // discrete variables, enumeration literals, and casts that don’t change the type.
-        NoSpecificExprsCheck exprsCheck = new NoSpecificExprsCheck();
-        exprsCheck.disallowCastExprsNonEqualType = true;
-        exprsCheck.disallowDictLits = true;
-        exprsCheck.disallowFuncCalls = true;
-        exprsCheck.disallowIfExprs = true;
-        exprsCheck.disallowListLits = true;
-        exprsCheck.disallowProjectionExprs = true;
-        exprsCheck.disallowRealLits = true;
-        exprsCheck.disallowSetLits = true;
-        exprsCheck.disallowSliceExprs = true;
-        exprsCheck.disallowStringLits = true;
-        exprsCheck.disallowSwitchExprs = true;
-        exprsCheck.disallowTimeVarRefs = true;
-        exprsCheck.disallowTupleLits = true;
+        NoSpecificExprsCheck exprsCheck = new NoSpecificExprsCheck(EnumSet.of( //
+                NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE, //
+                NoSpecificExpr.DICT_LITS, //
+                NoSpecificExpr.FUNC_CALLS, //
+                NoSpecificExpr.IF_EXPRS, //
+                NoSpecificExpr.LIST_LITS, //
+                NoSpecificExpr.PROJECTION_EXPRS, //
+                NoSpecificExpr.REAL_LITS, //
+                NoSpecificExpr.SET_LITS, //
+                NoSpecificExpr.SLICE_EXPRS, //
+                NoSpecificExpr.STRING_LITS, //
+                NoSpecificExpr.SWITCH_EXPRS, //
+                NoSpecificExpr.TIME_VAR_REFS, //
+                NoSpecificExpr.TUPLE_LITS));
         preconditions.add(exprsCheck);
 
         // Only the following binary operators are supported: logical equivalence (<=>), logical implication (=>),
@@ -161,44 +166,44 @@ public class CifToSupremicaPreChecker {
         // inequality (!=), less than (<) on ranged integer operands, less than or equal to (<=) on ranged integer
         // operands, greater than (>) on ranged integer operands, and greater than or equal to (>=) on ranged integer
         // operands.
-        NoSpecificBinaryExprsCheck binCheck = new NoSpecificBinaryExprsCheck();
-        binCheck.disallowConjunctionSets = true;
-        binCheck.disallowDisjunctionSets = true;
-        binCheck.disallowAdditionDicts = true;
-        binCheck.disallowAdditionIntsRangeless = true;
-        binCheck.disallowAdditionLists = true;
-        binCheck.disallowAdditionReals = true;
-        binCheck.disallowAdditionStrings = true;
-        binCheck.disallowSubtractionDicts = true;
-        binCheck.disallowSubtractionIntsRangeless = true;
-        binCheck.disallowSubtractionLists = true;
-        binCheck.disallowSubtractionReals = true;
-        binCheck.disallowSubtractionSets = true;
-        binCheck.disallowMultiplicationIntsRangeless = true;
-        binCheck.disallowMultiplicationReals = true;
-        binCheck.disallowIntegerDivisionIntsRangeless = true;
-        binCheck.disallowModulusIntsRangeless = true;
-        binCheck.disallowGreaterEqualIntsRangeless = true;
-        binCheck.disallowGreaterEqualReals = true;
-        binCheck.disallowGreaterThanIntsRangeless = true;
-        binCheck.disallowGreaterThanReals = true;
-        binCheck.disallowLessEqualIntsRangeless = true;
-        binCheck.disallowLessEqualReals = true;
-        binCheck.disallowLessThanIntsRangeless = true;
-        binCheck.disallowLessThanReals = true;
-        binCheck.disallowDivision = true;
-        binCheck.disallowElementOf = true;
-        binCheck.disallowSubset = true;
+        NoSpecificBinaryExprsCheck binCheck = new NoSpecificBinaryExprsCheck(EnumSet.of( //
+                NoSpecificBinaryOp.CONJUNCTION_SETS, //
+                NoSpecificBinaryOp.DISJUNCTION_SETS, //
+                NoSpecificBinaryOp.ADDITION_DICTS, //
+                NoSpecificBinaryOp.ADDITION_INTS_RANGELESS, //
+                NoSpecificBinaryOp.ADDITION_LISTS, //
+                NoSpecificBinaryOp.ADDITION_REALS, //
+                NoSpecificBinaryOp.ADDITION_STRINGS, //
+                NoSpecificBinaryOp.SUBTRACTION_DICTS, //
+                NoSpecificBinaryOp.SUBTRACTION_INTS_RANGELESS, //
+                NoSpecificBinaryOp.SUBTRACTION_LISTS, //
+                NoSpecificBinaryOp.SUBTRACTION_REALS, //
+                NoSpecificBinaryOp.SUBTRACTION_SETS, //
+                NoSpecificBinaryOp.MULTIPLICATION_INTS_RANGELESS, //
+                NoSpecificBinaryOp.MULTIPLICATION_REALS, //
+                NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS, //
+                NoSpecificBinaryOp.MODULUS_INTS_RANGELESS, //
+                NoSpecificBinaryOp.GREATER_EQUAL_INTS_RANGELESS, //
+                NoSpecificBinaryOp.GREATER_EQUAL_REALS, //
+                NoSpecificBinaryOp.GREATER_THAN_INTS_RANGELESS, //
+                NoSpecificBinaryOp.GREATER_THAN_REALS, //
+                NoSpecificBinaryOp.LESS_EQUAL_INTS_RANGELESS, //
+                NoSpecificBinaryOp.LESS_EQUAL_REALS, //
+                NoSpecificBinaryOp.LESS_THAN_INTS_RANGELESS, //
+                NoSpecificBinaryOp.LESS_THAN_REALS, //
+                NoSpecificBinaryOp.DIVISION, //
+                NoSpecificBinaryOp.ELEMENT_OF, //
+                NoSpecificBinaryOp.SUBSET));
         preconditions.add(binCheck);
 
         // Only the following unary operators are supported: logical inverse (not), negation (-) on a ranged integer
         // operand, and plus (+) on a ranged integer operand.
-        NoSpecificUnaryExprsCheck unCheck = new NoSpecificUnaryExprsCheck();
-        unCheck.disallowNegateIntsRangeless = true;
-        unCheck.disallowNegateReals = true;
-        unCheck.disallowPlusIntsRangeless = true;
-        unCheck.disallowPlusReals = true;
-        unCheck.disallowSample = true;
+        NoSpecificUnaryExprsCheck unCheck = new NoSpecificUnaryExprsCheck(EnumSet.of( //
+                NoSpecificUnaryOp.NEGATE_INTS_RANGELESS, //
+                NoSpecificUnaryOp.NEGATE_REALS, //
+                NoSpecificUnaryOp.PLUS_INTS_RANGELESS, //
+                NoSpecificUnaryOp.PLUS_REALS, //
+                NoSpecificUnaryOp.SAMPLE));
         preconditions.add(unCheck);
 
         // Perform precondition check.
