@@ -18,7 +18,7 @@
 -Dosgi.requiredJavaVersion=11
 -Dosgi.dataAreaRequiresExplicitInit=true
 -Xms256m
--Xmx4g
+-Xmx16g
 --add-modules=ALL-SYSTEM
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
