@@ -15,16 +15,11 @@ package org.eclipse.escet.cif.common.checkers;
 
 import static org.eclipse.escet.common.java.Sets.set;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.java.CompositeCifWalker;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
 
 /** CIF checker. Checks whether a given CIF specification satisfies certain {@link CifCheck conditions}. */
 public class CifChecker extends CompositeCifWalker {
@@ -68,21 +63,5 @@ public class CifChecker extends CompositeCifWalker {
 
         // Return the violations.
         return violations;
-    }
-
-    /**
-     * Reports a tool failed to execute due to precondition violations indicating the specification is unsupported.
-     *
-     * @param violations The precondition violations. Must not be empty.
-     * @param toolName The human-readable name of the tool.
-     * @throws UnsupportedException Always thrown.
-     */
-    public static void reportPreconditionViolations(Set<CifCheckViolation> violations, String toolName) {
-        Assert.check(!violations.isEmpty());
-        List<String> messages = violations.stream().map(v -> "Unsupported " + v.toString())
-                .collect(Collectors.toList());
-        Collections.sort(messages, Strings.SORTER);
-        String msg = toolName + " failed due to unsatisfied preconditions:\n - " + String.join("\n - ", messages);
-        throw new UnsupportedException(msg);
     }
 }

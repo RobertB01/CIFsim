@@ -26,7 +26,7 @@ public class CifCheckViolation {
     /**
      * The named CIF object for which the violation is reported, or {@code null} to report it for the CIF specification.
      */
-    private final PositionObject object;
+    private final PositionObject cifObject;
 
     /** The message describing the violation. */
     private final String message;
@@ -34,40 +34,40 @@ public class CifCheckViolation {
     /**
      * Constructor for the {@link CifCheckViolation} class.
      *
-     * @param object The named CIF object for which the violation is reported, or {@code null} to report it for the CIF
-     *     specification.
+     * @param cifObject The named CIF object for which the violation is reported, or {@code null} to report it for the
+     *     CIF specification.
      * @param message The message describing the violation. E.g., {@code "event is a channel"},
      *     {@code "automaton is a kindless automaton, lacking a supervisory kind"} or
      *     {@code "specification has no automata"}.
      */
-    public CifCheckViolation(PositionObject object, String message) {
-        this.object = object;
+    public CifCheckViolation(PositionObject cifObject, String message) {
+        this.cifObject = cifObject;
         this.message = message;
-        if (object != null) {
-            Assert.check(CifTextUtils.hasName(object), object);
+        if (cifObject != null) {
+            Assert.check(CifTextUtils.hasName(cifObject), cifObject);
         }
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof CifCheckViolation)) {
-            return false;
-        }
         if (this == obj) {
             return true;
         }
+        if (!(obj instanceof CifCheckViolation)) {
+            return false;
+        }
         CifCheckViolation that = (CifCheckViolation)obj;
-        return this.object == that.object && this.message.equals(that.message);
+        return this.cifObject == that.cifObject && this.message.equals(that.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(object, message);
+        return Objects.hash(cifObject, message);
     }
 
     @Override
     public String toString() {
-        String name = (object == null) ? "specification" : "\"" + CifTextUtils.getAbsName(object) + "\"";
+        String name = (cifObject == null) ? "specification" : "\"" + CifTextUtils.getAbsName(cifObject) + "\"";
         return fmt("%s: %s.", name, message);
     }
 }

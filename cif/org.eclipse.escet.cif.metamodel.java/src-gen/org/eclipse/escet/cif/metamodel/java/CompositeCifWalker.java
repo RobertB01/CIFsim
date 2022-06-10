@@ -182,7 +182,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  */
 public abstract class CompositeCifWalker extends CifWalker {
     /** The walkers to be composed by this composite walker. */
-    private CifWalker[] walkers;
+    private final CifWalker[] walkers;
 
     /**
      * Constructor of the {@link CompositeCifWalker} class.

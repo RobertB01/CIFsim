@@ -16,11 +16,9 @@ package org.eclipse.escet.cif.cif2supremica;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
-import org.eclipse.escet.cif.common.checkers.CifCheckViolation;
-import org.eclipse.escet.cif.common.checkers.CifChecker;
+import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.NoChannelsCheck;
 import org.eclipse.escet.cif.common.checkers.NoContinuousVariablesCheck;
 import org.eclipse.escet.cif.common.checkers.NoDiscVarsWithMultiInitValuesCheck;
@@ -204,10 +202,6 @@ public class CifToSupremicaPreChecker {
         preconditions.add(unCheck);
 
         // Perform precondition check.
-        CifChecker checker = new CifChecker(preconditions);
-        Set<CifCheckViolation> violations = checker.check(spec);
-        if (!violations.isEmpty()) {
-            CifChecker.reportPreconditionViolations(violations, "CIF to Supremica transformation");
-        }
+        new CifPreconditionChecker(preconditions).reportPreconditionViolations(spec, "CIF to Supremica transformation");
     }
 }

@@ -272,7 +272,7 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
             // Add fields.
             box.indent();
             box.add("/** The walkers to be composed by this composite walker. */");
-            box.add("private %s[] walkers;", genClassNameWalker);
+            box.add("private final %s[] walkers;", genClassNameWalker);
             box.dedent();
             box.add();
 
