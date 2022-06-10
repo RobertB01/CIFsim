@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.getNamedAncestorOrSelf;
+import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -188,6 +188,6 @@ public class NoSpecificTypesCheck extends CifCheck {
      * @param description The description of the type.
      */
     private void addTypeViolation(CifType type, String description) {
-        super.addViolation(getNamedAncestorOrSelf(type), fmt("uses %s \"%s\"", description, typeToStr(type)));
+        super.addViolation(getNamedSelfOrAncestor(type), fmt("uses %s \"%s\"", description, typeToStr(type)));
     }
 }

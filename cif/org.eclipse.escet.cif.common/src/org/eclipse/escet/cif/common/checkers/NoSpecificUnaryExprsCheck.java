@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.common.checkers;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getNamedAncestorOrSelf;
+import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -140,7 +140,7 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
      * @param unExpr The unary expression.
      */
     private void addExprViolationOperator(UnaryExpression unExpr) {
-        super.addViolation(getNamedAncestorOrSelf(unExpr), fmt("uses unary operator \"%s\" in unary expression \"%s\"",
+        super.addViolation(getNamedSelfOrAncestor(unExpr), fmt("uses unary operator \"%s\" in unary expression \"%s\"",
                 operatorToStr(unExpr.getOperator()), exprToStr(unExpr)));
     }
 
@@ -151,7 +151,7 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
      */
     private void addExprViolationOperand(UnaryExpression unExpr) {
         CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
-        super.addViolation(getNamedAncestorOrSelf(unExpr),
+        super.addViolation(getNamedSelfOrAncestor(unExpr),
                 fmt("uses unary operator \"%s\" on an operand of type \"%s\" in unary expression \"%s\"",
                         operatorToStr(unExpr.getOperator()), typeToStr(ctype), exprToStr(unExpr)));
     }

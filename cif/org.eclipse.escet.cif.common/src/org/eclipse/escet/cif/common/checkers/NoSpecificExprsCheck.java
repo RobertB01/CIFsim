@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.common.checkers;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getNamedAncestorOrSelf;
+import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.emf.ecore.EObject;
@@ -495,7 +495,7 @@ public class NoSpecificExprsCheck extends CifCheck {
      * @param description The description of the expression.
      */
     private void addExprViolation(Expression expr, String description) {
-        super.addViolation(getNamedAncestorOrSelf(expr),
+        super.addViolation(getNamedSelfOrAncestor(expr),
                 fmt("uses %s \"%s\"", description, exprToStr(expr)));
     }
 }

@@ -1335,7 +1335,7 @@ public class CifTextUtils {
      * @param obj The given object.
      * @return The given object itself (if named), its closest named ancestor (if any), or {@code null} (otherwise).
      */
-    public static PositionObject getNamedAncestorOrSelf(PositionObject obj) {
+    public static PositionObject getNamedSelfOrAncestor(PositionObject obj) {
         PositionObject cur = obj;
         while (cur != null && !hasName(cur)) {
             cur = (PositionObject)cur.eContainer();

@@ -45,11 +45,11 @@ public class OnlyStaticEvalMarkerPredsInLocsCheck extends CifCheck {
                 }
             } catch (CifEvalException e) {
                 if (loc.getName() != null) {
-                    addViolation(loc, "location has a marker predicate for which static evaluation "
-                            + "resulted in an evaluation error");
+                    addViolation(loc,
+                            "static evaluation of a marker predicate in the location resulted in an evaluation error");
                 } else {
-                    addViolation((Automaton)loc.eContainer(), "automaton has a location with a marker predicate for "
-                            + "which static evaluation resulted in an evaluation error");
+                    addViolation((Automaton)loc.eContainer(), "static evaluation of a marker predicate in the "
+                            + "location of the automaton resulted in an evaluation error");
                 }
             }
         }

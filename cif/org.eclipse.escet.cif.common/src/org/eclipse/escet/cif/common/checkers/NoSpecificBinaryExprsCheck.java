@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.common.checkers;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getNamedAncestorOrSelf;
+import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -552,7 +552,7 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
      * @param binExpr The binary expression.
      */
     private void addExprViolationOperator(BinaryExpression binExpr) {
-        super.addViolation(getNamedAncestorOrSelf(binExpr),
+        super.addViolation(getNamedSelfOrAncestor(binExpr),
                 fmt("uses binary operator \"%s\" in binary expression \"%s\"", operatorToStr(binExpr.getOperator()),
                         exprToStr(binExpr)));
     }
@@ -565,7 +565,7 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
     private void addExprViolationOperand(BinaryExpression binExpr) {
         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-        super.addViolation(getNamedAncestorOrSelf(binExpr),
+        super.addViolation(getNamedSelfOrAncestor(binExpr),
                 fmt("uses binary operator \"%s\" on operands of types \"%s\" and \"%s\" in binary expression \"%s\"",
                         operatorToStr(binExpr.getOperator()), typeToStr(ltype), typeToStr(rtype), exprToStr(binExpr)));
     }
