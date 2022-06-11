@@ -18,9 +18,9 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 /** CIF check that does not allow channels. */
 public class NoChannelsCheck extends CifCheck {
     @Override
-    protected void preprocessEvent(Event event) {
+    protected void preprocessEvent(Event event, CifCheckViolations violations) {
         if (event.getType() != null) {
-            addViolation(event, "event is a channel (has a data type)");
+            violations.add(event, "event is a channel (has a data type)");
         }
     }
 }

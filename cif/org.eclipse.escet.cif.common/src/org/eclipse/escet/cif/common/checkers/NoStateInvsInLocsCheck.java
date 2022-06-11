@@ -23,7 +23,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 /** CIF check that does not allow state invariants in locations. */
 public class NoStateInvsInLocsCheck extends CifCheck {
     @Override
-    protected void preprocessLocation(Location loc) {
+    protected void preprocessLocation(Location loc, CifCheckViolations violations) {
         // Skip location parameters.
         EObject parent = loc.eContainer();
         if (parent instanceof LocationParameter) {
@@ -34,9 +34,9 @@ public class NoStateInvsInLocsCheck extends CifCheck {
         for (Invariant inv: loc.getInvariants()) {
             if (inv.getInvKind() == InvKind.STATE) {
                 if (loc.getName() != null) {
-                    addViolation(loc, "location has a state invariant");
+                    violations.add(loc, "location has a state invariant");
                 } else {
-                    addViolation((Automaton)loc.eContainer(), "automaton has a location with a state invariant");
+                    violations.add((Automaton)loc.eContainer(), "automaton has a location with a state invariant");
                 }
             }
         }

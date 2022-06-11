@@ -18,7 +18,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 /** CIF check that does not allow input variables. */
 public class NoInputVariablesCheck extends CifCheck {
     @Override
-    protected void preprocessInputVariable(InputVariable var) {
-        addViolation(var, "variable is an input variable");
+    protected void preprocessInputVariable(InputVariable var, CifCheckViolations violations) {
+        violations.add(var, "variable is an input variable");
     }
 }

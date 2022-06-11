@@ -22,7 +22,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 /** CIF check that does not allow discrete variables with multiple potential initial values. */
 public class NoDiscVarsWithMultiInitValuesCheck extends CifCheck {
     @Override
-    protected void preprocessDiscVariable(DiscVariable var) {
+    protected void preprocessDiscVariable(DiscVariable var, CifCheckViolations violations) {
         // Ignore discrete variables that represent function parameters or local variables of functions.
         EObject parent = var.eContainer();
         if (!(parent instanceof ComplexComponent)) {
@@ -37,9 +37,9 @@ public class NoDiscVarsWithMultiInitValuesCheck extends CifCheck {
         // Check number of potential initial values.
         int count = var.getValue().getValues().size();
         if (count == 0) { // 0 means 'any' initial value.
-            addViolation(var, "discrete variable has multiple potential initial values (any value in its domain)");
+            violations.add(var, "discrete variable has multiple potential initial values (any value in its domain)");
         } else if (count > 1) {
-            addViolation(var, fmt("discrete variable has multiple (%d) potential initial values", count));
+            violations.add(var, fmt("discrete variable has multiple (%d) potential initial values", count));
         }
     }
 }

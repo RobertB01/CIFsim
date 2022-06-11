@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.common.checkers;
 import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -31,27 +30,20 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  */
 public class OnlyVarValueMarkerPredsInCompsCheck extends CifCheck {
     /** Mapping from discrete variables to their marked values. Used to detect duplicates. */
-    private Map<DiscVariable, Expression> markeds;
+    private Map<DiscVariable, Expression> markeds = map();
 
     @Override
-    public void setViolations(Set<CifCheckViolation> violations) {
-        // Initialization.
-        super.setViolations(violations);
-        markeds = map();
-    }
-
-    @Override
-    protected void preprocessComplexComponent(ComplexComponent comp) {
+    protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         for (Expression marked: comp.getMarkeds()) {
             // The only supported form is 'discrete_variable = marked_value'.
             if (!(marked instanceof BinaryExpression)) {
-                addViolation(comp, "component has a marker predicate that is not of the form "
+                violations.add(comp, "component has a marker predicate that is not of the form "
                         + "\"discrete_variable = marked_value\"");
                 continue;
             }
             BinaryExpression bexpr = (BinaryExpression)marked;
             if (bexpr.getOperator() != BinaryOperator.EQUAL || !(bexpr.getLeft() instanceof DiscVariableExpression)) {
-                addViolation(comp, "component has a marker predicate that is not of the form "
+                violations.add(comp, "component has a marker predicate that is not of the form "
                         + "\"discrete_variable = marked_value\"");
                 continue;
             }
@@ -64,7 +56,7 @@ public class OnlyVarValueMarkerPredsInCompsCheck extends CifCheck {
             if (previousValue == null) {
                 markeds.put(var, newValue);
             } else {
-                addViolation(var, "discrete variable has multiple predicates to specify its marked values");
+                violations.add(var, "discrete variable has multiple predicates to specify its marked values");
             }
         }
     }

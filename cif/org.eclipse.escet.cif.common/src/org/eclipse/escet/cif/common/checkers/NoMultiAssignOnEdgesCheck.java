@@ -28,7 +28,7 @@ import org.eclipse.escet.common.java.Assert;
  */
 public class NoMultiAssignOnEdgesCheck extends CifCheck {
     @Override
-    protected void preprocessAssignment(Assignment asgn) {
+    protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
         if (asgn.getAddressable() instanceof TupleExpression) {
             // Get location.
             EObject ancestor = asgn;
@@ -40,9 +40,9 @@ public class NoMultiAssignOnEdgesCheck extends CifCheck {
 
             // Report violation.
             if (loc.getName() != null) {
-                addViolation(loc, "location has an edge with a multi-assignment");
+                violations.add(loc, "location has an edge with a multi-assignment");
             } else {
-                addViolation((Automaton)loc.eContainer(), "automaton has an edge with a multi-assignment");
+                violations.add((Automaton)loc.eContainer(), "automaton has an edge with a multi-assignment");
             }
         }
     }

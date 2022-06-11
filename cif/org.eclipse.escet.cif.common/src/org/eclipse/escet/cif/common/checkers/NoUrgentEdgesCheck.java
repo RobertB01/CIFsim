@@ -20,13 +20,13 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 /** CIF check that does not allow urgent edges. */
 public class NoUrgentEdgesCheck extends CifCheck {
     @Override
-    protected void preprocessEdge(Edge edge) {
+    protected void preprocessEdge(Edge edge, CifCheckViolations violations) {
         if (edge.isUrgent()) {
             Location loc = (Location)edge.eContainer();
             if (loc.getName() != null) {
-                addViolation(loc, "location has an urgent edge");
+                violations.add(loc, "location has an urgent edge");
             } else {
-                addViolation((Automaton)loc.eContainer(), "automaton has an urgent edge");
+                violations.add((Automaton)loc.eContainer(), "automaton has an urgent edge");
             }
         }
     }

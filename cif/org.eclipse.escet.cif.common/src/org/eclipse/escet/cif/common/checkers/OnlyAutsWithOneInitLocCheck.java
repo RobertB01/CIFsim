@@ -35,23 +35,23 @@ public class OnlyAutsWithOneInitLocCheck extends CifCheck {
     private int initLocCount;
 
     @Override
-    protected void preprocessAutomaton(Automaton aut) {
+    protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         // Reset initial locations counter.
         initLocCount = 0;
     }
 
     @Override
-    protected void postprocessAutomaton(Automaton aut) {
+    protected void postprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         // There must be exactly one initial location.
         if (initLocCount == 0) {
-            addViolation(aut, "automaton has no initial location");
+            violations.add(aut, "automaton has no initial location");
         } else if (initLocCount > 1) {
-            addViolation(aut, fmt("automata has multiple (%d) initial locations", initLocCount));
+            violations.add(aut, fmt("automata has multiple (%d) initial locations", initLocCount));
         } // Skip if check is disabled (negative value).
     }
 
     @Override
-    protected void preprocessLocation(Location loc) {
+    protected void preprocessLocation(Location loc, CifCheckViolations violations) {
         // Skip location parameters.
         EObject parent = loc.eContainer();
         if (parent instanceof LocationParameter) {
@@ -73,9 +73,9 @@ public class OnlyAutsWithOneInitLocCheck extends CifCheck {
         }
         if (errMsg != null) {
             if (loc.getName() != null) {
-                addViolation(loc, "failed to determine whether this is an initial location, " + errMsg);
+                violations.add(loc, "failed to determine whether this is an initial location, " + errMsg);
             } else {
-                addViolation((Automaton)loc.eContainer(),
+                violations.add((Automaton)loc.eContainer(),
                         "failed to determine whether the automaton's location is an initial location, " + errMsg);
             }
 

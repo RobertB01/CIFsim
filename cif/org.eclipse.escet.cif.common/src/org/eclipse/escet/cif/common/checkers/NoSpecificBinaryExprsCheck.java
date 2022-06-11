@@ -47,359 +47,359 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessBinaryExpression(BinaryExpression binExpr) {
+    protected void preprocessBinaryExpression(BinaryExpression binExpr, CifCheckViolations violations) {
         BinaryOperator op = binExpr.getOperator();
         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
         switch (op) {
             case ADDITION:
                 if (disalloweds.contains(NoSpecificBinaryOp.ADDITION)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_REALS)
                             && (ltype instanceof RealType || rtype instanceof RealType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_LISTS)
                             && (ltype instanceof ListType || rtype instanceof ListType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_STRINGS)
                             && (ltype instanceof StringType || rtype instanceof StringType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.ADDITION_DICTS)
                             && (ltype instanceof DictType || rtype instanceof DictType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                 }
                 break;
             case BI_CONDITIONAL:
                 if (disalloweds.contains(NoSpecificBinaryOp.BI_CONDITIONAL)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 }
                 break;
             case CONJUNCTION:
                 if (disalloweds.contains(NoSpecificBinaryOp.CONJUNCTION)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else if (disalloweds.contains(NoSpecificBinaryOp.CONJUNCTION_SETS)
                         && (ltype instanceof SetType || rtype instanceof SetType))
                 {
-                    addExprViolationOperand(binExpr);
+                    addExprViolationOperand(binExpr, violations);
                 }
                 break;
             case DISJUNCTION:
                 if (disalloweds.contains(NoSpecificBinaryOp.DISJUNCTION)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else if (disalloweds.contains(NoSpecificBinaryOp.DISJUNCTION_SETS)
                         && (ltype instanceof SetType || rtype instanceof SetType))
                 {
-                    addExprViolationOperand(binExpr);
+                    addExprViolationOperand(binExpr, violations);
                 }
                 break;
             case DIVISION:
                 if (disalloweds.contains(NoSpecificBinaryOp.DIVISION)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 }
                 break;
             case ELEMENT_OF:
                 if (disalloweds.contains(NoSpecificBinaryOp.ELEMENT_OF)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.ELEMENT_OF_LISTS)
                             && (ltype instanceof ListType || rtype instanceof ListType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.ELEMENT_OF_SETS)
                             && (ltype instanceof SetType || rtype instanceof SetType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.ELEMENT_OF_DICTS)
                             && (ltype instanceof DictType || rtype instanceof DictType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                 }
                 break;
             case EQUAL:
                 if (disalloweds.contains(NoSpecificBinaryOp.EQUAL)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 }
                 break;
             case GREATER_EQUAL:
                 if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.GREATER_EQUAL_REALS)
                             && (ltype instanceof RealType || rtype instanceof RealType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                 }
                 break;
             case GREATER_THAN:
                 if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.GREATER_THAN_REALS)
                             && (ltype instanceof RealType || rtype instanceof RealType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                 }
                 break;
             case IMPLICATION:
                 if (disalloweds.contains(NoSpecificBinaryOp.IMPLICATION)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 }
                 break;
             case INTEGER_DIVISION:
                 if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                 }
                 break;
             case LESS_EQUAL:
                 if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.LESS_EQUAL_REALS)
                             && (ltype instanceof RealType || rtype instanceof RealType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                 }
                 break;
             case LESS_THAN:
                 if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.LESS_THAN_REALS)
                             && (ltype instanceof RealType || rtype instanceof RealType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                 }
                 break;
             case MODULUS:
                 if (disalloweds.contains(NoSpecificBinaryOp.MODULUS)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                 }
                 break;
             case MULTIPLICATION:
                 if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.MULTIPLICATION_REALS)
                             && (ltype instanceof RealType || rtype instanceof RealType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                 }
                 break;
             case SUBSET:
                 if (disalloweds.contains(NoSpecificBinaryOp.SUBSET)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 }
                 break;
             case SUBTRACTION:
                 if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_INTS)) {
                         if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_INTS_RANGED)
                                 && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_INTS_RANGELESS)
                                 && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
                                         || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                         {
-                            addExprViolationOperand(binExpr);
+                            addExprViolationOperand(binExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_REALS)
                             && (ltype instanceof RealType || rtype instanceof RealType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_LISTS)
                             && (ltype instanceof ListType || rtype instanceof ListType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_SETS)
                             && (ltype instanceof SetType || rtype instanceof SetType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.SUBTRACTION_DICTS)
                             && (ltype instanceof DictType || rtype instanceof DictType))
                     {
-                        addExprViolationOperand(binExpr);
+                        addExprViolationOperand(binExpr, violations);
                     }
                 }
                 break;
             case UNEQUAL:
                 if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL)) {
-                    addExprViolationOperator(binExpr);
+                    addExprViolationOperator(binExpr, violations);
                 }
                 break;
             default:
@@ -411,22 +411,23 @@ public class NoSpecificBinaryExprsCheck extends CifCheck {
      * Add a violation for the operator of the given binary expression.
      *
      * @param binExpr The binary expression.
+     * @param violations The violations collected so far. Is modified in-place.
      */
-    private void addExprViolationOperator(BinaryExpression binExpr) {
-        super.addViolation(getNamedSelfOrAncestor(binExpr),
-                fmt("uses binary operator \"%s\" in binary expression \"%s\"", operatorToStr(binExpr.getOperator()),
-                        exprToStr(binExpr)));
+    private void addExprViolationOperator(BinaryExpression binExpr, CifCheckViolations violations) {
+        violations.add(getNamedSelfOrAncestor(binExpr), fmt("uses binary operator \"%s\" in binary expression \"%s\"",
+                operatorToStr(binExpr.getOperator()), exprToStr(binExpr)));
     }
 
     /**
      * Add a violation for an operand of the the given binary expression.
      *
      * @param binExpr The binary expression.
+     * @param violations The violations collected so far. Is modified in-place.
      */
-    private void addExprViolationOperand(BinaryExpression binExpr) {
+    private void addExprViolationOperand(BinaryExpression binExpr, CifCheckViolations violations) {
         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-        super.addViolation(getNamedSelfOrAncestor(binExpr),
+        violations.add(getNamedSelfOrAncestor(binExpr),
                 fmt("uses binary operator \"%s\" on operands of types \"%s\" and \"%s\" in binary expression \"%s\"",
                         operatorToStr(binExpr.getOperator()), typeToStr(ltype), typeToStr(rtype), exprToStr(binExpr)));
     }

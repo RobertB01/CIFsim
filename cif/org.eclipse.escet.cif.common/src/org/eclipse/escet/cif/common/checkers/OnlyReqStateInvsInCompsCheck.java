@@ -24,13 +24,13 @@ import org.eclipse.escet.cif.metamodel.cif.SupKind;
 /** CIF check that allows state invariants in components only if they are requirement invariants. */
 public class OnlyReqStateInvsInCompsCheck extends CifCheck {
     @Override
-    protected void preprocessComplexComponent(ComplexComponent comp) {
+    protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         for (Invariant inv: comp.getInvariants()) {
             if (inv.getInvKind() == InvKind.STATE) {
                 SupKind supKind = inv.getSupKind();
                 if (supKind != SupKind.REQUIREMENT) {
                     String kindTxt = (supKind == SupKind.NONE) ? "kindless" : CifTextUtils.kindToStr(supKind);
-                    addViolation(comp, fmt("component has a %s state invariant", kindTxt));
+                    violations.add(comp, fmt("component has a %s state invariant", kindTxt));
                 }
             }
         }

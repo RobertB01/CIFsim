@@ -26,7 +26,7 @@ import org.eclipse.escet.common.java.Assert;
  */
 public class NoIfUpdatesOnEdgesCheck extends CifCheck {
     @Override
-    protected void preprocessIfUpdate(IfUpdate update) {
+    protected void preprocessIfUpdate(IfUpdate update, CifCheckViolations violations) {
         // Get location.
         EObject ancestor = update;
         while (!(ancestor instanceof Location)) {
@@ -37,9 +37,9 @@ public class NoIfUpdatesOnEdgesCheck extends CifCheck {
 
         // Report violation.
         if (loc.getName() != null) {
-            addViolation(loc, "location has an edge with an 'if' update");
+            violations.add(loc, "location has an edge with an 'if' update");
         } else {
-            addViolation((Automaton)loc.eContainer(), "automaton has an edge with an 'if' update");
+            violations.add((Automaton)loc.eContainer(), "automaton has an edge with an 'if' update");
         }
     }
 }

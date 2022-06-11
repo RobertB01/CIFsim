@@ -13,26 +13,20 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
-import static org.eclipse.escet.common.java.Sets.set;
-
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.java.CompositeCifWalker;
+import org.eclipse.escet.cif.metamodel.java.CompositeCifWithArgWalker;
 
 /** CIF checker. Checks whether a given CIF specification satisfies certain {@link CifCheck conditions}. */
-public class CifChecker extends CompositeCifWalker {
-    /** The conditions to check. */
-    private final CifCheck[] conditions;
-
+public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
     /**
      * Constructor for the {@link CifChecker} class.
      *
      * @param conditions The conditions to check.
      */
     public CifChecker(List<CifCheck> conditions) {
-        this(conditions.toArray(i -> new CifCheck[i]));
+        super(conditions.toArray(i -> new CifCheck[i]));
     }
 
     /**
@@ -42,7 +36,6 @@ public class CifChecker extends CompositeCifWalker {
      */
     public CifChecker(CifCheck[] conditions) {
         super(conditions);
-        this.conditions = conditions;
     }
 
     /**
@@ -51,17 +44,9 @@ public class CifChecker extends CompositeCifWalker {
      * @param spec The CIF specification to check.
      * @return The violations.
      */
-    public Set<CifCheckViolation> check(Specification spec) {
-        // Initialize.
-        Set<CifCheckViolation> violations = set();
-        for (CifCheck condition: conditions) {
-            condition.setViolations(violations);
-        }
-
-        // Check specification for condition violations.
-        walkSpecification(spec);
-
-        // Return the violations.
+    public CifCheckViolations check(Specification spec) {
+        CifCheckViolations violations = new CifCheckViolations();
+        walkSpecification(spec, violations);
         return violations;
     }
 }

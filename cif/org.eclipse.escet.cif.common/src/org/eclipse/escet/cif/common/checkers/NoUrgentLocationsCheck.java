@@ -21,7 +21,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 /** CIF check that does not allow urgent locations. */
 public class NoUrgentLocationsCheck extends CifCheck {
     @Override
-    protected void preprocessLocation(Location loc) {
+    protected void preprocessLocation(Location loc, CifCheckViolations violations) {
         // Skip location parameters.
         EObject parent = loc.eContainer();
         if (parent instanceof LocationParameter) {
@@ -31,9 +31,9 @@ public class NoUrgentLocationsCheck extends CifCheck {
         // Check for violation.
         if (loc.isUrgent()) {
             if (loc.getName() != null) {
-                addViolation(loc, "location is urgent");
+                violations.add(loc, "location is urgent");
             } else {
-                addViolation((Automaton)loc.eContainer(), "automaton has an urgent location");
+                violations.add((Automaton)loc.eContainer(), "automaton has an urgent location");
             }
         }
     }

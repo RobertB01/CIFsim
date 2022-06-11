@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
-import java.util.Set;
-
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 
@@ -36,21 +34,13 @@ public class OnlySimpleAssignmentsCheck extends CifCheck {
     private NoPartialVarAssignOnEdgesCheck noPartial = new NoPartialVarAssignOnEdgesCheck();
 
     @Override
-    public void setViolations(Set<CifCheckViolation> violations) {
-        super.setViolations(violations);
-        noIf.setViolations(violations);
-        noMulti.setViolations(violations);
-        noPartial.setViolations(violations);
+    protected void preprocessIfUpdate(IfUpdate update, CifCheckViolations violations) {
+        noIf.preprocessIfUpdate(update, violations);
     }
 
     @Override
-    protected void preprocessIfUpdate(IfUpdate update) {
-        noIf.preprocessIfUpdate(update);
-    }
-
-    @Override
-    protected void preprocessAssignment(Assignment asgn) {
-        noMulti.preprocessAssignment(asgn);
-        noPartial.preprocessAssignment(asgn);
+    protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
+        noMulti.preprocessAssignment(asgn, violations);
+        noPartial.preprocessAssignment(asgn, violations);
     }
 }

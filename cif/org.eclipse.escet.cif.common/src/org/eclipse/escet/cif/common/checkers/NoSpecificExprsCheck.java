@@ -64,7 +64,6 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
-import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF check that does not allow certain expressions. */
 public class NoSpecificExprsCheck extends CifCheck {
@@ -81,54 +80,56 @@ public class NoSpecificExprsCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessAlgVariableExpression(AlgVariableExpression algRef) {
+    protected void preprocessAlgVariableExpression(AlgVariableExpression algRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.ALG_VAR_REFS)) {
-            addExprViolation(algRef, "algebraic variable reference");
+            addExprViolation(algRef, "algebraic variable reference", violations);
         }
     }
 
     @Override
-    protected void preprocessFunctionExpression(FunctionExpression userDefFuncRef) {
+    protected void preprocessFunctionExpression(FunctionExpression userDefFuncRef, CifCheckViolations violations) {
         if ((disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF)
                 || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF_INT))
                 && userDefFuncRef.getFunction() instanceof InternalFunction)
         {
-            addExprViolation(userDefFuncRef, "internal user-defined function reference");
+            addExprViolation(userDefFuncRef, "internal user-defined function reference", violations);
         }
 
         if ((disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF)
                 || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF_EXT))
                 && userDefFuncRef.getFunction() instanceof ExternalFunction)
         {
-            addExprViolation(userDefFuncRef, "external user-defined function reference");
+            addExprViolation(userDefFuncRef, "external user-defined function reference", violations);
         }
     }
 
     @Override
-    protected void preprocessStdLibFunctionExpression(StdLibFunctionExpression stdLibRef) {
+    protected void preprocessStdLibFunctionExpression(StdLibFunctionExpression stdLibRef,
+            CifCheckViolations violations)
+    {
         if (disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_STD_LIB)) {
-            addExprViolation(stdLibRef, "standard library function reference");
+            addExprViolation(stdLibRef, "standard library function reference", violations);
         }
     }
 
     @Override
-    protected void preprocessBinaryExpression(BinaryExpression binExpr) {
+    protected void preprocessBinaryExpression(BinaryExpression binExpr, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.BINARY_EXPRS)) {
-            addExprViolation(binExpr, "binary expression");
+            addExprViolation(binExpr, "binary expression", violations);
         }
     }
 
     @Override
-    protected void preprocessBoolExpression(BoolExpression boolLit) {
+    protected void preprocessBoolExpression(BoolExpression boolLit, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.BOOL_LITS)) {
-            addExprViolation(boolLit, "boolean literal");
+            addExprViolation(boolLit, "boolean literal", violations);
         }
     }
 
     @Override
-    protected void preprocessCastExpression(CastExpression castExpr) {
+    protected void preprocessCastExpression(CastExpression castExpr, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS)) {
-            addExprViolation(castExpr, "cast expression");
+            addExprViolation(castExpr, "cast expression", violations);
         } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE)) {
             CifType ctype = castExpr.getChild().getType();
             CifType rtype = castExpr.getType();
@@ -136,59 +137,59 @@ public class NoSpecificExprsCheck extends CifCheck {
                 // Ignore casting to the child type.
                 return;
             }
-            addExprViolation(castExpr, "type-changing cast expression");
+            addExprViolation(castExpr, "type-changing cast expression", violations);
         }
     }
 
     @Override
-    protected void preprocessComponentExpression(ComponentExpression compRef) {
+    protected void preprocessComponentExpression(ComponentExpression compRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.COMP_REFS) || disalloweds.contains(NoSpecificExpr.COMP_REFS_EXPLICIT)) {
-            addExprViolation(compRef, "component reference");
+            addExprViolation(compRef, "component reference", violations);
         }
     }
 
     @Override
-    protected void preprocessCompParamExpression(CompParamExpression compParamRef) {
+    protected void preprocessCompParamExpression(CompParamExpression compParamRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.COMP_PARAM_REFS)) {
-            addExprViolation(compParamRef, "component parameter reference");
+            addExprViolation(compParamRef, "component parameter reference", violations);
         }
     }
 
     @Override
-    protected void preprocessConstantExpression(ConstantExpression constRef) {
+    protected void preprocessConstantExpression(ConstantExpression constRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.CONST_REFS)) {
-            addExprViolation(constRef, "constant reference");
+            addExprViolation(constRef, "constant reference", violations);
         }
     }
 
     @Override
-    protected void preprocessContVariableExpression(ContVariableExpression contRef) {
+    protected void preprocessContVariableExpression(ContVariableExpression contRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.CONT_VAR_REFS)) {
-            addExprViolation(contRef, "continuous variable reference");
+            addExprViolation(contRef, "continuous variable reference", violations);
         }
     }
 
     @Override
-    protected void preprocessDictExpression(DictExpression dictLit) {
+    protected void preprocessDictExpression(DictExpression dictLit, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.DICT_LITS)) {
-            addExprViolation(dictLit, "dictionary literal");
+            addExprViolation(dictLit, "dictionary literal", violations);
         }
     }
 
     @Override
-    protected void preprocessDiscVariableExpression(DiscVariableExpression discRef) {
+    protected void preprocessDiscVariableExpression(DiscVariableExpression discRef, CifCheckViolations violations) {
         EObject parent = discRef.getVariable().eContainer();
         if (parent instanceof ComplexComponent) {
             if (disalloweds.contains(NoSpecificExpr.DISC_VAR_REFS)) {
-                addExprViolation(discRef, "discrete variable reference");
+                addExprViolation(discRef, "discrete variable reference", violations);
             }
         } else if (parent instanceof FunctionParameter) {
             if (disalloweds.contains(NoSpecificExpr.USER_DEF_FUNC_PARAM_REFS)) {
-                addExprViolation(discRef, "user-defined function parameter reference");
+                addExprViolation(discRef, "user-defined function parameter reference", violations);
             }
         } else if (parent instanceof InternalFunction) {
             if (disalloweds.contains(NoSpecificExpr.INT_USER_DEF_FUNC_LOCAL_VAR_REFS)) {
-                addExprViolation(discRef, "internal user-defined function local variable reference");
+                addExprViolation(discRef, "internal user-defined function local variable reference", violations);
             }
         } else {
             throw new RuntimeException("Unexpected disc var parent: " + parent);
@@ -196,101 +197,101 @@ public class NoSpecificExprsCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessEnumLiteralExpression(EnumLiteralExpression enumLitRef) {
+    protected void preprocessEnumLiteralExpression(EnumLiteralExpression enumLitRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.ENUM_LIT_REFS)) {
-            addExprViolation(enumLitRef, "enumeration literal reference");
+            addExprViolation(enumLitRef, "enumeration literal reference", violations);
         }
     }
 
     @Override
-    protected void preprocessFieldExpression(FieldExpression fieldRef) {
+    protected void preprocessFieldExpression(FieldExpression fieldRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.TUPLE_FIELD_REFS)) {
-            addExprViolation(fieldRef, "tuple field reference");
+            addExprViolation(fieldRef, "tuple field reference", violations);
         }
     }
 
     @Override
-    protected void preprocessFunctionCallExpression(FunctionCallExpression funcCall) {
+    protected void preprocessFunctionCallExpression(FunctionCallExpression funcCall, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.FUNC_CALLS)) {
-            addExprViolation(funcCall, "function call");
+            addExprViolation(funcCall, "function call", violations);
         }
     }
 
     @Override
-    protected void preprocessIfExpression(IfExpression ifExpr) {
+    protected void preprocessIfExpression(IfExpression ifExpr, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.IF_EXPRS)) {
-            addExprViolation(ifExpr, "conditional expression");
+            addExprViolation(ifExpr, "conditional expression", violations);
         }
     }
 
     @Override
-    protected void preprocessInputVariableExpression(InputVariableExpression inputRef) {
+    protected void preprocessInputVariableExpression(InputVariableExpression inputRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.INPUT_VAR_REFS)) {
-            addExprViolation(inputRef, "input variable reference");
+            addExprViolation(inputRef, "input variable reference", violations);
         }
     }
 
     @Override
-    protected void preprocessIntExpression(IntExpression intLit) {
+    protected void preprocessIntExpression(IntExpression intLit, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.INT_LITS)) {
-            addExprViolation(intLit, "integer number literal");
+            addExprViolation(intLit, "integer number literal", violations);
         }
     }
 
     @Override
-    protected void preprocessListExpression(ListExpression listLit) {
+    protected void preprocessListExpression(ListExpression listLit, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.LIST_LITS)) {
-            addExprViolation(listLit, "list literal");
+            addExprViolation(listLit, "list literal", violations);
         }
     }
 
     @Override
-    protected void preprocessLocationExpression(LocationExpression locRef) {
+    protected void preprocessLocationExpression(LocationExpression locRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.LOC_REFS)) {
-            addExprViolation(locRef, "location reference");
+            addExprViolation(locRef, "location reference", violations);
         }
     }
 
     @Override
-    protected void preprocessProjectionExpression(ProjectionExpression projExpr) {
+    protected void preprocessProjectionExpression(ProjectionExpression projExpr, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS)) {
-            addExprViolation(projExpr, "projection expression");
+            addExprViolation(projExpr, "projection expression", violations);
         } else {
             if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_LISTS)) {
                 CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                 if (ctype instanceof ListType) {
-                    addExprViolation(projExpr, "list projection expression");
+                    addExprViolation(projExpr, "list projection expression", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_DICTS)) {
                 CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                 if (ctype instanceof DictType) {
-                    addExprViolation(projExpr, "dictionary projection expression");
+                    addExprViolation(projExpr, "dictionary projection expression", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_STRINGS)) {
                 CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                 if (ctype instanceof StringType) {
-                    addExprViolation(projExpr, "string projection expression");
+                    addExprViolation(projExpr, "string projection expression", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_TUPLES)) {
                 CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                 if (ctype instanceof TupleType) {
-                    addExprViolation(projExpr, "tuple projection expression");
+                    addExprViolation(projExpr, "tuple projection expression", violations);
                 }
             } else {
                 if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_TUPLES_INDEX)) {
                     CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                     CifType itype = CifTypeUtils.normalizeType(projExpr.getIndex().getType());
                     if (ctype instanceof TupleType && itype instanceof IntType) {
-                        addExprViolation(projExpr, "tuple index-projection expression");
+                        addExprViolation(projExpr, "tuple index-projection expression", violations);
                     }
                 }
                 if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_TUPLES_FIELD)) {
                     CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
                     if (ctype instanceof TupleType && projExpr.getIndex() instanceof FieldExpression) {
-                        addExprViolation(projExpr, "tuple field-projection expression");
+                        addExprViolation(projExpr, "tuple field-projection expression", violations);
                     }
                 }
             }
@@ -298,78 +299,73 @@ public class NoSpecificExprsCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessRealExpression(RealExpression realLit) {
+    protected void preprocessRealExpression(RealExpression realLit, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.REAL_LITS)) {
-            addExprViolation(realLit, "real number literal");
+            addExprViolation(realLit, "real number literal", violations);
         }
     }
 
     @Override
-    protected void preprocessReceivedExpression(ReceivedExpression receivedExpr) {
+    protected void preprocessReceivedExpression(ReceivedExpression receivedExpr, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.RECEIVE_EXPRS)) {
-            addExprViolation(receivedExpr, "received value expression");
+            addExprViolation(receivedExpr, "received value expression", violations);
         }
     }
 
     @Override
-    protected void preprocessSelfExpression(SelfExpression selfRef) {
+    protected void preprocessSelfExpression(SelfExpression selfRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.COMP_REFS) || disalloweds.contains(NoSpecificExpr.COMP_REFS_SELF)) {
-            addExprViolation(selfRef, "component reference");
+            addExprViolation(selfRef, "component reference", violations);
         }
     }
 
     @Override
-    protected void preprocessSetExpression(SetExpression setLit) {
+    protected void preprocessSetExpression(SetExpression setLit, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.SET_LITS)) {
-            addExprViolation(setLit, "set literal");
+            addExprViolation(setLit, "set literal", violations);
         }
     }
 
     @Override
-    protected void preprocessSliceExpression(SliceExpression sliceExpr) {
+    protected void preprocessSliceExpression(SliceExpression sliceExpr, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.SLICE_EXPRS)) {
-            addExprViolation(sliceExpr, "slice expression");
+            addExprViolation(sliceExpr, "slice expression", violations);
         }
     }
 
     @Override
-    protected void preprocessStringExpression(StringExpression stringLit) {
+    protected void preprocessStringExpression(StringExpression stringLit, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.STRING_LITS)) {
-            addExprViolation(stringLit, "string literal");
+            addExprViolation(stringLit, "string literal", violations);
         }
     }
 
     @Override
-    protected void preprocessSwitchExpression(SwitchExpression switchExpr) {
+    protected void preprocessSwitchExpression(SwitchExpression switchExpr, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS)) {
-            addExprViolation(switchExpr, "switch expression");
+            addExprViolation(switchExpr, "switch expression", violations);
         }
     }
 
     @Override
-    protected void preprocessTimeExpression(TimeExpression timeRef) {
+    protected void preprocessTimeExpression(TimeExpression timeRef, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.TIME_VAR_REFS)) {
-            addExprViolation(timeRef, "time variable reference");
+            addExprViolation(timeRef, "time variable reference", violations);
         }
     }
 
     @Override
-    protected void preprocessTupleExpression(TupleExpression tupleLit) {
+    protected void preprocessTupleExpression(TupleExpression tupleLit, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.TUPLE_LITS)) {
-            addExprViolation(tupleLit, "tuple literal");
+            addExprViolation(tupleLit, "tuple literal", violations);
         }
     }
 
     @Override
-    protected void preprocessUnaryExpression(UnaryExpression unExpr) {
+    protected void preprocessUnaryExpression(UnaryExpression unExpr, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificExpr.UNARY_EXPRS)) {
-            addExprViolation(unExpr, "unary expression");
+            addExprViolation(unExpr, "unary expression", violations);
         }
-    }
-
-    @Override
-    protected void addViolation(PositionObject exprObj, String message) {
-        throw new UnsupportedOperationException(); // Use addExprViolation.
     }
 
     /**
@@ -377,9 +373,10 @@ public class NoSpecificExprsCheck extends CifCheck {
      *
      * @param expr The expression.
      * @param description The description of the expression.
+     * @param violations The violations collected so far. Is modified in-place.
      */
-    private void addExprViolation(Expression expr, String description) {
-        super.addViolation(getNamedSelfOrAncestor(expr), fmt("uses %s \"%s\"", description, exprToStr(expr)));
+    private void addExprViolation(Expression expr, String description, CifCheckViolations violations) {
+        violations.add(getNamedSelfOrAncestor(expr), fmt("uses %s \"%s\"", description, exprToStr(expr)));
     }
 
     /** The expression to disallow. */

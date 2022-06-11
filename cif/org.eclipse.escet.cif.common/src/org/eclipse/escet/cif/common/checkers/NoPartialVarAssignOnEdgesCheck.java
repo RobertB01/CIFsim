@@ -27,7 +27,7 @@ import org.eclipse.escet.common.java.Assert;
  */
 public class NoPartialVarAssignOnEdgesCheck extends CifCheck {
     @Override
-    protected void preprocessAssignment(Assignment asgn) {
+    protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
         if (asgn.getAddressable() instanceof ProjectionExpression) {
             // Get location.
             EObject ancestor = asgn;
@@ -39,9 +39,9 @@ public class NoPartialVarAssignOnEdgesCheck extends CifCheck {
 
             // Report violation.
             if (loc.getName() != null) {
-                addViolation(loc, "location has an edge with a partial variable assignment");
+                violations.add(loc, "location has an edge with a partial variable assignment");
             } else {
-                addViolation((Automaton)loc.eContainer(), "automaton has an edge with a partial variable assignment");
+                violations.add((Automaton)loc.eContainer(), "automaton has an edge with a partial variable assignment");
             }
         }
     }

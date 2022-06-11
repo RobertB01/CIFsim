@@ -43,68 +43,68 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessUnaryExpression(UnaryExpression unExpr) {
+    protected void preprocessUnaryExpression(UnaryExpression unExpr, CifCheckViolations violations) {
         UnaryOperator op = unExpr.getOperator();
         CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
         switch (op) {
             case INVERSE:
                 if (disalloweds.contains(NoSpecificUnaryOp.INVERSE)) {
-                    addExprViolationOperator(unExpr);
+                    addExprViolationOperator(unExpr, violations);
                 }
                 break;
             case NEGATE:
                 if (disalloweds.contains(NoSpecificUnaryOp.NEGATE)) {
-                    addExprViolationOperator(unExpr);
+                    addExprViolationOperator(unExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificUnaryOp.NEGATE_INTS)) {
                         if (ctype instanceof IntType) {
-                            addExprViolationOperand(unExpr);
+                            addExprViolationOperand(unExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificUnaryOp.NEGATE_INTS_RANGED) && ctype instanceof IntType
                                 && !CifTypeUtils.isRangeless((IntType)ctype))
                         {
-                            addExprViolationOperand(unExpr);
+                            addExprViolationOperand(unExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificUnaryOp.NEGATE_INTS_RANGELESS) && ctype instanceof IntType
                                 && CifTypeUtils.isRangeless((IntType)ctype))
                         {
-                            addExprViolationOperand(unExpr);
+                            addExprViolationOperand(unExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificUnaryOp.NEGATE_REALS) && ctype instanceof RealType) {
-                        addExprViolationOperand(unExpr);
+                        addExprViolationOperand(unExpr, violations);
                     }
                 }
                 break;
             case PLUS:
                 if (disalloweds.contains(NoSpecificUnaryOp.PLUS)) {
-                    addExprViolationOperator(unExpr);
+                    addExprViolationOperator(unExpr, violations);
                 } else {
                     if (disalloweds.contains(NoSpecificUnaryOp.PLUS_INTS)) {
                         if (ctype instanceof IntType) {
-                            addExprViolationOperand(unExpr);
+                            addExprViolationOperand(unExpr, violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificUnaryOp.PLUS_INTS_RANGED) && ctype instanceof IntType
                                 && !CifTypeUtils.isRangeless((IntType)ctype))
                         {
-                            addExprViolationOperand(unExpr);
+                            addExprViolationOperand(unExpr, violations);
                         }
                         if (disalloweds.contains(NoSpecificUnaryOp.PLUS_INTS_RANGELESS) && ctype instanceof IntType
                                 && CifTypeUtils.isRangeless((IntType)ctype))
                         {
-                            addExprViolationOperand(unExpr);
+                            addExprViolationOperand(unExpr, violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificUnaryOp.PLUS_REALS) && ctype instanceof RealType) {
-                        addExprViolationOperand(unExpr);
+                        addExprViolationOperand(unExpr, violations);
                     }
                 }
                 break;
             case SAMPLE:
                 if (disalloweds.contains(NoSpecificUnaryOp.SAMPLE)) {
-                    addExprViolationOperator(unExpr);
+                    addExprViolationOperator(unExpr, violations);
                 }
                 break;
             default:
@@ -116,9 +116,10 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
      * Add a violation for the operator of the given unary expression.
      *
      * @param unExpr The unary expression.
+     * @param violations The violations collected so far. Is modified in-place.
      */
-    private void addExprViolationOperator(UnaryExpression unExpr) {
-        super.addViolation(getNamedSelfOrAncestor(unExpr), fmt("uses unary operator \"%s\" in unary expression \"%s\"",
+    private void addExprViolationOperator(UnaryExpression unExpr, CifCheckViolations violations) {
+        violations.add(getNamedSelfOrAncestor(unExpr), fmt("uses unary operator \"%s\" in unary expression \"%s\"",
                 operatorToStr(unExpr.getOperator()), exprToStr(unExpr)));
     }
 
@@ -126,10 +127,11 @@ public class NoSpecificUnaryExprsCheck extends CifCheck {
      * Add a violation for an operand of the the given unary expression.
      *
      * @param unExpr The unary expression.
+     * @param violations The violations collected so far. Is modified in-place.
      */
-    private void addExprViolationOperand(UnaryExpression unExpr) {
+    private void addExprViolationOperand(UnaryExpression unExpr, CifCheckViolations violations) {
         CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
-        super.addViolation(getNamedSelfOrAncestor(unExpr),
+        violations.add(getNamedSelfOrAncestor(unExpr),
                 fmt("uses unary operator \"%s\" on an operand of type \"%s\" in unary expression \"%s\"",
                         operatorToStr(unExpr.getOperator()), typeToStr(ctype), exprToStr(unExpr)));
     }

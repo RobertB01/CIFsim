@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.common.checkers;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -55,11 +54,11 @@ public class CifPreconditionChecker extends CifChecker {
      */
     public void reportPreconditionViolations(Specification spec, String toolName) {
         // Check specification.
-        Set<CifCheckViolation> violations = check(spec);
+        CifCheckViolations violations = check(spec);
 
         // Report unsupported specification, if there are any precondition violations.
-        if (!violations.isEmpty()) {
-            List<String> messages = violations.stream().map(v -> "Unsupported " + v.toString())
+        if (violations.hasViolations()) {
+            List<String> messages = violations.getViolations().map(v -> "Unsupported " + v.toString())
                     .collect(Collectors.toList());
             Collections.sort(messages, Strings.SORTER);
             String msg = toolName + " failed due to unsatisfied preconditions:\n - " + String.join("\n - ", messages);

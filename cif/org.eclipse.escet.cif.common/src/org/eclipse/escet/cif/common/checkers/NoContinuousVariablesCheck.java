@@ -18,7 +18,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 /** CIF check that does not allow continuous variables. */
 public class NoContinuousVariablesCheck extends CifCheck {
     @Override
-    protected void preprocessContVariable(ContVariable var) {
-        addViolation(var, "variable is a continuous variable");
+    protected void preprocessContVariable(ContVariable var, CifCheckViolations violations) {
+        violations.add(var, "variable is a continuous variable");
     }
 }

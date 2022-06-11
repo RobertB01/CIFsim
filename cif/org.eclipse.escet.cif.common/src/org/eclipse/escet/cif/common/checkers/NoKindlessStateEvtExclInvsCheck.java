@@ -23,12 +23,12 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 /** CIF check that does not allow kindless state/event exclusion invariants (without a supervisory kind). */
 public class NoKindlessStateEvtExclInvsCheck extends CifCheck {
     @Override
-    protected void preprocessComplexComponent(ComplexComponent comp) {
+    protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         for (Invariant inv: comp.getInvariants()) {
             if (inv.getInvKind() == InvKind.EVENT_NEEDS || inv.getInvKind() == InvKind.EVENT_DISABLES) {
                 SupKind supKind = inv.getSupKind();
                 if (supKind == SupKind.NONE) {
-                    addViolation(comp,
+                    violations.add(comp,
                             "component has a kindless state/event exclusion invariant, lacking a supervisory kind");
                 }
             }
@@ -36,16 +36,16 @@ public class NoKindlessStateEvtExclInvsCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessLocation(Location loc) {
+    protected void preprocessLocation(Location loc, CifCheckViolations violations) {
         for (Invariant inv: loc.getInvariants()) {
             if (inv.getInvKind() == InvKind.EVENT_NEEDS || inv.getInvKind() == InvKind.EVENT_DISABLES) {
                 SupKind supKind = inv.getSupKind();
                 if (supKind == SupKind.NONE) {
                     if (loc.getName() != null) {
-                        addViolation(loc,
+                        violations.add(loc,
                                 "location has a kindless state/event exclusion invariant, lacking a supervisory kind");
                     } else {
-                        addViolation((Automaton)loc.eContainer(),
+                        violations.add((Automaton)loc.eContainer(),
                                 "automaton has a location with a kindless state/event exclusion invariant, "
                                         + "lacking a supervisory kind");
                     }

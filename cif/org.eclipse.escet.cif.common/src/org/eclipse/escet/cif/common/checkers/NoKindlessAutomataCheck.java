@@ -19,9 +19,9 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 /** CIF check that does not allow kindless automata (without a supervisory kind). */
 public class NoKindlessAutomataCheck extends CifCheck {
     @Override
-    protected void preprocessAutomaton(Automaton aut) {
+    protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (aut.getKind() == SupKind.NONE) {
-            addViolation(aut, "automaton is a kindless automaton, lacking a supervisory kind");
+            violations.add(aut, "automaton is a kindless automaton, lacking a supervisory kind");
         }
     }
 }

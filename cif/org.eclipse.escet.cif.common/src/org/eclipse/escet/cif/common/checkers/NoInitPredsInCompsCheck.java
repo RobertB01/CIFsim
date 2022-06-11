@@ -21,9 +21,9 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
  */
 public class NoInitPredsInCompsCheck extends CifCheck {
     @Override
-    protected void preprocessComplexComponent(ComplexComponent comp) {
+    protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         if (!comp.getInitials().isEmpty()) {
-            addViolation(comp, "component contains an initialization predicate");
+            violations.add(comp, "component contains an initialization predicate");
         }
     }
 }

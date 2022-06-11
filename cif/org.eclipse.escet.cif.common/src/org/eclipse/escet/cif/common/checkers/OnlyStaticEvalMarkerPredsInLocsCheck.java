@@ -25,7 +25,7 @@ import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 /** CIF check that allows marker predicates in locations only if they can be evaluated statically. */
 public class OnlyStaticEvalMarkerPredsInLocsCheck extends CifCheck {
     @Override
-    protected void preprocessLocation(Location loc) {
+    protected void preprocessLocation(Location loc, CifCheckViolations violations) {
         // Skip location parameters.
         EObject parent = loc.eContainer();
         if (parent instanceof LocationParameter) {
@@ -38,17 +38,17 @@ public class OnlyStaticEvalMarkerPredsInLocsCheck extends CifCheck {
                 evalPreds(loc.getMarkeds(), false, true);
             } catch (UnsupportedException e) {
                 if (loc.getName() != null) {
-                    addViolation(loc, "location has a marker predicate that can not be evaluated statically");
+                    violations.add(loc, "location has a marker predicate that can not be evaluated statically");
                 } else {
-                    addViolation((Automaton)loc.eContainer(),
+                    violations.add((Automaton)loc.eContainer(),
                             "automaton has a location with a marker predicate that can not be evaluated statically");
                 }
             } catch (CifEvalException e) {
                 if (loc.getName() != null) {
-                    addViolation(loc,
+                    violations.add(loc,
                             "static evaluation of a marker predicate in the location resulted in an evaluation error");
                 } else {
-                    addViolation((Automaton)loc.eContainer(), "static evaluation of a marker predicate in the "
+                    violations.add((Automaton)loc.eContainer(), "static evaluation of a marker predicate in the "
                             + "location of the automaton resulted in an evaluation error");
                 }
             }

@@ -27,27 +27,28 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
  */
 public class NoTauCheck extends CifCheck {
     @Override
-    protected void preprocessTauExpression(TauExpression tauExpr) {
+    protected void preprocessTauExpression(TauExpression tauExpr, CifCheckViolations violations) {
         // Explicit tau.
         EdgeEvent edgeEvent = (EdgeEvent)tauExpr.eContainer();
         Edge edge = (Edge)edgeEvent.eContainer();
         Location loc = CifEdgeUtils.getSource(edge);
         if (loc.getName() != null) {
-            addViolation(loc, "location has an edge with explicitly event \"tau\" on it");
+            violations.add(loc, "location has an edge with explicitly event \"tau\" on it");
         } else {
-            addViolation((Automaton)loc.eContainer(), "automaton has an edge with explicitly event \"tau\" on it");
+            violations.add((Automaton)loc.eContainer(), "automaton has an edge with explicitly event \"tau\" on it");
         }
     }
 
     @Override
-    protected void preprocessEdge(Edge edge) {
+    protected void preprocessEdge(Edge edge, CifCheckViolations violations) {
         // Implicit tau.
         if (edge.getEvents().isEmpty()) {
             Location loc = CifEdgeUtils.getSource(edge);
             if (loc.getName() != null) {
-                addViolation(loc, "location has an edge with implicitly event \"tau\" on it");
+                violations.add(loc, "location has an edge with implicitly event \"tau\" on it");
             } else {
-                addViolation((Automaton)loc.eContainer(), "automaton has an edge with implicitly event \"tau\" on it");
+                violations.add((Automaton)loc.eContainer(),
+                        "automaton has an edge with implicitly event \"tau\" on it");
             }
         }
     }
