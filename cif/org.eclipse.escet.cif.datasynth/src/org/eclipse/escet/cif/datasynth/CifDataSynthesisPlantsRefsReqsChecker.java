@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth;
 
+import static org.eclipse.escet.cif.common.CifTextUtils.equationToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTextUtils.getLocationOrComponentText2;
@@ -164,6 +165,41 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                         warn("An initial value of plant discrete variables \"%s\" references requirement state.",
                                 getAbsName(decl));
                     }
+                }
+            }
+
+            // Check whether continuous variables reference requirement state.
+            for (Declaration decl: aut.getDeclarations()) {
+                if (!(decl instanceof ContVariable)) {
+                    continue;
+                }
+                ContVariable contVariable = (ContVariable)decl;
+
+                // Only part of the plant whenever an edge assigns a value to the variable.
+                Set<Declaration> assignedVariables = assignedVariablesPerAut.get(aut);
+
+                // See if assigned variables are collected before. If not, collect and save.
+                if (assignedVariables == null) {
+                    assignedVariables = set();
+                    CifAddressableUtils.collectAddrVars(aut, assignedVariables);
+                    assignedVariablesPerAut.put(aut, assignedVariables);
+                }
+
+                // Check whether the continuous variable is assigned.
+                if (!assignedVariables.contains(contVariable)) {
+                    continue;
+                }
+
+                // Check initial value.
+                if (contVariable.getValue() != null && referencesReq(contVariable.getValue())) {
+                    warn("The initial value of plant continuous variables \"%s\" references requirement state.",
+                            getAbsName(decl));
+                }
+
+                // Check derivative.
+                if (contVariable.getDerivative() != null && referencesReq(contVariable.getDerivative())) {
+                    warn("The derivative of plant continuous variables \"%s\" references requirement state.",
+                            getAbsName(decl));
                 }
             }
 
