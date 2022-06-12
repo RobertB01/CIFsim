@@ -10,8 +10,8 @@ maven/mavencentral/junit/junit/4.13.2, EPL-2.0, approved, CQ23636
 maven/mavencentral/org.apache.ant/ant/1.10.9, Apache-2.0 AND W3C AND LicenseRef-Public-Domain, approved, CQ15560
 maven/mavencentral/org.apache.commons/commons-lang3/3.1, Apache-2.0, approved, CQ5902
 maven/mavencentral/org.apache.maven.plugin-tools/maven-plugin-annotations/3.6.4, Apache-2.0, approved, #808
-maven/mavencentral/org.apache.maven/maven-artifact/3.8.5, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.maven/maven-model/3.8.5, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.apache.maven/maven-artifact/3.8.5, Apache-2.0, approved, #2687
+maven/mavencentral/org.apache.maven/maven-model/3.8.5, Apache-2.0, approved, #2688
 maven/mavencentral/org.apache.maven/maven-plugin-api/3.8.5, Apache-2.0, approved, #1662
 maven/mavencentral/org.checkerframework/checker-qual/3.5.0, MIT, approved, clearlydefined
 maven/mavencentral/org.codehaus.groovy/groovy-ant/3.0.8, Apache-2.0, approved, clearlydefined
