@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
+import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
@@ -814,6 +815,39 @@ public class CifTextUtils {
         }
 
         throw new RuntimeException("Unknown update: " + update);
+    }
+
+    /**
+     * Converts a CIF equation to a textual representation derived from the CIF ASCII syntax.
+     *
+     * <p>
+     * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
+     * without absolute reference prefixes ({@code ^}). Note that wrapping expressions in equations are silently
+     * discarded, and two declarations referred to via different instantiations, will both result in the same textual
+     * representation, which refers to the original declaration, regardless of via what it was referenced.
+     * </p>
+     *
+     * <p>
+     * This method, unlike the methods of the {@code CifPrettyPrinter}, supports equations that are not contained in a
+     * specification (and thus have no scope).
+     * </p>
+     *
+     * @param equation The CIF equation to convert.
+     * @return The textual representation of the CIF update.
+     * @see #exprToStr
+     */
+    public static String equationToStr(Equation equation) {
+        StringBuilder txt = new StringBuilder();
+        txt.append(getAbsName(equation.getVariable()));
+
+        if (equation.isDerivative()) {
+            txt.append("'");
+        }
+
+        txt.append(" = ");
+        txt.append(exprToStr(equation.getValue()));
+
+        return txt.toString();
     }
 
     /**
