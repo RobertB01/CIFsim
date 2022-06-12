@@ -208,10 +208,6 @@ public class SynthesisToCifConverter {
         // Note that requirement automata have already been relabeled as
         // supervisors, and are thus not removed.
         //
-        // Requirement invariants have all been given an explicit kind, so they
-        // can be removed here, even though the component in which they are
-        // specified may have changed its kind.
-        //
         // Whether it is allowed to remove the requirements depends on the BDD
         // predicate simplification option.
         try {
