@@ -833,7 +833,7 @@ public class CifTextUtils {
      * </p>
      *
      * @param equation The CIF equation to convert.
-     * @return The textual representation of the CIF update.
+     * @return The textual representation of the CIF equations.
      * @see #exprToStr
      */
     public static String equationToStr(Equation equation) {
