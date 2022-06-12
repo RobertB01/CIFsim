@@ -32,24 +32,26 @@ WARNING: Plant invariant "c1 = 0.0" in the top level scope of the specification 
 WARNING: Plant invariant "c2 = 0.0" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "R4.c = 0.0" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "R.l" in the top level scope of the specification references requirement state.
-WARNING: Plant equation "R.l" in the location of automaton "P1" references requirement state.
-WARNING: Plant equation "R.v * 1.0" in the location of automaton "P1" references requirement state.
-WARNING: An initial value of plant discrete variables "P2.d" references requirement state.
-WARNING: Plant initialization predicate "R.l" in the location of automaton "P3" references requirement state.
-WARNING: Plant marker predicate "R.l" in the location of automaton "P4" references requirement state.
-WARNING: Plant invariant "R.l" in automaton "P5" references requirement state.
+WARNING: Plant equation "P1.ab2 = R.l" in the location of automaton "P1" references requirement state.
+WARNING: Plant equation "P1.c2' = R.v * 1.0" in the location of automaton "P1" references requirement state.
+WARNING: The initial value of plant continuous variables "P2.c1" references requirement state.
+WARNING: The derivative of plant continuous variables "P2.c3" references requirement state.
+WARNING: An initial value of plant discrete variables "P3.d" references requirement state.
+WARNING: Plant initialization predicate "R.l" in the location of automaton "P4" references requirement state.
+WARNING: Plant marker predicate "R.l" in the location of automaton "P5" references requirement state.
+WARNING: Plant invariant "R.l" in automaton "P6" references requirement state.
 WARNING: Plant invariant "R.l" in automaton "R6" references requirement state.
-WARNING: Plant edge guard "R.l" in the location of automaton "P6" references requirement state.
-WARNING: Plant edge update "P7.d := R.l" in the location of automaton "P7" references requirement state.
-WARNING: Plant edge update "if R.l: P8.d := true elif true: P8.d := true else P8.d := true end" in the location of automaton "P8" references requirement state.
-WARNING: Plant edge update "if true: P8.d := R.l elif true: P8.d := true else P8.d := true end" in the location of automaton "P8" references requirement state.
-WARNING: Plant edge update "if true: P8.d := true elif R.l: P8.d := true else P8.d := true end" in the location of automaton "P8" references requirement state.
-WARNING: Plant edge update "if true: P8.d := true elif true: P8.d := R.l else P8.d := true end" in the location of automaton "P8" references requirement state.
-WARNING: Plant edge update "if true: P8.d := true elif true: P8.d := true else P8.d := R.l end" in the location of automaton "P8" references requirement state.
+WARNING: Plant edge guard "R.l" in the location of automaton "P7" references requirement state.
+WARNING: Plant edge update "P8.d := R.l" in the location of automaton "P8" references requirement state.
+WARNING: Plant edge update "if R.l: P9.d := true elif true: P9.d := true else P9.d := true end" in the location of automaton "P9" references requirement state.
+WARNING: Plant edge update "if true: P9.d := R.l elif true: P9.d := true else P9.d := true end" in the location of automaton "P9" references requirement state.
+WARNING: Plant edge update "if true: P9.d := true elif R.l: P9.d := true else P9.d := true end" in the location of automaton "P9" references requirement state.
+WARNING: Plant edge update "if true: P9.d := true elif true: P9.d := R.l else P9.d := true end" in the location of automaton "P9" references requirement state.
+WARNING: Plant edge update "if true: P9.d := true elif true: P9.d := true else P9.d := R.l end" in the location of automaton "P9" references requirement state.
 WARNING: Plant invariant "true" in the location of automaton "R7" implicitly depends on requirement state.
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
- - Unsupported linearized edges: non-determinism detected for edges of controllable event "P8.c_e" with overlapping guards: "true", "true", "true", "true", "true".
- - Unsupported location of automaton "P2": for state invariants, only plant and requirement invariants are supported.
+ - Unsupported linearized edges: non-determinism detected for edges of controllable event "P9.c_e" with overlapping guards: "true", "true", "true", "true", "true".
+ - Unsupported location of automaton "P3": for state invariants, only plant and requirement invariants are supported.
  - Unsupported specification: unsupported part "<bool>R.l" of state invariant "<bool>R.l": predicate is not supported.
  - Unsupported specification: unsupported part "[R.l, false][0:1][0]" of state invariant "[R.l, false][0:1][0]": predicate is not supported.
  - Unsupported specification: unsupported part "[true, false][0:R.v][0]" of state invariant "[true, false][0:R.v][0]": predicate is not supported.
