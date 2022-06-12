@@ -92,11 +92,6 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
     /** Assigned variables per automaton. */
     private final Map<Automaton, Set<Declaration>> assignedVariablesPerAut = map();
 
-    /** Constructor for the {@link CifDataSynthesisPlantsRefsReqsChecker} class. */
-    public CifDataSynthesisPlantsRefsReqsChecker() {
-        // Nothing to do.
-    }
-
     /**
      * Checks whether a plant references requirement state.
      *
