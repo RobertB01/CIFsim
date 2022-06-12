@@ -25,7 +25,7 @@ public class PlantsRefReqsWarnOption extends BooleanOption {
                 "Plants referencing requirements warnings",
 
                 // description
-                "Whether to warn for plants that reference requirements (BOOL=yes) or don't warn (BOOL=no). "
+                "Whether to warn for plants that reference requirement state (BOOL=yes) or don't warn (BOOL=no). "
                         + "[DEFAULT=yes]",
 
                 // cmdShort
@@ -44,10 +44,10 @@ public class PlantsRefReqsWarnOption extends BooleanOption {
                 true,
 
                 // optDialogDescr
-                "Whether to warn for plants that reference requirements.",
+                "Whether to warn for plants that reference requirement state.",
 
                 // optDialogCheckboxText
-                "Warn for plants that reference requirements");
+                "Warn for plants that reference requirement state");
     }
 
     /**

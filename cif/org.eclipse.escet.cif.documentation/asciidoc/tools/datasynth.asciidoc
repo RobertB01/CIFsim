@@ -101,7 +101,7 @@ For more information, see the section on <<tools-datasynth-stats,statistics>> be
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
 
-* _Plants referencing requirements warnings_: Whether to warn for plants that reference requirements.
+* _Plants referencing requirements warnings_: Whether to warn for plants that reference requirement state.
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
 
