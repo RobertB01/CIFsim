@@ -89,11 +89,11 @@ import org.eclipse.escet.common.java.Assert;
 /** Checker that checks for plants referencing requirements. */
 public class CifDataSynthesisPlantsRefsReqsChecker {
     /** Assigned variables per automaton. */
-    private static final Map<Automaton, Set<Declaration>> ASSIGNED_VARIABLES = map();
+    private final Map<Automaton, Set<Declaration>> assignedVariablesPerAut = map();
 
     /** Constructor for the {@link CifDataSynthesisPlantsRefsReqsChecker} class. */
-    private CifDataSynthesisPlantsRefsReqsChecker() {
-        // Static class.
+    public CifDataSynthesisPlantsRefsReqsChecker() {
+        // Nothing to do.
     }
 
     /**
@@ -101,7 +101,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
      *
      * @param spec The CIF specification to check.
      */
-    public static void checkPlantRefToRequirement(Specification spec) {
+    public void checkPlantRefToRequirement(Specification spec) {
         // Check locally.
         for (Invariant inv: spec.getInvariants()) {
             check(inv);
@@ -123,7 +123,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
      *
      * @param group The group to check.
      */
-    private static void check(Group group) {
+    private void check(Group group) {
         // Check locally.
         for (Invariant inv: group.getInvariants()) {
             check(inv);
@@ -145,7 +145,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
      *
      * @param aut The automaton to check.
      */
-    private static void check(Automaton aut) {
+    private void check(Automaton aut) {
         // If the automaton is a plant, check whether it references requirement state.
         if (aut.getKind() == SupKind.PLANT) {
             // Check whether discrete variables have initial values that references requirement state.
@@ -188,8 +188,8 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 // Check equations.
                 for (Equation equation: loc.getEquations()) {
                     if (referencesReq(equation.getValue())) {
-                        warn("Plant equation \"%s\" in %s references requirement state.", exprToStr(equation.getValue()),
-                                getLocationText2(loc));
+                        warn("Plant equation \"%s\" in %s references requirement state.",
+                                exprToStr(equation.getValue()), getLocationText2(loc));
                     }
                 }
 
@@ -245,7 +245,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
      *
      * @param inv The plant invariant to check.
      */
-    private static void check(Invariant inv) {
+    private void check(Invariant inv) {
         // Skip non plant invariants.
         if (inv.getSupKind() != SupKind.PLANT) {
             return;
@@ -265,7 +265,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
      * @param update The update to check.
      * @return {@code true} if the update references requirement state, {@code false} otherwise.
      */
-    private static boolean referencesReq(Update update) {
+    private boolean referencesReq(Update update) {
         if (update instanceof Assignment) {
             Expression value = ((Assignment)update).getValue();
             return referencesReq(value);
@@ -320,7 +320,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
      * @param expr The expression to check.
      * @return {@code true} if the expression references requirement state, {@code false} otherwise.
      */
-    private static boolean referencesReq(Expression expr) {
+    private boolean referencesReq(Expression expr) {
         if (expr instanceof BoolExpression) {
             return false;
         } else if (expr instanceof IntExpression) {
@@ -519,13 +519,13 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
             EObject parent = var.eContainer();
             if (parent instanceof Automaton && ((Automaton)parent).getKind() == SupKind.REQUIREMENT) {
                 Automaton aut = (Automaton)parent;
-                Set<Declaration> assignedVariables = ASSIGNED_VARIABLES.get(aut);
+                Set<Declaration> assignedVariables = assignedVariablesPerAut.get(aut);
 
                 // See if assigned variables are collected before. If not, collect and save.
                 if (assignedVariables == null) {
                     assignedVariables = set();
                     CifAddressableUtils.collectAddrVars(aut, assignedVariables);
-                    ASSIGNED_VARIABLES.put(aut, assignedVariables);
+                    assignedVariablesPerAut.put(aut, assignedVariables);
                 }
 
                 // Check whether the continuous variable is assigned.
