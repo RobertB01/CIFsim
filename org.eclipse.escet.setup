@@ -16,11 +16,11 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.ide.version"
-      value="2021-06"/>
+      value="2022-06"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.orbit.version"
-      value="R20210602031627"/>
+      value="R20220531185310"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse-checkstyle.version.major"
@@ -44,7 +44,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.justj.version.micro"
-      value="12"/>
+      value="15"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
