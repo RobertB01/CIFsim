@@ -1218,6 +1218,50 @@ public class CifTextUtils {
     }
 
     /**
+     * Returns whether the given CIF object has a name.
+     *
+     * <p>
+     * Note that {@link Specification}s are considered not to have a name, as the name can't be specified in the textual
+     * syntax, and is fixed in the metamodel.
+     * </p>
+     *
+     * <p>
+     * Note that {@link Field}s are considered not to have a name, even when they do have one, for compatibility with
+     * {@link #getName}. The caller should handle fields as a special case, if relevant.
+     * </p>
+     *
+     * @param obj The CIF object for which to determine whether it has a name.
+     * @return Whether the CIF object has a name ({@code true}) or not ({@code false}).
+     * @see #getName
+     * @see #getAbsName
+     */
+    public static boolean hasName(PositionObject obj) {
+        if (obj instanceof Specification) {
+            return false; // Explicitly 'false'. See method JavaDoc.
+        } else if (obj instanceof Component) {
+            return true; // Non-specification component.
+        } else if (obj instanceof ComponentDef) {
+            return true;
+        } else if (obj instanceof Parameter) {
+            return true;
+        } else if (obj instanceof Declaration) {
+            return true;
+        } else if (obj instanceof EnumLiteral) {
+            return true;
+        } else if (obj instanceof Location) {
+            return ((Location)obj).getName() != null;
+        } else if (obj instanceof Invariant) {
+            return ((Invariant)obj).getName() != null;
+        } else if (obj instanceof FunctionParameter) {
+            return true;
+        } else if (obj instanceof Field) {
+            return false; // Explicitly 'false'. See method JavaDoc.
+        } else {
+            return false; // Not a CIF object with a name.
+        }
+    }
+
+    /**
      * Returns the name of the given CIF object. Names that are keywords are not escaped. For specifications, {@code ""}
      * is returned.
      *
@@ -1228,6 +1272,7 @@ public class CifTextUtils {
      *
      * @param obj The CIF object for which to return the name. Must be a named object.
      * @return The name of the CIF object.
+     * @see #hasName
      */
     public static String getName(PositionObject obj) {
         if (obj instanceof Component) {
@@ -1281,6 +1326,21 @@ public class CifTextUtils {
 
         // Return the name of the object.
         return getName(obj);
+    }
+
+    /**
+     * Returns the object itself if it is itself a named object, the closest named ancestor of the given object if one
+     * exists, or {@code null} if the given object is itself not a named object, and also has no named ancestor.
+     *
+     * @param obj The given object.
+     * @return The given object itself (if named), its closest named ancestor (if any), or {@code null} (otherwise).
+     */
+    public static PositionObject getNamedSelfOrAncestor(PositionObject obj) {
+        PositionObject cur = obj;
+        while (cur != null && !hasName(cur)) {
+            cur = (PositionObject)cur.eContainer();
+        }
+        return cur;
     }
 
     /**

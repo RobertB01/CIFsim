@@ -11,9 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant p:
-  disc bool b in any; // Multiple potential initial values.
+package org.eclipse.escet.cif.common.checkers;
 
-  location:
-    initial b; // Non-static eval.
-end
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+
+/** CIF check that does not allow input variables. */
+public class NoInputVariablesCheck extends CifCheck {
+    @Override
+    protected void preprocessInputVariable(InputVariable var, CifCheckViolations violations) {
+        violations.add(var, "variable is an input variable");
+    }
+}

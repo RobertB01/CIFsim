@@ -11,9 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant p:
-  disc bool b in any; // Multiple potential initial values.
+package org.eclipse.escet.cif.common.checkers;
 
-  location:
-    initial b; // Non-static eval.
-end
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
+
+/** CIF check that does not allow continuous variables. */
+public class NoContinuousVariablesCheck extends CifCheck {
+    @Override
+    protected void preprocessContVariable(ContVariable var, CifCheckViolations violations) {
+        violations.add(var, "variable is a continuous variable");
+    }
+}

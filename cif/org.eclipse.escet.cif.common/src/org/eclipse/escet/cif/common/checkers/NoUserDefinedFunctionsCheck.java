@@ -11,9 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant p:
-  disc bool b in any; // Multiple potential initial values.
+package org.eclipse.escet.cif.common.checkers;
 
-  location:
-    initial b; // Non-static eval.
-end
+import org.eclipse.escet.cif.metamodel.cif.functions.Function;
+
+/** CIF check that does not allow user-defined functions. */
+public class NoUserDefinedFunctionsCheck extends CifCheck {
+    @Override
+    protected void preprocessFunction(Function func, CifCheckViolations violations) {
+        violations.add(func, "function is a user-defined function");
+    }
+}

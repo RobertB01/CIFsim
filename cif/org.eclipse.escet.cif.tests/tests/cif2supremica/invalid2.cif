@@ -51,7 +51,7 @@ plant p:
     edge u do b := i >= i;                  // Rangeless int type and '>='.
     edge u do b := true in sb;              // Set type, 'in' on set.
     edge u do b := sb sub sb;               // Set type, 'sub' on set.
-    edge u do (b, db) := sample db;         // Dict type/sample, multi-asgn.
+    edge u do (b, db) := sample db;         // Dist type/sample, multi-asgn, tuple type.
     edge u do i := +i;                      // Rangeless int type and '+'.
     edge u do i := -i;                      // Rangeless int type and '-'.
     edge u do str := "a";                   // String type/expr.

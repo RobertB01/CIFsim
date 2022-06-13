@@ -11,9 +11,16 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant p:
-  disc bool b in any; // Multiple potential initial values.
+package org.eclipse.escet.cif.common.checkers;
 
-  location:
-    initial b; // Non-static eval.
-end
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+
+/** CIF check that does not allow channels. */
+public class NoChannelsCheck extends CifCheck {
+    @Override
+    protected void preprocessEvent(Event event, CifCheckViolations violations) {
+        if (event.getType() != null) {
+            violations.add(event, "event is a channel (has a data type)");
+        }
+    }
+}
