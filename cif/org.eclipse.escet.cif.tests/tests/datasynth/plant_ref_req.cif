@@ -1,0 +1,243 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Helper variables:
+requirement R:
+  disc int v = 1;
+  location l:
+    initial; marked;
+end
+
+// Test cases:
+
+// Cast expression.
+plant <bool>R.l;
+
+// Unary expression.
+plant not R.l;
+
+// Binary expression.
+plant R.l  or true;
+plant true or R.l;
+
+// If expression.
+plant if R.l : true elif true: true else true end;
+plant if true: R.l  elif true: true else true end;
+plant if true: true elif R.l:  true else true end;
+plant if true: true elif true: R.l  else true end;
+plant if true: true elif true: true else R.l  end;
+
+// Switch expression.
+plant switch R.l:  case true: true else true end;
+plant switch true: case R.l:  true else true end;
+plant switch true: case true: R.l  else true end;
+plant switch true: case true: true else R.l  end;
+
+// Projection expression.
+// Needs a reference that can be statically evaluated, that does not exist.
+
+// Slice expression.
+plant ([true, false][0   : R.v])[0];
+plant ([true, false][R.v : 1  ])[0];
+plant ([R.l,  false][0   : 1  ])[0];
+
+// Function call expression.
+func bool f(bool b):
+  return b;
+end
+plant f(R.l);
+
+// List expression.
+plant R.l  in [true, false];
+plant true in [R.l, false];
+
+// Set expression.
+plant R.l  in {true};
+plant true in {R.l};
+
+// Tuple expression.
+alg tuple(bool t1, t2) a2 = (R.l, true);
+plant a2[0];
+
+// Dict expression.
+plant true in {R.l  : true};
+plant true in {true : R.l };
+plant R.l  in {true : true};
+
+// Constant expression.
+// Needs a reference that can be statically evaluated, that does not exist.
+
+// Disc variable expression.
+plant R.v = 3;
+
+// Alg variable expression - value.
+alg bool a = R.l;
+plant a;
+
+// Alg variable expression - indirect.
+alg bool b = a;
+plant b;
+
+// Alg variable expression - location equation.
+requirement R2:
+  alg bool c;
+  location:
+    initial; marked;
+    equation c = R.l;
+end
+plant R2.c;
+
+// Alg variable expression - component equation.
+requirement R3:
+  alg bool c;
+  equation c = R.l;
+  location:
+    initial; marked;
+end
+plant R3.c;
+
+// Equations.
+plant P1:
+  alg bool ab1, ab2;
+  cont c1, c2;
+  equation ab1 = R.l;       // Not part of the plant.
+  equation c1' = R.v * 1.0; // Not part of the plant.
+  location:
+    initial;
+    equation ab2 = R.l;       // Part of the plant.
+    equation c2' = R.v * 1.0; // Part of the plant.
+end
+
+// Continuous variable expression - value.
+cont c1 = if R.l: 1.0 else 0.0 end der -1;
+plant c1 = 0;
+
+// Continuous variable expression - derivative.
+cont c2 = 0 der if R.l: 1.0 else 0.0 end;
+plant c2 = 0;
+
+// Continuous variable expression - assignment.
+requirement R4:
+  cont c = 0 der 0;
+  controllable c_e;
+  location:
+    initial; marked;
+    edge c_e do c := 0;
+end
+plant R4.c = 0;
+
+// Continuous variable expression - not assigned - should not give a warning.
+requirement R5:
+  cont c = 0 der 0;
+  controllable c_e;
+  location:
+    initial; marked;
+    edge c_e;
+end
+plant R5.c = 0;
+
+// Continuous variables in plant.
+plant P2:
+  controllable c;
+  cont c1 = R.v * 1.0 der 0; // Assigned.
+  cont c2 = R.v * 1.0 der 0; // Not assigned.
+  cont c3 = 0 der R.v * 1.0; // Assigned.
+  cont c4 = 0 der R.v * 1.0; // Not assigned.
+  location:
+    initial; marked;
+    edge c do c1 := 0.0, c3 := 0.0;
+end
+
+// Location expression.
+plant R.l;
+
+// Component expression.
+// Cannot make component expressions.
+
+// Initial value of discrete variable.
+plant P3:
+  disc bool d = R.l;
+  location:
+    initial;
+    marked;
+    invariant d;
+end
+
+// Initialization predicate.
+plant P4:
+  location:
+    initial R.l;
+    marked;
+end
+
+// Marker predicate.
+plant P5:
+  location:
+    initial;
+    marked R.l;
+end
+
+// Invariants.
+plant P6:
+  plant R.l;
+  location:
+    initial;
+    marked;
+end
+
+requirement R6:
+  plant R.l;
+  location:
+    initial;
+    marked;
+end
+
+// Edge guard.
+plant P7:
+  controllable c_e;
+  location:
+    initial;
+    marked;
+    edge c_e when R.l;
+end
+
+// Edge update.
+plant P8:
+  controllable c_e;
+  disc bool d;
+  location:
+    initial;
+    marked;
+    edge c_e do d := R.l;
+end
+
+// Edge conditional update.
+plant P9:
+  controllable c_e;
+  disc bool d;
+  location:
+    initial;
+    marked;
+    edge c_e do if R.l:  d := true elif true: d := true else d := true end;
+    edge c_e do if true: d := R.l  elif true: d := true else d := true end;
+    edge c_e do if true: d := true elif R.l:  d := true else d := true end;
+    edge c_e do if true: d := true elif true: d := R.l  else d := true end;
+    edge c_e do if true: d := true elif true: d := true else d := R.l  end;
+end
+
+// Plant invariant in location of requirement automaton.
+requirement R7:
+  location:
+    initial; marked;
+    plant true;
+end

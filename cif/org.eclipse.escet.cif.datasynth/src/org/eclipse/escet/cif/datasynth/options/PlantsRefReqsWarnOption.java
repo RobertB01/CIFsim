@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -16,46 +16,46 @@ package org.eclipse.escet.cif.datasynth.options;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Forward reachability option. */
-public class ForwardReachOption extends BooleanOption {
-    /** Constructor for the {@link ForwardReachOption} class. */
-    public ForwardReachOption() {
+/** Plants referencing requirements warnings option. */
+public class PlantsRefReqsWarnOption extends BooleanOption {
+    /** Constructor for the {@link PlantsRefReqsWarnOption} class. */
+    public PlantsRefReqsWarnOption() {
         super(
                 // name
-                "Forward reachability",
+                "Plants referencing requirements warnings",
 
                 // description
-                "Whether to perform forward reachability during synthesis (BOOL=yes) or omit it (BOOL=no). "
-                        + "[DEFAULT=no]",
+                "Whether to warn for plants that reference requirement state (BOOL=yes) or don't warn (BOOL=no). "
+                        + "[DEFAULT=yes]",
 
                 // cmdShort
                 null,
 
                 // cmdLong
-                "forward-reach",
+                "plant-ref-req-warn",
 
                 // cmdValue
                 "BOOL",
 
                 // defaultValue
-                false,
+                true,
 
                 // showInDialog
                 true,
 
                 // optDialogDescr
-                "Perform forward reachability during synthesis or omit it.",
+                "Whether to warn for plants that reference requirement state.",
 
                 // optDialogCheckboxText
-                "Perform forward reachability");
+                "Warn for plants that reference requirement state");
     }
 
     /**
-     * Is forward reachability enabled?
+     * Are warnings for plants referencing requirements enabled?
      *
-     * @return {@code true} if forward reachability is enabled, {@code false} otherwise.
+     * @return {@code true} if warnings for plants referencing requirements are enabled, {@code false} otherwise.
      */
     public static boolean isEnabled() {
-        return Options.get(ForwardReachOption.class);
+        return Options.get(PlantsRefReqsWarnOption.class);
     }
 }

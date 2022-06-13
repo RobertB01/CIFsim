@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.datasynth.options.ContinuousPerformanceStatisticsFi
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
+import org.eclipse.escet.cif.datasynth.options.PlantsRefReqsWarnOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNameOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNamespaceOption;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
@@ -190,6 +191,11 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Eliminate component definition/instantiation, to avoid having to handle them.
             new ElimComponentDefInst().transform(spec);
+
+            // Check whether plants reference requirements.
+            if (PlantsRefReqsWarnOption.isEnabled()) {
+                new CifDataSynthesisPlantsRefsReqsChecker().checkPlantRefToRequirement(spec);
+            }
         } finally {
             if (doTiming) {
                 timing.inputPreProcess.stop();
@@ -437,6 +443,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
         synthOpts.add(Options.getInstance(ContinuousPerformanceStatisticsFileOption.class));
         synthOpts.add(Options.getInstance(EventWarnOption.class));
+        synthOpts.add(Options.getInstance(PlantsRefReqsWarnOption.class));
         OptionCategory synthCat = new OptionCategory("Synthesis", "Synthesis options.", list(bddCat), synthOpts);
 
         List<OptionCategory> cats = list(generalCat, synthCat);

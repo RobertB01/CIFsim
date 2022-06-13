@@ -28,14 +28,19 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
+import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
+import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -327,9 +332,7 @@ public class CifTextUtils {
     }
 
     /**
-     * Converts CIF expressions to a textual representation derived from the CIF ASCII syntax. References to
-     * declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and without absolute
-     * reference prefixes ({@code ^}).
+     * Converts CIF expressions to a textual representation derived from the CIF ASCII syntax.
      *
      * <p>
      * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
@@ -727,6 +730,124 @@ public class CifTextUtils {
         }
 
         throw new RuntimeException("Unknown expr: " + expr);
+    }
+
+    /**
+     * Converts CIF updates to a textual representation derived from the CIF ASCII syntax.
+     *
+     * <p>
+     * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
+     * without absolute reference prefixes ({@code ^}). Note that wrapping expressions in updates are silently
+     * discarded, and two declarations referred to via different instantiations, will both result in the same textual
+     * representation, which refers to the original declaration, regardless of via what it was referenced.
+     * </p>
+     *
+     * <p>
+     * This method, unlike the methods of the {@code CifPrettyPrinter}, supports updates that are not contained in a
+     * specification (and thus have no scope).
+     * </p>
+     *
+     * <p>
+     * Updates are converted to string, and joined using {@code ", "}.
+     * </p>
+     *
+     * @param updates The CIF updates to convert.
+     * @return The textual representation of the CIF updates.
+     * @see #updateToStr
+     * @see #exprToStr
+     */
+    public static String updatesToStr(List<Update> updates) {
+        List<String> txts = listc(updates.size());
+        for (Update update: updates) {
+            txts.add(updateToStr(update));
+        }
+        return String.join(", ", txts);
+    }
+
+    /**
+     * Converts a CIF update to a textual representation derived from the CIF ASCII syntax.
+     *
+     * <p>
+     * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
+     * without absolute reference prefixes ({@code ^}). Note that wrapping expressions in updates are silently
+     * discarded, and two declarations referred to via different instantiations, will both result in the same textual
+     * representation, which refers to the original declaration, regardless of via what it was referenced.
+     * </p>
+     *
+     * <p>
+     * This method, unlike the methods of the {@code CifPrettyPrinter}, supports updates that are not contained in a
+     * specification (and thus have no scope).
+     * </p>
+     *
+     * @param update The CIF update to convert.
+     * @return The textual representation of the CIF update.
+     * @see #exprToStr
+     */
+    public static String updateToStr(Update update) {
+        if (update instanceof Assignment) {
+            Assignment assignment = (Assignment)update;
+            return exprToStr(assignment.getAddressable()) + " := " + exprToStr(assignment.getValue());
+        }
+
+        if (update instanceof IfUpdate) {
+            IfUpdate ifUpdate = (IfUpdate)update;
+
+            StringBuilder txt = new StringBuilder();
+            txt.append("if ");
+            txt.append(exprsToStr(ifUpdate.getGuards()));
+            txt.append(": ");
+            txt.append(updatesToStr(ifUpdate.getThens()));
+
+            for (ElifUpdate elif: ifUpdate.getElifs()) {
+                txt.append(" elif ");
+                txt.append(exprsToStr(elif.getGuards()));
+                txt.append(": ");
+                txt.append(updatesToStr(elif.getThens()));
+            }
+
+            if (!ifUpdate.getElses().isEmpty()) {
+                txt.append(" else ");
+                txt.append(updatesToStr(ifUpdate.getElses()));
+            }
+
+            txt.append(" end");
+            return txt.toString();
+        }
+
+        throw new RuntimeException("Unknown update: " + update);
+    }
+
+    /**
+     * Converts a CIF equation to a textual representation derived from the CIF ASCII syntax.
+     *
+     * <p>
+     * References to declarations etc, are converted to their absolute name, with keyword escaping ({@code $}), and
+     * without absolute reference prefixes ({@code ^}). Note that wrapping expressions in equations are silently
+     * discarded, and two declarations referred to via different instantiations, will both result in the same textual
+     * representation, which refers to the original declaration, regardless of via what it was referenced.
+     * </p>
+     *
+     * <p>
+     * This method, unlike the methods of the {@code CifPrettyPrinter}, supports equations that are not contained in a
+     * specification (and thus have no scope).
+     * </p>
+     *
+     * @param equation The CIF equation to convert.
+     * @return The textual representation of the CIF equation.
+     * @see #exprToStr
+     */
+    public static String equationToStr(Equation equation) {
+        StringBuilder txt = new StringBuilder();
+        txt.append(getAbsName(equation.getVariable()));
+
+        if (equation.isDerivative()) {
+            txt.append("'");
+        }
+
+        txt.append(" = ");
+        txt.append(exprToStr(equation.getValue()));
+
+        return txt.toString();
     }
 
     /**
@@ -1443,5 +1564,37 @@ public class CifTextUtils {
             return fmt("automaton \"%s\"", getAbsName(comp));
         }
         return fmt("group \"%s\"", getAbsName(comp));
+    }
+
+    /**
+     * Returns an end-user readable textual (reference) representation of a location or component, mostly for use in
+     * error messages.
+     *
+     * <p>
+     * Can for instance be used in {@code "... in %s."} messages.
+     * </p>
+     *
+     * @param locOrComp The {@link Location} (which must be a location of an automaton, and not a location parameter) or
+     *     {@link ComplexComponent} (component definition and instantiation are not supported).
+     * @return
+     *     <ul>
+     *     <li>For locations: {@code "location \"LOC\" of automaton \"AUT\""} if the location has name {@code LOC} and
+     *     the automaton it is a part of has absolute name {@code AUT}, or {@code "the location of automaton \"AUT\""}
+     *     if the location has no name, and the automaton it is a part of has absolute name {@code AUT}.</li>
+     *     <li>For components: {@code "the top level scope of the specification"} for specifications,
+     *     {@code "group \"NAME\""} for other groups, {@code "automaton \"NAME\""} for automata, where {@code NAME} is
+     *     the absolute name of the component, with escaping of identifiers.</li>
+     *     </ul>
+     *
+     * @see #getLocationText2
+     * @see #getComponentText2
+     */
+    public static String getLocationOrComponentText2(EObject locOrComp) {
+        if (locOrComp instanceof Location) {
+            return getLocationText2((Location)locOrComp);
+        } else {
+            Assert.check(locOrComp instanceof ComplexComponent);
+            return getComponentText2((ComplexComponent)locOrComp);
+        }
     }
 }
