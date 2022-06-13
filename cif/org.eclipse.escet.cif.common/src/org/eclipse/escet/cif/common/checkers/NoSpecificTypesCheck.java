@@ -17,6 +17,7 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -39,6 +40,15 @@ import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 public class NoSpecificTypesCheck extends CifCheck {
     /** The types, or sub-types, to disallow. */
     private final EnumSet<NoSpecificType> disalloweds;
+
+    /**
+     * Constructor for the {@link NoSpecificTypesCheck} class.
+     *
+     * @param disalloweds The types, or sub-types, to disallow.
+     */
+    public NoSpecificTypesCheck(NoSpecificType... disalloweds) {
+        this(EnumSet.copyOf(Arrays.asList(disalloweds)));
+    }
 
     /**
      * Constructor for the {@link NoSpecificTypesCheck} class.

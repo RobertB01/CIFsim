@@ -19,6 +19,7 @@ import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -36,6 +37,15 @@ import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 public class NoSpecificBinaryExprsCheck extends CifCheck {
     /** The binary operators, or binary operators operating on certain operand types, to disallow. */
     private final EnumSet<NoSpecificBinaryOp> disalloweds;
+
+    /**
+     * Constructor for the {@link NoSpecificBinaryExprsCheck} class.
+     *
+     * @param disalloweds The binary operators, or binary operators operating on certain operand types, to disallow.
+     */
+    public NoSpecificBinaryExprsCheck(NoSpecificBinaryOp... disalloweds) {
+        this(EnumSet.copyOf(Arrays.asList(disalloweds)));
+    }
 
     /**
      * Constructor for the {@link NoSpecificBinaryExprsCheck} class.

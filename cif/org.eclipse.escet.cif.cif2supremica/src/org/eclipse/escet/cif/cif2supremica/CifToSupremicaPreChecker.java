@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.cif2supremica;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
@@ -128,7 +127,7 @@ public class CifToSupremicaPreChecker {
         preconditions.add(new NoChannelsCheck());
 
         // Only the following data types are supported: boolean types, ranged integer types, and enumeration types.
-        NoSpecificTypesCheck typesCheck = new NoSpecificTypesCheck(EnumSet.of( //
+        NoSpecificTypesCheck typesCheck = new NoSpecificTypesCheck( //
                 NoSpecificType.DICT_TYPES, //
                 NoSpecificType.DIST_TYPES, //
                 NoSpecificType.FUNC_TYPES, //
@@ -137,13 +136,13 @@ public class CifToSupremicaPreChecker {
                 NoSpecificType.REAL_TYPES, //
                 NoSpecificType.SET_TYPES, //
                 NoSpecificType.STRING_TYPES, //
-                NoSpecificType.TUPLE_TYPES));
+                NoSpecificType.TUPLE_TYPES);
         preconditions.add(typesCheck);
 
         // Only the following expressions are supported: boolean literal values, integer literal values, binary
         // expressions (partially, see below), unary expressions (partially, see below), and references to constants,
         // discrete variables, enumeration literals, and casts that don’t change the type.
-        NoSpecificExprsCheck exprsCheck = new NoSpecificExprsCheck(EnumSet.of( //
+        NoSpecificExprsCheck exprsCheck = new NoSpecificExprsCheck( //
                 NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE, //
                 NoSpecificExpr.DICT_LITS, //
                 NoSpecificExpr.FUNC_CALLS, //
@@ -156,7 +155,7 @@ public class CifToSupremicaPreChecker {
                 NoSpecificExpr.STRING_LITS, //
                 NoSpecificExpr.SWITCH_EXPRS, //
                 NoSpecificExpr.TIME_VAR_REFS, //
-                NoSpecificExpr.TUPLE_LITS));
+                NoSpecificExpr.TUPLE_LITS);
         preconditions.add(exprsCheck);
 
         // Only the following binary operators are supported: logical equivalence (<=>), logical implication (=>),
@@ -166,7 +165,7 @@ public class CifToSupremicaPreChecker {
         // inequality (!=), less than (<) on ranged integer operands, less than or equal to (<=) on ranged integer
         // operands, greater than (>) on ranged integer operands, and greater than or equal to (>=) on ranged integer
         // operands.
-        NoSpecificBinaryExprsCheck binCheck = new NoSpecificBinaryExprsCheck(EnumSet.of( //
+        NoSpecificBinaryExprsCheck binCheck = new NoSpecificBinaryExprsCheck( //
                 NoSpecificBinaryOp.CONJUNCTION_SETS, //
                 NoSpecificBinaryOp.DISJUNCTION_SETS, //
                 NoSpecificBinaryOp.ADDITION_DICTS, //
@@ -193,17 +192,17 @@ public class CifToSupremicaPreChecker {
                 NoSpecificBinaryOp.LESS_THAN_REALS, //
                 NoSpecificBinaryOp.DIVISION, //
                 NoSpecificBinaryOp.ELEMENT_OF, //
-                NoSpecificBinaryOp.SUBSET));
+                NoSpecificBinaryOp.SUBSET);
         preconditions.add(binCheck);
 
         // Only the following unary operators are supported: logical inverse (not), negation (-) on a ranged integer
         // operand, and plus (+) on a ranged integer operand.
-        NoSpecificUnaryExprsCheck unCheck = new NoSpecificUnaryExprsCheck(EnumSet.of( //
+        NoSpecificUnaryExprsCheck unCheck = new NoSpecificUnaryExprsCheck( //
                 NoSpecificUnaryOp.NEGATE_INTS_RANGELESS, //
                 NoSpecificUnaryOp.NEGATE_REALS, //
                 NoSpecificUnaryOp.PLUS_INTS_RANGELESS, //
                 NoSpecificUnaryOp.PLUS_REALS, //
-                NoSpecificUnaryOp.SAMPLE));
+                NoSpecificUnaryOp.SAMPLE);
         preconditions.add(unCheck);
 
         // Perform precondition check.

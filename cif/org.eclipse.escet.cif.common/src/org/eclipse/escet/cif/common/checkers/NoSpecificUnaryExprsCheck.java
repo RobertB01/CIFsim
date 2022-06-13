@@ -19,6 +19,7 @@ import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -32,6 +33,15 @@ import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 public class NoSpecificUnaryExprsCheck extends CifCheck {
     /** The unary operators, or unary operators operating on certain operand types, to disallow. */
     private final EnumSet<NoSpecificUnaryOp> disalloweds;
+
+    /**
+     * Constructor for the {@link NoSpecificUnaryExprsCheck} class.
+     *
+     * @param disalloweds The unary operators, or unary operators operating on certain operand types, to disallow.
+     */
+    public NoSpecificUnaryExprsCheck(NoSpecificUnaryOp... disalloweds) {
+        this(EnumSet.copyOf(Arrays.asList(disalloweds)));
+    }
 
     /**
      * Constructor for the {@link NoSpecificUnaryExprsCheck} class.

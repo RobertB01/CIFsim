@@ -17,6 +17,7 @@ import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.emf.ecore.EObject;
@@ -69,6 +70,15 @@ import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 public class NoSpecificExprsCheck extends CifCheck {
     /** The expressions to disallow. */
     private final EnumSet<NoSpecificExpr> disalloweds;
+
+    /**
+     * Constructor for the {@link NoSpecificExprsCheck} class.
+     *
+     * @param disalloweds The expressions to disallow.
+     */
+    public NoSpecificExprsCheck(NoSpecificExpr... disalloweds) {
+        this(EnumSet.copyOf(Arrays.asList(disalloweds)));
+    }
 
     /**
      * Constructor for the {@link NoSpecificExprsCheck} class.
