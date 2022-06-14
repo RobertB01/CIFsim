@@ -927,6 +927,7 @@ public class CifToSynthesisConverter {
         // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
         // relations exist for improving the variable order. It also avoids division by zero issues.
         VarOrdererHelper helper = new VarOrdererHelper(spec, synthAut.variables);
+        long graphEdgeCount = helper.getGraph().edgeCount();
         if (helper.getHyperEdges().length == 0) {
             if (dbgEnabled) {
                 dbg();
@@ -935,7 +936,7 @@ public class CifToSynthesisConverter {
             }
             return;
         }
-        if (helper.getGraph().edgeCount() == 0) {
+        if (graphEdgeCount == 0) {
             if (dbgEnabled) {
                 dbg();
                 dbg("Skipping automatic variable ordering: no graph edges.");
@@ -949,7 +950,7 @@ public class CifToSynthesisConverter {
             dbg();
             dbg("Applying automatic variable ordering:");
             dbg("  Number of hyper-edges: %,d", helper.getHyperEdges().length);
-            dbg("  Number of graph edges: %,d", helper.getGraph().edgeCount());
+            dbg("  Number of graph edges: %,d", graphEdgeCount);
             dbg();
         }
         VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);

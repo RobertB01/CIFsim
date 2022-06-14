@@ -13,25 +13,24 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.graph;
 
+import static org.eclipse.escet.common.java.BitSets.bitset;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.list2set;
-import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Comparator;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSets;
 
 /** A weighted graph with empty diagonal. */
 public class Graph {
@@ -87,27 +86,43 @@ public class Graph {
     /**
      * Partition this graph, which may be non-connected, into connected sub-graphs.
      *
-     * @return Per partition (connected sub-graphs), the nodes of that partition.
+     * @return Per partition (connected sub-graph), the nodes of that partition.
      */
     public List<List<Node>> partition() {
         List<List<Node>> partitions = listc(1); // Optimize for connected graphs.
-        Set<Node> unpartitionedNodes = list2set(nodes);
+        BitSet unpartitionedNodes = BitSets.ones(nodes.size());
         while (!unpartitionedNodes.isEmpty()) {
-            Node unpartitionedNode = unpartitionedNodes.iterator().next();
-            Set<Node> partition = set();
-            Deque<Node> queue = new LinkedList<>();
-            queue.add(unpartitionedNode);
-            while (!queue.isEmpty()) {
-                Node curNode = queue.remove();
-                boolean added = partition.add(curNode);
-                if (added) {
-                    queue.addAll(curNode.neighbours());
+            // Initialize an empty new partition. Then iteratively consider new nodes to add. Before and after each
+            // iteration the following invariant holds: the 'new nodes' and 'partition' are disjoint.
+            BitSet partition = bitset();
+            BitSet newNodes = bitset();
+            newNodes.set(unpartitionedNodes.nextSetBit(0));
+            while (!newNodes.isEmpty()) {
+                // Find all neighbours of the new nodes.
+                BitSet neighbours = bitset();
+                for (int i: BitSets.iterateTrueBits(newNodes)) {
+                    for (Node neighbour: node(i).neighbours()) {
+                        neighbours.set(neighbour.index);
+                    }
                 }
+
+                // Move new nodes to the partition.
+                partition.or(newNodes);
+
+                // Promote the neighbours not yet in the 'partition' to the 'new nodes'. Restores the invariant.
+                newNodes = neighbours;
+                newNodes.andNot(partition);
             }
-            List<Node> sortedPartition = partition.stream().sorted(Comparator.comparingInt(n -> n.index))
-                    .collect(Collectors.toList());
-            partitions.add(sortedPartition); // Keep nodes within partition in origin order.
-            unpartitionedNodes.removeAll(partition);
+
+            // Add partition.
+            List<Node> partitionNodes = listc(partition.cardinality());
+            for (int i: BitSets.iterateTrueBits(partition)) {
+                partitionNodes.add(node(i));
+            }
+            partitions.add(partitionNodes);
+
+            // Update unpartitioned nodes.
+            unpartitionedNodes.andNot(partition);
         }
         return partitions;
     }
@@ -141,7 +156,7 @@ public class Graph {
     }
 
     /**
-     * Constructs a graph from the given text.
+     * Constructs a graph from the given text, for testing purposes.
      *
      * @param text The text. Each line is considered a row. Each character is an element in the row. A '{@code .}' is
      *     interpreted as zero. Any other character must be a single digit positive weight value.
@@ -149,7 +164,7 @@ public class Graph {
      * @throws AssertionError If the text is not valid.
      * @throws IllegalArgumentException If the text is not valid.
      */
-    public static Graph fromString(String text) {
+    static Graph fromString(String text) {
         List<String> lines = Arrays.asList(text.replace("\r", "").split("\n"));
         Graph graph = new Graph(lines.size());
         for (int i = 0; i < lines.size(); i++) {
@@ -159,14 +174,13 @@ public class Graph {
                 char c = line.charAt(j);
 
                 // Get weight.
-                int weight = 0;
-                if (c != '.') {
-                    try {
-                        weight = Integer.parseInt(String.valueOf(c));
-                        Assert.check(weight > 0);
-                    } catch (NumberFormatException e) {
-                        throw new IllegalArgumentException(fmt("Invalid weight \"%s\".", c), e);
-                    }
+                int weight;
+                if (c == '.') {
+                    weight = 0;
+                } else if (c >= '1' && c <= '9') {
+                    weight = c - '0';
+                } else {
+                    throw new IllegalArgumentException(fmt("Invalid weight \"%s\".", c));
                 }
 
                 // Add edge if non-zero weight.
@@ -182,21 +196,21 @@ public class Graph {
 
     @Override
     public String toString() {
-        int minWeight = nodes.stream().flatMap(n -> n.edges().stream()).map(e -> e.getValue())
-                .min(Comparator.naturalOrder()).orElse(0);
+        // If only single-digit weights are used, then no separation is used in the matrix representation.
+        // Otherwise a single space is used as separator between columns.
         int maxWeight = nodes.stream().flatMap(n -> n.edges().stream()).map(e -> e.getValue())
                 .max(Comparator.naturalOrder()).orElse(0);
-        int separator = (minWeight >= 0 && maxWeight <= 9) ? 0 : 1;
+        int separator = (maxWeight <= 9) ? 0 : 1;
         return toString(separator);
     }
 
     /**
-     * Converts the graph to a textual matrix representation.
+     * Converts the graph to a textual matrix representation, for debugging and testing purposes.
      *
      * @param separation The number of spaces separation between columns.
      * @return The textual matrix representation.
      */
-    public String toString(int separation) {
+    String toString(int separation) {
         GridBox grid = new GridBox(nodes.size(), nodes.size(), 0, separation);
         for (Node node: nodes) {
             for (Entry<Node, Integer> edge: node.edges()) {
