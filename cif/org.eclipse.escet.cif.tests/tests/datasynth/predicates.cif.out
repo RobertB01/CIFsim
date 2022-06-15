@@ -19,6 +19,7 @@ CIF variables and location pointers:
 
 Applying automatic variable ordering:
   Number of hyper-edges: 105
+  Number of graph edges: 12
 
   Applying 2 algorithms, sequentially:
     Applying FORCE algorithm.
