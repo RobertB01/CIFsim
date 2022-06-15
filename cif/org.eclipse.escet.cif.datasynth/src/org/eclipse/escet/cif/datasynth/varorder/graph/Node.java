@@ -47,7 +47,7 @@ public class Node {
      */
     public void addEdge(Node node, int weight) {
         Assert.check(node != this); // Self loops not allowed.
-        Assert.check(weight > 0); // Negative weights are not supported. Zero weights are not to be represented.
+        Assert.check(weight > 0); // Require positive weight (negative is unsupported; no edge means zero weight).
         Integer prevWeight = edges.put(node, weight);
         Assert.check(prevWeight == null, prevWeight); // Multiple edges to the same node not allowed.
     }

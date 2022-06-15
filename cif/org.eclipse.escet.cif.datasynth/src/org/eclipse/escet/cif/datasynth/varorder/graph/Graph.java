@@ -113,11 +113,7 @@ public class Graph {
             }
 
             // Add partition.
-            List<Node> partitionNodes = listc(partition.cardinality());
-            for (int i: BitSets.iterateTrueBits(partition)) {
-                partitionNodes.add(node(i));
-            }
-            partitions.add(partitionNodes);
+            partitions.add(partition.stream().mapToObj(i -> node(i)).collect(Collectors.toList()));
 
             // Update unpartitioned nodes.
             unpartitionedNodes.andNot(partition);
