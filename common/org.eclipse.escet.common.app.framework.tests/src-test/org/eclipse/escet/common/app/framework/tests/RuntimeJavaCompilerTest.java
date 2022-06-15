@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.app.framework;
+package org.eclipse.escet.common.app.framework.tests;
 
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.junit.Assert.assertEquals;

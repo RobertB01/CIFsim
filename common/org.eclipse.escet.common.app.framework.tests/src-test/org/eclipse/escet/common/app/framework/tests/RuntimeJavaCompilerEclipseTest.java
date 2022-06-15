@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.app.framework;
+package org.eclipse.escet.common.app.framework.tests;
 
-/** {@link RuntimeJavaCompilerTest} with "jdk" Java compiler. */
-public class RuntimeJavaCompilerJdkTest extends RuntimeJavaCompilerTest {
+/** {@link RuntimeJavaCompilerTest} with "eclipse" Java compiler. */
+public class RuntimeJavaCompilerEclipseTest extends RuntimeJavaCompilerTest {
     @Override
     protected String getCompilerName() {
-        return "jdk";
+        return "eclipse";
     }
 }
