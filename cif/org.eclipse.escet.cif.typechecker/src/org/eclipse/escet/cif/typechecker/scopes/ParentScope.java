@@ -212,7 +212,6 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
 
             // Store invariant.
             declarations.put(wrapper.getName(), wrapper);
-
         } else {
             // For nameless invariants, add it to the nameless invariants of this scope.
             namelessInvariants.add(invariantInfo);
