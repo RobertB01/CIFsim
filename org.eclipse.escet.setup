@@ -444,7 +444,7 @@
         <repository
             url="https://download.eclipse.org/tools/orbit/downloads/drops/${eclipse.orbit.version}/repository"/>
         <repository
-            url="http://download.eclipse.org/justj/jres/${eclipse.justj.version.major}/updates/release/${eclipse.justj.version.major}.${eclipse.justj.version.minor}.${eclipse.justj.version.micro}"/>
+            url="https://download.eclipse.org/justj/jres/${eclipse.justj.version.major}/updates/release/${eclipse.justj.version.major}.${eclipse.justj.version.minor}.${eclipse.justj.version.micro}"/>
       </repositoryList>
     </targlet>
   </setupTask>
