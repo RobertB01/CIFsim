@@ -58,12 +58,11 @@ This section explains a 'quick and dirty' solution that gives Eclipse more memor
 
 Find the `eclipse-escet.ini` file.
 By default, it is located in your Eclipse ESCET installation directory, except for macOS, where instead it is in the `EclipseESCET-vNNN.app/Contents/Eclipse` directory, with `vNNN` the version number, inside the Eclipse ESCET installation directory.
-Modify the last line (usually `-Xmx4g`).
-Replace it by the following to change the maximum available memory from 4 link:https://en.wikipedia.org/wiki/Gibibyte[GiB] to 8 GiB:
+Add the following line to the file, as its new last line, to change the maximum available memory to 32 link:https://en.wikipedia.org/wiki/Gibibyte[GiB]:
 
 [source]
 ----
--Xmx8g
+-Xmx32g
 ----
 
 Restart the Eclipse ESCET IDE or command line script to apply the new settings.
