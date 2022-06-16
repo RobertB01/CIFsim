@@ -27,7 +27,7 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 
 /**
- * Pseudo-peripheral node finder algorithm by Sloan.
+ * Pseudo-peripheral node pair finder algorithm by Sloan.
  *
  * <p>
  * This algorithm is from: S. W. Sloan, "A FORTRAN program for profile and wavefront reduction", International Journal
@@ -35,12 +35,7 @@ import org.eclipse.escet.common.java.Pair;
  * doi:<a href="https://doi.org/10.1002/nme.1620281111">10.1002/nme.1620281111</a>.
  * </p>
  */
-public class SloanPseudoPeripheralNodeFinder implements PseudoPeripheralNodeFinder {
-    @Override
-    public boolean supportsFindingNodePair() {
-        return true;
-    }
-
+public class SloanPseudoPeripheralNodeFinder implements PseudoPeripheralNodePairFinder {
     @Override
     public Node findPseudoPeripheralNode(Graph graph, List<Node> partition, Node startNode) {
         return findPseudoPeripheralNodePair(graph, partition, startNode).left;

@@ -41,19 +41,20 @@ public abstract class PseudoPeripheralNodeFinderTest {
     @Test
     public void testSingleNode() {
         // Create algorithm.
-        PseudoPeripheralNodeFinder pseudoPeripheralNodeFinder = createPseudoPeripheralNodeFinder();
+        PseudoPeripheralNodeFinder nodeFinder = createPseudoPeripheralNodeFinder();
 
         // Create graph.
         Graph graph = new Graph(1);
         Node node = graph.node(0);
 
         // Test finding a pseudo-peripheral node.
-        Node node2 = pseudoPeripheralNodeFinder.findPseudoPeripheralNode(graph, graph.nodes, null);
+        Node node2 = nodeFinder.findPseudoPeripheralNode(graph, graph.nodes, null);
         assertEquals(node, node2);
 
         // Test finding a pseudo-peripheral node pair.
-        if (pseudoPeripheralNodeFinder.supportsFindingNodePair()) {
-            Pair<Node, Node> pair = pseudoPeripheralNodeFinder.findPseudoPeripheralNodePair(graph, graph.nodes, null);
+        if (nodeFinder instanceof PseudoPeripheralNodePairFinder) {
+            PseudoPeripheralNodePairFinder pairFinder = (PseudoPeripheralNodePairFinder)nodeFinder;
+            Pair<Node, Node> pair = pairFinder.findPseudoPeripheralNodePair(graph, graph.nodes, null);
             assertEquals(pair(node, node), pair);
         }
     }
@@ -62,7 +63,7 @@ public abstract class PseudoPeripheralNodeFinderTest {
     @Test
     public void testTwoPartitionsSingleNode() {
         // Create algorithm.
-        PseudoPeripheralNodeFinder pseudoPeripheralNodeFinder = createPseudoPeripheralNodeFinder();
+        PseudoPeripheralNodeFinder nodeFinder = createPseudoPeripheralNodeFinder();
 
         // Create graph.
         Graph graph = new Graph(2);
@@ -70,13 +71,13 @@ public abstract class PseudoPeripheralNodeFinderTest {
         // Test per partition.
         for (int i = 0; i < graph.size(); i++) {
             // Test finding a pseudo-peripheral node.
-            Node node = pseudoPeripheralNodeFinder.findPseudoPeripheralNode(graph, list(graph.node(i)), null);
+            Node node = nodeFinder.findPseudoPeripheralNode(graph, list(graph.node(i)), null);
             assertSame(graph.node(i), node);
 
             // Test finding a pseudo-peripheral node pair.
-            if (pseudoPeripheralNodeFinder.supportsFindingNodePair()) {
-                Pair<Node, Node> pair = pseudoPeripheralNodeFinder.findPseudoPeripheralNodePair(graph,
-                        list(graph.node(i)), null);
+            if (nodeFinder instanceof PseudoPeripheralNodePairFinder) {
+                PseudoPeripheralNodePairFinder pairFinder = (PseudoPeripheralNodePairFinder)nodeFinder;
+                Pair<Node, Node> pair = pairFinder.findPseudoPeripheralNodePair(graph, list(graph.node(i)), null);
                 assertSame(graph.node(i), pair.left);
                 assertSame(graph.node(i), pair.right);
             }
@@ -90,7 +91,7 @@ public abstract class PseudoPeripheralNodeFinderTest {
     @Test
     public void testTwoPartitionsSequence() {
         // Create algorithm.
-        PseudoPeripheralNodeFinder pseudoPeripheralNodeFinder = createPseudoPeripheralNodeFinder();
+        PseudoPeripheralNodeFinder nodeFinder = createPseudoPeripheralNodeFinder();
 
         // Create graph (n0-n1-n2, n3-n4-n5).
         Graph graph = new Graph(6);
@@ -113,13 +114,14 @@ public abstract class PseudoPeripheralNodeFinderTest {
 
         for (int i = 0; i < 3; i++) {
             // 1a) Test finding a pseudo-peripheral node.
-            Node node = pseudoPeripheralNodeFinder.findPseudoPeripheralNode(graph, partitions.get(0), graph.node(i));
+            Node node = nodeFinder.findPseudoPeripheralNode(graph, partitions.get(0), graph.node(i));
             assertTrue(peripheralNodes.contains(node));
 
             // 1b) Test finding a pseudo-peripheral node pair.
-            if (pseudoPeripheralNodeFinder.supportsFindingNodePair()) {
-                Pair<Node, Node> pair = pseudoPeripheralNodeFinder.findPseudoPeripheralNodePair(graph,
-                        partitions.get(0), graph.node(i));
+            if (nodeFinder instanceof PseudoPeripheralNodePairFinder) {
+                PseudoPeripheralNodePairFinder pairFinder = (PseudoPeripheralNodePairFinder)nodeFinder;
+                Pair<Node, Node> pair = pairFinder.findPseudoPeripheralNodePair(graph, partitions.get(0),
+                        graph.node(i));
                 assertEquals(peripheralNodes, set(pair.left, pair.right));
             }
         }
@@ -129,13 +131,14 @@ public abstract class PseudoPeripheralNodeFinderTest {
 
         for (int i = 3; i < 6; i++) {
             // 2a) Test finding a pseudo-peripheral node.
-            Node node = pseudoPeripheralNodeFinder.findPseudoPeripheralNode(graph, partitions.get(1), graph.node(i));
+            Node node = nodeFinder.findPseudoPeripheralNode(graph, partitions.get(1), graph.node(i));
             assertTrue(peripheralNodes.contains(node));
 
             // 2b) Test finding a pseudo-peripheral node pair.
-            if (pseudoPeripheralNodeFinder.supportsFindingNodePair()) {
-                Pair<Node, Node> pair = pseudoPeripheralNodeFinder.findPseudoPeripheralNodePair(graph,
-                        partitions.get(1), graph.node(i));
+            if (nodeFinder instanceof PseudoPeripheralNodePairFinder) {
+                PseudoPeripheralNodePairFinder pairFinder = (PseudoPeripheralNodePairFinder)nodeFinder;
+                Pair<Node, Node> pair = pairFinder.findPseudoPeripheralNodePair(graph, partitions.get(1),
+                        graph.node(i));
                 assertEquals(peripheralNodes, set(pair.left, pair.right));
             }
         }
@@ -149,7 +152,7 @@ public abstract class PseudoPeripheralNodeFinderTest {
     @Test
     public void testPaper() {
         // Create algorithm.
-        PseudoPeripheralNodeFinder pseudoPeripheralNodeFinder = createPseudoPeripheralNodeFinder();
+        PseudoPeripheralNodeFinder nodeFinder = createPseudoPeripheralNodeFinder();
 
         // Create graph.
         Graph graph = new Graph(8);
@@ -182,13 +185,13 @@ public abstract class PseudoPeripheralNodeFinderTest {
         // Test with each node in the graph as start node.
         for (int i = 0; i < graph.size(); i++) {
             // Test finding a pseudo-peripheral node.
-            Node node = pseudoPeripheralNodeFinder.findPseudoPeripheralNode(graph, graph.nodes, graph.node(i));
+            Node node = nodeFinder.findPseudoPeripheralNode(graph, graph.nodes, graph.node(i));
             assertTrue(node.toString(), expectedNodes.contains(node));
 
             // Test finding a pseudo-peripheral node pair.
-            if (pseudoPeripheralNodeFinder.supportsFindingNodePair()) {
-                Pair<Node, Node> pair = pseudoPeripheralNodeFinder.findPseudoPeripheralNodePair(graph, graph.nodes,
-                        graph.node(i));
+            if (nodeFinder instanceof PseudoPeripheralNodePairFinder) {
+                PseudoPeripheralNodePairFinder pairFinder = (PseudoPeripheralNodePairFinder)nodeFinder;
+                Pair<Node, Node> pair = pairFinder.findPseudoPeripheralNodePair(graph, graph.nodes, graph.node(i));
                 assertTrue(pair.toString(), expectedPairs.contains(pair));
             }
         }

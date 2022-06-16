@@ -17,18 +17,19 @@ import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
+import org.eclipse.escet.common.java.Pair;
 
-/** Pseudo-peripheral node finder algorithm. */
-public interface PseudoPeripheralNodeFinder {
+/** Pseudo-peripheral node pair finder algorithm. */
+public interface PseudoPeripheralNodePairFinder extends PseudoPeripheralNodeFinder {
     /**
-     * Find a pseudo-peripheral node in the given sub-graph.
+     * Find a pair of pseudo-peripheral nodes which lie at opposite ends of a pseudo-diameter, in the given sub-graph.
      *
      * @param graph The graph.
      * @param partition The sub-graph of the graph to consider. Must be a maximal connected sub-graph (partition) of
      *     {@code graph}.
      * @param startNode The start node at which to start the search. If provided, must be a node in the
      *     {@code partition}. May be {@code null} to let the algorithm itself decide the start node.
-     * @return A pseudo-peripheral node.
+     * @return A pair of pseudo-peripheral nodes which lie at opposite ends of a pseudo-diameter.
      */
-    public Node findPseudoPeripheralNode(Graph graph, List<Node> partition, Node startNode);
+    public Pair<Node, Node> findPseudoPeripheralNodePair(Graph graph, List<Node> partition, Node startNode);
 }

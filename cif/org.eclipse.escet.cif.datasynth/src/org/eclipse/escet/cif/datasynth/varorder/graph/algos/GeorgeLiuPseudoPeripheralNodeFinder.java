@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
-import org.eclipse.escet.common.java.Pair;
 
 /**
  * Pseudo-peripheral node finder algorithm by George and Liu.
@@ -32,16 +31,6 @@ import org.eclipse.escet.common.java.Pair;
  * </p>
  */
 public class GeorgeLiuPseudoPeripheralNodeFinder implements PseudoPeripheralNodeFinder {
-    @Override
-    public boolean supportsFindingNodePair() {
-        return false;
-    }
-
-    @Override
-    public Pair<Node, Node> findPseudoPeripheralNodePair(Graph graph, List<Node> partition, Node startNode) {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public Node findPseudoPeripheralNode(Graph graph, List<Node> partition, Node startNode) {
         // Based on 'FNROOT' subroutine from the paper by George and Liu.
