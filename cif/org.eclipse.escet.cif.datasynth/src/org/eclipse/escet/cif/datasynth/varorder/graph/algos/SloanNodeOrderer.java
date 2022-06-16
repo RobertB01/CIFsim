@@ -44,8 +44,8 @@ public class SloanNodeOrderer extends NodeOrderer {
         // Steps refer to the algorithm steps as described on page 2656 of the paper.
 
         // Step 1 (Entry): Enter with the endpoints of a pseudo-diameter, nodes 's' and 'e'.
-        Pair<Node, Node> endpoints = new SloanPseudoPeripheralNodeFinder().findPseudoPeripheralNodePair(graph,
-                partition, null);
+        PseudoPeripheralNodePairFinder pairFinder = new SloanPseudoPeripheralNodeFinder();
+        Pair<Node, Node> endpoints = pairFinder.findPseudoPeripheralNodePair(graph, partition, null);
         Node s = endpoints.left;
         Node e = endpoints.right;
 

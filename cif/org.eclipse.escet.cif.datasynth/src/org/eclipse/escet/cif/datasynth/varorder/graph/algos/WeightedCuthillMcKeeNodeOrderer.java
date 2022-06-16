@@ -67,7 +67,6 @@ public class WeightedCuthillMcKeeNodeOrderer extends NodeOrderer {
 
         // Line 3: Mark 'p' and append 'p' to 'R'.
         BitSet marked = bitset(graph.size());
-        int markedCount = 1;
         marked.set(p.index);
         vR.add(p);
 
@@ -75,7 +74,7 @@ public class WeightedCuthillMcKeeNodeOrderer extends NodeOrderer {
         int ri = 0;
 
         // Lines 4-9: While unmarked nodes exist.
-        while (markedCount < partition.size()) {
+        while (marked.cardinality() < partition.size()) {
             // Lines 5+6: Find list of unmarked neighbors 'C' of 'p' and sort 'C' in descending weight. Sort nodes
             // in 'C' with equal weight in ascending degree.
             List<Entry<Node, Integer>> vC = p.edges().stream().filter(e -> !marked.get(e.getKey().index))
@@ -89,7 +88,6 @@ public class WeightedCuthillMcKeeNodeOrderer extends NodeOrderer {
                 vR.add(c);
                 Assert.check(!marked.get(c.index));
                 marked.set(c.index);
-                markedCount++;
             }
 
             // Line 8: Set the next node in 'R' as 'p'.
