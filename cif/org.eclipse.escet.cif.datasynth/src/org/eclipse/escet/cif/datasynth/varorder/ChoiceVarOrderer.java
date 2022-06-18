@@ -49,8 +49,8 @@ public class ChoiceVarOrderer implements VarOrderer {
     }
 
     @Override
-    public SynthesisVariable[] order(VarOrdererHelper helper, SynthesisVariable[] inputOrder, boolean dbgEnabled,
-            int dbgLevel)
+    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+            boolean dbgEnabled, int dbgLevel)
     {
         // Debug output before applying the algorithms.
         if (dbgEnabled) {
@@ -62,7 +62,7 @@ public class ChoiceVarOrderer implements VarOrderer {
         }
 
         // Initialize best order.
-        SynthesisVariable[] bestOrder = null;
+        List<SynthesisVariable> bestOrder = null;
         long bestSpan = Long.MAX_VALUE;
 
         // Apply each algorithm.
@@ -74,10 +74,10 @@ public class ChoiceVarOrderer implements VarOrderer {
 
             // Apply algorithm. Each algorithm is independently applied to the input variable order.
             VarOrderer algorithm = algorithms.get(i);
-            SynthesisVariable[] algoOrder = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
+            List<SynthesisVariable> algoOrder = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
 
             // Update best order.
-            long algoSpan = helper.computeTotalSpan(algoOrder);
+            long algoSpan = helper.computeTotalSpanForVarOrder(algoOrder);
             if (algoSpan < bestSpan) {
                 bestOrder = algoOrder;
                 bestSpan = algoSpan;

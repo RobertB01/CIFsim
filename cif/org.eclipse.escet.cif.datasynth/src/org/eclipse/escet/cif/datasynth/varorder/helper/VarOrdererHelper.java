@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth.varorder.helper;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
 
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
@@ -172,9 +173,9 @@ public class VarOrdererHelper {
      * @param order The variable order.
      * @return The total span.
      */
-    public long computeTotalSpan(SynthesisVariable[] order) {
-        int[] newIndices = getNewIndices(order);
-        return computeTotalSpan(newIndices);
+    public long computeTotalSpanForVarOrder(List<SynthesisVariable> order) {
+        int[] newIndices = getNewIndicesForVarOrder(order);
+        return computeTotalSpanForNewIndices(newIndices);
     }
 
     /**
@@ -183,9 +184,9 @@ public class VarOrdererHelper {
      * @param order The node order.
      * @return The total span.
      */
-    public long computeTotalSpan(List<Node> order) {
-        int[] newIndices = getNewIndices(order);
-        return computeTotalSpan(newIndices);
+    public long computeTotalSpanForNodeOrder(List<Node> order) {
+        int[] newIndices = getNewIndicesForNodeOrder(order);
+        return computeTotalSpanForNewIndices(newIndices);
     }
 
     /**
@@ -194,7 +195,7 @@ public class VarOrdererHelper {
      * @param newIndices For each variable, its new 0-based index.
      * @return The total span.
      */
-    public long computeTotalSpan(int[] newIndices) {
+    public long computeTotalSpanForNewIndices(int[] newIndices) {
         // Total span is the sum of the span of the edges.
         long totalSpan = 0;
         for (BitSet edge: hyperEdges) {
@@ -221,9 +222,9 @@ public class VarOrdererHelper {
      * @param order The variable order.
      * @param annotation A human-readable text indicating the reason for printing the total span.
      */
-    public void dbgTotalSpan(int dbgLevel, SynthesisVariable[] order, String annotation) {
-        int[] newIndices = getNewIndices(order);
-        dbgTotalSpan(dbgLevel, newIndices, annotation);
+    public void dbgTotalSpanForVarOrder(int dbgLevel, List<SynthesisVariable> order, String annotation) {
+        int[] newIndices = getNewIndicesForVarOrder(order);
+        dbgTotalSpanForNewIndices(dbgLevel, newIndices, annotation);
     }
 
     /**
@@ -233,9 +234,9 @@ public class VarOrdererHelper {
      * @param order The node order.
      * @param annotation A human-readable text indicating the reason for printing the total span.
      */
-    public void dbgTotalSpan(int dbgLevel, List<Node> order, String annotation) {
-        int[] newIndices = getNewIndices(order);
-        dbgTotalSpan(dbgLevel, newIndices, annotation);
+    public void dbgTotalSpanForNodeOrder(int dbgLevel, List<Node> order, String annotation) {
+        int[] newIndices = getNewIndicesForNodeOrder(order);
+        dbgTotalSpanForNewIndices(dbgLevel, newIndices, annotation);
     }
 
     /**
@@ -245,8 +246,8 @@ public class VarOrdererHelper {
      * @param newIndices For each variable, its new 0-based index.
      * @param annotation A human-readable text indicating the reason for printing the total span.
      */
-    public void dbgTotalSpan(int dbgLevel, int[] newIndices, String annotation) {
-        long totalSpan = computeTotalSpan(newIndices);
+    public void dbgTotalSpanForNewIndices(int dbgLevel, int[] newIndices, String annotation) {
+        long totalSpan = computeTotalSpanForNewIndices(newIndices);
         dbgTotalSpan(dbgLevel, totalSpan, annotation);
     }
 
@@ -268,10 +269,10 @@ public class VarOrdererHelper {
      * @param order The new variable order.
      * @return For each variable, its new 0-based index.
      */
-    public int[] getNewIndices(SynthesisVariable[] order) {
-        int[] newIndices = new int[order.length];
-        for (int i = 0; i < order.length; i++) {
-            newIndices[origIndices.get(order[i])] = i;
+    public int[] getNewIndicesForVarOrder(List<SynthesisVariable> order) {
+        int[] newIndices = new int[order.size()];
+        for (int i = 0; i < order.size(); i++) {
+            newIndices[origIndices.get(order.get(i))] = i;
         }
         return newIndices;
     }
@@ -282,7 +283,7 @@ public class VarOrdererHelper {
      * @param order The new node order.
      * @return For each variable/node, its new 0-based index.
      */
-    public int[] getNewIndices(List<Node> order) {
+    public int[] getNewIndicesForNodeOrder(List<Node> order) {
         int[] newIndices = new int[order.size()];
         for (int i = 0; i < order.size(); i++) {
             newIndices[order.get(i).index] = i;
@@ -296,9 +297,9 @@ public class VarOrdererHelper {
      * @param order The new variable/node order.
      * @return The synthesis variables, in their new order.
      */
-    public SynthesisVariable[] reorder(List<Node> order) {
-        int[] varOrder = getNewIndices(order);
-        return reorder(varOrder);
+    public List<SynthesisVariable> reorderForNodeOrder(List<Node> order) {
+        int[] varOrder = getNewIndicesForNodeOrder(order);
+        return reorderForNewIndices(varOrder);
     }
 
     /**
@@ -307,12 +308,12 @@ public class VarOrdererHelper {
      * @param newIndices For each variable, its new 0-based index.
      * @return The synthesis variables, in their new order.
      */
-    public SynthesisVariable[] reorder(int[] newIndices) {
+    public List<SynthesisVariable> reorderForNewIndices(int[] newIndices) {
         Assert.areEqual(variables.length, newIndices.length);
         SynthesisVariable[] result = new SynthesisVariable[variables.length];
         for (int i = 0; i < newIndices.length; i++) {
             result[newIndices[i]] = variables[i];
         }
-        return result;
+        return Arrays.asList(result);
     }
 }

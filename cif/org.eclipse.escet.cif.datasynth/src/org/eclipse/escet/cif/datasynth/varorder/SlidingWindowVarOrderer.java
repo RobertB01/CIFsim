@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.datasynth.varorder;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 import org.eclipse.escet.common.java.PermuteUtils;
@@ -34,11 +36,11 @@ public class SlidingWindowVarOrderer implements VarOrderer {
     }
 
     @Override
-    public SynthesisVariable[] order(VarOrdererHelper helper, SynthesisVariable[] inputOrder, boolean dbgEnabled,
-            int dbgLevel)
+    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+            boolean dbgEnabled, int dbgLevel)
     {
         // Get variable count.
-        int varCnt = inputOrder.length;
+        int varCnt = inputOrder.size();
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
@@ -52,8 +54,8 @@ public class SlidingWindowVarOrderer implements VarOrderer {
         }
 
         // Initialize current indices and total span.
-        int[] curIndices = helper.getNewIndices(inputOrder);
-        long curSpan = helper.computeTotalSpan(curIndices);
+        int[] curIndices = helper.getNewIndicesForVarOrder(inputOrder);
+        long curSpan = helper.computeTotalSpanForNewIndices(curIndices);
         if (dbgEnabled) {
             helper.dbgTotalSpan(dbgLevel, curSpan, "before");
         }
@@ -73,7 +75,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
             for (int i = 0; i < windowPerms.length; i++) {
                 int[] windowPerm = windowPerms[i];
                 System.arraycopy(windowPerm, 0, windowIndices, offset, length);
-                long windowSpan = helper.computeTotalSpan(windowIndices);
+                long windowSpan = helper.computeTotalSpanForNewIndices(windowIndices);
                 if (windowSpan < curSpan) {
                     curSpan = windowSpan;
                     bestIdx = i;
@@ -96,6 +98,6 @@ public class SlidingWindowVarOrderer implements VarOrderer {
         }
 
         // Return the resulting order.
-        return helper.reorder(curIndices);
+        return helper.reorderForNewIndices(curIndices);
     }
 }

@@ -959,20 +959,20 @@ public class CifToSynthesisConverter {
             dbg();
         }
         VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
-        SynthesisVariable[] curOrder = synthAut.variables;
-        SynthesisVariable[] newOrder = orderer.order(helper, synthAut.variables, dbgEnabled, 1);
+        List<SynthesisVariable> curOrder = Arrays.asList(synthAut.variables);
+        List<SynthesisVariable> newOrder = orderer.order(helper, Arrays.asList(synthAut.variables), dbgEnabled, 1);
 
         // If the new order differs from the current order, reorder.
-        boolean orderChanged = !Arrays.equals(curOrder, newOrder);
+        boolean orderChanged = !curOrder.equals(newOrder);
         if (dbgEnabled) {
             dbg();
             dbg("Variable order %schanged.", orderChanged ? "" : "un");
         }
 
         if (orderChanged) {
-            Assert.areEqual(curOrder.length, newOrder.length); // Same length.
-            Assert.areEqual(list2set(Arrays.asList(curOrder)), list2set(Arrays.asList(newOrder))); // Same variables.
-            synthAut.variables = newOrder;
+            Assert.areEqual(curOrder.size(), newOrder.size()); // Same length.
+            Assert.areEqual(list2set(curOrder), list2set(newOrder)); // Same variables.
+            synthAut.variables = newOrder.toArray(n -> new SynthesisVariable[n]);
             for (int i = 0; i < synthAut.variables.length; i++) {
                 synthAut.variables[i].group = i;
             }

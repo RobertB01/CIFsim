@@ -28,8 +28,8 @@ import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
  */
 public class SloanVarOrderer implements VarOrderer {
     @Override
-    public SynthesisVariable[] order(VarOrdererHelper helper, SynthesisVariable[] inputOrder, boolean dbgEnabled,
-            int dbgLevel)
+    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+            boolean dbgEnabled, int dbgLevel)
     {
         // Get graph.
         Graph graph = helper.getGraph();
@@ -37,7 +37,7 @@ public class SloanVarOrderer implements VarOrderer {
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Applying Sloan algorithm.");
-            helper.dbgTotalSpan(dbgLevel, inputOrder, "before");
+            helper.dbgTotalSpanForVarOrder(dbgLevel, inputOrder, "before");
         }
 
         // Apply algorithm.
@@ -45,10 +45,10 @@ public class SloanVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgTotalSpan(dbgLevel, order, "after");
+            helper.dbgTotalSpanForNodeOrder(dbgLevel, order, "after");
         }
 
         // Return the resulting order.
-        return helper.reorder(order);
+        return helper.reorderForNodeOrder(order);
     }
 }
