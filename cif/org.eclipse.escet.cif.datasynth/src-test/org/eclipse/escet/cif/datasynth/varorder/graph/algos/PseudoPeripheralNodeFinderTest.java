@@ -30,6 +30,14 @@ import org.junit.Test;
 
 /** Base class for {@link PseudoPeripheralNodeFinder} tests. */
 public abstract class PseudoPeripheralNodeFinderTest {
+    /** The pseudo-peripheral node finder algorithm to test. */
+    private final PseudoPeripheralNodeFinder nodeFinder;
+
+    /** Constructor for the {@link PseudoPeripheralNodeFinderTest} class. */
+    public PseudoPeripheralNodeFinderTest() {
+        nodeFinder = createPseudoPeripheralNodeFinder();
+    }
+
     /**
      * Create a pseudo-peripheral node finder algorithm.
      *
@@ -40,9 +48,6 @@ public abstract class PseudoPeripheralNodeFinderTest {
     /** Test finding a pseudo-peripheral nodes, for a graph with a single node. */
     @Test
     public void testSingleNode() {
-        // Create algorithm.
-        PseudoPeripheralNodeFinder nodeFinder = createPseudoPeripheralNodeFinder();
-
         // Create graph.
         Graph graph = new Graph(1);
         Node node = graph.node(0);
@@ -62,9 +67,6 @@ public abstract class PseudoPeripheralNodeFinderTest {
     /** Test finding a pseudo-peripheral nodes, for a graph with two partitions, each with a single node. */
     @Test
     public void testTwoPartitionsSingleNode() {
-        // Create algorithm.
-        PseudoPeripheralNodeFinder nodeFinder = createPseudoPeripheralNodeFinder();
-
         // Create graph.
         Graph graph = new Graph(2);
 
@@ -90,9 +92,6 @@ public abstract class PseudoPeripheralNodeFinderTest {
      */
     @Test
     public void testTwoPartitionsSequence() {
-        // Create algorithm.
-        PseudoPeripheralNodeFinder nodeFinder = createPseudoPeripheralNodeFinder();
-
         // Create graph (n0-n1-n2, n3-n4-n5).
         Graph graph = new Graph(6);
         Node n0 = graph.node(0);
@@ -151,9 +150,6 @@ public abstract class PseudoPeripheralNodeFinderTest {
      */
     @Test
     public void testPaper() {
-        // Create algorithm.
-        PseudoPeripheralNodeFinder nodeFinder = createPseudoPeripheralNodeFinder();
-
         // Create graph.
         Graph graph = new Graph(8);
         Node n1 = graph.node(0);
