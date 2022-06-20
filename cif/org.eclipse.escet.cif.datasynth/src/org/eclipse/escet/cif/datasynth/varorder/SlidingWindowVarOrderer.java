@@ -76,13 +76,13 @@ public class SlidingWindowVarOrderer implements VarOrderer {
                 int[] windowPerm = windowPerms[i];
                 System.arraycopy(windowPerm, 0, windowIndices, offset, length);
                 long windowSpan = helper.computeTotalSpanForNewIndices(windowIndices);
-                if (windowSpan < curSpan) {
+                if (windowSpan < curSpan) { // Check for better order (with lower total span).
                     curSpan = windowSpan;
                     bestIdx = i;
                 }
             }
 
-            // Update order if improved by this window.
+            // Update order if improved by this window (has lower total span).
             if (bestIdx >= 0) {
                 System.arraycopy(windowPerms[bestIdx], 0, curIndices, offset, length);
 

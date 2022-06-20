@@ -61,7 +61,7 @@ public class ChoiceVarOrderer implements VarOrderer {
             }
         }
 
-        // Initialize best order.
+        // Initialize best order (with lowest span).
         List<SynthesisVariable> bestOrder = null;
         long bestSpan = Long.MAX_VALUE;
 
@@ -76,7 +76,7 @@ public class ChoiceVarOrderer implements VarOrderer {
             VarOrderer algorithm = algorithms.get(i);
             List<SynthesisVariable> algoOrder = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
 
-            // Update best order.
+            // Update best order (with lowest span).
             long algoSpan = helper.computeTotalSpanForVarOrder(algoOrder);
             if (algoSpan < bestSpan) {
                 bestOrder = algoOrder;

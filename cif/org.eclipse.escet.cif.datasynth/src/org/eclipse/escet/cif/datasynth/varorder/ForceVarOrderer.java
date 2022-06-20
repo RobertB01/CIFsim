@@ -36,8 +36,8 @@ import org.eclipse.escet.common.java.BitSets;
  */
 public class ForceVarOrderer implements VarOrderer {
     @Override
-    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
-            int dbgLevel)
+    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+            boolean dbgEnabled, int dbgLevel)
     {
         // Get hyper-edges.
         int varCnt = inputOrder.size();
@@ -139,7 +139,7 @@ public class ForceVarOrderer implements VarOrderer {
                 break;
             }
 
-            // Update best order, if new order is better than the current best order.
+            // Update best order, if new order is better than the current best order (has lower total span).
             if (newTotalSpan < bestTotalSpan) {
                 System.arraycopy(curIndices, 0, bestIndices, 0, varCnt);
                 bestTotalSpan = newTotalSpan;

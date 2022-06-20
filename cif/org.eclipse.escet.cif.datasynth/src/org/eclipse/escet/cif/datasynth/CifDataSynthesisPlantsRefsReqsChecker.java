@@ -219,8 +219,8 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 // Check equations.
                 for (Equation equation: loc.getEquations()) {
                     if (referencesReq(equation.getValue())) {
-                        warn("Plant equation \"%s\" in %s references requirement state.",
-                                equationToStr(equation), getLocationText2(loc));
+                        warn("Plant equation \"%s\" in %s references requirement state.", equationToStr(equation),
+                                getLocationText2(loc));
                     }
                 }
 
