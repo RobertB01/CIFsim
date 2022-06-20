@@ -121,6 +121,10 @@ For more information, see the <<tools-datasynth-supervisor-bdd>> section below.
 The initial order of the boolean variables is determined by this option.
 For more information, see the <<tools-datasynth-var-order>> section below.
 
+* _BDD DCSH variable ordering algorithm_: CIF variables and automata are represented using one or more boolean variables.
+The initial order of the boolean variables can be improved by enabling this option.
+For more information, see the <<tools-datasynth-var-order>> section below.
+
 * _BDD FORCE variable ordering algorithm_: CIF variables and automata are represented using one or more boolean variables.
 The initial order of the boolean variables can be improved by enabling this option.
 For more information, see the <<tools-datasynth-var-order>> section below.
@@ -1099,23 +1103,56 @@ Manually specifying a custom order often requires specialist knowledge and can t
 Luckily, there are algorithms that can automatically compute a decent variable order.
 
 The algorithms all take an initial variable ordering, and try to improve it using a fast heuristic.
-A better initial variable ordering may result in a better final variable ordering (a better local optimum), and may speed up the automatic variable ordering algorithm (reaching an optimum faster).
+Some algorithms search for a local optimum.
+A better initial variable ordering may then result in a better final variable ordering (a better local optimum), and may also speed up the automatic variable ordering algorithm itself (reaching an optimum faster).
+Other algorithms search for a global optimum.
+However, the algorithms are all based on heuristics.
+The guarantees that they provide differ, but none of them guarantees that synthesis will actually be quicker.
+In practice however, they typically do improve synthesis performance, especially for larger and more complex models.
 
 For the initial variable ordering, the CIF variables and location pointers may be arbitrarily interleaved.
 If an automatic variable ordering algorithm changes the initial order, no synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 
-The automatic variable ordering algorithms are not applied if the CIF model has less than two synthesis variables.
-They are also not applied if the model has no guards, updates, or other predicates to use as input for the algorithms, i.e. there are no _hyperedges_ to which to apply the algorithms.
+The automatic variable ordering algorithms are not applied if the CIF model has less than two synthesis variables, as with zero variables there is nothing to order, and with one variable there is only one possible order.
+They are also not applied if the model has no guards, updates, or other predicates from which to derive relations between the variables.
+Without such relations, the algorithms lack the required input to search for improved variable orders.
 
-The following algorithms are available:
+The variable relations serve as input for the algorithms.
+Different algorithms may use different representations of the variable relations, such as _hyper-edges_ or _graph edges_.
+Further information about these representations may be obtained by enabling <<tools-datasynth-dbg-output,debug output>>.
+
+The following variable ordering algorithms are available:
+
+* _DCSH_
++
+The DCSH algorithm of <<lousberg20>> aims to find good global variable orders.
++
+DCSH applies two algorithms, the Weighted Cuthill-McKee bandwidth-reducing algorithm and the Sloan profile/wavefront-reducing algorithm.
+It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the total span metric.
++
+The DCSH algorithm is currently considered experimental.
+It is therefore disabled by default, but can be enabled using the _BDD DCSH variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
 
 * _FORCE_
 +
-The FORCE algorithm of <<aloul03>> is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
+The FORCE algorithm of <<aloul03>> aims to optimize an existing variable order, but may get stuck in a local optimum.
 +
-At most 10 * ceil(log~e~(n)) iterations of the FORCE algorithm are performed, with `n` the number of current/old BDD/boolean variables.
+FORCE iteratively computes new variable orders by considering relations between the variables.
+Conceptually, highly related variables 'pull' each other closer with more force than less related variables do.
+Each new order is promoted as the new best order, if it is better than the current best order, based on the total span metric.
+The iterative algorithm stops once a fixed point has been reached, or after at most 10 * ceil(log~e~(n)) iterations of the algorithm have been performed, with `n` the number of synthesis variables.
++
+The FORCE algorithm is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
 
 * _Sliding window_
++
+The sliding window algorithm aims to locally optimize an existing variable order for each window.
++
+The sliding window algorithm 'slides' over the variable order, from left to right, one variable at a time, using a fixed-length _window_.
+A window is a part of the entire order.
+For instance, for a variable order `a;b;c;d;e` and windows length 3, the window at index 0 would be `a;b;c`, at index 1 it would be `b;c;d`, and at index 2 it would be `c;d;e`.
+For each window, it computes all possible variable permutations, and selects the best one based on the total span metric.
+It then replaces the window by the best permutation of that window, before moving on to the next window.
 +
 The sliding window algorithm is enabled by default, but can be disabled using the _BDD sliding window variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
 +
@@ -1187,6 +1224,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | <<tools-datasynth-var-order>>
 | Better order for smaller BDD representations
 | Choose the best order, depends on the model, (reversed) model/sorted usually good choices, custom order allows for best performance
+
+| Order
+| BDD DCSH variable ordering algorithm
+| <<tools-datasynth-var-order>>
+| Better order for smaller BDD representations
+| Enable for automatic ordering
 
 | Order
 | BDD FORCE variable ordering algorithm
@@ -1298,6 +1341,8 @@ The supervisor can then only guarantee safe, non-blocking behavior if the system
 === References
 
 * [[[aloul03,Aloul et al. (2003)]]] Fadi A. Aloul, Igor L. Markov and Karem A. Sakallah, "FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic", In: Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119, 2003, doi:link:https://doi.org/10.1145/764808.764839[10.1145/764808.764839]
+
+* [[[lousberg20,Lousberg et al. (2020)]]] Sam Lousberg, Sander Thuijsman and Michel Reniers, "DSM-based variable ordering heuristic for reduced computational effort of symbolic supervisor synthesis", IFAC-PapersOnLine, volume 53, issue 4, pages 429-436, 2020, doi:link:https://doi.org/10.1016/j.ifacol.2021.04.058[10.1016/j.ifacol.2021.04.058]
 
 * [[[minato96,Minato (1996)]]] Shin-ichi Minato, "Binary Decision Diagrams and Applications for VLSI CAD", The Kluwer International Series in Engineering and Computer Science, volume 342, Springer, 1996, doi:link:https://doi.org/10.1007/978-1-4613-1303-8[10.1007/978-1-4613-1303-8]
 

@@ -18,6 +18,8 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.junit.Assert.assertSame;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -53,13 +55,13 @@ public class VarOrdererHelperTest {
         // Reorder the variables.
         int[] newIndices = {0, 4, 1, 2, 3}; // For each variable in 'variables', its new 0-based index.
         VarOrdererHelper helper = new VarOrdererHelper(spec, variables);
-        SynthesisVariable[] ordered = helper.reorder(newIndices); // Invariant: ordered[newIndices[i]] == variables[i]
+        List<SynthesisVariable> ordered = helper.reorderForNewIndices(newIndices);
 
-        // Check the result.
-        assertSame(a, ordered[0]);
-        assertSame(c, ordered[1]);
-        assertSame(d, ordered[2]);
-        assertSame(e, ordered[3]);
-        assertSame(b, ordered[4]);
+        // Check the result. Invariant: ordered[newIndices[i]] == variables[i].
+        assertSame(a, ordered.get(0));
+        assertSame(c, ordered.get(1));
+        assertSame(d, ordered.get(2));
+        assertSame(e, ordered.get(3));
+        assertSame(b, ordered.get(4));
     }
 }

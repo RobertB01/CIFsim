@@ -38,8 +38,8 @@ public class SequentialVarOrderer implements VarOrderer {
     }
 
     @Override
-    public SynthesisVariable[] order(VarOrdererHelper helper, SynthesisVariable[] inputOrder, boolean dbgEnabled,
-            int dbgLevel)
+    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+            boolean dbgEnabled, int dbgLevel)
     {
         // Debug output before applying the algorithms.
         if (dbgEnabled) {
@@ -47,7 +47,7 @@ public class SequentialVarOrderer implements VarOrderer {
         }
 
         // Initialize variable order to the input variable order.
-        SynthesisVariable[] order = inputOrder;
+        List<SynthesisVariable> order = inputOrder;
 
         // Apply each algorithm, in order, to the result of the previous algorithm.
         for (int i = 0; i < algorithms.size(); i++) {

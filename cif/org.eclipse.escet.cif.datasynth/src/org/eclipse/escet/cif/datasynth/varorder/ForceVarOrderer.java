@@ -36,11 +36,11 @@ import org.eclipse.escet.common.java.BitSets;
  */
 public class ForceVarOrderer implements VarOrderer {
     @Override
-    public SynthesisVariable[] order(VarOrdererHelper helper, SynthesisVariable[] inputOrder, boolean dbgEnabled,
-            int dbgLevel)
+    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+            boolean dbgEnabled, int dbgLevel)
     {
         // Get hyper-edges.
-        int varCnt = inputOrder.length;
+        int varCnt = inputOrder.size();
         BitSet[] hyperEdges = helper.getHyperEdges();
 
         // Debug output before applying the algorithm.
@@ -72,7 +72,7 @@ public class ForceVarOrderer implements VarOrderer {
         // Initialize variable indices: for each variable (in their original order), its new 0-based index.
         int[] curIndices; // Current indices computed by the algorithm.
         int[] bestIndices; // Best indices computed by the algorithm.
-        curIndices = helper.getNewIndices(inputOrder);
+        curIndices = helper.getNewIndicesForVarOrder(inputOrder);
         bestIndices = curIndices.clone();
 
         // Determine maximum number of iterations.
@@ -83,7 +83,7 @@ public class ForceVarOrderer implements VarOrderer {
         }
 
         // Initialize total span.
-        long curTotalSpan = helper.computeTotalSpan(curIndices);
+        long curTotalSpan = helper.computeTotalSpanForNewIndices(curIndices);
         long bestTotalSpan = curTotalSpan;
         if (dbgEnabled) {
             helper.dbgTotalSpan(dbgLevel, curTotalSpan, "before");
@@ -125,7 +125,7 @@ public class ForceVarOrderer implements VarOrderer {
             }
 
             // Get new total span.
-            long newTotalSpan = helper.computeTotalSpan(curIndices);
+            long newTotalSpan = helper.computeTotalSpanForNewIndices(curIndices);
             if (dbgEnabled) {
                 helper.dbgTotalSpan(dbgLevel, newTotalSpan, fmt("iteration %,d", curIter + 1));
             }
@@ -139,7 +139,7 @@ public class ForceVarOrderer implements VarOrderer {
                 break;
             }
 
-            // Update best order, if new order is better than the current best order.
+            // Update best order, if new order is better than the current best order (has lower total span).
             if (newTotalSpan < bestTotalSpan) {
                 System.arraycopy(curIndices, 0, bestIndices, 0, varCnt);
                 bestTotalSpan = newTotalSpan;
@@ -155,7 +155,7 @@ public class ForceVarOrderer implements VarOrderer {
         }
 
         // Return the best order.
-        return helper.reorder(bestIndices);
+        return helper.reorderForNewIndices(bestIndices);
     }
 
     /**
