@@ -479,7 +479,7 @@ I just released vN.N-NNN:
 Note that mirrors may still need to sync, so downloads may be a bit slower until then.
 ----
 
-** Also send an email to the <<development-dev-list-chapter-index,escet-dev list>> with similar content.
+** Also send an email to `escet-dev@eclipse.org` with similar content.
 
 * Clean up after the release:
 
