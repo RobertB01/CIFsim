@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.datasynth.varorder.helper;
 
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.BitSet;
@@ -63,6 +64,12 @@ public class VarOrdererHelper {
      */
     private final Graph graph;
 
+    /** The number of characters to use for printing the total span metric in debug output. */
+    private final int metricLengthTotalSpan;
+
+    /** The number of characters to use for printing the total span metric, as average per edge, in debug output. */
+    private final int metricLengthTotalSpanAvg;
+
     /**
      * Constructor for the {@link VarOrdererHelper} class.
      *
@@ -70,12 +77,25 @@ public class VarOrdererHelper {
      * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
      */
     public VarOrdererHelper(Specification spec, List<SynthesisVariable> variables) {
+        // Store the input.
         this.spec = spec;
         this.variables = variables;
-        this.origIndices = IntStream.range(0, variables.size()).boxed()
-                .collect(Collectors.toMap(i -> variables.get(i), i -> i));
+
+        // Compute and store different representations of the specification.
         this.hyperEdges = createHyperEdges();
         this.graph = createGraph();
+
+        // Store additional derivative information used to improve performance of some helper operations.
+        this.origIndices = IntStream.range(0, variables.size()).boxed()
+                .collect(Collectors.toMap(i -> variables.get(i), i -> i));
+
+        // Store the number of characters to use to print various metrics. We compute the length needed to print the
+        // current value of each metric, and allow for two additional characters. Based on the assumption that the
+        // metrics won't get a 100 times worse, this should provide enough space to neatly print them. If they do get
+        // over a 100 times worse, printing may be slightly less neat, but will still work.
+        this.metricLengthTotalSpan = fmt("%,d", computeTotalSpanForVarOrder(variables)).length() + 2;
+        this.metricLengthTotalSpanAvg = fmt("%,.2f", (double)computeTotalSpanForVarOrder(variables) / hyperEdges.length)
+                .length() + 2;
     }
 
     /**
@@ -216,51 +236,52 @@ public class VarOrdererHelper {
     }
 
     /**
-     * Prints the total span as debug output, for the given variable order.
+     * Print various metrics as debug output, for the given variable order.
      *
      * @param dbgLevel The debug indentation level.
      * @param order The variable order.
-     * @param annotation A human-readable text indicating the reason for printing the total span.
+     * @param annotation A human-readable text indicating the reason for printing the metrics.
      */
-    public void dbgTotalSpanForVarOrder(int dbgLevel, List<SynthesisVariable> order, String annotation) {
+    public void dbgMetricsForVarOrder(int dbgLevel, List<SynthesisVariable> order, String annotation) {
         int[] newIndices = getNewIndicesForVarOrder(order);
-        dbgTotalSpanForNewIndices(dbgLevel, newIndices, annotation);
+        dbgMetricsForNewIndices(dbgLevel, newIndices, annotation);
     }
 
     /**
-     * Prints the total span as debug output, for the given node order.
+     * Print various metrics as debug output, for the given node order.
      *
      * @param dbgLevel The debug indentation level.
      * @param order The node order.
-     * @param annotation A human-readable text indicating the reason for printing the total span.
+     * @param annotation A human-readable text indicating the reason for printing the metrics.
      */
-    public void dbgTotalSpanForNodeOrder(int dbgLevel, List<Node> order, String annotation) {
+    public void dbgMetricsForNodeOrder(int dbgLevel, List<Node> order, String annotation) {
         int[] newIndices = getNewIndicesForNodeOrder(order);
-        dbgTotalSpanForNewIndices(dbgLevel, newIndices, annotation);
+        dbgMetricsForNewIndices(dbgLevel, newIndices, annotation);
     }
 
     /**
-     * Prints the total span as debug output, for the given new indices of the variables.
+     * Print various metrics as debug output, for the given new indices of the variables.
      *
      * @param dbgLevel The debug indentation level.
      * @param newIndices For each variable, its new 0-based index.
-     * @param annotation A human-readable text indicating the reason for printing the total span.
+     * @param annotation A human-readable text indicating the reason for printing the metrics.
      */
-    public void dbgTotalSpanForNewIndices(int dbgLevel, int[] newIndices, String annotation) {
+    public void dbgMetricsForNewIndices(int dbgLevel, int[] newIndices, String annotation) {
         long totalSpan = computeTotalSpanForNewIndices(newIndices);
-        dbgTotalSpan(dbgLevel, totalSpan, annotation);
+        dbgMetrics(dbgLevel, totalSpan, annotation);
     }
 
     /**
-     * Prints the given total span as debug output.
+     * Print various metrics as debug output.
      *
      * @param dbgLevel The debug indentation level.
      * @param totalSpan The given total span.
-     * @param annotation A human-readable text indicating the reason for printing the total span.
+     * @param annotation A human-readable text indicating the reason for printing the metrics.
      */
-    public void dbgTotalSpan(int dbgLevel, long totalSpan, String annotation) {
-        dbg(dbgLevel, "Total span: %,20d (total) %,20.2f (avg/edge) [%s]", totalSpan,
-                (double)totalSpan / hyperEdges.length, annotation);
+    public void dbgMetrics(int dbgLevel, long totalSpan, String annotation) {
+        String fmtTotalSpan = fmt("%," + metricLengthTotalSpan + "d", totalSpan);
+        String fmtTotalSpanAvg = fmt("%," + metricLengthTotalSpanAvg + ".2f", (double)totalSpan / hyperEdges.length);
+        dbg(dbgLevel, "Total span: %s (total) %s (avg/edge) [%s]", fmtTotalSpan, fmtTotalSpanAvg, annotation);
     }
 
     /**

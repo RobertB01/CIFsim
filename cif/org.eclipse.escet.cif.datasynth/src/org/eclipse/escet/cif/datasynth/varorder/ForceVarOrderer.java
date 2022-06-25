@@ -86,7 +86,7 @@ public class ForceVarOrderer implements VarOrderer {
         long curTotalSpan = helper.computeTotalSpanForNewIndices(curIndices);
         long bestTotalSpan = curTotalSpan;
         if (dbgEnabled) {
-            helper.dbgTotalSpan(dbgLevel, curTotalSpan, "before");
+            helper.dbgMetrics(dbgLevel, curTotalSpan, "before");
         }
 
         // Perform iterations of the algorithm.
@@ -127,7 +127,7 @@ public class ForceVarOrderer implements VarOrderer {
             // Get new total span.
             long newTotalSpan = helper.computeTotalSpanForNewIndices(curIndices);
             if (dbgEnabled) {
-                helper.dbgTotalSpan(dbgLevel, newTotalSpan, fmt("iteration %,d", curIter + 1));
+                helper.dbgMetrics(dbgLevel, newTotalSpan, fmt("iteration %,d", curIter + 1));
             }
 
             // Stop when total span stops changing. We could stop as soon as it stops decreasing. However, we may end
@@ -151,7 +151,7 @@ public class ForceVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgTotalSpan(dbgLevel, bestTotalSpan, "after");
+            helper.dbgMetrics(dbgLevel, bestTotalSpan, "after");
         }
 
         // Return the best order.

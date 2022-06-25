@@ -37,7 +37,7 @@ public class SloanVarOrderer implements VarOrderer {
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Applying Sloan algorithm.");
-            helper.dbgTotalSpanForVarOrder(dbgLevel, inputOrder, "before");
+            helper.dbgMetricsForVarOrder(dbgLevel, inputOrder, "before");
         }
 
         // Apply algorithm.
@@ -45,7 +45,7 @@ public class SloanVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgTotalSpanForNodeOrder(dbgLevel, order, "after");
+            helper.dbgMetricsForNodeOrder(dbgLevel, order, "after");
         }
 
         // Return the resulting order.

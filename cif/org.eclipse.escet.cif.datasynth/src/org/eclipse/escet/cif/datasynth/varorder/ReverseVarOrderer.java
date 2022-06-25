@@ -51,7 +51,7 @@ public class ReverseVarOrderer implements VarOrderer {
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Reversed the variable order.");
-            helper.dbgTotalSpanForVarOrder(dbgLevel, order, "reversed");
+            helper.dbgMetricsForVarOrder(dbgLevel, order, "reversed");
         }
 
         // Return the resulting variable order.
