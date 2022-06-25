@@ -46,7 +46,7 @@ public class VarOrdererHelper {
     private final Specification spec;
 
     /** The synthesis variables, in their original order, before applying any algorithm on it. */
-    private final SynthesisVariable[] variables;
+    private final List<SynthesisVariable> variables;
 
     /** For each synthesis variable in the original variable order, its 0-based index within that order. */
     private final Map<SynthesisVariable, Integer> origIndices;
@@ -69,11 +69,11 @@ public class VarOrdererHelper {
      * @param spec The CIF specification.
      * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
      */
-    public VarOrdererHelper(Specification spec, SynthesisVariable[] variables) {
+    public VarOrdererHelper(Specification spec, List<SynthesisVariable> variables) {
         this.spec = spec;
         this.variables = variables;
-        this.origIndices = IntStream.range(0, variables.length).boxed()
-                .collect(Collectors.toMap(i -> variables[i], i -> i));
+        this.origIndices = IntStream.range(0, variables.size()).boxed()
+                .collect(Collectors.toMap(i -> variables.get(i), i -> i));
         this.hyperEdges = createHyperEdges();
         this.graph = createGraph();
     }
@@ -123,7 +123,7 @@ public class VarOrdererHelper {
         }
 
         // Create undirected weighted graph.
-        Graph graph = new Graph(variables.length);
+        Graph graph = new Graph(variables.size());
         for (Entry<Pair<Integer, Integer>, Integer> graphEdge: graphEdges.entrySet()) {
             Node ni = graph.node(graphEdge.getKey().left);
             Node nj = graph.node(graphEdge.getKey().right);
@@ -309,10 +309,10 @@ public class VarOrdererHelper {
      * @return The synthesis variables, in their new order.
      */
     public List<SynthesisVariable> reorderForNewIndices(int[] newIndices) {
-        Assert.areEqual(variables.length, newIndices.length);
-        SynthesisVariable[] result = new SynthesisVariable[variables.length];
+        Assert.areEqual(variables.size(), newIndices.length);
+        SynthesisVariable[] result = new SynthesisVariable[variables.size()];
         for (int i = 0; i < newIndices.length; i++) {
-            result[newIndices[i]] = variables[i];
+            result[newIndices[i]] = variables.get(i);
         }
         return Arrays.asList(result);
     }

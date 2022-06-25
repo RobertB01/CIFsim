@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth.varorder.helper;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.Assert.assertSame;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class VarOrdererHelperTest {
         SynthesisVariable c = new SynthesisInputVariable(vc, newIntType(0, null, 0), 1, 0, 0);
         SynthesisVariable d = new SynthesisInputVariable(vd, newIntType(0, null, 0), 1, 0, 0);
         SynthesisVariable e = new SynthesisInputVariable(ve, newIntType(0, null, 0), 1, 0, 0);
-        SynthesisVariable[] variables = {a, b, c, d, e};
+        List<SynthesisVariable> variables = list(a, b, c, d, e);
 
         // Reorder the variables.
         int[] newIndices = {0, 4, 1, 2, 3}; // For each variable in 'variables', its new 0-based index.

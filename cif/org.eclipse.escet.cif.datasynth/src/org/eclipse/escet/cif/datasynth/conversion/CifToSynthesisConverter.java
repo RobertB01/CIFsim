@@ -931,7 +931,8 @@ public class CifToSynthesisConverter {
 
         // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
         // relations exist for improving the variable order. It also avoids division by zero issues.
-        VarOrdererHelper helper = new VarOrdererHelper(spec, synthAut.variables);
+        List<SynthesisVariable> variables = Arrays.asList(synthAut.variables);
+        VarOrdererHelper helper = new VarOrdererHelper(spec, variables);
         long graphEdgeCount = helper.getGraph().edgeCount();
         if (helper.getHyperEdges().length == 0) {
             if (dbgEnabled) {
@@ -960,7 +961,7 @@ public class CifToSynthesisConverter {
         }
         VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
         List<SynthesisVariable> curOrder = Arrays.asList(synthAut.variables);
-        List<SynthesisVariable> newOrder = orderer.order(helper, Arrays.asList(synthAut.variables), dbgEnabled, 1);
+        List<SynthesisVariable> newOrder = orderer.order(helper, variables, dbgEnabled, 1);
 
         // If the new order differs from the current order, reorder.
         boolean orderChanged = !curOrder.equals(newOrder);
