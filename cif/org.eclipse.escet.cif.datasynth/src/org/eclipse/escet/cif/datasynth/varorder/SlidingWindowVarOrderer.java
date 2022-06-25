@@ -57,7 +57,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
         int[] curIndices = helper.getNewIndicesForVarOrder(inputOrder);
         long curSpan = helper.computeTotalSpanForNewIndices(curIndices);
         if (dbgEnabled) {
-            helper.dbgMetrics(dbgLevel, curSpan, "before");
+            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "before");
         }
 
         // Process all windows.
@@ -87,14 +87,15 @@ public class SlidingWindowVarOrderer implements VarOrderer {
                 System.arraycopy(windowPerms[bestIdx], 0, curIndices, offset, length);
 
                 if (dbgEnabled) {
-                    helper.dbgMetrics(dbgLevel, curSpan, fmt("window %d..%d", offset, offset + length - 1));
+                    helper.dbgMetricsForNewIndices(dbgLevel, curIndices,
+                            fmt("window %d..%d", offset, offset + length - 1));
                 }
             }
         }
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetrics(dbgLevel, curSpan, "after");
+            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "after");
         }
 
         // Return the resulting order.

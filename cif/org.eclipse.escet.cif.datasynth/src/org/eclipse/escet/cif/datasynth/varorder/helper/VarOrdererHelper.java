@@ -70,6 +70,15 @@ public class VarOrdererHelper {
     /** The number of characters to use for printing the total span metric, as average per edge, in debug output. */
     private final int metricLengthTotalSpanAvg;
 
+    /** The number of characters to use for printing the Weighted Event Span (WES) metric in debug output. */
+    private final int metricLengthWes;
+
+    /**
+     * The number of characters to use for printing the Weighted Event Span (WES) metric, as average per edge, in debug
+     * output.
+     */
+    private final int metricLengthWesAvg;
+
     /**
      * Constructor for the {@link VarOrdererHelper} class.
      *
@@ -96,6 +105,8 @@ public class VarOrdererHelper {
         this.metricLengthTotalSpan = fmt("%,d", computeTotalSpanForVarOrder(variables)).length() + 2;
         this.metricLengthTotalSpanAvg = fmt("%,.2f", (double)computeTotalSpanForVarOrder(variables) / hyperEdges.length)
                 .length() + 2;
+        this.metricLengthWes = fmt("%,.6f", computeWesForVarOrder(variables)).length() + 2;
+        this.metricLengthWesAvg = fmt("%,.6f", computeWesForVarOrder(variables) / hyperEdges.length).length() + 2;
     }
 
     /**
@@ -188,7 +199,7 @@ public class VarOrdererHelper {
     }
 
     /**
-     * Computes the total span metric.
+     * Compute the total span metric.
      *
      * @param order The variable order.
      * @return The total span.
@@ -199,7 +210,7 @@ public class VarOrdererHelper {
     }
 
     /**
-     * Computes the total span metric.
+     * Compute the total span metric.
      *
      * @param order The node order.
      * @return The total span.
@@ -210,7 +221,7 @@ public class VarOrdererHelper {
     }
 
     /**
-     * Computes the total span metric.
+     * Compute the total span metric.
      *
      * @param newIndices For each variable, its new 0-based index.
      * @return The total span.
@@ -233,6 +244,68 @@ public class VarOrdererHelper {
             totalSpan += span;
         }
         return totalSpan;
+    }
+
+    /**
+     * Compute the Weighted Event Span (WES) metric.
+     *
+     * @param order The variable order.
+     * @return The Weighted Event Span (WES).
+     */
+    public double computeWesForVarOrder(List<SynthesisVariable> order) {
+        int[] newIndices = getNewIndicesForVarOrder(order);
+        return computeWesForNewIndices(newIndices);
+    }
+
+    /**
+     * Compute the Weighted Event Span (WES) metric.
+     *
+     * @param order The node order.
+     * @return The Weighted Event Span (WES).
+     */
+    public double computeWesForNodeOrder(List<Node> order) {
+        int[] newIndices = getNewIndicesForNodeOrder(order);
+        return computeWesForNewIndices(newIndices);
+    }
+
+    /**
+     * Compute the Weighted Event Span (WES) metric.
+     *
+     * @param newIndices For each variable, its new 0-based index.
+     * @return The Weighted Event Span (WES).
+     */
+    public double computeWesForNewIndices(int[] newIndices) {
+        // This method is based on formula 7 from: Sam Lousberg, Sander Thuijsman and Michel Reniers, "DSM-based
+        // variable ordering heuristic for reduced computational effort of symbolic supervisor synthesis",
+        // IFAC-PapersOnLine, volume 53, issue 4, pages 429-436, 2020, https://doi.org/10.1016/j.ifacol.2021.04.058.
+        //
+        // The formula is: WES = SUM_{e in E} (2 * x_b) / |x| * (x_b - x_t + 1) / (|x| * |E|)
+        // Where:
+        // 1) 'E' is the set of edges. We use the hyper-edges.
+        // 2) 'x' the current-state variables. We use the synthesis variables.
+        // 3) 'x_b'/'x_t' the indices of the bottom/top BDD-variable in 'T_e(X)', the transition relation of edge 'e'.
+        // Note that we use hyper-edges as edges. Also, variables in the variable order with lower indices are higher
+        // (less deep, closer to the root) in the BDDs, while variables with higher indices are lower (deeper, closer
+        // to the leafs) in the BDDs. Therefore, we use for each hyper-edge: the highest index of a variable with an
+        // enabled bit in that hyper-edge as 'x_b', and the lowest index of a variable with an enabled bit in that
+        // hyper-edge as 'x_t'.
+        double nx = variables.size();
+        double nE = hyperEdges.length;
+        double wes = 0;
+        for (BitSet edge: hyperEdges) {
+            // Compute 'x_t' and 'x_b' for this edge.
+            int xT = Integer.MAX_VALUE;
+            int xB = 0;
+            for (int i: BitSets.iterateTrueBits(edge)) {
+                int newIdx = newIndices[i];
+                xT = Math.min(xT, newIdx);
+                xB = Math.max(xB, newIdx);
+            }
+
+            // Update WES for this edge.
+            wes += (2 * xB) / nx * (xB - xT + 1) / (nx * nE);
+        }
+        return wes;
     }
 
     /**
@@ -267,21 +340,26 @@ public class VarOrdererHelper {
      * @param annotation A human-readable text indicating the reason for printing the metrics.
      */
     public void dbgMetricsForNewIndices(int dbgLevel, int[] newIndices, String annotation) {
-        long totalSpan = computeTotalSpanForNewIndices(newIndices);
-        dbgMetrics(dbgLevel, totalSpan, annotation);
+        String msg = fmtMetrics(newIndices, annotation);
+        dbg(dbgLevel, msg);
     }
 
     /**
-     * Print various metrics as debug output.
+     * Format various metrics, for the given new indices of the variables.
      *
-     * @param dbgLevel The debug indentation level.
-     * @param totalSpan The given total span.
-     * @param annotation A human-readable text indicating the reason for printing the metrics.
+     * @param newIndices For each variable, its new 0-based index.
+     * @param annotation A human-readable text indicating the reason for formatting the metrics.
+     * @return The formatted metrics.
      */
-    public void dbgMetrics(int dbgLevel, long totalSpan, String annotation) {
+    public String fmtMetrics(int[] newIndices, String annotation) {
+        long totalSpan = computeTotalSpanForNewIndices(newIndices);
+        double wes = computeWesForNewIndices(newIndices);
         String fmtTotalSpan = fmt("%," + metricLengthTotalSpan + "d", totalSpan);
         String fmtTotalSpanAvg = fmt("%," + metricLengthTotalSpanAvg + ".2f", (double)totalSpan / hyperEdges.length);
-        dbg(dbgLevel, "Total span: %s (total) %s (avg/edge) [%s]", fmtTotalSpan, fmtTotalSpanAvg, annotation);
+        String fmtWes = fmt("%," + metricLengthWes + ".6f", wes);
+        String fmtWesAvg = fmt("%," + metricLengthWesAvg + ".6f", wes / hyperEdges.length);
+        return fmt("Total span: %s (total) %s (avg/edge) / WES: %s (total) %s (avg/edge) [%s]", fmtTotalSpan,
+                fmtTotalSpanAvg, fmtWes, fmtWesAvg, annotation);
     }
 
     /**
