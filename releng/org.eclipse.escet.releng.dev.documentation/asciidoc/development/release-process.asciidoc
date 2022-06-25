@@ -26,6 +26,7 @@ The following topics are covered:
 * <<development-release-process-prepare-release>>
 * <<development-release-process-prepare-release-review>>
 * <<development-release-process-perform-release>>
+* <<development-release-process-removing-archiving-old-releases>>
 
 [[development-release-process-release-policy]]
 === Release policy
@@ -489,36 +490,91 @@ Note that mirrors may still need to sync, so downloads may be a bit slower until
 
 ** For a final release, close the GitLab milestone.
 
-* Remove/archive old releases:
+* <<development-release-process-removing-archiving-old-releases,Remove/archive>> old releases.
 
-** For every release (including milestones and release candidates), remove the builds for all previously built tags.
-In Jenkins, while logged in, go to link:https://ci.eclipse.org/escet/job/ESCET%20build/view/tags/[].
-Select the tag name in the _Name_ column to go the tags page.
-There, on the left, the various builds are indicated by `#n`, with `n` some number.
-In the drop down menu of a build, select `Delete build #n` to remove it.
-When asked to confirm, click _Yes_.
+[[development-release-process-removing-archiving-old-releases]]
+=== Removing/archiving old releases
 
-** For every release (not a milestone or release candidate), remove all milestones and release candidates of the previous version and older.
-E.g. for `v0.2`, remove `v0.1-M1`, `v0.1-M2`, `v0.1-RC1`, etc.
-Also archive all releases older than the current and previous release.
-E.g. for `v0.3` archive `v0.1` and older, but keep `v0.2`.
-+
-Consider whether archiving or removing P2 update sites will lead to issues for users.
-See for more information the Eclipse Foundation Wiki page link:https://wiki.eclipse.org/Equinox/p2/p2.mirrorsURL#Moving_a_repo_to_archive.eclipse.org[Moving a repo to archive.eclipse.org].
+To prevent unnecessary disk space usage, old releases can be archived and removed.
+Below the policy and steps for both of them are explained.
+These steps are to be followed after <<development-release-process-perform-release,performing a release>>.
 
-** Old websites can be removed in a similar way to the above instructions to change the default website.
-Only remove the directory for the milestone or release candidate.
+For every release, including milestones and release candidates:
 
-** Older downloads can be archived.
-Go to https://download.eclipse.org/escet/.
-Make sure you're logged in.
+* Remove the builds for all previously built tags, thus excluding the tag of the release that was just built:
+
+** In Jenkins, while logged in, go to link:https://ci.eclipse.org/escet/job/ESCET%20build/view/tags/[].
+
+** Select the tag name in the _Name_ column to go the tag's page.
+
+** There, on the left, the various builds are indicated by `#n`, with `n` some number.
+
+** In the drop down menu of a build, select _Delete build #n_ to remove it.
+
+** When asked to confirm, click _Yes_.
+
+For every final release, thus excluding milestones and release candidates:
+
+* Identify the milestone and release candidate versions to remove.
+We remove all milestones and release candidates of the previous version and older.
+E.g. for `v0.2`, we remove `v0.1-M1`, `v0.1-M2`, `v0.1-RC1`, etc.
+
+* Identify the final release versions to archive.
+We archive all releases older than the current and previous release, but never remove them.
+E.g. for `v0.3` we archive `v0.1` and older, but keep `v0.2`.
+
+* Remove the websites of the identified milestone and release candidate versions:
+
+** Make sure you've uploaded your SSH public key to Eclipse Gerrit.
+This is a one-time only step.
+Go to https://git.eclipse.org/r/.
+Sign in using your Eclipse Foundation committer account.
+Use the gear icon at the top right to access your account settings.
+Under _SSH Keys_ add your SSH public key.
+Also make note of your _username_, _Full name_ and _Email_ address.
+
+** Clone the Eclipes ESCET website Git repository using `git clone ssh://<username>@git.eclipse.org:29418/www.eclipse.org/escet.git`.
+Make sure to replace `<username>` by your Eclipse Foundation committer account _username_.
+
+** In the cloned repository, remove the folders corresponding to the milestone and release candidate versions.
+
+** Add all changes to be committed, e.g. by using `git add -A`.
+
+** Make sure to use the _Full name_ and _Email_ address of your Eclipse Foundation committer account.
+E.g. use `git config --local user.name "<full_name>"` and `git config --local user.email "<email>"`, replacing `<full_name>` and `<email>` by the appropriate information matching your Eclipse Foundation committer account.
+
+** Commit the changes.
+Use as commit message `Removed milestone and RC websites of release vN.N.`, replacing `vN.N` by the release version, e.g., `v1.0` when removing versions `v1.0-M1` and `v1.0-RC1`.
+Make sure to sign off the commit to pass Eclipse Foundation automatic commit validation.
+E.g. use the following to commit the changes:
+`git commit -s -m "Removed milestone and RC websites of release v1.0."`.
+
+** Push the changes to the Git server.
+E.g. use `git push`.
+If successful you should see the changes at the Git server's web view, at https://git.eclipse.org/c/www.eclipse.org/escet.git/.
+
+* Remove the downloads of the identified milestone and release candidate versions:
+
+** Go to https://download.eclipse.org/escet/.
+
+** Make sure you are logged in.
 This should make check-boxes appear.
-Select the folders to archive and click the _Archive_ button.
+
+** Select the folders to archive (before subsequent removal) and click the _Move selected to archive.eclipse.org_ button.
 It may take a few minutes for archiving to complete.
 
-** Archived downloads can be removed.
-Go to https://archive.eclipse.org/escet/.
-Make sure you're logged in.
+** Go to https://archive.eclipse.org/escet/.
+
+** Make sure you are (still) logged in.
 This should make check-boxes appear.
-Select the folders to delete and click the _Delete_ button.
+
+** Select the folders to delete and click the _Delete selected permanently_ button.
 It may take a few minutes for deleting to complete.
+
+* Archive the downloads of the identified final versions:
+
+** Links to `download.eclipse.org` link:https://wiki.eclipse.org/index.php?title=Equinox/p2/p2.mirrorsURL&diff=444984&oldid=370895[should transparently redirect] to `archive.eclipse.org` for archived files.
+However, this did not work for P2 update sites in the past.
+Hence, this step has been omitted so far, to prevent existing URLs to P2 update sites from breaking for our users.
+Once we verify that these issues have been resolved, we can archive older final releases.
+We could test this when archiving milestone and release candidate versions.
