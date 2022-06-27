@@ -87,7 +87,7 @@ public class BddVarOrderTest {
             // Ignore.
         } else {
             int var = bdd.getFactory().level2Var(bdd.level());
-            char c = (char)(97 + var);
+            char c = (char)('a' + var);
             bddToAllSatTexts(bdd.low(), cursat + " !" + c, sats);
             bddToAllSatTexts(bdd.high(), cursat + " " + c, sats);
         }
