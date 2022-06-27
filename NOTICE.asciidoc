@@ -1,7 +1,7 @@
-# Notices for Eclipse ESCET
+# Notices for Eclipse ESCET(TM)
 
 This content is produced and maintained by the Eclipse Supervisory Control
-Engineering Toolkit (Eclipse ESCET) project.
+Engineering Toolkit (Eclipse ESCET(TM)) project.
 
  * Website: https://eclipse.org/escet
  * Downloads: https://eclipse.org/escet/download.html
