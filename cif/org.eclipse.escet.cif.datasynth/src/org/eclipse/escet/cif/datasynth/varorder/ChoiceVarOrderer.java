@@ -17,9 +17,10 @@ import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererMetric;
 import org.eclipse.escet.common.java.Assert;
 
-/** Variable ordering algorithm that applies multiple other algorithms, and picks the one with the lowest total span. */
+/** Variable ordering algorithm that applies multiple other algorithms, and picks the best order. */
 public class ChoiceVarOrderer implements VarOrderer {
     /** The name of the choice-based algorithm, or {@code null} if no name is given. */
     private final String name;
@@ -27,13 +28,17 @@ public class ChoiceVarOrderer implements VarOrderer {
     /** The algorithms to apply. At least two algorithms. */
     private final List<VarOrderer> algorithms;
 
+    /** The metric to use to pick the best order. */
+    private final VarOrdererMetric metric;
+
     /**
      * Constructor for the {@link ChoiceVarOrderer} class. Does not name the choice-based algorithm.
      *
      * @param algorithms The sequence of algorithms to apply. Must be at least two algorithms.
+     * @param metric The metric to use to pick the best order.
      */
-    public ChoiceVarOrderer(List<VarOrderer> algorithms) {
-        this(null, algorithms);
+    public ChoiceVarOrderer(List<VarOrderer> algorithms, VarOrdererMetric metric) {
+        this(null, algorithms, metric);
     }
 
     /**
@@ -41,10 +46,12 @@ public class ChoiceVarOrderer implements VarOrderer {
      *
      * @param name The name of the choice-based algorithm.
      * @param algorithms The sequence of algorithms to apply. Must be at least two algorithms.
+     * @param metric The metric to use to pick the best order.
      */
-    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms) {
+    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms, VarOrdererMetric metric) {
         this.name = name;
         this.algorithms = algorithms;
+        this.metric = metric;
         Assert.check(algorithms.size() >= 2);
     }
 
@@ -61,9 +68,9 @@ public class ChoiceVarOrderer implements VarOrderer {
             }
         }
 
-        // Initialize best order (with lowest span).
+        // Initialize best order (the lower the metric value the better).
         List<SynthesisVariable> bestOrder = null;
-        long bestSpan = Long.MAX_VALUE;
+        double bestMetric = Double.POSITIVE_INFINITY;
 
         // Apply each algorithm.
         for (int i = 0; i < algorithms.size(); i++) {
@@ -76,11 +83,11 @@ public class ChoiceVarOrderer implements VarOrderer {
             VarOrderer algorithm = algorithms.get(i);
             List<SynthesisVariable> algoOrder = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
 
-            // Update best order (with lowest span).
-            long algoSpan = helper.computeTotalSpanForVarOrder(algoOrder);
-            if (algoSpan < bestSpan) {
+            // Update best order (with lowest metric value).
+            double algoMetric = metric.compute(helper, algoOrder);
+            if (algoMetric < bestMetric) {
                 bestOrder = algoOrder;
-                bestSpan = algoSpan;
+                bestMetric = algoMetric;
 
                 if (dbgEnabled) {
                     helper.dbg(dbgLevel + 1, "Found new best variable order.");

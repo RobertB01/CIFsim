@@ -23,16 +23,16 @@ Applying automatic variable ordering:
   Applying 2 algorithms, sequentially:
     Applying FORCE algorithm.
     Maximum number of iterations: 30
-    Total span:                   51 (total)                 4.25 (avg/edge) [before]
-    Total span:                   27 (total)                 2.25 (avg/edge) [iteration 1]
-    Total span:                   26 (total)                 2.17 (avg/edge) [iteration 2]
-    Total span:                   26 (total)                 2.17 (avg/edge) [iteration 3]
-    Total span:                   26 (total)                 2.17 (avg/edge) [after]
+    Total span:   51 (total)   4.25 (avg/edge) / WES:   0.929688 (total)   0.077474 (avg/edge) [before]
+    Total span:   27 (total)   2.25 (avg/edge) / WES:   0.494792 (total)   0.041233 (avg/edge) [iteration 1]
+    Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [iteration 2]
+    Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [iteration 3]
+    Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [after]
 
     Applying sliding window algorithm.
     Window length: 4
-    Total span:                   26 (total)                 2.17 (avg/edge) [before]
-    Total span:                   26 (total)                 2.17 (avg/edge) [after]
+    Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [before]
+    Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [after]
 
 Variable order changed.
 

@@ -1128,7 +1128,7 @@ The following variable ordering algorithms are available:
 The DCSH algorithm of <<lousberg20>> aims to find good global variable orders.
 +
 DCSH applies two algorithms, the Weighted Cuthill-McKee bandwidth-reducing algorithm and the Sloan profile/wavefront-reducing algorithm.
-It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the total span metric.
+It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the Weighted Event Span (WES) metric.
 +
 The DCSH algorithm is currently considered experimental.
 It is therefore disabled by default, but can be enabled using the _BDD DCSH variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).

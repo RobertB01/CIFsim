@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.datasynth.varorder;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+
 /**
  * DSM-based Cuthill-McKee/Sloan variable ordering Heuristic (DCSH).
  *
@@ -32,6 +34,6 @@ public class DcshVarOrderer extends ChoiceVarOrderer {
                 new SloanVarOrderer(), // Second algorithm.
                 new ReverseVarOrderer(new WeightedCuthillMcKeeVarOrderer()), // Reverse first algorithm.
                 new ReverseVarOrderer(new SloanVarOrderer()) // Reverse second algorithm.
-        ));
+        ), VarOrdererHelper::computeWesForVarOrder);
     }
 }
