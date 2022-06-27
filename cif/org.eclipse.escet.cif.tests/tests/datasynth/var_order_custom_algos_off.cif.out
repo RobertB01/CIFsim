@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/var_order_custom_force_off.cif".
+Reading CIF file "datasynth/var_order_custom_algos_off.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -174,4 +174,4 @@ Simplification of controlled system under the assumption of the plants, requirem
   Event buffer2.c_remove: guard: <bdd 21n 18p> -> buffer2.count != 0 [assume <bdd 21n 18p>].
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/var_order_custom_force_off.ctrlsys.real.cif".
+Writing output CIF file "datasynth/var_order_custom_algos_off.ctrlsys.real.cif".
