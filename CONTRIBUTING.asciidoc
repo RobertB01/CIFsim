@@ -1,86 +1,70 @@
-# Contributing to Eclipse ESCET(TM)
+= Contributing to Eclipse ESCET(TM)
 
 Contributions are always welcome!
 
+== Project description
 
-## Project description
-
-The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project
-provides a toolkit for the development of supervisory controllers. The toolkit
-has a strong focus on industrial applicability, e.g. to cyber-physical
-systems. The toolkit includes tooling to support the entire development
-process of (supervisory) controllers, including among others specification,
-supervisory controller synthesis, simulation-based validation and
-visualization, formal verification, real-time testing, and code generation.
+The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project provides a toolkit for the development of supervisory controllers.
+The toolkit has a strong focus on industrial applicability, e.g. to cyber-physical systems.
+The toolkit includes tooling to support the entire development process of (supervisory) controllers, including among others specification, supervisory controller synthesis, simulation-based validation and visualization, formal verification, real-time testing, and code generation.
 
 For more information, see:
 
- * Website: https://eclipse.org/escet
- * GitLab: https://gitlab.eclipse.org/eclipse/escet/escet
- * Jenkins: https://ci.eclipse.org/escet/
- * Project home: https://projects.eclipse.org/projects/technology.escet
+* Website: https://eclipse.org/escet
+* GitLab: https://gitlab.eclipse.org/eclipse/escet/escet
+* Jenkins: https://ci.eclipse.org/escet/
+* Project home: https://projects.eclipse.org/projects/technology.escet
 
+== Developer resources
 
-## Developer resources
+For more information regarding source code management, builds, setting up a developer environment, coding standards, how to contribute, and more, see the Eclipse ESCET development documentation at:
 
-For more information regarding source code management, builds, setting up a
-developer environment, coding standards, how to contribute, and more, see
-the Eclipse ESCET development documentation at:
-
- * https://eclipse.org/escet/development
+* https://eclipse.org/escet/development
 
 The project maintains the following source code repositories:
 
- * https://gitlab.eclipse.org/eclipse/escet/escet.git
+* https://gitlab.eclipse.org/eclipse/escet/escet.git
 
 These can also be accessed via a web interface:
 
- * https://gitlab.eclipse.org/eclipse/escet/escet
+* https://gitlab.eclipse.org/eclipse/escet/escet
 
 This project uses GitLab to track ongoing development and issues:
 
- * https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones
- * https://gitlab.eclipse.org/eclipse/escet/escet/-/issues
+* https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones
+* https://gitlab.eclipse.org/eclipse/escet/escet/-/issues
 
-Be sure to search for existing issues before you create another one. Remember
-that contributions are always welcome!
+Be sure to search for existing issues before you create another one.
+Remember that contributions are always welcome!
 
 To contribute source code (e.g. patches) via GitLab, see:
 
- * https://eclipse.org/escet/development/development/contributing.html
+* https://eclipse.org/escet/development/development/contributing.html
 
-To create issues, reply to issues, contribute patches and merge requests, etc,
-you need an Eclipse Foundation account. It can easily be created at
-https://accounts.eclipse.org/user/register.
+To create issues, reply to issues, contribute patches and merge requests, etc, you need an Eclipse Foundation account.
+It can easily be created at https://accounts.eclipse.org/user/register.
 
-Please start each commit message with the issue number, e.g.
-`#NNN Commit summary.` for issue `NNN`.
+Please start each commit message with the issue number, e.g. `#NNN Commit summary.` for issue `NNN`.
 
+== Eclipse Contributor Agreement
 
-## Eclipse Contributor Agreement
+Before your contribution can be accepted by the project team, contributors must electronically sign the Eclipse Contributor Agreement (ECA).
 
-Before your contribution can be accepted by the project team, contributors must
-electronically sign the Eclipse Contributor Agreement (ECA).
+* https://www.eclipse.org/legal/ECA.php
 
- * https://www.eclipse.org/legal/ECA.php
-
-Commits that are provided by non-committers must have a Signed-off-by field in
-the footer indicating that the author is aware of the terms by which the
-contribution has been provided to the project. The non-committer must
-additionally have an Eclipse Foundation account and must have a signed Eclipse
-Contributor Agreement (ECA) on file.
+Commits that are provided by non-committers must have a Signed-off-by field in the footer indicating that the author is aware of the terms by which the contribution has been provided to the project.
+The non-committer must additionally have an Eclipse Foundation account and must have a signed Eclipse Contributor Agreement (ECA) on file.
 
 For more information, please see the Eclipse Committer Handbook:
 
- * https://www.eclipse.org/projects/handbook/#resources-commit
+* https://www.eclipse.org/projects/handbook/#resources-commit
 
-
-## Contact
+== Contact
 
 Contact the project developers via the project's 'dev' list.
 
- * https://accounts.eclipse.org/mailing-list/escet-dev
+* https://accounts.eclipse.org/mailing-list/escet-dev
 
 As an end user, you can ask questions on the project's forum:
 
- * https://www.eclipse.org/forums/index.php/f/527/
+* https://www.eclipse.org/forums/index.php/f/527/

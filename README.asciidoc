@@ -1,16 +1,12 @@
-# Welcome to the Eclipse ESCET(TM) repository!
+= Welcome to the Eclipse ESCET(TM) repository!
 
-The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project
-provides a toolkit for the development of supervisory controllers. The toolkit
-has a strong focus on industrial applicability, e.g. to cyber-physical
-systems. The toolkit includes tooling to support the entire development
-process of (supervisory) controllers, including among others specification,
-supervisory controller synthesis, simulation-based validation and
-visualization, formal verification, real-time testing, and code generation.
+The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project provides a toolkit for the development of supervisory controllers.
+The toolkit has a strong focus on industrial applicability, e.g. to cyber-physical systems.
+The toolkit includes tooling to support the entire development process of (supervisory) controllers, including among others specification, supervisory controller synthesis, simulation-based validation and visualization, formal verification, real-time testing, and code generation.
 
 For more information, see:
 
- * Website: https://eclipse.org/escet
- * GitLab: https://gitlab.eclipse.org/eclipse/escet/escet
- * Jenkins: https://ci.eclipse.org/escet/
- * Project home: https://projects.eclipse.org/projects/technology.escet
+* Website: https://eclipse.org/escet
+* GitLab: https://gitlab.eclipse.org/eclipse/escet/escet
+* Jenkins: https://ci.eclipse.org/escet/
+* Project home: https://projects.eclipse.org/projects/technology.escet
