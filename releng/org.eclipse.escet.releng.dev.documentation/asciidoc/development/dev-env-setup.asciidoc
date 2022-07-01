@@ -78,6 +78,7 @@ This will be used as name for Git commits.
 This will be used as email for Git commits.
 ** Click btn:[Next].
 * In the fourth wizard window:
+** If you get a _Trust_ dialog, click btn:[Select All] and then btn:[Trust Selected].
 ** Select btn:[Finish].
 * Wait for the setup to complete and the development environment to be launched.
 ** If asked, accept any licenses and certificates.
