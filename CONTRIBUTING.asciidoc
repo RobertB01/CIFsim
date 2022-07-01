@@ -12,7 +12,6 @@ For more information, see:
 
 * Website: https://eclipse.org/escet
 * GitLab: https://gitlab.eclipse.org/eclipse/escet/escet
-* Jenkins: https://ci.eclipse.org/escet/
 * Project home: https://projects.eclipse.org/projects/technology.escet
 
 == Developer resources
