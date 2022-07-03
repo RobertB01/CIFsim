@@ -34,6 +34,7 @@
                     <sourceDocumentName>documentation.asciidoc</sourceDocumentName>
                     <attributes>
                         <imagesdir />
+                        <escet-website-version>${escet.version.enduser}</escet-website-version>
                     </attributes>
                 </configuration>
                 <executions>
