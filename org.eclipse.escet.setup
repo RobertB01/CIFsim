@@ -307,6 +307,12 @@
           key="email"
           value="${eclipse.user.email}"/>
     </configSections>
+    <configSections
+        name="core">
+      <properties
+          key="commentChar"
+          value=";"/>
+    </configSections>
     <description>${scope.project.label}</description>
   </setupTask>
   <setupTask
