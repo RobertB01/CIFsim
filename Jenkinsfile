@@ -83,6 +83,11 @@ pipeline {
                             BUILD_ARGS="$BUILD_ARGS -Descet.version.enduser=$TAG_NAME"
                         fi
 
+                        # Override the 'escet.website.version' property for releases. Remains '' otherwise.
+                        if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                            BUILD_ARGS="$BUILD_ARGS -Descet.website.version=$TAG_NAME"
+                        fi
+
                         # Override the 'escet.version.qualifier' property for Jenkins builds.
                         # It starts with 'v' and the Git date, followed by a qualifier postfix.
                         # For releases, the qualifier postfix is the postfix of the version tag (if any).
