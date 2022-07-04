@@ -30,6 +30,7 @@ TBD
 
 Improvements and fixes:
 
+* Links in the documentation to non-ToolDef ESCET documentation webpages now use version-specific URLs (issue 386).
 * Small website style improvements (issue #367).
 
 === Version 0.5 (2022-03-29)

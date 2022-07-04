@@ -30,6 +30,7 @@ TBD
 
 Improvements and fixes:
 
+* Links in the documentation to non-Chi ESCET documentation webpages now use version-specific URLs (issue 386).
 * Improved bibliography references in documentation (issue #365).
 * Small website style improvements (issue #367).
 

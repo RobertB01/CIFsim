@@ -41,7 +41,7 @@ Improvements and fixes:
 * The Eclipse ESCET IDE is no longer configured with a maximum Java object heap size of 4 GB of memory.
 The Java Virtual Machine (JVM) now decides the maximum, which may differ for different systems.
 It is of course still possible to <<performance-tweak-perf-settings,configure the maximum yourself>> (issue #374).
-
+* Links in the documentation to Chi, CIF and ToolDef documentation webpages now use version-specific URLs (issue 386).
 * Small website style improvements (issue #367).
 
 === Version 0.5 (2022-03-29)

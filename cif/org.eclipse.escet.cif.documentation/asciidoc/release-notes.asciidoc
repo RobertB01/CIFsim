@@ -43,12 +43,13 @@ It is considered experimental for now, and therefore disabled by default, but ca
 Improvements and fixes:
 
 * The CIF data-based synthesis tool's automatic variable ordering has various internal improvements in preparation for further upcoming improvements.
-As a result the debug output has slightly changed (issues #196 and #371).
+As a result the debug output has been extended and changed a bit (issues #196 and #371).
 * The CIF data-based synthesis tool's automatic variable ordering documentation has been improved and extended (issue #196).
 * The CIF data-based synthesis tool has some small consistency improvements for its command line option descriptions (issue #311).
 * Some improvements to the documentation of the CIF to CIF linearize merge/product transformations (issue #354).
 * The CIF to Supremica transformation precondition check has been redesigned, producing different output.
 The preconditions themselves have not changed (issue #370).
+* Links in the documentation to non-CIF ESCET documentation webpages now use version-specific URLs (issue 386).
 * Improved bibliography references in documentation (issue #365).
 * Small website style improvements (issue #367).
 
