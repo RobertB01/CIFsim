@@ -24,6 +24,12 @@ SPDX-License-Identifier: MIT
         <!-- The default is 'dev'. Jenkinsfile overrides this for releases only, to e.g. v0.1, v0.1-M1, v0.1-RC1. -->
         <escet.version.enduser>dev</escet.version.enduser>
 
+        <!-- The version to use for referring across-docset to web pages of other docsets.  -->
+        <!-- For instance, in AsciiDoc, use 'http://eclipse.org/escet/{escet-website-version}/...'. -->
+        <!-- By default, this is replaced by nothing, to for instance 'http://eclipse.org/escet//...'.  -->
+        <!-- The Jenkinsfile overrides this for releases only, to for instance 'http://eclipse.org/escet/v0.1/...'. -->
+        <escet.website.version></escet.website.version>
+
         <!-- The version qualifier to use for all plugins/features/etc. -->
         <!-- Remains 'dev' for non-Jenkins builds. Jenkinsfile overrides the qualifier to e.g., -->
         <!-- 'v20210609-141908-dev' for development builds, 'v20210609-141908-M1' for milestone releases, -->

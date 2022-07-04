@@ -109,7 +109,7 @@ To remedy this situation, application framework applications running within Ecli
 Furthermore, the application framework allows termination requests via the `AppEnv.terminate` method.
 Application framework applications and threads should regularly call the `AppEnv.isTerminationRequested` method to see whether they should terminate.
 
-See also the termination features of the link:https://eclipse.org/escet/use/apps-view.html[Applications] view.
+See also the termination features of the link:https://eclipse.org/escet/{escet-website-version}/use/apps-view.html[Applications] view.
 
 indexterm:[application, exceptions]
 

@@ -30,7 +30,7 @@ The CIF tooling supports the entire development process of controllers, includin
 Combined they enable a synthesis-based engineering approach to efficiently and cost-effectively design and implement high-quality controllers.
 
 CIF is one of the tools of the Eclipse ESCET(TM) project.
-Visit the link:https://eclipse.org/escet[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
+Visit the link:https://eclipse.org/escet/{escet-website-version}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
 
 [WARNING]
 ====
