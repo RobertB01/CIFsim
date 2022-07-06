@@ -38,7 +38,7 @@ Improvements and fixes:
 The Java Virtual Machine (JVM) now decides the maximum, which may differ for different systems.
 It is of course still possible to <<performance-tweak-perf-settings,configure the maximum yourself>> (issue {escet-issue}374[#374]).
 * Links in the documentation to Chi, CIF and ToolDef documentation webpages now use version-specific URLs (issue {escet-issue}386[#386]).
-* The release note issue numbers now link to the corresponding GitLab issue (issue {escet-issue}396[#396]).
+* The issue numbers in the release notes now link to the corresponding GitLab issue (issue {escet-issue}396[#396]).
 * Small website style improvements (issue {escet-issue}367[#367]).
 
 === Version 0.5 (2022-03-29)
