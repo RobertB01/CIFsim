@@ -22,13 +22,12 @@ The release notes for the versions of ToolDef and the associated tools, as part 
 
 See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 0.6
-
-TBD
+=== Version 0.6 (2022-07-07)
 
 Improvements and fixes:
 
 * Links in the documentation to non-ToolDef ESCET documentation webpages now use version-specific URLs (issue {escet-issue}386[#386]).
+* The issue numbers in the release notes now link to the corresponding GitLab issue (issue {escet-issue}396[#396]).
 * Small website style improvements (issue {escet-issue}367[#367]).
 
 === Version 0.5 (2022-03-29)

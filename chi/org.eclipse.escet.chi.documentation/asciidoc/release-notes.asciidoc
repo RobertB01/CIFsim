@@ -22,14 +22,13 @@ The release notes for the versions of Chi and the associated tools, as part of t
 
 See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 0.6
-
-TBD
+=== Version 0.6 (2022-07-07)
 
 Improvements and fixes:
 
 * Links in the documentation to non-Chi ESCET documentation webpages now use version-specific URLs (issue {escet-issue}386[#386]).
 * Improved bibliography references in documentation (issue {escet-issue}365[#365]).
+* The issue numbers in the release notes now link to the corresponding GitLab issue (issue {escet-issue}396[#396]).
 * Small website style improvements (issue {escet-issue}367[#367]).
 
 === Version 0.5 (2022-03-29)
