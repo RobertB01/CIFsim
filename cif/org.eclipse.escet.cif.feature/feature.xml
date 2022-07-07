@@ -13,11 +13,11 @@
 <feature
       id="org.eclipse.escet.cif.feature"
       label="ESCET CIF (Incubation)"
-      version="0.6.0.qualifier"
+      version="0.7.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.releng.license.mit"
-      license-feature-version="0.6.0.qualifier">
+      license-feature-version="0.7.0.qualifier">
 
    <description>
       Eclipse ESCET tooling for the CIF language.
