@@ -32,7 +32,7 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.escet.common.feature" version="0.6.0.qualifier"/>
+      <import feature="org.eclipse.escet.common.feature" version="0.7.0.qualifier"/>
    </requires>
 
    <plugin
