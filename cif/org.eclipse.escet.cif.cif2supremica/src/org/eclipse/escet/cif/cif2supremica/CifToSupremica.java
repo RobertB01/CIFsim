@@ -140,7 +140,7 @@ public class CifToSupremica {
         }
 
         // Check preconditions and perform further preprocessing.
-        new CifToSupremicaPreChecker().check(spec);
+        CifToSupremicaPreChecker.check(spec);
         preprocess(spec, elimEnums);
 
         // Modify the CIF specification for state invariants.

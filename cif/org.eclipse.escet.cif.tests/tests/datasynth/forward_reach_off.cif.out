@@ -12,18 +12,19 @@ CIF variables and location pointers:
 
 Applying automatic variable ordering:
   Number of hyper-edges: 17
+  Number of graph edges: 1
 
   Applying 2 algorithms, sequentially:
     Applying FORCE algorithm.
     Maximum number of iterations: 10
-    Total span:                    2 (total)                 0.12 (avg/edge) [before]
-    Total span:                    2 (total)                 0.12 (avg/edge) [iteration 1]
-    Total span:                    2 (total)                 0.12 (avg/edge) [after]
+    Total span:   2 (total)   0.12 (avg/edge) / WES:   0.117647 (total)   0.006920 (avg/edge) [before]
+    Total span:   2 (total)   0.12 (avg/edge) / WES:   0.117647 (total)   0.006920 (avg/edge) [iteration 1]
+    Total span:   2 (total)   0.12 (avg/edge) / WES:   0.117647 (total)   0.006920 (avg/edge) [after]
 
     Applying sliding window algorithm.
     Window length: 2
-    Total span:                    2 (total)                 0.12 (avg/edge) [before]
-    Total span:                    2 (total)                 0.12 (avg/edge) [after]
+    Total span:   2 (total)   0.12 (avg/edge) / WES:   0.117647 (total)   0.006920 (avg/edge) [before]
+    Total span:   2 (total)   0.12 (avg/edge) / WES:   0.117647 (total)   0.006920 (avg/edge) [after]
 
 Variable order unchanged.
 

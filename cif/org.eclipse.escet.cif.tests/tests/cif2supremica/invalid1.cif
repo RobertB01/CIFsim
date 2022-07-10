@@ -15,7 +15,7 @@ group g:
   event e1;                         // Not (un)controllable.
   controllable int[0..5] e2;        // Event with data type.
 
-  automaton a:                      // Automaton with 'automaton' kind.
+  automaton a:                      // Kindless automaton.
     location:
       initial;
       edge e1, e2, tau;             // Explicit 'tau'.
@@ -29,8 +29,8 @@ group g:
   end
 
   plant p0:                         // Automaton without initial location.
-    disc int[1..2] x1 in {1,2};     // Non-deterministic variable init.
-    disc int[1..2] x2 in any;       // Non-deterministic variable init.
+    disc int[1..2] x1 in {1,2};     // Multiple potential initial values.
+    disc int[1..2] x2 in any;       // Multiple potential initial values.
     cont cnt der 1.0;               // Continuous variable, real type/value.
     input bool inp;                 // Input variable.
     disc list bool lb = [true];     // List type/expr.
@@ -56,7 +56,7 @@ group g:
       initial sqrt(-1.0) > 0;       // Eval/idx fail, real expr/type, -/>/sqrt.
       marked sqrt(-2.0) > 0;        // Eval/idx fail, real expr/type, -/>/sqrt.
 
-      plant invariant 7 = 7;        // Invariant in location (regardless kind).
+      plant invariant 7 = 7;        // Invariant in location (regardless of kind).
   end
 
   plant p2:                         // Automaton with two initial locations.

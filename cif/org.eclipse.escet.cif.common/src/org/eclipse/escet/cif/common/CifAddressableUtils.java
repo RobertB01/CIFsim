@@ -20,8 +20,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
@@ -220,6 +223,20 @@ public class CifAddressableUtils {
             vars.add(((ContVariableExpression)addr).getVariable());
         } else {
             throw new RuntimeException("Unknown addr: " + addr);
+        }
+    }
+
+    /**
+     * Collects the variables (partially) assigned in the given automaton.
+     *
+     * @param aut The automaton.
+     * @param vars The variables collected so far. Is modified in-place.
+     */
+    public static void collectAddrVars(Automaton aut, Set<Declaration> vars) {
+        for (Location loc: aut.getLocations()) {
+            for (Edge edge: loc.getEdges()) {
+                collectAddrVars(edge.getUpdates(), vars);
+            }
         }
     }
 }

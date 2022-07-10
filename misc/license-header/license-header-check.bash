@@ -87,9 +87,11 @@ EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*_license.txt"
 # Prepare post excludes (can't exclude specifically enough with grep).
 POST_EXCLUDE_PATTERN="^$"
 # Exclude files that explicitly should not have a license header.
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./CODE_OF_CONDUCT.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./CONTRIBUTING.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./DEPENDENCIES.txt:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./NOTICE.asciidoc:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./README.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./SECURITY.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./misc/license-header/license-header-list.txt:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./product/org.eclipse.escet.product.feature/extra_files/NOTICE.asciidoc:0$"

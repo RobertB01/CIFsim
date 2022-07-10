@@ -35,3 +35,6 @@ ifndef::imgsdir[:imgsdir: ../images]
 
 // Disable default footer.
 :nofooter:
+
+// Attribute for linking to GitLab issues.
+:escet-issue: https://gitlab.eclipse.org/eclipse/escet/escet/-/issues/

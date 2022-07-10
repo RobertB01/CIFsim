@@ -13,96 +13,46 @@
 
 package org.eclipse.escet.cif.cif2supremica;
 
-import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
-import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.exprsToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifTextUtils.getComponentText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.invToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
-import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
-import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.cif.common.CifEvalException;
-import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.common.CifTypeUtils;
-import org.eclipse.escet.cif.common.RangeCompat;
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.InvKind;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
-import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.common.checkers.NoChannelsCheck;
+import org.eclipse.escet.cif.common.checkers.NoContinuousVariablesCheck;
+import org.eclipse.escet.cif.common.checkers.NoDiscVarsWithMultiInitValuesCheck;
+import org.eclipse.escet.cif.common.checkers.NoInitPredsInCompsCheck;
+import org.eclipse.escet.cif.common.checkers.NoInputVariablesCheck;
+import org.eclipse.escet.cif.common.checkers.NoKindlessAutomataCheck;
+import org.eclipse.escet.cif.common.checkers.NoKindlessStateEvtExclInvsCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
+import org.eclipse.escet.cif.common.checkers.NoSpecificExprsCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.common.checkers.NoSpecificTypesCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.common.checkers.NoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.common.checkers.NoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
+import org.eclipse.escet.cif.common.checkers.NoStateInvsInLocsCheck;
+import org.eclipse.escet.cif.common.checkers.NoUrgentEdgesCheck;
+import org.eclipse.escet.cif.common.checkers.NoUrgentLocationsCheck;
+import org.eclipse.escet.cif.common.checkers.NoUserDefinedFunctionsCheck;
+import org.eclipse.escet.cif.common.checkers.OnlyAutsWithOneInitLocCheck;
+import org.eclipse.escet.cif.common.checkers.OnlyEventsWithControllabilityCheck;
+import org.eclipse.escet.cif.common.checkers.OnlyReqStateInvsInCompsCheck;
+import org.eclipse.escet.cif.common.checkers.OnlySimpleAssignmentsCheck;
+import org.eclipse.escet.cif.common.checkers.OnlyStaticEvalMarkerPredsInLocsCheck;
+import org.eclipse.escet.cif.common.checkers.OnlyVarValueMarkerPredsInCompsCheck;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.SupKind;
-import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.DictExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ListExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.RealExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SetExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SliceExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.StringExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TimeExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
-import org.eclipse.escet.cif.metamodel.cif.functions.Function;
-import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.DictType;
-import org.eclipse.escet.cif.metamodel.cif.types.DistType;
-import org.eclipse.escet.cif.metamodel.cif.types.FuncType;
-import org.eclipse.escet.cif.metamodel.cif.types.IntType;
-import org.eclipse.escet.cif.metamodel.cif.types.ListType;
-import org.eclipse.escet.cif.metamodel.cif.types.RealType;
-import org.eclipse.escet.cif.metamodel.cif.types.SetType;
-import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
-import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
 
 /** CIF to Supremica transformation precondition checker. */
-public class CifToSupremicaPreChecker extends CifWalker {
-    /** Precondition violations found so far. */
-    private final List<String> problems = list();
-
-    /** Mapping from discrete variables to their marked values. Filled during checking. */
-    private Map<DiscVariable, List<Expression>> markeds = map();
-
-    /**
-     * The number of initial locations found for the automaton being checked. Only valid while checking an automaton. Is
-     * set to {@code -1} to disable this check due to evaluation errors in initialization predicates.
-     */
-    private int initLocCount;
+public class CifToSupremicaPreChecker {
+    /** Constructor for the {@link CifToSupremicaPreChecker} class. */
+    private CifToSupremicaPreChecker() {
+        // Static class.
+    }
 
     /**
      * Checks the CIF specification to make sure it satisfies the preconditions for the transformation.
@@ -110,585 +60,152 @@ public class CifToSupremicaPreChecker extends CifWalker {
      * @param spec The CIF specification to check.
      * @throws UnsupportedException If a precondition is violated.
      */
-    public void check(Specification spec) {
-        // Find precondition violations.
-        walkSpecification(spec);
+    public static void check(Specification spec) {
+        // Configure precondition checks.
+        List<CifCheck> preconditions = list();
 
-        // If we have any problems, the specification is unsupported.
-        Collections.sort(problems, Strings.SORTER);
-        if (!problems.isEmpty()) {
-            String msg = "CIF to Supremica transformation failed due to unsatisfied preconditions:\n - "
-                    + String.join("\n - ", problems);
-            throw new UnsupportedException(msg);
-        }
-    }
+        // Kindless automata are not supported.
+        preconditions.add(new NoKindlessAutomataCheck());
 
-    @Override
-    protected void preprocessEvent(Event event) {
-        // Event must be controllable or uncontrollable.
-        if (event.getControllable() == null) {
-            String msg = fmt("Unsupported event \"%s\": event is not declared as controllable or uncontrollable.",
-                    getAbsName(event));
-            problems.add(msg);
-        }
+        // Events must be controllable or uncontrollable. Tau events are thus not supported.
+        preconditions.add(new OnlyEventsWithControllabilityCheck());
 
-        // Event must not have a data type.
-        if (event.getType() != null) {
-            String msg = fmt("Unsupported event \"%s\": event is a channel (has a data type).", getAbsName(event));
-            problems.add(msg);
-        }
-    }
+        // Initialization predicates outside of locations are not supported.
+        preconditions.add(new NoInitPredsInCompsCheck());
 
-    @Override
-    protected void preprocessTauExpression(TauExpression obj) {
-        problems.add(
-                "Unsupported event \"tau\": event is not controllable or uncontrollable (explicit use of \"tau\").");
-    }
+        // Marker predicates outside of locations are only supported if they have the form discrete_variable =
+        // marked_value. Discrete variables with multiple marker predicates are also not supported.
+        preconditions.add(new OnlyVarValueMarkerPredsInCompsCheck());
 
-    @Override
-    protected void preprocessComplexComponent(ComplexComponent comp) {
-        // Initialization predicates only in locations.
-        if (!comp.getInitials().isEmpty()) {
-            String msg = fmt("Unsupported %s: initialization predicates are currently only supported in locations.",
-                    getComponentText1(comp));
-            problems.add(msg);
-        }
+        // Locations with initialization or marker predicates that are not trivially true or false are not supported.
+        // This check only checks marker predicates. The check for a single initial location in each automaton, checks
+        // the initialization predicates.
+        preconditions.add(new OnlyStaticEvalMarkerPredsInLocsCheck());
 
-        // Check for supported/duplicate variable marking predicates.
-        for (Expression marked: comp.getMarkeds()) {
-            boolean supported = processComponentMarker(marked);
-            if (!supported) {
-                String msg = fmt("Unsupported %s: unsupported marker predicate \"%s\".", getComponentText1(comp),
-                        exprToStr(marked));
-                problems.add(msg);
-            }
-        }
+        // Automata that do not have exactly one initial location are not supported. We allow only exactly one initial
+        // location to ensure that the elimination of location references in expressions does not introduce additional
+        // initialization predicates.
+        preconditions.add(new OnlyAutsWithOneInitLocCheck());
 
-        // Check supervisory and invariant kinds of invariants. State invariants must be requirements. State/event
-        // exclusion invariants are transformed into automata and must have a kind.
-        for (Invariant inv: comp.getInvariants()) {
-            SupKind supKind = inv.getSupKind();
-
-            if (inv.getInvKind() == InvKind.STATE) {
-                if (supKind != SupKind.REQUIREMENT) {
-                    String kindTxt = (supKind == SupKind.NONE) ? "kindless" : CifTextUtils.kindToStr(supKind);
-                    String msg = fmt("Unsupported %s: unsupported %s state invariant \"%s\".", getComponentText1(comp),
-                            kindTxt, invToStr(inv, false));
-                    problems.add(msg);
-                }
-            } else if (inv.getInvKind() == InvKind.EVENT_NEEDS || inv.getInvKind() == InvKind.EVENT_DISABLES) {
-                if (supKind == SupKind.NONE) {
-                    String msg = fmt("Unsupported %s: unsupported kindless state/event exclusion invariant \"%s\".",
-                            getComponentText1(comp), invToStr(inv, false));
-                    problems.add(msg);
-                }
-            } else {
-                Assert.fail("Unexpected invariant kind.");
-            }
-        }
-    }
-
-    /**
-     * Processes the given marker predicate of a component. The predicate should be of the form 'discrete_variable =
-     * marked_value'. Other forms are not supported. If supported, the variable and marked value are added to
-     * {@link #markeds}. Also checks for duplicate marked values for a single discrete variable.
-     *
-     * @param marker The marker predicate to process.
-     * @return Whether the marker predicate is supported ({@code true}) or not ({@code false}). Duplicate marked values
-     *     do not affect the result of this method.
-     */
-    private boolean processComponentMarker(Expression marker) {
-        // Analyze.
-        if (!(marker instanceof BinaryExpression)) {
-            return false;
-        }
-        BinaryExpression bexpr = (BinaryExpression)marker;
-        if (bexpr.getOperator() != BinaryOperator.EQUAL) {
-            return false;
-        }
-        if (!(bexpr.getLeft() instanceof DiscVariableExpression)) {
-            return false;
-        }
-
-        // Add to supported marker predicates mapping.
-        DiscVariableExpression vref = (DiscVariableExpression)bexpr.getLeft();
-        DiscVariable var = vref.getVariable();
-        List<Expression> values = markeds.get(var);
-        if (values == null) {
-            values = list();
-            markeds.put(var, values);
-        }
-        values.add(bexpr.getRight());
-
-        // We only support at most one marker value. Report duplicates only
-        // once per variable.
-        if (values.size() == 2) {
-            String msg = fmt("Unsupported declaration \"%s\": discrete variables with multiple marker predicates are "
-                    + "currently not supported.", getAbsName(var));
-            problems.add(msg);
-        }
-
-        // The predicate is supported, although it may be a duplicate.
-        return true;
-    }
-
-    @Override
-    protected void preprocessAutomaton(Automaton aut) {
-        // Check kind.
-        if (aut.getKind() == SupKind.NONE) {
-            String msg = fmt("Unsupported automaton \"%s\": kindless/regular automata are currently not supported.",
-                    getAbsName(aut));
-            problems.add(msg);
-        }
-
-        // Reset initial locations counter.
-        initLocCount = 0;
-    }
-
-    @Override
-    protected void postprocessAutomaton(Automaton aut) {
-        // Exactly one initial location. This is required to ensure that the
-        // elimination of location references in expressions does not introduce
-        // additional initialization predicates.
-        if (initLocCount == 0) {
-            String msg = fmt("Unsupported automaton \"%s\": automata without an initial location are currently "
-                    + "not supported.", getAbsName(aut));
-            problems.add(msg);
-        }
-
-        if (initLocCount > 1) {
-            String msg = fmt("Unsupported automaton \"%s\": automata with multiple (%d) initial locations are "
-                    + "currently not supported.", getAbsName(aut), initLocCount);
-            problems.add(msg);
-        }
-    }
-
-    @Override
-    protected void preprocessDiscVariable(DiscVariable var) {
-        // Discrete variables with multiple initial values are not supported.
-        // Actually, Supremica allows an initialization predicate, rather than
-        // a value, and the latest version seems to require initialization
-        // predicates instead of initial values. However, using
-        // 'x == 1 | x != 1' for a variable 'x' in range '0..9', in the latest
-        // version, seems to result in value '0' as initial value during
-        // simulation, without any way to get an other initial value. To be
-        // safe, we'll require a single initial value.
-        //
-        // Discrete variables that represent function parameters or local
-        // variables of functions are ignored here, as functions are already
-        // reported separately.
-        EObject parent = var.eContainer();
-        if (parent instanceof ComplexComponent) {
-            VariableValue values = var.getValue();
-            if (values != null && values.getValues().size() != 1) {
-                String msg = fmt("Unsupported declaration \"%s\": discrete variables with multiple potential initial "
-                        + "values are currently not supported.", getAbsName(var));
-                problems.add(msg);
-            }
-        }
-    }
-
-    @Override
-    protected void preprocessContVariable(ContVariable var) {
-        // Continuous variables not supported.
-        String msg = fmt("Unsupported declaration \"%s\": continuous variables are currently unsupported.",
-                getAbsName(var));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessInputVariable(InputVariable var) {
-        // Input variables not supported.
-        String msg = fmt("Unsupported declaration \"%s\": input variables are currently unsupported.", getAbsName(var));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessLocation(Location loc) {
-        // Skip location parameters.
-        EObject parent = loc.eContainer();
-        if (parent instanceof LocationParameter) {
-            return;
-        }
-
-        // No urgent locations.
-        if (loc.isUrgent()) {
-            String msg = fmt("Unsupported %s: urgent locations are currently unsupported.", getLocationText1(loc));
-            problems.add(msg);
-        }
-
-        // Initialization.
-        boolean initial = false;
-        try {
-            initial = loc.getInitials().isEmpty() ? false : evalPreds(loc.getInitials(), true, true);
-        } catch (CifEvalException e) {
-            // Can only fail if there is at least one predicate.
-            String msg = fmt("Failed to evaluate initialization predicate(s): %s.", exprsToStr(loc.getInitials()));
-            problems.add(msg);
-
-            // Disable initial location count checking.
-            initLocCount = -1;
-        }
-
-        if (initial && initLocCount != -1) {
-            initLocCount++;
-        }
-
-        // Marked.
-        if (!loc.getMarkeds().isEmpty()) {
-            try {
-                evalPreds(loc.getMarkeds(), false, true);
-            } catch (CifEvalException e) {
-                // Can only fail if there is at least one predicate.
-                String msg = fmt("Failed to evaluate marker predicate(s): %s.", exprsToStr(loc.getInitials()));
-                problems.add(msg);
-            }
-        }
-
-        // No state invariants in locations. We would need to change 'invariant X'
-        // in location 'L' to 'invariant L => X' (in the automaton), but
-        // references to locations are not supported by the transformation. We do
-        // eliminate location references, so we could make a CIF to CIF
-        // transformation that lifts state invariants out of locations to the
-        // surrounding automaton, and apply that transformation before the
+        // State invariants in locations are not supported. We would need to change 'invariant X' in location 'L' to
+        // 'invariant L => X' (in the automaton), but references to locations are not supported by the transformation.
+        // We do eliminate location references, so we could make a CIF to CIF transformation that lifts state
+        // invariants out of locations to the surrounding automaton, and apply that transformation before the
         // elimination of location references.
-        for (Invariant inv: loc.getInvariants()) {
-            if (inv.getInvKind() == InvKind.STATE) {
-                String msg = fmt("Unsupported %s: state invariants in locations are currently unsupported.",
-                        getLocationText1(loc));
-                problems.add(msg);
-            }
-        }
-    }
+        preconditions.add(new NoStateInvsInLocsCheck());
 
-    @Override
-    protected void preprocessEdge(Edge edge) {
-        // Tau unsupported.
-        if (edge.getEvents().isEmpty()) {
-            problems.add("Unsupported event \"tau\": event is not controllable or uncontrollable (implicit use of "
-                    + "\"tau\").");
-        }
+        // State invariants in components are only supported if they are requirement invariants.
+        preconditions.add(new OnlyReqStateInvsInCompsCheck());
 
-        // No urgent edges.
-        if (edge.isUrgent()) {
-            Location loc = (Location)edge.eContainer();
-            String msg = fmt("Unsupported %s: urgent edges are currently unsupported.", getLocationText1(loc));
-            problems.add(msg);
-        }
-    }
+        // State/event exclusion invariants are transformed into automata and must have a kind.
+        preconditions.add(new NoKindlessStateEvtExclInvsCheck());
 
-    @Override
-    protected void preprocessAssignment(Assignment asgn) {
-        // Check for multi-assignment and partial variable assignment.
-        if (asgn.getAddressable() instanceof TupleExpression) {
-            // Multi-assignment unsupported.
-            EObject loc = asgn;
-            while (!(loc instanceof Location)) {
-                loc = loc.eContainer();
-            }
-            Assert.check(loc instanceof Location);
+        // Discrete variables with multiple potential initial values are not supported. Actually, Supremica allows an
+        // initialization predicate, rather than a value, and the latest version seems to require initialization
+        // predicates instead of initial values. However, using 'x == 1 | x != 1' for a variable 'x' in range '0..9',
+        // in the latest version, seems to result in value '0' as initial value during simulation, without any way to
+        // get an other initial value. To be safe, we'll require a single initial value.
+        preconditions.add(new NoDiscVarsWithMultiInitValuesCheck());
 
-            String msg = fmt("Unsupported %s: edges with multi-assignments are currently unsupported.",
-                    getLocationText1((Location)loc));
-            problems.add(msg);
-        } else if (asgn.getAddressable() instanceof ProjectionExpression) {
-            // Partial variable assignment unsupported.
-            EObject loc = asgn;
-            while (!(loc instanceof Location)) {
-                loc = loc.eContainer();
-            }
-            Assert.check(loc instanceof Location);
+        // Continuous variables are not supported.
+        preconditions.add(new NoContinuousVariablesCheck());
 
-            String msg = fmt("Unsupported %s: edges with partial variable assignments are currently unsupported.",
-                    getLocationText1((Location)loc));
-            problems.add(msg);
-        }
-    }
+        // Input variables are not supported.
+        preconditions.add(new NoInputVariablesCheck());
 
-    @Override
-    protected void preprocessIfUpdate(IfUpdate update) {
-        // 'if' update unsupported.
-        EObject loc = update;
-        while (!(loc instanceof Location)) {
-            loc = loc.eContainer();
-        }
-        Assert.check(loc instanceof Location);
+        // Multi-assignments, partial variable assignments and conditional updates on edges are not supported.
+        preconditions.add(new OnlySimpleAssignmentsCheck());
 
-        String msg = fmt("Unsupported %s: edges with 'if' updates are currently unsupported.",
-                getLocationText1((Location)loc));
-        problems.add(msg);
-    }
+        // Urgent locations and urgent edges are not supported.
+        preconditions.add(new NoUrgentLocationsCheck());
+        preconditions.add(new NoUrgentEdgesCheck());
 
-    @Override
-    protected void preprocessFunction(Function func) {
-        // User-defined functions are unsupported.
-        String msg = fmt("Unsupported function \"%s\": user-defined functions are currently unsupported.",
-                getAbsName(func));
-        problems.add(msg);
-    }
+        // User-defined functions are not supported.
+        preconditions.add(new NoUserDefinedFunctionsCheck());
 
-    @Override
-    protected void preprocessDictType(DictType type) {
-        String msg = fmt("Unsupported type \"%s\": dictionary types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
+        // Channels are not supported.
+        preconditions.add(new NoChannelsCheck());
 
-    @Override
-    protected void preprocessDistType(DistType type) {
-        String msg = fmt("Unsupported type \"%s\": distribution types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
+        // Only the following data types are supported: boolean types, ranged integer types, and enumeration types.
+        NoSpecificTypesCheck typesCheck = new NoSpecificTypesCheck( //
+                NoSpecificType.DICT_TYPES, //
+                NoSpecificType.DIST_TYPES, //
+                NoSpecificType.FUNC_TYPES, //
+                NoSpecificType.INT_TYPES_RANGELESS, //
+                NoSpecificType.LIST_TYPES, //
+                NoSpecificType.REAL_TYPES, //
+                NoSpecificType.SET_TYPES, //
+                NoSpecificType.STRING_TYPES, //
+                NoSpecificType.TUPLE_TYPES);
+        preconditions.add(typesCheck);
 
-    @Override
-    protected void preprocessFuncType(FuncType type) {
-        // User-defined functions as well as all standard library functions
-        // are unsupported.
-        String msg = fmt("Unsupported type \"%s\": function types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
+        // Only the following expressions are supported: boolean literal values, integer literal values, binary
+        // expressions (partially, see below), unary expressions (partially, see below), and references to constants,
+        // discrete variables, enumeration literals, and casts that don’t change the type.
+        NoSpecificExprsCheck exprsCheck = new NoSpecificExprsCheck( //
+                NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE, //
+                NoSpecificExpr.DICT_LITS, //
+                NoSpecificExpr.FUNC_CALLS, //
+                NoSpecificExpr.IF_EXPRS, //
+                NoSpecificExpr.LIST_LITS, //
+                NoSpecificExpr.PROJECTION_EXPRS, //
+                NoSpecificExpr.REAL_LITS, //
+                NoSpecificExpr.SET_LITS, //
+                NoSpecificExpr.SLICE_EXPRS, //
+                NoSpecificExpr.STRING_LITS, //
+                NoSpecificExpr.SWITCH_EXPRS, //
+                NoSpecificExpr.TIME_VAR_REFS, //
+                NoSpecificExpr.TUPLE_LITS);
+        preconditions.add(exprsCheck);
 
-    @Override
-    protected void preprocessIntType(IntType type) {
-        // Rangeless integer types unsupported.
-        if (isRangeless(type)) {
-            String msg = fmt("Unsupported type \"%s\": rangeless integer types are currently not supported.",
-                    typeToStr(type));
-            problems.add(msg);
-        }
-    }
+        // Only the following binary operators are supported: logical equivalence (<=>), logical implication (=>),
+        // conjunction (and) on boolean operands, disjunction (or) on boolean operands, addition (+) on ranged integer
+        // operands, subtraction (-) on ranged integer operands, multiplication (*) on ranged integer operands, integer
+        // division (div) on ranged integer operands, integer modulus (mod) on ranged integer operands, equality (=),
+        // inequality (!=), less than (<) on ranged integer operands, less than or equal to (<=) on ranged integer
+        // operands, greater than (>) on ranged integer operands, and greater than or equal to (>=) on ranged integer
+        // operands.
+        NoSpecificBinaryExprsCheck binCheck = new NoSpecificBinaryExprsCheck( //
+                NoSpecificBinaryOp.CONJUNCTION_SETS, //
+                NoSpecificBinaryOp.DISJUNCTION_SETS, //
+                NoSpecificBinaryOp.ADDITION_DICTS, //
+                NoSpecificBinaryOp.ADDITION_INTS_RANGELESS, //
+                NoSpecificBinaryOp.ADDITION_LISTS, //
+                NoSpecificBinaryOp.ADDITION_REALS, //
+                NoSpecificBinaryOp.ADDITION_STRINGS, //
+                NoSpecificBinaryOp.SUBTRACTION_DICTS, //
+                NoSpecificBinaryOp.SUBTRACTION_INTS_RANGELESS, //
+                NoSpecificBinaryOp.SUBTRACTION_LISTS, //
+                NoSpecificBinaryOp.SUBTRACTION_REALS, //
+                NoSpecificBinaryOp.SUBTRACTION_SETS, //
+                NoSpecificBinaryOp.MULTIPLICATION_INTS_RANGELESS, //
+                NoSpecificBinaryOp.MULTIPLICATION_REALS, //
+                NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS, //
+                NoSpecificBinaryOp.MODULUS_INTS_RANGELESS, //
+                NoSpecificBinaryOp.GREATER_EQUAL_INTS_RANGELESS, //
+                NoSpecificBinaryOp.GREATER_EQUAL_REALS, //
+                NoSpecificBinaryOp.GREATER_THAN_INTS_RANGELESS, //
+                NoSpecificBinaryOp.GREATER_THAN_REALS, //
+                NoSpecificBinaryOp.LESS_EQUAL_INTS_RANGELESS, //
+                NoSpecificBinaryOp.LESS_EQUAL_REALS, //
+                NoSpecificBinaryOp.LESS_THAN_INTS_RANGELESS, //
+                NoSpecificBinaryOp.LESS_THAN_REALS, //
+                NoSpecificBinaryOp.DIVISION, //
+                NoSpecificBinaryOp.ELEMENT_OF, //
+                NoSpecificBinaryOp.SUBSET);
+        preconditions.add(binCheck);
 
-    @Override
-    protected void preprocessListType(ListType type) {
-        String msg = fmt("Unsupported type \"%s\": list types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
+        // Only the following unary operators are supported: logical inverse (not), negation (-) on a ranged integer
+        // operand, and plus (+) on a ranged integer operand.
+        NoSpecificUnaryExprsCheck unCheck = new NoSpecificUnaryExprsCheck( //
+                NoSpecificUnaryOp.NEGATE_INTS_RANGELESS, //
+                NoSpecificUnaryOp.NEGATE_REALS, //
+                NoSpecificUnaryOp.PLUS_INTS_RANGELESS, //
+                NoSpecificUnaryOp.PLUS_REALS, //
+                NoSpecificUnaryOp.SAMPLE);
+        preconditions.add(unCheck);
 
-    @Override
-    protected void preprocessRealType(RealType type) {
-        String msg = fmt("Unsupported type \"%s\": real types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessSetType(SetType type) {
-        String msg = fmt("Unsupported type \"%s\": set types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessStringType(StringType type) {
-        String msg = fmt("Unsupported type \"%s\": string types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessTupleType(TupleType type) {
-        // Tuples, tuple types, and multi-assignments are unsupported.
-        String msg = fmt("Unsupported type \"%s\": tuple types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessBinaryExpression(BinaryExpression expr) {
-        BinaryOperator op = expr.getOperator();
-        switch (op) {
-            // Always boolean.
-            case IMPLICATION:
-            case BI_CONDITIONAL:
-                return;
-
-            // Check boolean arguments.
-            case CONJUNCTION:
-            case DISJUNCTION: {
-                CifType ltype = normalizeType(expr.getLeft().getType());
-                CifType rtype = normalizeType(expr.getRight().getType());
-                if (ltype instanceof BoolType && rtype instanceof BoolType) {
-                    return;
-                }
-                break;
-            }
-
-            // Check rangeless integer arguments.
-            case ADDITION:
-            case SUBTRACTION:
-            case MULTIPLICATION:
-            case INTEGER_DIVISION:
-            case MODULUS: {
-                CifType ltype = normalizeType(expr.getLeft().getType());
-                CifType rtype = normalizeType(expr.getRight().getType());
-                if (ltype instanceof IntType && !isRangeless((IntType)ltype) && rtype instanceof IntType
-                        && !isRangeless((IntType)rtype))
-                {
-                    return;
-                }
-                break;
-            }
-
-            // Always OK, as same type operands, and types of operands checked
-            // elsewhere.
-            case EQUAL:
-            case UNEQUAL:
-                return;
-
-            // Check rangeless integer arguments.
-            case GREATER_EQUAL:
-            case GREATER_THAN:
-            case LESS_EQUAL:
-            case LESS_THAN: {
-                CifType ltype = normalizeType(expr.getLeft().getType());
-                CifType rtype = normalizeType(expr.getRight().getType());
-                if (ltype instanceof IntType && !isRangeless((IntType)ltype) && rtype instanceof IntType
-                        && !isRangeless((IntType)rtype))
-                {
-                    return;
-                }
-                break;
-            }
-
-            // Unsupported, regardless of types of operands.
-            case DIVISION: // Real division.
-            case ELEMENT_OF:
-            case SUBSET:
-                break;
-
-            // Error.
-            default:
-                throw new RuntimeException("Unknown bin op: " + op);
-        }
-
-        // Unsupported.
-        String msg = fmt("Unsupported expression \"%s\": binary operator \"%s\" is currently not supported, "
-                + "or is not supported for the operands that are used.", exprToStr(expr), operatorToStr(op));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessCastExpression(CastExpression expr) {
-        CifType ctype = expr.getChild().getType();
-        CifType rtype = expr.getType();
-        if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
-            // Ignore casting to the child type.
-            return;
-        }
-
-        String msg = fmt("Unsupported expression \"%s\": cast expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessDictExpression(DictExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": dictionary expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessFunctionCallExpression(FunctionCallExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": function calls are currently not supported.", exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessIfExpression(IfExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": 'if' expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessListExpression(ListExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": list expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessProjectionExpression(ProjectionExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": projection expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessRealExpression(RealExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": real number expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessSetExpression(SetExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": set expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessSliceExpression(SliceExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": slice expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessStringExpression(StringExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": string literal expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessSwitchExpression(SwitchExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": 'switch' expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessTimeExpression(TimeExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": the use of variable \"time\" is currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessTupleExpression(TupleExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": tuple expressions are currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessUnaryExpression(UnaryExpression expr) {
-        UnaryOperator op = expr.getOperator();
-        switch (op) {
-            // Always boolean.
-            case INVERSE:
-                return;
-
-            // Check rangeless integer argument.
-            case NEGATE:
-            case PLUS: {
-                CifType ctype = normalizeType(expr.getChild().getType());
-                if (ctype instanceof IntType && !isRangeless((IntType)ctype)) {
-                    return;
-                }
-                break;
-            }
-
-            // Unsupported.
-            case SAMPLE:
-                break;
-
-            // Error.
-            default:
-                throw new RuntimeException("Unknown un op: " + op);
-        }
-
-        // Unsupported.
-        String msg = fmt("Unsupported expression \"%s\": unary operator \"%s\" is currently not supported, "
-                + "or is not supported for the operand that is used.", exprToStr(expr), operatorToStr(op));
-        problems.add(msg);
+        // Perform precondition check.
+        new CifPreconditionChecker(preconditions).reportPreconditionViolations(spec, "CIF to Supremica transformation");
     }
 }

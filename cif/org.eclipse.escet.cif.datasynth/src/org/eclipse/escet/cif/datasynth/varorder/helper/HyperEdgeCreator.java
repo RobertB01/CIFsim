@@ -48,7 +48,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 /** Automatic variable ordering hyper-edge creator. */
 class HyperEdgeCreator {
     /** The synthesis variables. */
-    private SynthesisVariable[] variables;
+    private List<SynthesisVariable> variables;
 
     /** The hyper-edges created so far. */
     private List<BitSet> hyperEdges = list();
@@ -63,7 +63,7 @@ class HyperEdgeCreator {
      * @param variables The synthesis variables.
      * @return The hyper-edges.
      */
-    List<BitSet> getHyperEdges(Specification spec, SynthesisVariable[] variables) {
+    List<BitSet> getHyperEdges(Specification spec, List<SynthesisVariable> variables) {
         // Initialization.
         this.variables = variables;
         this.hyperEdges = list();
@@ -221,12 +221,12 @@ class HyperEdgeCreator {
         }
 
         // Create bit set.
-        BitSet hyperEdge = new BitSet(variables.length);
+        BitSet hyperEdge = new BitSet(variables.size());
         for (PositionObject var: vars) {
             int matchIdx = -1;
-            for (int i = 0; i < variables.length; i++) {
+            for (int i = 0; i < variables.size(); i++) {
                 // Get synthesis variable.
-                SynthesisVariable synthVar = variables[i];
+                SynthesisVariable synthVar = variables.get(i);
                 Assert.notNull(synthVar == null);
 
                 // Check for matching variable.

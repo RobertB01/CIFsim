@@ -24,7 +24,9 @@ The following topics are covered:
 * <<development-release-process-prepare-git-repo-for-next-version>>
 * <<development-release-process-working-on-a-release>>
 * <<development-release-process-prepare-release>>
+* <<development-release-process-prepare-release-review>>
 * <<development-release-process-perform-release>>
+* <<development-release-process-removing-archiving-old-releases>>
 
 [[development-release-process-release-policy]]
 === Release policy
@@ -100,7 +102,7 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 
 ** Repeat these steps to create issues for the release candidate (`Release vN.N-RC1`) and final release (`Release vN.N`).
 
-** If a <<development-release-process-prepare-release,release review is needed>>, create an issue for that as well (`Release review for vN.N`).
+** If a <<development-release-process-prepare-release-review,release review>> is needed, create an issue for that as well (`Release review for vN.N`).
 
 [[development-release-process-prepare-git-repo-for-next-version]]
 === Preparing Git repository for a next version
@@ -188,23 +190,157 @@ Once the work on `develop` is done for a release (milestone, release candidate, 
 
 * For a final release ensure that all IP is accounted for and all CQs have been approved by the Eclipse Foundation IP team.
 
-* For a final release ensure that a release review has been successfully completed no more than one year ago.
-For a release review follow these steps:
+* For a final release ensure that a <<development-release-process-prepare-release-review,release review>> has been successfully completed no more than one year ago.
 
-** Prepare the release review material in the release record.
-See e.g. https://projects.eclipse.org/projects/technology.escet/reviews/0.1-release-review.
+[[development-release-process-prepare-release-review]]
+=== Preparing a release review
 
-** Submit the IP log.
-See e.g. https://dev.eclipse.org/ipzilla/show_bug.cgi?id=23179.
+For a final release a release review must have been successfully completed no more than one year ago.
+Follow these steps to prepare a release review:
 
-** Request PMC approval.
-See e.g. https://www.eclipse.org/lists/technology-pmc/msg12371.html.
+* Read the link:https://www.eclipse.org/projects/handbook/#release-review[official information on release reviews] in the Eclipse Project Handbook.
+In particular, note that the Eclipse Foundation "schedule[s] reviews to conclude on the first and third Wednesdays of the month.
+Your release date does not have to coincide with the review date (you can set the release date as necessary).
+The review must, however, conclude successfully before you can make the release official."
 
-** Ask the EMO to schedule the release review and make it public.
-Consider that release reviews are to be scheduled to happen on the 1st or 3rd Wednesday of a month.
-See e.g. https://www.eclipse.org/lists/escet-dev/msg00091.html (mail also sent to \emo@eclipse.org).
+* Update the release record, including the release review information:
 
-** Ensure the release review is successful before performing the release.
+** Go to the release record at `\https://projects.eclipse.org/projects/technology.escet/releases/N.N`.
+Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`.
+
+** Click the _Edit_ tab.
+
+** Change the information as desired, using previous release records as inspiration.
+
+** For the _Description_, use the following template:
++
+[source, html]
+----
+<p>This release [describe the release in a few sentences].</p>
+
+<p>For more information:</p>
+
+<ul>
+    <li>Eclipse ESCET vN.N-NNN release notes
+    <ul>
+        <li><a href="https://www.eclipse.org/escet/vN.N-NNN/release-notes.html">ESCET toolkit release notes</a></li>
+        <li><a href="https://www.eclipse.org/escet/vN.N-NNN/chi/release-notes.html">Chi release notes</a></li>
+        <li><a href="https://www.eclipse.org/escet/vN.N-NNN/cif/release-notes.html">CIF release notes</a></li>
+        <li><a href="https://www.eclipse.org/escet/vN.N-NNN/tooldef/release-notes.html">ToolDef release notes</a></li>
+    </ul>
+    </li>
+    <li><a href="https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones/NN">Eclipse ESCET GitLab vN.N issues</a></li>
+</ul>
+----
++
+Replace `N.N-NNN` by the latest release candidate version of the release to be reviewed, e.g. `0.1-RC1`, `0.1.1-RC2` or `1.0-RC1`.
+Replace `NN` by the actual GitLab milestone number, e.g., `1`, `2` or `3`.
+Replace `N.N` by the final release version, e.g. `0.1`, `0.1.1` or `1.0`.
+
+** Click _Save_.
+
+* Submit the IP Log:
+
+** Go to https://projects.eclipse.org/projects/technology.escet.
+
+** Ensure you're logged in, as an ESCET project committer.
+
+** In the right sidebar, click _Generate IP Log_.
+
+** For _Respin_, select _None, this is a new IP Log review request_.
+
+** For _Required by date_, select the date one week before the review conclusion date.
+
+** For _Release_ select the relevant release.
+
+** It is not necessary to write any _Comments_.
+
+** Click _Submit for review_.
+
+** Note the message at the top of the page, indicating that a CQ was created, to track the approval of the IP Log by the Eclipse Foundation IP team.
+
+* Request PMC approval:
+
+** Go to https://accounts.eclipse.org/mailing-list/technology-pmc and subscribe to the Technology PMC mailing list, if not yet subscribed.
+Subscription is necessary to post to the list.
+
+** Send an email to `technology-pmc@eclipse.org`, with a CC to `escet-dev@eclipse.org`.
+
+*** As subject, use `Request release approval for Eclipse ESCET vN.N release`.
+Replace `vN.N` by the release version, e.g. `v0.1`, `v0.1.1` or `v1.0`.
+
+*** As message, use the following template:
++
+[source]
+----
+The Eclipse ESCET project hereby requests approval for the vN.N release.
+
+See https://projects.eclipse.org/projects/technology.escet/releases/N.N
+
+Kind regards,
+<Your Name>
+Eclipse ESCET <your role>
+----
++
+Replace `N.N` by the release version, e.g. `0.1`, `0.1.1` or `1.0`.
+Replace `<Your Name>` by your full name (first and last name).
+Replace `<your role`> by either `project lead` or `project committer`.
+
+* Ask the EMO to schedule the release review and make it public:
+
+** Go to the release record at `\https://projects.eclipse.org/projects/technology.escet/releases/N.N`.
+Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`.
+
+** Observe how _Schedule a review for this release_ is indicated at the top of the page.
+
+** Click the _review_ link as part of that text.
+
+** For _Review dates_ select the review conclusion date.
+
+** Click _Schedule a review_.
+
+** Observe how the text has changed to _This review is pending; contact The Eclipse Management Organization to make it public._
+
+** Send an email to `emo@eclipse.org`, with a CC to `escet-dev@eclipse.org`.
+
+*** As subject, use `Please schedule the Eclipse ESCET vN.N Release Review`.
+Replace `vN.N` by the release version, e.g. `v0.1`, `v0.1.1` or `v1.0`.
+
+*** As message, use the following template:
++
+[source]
+----
+See https://projects.eclipse.org/projects/technology.escet/reviews/N.N-release-review
+
+Kind regards,
+<Your Name>
+Eclipse ESCET <your role>
+----
++
+Replace `N.N` by the release version, e.g. `0.1`, `0.1.1` or `1.0`.
+Replace `<Your Name>` by your full name (first and last name).
+Replace `<your role`> by either `project lead` or `project committer`.
+
+* Update the release review issue description with the following template:
++
+[source, markdown]
+----
+See the following pages for submitted materials and approval:
+* Release record and review materials: https://projects.eclipse.org/projects/technology.escet/releases/N.N
+* IP Log approval issue: https://dev.eclipse.org/ipzilla/show_bug.cgi?id=NNN
+* PMC approval request: https://www.eclipse.org/lists/technology-pmc/msgNNNN.html
+* PMC approval: https://www.eclipse.org/lists/technology-pmc/msgNNNNN.html
+* EMO release review scheduling request: https://www.eclipse.org/lists/escet-dev/msgNNNNNN.html
+* EMO release review tracking issue: https://gitlab.eclipse.org/eclipsefdn/emo-team/emo/-/issues/NN
+----
++
+Replace `N.N` by the release version, e.g. `0.1`, `0.1.1` or `1.0`.
+Replace `NNN` by the IP Log CQ issue number.
+Replace `NNNN`, `NNNNN`, and `NNNNNN` by the corresponding mailing list message numbers.
+Consult the http://www.eclipse.org/lists/technology-pmc[Technology PMC mailing list archive] and the http://www.eclipse.org/lists/escet-dev[Eclipse ESCET dev mailing list archive] to find the messages and their message numbers.
+Replace `NN` by the GitLab issue number of the issue that will be created by the EMO to track the release review.
+
+* Ensure the release review is successful before <<development-release-process-perform-release,performing the release>>.
 
 [[development-release-process-perform-release]]
 === Performing a release
@@ -344,7 +480,7 @@ I just released vN.N-NNN:
 Note that mirrors may still need to sync, so downloads may be a bit slower until then.
 ----
 
-** Also send an email to the <<development-dev-list-chapter-index,escet-dev list>> with similar content.
+** Also send an email to `escet-dev@eclipse.org` with similar content.
 
 * Clean up after the release:
 
@@ -354,36 +490,91 @@ Note that mirrors may still need to sync, so downloads may be a bit slower until
 
 ** For a final release, close the GitLab milestone.
 
-* Remove/archive old releases:
+* <<development-release-process-removing-archiving-old-releases,Remove/archive>> old releases.
 
-** For every release (including milestones and release candidates), remove the builds for all previously built tags.
-In Jenkins, while logged in, go to link:https://ci.eclipse.org/escet/job/ESCET%20build/view/tags/[].
-Select the tag name in the _Name_ column to go the tags page.
-There, on the left, the various builds are indicated by `#n`, with `n` some number.
-In the drop down menu of a build, select `Delete build #n` to remove it.
-When asked to confirm, click _Yes_.
+[[development-release-process-removing-archiving-old-releases]]
+=== Removing/archiving old releases
 
-** For every release (not a milestone or release candidate), remove all milestones and release candidates of the previous version and older.
-E.g. for `v0.2`, remove `v0.1-M1`, `v0.1-M2`, `v0.1-RC1`, etc.
-Also archive all releases older than the current and previous release.
-E.g. for `v0.3` archive `v0.1` and older, but keep `v0.2`.
-+
-Consider whether archiving or removing P2 update sites will lead to issues for users.
-See for more information the Eclipse Foundation Wiki page link:https://wiki.eclipse.org/Equinox/p2/p2.mirrorsURL#Moving_a_repo_to_archive.eclipse.org[Moving a repo to archive.eclipse.org].
+To prevent unnecessary disk space usage, old releases can be archived and removed.
+Below the policy and steps for both of them are explained.
+These steps are to be followed after <<development-release-process-perform-release,performing a release>>.
 
-** Old websites can be removed in a similar way to the above instructions to change the default website.
-Only remove the directory for the milestone or release candidate.
+For every release, including milestones and release candidates:
 
-** Older downloads can be archived.
-Go to https://download.eclipse.org/escet/.
-Make sure you're logged in.
+* Remove the builds for all previously built tags, thus excluding the tag of the release that was just built:
+
+** In Jenkins, while logged in, go to link:https://ci.eclipse.org/escet/job/ESCET%20build/view/tags/[].
+
+** Select the tag name in the _Name_ column to go the tag's page.
+
+** There, on the left, the various builds are indicated by `#n`, with `n` some number.
+
+** In the drop down menu of a build, select _Delete build #n_ to remove it.
+
+** When asked to confirm, click _Yes_.
+
+For every final release, thus excluding milestones and release candidates:
+
+* Identify the milestone and release candidate versions to remove.
+We remove all milestones and release candidates of the previous version and older.
+E.g. for `v0.2`, we remove `v0.1-M1`, `v0.1-M2`, `v0.1-RC1`, etc.
+
+* Identify the final release versions to archive.
+We archive all releases older than the current and previous release, but never remove them.
+E.g. for `v0.3` we archive `v0.1` and older, but keep `v0.2`.
+
+* Remove the websites of the identified milestone and release candidate versions:
+
+** Make sure you've uploaded your SSH public key to Eclipse Gerrit.
+This is a one-time only step.
+Go to https://git.eclipse.org/r/.
+Sign in using your Eclipse Foundation committer account.
+Use the gear icon at the top right to access your account settings.
+Under _SSH Keys_ add your SSH public key.
+Also make note of your _username_, _Full name_ and _Email_ address.
+
+** Clone the Eclipes ESCET website Git repository using `git clone ssh://<username>@git.eclipse.org:29418/www.eclipse.org/escet.git`.
+Make sure to replace `<username>` by your Eclipse Foundation committer account _username_.
+
+** In the cloned repository, remove the folders corresponding to the milestone and release candidate versions.
+
+** Add all changes to be committed, e.g. by using `git add -A`.
+
+** Make sure to use the _Full name_ and _Email_ address of your Eclipse Foundation committer account.
+E.g. use `git config --local user.name "<full_name>"` and `git config --local user.email "<email>"`, replacing `<full_name>` and `<email>` by the appropriate information matching your Eclipse Foundation committer account.
+
+** Commit the changes.
+Use as commit message `Removed milestone and RC websites of release vN.N.`, replacing `vN.N` by the release version, e.g., `v1.0` when removing versions `v1.0-M1` and `v1.0-RC1`.
+Make sure to sign off the commit to pass Eclipse Foundation automatic commit validation.
+E.g. use the following to commit the changes:
+`git commit -s -m "Removed milestone and RC websites of release v1.0."`.
+
+** Push the changes to the Git server.
+E.g. use `git push`.
+If successful you should see the changes at the Git server's web view, at https://git.eclipse.org/c/www.eclipse.org/escet.git/.
+
+* Remove the downloads of the identified milestone and release candidate versions:
+
+** Go to https://download.eclipse.org/escet/.
+
+** Make sure you are logged in.
 This should make check-boxes appear.
-Select the folders to archive and click the _Archive_ button.
+
+** Select the folders to archive (before subsequent removal) and click the _Move selected to archive.eclipse.org_ button.
 It may take a few minutes for archiving to complete.
 
-** Archived downloads can be removed.
-Go to https://archive.eclipse.org/escet/.
-Make sure you're logged in.
+** Go to https://archive.eclipse.org/escet/.
+
+** Make sure you are (still) logged in.
 This should make check-boxes appear.
-Select the folders to delete and click the _Delete_ button.
+
+** Select the folders to delete and click the _Delete selected permanently_ button.
 It may take a few minutes for deleting to complete.
+
+* Archive the downloads of the identified final versions:
+
+** Links to `download.eclipse.org` link:https://wiki.eclipse.org/index.php?title=Equinox/p2/p2.mirrorsURL&diff=444984&oldid=370895[should transparently redirect] to `archive.eclipse.org` for archived files.
+However, this did not work for P2 update sites in the past.
+Hence, this step has been omitted so far, to prevent existing URLs to P2 update sites from breaking for our users.
+Once we verify that these issues have been resolved, we can archive older final releases.
+We could test this when archiving milestone and release candidate versions.

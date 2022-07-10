@@ -20,116 +20,128 @@ indexterm:[release, notes]
 
 The release notes for the versions of CIF and the associated tools, as part of the Eclipse ESCET project, are listed below in reverse chronological order.
 
-The release notes may refer to issues, the details for which can be found at the Eclipse ESCET link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
+See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
-
-=== Version 0.6
+=== Version 0.7
 
 TBD
 
+=== Version 0.6 (2022-07-07)
+
 Language changes:
 
-* Invariants can now be given a name (issue #323).
+* Invariants can now be given a name (issue {escet-issue}323[#323]).
 
 New features:
 
-* Added a CIF benchmark models import wizard, with several benchmarking models, similar to the CIF examples import wizard (issue #364).
+* Added a CIF benchmark models import wizard, with several benchmarking models, similar to the CIF examples import wizard (issue {escet-issue}364[#364]).
+* The CIF data-based synthesis tool now warns about input models where plants refer to requirement state.
+The new functionality is enabled by default, but can be disabled using an option (issue {escet-issue}311[#311]).
+* The CIF data-based synthesis tool features the DCSH algorithm as new additional variable ordering algorithm.
+It is considered experimental for now, and therefore disabled by default, but can be enabled using an option (issue {escet-issue}196[#196]).
 
 Improvements and fixes:
 
-* Some improvements to the documentation of the CIF to CIF linearize merge/product transformations (issue #354).
-* Improved bibliography references in documentation (issue #365).
-* Small website style improvements (issue #367).
+* The CIF data-based synthesis tool's automatic variable ordering has various internal improvements in preparation for further upcoming improvements.
+As a result the debug output has been extended and changed a bit (issues {escet-issue}196[#196] and {escet-issue}371[#371]).
+* The CIF data-based synthesis tool's automatic variable ordering documentation has been improved and extended (issue {escet-issue}196[#196]).
+* The CIF data-based synthesis tool has some small consistency improvements for its command line option descriptions (issue {escet-issue}311[#311]).
+* Some improvements to the documentation of the CIF to CIF linearize merge/product transformations (issue {escet-issue}354[#354]).
+* The CIF to Supremica transformation precondition check has been redesigned, producing different output.
+The preconditions themselves have not changed (issue {escet-issue}370[#370]).
+* Links in the documentation to non-CIF ESCET documentation webpages now use version-specific URLs (issue {escet-issue}386[#386]).
+* Improved bibliography references in documentation (issue {escet-issue}365[#365]).
+* The issue numbers in the release notes now link to the corresponding GitLab issue (issue {escet-issue}396[#396]).
+* Small website style improvements (issue {escet-issue}367[#367]).
 
 === Version 0.5 (2022-03-29)
 
 New features:
 
-* The CIF documentation contains an extensive new section on synthesis-based engineering of supervisory controllers (issues #325 and #334).
+* The CIF documentation contains an extensive new section on synthesis-based engineering of supervisory controllers (issues {escet-issue}325[#325] and {escet-issue}334[#334]).
 * The CIF examples contain a new FIFO example, to showcase the power of supervisory controller synthesis.
-It is also described in the new synthesis-based engineering documentation (issue #325).
-* The CIF PLC code generator now supports S7 output for SIMATIC controllers (issue #142).
-* The CIF data-based synthesis tool now supports state plant invariants (issue #107).
-* The CIF to CIF transformer has several new transformations, to anonymize the names of all named objects, convert controllable events to uncontrollable ones and vice versa, and remove unused algebraic variables and their equations (issues #306, #308 and #320).
+It is also described in the new synthesis-based engineering documentation (issue {escet-issue}325[#325]).
+* The CIF PLC code generator now supports S7 output for SIMATIC controllers (issue {escet-issue}142[#142]).
+* The CIF data-based synthesis tool now supports state plant invariants (issue {escet-issue}107[#107]).
+* The CIF to CIF transformer has several new transformations, to anonymize the names of all named objects, convert controllable events to uncontrollable ones and vice versa, and remove unused algebraic variables and their equations (issues {escet-issue}306[#306], {escet-issue}308[#308] and {escet-issue}320[#320]).
 
 Improvements and fixes:
 
-* The CIF type checker no longer produces the wrong warning for globally disabled event that are monitored, for events referred to via component parameters or component instantiations (issue #300).
+* The CIF type checker no longer produces the wrong warning for globally disabled event that are monitored, for events referred to via component parameters or component instantiations (issue {escet-issue}300[#300]).
 * The CIF type checker no longer produces false positive/negative warnings and errors related to the use of events in component definitions/instantiations.
 This applies to the following checks: duplicate events in alphabets, duplicate monitor events, duplicate events on edges, events on edges not in alphabets, monitoring events not in alphabets, events in alphabet not on any edge, monitored event not on any edge, and monitoring an empty alphabet.
 It also has several other small improvements related to these checks, including improved warning messages and reporting the warnings at better positions.
-As a result of the changes, problems are no longer reported for non-instantiated component definitions (issues #298 and #301).
-* The CIF simulator interactive GUI input component now has a horizontal scrollbar from the start, if applicable (issue #217).
-* The CIF simulator being terminated by the red stop button no longer leaves the interactive GUI input component buttons enabled (issue #274).
+As a result of the changes, problems are no longer reported for non-instantiated component definitions (issues {escet-issue}298[#298] and {escet-issue}301[#301]).
+* The CIF simulator interactive GUI input component now has a horizontal scrollbar from the start, if applicable (issue {escet-issue}217[#217]).
+* The CIF simulator being terminated by the red stop button no longer leaves the interactive GUI input component buttons enabled (issue {escet-issue}274[#274]).
 * The CIF PLC code generator PLC number bits option now has a new automatic mode.
-The default remains 64-bit for PLCopen XML, IEC 61131-3 and TwinCAT output (issue #142).
-* The CIF PLC code generator now generates correct assignments to temporary variables for multi-assignments (issue #282).
-* The CIF PLC code generator now generates calls to the `NOT` function without formal argument names (issue #286).
-* The CIF documentation has several small improvements (issues #271, #324 and #326).
-* The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue #314).
+The default remains 64-bit for PLCopen XML, IEC 61131-3 and TwinCAT output (issue {escet-issue}142[#142]).
+* The CIF PLC code generator now generates correct assignments to temporary variables for multi-assignments (issue {escet-issue}282[#282]).
+* The CIF PLC code generator now generates calls to the `NOT` function without formal argument names (issue {escet-issue}286[#286]).
+* The CIF documentation has several small improvements (issues {escet-issue}271[#271], {escet-issue}324[#324] and {escet-issue}326[#326]).
+* The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue {escet-issue}314[#314]).
 
 === Version 0.4 (2021-12-17)
 
 Language changes:
 
 * Component parameters can now be used as values, for instance as arguments to component instantiations.
-See the CIF language tutorial lesson on group definitions for more information (issue #222).
+See the CIF language tutorial lesson on group definitions for more information (issue {escet-issue}222[#222]).
 
 New features:
 
 * The CIF simulator now supports simulating specifications with input variables.
 Use the _CIF specification initialization_ option to specify the initial value of input variables.
-Support for modifying the value of input variables during simulation is planned for future versions (issue #203).
-* The CIF data-based synthesis tool now has an _Edge order_ option to influence the order in which edges are considered, which can significantly influence the performance (issue #197).
+Support for modifying the value of input variables during simulation is planned for future versions (issue {escet-issue}203[#203]).
+* The CIF data-based synthesis tool now has an _Edge order_ option to influence the order in which edges are considered, which can significantly influence the performance (issue {escet-issue}197[#197]).
 
 Improvements and fixes:
 
-* Introduced a brand new website (issue #35).
-* Many website URLs have changed due to various website structure changes (issues #35 and #73).
-* Various documentation/website textual improvements, style improvements and other changes (issues #35, #54, #188 and #236).
+* Introduced a brand new website (issue {escet-issue}35[#35]).
+* Many website URLs have changed due to various website structure changes (issues {escet-issue}35[#35] and {escet-issue}73[#73]).
+* Various documentation/website textual improvements, style improvements and other changes (issues {escet-issue}35[#35], {escet-issue}54[#54], {escet-issue}188[#188] and {escet-issue}236[#236]).
 * Various CIF tools now correctly handle a tuple projection index that is a constant reference with a name that is hidden by a tuple field name.
-In particular the CIF pretty printer now generates correct references for such indices (issue #258).
-* The CIF to CIF transformation to eliminate component definition/instantiation now correctly handles cases where component definitions are referred to via component instantiations (issue #244).
-* The CIF type checker now warns about some overly-convoluted references (issue #234).
-* The CIF simulator interactive GUI input mode now is fully responsive to termination requests when asking users for the next transition to take (issue #216).
-* The CIF simulator SVG visualizer functionality to save the image as an SVG file no longer crashes (issue #205).
-* The CIF simulator plot visualizer and SVG visualizer functionality to save as an image no longer ask duplicate overwrite questions (issue #223).
-* The CIF simulator no longer crashes when showing an SVG visualizer if the SVG file can't be loaded (issue #207).
-* The CIF simulator trajectory data file option description has been improved (issue #248).
-* The CIF data-based synthesis tool now supports collecting additional statistics, i.e., maximum used BDD nodes, continuous BDD performance, and BDD cache statistics (issue #171).
+In particular the CIF pretty printer now generates correct references for such indices (issue {escet-issue}258[#258]).
+* The CIF to CIF transformation to eliminate component definition/instantiation now correctly handles cases where component definitions are referred to via component instantiations (issue {escet-issue}244[#244]).
+* The CIF type checker now warns about some overly-convoluted references (issue {escet-issue}234[#234]).
+* The CIF simulator interactive GUI input mode now is fully responsive to termination requests when asking users for the next transition to take (issue {escet-issue}216[#216]).
+* The CIF simulator SVG visualizer functionality to save the image as an SVG file no longer crashes (issue {escet-issue}205[#205]).
+* The CIF simulator plot visualizer and SVG visualizer functionality to save as an image no longer ask duplicate overwrite questions (issue {escet-issue}223[#223]).
+* The CIF simulator no longer crashes when showing an SVG visualizer if the SVG file can't be loaded (issue {escet-issue}207[#207]).
+* The CIF simulator trajectory data file option description has been improved (issue {escet-issue}248[#248]).
+* The CIF data-based synthesis tool now supports collecting additional statistics, i.e., maximum used BDD nodes, continuous BDD performance, and BDD cache statistics (issue {escet-issue}171[#171]).
 * The CIF data-based synthesis tool statistics option now has different option value names for various statistics.
 This is a backward incompatible change.
-Use `bdd-gc-collect` instead of `bdd-gc`, and `bdd-gc-resize` instead of `bdd-resize` (issue #235).
-* The CIF data-based synthesis tool documentation has various small improvements (issue #171).
+Use `bdd-gc-collect` instead of `bdd-gc`, and `bdd-gc-resize` instead of `bdd-resize` (issue {escet-issue}235[#235]).
+* The CIF data-based synthesis tool documentation has various small improvements (issue {escet-issue}171[#171]).
 * The CIF to CIF linearization transformation now preserves more of the model structure.
 Groups are no longer eliminated, I/O file declarations are no longer pushed inwards, I/O declarations are no longer merged, and enumerations are no longer merged.
 The original automata are replaced by groups to allow keeping most declarations (e.g., algebraic variables) declared within them in their original scope, allowing them to keep their original absolute identities.
 Initialization predicates, marker predicates and invariants are also kept (close to) where they were.
 Linearization may now result in models with scope absolute references.
 Some warning messages now include proper absolute names.
-The documentation has been improved as well (issues #155 and #245).
-* The CIF to CIF linearization transformation now uses temporary location pointer variable names that are less likely to lead to name clashes and renamings (issue #245).
+The documentation has been improved as well (issues {escet-issue}155[#155] and {escet-issue}245[#245]).
+* The CIF to CIF linearization transformation now uses temporary location pointer variable names that are less likely to lead to name clashes and renamings (issue {escet-issue}245[#245]).
 * The CIF to CIF transformation to eliminate the use of locations in expressions now generates location pointer variables and enumerations with simpler names.
-This also affects the CIF to Supremica transformation (issue #245).
-* The CIF to CIF transformation to eliminate the use of locations in expressions has improved renaming warnings (issue #245).
-* The CIF PLC code generator has some backward incompatible name changes in the generated PLC code due to changes the CIF to CIF linearization transformation (issue #155).
-* The CIF PLC code generator has improved absolute names in error messages, generated comments, etc (issue #155).
-* The CIF PLC code generator now generates proper PLC names for CIF objects that have a CIF keyword as name (issue #249).
-* The CIF code generator has improved absolute names in generated comments, improved absolute original event names, and improved print declarations order in generated code (issue #155).
-* The CIF code generator has improved error and warning messages for Simulink code generation (issue #250).
-* The CIF code generator now takes into account all Java 11 keywords, literals and identifiers with special meaning for Java code generation (issue #238).
-* The CIF code generator now generates simpler and better performing code for (in)equality binary operators that compare enumeration literals (issue #247).
-* All CIF tools that support but ignore SVG input declarations now print a warning for specifications that contain SVG input declarations (issue #218).
+This also affects the CIF to Supremica transformation (issue {escet-issue}245[#245]).
+* The CIF to CIF transformation to eliminate the use of locations in expressions has improved renaming warnings (issue {escet-issue}245[#245]).
+* The CIF PLC code generator has some backward incompatible name changes in the generated PLC code due to changes the CIF to CIF linearization transformation (issue {escet-issue}155[#155]).
+* The CIF PLC code generator has improved absolute names in error messages, generated comments, etc (issue {escet-issue}155[#155]).
+* The CIF PLC code generator now generates proper PLC names for CIF objects that have a CIF keyword as name (issue {escet-issue}249[#249]).
+* The CIF code generator has improved absolute names in generated comments, improved absolute original event names, and improved print declarations order in generated code (issue {escet-issue}155[#155]).
+* The CIF code generator has improved error and warning messages for Simulink code generation (issue {escet-issue}250[#250]).
+* The CIF code generator now takes into account all Java 11 keywords, literals and identifiers with special meaning for Java code generation (issue {escet-issue}238[#238]).
+* The CIF code generator now generates simpler and better performing code for (in)equality binary operators that compare enumeration literals (issue {escet-issue}247[#247]).
+* All CIF tools that support but ignore SVG input declarations now print a warning for specifications that contain SVG input declarations (issue {escet-issue}218[#218]).
 * The CIF to mCRL2 tool _Generate value actions_ option has been improved to not generate any value actions if an empty option value is provided.
 This is a backward incompatible change.
-The documentation of the option has also been improved (issue #225).
+The documentation of the option has also been improved (issue {escet-issue}225[#225]).
 * The CIF to mCRL2 tool no longer eliminates enumerations to integers, but instead generates mCRL2 sorts for CIF enumerations.
-This allows referring to the enumeration literals by name when specifying properties to verify (issue #156).
-* The CIF to mCRL2 documentation on supported CIF specifications has been improved (issue #156).
+This allows referring to the enumeration literals by name when specifying properties to verify (issue {escet-issue}156[#156]).
+* The CIF to mCRL2 documentation on supported CIF specifications has been improved (issue {escet-issue}156[#156]).
 * The CIF to yEd transformation is now part of the miscellaneous tools.
-In the Eclipse ESCET IDE it can now be found in the menu:CIF miscellaneous tools[] sub-menu (issue #188).
-* The CIF to yEd documentation has been updated for changes to recent yEd versions (issue #209).
+In the Eclipse ESCET IDE it can now be found in the menu:CIF miscellaneous tools[] sub-menu (issue {escet-issue}188[#188]).
+* The CIF to yEd documentation has been updated for changes to recent yEd versions (issue {escet-issue}209[#209]).
 
 === Version 0.3 (2021-10-01)
 
@@ -139,89 +151,89 @@ Language changes:
 This was deprecated over 6 years ago and already led to warnings in the specification.
 Invariants without a supervisory kind specification (plant, requirement, supervisor) that reside in an automaton or location of an automaton, and where that automaton has a supervisory kind, now no longer inherit the supervisory kind of that automaton.
 Instead they remain kindless.
-This is a backward incompatible change (issue #139).
+This is a backward incompatible change (issue {escet-issue}139[#139]).
 
 New features:
 
-* CIF controller property checker application added to check supervisory controllers for finite response (issue #122).
+* CIF controller property checker application added to check supervisory controllers for finite response (issue {escet-issue}122[#122]).
 * CIF data-based synthesis has a new option to print warnings for events that are never enabled in the input specification or the synthesized controlled system.
-This new option is enabled by default (issues #108, #150, #162 and #164).
-* CIF data-based synthesis now supports boolean constants in predicates (issue #143).
-* CIF data-based synthesis now supports switch expressions (issue #148).
+This new option is enabled by default (issues {escet-issue}108[#108], {escet-issue}150[#150], {escet-issue}162[#162] and {escet-issue}164[#164]).
+* CIF data-based synthesis now supports boolean constants in predicates (issue {escet-issue}143[#143]).
+* CIF data-based synthesis now supports switch expressions (issue {escet-issue}148[#148]).
 
 Improvements and fixes:
 
-* CIF to CIF transformation to remove requirements no longer supports removing requirement automata that contain locations with non-requirement (kindless, plant, or supervisor) invariants, preventing the loss of invariants (issue #140).
-* CIF to CIF transformation to remove requirements now properly moves invariants from requirement automata to their parents, rather than also removing them (issue #140).
-* CIF data-based synthesis simplification of supervisor guards for `false` guards under `false` assumption now correctly results in `true` simplified guards, to indicate the supervisor doesn't enforce a restriction (issue #144).
-* CIF data-based synthesis documentation updated to reflect that code generator tools support state/event exclusion invariants (issue #163).
-* CIF PLC code generator error message now indicates correct TwinCAT XAE project file path (issue #154).
-* CIF type checker improved to report more issues for list projections with impossible bounds, rather than deferring to runtime checks (issue #177).
-* The CIF simulator, CIF to UPPAAL transformation, and CIF to mCRL2 transformation are now all under the 'CIF simulation, validation and verification tools' part of right-click menus on CIF files and editors (issue #122).
-* The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
-* Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
-* Several small documentation fixes and improvements (issues #36 and #166).
+* CIF to CIF transformation to remove requirements no longer supports removing requirement automata that contain locations with non-requirement (kindless, plant, or supervisor) invariants, preventing the loss of invariants (issue {escet-issue}140[#140]).
+* CIF to CIF transformation to remove requirements now properly moves invariants from requirement automata to their parents, rather than also removing them (issue {escet-issue}140[#140]).
+* CIF data-based synthesis simplification of supervisor guards for `false` guards under `false` assumption now correctly results in `true` simplified guards, to indicate the supervisor doesn't enforce a restriction (issue {escet-issue}144[#144]).
+* CIF data-based synthesis documentation updated to reflect that code generator tools support state/event exclusion invariants (issue {escet-issue}163[#163]).
+* CIF PLC code generator error message now indicates correct TwinCAT XAE project file path (issue {escet-issue}154[#154]).
+* CIF type checker improved to report more issues for list projections with impossible bounds, rather than deferring to runtime checks (issue {escet-issue}177[#177]).
+* The CIF simulator, CIF to UPPAAL transformation, and CIF to mCRL2 transformation are now all under the 'CIF simulation, validation and verification tools' part of right-click menus on CIF files and editors (issue {escet-issue}122[#122]).
+* The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue {escet-issue}36[#36]).
+* Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue {escet-issue}36[#36]).
+* Several small documentation fixes and improvements (issues {escet-issue}36[#36] and {escet-issue}166[#166]).
 
 === Version 0.2 (2021-07-07)
 
 Language changes:
 
 * A switch case key must now have a type that is compatible (ignoring ranges) with the type of the switch value, rather than the type needing to be fully contained in the type of the switch value.
-This is a backward compatible change (issue #105).
+This is a backward compatible change (issue {escet-issue}105[#105]).
 
 Deprecations and removals:
 
 * CIF deprecated enumeration declaration syntax (with curly brackets) now leads to deprecation warnings.
-The documentation now properly reflects the deprecation as well (issue #45).
+The documentation now properly reflects the deprecation as well (issue {escet-issue}45[#45]).
 * CIF to CIF transformation to eliminate enumerations (`elim-enums`) is now deprecated.
-Use the transformation to convert enumerations to integers instead, as it has the same functionality (issue #78).
+Use the transformation to convert enumerations to integers instead, as it has the same functionality (issue {escet-issue}78[#78]).
 * CIF PLC code generator option to either eliminate enumerations (to integers) or not is now deprecated.
 Use the new option to choose whether to convert enumerations to constants or integers, or not at all.
-See the documentation of the PLC code generator for further details (issue #78).
+See the documentation of the PLC code generator for further details (issue {escet-issue}78[#78]).
 * CIF simulator deprecated 'interactive input mode' (`interactive` value) has been removed.
-Use the 'interactive console input mode' instead (issue #81).
+Use the 'interactive console input mode' instead (issue {escet-issue}81[#81]).
 
 New features:
 
-* CIF to CIF transformation to convert enumerations to constants (`enums-to-consts`) and enumerations to integers (`enums-to-ints`) has been added (issue #78).
-* CIF explorer now has an option to specify the name of the resulting statespace automaton (issue #55).
+* CIF to CIF transformation to convert enumerations to constants (`enums-to-consts`) and enumerations to integers (`enums-to-ints`) has been added (issue {escet-issue}78[#78]).
+* CIF explorer now has an option to specify the name of the resulting statespace automaton (issue {escet-issue}55[#55]).
 * CIF PLC code generator now has an option to choose whether to convert enumerations to constants or integers, or not at all.
 This replaces the old option to either eliminate enumerations (to integers) or not, which is now deprecated.
-See the documentation of the PLC code generator for further details (issue #78).
+See the documentation of the PLC code generator for further details (issue {escet-issue}78[#78]).
 
 Improvements and fixes:
 
-* Various fixes for handling component definition/instantiation as well as references via component instantiations and component parameters (issues #25, #39 and #66).
-* CIF type checker now properly detects cycles for algebraic variables and derivatives of continuous variables defined via equations per location of an automaton (issue #106).
-* CIF to CIF 'eliminate the use of locations in expressions' transformation no longer generates location pointer variables for automata with exactly one location (issue #99).
-* CIF to CIF linearize transformations no longer generate location pointer variables for automata with exactly one location (issue #99).
-* CIF to CIF linearize merge transformation no longer crashes for channels without a sender (issue #56).
-* CIF simulator no longer crashes on enumeration literals that have a name that is a Java keyword (issue #104).
-* CIF simulator initialization fixed to properly account for algebraic variables and derivatives of continuous variables defined via equations per location of an automaton (issue #106).
-* CIF simulator now correctly determines initial value for locations without initialization predicates, when those locations are used in initial values of variables (issue #37).
-* CIF simulator no longer crashes on assignments to dictionaries with non-int keys (issue #47).
-* CIF simulator no longer crashes when using the Eclipse Compiler for Java (ecj) as Java compiler (issue #46).
-* CIF simulator is now more robust for larger numbers of state invariants in components (issue #49).
-* CIF data-based synthesis now supports state/event exclusion plant invariants (issue #84).
+* Various fixes for handling component definition/instantiation as well as references via component instantiations and component parameters (issues {escet-issue}25[#25], {escet-issue}39[#39] and {escet-issue}66[#66]).
+* CIF type checker now properly detects cycles for algebraic variables and derivatives of continuous variables defined via equations per location of an automaton (issue {escet-issue}106[#106]).
+* CIF to CIF 'eliminate the use of locations in expressions' transformation no longer generates location pointer variables for automata with exactly one location (issue {escet-issue}99[#99]).
+* CIF to CIF linearize transformations no longer generate location pointer variables for automata with exactly one location (issue {escet-issue}99[#99]).
+* CIF to CIF linearize merge transformation no longer crashes for channels without a sender (issue {escet-issue}56[#56]).
+* CIF simulator no longer crashes on enumeration literals that have a name that is a Java keyword (issue {escet-issue}104[#104]).
+* CIF simulator initialization fixed to properly account for algebraic variables and derivatives of continuous variables defined via equations per location of an automaton (issue {escet-issue}106[#106]).
+* CIF simulator now correctly determines initial value for locations without initialization predicates, when those locations are used in initial values of variables (issue {escet-issue}37[#37]).
+* CIF simulator no longer crashes on assignments to dictionaries with non-int keys (issue {escet-issue}47[#47]).
+* CIF simulator no longer crashes when using the Eclipse Compiler for Java (ecj) as Java compiler (issue {escet-issue}46[#46]).
+* CIF simulator is now more robust for larger numbers of state invariants in components (issue {escet-issue}49[#49]).
+* CIF data-based synthesis now supports state/event exclusion plant invariants (issue {escet-issue}84[#84]).
 * CIF data-based synthesis now properly ensures requirement invariants are rebranded as supervisor invariants in the synthesis output.
-Therefore, simulating a synthesized supervisor no longer gives warnings for simulating requirement invariants (issues #116 and #117).
-* CIF data-based synthesis documentation, debug output and warnings improved/fixed regarding invariants vs requirement invariants and controlled vs uncontrolled system (issue #83).
-* CIF PLC code generator now supports state/event exclusion invariants (issue #94).
-* CIF PLC code generator no longer generates location pointer variables for automata with exactly one location when performing linearization as preprocessing (issue #99).
-* CIF PLC code generator now creates output folder if it does not yet exist, rather than giving an error, if IEC 61131-3 output is requested (issue #74).
-* CIF PLC code generator documentation now correctly indicates the order in which CIF to CIF transformations are applied (issue #78).
-* CIF PLC code generator PLCOpen XML output fixes for PLC tasks (issue #75).
-* CIF code generator now supports state/event exclusion invariants (issue #94).
-* CIF code generator no longer generates location pointer variables for automata with exactly one location when performing linearization as preprocessing (issue #99).
-* CIF to mCRL2 transformation now supports algebraic variables (issue #120).
-* CIF to mCRL2 transformation precondition check messages and documentation improvements (issues #59, #60 and #120).
-* CIF to Supremica precondition check message wording for discrete variables with multiple potential initial values has been fixed (issue #58).
-* CIF to Supremica transformation now supports state/event exclusion invariants (issue #94).
-* CIF to UPPAAL precondition check message wording for discrete variables with multiple potential initial values has been fixed (issue #58).
-* CIF to UPPAAL transformation now supports state/event exclusion invariants (issue #94).
-* CIF to UPPAAL transformation now supports algebraic variables and enumerations (issue #129).
-* CIF tutorial updated to remove explanation of list subtraction operator that doesn't exist in the language and implementation (issue #77).
-* CIF documentation updated to fix two broken links (issue #80).
+Therefore, simulating a synthesized supervisor no longer gives warnings for simulating requirement invariants (issues {escet-issue}116[#116] and {escet-issue}117[#117]).
+* CIF data-based synthesis documentation, debug output and warnings improved/fixed regarding invariants vs requirement invariants and controlled vs uncontrolled system (issue {escet-issue}83[#83]).
+* CIF PLC code generator now supports state/event exclusion invariants (issue {escet-issue}94[#94]).
+* CIF PLC code generator no longer generates location pointer variables for automata with exactly one location when performing linearization as preprocessing (issue {escet-issue}99[#99]).
+* CIF PLC code generator now creates output folder if it does not yet exist, rather than giving an error, if IEC 61131-3 output is requested (issue {escet-issue}74[#74]).
+* CIF PLC code generator documentation now correctly indicates the order in which CIF to CIF transformations are applied (issue {escet-issue}78[#78]).
+* CIF PLC code generator PLCOpen XML output fixes for PLC tasks (issue {escet-issue}75[#75]).
+* CIF code generator now supports state/event exclusion invariants (issue {escet-issue}94[#94]).
+* CIF code generator no longer generates location pointer variables for automata with exactly one location when performing linearization as preprocessing (issue {escet-issue}99[#99]).
+* CIF to mCRL2 transformation now supports algebraic variables (issue {escet-issue}120[#120]).
+* CIF to mCRL2 transformation precondition check messages and documentation improvements (issues {escet-issue}59[#59], {escet-issue}60[#60] and {escet-issue}120[#120]).
+* CIF to Supremica precondition check message wording for discrete variables with multiple potential initial values has been fixed (issue {escet-issue}58[#58]).
+* CIF to Supremica transformation now supports state/event exclusion invariants (issue {escet-issue}94[#94]).
+* CIF to UPPAAL precondition check message wording for discrete variables with multiple potential initial values has been fixed (issue {escet-issue}58[#58]).
+* CIF to UPPAAL transformation now supports state/event exclusion invariants (issue {escet-issue}94[#94]).
+* CIF to UPPAAL transformation now supports algebraic variables and enumerations (issue {escet-issue}129[#129]).
+* CIF tutorial updated to remove explanation of list subtraction operator that doesn't exist in the language and implementation (issue {escet-issue}77[#77]).
+* CIF documentation updated to fix two broken links (issue {escet-issue}80[#80]).
 
 === Version 0.1 (2021-04-02)
 

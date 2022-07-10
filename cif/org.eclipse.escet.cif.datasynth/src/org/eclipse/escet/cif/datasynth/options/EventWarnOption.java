@@ -26,7 +26,7 @@ public class EventWarnOption extends BooleanOption {
 
                 // description
                 "Whether to warn for events that are never enabled in the input specification or always disabled by "
-                        + "the synthesized supervisor (BOOL=yes) or don't warn (BOOL=no). [default=yes]",
+                        + "the synthesized supervisor (BOOL=yes) or don't warn (BOOL=no). [DEFAULT=yes]",
 
                 // cmdShort
                 null,

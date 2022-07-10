@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.ArrayUtils.array;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class ArrayUtilsTest {
         assertEquals("[a, b]", Arrays.deepToString(as1));
         assertEquals("[]", Arrays.deepToString(as2));
 
-        List<Integer>[] al1 = array(Lists.list(1, 2), Lists.list());
+        List<Integer>[] al1 = array(list(1, 2), list());
         List<Integer>[] al2 = array();
 
         assertEquals("[[1, 2], []]", Arrays.deepToString(al1));

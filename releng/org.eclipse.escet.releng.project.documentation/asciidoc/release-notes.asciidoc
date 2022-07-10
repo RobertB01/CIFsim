@@ -20,74 +20,79 @@ indexterm:[release, notes]
 
 The release notes for the versions of the Eclipse ESCET tools, as part of the Eclipse ESCET project, are listed below in reverse chronological order.
 
-The release notes may refer to issues, the details for which can be found at the Eclipse ESCET link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
-
 See also the release notes for the specific tools for more information:
 
-* link:https://eclipse.org/escet/cif/release-notes.html[CIF release notes]
-* link:https://eclipse.org/escet/chi/release-notes.html[Chi release notes]
-* link:https://eclipse.org/escet/tooldef/release-notes.html[ToolDef release notes]
+* link:https://eclipse.org/escet/{escet-website-version}/cif/release-notes.html[CIF release notes]
+* link:https://eclipse.org/escet/{escet-website-version}/chi/release-notes.html[Chi release notes]
+* link:https://eclipse.org/escet/{escet-website-version}/tooldef/release-notes.html[ToolDef release notes]
 
-=== Version 0.6
+=== Version 0.7
 
 TBD
 
+=== Version 0.6 (2022-07-07)
+
 New features:
 
-* Added new Design Structure Matrix (DSM) clustering tool (issue #344).
+* Added new Design Structure Matrix (DSM) clustering tool (issue {escet-issue}344[#344]).
 
 Improvements and fixes:
 
-* Small website style improvements (issue #367).
+* The Eclipse ESCET IDE is no longer configured with a maximum Java object heap size of 4 GB of memory.
+The Java Virtual Machine (JVM) now decides the maximum, which may differ for different systems.
+It is of course still possible to <<performance-tweak-perf-settings,configure the maximum yourself>> (issue {escet-issue}374[#374]).
+* Links in the documentation to Chi, CIF and ToolDef documentation webpages now use version-specific URLs (issue {escet-issue}386[#386]).
+* The issue numbers in the release notes now link to the corresponding GitLab issue (issue {escet-issue}396[#396]).
+* Small website style improvements (issue {escet-issue}367[#367]).
 
 === Version 0.5 (2022-03-29)
 
 Improvements and fixes:
 
-* Some small changes to the documentation and website (issues #271 and #335).
-* The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue #314).
+* Some small changes to the documentation and website (issues {escet-issue}271[#271] and {escet-issue}335[#335]).
+* The release notes for each version now contain the release date, with the exception of milestone releases and release candidates (issue {escet-issue}314[#314]).
 
 === Version 0.4 (2021-12-17)
 
 Improvements and fixes:
 
-* Introduced a brand new website (issue #35).
-* Many website URLs have changed due to various website structure changes (issues #35 and #73).
-* Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
-* The Eclipse ESCET end-user and development documentation have been split into two separate documentation sets (issue #73).
+* Introduced a brand new website (issue {escet-issue}35[#35]).
+* Many website URLs have changed due to various website structure changes (issues {escet-issue}35[#35] and {escet-issue}73[#73]).
+* Various documentation/website textual improvements, style improvements and other changes (issues {escet-issue}35[#35] and {escet-issue}54[#54]).
+* The Eclipse ESCET end-user and development documentation have been split into two separate documentation sets (issue {escet-issue}73[#73]).
 * SeText is now considered an internal developers tool.
 It no longer has a website of its own.
-Its documentation is now part of the Eclipse ESCET development documentation (issue #73).
+Its documentation is now part of the Eclipse ESCET development documentation (issue {escet-issue}73[#73]).
 * The Eclipse ESCET IDE executable is now named `eclipse-escet` or `eclipse-escet.exe`.
-`eclipse.ini` is now named `eclipse-escet.ini` (issue #98).
-* Eclipse ESCET now bundles Java 11.0.12 rather than Java 11.0.2 (issue #237).
+`eclipse.ini` is now named `eclipse-escet.ini` (issue {escet-issue}98[#98]).
+* Eclipse ESCET now bundles Java 11.0.12 rather than Java 11.0.2 (issue {escet-issue}237[#237]).
 
 === Version 0.3 (2021-10-01)
 
 Improvements and fixes:
 
-* The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
-* Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
-* Fixed macOS-specific instructions for tweaking Java performance settings via `eclipse.ini` (issue #179).
-* Removed unsupported in-place update instructions from the documentation (issue #166).
-* Several small documentation fixes and improvements (issue #166).
+* The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue {escet-issue}36[#36]).
+* Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue {escet-issue}36[#36]).
+* Fixed macOS-specific instructions for tweaking Java performance settings via `eclipse.ini` (issue {escet-issue}179[#179]).
+* Removed unsupported in-place update instructions from the documentation (issue {escet-issue}166[#166]).
+* Several small documentation fixes and improvements (issue {escet-issue}166[#166]).
 
 === Version 0.2 (2021-07-07)
 
 Improvements and fixes:
 
-* Various documentation updates, including simpler installation instructions (issues #30 and #31).
-* Java 11 is now included in the release and Java thus no longer needs to be installed separately (issues #29 and #30).
-* The Eclipse ESCET IDE now includes the Eclipse Marketplace (issue #71).
-* Linux command line scripts now work properly from any directory rather than only from the `bin` directory that contains them (issue #88).
-* macOS releases are now packaged as `.dmg` files and with proper entitlements (issue #31).
-* Eclipse ESCET downloads now contain a folder in the root of the archive, to properly support unpacking in e.g. a downloads directory (issue #87).
-* This release is based on Eclipse 2021-06 (issues #28 and #121).
-* Improved Eclipse ESCET download filenames (issues #87 and #92).
-* Improved Eclipse ESCET version numbers in documentation, plugin/feature versions, and Eclipse ESCET IDE about dialog (issues #92 and #103).
-* Non-release builds now indicate they are a development build in the Eclipse About dialog (issue #26).
-* Eclipse ESCET downloads for Linux previously included an 'executable' `about.html` file (issue #90).
-* Crash reports now indicate where and how to report issues (issue #33).
+* Various documentation updates, including simpler installation instructions (issues {escet-issue}30[#30] and {escet-issue}31[#31]).
+* Java 11 is now included in the release and Java thus no longer needs to be installed separately (issues {escet-issue}29[#29] and {escet-issue}30[#30]).
+* The Eclipse ESCET IDE now includes the Eclipse Marketplace (issue {escet-issue}71[#71]).
+* Linux command line scripts now work properly from any directory rather than only from the `bin` directory that contains them (issue {escet-issue}88[#88]).
+* macOS releases are now packaged as `.dmg` files and with proper entitlements (issue {escet-issue}21[#21]).
+* Eclipse ESCET downloads now contain a folder in the root of the archive, to properly support unpacking in e.g. a downloads directory (issue {escet-issue}87[#87]).
+* This release is based on Eclipse 2021-06 (issues {escet-issue}28[#28] and {escet-issue}121[#121]).
+* Improved Eclipse ESCET download filenames (issues {escet-issue}87[#87] and {escet-issue}92[#92]).
+* Improved Eclipse ESCET version numbers in documentation, plugin/feature versions, and Eclipse ESCET IDE about dialog (issues {escet-issue}92[#92] and {escet-issue}103[#103]).
+* Non-release builds now indicate they are a development build in the Eclipse About dialog (issue {escet-issue}26[#26]).
+* Eclipse ESCET downloads for Linux previously included an 'executable' `about.html` file (issue {escet-issue}90[#90]).
+* Crash reports now indicate where and how to report issues (issue {escet-issue}33[#33]).
 
 === Version 0.1 (2021-04-02)
 

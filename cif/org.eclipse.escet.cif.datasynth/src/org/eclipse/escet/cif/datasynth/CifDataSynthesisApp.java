@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter;
 import org.eclipse.escet.cif.datasynth.conversion.SynthesisToCifConverter;
+import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
 import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
@@ -44,6 +45,7 @@ import org.eclipse.escet.cif.datasynth.options.ContinuousPerformanceStatisticsFi
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
+import org.eclipse.escet.cif.datasynth.options.PlantsRefReqsWarnOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNameOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNamespaceOption;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
@@ -190,6 +192,11 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Eliminate component definition/instantiation, to avoid having to handle them.
             new ElimComponentDefInst().transform(spec);
+
+            // Check whether plants reference requirements.
+            if (PlantsRefReqsWarnOption.isEnabled()) {
+                new CifDataSynthesisPlantsRefsReqsChecker().checkPlantRefToRequirement(spec);
+            }
         } finally {
             if (doTiming) {
                 timing.inputPreProcess.stop();
@@ -416,6 +423,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         bddOpts.add(Options.getInstance(BddOutputOption.class));
         bddOpts.add(Options.getInstance(BddOutputNamePrefixOption.class));
         bddOpts.add(Options.getInstance(BddVariableOrderOption.class));
+        bddOpts.add(Options.getInstance(BddDcshVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddForceVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddSlidingWindowVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddSlidingWindowSizeOption.class));
@@ -437,6 +445,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
         synthOpts.add(Options.getInstance(ContinuousPerformanceStatisticsFileOption.class));
         synthOpts.add(Options.getInstance(EventWarnOption.class));
+        synthOpts.add(Options.getInstance(PlantsRefReqsWarnOption.class));
         OptionCategory synthCat = new OptionCategory("Synthesis", "Synthesis options.", list(bddCat), synthOpts);
 
         List<OptionCategory> cats = list(generalCat, synthCat);

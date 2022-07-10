@@ -26,7 +26,7 @@ public class ForwardReachOption extends BooleanOption {
 
                 // description
                 "Whether to perform forward reachability during synthesis (BOOL=yes) or omit it (BOOL=no). "
-                        + "[default=no]",
+                        + "[DEFAULT=no]",
 
                 // cmdShort
                 null,
