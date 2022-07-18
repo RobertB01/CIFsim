@@ -155,9 +155,22 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             return 0;
         }
 
+        // Perform computations for both checkers.
+        ComputeGlobalEventData globalEventData = new ComputeGlobalEventData();
+        if (!globalEventData.compute(spec)) {
+            return 0;
+        }
+
+        // Warn if specification doesn't look very useful.
+        if (globalEventData.getReadOnlyAutomata().isEmpty()) {
+            warn("The specification contains 0 automata.");
+        } else if (globalEventData.getShallowCopiedControllableEvents().isEmpty()) {
+            warn("The specification contains 0 controllable events.");
+        }
+
         // Check the finite response property.
         OutputProvider.out("Checking for finite response...");
-        CheckConclusion finiteResponseConclusion = new FiniteResponseChecker().checkSystem(spec);
+        CheckConclusion finiteResponseConclusion = new FiniteResponseChecker().checkSystem(globalEventData);
         if (finiteResponseConclusion == null || isTerminationRequested()) {
             return 0;
         }
