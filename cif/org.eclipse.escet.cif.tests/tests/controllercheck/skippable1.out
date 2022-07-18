@@ -5,10 +5,9 @@ Iteration 1.
 
 Checking for confluence...
 
+Skippable event pairs:
+    (OptionalChangeBool.a, OptionalChangeBool.b)
+
 CONCLUSION:
     The specification has finite response.
-
-    ERROR, the specification may NOT have confluence.
-    
-    The following event pair failed all tests:
-        (OptionalChangeBool.a, OptionalChangeBool.b)
+    The specification has confluence.

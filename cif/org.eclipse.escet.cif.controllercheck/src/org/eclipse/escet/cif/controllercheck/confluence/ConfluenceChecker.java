@@ -78,6 +78,7 @@ public class ConfluenceChecker {
         List<Pair<String, String>> mutualExclusives = list(); // List with pairs that are mutual exclusive.
         List<Pair<String, String>> updateEquivalents = list(); // List with pairs that are update equivalent.
         List<Pair<String, String>> independents = list(); // List with pairs that are independent.
+        List<Pair<String, String>> skippables = list(); // List with pairs that are skippable.
         List<Pair<String, String>> failedChecks = list(); // List with pairs that failed all checks.
 
         // Events that should be skipped by the inner loop to avoid performing both (A, B) and (B, A) tests.
@@ -151,6 +152,22 @@ public class ConfluenceChecker {
                     return null;
                 }
 
+                // Check for skippable (may perform a second event, but its changes are undone).
+                //
+                // Check skippable event1 (events 2, 1 versus event 1).
+                if (event21Done != Tree.ZERO && event1Done == event21Done) {
+                    skippables.add(makeSortedPair(evt1Name, evt2Name));
+                    continue;
+                }
+                // Check skippable event2 (events 1, 2 versus event 2).
+                if (event12Done != Tree.ZERO && event2Done == event12Done) {
+                    skippables.add(makeSortedPair(evt1Name, evt2Name));
+                    continue;
+                }
+                if (env.isTerminationRequested()) {
+                    return null;
+                }
+
                 // None of the checks holds, failed to prove confluence.
                 failedChecks.add(makeSortedPair(evt1Name, evt2Name));
             }
@@ -163,6 +180,7 @@ public class ConfluenceChecker {
         dumpMatches(mutualExclusives, "Mutual exclusive event pairs");
         dumpMatches(updateEquivalents, "Update equivalent event pairs");
         dumpMatches(independents, "Independent event pairs");
+        dumpMatches(skippables, "Skippable event pairs");
 
         return new ConfluenceCheckConclusion(failedChecks);
     }
