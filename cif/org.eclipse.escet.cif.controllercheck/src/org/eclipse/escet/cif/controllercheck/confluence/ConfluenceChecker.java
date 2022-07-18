@@ -38,6 +38,7 @@ import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
+import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 
 /** Class to check confluence of the specification. */
 public class ConfluenceChecker {
@@ -46,6 +47,9 @@ public class ConfluenceChecker {
 
     /** Mapping between events and their global guard as a MDD node. Is {@code null} until computed. */
     Map<Event, GlobalEventGuardUpdate> globalEventsGuardUpdate;
+
+    /** Variable replacements to perform after an update. */
+    private VariableReplacement[] varReplacements;
 
     /** Builder for the MDD tree. */
     private MvSpecBuilder builder;
@@ -66,11 +70,13 @@ public class ConfluenceChecker {
 
         // At least one automaton and one controllable event exists, other data is valid too.
         globalEventsGuardUpdate = globalEventData.getReadOnlyGlobalEventsGuardUpdate();
+        varReplacements = globalEventData.createVarUpdateReplacements();
         builder = globalEventData.getBuilder();
         Tree tree = builder.tree;
 
         // Storage of test results.
         List<Pair<String, String>> mutualExclusives = list(); // List with pairs that are mutual exclusive.
+        List<Pair<String, String>> updateEquivalents = list(); // List with pairs that are update equivalent.
         List<Pair<String, String>> failedChecks = list(); // List with pairs that failed all checks.
 
         // Events that should be skipped by the inner loop to avoid performing both (A, B) and (B, A) tests.
@@ -96,14 +102,27 @@ public class ConfluenceChecker {
 
                 GlobalEventGuardUpdate evtData1 = entry1.getValue();
                 Node globalGuard1 = evtData1.getGuard();
+                Node globalUpdate1 = evtData1.getUpdate();
 
                 GlobalEventGuardUpdate evtData2 = entry2.getValue();
                 Node globalGuard2 = evtData2.getGuard();
+                Node globalUpdate2 = evtData2.getUpdate();
 
                 // Check for mutual exclusiveness (never both guards are enabled at the same time).
                 Node commonEnabledGuards = tree.conjunct(globalGuard1, globalGuard2);
                 if (commonEnabledGuards == Tree.ZERO) {
                     mutualExclusives.add(makeSortedPair(evt1Name, evt2Name));
+                    continue;
+                }
+                if (env.isTerminationRequested()) {
+                    return null;
+                }
+
+                // Check for update equivalence (both events make the same changes).
+                Node event1Done = performEdge(commonEnabledGuards, globalUpdate1);
+                Node event2Done = performEdge(commonEnabledGuards, globalUpdate2);
+                if (event1Done == event2Done) {
+                    updateEquivalents.add(makeSortedPair(evt1Name, evt2Name));
                     continue;
                 }
                 if (env.isTerminationRequested()) {
@@ -120,8 +139,20 @@ public class ConfluenceChecker {
 
         // Dump results.
         dumpMatches(mutualExclusives, "Mutual exclusive event pairs");
+        dumpMatches(updateEquivalents, "Update equivalent event pairs");
 
         return new ConfluenceCheckConclusion(failedChecks);
+    }
+
+    /**
+     * Perform an edge update from the {@code state}.
+     *
+     * @param state State to start from.
+     * @param update Update to perform from the taken edge.
+     * @return The state after performing the update.
+     */
+    private Node performEdge(Node state, Node update) {
+        return builder.tree.adjacentReplacements(builder.tree.conjunct(state, update), varReplacements);
     }
 
     /**

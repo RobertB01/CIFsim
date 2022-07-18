@@ -19,10 +19,9 @@ Checking for confluence...
 Mutual exclusive event pairs:
     (Actuator1.c_off, Actuator1.c_on), (Actuator1.c_off, Actuator2.c_off), (Actuator1.c_on, Actuator2.c_on), (Actuator2.c_off, Actuator2.c_on)
 
+Update equivalent event pairs:
+    (Actuator1.c_off, Actuator2.c_on), (Actuator1.c_on, Actuator2.c_off)
+
 CONCLUSION:
     The specification has finite response.
-
-    ERROR, the specification may NOT have confluence.
-    
-    The following event pairs failed all tests:
-        (Actuator1.c_off, Actuator2.c_on), (Actuator1.c_on, Actuator2.c_off)
+    The specification has confluence.
