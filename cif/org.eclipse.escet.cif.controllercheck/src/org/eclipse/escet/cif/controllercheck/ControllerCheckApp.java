@@ -35,6 +35,7 @@ import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
+import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.io.CifReader;
@@ -175,14 +176,28 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Output the conclusion.
+        // Check the confluence property.
+        OutputProvider.out();
+        OutputProvider.out("Checking for confluence...");
+        CheckConclusion confluenceConclusion = new ConfluenceChecker().checkSystem(globalEventData);
+        if (confluenceConclusion == null || isTerminationRequested()) {
+            return 0;
+        }
+
+        // Output the checker conclusions.
         out();
         out("CONCLUSION:");
         iout();
         finiteResponseConclusion.printDetails();
         dout();
+        if (!finiteResponseConclusion.propertyHolds() || !confluenceConclusion.propertyHolds()) {
+            out(); // Empty line between conclusions if an error occurs.
+        }
+        iout();
+        confluenceConclusion.printDetails();
+        dout();
 
-        return finiteResponseConclusion.propertyHolds() ? 0 : 1;
+        return (finiteResponseConclusion.propertyHolds() && confluenceConclusion.propertyHolds()) ? 0 : 1;
     }
 
     @Override

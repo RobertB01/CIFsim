@@ -8,6 +8,11 @@ Iteration 1.
         (A.b A.c A.e), which is not controllable unconnectable.
         (A.b A.d A.e), which is not controllable unconnectable.
 
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (A.a, A.c), (A.a, A.d), (A.a, A.e), (A.b, A.c), (A.b, A.d), (A.b, A.e), (A.c, A.e), (A.d, A.e)
+
 CONCLUSION:
     ERROR, the specification may NOT have finite response.
     
@@ -18,3 +23,8 @@ CONCLUSION:
         - A.c
         - A.d
         - A.e
+
+    ERROR, the specification may NOT have confluence.
+    
+    The following event pairs failed all tests:
+        (A.a, A.b), (A.c, A.d)

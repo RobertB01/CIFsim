@@ -7,6 +7,8 @@ Iteration 1.
     The following events have been encountered in a controllable-event loop of automaton B:
         (B.a B.a), which is not controllable unconnectable.
 
+Checking for confluence...
+
 CONCLUSION:
     ERROR, the specification may NOT have finite response.
     
@@ -15,3 +17,8 @@ CONCLUSION:
         - A.a
         - A.b
         - B.a
+
+    ERROR, the specification may NOT have confluence.
+    
+    The following event pairs failed all tests:
+        (A.a, A.b), (A.a, B.a), (A.b, B.a)

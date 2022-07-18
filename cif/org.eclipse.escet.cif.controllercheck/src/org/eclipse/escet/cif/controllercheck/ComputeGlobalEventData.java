@@ -274,7 +274,16 @@ public class ComputeGlobalEventData {
     }
 
     /**
-     * Get the collection of the controllable events in the specification.
+     * Get a read-only collection of the controllable events in the specification.
+     *
+     * @return A shallow copy of the found controllable events in the specification, collection may not be modified.
+     */
+    public Set<Event> getReadOnlyControllableEvents() {
+        return Collections.unmodifiableSet(controllableEvents);
+    }
+
+    /**
+     * Get a shallowly copied collection of the controllable events in the specification.
      *
      * @return A shallow copy of the found controllable events in the specification, collection may be modified.
      */

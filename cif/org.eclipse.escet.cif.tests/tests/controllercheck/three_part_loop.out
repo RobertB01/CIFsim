@@ -5,5 +5,11 @@ Iteration 1.
     The following events have been encountered in a controllable-event loop of automaton X:
         (X.a X.b X.c), which is controllable unconnectable.
 
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (X.a, X.b), (X.a, X.c), (X.b, X.c)
+
 CONCLUSION:
     The specification has finite response.
+    The specification has confluence.
