@@ -30,6 +30,11 @@ public class GlobalEventGuardUpdate {
     private Node globalGuard = null;
 
     /**
+     * Global guarded update of the event. Is valid when the guard is valid.
+     */
+    private Node globalUpdate = null;
+
+    /**
      * Query whether the event has been initialized.
      *
      * @return Whether the event has been initialized.
@@ -52,13 +57,21 @@ public class GlobalEventGuardUpdate {
      *
      * @param additionalGuard Additional condition to apply to the guard, first addition is taken as-is, other additions
      *     restrict the guard.
+     * @param additionalUpdate Additional guarded update to apply, first addition is taken as-is, other additions
+     *     restrict the update.
      * @param tree MDD builder instance.
      */
-    public void update(Node additionalGuard, Tree tree) {
+    public void update(Node additionalGuard, Node additionalUpdate, Tree tree) {
         if (globalGuard == null) {
             globalGuard = additionalGuard;
         } else {
             globalGuard = tree.conjunct(globalGuard, additionalGuard);
+        }
+
+        if (globalUpdate == null) {
+            globalUpdate = additionalUpdate;
+        } else {
+            globalUpdate = tree.conjunct(globalUpdate, additionalUpdate);
         }
     }
 
@@ -70,5 +83,15 @@ public class GlobalEventGuardUpdate {
     public Node getGuard() {
         Assert.notNull(globalGuard);
         return globalGuard;
+    }
+
+    /**
+     * Get the global update of the event.
+     *
+     * @return The global update of the event.
+     */
+    public Node getUpdate() {
+        Assert.notNull(globalUpdate);
+        return globalUpdate;
     }
 }

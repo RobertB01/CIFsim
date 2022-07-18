@@ -49,6 +49,9 @@ import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
+import org.eclipse.escet.common.multivaluetrees.VarInfo;
+import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
+import org.eclipse.escet.common.multivaluetrees.VariableReplacementsBuilder;
 
 /** Compute global event guards for the finite response check. */
 public class ComputeGlobalEventData {
@@ -72,6 +75,9 @@ public class ComputeGlobalEventData {
      * computed, see {@link #collectEventVarUpdate}.
      */
     private Map<Event, Set<Declaration>> eventVarUpdate;
+
+    /** Variables that are written in at least one edge. */
+    private Set<Declaration> updatedVariables;
 
     /** The controllable event set with at least one edge that can be enabled. */
     private Set<Event> controllableEvents = set();
@@ -97,7 +103,7 @@ public class ComputeGlobalEventData {
         automata = collectAutomata(spec, list());
         controllableEvents = collectControllableEvents(spec, set());
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
-            // Finite response trivially holds.
+            // Both controllercheck properties trivially hold.
             return true;
         }
 
@@ -122,7 +128,7 @@ public class ComputeGlobalEventData {
         }
 
         // Compute global guards for the controllable events.
-        if (!collectGlobalGuards(controllableEvents)) {
+        if (!collectGlobalGuardsUpdates(controllableEvents)) {
             return false;
         }
 
@@ -134,13 +140,18 @@ public class ComputeGlobalEventData {
      */
     private void collectEventVarUpdate() {
         eventVarUpdate = map();
+        updatedVariables = set();
         for (Automaton aut: automata) {
             for (Location loc: aut.getLocations()) {
                 for (Edge edge: loc.getEdges()) {
                     for (Update update: edge.getUpdates()) {
                         Assert.check(update instanceof Assignment); // 'If' updates should have been eliminated.
                         Assignment assignment = (Assignment)update;
-                        collectEventsAddressable(assignment.getAddressable(), getEvents(edge), eventVarUpdate);
+                        // Partial assignments and multi-assignments should have been eliminated.
+                        Assert.check(assignment.getAddressable() instanceof DiscVariableExpression);
+                        DiscVariable adressedVar = ((DiscVariableExpression)assignment.getAddressable()).getVariable();
+                        updatedVariables.add(adressedVar);
+                        collectEventsAddressable(adressedVar, getEvents(edge), eventVarUpdate);
                     }
                 }
             }
@@ -150,17 +161,13 @@ public class ComputeGlobalEventData {
     /**
      * Collects the relations between events and the variable from an addressable.
      *
-     * @param addressable The addressable to collect, may only be a discrete variable.
+     * @param adressedVar The variable to collect.
      * @param events The events that are labeled on the edge with this addressable.
      * @param eventVarUpdate The map in which to save the 'event updates variable' information.
      */
-    private void collectEventsAddressable(Expression addressable, Set<Event> events,
+    private void collectEventsAddressable(DiscVariable adressedVar, Set<Event> events,
             Map<Event, Set<Declaration>> eventVarUpdate)
     {
-        // Partial assignments and multi-assignments should have been eliminated.
-        Assert.check(addressable instanceof DiscVariableExpression);
-        DiscVariable adressedVar = ((DiscVariableExpression)addressable).getVariable();
-
         // Add the 'event updates variable' information in the map.
         for (Event evt: events) {
             Set<Declaration> vars = eventVarUpdate.getOrDefault(evt, set());
@@ -170,12 +177,12 @@ public class ComputeGlobalEventData {
     }
 
     /**
-     * Compute global model guard for each provided event.
+     * Compute global model guard and update for each provided event.
      *
      * @param events Set of events to compute a model guard.
      * @return Whether the computation was finished. It only doesn't finish if the user aborts the computation.
      */
-    private boolean collectGlobalGuards(Set<Event> events) {
+    private boolean collectGlobalGuardsUpdates(Set<Event> events) {
         Tree tree = builder.tree;
 
         // Global condition on taking an edge with the event.
@@ -190,6 +197,7 @@ public class ComputeGlobalEventData {
 
             // Global guard for each event in one automaton only, as a disjunction between edges.
             Map<Event, Node> autGuards = makeEventMap(eventsOfAut, Tree.ZERO);
+            Map<Event, Node> autGuardedUpdates = makeEventMap(eventsOfAut, Tree.ZERO);
 
             // Within an automaton, for each event constructs a disjunction over its edges.
             for (Location loc: aut.getLocations()) {
@@ -202,11 +210,15 @@ public class ComputeGlobalEventData {
 
                     // Compute guard and update of the edge.
                     Node guard = computeGuard(edge);
+                    Node guardedUpdate = tree.conjunct(guard, computeUpdate(edge, updatedVariables));
 
                     // Add the guard and guarded update as alternative to the relevant events of the edge.
                     for (Event evt: eventsOfEdge) {
                         Node autGuard = autGuards.get(evt);
                         autGuards.put(evt, tree.disjunct(autGuard, guard));
+
+                        Node autGuardedUpdate = autGuardedUpdates.get(evt);
+                        autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
                     }
 
                     // Abort computation if the user requests it.
@@ -220,14 +232,14 @@ public class ComputeGlobalEventData {
             for (Entry<Event, Node> guardEntry: autGuards.entrySet()) {
                 Event event = guardEntry.getKey();
                 GlobalEventGuardUpdate evtData = globalEventsGuardUpdate.get(event);
-                evtData.update(guardEntry.getValue(), tree);
+                evtData.update(guardEntry.getValue(), autGuardedUpdates.get(event), tree);
             }
         }
 
         // Disable events that are completely unused.
         for (GlobalEventGuardUpdate evtdata: globalEventsGuardUpdate.values()) {
             if (!evtdata.isInitialized()) {
-                evtdata.update(Tree.ZERO, tree);
+                evtdata.update(Tree.ZERO, Tree.ZERO, tree);
             }
         }
 
@@ -247,6 +259,53 @@ public class ComputeGlobalEventData {
             guard = builder.tree.conjunct(guard, node);
         }
         return guard;
+    }
+
+    /**
+     * Convert updates of an edge to an MDD relation.
+     *
+     * @param edge Edge to use.
+     * @param allVariables All variables that should be updated.
+     * @return The computed MDD update relation, the result should get connected to the edge guard.
+     */
+    private Node computeUpdate(Edge edge, Set<Declaration> allVariables) {
+        Tree tree = builder.tree;
+
+        // Assign expression values to the LHS variables.
+        Node result = Tree.ONE;
+        Set<Declaration> assignedVariables = set();
+        for (Update upd: edge.getUpdates()) {
+            Assert.check(upd instanceof Assignment);
+            Assignment asg = (Assignment)upd;
+            Assert.check(asg.getAddressable() instanceof DiscVariableExpression);
+            Declaration lhs = ((DiscVariableExpression)asg.getAddressable()).getVariable();
+            assignedVariables.add(lhs);
+            Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
+            result = tree.conjunct(result, asgNode);
+        }
+        // Add identity update for all the non-assigned variables.
+        for (Declaration otherVariable: allVariables) {
+            if (!assignedVariables.contains(otherVariable)) {
+                VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
+                result = tree.conjunct(result, tree.identity(vinfos[READ_INDEX], vinfos[WRITE_INDEX]));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Construct an MDD variable replacement description for performing updates.
+     *
+     * @return The MDD variable replacement description ready for use.
+     */
+    public VariableReplacement[] createVarUpdateReplacements() {
+        VariableReplacementsBuilder<Declaration> replBuilder;
+        replBuilder = new VariableReplacementsBuilder<>(builder.cifVarInfoBuilder);
+
+        for (Declaration updatedVar: updatedVariables) {
+            replBuilder.addReplacement(updatedVar, READ_INDEX, WRITE_INDEX);
+        }
+        return replBuilder.getReplacements();
     }
 
     /**
@@ -305,7 +364,8 @@ public class ComputeGlobalEventData {
     }
 
     /**
-     * Get a read-only collection of the computed global guard and update for all controllable events in the specification.
+     * Get a read-only collection of the computed global guard and update for all controllable events in the
+     * specification.
      *
      * <p>
      * May only be accessed when there is at least one automaton and at least one controllable event.
