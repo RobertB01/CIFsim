@@ -25,10 +25,7 @@ import static org.eclipse.escet.cif.common.CifValueUtils.createDisjunction;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -46,9 +43,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
-import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -113,42 +110,29 @@ public class FiniteResponseChecker {
     private MvSpecBuilder builder;
 
     /**
-     * Performs the finite response checker for a CIF specification.
+     * Performs the finite response check for a CIF specification.
      *
      * @param spec The specification to check for finite response.
-     * @return {@code true} if the specification has finite response, {@code false} if finite response cannot be
-     *     guaranteed.
+     * @return {@code null} when the check is aborted, else the conclusion of the finite response check.
      */
-    public boolean checkSystem(Specification spec) {
+    public CheckConclusion checkSystem(Specification spec) {
         collectAutomata(spec, automata);
         collectDiscAndInputVariables(spec, variables);
         collectControllableEvents(spec, controllableEvents);
         eventVarUpdate = collectEventVarUpdate();
 
         if (env.isTerminationRequested()) {
-            return false;
+            return null;
         }
 
         if (automata.isEmpty()) {
             warn("The specification contains 0 automata.");
-
-            out();
-            out("CONCLUSION:");
-            iout();
-            out("The specification has finite response.");
-            dout();
-            return true;
+            return new FiniteResponseCheckConclusion(List.of());
         }
 
         if (controllableEvents.isEmpty()) {
             warn("The specification contains 0 controllable events.");
-
-            out();
-            out("CONCLUSION:");
-            iout();
-            out("The specification has finite response.");
-            dout();
-            return true;
+            return new FiniteResponseCheckConclusion(List.of());
         }
 
         // Construct the MDD tree.
@@ -159,14 +143,14 @@ public class FiniteResponseChecker {
         builder = new MvSpecBuilder(cifVarInfoBuilder, readIndex, writeIndex);
 
         if (env.isTerminationRequested()) {
-            return false;
+            return null;
         }
 
         // Get the global guards in the tree.
         globalGuards = collectGlobalGuards(controllableEvents);
 
         if (env.isTerminationRequested()) {
-            return false;
+            return null;
         }
 
         // Remove controllable events that are always disabled.
@@ -183,7 +167,7 @@ public class FiniteResponseChecker {
         }
 
         if (env.isTerminationRequested()) {
-            return false;
+            return null;
         }
 
         // Check all automata for controllable-event loops. If an automata has a controllable event in its alphabet, but
@@ -204,37 +188,16 @@ public class FiniteResponseChecker {
 
                 if (env.isTerminationRequested()) {
                     ddbg();
-                    return false;
+                    return null;
                 }
             }
             ddbg();
         } while (oldSize != controllableEvents.size() && !controllableEvents.isEmpty());
 
-        // Print the result. There is finite response whenever there are no more controllable events left. Otherwise,
-        // finite response cannot be guaranteed.
-        dbg();
-        out("CONCLUSION:");
-        iout();
-        if (!controllableEvents.isEmpty()) {
-            out("ERROR, the specification may NOT have finite response.");
-            out();
-            out("At least one controllable-event loop was found.");
-            if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
-                out("The following events might still occur in a controllable-event loop:");
-                iout();
-                List<Event> orderedEvents = set2list(controllableEvents);
-                sortCifObjects(orderedEvents);
-                for (Event event: orderedEvents) {
-                    out("- %s", getAbsName(event));
-                }
-                dout();
-            }
-        } else {
-            out("The specification has finite response.");
-        }
-        dout();
-
-        return controllableEvents.isEmpty();
+        // Construct the conclusion.
+        List<Event> orderedEvents = set2list(controllableEvents);
+        sortCifObjects(orderedEvents);
+        return new FiniteResponseCheckConclusion(orderedEvents);
     }
 
     /**

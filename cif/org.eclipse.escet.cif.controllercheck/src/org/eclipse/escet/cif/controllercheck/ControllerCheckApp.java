@@ -13,6 +13,9 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
@@ -152,14 +155,21 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Check for finite response.
+        // Check the finite response property.
         OutputProvider.out("Checking for finite response...");
-        boolean finiteResponse = new FiniteResponseChecker().checkSystem(spec);
-        if (isTerminationRequested()) {
+        CheckConclusion finiteResponseConclusion = new FiniteResponseChecker().checkSystem(spec);
+        if (finiteResponseConclusion == null || isTerminationRequested()) {
             return 0;
         }
 
-        return finiteResponse ? 0 : 1;
+        // Output the conclusion.
+        out();
+        out("CONCLUSION:");
+        iout();
+        finiteResponseConclusion.printDetails();
+        dout();
+
+        return finiteResponseConclusion.propertyHolds() ? 0 : 1;
     }
 
     @Override
