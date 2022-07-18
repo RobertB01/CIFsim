@@ -77,6 +77,7 @@ public class ConfluenceChecker {
         // Storage of test results.
         List<Pair<String, String>> mutualExclusives = list(); // List with pairs that are mutual exclusive.
         List<Pair<String, String>> updateEquivalents = list(); // List with pairs that are update equivalent.
+        List<Pair<String, String>> independents = list(); // List with pairs that are independent.
         List<Pair<String, String>> failedChecks = list(); // List with pairs that failed all checks.
 
         // Events that should be skipped by the inner loop to avoid performing both (A, B) and (B, A) tests.
@@ -129,6 +130,27 @@ public class ConfluenceChecker {
                     return null;
                 }
 
+                // Check for independence (diamond shape edges leading to the same changes).
+                //
+                // First event1 then event2.
+                Node event1Enabled2 = tree.conjunct(event1Done, globalGuard2);
+                Node event12Done = (event1Enabled2 == Tree.ZERO) ? Tree.ZERO
+                        : performEdge(event1Enabled2, globalUpdate2);
+
+                // First event2 then event1.
+                Node event2Enabled1 = tree.conjunct(event2Done, globalGuard1);
+                Node event21Done = (event2Enabled1 == Tree.ZERO) ? Tree.ZERO
+                        : performEdge(event2Enabled1, globalUpdate1);
+
+                // Check independence.
+                if (event12Done != Tree.ZERO && event12Done == event21Done) {
+                    independents.add(makeSortedPair(evt1Name, evt2Name));
+                    continue;
+                }
+                if (env.isTerminationRequested()) {
+                    return null;
+                }
+
                 // None of the checks holds, failed to prove confluence.
                 failedChecks.add(makeSortedPair(evt1Name, evt2Name));
             }
@@ -140,6 +162,7 @@ public class ConfluenceChecker {
         // Dump results.
         dumpMatches(mutualExclusives, "Mutual exclusive event pairs");
         dumpMatches(updateEquivalents, "Update equivalent event pairs");
+        dumpMatches(independents, "Independent event pairs");
 
         return new ConfluenceCheckConclusion(failedChecks);
     }

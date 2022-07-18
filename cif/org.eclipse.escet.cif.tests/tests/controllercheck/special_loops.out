@@ -9,6 +9,9 @@ Iteration 1.
 
 Checking for confluence...
 
+Independent event pairs:
+    (A.a, B.a), (A.b, B.a)
+
 CONCLUSION:
     ERROR, the specification may NOT have finite response.
     
@@ -20,5 +23,5 @@ CONCLUSION:
 
     ERROR, the specification may NOT have confluence.
     
-    The following event pairs failed all tests:
-        (A.a, A.b), (A.a, B.a), (A.b, B.a)
+    The following event pair failed all tests:
+        (A.a, A.b)
