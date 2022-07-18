@@ -151,12 +151,64 @@ public class Tree {
      * @return Tree with the constructed condition (that is, a single node).
      */
     public Node buildEqualityIndex(VarInfo varInfo, int index, Node sub) {
-        Assert.check(sub == Tree.ZERO || sub == Tree.ONE || sub.varInfo.level > varInfo.level);
+        if (sub == Tree.ZERO) {
+            return Tree.ZERO; // No point in stacking an equality on top of false.
+        }
+        Assert.check(sub == Tree.ONE || sub.varInfo.level > varInfo.level);
 
         Node[] childs = new Node[varInfo.length];
         Arrays.fill(childs, Tree.ZERO);
         childs[index] = sub;
         return addNode(varInfo, childs);
+    }
+
+    /**
+     * Construct an identity relation between the two given variables.
+     *
+     * @param first First variable in the identity relation.
+     * @param second Second variable in the identity relation.
+     * @return The constructed identity relation.
+     */
+    public Node identity(VarInfo first, VarInfo second) {
+        return identity(first, second, Tree.ONE);
+    }
+
+    /**
+     * Construct an identity relation between the two given variables.
+     *
+     * @param first First variable in the identity relation.
+     * @param second Second variable in the identity relation.
+     * @param sub Node to use below the identity relation.
+     * @return The constructed identity relation.
+     */
+    public Node identity(VarInfo first, VarInfo second, Node sub) {
+        Assert.areEqual(first.length, second.length);
+
+        // Building on top of false isn't useful.
+        if (sub == Tree.ZERO) {
+            return Tree.ZERO;
+        }
+
+        // Find the highest and lowest node in the identity.
+        VarInfo bottom, top;
+        Assert.check(first.level != second.level);
+        if (first.level > second.level) {
+            bottom = first;
+            top = second;
+        } else {
+            bottom = second;
+            top = first;
+        }
+
+        // Lowest nodes in the identity should still be above 'sub'.
+        Assert.check(sub == Tree.ONE || sub.varInfo.level > bottom.level);
+
+        // Construct identity relation between both nodes.
+        Node[] topChilds = new Node[top.length];
+        for (int v = 0; v < top.length; v++) {
+            topChilds[v] = buildEqualityIndex(bottom, v, sub);
+        }
+        return addNode(top, topChilds);
     }
 
     /**
