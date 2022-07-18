@@ -1,0 +1,14 @@
+Loading CIF specification "controllercheck/independence1.cif"...
+Checking for finite response...
+
+Iteration 1.
+
+Checking for confluence...
+
+CONCLUSION:
+    The specification has finite response.
+
+    ERROR, the specification may NOT have confluence.
+    
+    The following event pair failed all tests:
+        (AutDifferenLocs.a, AutDifferenLocs.b)

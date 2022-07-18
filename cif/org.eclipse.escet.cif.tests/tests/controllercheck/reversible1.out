@@ -1,0 +1,19 @@
+Loading CIF specification "controllercheck/reversible1.cif"...
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton B:
+        (b c), which is controllable unconnectable.
+
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (a, c), (b, c)
+
+CONCLUSION:
+    The specification has finite response.
+
+    ERROR, the specification may NOT have confluence.
+    
+    The following event pair failed all tests:
+        (a, b)
