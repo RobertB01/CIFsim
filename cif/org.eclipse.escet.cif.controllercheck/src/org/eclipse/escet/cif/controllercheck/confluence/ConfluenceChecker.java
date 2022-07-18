@@ -79,6 +79,7 @@ public class ConfluenceChecker {
         List<Pair<String, String>> updateEquivalents = list(); // List with pairs that are update equivalent.
         List<Pair<String, String>> independents = list(); // List with pairs that are independent.
         List<Pair<String, String>> skippables = list(); // List with pairs that are skippable.
+        List<Pair<String, String>> reversibles = list(); // List with pairs that are reversible.
         List<Pair<String, String>> failedChecks = list(); // List with pairs that failed all checks.
 
         // Events that should be skipped by the inner loop to avoid performing both (A, B) and (B, A) tests.
@@ -166,6 +167,54 @@ public class ConfluenceChecker {
                 }
                 if (env.isTerminationRequested()) {
                     return null;
+                }
+
+                // Reversible.
+                boolean foundReversible = false;
+                for (Entry<Event, GlobalEventGuardUpdate> entry3: globalEventsGuardUpdate.entrySet()) {
+                    Event event3 = entry3.getKey();
+                    if (event3 == event1 || event3 == event2) {
+                        continue;
+                    }
+                    if (env.isTerminationRequested()) {
+                        return null;
+                    }
+
+                    GlobalEventGuardUpdate evtData3 = entry3.getValue();
+                    Node globalGuard3 = evtData3.getGuard();
+                    Node globalUpdate3 = evtData3.getUpdate();
+
+                    // Check for reversible (events 2, 1, 3 versus event 1).
+                    if (event21Done != Tree.ZERO) {
+                        Node event21Enabled3 = tree.conjunct(event21Done, globalGuard3);
+                        Node event213Done = (event21Enabled3 == Tree.ZERO) ? Tree.ZERO
+                                : performEdge(event21Enabled3, globalUpdate3);
+                        if (event213Done != Tree.ZERO && event213Done == event1Done) {
+                            foundReversible = true;
+                            break;
+                        }
+                    }
+                    if (env.isTerminationRequested()) {
+                        return null;
+                    }
+
+                    // Check for reversible (events 1, 2, 3 versus event 2).
+                    if (event12Done != Tree.ZERO) {
+                        Node event12Enabled3 = tree.conjunct(event12Done, globalGuard3);
+                        Node event123Done = (event12Enabled3 == Tree.ZERO) ? Tree.ZERO
+                                : performEdge(event12Enabled3, globalUpdate3);
+                        if (event123Done != Tree.ZERO && event123Done == event2Done) {
+                            foundReversible = true;
+                            break;
+                        }
+                    }
+                    if (env.isTerminationRequested()) {
+                        return null;
+                    }
+                }
+                if (foundReversible) {
+                    reversibles.add(new Pair<>(evt1Name, evt2Name));
+                    continue;
                 }
 
                 // None of the checks holds, failed to prove confluence.

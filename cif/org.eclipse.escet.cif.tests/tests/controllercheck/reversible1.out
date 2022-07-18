@@ -12,8 +12,4 @@ Mutual exclusive event pairs:
 
 CONCLUSION:
     The specification has finite response.
-
-    ERROR, the specification may NOT have confluence.
-    
-    The following event pair failed all tests:
-        (a, b)
+    The specification has confluence.
