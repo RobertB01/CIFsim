@@ -56,10 +56,10 @@ import org.eclipse.escet.common.multivaluetrees.VariableReplacementsBuilder;
 /** Compute global event guards for the finite response check. */
 public class ComputeGlobalEventData {
     /** Index for denoting reading a variable. */
-    private static final int READ_INDEX = 0;
+    public static final int READ_INDEX = 0;
 
     /** Index for denoting writing a variable. */
-    private static final int WRITE_INDEX = 1;
+    public static final int WRITE_INDEX = 1;
 
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();

@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.controllercheck.finiteresponse;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifSortUtils.sortCifObjects;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.controllercheck.ComputeGlobalEventData.READ_INDEX;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
@@ -173,7 +174,7 @@ public class FiniteResponseChecker {
             BitSet bits = new BitSet(builder.cifVarInfoBuilder.varInfos.size());
             for (Event evt: controllableEvents) {
                 for (Declaration var: eventVarUpdate.getOrDefault(evt, set())) {
-                    VarInfo varInfo = builder.cifVarInfoBuilder.getVarInfo(var, 0);
+                    VarInfo varInfo = builder.cifVarInfoBuilder.getVarInfo(var, READ_INDEX);
                     bits.set(varInfo.level);
                 }
             }
