@@ -51,6 +51,9 @@ public class ConfluenceChecker {
     /** Variable replacements to perform after an update. */
     private VariableReplacement[] varReplacements;
 
+    /** Tree with original to read identity relations for all variables. */
+    private Node origToReadVariablesRelations;
+
     /** Builder for the MDD tree. */
     private MvSpecBuilder builder;
 
@@ -71,6 +74,7 @@ public class ConfluenceChecker {
         // At least one automaton and one controllable event exists, other data is valid too.
         globalEventsGuardUpdate = globalEventData.getReadOnlyGlobalEventsGuardUpdate();
         varReplacements = globalEventData.createVarUpdateReplacements();
+        origToReadVariablesRelations = globalEventData.computeOriginalToReadIdentity();
         builder = globalEventData.getBuilder();
         Tree tree = builder.tree;
 
@@ -120,6 +124,10 @@ public class ConfluenceChecker {
                 if (env.isTerminationRequested()) {
                     return null;
                 }
+
+                // Glue original nodes to the variables. This allows detection that different paths through the state
+                // space treat variable values differently.
+                commonEnabledGuards = tree.conjunct(origToReadVariablesRelations, commonEnabledGuards);
 
                 // Check for update equivalence (both events make the same changes).
                 Node event1Done = performEdge(commonEnabledGuards, globalUpdate1);

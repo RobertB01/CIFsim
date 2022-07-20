@@ -1,0 +1,11 @@
+automaton SingleAut:
+  controllable a, b;
+  disc bool z;
+
+  location p:
+    initial;
+    edge a do z := z     goto q; // Identity transition.
+    edge b do z := not z goto q; // Swap true and false.
+  location q:
+    marked;
+end

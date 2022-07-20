@@ -55,11 +55,17 @@ import org.eclipse.escet.common.multivaluetrees.VariableReplacementsBuilder;
 
 /** Compute global event guards for the finite response check. */
 public class ComputeGlobalEventData {
+    /** Index for denoting the original value of a variable. */
+    public static final int ORIGINAL_INDEX = 0;
+
     /** Index for denoting reading a variable. */
-    public static final int READ_INDEX = 0;
+    public static final int READ_INDEX = 1;
 
     /** Index for denoting writing a variable. */
-    public static final int WRITE_INDEX = 1;
+    public static final int WRITE_INDEX = 2;
+
+    /** Number of variable indices that exist. */
+    private static final int NUM_INDICES = 3;
 
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
@@ -120,7 +126,7 @@ public class ComputeGlobalEventData {
         }
 
         // Construct the MDD tree class.
-        CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(2);
+        CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(NUM_INDICES);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         builder = new MvSpecBuilder(cifVarInfoBuilder, READ_INDEX, WRITE_INDEX);
         if (env.isTerminationRequested()) {
@@ -306,6 +312,27 @@ public class ComputeGlobalEventData {
             replBuilder.addReplacement(updatedVar, READ_INDEX, WRITE_INDEX);
         }
         return replBuilder.getReplacements();
+    }
+
+    /**
+     * Construct a tree with identity relations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all
+     * variables.
+     *
+     * <p>
+     * In further use, the tree operations change {@link #READ_INDEX} variables but not {@link #ORIGINAL_INDEX}
+     * variables. This makes it feasible to check that variable values are treated equally in both branches of the
+     * confluence check.
+     * </p>
+     *
+     * @return Tree with identity relations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all variables.
+     */
+    public Node computeOriginalToReadIdentity() {
+        Node result = Tree.ONE;
+        for (int idx = variables.size() - 1; idx >= 0; idx--) {
+            VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(variables.get(idx));
+            result = builder.tree.identity(vinfos[ORIGINAL_INDEX], vinfos[READ_INDEX], result);
+        }
+        return result;
     }
 
     /**
