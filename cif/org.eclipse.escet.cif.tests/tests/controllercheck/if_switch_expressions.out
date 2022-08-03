@@ -28,9 +28,6 @@ Checking for confluence...
 Mutual exclusive event pairs:
     (Aut1.c_a, Aut1.c_b), (Aut1.c_a, Aut2.c_a), (Aut1.c_a, Aut5.c_a), (Aut1.c_b, Aut2.c_a), (Aut1.c_b, Aut5.c_a), (Aut2.c_a, Aut2.c_b), (Aut2.c_a, Aut3.c_a), (Aut2.c_a, Aut3.c_b), (Aut2.c_a, Aut4.c_a), (Aut2.c_a, Aut4.c_b), (Aut2.c_a, Aut5.c_a), (Aut2.c_a, Aut5.c_b), (Aut2.c_a, Aut6.c_a), (Aut2.c_a, Aut6.c_b), (Aut2.c_b, Aut5.c_a), (Aut3.c_a, Aut3.c_b), (Aut3.c_a, Aut5.c_a), (Aut3.c_a, Aut6.c_b), (Aut3.c_b, Aut5.c_a), (Aut3.c_b, Aut6.c_a), (Aut4.c_a, Aut4.c_b), (Aut4.c_a, Aut5.c_a), (Aut4.c_b, Aut5.c_a), (Aut5.c_a, Aut5.c_b), (Aut5.c_a, Aut6.c_a), (Aut5.c_a, Aut6.c_b), (Aut6.c_a, Aut6.c_b)
 
-Update equivalent event pairs:
-    (Aut1.c_a, Aut3.c_a), (Aut1.c_a, Aut3.c_b), (Aut1.c_a, Aut4.c_a), (Aut1.c_a, Aut6.c_a), (Aut1.c_a, Aut6.c_b), (Aut3.c_a, Aut4.c_a), (Aut3.c_a, Aut6.c_a), (Aut3.c_b, Aut4.c_a), (Aut3.c_b, Aut6.c_b), (Aut4.c_a, Aut6.c_a), (Aut4.c_a, Aut6.c_b)
-
 Independent event pairs:
     (Aut1.c_b, Aut2.c_b), (Aut1.c_b, Aut4.c_b), (Aut1.c_b, Aut5.c_b), (Aut2.c_b, Aut4.c_b), (Aut2.c_b, Aut5.c_b), (Aut4.c_b, Aut5.c_b)
 
@@ -47,4 +44,4 @@ CONCLUSION:
     ERROR, the specification may NOT have confluence.
     
     The following event pairs failed all tests:
-        (Aut1.c_a, Aut2.c_b), (Aut1.c_a, Aut4.c_b), (Aut1.c_a, Aut5.c_b), (Aut1.c_b, Aut3.c_a), (Aut1.c_b, Aut3.c_b), (Aut1.c_b, Aut4.c_a), (Aut1.c_b, Aut6.c_a), (Aut1.c_b, Aut6.c_b), (Aut2.c_b, Aut3.c_a), (Aut2.c_b, Aut3.c_b), (Aut2.c_b, Aut4.c_a), (Aut2.c_b, Aut6.c_a), (Aut2.c_b, Aut6.c_b), (Aut3.c_a, Aut4.c_b), (Aut3.c_a, Aut5.c_b), (Aut3.c_b, Aut4.c_b), (Aut3.c_b, Aut5.c_b), (Aut4.c_a, Aut5.c_b), (Aut4.c_b, Aut6.c_a), (Aut4.c_b, Aut6.c_b), (Aut5.c_b, Aut6.c_a), (Aut5.c_b, Aut6.c_b)
+        (Aut1.c_a, Aut2.c_b), (Aut1.c_a, Aut3.c_a), (Aut1.c_a, Aut3.c_b), (Aut1.c_a, Aut4.c_a), (Aut1.c_a, Aut4.c_b), (Aut1.c_a, Aut5.c_b), (Aut1.c_a, Aut6.c_a), (Aut1.c_a, Aut6.c_b), (Aut1.c_b, Aut3.c_a), (Aut1.c_b, Aut3.c_b), (Aut1.c_b, Aut4.c_a), (Aut1.c_b, Aut6.c_a), (Aut1.c_b, Aut6.c_b), (Aut2.c_b, Aut3.c_a), (Aut2.c_b, Aut3.c_b), (Aut2.c_b, Aut4.c_a), (Aut2.c_b, Aut6.c_a), (Aut2.c_b, Aut6.c_b), (Aut3.c_a, Aut4.c_a), (Aut3.c_a, Aut4.c_b), (Aut3.c_a, Aut5.c_b), (Aut3.c_a, Aut6.c_a), (Aut3.c_b, Aut4.c_a), (Aut3.c_b, Aut4.c_b), (Aut3.c_b, Aut5.c_b), (Aut3.c_b, Aut6.c_b), (Aut4.c_a, Aut5.c_b), (Aut4.c_a, Aut6.c_a), (Aut4.c_a, Aut6.c_b), (Aut4.c_b, Aut6.c_a), (Aut4.c_b, Aut6.c_b), (Aut5.c_b, Aut6.c_a), (Aut5.c_b, Aut6.c_b)

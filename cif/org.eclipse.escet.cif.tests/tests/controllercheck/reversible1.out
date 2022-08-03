@@ -10,6 +10,9 @@ Checking for confluence...
 Mutual exclusive event pairs:
     (a, c), (b, c)
 
+Reversible event pairs:
+    (a, b)
+
 CONCLUSION:
     The specification has finite response.
     The specification has confluence.

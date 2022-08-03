@@ -167,7 +167,7 @@ public class ConfluenceChecker {
                     event1Done.dumpGraphLines("updateEquivalent-event1Done");
                     event2Done.dumpGraphLines("updateEquivalent-event2Done");
                 }
-                if (event1Done == event2Done) {
+                if (event1Done != Tree.ZERO && event1Done == event2Done) {
                     if (DEBUG_GLOBAL) {
                         dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is update equivalent.");
                     }
@@ -343,6 +343,7 @@ public class ConfluenceChecker {
         dumpMatches(updateEquivalents, "Update equivalent event pairs");
         dumpMatches(independents, "Independent event pairs");
         dumpMatches(skippables, "Skippable event pairs");
+        dumpMatches(reversibles, "Reversible event pairs");
 
         return new ConfluenceCheckConclusion(failedChecks);
     }
