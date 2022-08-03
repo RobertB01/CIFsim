@@ -5,9 +5,10 @@ Iteration 1.
 
 Checking for confluence...
 
-Independent event pairs:
-    (AutDifferenValues.a, AutDifferenValues.b)
-
 CONCLUSION:
     The specification has finite response.
-    The specification has confluence.
+
+    ERROR, the specification may NOT have confluence.
+    
+    The following event pair failed all tests:
+        (AutDifferenValues.a, AutDifferenValues.b)

@@ -39,6 +39,7 @@ import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
+import org.eclipse.escet.common.multivaluetrees.VarInfo;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 
 /** Class to check confluence of the specification. */
@@ -67,6 +68,9 @@ public class ConfluenceChecker {
     /** Tree with original to read identity relations for all variables. */
     private Node origToReadVariablesRelations;
 
+    /** Variables in the MDD tree that are not the original values. */
+    private VarInfo[] nonOriginalVarInfos;
+
     /** Builder for the MDD tree. */
     private MvSpecBuilder builder;
 
@@ -88,6 +92,7 @@ public class ConfluenceChecker {
         globalEventsGuardUpdate = globalEventData.getReadOnlyGlobalEventsGuardUpdate();
         varReplacements = globalEventData.createVarUpdateReplacements();
         origToReadVariablesRelations = globalEventData.computeOriginalToReadIdentity();
+        nonOriginalVarInfos = globalEventData.getNonOriginalVariables();
         builder = globalEventData.getBuilder();
         Tree tree = builder.tree;
 
@@ -148,6 +153,18 @@ public class ConfluenceChecker {
                 // space treat variable values differently.
                 commonEnabledGuards = tree.conjunct(origToReadVariablesRelations, commonEnabledGuards);
 
+                if (env.isTerminationRequested()) {
+                    return null;
+                }
+
+                // Grab the set states where both events are enabled under the optimistic assumption that the event
+                // pair matches one of the checks below.
+                Node originalStates = tree.variableAbstractions(commonEnabledGuards, nonOriginalVarInfos);
+
+                if (env.isTerminationRequested()) {
+                    return null;
+                }
+
                 // Check for update equivalence (both events make the same changes).
                 if (DEBUG_UPDATE_EQUIVALENCE) {
                     globalGuard1.dumpGraphLines("updateEquivalent-globalGuard1");
@@ -167,7 +184,9 @@ public class ConfluenceChecker {
                     event1Done.dumpGraphLines("updateEquivalent-event1Done");
                     event2Done.dumpGraphLines("updateEquivalent-event2Done");
                 }
-                if (event1Done != Tree.ZERO && event1Done == event2Done) {
+                if (event1Done != Tree.ZERO && event1Done == event2Done
+                        && allStateCovered(originalStates, event1Done))
+                {
                     if (DEBUG_GLOBAL) {
                         dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is update equivalent.");
                     }
@@ -209,7 +228,9 @@ public class ConfluenceChecker {
                 }
 
                 // Check independence.
-                if (event12Done != Tree.ZERO && event12Done == event21Done) {
+                if (event12Done != Tree.ZERO && event12Done == event21Done
+                        && allStateCovered(originalStates, event12Done))
+                {
                     independents.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
                         dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is indepenent.");
@@ -223,7 +244,9 @@ public class ConfluenceChecker {
                 // Check for skippable (may perform a second event, but its changes are undone).
                 //
                 // Check skippable event1 (events 2, 1 versus event 1).
-                if (event21Done != Tree.ZERO && event1Done == event21Done) {
+                if (event21Done != Tree.ZERO && event1Done == event21Done
+                        && allStateCovered(originalStates, event1Done))
+                {
                     skippables.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
                         dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
@@ -231,7 +254,9 @@ public class ConfluenceChecker {
                     continue;
                 }
                 // Check skippable event2 (events 1, 2 versus event 2).
-                if (event12Done != Tree.ZERO && event2Done == event12Done) {
+                if (event12Done != Tree.ZERO && event2Done == event12Done
+                        && allStateCovered(originalStates, event2Done))
+                {
                     skippables.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
                         dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
@@ -285,7 +310,9 @@ public class ConfluenceChecker {
                             event213Done.dumpGraphLines("reversible-event213Done");
                             event1Done.dumpGraphLines("reversible-event1Done");
                         }
-                        if (event213Done != Tree.ZERO && event213Done == event1Done) {
+                        if (event213Done != Tree.ZERO && event213Done == event1Done
+                                && allStateCovered(originalStates, event1Done))
+                        {
                             if (DEBUG_REVERSIBLE) {
                                 dbg("reversible: event213Done != Tree.ZERO && event213Done == event1Done -> Found a match.");
                             }
@@ -307,7 +334,9 @@ public class ConfluenceChecker {
                             event123Done.dumpGraphLines("reversible-event123Done");
                             event2Done.dumpGraphLines("reversible-event2Done");
                         }
-                        if (event123Done != Tree.ZERO && event123Done == event2Done) {
+                        if (event123Done != Tree.ZERO && event123Done == event2Done
+                                && allStateCovered(originalStates, event2Done))
+                        {
                             if (DEBUG_REVERSIBLE) {
                                 dbg("reversible: event123Done != Tree.ZERO && event123Done == event2Done -> Found a match.");
                             }
@@ -320,7 +349,7 @@ public class ConfluenceChecker {
                     }
                 }
                 if (foundReversible) {
-                    reversibles.add(new Pair<>(evt1Name, evt2Name));
+                    reversibles.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
                         dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is reversible.");
                     }
@@ -357,6 +386,21 @@ public class ConfluenceChecker {
      */
     private Node performEdge(Node state, Node update) {
         return builder.tree.adjacentReplacements(builder.tree.conjunct(state, update), varReplacements);
+    }
+
+    /**
+     * Verify that the result states cover all {@code originalStates}.
+     *
+     * @param originalStates States where the initial combined guards holds, in
+     *     {@link ComputeGlobalEventData#ORIGINAL_INDEX ORIGINAL_INDEX} variables.
+     * @param resultStates Common end states for one of the confluence checks, as a relation between surviving original
+     *     states and the end states.
+     * @return Whether the {@code resultStates} cover the entire {@code originalStates}.
+     */
+    private boolean allStateCovered(Node originalStates, Node resultStates) {
+        // Compute the set original states that is associated with the common result state.
+        Node orignalResultStates = builder.tree.variableAbstractions(resultStates, nonOriginalVarInfos);
+        return originalStates == orignalResultStates;
     }
 
     /**

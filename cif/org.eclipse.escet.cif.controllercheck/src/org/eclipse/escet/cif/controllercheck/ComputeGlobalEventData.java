@@ -336,6 +336,26 @@ public class ComputeGlobalEventData {
     }
 
     /**
+     * Get the variables in the tree that represent non-original values.
+     *
+     * @return Variable in the MDD tree for non-original values.
+     */
+    public VarInfo[] getNonOriginalVariables() {
+        // First entry in 'varInfos'is null.
+        int numVariables = (builder.cifVarInfoBuilder.varInfos.size() - 1) / NUM_INDICES;
+        VarInfo[] nonOriginalsVarInfos = new VarInfo[numVariables * (NUM_INDICES - 1)];
+        int nextFree = 0;
+        for (VarInfo vinfo: builder.cifVarInfoBuilder.varInfos) {
+            if (vinfo != null && vinfo.useKind != ORIGINAL_INDEX) {
+                nonOriginalsVarInfos[nextFree] = vinfo;
+                nextFree++;
+            }
+        }
+        Assert.areEqual(nextFree, nonOriginalsVarInfos.length);
+        return nonOriginalsVarInfos;
+    }
+
+    /**
      * Construct an initialized event map for all given events.
      *
      * @param events Events that should be available in the new map.

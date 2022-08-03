@@ -54,6 +54,9 @@ public abstract class VarInfoBuilder<V> {
      * <p>
      * Smaller indices are near the root, highest indices are near the {@link Tree#ZERO} and {@link Tree#ONE} nodes.
      * </p>
+     * <p>
+     * <b>Note:</b> The first entry in the list is {@code null}.
+     * </p>
      */
     public final List<VarInfo> varInfos = list();
 
