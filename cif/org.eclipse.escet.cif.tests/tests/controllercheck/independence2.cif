@@ -26,4 +26,3 @@ automaton AutDifferenValues:
   location s:
     marked;
 end
-

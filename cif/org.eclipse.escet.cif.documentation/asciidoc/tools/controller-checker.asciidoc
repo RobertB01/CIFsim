@@ -24,8 +24,8 @@ It eventually runs out of edges with controllable events and waits again for rec
 
 The finite response property assures that the controller does in fact always run out of edges with controllable events.
 That is, the system has no loops with only controllable events, there is no <<lang-tut-time-livelock,livelock>> for controllable events.
-The confluence property assures that all choices between edges with controllable events eventually always lead to the same blocking state.
-It does not matter which edge with a controllable event you choose.
+The confluence property assures that all choices between edges with controllable events eventually always lead to the same state without enabled edges with a controllable event.
+It does not matter which edge with a controllable event you choose, you eventually always arrive at the same state.
 
 Both algorithms are based on <<reijnen19>>.
 
@@ -176,7 +176,7 @@ indexterm:[controller checker finite response property,implementation]
 Finite response for a model is determined as follows.
 
 . Find controllable-event loops in automata.
-For this, guards and updates are omitted, also see <<tools-controllercheck-falsenegs,false negatives>>.
+For this, guards and updates are omitted, also see <<tools-controllercheck-finite-response-falsenegs,false negatives>>.
 
 . Find variables that are never updated by controllable events.
 This includes by definition all input variables.
@@ -232,8 +232,8 @@ indexterm:[controller checker property,confluence]
 
 A model is confluent when all sequences of controllable events always leads to a single state.
 
-The `Actuator` automaton below has two different edges with controllable events from the same location, but only one of them can be enabled at same time.
-As a result, the automaton does not need to between edges and the model is confluent.
+The `Actuator` automaton below has two different edges with controllable events from the same location, but only one of them can be enabled at same time since the `Sensor` automaton cannot be in two locations at the same time.
+As a result, the automaton does not need to choose between edges and the model is confluent.
 
 [source, cif]
 ----
