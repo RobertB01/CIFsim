@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.controllercheck.confluence;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
@@ -42,6 +43,18 @@ import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 
 /** Class to check confluence of the specification. */
 public class ConfluenceChecker {
+    /** Debug global flow of the checks, which pairs are tested, where are they matched. */
+    private static final boolean DEBUG_GLOBAL = false;
+
+    /** Whether to enable debugging output for indepdnence checking. */
+    private static final boolean DEBUG_INDENPENCE = false;
+
+    /** Whether to enable debugging output for reversible checking. */
+    private static final boolean DEBUG_REVERSIBLE = false;
+
+    /** Whether to enable debugging output for update equivalence. */
+    private static final boolean DEBUG_UPDATE_EQUIVALENCE = false;
+
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 
@@ -106,6 +119,9 @@ public class ConfluenceChecker {
                 }
 
                 String evt2Name = CifTextUtils.getAbsName(event2);
+                if (DEBUG_GLOBAL) {
+                    dbg("Trying event pair (" + evt1Name + ", " + evt2Name + ")...");
+                }
 
                 GlobalEventGuardUpdate evtData1 = entry1.getValue();
                 Node globalGuard1 = evtData1.getGuard();
@@ -119,6 +135,9 @@ public class ConfluenceChecker {
                 Node commonEnabledGuards = tree.conjunct(globalGuard1, globalGuard2);
                 if (commonEnabledGuards == Tree.ZERO) {
                     mutualExclusives.add(makeSortedPair(evt1Name, evt2Name));
+                    if (DEBUG_GLOBAL) {
+                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is mutual exclusive.");
+                    }
                     continue;
                 }
                 if (env.isTerminationRequested()) {
@@ -130,9 +149,28 @@ public class ConfluenceChecker {
                 commonEnabledGuards = tree.conjunct(origToReadVariablesRelations, commonEnabledGuards);
 
                 // Check for update equivalence (both events make the same changes).
+                if (DEBUG_UPDATE_EQUIVALENCE) {
+                    globalGuard1.dumpGraphLines("updateEquivalent-globalGuard1");
+                    dbg();
+                    globalGuard2.dumpGraphLines("updateEquivalent-globalGuard2");
+                    dbg();
+                    globalUpdate1.dumpGraphLines("updateEquivalent-globalUpdate1");
+                    dbg();
+                    globalUpdate2.dumpGraphLines("updateEquivalent-globalUupdate2");
+                    dbg();
+                    commonEnabledGuards.dumpGraphLines("updateEquivalence-commonEnabledGuards");
+                    dbg();
+                }
                 Node event1Done = performEdge(commonEnabledGuards, globalUpdate1);
                 Node event2Done = performEdge(commonEnabledGuards, globalUpdate2);
+                if (DEBUG_UPDATE_EQUIVALENCE) {
+                    event1Done.dumpGraphLines("updateEquivalent-event1Done");
+                    event2Done.dumpGraphLines("updateEquivalent-event2Done");
+                }
                 if (event1Done == event2Done) {
+                    if (DEBUG_GLOBAL) {
+                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is update equivalent.");
+                    }
                     updateEquivalents.add(makeSortedPair(evt1Name, evt2Name));
                     continue;
                 }
@@ -141,20 +179,41 @@ public class ConfluenceChecker {
                 }
 
                 // Check for independence (diamond shape edges leading to the same changes).
+                if (DEBUG_INDENPENCE) {
+                    globalGuard1.dumpGraphLines("independence-globalGuard1");
+                    dbg();
+                    globalGuard2.dumpGraphLines("independence-globalGuard2");
+                    dbg();
+                    globalUpdate1.dumpGraphLines("independence-globalUpdate1");
+                    dbg();
+                    globalUpdate2.dumpGraphLines("independence-globalUupdate2");
+                    dbg();
+                }
                 //
                 // First event1 then event2.
                 Node event1Enabled2 = tree.conjunct(event1Done, globalGuard2);
                 Node event12Done = (event1Enabled2 == Tree.ZERO) ? Tree.ZERO
                         : performEdge(event1Enabled2, globalUpdate2);
+                if (DEBUG_INDENPENCE) {
+                    event1Enabled2.dumpGraphLines("independence-event1enabled2");
+                    event12Done.dumpGraphLines("independence-event12done");
+                }
 
                 // First event2 then event1.
                 Node event2Enabled1 = tree.conjunct(event2Done, globalGuard1);
                 Node event21Done = (event2Enabled1 == Tree.ZERO) ? Tree.ZERO
                         : performEdge(event2Enabled1, globalUpdate1);
+                if (DEBUG_INDENPENCE) {
+                    event2Enabled1.dumpGraphLines("independence-event2enabled1");
+                    event21Done.dumpGraphLines("independence-event212done");
+                }
 
                 // Check independence.
                 if (event12Done != Tree.ZERO && event12Done == event21Done) {
                     independents.add(makeSortedPair(evt1Name, evt2Name));
+                    if (DEBUG_GLOBAL) {
+                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is indepenent.");
+                    }
                     continue;
                 }
                 if (env.isTerminationRequested()) {
@@ -166,11 +225,17 @@ public class ConfluenceChecker {
                 // Check skippable event1 (events 2, 1 versus event 1).
                 if (event21Done != Tree.ZERO && event1Done == event21Done) {
                     skippables.add(makeSortedPair(evt1Name, evt2Name));
+                    if (DEBUG_GLOBAL) {
+                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
+                    }
                     continue;
                 }
                 // Check skippable event2 (events 1, 2 versus event 2).
                 if (event12Done != Tree.ZERO && event2Done == event12Done) {
                     skippables.add(makeSortedPair(evt1Name, evt2Name));
+                    if (DEBUG_GLOBAL) {
+                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
+                    }
                     continue;
                 }
                 if (env.isTerminationRequested()) {
@@ -178,6 +243,17 @@ public class ConfluenceChecker {
                 }
 
                 // Reversible.
+                if (DEBUG_REVERSIBLE) {
+                    globalGuard1.dumpGraphLines("reversible-globalGuard1");
+                    dbg();
+                    globalGuard2.dumpGraphLines("reversible-globalGuard2");
+                    dbg();
+                    globalUpdate1.dumpGraphLines("reversible-globalUpdate1");
+                    dbg();
+                    globalUpdate2.dumpGraphLines("reversible-globalUpdate2");
+                    dbg();
+                }
+
                 boolean foundReversible = false;
                 for (Entry<Event, GlobalEventGuardUpdate> entry3: globalEventsGuardUpdate.entrySet()) {
                     Event event3 = entry3.getKey();
@@ -191,13 +267,28 @@ public class ConfluenceChecker {
                     GlobalEventGuardUpdate evtData3 = entry3.getValue();
                     Node globalGuard3 = evtData3.getGuard();
                     Node globalUpdate3 = evtData3.getUpdate();
+                    if (DEBUG_REVERSIBLE) {
+                        dbg("----");
+                        dbg("Reversible (" + evt1Name + ", " + evt2Name + "), trying event3 = " + event3.getName());
+                        event21Done.dumpGraphLines("reversible-event21Done");
+                        globalGuard3.dumpGraphLines("reversible-globalGuard3");
+                        globalUpdate3.dumpGraphLines("reversible-globalUpdate3");
+                    }
 
                     // Check for reversible (events 2, 1, 3 versus event 1).
                     if (event21Done != Tree.ZERO) {
                         Node event21Enabled3 = tree.conjunct(event21Done, globalGuard3);
                         Node event213Done = (event21Enabled3 == Tree.ZERO) ? Tree.ZERO
                                 : performEdge(event21Enabled3, globalUpdate3);
+                        if (DEBUG_REVERSIBLE) {
+                            event21Enabled3.dumpGraphLines("reversible-event21Enabled3");
+                            event213Done.dumpGraphLines("reversible-event213Done");
+                            event1Done.dumpGraphLines("reversible-event1Done");
+                        }
                         if (event213Done != Tree.ZERO && event213Done == event1Done) {
+                            if (DEBUG_REVERSIBLE) {
+                                dbg("reversible: event213Done != Tree.ZERO && event213Done == event1Done -> Found a match.");
+                            }
                             foundReversible = true;
                             break;
                         }
@@ -211,7 +302,15 @@ public class ConfluenceChecker {
                         Node event12Enabled3 = tree.conjunct(event12Done, globalGuard3);
                         Node event123Done = (event12Enabled3 == Tree.ZERO) ? Tree.ZERO
                                 : performEdge(event12Enabled3, globalUpdate3);
+                        if (DEBUG_REVERSIBLE) {
+                            event12Enabled3.dumpGraphLines("reversible-event12Enabled3");
+                            event123Done.dumpGraphLines("reversible-event123Done");
+                            event2Done.dumpGraphLines("reversible-event2Done");
+                        }
                         if (event123Done != Tree.ZERO && event123Done == event2Done) {
+                            if (DEBUG_REVERSIBLE) {
+                                dbg("reversible: event123Done != Tree.ZERO && event123Done == event2Done -> Found a match.");
+                            }
                             foundReversible = true;
                             break;
                         }
@@ -222,11 +321,17 @@ public class ConfluenceChecker {
                 }
                 if (foundReversible) {
                     reversibles.add(new Pair<>(evt1Name, evt2Name));
+                    if (DEBUG_GLOBAL) {
+                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is reversible.");
+                    }
                     continue;
                 }
 
                 // None of the checks holds, failed to prove confluence.
                 failedChecks.add(makeSortedPair(evt1Name, evt2Name));
+                if (DEBUG_GLOBAL) {
+                    dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is FAILED.");
+                }
             }
         }
         if (env.isTerminationRequested()) {
