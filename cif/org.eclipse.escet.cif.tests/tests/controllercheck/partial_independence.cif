@@ -19,10 +19,9 @@ automaton A:
   location p:
     initial;
     edge a do z := true goto q;
-    edge b do v := 2 goto r;
+    edge b do v := 2 goto q;
   location q:
     edge b do v := 2 goto s;
-  location r:
     edge a do z := true goto s;
   location s:
     marked;

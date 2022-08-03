@@ -37,6 +37,8 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
+import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
+import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -169,35 +171,59 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             warn("The specification contains 0 controllable events.");
         }
 
-        // Check the finite response property.
-        OutputProvider.out("Checking for finite response...");
-        CheckConclusion finiteResponseConclusion = new FiniteResponseChecker().checkSystem(globalEventData);
-        if (finiteResponseConclusion == null || isTerminationRequested()) {
-            return 0;
+        CheckConclusion finiteResponseConclusion = null;
+        boolean finiteResponseHolds;
+        if (EnableFiniteResponseChecking.checkFiniteResponse()) {
+            // Check the finite response property.
+            OutputProvider.out("Checking for finite response...");
+            finiteResponseConclusion = new FiniteResponseChecker().checkSystem(globalEventData);
+            if (finiteResponseConclusion == null || isTerminationRequested()) {
+                return 0;
+            }
+            finiteResponseHolds = finiteResponseConclusion.propertyHolds();
+        } else {
+            finiteResponseHolds = true; // Don't invalidate confluence checking result.
         }
 
-        // Check the confluence property.
-        OutputProvider.out();
-        OutputProvider.out("Checking for confluence...");
-        CheckConclusion confluenceConclusion = new ConfluenceChecker().checkSystem(globalEventData);
-        if (confluenceConclusion == null || isTerminationRequested()) {
-            return 0;
+        CheckConclusion confluenceConclusion = null;
+        boolean confluenceHolds;
+        if (EnableConfluenceChecking.checkConfluence()) {
+            // Check the confluence property.
+            OutputProvider.out();
+            OutputProvider.out("Checking for confluence...");
+            confluenceConclusion = new ConfluenceChecker().checkSystem(globalEventData);
+            if (confluenceConclusion == null || isTerminationRequested()) {
+                return 0;
+            }
+            confluenceHolds = confluenceConclusion.propertyHolds();
+        } else {
+            confluenceHolds = true; // Don't invalidate finite response checking result.
         }
 
         // Output the checker conclusions.
         out();
         out("CONCLUSION:");
         iout();
-        finiteResponseConclusion.printDetails();
-        dout();
-        if (!finiteResponseConclusion.propertyHolds() || !confluenceConclusion.propertyHolds()) {
-            out(); // Empty line between conclusions if an error occurs.
+        if (finiteResponseConclusion != null) {
+            finiteResponseConclusion.printDetails();
+        } else {
+            out("Finite response checking was disabled, finite response property is unknown.");
         }
-        iout();
-        confluenceConclusion.printDetails();
         dout();
 
-        return (finiteResponseConclusion.propertyHolds() && confluenceConclusion.propertyHolds()) ? 0 : 1;
+        if (!finiteResponseHolds || !confluenceHolds) {
+            out(); // Empty line between conclusions if an error occurs.
+        }
+
+        iout();
+        if (confluenceConclusion != null) {
+            confluenceConclusion.printDetails();
+        } else {
+            out("Confluence checking was disabled, confluence property is unknown.");
+        }
+        dout();
+
+        return (finiteResponseHolds && confluenceHolds) ? 0 : 1;
     }
 
     @Override
@@ -212,7 +238,10 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
 
         List<Option> checkOpts = list();
         checkOpts.add(Options.getInstance(InputFileOption.class));
+        checkOpts.add(Options.getInstance(EnableFiniteResponseChecking.class));
         checkOpts.add(Options.getInstance(PrintControlLoopsOutputOption.class));
+        checkOpts.add(Options.getInstance(EnableConfluenceChecking.class));
+
         OptionCategory checksCat;
         checksCat = new OptionCategory("Checks", "Controller properties check options.", list(), checkOpts);
 
