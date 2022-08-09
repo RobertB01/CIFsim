@@ -58,17 +58,7 @@ public class S7Writer extends OutputTypeWriter {
 
     @Override
     public void write(PlcProject project, String outPath) {
-        // Create output directory, if it doesn't exist yet.
-        String absPath = Paths.resolve(outPath);
-        Path nioAbsPath = java.nio.file.Paths.get(absPath);
-        if (!Files.isDirectory(nioAbsPath)) {
-            try {
-                Files.createDirectories(nioAbsPath);
-            } catch (IOException ex) {
-                String msg = fmt("Failed to create output directory \"%s\" for the generated PLC code.", outPath);
-                throw new InputOutputException(msg, ex);
-            }
-        }
+        ensureDirectory(outPath);
 
         // Ensure exactly one configuration.
         Assert.areEqual(project.configurations.size(), 1);

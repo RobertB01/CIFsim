@@ -13,35 +13,18 @@
 
 package org.eclipse.escet.cif.cif2plc.writers;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.Box;
 
 /** IEC 61131-3 writer. */
 public class Iec611313Writer extends OutputTypeWriter {
     @Override
     public void write(PlcProject project, String outPath) {
-        // Create output directory, if it doesn't exist yet.
-        String absPath = Paths.resolve(outPath);
-        Path nioAbsPath = java.nio.file.Paths.get(absPath);
-        if (!Files.isDirectory(nioAbsPath)) {
-            try {
-                Files.createDirectories(nioAbsPath);
-            } catch (IOException ex) {
-                String msg = fmt("Failed to create output directory \"%s\" for the generated PLC code.", outPath);
-                throw new InputOutputException(msg, ex);
-            }
-        }
+        ensureDirectory(outPath);
 
         // Write configurations.
         for (PlcConfiguration config: project.configurations) {

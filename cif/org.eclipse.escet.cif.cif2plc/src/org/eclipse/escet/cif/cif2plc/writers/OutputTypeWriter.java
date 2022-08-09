@@ -15,6 +15,10 @@ package org.eclipse.escet.cif.cif2plc.writers;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcArrayType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType;
@@ -31,6 +35,8 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.HBox;
@@ -50,6 +56,24 @@ public abstract class OutputTypeWriter {
      * @param outputPath The absolute local file system destination to write the converted output.
      */
     public abstract void write(PlcProject project, String outputPath);
+
+    /**
+     * Ensure a directory with the given path exists, possibly by creating it.
+     *
+     * @param outPath Path to the directory that should exist after the call.
+     */
+    protected void ensureDirectory(String outPath) {
+        String absPath = Paths.resolve(outPath);
+        Path nioAbsPath = java.nio.file.Paths.get(absPath);
+        if (!Files.isDirectory(nioAbsPath)) {
+            try {
+                Files.createDirectories(nioAbsPath);
+            } catch (IOException ex) {
+                String msg = fmt("Failed to create output directory \"%s\" for the generated PLC code.", outPath);
+                throw new InputOutputException(msg, ex);
+            }
+        }
+    }
 
     /**
      * Convert a {@link PlcProject} instance to a {@link Box} text.
