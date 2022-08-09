@@ -28,19 +28,9 @@ import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.Box;
 
 /** IEC 61131-3 writer. */
-public class Iec611313Writer {
-    /** Constructor for the {@link Iec611313Writer} class. */
-    private Iec611313Writer() {
-        // Static class.
-    }
-
-    /**
-     * Writes the given PLC project to files in IEC 61131-3 syntax.
-     *
-     * @param project The PLC project to write.
-     * @param outPath The absolute local file system path of the directory to which to write the files.
-     */
-    public static void write(PlcProject project, String outPath) {
+public class Iec611313Writer extends OutputTypeWriter {
+    @Override
+    public void write(PlcProject project, String outPath) {
         // Create output directory, if it doesn't exist yet.
         String absPath = Paths.resolve(outPath);
         Path nioAbsPath = java.nio.file.Paths.get(absPath);
@@ -75,7 +65,7 @@ public class Iec611313Writer {
      * @param config The configuration to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private static void write(PlcConfiguration config, String outPath) {
+    private void write(PlcConfiguration config, String outPath) {
         String path = Paths.join(outPath, config.name + ".plccfg");
         Box code = config.toBox();
         code.writeToFile(path);
@@ -87,7 +77,7 @@ public class Iec611313Writer {
      * @param pou The POU to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private static void write(PlcPou pou, String outPath) {
+    private void write(PlcPou pou, String outPath) {
         String ext = (pou.retType == null) ? ".plcprog" : ".plcfunc";
         String path = Paths.join(outPath, pou.name + ext);
         Box code = pou.toBox();
@@ -100,7 +90,7 @@ public class Iec611313Writer {
      * @param typeDecl The type declaration to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private static void write(PlcTypeDecl typeDecl, String outPath) {
+    private void write(PlcTypeDecl typeDecl, String outPath) {
         String path = Paths.join(outPath, typeDecl.name + ".plctype");
         Box code = typeDecl.toBox();
         code.writeToFile(path);

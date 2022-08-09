@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.cif2plc.writers;
 
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
 import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption.getPlcOutputType;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.PROGRAM;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcProject.INDENT;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -23,8 +22,10 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.EnumSet;
 import java.util.List;
 
+import org.eclipse.escet.cif.cif2plc.options.PlcOutputType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcGlobalVarList;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
@@ -40,19 +41,21 @@ import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** S7 writer for S7-1500, S7-1200, S7-400 and S7-300 SIMATIC controllers. */
-public class S7Writer {
-    /** Constructor for the {@link S7Writer} class. */
-    private S7Writer() {
-        // Static class.
-    }
+public class S7Writer extends OutputTypeWriter {
+    /** Targeted S7 PLC output type. */
+    private final PlcOutputType outputType;
 
     /**
-     * Writes the given PLC project to files for S7 SIMATIC controllers.
+     * Constructor for the {@link S7Writer} class.
      *
-     * @param project The PLC project to write.
-     * @param outPath The absolute local file system path of the directory to which to write the files.
+     * @param outputType Targeted S7 PLC type.
      */
-    public static void write(PlcProject project, String outPath) {
+    public S7Writer(PlcOutputType outputType) {
+        this.outputType = outputType;
+    }
+
+    @Override
+    public void write(PlcProject project, String outPath) {
         // Create output directory, if it doesn't exist yet.
         String absPath = Paths.resolve(outPath);
         Path nioAbsPath = java.nio.file.Paths.get(absPath);
@@ -123,7 +126,7 @@ public class S7Writer {
      * @param pou The POU to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private static void write(PlcPou pou, String outPath) {
+    private void write(PlcPou pou, String outPath) {
         String path = Paths.join(outPath, pou.name + ".scl");
         Box code = pou.toBoxS7();
         code.writeToFile(path);
@@ -134,26 +137,25 @@ public class S7Writer {
      *
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private static void writeTimers(String outPath) {
+    private void writeTimers(String outPath) {
         String path = Paths.join(outPath, fmt("timers.db"));
         CodeBox c = new MemoryCodeBox(INDENT);
 
-        // Get S7 type. S7-1500 and S7-1200 support optimized block access and IEC timers. S7-400 and S7-300 don't
-        // support optimized block access and have TON timers.
-        boolean s71500OrS71200 = getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200;
+        // Use IEC timers if available, else use TON timers.
+        boolean hasIecTimers = hasIecTimers();
 
         // Add timer0 and timer1.
         for (int timerIdx = 0; timerIdx < 2; timerIdx++) {
             c.add("DATA_BLOCK \"timer%d\"", timerIdx);
-            c.add("{InstructionName := '%s';", s71500OrS71200 ? "IEC_TIMER" : "TON");
+            c.add("{InstructionName := '%s';", hasIecTimers ? "IEC_TIMER" : "TON");
             c.add("LibVersion := '1.0';");
-            c.add("S7_Optimized_Access := '%b' }", s71500OrS71200);
+            c.add("S7_Optimized_Access := '%b' }", hasOptimizedBlockAccess());
             c.add("AUTHOR : Simatic");
-            c.add("FAMILY : %s", s71500OrS71200 ? "IEC" : "IEC_TC");
-            c.add("NAME : %s", s71500OrS71200 ? "IEC_TMR" : "TON");
+            c.add("FAMILY : %s", hasIecTimers ? "IEC" : "IEC_TC");
+            c.add("NAME : %s", hasIecTimers ? "IEC_TMR" : "TON");
             c.add("VERSION : 1.0");
             c.add("NON_RETAIN");
-            c.add("%s", s71500OrS71200 ? "IEC_TIMER" : "TON");
+            c.add("%s", hasIecTimers ? "IEC_TIMER" : "TON");
             c.add();
             c.add("BEGIN");
             c.add();
@@ -166,12 +168,21 @@ public class S7Writer {
     }
 
     /**
+     * Whether the targeted PLC output type supports IEC timers.
+     *
+     * @return Whether IEC timers are supported for the current output type.
+     */
+    private boolean hasIecTimers() {
+        return EnumSet.of(S7_1200, S7_1500).contains(outputType);
+    }
+
+    /**
      * Writes the given type declaration to a file in S7 syntax.
      *
      * @param typeDecl The type declaration to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private static void write(PlcTypeDecl typeDecl, String outPath) {
+    private void write(PlcTypeDecl typeDecl, String outPath) {
         String path = Paths.join(outPath, typeDecl.name + ".udt");
         Box code = typeDecl.toBoxS7();
         code.writeToFile(path);
@@ -195,17 +206,13 @@ public class S7Writer {
      * @param variables The variables to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private static void write(List<PlcVariable> variables, String outPath) {
+    private void write(List<PlcVariable> variables, String outPath) {
         String path = Paths.join(outPath, "DB.db");
         CodeBox c = new MemoryCodeBox(INDENT);
 
-        // Is optimized block access supported? Only supported for S7-1500 and S7-1200. It optimizes data storage and
-        // performance.
-        boolean optimizedBlockAccess = getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200;
-
         // The header.
         c.add("DATA_BLOCK \"DB\"");
-        c.add("{ S7_Optimized_Access := '%b' }", optimizedBlockAccess);
+        c.add("{ S7_Optimized_Access := '%b' }", hasOptimizedBlockAccess());
 
         // The variables.
         c.indent();
@@ -239,5 +246,18 @@ public class S7Writer {
 
         // Write to file.
         c.writeToFile(path);
+    }
+
+    /**
+     * Whether the targeted PLC output type supports optimized block access.
+     *
+     * <p>
+     * If {@code true}, it optimizes data storage and performance.
+     * </p>
+     *
+     * @return Whether optimized block access is supported for the current output type.
+     */
+    private boolean hasOptimizedBlockAccess() {
+        return EnumSet.of(S7_1200, S7_1500).contains(outputType);
     }
 }

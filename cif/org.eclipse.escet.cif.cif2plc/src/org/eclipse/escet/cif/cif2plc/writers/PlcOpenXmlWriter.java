@@ -65,27 +65,22 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-/** PLCopen XML (version 2.01) writer. */
-public class PlcOpenXmlWriter {
+/**
+ * PLCopen XML (version 2.01) writer.
+ *
+ * <p>
+ * Writes a PLCopen XML file with platform specific path separators.
+ * </p>
+ */
+public class PlcOpenXmlWriter extends OutputTypeWriter {
     /** PLCopen XML version namespace URI. */
     private static final String PLCOPEN_NS = "http://www.plcopen.org/xml/tc6_0201";
 
     /** XHTML namespace URI. */
     private static final String XHTML_NS = "http://www.w3.org/1999/xhtml";
 
-    /** Constructor for the {@link PlcOpenXmlWriter} class. */
-    private PlcOpenXmlWriter() {
-        // Static class.
-    }
-
-    /**
-     * Writes the given PLC project to a PLCopen XML file.
-     *
-     * @param project The PLC project.
-     * @param filePath The absolute local file system path of the PLCopen XML file to write, with platform specific path
-     *     separators.
-     */
-    public static void write(PlcProject project, String filePath) {
+    @Override
+    public void write(PlcProject project, String filePath) {
         // Create document from project.
         Document doc = transProject(project);
 
@@ -102,7 +97,7 @@ public class PlcOpenXmlWriter {
      * @param project The project.
      * @return The XML document.
      */
-    private static Document transProject(PlcProject project) {
+    private Document transProject(PlcProject project) {
         // Create document builder.
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -201,7 +196,7 @@ public class PlcOpenXmlWriter {
      * @param typeDecl The type declaration.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transTypeDecl(PlcTypeDecl typeDecl, Element parent) {
+    private void transTypeDecl(PlcTypeDecl typeDecl, Element parent) {
         Element dataType = parent.getOwnerDocument().createElement("dataType");
         parent.appendChild(dataType);
 
@@ -219,7 +214,7 @@ public class PlcOpenXmlWriter {
      * @param type The type.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transType(PlcType type, Element parent) {
+    private void transType(PlcType type, Element parent) {
         if (type instanceof PlcElementaryType) {
             PlcElementaryType etype = (PlcElementaryType)type;
             Element elem = parent.getOwnerDocument().createElement(etype.name);
@@ -276,7 +271,7 @@ public class PlcOpenXmlWriter {
      * @param var The variable.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transVariable(PlcVariable var, Element parent) {
+    private void transVariable(PlcVariable var, Element parent) {
         Element varElem = parent.getOwnerDocument().createElement("variable");
         parent.appendChild(varElem);
 
@@ -302,7 +297,7 @@ public class PlcOpenXmlWriter {
      * @param value The value.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transValue(PlcValue value, Element parent) {
+    private void transValue(PlcValue value, Element parent) {
         Element vElem = parent.getOwnerDocument().createElement("simpleValue");
         parent.appendChild(vElem);
 
@@ -315,7 +310,7 @@ public class PlcOpenXmlWriter {
      * @param pou The POU.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transPou(PlcPou pou, Element parent) {
+    private void transPou(PlcPou pou, Element parent) {
         Element pouElem = parent.getOwnerDocument().createElement("pou");
         parent.appendChild(pouElem);
 
@@ -386,7 +381,7 @@ public class PlcOpenXmlWriter {
      * @param body The body.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transBody(CodeBox body, Element parent) {
+    private void transBody(CodeBox body, Element parent) {
         Element bodyElem = parent.getOwnerDocument().createElement("body");
         parent.appendChild(bodyElem);
 
@@ -405,7 +400,7 @@ public class PlcOpenXmlWriter {
      * @param config The configuration.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transConfig(PlcConfiguration config, Element parent) {
+    private void transConfig(PlcConfiguration config, Element parent) {
         Element configElem = parent.getOwnerDocument().createElement("configuration");
         parent.appendChild(configElem);
 
@@ -426,7 +421,7 @@ public class PlcOpenXmlWriter {
      * @param varList The global variable list.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transGlobalVarList(PlcGlobalVarList varList, Element parent) {
+    private void transGlobalVarList(PlcGlobalVarList varList, Element parent) {
         // Skip if no variables.
         if (varList.variables.isEmpty()) {
             return;
@@ -449,7 +444,7 @@ public class PlcOpenXmlWriter {
      * @param resource The resource.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transResource(PlcResource resource, Element parent) {
+    private void transResource(PlcResource resource, Element parent) {
         Element resElem = parent.getOwnerDocument().createElement("resource");
         parent.appendChild(resElem);
 
@@ -475,7 +470,7 @@ public class PlcOpenXmlWriter {
      * @param parent The parent element in which to generate new elements.
      * @return The newly created element for the POU instance.
      */
-    private static Element transPouInstance(PlcPouInstance inst, Element parent) {
+    private Element transPouInstance(PlcPouInstance inst, Element parent) {
         Element instElem = parent.getOwnerDocument().createElement("pouInstance");
         parent.appendChild(instElem);
 
@@ -491,7 +486,7 @@ public class PlcOpenXmlWriter {
      * @param inst The POU instance.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transPouInstanceWithDoc(PlcPouInstance inst, Element parent) {
+    private void transPouInstanceWithDoc(PlcPouInstance inst, Element parent) {
         Element instElem = transPouInstance(inst, parent);
 
         Element docElem = instElem.getOwnerDocument().createElement("documentation");
@@ -507,7 +502,7 @@ public class PlcOpenXmlWriter {
      * @param task The task.
      * @param parent The parent element in which to generate new elements.
      */
-    private static void transTask(PlcTask task, Element parent) {
+    private void transTask(PlcTask task, Element parent) {
         Element taskElem = parent.getOwnerDocument().createElement("task");
         parent.appendChild(taskElem);
 
@@ -529,7 +524,7 @@ public class PlcOpenXmlWriter {
      * @param filePath The absolute local file system path of the PLCopen XML file, with platform specific path
      *     separators.
      */
-    private static void validateDocument(String filePath) {
+    private void validateDocument(String filePath) {
         InputStream schemaStream = null;
         InputStream xmlStream = null;
         try {
@@ -590,7 +585,7 @@ public class PlcOpenXmlWriter {
      * @param filePath The absolute local file system path of the PLCopen XML file to write, with platform specific path
      *     separators.
      */
-    private static void writeDocument(Document doc, String filePath) {
+    private void writeDocument(Document doc, String filePath) {
         // Construct transformer.
         TransformerFactory xmlTransFactory = TransformerFactory.newInstance();
         Transformer xmlTrans;

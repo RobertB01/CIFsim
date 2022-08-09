@@ -60,8 +60,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-/** TwinCAT 3.1 writer. */
-public class TwinCatWriter {
+/**
+ * TwinCAT 3.1 writer.
+ *
+ * <p>
+ * Updates a directory containing the TwinCAT solution, with platform specific path separators.
+ * </p>
+ */
+public class TwinCatWriter extends OutputTypeWriter {
     /** The PLC project to use, {@code null} until available. */
     private PlcProject project;
 
@@ -89,45 +95,35 @@ public class TwinCatWriter {
     /** Old code files that are scheduled to be removed (since there are no replacements in {@link #files}). */
     private List<File> oldCodeFiles = list();
 
-    /** Constructor for the {@link TwinCatWriter} class. */
-    private TwinCatWriter() {
-        // Private constructor to force the use of the public static method.
-    }
+    @Override
+    public void write(PlcProject project, String slnDirPath) {
+        this.project = project;
 
-    /**
-     * Writes the given PLC project to a TwinCAT project.
-     *
-     * @param project The PLC project to write.
-     * @param slnDirPath The absolute local file system path of the directory containing the TwinCAT solution, with
-     *     platform specific path separators.
-     */
-    public static void write(PlcProject project, String slnDirPath) {
-        // Initialize writer.
-        TwinCatWriter writer = new TwinCatWriter();
-        writer.project = project;
         Assert.check(project.configurations.size() == 1);
-        writer.configuration = first(project.configurations);
-        Assert.check(writer.configuration.resources.size() == 1);
-        writer.resource = first(writer.configuration.resources);
-        Assert.check(writer.resource.tasks.size() == 1);
-        writer.task = first(writer.resource.tasks);
+        configuration = first(project.configurations);
 
-        if (writer.task.cycleTime == 0) {
+        Assert.check(this.configuration.resources.size() == 1);
+        resource = first(this.configuration.resources);
+
+        Assert.check(this.resource.tasks.size() == 1);
+        task = first(this.resource.tasks);
+
+        if (this.task.cycleTime == 0) {
             String msg = "TwinCAT output with periodic task scheduling disabled, is currently not supported.";
             throw new InvalidOptionException(msg);
         }
 
-        writer.findTwinCatProjects(slnDirPath);
+        findTwinCatProjects(slnDirPath);
 
         // POU instances in the resource are not supported.
-        Assert.check(writer.resource.pouInstances.isEmpty());
+        Assert.check(resource.pouInstances.isEmpty());
 
         // Update TwinCAT XAE project.
-        writer.updateXaeProj();
-        writer.genCodeFiles();
-        writer.updatePlcProj();
-        writer.updateTask();
-        writer.updateCodeFiles();
+        updateXaeProj();
+        genCodeFiles();
+        updatePlcProj();
+        updateTask();
+        updateCodeFiles();
     }
 
     /**
