@@ -13,44 +13,12 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import static org.eclipse.escet.cif.cif2plc.plcdata.PlcProject.INDENT;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
-
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.MemoryCodeBox;
 
 /** PLC struct type. */
 public class PlcStructType extends PlcType {
     /** The fields of the struct type. */
     public List<PlcVariable> fields = list();
-
-    @Override
-    public Box toBox() {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("STRUCT");
-        c.indent();
-        for (PlcVariable field: fields) {
-            c.add(field);
-        }
-        c.dedent();
-        c.add("END_STRUCT");
-        return c;
-    }
-
-    @Override
-    public Box toBoxS7() {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("STRUCT");
-        c.indent();
-        for (PlcVariable field: fields) {
-            // Only name and type, not address.
-            c.add("%s: %s;", field.name, field.type);
-        }
-        c.dedent();
-        c.add("END_STRUCT");
-        return c;
-    }
 }

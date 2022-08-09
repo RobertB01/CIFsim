@@ -48,11 +48,16 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouInstance;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcResource;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTask;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.box.Box;
+import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.box.HBox;
+import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -486,7 +491,7 @@ public class TwinCatWriter extends OutputTypeWriter {
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        String headerTxt = pou.headerToBox().toString();
+        String headerTxt = headerToBox(pou).toString();
         declElem.appendChild(doc.createCDATASection(headerTxt));
 
         Element implElem = doc.createElement("Implementation");
@@ -527,7 +532,7 @@ public class TwinCatWriter extends OutputTypeWriter {
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        String txt = typeDecl.toStringTwinCat();
+        String txt = toBox(typeDecl).toString();
         declElem.appendChild(doc.createCDATASection(txt));
 
         Element opElem = doc.createElement("ObjectProperties");
@@ -565,7 +570,7 @@ public class TwinCatWriter extends OutputTypeWriter {
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        declElem.appendChild(doc.createCDATASection(varList.toString()));
+        declElem.appendChild(doc.createCDATASection(toBox(varList).toString()));
 
         Element opElem = doc.createElement("ObjectProperties");
         pouElem.appendChild(opElem);
@@ -609,5 +614,28 @@ public class TwinCatWriter extends OutputTypeWriter {
             throw new RuntimeException(e);
         }
         return builder.newDocument();
+    }
+
+    @Override
+    protected Box toBox(PlcTypeDecl typeDecl) {
+        /*
+         * Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT specific,
+         * in that it implements a workaround for a bug in TwinCAT, where structs may in type declarations may not be
+         * terminated with a semicolon.
+         *
+         * @return The type declaration in a textual representation in IEC 61131-3 syntax, compatible with TwinCAT.
+         */
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", typeDecl.name);
+        c.indent();
+        if (typeDecl.type instanceof PlcStructType) {
+            // Special TwinCAT workaround.
+            c.add(toBox(typeDecl.type));
+        } else {
+            c.add(new HBox(toBox(typeDecl.type), ";"));
+        }
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
     }
 }

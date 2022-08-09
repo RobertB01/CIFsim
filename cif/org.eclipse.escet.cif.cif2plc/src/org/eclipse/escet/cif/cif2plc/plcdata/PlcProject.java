@@ -17,10 +17,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.MemoryCodeBox;
-
 /** PLC project. */
 public class PlcProject extends PlcObject {
     /** The indentation to use for the Structured Text files. */
@@ -45,26 +41,5 @@ public class PlcProject extends PlcObject {
      */
     public PlcProject(String name) {
         this.name = name;
-    }
-
-    @Override
-    public Box toBox() {
-        // IEC 61131-3 has no projects, so this syntax is not standard
-        // compliant.
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("PROJECT %s", name);
-        c.indent();
-        for (PlcTypeDecl typeDecl: typeDecls) {
-            c.add(typeDecl.toBox());
-        }
-        for (PlcPou pou: pous) {
-            c.add(pou.toBox());
-        }
-        for (PlcConfiguration configuration: configurations) {
-            c.add(configuration.toBox());
-        }
-        c.dedent();
-        c.add("END_PROJECT");
-        return c;
     }
 }

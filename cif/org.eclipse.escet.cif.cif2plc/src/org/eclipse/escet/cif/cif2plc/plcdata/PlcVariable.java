@@ -13,11 +13,6 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.TextBox;
-
 /** PLC variable (or constant). */
 public class PlcVariable extends PlcObject {
     /** The name of the variable. */
@@ -55,13 +50,5 @@ public class PlcVariable extends PlcObject {
         this.type = type;
         this.address = address;
         this.value = value;
-    }
-
-    @Override
-    public Box toBox() {
-        String addrTxt = (address == null) ? "" : fmt(" AT %s", address);
-        String valueTxt = (value == null) ? "" : fmt(" := %s", value);
-        String txt = fmt("%s%s: %s%s;", name, addrTxt, type, valueTxt);
-        return new TextBox(txt);
     }
 }

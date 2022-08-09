@@ -13,14 +13,9 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import static org.eclipse.escet.cif.cif2plc.plcdata.PlcProject.INDENT;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
-
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.MemoryCodeBox;
 
 /** PLC resource. */
 public class PlcResource extends PlcObject {
@@ -43,31 +38,5 @@ public class PlcResource extends PlcObject {
      */
     public PlcResource(String name) {
         this.name = name;
-    }
-
-    @Override
-    public Box toBox() {
-        // We only support a single resource for now, so the 'name' is not
-        // included in the box representation, to avoid having to specify a
-        // resource type name.
-        CodeBox c = new MemoryCodeBox(INDENT);
-        for (PlcGlobalVarList globalVarList: globalVarLists) {
-            if (globalVarList.variables.isEmpty()) {
-                continue;
-            }
-            c.add(globalVarList.toBox());
-        }
-        for (PlcTask task: tasks) {
-            c.add(task.toBox());
-        }
-        for (PlcPouInstance pouInstance: pouInstances) {
-            c.add(pouInstance.toBox(null));
-        }
-        for (PlcTask task: tasks) {
-            for (PlcPouInstance pouInstance: task.pouInstances) {
-                c.add(pouInstance.toBox(task.name));
-            }
-        }
-        return c;
     }
 }
