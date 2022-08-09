@@ -1,0 +1,396 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2018, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Control button model.
+plant def Button():
+  uncontrollable u_pushed, u_released;
+  location released:
+    initial; marked;
+    edge u_pushed   goto pushed;
+  location pushed:
+    edge u_released goto released;
+end
+
+// Land traffic sign models.
+group LTS:
+  // Definition of a land traffic sign.
+  group def Sign(alg bool f):
+    // A Sign exists of: actuator, sensor, nominal dynamics, post-fault dynamics.
+    alg bool on  = A.on  and S.on;
+    alg bool off = A.off and S.off;
+    uncontrollable u_on, u_off;
+    controllable c_on, c_off;
+
+    // Actuator.
+    plant A:
+      location off:
+        initial; marked;
+        edge c_on  goto on;
+      location on:
+        edge c_off goto off;
+    end
+
+    // Sensor.
+    plant S:
+      location off:
+        initial; marked;
+        edge u_on goto on;
+      location on:
+        edge u_off goto off;
+    end
+
+    // Nominal Dynamics.
+    plant u_on  needs not f => A.on;
+    plant u_off needs not f => A.off;
+
+    // Post-fault dynamics.
+    plant u_on  needs f => false;
+    plant u_off needs f => true;
+  end
+
+  // A button to enable all land traffic signs.
+  button_on : Button();
+
+  // Pre-sign models.
+  group presigns:
+    ps1 : Sign(FTC.D.ps1_f); ps2 : Sign(FTC.D.ps2_f); ps3 : Sign(FTC.D.ps3_f);
+    ps4 : Sign(FTC.D.ps4_f); ps5 : Sign(FTC.D.ps5_f); ps6 : Sign(FTC.D.ps6_f);
+
+    // Pre-signs on Capelle side are all on.
+    alg bool C_on = ps1.on and ps2.on and ps3.on;
+    // Pre-signs on Krimpe side are all on.
+    alg bool K_on = ps4.on and ps5.on and ps6.on;
+
+    // Pre-signs on Capelle side are 2 out of 3 on.
+    alg bool C_onF = (ps2.on and ps3.on) or
+                     (ps1.on and ps3.on) or
+                     (ps1.on and ps2.on);
+    // Pre-signs on Krimpe side are 2 out of 3 on.
+    alg bool K_onF = (ps5.on and ps6.on) or
+                     (ps4.on and ps6.on) or
+                     (ps4.on and ps5.on);
+  end
+
+  // Stop sign models.
+  group stopsigns:
+    stop1 : Sign(FTC.D.s1_f); stop2 : Sign(FTC.D.s2_f); stop3 : Sign(FTC.D.s3_f); stop4 : Sign(FTC.D.s4_f);
+    stop5 : Sign(FTC.D.s5_f); stop6 : Sign(FTC.D.s6_f); stop7 : Sign(FTC.D.s7_f); stop8 : Sign(FTC.D.s8_f);
+
+    // Stop signs on Capelle side road are all on.
+    alg bool C_on = stop1.on and stop2.on;
+    // Stop signs on Krimpe side road are all on.
+    alg bool K_on = stop3.on and stop4.on;
+    // Stop signs on Capelle side slow are all on.
+    alg bool SC_on = stop5.on and stop6.on;
+    // Stop signs on Krimpe side slow are all on.
+    alg bool SK_on = stop7.on and stop8.on;
+
+    // Stop signs on Capelle side road are all off.
+    alg bool C_off = stop1.off and stop2.off;
+    // Stop signs on Krimpe side road are all off.
+    alg bool K_off = stop3.off and stop4.off;
+    // Stop signs on Capelle side slow are all off.
+    alg bool SC_off = stop5.off and stop6.off;
+    // Stop signs on Krimpe side slow are all off.
+    alg bool SK_off = stop7.off and stop8.off;
+    // Stop signs slow are all off.
+    alg bool slow_off = SC_off and SK_off;
+
+    // Stop signs on Capelle side road are 1 out of 2 on.
+    alg bool C_onF = (stop1.on) or
+                     (stop2.on);
+    // Stop signs on Krimpe side road are 1 out of 2 on.
+    alg bool K_onF = (stop3.on) or
+                     (stop4.on);
+    // Stop signs on Capelle side slow are 1 out of 2 on.
+    alg bool SC_onF = (stop5.on) or
+                      (stop6.on);
+    // Stop signs on Krimpe side slow are 1 out of 2 on.
+    alg bool SK_onF = (stop7.on) or
+                      (stop8.on);
+  end
+end
+
+// Barrier models.
+group barriers:
+  // Definition of a barrier.
+  group def barrier(alg bool f_sc):
+    alg bool open   = A.rest and S.open;
+    alg bool closed = A.rest and S.closed;
+    uncontrollable u_closed_on, u_closed_off, u_open_on, u_open_off;
+    controllable   c_open, c_close, c_stop;
+
+    // Actuator.
+    plant A:
+      location rest:
+        marked; initial;
+        edge c_open  goto opening;
+        edge c_close goto closing;
+      location opening:
+        edge c_stop  goto rest;
+      location closing:
+        edge c_stop  goto rest;
+    end
+
+    // Sensor.
+    plant S:
+      location open:
+        initial; marked;
+        edge u_open_off   goto between;
+      location between:
+        edge u_open_on    goto open;
+        edge u_closed_on  goto closed;
+      location closed:
+        edge u_closed_off goto between;
+    end
+
+    // Nominal dynamics.
+    plant u_open_off   needs not f_sc => A.closing;
+    plant u_open_on    needs not f_sc => A.opening;
+    plant u_closed_off needs not f_sc => A.opening;
+    plant u_closed_on  needs not f_sc => A.closing;
+
+    // Post-fault dynamics.
+    plant u_open_off   needs f_sc => A.closing;
+    plant u_open_on    needs f_sc => A.opening;
+    plant u_closed_off needs f_sc => false;
+    plant u_closed_on  needs f_sc => A.closing;
+  end
+
+  barrier1 : barrier(FTC.D.bar1_f); barrier2 : barrier(FTC.D.bar2_f);
+  barrier3 : barrier(FTC.D.bar3_f); barrier4 : barrier(FTC.D.bar4_f);
+  barrier5 : barrier(FTC.D.bar5_f); barrier6 : barrier(FTC.D.bar6_f);
+
+  // Entering barriers are all closed.
+  alg bool entering_closed = barrier2.closed and barrier3.closed;
+  // Leaving barriers are all closed.
+  alg bool leaving_closed  = barrier1.closed and barrier4.closed;
+  // Slow barriers are all closed.
+  alg bool slow_closed     = barrier5.closed and barrier6.closed;
+
+  // Leaving barriers are all open.
+  alg bool leaving_open    = barrier1.open   and barrier4.open;
+  // Road from Capelle to Krimpen is open.
+  alg bool CtoK_open       = barrier3.open   and barrier4.open;
+  // Road from Krimpen to Capelle is open.
+  alg bool KtoC_open       = barrier1.open   and barrier2.open;
+  // Slow road barriers are open.
+  alg bool slow_open       = barrier5.open   and barrier6.open;
+
+  // All barriers are closed.
+  alg bool all_closed      = entering_closed and leaving_closed and slow_closed;
+  // All barriers are open.
+  alg bool all_open        = CtoK_open       and KtoC_open      and slow_open;
+
+  button_close_entering : Button();
+  button_stop_entering  : Button();
+  button_open_entering  : Button();
+  alg bool command_stop_entering  = button_stop_entering.pushed;
+  alg bool command_close_entering = button_close_entering.pushed and not command_stop_entering;
+  alg bool command_open_entering  = button_open_entering.pushed  and not command_stop_entering and not command_close_entering;
+
+  button_close_leaving  : Button();
+  button_stop_leaving   : Button();
+  button_open_leaving   : Button();
+  alg bool command_stop_leaving  = button_stop_leaving.pushed;
+  alg bool command_close_leaving = button_close_leaving.pushed and not command_stop_leaving;
+  alg bool command_open_leaving  = button_open_leaving.pushed  and not command_stop_leaving and not command_close_leaving;
+
+  button_close_slow     : Button();
+  button_stop_slow      : Button();
+  button_open_slow      : Button();
+  alg bool command_stop_slow  = button_stop_slow.pushed;
+  alg bool command_close_slow = button_close_slow.pushed and not command_stop_slow;
+  alg bool command_open_slow  = button_open_slow.pushed  and not command_stop_slow and not command_close_slow;
+end
+
+// Traffic light for vessels model.
+group shipping_signs:
+  upstream   : head();
+  downstream : head();
+  //All shipping signs show red or redred aspects.
+  alg bool RedOrRedRed = upstream.RedOrRedRed and downstream.RedOrRedRed;
+
+  // Definition of the traffic lights at one side.
+  group def head():
+    button_red      : Button();
+    button_redgreen : Button();
+    button_green    : Button();
+    button_redred   : Button();
+
+    alg bool RedOrRedRed  = N.RedOrRedRed and S.RedOrRedRed;
+    alg bool command_rd = button_red.pushed;
+    alg bool command_rg = button_redgreen.pushed and not button_red.pushed;
+    alg bool command_gn = button_green.pushed    and not button_red.pushed and not button_redgreen.pushed;
+    alg bool command_sp = button_redred.pushed   and not button_red.pushed;
+
+    // Consists of a north and a south traffic light.
+    N : shipping_sign();
+    S : shipping_sign();
+
+    // Definition of a shapping sign.
+    group def shipping_sign():
+      // Shipping_sign exists of actuator and sensor.
+      alg bool RedOrRedRed = (A.red and S_red) or (A.redred and S_redred);
+      uncontrollable u_red_off, u_red_on, u_green_off, u_green_on, u_red2_on, u_red2_off;
+      controllable c_red, c_green, c_redgreen, c_redred;
+
+      // Actuator.
+      plant A:
+        location red:
+          initial; marked;
+          edge c_redred   goto redred;
+          edge c_redgreen goto redgreen;
+        location redred:
+          marked;
+          edge c_red      goto red;
+        location redgreen:
+          edge c_red      goto red;
+          edge c_green    goto green;
+        location green:
+          edge c_red      goto red;
+      end
+
+      // Sensor.
+      plant def S(uncontrollable u_on, u_off; alg bool init_on, mark_on, mark_off):
+        location off:
+          initial not init_on;
+          marked  mark_off;
+          edge u_on  goto on;
+        location on:
+          initial init_on;
+          marked  mark_on;
+          edge u_off goto off;
+      end
+
+      S_R : S(u_red_on,   u_red_off,   true,  true,  false);
+      S_G : S(u_green_on, u_green_off, false, false, true);
+      S_S : S(u_red2_on,  u_red2_off,  false, true,  true);
+
+      alg bool S_red      = S_R.on  and S_G.off and S_S.off;
+      alg bool S_green    = S_R.off and S_G.on  and S_S.off;
+      alg bool S_redgreen = S_R.on  and S_G.on  and S_S.off;
+      alg bool S_redred   = S_R.on  and S_G.off and S_S.on;
+
+      // Nominal dynamics.
+      plant u_red_on    needs A.red   or A.redgreen or A.redred;
+      plant u_red_off   needs A.green;
+      plant u_green_on  needs A.green or A.redgreen;
+      plant u_green_off needs A.red   or A.redred;
+      plant u_red2_on   needs A.redred;
+      plant u_red2_off  needs A.red   or A.redgreen or A.green;
+    end
+  end
+end
+
+// Bridge deck model.
+group bridgedeck:
+  button_open  : Button();
+  button_stop  : Button();
+  button_close : Button();
+
+  alg bool command_open  = button_open.pushed  and not button_stop.pushed and not button_close.pushed;
+  alg bool command_close = button_close.pushed and not button_stop.pushed;
+  alg bool command_stop  = button_stop.pushed;
+
+  alg bool bridgedeck_up     = S.up     and A.stopped;
+  alg bool bridgedeck_closed = S.closed and A.stopped;
+
+  alg bool f_bridge = FTC.D.bridge_f;
+
+  uncontrollable u_open_on, u_open_off, u_closed_on, u_closed_off;
+  controllable   c_open , c_close, c_stop;
+
+  // Actuator.
+  plant A:
+    location stopped:
+      initial; marked;
+      edge c_open  goto opening;
+      edge c_close goto closing;
+    location opening:
+      edge c_stop  goto stopped;
+    location closing:
+      edge c_stop  goto stopped;
+  end
+
+  // Sensor.
+  plant S:
+    location closed:
+      initial; marked;
+      edge u_closed_off goto between;
+    location between:
+      edge u_open_on    goto up;
+      edge u_closed_on  goto closed;
+    location up:
+      edge u_open_off   goto between;
+  end
+
+  // Nominal dynamics.
+  plant u_closed_off needs not f_bridge => A.opening;
+  plant u_closed_on  needs not f_bridge => A.closing;
+  plant u_open_on    needs not f_bridge => A.opening;
+  plant u_open_off   needs not f_bridge => A.closing;
+
+  // Post-fault dynamics.
+  plant u_closed_off needs f_bridge => true;
+  plant u_closed_on  needs f_bridge => A.closing;
+  plant u_open_on    needs f_bridge => A.opening;
+  plant u_open_off   needs f_bridge => A.closing;
+end
+
+// Diagnoser inputs.
+group FTC:
+  plant D:
+    uncontrollable f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f25;
+    uncontrollable r15, r16, r17, r18, r19, r20;
+    disc bool // Defect pre signs.
+              ps1_f  = false, ps2_f  = false, ps3_f  = false,
+              ps4_f  = false, ps5_f  = false, ps6_f  = false,
+              // Defect stop signs.
+              s1_f   = false, s2_f   = false, s3_f   = false, s4_f   = false,
+              s5_f   = false, s6_f   = false, s7_f   = false, s8_f   = false,
+              // Stuck closed barrier.
+              bar1_f = false, bar4_f = false, bar3_f = false, bar2_f = false,
+              bar5_f = false, bar6_f = false,
+              // Undesired bridge opening.
+              bridge_f = false;
+    location a: initial; marked;
+      edge f1  do ps1_f  := true;
+      edge f2  do ps2_f  := true;
+      edge f3  do ps3_f  := true;
+      edge f4  do ps4_f  := true;
+      edge f5  do ps5_f  := true;
+      edge f6  do ps6_f  := true;
+      edge f7  do s1_f   := true;
+      edge f8  do s2_f   := true;
+      edge f9  do s3_f   := true;
+      edge f10 do s4_f   := true;
+      edge f11 do s5_f   := true;
+      edge f12 do s6_f   := true;
+      edge f13 do s7_f   := true;
+      edge f14 do s8_f   := true;
+      edge f15 do bar1_f := true;
+      edge r15 do bar1_f := false;
+      edge f16 do bar4_f := true;
+      edge r16 do bar4_f := false;
+      edge f17 do bar3_f := true;
+      edge r17 do bar3_f := false;
+      edge f18 do bar2_f := true;
+      edge r18 do bar2_f := false;
+      edge f19 do bar5_f := true;
+      edge r19 do bar5_f := false;
+      edge f20 do bar6_f := true;
+      edge r20 do bar6_f := false;
+      edge f25 do bridge_f := true;
+  end
+end
