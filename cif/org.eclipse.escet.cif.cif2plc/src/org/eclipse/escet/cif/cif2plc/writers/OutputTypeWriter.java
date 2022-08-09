@@ -225,7 +225,7 @@ public abstract class OutputTypeWriter {
      * @param pou Pou header to convert.
      * @return The header of the POU in IEC 61131-3 syntax.
      */
-    public CodeBox headerToBox(PlcPou pou) {
+    protected CodeBox headerToBox(PlcPou pou) {
         CodeBox c = new MemoryCodeBox(INDENT);
         String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toBox(pou.retType));
         c.add("%s %s%s", pou.pouType, pou.name, retTypeTxt);
