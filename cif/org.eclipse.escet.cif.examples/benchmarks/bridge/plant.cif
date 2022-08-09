@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Control button model.
+// Control button definition.
 plant def Button():
   uncontrollable u_pushed, u_released;
   location released:
@@ -21,11 +21,10 @@ plant def Button():
     edge u_released goto released;
 end
 
-// Land traffic sign models.
+// Land traffic signs.
 group LTS:
   // Definition of a land traffic sign.
   group def Sign(alg bool f):
-    // A Sign exists of: actuator, sensor, nominal dynamics, post-fault dynamics.
     alg bool on  = A.on  and S.on;
     alg bool off = A.off and S.off;
     uncontrollable u_on, u_off;
@@ -61,7 +60,7 @@ group LTS:
   // A button to enable all land traffic signs.
   button_on : Button();
 
-  // Pre-sign models.
+  // Pre-signs.
   group presigns:
     ps1 : Sign(FTC.D.ps1_f); ps2 : Sign(FTC.D.ps2_f); ps3 : Sign(FTC.D.ps3_f);
     ps4 : Sign(FTC.D.ps4_f); ps5 : Sign(FTC.D.ps5_f); ps6 : Sign(FTC.D.ps6_f);
@@ -81,7 +80,7 @@ group LTS:
                      (ps4.on and ps5.on);
   end
 
-  // Stop sign models.
+  // Stop signs.
   group stopsigns:
     stop1 : Sign(FTC.D.s1_f); stop2 : Sign(FTC.D.s2_f); stop3 : Sign(FTC.D.s3_f); stop4 : Sign(FTC.D.s4_f);
     stop5 : Sign(FTC.D.s5_f); stop6 : Sign(FTC.D.s6_f); stop7 : Sign(FTC.D.s7_f); stop8 : Sign(FTC.D.s8_f);
@@ -121,7 +120,7 @@ group LTS:
   end
 end
 
-// Barrier models.
+// Barriers.
 group barriers:
   // Definition of a barrier.
   group def barrier(alg bool f_sc):
@@ -214,7 +213,7 @@ group barriers:
   alg bool command_open_slow  = button_open_slow.pushed  and not command_stop_slow and not command_close_slow;
 end
 
-// Traffic light for vessels model.
+// Traffic light for vessels.
 group shipping_signs:
   upstream   : head();
   downstream : head();
@@ -240,7 +239,6 @@ group shipping_signs:
 
     // Definition of a shapping sign.
     group def shipping_sign():
-      // Shipping_sign exists of actuator and sensor.
       alg bool RedOrRedRed = (A.red and S_red) or (A.redred and S_redred);
       uncontrollable u_red_off, u_red_on, u_green_off, u_green_on, u_red2_on, u_red2_off;
       controllable c_red, c_green, c_redgreen, c_redred;
@@ -293,7 +291,7 @@ group shipping_signs:
   end
 end
 
-// Bridge deck model.
+// Bridge deck.
 group bridgedeck:
   button_open  : Button();
   button_stop  : Button();
