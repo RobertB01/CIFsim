@@ -97,10 +97,12 @@ public class TwinCatWriter extends OutputTypeWriter {
     /**
      * {@inheritDoc}
      *
-     * @note Updates a directory containing the TwinCAT solution, with platform specific path separators.
+     * @note Must point to a directory containing an already generated TwinCAT solution.
      */
     @Override
     public void write(PlcProject project, String slnDirPath) {
+        slnDirPath = Paths.resolve(slnDirPath); // Switch to platform-specific directory separators.
+
         this.project = project;
 
         Assert.check(project.configurations.size() == 1);

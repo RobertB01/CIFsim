@@ -58,6 +58,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.CodeBox;
 import org.w3c.dom.DOMImplementation;
@@ -76,10 +77,12 @@ public class PlcOpenXmlWriter extends OutputTypeWriter {
     /**
      * {@inheritDoc}
      *
-     * @note Writes a PLCopen XML file with platform specific path separators.
+     * @note Writes a PLCopen XML file at the indicated path.
      */
     @Override
     public void write(PlcProject project, String filePath) {
+        filePath = Paths.resolve(filePath); // Switch to platform-specific directory separators.
+
         // Create document from project.
         Document doc = transProject(project);
 
