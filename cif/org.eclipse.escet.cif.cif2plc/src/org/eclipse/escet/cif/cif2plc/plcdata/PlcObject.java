@@ -18,6 +18,6 @@ public abstract class PlcObject {
     @Override
     public String toString() {
         // Make sure that OutputWriter.toBox() isn't silently skipped.
-        throw new AssertionError("Plc objects are not printable.");
+        throw new AssertionError("PLC objects are not printable.");
     }
 }

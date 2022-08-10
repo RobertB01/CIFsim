@@ -208,7 +208,7 @@ public abstract class OutputTypeWriter {
     /**
      * Convert a {@link PlcPouInstance} instance to a {@link Box} text.
      *
-     * @param pouInstance Pou instance to convert.
+     * @param pouInstance POU instance to convert.
      * @return The generated box representation.
      */
     protected Box toBox(PlcPouInstance pouInstance) {
@@ -218,9 +218,9 @@ public abstract class OutputTypeWriter {
     /**
      * Returns a {@link Box} representation of the {@link PlcPouInstance} object.
      *
-     * @param pouInstance Pou instance to convert.
+     * @param pouInstance POU instance to convert.
      * @param taskName The name of the task on which to instantiate the POU, or {@code null} if not applicable.
-     * @return A {@link Box} representation of this object.
+     * @return The generated box representation.
      */
     protected Box toBox(PlcPouInstance pouInstance, String taskName) {
         String taskTxt = (taskName == null) ? "" : fmt(" WITH %s", taskName);
@@ -230,7 +230,7 @@ public abstract class OutputTypeWriter {
     /**
      * Convert a {@link PlcPou} instance to a {@link Box} text.
      *
-     * @param pou Pou to convert.
+     * @param pou POU to convert.
      * @return The generated box representation.
      */
     protected Box toBox(PlcPou pou) {
@@ -239,14 +239,13 @@ public abstract class OutputTypeWriter {
         c.add(pou.body);
         c.add("END_%s", pou.pouType);
         return c;
-
     }
 
     /**
      * Converts the header of the POU to IEC 61131-3 syntax. The header includes the POU type, name, return type, and
      * variables, but neither the body nor the final closing keyword.
      *
-     * @param pou Pou header to convert.
+     * @param pou POU header to convert.
      * @return The header of the POU in IEC 61131-3 syntax.
      */
     protected CodeBox headerToBox(PlcPou pou) {
@@ -320,7 +319,8 @@ public abstract class OutputTypeWriter {
         } else if (type instanceof PlcStructType) {
             return toBox((PlcStructType)type);
         } else {
-            throw new AssertionError("Unexpected PlcType found.");
+            String typeText = (type == null) ? "null" : type.getClass().toString();
+            throw new AssertionError("Unexpected PlcType, found: " + typeText + ".");
         }
     }
 

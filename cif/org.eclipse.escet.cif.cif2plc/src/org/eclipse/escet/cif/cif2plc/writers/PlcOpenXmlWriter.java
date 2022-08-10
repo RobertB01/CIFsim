@@ -65,13 +65,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-/**
- * PLCopen XML (version 2.01) writer.
- *
- * <p>
- * Writes a PLCopen XML file with platform specific path separators.
- * </p>
- */
+/** PLCopen XML (version 2.01) writer. */
 public class PlcOpenXmlWriter extends OutputTypeWriter {
     /** PLCopen XML version namespace URI. */
     private static final String PLCOPEN_NS = "http://www.plcopen.org/xml/tc6_0201";
@@ -79,6 +73,11 @@ public class PlcOpenXmlWriter extends OutputTypeWriter {
     /** XHTML namespace URI. */
     private static final String XHTML_NS = "http://www.w3.org/1999/xhtml";
 
+    /**
+     * {@inheritDoc}
+     *
+     * @note Writes a PLCopen XML file with platform specific path separators.
+     */
     @Override
     public void write(PlcProject project, String filePath) {
         // Create document from project.

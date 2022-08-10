@@ -65,13 +65,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-/**
- * TwinCAT 3.1 writer.
- *
- * <p>
- * Updates a directory containing the TwinCAT solution, with platform specific path separators.
- * </p>
- */
+/** TwinCAT 3.1 writer. */
 public class TwinCatWriter extends OutputTypeWriter {
     /** The PLC project to use, {@code null} until available. */
     private PlcProject project;
@@ -100,6 +94,11 @@ public class TwinCatWriter extends OutputTypeWriter {
     /** Old code files that are scheduled to be removed (since there are no replacements in {@link #files}). */
     private List<File> oldCodeFiles = list();
 
+    /**
+     * {@inheritDoc}
+     *
+     * @note Updates a directory containing the TwinCAT solution, with platform specific path separators.
+     */
     @Override
     public void write(PlcProject project, String slnDirPath) {
         this.project = project;
@@ -107,13 +106,13 @@ public class TwinCatWriter extends OutputTypeWriter {
         Assert.check(project.configurations.size() == 1);
         configuration = first(project.configurations);
 
-        Assert.check(this.configuration.resources.size() == 1);
-        resource = first(this.configuration.resources);
+        Assert.check(configuration.resources.size() == 1);
+        resource = first(configuration.resources);
 
-        Assert.check(this.resource.tasks.size() == 1);
-        task = first(this.resource.tasks);
+        Assert.check(resource.tasks.size() == 1);
+        task = first(resource.tasks);
 
-        if (this.task.cycleTime == 0) {
+        if (task.cycleTime == 0) {
             String msg = "TwinCAT output with periodic task scheduling disabled, is currently not supported.";
             throw new InvalidOptionException(msg);
         }
@@ -618,13 +617,9 @@ public class TwinCatWriter extends OutputTypeWriter {
 
     @Override
     protected Box toBox(PlcTypeDecl typeDecl) {
-        /*
-         * Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT specific,
-         * in that it implements a workaround for a bug in TwinCAT, where structs may in type declarations may not be
-         * terminated with a semicolon.
-         *
-         * @return The type declaration in a textual representation in IEC 61131-3 syntax, compatible with TwinCAT.
-         */
+         // Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT specific,
+         // in that it implements a workaround for a bug in TwinCAT, where structs may in type declarations may not be
+         // terminated with a semicolon.
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", typeDecl.name);
         c.indent();

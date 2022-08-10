@@ -18,9 +18,6 @@ import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.PROGRAM;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -35,7 +32,6 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.HBox;
@@ -255,14 +251,13 @@ public class S7Writer extends OutputTypeWriter {
 
     @Override
     protected Box toBox(PlcGlobalVarList globVarList) {
-        Assert.fail("Should not be used.");
-        return null; // Never reached.
+        throw new UnsupportedOperationException("Should not be used.");
     }
 
     /**
-     * Write a global variable list as a S7 tag table.
+     * Convert a global variable list as a S7 tag table.
      *
-     * @param globVarList Variable list to write.
+     * @param globVarList Variable list to convert.
      * @return The converted variable list.
      */
     private Box makeTagTable(PlcGlobalVarList globVarList) {
