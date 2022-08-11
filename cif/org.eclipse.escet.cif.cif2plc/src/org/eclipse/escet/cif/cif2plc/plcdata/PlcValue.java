@@ -13,9 +13,6 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.TextBox;
-
 /** PLC value. */
 public class PlcValue extends PlcObject {
     /** The 'simple' value in IEC 61131-3 Structured Text syntax. */
@@ -28,10 +25,5 @@ public class PlcValue extends PlcObject {
      */
     public PlcValue(String value) {
         this.value = value;
-    }
-
-    @Override
-    public Box toBox() {
-        return new TextBox(value);
     }
 }

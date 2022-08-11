@@ -13,11 +13,6 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.TextBox;
-
 /** PLC POU instance. */
 public class PlcPouInstance extends PlcObject {
     /** The name of the POU instance. */
@@ -35,21 +30,5 @@ public class PlcPouInstance extends PlcObject {
     public PlcPouInstance(String name, PlcPou pou) {
         this.name = name;
         this.pou = pou;
-    }
-
-    @Override
-    public Box toBox() {
-        return toBox(null);
-    }
-
-    /**
-     * Returns a {@link Box} representation of this object.
-     *
-     * @param taskName The name of the task on which to instantiate the POU, or {@code null} if not applicable.
-     * @return A {@link Box} representation of this object.
-     */
-    public Box toBox(String taskName) {
-        String taskTxt = (taskName == null) ? "" : fmt(" WITH %s", taskName);
-        return new TextBox("PROGRAM %s%s: %s;", name, taskTxt, pou.name);
     }
 }

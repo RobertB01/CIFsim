@@ -17,9 +17,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.TextBox;
-
 /** PLC task. */
 public class PlcTask extends PlcObject {
     /** The name of the task. */
@@ -49,11 +46,5 @@ public class PlcTask extends PlcObject {
         this.name = name;
         this.cycleTime = cycleTime;
         this.priority = priority;
-    }
-
-    @Override
-    public Box toBox() {
-        // POU instances are boxed by the PLC resource.
-        return new TextBox("TASK %s(INTERVAL := t#%dms, PRIORITY := %d);", name, cycleTime, priority);
     }
 }
