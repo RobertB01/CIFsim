@@ -10,7 +10,7 @@
 # SPDX-License-Identifier: MIT
 ################################################################################# 
 
-/**/target/
+/*/*/target/
 /**/.polyglot.*
 /**/.META-INF_MANIFEST.MF
 /**/feature.xml.takari_issue_192
