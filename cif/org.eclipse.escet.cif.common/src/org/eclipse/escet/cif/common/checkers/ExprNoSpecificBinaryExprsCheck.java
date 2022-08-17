@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -34,25 +36,25 @@ import org.eclipse.escet.cif.metamodel.cif.types.SetType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 
 /** CIF check that does not allow certain binary expressions. */
-public class NoSpecificBinaryExprsCheck extends CifCheck {
+public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
     /** The binary operators, or binary operators operating on certain operand types, to disallow. */
     private final EnumSet<NoSpecificBinaryOp> disalloweds;
 
     /**
-     * Constructor for the {@link NoSpecificBinaryExprsCheck} class.
+     * Constructor for the {@link ExprNoSpecificBinaryExprsCheck} class.
      *
      * @param disalloweds The binary operators, or binary operators operating on certain operand types, to disallow.
      */
-    public NoSpecificBinaryExprsCheck(NoSpecificBinaryOp... disalloweds) {
+    public ExprNoSpecificBinaryExprsCheck(NoSpecificBinaryOp... disalloweds) {
         this(EnumSet.copyOf(Arrays.asList(disalloweds)));
     }
 
     /**
-     * Constructor for the {@link NoSpecificBinaryExprsCheck} class.
+     * Constructor for the {@link ExprNoSpecificBinaryExprsCheck} class.
      *
      * @param disalloweds The binary operators, or binary operators operating on certain operand types, to disallow.
      */
-    public NoSpecificBinaryExprsCheck(EnumSet<NoSpecificBinaryOp> disalloweds) {
+    public ExprNoSpecificBinaryExprsCheck(EnumSet<NoSpecificBinaryOp> disalloweds) {
         this.disalloweds = disalloweds;
     }
 

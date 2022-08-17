@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentType;
@@ -37,25 +39,25 @@ import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 
 /** CIF check that does not allow certain types. */
-public class NoSpecificTypesCheck extends CifCheck {
+public class TypeNoSpecificTypesCheck extends CifCheck {
     /** The types, or sub-types, to disallow. */
     private final EnumSet<NoSpecificType> disalloweds;
 
     /**
-     * Constructor for the {@link NoSpecificTypesCheck} class.
+     * Constructor for the {@link TypeNoSpecificTypesCheck} class.
      *
      * @param disalloweds The types, or sub-types, to disallow.
      */
-    public NoSpecificTypesCheck(NoSpecificType... disalloweds) {
+    public TypeNoSpecificTypesCheck(NoSpecificType... disalloweds) {
         this(EnumSet.copyOf(Arrays.asList(disalloweds)));
     }
 
     /**
-     * Constructor for the {@link NoSpecificTypesCheck} class.
+     * Constructor for the {@link TypeNoSpecificTypesCheck} class.
      *
      * @param disalloweds The types, or sub-types, to disallow.
      */
-    public NoSpecificTypesCheck(EnumSet<NoSpecificType> disalloweds) {
+    public TypeNoSpecificTypesCheck(EnumSet<NoSpecificType> disalloweds) {
         this.disalloweds = disalloweds;
     }
 

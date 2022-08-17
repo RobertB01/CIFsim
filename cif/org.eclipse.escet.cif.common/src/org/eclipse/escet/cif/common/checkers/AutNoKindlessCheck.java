@@ -13,17 +13,17 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 
-/**
- * CIF check that does not allow initialization predicates in components, i.e., does not allow initialization predicates
- * outside of locations.
- */
-public class NoInitPredsInCompsCheck extends CifCheck {
+/** CIF check that does not allow kindless automata (without a supervisory kind). */
+public class AutNoKindlessCheck extends CifCheck {
     @Override
-    protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
-        if (!comp.getInitials().isEmpty()) {
-            violations.add(comp, "component contains an initialization predicate");
+    protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
+        if (aut.getKind() == SupKind.NONE) {
+            violations.add(aut, "automaton is a kindless automaton, lacking a supervisory kind");
         }
     }
 }

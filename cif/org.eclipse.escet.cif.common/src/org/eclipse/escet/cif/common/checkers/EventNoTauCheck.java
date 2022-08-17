@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.common.checkers;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
@@ -23,9 +25,9 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 /**
  * CIF check that does not allow the use of event 'tau', whether explicit or implicit.
  *
- * @note This check is included in {@link OnlyEventsWithControllabilityCheck}.
+ * @note This check is included in {@link EventOnlyEventsWithControllabilityCheck}.
  */
-public class NoTauCheck extends CifCheck {
+public class EventNoTauCheck extends CifCheck {
     @Override
     protected void preprocessTauExpression(TauExpression tauExpr, CifCheckViolations violations) {
         // Explicit tau.

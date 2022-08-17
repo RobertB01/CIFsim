@@ -18,6 +18,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -27,7 +29,7 @@ import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
  * CIF check that allows automata only if they have exactly one initial location. Automata for which this can not be
  * determined statically, are also not allowed.
  */
-public class OnlyAutsWithOneInitLocCheck extends CifCheck {
+public class AutOnlyWithOneInitLocCheck extends CifCheck {
     /**
      * The number of initial locations found for the automaton being checked. Only valid while checking an automaton. Is
      * set to {@code -1} to disable this check due to evaluation errors in initialization predicates.

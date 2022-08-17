@@ -13,12 +13,14 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
 /** CIF check that does not allow urgent edges. */
-public class NoUrgentEdgesCheck extends CifCheck {
+public class EdgeNoUrgentCheck extends CifCheck {
     @Override
     protected void preprocessEdge(Edge edge, CifCheckViolations violations) {
         if (edge.isUrgent()) {

@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.common.checkers;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
@@ -24,9 +26,9 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 /**
  * CIF check that allows events only if they are declared as controllable or uncontrollable.
  *
- * @note This check includes {@link NoTauCheck}.
+ * @note This check includes {@link EventNoTauCheck}.
  */
-public class OnlyEventsWithControllabilityCheck extends CifCheck {
+public class EventOnlyEventsWithControllabilityCheck extends CifCheck {
     @Override
     protected void preprocessEvent(Event event, CifCheckViolations violations) {
         if (event.getControllable() == null) {

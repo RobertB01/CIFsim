@@ -16,13 +16,15 @@ package org.eclipse.escet.cif.common.checkers;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** CIF check that allows state invariants in components only if they are requirement invariants. */
-public class OnlyReqStateInvsInCompsCheck extends CifCheck {
+public class InvOnlyReqStateInvsInCompsCheck extends CifCheck {
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         for (Invariant inv: comp.getInvariants()) {

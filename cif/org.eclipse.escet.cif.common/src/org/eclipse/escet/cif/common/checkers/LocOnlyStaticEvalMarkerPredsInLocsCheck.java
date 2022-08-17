@@ -17,13 +17,15 @@ import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 
 /** CIF check that allows marker predicates in locations only if they can be evaluated statically. */
-public class OnlyStaticEvalMarkerPredsInLocsCheck extends CifCheck {
+public class LocOnlyStaticEvalMarkerPredsInLocsCheck extends CifCheck {
     @Override
     protected void preprocessLocation(Location loc, CifCheckViolations violations) {
         // Skip location parameters.

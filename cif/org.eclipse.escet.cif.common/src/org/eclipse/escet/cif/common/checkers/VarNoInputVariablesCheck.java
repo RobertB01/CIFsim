@@ -13,14 +13,14 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
-import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 
-/** CIF check that does not allow channels. */
-public class NoChannelsCheck extends CifCheck {
+/** CIF check that does not allow input variables. */
+public class VarNoInputVariablesCheck extends CifCheck {
     @Override
-    protected void preprocessEvent(Event event, CifCheckViolations violations) {
-        if (event.getType() != null) {
-            violations.add(event, "event is a channel (has a data type)");
-        }
+    protected void preprocessInputVariable(InputVariable var, CifCheckViolations violations) {
+        violations.add(var, "variable is an input variable");
     }
 }

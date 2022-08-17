@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -30,25 +32,25 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 
 /** CIF check that does not allow certain unary expressions. */
-public class NoSpecificUnaryExprsCheck extends CifCheck {
+public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
     /** The unary operators, or unary operators operating on certain operand types, to disallow. */
     private final EnumSet<NoSpecificUnaryOp> disalloweds;
 
     /**
-     * Constructor for the {@link NoSpecificUnaryExprsCheck} class.
+     * Constructor for the {@link ExprNoSpecificUnaryExprsCheck} class.
      *
      * @param disalloweds The unary operators, or unary operators operating on certain operand types, to disallow.
      */
-    public NoSpecificUnaryExprsCheck(NoSpecificUnaryOp... disalloweds) {
+    public ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp... disalloweds) {
         this(EnumSet.copyOf(Arrays.asList(disalloweds)));
     }
 
     /**
-     * Constructor for the {@link NoSpecificUnaryExprsCheck} class.
+     * Constructor for the {@link ExprNoSpecificUnaryExprsCheck} class.
      *
      * @param disalloweds The unary operators, or unary operators operating on certain operand types, to disallow.
      */
-    public NoSpecificUnaryExprsCheck(EnumSet<NoSpecificUnaryOp> disalloweds) {
+    public ExprNoSpecificUnaryExprsCheck(EnumSet<NoSpecificUnaryOp> disalloweds) {
         this.disalloweds = disalloweds;
     }
 

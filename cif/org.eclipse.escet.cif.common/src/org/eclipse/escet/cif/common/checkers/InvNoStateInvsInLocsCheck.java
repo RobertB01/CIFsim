@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.common.checkers;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
@@ -21,7 +23,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
 /** CIF check that does not allow state invariants in locations. */
-public class NoStateInvsInLocsCheck extends CifCheck {
+public class InvNoStateInvsInLocsCheck extends CifCheck {
     @Override
     protected void preprocessLocation(Location loc, CifCheckViolations violations) {
         // Skip location parameters.

@@ -13,12 +13,16 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
-import org.eclipse.escet.cif.metamodel.cif.functions.Function;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
-/** CIF check that does not allow user-defined functions. */
-public class NoUserDefinedFunctionsCheck extends CifCheck {
+/** CIF check that does not allow channels. */
+public class EventNoChannelsCheck extends CifCheck {
     @Override
-    protected void preprocessFunction(Function func, CifCheckViolations violations) {
-        violations.add(func, "function is a user-defined function");
+    protected void preprocessEvent(Event event, CifCheckViolations violations) {
+        if (event.getType() != null) {
+            violations.add(event, "event is a channel (has a data type)");
+        }
     }
 }

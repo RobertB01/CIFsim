@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.common.checkers;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -22,9 +24,9 @@ import org.eclipse.escet.common.java.Assert;
 /**
  * CIF check that does not allow 'if' updates on edges.
  *
- * @note This check is included in {@link OnlySimpleAssignmentsCheck}.
+ * @note This check is included in {@link EdgeOnlySimpleAssignmentsCheck}.
  */
-public class NoIfUpdatesOnEdgesCheck extends CifCheck {
+public class EdgeNoIfUpdatesCheck extends CifCheck {
     @Override
     protected void preprocessIfUpdate(IfUpdate update, CifCheckViolations violations) {
         // Get location.

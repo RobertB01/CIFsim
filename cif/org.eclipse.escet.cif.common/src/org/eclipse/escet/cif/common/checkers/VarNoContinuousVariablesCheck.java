@@ -13,10 +13,12 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 
 /** CIF check that does not allow continuous variables. */
-public class NoContinuousVariablesCheck extends CifCheck {
+public class VarNoContinuousVariablesCheck extends CifCheck {
     @Override
     protected void preprocessContVariable(ContVariable var, CifCheckViolations violations) {
         violations.add(var, "variable is a continuous variable");
