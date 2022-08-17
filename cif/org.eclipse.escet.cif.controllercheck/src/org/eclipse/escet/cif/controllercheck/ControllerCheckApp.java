@@ -166,9 +166,9 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
 
         // Warn if specification doesn't look very useful.
         if (globalEventData.getReadOnlyAutomata().isEmpty()) {
-            warn("The specification contains 0 automata.");
+            warn("The specification contains no automata.");
         } else if (globalEventData.getShallowCopiedControllableEvents().isEmpty()) {
-            warn("The specification contains 0 controllable events.");
+            warn("The specification contains no controllable events.");
         }
 
         CheckConclusion finiteResponseConclusion = null;

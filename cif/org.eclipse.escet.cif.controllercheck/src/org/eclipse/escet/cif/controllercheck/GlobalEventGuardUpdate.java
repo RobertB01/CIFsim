@@ -76,7 +76,7 @@ public class GlobalEventGuardUpdate {
     }
 
     /**
-     * Retrieve the global guard of the event, guard must have been initialized before by using {@link #update}.
+     * Retrieve the global guard of the event. Guard must have been initialized before by using {@link #update}.
      *
      * @return The global guard of the event.
      */

@@ -47,7 +47,7 @@ public class ConfluenceChecker {
     /** Debug global flow of the checks, which pairs are tested, where are they matched. */
     private static final boolean DEBUG_GLOBAL = false;
 
-    /** Whether to enable debugging output for indepdnence checking. */
+    /** Whether to enable debugging output for independence checking. */
     private static final boolean DEBUG_INDENPENCE = false;
 
     /** Whether to enable debugging output for reversible checking. */
@@ -157,7 +157,7 @@ public class ConfluenceChecker {
                     return null;
                 }
 
-                // Grab the set states where both events are enabled under the optimistic assumption that the event
+                // Grab the set of states where both events are enabled under the optimistic assumption that the event
                 // pair matches one of the checks below.
                 Node originalStates = tree.variableAbstractions(commonEnabledGuards, nonOriginalVarInfos);
 
@@ -398,7 +398,7 @@ public class ConfluenceChecker {
      * @return Whether the {@code resultStates} cover the entire {@code originalStates}.
      */
     private boolean allStateCovered(Node originalStates, Node resultStates) {
-        // Compute the set original states that is associated with the common result state.
+        // Compute the set of original states that is associated with the common result state.
         Node orignalResultStates = builder.tree.variableAbstractions(resultStates, nonOriginalVarInfos);
         return originalStates == orignalResultStates;
     }
@@ -408,7 +408,7 @@ public class ConfluenceChecker {
      *
      * @param evt1Name First name to use.
      * @param evt2Name Second name to use.
-     * @return Pair with not names in alphabetical order.
+     * @return Pair with the names in alphabetical order.
      */
     private Pair<String, String> makeSortedPair(String evt1Name, String evt2Name) {
         if (evt1Name.compareTo(evt2Name) < 0) {

@@ -82,7 +82,7 @@ public class ComputeGlobalEventData {
      */
     private Map<Event, Set<Declaration>> eventVarUpdate;
 
-    /** Variables that are written in at least one edge. */
+    /** Variables that are written by at least one edge. */
     private Set<Declaration> updatedVariables;
 
     /** The controllable event set with at least one edge that can be enabled. */
@@ -185,7 +185,7 @@ public class ComputeGlobalEventData {
     /**
      * Compute global model guard and update for each provided event.
      *
-     * @param events Set of events to compute a model guard.
+     * @param events Set of events for which to compute model guards and updates.
      * @return Whether the computation was finished. It only doesn't finish if the user aborts the computation.
      */
     private boolean collectGlobalGuardsUpdates(Set<Event> events) {
@@ -205,7 +205,7 @@ public class ComputeGlobalEventData {
             Map<Event, Node> autGuards = makeEventMap(eventsOfAut, Tree.ZERO);
             Map<Event, Node> autGuardedUpdates = makeEventMap(eventsOfAut, Tree.ZERO);
 
-            // Within an automaton, for each event constructs a disjunction over its edges.
+            // Within an automaton, for each event construct a disjunction over its edges.
             for (Location loc: aut.getLocations()) {
                 for (Edge edge: loc.getEdges()) {
                     // Filter on relevant events.
@@ -272,7 +272,7 @@ public class ComputeGlobalEventData {
      *
      * @param edge Edge to use.
      * @param allVariables All variables that should be updated.
-     * @return The computed MDD update relation, the result should get connected to the edge guard.
+     * @return The computed MDD update relation. The result should get connected to the edge guard.
      */
     private Node computeUpdate(Edge edge, Set<Declaration> allVariables) {
         Tree tree = builder.tree;
@@ -341,7 +341,7 @@ public class ComputeGlobalEventData {
      * @return Variable in the MDD tree for non-original values.
      */
     public VarInfo[] getNonOriginalVariables() {
-        // First entry in 'varInfos'is null.
+        // First entry in 'varInfos' is null.
         int numVariables = (builder.cifVarInfoBuilder.varInfos.size() - 1) / NUM_INDICES;
         VarInfo[] nonOriginalsVarInfos = new VarInfo[numVariables * (NUM_INDICES - 1)];
         int nextFree = 0;
@@ -398,13 +398,13 @@ public class ComputeGlobalEventData {
     }
 
     /**
-     * Get a read-only copy of the sets variables that are updated by an event.
+     * Get a read-only copy of the sets of variables that are updated by an event.
      *
      * <p>
      * May only be accessed when there is at least one automaton and at least one controllable event.
      * </p>
      *
-     * @return For each event the set updated variables.
+     * @return For each event the set of updated variables.
      */
     public Map<Event, Set<Declaration>> getReadOnlyEventVarUpate() {
         return Collections.unmodifiableMap(eventVarUpdate);
