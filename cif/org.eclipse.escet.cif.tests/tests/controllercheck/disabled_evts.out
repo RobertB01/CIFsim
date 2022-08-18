@@ -5,9 +5,6 @@ Iteration 1.
 
 Checking for confluence...
 
-Mutual exclusive event pairs:
-    (c_a, c_b)
-
 CONCLUSION:
     The specification has finite response.
     The specification has confluence.
