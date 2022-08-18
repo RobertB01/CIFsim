@@ -159,16 +159,16 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         }
 
         // Perform computations for both checkers.
-        ComputeGlobalEventData globalEventData = new ComputeGlobalEventData();
-        if (!globalEventData.compute(spec)) {
-            return 0;
+        PrepareChecks prepareChecks = new PrepareChecks();
+        if (!prepareChecks.compute(spec)) {
+            return 0; // Termination requested.
         }
 
         // Warn if specification doesn't look very useful.
-        if (globalEventData.getReadOnlyAutomata().isEmpty()) {
+        if (prepareChecks.getAutomata().isEmpty()) {
             warn("The specification contains no automata.");
-        } else if (globalEventData.getShallowCopiedControllableEvents().isEmpty()) {
-            warn("The specification contains no controllable events.");
+        } else if (prepareChecks.getControllableEvents().isEmpty()) {
+            warn("The specification contains no used controllable events.");
         }
 
         CheckConclusion finiteResponseConclusion = null;
@@ -176,7 +176,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         if (EnableFiniteResponseChecking.checkFiniteResponse()) {
             // Check the finite response property.
             OutputProvider.out("Checking for finite response...");
-            finiteResponseConclusion = new FiniteResponseChecker().checkSystem(globalEventData);
+            finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
             if (finiteResponseConclusion == null || isTerminationRequested()) {
                 return 0;
             }
@@ -191,7 +191,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             // Check the confluence property.
             OutputProvider.out();
             OutputProvider.out("Checking for confluence...");
-            confluenceConclusion = new ConfluenceChecker().checkSystem(globalEventData);
+            confluenceConclusion = new ConfluenceChecker().checkSystem(prepareChecks);
             if (confluenceConclusion == null || isTerminationRequested()) {
                 return 0;
             }

@@ -29,8 +29,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
-import org.eclipse.escet.cif.controllercheck.ComputeGlobalEventData;
-import org.eclipse.escet.cif.controllercheck.GlobalEventGuardUpdate;
+import org.eclipse.escet.cif.controllercheck.PrepareChecks;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -59,8 +58,11 @@ public class ConfluenceChecker {
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 
-    /** Mapping between events and their global guard as a MDD node. Is {@code null} until computed. */
-    Map<Event, GlobalEventGuardUpdate> globalEventsGuardUpdate;
+    /** Global guard for each event. */
+    private Map<Event, Node> globalGuardsByEvent;
+
+    /** Global guarded update for each event. */
+    private Map<Event, Node> globalGuardedUpdatesByEvent;
 
     /** Variable replacements to perform after an update. */
     private VariableReplacement[] varReplacements;
@@ -77,23 +79,26 @@ public class ConfluenceChecker {
     /**
      * Performs the finite response check for a CIF specification.
      *
-     * @param globalEventData Prepared information of the specification.
+     * @param prepareChecks Collected CIF information to perform the finite response and confluence checks.
      * @return {@code null} if the check was aborted, else the conclusion about the checking process.
      */
-    public CheckConclusion checkSystem(ComputeGlobalEventData globalEventData) {
-        List<Automaton> automata = globalEventData.getReadOnlyAutomata();
-        Set<Event> controllableEvents = globalEventData.getReadOnlyControllableEvents();
+    public CheckConclusion checkSystem(PrepareChecks prepareChecks) {
+        List<Automaton> automata = prepareChecks.getAutomata();
+        Set<Event> controllableEvents = prepareChecks.getControllableEvents();
 
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
             return new ConfluenceCheckConclusion(List.of());
         }
 
         // At least one automaton and one controllable event exists, other data is valid too.
-        globalEventsGuardUpdate = globalEventData.getReadOnlyGlobalEventsGuardUpdate();
-        varReplacements = globalEventData.createVarUpdateReplacements();
-        origToReadVariablesRelations = globalEventData.computeOriginalToReadIdentity();
-        nonOriginalVarInfos = globalEventData.getNonOriginalVariables();
-        builder = globalEventData.getBuilder();
+        globalGuardsByEvent = prepareChecks.getGlobalGuardsByEvent();
+        globalGuardedUpdatesByEvent = prepareChecks.getGlobalGuardedUpdatesByEvent();
+
+        // MDD data.
+        varReplacements = prepareChecks.createVarUpdateReplacements();
+        origToReadVariablesRelations = prepareChecks.computeOriginalToReadIdentity();
+        nonOriginalVarInfos = prepareChecks.getNonOriginalVariables();
+        builder = prepareChecks.getBuilder();
         Tree tree = builder.tree;
 
         // Storage of test results.
@@ -105,13 +110,18 @@ public class ConfluenceChecker {
         List<Pair<String, String>> failedChecks = list(); // List with pairs that failed all checks.
 
         // Events that should be skipped by the inner loop to avoid performing both (A, B) and (B, A) tests.
-        Set<Event> skipInner = setc(globalEventsGuardUpdate.size());
-        for (Entry<Event, GlobalEventGuardUpdate> entry1: globalEventsGuardUpdate.entrySet()) {
+        Set<Event> skipInner = setc(globalGuardsByEvent.size());
+
+        // For all pairs of events, perform the checks.
+        for (Entry<Event, Node> entry1: globalGuardsByEvent.entrySet()) {
             Event event1 = entry1.getKey();
             String evt1Name = CifTextUtils.getAbsName(event1);
 
+            Node globalGuard1 = entry1.getValue();
+            Node globalUpdate1 = globalGuardedUpdatesByEvent.get(event1);
+
             skipInner.add(event1);
-            for (Entry<Event, GlobalEventGuardUpdate> entry2: globalEventsGuardUpdate.entrySet()) {
+            for (Entry<Event, Node> entry2: globalGuardsByEvent.entrySet()) {
                 Event event2 = entry2.getKey();
 
                 if (env.isTerminationRequested()) {
@@ -128,13 +138,8 @@ public class ConfluenceChecker {
                     dbg("Trying event pair (" + evt1Name + ", " + evt2Name + ")...");
                 }
 
-                GlobalEventGuardUpdate evtData1 = entry1.getValue();
-                Node globalGuard1 = evtData1.getGuard();
-                Node globalUpdate1 = evtData1.getUpdate();
-
-                GlobalEventGuardUpdate evtData2 = entry2.getValue();
-                Node globalGuard2 = evtData2.getGuard();
-                Node globalUpdate2 = evtData2.getUpdate();
+                Node globalGuard2 = entry2.getValue();
+                Node globalUpdate2 = globalGuardedUpdatesByEvent.get(event2);
 
                 // Check for mutual exclusiveness (never both guards are enabled at the same time).
                 Node commonEnabledGuards = tree.conjunct(globalGuard1, globalGuard2);
@@ -280,7 +285,7 @@ public class ConfluenceChecker {
                 }
 
                 boolean foundReversible = false;
-                for (Entry<Event, GlobalEventGuardUpdate> entry3: globalEventsGuardUpdate.entrySet()) {
+                for (Entry<Event, Node> entry3: globalGuardsByEvent.entrySet()) {
                     Event event3 = entry3.getKey();
                     if (event3 == event1 || event3 == event2) {
                         continue;
@@ -289,9 +294,8 @@ public class ConfluenceChecker {
                         return null;
                     }
 
-                    GlobalEventGuardUpdate evtData3 = entry3.getValue();
-                    Node globalGuard3 = evtData3.getGuard();
-                    Node globalUpdate3 = evtData3.getUpdate();
+                    Node globalGuard3 = entry3.getValue();
+                    Node globalUpdate3 = globalGuardedUpdatesByEvent.get(event3);
                     if (DEBUG_REVERSIBLE) {
                         dbg("----");
                         dbg("Reversible (" + evt1Name + ", " + evt2Name + "), trying event3 = " + event3.getName());
@@ -391,8 +395,8 @@ public class ConfluenceChecker {
     /**
      * Verify that the result states cover all {@code originalStates}.
      *
-     * @param originalStates States where the initial combined guards holds, in
-     *     {@link ComputeGlobalEventData#ORIGINAL_INDEX ORIGINAL_INDEX} variables.
+     * @param originalStates States where the initial combined guards holds, in {@link PrepareChecks#ORIGINAL_INDEX
+     *     ORIGINAL_INDEX} variables.
      * @param resultStates Common end states for one of the confluence checks, as a relation between surviving original
      *     states and the end states.
      * @return Whether the {@code resultStates} cover the entire {@code originalStates}.

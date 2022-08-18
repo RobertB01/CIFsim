@@ -16,13 +16,13 @@ package org.eclipse.escet.cif.controllercheck.finiteresponse;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifSortUtils.sortCifObjects;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.controllercheck.ComputeGlobalEventData.READ_INDEX;
+import static org.eclipse.escet.cif.controllercheck.PrepareChecks.READ_INDEX;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
-import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.set2list;
+import static org.eclipse.escet.common.java.Sets.copy;
 import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 import static org.eclipse.escet.common.java.Sets.set;
 
@@ -33,8 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
-import org.eclipse.escet.cif.controllercheck.ComputeGlobalEventData;
-import org.eclipse.escet.cif.controllercheck.GlobalEventGuardUpdate;
+import org.eclipse.escet.cif.controllercheck.PrepareChecks;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -52,20 +51,17 @@ public class FiniteResponseChecker {
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 
-    /** Automata of the specification. */
-    private List<Automaton> automata = list();
-
     /**
      * The controllable event set. Iteratively, this set is updated. If an event is found in the alphabet of an
      * automaton, but not in any of its potential controllable-event loops, it is removed from this set.
      */
-    private Set<Event> controllableEvents = set();
+    private Set<Event> controllableEvents;
 
     /**
      * Whether the controllable events have changed after the last computation of the controllable independent
      * variables.
      */
-    private boolean controllableEventsChanged = true;
+    private boolean controllableEventsChanged;
 
     /** Mapping between events and the variables updated by edges labeled with that event. */
     private Map<Event, Set<Declaration>> eventVarUpdate;
@@ -74,10 +70,10 @@ public class FiniteResponseChecker {
      * Discrete variables that are not controllable independent, i.e., their value can be updated by an edge labeled
      * with a controllable event.
      */
-    private VarInfo[] nonCtrlIndependentVarsInfos = null;
+    private VarInfo[] nonCtrlIndependentVarsInfos;
 
-    /** Mapping between events and their global guard and update as a MDD node. */
-    private Map<Event, GlobalEventGuardUpdate> globalEventsGuardUpdate;
+    /** Global guard for each event. */
+    private Map<Event, Node> globalGuardsByEvent;
 
     /** Builder for the MDD tree. */
     private MvSpecBuilder builder;
@@ -85,26 +81,28 @@ public class FiniteResponseChecker {
     /**
      * Performs the finite response check for a CIF specification.
      *
-     * @param globalEventData Computed specification and event data.
+     * @param prepareChecks Collected CIF information to perform the finite response and confluence checks.
      * @return {@code null} when the check is aborted, else the conclusion of the finite response check.
      */
-    public CheckConclusion checkSystem(ComputeGlobalEventData globalEventData) {
-        automata = globalEventData.getReadOnlyAutomata();
-        controllableEvents = globalEventData.getShallowCopiedControllableEvents();
+    public CheckConclusion checkSystem(PrepareChecks prepareChecks) {
+        List<Automaton> automata = prepareChecks.getAutomata();
+        controllableEvents = copy(prepareChecks.getControllableEvents());
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
             return new FiniteResponseCheckConclusion(List.of());
         }
 
-        eventVarUpdate = globalEventData.getReadOnlyEventVarUpate();
-        globalEventsGuardUpdate = globalEventData.getReadOnlyGlobalEventsGuardUpdate();
-        builder = globalEventData.getBuilder();
+        controllableEventsChanged = true;
+        eventVarUpdate = prepareChecks.getUpdatedVariablesByEvent();
+        nonCtrlIndependentVarsInfos = null;
+        globalGuardsByEvent = prepareChecks.getGlobalGuardsByEvent();
+        builder = prepareChecks.getBuilder();
 
         // Remove controllable events that are always disabled.
         Iterator<Event> evtIterator = controllableEvents.iterator();
         Event evt;
         while (evtIterator.hasNext()) {
             evt = evtIterator.next();
-            Node n = globalEventsGuardUpdate.get(evt).getGuard();
+            Node n = globalGuardsByEvent.get(evt);
             Assert.notNull(n);
 
             if (n == Tree.ZERO) {
@@ -240,7 +238,7 @@ public class FiniteResponseChecker {
     private boolean isUnconnectable(EventLoop controllableEventLoop, VarInfo[] nonCtrlIndependentVarsInfos) {
         Node n = Tree.ONE;
         for (Event evt: controllableEventLoop.events) {
-            Node g = globalEventsGuardUpdate.get(evt).getGuard();
+            Node g = globalGuardsByEvent.get(evt);
             Node gAbstract = builder.tree.variableAbstractions(g, nonCtrlIndependentVarsInfos);
             n = builder.tree.conjunct(n, gAbstract);
             if (n == Tree.ZERO) {
