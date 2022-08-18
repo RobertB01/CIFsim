@@ -53,7 +53,13 @@ Besides the general application options, this application has the following opti
 
 * _Input file path_: The absolute or relative file system path to the input CIF specification.
 
+* _Perform finite response check_: If set (the default), finite response is checked in the CIF specification.
+If unset, finite response checking is not performed.
+
 * _Print control loops_: If set, during finite response checking the events that may still occur in a controllable-event loop are printed to the console.
+
+* _Perform confluence check_: If set (the default), confluence is checked in the CIF specification.
+If unset, confluence checking is not performed.
 
 indexterm:[controller property checker,supported specifications]
 
