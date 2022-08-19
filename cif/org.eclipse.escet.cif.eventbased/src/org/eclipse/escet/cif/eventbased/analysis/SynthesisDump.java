@@ -13,6 +13,9 @@
 
 package org.eclipse.escet.cif.eventbased.analysis;
 
+import static org.eclipse.escet.cif.eventbased.analysis.RemovedLocationReason.isBlocking;
+import static org.eclipse.escet.cif.eventbased.analysis.RemovedLocationReason.isNotCoreachable;
+import static org.eclipse.escet.cif.eventbased.analysis.RemovedLocationReason.isNotReachable;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -185,14 +188,21 @@ public class SynthesisDump implements SynthesisDumpInterface {
     @Override
     public void blockingLocation(Location loc) {
         int locNumber = locNumbers.get(loc);
-        RemovedLocationInfo locInfo = new RemovedLocationInfo(locNumber, false);
+        RemovedLocationInfo locInfo = new RemovedLocationInfo(locNumber, isBlocking);
         SynthesisDumpIO.writeRemovedLocation(locInfo, outHandle);
     }
 
     @Override
     public void nonCoreachableLocation(Location loc) {
         int locNumber = locNumbers.get(loc);
-        RemovedLocationInfo locInfo = new RemovedLocationInfo(locNumber, true);
+        RemovedLocationInfo locInfo = new RemovedLocationInfo(locNumber, isNotCoreachable);
+        SynthesisDumpIO.writeRemovedLocation(locInfo, outHandle);
+    }
+
+    @Override
+    public void nonReachableLocation(Location loc) {
+        int locNumber = locNumbers.get(loc);
+        RemovedLocationInfo locInfo = new RemovedLocationInfo(locNumber, isNotReachable);
         SynthesisDumpIO.writeRemovedLocation(locInfo, outHandle);
     }
 }

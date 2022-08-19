@@ -20,6 +20,7 @@ import static org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpIO.NEW_EDGE
 import static org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpIO.NEW_MARKED_LOC_ID;
 import static org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpIO.NEW_UNMARKED_LOC_ID;
 import static org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpIO.NOT_COREACH_LOC_ID;
+import static org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpIO.NOT_REACH_LOC_ID;
 import static org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpIO.REMOVED_DEST_ID;
 import static org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpIO.REMOVED_EDGE_ID;
 import static org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpIO.SOURCE_INFO_ID;
@@ -125,7 +126,8 @@ public class DumpfileLoader implements Runnable {
                 }
 
                 case BLOCKING_LOC_ID:
-                case NOT_COREACH_LOC_ID: {
+                case NOT_COREACH_LOC_ID:
+                case NOT_REACH_LOC_ID: {
                     RemovedLocationInfo locInfo = readDataRemovedLocation(blockByte, inHandle);
                     data.calculationEvents.add(locInfo);
                     break;

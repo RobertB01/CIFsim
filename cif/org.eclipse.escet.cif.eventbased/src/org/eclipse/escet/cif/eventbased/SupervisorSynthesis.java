@@ -325,7 +325,7 @@ public class SupervisorSynthesis {
         if (OutputProvider.dodbg()) {
             OutputProvider.dbg("Pruning non-reachables (%s)...", AutomatonHelper.getAutStatistics(aut));
         }
-        AutomatonHelper.removeNonReachables(aut);
+        AutomatonHelper.removeNonReachables(aut, synDump);
 
         if (OutputProvider.dodbg()) {
             OutputProvider.dbg("Synthesis finished (%s).", AutomatonHelper.getAutStatistics(aut));

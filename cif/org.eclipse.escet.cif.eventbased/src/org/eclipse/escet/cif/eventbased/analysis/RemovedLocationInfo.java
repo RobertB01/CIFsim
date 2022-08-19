@@ -19,20 +19,19 @@ public class RemovedLocationInfo {
     public final int loc;
 
     /**
-     * Whether the removed location was found to be non-coreachable (else it was locally detected to be a deadlock
-     * non-marked location).
+     * The reason why the location was removed. Can be because it was found to be non-coreachable, non-reachable or it
+     * was locally detected to be a deadlock non-marked location.
      */
-    public final boolean isNotCoreachable;
+    public final RemovedLocationReason reason;
 
     /**
      * Constructor of the {@link RemovedLocationInfo} class.
      *
      * @param loc Removed location.
-     * @param isNotCoreachable Whether the removed location was found to be non-coreachable (else it was locally
-     *     detected to be a deadlock non-marked location).
+     * @param reason The reason why the location was removed.
      */
-    public RemovedLocationInfo(int loc, boolean isNotCoreachable) {
+    public RemovedLocationInfo(int loc, RemovedLocationReason reason) {
         this.loc = loc;
-        this.isNotCoreachable = isNotCoreachable;
+        this.reason = reason;
     }
 }

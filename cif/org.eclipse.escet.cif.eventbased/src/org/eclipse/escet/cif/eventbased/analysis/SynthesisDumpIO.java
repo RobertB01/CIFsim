@@ -64,6 +64,9 @@ public class SynthesisDumpIO {
     /** ID of a data block describing removal of an edge due to a not participating automaton. */
     public static final byte REMOVED_EDGE_ID = 0x23;
 
+    /** ID of data block describing a non-reachable location. */
+    public static final byte NOT_REACH_LOC_ID = 0x24;
+
     /** ID of an end-of-data block. */
     public static final byte EOD_ID = 0x70;
 
@@ -409,15 +412,30 @@ public class SynthesisDumpIO {
     }
 
     /**
-     * Write removed location information to the synthesis dump file, as a {@link #NOT_COREACH_LOC_ID} or
-     * {@link #BLOCKING_LOC_ID} byte and the data.
+     * Write removed location information to the synthesis dump file, as a {@link #BLOCKING_LOC_ID},
+     * {@link #NOT_COREACH_LOC_ID} or {@link #NOT_REACH_LOC_ID} byte and the data.
      *
      * @param removedLoc Removed location to write.
      * @param outHandle Output stream to write to.
      */
     public static void writeRemovedLocation(RemovedLocationInfo removedLoc, DataOutputStream outHandle) {
         try {
-            outHandle.write(removedLoc.isNotCoreachable ? NOT_COREACH_LOC_ID : BLOCKING_LOC_ID);
+            switch (removedLoc.reason) {
+                case isBlocking:
+                    outHandle.write(BLOCKING_LOC_ID);
+                    break;
+
+                case isNotCoreachable:
+                    outHandle.write(NOT_COREACH_LOC_ID);
+                    break;
+
+                case isNotReachable:
+                    outHandle.write(NOT_REACH_LOC_ID);
+                    break;
+
+                default:
+                    Assert.fail("Unknown removed location reason.");
+            }
             outHandle.writeInt(removedLoc.loc);
         } catch (IOException ex) {
             String msg = "Failed to write removed location information to the synthesis dump file.";
@@ -426,25 +444,41 @@ public class SynthesisDumpIO {
     }
 
     /**
-     * Read the data part of the {@link #NOT_COREACH_LOC_ID} or {@link #BLOCKING_LOC_ID} block, as written by
-     * {@link #writeRemovedLocation}.
+     * Read the data part of the {@link #BLOCKING_LOC_ID}, {@link #NOT_COREACH_LOC_ID} or {@link #NOT_REACH_LOC_ID}
+     * block, as written by {@link #writeRemovedLocation}.
      *
      * @param blockByte Header byte of the block.
      * @param inHandle Input stream to read from.
-     * @return Data of the {@link #NOT_COREACH_LOC_ID} or {@link #BLOCKING_LOC_ID} block.
+     * @return Data of the {@link #BLOCKING_LOC_ID}, {@link #NOT_COREACH_LOC_ID} or {@link #NOT_REACH_LOC_ID} block.
      */
     public static RemovedLocationInfo readDataRemovedLocation(byte blockByte, DataInputStream inHandle) {
-        Assert.check(blockByte == NOT_COREACH_LOC_ID || blockByte == BLOCKING_LOC_ID);
+        RemovedLocationReason reason = null;
+        switch (blockByte) {
+            case BLOCKING_LOC_ID:
+                reason = RemovedLocationReason.isBlocking;
+                break;
+
+            case NOT_COREACH_LOC_ID:
+                reason = RemovedLocationReason.isNotCoreachable;
+                break;
+
+            case NOT_REACH_LOC_ID:
+                reason = RemovedLocationReason.isNotReachable;
+                break;
+
+            default:
+                Assert.fail("Unknown removed location reason.");
+        }
         int loc;
 
         try {
-            // [NOT_COREACH|BLOCKING_LOC]_ID is already read before the call.
+            // [BLOCKING_LOC|NOT_COREACH|NOT_REACH]_ID is already read before the call.
             loc = inHandle.readInt();
         } catch (IOException ex) {
             String msg = "Failed to read removed location information from the synthesis dump file.";
             throw new InputOutputException(msg, ex);
         }
-        return new RemovedLocationInfo(loc, blockByte == NOT_COREACH_LOC_ID);
+        return new RemovedLocationInfo(loc, reason);
     }
 
     /**
