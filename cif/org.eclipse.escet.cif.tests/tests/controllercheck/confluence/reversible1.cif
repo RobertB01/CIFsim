@@ -27,6 +27,7 @@ automaton B:
   location p:
     initial;
     edge b when A.p and v = 0 do v := v + 2 goto q;
+    marked;
   location q:
     edge c when A.q do v := v - 2 goto p;
 end
