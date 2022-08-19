@@ -1,7 +1,12 @@
-Loading CIF specification "controllercheck/no_controllables.cif"...
+Loading CIF specification "controllercheck/confluence/skippable1.cif"...
 Checking for finite response...
 
+Iteration 1.
+
 Checking for confluence...
+
+Skippable event pairs:
+    (OptionalChangeBool.a, OptionalChangeBool.b)
 
 CONCLUSION:
     [OK] The specification has finite response.

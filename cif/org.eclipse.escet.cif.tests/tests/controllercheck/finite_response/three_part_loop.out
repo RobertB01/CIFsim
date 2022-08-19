@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/three_part_loop.cif"...
+Loading CIF specification "controllercheck/finite_response/three_part_loop.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -11,5 +11,5 @@ Mutual exclusive event pairs:
     (X.a, X.b), (X.a, X.c), (X.b, X.c)
 
 CONCLUSION:
-    The specification has finite response.
-    The specification has confluence.
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

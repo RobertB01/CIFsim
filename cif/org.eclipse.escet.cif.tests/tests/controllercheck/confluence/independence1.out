@@ -1,7 +1,12 @@
-Loading CIF specification "controllercheck/no_controllables.cif"...
+Loading CIF specification "controllercheck/confluence/independence1.cif"...
 Checking for finite response...
 
+Iteration 1.
+
 Checking for confluence...
+
+Independent event pairs:
+    (AutDifferenLocs.a, AutDifferenLocs.b)
 
 CONCLUSION:
     [OK] The specification has finite response.

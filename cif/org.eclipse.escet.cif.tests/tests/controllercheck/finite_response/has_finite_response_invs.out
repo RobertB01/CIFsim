@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/has_finite_response_invs.cif"...
+Loading CIF specification "controllercheck/finite_response/has_finite_response_invs.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -11,5 +11,5 @@ Mutual exclusive event pairs:
     (Actuator.c_off, Actuator.c_on)
 
 CONCLUSION:
-    The specification has finite response.
-    The specification has confluence.
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

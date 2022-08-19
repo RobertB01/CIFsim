@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/strongly_connected_component1.cif"...
+Loading CIF specification "controllercheck/finite_response/strongly_connected_component1.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -26,22 +26,22 @@ Skippable event pairs:
     (A.m, A.o), (A.n, A.o)
 
 CONCLUSION:
-    ERROR, the specification may NOT have finite response.
+    [ERROR] The specification may NOT have finite response.
     
-    At least one controllable-event loop was found.
-    The following events might still occur in a controllable-event loop:
-        - A.a
-        - A.c
-        - A.e
-        - A.g
-        - A.h
-        - A.i
-        - A.k
-        - A.l
-        - A.m
-        - A.o
+        At least one controllable-event loop was found.
+        The following events might still occur in a controllable-event loop:
+            - A.a
+            - A.c
+            - A.e
+            - A.g
+            - A.h
+            - A.i
+            - A.k
+            - A.l
+            - A.m
+            - A.o
 
-    ERROR, the specification may NOT have confluence.
+    [ERROR] The specification may NOT have confluence.
     
-    The following event pairs failed all tests:
-        (A.b, A.c), (A.b, A.d), (A.c, A.d), (A.e, A.f), (A.g, A.h), (A.i, A.j), (A.m, A.n)
+        Confluence of the following event pairs could not be decided:
+            (A.b, A.c), (A.b, A.d), (A.c, A.d), (A.e, A.f), (A.g, A.h), (A.i, A.j), (A.m, A.n)

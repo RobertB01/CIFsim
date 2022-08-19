@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/reversible1.cif"...
+Loading CIF specification "controllercheck/confluence/reversible1.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -14,5 +14,5 @@ Reversible event pairs:
     (a, b)
 
 CONCLUSION:
-    The specification has finite response.
-    The specification has confluence.
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

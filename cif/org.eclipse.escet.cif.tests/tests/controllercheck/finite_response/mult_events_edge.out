@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/mult_events_edge.cif"...
+Loading CIF specification "controllercheck/finite_response/mult_events_edge.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -17,14 +17,14 @@ Update equivalent event pairs:
     (A.a, A.b), (A.c, A.d)
 
 CONCLUSION:
-    ERROR, the specification may NOT have finite response.
+    [ERROR] The specification may NOT have finite response.
     
-    At least one controllable-event loop was found.
-    The following events might still occur in a controllable-event loop:
-        - A.a
-        - A.b
-        - A.c
-        - A.d
-        - A.e
+        At least one controllable-event loop was found.
+        The following events might still occur in a controllable-event loop:
+            - A.a
+            - A.b
+            - A.c
+            - A.d
+            - A.e
 
-    The specification has confluence.
+    [OK] The specification has confluence.
