@@ -81,7 +81,7 @@ public class FiniteResponseChecker {
     /**
      * Performs the finite response check for a CIF specification.
      *
-     * @param prepareChecks Collected CIF information to perform the finite response and confluence checks.
+     * @param prepareChecks Collected CIF information to perform the finite response check.
      * @return {@code null} when the check is aborted, else the conclusion of the finite response check.
      */
     public CheckConclusion checkSystem(PrepareChecks prepareChecks) {

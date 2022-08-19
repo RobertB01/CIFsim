@@ -123,6 +123,10 @@ public class Tree {
     /**
      * Build equality condition for a variable for a given value of the variable.
      *
+     * <p>
+     * Construct {@code (v == value)}.
+     * </p>
+     *
      * @param varInfo Variable to use in the equality.
      * @param value Desired value of the variable in the tree.
      * @return Tree with the constructed condition (that is, a single node).
@@ -133,6 +137,10 @@ public class Tree {
 
     /**
      * Build equality condition for a variable for a given value index of the variable.
+     *
+     * <p>
+     * Construct {@code (v at index)}.
+     * </p>
      *
      * @param varInfo Variable to use in the equality.
      * @param index Desired value index of the variable in the tree.
@@ -145,6 +153,10 @@ public class Tree {
     /**
      * Build equality condition for a variable for a given value at a given index on top of an existing tree.
      *
+     * <p>
+     * Construct {@code (v at index) and sub} where {@code sub} must be below {@code v} in the tree.
+     * </p>
+     *
      * @param varInfo Variable to use in the equality.
      * @param index Desired value index of the variable in the tree.
      * @param sub Existing tree to build the equality on.
@@ -152,7 +164,7 @@ public class Tree {
      */
     public Node buildEqualityIndex(VarInfo varInfo, int index, Node sub) {
         if (sub == Tree.ZERO) {
-            return Tree.ZERO; // No point in stacking an equality on top of false.
+            return Tree.ZERO; // Anything and false = false.
         }
         Assert.check(sub == Tree.ONE || sub.varInfo.level > varInfo.level);
 
@@ -165,6 +177,15 @@ public class Tree {
     /**
      * Construct an identity relation between the two given variables.
      *
+     * <p>
+     * Construct <pre>
+     *    (first == 0 and second == 0)
+     * or (first == 1 and second == 1)
+     * or ...
+     * or (first == N - 1 and second == N - 1)
+     * </pre>
+     * </p>
+     *
      * @param first First variable in the identity relation.
      * @param second Second variable in the identity relation.
      * @return The constructed identity relation.
@@ -175,6 +196,16 @@ public class Tree {
 
     /**
      * Construct an identity relation between the two given variables.
+     *
+     * <p>
+     * Construct <pre>
+     * (   (first == 0 and second == 0)
+     *  or (first == 1 and second == 1)
+     *  or ...
+     *  or (first == N - 1 and second == N - 1)
+     * ) and sub
+     * </pre> Where {@code sub} must be below both {@code first} and {@code second}.
+     * </p>
      *
      * @param first First variable in the identity relation.
      * @param second Second variable in the identity relation.
@@ -213,6 +244,10 @@ public class Tree {
 
     /**
      * Compute the conjunction of trees 'a' and 'b'.
+     *
+     * <p>
+     * Compute {@code a and b}.
+     * </p>
      *
      * @param a First tree to merge.
      * @param b Second tree to merge.
@@ -304,6 +339,10 @@ public class Tree {
     /**
      * Compute the conjunction of several trees.
      *
+     * <p>
+     * Compute {@code nodes[0] and nodes[1] and ... and nodes[last]}.
+     * </p>
+     *
      * @param nodes Trees to merge in conjunction.
      * @return The result tree after the merge.
      */
@@ -343,6 +382,10 @@ public class Tree {
 
     /**
      * Compute the disjunction of trees 'a' and 'b'.
+     *
+     * <p>
+     * Compute {@code a or b}.
+     * </p>
      *
      * @param a First tree to merge.
      * @param b Second tree to merge.
@@ -437,6 +480,10 @@ public class Tree {
     /**
      * Compute the disjunction of several trees.
      *
+     * <p>
+     * Compute {@code nodes[0] or nodes[1] or ... or nodes[last]}.
+     * </p>
+     *
      * @param nodes Trees to merge in disjunction.
      * @return The result tree after the merge.
      */
@@ -478,6 +525,10 @@ public class Tree {
     /**
      * Perform the invert (NOT) operator on a tree.
      *
+     * <p>
+     * Compute {@code not node}/
+     * </p>
+     *
      * @param n Root node to invert.
      * @return The inverted tree.
      */
@@ -499,6 +550,10 @@ public class Tree {
 
     /**
      * Perform a variable abstraction on a tree, where the node is replaced by a disjunction over its children.
+     *
+     * <p>
+     * Remove all variables in {@code abstractions} from {@code n}.
+     * </p>
      *
      * @param n Root of the tree to modify.
      * @param abstractions Variable abstractions to perform. Must be ordered on increasing level in the tree.
@@ -562,6 +617,10 @@ public class Tree {
     /**
      * Denote that a particular variable has a given value and is not needed in the tree any more. Computes the
      * sub-expression for that case and eliminates that variable from the expression as well.
+     *
+     * <p>
+     * Extract the node where {@code v at index} while discarding {@code v}.
+     * </p>
      *
      * <p>
      * TODO: This function performs two different things, which may be useful to split somewhen.

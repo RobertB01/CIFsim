@@ -43,10 +43,10 @@ public class PrintControlLoopsOutputOption extends BooleanOption {
                 true,
 
                 // optDialogDescr.
-                "Print events that appear in finite response control loops to the console.",
+                "Print events that appear in finite response control loops to the console",
 
                 // optDialogCheckboxText.
-                "Print events.");
+                "Whether to print events.");
     }
 
     /**

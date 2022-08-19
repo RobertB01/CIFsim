@@ -26,34 +26,36 @@ import org.eclipse.escet.common.java.Pair;
 /** Conclusion of the confluence check. */
 public class ConfluenceCheckConclusion implements CheckConclusion {
     /** Pairs of events that could not be proven to be confluent. */
-    private final List<Pair<String, String>> failedPairs;
+    private final List<Pair<String, String>> cannotProvePairs;
 
     /**
      * Constructor of the {@link ConfluenceCheckConclusion} class.
      *
-     * @param failedPairs Pairs of events that failed all checks.
+     * @param cannotProvePairs Pairs of events where confluence could not be proven.
      */
-    public ConfluenceCheckConclusion(List<Pair<String, String>> failedPairs) {
-        this.failedPairs = failedPairs;
+    public ConfluenceCheckConclusion(List<Pair<String, String>> cannotProvePairs) {
+        this.cannotProvePairs = cannotProvePairs;
     }
 
     @Override
     public boolean propertyHolds() {
-        return failedPairs.isEmpty();
+        return cannotProvePairs.isEmpty();
     }
 
     @Override
     public void printDetails() {
-        if (failedPairs.isEmpty()) {
-            out("The specification has confluence.");
+        if (cannotProvePairs.isEmpty()) {
+            out("[OK] The specification has confluence.");
         } else {
-            out("ERROR, the specification may NOT have confluence.");
+            out("[ERROR] The specification may NOT have confluence.");
             out();
 
-            String pairText = (failedPairs.size() == 1) ? "pair" : "pairs";
-            out("The following event %s failed all tests:", pairText);
             iout();
-            out(failedPairs.stream().map(p -> "(" + p.left + ", " + p.right + ")").collect(Collectors.joining(", ")));
+            String pairText = (cannotProvePairs.size() == 1) ? "pair" : "pairs";
+            out("Confluence of the following event %s could not be decided:", pairText);
+            iout();
+            out(cannotProvePairs.stream().map(Pair::toString).collect(Collectors.joining(", ")));
+            dout();
             dout();
         }
     }

@@ -46,10 +46,12 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
     @Override
     public void printDetails() {
         if (unprovenEvents.isEmpty()) {
-            out("The specification has finite response.");
+            out("[OK] The specification has finite response.");
         } else {
-            out("ERROR, the specification may NOT have finite response.");
+            out("[ERROR] The specification may NOT have finite response.");
             out();
+
+            iout();
             out("At least one controllable-event loop was found.");
             if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
                 out("The following events might still occur in a controllable-event loop:");
@@ -59,6 +61,7 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
                 }
                 dout();
             }
+            dout();
         }
     }
 }

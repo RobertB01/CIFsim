@@ -42,10 +42,10 @@ public class EnableFiniteResponseChecking extends BooleanOption {
                 true,
 
                 // optDialogDescr.
-                "Enable finite response checking.",
+                "Enable finite response checking",
 
                 // optDialogCheckboxText.
-                "Perform finite response check.");
+                "Whether to perform finite response checking.");
     }
 
     /**

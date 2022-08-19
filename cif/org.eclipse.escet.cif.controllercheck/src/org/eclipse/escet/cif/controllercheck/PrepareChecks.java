@@ -65,12 +65,12 @@ public class PrepareChecks {
     private static final int NUM_INDICES = 3;
 
     /** The application context to use. */
-    public final AppEnvData env = AppEnv.getData();
+    private final AppEnvData env = AppEnv.getData();
 
     /** Automata of the specification. */
     private List<Automaton> automata = list();
 
-    /** The set used controllable events. */
+    /** The set of used controllable events. */
     private Set<Event> controllableEvents = set();
 
     /** Discrete and input variables of the specification. */
@@ -148,9 +148,8 @@ public class PrepareChecks {
         Tree tree = builder.tree;
 
         // Guards and guarded updates of the automaton.
-        Map<Event, Node> autGuards = mapc(controllableAutEvents.size()); // makeEventMap(eventsOfAut, Tree.ZERO);
-        Map<Event, Node> autGuardedUpdates = mapc(controllableAutEvents.size()); // makeEventMap(eventsOfAut,
-                                                                                 // Tree.ZERO);
+        Map<Event, Node> autGuards = mapc(controllableAutEvents.size());
+        Map<Event, Node> autGuardedUpdates = mapc(controllableAutEvents.size());
 
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {

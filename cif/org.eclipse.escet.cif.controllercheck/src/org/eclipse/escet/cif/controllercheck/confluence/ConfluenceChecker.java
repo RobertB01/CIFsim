@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.setc;
+import static org.eclipse.escet.common.java.Strings.SORTER;
 
 import java.util.Comparator;
 import java.util.List;
@@ -79,7 +80,7 @@ public class ConfluenceChecker {
     /**
      * Performs the finite response check for a CIF specification.
      *
-     * @param prepareChecks Collected CIF information to perform the finite response and confluence checks.
+     * @param prepareChecks Collected CIF information to perform the confluence check.
      * @return {@code null} if the check was aborted, else the conclusion about the checking process.
      */
     public CheckConclusion checkSystem(PrepareChecks prepareChecks) {
@@ -107,7 +108,7 @@ public class ConfluenceChecker {
         List<Pair<String, String>> independents = list(); // List with pairs that are independent.
         List<Pair<String, String>> skippables = list(); // List with pairs that are skippable.
         List<Pair<String, String>> reversibles = list(); // List with pairs that are reversible.
-        List<Pair<String, String>> failedChecks = list(); // List with pairs that failed all checks.
+        List<Pair<String, String>> cannotProves = list(); // List with pairs where confluence could not be proven.
 
         // Events that should be skipped by the inner loop to avoid performing both (A, B) and (B, A) tests.
         Set<Event> skipInner = setc(globalGuardsByEvent.size());
@@ -232,7 +233,6 @@ public class ConfluenceChecker {
                     event21Done.dumpGraphLines("independence-event212done");
                 }
 
-                // Check independence.
                 if (event12Done != Tree.ZERO && event12Done == event21Done
                         && allStateCovered(originalStates, event12Done))
                 {
@@ -248,7 +248,7 @@ public class ConfluenceChecker {
 
                 // Check for skippable (may perform a second event, but its changes are undone).
                 //
-                // Check skippable event1 (events 2, 1 versus event 1).
+                // Check skippable event2 (events 2, 1 versus event 1).
                 if (event21Done != Tree.ZERO && event1Done == event21Done
                         && allStateCovered(originalStates, event1Done))
                 {
@@ -258,7 +258,8 @@ public class ConfluenceChecker {
                     }
                     continue;
                 }
-                // Check skippable event2 (events 1, 2 versus event 2).
+
+                // Check skippable event1 (events 1, 2 versus event 2).
                 if (event12Done != Tree.ZERO && event2Done == event12Done
                         && allStateCovered(originalStates, event2Done))
                 {
@@ -272,7 +273,8 @@ public class ConfluenceChecker {
                     return null;
                 }
 
-                // Reversible.
+                // Check reversible (if event2 is performed before event1 its effect is reverted by event3 after
+                // event1).
                 if (DEBUG_REVERSIBLE) {
                     globalGuard1.dumpGraphLines("reversible-globalGuard1");
                     dbg();
@@ -300,6 +302,7 @@ public class ConfluenceChecker {
                         dbg("----");
                         dbg("Reversible (" + evt1Name + ", " + evt2Name + "), trying event3 = " + event3.getName());
                         event21Done.dumpGraphLines("reversible-event21Done");
+                        event12Done.dumpGraphLines("reversible-event12Done");
                         globalGuard3.dumpGraphLines("reversible-globalGuard3");
                         globalUpdate3.dumpGraphLines("reversible-globalUpdate3");
                     }
@@ -361,9 +364,9 @@ public class ConfluenceChecker {
                 }
 
                 // None of the checks holds, failed to prove confluence.
-                failedChecks.add(makeSortedPair(evt1Name, evt2Name));
+                cannotProves.add(makeSortedPair(evt1Name, evt2Name));
                 if (DEBUG_GLOBAL) {
-                    dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is FAILED.");
+                    dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is CANNOT-PROVE.");
                 }
             }
         }
@@ -378,7 +381,7 @@ public class ConfluenceChecker {
         dumpMatches(skippables, "Skippable event pairs");
         dumpMatches(reversibles, "Reversible event pairs");
 
-        return new ConfluenceCheckConclusion(failedChecks);
+        return new ConfluenceCheckConclusion(cannotProves);
     }
 
     /**
@@ -434,18 +437,13 @@ public class ConfluenceChecker {
         }
 
         // Sort the pairs for easier reading.
-        pairs.sort(new Comparator<Pair<String, String>>() {
-            @Override
-            public int compare(Pair<String, String> p1, Pair<String, String> p2) {
-                int order = p1.left.compareTo(p2.left);
-                return (order != 0) ? order : p1.right.compareTo(p2.right);
-            }
-        });
+        pairs.sort(
+                Comparator.comparing((Pair<String, String> p) -> p.left, SORTER).thenComparing(p -> p.right, SORTER));
 
         out();
         out(reasonText + ":");
         iout();
-        out(pairs.stream().map(p -> "(" + p.left + ", " + p.right + ")").collect(Collectors.joining(", ")));
+        out(pairs.stream().map(Pair::toString).collect(Collectors.joining(", ")));
         dout();
     }
 }
