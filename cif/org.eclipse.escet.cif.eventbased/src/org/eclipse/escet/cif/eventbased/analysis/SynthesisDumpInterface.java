@@ -102,4 +102,11 @@ public interface SynthesisDumpInterface {
      * @param loc Location that is not coreachable.
      */
     public abstract void nonCoreachableLocation(Location loc);
+
+    /**
+     * The location is not reachable.
+     *
+     * @param loc Location that is not reachable.
+     */
+    public abstract void nonReachableLocation(Location loc);
 }
