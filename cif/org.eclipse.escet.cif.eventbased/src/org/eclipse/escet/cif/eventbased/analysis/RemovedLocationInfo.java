@@ -18,10 +18,7 @@ public class RemovedLocationInfo {
     /** Removed location. */
     public final int loc;
 
-    /**
-     * The reason why the location was removed. Can be because it was found to be non-coreachable, non-reachable or it
-     * was locally detected to be a deadlock non-marked location.
-     */
+    /** The reason why the location was removed. */
     public final RemovedLocationReason reason;
 
     /**

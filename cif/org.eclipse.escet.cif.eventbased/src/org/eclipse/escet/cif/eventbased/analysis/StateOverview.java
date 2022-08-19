@@ -271,15 +271,15 @@ public class StateOverview {
     public List<ReportText> makeRemovedLocationText(RemovedLocationInfo removedState) {
         List<ReportText> result = list(new SimpleText("State was "), new ColoredText("removed", app.redColor));
         switch (removedState.reason) {
-            case isBlocking:
+            case IS_BLOCKING:
                 result.add(new SimpleText(" as it is not marked and locally found to be a deadlock state.\r\n"));
                 break;
 
-            case isNotCoreachable:
+            case IS_NOT_COREACHABLE:
                 result.add(new SimpleText(" as it was found to be non-coreachable.\r\n"));
                 break;
 
-            case isNotReachable:
+            case IS_NOT_REACHABLE:
                 result.add(new SimpleText(" as it has become non-reachable.\r\n"));
                 break;
 

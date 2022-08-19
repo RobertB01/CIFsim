@@ -421,15 +421,15 @@ public class SynthesisDumpIO {
     public static void writeRemovedLocation(RemovedLocationInfo removedLoc, DataOutputStream outHandle) {
         try {
             switch (removedLoc.reason) {
-                case isBlocking:
+                case IS_BLOCKING:
                     outHandle.write(BLOCKING_LOC_ID);
                     break;
 
-                case isNotCoreachable:
+                case IS_NOT_COREACHABLE:
                     outHandle.write(NOT_COREACH_LOC_ID);
                     break;
 
-                case isNotReachable:
+                case IS_NOT_REACHABLE:
                     outHandle.write(NOT_REACH_LOC_ID);
                     break;
 
@@ -455,15 +455,15 @@ public class SynthesisDumpIO {
         RemovedLocationReason reason = null;
         switch (blockByte) {
             case BLOCKING_LOC_ID:
-                reason = RemovedLocationReason.isBlocking;
+                reason = RemovedLocationReason.IS_BLOCKING;
                 break;
 
             case NOT_COREACH_LOC_ID:
-                reason = RemovedLocationReason.isNotCoreachable;
+                reason = RemovedLocationReason.IS_NOT_COREACHABLE;
                 break;
 
             case NOT_REACH_LOC_ID:
-                reason = RemovedLocationReason.isNotReachable;
+                reason = RemovedLocationReason.IS_NOT_REACHABLE;
                 break;
 
             default:

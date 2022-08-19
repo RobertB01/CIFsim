@@ -16,11 +16,11 @@ package org.eclipse.escet.cif.eventbased.analysis;
 /** Reason for why a location was removed during synthesis. */
 public enum RemovedLocationReason {
     /** Location is not marked and locally found to be a deadlock state. */
-    isBlocking,
+    IS_BLOCKING,
 
     /** Location was found to be non-coreachable. */
-    isNotCoreachable,
+    IS_NOT_COREACHABLE,
 
     /** Location has become non-reachable. */
-    isNotReachable
+    IS_NOT_REACHABLE
 }
