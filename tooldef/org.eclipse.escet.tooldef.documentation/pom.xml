@@ -85,7 +85,7 @@
                             </logHandler>
                             <attributes>
                                 <attribute-missing>warn</attribute-missing>
-                                <imgsdir>${project.basedir}/images</imgsdir>
+                                <imgsdir>../images</imgsdir>
                                 <doctype>book</doctype>
                                 <icons>font</icons>
                                 <pagenums />
