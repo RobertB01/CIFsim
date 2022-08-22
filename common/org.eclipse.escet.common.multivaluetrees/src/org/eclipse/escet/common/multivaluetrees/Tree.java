@@ -127,7 +127,7 @@ public class Tree {
      * Construct {@code (v == value)}.
      * </p>
      *
-     * @param varInfo Variable to use in the equality.
+     * @param varInfo Variable {@code v} to use in the equality.
      * @param value Desired value of the variable in the tree.
      * @return Tree with the constructed condition (that is, a single node).
      */
@@ -142,7 +142,7 @@ public class Tree {
      * Construct {@code (v at index)}.
      * </p>
      *
-     * @param varInfo Variable to use in the equality.
+     * @param varInfo Variable {@code v} to use in the equality.
      * @param index Desired value index of the variable in the tree.
      * @return Tree with the constructed condition (that is, a single node).
      */
@@ -157,7 +157,7 @@ public class Tree {
      * Construct {@code (v at index) and sub} where {@code sub} must be below {@code v} in the tree.
      * </p>
      *
-     * @param varInfo Variable to use in the equality.
+     * @param varInfo Variable {@code v} to use in the equality.
      * @param index Desired value index of the variable in the tree.
      * @param sub Existing tree to build the equality on.
      * @return Tree with the constructed condition (that is, a single node).
@@ -175,7 +175,7 @@ public class Tree {
     }
 
     /**
-     * Construct an identity relation between the two given variables.
+     * Construct an identity equation between the two given variables.
      *
      * <p>
      * Construct <pre>
@@ -186,16 +186,16 @@ public class Tree {
      * </pre>
      * </p>
      *
-     * @param first First variable in the identity relation.
-     * @param second Second variable in the identity relation.
-     * @return The constructed identity relation.
+     * @param first First variable in the identity equation.
+     * @param second Second variable in the identity equation.
+     * @return The constructed identity equation.
      */
     public Node identity(VarInfo first, VarInfo second) {
         return identity(first, second, Tree.ONE);
     }
 
     /**
-     * Construct an identity relation between the two given variables.
+     * Construct an identity equation between the two given variables.
      *
      * <p>
      * Construct <pre>
@@ -207,22 +207,21 @@ public class Tree {
      * </pre> Where {@code sub} must be below both {@code first} and {@code second}.
      * </p>
      *
-     * @param first First variable in the identity relation.
-     * @param second Second variable in the identity relation.
-     * @param sub Node to use below the identity relation.
-     * @return The constructed identity relation.
+     * @param first Variable {@code first} in the identity equation.
+     * @param second Variable {@code second} in the identity equation.
+     * @param sub Node to use below the identity equation.
+     * @return The constructed identity equation.
      */
     public Node identity(VarInfo first, VarInfo second, Node sub) {
         Assert.areEqual(first.length, second.length);
 
-        // Building on top of false isn't useful.
-        if (sub == Tree.ZERO) {
-            return Tree.ZERO;
+        // Handle the cases where adding the equality equation doesn't change anything.
+        if (sub == Tree.ZERO || first == second) {
+            return sub;
         }
 
         // Find the highest and lowest node in the identity.
         VarInfo bottom, top;
-        Assert.check(first.level != second.level);
         if (first.level > second.level) {
             bottom = first;
             top = second;
@@ -234,7 +233,7 @@ public class Tree {
         // Lowest nodes in the identity should still be above 'sub'.
         Assert.check(sub == Tree.ONE || sub.varInfo.level > bottom.level);
 
-        // Construct identity relation between both nodes.
+        // Construct identity equation between both nodes.
         Node[] topChilds = new Node[top.length];
         for (int v = 0; v < top.length; v++) {
             topChilds[v] = buildEqualityIndex(bottom, v, sub);
@@ -526,7 +525,7 @@ public class Tree {
      * Perform the invert (NOT) operator on a tree.
      *
      * <p>
-     * Compute {@code not node}/
+     * Compute {@code not n}.
      * </p>
      *
      * @param n Root node to invert.
@@ -627,7 +626,7 @@ public class Tree {
      * </p>
      *
      * @param n Node to modify for the assignment.
-     * @param varInfo Variable to assign.
+     * @param varInfo Variable {@code v} to assign.
      * @param index Value index of the variable.
      * @return Sub-expression that holds for that value, excluding the variable and its value.
      */

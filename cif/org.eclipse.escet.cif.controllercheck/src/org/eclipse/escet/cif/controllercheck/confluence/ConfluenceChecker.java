@@ -418,7 +418,7 @@ public class ConfluenceChecker {
      * @return Pair with the names in alphabetical order.
      */
     private Pair<String, String> makeSortedPair(String evt1Name, String evt2Name) {
-        if (evt1Name.compareTo(evt2Name) < 0) {
+        if (SORTER.compare(evt1Name, evt2Name) < 0) {
             return new Pair<>(evt1Name, evt2Name);
         } else {
             return new Pair<>(evt2Name, evt1Name);

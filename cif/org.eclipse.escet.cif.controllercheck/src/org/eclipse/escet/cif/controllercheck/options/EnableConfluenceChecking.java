@@ -42,10 +42,10 @@ public class EnableConfluenceChecking extends BooleanOption {
                 true,
 
                 // optDialogDescr.
-                "Enable confluence checking",
+                "Whether to perform confluence checking",
 
                 // optDialogCheckboxText.
-                "Whether to perform confluence checking.");
+                "Enable confluence checking.");
     }
 
     /**

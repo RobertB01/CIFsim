@@ -131,7 +131,10 @@ indexterm:[controller property checker,finite response]
 
 === Finite response
 
-A model has finite response if there do not exist event loops that consist of only controllable events.
+The finite response property of a model ensures that the controller will always perform a finite number of steps to reach a decision.
+A controller with finite response cannot loop around and perform edges forever, it always blocks after some maximum number of steps and sends new control commands to the system it controls.
+
+The algorithm implementing the check verifies lack of event loops that consist of only controllable events.
 For example, the automaton in the example below has finite-response, because between event `c_on` and `c_off`, the location of `Sensor` has to change via an uncontrollable event.
 
 [source, cif]
@@ -236,7 +239,12 @@ indexterm:[controller checker property,confluence]
 
 === Confluence
 
-A model is confluent when all sequences of controllable events always leads to a single state.
+
+The confluence property of a model says that a computed decision is always the same, no matter how you computed it.
+While computing a response, a model may have several different edges enabled at the same time. A controller then has a choice which edge to perform first.
+With the confluence property, the controller may make any choice between edges that it desires, but the reached decision is always be the same.
+
+The check verifies that for every state in the model with several enabled edges at the same time, any taken edge will lead to the same decision.
 
 The `Actuator` automaton below has two different edges with controllable events from the same location, but only one of them can be enabled at the same time since the `Sensor` automaton cannot be in two locations at the same time.
 As a result, the automaton does not need to choose between edges and the model is confluent.
@@ -263,6 +271,9 @@ automaton Sensor:
     edge u_off goto Off;
 end
 ----
+
+Note that the confluence property can only hold for models with finite response.
+The controller must first always reach a decision before you can consider uniqueness of it.
 
 indexterm:[controller checker confluence property,implementation]
 
