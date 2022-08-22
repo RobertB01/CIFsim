@@ -11,19 +11,16 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 
-/**
- * CIF check that does not allow initialization predicates in components, i.e., does not allow initialization predicates
- * outside of locations.
- */
-public class NoInitPredsInCompsCheck extends CifCheck {
+/** CIF check that does not allow continuous variables. */
+public class VarNoContinuousCheck extends CifCheck {
     @Override
-    protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
-        if (!comp.getInitials().isEmpty()) {
-            violations.add(comp, "component contains an initialization predicate");
-        }
+    protected void preprocessContVariable(ContVariable var, CifCheckViolations violations) {
+        violations.add(var, "variable is a continuous variable");
     }
 }

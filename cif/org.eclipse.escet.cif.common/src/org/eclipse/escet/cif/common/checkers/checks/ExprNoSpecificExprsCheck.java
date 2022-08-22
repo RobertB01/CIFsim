@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
@@ -23,6 +23,8 @@ import java.util.EnumSet;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
@@ -67,25 +69,25 @@ import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 
 /** CIF check that does not allow certain expressions. */
-public class NoSpecificExprsCheck extends CifCheck {
+public class ExprNoSpecificExprsCheck extends CifCheck {
     /** The expressions to disallow. */
     private final EnumSet<NoSpecificExpr> disalloweds;
 
     /**
-     * Constructor for the {@link NoSpecificExprsCheck} class.
+     * Constructor for the {@link ExprNoSpecificExprsCheck} class.
      *
      * @param disalloweds The expressions to disallow.
      */
-    public NoSpecificExprsCheck(NoSpecificExpr... disalloweds) {
+    public ExprNoSpecificExprsCheck(NoSpecificExpr... disalloweds) {
         this(EnumSet.copyOf(Arrays.asList(disalloweds)));
     }
 
     /**
-     * Constructor for the {@link NoSpecificExprsCheck} class.
+     * Constructor for the {@link ExprNoSpecificExprsCheck} class.
      *
      * @param disalloweds The expressions to disallow.
      */
-    public NoSpecificExprsCheck(EnumSet<NoSpecificExpr> disalloweds) {
+    public ExprNoSpecificExprsCheck(EnumSet<NoSpecificExpr> disalloweds) {
         this.disalloweds = disalloweds;
     }
 

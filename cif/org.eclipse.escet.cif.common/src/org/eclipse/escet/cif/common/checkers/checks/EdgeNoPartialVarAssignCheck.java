@@ -11,9 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -23,9 +25,9 @@ import org.eclipse.escet.common.java.Assert;
 /**
  * CIF check that does not allow partial variable assignments on edges.
  *
- * @note This check is included in {@link OnlySimpleAssignmentsCheck}.
+ * @note This check is included in {@link EdgeOnlySimpleAssignmentsCheck}.
  */
-public class NoPartialVarAssignOnEdgesCheck extends CifCheck {
+public class EdgeNoPartialVarAssignCheck extends CifCheck {
     @Override
     protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
         if (asgn.getAddressable() instanceof ProjectionExpression) {

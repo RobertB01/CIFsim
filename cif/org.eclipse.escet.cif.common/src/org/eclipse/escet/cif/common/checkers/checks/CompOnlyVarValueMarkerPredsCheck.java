@@ -11,12 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.Map;
 
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
@@ -28,7 +30,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  * CIF check that allows marker predicates in components only if they are of the form 'discrete_variable =
  * marked_value', and only at most one per discrete variable.
  */
-public class OnlyVarValueMarkerPredsInCompsCheck extends CifCheck {
+public class CompOnlyVarValueMarkerPredsCheck extends CifCheck {
     /** Mapping from discrete variables to their marked values. Used to detect duplicates. */
     private Map<DiscVariable, Expression> markeds = map();
 

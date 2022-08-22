@@ -11,13 +11,15 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 
 /** CIF check that does not allow kindless automata (without a supervisory kind). */
-public class NoKindlessAutomataCheck extends CifCheck {
+public class AutNoKindlessCheck extends CifCheck {
     @Override
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (aut.getKind() == SupKind.NONE) {

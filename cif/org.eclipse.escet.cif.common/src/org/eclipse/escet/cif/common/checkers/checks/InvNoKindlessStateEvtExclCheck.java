@@ -11,8 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
@@ -21,7 +23,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
 /** CIF check that does not allow kindless state/event exclusion invariants (without a supervisory kind). */
-public class NoKindlessStateEvtExclInvsCheck extends CifCheck {
+public class InvNoKindlessStateEvtExclCheck extends CifCheck {
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         for (Invariant inv: comp.getInvariants()) {
