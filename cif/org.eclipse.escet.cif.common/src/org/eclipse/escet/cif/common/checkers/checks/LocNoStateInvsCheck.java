@@ -11,17 +11,19 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.metamodel.cif.InvKind;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
-/** CIF check that does not allow urgent locations. */
-public class LocNoUrgentCheck extends CifCheck {
+/** CIF check that does not allow state invariants in locations. */
+public class LocNoStateInvsCheck extends CifCheck {
     @Override
     protected void preprocessLocation(Location loc, CifCheckViolations violations) {
         // Skip location parameters.
@@ -31,11 +33,13 @@ public class LocNoUrgentCheck extends CifCheck {
         }
 
         // Check for violation.
-        if (loc.isUrgent()) {
-            if (loc.getName() != null) {
-                violations.add(loc, "location is urgent");
-            } else {
-                violations.add((Automaton)loc.eContainer(), "automaton has an urgent location");
+        for (Invariant inv: loc.getInvariants()) {
+            if (inv.getInvKind() == InvKind.STATE) {
+                if (loc.getName() != null) {
+                    violations.add(loc, "location has a state invariant");
+                } else {
+                    violations.add((Automaton)loc.eContainer(), "automaton has a location with a state invariant");
+                }
             }
         }
     }

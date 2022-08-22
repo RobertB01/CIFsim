@@ -11,23 +11,31 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 
 /**
- * CIF check that does not allow the use of event 'tau', whether explicit or implicit.
+ * CIF check that allows events only if they are declared as controllable or uncontrollable.
  *
- * @note This check is included in {@link EventOnlyEventsWithControllabilityCheck}.
+ * @note This check includes {@link EventNoTauCheck}.
  */
-public class EventNoTauCheck extends CifCheck {
+public class EventOnlyWithControllabilityCheck extends CifCheck {
+    @Override
+    protected void preprocessEvent(Event event, CifCheckViolations violations) {
+        if (event.getControllable() == null) {
+            violations.add(event, "event is not declared as controllable or uncontrollable");
+        }
+    }
+
     @Override
     protected void preprocessTauExpression(TauExpression tauExpr, CifCheckViolations violations) {
         // Explicit tau.
@@ -35,9 +43,11 @@ public class EventNoTauCheck extends CifCheck {
         Edge edge = (Edge)edgeEvent.eContainer();
         Location loc = CifEdgeUtils.getSource(edge);
         if (loc.getName() != null) {
-            violations.add(loc, "location has an edge with explicitly event \"tau\" on it");
+            violations.add(loc, "location has an edge with explicitly event \"tau\" on it, "
+                    + "which is not controllable or uncontrollable");
         } else {
-            violations.add((Automaton)loc.eContainer(), "automaton has an edge with explicitly event \"tau\" on it");
+            violations.add((Automaton)loc.eContainer(), "automaton has an edge with explicitly event \"tau\" on it, "
+                    + "which is not controllable or uncontrollable");
         }
     }
 
@@ -47,10 +57,11 @@ public class EventNoTauCheck extends CifCheck {
         if (edge.getEvents().isEmpty()) {
             Location loc = CifEdgeUtils.getSource(edge);
             if (loc.getName() != null) {
-                violations.add(loc, "location has an edge with implicitly event \"tau\" on it");
+                violations.add(loc, "location has an edge with implicitly event \"tau\" on it, "
+                        + "which is not controllable or uncontrollable");
             } else {
-                violations.add((Automaton)loc.eContainer(),
-                        "automaton has an edge with implicitly event \"tau\" on it");
+                violations.add((Automaton)loc.eContainer(), "automaton has an edge with implicitly event \"tau\" on "
+                        + "it, which is not controllable or uncontrollable");
             }
         }
     }

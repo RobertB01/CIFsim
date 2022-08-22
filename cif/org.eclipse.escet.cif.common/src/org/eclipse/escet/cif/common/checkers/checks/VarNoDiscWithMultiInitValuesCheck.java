@@ -11,18 +11,18 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 
 /** CIF check that does not allow discrete variables with multiple potential initial values. */
-public class VarNoDiscVariablesWithMultiInitValuesCheck extends CifCheck {
+public class VarNoDiscWithMultiInitValuesCheck extends CifCheck {
     @Override
     protected void preprocessDiscVariable(DiscVariable var, CifCheckViolations violations) {
         // Ignore discrete variables that represent function parameters or local variables of functions.

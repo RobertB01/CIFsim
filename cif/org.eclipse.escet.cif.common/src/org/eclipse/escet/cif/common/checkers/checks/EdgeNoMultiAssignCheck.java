@@ -11,26 +11,27 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers;
+package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * CIF check that does not allow partial variable assignments on edges.
+ * CIF check that does not allow multi-assignments on edges. This check does not disallow multiple assignments on a
+ * single edge.
  *
  * @note This check is included in {@link EdgeOnlySimpleAssignmentsCheck}.
  */
-public class EdgeNoPartialVarAssignCheck extends CifCheck {
+public class EdgeNoMultiAssignCheck extends CifCheck {
     @Override
     protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
-        if (asgn.getAddressable() instanceof ProjectionExpression) {
+        if (asgn.getAddressable() instanceof TupleExpression) {
             // Get location.
             EObject ancestor = asgn;
             while (!(ancestor instanceof Location)) {
@@ -41,9 +42,9 @@ public class EdgeNoPartialVarAssignCheck extends CifCheck {
 
             // Report violation.
             if (loc.getName() != null) {
-                violations.add(loc, "location has an edge with a partial variable assignment");
+                violations.add(loc, "location has an edge with a multi-assignment");
             } else {
-                violations.add((Automaton)loc.eContainer(), "automaton has an edge with a partial variable assignment");
+                violations.add((Automaton)loc.eContainer(), "automaton has an edge with a multi-assignment");
             }
         }
     }

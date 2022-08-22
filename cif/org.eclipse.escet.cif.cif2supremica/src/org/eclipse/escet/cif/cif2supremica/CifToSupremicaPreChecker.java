@@ -18,32 +18,32 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifPreconditionChecker;
-import org.eclipse.escet.cif.common.checkers.AutNoKindlessCheck;
-import org.eclipse.escet.cif.common.checkers.AutOnlyWithOneInitLocCheck;
-import org.eclipse.escet.cif.common.checkers.CompNoInitPredsCheck;
-import org.eclipse.escet.cif.common.checkers.CompOnlyVarValueMarkerPredsCheck;
-import org.eclipse.escet.cif.common.checkers.EdgeNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.EdgeOnlySimpleAssignmentsCheck;
-import org.eclipse.escet.cif.common.checkers.EventNoChannelsCheck;
-import org.eclipse.escet.cif.common.checkers.EventOnlyEventsWithControllabilityCheck;
-import org.eclipse.escet.cif.common.checkers.ExprNoSpecificBinaryExprsCheck;
-import org.eclipse.escet.cif.common.checkers.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
-import org.eclipse.escet.cif.common.checkers.ExprNoSpecificExprsCheck;
-import org.eclipse.escet.cif.common.checkers.ExprNoSpecificExprsCheck.NoSpecificExpr;
-import org.eclipse.escet.cif.common.checkers.ExprNoSpecificUnaryExprsCheck;
-import org.eclipse.escet.cif.common.checkers.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
-import org.eclipse.escet.cif.common.checkers.FuncNoUserDefinedCheck;
-import org.eclipse.escet.cif.common.checkers.InvNoKindlessStateEvtExclCheck;
-import org.eclipse.escet.cif.common.checkers.InvNoStateInvsInLocsCheck;
-import org.eclipse.escet.cif.common.checkers.InvOnlyReqStateInvsInCompsCheck;
-import org.eclipse.escet.cif.common.checkers.LocNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.LocOnlyStaticEvalMarkerPredsInLocsCheck;
-import org.eclipse.escet.cif.common.checkers.TypeNoSpecificTypesCheck;
-import org.eclipse.escet.cif.common.checkers.TypeNoSpecificTypesCheck.NoSpecificType;
-import org.eclipse.escet.cif.common.checkers.VarNoContinuousVariablesCheck;
-import org.eclipse.escet.cif.common.checkers.VarNoDiscVariablesWithMultiInitValuesCheck;
-import org.eclipse.escet.cif.common.checkers.VarNoInputVariablesCheck;
-import org.eclipse.escet.cif.common.checkers.supportcode.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.checks.AutNoKindlessCheck;
+import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.CompOnlyVarValueMarkerPredsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.CompStateInvsOnlyReqsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.common.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.EventNoChannelsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.EventOnlyWithControllabilityCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoUserDefinedCheck;
+import org.eclipse.escet.cif.common.checkers.checks.InvNoKindlessStateEvtExclCheck;
+import org.eclipse.escet.cif.common.checkers.checks.LocNoStateInvsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
+import org.eclipse.escet.cif.common.checkers.checks.LocOnlyStaticEvalMarkerPredsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.common.checkers.checks.VarNoContinuousCheck;
+import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
+import org.eclipse.escet.cif.common.checkers.checks.VarNoInputCheck;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 
@@ -68,7 +68,7 @@ public class CifToSupremicaPreChecker {
         preconditions.add(new AutNoKindlessCheck());
 
         // Events must be controllable or uncontrollable. Tau events are thus not supported.
-        preconditions.add(new EventOnlyEventsWithControllabilityCheck());
+        preconditions.add(new EventOnlyWithControllabilityCheck());
 
         // Initialization predicates outside of locations are not supported.
         preconditions.add(new CompNoInitPredsCheck());
@@ -80,7 +80,7 @@ public class CifToSupremicaPreChecker {
         // Locations with initialization or marker predicates that are not trivially true or false are not supported.
         // This check only checks marker predicates. The check for a single initial location in each automaton, checks
         // the initialization predicates.
-        preconditions.add(new LocOnlyStaticEvalMarkerPredsInLocsCheck());
+        preconditions.add(new LocOnlyStaticEvalMarkerPredsCheck());
 
         // Automata that do not have exactly one initial location are not supported. We allow only exactly one initial
         // location to ensure that the elimination of location references in expressions does not introduce additional
@@ -92,10 +92,10 @@ public class CifToSupremicaPreChecker {
         // We do eliminate location references, so we could make a CIF to CIF transformation that lifts state
         // invariants out of locations to the surrounding automaton, and apply that transformation before the
         // elimination of location references.
-        preconditions.add(new InvNoStateInvsInLocsCheck());
+        preconditions.add(new LocNoStateInvsCheck());
 
         // State invariants in components are only supported if they are requirement invariants.
-        preconditions.add(new InvOnlyReqStateInvsInCompsCheck());
+        preconditions.add(new CompStateInvsOnlyReqsCheck());
 
         // State/event exclusion invariants are transformed into automata and must have a kind.
         preconditions.add(new InvNoKindlessStateEvtExclCheck());
@@ -105,13 +105,13 @@ public class CifToSupremicaPreChecker {
         // predicates instead of initial values. However, using 'x == 1 | x != 1' for a variable 'x' in range '0..9',
         // in the latest version, seems to result in value '0' as initial value during simulation, without any way to
         // get an other initial value. To be safe, we'll require a single initial value.
-        preconditions.add(new VarNoDiscVariablesWithMultiInitValuesCheck());
+        preconditions.add(new VarNoDiscWithMultiInitValuesCheck());
 
         // Continuous variables are not supported.
-        preconditions.add(new VarNoContinuousVariablesCheck());
+        preconditions.add(new VarNoContinuousCheck());
 
         // Input variables are not supported.
-        preconditions.add(new VarNoInputVariablesCheck());
+        preconditions.add(new VarNoInputCheck());
 
         // Multi-assignments, partial variable assignments and conditional updates on edges are not supported.
         preconditions.add(new EdgeOnlySimpleAssignmentsCheck());

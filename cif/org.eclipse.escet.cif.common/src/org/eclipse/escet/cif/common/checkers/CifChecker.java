@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers.supportcode;
+package org.eclipse.escet.cif.common.checkers;
 
 import java.util.List;
 
