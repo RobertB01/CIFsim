@@ -24,4 +24,3 @@ automaton DifferentLocs:
   location r:
     marked;
 end
-

@@ -24,4 +24,3 @@ automaton OptionalChangeBool:
   location r:
     marked;
 end
-
