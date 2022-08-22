@@ -121,7 +121,8 @@ public abstract class BlockPartitioner {
         // First create initial partitioning, based on marking of locations.
 
         // 'blks[0]' are unmarked locations, while 'blks[1]' are marked locations.
-        Block[] blks = {makeBlock(-1, null), makeBlock(-1, null)};
+        Block[] blks = {makeBlock(-1, null, null, new SplitReason(null, null)),
+                makeBlock(-1, null, null, new SplitReason(null, null))};
 
         // Only the reachable locations are added.
         for (int autNum = 0; autNum < this.automs.size(); autNum++) {
@@ -327,10 +328,15 @@ public abstract class BlockPartitioner {
             unlinkOutgoing(blk, blkIndex); // All self-loops of 'blkIndex' are dropped here.
 
             boolean first = true;
+            Block blockForCounterExample = null;
             for (Entry<Integer, List<BlockLocation>> succBlkEntry: succBlocks.entrySet()) {
+                // Save reasoning why block needs to be split.
+                Block reasonBlock = succBlkEntry.getKey() == -1 ? null : blocks.get(succBlkEntry.getKey());
+                SplitReason splitReason = new SplitReason(reasonBlock, evt);
+
                 // Make new block and add it to the 'blocks'.
                 Block newBlock = makeBlock(succBlkEntry.getValue().size(),
-                        Arrays.copyOf(blk.outEvents, blk.outEvents.length));
+                        Arrays.copyOf(blk.outEvents, blk.outEvents.length), blk, splitReason);
                 int newBlocknum;
                 if (first) {
                     blocks.set(blkIndex, newBlock);
@@ -347,7 +353,11 @@ public abstract class BlockPartitioner {
                     newBlock.locs.add(bl);
                 }
                 if (requireAllAutomata && !newBlock.allAutomataPresent(automs.size())) {
-                    return constructCounterExample(newBlock, evt);
+                    // Found block with locations of only one automaton.
+                    // Save the block, but continue to create the additional blocks for counterexample generation.
+                    if (blockForCounterExample == null) {
+                        blockForCounterExample = newBlock;
+                    }
                 }
 
                 // The 'succBlkEntry' variable contains the destination block to point to, for the event we split on.
@@ -364,6 +374,12 @@ public abstract class BlockPartitioner {
                 markBlockForReview(newBlocknum);
             }
 
+            // Check whether a violation block was found.
+            if (blockForCounterExample != null) {
+                // A violation has been found. Construct counter example.
+                return constructCounterExample(blockForCounterExample, evt);
+            }
+
             Assert.check(!blk.needsReview);
             return null; // Dump the block (new blocks have been added to the queue).
         }
@@ -376,13 +392,15 @@ public abstract class BlockPartitioner {
      * @param numLocs Expected number of locations, or {@code -1} for 'unknown'.
      * @param outgoing Outgoing events to successor blocks. Use {@code null} for creating a new block with 'unknown'
      *     entries.
+     * @param originBlock The block where this block was split from.
+     * @param splitReason The reason why this block was split.
      * @return The created block.
      */
-    private Block makeBlock(int numLocs, Integer[] outgoing) {
+    private Block makeBlock(int numLocs, Integer[] outgoing, Block originBlock, SplitReason splitReason) {
         if (outgoing == null) {
             outgoing = new Integer[events.length];
         }
-        return new Block(events.length, numLocs, outgoing);
+        return new Block(events.length, numLocs, outgoing, originBlock, splitReason);
     }
 
     /**
@@ -483,4 +501,13 @@ public abstract class BlockPartitioner {
      * @return A counter example.
      */
     protected abstract CounterExample constructCounterExample(Block block, Event finalEvent);
+
+    /**
+     * Finds the reason why two locations are no longer part of the same block.
+     *
+     * @param loc1 The first location.
+     * @param loc2 The second location.
+     * @return The reason why these locations are not part of the same block.
+     */
+    protected abstract List<SplitReason> getSplitReason(Location loc1, Location loc2);
 }

@@ -16,6 +16,8 @@ package org.eclipse.escet.cif.eventbased.equivalence;
 import static org.eclipse.escet.cif.eventbased.automata.Edge.addEdge;
 import static org.eclipse.escet.common.java.Lists.list;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.automata.Location;
@@ -79,6 +81,12 @@ public class AutomatonMinimizer extends BlockPartitioner {
         // A block is thus never a counter-example demonstrating a trace is not
         // present in the automaton.
         Assert.fail("Counter-example construction should not be needed.");
+        return null;
+    }
+
+    @Override
+    protected List<SplitReason> getSplitReason(Location originalLoc, Location equivalentLoc) {
+        Assert.fail("Splitting reason should not be needed.");
         return null;
     }
 }

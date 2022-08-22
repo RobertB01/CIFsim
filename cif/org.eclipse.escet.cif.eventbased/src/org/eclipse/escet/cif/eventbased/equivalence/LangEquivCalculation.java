@@ -52,6 +52,58 @@ public class LangEquivCalculation extends BlockPartitioner {
     }
 
     @Override
+    protected List<SplitReason> getSplitReason(Location loc1, Location loc2) {
+        // Get lowest block (depth) where these locations are a part of.
+        Block block1 = blocks.get(blockLocs.get(loc1).blockNumber);
+        Block block2 = blocks.get(blockLocs.get(loc2).blockNumber);
+
+        // Check that the locations are indeed part of two different blocks.
+        Assert.check(block1 != block2);
+
+        // Get blocks at same depth, to determine common ancestor.
+        int block1Depth = block1.depth;
+        int block2Depth = block2.depth;
+        while (block1Depth != block2Depth) {
+            if (block1Depth > block2Depth) {
+                block1 = block1.originBlock;
+                block1Depth--;
+            } else {
+                block2 = block2.originBlock;
+                block2Depth--;
+            }
+        }
+
+        // Iteratively move up ancestor.
+        while (block1.originBlock != block2.originBlock) {
+            block1 = block1.originBlock;
+            block2 = block2.originBlock;
+        }
+
+        // Found the first blocks where these two locations are no longer part of the same block. Find the reason why
+        // these two blocks where created.
+        List<SplitReason> followUpReason = list();
+        if (block1.reason.block != null && block2.reason.block != null) {
+            // We found the reason. As these blocks both point to another block, the reason is not conclusive.
+            Assert.check(block1.reason.event == block2.reason.event);
+
+            // Get a location from the two blocks that are pointed towards.
+            Event reasonEvent = block1.reason.event;
+            Location nextLoc1 = getNextLocation(loc1, reasonEvent);
+            Location nextLoc2 = getNextLocation(loc2, reasonEvent);
+
+            // Figure out why the two new blocks differ.
+            followUpReason = getSplitReason(nextLoc1, nextLoc2);
+        }
+
+        // Return the reason and the follow-up reasoning.
+        List<SplitReason> splitReasons = list();
+        splitReasons.add(block1.reason);
+        splitReasons.add(block2.reason);
+        splitReasons.addAll(followUpReason);
+        return splitReasons;
+    }
+
+    @Override
     protected CounterExample constructCounterExample(Block block, Event finalEvent) {
         List<Event> path = getReversePath(block); // Path is reversed.
         Collections.reverse(path);
@@ -75,8 +127,50 @@ public class LangEquivCalculation extends BlockPartitioner {
                 continue;
             }
             Assert.check(newLocs[0] != null || newLocs[1] != null);
-            return new CounterExample(path.subList(0, pathIdx), locs, evt);
+
+            // Path found that exists in one automaton but not in the other.
+            return new CounterExample(path, locs, finalEvent);
         }
+
+        // If no final event is given, the reason is already conclusive (because of markings).
+        if (finalEvent == null) {
+            return new CounterExample(path, locs, finalEvent);
+        }
+
+        // We found two equivalent locations that are part of different blocks. Figure out why.
+        List<SplitReason> splitReason = getSplitReason(locs[0], locs[1]);
+
+        // Get the intermediate splitting reasons. Add the events to the path and update the locations.
+        for (int i = 0; i < splitReason.size() - 2; i = i + 2) {
+            Event evt = splitReason.get(i).event;
+            path.add(evt);
+            newLocs[0] = getNextLocation(locs[0], evt);
+            newLocs[1] = getNextLocation(locs[1], evt);
+
+            if (newLocs[0] != null && newLocs[1] != null) {
+                Location[] swap = locs;
+                locs = newLocs;
+                newLocs = swap;
+                continue;
+            }
+        }
+
+        // Get the last splitting reasons, these are conclusive.
+        SplitReason lastReaon1 = splitReason.get(splitReason.size() - 2);
+        SplitReason lastReaon2 = splitReason.get(splitReason.size() - 1);
+
+        // If both point towards a block, then the reason is not conclusive.
+        Assert.check(lastReaon1.block == null || lastReaon2.block == null);
+
+        if (lastReaon1.block != null || lastReaon2.block != null) {
+            // One reason points to a block, the other doesn't. This means the event is enabled in one location, but not
+            // in the other.
+            finalEvent = lastReaon1.event;
+        } else {
+            // The reason must be because of markings.
+            finalEvent = null;
+        }
+
         return new CounterExample(path, locs, finalEvent);
     }
 
