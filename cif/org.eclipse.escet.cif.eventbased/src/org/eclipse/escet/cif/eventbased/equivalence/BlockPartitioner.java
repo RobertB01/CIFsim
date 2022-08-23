@@ -328,7 +328,7 @@ public abstract class BlockPartitioner {
             unlinkOutgoing(blk, blkIndex); // All self-loops of 'blkIndex' are dropped here.
 
             boolean first = true;
-            Block blockForCounterExample = null;
+            Block counterExample = null;
             for (Entry<Integer, List<BlockLocation>> succBlkEntry: succBlocks.entrySet()) {
                 // Save reasoning why block needs to be split.
                 Block reasonBlock = succBlkEntry.getKey() == -1 ? null : blocks.get(succBlkEntry.getKey());
@@ -355,8 +355,8 @@ public abstract class BlockPartitioner {
                 if (requireAllAutomata && !newBlock.allAutomataPresent(automs.size())) {
                     // Found block with locations of only one automaton.
                     // Save the block, but continue to create the additional blocks for counterexample generation.
-                    if (blockForCounterExample == null) {
-                        blockForCounterExample = newBlock;
+                    if (counterExample == null) {
+                        counterExample = newBlock;
                     }
                 }
 
@@ -375,9 +375,9 @@ public abstract class BlockPartitioner {
             }
 
             // Check whether a violation block was found.
-            if (blockForCounterExample != null) {
-                // A violation has been found. Construct counter example.
-                return constructCounterExample(blockForCounterExample, evt);
+            if (counterExample != null) {
+                // A violation has been found, construct a counter example.
+                return constructCounterExample(counterExample, evt);
             }
 
             Assert.check(!blk.needsReview);
@@ -392,15 +392,15 @@ public abstract class BlockPartitioner {
      * @param numLocs Expected number of locations, or {@code -1} for 'unknown'.
      * @param outgoing Outgoing events to successor blocks. Use {@code null} for creating a new block with 'unknown'
      *     entries.
-     * @param originBlock The block where this block was split from.
+     * @param parent The block where this block was split from.
      * @param splitReason The reason why this block was split.
      * @return The created block.
      */
-    private Block makeBlock(int numLocs, Integer[] outgoing, Block originBlock, SplitReason splitReason) {
+    private Block makeBlock(int numLocs, Integer[] outgoing, Block parent, SplitReason splitReason) {
         if (outgoing == null) {
             outgoing = new Integer[events.length];
         }
-        return new Block(events.length, numLocs, outgoing, originBlock, splitReason);
+        return new Block(events.length, numLocs, outgoing, parent, splitReason);
     }
 
     /**

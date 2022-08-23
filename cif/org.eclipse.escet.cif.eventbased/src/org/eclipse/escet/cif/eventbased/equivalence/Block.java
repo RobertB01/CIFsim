@@ -39,13 +39,13 @@ public class Block {
     public final List<List<Integer>> inEvents;
 
     /** Block that it was split from. */
-    public Block originBlock;
+    public Block parent;
 
-    /** The reason why this block was split. */
-    public SplitReason reason;
+    /** The reason why this block was split from the parent. */
+    public SplitReason parentReason;
 
     /** The depth of this block in the tree. */
-    public int depth;
+    public final int depth;
 
     /**
      * For each event, the successor block it points to. Special value {@code null} means 'undecided', value {@code -1}
@@ -62,20 +62,16 @@ public class Block {
      * @param numEvents Number of events in the combined alphabet.
      * @param numLocs Expected number of locations in this block. {@code -1} means 'unknown'.
      * @param outgoing Successor block for each event.
-     * @param originBlock The block where this block originated from.
-     * @param reason The reason why this block was split from the origin block.
+     * @param parent The block where this block was split from.
+     * @param parentReason  The reason why this block was split from the parent block.
      */
-    public Block(int numEvents, int numLocs, Integer[] outgoing, Block originBlock, SplitReason reason) {
+    public Block(int numEvents, int numLocs, Integer[] outgoing, Block parent, SplitReason parentReason ) {
         outEvents = outgoing;
-        this.originBlock = originBlock;
-        this.reason = reason;
+        this.parent = parent;
+        this.parentReason = parentReason;
 
         // Determine depth.
-        if (originBlock == null) {
-            this.depth = 0;
-        } else {
-            this.depth = originBlock.depth + 1;
-        }
+        depth = (parent == null) ? 0 : (parent.depth + 1);
 
         // Initialize 'inEvents' to 'nobody points to here'.
         inEvents = listc(numEvents);

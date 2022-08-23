@@ -15,16 +15,16 @@ package org.eclipse.escet.cif.eventbased.equivalence;
 
 import org.eclipse.escet.cif.eventbased.automata.Event;
 
-/** Reason for why a block was split from it origin block. */
+/** Reason for why a block was split from it parent block. */
 public class SplitReason {
     /**
-     * The block that the event points to, or {@code null} if no block is pointed towards, either because the reason is
-     * because of markings, or the event is not enabled.
+     * The block that the event points at, or {@code null} if the event is not enabled or markings are the cause of the
+     * split.
      */
-    public Block block;
+    public final Block block;
 
     /** The event that resulted in the split, or {@code null} if it is because of markings. */
-    public Event event;
+    public final Event event;
 
     /**
      * Creates a splitting reason.
