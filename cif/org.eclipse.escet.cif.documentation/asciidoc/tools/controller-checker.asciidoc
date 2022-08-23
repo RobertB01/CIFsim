@@ -239,9 +239,9 @@ indexterm:[controller checker property,confluence]
 
 === Confluence
 
-
 The confluence property of a model says that a computed decision is always the same, no matter how you computed it.
-While computing a response, a model may have several different edges enabled at the same time. A controller then has a choice which edge to perform first.
+While computing a response, a model may have several different edges enabled at the same time.
+A controller then has a choice which edge to perform first.
 With the confluence property, the controller may make any choice between edges that it desires, but the reached decision is always the same.
 
 The check verifies that for every state in the model with several edges enabled at the same time, any taken edge will lead to the same decision.

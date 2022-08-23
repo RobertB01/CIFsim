@@ -78,7 +78,7 @@ public class ConfluenceChecker {
     private MvSpecBuilder builder;
 
     /**
-     * Performs the finite response check for a CIF specification.
+     * Performs the confluence check for a CIF specification.
      *
      * @param prepareChecks Collected CIF information to perform the confluence check.
      * @return {@code null} if the check was aborted, else the conclusion about the checking process.

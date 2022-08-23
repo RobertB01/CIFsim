@@ -68,13 +68,13 @@ public class PrepareChecks {
     private final AppEnvData env = AppEnv.getData();
 
     /** Automata of the specification. */
-    private List<Automaton> automata = list();
+    private List<Automaton> automata;
 
     /** The set of used controllable events. */
     private Set<Event> controllableEvents = set();
 
     /** Discrete and input variables of the specification. */
-    private List<Declaration> variables = list();
+    private List<Declaration> variables;
 
     /** Global guard of each used controllable event. */
     private Map<Event, Node> globalGuardsByEvent = map();
@@ -244,7 +244,7 @@ public class PrepareChecks {
             updateNode = tree.conjunct(updateNode, asgNode);
         }
 
-        // Add identity update for all the non-assigned variables.
+        // Add identity updates for all the non-assigned variables.
         for (Declaration otherVariable: variables) {
             if (!assignedVariables.contains(otherVariable)) {
                 VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
@@ -266,8 +266,8 @@ public class PrepareChecks {
      * @return The MDD variable replacement description ready for use.
      */
     public VariableReplacement[] createVarUpdateReplacements() {
-        VariableReplacementsBuilder<Declaration> replBuilder;
-        replBuilder = new VariableReplacementsBuilder<>(builder.cifVarInfoBuilder);
+        VariableReplacementsBuilder<Declaration> replBuilder = new VariableReplacementsBuilder<>(
+                builder.cifVarInfoBuilder);
 
         for (Declaration updatedVar: variables) {
             replBuilder.addReplacement(updatedVar, READ_INDEX, WRITE_INDEX);
