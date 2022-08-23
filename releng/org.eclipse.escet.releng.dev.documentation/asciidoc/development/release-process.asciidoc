@@ -113,10 +113,6 @@ To prepare the Git repository for the next version (not a milestone or release c
 This replaces most version numbers automatically.
 Check all changes to ensure no versions are updated that should not be updated.
 
-* Verify that the `feature` `url` and `version` of all `org.eclipse.escet.*` features in `org.eclipse.escet.product/category.xml` are properly updated.
-The old version should no longer be present.
-This should be automatic.
-
 * Verify that the `product` `version` in `org.eclipse.escet.product/escet.product` is properly updated.
 The old version should no longer be present.
 This should be automatic.
