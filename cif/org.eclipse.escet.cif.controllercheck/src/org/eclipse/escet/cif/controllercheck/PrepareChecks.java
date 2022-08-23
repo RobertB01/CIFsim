@@ -276,7 +276,7 @@ public class PrepareChecks {
     }
 
     /**
-     * Construct a tree with identity function between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all
+     * Construct a tree with identity equations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all
      * variables.
      *
      * <p>
@@ -285,7 +285,7 @@ public class PrepareChecks {
      * confluence check.
      * </p>
      *
-     * @return Tree with identity function between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all variables.
+     * @return Tree with identity equations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all variables.
      */
     public Node computeOriginalToReadIdentity() {
         Node result = Tree.ONE;

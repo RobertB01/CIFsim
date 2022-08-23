@@ -68,7 +68,7 @@ public class ConfluenceChecker {
     /** Variable replacements to perform after an update. */
     private VariableReplacement[] varReplacements;
 
-    /** Tree with original to read identity relations for all variables. */
+    /** Tree with original to read identity equations for all variables. */
     private Node origToReadVariablesRelations;
 
     /** Variables in the MDD tree that are not the original values. */

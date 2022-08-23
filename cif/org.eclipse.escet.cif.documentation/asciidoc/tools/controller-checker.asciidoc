@@ -242,9 +242,9 @@ indexterm:[controller checker property,confluence]
 
 The confluence property of a model says that a computed decision is always the same, no matter how you computed it.
 While computing a response, a model may have several different edges enabled at the same time. A controller then has a choice which edge to perform first.
-With the confluence property, the controller may make any choice between edges that it desires, but the reached decision is always be the same.
+With the confluence property, the controller may make any choice between edges that it desires, but the reached decision is always the same.
 
-The check verifies that for every state in the model with several enabled edges at the same time, any taken edge will lead to the same decision.
+The check verifies that for every state in the model with several edges enabled at the same time, any taken edge will lead to the same decision.
 
 The `Actuator` automaton below has two different edges with controllable events from the same location, but only one of them can be enabled at the same time since the `Sensor` automaton cannot be in two locations at the same time.
 As a result, the automaton does not need to choose between edges and the model is confluent.
