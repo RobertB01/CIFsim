@@ -188,7 +188,7 @@ Once the work on `develop` is done for a release (milestone, release candidate, 
 
 * For a final release ensure the `TBD` indication is removed in the release notes of all documentation sets.
 
-* For a final release ensure that all IP is accounted for and all CQs have been approved by the Eclipse Foundation IP team.
+* For a final release ensure that all IP is accounted for and all relevant CQs and IP Team GitLab issues have been approved by the Eclipse Foundation IP team.
 
 * For a final release ensure that a <<development-release-process-prepare-release-review,release review>> has been successfully completed no more than one year ago.
 
