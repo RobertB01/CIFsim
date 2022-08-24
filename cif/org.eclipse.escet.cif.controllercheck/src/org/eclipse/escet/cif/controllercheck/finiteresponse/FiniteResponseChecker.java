@@ -13,29 +13,16 @@
 
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEvents;
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
-import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
 import static org.eclipse.escet.cif.common.CifSortUtils.sortCifObjects;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifValueUtils.createConjunction;
-import static org.eclipse.escet.cif.common.CifValueUtils.createDisjunction;
+import static org.eclipse.escet.cif.controllercheck.PrepareChecks.READ_INDEX;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
-import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
-import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.set2list;
-import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Maps.mapc;
-import static org.eclipse.escet.common.java.Sets.intersection;
+import static org.eclipse.escet.common.java.Sets.copy;
 import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 import static org.eclipse.escet.common.java.Sets.set;
 
@@ -43,23 +30,14 @@ import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
+import org.eclipse.escet.cif.controllercheck.CheckConclusion;
+import org.eclipse.escet.cif.controllercheck.PrepareChecks;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
-import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
-import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
-import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Assert;
@@ -73,117 +51,66 @@ public class FiniteResponseChecker {
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 
-    /** Automata of the specification. */
-    private List<Automaton> automata = list();
-
-    /** Discrete and input variables of the specification. */
-    private List<Declaration> variables = list();
-
     /**
      * The controllable event set. Iteratively, this set is updated. If an event is found in the alphabet of an
      * automaton, but not in any of its potential controllable-event loops, it is removed from this set.
      */
-    private Set<Event> controllableEvents = set();
+    private Set<Event> controllableEvents;
 
     /**
      * Whether the controllable events have changed after the last computation of the controllable independent
      * variables.
      */
-    private boolean controllableEventsChanged = true;
+    private boolean controllableEventsChanged;
 
-    /**
-     * Mapping between events and the variables updated by edges labeled with that event. Is {@code null} until
-     * computed, see {@link #collectEventVarUpdate}.
-     */
+    /** Mapping between events and the variables updated by edges labeled with that event. */
     private Map<Event, Set<Declaration>> eventVarUpdate;
 
     /**
      * Discrete variables that are not controllable independent, i.e., their value can be updated by an edge labeled
      * with a controllable event.
      */
-    private VarInfo[] nonCtrlIndependentVarsInfos = null;
+    private VarInfo[] nonCtrlIndependentVarsInfos;
 
-    /**
-     * Mapping between events and their global guard as a MDD node. Is {@code null} until computed, see
-     * {@link #collectGlobalGuards}.
-     */
-    private Map<Event, Node> globalGuards;
+    /** Global guard for each event. */
+    private Map<Event, Node> globalGuardsByEvent;
 
     /** Builder for the MDD tree. */
     private MvSpecBuilder builder;
 
     /**
-     * Performs the finite response checker for a CIF specification.
+     * Performs the finite response check for a CIF specification.
      *
-     * @param spec The specification to check for finite response.
-     * @return {@code true} if the specification has finite response, {@code false} if finite response cannot be
-     *     guaranteed.
+     * @param prepareChecks Collected CIF information to perform the finite response check.
+     * @return {@code null} when the check is aborted, else the conclusion of the finite response check.
      */
-    public boolean checkSystem(Specification spec) {
-        collectAutomata(spec, automata);
-        collectDiscAndInputVariables(spec, variables);
-        collectControllableEvents(spec, controllableEvents);
-        eventVarUpdate = collectEventVarUpdate();
-
-        if (env.isTerminationRequested()) {
-            return false;
+    public CheckConclusion checkSystem(PrepareChecks prepareChecks) {
+        List<Automaton> automata = prepareChecks.getAutomata();
+        controllableEvents = copy(prepareChecks.getControllableEvents());
+        if (automata.isEmpty() || controllableEvents.isEmpty()) {
+            return new FiniteResponseCheckConclusion(List.of());
         }
 
-        if (automata.isEmpty()) {
-            warn("The specification contains 0 automata.");
-
-            out();
-            out("CONCLUSION:");
-            iout();
-            out("The specification has finite response.");
-            dout();
-            return true;
-        }
-
-        if (controllableEvents.isEmpty()) {
-            warn("The specification contains 0 controllable events.");
-
-            out();
-            out("CONCLUSION:");
-            iout();
-            out("The specification has finite response.");
-            dout();
-            return true;
-        }
-
-        // Construct the MDD tree.
-        final int readIndex = 0;
-        final int writeIndex = 1;
-        CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(2);
-        cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
-        builder = new MvSpecBuilder(cifVarInfoBuilder, readIndex, writeIndex);
-
-        if (env.isTerminationRequested()) {
-            return false;
-        }
-
-        // Get the global guards in the tree.
-        globalGuards = collectGlobalGuards(controllableEvents);
-
-        if (env.isTerminationRequested()) {
-            return false;
-        }
+        controllableEventsChanged = true;
+        eventVarUpdate = prepareChecks.getUpdatedVariablesByEvent();
+        nonCtrlIndependentVarsInfos = null;
+        globalGuardsByEvent = prepareChecks.getGlobalGuardsByEvent();
+        builder = prepareChecks.getBuilder();
 
         // Remove controllable events that are always disabled.
         Iterator<Event> evtIterator = controllableEvents.iterator();
         Event evt;
         while (evtIterator.hasNext()) {
             evt = evtIterator.next();
-            Node n = globalGuards.get(evt);
+            Node n = globalGuardsByEvent.get(evt);
             Assert.notNull(n);
 
             if (n == Tree.ZERO) {
                 evtIterator.remove();
             }
         }
-
         if (env.isTerminationRequested()) {
-            return false;
+            return null;
         }
 
         // Check all automata for controllable-event loops. If an automata has a controllable event in its alphabet, but
@@ -204,37 +131,16 @@ public class FiniteResponseChecker {
 
                 if (env.isTerminationRequested()) {
                     ddbg();
-                    return false;
+                    return null;
                 }
             }
             ddbg();
         } while (oldSize != controllableEvents.size() && !controllableEvents.isEmpty());
 
-        // Print the result. There is finite response whenever there are no more controllable events left. Otherwise,
-        // finite response cannot be guaranteed.
-        dbg();
-        out("CONCLUSION:");
-        iout();
-        if (!controllableEvents.isEmpty()) {
-            out("ERROR, the specification may NOT have finite response.");
-            out();
-            out("At least one controllable-event loop was found.");
-            if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
-                out("The following events might still occur in a controllable-event loop:");
-                iout();
-                List<Event> orderedEvents = set2list(controllableEvents);
-                sortCifObjects(orderedEvents);
-                for (Event event: orderedEvents) {
-                    out("- %s", getAbsName(event));
-                }
-                dout();
-            }
-        } else {
-            out("The specification has finite response.");
-        }
-        dout();
-
-        return controllableEvents.isEmpty();
+        // Construct the conclusion.
+        List<Event> orderedEvents = set2list(controllableEvents);
+        sortCifObjects(orderedEvents);
+        return new FiniteResponseCheckConclusion(orderedEvents);
     }
 
     /**
@@ -266,7 +172,7 @@ public class FiniteResponseChecker {
             BitSet bits = new BitSet(builder.cifVarInfoBuilder.varInfos.size());
             for (Event evt: controllableEvents) {
                 for (Declaration var: eventVarUpdate.getOrDefault(evt, set())) {
-                    VarInfo varInfo = builder.cifVarInfoBuilder.getVarInfo(var, 0);
+                    VarInfo varInfo = builder.cifVarInfoBuilder.getVarInfo(var, READ_INDEX);
                     bits.set(varInfo.level);
                 }
             }
@@ -332,7 +238,7 @@ public class FiniteResponseChecker {
     private boolean isUnconnectable(EventLoop controllableEventLoop, VarInfo[] nonCtrlIndependentVarsInfos) {
         Node n = Tree.ONE;
         for (Event evt: controllableEventLoop.events) {
-            Node g = globalGuards.get(evt);
+            Node g = globalGuardsByEvent.get(evt);
             Node gAbstract = builder.tree.variableAbstractions(g, nonCtrlIndependentVarsInfos);
             n = builder.tree.conjunct(n, gAbstract);
             if (n == Tree.ZERO) {
@@ -340,128 +246,5 @@ public class FiniteResponseChecker {
             }
         }
         return false;
-    }
-
-    /**
-     * Constructs the mapping between events and the variables that are updated by edges labeled by that event.
-     *
-     * @return The constructed mapping.
-     */
-    private Map<Event, Set<Declaration>> collectEventVarUpdate() {
-        Map<Event, Set<Declaration>> eventVarUpdate = map();
-        for (Automaton aut: automata) {
-            for (Location loc: aut.getLocations()) {
-                for (Edge edge: loc.getEdges()) {
-                    for (Update update: edge.getUpdates()) {
-                        if (update instanceof Assignment) {
-                            Assignment assignment = (Assignment)update;
-                            collectEventsAddressable(assignment.getAddressable(), getEvents(edge), eventVarUpdate);
-                        } else {
-                            // 'If' updates should have been eliminated.
-                            Assert.fail("Unexpected update encountered: " + update.toString());
-                        }
-                    }
-                }
-            }
-        }
-        return eventVarUpdate;
-    }
-
-    /**
-     * Collects the relations between events and the variable from an addressable.
-     *
-     * @param addressable The addressable to collect, may only be a discrete variable.
-     * @param events The events that are labeled on the edge with this addressable.
-     * @param eventVarUpdate The map in which to save the 'event updates variable' information.
-     */
-    private void collectEventsAddressable(Expression addressable, Set<Event> events,
-            Map<Event, Set<Declaration>> eventVarUpdate)
-    {
-        if (addressable instanceof DiscVariableExpression) {
-            DiscVariable adressedVar = ((DiscVariableExpression)addressable).getVariable();
-
-            // Add the 'event updates variable' information in the map.
-            for (Event evt: events) {
-                Set<Declaration> vars = eventVarUpdate.getOrDefault(evt, set());
-                vars.add(adressedVar);
-                eventVarUpdate.put(evt, vars);
-            }
-        } else {
-            // Partial assignments and multi-assignments should have been eliminated.
-            Assert.fail("Unexpected addressable encountered: " + addressable.toString());
-        }
-    }
-
-    /**
-     * Constructs a mapping between events and their global guards as a MDD node. The event is enabled in the
-     * specification if and only if its global guard evaluates to {@code true}. Multiple guards on a single edge are
-     * combined with 'and'. Guards for an event that is labeled on more than one edge in an automaton are combined with
-     * 'or'.
-     *
-     * @param events The events for which to collect the global guards.
-     * @return A mapping between events and their global guards as a MDD node.
-     */
-    private Map<Event, Node> collectGlobalGuards(Set<Event> events) {
-        // An event is enabled in the specification if all of the global guard expressions evaluate to 'true'.
-        Map<Event, List<Expression>> eventsGlobalGuards = mapc(events.size());
-
-        // Initialize the global guards.
-        for (Event evt: events) {
-            eventsGlobalGuards.put(evt, list());
-        }
-
-        // Collect global guards from all automata.
-        for (Automaton aut: automata) {
-            // An event is enabled in an automaton if any of the automaton guards evaluate to 'true'.
-            // Initialize the automaton guard to 'false'. Events in the alphabet but not on any edge are regarded as
-            // always disabled.
-            Set<Event> controllableAlphabet = intersection(getAlphabet(aut), events);
-            Map<Event, List<Expression>> eventsAutGuards = mapc(controllableAlphabet.size());
-            for (Event evt: controllableAlphabet) {
-                eventsAutGuards.put(evt, list());
-            }
-
-            // Find the automaton guards.
-            for (Location loc: aut.getLocations()) {
-                for (Edge edge: loc.getEdges()) {
-                    Set<Event> intersection = intersection(getEvents(edge), controllableAlphabet);
-                    if (intersection.isEmpty()) {
-                        continue;
-                    }
-
-                    // An edge labeled with an event from the supplied set has been found. The edge is enabled if all
-                    // edge guards evaluate to 'true'. Therefore, the guards are combined via 'and'. If there are no
-                    // guards, 'true' is added to 'automGuards'.
-                    for (Event evt: intersection) {
-                        List<Expression> eventAutGuards = eventsAutGuards.get(evt);
-                        eventAutGuards.add(createConjunction(deepclone(edge.getGuards())));
-                    }
-                }
-            }
-
-            // An event is enabled in an automaton if at least one edge with that event is enabled. Hence,
-            // the automaton guards are combined via 'or'. If an event is in the alphabet, but not labeled on any edge,
-            // 'false' is added to 'eventGlobalGuards'.
-            for (Entry<Event, List<Expression>> entry: eventsAutGuards.entrySet()) {
-                List<Expression> eventglobalGuards = eventsGlobalGuards.get(entry.getKey());
-                eventglobalGuards.add(createDisjunction(entry.getValue()));
-            }
-
-            if (env.isTerminationRequested()) {
-                return null;
-            }
-        }
-
-        // Convert the collected global guards to an MDD tree.
-        Map<Event, Node> eventNode = mapc(events.size());
-        for (Event event: events) {
-            List<Expression> eventGlobalGuards = eventsGlobalGuards.get(event);
-
-            // If there are no global guards for an event, that event is always disabled.
-            Node nodeGuard = eventGlobalGuards.isEmpty() ? Tree.ZERO
-                    : builder.getExpressionConvertor().convert(eventGlobalGuards).get(1);
-            eventNode.put(event, nodeGuard);
-        }
-        return eventNode;
     }
 }

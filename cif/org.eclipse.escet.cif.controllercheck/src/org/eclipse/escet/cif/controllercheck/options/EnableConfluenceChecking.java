@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -16,22 +16,21 @@ package org.eclipse.escet.cif.controllercheck.options;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Print events in control loops as output option. */
-public class PrintControlLoopsOutputOption extends BooleanOption {
-    /** Constructor for the {@link PrintControlLoopsOutputOption} class. */
-    public PrintControlLoopsOutputOption() {
+/** Enable confluence checking option. */
+public class EnableConfluenceChecking extends BooleanOption {
+    /** Constructor for the {@link EnableConfluenceChecking} class. */
+    public EnableConfluenceChecking() {
         super(// name.
-                "Print control loops",
+                "Enable confluence checking",
 
                 // description.
-                "Whether to print the events that appear in finite response control loops to the console (BOOL=yes) or not (BOOL=no). "
-                        + "[DEFAULT=yes]",
+                "Whether to perform confluence checking (BOOL=yes) or not (BOOL=no). [DEFAULT=yes]",
 
                 // cmdShort.
                 null,
 
                 // cmdLong.
-                "print-events",
+                "confluence-check",
 
                 // cmdValue.
                 "BOOL",
@@ -43,18 +42,18 @@ public class PrintControlLoopsOutputOption extends BooleanOption {
                 true,
 
                 // optDialogDescr.
-                "Whether to print the events that appear in finite response control loops to the console.",
+                "Whether to perform confluence checking.",
 
                 // optDialogCheckboxText.
-                "Print events");
+                "Enable confluence checking");
     }
 
     /**
-     * Should the output be printed to the console?
+     * Should confluence be checked?
      *
-     * @return {@code true} if output printing is requested, {@code false} otherwise.
+     * @return {@code true} if confluence should be checked, else {@code false}.
      */
-    public static boolean isPrintControlLoopsEnabled() {
-        return Options.get(PrintControlLoopsOutputOption.class);
+    public static boolean checkConfluence() {
+        return Options.get(EnableConfluenceChecking.class);
     }
 }

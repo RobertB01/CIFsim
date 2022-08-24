@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/no_finite_response.cif"...
+Loading CIF specification "controllercheck/finite_response/no_finite_response.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -8,10 +8,17 @@ Iteration 1.
         (Actuator.c_on), which is not controllable unconnectable.
         (Actuator.c_off), which is not controllable unconnectable.
 
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (Actuator.c_off, Actuator.c_on)
+
 CONCLUSION:
-    ERROR, the specification may NOT have finite response.
+    [ERROR] The specification may NOT have finite response.
     
-    At least one controllable-event loop was found.
-    The following events might still occur in a controllable-event loop:
-        - Actuator.c_off
-        - Actuator.c_on
+        At least one controllable-event loop was found.
+        The following events might still occur in a controllable-event loop:
+            - Actuator.c_off
+            - Actuator.c_on
+
+    [OK] The specification has confluence.
