@@ -23,7 +23,7 @@ rm -rf DEPENDENCIES.generated.processed.txt
 
 # Perform license check.
 set -e
-./mvn_escet.sh org.eclipse.dash:license-tool-plugin:license-check -Ddash.projectId=technology.escet -Ddash.summary=DEPENDENCIES.generated.txt
+./mvn_escet.sh org.eclipse.dash:license-tool-plugin:license-check -Ddash.projectId=technology.escet -Ddash.summary=DEPENDENCIES.generated.txt $*
 set +e
 cat DEPENDENCIES.generated.txt | grep -v "^maven/mavencentral/org.eclipse.escet/" > DEPENDENCIES.generated.processed.txt
 
@@ -58,8 +58,15 @@ fi
 if [ $RESTRICTED -ne 1 ]; then
     >&2 echo
     >&2 echo "FAILED: Restricted dependencies found. Please:"
-    >&2 echo " - File a CQ with the IP team for approval, if applicable."
-    >&2 echo " - File an issue for the Eclipse Dash license check tool, in case of a false positive."
+    >&2 echo " - If applicable, automatically create review requests on the IP Team GitLab."
+    >&2 echo "   To do so, run this script again, appending '-Ddash.iplab.token=<your_personal_token>'"
+    >&2 echo "   (without the quotes) as an extra argument. For more information on this feature,"
+    >&2 echo "   as well as how to create your personal token that is to be filled in, see"
+    >&2 echo "   https://github.com/eclipse/dash-licenses#automatic-ip-team-review-requests."
+    >&2 echo " - Alternatively, review requests on the IP Team GitLab can be created manually, at"
+    >&2 echo "   https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues."
+    >&2 echo " - In case of a false positive, file an issue for the Eclipse Dash license check tool,"
+    >&2 echo "   at https://github.com/eclipse/dash-licenses/issues."
     exit 1
 fi
 
