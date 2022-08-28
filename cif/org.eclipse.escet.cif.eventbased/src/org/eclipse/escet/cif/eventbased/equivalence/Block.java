@@ -19,6 +19,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.eventbased.automata.Event;
+
 /**
  * Block in the language equivalence check.
  *
@@ -38,11 +40,13 @@ public class Block {
     /** Blocks pointing to this block, ordered by event. */
     public final List<List<Integer>> inEvents;
 
-    /** Block that it was split from. */
-    public Block parent;
+    /** Block that it was split from. May be {@code null} if was not split from another block. */
+    public final Block parent;
 
-    /** The reason why this block was split from the parent. */
-    public SplitReason parentReason;
+    /**
+     * The event that initiated the split from the parent block. May be {@code null} if the split was based on markings.
+     */
+    public final Event splitEvent;
 
     /** The depth of this block in the tree. */
     public final int depth;
@@ -62,13 +66,14 @@ public class Block {
      * @param numEvents Number of events in the combined alphabet.
      * @param numLocs Expected number of locations in this block. {@code -1} means 'unknown'.
      * @param outgoing Successor block for each event.
-     * @param parent The block where this block was split from.
-     * @param parentReason  The reason why this block was split from the parent block.
+     * @param parent The block where this block was split from. May be {@code null} if was not split from another block.
+     * @param splitEvent The event that initiated the split from the parent block. May be {@code null} if the split was
+     *     based on markings.
      */
-    public Block(int numEvents, int numLocs, Integer[] outgoing, Block parent, SplitReason parentReason ) {
+    public Block(int numEvents, int numLocs, Integer[] outgoing, Block parent, Event splitEvent) {
         outEvents = outgoing;
         this.parent = parent;
-        this.parentReason = parentReason;
+        this.splitEvent = splitEvent;
 
         // Determine depth.
         depth = (parent == null) ? 0 : (parent.depth + 1);

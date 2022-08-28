@@ -121,8 +121,8 @@ public abstract class BlockPartitioner {
         // First create initial partitioning, based on marking of locations.
 
         // 'blks[0]' are unmarked locations, while 'blks[1]' are marked locations.
-        Block[] blks = {makeBlock(-1, null, null, new SplitReason(null, null)),
-                makeBlock(-1, null, null, new SplitReason(null, null))};
+        Block[] blks = {makeBlock(-1, null, null, null),
+                makeBlock(-1, null, null, null)};
 
         // Only the reachable locations are added.
         for (int autNum = 0; autNum < this.automs.size(); autNum++) {
@@ -331,8 +331,7 @@ public abstract class BlockPartitioner {
             Block counterExample = null;
             for (Entry<Integer, List<BlockLocation>> succBlkEntry: succBlocks.entrySet()) {
                 // Save reasoning why block needs to be split.
-                Block reasonBlock = succBlkEntry.getKey() == -1 ? null : blocks.get(succBlkEntry.getKey());
-                SplitReason splitReason = new SplitReason(reasonBlock, evt);
+                Event splitReason = evt;
 
                 // Make new block and add it to the 'blocks'.
                 Block newBlock = makeBlock(succBlkEntry.getValue().size(),
@@ -353,7 +352,7 @@ public abstract class BlockPartitioner {
                     newBlock.locs.add(bl);
                 }
                 if (requireAllAutomata && !newBlock.allAutomataPresent(automs.size())) {
-                    // Found block with locations of only one automaton.
+                    // Found a block where not locations from all automata were present.
                     // Save the block, but continue to create the additional blocks for counterexample generation.
                     if (counterExample == null) {
                         counterExample = newBlock;
@@ -392,15 +391,16 @@ public abstract class BlockPartitioner {
      * @param numLocs Expected number of locations, or {@code -1} for 'unknown'.
      * @param outgoing Outgoing events to successor blocks. Use {@code null} for creating a new block with 'unknown'
      *     entries.
-     * @param parent The block where this block was split from.
-     * @param splitReason The reason why this block was split.
+     * @param parent The block where this block was split from. May be {@code null} if was not split from another block.
+     * @param parentReason The reason why this block was split from the parent. May be {@code null} if there is no
+     *     parent.
      * @return The created block.
      */
-    private Block makeBlock(int numLocs, Integer[] outgoing, Block parent, SplitReason splitReason) {
+    private Block makeBlock(int numLocs, Integer[] outgoing, Block parent, Event parentReason) {
         if (outgoing == null) {
             outgoing = new Integer[events.length];
         }
-        return new Block(events.length, numLocs, outgoing, parent, splitReason);
+        return new Block(events.length, numLocs, outgoing, parent, parentReason);
     }
 
     /**
@@ -493,7 +493,7 @@ public abstract class BlockPartitioner {
     }
 
     /**
-     * Construct a counter example for the a location in the block.
+     * Construct a counter example for a location in the block.
      *
      * @param block Block with locations of less than all automata.
      * @param finalEvent Event being used for splitting, creating this block. {@code null} means the difference is
@@ -501,13 +501,4 @@ public abstract class BlockPartitioner {
      * @return A counter example.
      */
     protected abstract CounterExample constructCounterExample(Block block, Event finalEvent);
-
-    /**
-     * Finds the reason why two locations are no longer part of the same block.
-     *
-     * @param loc1 The first location.
-     * @param loc2 The second location.
-     * @return The reason why these locations are not part of the same block.
-     */
-    protected abstract List<SplitReason> getSplitReason(Location loc1, Location loc2);
 }

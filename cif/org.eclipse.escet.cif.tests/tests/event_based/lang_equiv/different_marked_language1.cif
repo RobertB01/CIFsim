@@ -14,7 +14,9 @@
 event a, b;
 
 automaton A:
-  location L1: initial; marked;
+  location L1:
+    initial;
+    marked;
     edge a goto L2;
 
   location L2:
@@ -22,7 +24,8 @@ automaton A:
 end
 
 automaton B:
-  location L1: initial;
+  location L1:
+    initial;
     edge a goto L2;
 
   location L2: marked;
