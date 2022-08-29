@@ -18,12 +18,19 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.cif2plc.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
+import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeArgOption;
+import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeFuncOption;
+import org.eclipse.escet.cif.cif2plc.options.PlcMaxIterOption;
+import org.eclipse.escet.cif.cif2plc.options.PlcNumberBitsOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcProjectNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcResourceNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskCycleTimeOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskPriorityOption;
+import org.eclipse.escet.cif.cif2plc.options.RenameWarningsOption;
+import org.eclipse.escet.cif.cif2plc.options.SimplifyValuesOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.plcgen.targets.AbbTarget;
 import org.eclipse.escet.cif.plcgen.targets.Iec611313Target;
@@ -116,7 +123,7 @@ public class MainApp extends Application<IOutputComponent> {
                     throw new RuntimeException("Unknown output type: " + targetType);
             }
 
-            // Codegen settings should have been set now, lock them.
+            // Codegen settings should be set now, lock them.
             target.lockCodeGenSettings();
 
             // Get output path.
@@ -129,6 +136,18 @@ public class MainApp extends Application<IOutputComponent> {
             if (isTerminationRequested()) {
                 return 0;
             }
+
+            // Currently unused options.
+            //
+            // PlcNumberBitsOption
+            // PlcMaxIterOption
+            // PlcFormalFuncInvokeArgOption
+            // PlcFormalFuncInvokeFuncOption
+            // ConvertEnumsOption
+            // SimplifyValuesOption
+            // Options.getInstance(RenameWarningsOption
+
+            target.generateProgram();
 
             // Write output.
             target.writeOutput(outPath);
@@ -160,6 +179,14 @@ public class MainApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(PlcTaskCycleTimeOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskNameOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskPriorityOption.class));
+
+        applicationOpts.add(Options.getInstance(PlcNumberBitsOption.class)); // Currently unused.
+        applicationOpts.add(Options.getInstance(PlcMaxIterOption.class)); // Currently unused.
+        applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeArgOption.class)); // Currently unused.
+        applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeFuncOption.class)); // Currently unused.
+        applicationOpts.add(Options.getInstance(ConvertEnumsOption.class)); // Currently unused.
+        applicationOpts.add(Options.getInstance(SimplifyValuesOption.class)); // Currently unused.
+        applicationOpts.add(Options.getInstance(RenameWarningsOption.class)); // Currently unused.
 
         List<OptionCategory> generatorSubCats = list();
         OptionCategory generatorCat = new OptionCategory("PLCgen", "PLCgen options.", generatorSubCats, applicationOpts);

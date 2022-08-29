@@ -1,0 +1,238 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+tool int plcgen(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.plcgen", "org.eclipse.escet.cif.plcgen.MainApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// Configuration.
+string test_path = "plcgen";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1 --warn-rename=yes"];
+map(string:list string) test_options = {
+    "plcgen/button_lamp.cif":                 ["-j MyProj -c MyConfig -r MyResource -n MyTask -i 7 -p 123"],
+    "plcgen/constants_elim.cif":              ["--simplify-values=yes"],
+    "plcgen/constants_keep.cif":              ["--simplify-values=no"],
+    "plcgen/convert_enums_consts.cif":        ["--convert-enums=consts"],
+    "plcgen/convert_enums_ints.cif":          ["--convert-enums=ints"],
+    "plcgen/elim_enums.cif":                  ["--elim-enums=true"],
+    "plcgen/enums_keep.cif":                  ["--convert-enums=no"],
+    "plcgen/formal_finvoke_all_all.cif":      ["--formal-finvoke-arg=all --formal-finvoke-func=all"],
+    "plcgen/formal_finvoke_all_std.cif":      ["--formal-finvoke-arg=all --formal-finvoke-func=std"],
+    "plcgen/formal_finvoke_all_others.cif":   ["--formal-finvoke-arg=all --formal-finvoke-func=others"],
+    "plcgen/formal_finvoke_multi_all.cif":    ["--formal-finvoke-arg=multi --formal-finvoke-func=all"],
+    "plcgen/formal_finvoke_multi_std.cif":    ["--formal-finvoke-arg=multi --formal-finvoke-func=std"],
+    "plcgen/formal_finvoke_multi_others.cif": ["--formal-finvoke-arg=multi --formal-finvoke-func=others"],
+    "plcgen/formal_finvoke_none_all.cif":     ["--formal-finvoke-arg=none --formal-finvoke-func=all"],
+    "plcgen/formal_finvoke_none_std.cif":     ["--formal-finvoke-arg=none --formal-finvoke-func=std"],
+    "plcgen/formal_finvoke_none_others.cif":  ["--formal-finvoke-arg=none --formal-finvoke-func=others"],
+    "plcgen/option_max_iter_inf.cif":         ["-x inf"],
+    "plcgen/options.cif":                     ["-i off -b 32 -x 101"],
+};
+set string test_skip = {};
+
+/* Creates an empty TwinCAT solution directory. That is, it contains the minimum files and file contents to generate
+TwinCAT PLC code with the CIF to PLC tool. A solution directory is created at the `slnDirPath`. The solution directory
+contains an empty TwinCAT solution file (.sln file) and a TwinCAT XAE project directory. The TwinCAT XAE project
+directory contains a TwinCAT XAE project file (.tsproj file) that contains the `taskName`, and a PLC project directory,
+named `plcProjName`. The PLC project directory contains two files: a PLC project file (.plcproj file) named
+`plcProjName`, and a TwinCAT task file (.TcTTO file), named `taskName`, containing a single task with a cycle time and
+a priority. The PLC project directory contains three empty directories: Data Unit Types (DUTs), Global Variable Lists
+(GVLs), and Program Organization Units (POUs). */
+tool createEmptyTwincat(string slnDirPath, string plcProjName, string taskName):
+    // Create TwinCAT solution directory.
+    mkdir(slnDirPath);
+
+    // Create TwinCAT solution file (.sln file).
+    string slnDirName = basename(slnDirPath);
+    string slnFilePath = replace(pathjoin(slnDirPath, slnDirName + ".sln"), "\\", "/");
+    string slnFileContents = "Intentionally empty.\n";
+    writefile(slnFilePath, slnFileContents);
+
+    // Create TwinCAT XAE project directory.
+    string xaeDirPath = replace(pathjoin(slnDirPath, slnDirName), "\\", "/");
+    mkdir(xaeDirPath);
+
+    // Create TwinCAT XAE project file (.tsproj file).
+    string xaeProjFilePath = replace(pathjoin(xaeDirPath, slnDirName + ".tsproj"), "\\", "/");
+    string xaeProjFileContents = fmt("<Task><Name>%s</Name></Task>\n", taskName);
+    writefile(xaeProjFilePath, xaeProjFileContents);
+
+    // Create TwinCAT PLC project directory.
+    string plcProjDirPath = replace(pathjoin(xaeDirPath, plcProjName), "\\", "/");
+    mkdir(plcProjDirPath);
+
+    // Create TwinCAT PLC project file (.plcproj file).
+    string plcProjFilePath = replace(pathjoin(plcProjDirPath, plcProjName + ".plcproj"), "\\", "/");
+    string plcProjContents = "<Project></Project>\n";
+    writefile(plcProjFilePath, plcProjContents);
+
+    // Create TwinCAT task file (.TcTTO file).
+    string taskFilePath = replace(pathjoin(plcProjDirPath, taskName + ".TcTTO"), "\\", "/");
+    string taskContents = "<TcPlcObject><Task><CycleTime>10000</CycleTime><Priority>20</Priority></Task></TcPlcObject>\n";
+    writefile(taskFilePath, taskContents);
+
+    // Create DUTs directory.
+    string dutsDirPath = replace(pathjoin(plcProjDirPath, "DUTs"), "\\", "/");
+    mkdir(dutsDirPath);
+
+    // Create GVLs directory.
+    string gvlsDirPath = replace(pathjoin(plcProjDirPath, "GVLs"), "\\", "/");
+    mkdir(gvlsDirPath);
+
+    // Create POUs directory;
+    string pousDirPath = replace(pathjoin(plcProjDirPath, "POUs"), "\\", "/");
+    mkdir(pousDirPath);
+end
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    for target in ["plcopen", "iec", "twincat", "s7-1500", "s7-1200", "s7-400", "s7-300", "abb"]:
+        // Get test specific options.
+        list string options = default_options;
+        list string extra_options;
+        if contains(test_options, test):: extra_options = test_options[test];
+        options = options + extra_options;
+
+        // Print what we are testing.
+        outln("Testing \"%s\" (%s) using options \"%s\"...", test, target, join(extra_options, " "));
+
+        // Get paths.
+        string test_out_exp  = chfileext(test, newext=target + ".out");
+        string test_err_exp  = chfileext(test, newext=target + ".err");
+        string test_out_real = chfileext(test, newext=target + ".out.real");
+        string test_err_real = chfileext(test, newext=target + ".err.real");
+
+        string plcopen_exp  = chfileext(test, oldext="cif", newext="plcopen.xml");
+        string plcopen_real = chfileext(test, oldext="cif", newext="plcopen.xml.real");
+
+        // Directories for IEC and TwinCAT output.
+        string dir_exp  = chfileext(test, oldext="cif") + "_" + target;
+        string dir_real = chfileext(test, oldext="cif") + "_" + target + "_real";
+
+        string test_name = replace(chfileext(test, oldext="cif") + "_" + target, "plcgen/", "");
+
+        // Set output options and create directory if necessary.
+        if target == "plcopen":
+            options = options + ["-t", "plc-open-xml", "-o", plcopen_real];
+        elif target == "iec":
+            options = options + ["-t", "iec-61131-3", "-o", dir_real];
+        elif target == "twincat":
+            options = options + ["-t", "twincat", "-o", dir_real];
+            if isdir(dir_real):: rmdir(dir_real);
+
+            if test_name == "button_lamp_twincat":
+                createEmptyTwincat(dir_real, "MyProj", "MyTask");
+            else
+                // Default options.
+                createEmptyTwincat(dir_real, "Untitled1", "PlcTask");
+            end
+        elif target == "s7-1200":
+            options = ["-t", "s7_1200", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+        elif target == "s7-1500":
+            options = ["-t", "s7_1500", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+        elif target == "s7-300":
+            options = ["-t", "s7_300", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+        elif target == "s7-400":
+            options = ["-t", "s7_400", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+        elif target == "abb":
+            options = ["-t", "abb", "-o", dir_real, "--convert-enums=consts"] + options;
+        end
+
+        // Execute.
+        plcgen([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+        // Compare output.
+        bool stderr_diff  = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+        bool stdout_diff  = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+        if not stderr_diff::  rmfile(test_err_real);
+        if not stdout_diff::  rmfile(test_out_real);
+
+        // Initialize differentiation count.
+        int diff_count = 0;
+
+        // Compare PLCOpen XML specific output.
+        if target == "plcopen":
+            bool plc_xml_diff = diff(plcopen_exp, plcopen_real, missingAsEmpty=true, warnOnDiff=true);
+            if not plc_xml_diff and exists(plcopen_real):: rmfile(plcopen_real);
+            if plc_xml_diff:: diff_count = diff_count + 1;
+        end
+
+        // Compare IEC 61131-3, TwinCAT, S7, and ABB specific output.
+        if target == "iec" or target == "twincat" or target == "s7-1200" or target == "s7-1500" or target == "s7-300" or target == "s7-400" or target == "abb":
+            list string filenames_exp;
+            if isdir(dir_exp):
+                filenames_exp = find(dir_exp, recursive=true, files=true, dirs=false);
+            end
+            list string filenames_real;
+            if isdir(dir_real):
+                filenames_real = find(dir_real, recursive=true, files=true, dirs=false);
+            end
+            set string filenames;
+            for filename in filenames_exp + filenames_real:: filenames = filenames or {filename};
+
+            for filename in filenames:
+                string filename_exp = replace(pathjoin(dir_exp, filename), "\\", "/");
+                string filename_real = replace(pathjoin(dir_real, filename), "\\", "/");
+                bool file_diff = diff(filename_exp, filename_real, missingAsEmpty=true, warnOnDiff=true);
+                if file_diff:: diff_count = diff_count + 1;
+            end
+            if isdir(dir_real) and diff_count == 0:: rmdir(dir_real);
+        end
+
+        // Update counts.
+        if stderr_diff::  diff_count = diff_count + 1;
+        if stdout_diff::  diff_count = diff_count + 1;
+
+        count = count + 1;
+        if diff_count == 0:: successes = successes + 1;
+        if diff_count > 0:: failures = failures + 1;
+    end
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

@@ -24,6 +24,9 @@ import org.eclipse.escet.cif.cif2plc.options.PlcTaskPriorityOption;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcGlobalVarList;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouInstance;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcResource;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
@@ -39,6 +42,9 @@ public abstract class PlcBaseTarget extends PlcCodeGenSettings {
 
     /** Project with PLC code. */
     protected PlcProject project;
+
+    /** Task running the PLC program. */
+    protected PlcTask task;
 
     /** Global variable list for input variables. */
     protected PlcGlobalVarList globalInputs;
@@ -64,7 +70,7 @@ public abstract class PlcBaseTarget extends PlcCodeGenSettings {
         project = new PlcProject(PlcProjectNameOption.getProjName());
         PlcConfiguration config = new PlcConfiguration(PlcConfigurationNameOption.getCfgName());
         PlcResource resource = new PlcResource(PlcResourceNameOption.getResName());
-        PlcTask task = new PlcTask(PlcTaskNameOption.getTaskName(), PlcTaskCycleTimeOption.getTaskCycleTime(),
+        task = new PlcTask(PlcTaskNameOption.getTaskName(), PlcTaskCycleTimeOption.getTaskCycleTime(),
                 PlcTaskPriorityOption.getTaskPrio());
 
         project.configurations.add(config);
@@ -88,6 +94,16 @@ public abstract class PlcBaseTarget extends PlcCodeGenSettings {
         globalTimers.variables.add(new PlcVariable("timer0", tonType));
         globalTimers.variables.add(new PlcVariable("timer1", tonType));
         globalTimers.variables.add(new PlcVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
+    }
+
+    /** Construct the main program. */
+    public void generateProgram() {
+     // Create code file for program, with header etc.
+        PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
+        project.pous.add(main);
+
+        // Add program to task.
+        task.pouInstances.add(new PlcPouInstance("MAIN", main));
     }
 
     /**
