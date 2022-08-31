@@ -13,7 +13,9 @@
 
 package org.eclipse.escet.cif.eventbased.equivalence;
 
+import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -103,15 +105,15 @@ public class LangEquivCalculation extends BlockPartitioner {
                 followUpPath = getSplitExplanationPath(nextLoc1, nextLoc2);
             } else {
                 // Possibility 2. The reason is conclusive, no follow-up reason needed.
-                followUpPath = list();
+                followUpPath = Collections.emptyList();
             }
         } else {
             // Possibility 1. The reason is conclusive, no follow-up reason needed.
-            followUpPath = list();
+            followUpPath = Collections.emptyList();
         }
 
-        // Return the path that explanation the splitting reason.
-        List<Event> splitPath = list();
+        // Return the path that explains the splitting reason.
+        List<Event> splitPath = listc(1 + followUpPath.size());
         splitPath.add(block1.splitEvent);
         splitPath.addAll(followUpPath);
         return splitPath;
@@ -171,30 +173,25 @@ public class LangEquivCalculation extends BlockPartitioner {
         }
 
         // Get the last explanation event to determine the conclusive reason.
-        Event lastExplenationEvent = splitExplanationPath.get(splitExplanationPath.size() - 1);
-
-        // Determine what the exact reason is.
-        int numEventsEnabled = 0;
+        Event lastExplenationEvent = last(splitExplanationPath);
 
         // If no final event is given, the reason is already conclusive (because of markings).
         if (lastExplenationEvent == null) {
             return new CounterExample(path, locs, null);
         }
 
-        // Determine if how many states the final event is enabled.
-        numEventsEnabled = (getNextLocation(locs[0], lastExplenationEvent) == null ? 0 : 1)
+        // Determine for how many states the final event is enabled.
+        int numEventsEnabled = (getNextLocation(locs[0], lastExplenationEvent) == null ? 0 : 1)
                 + (getNextLocation(locs[1], lastExplenationEvent) == null ? 0 : 1);
-        if (numEventsEnabled == 1) {
-            // One reason points to a block, the other doesn't. This means the event is enabled in one location, but
-            // not in the other.
-            finalEvent = lastExplenationEvent;
-        } else {
-            // If both point towards a block, then the reason is not conclusive. That should not happen.
-            // If neither points towards a block, then something is wrong.
+
+        if (numEventsEnabled != 1) {
+            // If the event is enabled for both states, then the reason is not conclusive. That should not happen.
+            // If the event is disabled for both states, then the reason is not conclusive. That should not happen.
             Assert.fail();
         }
 
-        return new CounterExample(path, locs, finalEvent);
+        // The event is enabled for one state, but not for the other. This is a conclusive reason.
+        return new CounterExample(path, locs, lastExplenationEvent);
     }
 
     /**

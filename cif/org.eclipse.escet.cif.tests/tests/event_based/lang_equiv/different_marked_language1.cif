@@ -28,6 +28,7 @@ automaton B:
     initial;
     edge a goto L2;
 
-  location L2: marked;
+  location L2:
+    marked;
     edge b goto L1;
 end

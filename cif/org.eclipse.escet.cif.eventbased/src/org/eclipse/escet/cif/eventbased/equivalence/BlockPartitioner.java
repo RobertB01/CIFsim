@@ -330,12 +330,9 @@ public abstract class BlockPartitioner {
             boolean first = true;
             Block counterExample = null;
             for (Entry<Integer, List<BlockLocation>> succBlkEntry: succBlocks.entrySet()) {
-                // Save reasoning why block needs to be split.
-                Event splitReason = evt;
-
                 // Make new block and add it to the 'blocks'.
                 Block newBlock = makeBlock(succBlkEntry.getValue().size(),
-                        Arrays.copyOf(blk.outEvents, blk.outEvents.length), blk, splitReason);
+                        Arrays.copyOf(blk.outEvents, blk.outEvents.length), blk, evt);
                 int newBlocknum;
                 if (first) {
                     blocks.set(blkIndex, newBlock);
@@ -392,15 +389,15 @@ public abstract class BlockPartitioner {
      * @param outgoing Outgoing events to successor blocks. Use {@code null} for creating a new block with 'unknown'
      *     entries.
      * @param parent The block where this block was split from. May be {@code null} if was not split from another block.
-     * @param parentReason The reason why this block was split from the parent. May be {@code null} if there is no
-     *     parent.
+     * @param splitEvent The event that initiated the split from the parent block. May be {@code null} if the split was
+     *     based on markings.
      * @return The created block.
      */
-    private Block makeBlock(int numLocs, Integer[] outgoing, Block parent, Event parentReason) {
+    private Block makeBlock(int numLocs, Integer[] outgoing, Block parent, Event splitEvent) {
         if (outgoing == null) {
             outgoing = new Integer[events.length];
         }
-        return new Block(events.length, numLocs, outgoing, parent, parentReason);
+        return new Block(events.length, numLocs, outgoing, parent, splitEvent);
     }
 
     /**
