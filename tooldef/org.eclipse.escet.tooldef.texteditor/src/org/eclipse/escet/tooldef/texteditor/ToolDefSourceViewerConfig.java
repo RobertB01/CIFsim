@@ -13,32 +13,50 @@
 
 package org.eclipse.escet.tooldef.texteditor;
 
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.COMMENT_ML;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.COMMENT_SL;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.STRING;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.STRING_ESCAPE;
+
 import org.eclipse.escet.setext.texteditorbase.GenericSourceViewerConfiguration;
 import org.eclipse.escet.setext.texteditorbase.scanners.FormatStringScanner;
 import org.eclipse.escet.setext.texteditorbase.scanners.SingleStyleScanner;
+import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.ITokenScanner;
 
 /** ToolDef text editor source viewer configuration. */
 public class ToolDefSourceViewerConfig extends GenericSourceViewerConfiguration {
+    /** The theme to use. */
+    private final TextEditorTheme<ToolDefTextEditorStyleNames> theme;
+
+    /**
+     * Constructor for the {@link ToolDefSourceViewerConfig} class.
+     *
+     * @param theme The theme to use.
+     */
+    public ToolDefSourceViewerConfig(TextEditorTheme<ToolDefTextEditorStyleNames> theme) {
+        this.theme = theme;
+    }
+
     @Override
     protected void addDamagersRepairers(PresentationReconciler reconciler) {
         // DEFAULT.
-        ITokenScanner scanner = new ToolDefTextEditorScanner(colorManager);
+        ITokenScanner scanner = new ToolDefTextEditorScanner(theme, colorManager);
         addDamagerRepairer(reconciler, scanner, DEFAULT_CONTENT_TYPE);
 
         // COMMENT_ML.
-        ITokenScanner commentMlScanner = new SingleStyleScanner(ToolDefStyles.COMMENT_ML.createToken(colorManager));
+        ITokenScanner commentMlScanner = new SingleStyleScanner(theme.getStyle(COMMENT_ML).createToken(colorManager));
         addDamagerRepairer(reconciler, commentMlScanner, "__tooldef_comment_ml");
 
         // COMMENT_SL.
-        ITokenScanner commentSlScanner = new SingleStyleScanner(ToolDefStyles.COMMENT_SL.createToken(colorManager));
+        ITokenScanner commentSlScanner = new SingleStyleScanner(theme.getStyle(COMMENT_SL).createToken(colorManager));
         addDamagerRepairer(reconciler, commentSlScanner, "__tooldef_comment_sl");
 
         // STRING (string literals, paths, format patterns, etc).
-        ITokenScanner stringScanner = new FormatStringScanner(ToolDefStyles.STRING.createToken(colorManager),
-                ToolDefStyles.STRING_ESCAPE.createToken(colorManager),
-                ToolDefStyles.STRING_ESCAPE.createToken(colorManager));
+        ITokenScanner stringScanner = new FormatStringScanner(theme.getStyle(STRING).createToken(colorManager),
+                theme.getStyle(STRING_ESCAPE).createToken(colorManager),
+                theme.getStyle(STRING_ESCAPE).createToken(colorManager));
         addDamagerRepairer(reconciler, stringScanner, "__tooldef_string");
     }
 }

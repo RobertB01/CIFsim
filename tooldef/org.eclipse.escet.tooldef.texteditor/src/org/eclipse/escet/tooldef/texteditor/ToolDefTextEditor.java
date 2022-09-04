@@ -19,10 +19,11 @@ import org.eclipse.escet.tooldef.parser.ToolDefParser;
 import org.eclipse.escet.tooldef.typechecker.ToolDefTypeChecker;
 
 /** ToolDef text editor for Eclipse. */
-public class ToolDefTextEditor extends GenericTextEditor<Script, Script> {
+public class ToolDefTextEditor extends GenericTextEditor<Script, Script, ToolDefTextEditorStyleNames> {
     /** Constructor for the {@link ToolDefTextEditor} class. */
     public ToolDefTextEditor() {
-        super(new ToolDefPartitionScanner(), new ToolDefSourceViewerConfig(), ToolDefParser.class,
+        super(new ToolDefPartitionScanner(), theme -> new ToolDefSourceViewerConfig(theme),
+                new ToolDefTextEditorDarkTheme(), new ToolDefTextEditorLightTheme(), ToolDefParser.class,
                 ToolDefTypeChecker.class, "org.eclipse.escet.tooldef.texteditor.ToolDefSyntaxProblem",
                 "org.eclipse.escet.tooldef.texteditor.ToolDefSemanticProblem", "//");
     }

@@ -14,6 +14,12 @@
 package org.eclipse.escet.tooldef.texteditor;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.BUILTIN;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.DEFAULT;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.IDENTIFIER;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.KEYWORD;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.NUMBER;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.OPERATOR;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
@@ -22,6 +28,7 @@ import org.eclipse.escet.setext.texteditorbase.detectors.GenericWhitespaceDetect
 import org.eclipse.escet.setext.texteditorbase.rules.IntNumberRule;
 import org.eclipse.escet.setext.texteditorbase.rules.KeywordsRule;
 import org.eclipse.escet.setext.texteditorbase.rules.RegExRule;
+import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.escet.tooldef.parser.ToolDefScanner;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
@@ -31,9 +38,10 @@ public class ToolDefTextEditorScanner extends RuleBasedScannerEx {
     /**
      * Constructor for the {@link ToolDefTextEditorScanner} class.
      *
+     * @param theme The theme to use.
      * @param manager The color manager to use to create the color tokens.
      */
-    public ToolDefTextEditorScanner(ColorManager manager) {
+    public ToolDefTextEditorScanner(TextEditorTheme<ToolDefTextEditorStyleNames> theme, ColorManager manager) {
         // Keywords copied from ToolDef scanner.
         String[] keywords = ToolDefScanner.getKeywords("Keyword");
         String[] operators = ToolDefScanner.getKeywords("Operator");
@@ -63,16 +71,17 @@ public class ToolDefTextEditorScanner extends RuleBasedScannerEx {
         // Construct and set predicate rules. Make sure we also have a default
         // token.
         IRule[] rules = new IRule[] { //
-                new KeywordsRule(keywords, ToolDefStyles.KEYWORD.createToken(manager)), //
-                new KeywordsRule(builtins, ToolDefStyles.BUILTIN.createToken(manager)), //
-                new KeywordsRule(operators, ToolDefStyles.OPERATOR.createToken(manager)), //
-                new RegExRule(namePat, ToolDefStyles.IDENTIFIER.createToken(manager)), //
-                new RegExRule(realPat, ToolDefStyles.NUMBER.createToken(manager)), //
-                new IntNumberRule(ToolDefStyles.NUMBER.createToken(manager)), //
-                new WhitespaceRule(new GenericWhitespaceDetector()) //
+                new KeywordsRule(keywords, theme.getStyle(KEYWORD).createToken(manager)),
+                new KeywordsRule(builtins, theme.getStyle(BUILTIN).createToken(manager)),
+                new KeywordsRule(operators, theme.getStyle(OPERATOR).createToken(manager)),
+                new RegExRule(namePat, theme.getStyle(IDENTIFIER).createToken(manager)),
+                new RegExRule(realPat, theme.getStyle(NUMBER).createToken(manager)),
+                new IntNumberRule(theme.getStyle(NUMBER).createToken(manager)),
+                new WhitespaceRule(new GenericWhitespaceDetector())
+                //
         };
         setRules(rules);
 
-        setDefaultReturnToken(ToolDefStyles.DEFAULT.createToken(manager));
+        setDefaultReturnToken(theme.getStyle(DEFAULT).createToken(manager));
     }
 }
