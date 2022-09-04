@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 
 import org.eclipse.escet.cif.eventbased.automata.Event;
+import org.eclipse.escet.common.java.Assert;
 
 /**
  * Block in the language equivalence check.
@@ -75,6 +76,7 @@ public class Block {
         outEvents = outgoing;
         this.parent = parent;
         this.splitEvent = splitEvent;
+        Assert.implies(splitEvent != null, parent != null);
 
         // Determine depth.
         depth = (parent == null) ? 0 : (parent.depth + 1);

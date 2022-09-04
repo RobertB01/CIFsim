@@ -185,10 +185,12 @@ public abstract class BlockPartitioner {
      * @param name Name of the partition state.
      */
     private void dumpPartition(String name) {
+        // Skip if debug output is disabled.
         if (!dodbg()) {
             return;
         }
 
+        // Print debug output.
         dbg(name + ":");
         idbg();
         for (int blkNum = 0; blkNum < blocks.size(); blkNum++) {
