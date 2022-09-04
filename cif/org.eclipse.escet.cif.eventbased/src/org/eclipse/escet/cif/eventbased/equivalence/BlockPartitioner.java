@@ -195,41 +195,42 @@ public abstract class BlockPartitioner {
             Block blk = blocks.get(blkNum);
 
             // Dump block number + location names.
-            String s = fmt("Block %d:", blkNum);
+            StringBuilder s = new StringBuilder();
+            s.append(fmt("Block %d:", blkNum));
             for (BlockLocation bloc: blk.locs) {
                 Location loc = bloc.loc;
-                s += fmt(" %s", loc.origin);
+                s.append(fmt(" %s", loc.origin));
             }
-            dbg(s);
+            dbg(s.toString());
 
             // Dump inputs.
-            s = "";
+            s = new StringBuilder();
             for (int evtNum = 0; evtNum < events.length; evtNum++) {
-                String t = "";
+                StringBuilder t = new StringBuilder();
                 for (Integer inBlk: blk.inEvents.get(evtNum)) {
-                    if (!t.isEmpty()) {
-                        t += ", ";
+                    if (t.length() > 0) {
+                        t.append(", ");
                     }
-                    t += fmt("%s", inBlk);
+                    t.append(fmt("%s", inBlk));
                 }
-                if (!s.isEmpty()) {
-                    s += ", ";
+                if (s.length() > 0) {
+                    s.append(", ");
                 }
-                s += fmt("%s -> [%s]", events[evtNum].name, t);
+                s.append(fmt("%s -> [%s]", events[evtNum].name, t));
             }
             dbg("Input: " + s);
 
             // Dump outputs.
-            s = "";
+            s = new StringBuilder();
             for (int evtNum = 0; evtNum < events.length; evtNum++) {
-                if (!s.isEmpty()) {
-                    s += ", ";
+                if (s.length() > 0) {
+                    s.append(", ");
                 }
                 Integer out = blk.outEvents[evtNum];
                 if (out == null) {
-                    s += fmt("%s -> ?", events[evtNum].name);
+                    s.append(fmt("%s -> ?", events[evtNum].name));
                 } else {
-                    s += fmt("%s -> %s", events[evtNum].name, out);
+                    s.append(fmt("%s -> %s", events[evtNum].name, out));
                 }
             }
             dbg("Output: " + s);
