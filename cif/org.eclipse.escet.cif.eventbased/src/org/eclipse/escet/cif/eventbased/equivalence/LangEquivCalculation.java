@@ -169,7 +169,7 @@ public class LangEquivCalculation extends BlockPartitioner {
 
         // Execute the path towards the conclusive states. The last event is excluded, as that contains the conclusive
         // reason.
-        for (int i = 0; i <= splitExplanationPath.size() - 2; i++) {
+        for (int i = 0; i < splitExplanationPath.size() - 1; i++) {
             Event evt = splitExplanationPath.get(i);
             path.add(evt);
             locs[0] = getNextLocation(locs[0], evt);
