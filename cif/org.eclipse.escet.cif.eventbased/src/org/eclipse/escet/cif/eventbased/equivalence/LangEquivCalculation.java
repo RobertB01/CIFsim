@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.eventbased.equivalence;
 
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -40,8 +39,8 @@ public class LangEquivCalculation extends BlockPartitioner {
     }
 
     /**
-     * Check whether both automata provided in the constructor, have the same language using the block partitioning
-     * algorithm by Kanellakis and Smolka.
+     * Check whether both automata provided in the constructor, have the same language using a {@link BlockPartitioner
+     * block partitioning algorithm}.
      *
      * <p>
      * Language equivalence exists if the initial locations of both automata are in the same block.
@@ -63,59 +62,69 @@ public class LangEquivCalculation extends BlockPartitioner {
      *     may be {@code null} to indicate that the markings are different.
      */
     private List<Event> getSplitExplanationPath(Location loc1, Location loc2) {
-        // Get lowest block (depth) where these locations are a part of.
-        Block block1 = blocks.get(blockLocs.get(loc1).blockNumber);
-        Block block2 = blocks.get(blockLocs.get(loc2).blockNumber);
+        // Initialize split explanation path.
+        List<Event> splitPath = list();
 
-        // Check that the locations are indeed part of two different blocks.
-        Assert.check(block1 != block2);
+        // Explore the path until a conclusive reason is found that explains why these locations are not part of the
+        // same block.
+        Location curLoc1 = loc1;
+        Location curLoc2 = loc2;
+        while (true) {
+            // Get lowest block (depth) where these locations are a part of.
+            Block block1 = blocks.get(blockLocs.get(curLoc1).blockNumber);
+            Block block2 = blocks.get(blockLocs.get(curLoc2).blockNumber);
 
-        // Get first two blocks where loc1 and loc2 are no longer in the same block.
-        while (block1.parent != block2.parent) {
-            int maxDepth = Math.max(block1.depth, block2.depth);
-            if (block1.depth == maxDepth) {
-                block1 = block1.parent;
+            // Check that the locations are indeed part of two different blocks.
+            Assert.check(block1 != block2);
+
+            // Get first two blocks where 'curLoc1' and 'curLoc2' are no longer in the same block.
+            while (block1.parent != block2.parent) {
+                int maxDepth = Math.max(block1.depth, block2.depth);
+                if (block1.depth == maxDepth) {
+                    block1 = block1.parent;
+                }
+                if (block2.depth == maxDepth) {
+                    block2 = block2.parent;
+                }
             }
-            if (block2.depth == maxDepth) {
-                block2 = block2.parent;
-            }
-        }
 
-        // Ensure that the blocks are different children.
-        Assert.check(block1 != block2);
+            // Ensure that the blocks are different children.
+            Assert.check(block1 != block2);
 
-        // Ensure that indeed both blocks are split because of the same event.
-        Assert.check(block1.splitEvent == block2.splitEvent);
+            // Ensure that indeed both blocks are split because of the same event.
+            Assert.check(block1.splitEvent == block2.splitEvent);
 
-        // Find the reason why these two blocks where created. There are three possibilities:
-        // 1) splitEvent == null: The splitting reason was because of markings. Conclusive.
-        // 2) splitEvent != null, and the event is not enabled in one location. Conclusive.
-        // 3) splitEvent != null, and the event is enabled in both locations. Not conclusive. Get the split explanation
-        // path for the two new locations.
-        List<Event> followUpPath;
-        if (block1.splitEvent != null) {
-            Location nextLoc1 = getNextLocation(loc1, block1.splitEvent);
-            Location nextLoc2 = getNextLocation(loc2, block2.splitEvent);
+            // Add an entry to the split explanation path.
+            splitPath.add(block1.splitEvent);
 
-            // We must have found at least one new location. Otherwise we've hit a dead end.
-            Assert.check(nextLoc1 != null || nextLoc2 != null);
+            // Find the reason why these two blocks where created. There are three possibilities:
+            // 1) splitEvent == null: The splitting reason was because of markings. Conclusive.
+            // 2) splitEvent != null, and the event is not enabled in one location. Conclusive.
+            // 3) splitEvent != null, and the event is enabled in both locations. Not conclusive. Continue searching
+            // from the two new locations. The search will terminate, as the splitting tree has no cycles.
+            if (block1.splitEvent != null) {
+                Location nextLoc1 = getNextLocation(curLoc1, block1.splitEvent);
+                Location nextLoc2 = getNextLocation(curLoc2, block2.splitEvent);
 
-            if (nextLoc1 != null && nextLoc2 != null) {
-                // Possibility 3. The reason is not conclusive, follow-up reason needed.
-                followUpPath = getSplitExplanationPath(nextLoc1, nextLoc2);
+                // We must have found at least one new location. Otherwise we've hit a dead end.
+                Assert.check(nextLoc1 != null || nextLoc2 != null);
+
+                if (nextLoc1 != null && nextLoc2 != null) {
+                    // Possibility 3. The reason is not conclusive, keep searching.
+                    curLoc1 = nextLoc1;
+                    curLoc2 = nextLoc2;
+                    continue;
+                } else {
+                    // Possibility 2. The reason is conclusive, stop searching.
+                    break;
+                }
             } else {
-                // Possibility 2. The reason is conclusive, no follow-up reason needed.
-                followUpPath = Collections.emptyList();
+                // Possibility 1. The reason is conclusive, stop searching.
+                break;
             }
-        } else {
-            // Possibility 1. The reason is conclusive, no follow-up reason needed.
-            followUpPath = Collections.emptyList();
         }
 
         // Return the path that explains the splitting reason.
-        List<Event> splitPath = listc(1 + followUpPath.size());
-        splitPath.add(block1.splitEvent);
-        splitPath.addAll(followUpPath);
         return splitPath;
     }
 
