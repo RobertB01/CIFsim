@@ -19,6 +19,9 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.eventbased.automata.Event;
+import org.eclipse.escet.common.java.Assert;
+
 /**
  * Block in the language equivalence check.
  *
@@ -38,9 +41,20 @@ public class Block {
     /** Blocks pointing to this block, ordered by event. */
     public final List<List<Integer>> inEvents;
 
+    /** Block that it was split from. May be {@code null} if was not split from another block. */
+    public final Block parent;
+
     /**
-     * For each event, the successor block it points to. Special value {@code null} means 'undecided', value {@code -1}
-     * means 'nowhere' (that is, the locations don't have this event).
+     * The event that initiated the split from the parent block. May be {@code null} if the split was based on markings.
+     */
+    public final Event splitEvent;
+
+    /** The depth of this block in the tree. */
+    public final int depth;
+
+    /**
+     * For each event, the successor block it points to. Special entry value {@code null} means 'undecided', entry value
+     * {@code -1} means 'nowhere' (that is, the locations don't have this event).
      */
     public Integer[] outEvents;
 
@@ -51,11 +65,21 @@ public class Block {
      * Constructor of the {@link Block} class.
      *
      * @param numEvents Number of events in the combined alphabet.
-     * @param numLocs Expected number of locations in this block. {@code -1} means 'unknown'.
-     * @param outgoing Successor block for each event.
+     * @param numLocs Expected number of locations in this block, or {@code -1} for 'unknown'.
+     * @param outgoing For each event, the successor block it points to. Special entry value {@code null} means
+     *     'undecided', entry value {@code -1} means 'nowhere' (that is, the locations don't have this event).
+     * @param parent The block where this block was split from. May be {@code null} if was not split from another block.
+     * @param splitEvent The event that initiated the split from the parent block. May be {@code null} if the split was
+     *     based on markings.
      */
-    public Block(int numEvents, int numLocs, Integer[] outgoing) {
+    public Block(int numEvents, int numLocs, Integer[] outgoing, Block parent, Event splitEvent) {
         outEvents = outgoing;
+        this.parent = parent;
+        this.splitEvent = splitEvent;
+        Assert.implies(splitEvent != null, parent != null);
+
+        // Determine depth.
+        depth = (parent == null) ? 0 : (parent.depth + 1);
 
         // Initialize 'inEvents' to 'nobody points to here'.
         inEvents = listc(numEvents);

@@ -79,7 +79,13 @@ public abstract class BlockPartitioner {
     }
 
     /**
-     * Perform the block partition algorithm by Kanellakis and Smolka.
+     * Perform the block partition algorithm by Kanellakis and Smolka (1983).
+     *
+     * <p>
+     * For more information, see: Paris C. Kanellakis and Scott A. Smolka, "CCS Expressions, Finite State Processes, and
+     * Three Problems of Equivalence", In: Proceedings of the Second Annual ACM Symposium on Principles of Distributed
+     * Computing, pages 228-240, 1983, doi:<a href="https://doi.org/10.1145/800221.806724">10.1145/800221.806724</a>.
+     * </p>
      *
      * <p>
      * The end condition is that for every block, all locations in the block must agree on the successor block for each
@@ -109,9 +115,9 @@ public abstract class BlockPartitioner {
      *
      * <p>
      * Also, the implementation has the option to stop when a block is found containing locations from less than all
-     * automata. Since a block expresses equivalence between its locations, the path to any location in the found block
-     * does not exist in the non-present automata. This property is used to construct a counter example. The divergence
-     * of the path happens before reaching any state of the found block, but it may be much earlier.
+     * automata. Since a block expresses equivalence between its locations, this means at least one automaton is not
+     * language equivalent to the others. Additionally, a counter example is constructed, which is non-trivial, as the
+     * block where the deviation is detected, may not be the block where the deviation actually occurs.
      * </p>
      *
      * @return The information to construct a human-readable counter example for language equivalence, or {@code null}
@@ -121,7 +127,7 @@ public abstract class BlockPartitioner {
         // First create initial partitioning, based on marking of locations.
 
         // 'blks[0]' are unmarked locations, while 'blks[1]' are marked locations.
-        Block[] blks = {makeBlock(-1, null), makeBlock(-1, null)};
+        Block[] blks = {makeBlock(-1, null, null, null), makeBlock(-1, null, null, null)};
 
         // Only the reachable locations are added.
         for (int autNum = 0; autNum < this.automs.size(); autNum++) {
@@ -179,51 +185,54 @@ public abstract class BlockPartitioner {
      * @param name Name of the partition state.
      */
     private void dumpPartition(String name) {
+        // Skip if debug output is disabled.
         if (!dodbg()) {
             return;
         }
 
+        // Print debug output.
         dbg(name + ":");
         idbg();
         for (int blkNum = 0; blkNum < blocks.size(); blkNum++) {
             Block blk = blocks.get(blkNum);
 
             // Dump block number + location names.
-            String s = fmt("Block %d:", blkNum);
+            StringBuilder s = new StringBuilder();
+            s.append(fmt("Block %d:", blkNum));
             for (BlockLocation bloc: blk.locs) {
                 Location loc = bloc.loc;
-                s += fmt(" %s", loc.origin);
+                s.append(fmt(" %s", loc.origin));
             }
-            dbg(s);
+            dbg(s.toString());
 
             // Dump inputs.
-            s = "";
+            s = new StringBuilder();
             for (int evtNum = 0; evtNum < events.length; evtNum++) {
-                String t = "";
+                StringBuilder t = new StringBuilder();
                 for (Integer inBlk: blk.inEvents.get(evtNum)) {
-                    if (!t.isEmpty()) {
-                        t += ", ";
+                    if (t.length() > 0) {
+                        t.append(", ");
                     }
-                    t += fmt("%s", inBlk);
+                    t.append(fmt("%s", inBlk));
                 }
-                if (!s.isEmpty()) {
-                    s += ", ";
+                if (s.length() > 0) {
+                    s.append(", ");
                 }
-                s += fmt("%s -> [%s]", events[evtNum].name, t);
+                s.append(fmt("%s -> [%s]", events[evtNum].name, t));
             }
             dbg("Input: " + s);
 
             // Dump outputs.
-            s = "";
+            s = new StringBuilder();
             for (int evtNum = 0; evtNum < events.length; evtNum++) {
-                if (!s.isEmpty()) {
-                    s += ", ";
+                if (s.length() > 0) {
+                    s.append(", ");
                 }
                 Integer out = blk.outEvents[evtNum];
                 if (out == null) {
-                    s += fmt("%s -> ?", events[evtNum].name);
+                    s.append(fmt("%s -> ?", events[evtNum].name));
                 } else {
-                    s += fmt("%s -> %s", events[evtNum].name, out);
+                    s.append(fmt("%s -> %s", events[evtNum].name, out));
                 }
             }
             dbg("Output: " + s);
@@ -327,10 +336,11 @@ public abstract class BlockPartitioner {
             unlinkOutgoing(blk, blkIndex); // All self-loops of 'blkIndex' are dropped here.
 
             boolean first = true;
+            Block counterExample = null;
             for (Entry<Integer, List<BlockLocation>> succBlkEntry: succBlocks.entrySet()) {
                 // Make new block and add it to the 'blocks'.
                 Block newBlock = makeBlock(succBlkEntry.getValue().size(),
-                        Arrays.copyOf(blk.outEvents, blk.outEvents.length));
+                        Arrays.copyOf(blk.outEvents, blk.outEvents.length), blk, evt);
                 int newBlocknum;
                 if (first) {
                     blocks.set(blkIndex, newBlock);
@@ -347,7 +357,11 @@ public abstract class BlockPartitioner {
                     newBlock.locs.add(bl);
                 }
                 if (requireAllAutomata && !newBlock.allAutomataPresent(automs.size())) {
-                    return constructCounterExample(newBlock, evt);
+                    // Found a block where not locations from all automata were present.
+                    // Save the block, but continue to create the additional blocks for counterexample generation.
+                    if (counterExample == null) {
+                        counterExample = newBlock;
+                    }
                 }
 
                 // The 'succBlkEntry' variable contains the destination block to point to, for the event we split on.
@@ -364,6 +378,12 @@ public abstract class BlockPartitioner {
                 markBlockForReview(newBlocknum);
             }
 
+            // Check whether a violation block was found.
+            if (counterExample != null) {
+                // A violation has been found, construct a counter example.
+                return constructCounterExample(counterExample, evt);
+            }
+
             Assert.check(!blk.needsReview);
             return null; // Dump the block (new blocks have been added to the queue).
         }
@@ -374,15 +394,19 @@ public abstract class BlockPartitioner {
      * Construct a new block.
      *
      * @param numLocs Expected number of locations, or {@code -1} for 'unknown'.
-     * @param outgoing Outgoing events to successor blocks. Use {@code null} for creating a new block with 'unknown'
-     *     entries.
+     * @param outgoing For each event, the successor block it points to. Special entry value {@code null} means
+     *     'undecided', entry value {@code -1} means 'nowhere' (that is, the locations don't have this event). Use
+     *     {@code null} instead of the entire array, for creating a new block with 'unknown' entries.
+     * @param parent The block where this block was split from. May be {@code null} if was not split from another block.
+     * @param splitEvent The event that initiated the split from the parent block. May be {@code null} if the split was
+     *     based on markings.
      * @return The created block.
      */
-    private Block makeBlock(int numLocs, Integer[] outgoing) {
+    private Block makeBlock(int numLocs, Integer[] outgoing, Block parent, Event splitEvent) {
         if (outgoing == null) {
             outgoing = new Integer[events.length];
         }
-        return new Block(events.length, numLocs, outgoing);
+        return new Block(events.length, numLocs, outgoing, parent, splitEvent);
     }
 
     /**
@@ -475,7 +499,7 @@ public abstract class BlockPartitioner {
     }
 
     /**
-     * Construct a counter example for the a location in the block.
+     * Construct a counter example for a location in the block.
      *
      * @param block Block with locations of less than all automata.
      * @param finalEvent Event being used for splitting, creating this block. {@code null} means the difference is
