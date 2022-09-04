@@ -173,16 +173,16 @@ public class LangEquivCalculation extends BlockPartitioner {
         }
 
         // Get the last explanation event to determine the conclusive reason.
-        Event lastExplenationEvent = last(splitExplanationPath);
+        Event lastExplanationEvent = last(splitExplanationPath);
 
         // If no final event is given, the reason is already conclusive (because of markings).
-        if (lastExplenationEvent == null) {
+        if (lastExplanationEvent == null) {
             return new CounterExample(path, locs, null);
         }
 
         // Determine for how many states the final event is enabled.
-        int numEventsEnabled = (getNextLocation(locs[0], lastExplenationEvent) == null ? 0 : 1)
-                + (getNextLocation(locs[1], lastExplenationEvent) == null ? 0 : 1);
+        int numEventsEnabled = (getNextLocation(locs[0], lastExplanationEvent) == null ? 0 : 1)
+                + (getNextLocation(locs[1], lastExplanationEvent) == null ? 0 : 1);
 
         if (numEventsEnabled != 1) {
             // If the event is enabled for both states, then the reason is not conclusive. That should not happen.
@@ -191,7 +191,7 @@ public class LangEquivCalculation extends BlockPartitioner {
         }
 
         // The event is enabled for one state, but not for the other. This is a conclusive reason.
-        return new CounterExample(path, locs, lastExplenationEvent);
+        return new CounterExample(path, locs, lastExplanationEvent);
     }
 
     /**

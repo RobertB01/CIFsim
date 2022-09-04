@@ -79,7 +79,13 @@ public abstract class BlockPartitioner {
     }
 
     /**
-     * Perform the block partition algorithm by Kanellakis and Smolka.
+     * Perform the block partition algorithm by Kanellakis and Smolka (1983).
+     *
+     * <p>
+     * For more information, see: Paris C. Kanellakis and Scott A. Smolka, "CCS Expressions, Finite State Processes, and
+     * Three Problems of Equivalence", In: Proceedings of the Second Annual ACM Symposium on Principles of Distributed
+     * Computing, pages 228-240, 1983, doi:<a href="https://doi.org/10.1145/800221.806724">10.1145/800221.806724</a>.
+     * </p>
      *
      * <p>
      * The end condition is that for every block, all locations in the block must agree on the successor block for each
@@ -109,9 +115,9 @@ public abstract class BlockPartitioner {
      *
      * <p>
      * Also, the implementation has the option to stop when a block is found containing locations from less than all
-     * automata. Since a block expresses equivalence between its locations, the path to any location in the found block
-     * does not exist in the non-present automata. This property is used to construct a counter example. The divergence
-     * of the path happens before reaching any state of the found block, but it may be much earlier.
+     * automata. Since a block expresses equivalence between its locations, this means at least one automaton is not
+     * language equivalent to the others. Additionally, a counter example is constructed, which is non-trivial, as the
+     * block where the deviation is detected, may not be the block where the deviation actually occurs.
      * </p>
      *
      * @return The information to construct a human-readable counter example for language equivalence, or {@code null}
@@ -121,8 +127,7 @@ public abstract class BlockPartitioner {
         // First create initial partitioning, based on marking of locations.
 
         // 'blks[0]' are unmarked locations, while 'blks[1]' are marked locations.
-        Block[] blks = {makeBlock(-1, null, null, null),
-                makeBlock(-1, null, null, null)};
+        Block[] blks = {makeBlock(-1, null, null, null), makeBlock(-1, null, null, null)};
 
         // Only the reachable locations are added.
         for (int autNum = 0; autNum < this.automs.size(); autNum++) {
@@ -386,8 +391,9 @@ public abstract class BlockPartitioner {
      * Construct a new block.
      *
      * @param numLocs Expected number of locations, or {@code -1} for 'unknown'.
-     * @param outgoing Outgoing events to successor blocks. Use {@code null} for creating a new block with 'unknown'
-     *     entries.
+     * @param outgoing For each event, the successor block it points to. Special entry value {@code null} means
+     *     'undecided', entry value {@code -1} means 'nowhere' (that is, the locations don't have this event). Use
+     *     {@code null} instead of the entire array, for creating a new block with 'unknown' entries.
      * @param parent The block where this block was split from. May be {@code null} if was not split from another block.
      * @param splitEvent The event that initiated the split from the parent block. May be {@code null} if the split was
      *     based on markings.

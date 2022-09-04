@@ -52,8 +52,8 @@ public class Block {
     public final int depth;
 
     /**
-     * For each event, the successor block it points to. Special value {@code null} means 'undecided', value {@code -1}
-     * means 'nowhere' (that is, the locations don't have this event).
+     * For each event, the successor block it points to. Special entry value {@code null} means 'undecided', entry value
+     * {@code -1} means 'nowhere' (that is, the locations don't have this event).
      */
     public Integer[] outEvents;
 
@@ -64,8 +64,9 @@ public class Block {
      * Constructor of the {@link Block} class.
      *
      * @param numEvents Number of events in the combined alphabet.
-     * @param numLocs Expected number of locations in this block. {@code -1} means 'unknown'.
-     * @param outgoing Successor block for each event.
+     * @param numLocs Expected number of locations in this block, or {@code -1} for 'unknown'.
+     * @param outgoing For each event, the successor block it points to. Special entry value {@code null} means
+     *     'undecided', entry value {@code -1} means 'nowhere' (that is, the locations don't have this event).
      * @param parent The block where this block was split from. May be {@code null} if was not split from another block.
      * @param splitEvent The event that initiated the split from the parent block. May be {@code null} if the split was
      *     based on markings.
