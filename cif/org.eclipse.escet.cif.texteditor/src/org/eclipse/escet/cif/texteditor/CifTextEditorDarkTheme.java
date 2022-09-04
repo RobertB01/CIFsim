@@ -27,9 +27,9 @@ public class CifTextEditorDarkTheme implements TextEditorTheme<CifTextEditorStyl
             case IDENTIFIER:
                 return new Style(240, 240, 240);
             case COMMENT_SL:
-                return new Style(160, 160, 160, SWT.ITALIC);
+                return new Style(150, 150, 150, SWT.ITALIC);
             case COMMENT_ML:
-                return new Style(160, 160, 160, SWT.ITALIC);
+                return new Style(150, 150, 150, SWT.ITALIC);
             case STRING:
                 return new Style(235, 64, 64);
             case STRING_ESCAPE:

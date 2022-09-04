@@ -29,9 +29,9 @@ public class SeTextTextEditorDarkTheme implements TextEditorTheme<SeTextTextEdit
             case DESCRIPTION:
                 return new Style(64, 210, 210);
             case COMMENT_SL:
-                return new Style(160, 160, 160, SWT.ITALIC);
+                return new Style(150, 150, 150, SWT.ITALIC);
             case COMMENT_ML:
-                return new Style(160, 160, 160, SWT.ITALIC);
+                return new Style(150, 150, 150, SWT.ITALIC);
             case STRING:
                 return new Style(235, 64, 64);
             case KEYWORD:
