@@ -13,23 +13,26 @@
 
 package org.eclipse.escet.setext.texteditor;
 
-import org.eclipse.escet.setext.texteditorbase.Style;
-import org.eclipse.swt.SWT;
+/** SeText text editor style names. */
+public enum SeTextTextEditorStyleNames {
+    /** Default style. */
+    DEFAULT,
 
-/** Styles for the SeText text editor. */
-@SuppressWarnings("javadoc")
-public interface SeTextStyles {
-    Style DEFAULT = new Style(64, 32, 32);
+    /** Identifier style. */
+    IDENTIFIER,
 
-    Style IDENTIFIER = new Style(0, 0, 0);
+    /** Description style. */
+    DESCRIPTION,
 
-    Style DESCRIPTION = new Style(0, 97, 192);
+    /** Single-line comment style. */
+    COMMENT_SL,
 
-    Style COMMENT_SL = new Style(128, 128, 128, SWT.ITALIC);
+    /** Multi-line comment style. */
+    COMMENT_ML,
 
-    Style COMMENT_ML = new Style(128, 128, 128, SWT.ITALIC);
+    /** String literal style. */
+    STRING,
 
-    Style STRING = new Style(192, 0, 0);
-
-    Style KEYWORD = new Style(0, 0, 255);
+    /** Keyword style. */
+    KEYWORD,
 }
