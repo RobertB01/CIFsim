@@ -22,10 +22,11 @@ import org.eclipse.escet.chi.typecheck.ChiTypeChecker;
 import org.eclipse.escet.setext.texteditorbase.GenericTextEditor;
 
 /** Chi text editor for Eclipse. */
-public class ChiTextEditor extends GenericTextEditor<List<Declaration>, Specification> {
+public class ChiTextEditor extends GenericTextEditor<List<Declaration>, Specification, ChiTextEditorStyleNames> {
     /** Constructor for the {@link ChiTextEditor} class. */
     public ChiTextEditor() {
-        super(new ChiPartitionScanner(), new ChiSourceViewerConfig(), ChiParser.class, ChiTypeChecker.class,
+        super(new ChiPartitionScanner(), theme -> new ChiSourceViewerConfig(theme), new ChiTextEditorDarkTheme(),
+                new ChiTextEditorLightTheme(), ChiParser.class, ChiTypeChecker.class,
                 "org.eclipse.escet.chi.texteditor.ChiSyntaxError", "org.eclipse.escet.chi.texteditor.ChiSemanticError",
                 "#");
     }
