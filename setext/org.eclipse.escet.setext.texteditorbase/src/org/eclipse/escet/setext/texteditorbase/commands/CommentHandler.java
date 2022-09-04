@@ -36,7 +36,7 @@ public class CommentHandler extends CommentHandlerBase {
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         // Get generic text editor.
-        GenericTextEditor<?, ?> editor = getTextEditor(event);
+        GenericTextEditor<?, ?, ?> editor = getTextEditor(event);
         if (editor == null) {
             return null;
         }

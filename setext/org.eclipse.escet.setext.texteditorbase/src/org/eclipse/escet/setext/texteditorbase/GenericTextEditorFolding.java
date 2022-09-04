@@ -51,7 +51,7 @@ public class GenericTextEditorFolding {
     private static final QualifiedName PERSIST_NAME = new QualifiedName(PACKAGE_NAME, "collapsedFoldRanges");
 
     /** The text editor to which folding support is to be provided. */
-    private final GenericTextEditor<?, ?> textEditor;
+    private final GenericTextEditor<?, ?, ?> textEditor;
 
     /** Projection annotation model, for folding support. */
     private ProjectionAnnotationModel projAnnoModel;
@@ -70,7 +70,7 @@ public class GenericTextEditorFolding {
      *
      * @param textEditor The text editor to which folding support is to be provided.
      */
-    public GenericTextEditorFolding(GenericTextEditor<?, ?> textEditor) {
+    public GenericTextEditorFolding(GenericTextEditor<?, ?, ?> textEditor) {
         this.textEditor = textEditor;
     }
 
