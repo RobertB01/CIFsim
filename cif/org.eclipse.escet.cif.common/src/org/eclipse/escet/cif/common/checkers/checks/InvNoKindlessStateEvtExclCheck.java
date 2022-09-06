@@ -18,6 +18,7 @@ import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -30,8 +31,14 @@ public class InvNoKindlessStateEvtExclCheck extends CifCheck {
             if (inv.getInvKind() == InvKind.EVENT_NEEDS || inv.getInvKind() == InvKind.EVENT_DISABLES) {
                 SupKind supKind = inv.getSupKind();
                 if (supKind == SupKind.NONE) {
-                    violations.add(comp,
-                            "component has a kindless state/event exclusion invariant, lacking a supervisory kind");
+                    if (comp instanceof Specification) {
+                        violations.add(null,
+                                "top level scope of the specification has a kindless state/event exclusion invariant, "
+                                        + "lacking a supervisory kind");
+                    } else {
+                        violations.add(comp,
+                                "component has a kindless state/event exclusion invariant, lacking a supervisory kind");
+                    }
                 }
             }
         }

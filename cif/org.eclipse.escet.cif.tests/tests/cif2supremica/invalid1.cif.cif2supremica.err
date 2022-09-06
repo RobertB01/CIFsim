@@ -57,3 +57,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g.p1": uses unary operator "-" on an operand of type "real" in unary expression "-2.0".
  - Unsupported "g.p2": automata has multiple (2) initial locations.
  - Unsupported "g.snd": automaton has an urgent edge.
+ - Unsupported specification: top level scope of the specification contains an initialization predicate.
+ - Unsupported specification: top level scope of the specification has a kindless state invariant.
+ - Unsupported specification: top level scope of the specification has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported specification: top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".

@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.common.checkers.checks;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 
 /**
  * CIF check that does not allow initialization predicates in components, i.e., does not allow initialization predicates
@@ -25,7 +26,11 @@ public class CompNoInitPredsCheck extends CifCheck {
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         if (!comp.getInitials().isEmpty()) {
-            violations.add(comp, "component contains an initialization predicate");
+            if (comp instanceof Specification) {
+                violations.add(null, "top level scope of the specification contains an initialization predicate");
+            } else {
+                violations.add(comp, "component contains an initialization predicate");
+            }
         }
     }
 }
