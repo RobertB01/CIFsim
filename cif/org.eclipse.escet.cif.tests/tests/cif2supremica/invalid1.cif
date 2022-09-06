@@ -66,7 +66,7 @@ group g:
       initial;
   end
 
-  initial 1 = 1;                    // Initial in component.
+  initial 1 = 1;                    // Initialization predicate in component.
 
   marked not false;                 // Marker predicate in component: not bin expr.
   marked 1 > 2;                     // Marker predicate in component: not '=' bin expr.
@@ -92,8 +92,8 @@ group g:
   end
 end
 
-invariant 11 = 11; // Non requirement invariant in top level scope of specification.
-initial 2 = 2;     // Initial in top level scope of specification.
+invariant 11 = 11; // Non-requirement invariant in top level scope of specification.
+initial 2 = 2;     // Initialization predicate in top level scope of specification.
 marked 3 > 4;      // Marker predicate in top level scope of specification.
 marked true;       // Marker predicate in top level scope of specification.
 
