@@ -18,34 +18,89 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Objects;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.common.checkers.messages.CifCheckViolationMessage;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF check condition violation. */
 public class CifCheckViolation {
     /**
-     * The named CIF object for which the violation is reported, or {@code null} to report it for the CIF specification.
+     * The provided CIF object for which the violation is to be reported. May be {@code null} to report for the CIF
+     * specification. Is never a {@link Specification}. If it is not a named CIF object, the violation is reported on
+     * its closest named ancestor.
      */
-    private final PositionObject cifObject;
+    private final PositionObject providedReportObject;
+
+    /**
+     * The named CIF object on which the violation is to be reported, or {@code null} to report it on the CIF
+     * specification.
+     */
+    private final PositionObject actualReportObject;
 
     /** The message describing the violation. */
-    private final String message;
+    private final CifCheckViolationMessage message;
 
     /**
      * Constructor for the {@link CifCheckViolation} class.
      *
-     * @param cifObject The named CIF object for which the violation is reported, or {@code null} to report it for the
-     *     CIF specification.
-     * @param message The message describing the violation. E.g., {@code "event is a channel"},
-     *     {@code "automaton is a kindless automaton, lacking a supervisory kind"} or
-     *     {@code "specification has no automata"}.
+     * @param cifObject The CIF object for which the violation is to be reported. Note that:
+     *     <ul>
+     *     <li>If this object itself is not named, then the {@link CifTextUtils#getNamedSelfOrAncestor closest named
+     *     ancestor} is used instead.</li>
+     *     <li>If the object itself is not named, and has no named ancestor, the specification is used.</li>
+     *     <li>To report a violation on an entire specification, either a {@link Specification} or {@code null} may be
+     *     provided.</li>
+     *     </ul>
+     * @param message The message describing the violation.
+     * @see CifCheckViolations#add
      */
-    public CifCheckViolation(PositionObject cifObject, String message) {
-        this.cifObject = cifObject;
+    public CifCheckViolation(PositionObject cifObject, CifCheckViolationMessage message) {
+        // Store provided object. Normalize to single representation (null) for specifications.
+        this.providedReportObject = (cifObject instanceof Specification) ? null : cifObject;
+
+        // Store report object. Never a 'Specification'. May be 'null'.
+        this.actualReportObject = (providedReportObject == null) ? null
+                : CifTextUtils.getNamedSelfOrAncestor(providedReportObject);
+        Assert.implies(this.actualReportObject != null, CifTextUtils.hasName(actualReportObject));
+
+        // Store message.
         this.message = message;
-        if (cifObject != null) {
-            Assert.check(CifTextUtils.hasName(cifObject), cifObject);
+    }
+
+    /**
+     * Is the violation being reported on the provided CIF object?
+     *
+     * @return {@code true} if the violation being reported on the provided CIF object, {@code false} if it is being
+     *     reported on an ancestor of that object.
+     */
+    public boolean isReportOnSelf() {
+        return providedReportObject == actualReportObject;
+    }
+
+    /**
+     * Is the violation being reported on a CIF specification?
+     *
+     * @return {@code true} if it is being reported on a CIF specification, {@code false} if it is being reported on
+     *     some named CIF object.
+     */
+    public boolean isReportOnSpecification() {
+        return actualReportObject == null;
+    }
+
+    /**
+     * Returns the named CIF object on which the violation is to be reported.
+     *
+     * @return The named CIF object on which the violation is to be reported.
+     * @throws IllegalStateException If the violation is to be reported pm the CIF specification, rather than on a named
+     *     CIF object.
+     * @see #isReportOnSpecification
+     */
+    public PositionObject getReportObject() {
+        if (actualReportObject == null) {
+            throw new IllegalStateException();
         }
+        return actualReportObject;
     }
 
     @Override
@@ -57,17 +112,20 @@ public class CifCheckViolation {
             return false;
         }
         CifCheckViolation that = (CifCheckViolation)obj;
-        return this.cifObject == that.cifObject && this.message.equals(that.message);
+        return this.providedReportObject == that.providedReportObject
+                && this.actualReportObject == that.actualReportObject && this.message.equals(that.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cifObject, message);
+        return Objects.hash(providedReportObject, actualReportObject, message);
     }
 
     @Override
     public String toString() {
-        String name = (cifObject == null) ? "specification" : "\"" + CifTextUtils.getAbsName(cifObject) + "\"";
-        return fmt("%s: %s.", name, message);
+        String name = (actualReportObject == null) ? "specification"
+                : "\"" + CifTextUtils.getAbsName(actualReportObject) + "\"";
+        String messageText = message.getMessage(this);
+        return fmt("%s: %s.", name, messageText);
     }
 }
