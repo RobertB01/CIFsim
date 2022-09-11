@@ -15,12 +15,12 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 
@@ -28,31 +28,21 @@ import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 public class LocOnlyStaticEvalMarkerPredsCheck extends CifCheck {
     @Override
     protected void preprocessLocation(Location loc, CifCheckViolations violations) {
-        // Skip location parameters.
-        EObject parent = loc.eContainer();
-        if (parent instanceof LocationParameter) {
-            return;
-        }
-
-        // Check for violation.
+        // Note that location parameters never have marker predicates.
         if (!loc.getMarkeds().isEmpty()) {
             try {
                 evalPreds(loc.getMarkeds(), false, true);
             } catch (UnsupportedException e) {
-                if (loc.getName() != null) {
-                    violations.add(loc, "location has a marker predicate that can not be evaluated statically");
-                } else {
-                    violations.add((Automaton)loc.eContainer(),
-                            "automaton has a location with a marker predicate that can not be evaluated statically");
-                }
+                // Report violation on the location, or on its automaton in case the location has no name.
+                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(" has"),
+                        new IfReportOnAncestorMessage(" a location with"),
+                        new LiteralMessage(" a marker predicate that can not be evaluated statically"));
             } catch (CifEvalException e) {
-                if (loc.getName() != null) {
-                    violations.add(loc,
-                            "static evaluation of a marker predicate in the location resulted in an evaluation error");
-                } else {
-                    violations.add((Automaton)loc.eContainer(), "static evaluation of a marker predicate in the "
-                            + "location of the automaton resulted in an evaluation error");
-                }
+                // Report violation on the location, or on its automaton in case the location has no name.
+                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(" has"),
+                        new IfReportOnAncestorMessage(" a location with"),
+                        new LiteralMessage(" a marker predicate that can not be evaluated statically, "
+                                + "as the evaluation resulted in an evaluation error"));
             }
         }
     }

@@ -13,13 +13,11 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.common.java.Assert;
 
 /**
  * CIF check that does not allow 'if' updates on edges.
@@ -29,19 +27,8 @@ import org.eclipse.escet.common.java.Assert;
 public class EdgeNoIfUpdatesCheck extends CifCheck {
     @Override
     protected void preprocessIfUpdate(IfUpdate update, CifCheckViolations violations) {
-        // Get location.
-        EObject ancestor = update;
-        while (!(ancestor instanceof Location)) {
-            ancestor = ancestor.eContainer();
-        }
-        Assert.check(ancestor instanceof Location);
-        Location loc = (Location)ancestor;
-
-        // Report violation.
-        if (loc.getName() != null) {
-            violations.add(loc, "location has an edge with an 'if' update");
-        } else {
-            violations.add((Automaton)loc.eContainer(), "automaton has an edge with an 'if' update");
-        }
+        // Report violation on the closest named ancestor of the 'if' update: a location or an automaton.
+        violations.add(update, new ReportObjectTypeDescriptionMessage(),
+                new LiteralMessage(" has an edge with an 'if' update"));
     }
 }

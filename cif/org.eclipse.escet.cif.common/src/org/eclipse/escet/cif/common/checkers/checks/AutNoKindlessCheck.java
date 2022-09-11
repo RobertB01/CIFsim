@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 
@@ -23,7 +25,8 @@ public class AutNoKindlessCheck extends CifCheck {
     @Override
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (aut.getKind() == SupKind.NONE) {
-            violations.add(aut, "automaton is a kindless automaton, lacking a supervisory kind");
+            violations.add(aut, new ReportObjectTypeDescriptionMessage(),
+                    new LiteralMessage(" is a kindless automaton, lacking a supervisory kind"));
         }
     }
 }

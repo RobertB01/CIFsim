@@ -20,6 +20,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -46,9 +49,11 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
     protected void postprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         // There must be exactly one initial location.
         if (initLocCount == 0) {
-            violations.add(aut, "automaton has no initial location");
+            violations.add(aut, new ReportObjectTypeDescriptionMessage(),
+                    new LiteralMessage(" has no initial location"));
         } else if (initLocCount > 1) {
-            violations.add(aut, fmt("automata has multiple (%d) initial locations", initLocCount));
+            violations.add(aut, new ReportObjectTypeDescriptionMessage(),
+                    new LiteralMessage(fmt(" has multiple (%d) initial locations", initLocCount)));
         } // Skip if check is disabled (negative value).
     }
 
@@ -74,12 +79,10 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
             errMsg = "as evaluating one of its initialization predicates resulted in an evaluation error";
         }
         if (errMsg != null) {
-            if (loc.getName() != null) {
-                violations.add(loc, "failed to determine whether this is an initial location, " + errMsg);
-            } else {
-                violations.add((Automaton)loc.eContainer(),
-                        "failed to determine whether the automaton's location is an initial location, " + errMsg);
-            }
+            // Report violation on the location, or on its automaton in case the location has no name.
+            violations.add(loc, new LiteralMessage("failed to determine whether the "),
+                    new IfReportOnAncestorMessage("automaton's "),
+                    new LiteralMessage("location is an initial location, " + errMsg));
 
             // Disable initial location count checking.
             initLocCount = -1;

@@ -18,10 +18,11 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
-import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** CIF check that allows state invariants in components only if they are requirement invariants. */
@@ -33,12 +34,8 @@ public class CompStateInvsOnlyReqsCheck extends CifCheck {
                 SupKind supKind = inv.getSupKind();
                 if (supKind != SupKind.REQUIREMENT) {
                     String kindTxt = (supKind == SupKind.NONE) ? "kindless" : CifTextUtils.kindToStr(supKind);
-                    if (comp instanceof Specification) {
-                        violations.add(null,
-                                fmt("top level scope of the specification has a %s state invariant", kindTxt));
-                    } else {
-                        violations.add(comp, fmt("component has a %s state invariant", kindTxt));
-                    }
+                    violations.add(comp, new ReportObjectTypeDescriptionMessage(),
+                            new LiteralMessage(fmt(" has a %s state invariant", kindTxt)));
                 }
             }
         }

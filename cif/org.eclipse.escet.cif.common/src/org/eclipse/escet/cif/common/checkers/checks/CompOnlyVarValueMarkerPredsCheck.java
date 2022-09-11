@@ -19,8 +19,9 @@ import java.util.Map;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
@@ -40,26 +41,14 @@ public class CompOnlyVarValueMarkerPredsCheck extends CifCheck {
         for (Expression marked: comp.getMarkeds()) {
             // The only supported form is 'discrete_variable = marked_value'.
             if (!(marked instanceof BinaryExpression)) {
-                if (comp instanceof Specification) {
-                    violations.add(null,
-                            "top level scope of the specification has a marker predicate that is not of the form "
-                                    + "\"discrete_variable = marked_value\"");
-                } else {
-                    violations.add(comp, "component has a marker predicate that is not of the form "
-                            + "\"discrete_variable = marked_value\"");
-                }
+                violations.add(comp, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
+                        " has a marker predicate that is not of the form \"discrete_variable = marked_value\""));
                 continue;
             }
             BinaryExpression bexpr = (BinaryExpression)marked;
             if (bexpr.getOperator() != BinaryOperator.EQUAL || !(bexpr.getLeft() instanceof DiscVariableExpression)) {
-                if (comp instanceof Specification) {
-                    violations.add(null,
-                            "top level scope of the specification has a marker predicate that is not of the form "
-                                    + "\"discrete_variable = marked_value\"");
-                } else {
-                    violations.add(comp, "component has a marker predicate that is not of the form "
-                            + "\"discrete_variable = marked_value\"");
-                }
+                violations.add(comp, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
+                        " has a marker predicate that is not of the form \"discrete_variable = marked_value\""));
                 continue;
             }
 
@@ -71,7 +60,8 @@ public class CompOnlyVarValueMarkerPredsCheck extends CifCheck {
             if (previousValue == null) {
                 markeds.put(var, newValue);
             } else {
-                violations.add(var, "discrete variable has multiple predicates to specify its marked values");
+                violations.add(var,
+                        new LiteralMessage("discrete variable has multiple predicates that specify its marked values"));
             }
         }
     }

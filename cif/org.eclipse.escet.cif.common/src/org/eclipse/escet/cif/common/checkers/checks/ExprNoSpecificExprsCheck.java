@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
@@ -25,6 +24,7 @@ import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
@@ -388,7 +388,7 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addExprViolation(Expression expr, String description, CifCheckViolations violations) {
-        violations.add(getNamedSelfOrAncestor(expr), fmt("uses %s \"%s\"", description, exprToStr(expr)));
+        violations.add(expr, new LiteralMessage(fmt("uses %s \"%s\"", description, exprToStr(expr))));
     }
 
     /** The expression to disallow. */

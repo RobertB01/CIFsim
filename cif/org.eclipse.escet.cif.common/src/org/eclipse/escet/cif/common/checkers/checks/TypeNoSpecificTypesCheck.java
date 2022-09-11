@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -23,6 +22,7 @@ import java.util.EnumSet;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentType;
@@ -164,7 +164,7 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addTypeViolation(CifType type, String description, CifCheckViolations violations) {
-        violations.add(getNamedSelfOrAncestor(type), fmt("uses %s \"%s\"", description, typeToStr(type)));
+        violations.add(type, new LiteralMessage(fmt("uses %s \"%s\"", description, typeToStr(type))));
     }
 
     /** The type, or sub-type, to disallow. */

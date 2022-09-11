@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -25,6 +24,7 @@ import java.util.EnumSet;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -426,8 +426,8 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addExprViolationOperator(BinaryExpression binExpr, CifCheckViolations violations) {
-        violations.add(getNamedSelfOrAncestor(binExpr), fmt("uses binary operator \"%s\" in binary expression \"%s\"",
-                operatorToStr(binExpr.getOperator()), exprToStr(binExpr)));
+        violations.add(binExpr, new LiteralMessage(fmt("uses binary operator \"%s\" in binary expression \"%s\"",
+                operatorToStr(binExpr.getOperator()), exprToStr(binExpr))));
     }
 
     /**
@@ -439,9 +439,9 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
     private void addExprViolationOperand(BinaryExpression binExpr, CifCheckViolations violations) {
         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());
-        violations.add(getNamedSelfOrAncestor(binExpr),
+        violations.add(binExpr, new LiteralMessage(
                 fmt("uses binary operator \"%s\" on operands of types \"%s\" and \"%s\" in binary expression \"%s\"",
-                        operatorToStr(binExpr.getOperator()), typeToStr(ltype), typeToStr(rtype), exprToStr(binExpr)));
+                        operatorToStr(binExpr.getOperator()), typeToStr(ltype), typeToStr(rtype), exprToStr(binExpr))));
     }
 
     /** The binary operator, or binary operator operating on certain operand types, to disallow. */

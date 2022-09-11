@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getNamedSelfOrAncestor;
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -25,6 +24,7 @@ import java.util.EnumSet;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -131,8 +131,8 @@ public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addExprViolationOperator(UnaryExpression unExpr, CifCheckViolations violations) {
-        violations.add(getNamedSelfOrAncestor(unExpr), fmt("uses unary operator \"%s\" in unary expression \"%s\"",
-                operatorToStr(unExpr.getOperator()), exprToStr(unExpr)));
+        violations.add(unExpr, new LiteralMessage(fmt("uses unary operator \"%s\" in unary expression \"%s\"",
+                operatorToStr(unExpr.getOperator()), exprToStr(unExpr))));
     }
 
     /**
@@ -143,9 +143,10 @@ public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
      */
     private void addExprViolationOperand(UnaryExpression unExpr, CifCheckViolations violations) {
         CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
-        violations.add(getNamedSelfOrAncestor(unExpr),
-                fmt("uses unary operator \"%s\" on an operand of type \"%s\" in unary expression \"%s\"",
-                        operatorToStr(unExpr.getOperator()), typeToStr(ctype), exprToStr(unExpr)));
+        violations.add(unExpr,
+                new LiteralMessage(
+                        fmt("uses unary operator \"%s\" on an operand of type \"%s\" in unary expression \"%s\"",
+                                operatorToStr(unExpr.getOperator()), typeToStr(ctype), exprToStr(unExpr))));
     }
 
     /** The unary operator, or unary operator operating on certain operand types, to disallow. */
