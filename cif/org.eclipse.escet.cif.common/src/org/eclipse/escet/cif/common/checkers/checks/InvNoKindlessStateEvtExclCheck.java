@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.common.checkers.checks;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
+import org.eclipse.escet.cif.common.checkers.messages.IfReportOnSelfMessage;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
@@ -30,9 +31,9 @@ public class InvNoKindlessStateEvtExclCheck extends CifCheck {
             SupKind supKind = inv.getSupKind();
             if (supKind == SupKind.NONE) {
                 // The closest named ancestor of the invariant is the invariant itself, or a location or a component.
-                violations.add(inv, new ReportObjectTypeDescriptionMessage(),
-                        new IfReportOnAncestorMessage(" has an invariant that"), new LiteralMessage(
-                                " is a kindless state/event exclusion invariant, lacking a supervisory kind"));
+                violations.add(inv, new ReportObjectTypeDescriptionMessage(), new IfReportOnAncestorMessage(" has"),
+                        new IfReportOnSelfMessage(" is"),
+                        new LiteralMessage(" a kindless state/event exclusion invariant, lacking a supervisory kind"));
             }
         }
     }

@@ -29,12 +29,9 @@ public class LocNoStateInvsCheck extends CifCheck {
         // Note that location parameters never have invariants.
         for (Invariant inv: loc.getInvariants()) {
             if (inv.getInvKind() == InvKind.STATE) {
-                if (loc.getName() != null) {
-                    // Report violation on the location, or on its automaton in case the location has no name.
-                    violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(" has"),
-                            new IfReportOnAncestorMessage(" a location with"),
-                            new LiteralMessage(" a state invariant"));
-                }
+                // Report violation on the location, or on its automaton in case the location has no name.
+                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(" has"),
+                        new IfReportOnAncestorMessage(" a location with"), new LiteralMessage(" a state invariant"));
             }
         }
     }
