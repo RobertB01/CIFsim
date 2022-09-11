@@ -24,6 +24,12 @@ public class CifTest extends ToolDefBasedPluginUnitTest {
         test("tests/test_tchecker.tooldef");
     }
 
+    /** Checks tests. */
+    @Test
+    public void testCifChecks() {
+        test("tests/test_checks.tooldef");
+    }
+
     /** Pretty print and elimination of component definition/instantiation tests. */
     @Test
     public void testPprintElimCdef() {

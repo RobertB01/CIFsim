@@ -13,6 +13,7 @@
 
 int failures;
 failures = failures + tooldef("test_tchecker.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_checks.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_pprint_elim_cdef.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_cif2cif.tooldef", ignoreNonZeroExitCode=true);
 
