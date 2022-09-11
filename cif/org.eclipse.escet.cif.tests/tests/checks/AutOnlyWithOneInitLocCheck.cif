@@ -1,0 +1,151 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+func int zero():
+  return 0;
+end
+
+group auts:
+  automaton one_init_loc:
+    location l1:
+      initial;
+      edge e goto l2;
+    location l2:
+      edge e goto l3;
+    location l3;
+  end
+
+  automaton no_init_loc:
+    location l1:
+      initial false;
+      edge e goto l2;
+    location l2:
+      edge e goto l3;
+    location l3:
+      initial 1 = 2;
+  end
+
+  automaton two_init_loc:
+    location l1:
+      initial;
+      edge e goto l2;
+    location l2:
+      initial true;
+      edge e goto l3;
+    location l3;
+  end
+
+  automaton three_init_loc:
+    location l1:
+      initial;
+      edge e goto l2;
+    location l2:
+      initial true;
+      edge e goto l3;
+    location l3:
+      initial 1 = 1;
+  end
+
+  automaton init_pred_non_static_eval_report_on_loc:
+    location loc:
+      initial zero() = 0;
+  end
+
+  automaton init_pred_non_static_eval_report_on_aut:
+    location:
+      initial zero() = 0;
+  end
+
+  automaton init_pred_eval_error_report_on_loc:
+    location loc:
+      initial 1 / 0 = 0;
+  end
+
+  automaton init_pred_eval_error_report_on_aut:
+    location:
+      initial 1 / 0 = 0;
+  end
+end
+
+group autdefs:
+  automaton def one_init_loc():
+    location l1:
+      initial;
+      edge e goto l2;
+    location l2:
+      edge e goto l3;
+    location l3;
+  end
+
+  automaton def no_init_loc():
+    location l1:
+      initial false;
+      edge e goto l2;
+    location l2:
+      edge e goto l3;
+    location l3:
+      initial 1 = 2;
+  end
+
+  automaton def two_init_loc():
+    location l1:
+      initial;
+      edge e goto l2;
+    location l2:
+      initial true;
+      edge e goto l3;
+    location l3;
+  end
+
+  automaton def three_init_loc():
+    location l1:
+      initial;
+      edge e goto l2;
+    location l2:
+      initial true;
+      edge e goto l3;
+    location l3:
+      initial 1 = 1;
+  end
+
+  automaton def init_pred_non_static_eval_report_on_loc():
+    location loc:
+      initial zero() = 0;
+  end
+
+  automaton def init_pred_non_static_eval_report_on_aut():
+    location:
+      initial zero() = 0;
+  end
+
+  automaton def init_pred_eval_error_report_on_loc():
+    location loc:
+      initial 1 / 0 = 0;
+  end
+
+  automaton def init_pred_eval_error_report_on_aut():
+    location:
+      initial 1 / 0 = 0;
+  end
+end
+
+automaton def loc_params_one_initial(location a, b):
+  location:
+    initial;
+end
+
+automaton def loc_params_no_initial(location a, b):
+  location;
+end
