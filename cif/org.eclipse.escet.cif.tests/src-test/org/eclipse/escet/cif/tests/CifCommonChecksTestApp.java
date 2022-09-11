@@ -31,25 +31,25 @@ import org.eclipse.escet.common.app.framework.options.StringOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 
-/** CIF checks test application. */
-public class CifChecksTestApp extends Application<IOutputComponent> {
+/** CIF common checks test application. */
+public class CifCommonChecksTestApp extends Application<IOutputComponent> {
     /**
-     * Constructor for the {@link CifChecksTestApp} class.
+     * Constructor for the {@link CifCommonChecksTestApp} class.
      *
      * @param streams The streams to use for input, output, and error streams.
      */
-    public CifChecksTestApp(AppStreams streams) {
+    public CifCommonChecksTestApp(AppStreams streams) {
         super(streams);
     }
 
     @Override
     public String getAppName() {
-        return "CIF checks tester";
+        return "CIF common checks tester";
     }
 
     @Override
     public String getAppDescription() {
-        return "Tests checks on CIF specification.";
+        return "Tests common checks on CIF specification.";
     }
 
     @Override
@@ -80,7 +80,7 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
         checks.add(check);
 
         // Perform check.
-        new CifPreconditionChecker(checks).reportPreconditionViolations(spec, "CIF checks tester");
+        new CifPreconditionChecker(checks).reportPreconditionViolations(spec, "CIF common checks tester");
 
         // All done.
         return 0;
@@ -98,13 +98,13 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
         OptionCategory transOpts = new OptionCategory("Checks", "Check options.", list(), list(
                 Options.getInstance(InputFileOption.class), Options.getInstance(CifCheckClassNameToTestOption.class)));
 
-        OptionCategory options = new OptionCategory("CIF Checks Tester Options",
-                "All options for the CIF checks tester.", list(generalOpts, transOpts), list());
+        OptionCategory options = new OptionCategory("CIF Common Checks Tester Options",
+                "All options for the CIF common checks tester.", list(generalOpts, transOpts), list());
 
         return options;
     }
 
-    /** CIF check class name option. */
+    /** CIF common check class name option. */
     public static class CifCheckClassNameToTestOption extends StringOption {
         /** Constructor for the {@link CifCheckClassNameToTestOption} class. */
         public CifCheckClassNameToTestOption() {
@@ -113,7 +113,7 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
                     "Check",
 
                     // description
-                    "Specify the name of the check class to test.",
+                    "Specify the name of the common check class to test.",
 
                     // cmdShort
                     null,

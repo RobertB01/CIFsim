@@ -1,4 +1,4 @@
-ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "state_inv": group has a kindless state invariant.
  - Unsupported "state_inv.Kindless": group definition has a kindless state invariant.
  - Unsupported "state_inv.p": group has a plant state invariant.

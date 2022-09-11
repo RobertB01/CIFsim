@@ -1,4 +1,4 @@
-ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "a.l5": location has an edge with an 'if' update.
  - Unsupported "all": automaton has an edge with an 'if' update.
  - Unsupported "g.A.l5": location has an edge with an 'if' update.
