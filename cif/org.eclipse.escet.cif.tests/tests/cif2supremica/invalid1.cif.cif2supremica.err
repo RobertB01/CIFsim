@@ -1,11 +1,11 @@
 WARNING: File "cif2supremica/invalid1.cif": Semantic warning at line 31, column 9: Automaton "g.p0" has no initial location.
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
- - Unsupported "g": component contains an initialization predicate.
- - Unsupported "g": component has a kindless state invariant.
- - Unsupported "g": component has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported "g": component has a marker predicate that is not of the form "discrete_variable = marked_value".
- - Unsupported "g": component has a plant state invariant.
- - Unsupported "g": component has a supervisor state invariant.
+ - Unsupported "g": group contains an initialization predicate.
+ - Unsupported "g": group has a kindless state invariant.
+ - Unsupported "g": group has a marker predicate that is not of the form "discrete_variable = marked_value".
+ - Unsupported "g": group has a plant state invariant.
+ - Unsupported "g": group has a supervisor state invariant.
+ - Unsupported "g": group has an invariant that is a kindless state/event exclusion invariant, lacking a supervisory kind.
  - Unsupported "g": uses list literal "[false, true]".
  - Unsupported "g": uses list literal "[false]".
  - Unsupported "g": uses list literal "[true]".
@@ -20,10 +20,10 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g.e1": event is not declared as controllable or uncontrollable.
  - Unsupported "g.e2": event is a channel (has a data type).
  - Unsupported "g.f": function is a user-defined function.
+ - Unsupported "g.p0": automaton has a location that is urgent.
  - Unsupported "g.p0": automaton has an edge with a multi-assignment.
  - Unsupported "g.p0": automaton has an edge with a partial variable assignment.
  - Unsupported "g.p0": automaton has an edge with an 'if' update.
- - Unsupported "g.p0": automaton has an urgent location.
  - Unsupported "g.p0": automaton has no initial location.
  - Unsupported "g.p0": uses list type "list bool".
  - Unsupported "g.p0": uses projection expression "g.p0.lb[0]".
@@ -35,16 +35,15 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g.p0.cnt": uses real type "real".
  - Unsupported "g.p0.cnt": variable is a continuous variable.
  - Unsupported "g.p0.inp": variable is an input variable.
- - Unsupported "g.p0.lb": discrete variable has multiple predicates to specify its marked values.
+ - Unsupported "g.p0.lb": discrete variable has multiple predicates that specify its marked values.
  - Unsupported "g.p0.lb": uses list literal "[true]".
  - Unsupported "g.p0.lb": uses list type "list bool".
  - Unsupported "g.p0.lb": uses list type "list[1] bool".
  - Unsupported "g.p0.x1": discrete variable has multiple (2) potential initial values.
- - Unsupported "g.p0.x1": discrete variable has multiple predicates to specify its marked values.
+ - Unsupported "g.p0.x1": discrete variable has multiple predicates that specify its marked values.
  - Unsupported "g.p0.x2": discrete variable has multiple potential initial values (any value in its domain).
- - Unsupported "g.p1": automaton has a location with a state invariant.
+ - Unsupported "g.p1": automaton has a location with a marker predicate that can not be evaluated statically, as the evaluation resulted in an evaluation error.
  - Unsupported "g.p1": failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
- - Unsupported "g.p1": static evaluation of a marker predicate in the location of the automaton resulted in an evaluation error.
  - Unsupported "g.p1": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".
  - Unsupported "g.p1": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-2.0) > 0".
  - Unsupported "g.p1": uses function call "sqrt(-1.0)".
@@ -55,9 +54,9 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g.p1": uses real type "real".
  - Unsupported "g.p1": uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
  - Unsupported "g.p1": uses unary operator "-" on an operand of type "real" in unary expression "-2.0".
- - Unsupported "g.p2": automata has multiple (2) initial locations.
+ - Unsupported "g.p2": automaton has multiple (2) initial locations.
  - Unsupported "g.snd": automaton has an urgent edge.
- - Unsupported specification: top level scope of the specification contains an initialization predicate.
- - Unsupported specification: top level scope of the specification has a kindless state invariant.
- - Unsupported specification: top level scope of the specification has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported specification: top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".
+ - Unsupported specification: the top level scope of the specification contains an initialization predicate.
+ - Unsupported specification: the top level scope of the specification has a kindless state invariant.
+ - Unsupported specification: the top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".
+ - Unsupported specification: the top level scope of the specification has an invariant that is a kindless state/event exclusion invariant, lacking a supervisory kind.
