@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton a1:
+  location:
+    initial;
+    edge when true;
+    edge tau;
+end
+
+event e;
+
+automaton a2:
+  location l1:
+    initial;
+    edge when true goto l2;
+  location l2:
+    edge tau goto l3;
+  location l3:
+    edge tau, tau goto l4;
+  location l4:
+    edge e, tau goto l5;
+  location l5:
+    edge e goto l1;
+end

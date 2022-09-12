@@ -1,0 +1,21 @@
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 14, column 7: Event "e" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 15, column 12: Event "c1" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 16, column 11: Event "c2" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 19, column 9: Event "g.e" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 20, column 14: Event "g.c1" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 21, column 13: Event "g.c2" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 24, column 11: Event "g.a.e" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 25, column 23: Event "g.a.c1" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 26, column 24: Event "g.a.c2" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 19: Event parameter "G.e" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 33: Event parameter "G.c1" is not used anywhere in the specification.
+WARNING: File "common_checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 47: Event parameter "G.c2" is not used anywhere in the specification.
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "c1": event is a channel (has a data type).
+ - Unsupported "c2": event is a channel (has a data type).
+ - Unsupported "g.a.c1": event is a channel (has a data type).
+ - Unsupported "g.a.c2": event is a channel (has a data type).
+ - Unsupported "g.c1": event is a channel (has a data type).
+ - Unsupported "G.c1": event parameter is a channel (has a data type).
+ - Unsupported "g.c2": event is a channel (has a data type).
+ - Unsupported "G.c2": event parameter is a channel (has a data type).
