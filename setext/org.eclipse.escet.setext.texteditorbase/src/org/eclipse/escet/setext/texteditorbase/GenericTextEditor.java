@@ -33,11 +33,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.escet.common.app.framework.AppEnv;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemePreferenceChangeListener;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
@@ -96,7 +94,7 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  * @param <TT> The enum with the named styles of the text editor.
  */
 public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
-        implements IDocumentListener, IPartListener, IPreferenceChangeListener
+        implements IDocumentListener, IPartListener
 {
     /** Whether to print debugging information related to validation timing. */
     private static final boolean DEBUG_TIMING = false;
@@ -136,6 +134,9 @@ public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
 
     /** The light theme for the text editor. */
     private final TextEditorTheme<TT> lightTheme;
+
+    /** The Eclipse theme preference change listener. */
+    private final EclipseThemePreferenceChangeListener themeListener;
 
     /** The SeText generated parser class to use for parsing, or {@code null} if no parser is available. */
     private final Class<? extends Parser<T1>> parserClass;
@@ -201,7 +202,7 @@ public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
         GenericSourceViewerConfiguration sourceViewerConfig = createThemedSourceViewerConfig(configuredTheme);
         setSourceViewerConfiguration(sourceViewerConfig);
 
-        registerThemePreferenceChangeListener();
+        this.themeListener = new EclipseThemePreferenceChangeListener(this::handleThemeChange);
     }
 
     @Override
@@ -439,29 +440,14 @@ public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
         super.handlePreferenceStoreChanged(event);
     }
 
-    @Override
-    public void preferenceChange(PreferenceChangeEvent event) {
-        // Handle Eclipse theme preference change.
-        if (event.getKey().equals("themeid")) {
-            TextEditorTheme<TT> theme = getConfiguredTheme();
-            retheme(theme);
-        }
-    }
-
-    /** Registers this text editor as theme-related preference change listener. */
-    private void registerThemePreferenceChangeListener() {
-        @SuppressWarnings("restriction")
-        IEclipsePreferences preferences = InstanceScope.INSTANCE
-                .getNode(org.eclipse.e4.ui.css.swt.internal.theme.ThemeEngine.THEME_PLUGIN_ID);
-        preferences.addPreferenceChangeListener(this);
-    }
-
-    /** Unregisters this text editor as theme-related preference change listener. */
-    private void unregisterThemePreferenceChangeListener() {
-        @SuppressWarnings("restriction")
-        IEclipsePreferences preferences = InstanceScope.INSTANCE
-                .getNode(org.eclipse.e4.ui.css.swt.internal.theme.ThemeEngine.THEME_PLUGIN_ID);
-        preferences.removePreferenceChangeListener(this);
+    /**
+     * Handle Eclipse theme preference change.
+     *
+     * @param event The theme preference change event.
+     */
+    private void handleThemeChange(PreferenceChangeEvent event) {
+        TextEditorTheme<TT> theme = getConfiguredTheme();
+        retheme(theme);
     }
 
     @Override
@@ -929,9 +915,8 @@ public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
         IPartService ps = getSite().getWorkbenchWindow().getPartService();
         ps.removePartListener(this);
 
-        // Unregister theme-related preference change listener if this editor
-        // is closed, to allow garbage collection of this editor.
-        unregisterThemePreferenceChangeListener();
+        // Unregister theme-related preference change listener.
+        themeListener.unregister();
 
         // Save folding state. Fails if the file no longer exists, for instance
         // because it has been renamed. However, failures are ignored, so it's

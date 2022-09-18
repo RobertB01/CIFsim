@@ -13,11 +13,8 @@
 
 package org.eclipse.escet.setext.texteditorbase.themes;
 
-import org.eclipse.e4.ui.css.swt.internal.theme.ThemeEngine;
-import org.eclipse.e4.ui.css.swt.theme.ITheme;
-import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemeUtils;
 import org.eclipse.escet.setext.texteditorbase.Style;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * A text editor that automatically uses a dark theme or light theme, depending on the theme currently used by Eclipse.
@@ -29,7 +26,6 @@ import org.eclipse.ui.PlatformUI;
  *
  * @param <T> The enum with the named styles of a text editor.
  */
-@SuppressWarnings("restriction")
 public class AutoDarkLightTheme<T> implements TextEditorTheme<T> {
     /** The dark or light theme to use. */
     private final TextEditorTheme<T> theme;
@@ -41,18 +37,7 @@ public class AutoDarkLightTheme<T> implements TextEditorTheme<T> {
      * @param lightTheme The light them to use.
      */
     public AutoDarkLightTheme(TextEditorTheme<T> darkTheme, TextEditorTheme<T> lightTheme) {
-        theme = isDarkThemeInUse() ? darkTheme : lightTheme;
-    }
-
-    /**
-     * Returns whether the current Eclipse theme is a dark theme.
-     *
-     * @return {@code true} if the current Eclipse theme is a dark theme, {@code false} otherwise.
-     */
-    private boolean isDarkThemeInUse() {
-        IThemeEngine themeEngine = PlatformUI.getWorkbench().getService(IThemeEngine.class);
-        ITheme theme = themeEngine.getActiveTheme();
-        return theme != null && theme.getId().equals(ThemeEngine.E4_DARK_THEME_ID);
+        theme = EclipseThemeUtils.isDarkThemeInUse() ? darkTheme : lightTheme;
     }
 
     @Override
