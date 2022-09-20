@@ -14,6 +14,8 @@
 package org.eclipse.escet.common.app.framework.console;
 
 import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemePreferenceChangeListener;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemeUtils;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.io.EclipseConsoleAppStream;
@@ -38,14 +40,14 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
  *     console from a plug-in?</a>
  */
 public class Console extends IOConsole {
-    /** The color to use for the input stream. */
-    private static final Color COLOR_IN = new Color(0, 200, 125);
+    /** Console input stream. */
+    private final IOConsoleInputStream inputStream;
 
-    /** The color to use for the output stream. */
-    private static final Color COLOR_OUT = new Color(0, 0, 0);
+    /** Console output stream. */
+    private final IOConsoleOutputStream outputStream;
 
-    /** The color to use for the error stream. */
-    private static final Color COLOR_ERR = new Color(255, 0, 0);
+    /** Console error stream. */
+    private final IOConsoleOutputStream errorStream;
 
     /**
      * The console streams. The input stream reader uses a default buffer size, and a default character encoding. The
@@ -67,6 +69,9 @@ public class Console extends IOConsole {
      */
     private ConsolePageParticipant consolePageParticipant;
 
+    /** The Eclipse theme preference change listener. */
+    private EclipseThemePreferenceChangeListener themeListener;
+
     /**
      * Constructor for the {@link Console} class.
      *
@@ -76,24 +81,36 @@ public class Console extends IOConsole {
         super(title, null);
 
         // Get input stream, and construct the output and error streams.
-        IOConsoleInputStream in = getInputStream();
-        IOConsoleOutputStream out = newOutputStream();
-        IOConsoleOutputStream err = newOutputStream();
+        inputStream = getInputStream();
+        outputStream = newOutputStream();
+        errorStream = newOutputStream();
 
         // Set stream colors.
-        in.setColor(COLOR_IN);
-        out.setColor(COLOR_OUT);
-        err.setColor(COLOR_ERR);
+        themeListener = new EclipseThemePreferenceChangeListener(e -> setStreamColors());
+        setStreamColors();
 
         // Save streams.
-        AppStream appOut = new EclipseConsoleAppStream(out);
-        AppStream appErr = new EclipseConsoleAppStream(err);
-        streams = new AppStreams(in, appOut, appErr);
+        AppStream appOut = new EclipseConsoleAppStream(outputStream);
+        AppStream appErr = new EclipseConsoleAppStream(errorStream);
+        streams = new AppStreams(inputStream, appOut, appErr);
 
         // Register the console with the console manager, and show it.
         IConsoleManager manager = ConsolePlugin.getDefault().getConsoleManager();
         manager.addConsoles(new IConsole[] {this});
         manager.showConsoleView(this);
+    }
+
+    /** Set the console stream colors. */
+    private void setStreamColors() {
+        if (EclipseThemeUtils.isDarkThemeInUse()) {
+            inputStream.setColor(new Color(0, 200, 125));
+            outputStream.setColor(new Color(240, 240, 240));
+            errorStream.setColor(new Color(235, 64, 64));
+        } else {
+            inputStream.setColor(new Color(0, 200, 125));
+            outputStream.setColor(new Color(0, 0, 0));
+            errorStream.setColor(new Color(255, 0, 0));
+        }
     }
 
     /**
@@ -191,5 +208,14 @@ public class Console extends IOConsole {
         }
         this.application = null;
         this.consolePageParticipant = null;
+    }
+
+    @Override
+    protected void dispose() {
+        // Unregister theme listener.
+        themeListener.unregister();
+
+        // Perform normal dispose.
+        super.dispose();
     }
 }
