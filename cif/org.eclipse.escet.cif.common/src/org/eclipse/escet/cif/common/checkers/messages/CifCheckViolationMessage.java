@@ -23,7 +23,7 @@ public abstract class CifCheckViolationMessage {
      * @param violation The CIF check violation.
      * @return The violation message text.
      */
-    public abstract String getMessage(CifCheckViolation violation);
+    public abstract String getMessageText(CifCheckViolation violation);
 
     @Override
     public abstract boolean equals(Object obj);

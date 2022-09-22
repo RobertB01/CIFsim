@@ -26,8 +26,8 @@ public class SequenceMessage extends CifCheckViolationMessage {
     /**
      * Constructor for the {@link SequenceMessage} class.
      *
-     * @param messages The non-empty sequence of messages. The messages are trimmed and concatenated, with a space being
-     *     added in between each two messages if needed.
+     * @param messages The non-empty sequence of messages. The message texts of the messages are trimmed and
+     *     concatenated, with a space being added in between each two message texts if needed.
      */
     public SequenceMessage(List<CifCheckViolationMessage> messages) {
         Assert.check(!messages.isEmpty());
@@ -35,19 +35,19 @@ public class SequenceMessage extends CifCheckViolationMessage {
     }
 
     @Override
-    public String getMessage(CifCheckViolation violation) {
-        StringBuilder text = new StringBuilder();
+    public String getMessageText(CifCheckViolation violation) {
+        StringBuilder concatenatedText = new StringBuilder();
         for (CifCheckViolationMessage message: messages) {
-            String messageText = message.getMessage(violation);
+            String messageText = message.getMessageText(violation);
             messageText = messageText.trim();
             if (!messageText.isEmpty()) { // Only add if not empty.
-                if (text.length() > 0) { // Add separator if there is any text already present.
-                    text.append(" ");
+                if (concatenatedText.length() > 0) { // Add separator if there is any text already present.
+                    concatenatedText.append(" ");
                 }
-                text.append(messageText);
+                concatenatedText.append(messageText);
             }
         }
-        return text.toString();
+        return concatenatedText.toString();
     }
 
     @Override

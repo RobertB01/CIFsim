@@ -52,7 +52,8 @@ public class CifCheckViolation {
      *     <li>To report a violation on an entire specification, either a {@link Specification} or {@code null} may be
      *     provided.</li>
      *     </ul>
-     * @param message The message describing the violation.
+     * @param message The message describing the violation. The concatenated message should in principle not start with
+     *     a capital letter, nor end with a period to end the sentence.
      * @see CifCheckViolations#add
      */
     public CifCheckViolation(PositionObject cifObject, CifCheckViolationMessage message) {
@@ -125,7 +126,7 @@ public class CifCheckViolation {
     public String toString() {
         String name = (actualReportObject == null) ? "specification"
                 : "\"" + CifTextUtils.getAbsName(actualReportObject) + "\"";
-        String messageText = message.getMessage(this);
+        String messageText = message.getMessageText(this);
         return fmt("%s: %s.", name, messageText);
     }
 }

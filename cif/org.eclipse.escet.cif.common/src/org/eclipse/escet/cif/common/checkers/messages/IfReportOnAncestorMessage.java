@@ -27,9 +27,9 @@ public class IfReportOnAncestorMessage extends CifCheckViolationMessage {
     /**
      * Constructor for the {@link IfReportOnAncestorMessage} class.
      *
-     * @param messagePattern The message format pattern, to use if the violation is reported on an ancestor of the
+     * @param messagePattern The message text format pattern, to use if the violation is reported on an ancestor of the
      *     object.
-     * @param args The message format arguments.
+     * @param args The message text format arguments.
      * @see Strings#fmt
      */
     public IfReportOnAncestorMessage(String messagePattern, Object... args) {
@@ -46,8 +46,8 @@ public class IfReportOnAncestorMessage extends CifCheckViolationMessage {
     }
 
     @Override
-    public String getMessage(CifCheckViolation violation) {
-        return violation.isReportOnSelf() ? "" : message.getMessage(violation);
+    public String getMessageText(CifCheckViolation violation) {
+        return violation.isReportOnSelf() ? "" : message.getMessageText(violation);
     }
 
     @Override

@@ -20,14 +20,14 @@ import org.eclipse.escet.common.java.Strings;
 
 /** A literal message. */
 public class LiteralMessage extends CifCheckViolationMessage {
-    /** The message. */
+    /** The message text. */
     private final String message;
 
     /**
      * Constructor for the {@link LiteralMessage} class.
      *
-     * @param messagePattern The message format pattern.
-     * @param args The message format arguments.
+     * @param messagePattern The message text format pattern.
+     * @param args The message text format arguments.
      * @see Strings#fmt
      */
     public LiteralMessage(String messagePattern, Object... args) {
@@ -35,7 +35,7 @@ public class LiteralMessage extends CifCheckViolationMessage {
     }
 
     @Override
-    public String getMessage(CifCheckViolation violation) {
+    public String getMessageText(CifCheckViolation violation) {
         return message;
     }
 
