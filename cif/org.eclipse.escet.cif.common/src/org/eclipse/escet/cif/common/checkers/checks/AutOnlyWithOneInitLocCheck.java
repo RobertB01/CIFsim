@@ -21,7 +21,7 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -48,10 +48,10 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
     protected void postprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         // There must be exactly one initial location.
         if (initLocCount == 0) {
-            violations.add(aut, new ReportObjectTypeDescriptionMessage(),
+            violations.add(aut, new ReportObjectTypeDescrMessage(),
                     new LiteralMessage("has no initial location"));
         } else if (initLocCount > 1) {
-            violations.add(aut, new ReportObjectTypeDescriptionMessage(),
+            violations.add(aut, new ReportObjectTypeDescrMessage(),
                     new LiteralMessage("has multiple (%d) initial locations", initLocCount));
         } // Skip if check is disabled (negative value).
     }

@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 
@@ -34,12 +34,12 @@ public class LocOnlyStaticEvalMarkerPredsCheck extends CifCheck {
                 evalPreds(loc.getMarkeds(), false, true);
             } catch (UnsupportedException e) {
                 // Report violation on the location, or on its automaton in case the location has no name.
-                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage("has"),
+                violations.add(loc, new ReportObjectTypeDescrMessage(), new LiteralMessage("has"),
                         new IfReportOnAncestorMessage("a location with"),
                         new LiteralMessage("a marker predicate that can not be evaluated statically"));
             } catch (CifEvalException e) {
                 // Report violation on the location, or on its automaton in case the location has no name.
-                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage("has"),
+                violations.add(loc, new ReportObjectTypeDescrMessage(), new LiteralMessage("has"),
                         new IfReportOnAncestorMessage("a location with"),
                         new LiteralMessage("a marker predicate that can not be evaluated statically, "
                                 + "as the evaluation resulted in an evaluation error"));

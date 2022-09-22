@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.common.checkers.checks;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 
@@ -30,7 +30,7 @@ public class EventNoTauCheck extends CifCheck {
     protected void preprocessTauExpression(TauExpression tauExpr, CifCheckViolations violations) {
         // Explicit tau.
         // Report violation on the closest named ancestor of the tau expression: a location or an automaton.
-        violations.add(tauExpr, new ReportObjectTypeDescriptionMessage(),
+        violations.add(tauExpr, new ReportObjectTypeDescrMessage(),
                 new LiteralMessage("has an edge with explicitly event \"tau\" on it"));
     }
 
@@ -39,7 +39,7 @@ public class EventNoTauCheck extends CifCheck {
         // Implicit tau.
         if (edge.getEvents().isEmpty()) {
             // Report violation on the closest named ancestor of the edge: a location or an automaton.
-            violations.add(edge, new ReportObjectTypeDescriptionMessage(),
+            violations.add(edge, new ReportObjectTypeDescrMessage(),
                     new LiteralMessage("has an edge with implicitly event \"tau\" on it"));
         }
     }

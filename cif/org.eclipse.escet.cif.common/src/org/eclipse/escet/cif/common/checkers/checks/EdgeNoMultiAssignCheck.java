@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.common.checkers.checks;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 
@@ -31,7 +31,7 @@ public class EdgeNoMultiAssignCheck extends CifCheck {
     protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
         if (asgn.getAddressable() instanceof TupleExpression) {
             // Report violation on the closest named ancestor of the assignment: a location or an automaton.
-            violations.add(asgn, new ReportObjectTypeDescriptionMessage(),
+            violations.add(asgn, new ReportObjectTypeDescrMessage(),
                     new LiteralMessage("has an edge with a multi-assignment"));
         }
     }

@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnSelfMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
 /** CIF check that does not allow urgent locations. */
@@ -27,7 +27,7 @@ public class LocNoUrgentCheck extends CifCheck {
         // Note that location parameters are never urgent.
         if (loc.isUrgent()) {
             // Report violation on the location, or on its automaton in case the location has no name.
-            violations.add(loc, new ReportObjectTypeDescriptionMessage(),
+            violations.add(loc, new ReportObjectTypeDescrMessage(),
                     new IfReportOnAncestorMessage("has an urgent location"), new IfReportOnSelfMessage("is urgent"));
         }
     }

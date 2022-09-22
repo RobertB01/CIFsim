@@ -20,7 +20,7 @@ import java.util.Map;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
@@ -41,13 +41,13 @@ public class CompOnlyVarValueMarkerPredsCheck extends CifCheck {
         for (Expression marked: comp.getMarkeds()) {
             // The only supported form is 'discrete_variable = marked_value'.
             if (!(marked instanceof BinaryExpression)) {
-                violations.add(comp, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
+                violations.add(comp, new ReportObjectTypeDescrMessage(), new LiteralMessage(
                         "has a marker predicate that is not of the form \"discrete_variable = marked_value\""));
                 continue;
             }
             BinaryExpression bexpr = (BinaryExpression)marked;
             if (bexpr.getOperator() != BinaryOperator.EQUAL || !(bexpr.getLeft() instanceof DiscVariableExpression)) {
-                violations.add(comp, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
+                violations.add(comp, new ReportObjectTypeDescrMessage(), new LiteralMessage(
                         "has a marker predicate that is not of the form \"discrete_variable = marked_value\""));
                 continue;
             }

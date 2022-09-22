@@ -16,8 +16,17 @@ package org.eclipse.escet.cif.common.checkers.messages;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolation;
 
-/** Message describing the CIF object on which the violation is reported. */
-public class ReportObjectTypeDescriptionMessage extends CifCheckViolationMessage {
+/**
+ * Message describing the {@link CifCheckViolation#getReportObject report object}, the CIF object on which the violation
+ * is reported.
+ *
+ * <p>
+ * If the message is reported on the specification, {@code "the top level scope of the specification"} is used as
+ * message. Otherwise, {@link CifTextUtils#getTypeDescriptionForNamedObject} is called on the report object to obtain
+ * the description.
+ * </p>
+ */
+public class ReportObjectTypeDescrMessage extends CifCheckViolationMessage {
     @Override
     public String getMessage(CifCheckViolation violation) {
         return violation.isReportOnSpecification() ? "the top level scope of the specification"
