@@ -29,6 +29,6 @@ public class EdgeNoIfUpdatesCheck extends CifCheck {
     protected void preprocessIfUpdate(IfUpdate update, CifCheckViolations violations) {
         // Report violation on the closest named ancestor of the 'if' update: a location or an automaton.
         violations.add(update, new ReportObjectTypeDescriptionMessage(),
-                new LiteralMessage(" has an edge with an 'if' update"));
+                new LiteralMessage("has an edge with an 'if' update"));
     }
 }

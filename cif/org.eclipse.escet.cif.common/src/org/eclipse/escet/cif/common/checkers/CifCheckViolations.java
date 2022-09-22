@@ -60,7 +60,8 @@ public class CifCheckViolations {
      *     <li>To report a violation on an entire specification, either a {@link Specification} or {@code null} may be
      *     provided.</li>
      *     </ul>
-     * @param messages The non-empty sequence of concatenated messages describing the violation.
+     * @param messages The non-empty sequence of concatenated messages describing the violation. The messages are
+     *     trimmed and concatenated, with a space being added in between each two messages if needed.
      * @see CifCheckViolation#CifCheckViolation
      */
     public void add(PositionObject cifObject, CifCheckViolationMessage... messages) {

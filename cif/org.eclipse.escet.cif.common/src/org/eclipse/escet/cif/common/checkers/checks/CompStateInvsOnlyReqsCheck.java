@@ -35,7 +35,7 @@ public class CompStateInvsOnlyReqsCheck extends CifCheck {
                 if (supKind != SupKind.REQUIREMENT) {
                     String kindTxt = (supKind == SupKind.NONE) ? "kindless" : CifTextUtils.kindToStr(supKind);
                     violations.add(comp, new ReportObjectTypeDescriptionMessage(),
-                            new LiteralMessage(fmt(" has a %s state invariant", kindTxt)));
+                            new LiteralMessage(fmt("has a %s state invariant", kindTxt)));
                 }
             }
         }

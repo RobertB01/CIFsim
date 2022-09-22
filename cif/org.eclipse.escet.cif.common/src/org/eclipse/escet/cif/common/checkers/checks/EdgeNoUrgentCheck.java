@@ -25,7 +25,7 @@ public class EdgeNoUrgentCheck extends CifCheck {
     protected void preprocessEdge(Edge edge, CifCheckViolations violations) {
         if (edge.isUrgent()) {
             // Report violation on the closest named ancestor of the edge: a location or an automaton.
-            violations.add(edge, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(" has an urgent edge"));
+            violations.add(edge, new ReportObjectTypeDescriptionMessage(), new LiteralMessage("has an urgent edge"));
         }
     }
 }

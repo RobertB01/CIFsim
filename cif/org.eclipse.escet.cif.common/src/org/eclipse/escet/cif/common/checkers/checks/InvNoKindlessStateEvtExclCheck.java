@@ -31,9 +31,9 @@ public class InvNoKindlessStateEvtExclCheck extends CifCheck {
             SupKind supKind = inv.getSupKind();
             if (supKind == SupKind.NONE) {
                 // The closest named ancestor of the invariant is the invariant itself, or a location or a component.
-                violations.add(inv, new ReportObjectTypeDescriptionMessage(), new IfReportOnAncestorMessage(" has"),
-                        new IfReportOnSelfMessage(" is"),
-                        new LiteralMessage(" a kindless state/event exclusion invariant, lacking a supervisory kind"));
+                violations.add(inv, new ReportObjectTypeDescriptionMessage(), new IfReportOnAncestorMessage("has"),
+                        new IfReportOnSelfMessage("is"),
+                        new LiteralMessage("a kindless state/event exclusion invariant, lacking a supervisory kind"));
             }
         }
     }

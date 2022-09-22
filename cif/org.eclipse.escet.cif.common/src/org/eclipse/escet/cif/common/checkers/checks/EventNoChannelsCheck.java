@@ -25,7 +25,7 @@ public class EventNoChannelsCheck extends CifCheck {
     protected void preprocessEvent(Event event, CifCheckViolations violations) {
         if (event.getType() != null) {
             violations.add(event, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(" is a channel (has a data type)"));
+                    new LiteralMessage("is a channel (has a data type)"));
         }
     }
 }

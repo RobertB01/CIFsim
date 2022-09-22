@@ -34,14 +34,14 @@ public class LocOnlyStaticEvalMarkerPredsCheck extends CifCheck {
                 evalPreds(loc.getMarkeds(), false, true);
             } catch (UnsupportedException e) {
                 // Report violation on the location, or on its automaton in case the location has no name.
-                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(" has"),
-                        new IfReportOnAncestorMessage(" a location with"),
-                        new LiteralMessage(" a marker predicate that can not be evaluated statically"));
+                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage("has"),
+                        new IfReportOnAncestorMessage("a location with"),
+                        new LiteralMessage("a marker predicate that can not be evaluated statically"));
             } catch (CifEvalException e) {
                 // Report violation on the location, or on its automaton in case the location has no name.
-                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(" has"),
-                        new IfReportOnAncestorMessage(" a location with"),
-                        new LiteralMessage(" a marker predicate that can not be evaluated statically, "
+                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage("has"),
+                        new IfReportOnAncestorMessage("a location with"),
+                        new LiteralMessage("a marker predicate that can not be evaluated statically, "
                                 + "as the evaluation resulted in an evaluation error"));
             }
         }

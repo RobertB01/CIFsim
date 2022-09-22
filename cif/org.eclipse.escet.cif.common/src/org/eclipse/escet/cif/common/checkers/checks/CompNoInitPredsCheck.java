@@ -28,7 +28,7 @@ public class CompNoInitPredsCheck extends CifCheck {
     protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         if (!comp.getInitials().isEmpty()) {
             violations.add(comp, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(" contains an initialization predicate"));
+                    new LiteralMessage("contains an initialization predicate"));
         }
     }
 }

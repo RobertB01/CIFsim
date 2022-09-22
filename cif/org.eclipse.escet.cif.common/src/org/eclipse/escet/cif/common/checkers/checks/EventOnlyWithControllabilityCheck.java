@@ -31,7 +31,7 @@ public class EventOnlyWithControllabilityCheck extends CifCheck {
     protected void preprocessEvent(Event event, CifCheckViolations violations) {
         if (event.getControllable() == null) {
             violations.add(event, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(" is not declared as controllable or uncontrollable"));
+                    new LiteralMessage("is not declared as controllable or uncontrollable"));
         }
     }
 
@@ -40,7 +40,7 @@ public class EventOnlyWithControllabilityCheck extends CifCheck {
         // Explicit tau.
         // Report violation on the closest named ancestor of the tau expression: a location or an automaton.
         violations.add(tauExpr, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
-                " has an edge with explicitly event \"tau\" on it, which is not controllable or uncontrollable"));
+                "has an edge with explicitly event \"tau\" on it, which is not controllable or uncontrollable"));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class EventOnlyWithControllabilityCheck extends CifCheck {
         if (edge.getEvents().isEmpty()) {
             // Report violation on the closest named ancestor of the edge: a location or an automaton.
             violations.add(edge, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
-                    " has an edge with implicitly event \"tau\" on it, which is not controllable or uncontrollable"));
+                    "has an edge with implicitly event \"tau\" on it, which is not controllable or uncontrollable"));
         }
     }
 }

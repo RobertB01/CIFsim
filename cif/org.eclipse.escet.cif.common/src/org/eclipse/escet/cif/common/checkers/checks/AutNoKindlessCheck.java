@@ -26,7 +26,7 @@ public class AutNoKindlessCheck extends CifCheck {
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (aut.getKind() == SupKind.NONE) {
             violations.add(aut, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(" is a kindless automaton, lacking a supervisory kind"));
+                    new LiteralMessage("is a kindless automaton, lacking a supervisory kind"));
         }
     }
 }

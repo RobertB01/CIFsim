@@ -28,7 +28,7 @@ public class LocNoUrgentCheck extends CifCheck {
         if (loc.isUrgent()) {
             // Report violation on the location, or on its automaton in case the location has no name.
             violations.add(loc, new ReportObjectTypeDescriptionMessage(),
-                    new IfReportOnAncestorMessage(" has an urgent location"), new IfReportOnSelfMessage(" is urgent"));
+                    new IfReportOnAncestorMessage("has an urgent location"), new IfReportOnSelfMessage("is urgent"));
         }
     }
 }

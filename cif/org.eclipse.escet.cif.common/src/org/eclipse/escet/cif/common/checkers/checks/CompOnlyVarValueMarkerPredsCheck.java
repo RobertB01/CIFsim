@@ -42,13 +42,13 @@ public class CompOnlyVarValueMarkerPredsCheck extends CifCheck {
             // The only supported form is 'discrete_variable = marked_value'.
             if (!(marked instanceof BinaryExpression)) {
                 violations.add(comp, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
-                        " has a marker predicate that is not of the form \"discrete_variable = marked_value\""));
+                        "has a marker predicate that is not of the form \"discrete_variable = marked_value\""));
                 continue;
             }
             BinaryExpression bexpr = (BinaryExpression)marked;
             if (bexpr.getOperator() != BinaryOperator.EQUAL || !(bexpr.getLeft() instanceof DiscVariableExpression)) {
                 violations.add(comp, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
-                        " has a marker predicate that is not of the form \"discrete_variable = marked_value\""));
+                        "has a marker predicate that is not of the form \"discrete_variable = marked_value\""));
                 continue;
             }
 

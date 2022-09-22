@@ -32,7 +32,7 @@ public class EdgeNoMultiAssignCheck extends CifCheck {
         if (asgn.getAddressable() instanceof TupleExpression) {
             // Report violation on the closest named ancestor of the assignment: a location or an automaton.
             violations.add(asgn, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(" has an edge with a multi-assignment"));
+                    new LiteralMessage("has an edge with a multi-assignment"));
         }
     }
 }

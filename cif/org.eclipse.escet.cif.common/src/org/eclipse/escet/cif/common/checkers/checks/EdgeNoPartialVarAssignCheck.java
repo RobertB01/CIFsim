@@ -31,7 +31,7 @@ public class EdgeNoPartialVarAssignCheck extends CifCheck {
         if (asgn.getAddressable() instanceof ProjectionExpression) {
             // Report violation on the closest named ancestor of the assignment: a location or an automaton.
             violations.add(asgn, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(" has an edge with a partial variable assignment"));
+                    new LiteralMessage("has an edge with a partial variable assignment"));
         }
     }
 }

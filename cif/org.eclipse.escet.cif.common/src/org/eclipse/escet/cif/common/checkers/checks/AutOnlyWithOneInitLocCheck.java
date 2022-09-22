@@ -50,10 +50,10 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
         // There must be exactly one initial location.
         if (initLocCount == 0) {
             violations.add(aut, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(" has no initial location"));
+                    new LiteralMessage("has no initial location"));
         } else if (initLocCount > 1) {
             violations.add(aut, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(fmt(" has multiple (%d) initial locations", initLocCount)));
+                    new LiteralMessage(fmt("has multiple (%d) initial locations", initLocCount)));
         } // Skip if check is disabled (negative value).
     }
 
@@ -80,9 +80,9 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
         }
         if (errMsg != null) {
             // Report violation on the location, or on its automaton in case the location has no name.
-            violations.add(loc, new LiteralMessage("failed to determine whether the "),
-                    new IfReportOnAncestorMessage("automaton's "),
-                    new LiteralMessage("location is an initial location, " + errMsg));
+            violations.add(loc, new LiteralMessage("failed to determine whether the"),
+                    new IfReportOnAncestorMessage("automaton's"),
+                    new LiteralMessage("location is an initial location,"), new LiteralMessage(errMsg));
 
             // Disable initial location count checking.
             initLocCount = -1;
