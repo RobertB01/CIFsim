@@ -52,7 +52,7 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
                     new LiteralMessage("has no initial location"));
         } else if (initLocCount > 1) {
             violations.add(aut, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("has multiple (%d) initial locations", initLocCount));
+                    new LiteralMessage("has multiple (%,d) initial locations", initLocCount));
         } // Skip if check is disabled (negative value).
     }
 
