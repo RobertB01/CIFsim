@@ -18,10 +18,10 @@ import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.swt.SWT;
 
 /** CIF text editor dark theme. */
-public class CifTextEditorDarkTheme implements TextEditorTheme<CifTextEditorStyleNames> {
+public class CifTextEditorDarkTheme implements TextEditorTheme<CifTextEditorStylable> {
     @Override
-    public Style getStyle(CifTextEditorStyleNames namedStyle) {
-        switch (namedStyle) {
+    public Style getStyle(CifTextEditorStylable stylable) {
+        switch (stylable) {
             case DEFAULT:
                 return new Style(240, 240, 240);
             case IDENTIFIER:

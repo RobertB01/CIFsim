@@ -13,12 +13,12 @@
 
 package org.eclipse.escet.chi.texteditor;
 
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.DEFAULT;
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.IDENTIFIER;
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.KEYWORD;
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.NUMBER;
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.OPERATOR;
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.STDLIBFUNC;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.DEFAULT;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.IDENTIFIER;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.KEYWORD;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.NUMBER;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.OPERATOR;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.STDLIBFUNC;
 
 import org.eclipse.escet.chi.parser.ChiScanner;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
@@ -40,7 +40,7 @@ public class ChiTextScanner extends RuleBasedScanner {
      * @param theme The theme to use.
      * @param manager The color manager to use to create the color tokens.
      */
-    public ChiTextScanner(TextEditorTheme<ChiTextEditorStyleNames> theme, ColorManager manager) {
+    public ChiTextScanner(TextEditorTheme<ChiTextEditorStylable> theme, ColorManager manager) {
         String[] keywords = ChiScanner.getKeywords("Keywords");
         String[] types = ChiScanner.getKeywords("Types");
         String[] constants = ChiScanner.getKeywords("Constants");

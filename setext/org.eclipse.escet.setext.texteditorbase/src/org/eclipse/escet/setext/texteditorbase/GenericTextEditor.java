@@ -91,7 +91,7 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  *     type, such as {@link Object}.
  * @param <T2> The type of the decorated abstract syntax tree that results from type checking. If no type checker is
  *     available, use a dummy type, such as {@link Object}.
- * @param <TT> The enum with the named styles of the text editor.
+ * @param <TT> The enum with the stylables of the text editor.
  */
 public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
         implements IDocumentListener, IPartListener

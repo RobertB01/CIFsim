@@ -22,7 +22,7 @@ import org.eclipse.escet.chi.typecheck.ChiTypeChecker;
 import org.eclipse.escet.setext.texteditorbase.GenericTextEditor;
 
 /** Chi text editor for Eclipse. */
-public class ChiTextEditor extends GenericTextEditor<List<Declaration>, Specification, ChiTextEditorStyleNames> {
+public class ChiTextEditor extends GenericTextEditor<List<Declaration>, Specification, ChiTextEditorStylable> {
     /** Constructor for the {@link ChiTextEditor} class. */
     public ChiTextEditor() {
         super(new ChiPartitionScanner(), theme -> new ChiSourceViewerConfig(theme), new ChiTextEditorDarkTheme(),

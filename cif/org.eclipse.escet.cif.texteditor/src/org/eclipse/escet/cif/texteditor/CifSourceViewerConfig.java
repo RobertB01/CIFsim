@@ -13,10 +13,10 @@
 
 package org.eclipse.escet.cif.texteditor;
 
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.COMMENT_ML;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.COMMENT_SL;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.STRING;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.STRING_ESCAPE;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.COMMENT_ML;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.COMMENT_SL;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.STRING;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.STRING_ESCAPE;
 
 import org.eclipse.escet.setext.texteditorbase.GenericSourceViewerConfiguration;
 import org.eclipse.escet.setext.texteditorbase.scanners.FormatStringScanner;
@@ -28,14 +28,14 @@ import org.eclipse.jface.text.rules.ITokenScanner;
 /** CIF text editor source viewer configuration. */
 public class CifSourceViewerConfig extends GenericSourceViewerConfiguration {
     /** The theme to use. */
-    private final TextEditorTheme<CifTextEditorStyleNames> theme;
+    private final TextEditorTheme<CifTextEditorStylable> theme;
 
     /**
      * Constructor for the {@link CifSourceViewerConfig} class.
      *
      * @param theme The theme to use.
      */
-    public CifSourceViewerConfig(TextEditorTheme<CifTextEditorStyleNames> theme) {
+    public CifSourceViewerConfig(TextEditorTheme<CifTextEditorStylable> theme) {
         this.theme = theme;
     }
 

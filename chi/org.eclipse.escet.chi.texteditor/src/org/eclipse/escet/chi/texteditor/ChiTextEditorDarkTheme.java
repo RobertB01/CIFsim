@@ -18,10 +18,10 @@ import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.swt.SWT;
 
 /** Chi text editor dark theme. */
-public class ChiTextEditorDarkTheme implements TextEditorTheme<ChiTextEditorStyleNames> {
+public class ChiTextEditorDarkTheme implements TextEditorTheme<ChiTextEditorStylable> {
     @Override
-    public Style getStyle(ChiTextEditorStyleNames namedStyle) {
-        switch (namedStyle) {
+    public Style getStyle(ChiTextEditorStylable stylable) {
+        switch (stylable) {
             case DEFAULT:
                 return new Style(240, 240, 240);
             case IDENTIFIER:

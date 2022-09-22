@@ -18,14 +18,14 @@ import org.eclipse.escet.setext.texteditorbase.Style;
 /**
  * A text editor theme.
  *
- * @param <T> The enum with the named styles of a text editor.
+ * @param <T> The enum with the stylables of a text editor.
  */
 public interface TextEditorTheme<T> {
     /**
-     * Returns the themed style for a given named style.
+     * Returns the style for a given stylable.
      *
-     * @param namedStyle The named style.
-     * @return The themed style.
+     * @param stylable The stylable.
+     * @return The style.
      */
-    public Style getStyle(T namedStyle);
+    public Style getStyle(T stylable);
 }

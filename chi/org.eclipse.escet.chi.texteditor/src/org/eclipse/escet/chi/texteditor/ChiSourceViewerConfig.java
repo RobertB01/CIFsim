@@ -13,9 +13,9 @@
 
 package org.eclipse.escet.chi.texteditor;
 
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.COMMENT_SL;
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.STRING;
-import static org.eclipse.escet.chi.texteditor.ChiTextEditorStyleNames.STRING_ESCAPE;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.COMMENT_SL;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.STRING;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.STRING_ESCAPE;
 
 import org.eclipse.escet.setext.texteditorbase.GenericSourceViewerConfiguration;
 import org.eclipse.escet.setext.texteditorbase.scanners.FormatStringScanner;
@@ -27,14 +27,14 @@ import org.eclipse.jface.text.rules.ITokenScanner;
 /** Chi text editor source viewer configuration. */
 public class ChiSourceViewerConfig extends GenericSourceViewerConfiguration {
     /** The theme to use. */
-    private final TextEditorTheme<ChiTextEditorStyleNames> theme;
+    private final TextEditorTheme<ChiTextEditorStylable> theme;
 
     /**
      * Constructor for the {@link ChiSourceViewerConfig} class.
      *
      * @param theme The theme to use.
      */
-    public ChiSourceViewerConfig(TextEditorTheme<ChiTextEditorStyleNames> theme) {
+    public ChiSourceViewerConfig(TextEditorTheme<ChiTextEditorStylable> theme) {
         this.theme = theme;
     }
 
