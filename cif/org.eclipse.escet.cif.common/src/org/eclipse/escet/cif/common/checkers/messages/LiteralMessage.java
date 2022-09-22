@@ -13,7 +13,10 @@
 
 package org.eclipse.escet.cif.common.checkers.messages;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import org.eclipse.escet.cif.common.checkers.CifCheckViolation;
+import org.eclipse.escet.common.java.Strings;
 
 /** A literal message. */
 public class LiteralMessage extends CifCheckViolationMessage {
@@ -23,10 +26,12 @@ public class LiteralMessage extends CifCheckViolationMessage {
     /**
      * Constructor for the {@link LiteralMessage} class.
      *
-     * @param message The message.
+     * @param messagePattern The message format pattern.
+     * @param args The message format arguments.
+     * @see Strings#fmt
      */
-    public LiteralMessage(String message) {
-        this.message = message;
+    public LiteralMessage(String messagePattern, Object... args) {
+        this.message = fmt(messagePattern, args);
     }
 
     @Override

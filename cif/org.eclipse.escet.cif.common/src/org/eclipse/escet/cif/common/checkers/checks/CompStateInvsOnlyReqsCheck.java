@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
@@ -35,7 +33,7 @@ public class CompStateInvsOnlyReqsCheck extends CifCheck {
                 if (supKind != SupKind.REQUIREMENT) {
                     String kindTxt = (supKind == SupKind.NONE) ? "kindless" : CifTextUtils.kindToStr(supKind);
                     violations.add(comp, new ReportObjectTypeDescriptionMessage(),
-                            new LiteralMessage(fmt("has a %s state invariant", kindTxt)));
+                            new LiteralMessage("has a %s state invariant", kindTxt));
                 }
             }
         }

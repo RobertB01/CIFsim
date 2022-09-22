@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
@@ -53,7 +52,7 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
                     new LiteralMessage("has no initial location"));
         } else if (initLocCount > 1) {
             violations.add(aut, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(fmt("has multiple (%d) initial locations", initLocCount)));
+                    new LiteralMessage("has multiple (%d) initial locations", initLocCount));
         } // Skip if check is disabled (negative value).
     }
 

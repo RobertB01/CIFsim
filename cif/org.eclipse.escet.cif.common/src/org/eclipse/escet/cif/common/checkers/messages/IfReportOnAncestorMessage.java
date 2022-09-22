@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.common.checkers.messages;
 
 import org.eclipse.escet.cif.common.checkers.CifCheckViolation;
+import org.eclipse.escet.common.java.Strings;
 
 /**
  * Message that is conditional on the violation being reported on an ancestor of the object, rather than on the object
@@ -26,10 +27,13 @@ public class IfReportOnAncestorMessage extends CifCheckViolationMessage {
     /**
      * Constructor for the {@link IfReportOnAncestorMessage} class.
      *
-     * @param message The literal message to use if the violation is reported on an ancestor of the object.
+     * @param messagePattern The message format pattern, to use if the violation is reported on an ancestor of the
+     *     object.
+     * @param args The message format arguments.
+     * @see Strings#fmt
      */
-    public IfReportOnAncestorMessage(String message) {
-        this(new LiteralMessage(message));
+    public IfReportOnAncestorMessage(String messagePattern, Object... args) {
+        this(new LiteralMessage(messagePattern, args));
     }
 
     /**

@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.common.checkers.checks;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -131,8 +130,8 @@ public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addExprViolationOperator(UnaryExpression unExpr, CifCheckViolations violations) {
-        violations.add(unExpr, new LiteralMessage(fmt("uses unary operator \"%s\" in unary expression \"%s\"",
-                operatorToStr(unExpr.getOperator()), exprToStr(unExpr))));
+        violations.add(unExpr, new LiteralMessage("uses unary operator \"%s\" in unary expression \"%s\"",
+                operatorToStr(unExpr.getOperator()), exprToStr(unExpr)));
     }
 
     /**
@@ -144,9 +143,8 @@ public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
     private void addExprViolationOperand(UnaryExpression unExpr, CifCheckViolations violations) {
         CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
         violations.add(unExpr,
-                new LiteralMessage(
-                        fmt("uses unary operator \"%s\" on an operand of type \"%s\" in unary expression \"%s\"",
-                                operatorToStr(unExpr.getOperator()), typeToStr(ctype), exprToStr(unExpr))));
+                new LiteralMessage("uses unary operator \"%s\" on an operand of type \"%s\" in unary expression \"%s\"",
+                        operatorToStr(unExpr.getOperator()), typeToStr(ctype), exprToStr(unExpr)));
     }
 
     /** The unary operator, or unary operator operating on certain operand types, to disallow. */

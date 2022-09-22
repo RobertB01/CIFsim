@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
@@ -44,7 +42,7 @@ public class VarNoDiscWithMultiInitValuesCheck extends CifCheck {
                     "discrete variable has multiple potential initial values (any value in its domain)"));
         } else if (count > 1) {
             violations.add(var,
-                    new LiteralMessage(fmt("discrete variable has multiple (%d) potential initial values", count)));
+                    new LiteralMessage("discrete variable has multiple (%d) potential initial values", count));
         }
     }
 }
