@@ -39,6 +39,9 @@ public class EclipseThemeUtils {
      * @return {@code true} if the current Eclipse theme is a dark theme, {@code false} otherwise.
      */
     public static boolean isDarkThemeInUse() {
+        // This method uses internal Eclipse APIs to prevent hardcoding the theme id. This way, if the theme id changes,
+        // or is removed, we should get a compile error, and we know something is broken. Otherwise, it would just never
+        // detect a dark theme.
         IThemeEngine themeEngine = PlatformUI.getWorkbench().getService(IThemeEngine.class);
         ITheme theme = themeEngine.getActiveTheme();
         return theme != null && theme.getId().equals(ThemeEngine.E4_DARK_THEME_ID);
@@ -50,6 +53,8 @@ public class EclipseThemeUtils {
      * @return The Eclipse theme preferences.
      */
     public static IEclipsePreferences getEclipseThemePreferences() {
+        // This method uses internal Eclipse APIs to prevent hardcoding the theme plugin id. This way, if the plugin id
+        // changes, we get a compile error that notifies us something is broken.
         return InstanceScope.INSTANCE.getNode(ThemeEngine.THEME_PLUGIN_ID);
     }
 }
