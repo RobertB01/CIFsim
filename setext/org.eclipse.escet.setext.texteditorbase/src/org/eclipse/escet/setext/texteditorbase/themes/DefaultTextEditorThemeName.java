@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.setext.texteditorbase.themes;
 
-/** Names of the default text editor themes. */
-public interface DefaultTextEditorThemeNames {
+/** Default text editor theme name. */
+public interface DefaultTextEditorThemeName {
     /** Automatic dark/light theme. */
     public static final String AUTO = "auto";
 

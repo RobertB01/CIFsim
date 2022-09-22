@@ -13,9 +13,9 @@
 
 package org.eclipse.escet.setext.texteditorbase;
 
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.AUTO;
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.DARK;
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.LIGHT;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.AUTO;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.DARK;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.LIGHT;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.ComboFieldEditor;

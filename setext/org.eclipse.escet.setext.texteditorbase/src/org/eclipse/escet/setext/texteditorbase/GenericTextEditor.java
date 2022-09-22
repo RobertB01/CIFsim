@@ -16,9 +16,9 @@ package org.eclipse.escet.setext.texteditorbase;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.AUTO;
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.DARK;
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.LIGHT;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.AUTO;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.DARK;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.LIGHT;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
