@@ -42,7 +42,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g.p0.x1": discrete variable has multiple (2) potential initial values.
  - Unsupported "g.p0.x1": discrete variable has multiple predicates that specify its marked values.
  - Unsupported "g.p0.x2": discrete variable has multiple potential initial values (any value in its domain).
- - Unsupported "g.p1": automaton has a location with a marker predicate that can not be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "g.p1": automaton has a location with a marker predicate that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
  - Unsupported "g.p1": automaton has a location with a state invariant.
  - Unsupported "g.p1": failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
  - Unsupported "g.p1": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".

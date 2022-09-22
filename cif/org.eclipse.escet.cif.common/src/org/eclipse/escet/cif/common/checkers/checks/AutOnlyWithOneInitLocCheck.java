@@ -28,7 +28,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 
 /**
- * CIF check that allows automata only if they have exactly one initial location. Automata for which this can not be
+ * CIF check that allows automata only if they have exactly one initial location. Automata for which this cannot be
  * determined statically, are also not allowed.
  */
 public class AutOnlyWithOneInitLocCheck extends CifCheck {
@@ -72,7 +72,7 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
             initial = loc.getInitials().isEmpty() ? false : evalPreds(loc.getInitials(), true, true);
         } catch (UnsupportedException e) {
             // Can only fail if there is at least one predicate.
-            errMsg = "as one of its initialization predicates can not be statically evaluated";
+            errMsg = "as one of its initialization predicates cannot be statically evaluated";
         } catch (CifEvalException e) {
             // Can only fail if there is at least one predicate.
             errMsg = "as evaluating one of its initialization predicates resulted in an evaluation error";
