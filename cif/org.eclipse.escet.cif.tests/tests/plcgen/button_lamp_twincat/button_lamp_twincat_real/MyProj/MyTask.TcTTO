@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject>
+  <Task>
+    <CycleTime>7000</CycleTime>
+    <Priority>123</Priority>
+    <PouCall>
+      <Name>MAIN</Name>
+    </PouCall>
+  </Task>
+</TcPlcObject>
