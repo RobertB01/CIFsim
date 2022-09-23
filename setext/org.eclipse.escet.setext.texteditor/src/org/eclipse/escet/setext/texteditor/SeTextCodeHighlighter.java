@@ -15,13 +15,26 @@ package org.eclipse.escet.setext.texteditor;
 
 import org.eclipse.escet.setext.texteditorbase.highlight.CodeHighlighter;
 import org.eclipse.escet.setext.texteditorbase.scanners.GenericPartitionScanner;
+import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 
 /** SeText code highlighter. */
 public class SeTextCodeHighlighter extends CodeHighlighter {
+    /** The theme to use. */
+    private final TextEditorTheme<SeTextTextEditorStylable> theme;
+
+    /**
+     * Constructor for the {@link SeTextCodeHighlighter} class.
+     *
+     * @param theme The theme to use.
+     */
+    public SeTextCodeHighlighter(TextEditorTheme<SeTextTextEditorStylable> theme) {
+        this.theme = theme;
+    }
+
     @Override
     protected IPresentationReconciler obtainPresentationReconciler() {
-        SeTextSourceViewerConfig config = new SeTextSourceViewerConfig();
+        SeTextSourceViewerConfig config = new SeTextSourceViewerConfig(theme);
         config.setColorManager(colorManager);
         return config.getPresentationReconciler(null);
     }

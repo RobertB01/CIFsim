@@ -39,4 +39,13 @@
       <super type="org.eclipse.core.resources.problemmarker"/>
       <super type="org.eclipse.core.resources.textmarker"/>
    </extension>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.escet.chi.texteditor.ChiTextEditorPreferencePage"
+            id="org.eclipse.escet.chi.texteditor.ChiTextEditorPreferencePage"
+            name="Chi Text Editor">
+      </page>
+   </extension>
 </plugin>

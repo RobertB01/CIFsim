@@ -11,7 +11,8 @@ Export-Package: org.eclipse.escet.setext.texteditorbase,
  org.eclipse.escet.setext.texteditorbase.detectors,
  org.eclipse.escet.setext.texteditorbase.highlight,
  org.eclipse.escet.setext.texteditorbase.rules,
- org.eclipse.escet.setext.texteditorbase.scanners
+ org.eclipse.escet.setext.texteditorbase.scanners,
+ org.eclipse.escet.setext.texteditorbase.themes
 Require-Bundle: org.eclipse.swt;bundle-version="3.113.0",
  org.eclipse.jface;bundle-version="3.18.0",
  org.eclipse.jface.text;bundle-version="3.16.100",
