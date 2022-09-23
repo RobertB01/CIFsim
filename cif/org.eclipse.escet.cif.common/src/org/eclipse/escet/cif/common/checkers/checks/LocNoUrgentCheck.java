@@ -13,30 +13,22 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
+import org.eclipse.escet.cif.common.checkers.messages.IfReportOnSelfMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
 /** CIF check that does not allow urgent locations. */
 public class LocNoUrgentCheck extends CifCheck {
     @Override
     protected void preprocessLocation(Location loc, CifCheckViolations violations) {
-        // Skip location parameters.
-        EObject parent = loc.eContainer();
-        if (parent instanceof LocationParameter) {
-            return;
-        }
-
-        // Check for violation.
+        // Note that location parameters are never urgent.
         if (loc.isUrgent()) {
-            if (loc.getName() != null) {
-                violations.add(loc, "location is urgent");
-            } else {
-                violations.add((Automaton)loc.eContainer(), "automaton has an urgent location");
-            }
+            // Report violation on the location, or on its automaton in case the location has no name.
+            violations.add(loc, new ReportObjectTypeDescrMessage(),
+                    new IfReportOnAncestorMessage("has an urgent location"), new IfReportOnSelfMessage("is urgent"));
         }
     }
 }
