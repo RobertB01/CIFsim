@@ -1,0 +1,84 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Top level scope.
+invariant not true;
+
+// Group.
+group grp:
+  invariant not true;
+end
+
+// Nested group.
+group nested_grp:
+  group nested_grp:
+    invariant not true;
+  end
+end
+
+// With type declarations.
+group type_decl:
+  type t = bool;
+  alg t a = true;
+  invariant not a;
+end
+
+// INVERSE.
+group INVERSE:
+  invariant not true;
+  invariant not not false;
+end
+
+// NEGATE_INTS_RANGED.
+group NEGATE_INTS_RANGED:
+  invariant 1 = -1;
+end
+
+// NEGATE_INTS_RANGELESS.
+automaton NEGATE_INTS_RANGELESS:
+  disc int v;
+  location:
+    initial;
+  invariant v = -v;
+end
+
+// NEGATE_REALS.
+group NEGATE_INTS_REALS:
+  invariant 1.0 = -1.0;
+end
+
+// PLUS_INTS_RANGED.
+group PLUS_INTS_RANGED:
+  invariant 1 = +1;
+end
+
+// PLUS_INTS_RANGELESS.
+automaton PLUS_INTS_RANGELESS:
+  disc int v;
+  location:
+    initial;
+  invariant v = +v;
+end
+
+// PLUS_REALS.
+group PLUS_REALS:
+  invariant 1.0 = +1.0;
+end
+
+// SAMPLE.
+automaton SAMPLE:
+  disc dist real d = constant(1.0);
+  location:
+    initial;
+  invariant (sample d)[0] > 0;
+end

@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.tests;
+package org.eclipse.escet.cif.tests.common.checkers;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifPreconditionChecker;
@@ -30,6 +30,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.Assert;
 
 /** CIF common checks test application. */
 public class CifCommonChecksTestApp extends Application<IOutputComponent> {
@@ -63,21 +64,34 @@ public class CifCommonChecksTestApp extends Application<IOutputComponent> {
 
         // Add configured check.
         List<CifCheck> checks = list();
-        String checkClassNameToTest = CifCheckClassNameToTestOption.getCheckClassNameToTest();
-        checkClassNameToTest = CifCheck.class.getPackageName() + ".checks." + checkClassNameToTest;
-        Class<?> cls;
-        try {
-            cls = getClass().getClassLoader().loadClass(checkClassNameToTest);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(fmt("Failed to load class \"%s\".", checkClassNameToTest));
+        String simpleCheckClassName = CifCheckClassNameToTestOption.getCheckClassNameToTest();
+        String[] packageNames = { //
+                CifCheck.class.getPackageName() + ".checks", // Common checks package.
+                getClass().getPackageName() // Test checks package.
+        };
+        for (String packageName: packageNames) {
+            // Get class name and load the class.
+            String fullCheckClassName = packageName + "." + simpleCheckClassName;
+            Class<?> cls;
+            try {
+                cls = getClass().getClassLoader().loadClass(fullCheckClassName);
+            } catch (ClassNotFoundException e) {
+                // Try next package.
+                continue;
+            }
+
+            // Instantiate the check.
+            CifCheck check;
+            try {
+                check = (CifCheck)cls.getDeclaredConstructor().newInstance();
+            } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
+                throw new RuntimeException("Failed to instantiate class: " + fullCheckClassName);
+            }
+
+            // Add the check.
+            checks.add(check);
         }
-        CifCheck check;
-        try {
-            check = (CifCheck)cls.getDeclaredConstructor().newInstance();
-        } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
-            throw new RuntimeException(fmt("Failed to instantiate class \"%s\".", checkClassNameToTest));
-        }
-        checks.add(check);
+        Assert.check(!checks.isEmpty(), "Class not found in packages: " + Arrays.toString(packageNames));
 
         // Perform check.
         new CifPreconditionChecker(checks).reportPreconditionViolations(spec, "CIF common checks tester");
@@ -104,7 +118,7 @@ public class CifCommonChecksTestApp extends Application<IOutputComponent> {
         return options;
     }
 
-    /** CIF common check class name option. */
+    /** CIF check class name option. */
     public static class CifCheckClassNameToTestOption extends StringOption {
         /** Constructor for the {@link CifCheckClassNameToTestOption} class. */
         public CifCheckClassNameToTestOption() {
@@ -113,7 +127,7 @@ public class CifCommonChecksTestApp extends Application<IOutputComponent> {
                     "Check",
 
                     // description
-                    "Specify the name of the common check class to test.",
+                    "Specify the name of the check class to test.",
 
                     // cmdShort
                     null,
