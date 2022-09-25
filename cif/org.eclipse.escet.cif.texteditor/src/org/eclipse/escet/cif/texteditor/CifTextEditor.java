@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.setext.texteditorbase.GenericTextEditor;
 
 /** CIF text editor for Eclipse. */
-public class CifTextEditor extends GenericTextEditor<ASpecification, Specification, CifTextEditorStyleNames> {
+public class CifTextEditor extends GenericTextEditor<ASpecification, Specification, CifTextEditorStylable> {
     /** Constructor for the {@link CifTextEditor} class. */
     public CifTextEditor() {
         super(new CifPartitionScanner(), theme -> new CifSourceViewerConfig(theme), new CifTextEditorDarkTheme(),

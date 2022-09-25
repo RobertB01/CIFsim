@@ -18,10 +18,10 @@ import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.swt.SWT;
 
 /** ToolDef text editor dark theme. */
-public class ToolDefTextEditorDarkTheme implements TextEditorTheme<ToolDefTextEditorStyleNames> {
+public class ToolDefTextEditorDarkTheme implements TextEditorTheme<ToolDefTextEditorStylable> {
     @Override
-    public Style getStyle(ToolDefTextEditorStyleNames namedStyle) {
-        switch (namedStyle) {
+    public Style getStyle(ToolDefTextEditorStylable stylable) {
+        switch (stylable) {
             case DEFAULT:
                 return new Style(240, 240, 240);
             case IDENTIFIER:

@@ -13,10 +13,10 @@
 
 package org.eclipse.escet.tooldef.texteditor;
 
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.COMMENT_ML;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.COMMENT_SL;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.STRING;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.STRING_ESCAPE;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.COMMENT_ML;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.COMMENT_SL;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.STRING;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.STRING_ESCAPE;
 
 import org.eclipse.escet.setext.texteditorbase.GenericSourceViewerConfiguration;
 import org.eclipse.escet.setext.texteditorbase.scanners.FormatStringScanner;
@@ -28,14 +28,14 @@ import org.eclipse.jface.text.rules.ITokenScanner;
 /** ToolDef text editor source viewer configuration. */
 public class ToolDefSourceViewerConfig extends GenericSourceViewerConfiguration {
     /** The theme to use. */
-    private final TextEditorTheme<ToolDefTextEditorStyleNames> theme;
+    private final TextEditorTheme<ToolDefTextEditorStylable> theme;
 
     /**
      * Constructor for the {@link ToolDefSourceViewerConfig} class.
      *
      * @param theme The theme to use.
      */
-    public ToolDefSourceViewerConfig(TextEditorTheme<ToolDefTextEditorStyleNames> theme) {
+    public ToolDefSourceViewerConfig(TextEditorTheme<ToolDefTextEditorStylable> theme) {
         this.theme = theme;
     }
 

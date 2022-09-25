@@ -14,10 +14,10 @@
 package org.eclipse.escet.setext.texteditor;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStyleNames.DEFAULT;
-import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStyleNames.DESCRIPTION;
-import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStyleNames.IDENTIFIER;
-import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStyleNames.KEYWORD;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.DEFAULT;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.DESCRIPTION;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.IDENTIFIER;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.KEYWORD;
 
 import org.eclipse.escet.setext.parser.SeTextScanner;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
@@ -37,7 +37,7 @@ public class SeTextTextEditorScanner extends RuleBasedScannerEx {
      * @param theme The theme to use.
      * @param manager The color manager to use to create the color tokens.
      */
-    public SeTextTextEditorScanner(TextEditorTheme<SeTextTextEditorStyleNames> theme, ColorManager manager) {
+    public SeTextTextEditorScanner(TextEditorTheme<SeTextTextEditorStylable> theme, ColorManager manager) {
         // Get keywords.
         String[] keywords = SeTextScanner.getKeywords("Keywords");
 

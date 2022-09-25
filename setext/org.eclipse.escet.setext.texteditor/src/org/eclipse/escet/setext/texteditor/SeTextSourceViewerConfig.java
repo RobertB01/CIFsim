@@ -13,9 +13,9 @@
 
 package org.eclipse.escet.setext.texteditor;
 
-import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStyleNames.COMMENT_ML;
-import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStyleNames.COMMENT_SL;
-import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStyleNames.STRING;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.COMMENT_ML;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.COMMENT_SL;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.STRING;
 
 import org.eclipse.escet.setext.texteditorbase.GenericSourceViewerConfiguration;
 import org.eclipse.escet.setext.texteditorbase.scanners.SingleStyleScanner;
@@ -26,14 +26,14 @@ import org.eclipse.jface.text.rules.ITokenScanner;
 /** SeText text editor source viewer configuration. */
 public class SeTextSourceViewerConfig extends GenericSourceViewerConfiguration {
     /** The theme to use. */
-    private final TextEditorTheme<SeTextTextEditorStyleNames> theme;
+    private final TextEditorTheme<SeTextTextEditorStylable> theme;
 
     /**
      * Constructor for the {@link SeTextSourceViewerConfig} class.
      *
      * @param theme The theme to use.
      */
-    public SeTextSourceViewerConfig(TextEditorTheme<SeTextTextEditorStyleNames> theme) {
+    public SeTextSourceViewerConfig(TextEditorTheme<SeTextTextEditorStylable> theme) {
         this.theme = theme;
     }
 

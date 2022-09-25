@@ -13,14 +13,12 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
-import org.eclipse.escet.common.java.Assert;
 
 /**
  * CIF check that does not allow multi-assignments on edges. This check does not disallow multiple assignments on a
@@ -32,20 +30,9 @@ public class EdgeNoMultiAssignCheck extends CifCheck {
     @Override
     protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
         if (asgn.getAddressable() instanceof TupleExpression) {
-            // Get location.
-            EObject ancestor = asgn;
-            while (!(ancestor instanceof Location)) {
-                ancestor = ancestor.eContainer();
-            }
-            Assert.check(ancestor instanceof Location);
-            Location loc = (Location)ancestor;
-
-            // Report violation.
-            if (loc.getName() != null) {
-                violations.add(loc, "location has an edge with a multi-assignment");
-            } else {
-                violations.add((Automaton)loc.eContainer(), "automaton has an edge with a multi-assignment");
-            }
+            // Report violation on the closest named ancestor of the assignment: a location or an automaton.
+            violations.add(asgn, new ReportObjectTypeDescrMessage(),
+                    new LiteralMessage("has an edge with a multi-assignment"));
         }
     }
 }

@@ -19,7 +19,7 @@ import org.eclipse.escet.setext.texteditorbase.GenericTextEditor;
 import org.eclipse.escet.setext.typechecker.SeTextTypeChecker;
 
 /** SeText text editor for Eclipse. */
-public class SeTextTextEditor extends GenericTextEditor<Specification, Specification, SeTextTextEditorStyleNames> {
+public class SeTextTextEditor extends GenericTextEditor<Specification, Specification, SeTextTextEditorStylable> {
     /** Constructor for the {@link SeTextTextEditor} class. */
     public SeTextTextEditor() {
         super(new SeTextPartitionScanner(), theme -> new SeTextSourceViewerConfig(theme),

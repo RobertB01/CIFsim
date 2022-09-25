@@ -14,12 +14,12 @@
 package org.eclipse.escet.tooldef.texteditor;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.BUILTIN;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.DEFAULT;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.IDENTIFIER;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.KEYWORD;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.NUMBER;
-import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStyleNames.OPERATOR;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.BUILTIN;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.DEFAULT;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.IDENTIFIER;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.KEYWORD;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.NUMBER;
+import static org.eclipse.escet.tooldef.texteditor.ToolDefTextEditorStylable.OPERATOR;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
@@ -41,7 +41,7 @@ public class ToolDefTextEditorScanner extends RuleBasedScannerEx {
      * @param theme The theme to use.
      * @param manager The color manager to use to create the color tokens.
      */
-    public ToolDefTextEditorScanner(TextEditorTheme<ToolDefTextEditorStyleNames> theme, ColorManager manager) {
+    public ToolDefTextEditorScanner(TextEditorTheme<ToolDefTextEditorStylable> theme, ColorManager manager) {
         // Keywords copied from ToolDef scanner.
         String[] keywords = ToolDefScanner.getKeywords("Keyword");
         String[] operators = ToolDefScanner.getKeywords("Operator");

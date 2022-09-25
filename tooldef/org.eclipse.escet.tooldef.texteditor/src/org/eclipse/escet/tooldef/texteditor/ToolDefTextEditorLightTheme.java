@@ -18,10 +18,10 @@ import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.swt.SWT;
 
 /** ToolDef text editor light theme. */
-public class ToolDefTextEditorLightTheme implements TextEditorTheme<ToolDefTextEditorStyleNames> {
+public class ToolDefTextEditorLightTheme implements TextEditorTheme<ToolDefTextEditorStylable> {
     @Override
-    public Style getStyle(ToolDefTextEditorStyleNames namedStyle) {
-        switch (namedStyle) {
+    public Style getStyle(ToolDefTextEditorStylable stylable) {
+        switch (stylable) {
             case DEFAULT:
                 return new Style(0, 0, 0);
             case IDENTIFIER:

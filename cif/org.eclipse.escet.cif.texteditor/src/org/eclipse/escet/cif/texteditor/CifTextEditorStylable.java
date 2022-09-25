@@ -11,28 +11,46 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.setext.texteditor;
+package org.eclipse.escet.cif.texteditor;
 
-/** SeText text editor style names. */
-public enum SeTextTextEditorStyleNames {
-    /** Default style. */
+/** CIF text editor stylable. */
+public enum CifTextEditorStylable {
+    /** Default. */
     DEFAULT,
 
-    /** Identifier style. */
+    /** Identifier. */
     IDENTIFIER,
 
-    /** Description style. */
-    DESCRIPTION,
-
-    /** Single-line comment style. */
+    /** Single-line comment. */
     COMMENT_SL,
 
-    /** Multi-line comment style. */
+    /** Multi-line comment. */
     COMMENT_ML,
 
-    /** String literal style. */
+    /** String literal. */
     STRING,
 
-    /** Keyword style. */
+    /** String literal escape sequence. */
+    STRING_ESCAPE,
+
+    /** Keyword. */
     KEYWORD,
+
+    /** Standard library function. */
+    STDLIBFUNC,
+
+    /** Operator. */
+    OPERATOR,
+
+    /** Number literal. */
+    NUMBER,
+
+    /** Controllable event name. */
+    C_EVENT,
+
+    /** Uncontrollable event name. */
+    U_EVENT,
+
+    /** Event name. */
+    E_EVENT,
 }

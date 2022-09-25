@@ -21,14 +21,14 @@ import org.eclipse.jface.text.presentation.IPresentationReconciler;
 /** CIF code highlighter. */
 public class CifCodeHighlighter extends CodeHighlighter {
     /** The theme to use. */
-    private final TextEditorTheme<CifTextEditorStyleNames> theme;
+    private final TextEditorTheme<CifTextEditorStylable> theme;
 
     /**
      * Constructor for the {@link CifCodeHighlighter} class.
      *
      * @param theme The theme to use.
      */
-    public CifCodeHighlighter(TextEditorTheme<CifTextEditorStyleNames> theme) {
+    public CifCodeHighlighter(TextEditorTheme<CifTextEditorStylable> theme) {
         this.theme = theme;
     }
 

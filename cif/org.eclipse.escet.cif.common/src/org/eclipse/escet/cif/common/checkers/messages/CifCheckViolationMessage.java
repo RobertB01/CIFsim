@@ -11,21 +11,23 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.setext.texteditorbase.themes;
+package org.eclipse.escet.cif.common.checkers.messages;
 
-import org.eclipse.escet.setext.texteditorbase.Style;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolation;
 
-/**
- * A text editor theme.
- *
- * @param <T> The enum with the stylables of a text editor.
- */
-public interface TextEditorTheme<T> {
+/** A CIF check violation message. */
+public abstract class CifCheckViolationMessage {
     /**
-     * Returns the style for a given stylable.
+     * Returns the violation message text.
      *
-     * @param stylable The stylable.
-     * @return The style.
+     * @param violation The CIF check violation.
+     * @return The violation message text.
      */
-    public Style getStyle(T stylable);
+    public abstract String getMessageText(CifCheckViolation violation);
+
+    @Override
+    public abstract boolean equals(Object obj);
+
+    @Override
+    public abstract int hashCode();
 }

@@ -24,7 +24,7 @@ import org.eclipse.escet.setext.texteditorbase.Style;
  * dark theme, but as a light theme.
  * </p>
  *
- * @param <T> The enum with the named styles of a text editor.
+ * @param <T> The enum with the stylables of a text editor.
  */
 public class AutoDarkLightTheme<T> implements TextEditorTheme<T> {
     /** The dark or light theme to use. */
@@ -41,7 +41,7 @@ public class AutoDarkLightTheme<T> implements TextEditorTheme<T> {
     }
 
     @Override
-    public Style getStyle(T namedStyle) {
-        return theme.getStyle(namedStyle);
+    public Style getStyle(T stylable) {
+        return theme.getStyle(stylable);
     }
 }

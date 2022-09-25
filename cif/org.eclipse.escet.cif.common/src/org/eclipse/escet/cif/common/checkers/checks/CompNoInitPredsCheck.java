@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 
 /**
@@ -25,7 +27,8 @@ public class CompNoInitPredsCheck extends CifCheck {
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         if (!comp.getInitials().isEmpty()) {
-            violations.add(comp, "component contains an initialization predicate");
+            violations.add(comp, new ReportObjectTypeDescrMessage(),
+                    new LiteralMessage("contains an initialization predicate"));
         }
     }
 }

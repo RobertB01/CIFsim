@@ -13,15 +13,15 @@
 
 package org.eclipse.escet.cif.texteditor;
 
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.C_EVENT;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.DEFAULT;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.E_EVENT;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.IDENTIFIER;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.KEYWORD;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.NUMBER;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.OPERATOR;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.STDLIBFUNC;
-import static org.eclipse.escet.cif.texteditor.CifTextEditorStyleNames.U_EVENT;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.C_EVENT;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.DEFAULT;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.E_EVENT;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.IDENTIFIER;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.KEYWORD;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.NUMBER;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.OPERATOR;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.STDLIBFUNC;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.U_EVENT;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -45,7 +45,7 @@ public class CifTextEditorScanner extends RuleBasedScannerEx {
      * @param theme The theme to use.
      * @param manager The color manager to use to create the color tokens.
      */
-    public CifTextEditorScanner(TextEditorTheme<CifTextEditorStyleNames> theme, ColorManager manager) {
+    public CifTextEditorScanner(TextEditorTheme<CifTextEditorStylable> theme, ColorManager manager) {
         // Keywords copied from CIF scanner.
         String[] keywords = CifScanner.getKeywords("Keywords");
         String[] supKinds = CifScanner.getKeywords("SupKind");

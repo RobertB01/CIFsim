@@ -16,9 +16,9 @@ package org.eclipse.escet.setext.texteditorbase;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.AUTO;
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.DARK;
-import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeNames.LIGHT;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.AUTO;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.DARK;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.LIGHT;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -91,7 +91,7 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  *     type, such as {@link Object}.
  * @param <T2> The type of the decorated abstract syntax tree that results from type checking. If no type checker is
  *     available, use a dummy type, such as {@link Object}.
- * @param <TT> The enum with the named styles of the text editor.
+ * @param <TT> The enum with the stylables of the text editor.
  */
 public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
         implements IDocumentListener, IPartListener

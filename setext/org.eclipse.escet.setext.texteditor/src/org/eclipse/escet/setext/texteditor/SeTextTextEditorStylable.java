@@ -11,34 +11,28 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.chi.texteditor;
+package org.eclipse.escet.setext.texteditor;
 
-/** Chi text editor style names. */
-public enum ChiTextEditorStyleNames {
-    /** Default style. */
+/** SeText text editor stylable. */
+public enum SeTextTextEditorStylable {
+    /** Default. */
     DEFAULT,
 
-    /** Identifier style. */
+    /** Identifier. */
     IDENTIFIER,
 
-    /** Single-line comment style. */
+    /** Description. */
+    DESCRIPTION,
+
+    /** Single-line comment. */
     COMMENT_SL,
 
-    /** String literal style. */
+    /** Multi-line comment. */
+    COMMENT_ML,
+
+    /** String literal. */
     STRING,
 
-    /** String literal escape sequence style. */
-    STRING_ESCAPE,
-
-    /** Keyword style. */
+    /** Keyword. */
     KEYWORD,
-
-    /** Standard library function style. */
-    STDLIBFUNC,
-
-    /** Operator style. */
-    OPERATOR,
-
-    /** Number literal style. */
-    NUMBER,
 }

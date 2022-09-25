@@ -19,7 +19,7 @@ import org.eclipse.escet.tooldef.parser.ToolDefParser;
 import org.eclipse.escet.tooldef.typechecker.ToolDefTypeChecker;
 
 /** ToolDef text editor for Eclipse. */
-public class ToolDefTextEditor extends GenericTextEditor<Script, Script, ToolDefTextEditorStyleNames> {
+public class ToolDefTextEditor extends GenericTextEditor<Script, Script, ToolDefTextEditorStylable> {
     /** Constructor for the {@link ToolDefTextEditor} class. */
     public ToolDefTextEditor() {
         super(new ToolDefPartitionScanner(), theme -> new ToolDefSourceViewerConfig(theme),
