@@ -1,0 +1,15 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "grp": uses unary operator "not" in unary expression "not true".
+ - Unsupported "INVERSE": uses unary operator "not" in unary expression "not false".
+ - Unsupported "INVERSE": uses unary operator "not" in unary expression "not not false".
+ - Unsupported "INVERSE": uses unary operator "not" in unary expression "not true".
+ - Unsupported "NEGATE_INTS_RANGED": uses unary operator "-" in unary expression "-1".
+ - Unsupported "NEGATE_INTS_RANGELESS": uses unary operator "-" in unary expression "-NEGATE_INTS_RANGELESS.v".
+ - Unsupported "NEGATE_INTS_REALS": uses unary operator "-" in unary expression "-1.0".
+ - Unsupported "nested_grp.nested_grp": uses unary operator "not" in unary expression "not true".
+ - Unsupported "PLUS_INTS_RANGED": uses unary operator "+" in unary expression "+1".
+ - Unsupported "PLUS_INTS_RANGELESS": uses unary operator "+" in unary expression "+PLUS_INTS_RANGELESS.v".
+ - Unsupported "PLUS_REALS": uses unary operator "+" in unary expression "+1.0".
+ - Unsupported "SAMPLE": uses unary operator "sample" in unary expression "sample SAMPLE.d".
+ - Unsupported "type_decl": uses unary operator "not" in unary expression "not type_decl.a".
+ - Unsupported specification: uses unary operator "not" in unary expression "not true".

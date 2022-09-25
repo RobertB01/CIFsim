@@ -1,4 +1,4 @@
-WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 38, column 22: Component parameter "cdef2.p" is not used anywhere in the specification.
+WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
 WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 111, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "COMP_TYPES": uses component type "COMP_TYPES".

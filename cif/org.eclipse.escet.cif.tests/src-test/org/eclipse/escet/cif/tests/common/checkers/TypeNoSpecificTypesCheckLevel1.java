@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 
-/** {@link TypeNoSpecificTypesCheck} with all level 1 disalloweds enabled. */
+/** {@link TypeNoSpecificTypesCheck} with all level 0 + 1 disalloweds enabled. */
 public class TypeNoSpecificTypesCheckLevel1 extends TypeNoSpecificTypesCheck {
     /** Constructor for the {@link TypeNoSpecificTypesCheckLevel1} class. */
     public TypeNoSpecificTypesCheckLevel1() {

@@ -1,7 +1,7 @@
-WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 38, column 22: Component parameter "cdef2.p" is not used anywhere in the specification.
+WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
 WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 111, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "COMP_DEF_TYPES2.p": uses component definition type "COMP_DEF_TYPES2".
+ - Unsupported "COMP_DEF_TYPES2.p": uses component definition type "COMP_DEF_TYPES1".
  - Unsupported "grp.t": uses rangeless integer type "int".
  - Unsupported "INT_TYPES_RANGELESS.loc": uses rangeless integer type "int".
  - Unsupported "INT_TYPES_RANGELESS.v": uses rangeless integer type "int".

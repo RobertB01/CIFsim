@@ -24,7 +24,7 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsChec
 public class ExprNoSpecificUnaryExprsCheckLevel1 extends ExprNoSpecificUnaryExprsCheck {
     /** Constructor for the {@link ExprNoSpecificUnaryExprsCheckLevel1} class. */
     public ExprNoSpecificUnaryExprsCheckLevel1() {
-        super(Arrays.stream(NoSpecificUnaryOp.values()).filter(v -> StringUtils.countMatches(v.name(), "_") == 0)
+        super(Arrays.stream(NoSpecificUnaryOp.values()).filter(v -> StringUtils.countMatches(v.name(), "_") == 1)
                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(NoSpecificUnaryOp.class))));
     }
 }

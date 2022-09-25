@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 
-/** {@link ExprNoSpecificUnaryExprsCheck} with all level 2 disalloweds enabled. */
+/** {@link ExprNoSpecificUnaryExprsCheck} with all level 2 and higher disalloweds enabled. */
 public class ExprNoSpecificUnaryExprsCheckLevel2 extends ExprNoSpecificUnaryExprsCheck {
     /** Constructor for the {@link ExprNoSpecificUnaryExprsCheckLevel2} class. */
     public ExprNoSpecificUnaryExprsCheckLevel2() {
-        super(Arrays.stream(NoSpecificUnaryOp.values()).filter(v -> StringUtils.countMatches(v.name(), "_") == 1)
+        super(Arrays.stream(NoSpecificUnaryOp.values()).filter(v -> StringUtils.countMatches(v.name(), "_") >= 2)
                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(NoSpecificUnaryOp.class))));
     }
 }

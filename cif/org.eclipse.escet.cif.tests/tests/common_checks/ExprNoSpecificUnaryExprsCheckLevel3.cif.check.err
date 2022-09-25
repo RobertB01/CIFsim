@@ -1,5 +1,0 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "NEGATE_INTS_RANGED": uses unary operator "-" on an operand of type "int[1..1]" in unary expression "-1".
- - Unsupported "NEGATE_INTS_RANGELESS": uses unary operator "-" on an operand of type "int" in unary expression "-NEGATE_INTS_RANGELESS.v".
- - Unsupported "PLUS_INTS_RANGED": uses unary operator "+" on an operand of type "int[1..1]" in unary expression "+1".
- - Unsupported "PLUS_INTS_RANGELESS": uses unary operator "+" on an operand of type "int" in unary expression "+PLUS_INTS_RANGELESS.v".
