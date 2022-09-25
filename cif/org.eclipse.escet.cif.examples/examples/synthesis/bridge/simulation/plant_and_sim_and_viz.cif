@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-import "Sim.cif";
+import "plant_and_sim.cif";
 svgfile "plant.svg";
 
 svgin id  "overruleSwitch_off" event OverrideSwitch.u_turn_off;

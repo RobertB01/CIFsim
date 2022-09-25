@@ -11,13 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-import "UI.cif";
+import "ui.cif";
 
-svgfile "UI.svg";
+svgfile "ui.svg";
 svgout id "EmergencyStop" attr "visibility" value if EmergencyStop.Active: "visible" else "hidden" end;
 
 group def V_VTLButton(alg string n; uncontrollable u_r, u_g; alg bool sper, red, redGreen, green, fault):
-    svgfile "UI.svg";
+    svgfile "ui.svg";
     svgin id "VTL" + n + "_R" event if sper: u_r2Off else u_r end;
     svgin id "VTL" + n + "_G" event u_g;
     svgin id "VTL" + n + "_S" event u_r2;
@@ -34,7 +34,7 @@ V_ButtonVTL56 : V_VTLButton("56", CommandVTL56.u_red, CommandVTL56.u_green, sup.
 V_ButtonVTL78 : V_VTLButton("78", CommandVTL78.u_red, CommandVTL78.u_green, sup.CommandVTL78.RedRed, sup.CommandVTL78.Red, sup.CommandVTL78.RedGreen, sup.CommandVTL78.Green, VTL7.fault and VTL8.fault);
 
 group V_StopSigns:
-    svgfile "UI.svg";
+    svgfile "ui.svg";
     svgout id "SS1"   attr "fill" value if sup.StopSigns.Actuator.On: "#FF0000" else "#999999" end;
     svgout id "SS4"   attr "fill" value if sup.StopSigns.Actuator.On: "#FF0000" else "#999999" end;
     svgout id "SS123" attr "fill" value if StopSigns.fault123:        "#FF0000" else "black" end;
@@ -42,25 +42,25 @@ group V_StopSigns:
 end
 
 group V_Asb1:
-    svgfile "UI.svg";
+    svgfile "ui.svg";
     svgout id "BB1"   attr "fill" value if BB1.fault: "#FF0000" elif not sup.BB1.Actuator.Idle: "#FFFF00" else "#FFFFFF" end;
     svgout id "BB1in" attr "fill" value if BB1.fault: "#FF0000" elif not sup.BB1.Actuator.Idle: "#FFFF00" elif sup.BB1.NotClosed.Off : "#FFFFFF" else "#999999" end;
 end
 
 group V_Asb2:
-    svgfile "UI.svg";
+    svgfile "ui.svg";
     svgout id "BB2"   attr "fill" value if BB2.fault: "#FF0000" elif not sup.BB2.Actuator.Idle: "#FFFF00" else "#FFFFFF" end;
     svgout id "BB2in" attr "fill" value if BB2.fault: "#FF0000" elif not sup.BB2.Actuator.Idle: "#FFFF00" elif sup.BB2.NotClosed.Off : "#FFFFFF" else "#999999" end;
 end
 
 group V_Bridge:
-    svgfile "UI.svg";
+    svgfile "ui.svg";
     svgout id "brug" attr "fill" value if BD.fault: "#FF0000" elif sup.BridgeCommands.OpenB_act or sup.BridgeCommands.CloseB_act : "#FFFF00" else "#FFFFFF" end;
     svgout id "brug" attr "transform" value fmt("rotate(%s,-280,565)", if sup.BD.Closed.On : 0 elif sup.BD.Open.On: 90 else 45 end);
 end
 
 group V_SCADA:
-    svgfile "UI.svg";
+    svgfile "ui.svg";
     // Drukken van knoppen
     svgin id "CloseLT" event BridgeCommands.u_closeLT;
     svgin id "CloseBB" event BridgeCommands.u_closeBB;
@@ -106,7 +106,7 @@ group V_SCADA:
 end
 
 automaton Window:
-    svgfile "UI.svg";
+    svgfile "ui.svg";
     event showW1, showW2, hideW1, hideW2;
     disc bool W1 = false, W2 = false;
     monitor showW1, showW2;
