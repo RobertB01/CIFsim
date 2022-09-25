@@ -12,9 +12,14 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Simulate the synthesized supervisor.
-// Before executing this script, first synthesize the supervisor.
 
 from "lib:cif" import *;
+
+// Make sure that the supervisor has been synthesized.
+if not exists("_generated/supervisor.cif"):
+    errln("ERROR: Please first synthesize the supervisor before executing the simulation script.");
+    exit 1;
+end
 
 // Merge supervisor with diagnosers and various simulation models.
 outln("Preparing simulation model...");
