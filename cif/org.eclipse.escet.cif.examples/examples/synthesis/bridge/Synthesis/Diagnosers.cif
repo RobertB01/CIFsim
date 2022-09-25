@@ -1,0 +1,382 @@
+import "../Templates/DiagnosersTemplate.cif";
+// Discrepancy fault times
+const real Tdisc_BB_es           = 1;   //Discrepantietijd voor eindstand slagbomen.
+const real Tdisc_brug_es         = 1;   //Discrepantietijd voor eindstand brug.
+const real Tdisc_lamp            = 2;   //Discrepantietijd voor lampbewaking
+const real Tdisc_lockingMechism  = 2.5; //Discrepantietijd voor lockingMechismbewaking
+
+// MaxDuration monitoring
+const real Tmax_BBOpening      = 15;  //Looptijd voor het opening van een slagboom.
+const real Tmax_BBClosing      = 15;  //Looptijd voor het closing van een slagboom.
+const real Tmax_LockingMLock   = 50;  //Looptijd voor het opzetten van het lockingMechism.
+const real Tmax_LockingMUnlock = 50;  //Looptijd voor het unlock van het lockingMechism.
+
+// MinDuration monitoring
+const real Tmin_BridgeClose  = 1.8; //Minimale tijd tussen BeforeBeforeClosed en BeforeClosed
+const real Tmin_BridgeOpen   = 1.8; //Minimale tijd tussen BeforeBeforeOpen  en BeforeOpen
+
+group StopSigns:
+    DiagnoseSS1: DiscrepancyDiagnoser(sup.StopSigns.S1.On, sup.StopSigns.Actuator.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+    DiagnoseSS2: DiscrepancyDiagnoser(sup.StopSigns.S2.On, sup.StopSigns.Actuator.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+    DiagnoseSS3: DiscrepancyDiagnoser(sup.StopSigns.S3.On, sup.StopSigns.Actuator.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+    DiagnoseSS4: DiscrepancyDiagnoser(sup.StopSigns.S4.On, sup.StopSigns.Actuator.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+    DiagnoseSS5: DiscrepancyDiagnoser(sup.StopSigns.S5.On, sup.StopSigns.Actuator.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+
+    alg bool fault123 = DiagnoseSS1.fault or DiagnoseSS2.fault or DiagnoseSS3.fault;
+    alg bool fault45  = DiagnoseSS4.fault or DiagnoseSS5.fault;
+end
+
+BB1 : BoomBarrier(sup.BB1.Actuator.Opening, sup.BB1.Actuator.Closing, sup.BB1.NotOpen.Off, sup.BB1.NotClosed.Off, sup.BB1.Open.On, sup.BB1.Closed.On, sup.ResetKnop.ResetStoring, Tmax_BBOpening, Tmax_BBClosing, Tdisc_BB_es);
+BB2 : BoomBarrier(sup.BB2.Actuator.Opening, sup.BB2.Actuator.Closing, sup.BB2.NotOpen.Off, sup.BB2.NotClosed.Off, sup.BB2.Open.On, sup.BB2.Closed.On, sup.ResetKnop.ResetStoring, Tmax_BBOpening, Tmax_BBClosing, Tdisc_BB_es);
+
+VTL1 : VesselTrafficLight(sup.VTL1.Red.On, sup.VTL1.Green.On, sup.VTL1.Red2.On, sup.VTL1.Actuator.Red, sup.VTL1.Actuator.RedGreen, sup.VTL1.Actuator.Green, sup.VTL1.Actuator.RedRed, sup.VTL1.Activated.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+VTL2 : VesselTrafficLight(sup.VTL2.Red.On, sup.VTL2.Green.On, sup.VTL2.Red2.On, sup.VTL2.Actuator.Red, sup.VTL2.Actuator.RedGreen, sup.VTL2.Actuator.Green, sup.VTL2.Actuator.RedRed, sup.VTL2.Activated.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+VTL3 : VesselTrafficLight(sup.VTL3.Red.On, sup.VTL3.Green.On, sup.VTL3.Red2.On, sup.VTL3.Actuator.Red, sup.VTL3.Actuator.RedGreen, sup.VTL3.Actuator.Green, sup.VTL3.Actuator.RedRed, sup.VTL3.Activated.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+VTL4 : VesselTrafficLight(sup.VTL4.Red.On, sup.VTL4.Green.On, sup.VTL4.Red2.On, sup.VTL4.Actuator.Red, sup.VTL4.Actuator.RedGreen, sup.VTL4.Actuator.Green, sup.VTL4.Actuator.RedRed, sup.VTL4.Activated.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+VTL5 : VesselTrafficLight(sup.VTL5.Red.On, sup.VTL5.Green.On, sup.VTL5.Red2.On, sup.VTL5.Actuator.Red, sup.VTL5.Actuator.RedGreen, sup.VTL5.Actuator.Green, sup.VTL5.Actuator.RedRed, sup.VTL5.Activated.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+VTL6 : VesselTrafficLight(sup.VTL6.Red.On, sup.VTL6.Green.On, sup.VTL6.Red2.On, sup.VTL6.Actuator.Red, sup.VTL6.Actuator.RedGreen, sup.VTL6.Actuator.Green, sup.VTL6.Actuator.RedRed, sup.VTL6.Activated.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+VTL7 : VesselTrafficLight(sup.VTL7.Red.On, sup.VTL7.Green.On, sup.VTL7.Red2.On, sup.VTL7.Actuator.Red, sup.VTL7.Actuator.RedGreen, sup.VTL7.Actuator.Green, sup.VTL7.Actuator.RedRed, sup.VTL7.Activated.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+VTL8 : VesselTrafficLight(sup.VTL8.Red.On, sup.VTL8.Green.On, sup.VTL8.Red2.On, sup.VTL8.Actuator.Red, sup.VTL8.Actuator.RedGreen, sup.VTL8.Actuator.Green, sup.VTL8.Actuator.RedRed, sup.VTL8.Activated.On, sup.ResetKnop.ResetStoring, Tdisc_lamp);
+
+group LM:
+    Diagnose_lockingMechismStuck:           DurationMonitoringDiagnoser(sup.LM.Locked.On, sup.LM.Unlocked.On, sup.LM.Valve.Lock, sup.LM.Valve.Unlock, sup.ResetKnop.ResetStoring, Tmax_LockingMLock, Tmax_LockingMUnlock);
+    Diagnose_lockingMechismUndesiredUnlock: UnexpectedMovementDiagnoser(sup.LM.Locked.On, sup.LM.Valve.Unlock and sup.LM.Pump.On, sup.ResetKnop.ResetStoring, Tdisc_lockingMechism);
+end
+
+group BD:
+    automaton TimerBeforeBeforeOpen:
+        cont t = 0.0 der -1;
+        location Off:
+            initial;
+            edge when sup.BD.BBOpen.On do t:= Tmin_BridgeOpen goto Running;
+        location Running:
+            edge when sup.BD.BBOpen.Off                       goto Off;
+            edge when t <= 0                                  goto Timeout;
+        location Timeout:
+            edge when sup.BD.BBOpen.Off                       goto Off;
+    end
+    automaton TimerBeforeBeforeClosed:
+        cont t = 0.0 der -1;
+        location Off:
+            initial;
+            edge when sup.BD.BBClosed.On do t:= Tmin_BridgeClose goto Running;
+        location Running:
+            edge when sup.BD.BBClosed.Off                        goto Off;
+            edge when t <= 0                                     goto Timeout;
+        location Timeout:
+            edge when sup.BD.BBClosed.Off                        goto Off;
+    end
+
+    automaton DeceleratingDiagnoser:
+        alg bool Q_opening = sup.BD.Direction.Opening;
+        alg bool Q_closing = sup.BD.Direction.Closing;
+        location idle:
+            initial;
+            edge when Q_opening and TimerBeforeBeforeOpen.Running   and sup.BD.BOpen.On   goto fault;
+            edge when Q_closing and TimerBeforeBeforeClosed.Running and sup.BD.BClosed.On goto fault;
+        location fault:
+            edge when sup.ResetKnop.ResetStoring                                              goto idle;
+    end
+
+    DiagnoseUnexpectedClose:   UnexpectedMovementDiagnoser(sup.BD.Open.On, sup.BR.Sensor.Released, sup.ResetKnop.ResetStoring, Tdisc_brug_es);
+    DiagnoseUnexpectedOpening: UnexpectedMovementDiagnoser(sup.BD.Closed.On and sup.BD.Closed2.On, sup.BR.Sensor.Released, sup.ResetKnop.ResetStoring, Tdisc_brug_es);
+    alg bool fault = DeceleratingDiagnoser.fault or DiagnoseUnexpectedClose.fault or DiagnoseUnexpectedOpening.fault;
+end
+
+// All the information received from the supervisor
+group sup:
+    group StopSigns:
+        group S1:
+            input bool On;
+        end
+        group S2:
+            input bool On;
+        end
+        group S3:
+            input bool On;
+        end
+        group S4:
+            input bool On;
+        end
+        group S5:
+            input bool On;
+        end
+        group Actuator:
+            input bool On;
+        end
+
+        alg bool S1StaysOff = .StopSigns.DiagnoseSS1.StaysOff;
+        alg bool S2StaysOff = .StopSigns.DiagnoseSS2.StaysOff;
+        alg bool S3StaysOff = .StopSigns.DiagnoseSS3.StaysOff;
+        alg bool S4StaysOff = .StopSigns.DiagnoseSS4.StaysOff;
+        alg bool S5StaysOff = .StopSigns.DiagnoseSS5.StaysOff;
+    end
+
+    group BB1:
+        group Actuator:
+            input bool Opening, Closing;
+        end
+        group Open:
+            input bool On;
+        end
+        group Closed:
+            input bool On;
+        end
+        group NotOpen:
+            input bool Off;
+        end
+        group NotClosed:
+            input bool Off;
+        end
+        alg bool Stuck           = .BB1.DiagnoseBBStuck.fault;
+        alg bool UndesiredClosed = .BB1.DiagnoseBBUndesiredClosed.fault;
+        alg bool UndesiredOpen   = .BB1.DiagnoseBBUndesiredOpen.fault;
+    end
+    group BB2:
+        group Actuator:
+            input bool Opening, Closing;
+        end
+        group Open:
+            input bool On;
+        end
+        group Closed:
+            input bool On;
+        end
+        group NotOpen:
+            input bool Off;
+        end
+        group NotClosed:
+            input bool Off;
+        end
+        alg bool Stuck           = .BB2.DiagnoseBBStuck.fault;
+        alg bool UndesiredClosed = .BB2.DiagnoseBBUndesiredClosed.fault;
+        alg bool UndesiredOpen   = .BB2.DiagnoseBBUndesiredOpen.fault;
+    end
+    group VTL1:
+        group Activated:
+            input bool On;
+        end
+        group Red:
+            input bool On;
+        end
+        group Green:
+            input bool On;
+        end
+        group Red2:
+            input bool On;
+        end
+        alg bool RedStaysOff   = .VTL1.DiagnoseRed.StaysOff;
+        alg bool GreenStaysOff = .VTL1.DiagnoseGreen.StaysOff;
+        alg bool Red2StaysOff  = .VTL1.DiagnoseRed2.StaysOff;
+        group Actuator:
+            input bool Red, RedRed, RedGreen, Green;
+        end
+    end
+    group VTL2:
+        group Activated:
+            input bool On;
+        end
+        group Red:
+            input bool On;
+        end
+        group Green:
+            input bool On;
+        end
+        group Red2:
+            input bool On;
+        end
+        alg bool RedStaysOff   = .VTL2.DiagnoseRed.StaysOff;
+        alg bool GreenStaysOff = .VTL2.DiagnoseGreen.StaysOff;
+        alg bool Red2StaysOff  = .VTL2.DiagnoseRed2.StaysOff;
+        group Actuator:
+            input bool Red, RedRed, RedGreen, Green;
+        end
+    end
+    group VTL3:
+        group Activated:
+            input bool On;
+        end
+        group Red:
+            input bool On;
+        end
+        group Green:
+            input bool On;
+        end
+        group Red2:
+            input bool On;
+        end
+        alg bool RedStaysOff  = .VTL3.DiagnoseRed.StaysOff;
+        alg bool GreenStaysOff = .VTL3.DiagnoseGreen.StaysOff;
+        alg bool Red2StaysOff  = .VTL3.DiagnoseRed2.StaysOff;
+        group Actuator:
+            input bool Red, RedRed, RedGreen, Green;
+        end
+    end
+
+    group VTL4:
+        group Activated:
+            input bool On;
+        end
+        group Red:
+            input bool On;
+        end
+        group Green:
+            input bool On;
+        end
+        group Red2:
+            input bool On;
+        end
+        alg bool RedStaysOff   = .VTL4.DiagnoseRed.StaysOff;
+        alg bool GreenStaysOff = .VTL4.DiagnoseGreen.StaysOff;
+        alg bool Red2StaysOff  = .VTL4.DiagnoseRed2.StaysOff;
+        group Actuator:
+            input bool Red, RedRed, RedGreen, Green;
+        end
+    end
+    group VTL5:
+        group Activated:
+            input bool On;
+        end
+        group Red:
+            input bool On;
+        end
+        group Green:
+            input bool On;
+        end
+        group Red2:
+            input bool On;
+        end
+        alg bool RedStaysOff   = .VTL5.DiagnoseRed.StaysOff;
+        alg bool GreenStaysOff = .VTL5.DiagnoseGreen.StaysOff;
+        alg bool Red2StaysOff  = .VTL5.DiagnoseRed2.StaysOff;
+        group Actuator:
+            input bool Red, RedRed, RedGreen, Green;
+        end
+    end
+    group VTL6:
+        group Activated:
+            input bool On;
+        end
+        group Red:
+            input bool On;
+        end
+        group Green:
+            input bool On;
+        end
+        group Red2:
+            input bool On;
+        end
+        alg bool RedStaysOff   = .VTL6.DiagnoseRed.StaysOff;
+        alg bool GreenStaysOff = .VTL6.DiagnoseGreen.StaysOff;
+        alg bool Red2StaysOff  = .VTL6.DiagnoseRed2.StaysOff;
+        group Actuator:
+            input bool Red, RedRed, RedGreen, Green;
+        end
+    end
+    group VTL7:
+        group Activated:
+            input bool On;
+        end
+        group Red:
+            input bool On;
+        end
+        group Green:
+            input bool On;
+        end
+        group Red2:
+            input bool On;
+        end
+        alg bool RedStaysOff   = .VTL7.DiagnoseRed.StaysOff;
+        alg bool GreenStaysOff = .VTL7.DiagnoseGreen.StaysOff;
+        alg bool Red2StaysOff  = .VTL7.DiagnoseRed2.StaysOff;
+        group Actuator:
+            input bool Red, RedRed, RedGreen, Green;
+        end
+    end
+    group VTL8:
+        group Activated:
+            input bool On;
+        end
+        group Red:
+            input bool On;
+        end
+        group Green:
+            input bool On;
+        end
+        group Red2:
+            input bool On;
+        end
+        alg bool RedStaysOff   = .VTL8.DiagnoseRed.StaysOff;
+        alg bool GreenStaysOff = .VTL8.DiagnoseGreen.StaysOff;
+        alg bool Red2StaysOff  = .VTL8.DiagnoseRed2.StaysOff;
+        group Actuator:
+            input bool Red, RedRed, RedGreen, Green;
+        end
+    end
+
+    group LM:
+        group Valve:
+            input bool Lock, Unlock;
+        end
+
+        group Pump:
+            input bool On;
+        end
+        group Locked:
+            input bool On;
+        end
+        group Unlocked:
+            input bool On;
+        end
+
+        alg bool Stuck          = .LM.Diagnose_lockingMechismStuck.fault;
+        alg bool UndesiredUnlock = .LM.Diagnose_lockingMechismUndesiredUnlock.fault;
+    end
+
+    group BD:
+        group Closed2:
+            input bool On;
+        end
+        group Closed:
+            input bool On;
+        end
+        group BClosed:
+            input bool On;
+        end
+        group BBClosed:
+            input bool On;
+            input bool Off;
+        end
+        group BBOpen:
+            input bool On;
+            input bool Off;
+        end
+        group BOpen:
+            input bool On;
+        end
+        group Open:
+            input bool On;
+        end
+        group Motor:
+            input bool On;
+        end
+        group Direction:
+            input bool Opening, Closing;
+        end
+
+        alg bool NotDecelerating = .BD.DeceleratingDiagnoser.fault;
+        alg bool UndesiredClosed = .BD.DiagnoseUnexpectedClose.fault;
+        alg bool UndesiredOpen   = .BD.DiagnoseUnexpectedOpening.fault;
+    end
+
+    group BR:
+        group Sensor:
+            input bool Released;
+        end
+    end
+
+    group ResetKnop:
+        input bool ResetStoring;
+    end
+
+end

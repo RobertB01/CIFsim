@@ -1,0 +1,19 @@
+from "lib:cif" import *;
+string plantReq   = "Synthesis/Requirement.cif";                     // Location of plant and requirement
+string gen_folder = "generated_files";
+string supervisor = fmt("%s/%s.cif",  gen_folder, "1_Supervisor"); // Location of supervisor
+
+// Create directory for generated files.
+mkdir(gen_folder, force=true);
+
+// Synthesize supervisor.
+outln("File \"%s\": synthesizing...", supervisor);
+cifdatasynth(plantReq,
+    "--option-dialog=1",
+    "-o", supervisor,
+    "-n", fmt("sup"),
+    "-t normal",
+    "-m debug",
+    "--stats=timing",
+    "--bdd-table=400000");
+outln("File \"%s\": synthesized.", supervisor);

@@ -1,0 +1,68 @@
+automaton def DiscrepancyDiagnoser(alg bool I, Q, Reset; alg real t_f):
+    alg bool fault = StaysOff;
+    cont t = 0.0 der if Diagnosing: -1 else 0 end;
+
+    location NoDefect:
+        initial;
+        edge when I != Q do t := t_f          goto Diagnosing;
+    location Diagnosing:
+        edge when I = Q                       goto NoDefect;
+        edge when t <= 0 and I != Q and     Q goto StaysOff;
+        edge when t <= 0 and I != Q and not Q goto StaysOn;
+    location StaysOff:
+        edge when Reset                       goto NoDefect;
+    location StaysOn:
+        edge when Reset                       goto NoDefect;
+end
+
+automaton def DurationMonitoringDiagnoser(alg bool I_o, I_c, Q_o, Q_c, Reset; alg real t_o, t_c):
+        alg bool fault = Stuck;
+        cont t = 0.0 der if DiagnosingOpening or DiagnosingClosing: -1 else 0 end;
+
+        location NoDefect:
+            initial;
+            edge when Q_o  do t := t_o            goto DiagnosingOpening;
+            edge when Q_c  do t := t_c            goto DiagnosingClosing;
+        location DiagnosingOpening:
+            edge when t <= 0  and Q_o and not I_o goto Stuck;
+            edge when not Q_o                     goto NoDefect;
+        location DiagnosingClosing:
+            edge when t <= 0 and Q_c and not I_c  goto Stuck;
+            edge when not Q_c                     goto NoDefect;
+        location Stuck:
+            edge when Reset                       goto NoDefect;
+    end
+
+automaton def UnexpectedMovementDiagnoser(alg bool I, Q, Reset; alg real t_f):
+        alg bool fault = UnexpectedMovement;
+        cont t = 0.0 der if Diagnosing: -1 else 0 end;
+
+        location NoEndPos:
+            initial;
+            edge when I and not Q                 goto EndPos;
+        location EndPos:
+            edge when not I and not Q do t := t_f goto Diagnosing;
+            edge when Q                           goto NoEndPos;
+        location Diagnosing:
+            edge when t <= 0 and not I and not Q  goto UnexpectedMovement;
+            edge when I                           goto EndPos;
+            edge when Q                           goto NoEndPos;
+        location UnexpectedMovement:
+            edge when Reset                       goto NoEndPos;
+end
+
+group def BoomBarrier(alg bool Q_opening, Q_closing, Geopend_regulier, Gesloten_regulier, Geopend_safe, Gesloten_safe, Reset; alg real ltBB_opening, ltBB_closing, discBB_es):
+    alg bool fault = DiagnoseBBStuck.fault or DiagnoseBBUndesiredClosed.fault or DiagnoseBBUndesiredOpen.fault;
+
+    DiagnoseBBStuck:           DurationMonitoringDiagnoser(Geopend_regulier, Gesloten_regulier, Q_opening, Q_closing, Reset, ltBB_opening, ltBB_closing);
+    DiagnoseBBUndesiredClosed: UnexpectedMovementDiagnoser(Geopend_safe,  Q_closing, Reset, discBB_es);
+    DiagnoseBBUndesiredOpen:   UnexpectedMovementDiagnoser(Gesloten_safe, Q_opening, Reset, discBB_es);
+end
+
+group def VesselTrafficLight(alg bool I_Red, I_Green, I_Red2, Q_Red, Q_Redgreen, Q_Green, Q_Red2, Q_Activated, Reset; alg real t_f):
+    alg bool fault = DiagnoseRed.fault;
+
+    DiagnoseRed:   DiscrepancyDiagnoser(I_Red,   (Q_Red   or Q_Redgreen or Q_Red2) and Q_Activated, Reset, t_f);
+    DiagnoseGreen: DiscrepancyDiagnoser(I_Green, (Q_Green or Q_Redgreen)           and Q_Activated, Reset, t_f);
+    DiagnoseRed2:  DiscrepancyDiagnoser(I_Red2,  (Q_Red2 )                         and Q_Activated, Reset, t_f);
+end

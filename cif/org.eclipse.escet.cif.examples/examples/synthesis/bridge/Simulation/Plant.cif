@@ -1,0 +1,506 @@
+group StopSigns:
+    automaton Actuator:
+        controllable c_on, c_emrgOn, c_off;
+        location Off:
+            initial;
+            edge c_on     goto On;
+            edge c_emrgOn goto On;
+        location On:
+            edge c_off    goto Off;
+    end
+    automaton S1:
+        uncontrollable u_on, u_off;
+        alg bool onGuard = Actuator.On and not S1Fault.Defect;
+        location Off:
+            initial;
+            edge u_on  when     onGuard goto On;
+        location On:
+            edge u_off when not onGuard goto Off;
+    end
+    automaton S2:
+        uncontrollable u_on, u_off;
+        alg bool onGuard = Actuator.On and not S2Fault.Defect;
+        location Off:
+            initial;
+            edge u_on  when     onGuard goto On;
+        location On:
+            edge u_off when not onGuard goto Off;
+    end
+    automaton S3:
+        uncontrollable u_on, u_off;
+        alg bool onGuard = Actuator.On and not S3Fault.Defect;
+        location Off:
+            initial;
+            edge u_on  when     onGuard goto On;
+        location On:
+            edge u_off when not onGuard goto Off;
+    end
+    automaton S4:
+        uncontrollable u_on, u_off;
+        alg bool onGuard = Actuator.On and not S4Fault.Defect;
+        location Off:
+            initial;
+            edge u_on  when     onGuard goto On;
+        location On:
+            edge u_off when not onGuard goto Off;
+    end
+    automaton S5:
+        uncontrollable u_on, u_off;
+        alg bool onGuard = Actuator.On and not S5Fault.Defect;
+        location Off:
+            initial;
+            edge u_on  when     onGuard goto On;
+        location On:
+            edge u_off when not onGuard goto Off;
+    end
+
+    // These automata model the defect of a stopsign.
+    S1Fault: Fault();
+    S2Fault: Fault();
+    S3Fault: Fault();
+    S4Fault: Fault();
+    S5Fault: Fault();
+
+    automaton def Fault():
+        disc bool Defect;
+        uncontrollable u_f;
+
+        location:
+            initial;
+            edge u_f do Defect := not Defect;
+    end
+end
+
+group BB:
+    automaton L:
+        controllable c_on, c_emrgOn, c_off;
+        location Off:
+            initial;
+            edge c_on     goto On;
+            edge c_emrgOn goto On;
+        location On:
+            edge c_off    goto Off;
+    end
+    automaton Alternate:
+        controllable c_mode1, c_mode2;
+        location Mode1:
+            initial;
+            edge c_mode2  goto Mode2;
+        location Mode2:
+            edge c_mode1  goto Mode1;
+    end
+end
+
+group def BoomBarrier():
+    group Positie:
+        cont d = 0.0 der if d <= 100 and Actuator.Closing  and not Fault.Stuck : +20
+                       elif d <= 100 and Fault.UndesiredClose                  : + 2
+                       elif d >= 0   and Actuator.Opening  and not Fault.Stuck : -20
+                       elif d >= 0   and Fault.UndesiredOpen                   : - 2
+                       else 0.0 end;
+    end
+    automaton Actuator:
+        controllable c_open, c_close, c_stop, c_emrgStop;
+        location Idle:
+            initial;
+            edge c_open             goto Opening;
+            edge c_close            goto Closing;
+        location Opening:
+            edge c_stop, c_emrgStop goto Idle;
+        location Closing:
+            edge c_stop, c_emrgStop goto Idle;
+    end
+    automaton Open:
+        uncontrollable u_open_on, u_open_off;
+        location On:
+            initial;
+            edge u_open_off when Positie.d >  0.0goto Off;
+        location Off:
+            edge u_open_on  when Positie.d <= 0.0 goto On;
+    end
+    automaton Closed:
+        uncontrollable u_closed_on, u_closed_off;
+        location On:
+            edge u_closed_off when Positie.d <  100.0 goto Off;
+        location Off:
+            initial;
+            edge u_closed_on  when Positie.d >= 100.0 goto On;
+    end
+    automaton NotOpen:
+        uncontrollable u_notOpen_on, u_notOpen_off;
+        location Off:
+            initial;
+            edge u_notOpen_on  when Positie.d >  5.0 goto On;
+        location On:
+            edge u_notOpen_off when Positie.d <= 5.0 goto Off;
+    end
+
+    automaton NotClosed:
+        uncontrollable u_notClosed_on, u_notClosed_off;
+        location Off:
+            edge u_notClosed_on  when Positie.d <  95.0 goto On;
+        location On:
+            initial;
+            edge u_notClosed_off when Positie.d >= 95.0 goto Off;
+    end
+
+    automaton Fault:
+        uncontrollable u_f3, u_f4_closed, u_f4_open;
+        disc bool Stuck = false;
+        disc bool UndesiredClose = false;
+        disc bool UndesiredOpen = false;
+
+        location:
+            initial;
+            edge u_f3 do Stuck := not Stuck;
+
+            edge u_f4_closed do UndesiredClose := not UndesiredClose;
+            edge u_f4_open   do UndesiredOpen  := not UndesiredOpen;
+    end
+end
+
+BB1 : BoomBarrier();
+BB2 : BoomBarrier();
+
+group def VesselTrafficLight():
+    automaton Actuator:
+        controllable c_red, c_redGreen, c_redRed, c_green, c_emrg;
+        location RedRed:
+            edge c_red      goto Red;
+        location Red:
+            initial; marked;
+            edge c_redGreen goto RedGreen;
+            edge c_redRed   goto RedRed;
+        location RedGreen:
+            edge c_red      goto Red;
+            edge c_green    goto Green;
+            edge c_emrg     goto Red;
+        location Green:
+            edge c_red      goto Red;
+            edge c_emrg     goto Red;
+    end
+
+    automaton Activated:
+        controllable c_on, c_off;
+        location On:
+            initial; marked;
+            edge c_off goto Off;
+        location Off:
+            edge c_on  goto On;
+    end
+
+    automaton Red:
+        uncontrollable u_red_on, u_red_off;
+        alg bool onGuard = not VTL_defect.RedLampDefect   and (Actuator.Red   or Actuator.RedGreen or Actuator.RedRed) and Activated.On;
+        location Off:
+            edge u_red_on  when     onGuard goto On;
+        location On:
+            initial;
+            edge u_red_off when not onGuard goto Off;
+    end
+    automaton Green:
+        uncontrollable u_green_on, u_green_off;
+        alg bool onGuard = not VTL_defect.GreenLampDefect and (Actuator.Green or Actuator.RedGreen)                    and Activated.On;
+        location Off:
+            initial;
+            edge u_green_on  when     onGuard goto On;
+        location On:
+            edge u_green_off when not onGuard goto Off;
+    end
+    automaton Red2:
+        uncontrollable u_red2_on, u_red2_off;
+        alg bool onGuard = not VTL_defect.Red2LampDefect  and Actuator.RedRed                                          and Activated.On;
+        location Off:
+            initial;
+            edge u_red2_on  when     onGuard goto On;
+        location On:
+            marked;
+            edge u_red2_off when not onGuard goto Off;
+    end
+
+    automaton VTL_defect:
+         uncontrollable u_f2, u_f2_1, u_f2_2;
+         disc bool RedLampDefect   = false;
+         disc bool GreenLampDefect = false;
+         disc bool Red2LampDefect  = false;
+         location:
+             initial;
+             edge u_f2   do RedLampDefect   := not RedLampDefect;
+             edge u_f2_1 do GreenLampDefect := not GreenLampDefect;
+             edge u_f2_2 do Red2LampDefect  := not Red2LampDefect;
+     end
+end
+
+VTL1 : VesselTrafficLight();
+VTL2 : VesselTrafficLight();
+VTL3 : VesselTrafficLight();
+VTL4 : VesselTrafficLight();
+VTL5 : VesselTrafficLight();
+VTL6 : VesselTrafficLight();
+VTL7 : VesselTrafficLight();
+VTL8 : VesselTrafficLight();
+
+group BR:
+    group Position:
+        cont t = 1.0 der if Actuator.Apply  and t < 1.0: +1.0
+                       elif Actuator.Release and t > 0.0: -1.0
+                       else 0.0 end;
+    end
+    automaton Actuator: //( SAFE )
+        controllable c_release, c_apply, c_emrgStop;
+        location Apply:
+            initial;
+            edge c_release           goto Release;
+        location Release:
+            edge c_apply, c_emrgStop goto Apply;
+    end
+    automaton Sensor:
+        uncontrollable u_released, u_applied;
+        location Applied:
+            initial; marked;
+            edge u_released when Position.t <= 0.0 goto Released;
+        location Released:
+            edge u_applied  when Position.t >= 1.0 goto Applied;
+    end
+    automaton Release:
+        uncontrollable u_release, u_apply;
+        cont t der if warmUp: -1.0 else 0.0 end;
+        location Off:
+            initial;
+            edge when BD.Motor.On and
+                      not BD.Direction.Idle do t:= 2.0              goto warmUp;
+        location warmUp:
+            edge u_release  when t <= 0.0                               goto On;
+        location On:
+            edge u_apply when BD.Motor.Off or BD.Direction.Idle goto Off;
+    end
+end
+
+group LM:
+    group Position:
+        cont h = 2.0 der if h < 2.0 and Pump.On and Valve.Lock and not LM_verstoring.LM_vast: +1.0
+                       elif h > 0.0 and Pump.On and Valve.Unlock and not LM_verstoring.LM_vast: -1.0
+                       elif h > 0.0 and LM_verstoring.LM_omlaag : -0.2
+                       elif h < 2.0 and LM_verstoring.LM_omhoog : +0.2
+                       else 0.0 end;
+    end
+
+    automaton Valve:
+        controllable c_lock, c_unlock, c_stop, c_emrgStop;
+        location Idle:
+            initial;
+            edge c_lock goto Lock;
+            edge c_unlock goto Unlock;
+        location Lock:
+            edge c_stop, c_emrgStop goto Idle;
+        location Unlock:
+            edge c_stop, c_emrgStop goto Idle;
+    end
+    automaton Pump: //( SAFE )
+        controllable c_on, c_off, c_emrgStop;
+        location Off:
+            initial;
+            edge c_on goto On;
+        location On:
+            edge c_off, c_emrgStop goto Off;
+    end
+    plant Locked:
+        uncontrollable u_locked_on, u_locked_off;
+        location Off:
+            edge u_locked_on  when Position.h >= 2.0   goto On;
+        location On:
+            initial; marked;
+            edge u_locked_off when Position.h < 2.0    goto Off;
+    end
+    plant Unlocked:
+        uncontrollable u_unlocked_on, u_unlocked_off;
+        location Off:
+            initial; marked;
+            edge u_unlocked_on  when Position.h <= 0.0 goto On;
+        location On:
+            edge u_unlocked_off when Position.h > 0.0  goto Off;
+    end
+
+    automaton LM_verstoring:
+        uncontrollable u_f7, u_f8, u_f8b;
+        disc bool LM_omlaag = false;
+        disc bool LM_vast   = false;
+        disc bool LM_omhoog = false;
+
+        location:
+            initial;
+            edge u_f7  do LM_vast   := not LM_vast;
+            edge u_f8  do LM_omlaag := not LM_omlaag;
+            edge u_f8b do LM_omhoog := not LM_omhoog;
+    end
+end
+
+group BD:
+    group Positie:
+        cont d = 0.0 der if BR.Sensor.Applied and not UndesiredMovement.Close and not UndesiredMovement.Open : 0.0
+                       elif d <= 100 and Motor.On and Direction.Opening and Speed.Fast                       : +10
+                       elif d <= 100 and Motor.On and Direction.Opening and DeceleratingFault.Fault          : +10
+                       elif d <= 100 and Motor.On and Direction.Opening and Speed.Slow                       : + 5
+                       elif d >= 0   and Motor.On and Direction.Closing and Speed.Fast                       : -10
+                       elif d >= 0   and Motor.On and Direction.Closing and DeceleratingFault.Fault          : -10
+                       elif d >= 0   and Motor.On and Direction.Closing and Speed.Slow                       : - 5
+                       elif d >= 0   and UndesiredMovement.Close                                             : -10
+                       elif d <= 100 and UndesiredMovement.Open                                              : +10
+                       else 0.0 end;
+    end
+
+    automaton Motor: //(SAFE)
+        controllable c_on, c_off, c_emrgStop;
+        location Off:
+            initial;
+            edge c_on goto On;
+        location On:
+            edge c_off, c_emrgStop goto Off;
+    end
+    automaton Direction: //Frequentie omvormer
+        controllable c_open, c_close, c_stop, c_emrgStop;
+        location Idle:
+            initial;
+            edge c_open  goto Opening;
+            edge c_close goto Closing;
+        location Opening:
+            edge c_stop, c_emrgStop goto Idle;
+        location Closing:
+            edge c_stop, c_emrgStop goto Idle;
+    end
+
+    automaton Speed: //FO Snelheid
+        controllable c_stop, c_fast, c_slow, c_emrgStop;
+        location Idle:  // 0%
+            initial;
+            edge c_fast              goto Fast;
+            edge c_slow              goto Slow;
+        location Fast:  // 100%
+            edge c_stop, c_emrgStop  goto Idle;
+            edge c_slow              goto Slow;
+        location Slow: // 19%
+            edge c_stop, c_emrgStop  goto Idle;
+            edge c_fast              goto Fast;
+    end
+    const real C = 0.0,   BC = 10,  BBC = 25,
+               O = 100.0, BO = 90,  BBO = 75;
+
+    automaton Closed2: //( SAFE )
+        uncontrollable u_closed2_on, u_closed2_off;
+        location Off:
+            edge u_closed2_on  when Positie.d <= C goto On;
+        location On:
+            initial;
+            edge u_closed2_off when Positie.d >  C goto Off;
+    end
+
+    plant Closed:
+        uncontrollable u_closed_on, u_closed_off;
+        location Off:
+            edge u_closed_on  when Positie.d <= C goto On;
+        location On:
+            initial; marked;
+            edge u_closed_off when Positie.d >  C goto Off;
+    end
+    plant BClosed:
+        uncontrollable u_bClosed_on, u_bClosed_off;
+        location Off:
+            edge u_bClosed_on  when Positie.d <= BC goto On;
+        location On:
+            initial; marked;
+            edge u_bClosed_off when Positie.d >  BC goto Off;
+    end
+    plant BBClosed:
+        uncontrollable u_bbClosed_on, u_bbClosed_off;
+        location Off:
+            edge u_bbClosed_on  when Positie.d <= BBC goto On;
+        location On:
+            initial; marked;
+            edge u_bbClosed_off when Positie.d >  BBC goto Off;
+    end
+    plant BBOpen:
+        uncontrollable u_bbOpen_on, u_bbOpen_off;
+        location Off:
+            initial; marked;
+            edge u_bbOpen_on  when Positie.d >= BBO goto On;
+        location On:
+            edge u_bbOpen_off when Positie.d <  BBO goto Off;
+    end
+    plant BOpen:
+        uncontrollable u_bOpen_on, u_bOpen_off;
+        location Off:
+            initial; marked;
+            edge u_bOpen_on  when Positie.d >= BO goto On;
+        location On:
+            edge u_bOpen_off when Positie.d <  BO goto Off;
+    end
+    plant Open:
+        uncontrollable u_open_on, u_open_off;
+        location Off:
+            initial; marked;
+            edge u_open_on  when Positie.d >= O goto On;
+        location On:
+            edge u_open_off when Positie.d <  O goto Off;
+    end
+
+    automaton UndesiredMovement:
+        uncontrollable u_f6_open, u_f6_closed;
+        disc bool Open = false;
+        disc bool Close = false;
+
+        location:
+            initial;
+            edge u_f6_open   do Open  := not Open;
+            edge u_f6_closed do Close := not Close;
+    end
+
+    automaton DeceleratingFault:
+        uncontrollable u_f5;
+        disc bool Fault = false ;
+        location:
+            initial;
+            edge u_f5 do Fault := not Fault;
+    end
+end
+
+group sup:
+    group StopSigns:
+        input bool S1StaysOff, S2StaysOff, S3StaysOff, S4StaysOff, S5StaysOff;
+    end
+    group BB1:
+        input bool Stuck, UndesiredClosed, UndesiredOpen;
+    end
+    group BB2:
+        input bool Stuck, UndesiredClosed, UndesiredOpen;
+    end
+    group VTL1:
+        input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+    end
+    group VTL2:
+        input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+    end
+    group VTL3:
+        input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+    end
+    group VTL4:
+        input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+    end
+    group VTL5:
+        input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+    end
+    group VTL6:
+        input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+    end
+    group VTL7:
+        input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+    end
+    group VTL8:
+        input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+    end
+    group LM:
+        input bool Stuck, UndesiredUnlock;
+    end
+    group BD:
+        input bool NotDecelerating, UndesiredOpen, UndesiredClosed;
+    end
+end

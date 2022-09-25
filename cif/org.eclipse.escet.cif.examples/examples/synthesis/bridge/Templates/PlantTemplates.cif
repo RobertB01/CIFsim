@@ -1,0 +1,34 @@
+plant def Timer(alg bool StartCondition):
+    controllable c_start, c_stop;
+    uncontrollable u_timeout;
+    location Off:
+        marked; initial;
+        edge c_start when StartCondition     goto Running;
+
+    location Running:
+        edge c_stop  when not StartCondition goto Off;
+        edge u_timeout                       goto Finished;
+
+    location Finished:
+        marked;
+        edge c_stop  when not StartCondition goto Off;
+end
+
+plant def VTLCommands(alg bool GreenOk, RedGreenOk, allRed, emrgStop; uncontrollable u_auto_green1, u_auto_green2, u_redRed, u_r2Off):
+    monitor u_red, u_green, u_redRed, u_auto_green1, u_auto_green2;
+    uncontrollable u_red, u_green, u_emerg;
+    location RedRed:
+        edge u_r2Off                                      goto Red;
+    location Red:
+        initial; marked;
+        edge u_green                      when RedGreenOk goto RedGreen;
+        edge u_redRed                     when allRed     goto RedRed;
+    location RedGreen:
+        edge u_red                                        goto Red;
+        edge u_emerg                      when emrgStop   goto Red;
+        edge u_green                      when GreenOk    goto Green;
+        edge u_auto_green1, u_auto_green2 when GreenOk    goto Green;
+    location Green:
+        edge u_red                                        goto Red;
+        edge u_emerg                      when emrgStop   goto Red;
+end

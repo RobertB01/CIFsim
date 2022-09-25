@@ -1,0 +1,198 @@
+import "Sim.cif";
+svgfile "plant.svg";
+
+svgin id  "overruleSwitch_off" event OverrideSwitch.u_turn_off;
+svgin id  "overruleSwitch_on"  event OverrideSwitch.u_turn_on;
+
+svgout id "overruleSwitch_off" attr "fill" value if OverrideSwitch.Off: "none" else "green" end;
+svgout id "overruleSwitch_on"  attr "fill" value if OverrideSwitch.On: "none"  else "red"   end;
+
+//Used to represent the signs lamps and sensor PLC status.
+group def V_VTL(alg bool enabled; alg string svgOutID, color):
+    svgout id svgOutID attr "fill" value if enabled:  color  else "#e6e6e6" end;
+end
+
+group def V_BoomBarrier(alg bool open, on, flash; alg int svgOutID; alg real degree):
+    svgout id "BB" + <string>svgOutID attr "visibility" value if open: "hidden" else "visible" end;
+    svgout id "BBW"+ <string>svgOutID attr "width" value scale(degree, 0, 100, 84, 0.1);
+    svgout id "BB" + <string>svgOutID + "_1" attr "fill" value if on and     flash: "red" else "#e6e6e6" end;
+    svgout id "BB" + <string>svgOutID + "_2" attr "fill" value if on and not flash: "red" else "#e6e6e6" end;
+    svgout id "BB" + <string>svgOutID + "_3" attr "fill" value if on:               "red" else "#e6e6e6" end;
+end
+
+ResetButton: FaultButtons("Resetknop", ResetKnop.u_reset, sup.ResetKnop.ResetStoring);
+
+V_StopSign1 : V_VTL(StopSigns.S1.On, "Stop1", "red");
+V_StopSign2 : V_VTL(StopSigns.S2.On, "Stop2", "red");
+V_StopSign3 : V_VTL(StopSigns.S3.On, "Stop3", "red");
+V_StopSign4 : V_VTL(StopSigns.S4.On, "Stop4", "red");
+V_StopSign5 : V_VTL(StopSigns.S5.On, "Stop5", "red");
+
+V_VTL1_R : V_VTL(VTL1.Red.On,   "VTL1_R", "red");
+V_VTL1_G : V_VTL(VTL1.Green.On, "VTL1_G", "green");
+V_VTL1_S : V_VTL(VTL1.Red2.On,  "VTL1_S", "red");
+
+V_VTL2_R : V_VTL(VTL2.Red.On,   "VTL2_R", "red");
+V_VTL2_G : V_VTL(VTL2.Green.On, "VTL2_G", "green");
+V_VTL2_S : V_VTL(VTL2.Red2.On,  "VTL2_S", "red");
+
+V_VTL3_R : V_VTL(VTL3.Red.On,   "VTL3_R", "red");
+V_VTL3_G : V_VTL(VTL3.Green.On, "VTL3_G", "green");
+V_VTL3_S : V_VTL(VTL3.Red2.On,  "VTL3_S", "red");
+
+V_VTL4_R : V_VTL(VTL4.Red.On,   "VTL4_R", "red");
+V_VTL4_G : V_VTL(VTL4.Green.On, "VTL4_G", "green");
+V_VTL4_S : V_VTL(VTL4.Red2.On,  "VTL4_S", "red");
+
+V_VTL5_R : V_VTL(VTL5.Red.On,   "VTL5_R", "red");
+V_VTL5_G : V_VTL(VTL5.Green.On, "VTL5_G", "green");
+V_VTL5_S : V_VTL(VTL5.Red2.On,  "VTL5_S", "red");
+
+V_VTL6_R : V_VTL(VTL6.Red.On,   "VTL6_R", "red");
+V_VTL6_G : V_VTL(VTL6.Green.On, "VTL6_G", "green");
+V_VTL6_S : V_VTL(VTL6.Red2.On,  "VTL6_S", "red");
+
+V_VTL7_R : V_VTL(VTL7.Red.On,   "VTL7_R", "red");
+V_VTL7_G : V_VTL(VTL7.Green.On, "VTL7_G", "green");
+V_VTL7_S : V_VTL(VTL7.Red2.On,  "VTL7_S", "red");
+
+V_VTL8_R : V_VTL(VTL8.Red.On,   "VTL8_R", "red");
+V_VTL8_G : V_VTL(VTL8.Green.On, "VTL8_G", "green");
+V_VTL8_S : V_VTL(VTL8.Red2.On,  "VTL8_S", "red");
+
+V_BoomBarrier1 : V_BoomBarrier(BB1.Open.On, BB.L.On, BB.Alternate.Mode2, 1, BB1.Positie.d);
+V_BoomBarrier2 : V_BoomBarrier(BB2.Open.On, BB.L.On, BB.Alternate.Mode2, 2, BB2.Positie.d);
+
+group V_bridge:
+    svgout id "bridge" attr "transform" value fmt("rotate(%s,386.5,468)", scale(BD.Positie.d, 0, 100, 0, 90));
+end
+
+svgout id "FO"      attr "fill" value if BD.Motor.On:          "green" else "red" end;
+svgout id "vLock"   attr "fill" value if LM.Valve.Lock:        "green" else "red" end;
+svgout id "vUnlock" attr "fill" value if LM.Valve.Unlock:      "green" else "red" end;
+svgout id "vClose"  attr "fill" value if BD.Direction.Closing: "green" else "red" end;
+svgout id "vOpen"   attr "fill" value if BD.Direction.Opening: "green" else "red" end;
+svgout id "vFast"   attr "fill" value if BD.Speed.Fast:        "green" else "red" end;
+svgout id "vSlow"   attr "fill" value if BD.Speed.Slow:        "green" else "red" end;
+svgout id "vPump"   attr "fill" value if LM.Pump.On:           "green" else "red" end;
+svgout id "vBrake"  attr "fill" value if BR.Actuator.Release:  "green" else "red" end;
+
+// Knoppen om fouten te introduceren in de plant:
+group def FaultButtons(alg string Label; uncontrollable event Defect; alg bool State):
+    svgin  id Label event Defect;
+    svgout id Label attr "fill" value if State: "darkorange" else "lightgrey" end;
+end
+
+group Faults:
+    S1_Fault: FaultButtons("button_S1_defect", StopSigns.S1Fault.u_f, StopSigns.S1Fault.Defect);
+    S2_Fault: FaultButtons("button_S2_defect", StopSigns.S2Fault.u_f, StopSigns.S2Fault.Defect);
+    S3_Fault: FaultButtons("button_S3_defect", StopSigns.S3Fault.u_f, StopSigns.S3Fault.Defect);
+    S4_Fault: FaultButtons("button_S4_defect", StopSigns.S4Fault.u_f, StopSigns.S4Fault.Defect);
+    S5_Fault: FaultButtons("button_S5_defect", StopSigns.S5Fault.u_f, StopSigns.S5Fault.Defect);
+
+    VTL1_RedFault: FaultButtons("button_VTL1_defect", VTL1.VTL_defect.u_f2, VTL1.VTL_defect.RedLampDefect);
+    VTL2_RedFault: FaultButtons("button_VTL2_defect", VTL2.VTL_defect.u_f2, VTL2.VTL_defect.RedLampDefect);
+    VTL3_RedFault: FaultButtons("button_VTL3_defect", VTL3.VTL_defect.u_f2, VTL3.VTL_defect.RedLampDefect);
+    VTL4_RedFault: FaultButtons("button_VTL4_defect", VTL4.VTL_defect.u_f2, VTL4.VTL_defect.RedLampDefect);
+    VTL5_RedFault: FaultButtons("button_VTL5_defect", VTL5.VTL_defect.u_f2, VTL5.VTL_defect.RedLampDefect);
+    VTL6_RedFault: FaultButtons("button_VTL6_defect", VTL6.VTL_defect.u_f2, VTL6.VTL_defect.RedLampDefect);
+    VTL7_RedFault: FaultButtons("button_VTL7_defect", VTL7.VTL_defect.u_f2, VTL7.VTL_defect.RedLampDefect);
+    VTL8_RedFault: FaultButtons("button_VTL8_defect", VTL8.VTL_defect.u_f2, VTL8.VTL_defect.RedLampDefect);
+
+    VTL1_GreenFault: FaultButtons("button_VTL1_green_defect", VTL1.VTL_defect.u_f2_1, VTL1.VTL_defect.GreenLampDefect);
+    VTL2_GreenFault: FaultButtons("button_VTL2_green_defect", VTL2.VTL_defect.u_f2_1, VTL2.VTL_defect.GreenLampDefect);
+    VTL3_GreenFault: FaultButtons("button_VTL3_green_defect", VTL3.VTL_defect.u_f2_1, VTL3.VTL_defect.GreenLampDefect);
+    VTL4_GreenFault: FaultButtons("button_VTL4_green_defect", VTL4.VTL_defect.u_f2_1, VTL4.VTL_defect.GreenLampDefect);
+    VTL5_GreenFault: FaultButtons("button_VTL5_green_defect", VTL5.VTL_defect.u_f2_1, VTL5.VTL_defect.GreenLampDefect);
+    VTL6_GreenFault: FaultButtons("button_VTL6_green_defect", VTL6.VTL_defect.u_f2_1, VTL6.VTL_defect.GreenLampDefect);
+    VTL7_GreenFault: FaultButtons("button_VTL7_green_defect", VTL7.VTL_defect.u_f2_1, VTL7.VTL_defect.GreenLampDefect);
+    VTL8_GreenFault: FaultButtons("button_VTL8_green_defect", VTL8.VTL_defect.u_f2_1, VTL8.VTL_defect.GreenLampDefect);
+
+    VTL1_Red2Fault: FaultButtons("button_VTL1_red2_defect", VTL1.VTL_defect.u_f2_2, VTL1.VTL_defect.Red2LampDefect);
+    VTL2_Red2Fault: FaultButtons("button_VTL2_red2_defect", VTL2.VTL_defect.u_f2_2, VTL2.VTL_defect.Red2LampDefect);
+    VTL3_Red2Fault: FaultButtons("button_VTL3_red2_defect", VTL3.VTL_defect.u_f2_2, VTL3.VTL_defect.Red2LampDefect);
+    VTL4_Red2Fault: FaultButtons("button_VTL4_red2_defect", VTL4.VTL_defect.u_f2_2, VTL4.VTL_defect.Red2LampDefect);
+    VTL5_Red2Fault: FaultButtons("button_VTL5_red2_defect", VTL5.VTL_defect.u_f2_2, VTL5.VTL_defect.Red2LampDefect);
+    VTL6_Red2Fault: FaultButtons("button_VTL6_red2_defect", VTL6.VTL_defect.u_f2_2, VTL6.VTL_defect.Red2LampDefect);
+    VTL7_Red2Fault: FaultButtons("button_VTL7_red2_defect", VTL7.VTL_defect.u_f2_2, VTL7.VTL_defect.Red2LampDefect);
+    VTL8_Red2Fault: FaultButtons("button_VTL8_red2_defect", VTL8.VTL_defect.u_f2_2, VTL8.VTL_defect.Red2LampDefect);
+
+    BB1_Fault: FaultButtons("button_BB1_defect", BB1.Fault.u_f3, BB1.Fault.Stuck);
+    BB2_Fault: FaultButtons("button_BB2_defect", BB2.Fault.u_f3, BB2.Fault.Stuck);
+
+    BB1_undesired_closed: FaultButtons("button_BB1_close",    BB1.Fault.u_f4_closed,  BB1.Fault.UndesiredClose);
+    BB1_undesired_open:   FaultButtons("button_BB1_open",     BB1.Fault.u_f4_open,    BB1.Fault.UndesiredOpen);
+
+    BB2_undesired_closed: FaultButtons("button_BB2_close",    BB2.Fault.u_f4_closed,  BB2.Fault.UndesiredClose);
+    BB2_undesired_open:   FaultButtons("button_BB2_open",     BB2.Fault.u_f4_open,    BB2.Fault.UndesiredOpen);
+
+    LM_Stuck:  FaultButtons("button_lockingMechanism_stuck",  LM.LM_verstoring.u_f7,  LM.LM_verstoring.LM_vast);
+    LM_Unlock: FaultButtons("button_lockingMechanism_unlock", LM.LM_verstoring.u_f8,  LM.LM_verstoring.LM_omlaag);
+    LM_Lock:   FaultButtons("button_lockingMechanism_lock",   LM.LM_verstoring.u_f8b, LM.LM_verstoring.LM_omhoog);
+
+    Bridge_NotDecelerating:  FaultButtons("button_FO_defect",              BD.DeceleratingFault.u_f5,        BD.DeceleratingFault.Fault);
+    Bridge_undesired_open:   FaultButtons("button_bridge_undesired_open",  BD.UndesiredMovement.u_f6_open,   BD.UndesiredMovement.Open);
+    Bridge_undesired_closed: FaultButtons("button_bridge_undesired_close", BD.UndesiredMovement.u_f6_closed, BD.UndesiredMovement.Close);
+end
+
+
+// Visualizatie van diagnosers:
+group def Diagnose(alg string Label; alg bool State):
+    svgout id Label attr "fill" value if State: "darkorange" else "black" end;
+end
+
+group vDiagnosers:
+    //Stopseinen
+    SS1Fault : Diagnose ("SS1_defect", sup.StopSigns.S1StaysOff);
+    SS2Fault : Diagnose ("SS2_defect", sup.StopSigns.S2StaysOff);
+    SS3Fault : Diagnose ("SS3_defect", sup.StopSigns.S3StaysOff);
+    SS4Fault : Diagnose ("SS4_defect", sup.StopSigns.S4StaysOff);
+    SS5Fault : Diagnose ("SS5_defect", sup.StopSigns.S5StaysOff);
+
+    //Rode lamp scheepvaartsseinen
+    VTL1RedStaysOff : Diagnose ("Red_VTL1_defect", sup.VTL1.RedStaysOff);
+    VTL2RedStaysOff : Diagnose ("Red_VTL2_defect", sup.VTL2.RedStaysOff);
+    VTL3RedStaysOff : Diagnose ("Red_VTL3_defect", sup.VTL3.RedStaysOff);
+    VTL4RedStaysOff : Diagnose ("Red_VTL4_defect", sup.VTL4.RedStaysOff);
+    VTL5RedStaysOff : Diagnose ("Red_VTL5_defect", sup.VTL5.RedStaysOff);
+    VTL6RedStaysOff : Diagnose ("Red_VTL6_defect", sup.VTL6.RedStaysOff);
+    VTL7RedStaysOff : Diagnose ("Red_VTL7_defect", sup.VTL7.RedStaysOff);
+    VTL8RedStaysOff : Diagnose ("Red_VTL8_defect", sup.VTL8.RedStaysOff);
+
+    //Green lamp scheepvaartsseinen
+    VTL1GreenStaysOff : Diagnose ("Green_VTL1_defect", sup.VTL1.GreenStaysOff);
+    VTL2GreenStaysOff : Diagnose ("Green_VTL2_defect", sup.VTL2.GreenStaysOff);
+    VTL3GreenStaysOff : Diagnose ("Green_VTL3_defect", sup.VTL3.GreenStaysOff);
+    VTL4GreenStaysOff : Diagnose ("Green_VTL4_defect", sup.VTL4.GreenStaysOff);
+    VTL5GreenStaysOff : Diagnose ("Green_VTL5_defect", sup.VTL5.GreenStaysOff);
+    VTL6GreenStaysOff : Diagnose ("Green_VTL6_defect", sup.VTL6.GreenStaysOff);
+    VTL7GreenStaysOff : Diagnose ("Green_VTL7_defect", sup.VTL7.GreenStaysOff);
+    VTL8GreenStaysOff : Diagnose ("Green_VTL8_defect", sup.VTL8.GreenStaysOff);
+
+    //Red2 lamp scheepvaartsseinen
+    VTL1Red2StaysOff : Diagnose ("Red2_VTL1_defect", sup.VTL1.Red2StaysOff);
+    VTL2Red2StaysOff : Diagnose ("Red2_VTL2_defect", sup.VTL2.Red2StaysOff);
+    VTL3Red2StaysOff : Diagnose ("Red2_VTL3_defect", sup.VTL3.Red2StaysOff);
+    VTL4Red2StaysOff : Diagnose ("Red2_VTL4_defect", sup.VTL4.Red2StaysOff);
+    VTL5Red2StaysOff : Diagnose ("Red2_VTL5_defect", sup.VTL5.Red2StaysOff);
+    VTL6Red2StaysOff : Diagnose ("Red2_VTL6_defect", sup.VTL6.Red2StaysOff);
+    VTL7Red2StaysOff : Diagnose ("Red2_VTL7_defect", sup.VTL7.Red2StaysOff);
+    VTL8Red2StaysOff : Diagnose ("Red2_VTL8_defect", sup.VTL8.Red2StaysOff);
+
+    //BoomBarriers
+    BB1Fault          : Diagnose("BB1_Defect",         sup.BB1.Stuck);
+    BB2Fault          : Diagnose("BB2_Defect",         sup.BB2.Stuck);
+    BB1UndesiredClose : Diagnose("BB1_UndesiredClose", sup.BB1.UndesiredClosed);
+    BB2UndesiredClose : Diagnose("BB2_UndesiredClose", sup.BB2.UndesiredClosed);
+    BB1UndesiredOpen  : Diagnose("BB1_UndesiredOpen",  sup.BB1.UndesiredOpen);
+    BB2UndesiredOpen  : Diagnose("BB2_UndesiredOpen",  sup.BB2.UndesiredOpen);
+
+    //LM
+    LMStuck  : Diagnose("LockingMechanism_vast",   sup.LM.Stuck);
+    LMUnlock : Diagnose("LockingMechanism_omlaag", sup.LM.UndesiredUnlock);
+
+    //Bridge
+    BDNotDecelerating : Diagnose("FO_defect",              sup.BD.NotDecelerating);
+    BDUndesiredOpen   : Diagnose("Bridge_undesired_open",  sup.BD.UndesiredOpen);
+    BDUndesiredClosed : Diagnose("Bridge_undesired_close", sup.BD.UndesiredClosed);
+end

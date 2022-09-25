@@ -1,0 +1,112 @@
+import "UI.cif";
+
+svgfile "UI.svg";
+svgout id "EmergencyStop" attr "visibility" value if EmergencyStop.Active: "visible" else "hidden" end;
+
+group def V_VTLButton(alg string n; uncontrollable u_r, u_g; alg bool sper, red, redGreen, green, fault):
+    svgfile "UI.svg";
+    svgin id "VTL" + n + "_R" event if sper: u_r2Off else u_r end;
+    svgin id "VTL" + n + "_G" event u_g;
+    svgin id "VTL" + n + "_S" event u_r2;
+    svgout id "VTL" + n + "_R" attr "fill" value if sper or red or redGreen: "#FF0000" else "#999999" end;
+    svgout id "VTL" + n + "_G" attr "fill" value if redGreen or green: "#009900" else "#999999" end;
+    svgout id "VTL" + n + "_S" attr "fill" value if sper: "#FF0000" else "#999999" end;
+    svgout id "vtl" + n attr "fill" value if fault: "#FF0000" else "black" end;
+end
+
+
+V_ButtonVTL12 : V_VTLButton("12", CommandVTL12.u_red, CommandVTL12.u_green, sup.CommandVTL12.RedRed, sup.CommandVTL12.Red, sup.CommandVTL12.RedGreen, sup.CommandVTL12.Green, VTL1.fault and VTL2.fault);
+V_ButtonVTL34 : V_VTLButton("34", CommandVTL34.u_red, CommandVTL34.u_green, sup.CommandVTL34.RedRed, sup.CommandVTL34.Red, sup.CommandVTL34.RedGreen, sup.CommandVTL34.Green, VTL3.fault and VTL4.fault);
+V_ButtonVTL56 : V_VTLButton("56", CommandVTL56.u_red, CommandVTL56.u_green, sup.CommandVTL56.RedRed, sup.CommandVTL56.Red, sup.CommandVTL56.RedGreen, sup.CommandVTL56.Green, VTL5.fault and VTL6.fault);
+V_ButtonVTL78 : V_VTLButton("78", CommandVTL78.u_red, CommandVTL78.u_green, sup.CommandVTL78.RedRed, sup.CommandVTL78.Red, sup.CommandVTL78.RedGreen, sup.CommandVTL78.Green, VTL7.fault and VTL8.fault);
+
+group V_StopSigns:
+    svgfile "UI.svg";
+    svgout id "SS1"   attr "fill" value if sup.StopSigns.Actuator.On: "#FF0000" else "#999999" end;
+    svgout id "SS4"   attr "fill" value if sup.StopSigns.Actuator.On: "#FF0000" else "#999999" end;
+    svgout id "SS123" attr "fill" value if StopSigns.fault123:        "#FF0000" else "black" end;
+    svgout id "SS45"  attr "fill" value if StopSigns.fault45:         "#FF0000" else "black" end;
+end
+
+group V_Asb1:
+    svgfile "UI.svg";
+    svgout id "BB1"   attr "fill" value if BB1.fault: "#FF0000" elif not sup.BB1.Actuator.Idle: "#FFFF00" else "#FFFFFF" end;
+    svgout id "BB1in" attr "fill" value if BB1.fault: "#FF0000" elif not sup.BB1.Actuator.Idle: "#FFFF00" elif sup.BB1.NotClosed.Off : "#FFFFFF" else "#999999" end;
+end
+
+group V_Asb2:
+    svgfile "UI.svg";
+    svgout id "BB2"   attr "fill" value if BB2.fault: "#FF0000" elif not sup.BB2.Actuator.Idle: "#FFFF00" else "#FFFFFF" end;
+    svgout id "BB2in" attr "fill" value if BB2.fault: "#FF0000" elif not sup.BB2.Actuator.Idle: "#FFFF00" elif sup.BB2.NotClosed.Off : "#FFFFFF" else "#999999" end;
+end
+
+group V_Bridge:
+    svgfile "UI.svg";
+    svgout id "brug" attr "fill" value if BD.fault: "#FF0000" elif sup.BridgeCommands.OpenB_act or sup.BridgeCommands.CloseB_act : "#FFFF00" else "#FFFFFF" end;
+    svgout id "brug" attr "transform" value fmt("rotate(%s,-280,565)", if sup.BD.Closed.On : 0 elif sup.BD.Open.On: 90 else 45 end);
+end
+
+group V_SCADA:
+    svgfile "UI.svg";
+    // Drukken van knoppen
+    svgin id "CloseLT" event BridgeCommands.u_closeLT;
+    svgin id "CloseBB" event BridgeCommands.u_closeBB;
+    svgin id "OpenLT1" event BridgeCommands.u_openLT;
+    svgin id "OpenLT2" event BridgeCommands.u_openLT;
+    svgin id "OpenB"   event BridgeCommands.u_openB;
+    svgin id "CloseB"  event BridgeCommands.u_closeB;
+    svgin id "BStop1"  event BridgeCommands.u_stop;
+    svgin id "BStop2"  event BridgeCommands.u_stop;
+    svgin id "ButtonEmergencyStop" event if EmergencyStop.Inactive: EmergencyStop.u_emerg_on else EmergencyStop.u_emerg_off end;
+
+    // Kleuren van knoppen Active / niet actief.
+    svgout id "ButtonEmergencyStop"      attr "fill" value if EmergencyStop.Inactive: "green" else "red" end;
+
+    svgout id "CloseLTB" attr "fill" value if sup.BridgeCommands.CloseLT_act: "yellow"
+                                         else                                 "#e6e6e6" end;
+    svgout id "CloseBBB" attr "fill" value if sup.BridgeCommands.CloseBB_act: "yellow"
+                                         else                                 "#e6e6e6" end;
+    svgout id "OpenLT1B" attr "fill" value if sup.BridgeCommands.OpenLT_act:  "yellow"
+                                         else                                 "#e6e6e6" end;
+    svgout id "OpenLT2B" attr "fill" value if sup.BridgeCommands.OpenLT_act:  "yellow"
+                                         else                                 "#e6e6e6" end;
+    svgout id "OpenB-B"  attr "fill" value if sup.BridgeCommands.OpenB_act:   "yellow"
+                                         else                                 "#e6e6e6" end;
+    svgout id "CloseB-B" attr "fill" value if sup.BridgeCommands.CloseB_act:  "yellow"
+                                         else                                 "#e6e6e6" end;
+    svgout id "Stop1B"   attr "fill" value if sup.BridgeCommands.Stop_act:    "red"
+                                         elif sup.BridgeCommands.Stop_bdb:    "pink"
+                                         else                                 "#e6e6e6" end;
+    svgout id "Stop2B"   attr "fill" value if sup.BridgeCommands.Stop_act:    "red"
+                                         elif sup.BridgeCommands.Stop_bdb:    "pink"
+                                         else                                 "#e6e6e6" end;
+
+    // Kleuren van knoppen Bedienbaar / niet bedienbaar.
+    svgout id "CloseLT" attr "opacity" value if sup.BridgeCommands.CloseLT_bdb: "1.0" else "0.2" end;
+    svgout id "CloseBB" attr "opacity" value if sup.BridgeCommands.CloseBB_bdb: "1.0" else "0.2" end;
+    svgout id "OpenLT1" attr "opacity" value if sup.BridgeCommands.OpenLT_bdb:  "1.0" else "0.2" end;
+    svgout id "OpenLT2" attr "opacity" value if sup.BridgeCommands.OpenLT_bdb:  "1.0" else "0.2" end;
+    svgout id "OpenB"   attr "opacity" value if sup.BridgeCommands.OpenB_bdb:   "1.0" else "0.2" end;
+    svgout id "CloseB"  attr "opacity" value if sup.BridgeCommands.CloseB_bdb:  "1.0" else "0.2" end;
+    svgout id "BStop1"  attr "opacity" value if sup.BridgeCommands.Stop_bdb:    "1.0" else "0.2" end;
+    svgout id "BStop2"  attr "opacity" value if sup.BridgeCommands.Stop_bdb:    "1.0" else "0.2" end;
+end
+
+automaton Window:
+    svgfile "UI.svg";
+    event showW1, showW2, hideW1, hideW2;
+    disc bool W1 = false, W2 = false;
+    monitor showW1, showW2;
+    location: initial;
+        edge showW1 when sup.BridgeCommands.Window1Visible do W1 := true;
+        edge showW2 when sup.BridgeCommands.Window2Visible do W2 := true;
+        edge hideW1 do W1 := false;
+        edge hideW2 do W2 := false;
+    svgout id "W1close" attr "visibility" value if sup.BridgeCommands.Window1CloseAble and W1: "visible" else "hidden" end;
+    svgout id "W2close" attr "visibility" value if sup.BridgeCommands.Window2CloseAble and W2: "visible" else "hidden" end;
+    svgout id "Window1" attr "visibility" value if W1: "visible" else "hidden" end;
+    svgout id "Window2" attr "visibility" value if W2: "visible" else "hidden" end;
+    svgin  id "brug" event if sup.BridgeCommands.Window1Visible: showW1 else showW2 end;
+    svgin  id "W1close" event hideW1;
+    svgin  id "W2close" event hideW2;
+end

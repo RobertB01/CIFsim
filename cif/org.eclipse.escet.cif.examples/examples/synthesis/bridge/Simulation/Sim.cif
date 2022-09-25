@@ -1,0 +1,26 @@
+import "Plant.cif";
+
+automaton ResetKnop:
+    disc bool ResetStoringen = false;
+    uncontrollable u_reset;
+
+    location:
+        initial;
+        edge u_reset do ResetStoringen := not ResetStoringen;
+end
+
+automaton OverrideSwitch:
+    uncontrollable u_turn_on, u_turn_off;
+    location Off:
+        initial; marked;
+        edge u_turn_on goto On;
+
+    location On:
+        edge u_turn_off goto Off;
+end
+
+group sup:
+    group ResetKnop:
+         alg bool ResetStoring = .ResetKnop.ResetStoringen;
+    end
+end

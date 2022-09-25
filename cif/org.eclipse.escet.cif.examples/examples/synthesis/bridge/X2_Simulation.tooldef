@@ -1,0 +1,25 @@
+from "lib:cif" import *;
+
+string gen_folder       = "generated_files";
+string supervisor       = fmt("%s/%s.cif",  gen_folder, "1_Supervisor");          // Location of supervisor
+string sup_hybrid       = fmt("%s/%s.cif",  gen_folder, "2_Supervisor_Hybrid");    // Location of supervisor, hybrid plant, timers & visualization
+string diagnosers       = "Synthesis/Diagnosers.cif";
+string simVisualization = "Simulation/SimVis.cif";
+string UIVisualization  = "Simulation/UIVis.cif";
+string timers           = "Shared_files/Timers.cif";                 // Location of timers
+
+// Merge supervisor with hybrid plant simulation model.
+outln("File \"%s\": generating...", sup_hybrid);
+cifmerge(supervisor, diagnosers, simVisualization, UIVisualization, timers, "-o", sup_hybrid);
+outln("File \"%s\": generated.", sup_hybrid);
+
+// // Simulate the supervisor/hybrid plants simulation model.
+outln("Simulating \"%s\"...", sup_hybrid);
+outln();
+cifsim(sup_hybrid,
+       "-i svg",
+       "-a first",
+       "--frame-rate=10",
+       "--speed=3",
+       "--max-delay=10.0",
+       "--option-dialog=yes");
