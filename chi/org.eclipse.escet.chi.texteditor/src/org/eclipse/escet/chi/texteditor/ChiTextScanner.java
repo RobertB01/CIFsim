@@ -13,6 +13,13 @@
 
 package org.eclipse.escet.chi.texteditor;
 
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.DEFAULT;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.IDENTIFIER;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.KEYWORD;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.NUMBER;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.OPERATOR;
+import static org.eclipse.escet.chi.texteditor.ChiTextEditorStylable.STDLIBFUNC;
+
 import org.eclipse.escet.chi.parser.ChiScanner;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
 import org.eclipse.escet.setext.texteditorbase.detectors.GenericWhitespaceDetector;
@@ -20,6 +27,7 @@ import org.eclipse.escet.setext.texteditorbase.rules.IdentifiersRule;
 import org.eclipse.escet.setext.texteditorbase.rules.IntNumberRule;
 import org.eclipse.escet.setext.texteditorbase.rules.KeywordsRule;
 import org.eclipse.escet.setext.texteditorbase.rules.RealNumberRule;
+import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.WhitespaceRule;
@@ -29,9 +37,10 @@ public class ChiTextScanner extends RuleBasedScanner {
     /**
      * Constructor for the {@link ChiScanner} class.
      *
+     * @param theme The theme to use.
      * @param manager The color manager to use to create the color tokens.
      */
-    public ChiTextScanner(ColorManager manager) {
+    public ChiTextScanner(TextEditorTheme<ChiTextEditorStylable> theme, ColorManager manager) {
         String[] keywords = ChiScanner.getKeywords("Keywords");
         String[] types = ChiScanner.getKeywords("Types");
         String[] constants = ChiScanner.getKeywords("Constants");
@@ -50,17 +59,17 @@ public class ChiTextScanner extends RuleBasedScanner {
         // Construct and set predicate rules. Make sure we also have a default
         // token.
         IRule[] rules = new IRule[] { //
-                new KeywordsRule(allKeywords, ChiStyles.KEYWORD.createToken(manager)),
-                new KeywordsRule(stdlibfuncs, ChiStyles.STDLIBFUNC.createToken(manager)),
-                new KeywordsRule(operators, ChiStyles.OPERATOR.createToken(manager)),
-                new IdentifiersRule(ChiStyles.IDENTIFIER.createToken(manager)),
-                new RealNumberRule(ChiStyles.NUMBER.createToken(manager)),
-                new IntNumberRule(ChiStyles.NUMBER.createToken(manager)),
+                new KeywordsRule(allKeywords, theme.getStyle(KEYWORD).createToken(manager)),
+                new KeywordsRule(stdlibfuncs, theme.getStyle(STDLIBFUNC).createToken(manager)),
+                new KeywordsRule(operators, theme.getStyle(OPERATOR).createToken(manager)),
+                new IdentifiersRule(theme.getStyle(IDENTIFIER).createToken(manager)),
+                new RealNumberRule(theme.getStyle(NUMBER).createToken(manager)),
+                new IntNumberRule(theme.getStyle(NUMBER).createToken(manager)),
                 new WhitespaceRule(new GenericWhitespaceDetector()),
                 //
         };
         setRules(rules);
 
-        setDefaultReturnToken(ChiStyles.DEFAULT.createToken(manager));
+        setDefaultReturnToken(theme.getStyle(DEFAULT).createToken(manager));
     }
 }

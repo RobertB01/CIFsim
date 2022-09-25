@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.common.checkers.messages;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.checkers.CifCheckViolation;
 import org.eclipse.escet.common.java.Assert;
@@ -27,7 +26,8 @@ public class SequenceMessage extends CifCheckViolationMessage {
     /**
      * Constructor for the {@link SequenceMessage} class.
      *
-     * @param messages The non-empty sequence of messages.
+     * @param messages The non-empty sequence of messages. The message texts of the messages are trimmed and
+     *     concatenated, with a space being added in between each two message texts if needed.
      */
     public SequenceMessage(List<CifCheckViolationMessage> messages) {
         Assert.check(!messages.isEmpty());
@@ -35,8 +35,19 @@ public class SequenceMessage extends CifCheckViolationMessage {
     }
 
     @Override
-    public String getMessage(CifCheckViolation violation) {
-        return messages.stream().map(m -> m.getMessage(violation)).collect(Collectors.joining());
+    public String getMessageText(CifCheckViolation violation) {
+        StringBuilder concatenatedText = new StringBuilder();
+        for (CifCheckViolationMessage message: messages) {
+            String messageText = message.getMessageText(violation);
+            messageText = messageText.trim();
+            if (!messageText.isEmpty()) { // Only add if not empty.
+                if (concatenatedText.length() > 0) { // Add separator if there is any text already present.
+                    concatenatedText.append(" ");
+                }
+                concatenatedText.append(messageText);
+            }
+        }
+        return concatenatedText.toString();
     }
 
     @Override

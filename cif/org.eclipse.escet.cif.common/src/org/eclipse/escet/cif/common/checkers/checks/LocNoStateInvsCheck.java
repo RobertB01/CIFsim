@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -30,8 +30,8 @@ public class LocNoStateInvsCheck extends CifCheck {
         for (Invariant inv: loc.getInvariants()) {
             if (inv.getInvKind() == InvKind.STATE) {
                 // Report violation on the location, or on its automaton in case the location has no name.
-                violations.add(loc, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(" has"),
-                        new IfReportOnAncestorMessage(" a location with"), new LiteralMessage(" a state invariant"));
+                violations.add(loc, new ReportObjectTypeDescrMessage(), new LiteralMessage("has"),
+                        new IfReportOnAncestorMessage("a location with"), new LiteralMessage("a state invariant"));
             }
         }
     }

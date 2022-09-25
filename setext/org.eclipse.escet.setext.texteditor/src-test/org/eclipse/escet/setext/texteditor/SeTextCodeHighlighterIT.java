@@ -35,33 +35,33 @@ public class SeTextCodeHighlighterIT {
 
         List<String> expectedHtml = list( //
                 "<html>", //
-                "<span style=\"color:#402020;\">@</span>", //
+                "<span style=\"color:#000000;\">@</span>", //
                 "<span style=\"color:#0000ff;\">terminals</span>", //
-                "<span style=\"color:#402020;\">:</span>&nbsp;", //
+                "<span style=\"color:#000000;\">:</span>&nbsp;", //
                 "<span style=\"text-style:italic;color:#808080;\">/*</span>&nbsp;", //
                 "<span style=\"text-style:italic;color:#808080;\">bla</span>&nbsp;", //
                 "<span style=\"text-style:italic;color:#808080;\">*/</span>&nbsp;", //
                 "<span style=\"color:#000000;\">x</span>&nbsp;", //
-                "<span style=\"color:#402020;\">=</span>&nbsp;", //
-                "<span style=\"color:#402020;\">5;</span>&nbsp;", //
+                "<span style=\"color:#000000;\">=</span>&nbsp;", //
+                "<span style=\"color:#000000;\">5;</span>&nbsp;", //
                 "<br><span style=\"color:#000000;\">ARROWTK</span>", //
                 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", //
-                "<span style=\"color:#402020;\">=</span>&nbsp;", //
+                "<span style=\"color:#000000;\">=</span>&nbsp;", //
                 "<span style=\"color:#c00000;\">&quot;\\-&gt;&quot;</span>", //
-                "<span style=\"color:#402020;\">;</span>&nbsp;", //
+                "<span style=\"color:#000000;\">;</span>&nbsp;", //
                 "<span style=\"text-style:italic;color:#808080;\">//</span>&nbsp;", //
                 "<span style=\"text-style:italic;color:#808080;\">abc</span>&nbsp;", //
-                "<br><br>&nbsp;&nbsp;<span style=\"color:#402020;\">@</span>", //
+                "<br><br>&nbsp;&nbsp;<span style=\"color:#000000;\">@</span>", //
                 "<span style=\"color:#0000ff;\">shortcut</span>&nbsp;", //
                 "<span style=\"color:#000000;\">identifier</span>&nbsp;", //
-                "<span style=\"color:#402020;\">=</span>&nbsp;", //
+                "<span style=\"color:#000000;\">=</span>&nbsp;", //
                 "<span style=\"color:#c00000;\">&quot;[$]?[a-zA-Z_][a-zA-Z0-9_]*&quot;</span>", //
-                "<span style=\"color:#402020;\">;</span>", //
+                "<span style=\"color:#000000;\">;</span>", //
                 "</html>" //
         );
 
         String actualHtml;
-        try (CodeHighlighter highlighter = new SeTextCodeHighlighter()) {
+        try (CodeHighlighter highlighter = new SeTextCodeHighlighter(new SeTextTextEditorLightTheme())) {
             actualHtml = highlighter.toHtml(String.join("", code));
         }
         assertEquals(String.join("", expectedHtml), actualHtml);

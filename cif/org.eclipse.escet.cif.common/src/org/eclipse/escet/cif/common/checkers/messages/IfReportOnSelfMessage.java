@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.common.checkers.messages;
 
 import org.eclipse.escet.cif.common.checkers.CifCheckViolation;
+import org.eclipse.escet.common.java.Strings;
 
 /**
  * Message that is conditional on the violation being reported on the object itself, rather than on one of its
@@ -26,10 +27,12 @@ public class IfReportOnSelfMessage extends CifCheckViolationMessage {
     /**
      * Constructor for the {@link IfReportOnSelfMessage} class.
      *
-     * @param message The literal message to use if the violation is reported on the object itself.
+     * @param messagePattern The message text format pattern, to use if the violation is reported on the object itself.
+     * @param args The message text format arguments.
+     * @see Strings#fmt
      */
-    public IfReportOnSelfMessage(String message) {
-        this(new LiteralMessage(message));
+    public IfReportOnSelfMessage(String messagePattern, Object... args) {
+        this(new LiteralMessage(messagePattern, args));
     }
 
     /**
@@ -42,8 +45,8 @@ public class IfReportOnSelfMessage extends CifCheckViolationMessage {
     }
 
     @Override
-    public String getMessage(CifCheckViolation violation) {
-        return violation.isReportOnSelf() ? message.getMessage(violation) : "";
+    public String getMessageText(CifCheckViolation violation) {
+        return violation.isReportOnSelf() ? message.getMessageText(violation) : "";
     }
 
     @Override

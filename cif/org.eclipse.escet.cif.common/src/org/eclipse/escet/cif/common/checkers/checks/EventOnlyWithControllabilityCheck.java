@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.common.checkers.checks;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescriptionMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
@@ -30,8 +30,8 @@ public class EventOnlyWithControllabilityCheck extends CifCheck {
     @Override
     protected void preprocessEvent(Event event, CifCheckViolations violations) {
         if (event.getControllable() == null) {
-            violations.add(event, new ReportObjectTypeDescriptionMessage(),
-                    new LiteralMessage(" is not declared as controllable or uncontrollable"));
+            violations.add(event, new ReportObjectTypeDescrMessage(),
+                    new LiteralMessage("is not declared as controllable or uncontrollable"));
         }
     }
 
@@ -39,8 +39,8 @@ public class EventOnlyWithControllabilityCheck extends CifCheck {
     protected void preprocessTauExpression(TauExpression tauExpr, CifCheckViolations violations) {
         // Explicit tau.
         // Report violation on the closest named ancestor of the tau expression: a location or an automaton.
-        violations.add(tauExpr, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
-                " has an edge with explicitly event \"tau\" on it, which is not controllable or uncontrollable"));
+        violations.add(tauExpr, new ReportObjectTypeDescrMessage(), new LiteralMessage(
+                "has an edge with explicitly event \"tau\" on it, which is not controllable or uncontrollable"));
     }
 
     @Override
@@ -48,8 +48,8 @@ public class EventOnlyWithControllabilityCheck extends CifCheck {
         // Implicit tau.
         if (edge.getEvents().isEmpty()) {
             // Report violation on the closest named ancestor of the edge: a location or an automaton.
-            violations.add(edge, new ReportObjectTypeDescriptionMessage(), new LiteralMessage(
-                    " has an edge with implicitly event \"tau\" on it, which is not controllable or uncontrollable"));
+            violations.add(edge, new ReportObjectTypeDescrMessage(), new LiteralMessage(
+                    "has an edge with implicitly event \"tau\" on it, which is not controllable or uncontrollable"));
         }
     }
 }

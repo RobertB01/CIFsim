@@ -15,13 +15,26 @@ package org.eclipse.escet.cif.texteditor;
 
 import org.eclipse.escet.setext.texteditorbase.highlight.CodeHighlighter;
 import org.eclipse.escet.setext.texteditorbase.scanners.GenericPartitionScanner;
+import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 
 /** CIF code highlighter. */
 public class CifCodeHighlighter extends CodeHighlighter {
+    /** The theme to use. */
+    private final TextEditorTheme<CifTextEditorStylable> theme;
+
+    /**
+     * Constructor for the {@link CifCodeHighlighter} class.
+     *
+     * @param theme The theme to use.
+     */
+    public CifCodeHighlighter(TextEditorTheme<CifTextEditorStylable> theme) {
+        this.theme = theme;
+    }
+
     @Override
     protected IPresentationReconciler obtainPresentationReconciler() {
-        CifSourceViewerConfig config = new CifSourceViewerConfig();
+        CifSourceViewerConfig config = new CifSourceViewerConfig(theme);
         config.setColorManager(colorManager);
         return config.getPresentationReconciler(null);
     }

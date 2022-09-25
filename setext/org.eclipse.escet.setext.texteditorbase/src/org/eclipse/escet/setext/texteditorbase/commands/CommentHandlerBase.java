@@ -56,18 +56,18 @@ public abstract class CommentHandlerBase extends AbstractHandler {
      * @param event An event containing all the information about the current state of the application.
      * @return The generic text editor, or {@code null}.
      */
-    protected GenericTextEditor<?, ?> getTextEditor(ExecutionEvent event) {
+    protected GenericTextEditor<?, ?, ?> getTextEditor(ExecutionEvent event) {
         // Get generic text editor.
         IWorkbenchPart part = HandlerUtil.getActivePart(event);
         Assert.notNull(part);
         Assert.check(part.getAdapter(TextEditor.class) != null);
 
-        GenericTextEditor<?, ?> editor = null;
+        GenericTextEditor<?, ?, ?> editor = null;
         if (part instanceof GenericTextEditor) {
-            editor = (GenericTextEditor<?, ?>)part;
+            editor = (GenericTextEditor<?, ?, ?>)part;
         } else {
             Object obj = part.getAdapter(GenericTextEditor.class);
-            editor = (GenericTextEditor<?, ?>)obj;
+            editor = (GenericTextEditor<?, ?, ?>)obj;
         }
 
         if (editor == null) {
@@ -90,7 +90,7 @@ public abstract class CommentHandlerBase extends AbstractHandler {
      * @return The single line comment characters, or {@code null}.
      * @see GenericTextEditor#singleLineCommentChars
      */
-    protected String getCommentChars(ExecutionEvent event, GenericTextEditor<?, ?> editor) {
+    protected String getCommentChars(ExecutionEvent event, GenericTextEditor<?, ?, ?> editor) {
         String chars = editor.singleLineCommentChars;
         if (chars == null) {
             IWorkbenchPart part = HandlerUtil.getActivePart(event);
@@ -112,7 +112,7 @@ public abstract class CommentHandlerBase extends AbstractHandler {
      * @param editor The text editor for which to return the document.
      * @return The document of the editor.
      */
-    protected IDocument getDocument(ExecutionEvent event, GenericTextEditor<?, ?> editor) {
+    protected IDocument getDocument(ExecutionEvent event, GenericTextEditor<?, ?, ?> editor) {
         IEditorInput input = HandlerUtil.getActiveEditorInput(event);
         Assert.notNull(input);
         IDocument doc = editor.getDocumentProvider().getDocument(input);
@@ -126,7 +126,7 @@ public abstract class CommentHandlerBase extends AbstractHandler {
      * @param editor The text editor for which to return the currently active text selection.
      * @return The currently active text selection of the editor.
      */
-    protected ITextSelection getSelection(GenericTextEditor<?, ?> editor) {
+    protected ITextSelection getSelection(GenericTextEditor<?, ?, ?> editor) {
         // Don't obtain it using HandlerUtil, as it doesn't give the correct
         // selection.
         ISelection selection = editor.getSelectionProvider().getSelection();

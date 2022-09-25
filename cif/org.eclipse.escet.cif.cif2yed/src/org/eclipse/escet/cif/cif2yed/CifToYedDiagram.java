@@ -31,6 +31,7 @@ import org.eclipse.escet.cif.cif2yed.options.SyntaxHighlightingOption;
 import org.eclipse.escet.cif.cif2yed.options.TransparentEdgeLabelsOption;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.texteditor.CifCodeHighlighter;
+import org.eclipse.escet.cif.texteditor.CifTextEditorLightTheme;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.Assert;
@@ -97,7 +98,7 @@ public abstract class CifToYedDiagram {
         highlight = SyntaxHighlightingOption.applyHighlighting();
         if (highlight) {
             AppEnv.checkGuiAvailable("apply syntax highlighting in the CIF to yEd transformer");
-            highlighter = new CifCodeHighlighter();
+            highlighter = new CifCodeHighlighter(new CifTextEditorLightTheme());
         }
         Assert.ifAndOnlyIf(highlight, highlighter != null);
 

@@ -33,7 +33,7 @@
       <data key="ng">
         <y:ShapeNode>
           <y:Geometry width="<width>"/>
-          <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&amp;nbsp;&lt;span style="color:#402020;"&gt;!?~&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+          <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;!?~&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
           <y:BorderStyle width="2.0"/>
           <y:Fill color="#ffc000"/>
           <y:Shape type="rectangle"/>
@@ -102,7 +102,7 @@
           <data key="ng">
             <y:ShapeNode>
               <y:Geometry height="<height>" width="<width>"/>
-              <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;span style="color:#402020;"&gt;?&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;span style="color:#000000;"&gt;?&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ffc080"/>
               <y:Shape type="ellipse"/>
             </y:ShapeNode>
@@ -137,7 +137,7 @@
           <data key="ng">
             <y:ShapeNode>
               <y:Geometry height="<height>" width="<width>"/>
-              <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;span style="color:#402020;"&gt;!&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;span style="color:#000000;"&gt;!&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ffc080"/>
               <y:Shape type="ellipse"/>
             </y:ShapeNode>

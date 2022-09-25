@@ -20,10 +20,11 @@ import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.setext.texteditorbase.GenericTextEditor;
 
 /** CIF text editor for Eclipse. */
-public class CifTextEditor extends GenericTextEditor<ASpecification, Specification> {
+public class CifTextEditor extends GenericTextEditor<ASpecification, Specification, CifTextEditorStylable> {
     /** Constructor for the {@link CifTextEditor} class. */
     public CifTextEditor() {
-        super(new CifPartitionScanner(), new CifSourceViewerConfig(), CifParser.class, CifTypeChecker.class,
+        super(new CifPartitionScanner(), theme -> new CifSourceViewerConfig(theme), new CifTextEditorDarkTheme(),
+                new CifTextEditorLightTheme(), CifParser.class, CifTypeChecker.class,
                 "org.eclipse.escet.cif.texteditor.CifSyntaxProblem",
                 "org.eclipse.escet.cif.texteditor.CifSemanticProblem", "//");
     }
