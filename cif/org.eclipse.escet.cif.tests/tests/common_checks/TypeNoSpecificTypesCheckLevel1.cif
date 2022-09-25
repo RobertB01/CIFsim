@@ -1,0 +1,111 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Top level scope.
+type t = int;
+
+// Group.
+group grp:
+  type t = int;
+end
+
+// Nested group.
+group nested_grp:
+  group nested_grp:
+    type t = int;
+  end
+end
+
+// With type declarations.
+group type_decl:
+  type t = int;
+  type t2 = t;
+end
+
+// COMP_DEF_TYPES.
+group def COMP_DEF_TYPES1():
+end
+group def COMP_DEF_TYPES2(COMP_DEF_TYPES11 p):
+end
+
+// COMP_TYPES.
+automaton COMP_TYPES:
+  location:
+    initial;
+  invariant switch self: else true end;
+end
+
+// DICT_TYPES.
+invariant DICT_TYPES: {true: false} = {true: false};
+
+// DIST_TYPES.
+automaton DIST_TYPES:
+  disc dist bool d = constant(true);
+  location:
+    initial;
+    edge tau do d := d;
+end
+
+// ENUM_TYPES.
+enum e = e1, e2;
+invariant ENUM_TYPES: e1 = e2;
+
+// FUNC_TYPES.
+func bool f():
+  return true;
+end
+invariant FUNC_TYPES: f() = true;
+
+// INT_TYPES_RANGED.
+invariant INT_TYPES_RANGED: 1 = 1;
+
+// INT_TYPES_RANGELESS.
+automaton INT_TYPES_RANGELESS:
+  disc int v;
+  location loc:
+    initial;
+    edge tau do v := v;
+end
+
+// LIST_TYPES_ARRAY.
+invariant LIST_TYPES_ARRAY: [true, false] = [true, false];
+
+// LIST_TYPES_NON_ARRAY.
+automaton LIST_TYPES_NON_ARRAY:
+  disc list bool v;
+  location loc:
+    initial;
+    edge tau do v := v;
+end
+
+// REAL_TYPES.
+invariant REAL_TYPES: 1.0 = 1.0;
+
+// SET_TYPES.
+invariant SET_TYPES: {true} = {true};
+
+// STRING_TYPES.
+invariant STRING_TYPES: "a" = "a";
+
+// TUPLE_TYPES.
+invariant TUPLE_TYPES: (true, false) = (true, false);
+
+automaton TUPLE_TYPES_MULTI_ASGN:
+  disc bool a, b;
+  location:
+    initial;
+    edge do (a, b) := (true, false);
+end
+
+// VOID_TYPES.
+event void VOID_TYPES;

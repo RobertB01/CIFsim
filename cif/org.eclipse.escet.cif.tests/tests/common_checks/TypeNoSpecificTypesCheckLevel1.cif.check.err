@@ -1,0 +1,26 @@
+WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 38, column 22: Component parameter "cdef2.p" is not used anywhere in the specification.
+WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 111, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "COMP_TYPES": uses component type "COMP_TYPES".
+ - Unsupported "DICT_TYPES": uses dictionary type "dict(bool:bool)".
+ - Unsupported "DIST_TYPES": uses distribution type "dist bool".
+ - Unsupported "DIST_TYPES.d": uses distribution type "dist bool".
+ - Unsupported "DIST_TYPES.d": uses function type "func dist bool(bool)".
+ - Unsupported "ENUM_TYPES": uses enumeration type "e".
+ - Unsupported "FUNC_TYPES": uses function type "func bool()".
+ - Unsupported "grp.t": uses integer type "int".
+ - Unsupported "INT_TYPES_RANGED": uses integer type "int[1..1]".
+ - Unsupported "INT_TYPES_RANGELESS.loc": uses integer type "int".
+ - Unsupported "INT_TYPES_RANGELESS.v": uses integer type "int".
+ - Unsupported "LIST_TYPES_ARRAY": uses list type "list[2] bool".
+ - Unsupported "LIST_TYPES_NON_ARRAY.loc": uses list type "list bool".
+ - Unsupported "LIST_TYPES_NON_ARRAY.v": uses list type "list bool".
+ - Unsupported "nested_grp.nested_grp.t": uses integer type "int".
+ - Unsupported "REAL_TYPES": uses real type "real".
+ - Unsupported "SET_TYPES": uses set type "set bool".
+ - Unsupported "STRING_TYPES": uses string type "string".
+ - Unsupported "t": uses integer type "int".
+ - Unsupported "TUPLE_TYPES": uses tuple type "tuple(bool; bool)".
+ - Unsupported "TUPLE_TYPES_MULTI_ASGN": uses tuple type "tuple(bool; bool)".
+ - Unsupported "type_decl.t": uses integer type "int".
+ - Unsupported "VOID_TYPES": uses void type "void".
