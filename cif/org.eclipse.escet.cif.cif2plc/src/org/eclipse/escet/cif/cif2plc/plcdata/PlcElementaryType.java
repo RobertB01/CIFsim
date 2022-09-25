@@ -13,9 +13,6 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.TextBox;
-
 /** PLC elementary type. */
 public class PlcElementaryType extends PlcType {
     /** PLC BOOL type. */
@@ -49,10 +46,5 @@ public class PlcElementaryType extends PlcType {
      */
     public PlcElementaryType(String name) {
         this.name = name;
-    }
-
-    @Override
-    public Box toBox() {
-        return new TextBox(name);
     }
 }

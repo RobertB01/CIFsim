@@ -1,0 +1,13 @@
+Loading CIF specification "controllercheck/confluence/mutual_exclusive2.cif"...
+Checking for finite response...
+
+Iteration 1.
+
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (DifferentConditions.a, DifferentConditions.b)
+
+CONCLUSION:
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

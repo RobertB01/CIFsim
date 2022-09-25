@@ -3,5 +3,8 @@ Checking for finite response...
 
 Iteration 1.
 
+Checking for confluence...
+
 CONCLUSION:
-    The specification has finite response.
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

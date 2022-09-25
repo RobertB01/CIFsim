@@ -19,7 +19,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.automata.Location;
-import org.eclipse.escet.common.java.Assert;
 
 /** Algorithm to minimize the number of locations in the automaton. */
 public class AutomatonMinimizer extends BlockPartitioner {
@@ -78,7 +77,6 @@ public class AutomatonMinimizer extends BlockPartitioner {
         // always non-empty. Therefore the automaton is always present in a block.
         // A block is thus never a counter-example demonstrating a trace is not
         // present in the automaton.
-        Assert.fail("Counter-example construction should not be needed.");
-        return null;
+        throw new AssertionError("Counter-example construction should not be needed.");
     }
 }

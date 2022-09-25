@@ -13,10 +13,6 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** PLC array type. */
@@ -44,13 +40,5 @@ public class PlcArrayType extends PlcType {
 
         Assert.check(lower == 0);
         Assert.check(upper >= lower);
-    }
-
-    @Override
-    public Box toBox() {
-        HBox b = new HBox();
-        b.add(fmt("ARRAY[%d..%d] of ", lower, upper));
-        b.add(elemType.toBox());
-        return b;
     }
 }

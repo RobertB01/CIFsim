@@ -48,11 +48,16 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouInstance;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcResource;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTask;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.box.Box;
+import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.box.HBox;
+import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -61,7 +66,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /** TwinCAT 3.1 writer. */
-public class TwinCatWriter {
+public class TwinCatWriter extends OutputTypeWriter {
     /** The PLC project to use, {@code null} until available. */
     private PlcProject project;
 
@@ -89,45 +94,42 @@ public class TwinCatWriter {
     /** Old code files that are scheduled to be removed (since there are no replacements in {@link #files}). */
     private List<File> oldCodeFiles = list();
 
-    /** Constructor for the {@link TwinCatWriter} class. */
-    private TwinCatWriter() {
-        // Private constructor to force the use of the public static method.
-    }
-
     /**
-     * Writes the given PLC project to a TwinCAT project.
+     * {@inheritDoc}
      *
-     * @param project The PLC project to write.
-     * @param slnDirPath The absolute local file system path of the directory containing the TwinCAT solution, with
-     *     platform specific path separators.
+     * @note Must point to a directory containing an already generated TwinCAT solution.
      */
-    public static void write(PlcProject project, String slnDirPath) {
-        // Initialize writer.
-        TwinCatWriter writer = new TwinCatWriter();
-        writer.project = project;
-        Assert.check(project.configurations.size() == 1);
-        writer.configuration = first(project.configurations);
-        Assert.check(writer.configuration.resources.size() == 1);
-        writer.resource = first(writer.configuration.resources);
-        Assert.check(writer.resource.tasks.size() == 1);
-        writer.task = first(writer.resource.tasks);
+    @Override
+    public void write(PlcProject project, String slnDirPath) {
+        slnDirPath = Paths.resolve(slnDirPath); // Switch to platform-specific directory separators.
 
-        if (writer.task.cycleTime == 0) {
+        this.project = project;
+
+        Assert.check(project.configurations.size() == 1);
+        configuration = first(project.configurations);
+
+        Assert.check(configuration.resources.size() == 1);
+        resource = first(configuration.resources);
+
+        Assert.check(resource.tasks.size() == 1);
+        task = first(resource.tasks);
+
+        if (task.cycleTime == 0) {
             String msg = "TwinCAT output with periodic task scheduling disabled, is currently not supported.";
             throw new InvalidOptionException(msg);
         }
 
-        writer.findTwinCatProjects(slnDirPath);
+        findTwinCatProjects(slnDirPath);
 
         // POU instances in the resource are not supported.
-        Assert.check(writer.resource.pouInstances.isEmpty());
+        Assert.check(resource.pouInstances.isEmpty());
 
         // Update TwinCAT XAE project.
-        writer.updateXaeProj();
-        writer.genCodeFiles();
-        writer.updatePlcProj();
-        writer.updateTask();
-        writer.updateCodeFiles();
+        updateXaeProj();
+        genCodeFiles();
+        updatePlcProj();
+        updateTask();
+        updateCodeFiles();
     }
 
     /**
@@ -490,7 +492,7 @@ public class TwinCatWriter {
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        String headerTxt = pou.headerToBox().toString();
+        String headerTxt = headerToBox(pou).toString();
         declElem.appendChild(doc.createCDATASection(headerTxt));
 
         Element implElem = doc.createElement("Implementation");
@@ -531,7 +533,7 @@ public class TwinCatWriter {
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        String txt = typeDecl.toStringTwinCat();
+        String txt = toBox(typeDecl).toString();
         declElem.appendChild(doc.createCDATASection(txt));
 
         Element opElem = doc.createElement("ObjectProperties");
@@ -569,7 +571,7 @@ public class TwinCatWriter {
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        declElem.appendChild(doc.createCDATASection(varList.toString()));
+        declElem.appendChild(doc.createCDATASection(toBox(varList).toString()));
 
         Element opElem = doc.createElement("ObjectProperties");
         pouElem.appendChild(opElem);
@@ -613,5 +615,24 @@ public class TwinCatWriter {
             throw new RuntimeException(e);
         }
         return builder.newDocument();
+    }
+
+    @Override
+    protected Box toBox(PlcTypeDecl typeDecl) {
+         // Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT specific,
+         // in that it implements a workaround for a bug in TwinCAT, where structs may in type declarations may not be
+         // terminated with a semicolon.
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", typeDecl.name);
+        c.indent();
+        if (typeDecl.type instanceof PlcStructType) {
+            // Special TwinCAT workaround.
+            c.add(toBox(typeDecl.type));
+        } else {
+            c.add(new HBox(toBox(typeDecl.type), ";"));
+        }
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
     }
 }

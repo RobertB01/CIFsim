@@ -1,5 +1,8 @@
 Loading CIF specification "controllercheck/empty.cif"...
 Checking for finite response...
 
+Checking for confluence...
+
 CONCLUSION:
-    The specification has finite response.
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

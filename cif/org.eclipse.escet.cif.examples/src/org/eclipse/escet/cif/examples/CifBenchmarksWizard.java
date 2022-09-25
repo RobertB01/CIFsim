@@ -32,7 +32,9 @@ public class CifBenchmarksWizard extends CopyFilesNewProjectWizard {
     protected Map<String, String> getPathsToCopy() {
         Map<String, String> entries = map();
         entries.put("benchmarks/.settings", ".settings");
+        entries.put("benchmarks/bridge", "bridge");
         entries.put("benchmarks/festo", "festo");
+        entries.put("benchmarks/sudoku", "sudoku");
         entries.put("benchmarks/waterway_lock", "waterway_lock");
         return entries;
     }

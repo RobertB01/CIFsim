@@ -13,6 +13,15 @@
 
 package org.eclipse.escet.cif.texteditor;
 
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.C_EVENT;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.DEFAULT;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.E_EVENT;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.IDENTIFIER;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.KEYWORD;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.NUMBER;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.OPERATOR;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.STDLIBFUNC;
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.U_EVENT;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,6 +33,7 @@ import org.eclipse.escet.setext.texteditorbase.rules.IntNumberRule;
 import org.eclipse.escet.setext.texteditorbase.rules.KeywordsRule;
 import org.eclipse.escet.setext.texteditorbase.rules.LiteralsRule;
 import org.eclipse.escet.setext.texteditorbase.rules.RegExRule;
+import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
@@ -32,9 +42,10 @@ public class CifTextEditorScanner extends RuleBasedScannerEx {
     /**
      * Constructor for the {@link CifTextEditorScanner} class.
      *
+     * @param theme The theme to use.
      * @param manager The color manager to use to create the color tokens.
      */
-    public CifTextEditorScanner(ColorManager manager) {
+    public CifTextEditorScanner(TextEditorTheme<CifTextEditorStylable> theme, ColorManager manager) {
         // Keywords copied from CIF scanner.
         String[] keywords = CifScanner.getKeywords("Keywords");
         String[] supKinds = CifScanner.getKeywords("SupKind");
@@ -69,20 +80,21 @@ public class CifTextEditorScanner extends RuleBasedScannerEx {
         // Construct and set predicate rules. Make sure we also have a default
         // token.
         IRule[] rules = new IRule[] { //
-                new KeywordsRule(keywords, CifStyles.KEYWORD.createToken(manager)), //
-                new KeywordsRule(stdlibfuncs, CifStyles.STDLIBFUNC.createToken(manager)), //
-                new KeywordsRule(operators, CifStyles.OPERATOR.createToken(manager)), //
-                new LiteralsRule(literals, CifStyles.DEFAULT.createToken(manager)), //
-                new RegExRule(uNamePat, CifStyles.U_EVENT.createToken(manager)), //
-                new RegExRule(cNamePat, CifStyles.C_EVENT.createToken(manager)), //
-                new RegExRule(eNamePat, CifStyles.E_EVENT.createToken(manager)), //
-                new RegExRule(namePat, CifStyles.IDENTIFIER.createToken(manager)), //
-                new RegExRule(realPat, CifStyles.NUMBER.createToken(manager)), //
-                new IntNumberRule(CifStyles.NUMBER.createToken(manager)), //
-                new WhitespaceRule(new GenericWhitespaceDetector()), //
+                new KeywordsRule(keywords, theme.getStyle(KEYWORD).createToken(manager)),
+                new KeywordsRule(stdlibfuncs, theme.getStyle(STDLIBFUNC).createToken(manager)),
+                new KeywordsRule(operators, theme.getStyle(OPERATOR).createToken(manager)),
+                new LiteralsRule(literals, theme.getStyle(DEFAULT).createToken(manager)),
+                new RegExRule(uNamePat, theme.getStyle(U_EVENT).createToken(manager)),
+                new RegExRule(cNamePat, theme.getStyle(C_EVENT).createToken(manager)),
+                new RegExRule(eNamePat, theme.getStyle(E_EVENT).createToken(manager)),
+                new RegExRule(namePat, theme.getStyle(IDENTIFIER).createToken(manager)),
+                new RegExRule(realPat, theme.getStyle(NUMBER).createToken(manager)),
+                new IntNumberRule(theme.getStyle(NUMBER).createToken(manager)),
+                new WhitespaceRule(new GenericWhitespaceDetector()),
+                //
         };
         setRules(rules);
 
-        setDefaultReturnToken(CifStyles.DEFAULT.createToken(manager));
+        setDefaultReturnToken(theme.getStyle(DEFAULT).createToken(manager));
     }
 }

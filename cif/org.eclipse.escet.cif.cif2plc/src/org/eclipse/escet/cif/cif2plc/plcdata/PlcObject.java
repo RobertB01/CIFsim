@@ -13,22 +13,11 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.Boxable;
-
 /** Base class for PLC objects. */
-public abstract class PlcObject implements Boxable {
+public abstract class PlcObject {
     @Override
-    public final String toString() {
-        return toBox().toString();
-    }
-
-    /**
-     * Returns a {@link Box} representation of the S7 output for this object.
-     *
-     * @return A {@link Box} representation of the S7 output for this object.
-     */
-    public Box toBoxS7() {
-        return toBox();
+    public String toString() {
+        // Make sure that OutputWriter.toBox() isn't silently skipped.
+        throw new AssertionError("PLC objects are not printable.");
     }
 }

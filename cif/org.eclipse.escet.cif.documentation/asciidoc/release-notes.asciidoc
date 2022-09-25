@@ -26,6 +26,21 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version
 
 TBD
 
+New features:
+
+* The CIF controller property checker can now also check whether controllers satisfy the confluence property.
+As the checker now has multiple properties that it can check, each property check can be individually enabled and disabled, and all checks are enabled by default (issue {escet-issue}145[#145]).
+* Two new CIF benchmarking models have been added (issue {escet-issue}364[#364]).
+
+Improvements and fixes:
+
+* The CIF event-based synthesis tool now records removal of non-reachable locations in the synthesis dump file.
+This new information in synthesis dump files is now also taken into account by the CIF event-based synthesis analysis tool (issue {escet-issue}404[#404]).
+* The CIF event-based language equivalence check tool now produces correct counter examples (issues {escet-issue}297[#297] and {escet-issue}405[#405]).
+* The CIF controller checker output has been improved in terms of readability (issue {escet-issue}145[#145]).
+* The CIF controller checker option descriptions and UI have been slightly improved (issue {escet-issue}145[#145]).
+* The CIF controller checker documentation has been improved (issue {escet-issue}145[#145]).
+
 === Version 0.6 (2022-07-07)
 
 Language changes:

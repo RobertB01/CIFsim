@@ -1,0 +1,86 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Consider a 4 x 4 Sudoku:
+//        _ _ _ _
+//       |_|_|_|_|
+//       |_|_|_|_|
+//       |_|_|_|_|
+//       |_|_|_|_|
+//
+// A Sudoku is completed when the following conditions hold:
+//  * Every cell has to contain a 1, 2, 3, or 4.
+//  * Every row has to contain a 1, 2, 3, and 4.
+//  * Every column has to contain a 1, 2, 3, and 4.
+//  * The top-left, top-right, bottom-left, and bottom-right 2x2 grid have to contain a 1, 2, 3, and 4.
+
+plant def Cell():
+  controllable c_1, c_2, c_3, c_4;
+  disc int[0..4] Value = 0;
+  location:
+    initial;
+    marked Value > 0; // Each cell has to contain a 1, 2, 3, or 4.
+    edge c_1 when Value = 0 do Value := 1;
+    edge c_2 when Value = 0 do Value := 2;
+    edge c_3 when Value = 0 do Value := 3;
+    edge c_4 when Value = 0 do Value := 4;
+end
+
+// 1st row.
+h11 : Cell();
+h12 : Cell();
+h13 : Cell();
+h14 : Cell();
+
+// 2nd row.
+h21 : Cell();
+h22 : Cell();
+h23 : Cell();
+h24 : Cell();
+
+// 3rd row.
+h31 : Cell();
+h32 : Cell();
+h33 : Cell();
+h34 : Cell();
+
+// 4th row.
+h41 : Cell();
+h42 : Cell();
+h43 : Cell();
+h44 : Cell();
+
+group def Constraints(alg int Digit):
+  // Every row has to contain a [Digit].
+  marked h11.Value = Digit or h12.Value = Digit or h13.Value = Digit or h14.Value = Digit;
+  marked h21.Value = Digit or h22.Value = Digit or h23.Value = Digit or h24.Value = Digit;
+  marked h31.Value = Digit or h32.Value = Digit or h33.Value = Digit or h34.Value = Digit;
+  marked h41.Value = Digit or h42.Value = Digit or h43.Value = Digit or h44.Value = Digit;
+
+  // Every column has to contain a [Digit].
+  marked h11.Value = Digit or h21.Value = Digit or h31.Value = Digit or h41.Value = Digit;
+  marked h12.Value = Digit or h22.Value = Digit or h32.Value = Digit or h42.Value = Digit;
+  marked h13.Value = Digit or h23.Value = Digit or h33.Value = Digit or h43.Value = Digit;
+  marked h14.Value = Digit or h24.Value = Digit or h34.Value = Digit or h44.Value = Digit;
+
+  // Each 2x2 has to contain a [Digit].
+  marked h11.Value = Digit or h12.Value = Digit or h21.Value = Digit or h22.Value = Digit;
+  marked h13.Value = Digit or h14.Value = Digit or h23.Value = Digit or h24.Value = Digit;
+  marked h31.Value = Digit or h32.Value = Digit or h41.Value = Digit or h42.Value = Digit;
+  marked h33.Value = Digit or h34.Value = Digit or h43.Value = Digit or h44.Value = Digit;
+end
+
+c1: Constraints(1);
+c2: Constraints(2);
+c3: Constraints(3);
+c4: Constraints(4);

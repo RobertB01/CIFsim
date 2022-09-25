@@ -27,9 +27,11 @@ import org.eclipse.escet.cif.metamodel.cif.AlgParameter;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
+import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
 import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
+import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
@@ -50,6 +52,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BaseFunctionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
@@ -1595,6 +1598,104 @@ public class CifTextUtils {
         } else {
             Assert.check(locOrComp instanceof ComplexComponent);
             return getComponentText2((ComplexComponent)locOrComp);
+        }
+    }
+
+    /**
+     * Returns a description of the type of named object that is provided:
+     * <ul>
+     * <li>{@link AlgVariable}: {@code "algebraic variable"} or {@code "algebraic parameter"}</li>
+     * <li>{@link Automaton}: {@code "automaton"} or {@code "automaton definition"}</li>
+     * <li>{@link ComponentDef}: {@code "automaton definition"} or {@code "group definition"}</li>
+     * <li>{@link ComponentInst}: {@code "component instantiation"}</li>
+     * <li>{@link Constant}: {@code "constant"}</li>
+     * <li>{@link ContVariable}: {@code "continuous variable"}</li>
+     * <li>{@link DiscVariable}: {@code "discrete variable"}, {@code "function variable"} or
+     * {@code "function parameter"}</li>
+     * <li>{@link EnumDecl}: {@code "enumeration declaration"}</li>
+     * <li>{@link EnumLiteral}: {@code "enumeration literal"}</li>
+     * <li>{@link Event}: {@code "event"} or {@code "event parameter"}</li>
+     * <li>{@link Function}: {@code "user-defined function"}</li>
+     * <li>{@link FunctionParameter}: {@code "function parameter"}</li>
+     * <li>{@link Group}: {@code "group"} or {@code "group definition"}</li>
+     * <li>{@link InputVariable}: {@code "input variable"}</li>
+     * <li>{@link Invariant}: {@code "invariant"}</li>
+     * <li>{@link Location}: {@code "location"} or {@code "location parameter"}</li>
+     * <li>{@link Parameter}: {@code "algebraic parameter"}, {@code "component parameter"}, {@code "event parameter"} or
+     * {@code "location parameter"}</li>
+     * <li>{@link TypeDecl}: {@code "type declaration"}</li>
+     * </ul>
+     *
+     * @param obj The {@link #hasName named object}.
+     * @return The object type description.
+     * @see #hasName
+     */
+    public static String getTypeDescriptionForNamedObject(PositionObject obj) {
+        Assert.check(hasName(obj));
+
+        if (obj instanceof AlgVariable) {
+            return (obj.eContainer() instanceof Parameter) ? "algebraic parameter" : "algebraic variable";
+        } else if (obj instanceof Automaton) {
+            return (obj.eContainer() instanceof ComponentDef) ? "automaton definition" : "automaton";
+        } else if (obj instanceof ComponentDef) {
+            ComplexComponent body = ((ComponentDef)obj).getBody();
+            if (body instanceof Automaton) {
+                return "automaton definition";
+            } else if (body instanceof Group) {
+                return "group definition";
+            } else {
+                throw new RuntimeException("Unknown component definition body: " + body);
+            }
+        } else if (obj instanceof ComponentInst) {
+            return "component instantiation";
+        } else if (obj instanceof Constant) {
+            return "constant";
+        } else if (obj instanceof ContVariable) {
+            return "continuous variable";
+        } else if (obj instanceof DiscVariable) {
+            if (obj.eContainer() instanceof Function) {
+                return "function variable";
+            } else if (obj.eContainer() instanceof FunctionParameter) {
+                return "function parameter";
+            } else {
+                Assert.check(obj.eContainer() instanceof Automaton);
+                return "discrete variable";
+            }
+        } else if (obj instanceof EnumDecl) {
+            return "enumeration declaration";
+        } else if (obj instanceof EnumLiteral) {
+            return "enumeration literal";
+        } else if (obj instanceof Event) {
+            return (obj.eContainer() instanceof Parameter) ? "event parameter" : "event";
+        } else if (obj instanceof Function) {
+            return "user-defined function";
+        } else if (obj instanceof FunctionParameter) {
+            return "function parameter";
+        } else if (obj instanceof Group) {
+            // Specifications don't have a name, and are thus not supported.
+            return (obj.eContainer() instanceof ComponentDef) ? "group definition" : "group";
+        } else if (obj instanceof InputVariable) {
+            return "input variable";
+        } else if (obj instanceof Invariant) {
+            return "invariant";
+        } else if (obj instanceof Location) {
+            return (obj.eContainer() instanceof Parameter) ? "location parameter" : "location";
+        } else if (obj instanceof Parameter) {
+            if (obj instanceof AlgParameter) {
+                return "algebraic parameter";
+            } else if (obj instanceof ComponentParameter) {
+                return "component parameter";
+            } else if (obj instanceof EventParameter) {
+                return "event parameter";
+            } else if (obj instanceof LocationParameter) {
+                return "location parameter";
+            } else {
+                throw new RuntimeException("Unexpected component definition parameter: " + obj);
+            }
+        } else if (obj instanceof TypeDecl) {
+            return "type declaration";
+        } else {
+            throw new RuntimeException("Unexpected object: " + obj);
         }
     }
 }

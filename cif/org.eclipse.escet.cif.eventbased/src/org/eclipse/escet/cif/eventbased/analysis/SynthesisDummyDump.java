@@ -66,4 +66,9 @@ public class SynthesisDummyDump implements SynthesisDumpInterface {
     public void nonCoreachableLocation(Location loc) {
         // Nothing to do.
     }
+
+    @Override
+    public void nonReachableLocation(Location loc) {
+        // Nothing to do.
+    }
 }

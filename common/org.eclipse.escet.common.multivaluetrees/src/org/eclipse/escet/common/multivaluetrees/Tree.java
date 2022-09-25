@@ -123,7 +123,11 @@ public class Tree {
     /**
      * Build equality condition for a variable for a given value of the variable.
      *
-     * @param varInfo Variable to use in the equality.
+     * <p>
+     * Construct {@code (v == value)}.
+     * </p>
+     *
+     * @param varInfo Variable {@code v} to use in the equality.
      * @param value Desired value of the variable in the tree.
      * @return Tree with the constructed condition (that is, a single node).
      */
@@ -134,7 +138,11 @@ public class Tree {
     /**
      * Build equality condition for a variable for a given value index of the variable.
      *
-     * @param varInfo Variable to use in the equality.
+     * <p>
+     * Construct {@code (v at index)}.
+     * </p>
+     *
+     * @param varInfo Variable {@code v} to use in the equality.
      * @param index Desired value index of the variable in the tree.
      * @return Tree with the constructed condition (that is, a single node).
      */
@@ -145,13 +153,20 @@ public class Tree {
     /**
      * Build equality condition for a variable for a given value at a given index on top of an existing tree.
      *
-     * @param varInfo Variable to use in the equality.
+     * <p>
+     * Construct {@code (v at index) and sub} where {@code sub} must be below {@code v} in the tree.
+     * </p>
+     *
+     * @param varInfo Variable {@code v} to use in the equality.
      * @param index Desired value index of the variable in the tree.
      * @param sub Existing tree to build the equality on.
      * @return Tree with the constructed condition (that is, a single node).
      */
     public Node buildEqualityIndex(VarInfo varInfo, int index, Node sub) {
-        Assert.check(sub == Tree.ZERO || sub == Tree.ONE || sub.varInfo.level > varInfo.level);
+        if (sub == Tree.ZERO) {
+            return Tree.ZERO; // Anything and false = false.
+        }
+        Assert.check(sub == Tree.ONE || sub.varInfo.level > varInfo.level);
 
         Node[] childs = new Node[varInfo.length];
         Arrays.fill(childs, Tree.ZERO);
@@ -160,7 +175,78 @@ public class Tree {
     }
 
     /**
+     * Construct an identity equation between the two given variables.
+     *
+     * <p>
+     * Construct <pre>
+     *    (first == 0 and second == 0)
+     * or (first == 1 and second == 1)
+     * or ...
+     * or (first == N - 1 and second == N - 1)
+     * </pre>
+     * </p>
+     *
+     * @param first First variable in the identity equation.
+     * @param second Second variable in the identity equation.
+     * @return The constructed identity equation.
+     */
+    public Node identity(VarInfo first, VarInfo second) {
+        return identity(first, second, Tree.ONE);
+    }
+
+    /**
+     * Construct an identity equation between the two given variables.
+     *
+     * <p>
+     * Construct <pre>
+     * (   (first == 0 and second == 0)
+     *  or (first == 1 and second == 1)
+     *  or ...
+     *  or (first == N - 1 and second == N - 1)
+     * ) and sub
+     * </pre> Where {@code sub} must be below both {@code first} and {@code second}.
+     * </p>
+     *
+     * @param first Variable {@code first} in the identity equation.
+     * @param second Variable {@code second} in the identity equation.
+     * @param sub Node to use below the identity equation.
+     * @return The constructed identity equation.
+     */
+    public Node identity(VarInfo first, VarInfo second, Node sub) {
+        Assert.areEqual(first.length, second.length);
+
+        // Handle the cases where adding the equality equation doesn't change anything.
+        if (sub == Tree.ZERO || first == second) {
+            return sub;
+        }
+
+        // Find the highest and lowest node in the identity.
+        VarInfo bottom, top;
+        if (first.level > second.level) {
+            bottom = first;
+            top = second;
+        } else {
+            bottom = second;
+            top = first;
+        }
+
+        // Lowest nodes in the identity should still be above 'sub'.
+        Assert.check(sub == Tree.ONE || sub.varInfo.level > bottom.level);
+
+        // Construct identity equation between both nodes.
+        Node[] topChilds = new Node[top.length];
+        for (int v = 0; v < top.length; v++) {
+            topChilds[v] = buildEqualityIndex(bottom, v, sub);
+        }
+        return addNode(top, topChilds);
+    }
+
+    /**
      * Compute the conjunction of trees 'a' and 'b'.
+     *
+     * <p>
+     * Compute {@code a and b}.
+     * </p>
      *
      * @param a First tree to merge.
      * @param b Second tree to merge.
@@ -252,6 +338,10 @@ public class Tree {
     /**
      * Compute the conjunction of several trees.
      *
+     * <p>
+     * Compute {@code nodes[0] and nodes[1] and ... and nodes[last]}.
+     * </p>
+     *
      * @param nodes Trees to merge in conjunction.
      * @return The result tree after the merge.
      */
@@ -291,6 +381,10 @@ public class Tree {
 
     /**
      * Compute the disjunction of trees 'a' and 'b'.
+     *
+     * <p>
+     * Compute {@code a or b}.
+     * </p>
      *
      * @param a First tree to merge.
      * @param b Second tree to merge.
@@ -385,6 +479,10 @@ public class Tree {
     /**
      * Compute the disjunction of several trees.
      *
+     * <p>
+     * Compute {@code nodes[0] or nodes[1] or ... or nodes[last]}.
+     * </p>
+     *
      * @param nodes Trees to merge in disjunction.
      * @return The result tree after the merge.
      */
@@ -426,6 +524,10 @@ public class Tree {
     /**
      * Perform the invert (NOT) operator on a tree.
      *
+     * <p>
+     * Compute {@code not n}.
+     * </p>
+     *
      * @param n Root node to invert.
      * @return The inverted tree.
      */
@@ -447,6 +549,10 @@ public class Tree {
 
     /**
      * Perform a variable abstraction on a tree, where the node is replaced by a disjunction over its children.
+     *
+     * <p>
+     * Remove all variables in {@code abstractions} from {@code n}.
+     * </p>
      *
      * @param n Root of the tree to modify.
      * @param abstractions Variable abstractions to perform. Must be ordered on increasing level in the tree.
@@ -512,11 +618,15 @@ public class Tree {
      * sub-expression for that case and eliminates that variable from the expression as well.
      *
      * <p>
+     * Extract the node where {@code v at index} while discarding {@code v}.
+     * </p>
+     *
+     * <p>
      * TODO: This function performs two different things, which may be useful to split somewhen.
      * </p>
      *
      * @param n Node to modify for the assignment.
-     * @param varInfo Variable to assign.
+     * @param varInfo Variable {@code v} to assign.
      * @param index Value index of the variable.
      * @return Sub-expression that holds for that value, excluding the variable and its value.
      */

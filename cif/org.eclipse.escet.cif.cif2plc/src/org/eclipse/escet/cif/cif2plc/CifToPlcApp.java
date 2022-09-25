@@ -121,22 +121,22 @@ public class CifToPlcApp extends Application<IOutputComponent> {
         // Write PLC code.
         switch (outType) {
             case PLC_OPEN_XML:
-                PlcOpenXmlWriter.write(project, outPath);
+                new PlcOpenXmlWriter().write(project, outPath);
                 break;
 
             case IEC_61131_3:
-                Iec611313Writer.write(project, outPath);
+                new Iec611313Writer().write(project, outPath);
                 break;
 
             case TWINCAT:
-                TwinCatWriter.write(project, outPath);
+                new TwinCatWriter().write(project, outPath);
                 break;
 
             case S7_1500:
             case S7_1200:
             case S7_400:
             case S7_300:
-                S7Writer.write(project, outPath);
+                new S7Writer(outType).write(project, outPath);
                 break;
 
             default:

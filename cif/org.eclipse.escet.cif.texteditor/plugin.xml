@@ -39,4 +39,13 @@
       <super type="org.eclipse.core.resources.problemmarker"/>
       <super type="org.eclipse.core.resources.textmarker"/>
    </extension>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.escet.cif.texteditor.CifTextEditorPreferencePage"
+            id="org.eclipse.escet.cif.texteditor.CifTextEditorPreferencePage"
+            name="CIF Text Editor">
+      </page>
+   </extension>
 </plugin>

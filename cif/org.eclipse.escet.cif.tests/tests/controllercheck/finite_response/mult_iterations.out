@@ -1,0 +1,28 @@
+Loading CIF specification "controllercheck/finite_response/mult_iterations.cif"...
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton Actuator2:
+        (Actuator2.c_on Actuator2.c_off), which is not controllable unconnectable.
+    The following events have been encountered in a controllable-event loop of automaton Actuator1:
+        (Actuator1.c_on Actuator1.c_off), which is controllable unconnectable.
+    The following events have been encountered in a controllable-event loop of automaton RequirementStateEvtExcls:
+        (Actuator2.c_on), which is not controllable unconnectable.
+        (Actuator2.c_off), which is not controllable unconnectable.
+
+Iteration 2.
+    The following events have been encountered in a controllable-event loop of automaton Actuator2:
+        (Actuator2.c_on Actuator2.c_off), which is controllable unconnectable.
+
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (Actuator1.c_off, Actuator1.c_on), (Actuator1.c_off, Actuator2.c_off), (Actuator1.c_on, Actuator2.c_on), (Actuator2.c_off, Actuator2.c_on)
+
+CONCLUSION:
+    [OK] The specification has finite response.
+
+    [ERROR] The specification may NOT have confluence.
+    
+        Confluence of the following event pairs could not be decided:
+            (Actuator1.c_off, Actuator2.c_on), (Actuator1.c_on, Actuator2.c_off)

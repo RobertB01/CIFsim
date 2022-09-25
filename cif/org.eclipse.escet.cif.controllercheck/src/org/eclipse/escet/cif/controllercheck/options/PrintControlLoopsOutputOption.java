@@ -24,7 +24,7 @@ public class PrintControlLoopsOutputOption extends BooleanOption {
                 "Print control loops",
 
                 // description.
-                "Whether to print the events that appear in control loops to the console (BOOL=yes) or not (BOOL=no). "
+                "Whether to print the events that appear in finite response control loops to the console (BOOL=yes) or not (BOOL=no). "
                         + "[DEFAULT=yes]",
 
                 // cmdShort.
@@ -43,10 +43,10 @@ public class PrintControlLoopsOutputOption extends BooleanOption {
                 true,
 
                 // optDialogDescr.
-                "Print events that appear in control loops to the console.",
+                "Whether to print the events that appear in finite response control loops to the console.",
 
                 // optDialogCheckboxText.
-                "Print events.");
+                "Print events");
     }
 
     /**

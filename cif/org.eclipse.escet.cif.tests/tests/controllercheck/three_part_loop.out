@@ -1,9 +1,0 @@
-Loading CIF specification "controllercheck/three_part_loop.cif"...
-Checking for finite response...
-
-Iteration 1.
-    The following events have been encountered in a controllable-event loop of automaton X:
-        (X.a X.b X.c), which is controllable unconnectable.
-
-CONCLUSION:
-    The specification has finite response.

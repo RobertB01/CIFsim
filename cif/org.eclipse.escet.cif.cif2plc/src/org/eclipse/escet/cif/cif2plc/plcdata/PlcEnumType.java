@@ -15,9 +15,6 @@ package org.eclipse.escet.cif.cif2plc.plcdata;
 
 import java.util.List;
 
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.TextBox;
-
 /** PLC enum type. */
 public class PlcEnumType extends PlcType {
     /** The literals of the enum type. */
@@ -30,10 +27,5 @@ public class PlcEnumType extends PlcType {
      */
     public PlcEnumType(List<String> literals) {
         this.literals = literals;
-    }
-
-    @Override
-    public Box toBox() {
-        return new TextBox("(%s)", String.join(", ", literals));
     }
 }

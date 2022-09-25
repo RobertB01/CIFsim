@@ -13,9 +13,6 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import org.eclipse.escet.common.box.Box;
-import org.eclipse.escet.common.box.TextBox;
-
 /** PLC derived type (reference to a user-defined data type or POU). */
 public class PlcDerivedType extends PlcType {
     /** PLC 'STATE' type reference. */
@@ -31,10 +28,5 @@ public class PlcDerivedType extends PlcType {
      */
     public PlcDerivedType(String name) {
         this.name = name;
-    }
-
-    @Override
-    public Box toBox() {
-        return new TextBox(name);
     }
 }

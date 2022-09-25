@@ -1,0 +1,395 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2018, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "plant.cif";
+
+// Requirements as described in Section 5.2 and Section 5.5 of the paper.
+group safety_reqirements:
+  group Requirement1:
+    alg bool Fault1 = FTC.D.ps1_f or FTC.D.ps2_f or FTC.D.ps3_f; // Pre sign 1, 2 or 3 defect.
+    alg bool Fault2 = FTC.D.ps4_f or FTC.D.ps5_f or FTC.D.ps6_f; // Pre sign 4, 5 or 6 defect.
+    alg bool Fault3 = FTC.D.bridge_f; // Undesired bridge opening.
+
+    // (N1) If not all pre-signs are enabled, the stop signs cannot be enabled.
+    group Nominal:
+      requirement {LTS.stopsigns.stop1.c_on, LTS.stopsigns.stop2.c_on, LTS.stopsigns.stop3.c_on,
+                   LTS.stopsigns.stop4.c_on, LTS.stopsigns.stop5.c_on, LTS.stopsigns.stop6.c_on,
+                   LTS.stopsigns.stop7.c_on, LTS.stopsigns.stop8.c_on}
+            needs not Fault3 => (not Fault1 => LTS.presigns.C_on) and //Pre sign 1, 2 & 3 on.
+                                (not Fault2 => LTS.presigns.K_on);    //Pre sign 4, 5 & 6 on.
+    end
+
+    // (FTC1a) If at least 2 out of 3 pre-signs are enabled, while the other is broken,
+    //         the stop signs are allowed to enable.
+    group PostFault1or2:
+      requirement {LTS.stopsigns.stop1.c_on, LTS.stopsigns.stop2.c_on, LTS.stopsigns.stop3.c_on,
+                   LTS.stopsigns.stop4.c_on, LTS.stopsigns.stop5.c_on, LTS.stopsigns.stop6.c_on,
+                   LTS.stopsigns.stop7.c_on, LTS.stopsigns.stop8.c_on}
+            needs not Fault3 => (Fault1 => LTS.presigns.C_onF) and // 2 out of 3 from pre sign 1, 2 & 3 on.
+                                (Fault2 => LTS.presigns.K_onF);    // 2 out of 3 from pre sign 4, 5 & 6 on.
+    end
+
+    // (FTC1b) If the bridge deck erroneously opens, all signaling lights should immediately turn on.
+    group PostFault3:
+      requirement {LTS.stopsigns.stop1.c_on, LTS.stopsigns.stop2.c_on, LTS.stopsigns.stop3.c_on,
+                   LTS.stopsigns.stop4.c_on, LTS.stopsigns.stop5.c_on, LTS.stopsigns.stop6.c_on,
+                   LTS.stopsigns.stop7.c_on, LTS.stopsigns.stop8.c_on}
+            needs Fault3 => true;
+    end
+  end
+
+  group Requirement2:
+    alg bool Fault1 = FTC.D.s1_f or FTC.D.s2_f; // Stop sign 1 or 2 defect.
+    alg bool Fault2 = FTC.D.s3_f or FTC.D.s4_f; // Stop sign 3 or 4 defect.
+    alg bool Fault3 = FTC.D.s5_f or FTC.D.s6_f; // Stop sign 5 or 6 defect.
+    alg bool Fault4 = FTC.D.s7_f or FTC.D.s8_f; // stop sign 7 or 8 defect.
+
+    //(N2) If not all stop signs are enabled, the entering barriers cannot be closed.
+    group Nominal:
+      requirement {barriers.barrier3.c_close, barriers.barrier2.c_close,
+                   barriers.barrier5.c_close, barriers.barrier6.c_close}
+            needs (not Fault1 => LTS.stopsigns.C_on ) and // Stop sign 1 & 2 on.
+                  (not Fault2 => LTS.stopsigns.K_on ) and // Stop sign 3 & 4 on.
+                  (not Fault3 => LTS.stopsigns.SC_on) and // Stop sign 5 & 6 on.
+                  (not Fault4 => LTS.stopsigns.SK_on);    // Stop sign 7 & 8 on.
+    end
+
+    //(FTC2) If at least 1 out of 2 stop signs is enabled, while the other is broken,
+    //       the entering barriers are allowed to close.
+    group PostFault:
+      requirement {barriers.barrier2.c_close, barriers.barrier3.c_close,
+                   barriers.barrier5.c_close, barriers.barrier6.c_close}
+            needs (Fault1 => LTS.stopsigns.C_onF ) and // 1 out of 2 from stop sign 1 & 2 on.
+                  (Fault2 => LTS.stopsigns.K_onF ) and // 1 out of 2 from stop sign 3 & 4 on.
+                  (Fault3 => LTS.stopsigns.SC_onF) and // 1 out of 2 from stop sign 5 & 6 on.
+                  (Fault4 => LTS.stopsigns.SK_onF);    // 1 out of 2 from stop sign 7 & 8 on.
+    end
+  end
+
+  group Requirement3:
+    // (N3) If not all entering barriers are closed, the leaving barriers cannot be closed.
+    group Nominal:
+      requirement {barriers.barrier1.c_close, barriers.barrier4.c_close}
+            needs  barriers.entering_closed; // Barriers 2 & 3 closed.
+    end
+  end
+
+  group Requirement4:
+    // (N4) If not all barriers are closed, the bridge cannot be opened.
+    group Nominal:
+      requirement bridgedeck.c_open
+            needs barriers.entering_closed and barriers.leaving_closed and barriers.slow_closed;
+    end
+  end
+
+  group Requirement5:
+    // (N5) If the bridge is not open, the shipping signs cannot show a green aspect.
+    group Nominal:
+        requirement {shipping_signs.upstream.N.c_green,   shipping_signs.upstream.S.c_green,
+                     shipping_signs.downstream.N.c_green, shipping_signs.downstream.S.c_green}
+              needs bridgedeck.bridgedeck_up;
+    end
+  end
+
+  group Requirement6:
+    // (N6) If not all shipping signs show a red or redred aspect, the bridge cannot be closed.
+    group Nominal:
+      requirement bridgedeck.c_close
+            needs shipping_signs.RedOrRedRed;
+    end
+  end
+
+  group Requirement7:
+    // (N7) If the bridge is not closed, the barriers cannot be opened.
+    group Nominal:
+      requirement {barriers.barrier1.c_open , barriers.barrier2.c_open , barriers.barrier3.c_open ,
+                   barriers.barrier4.c_open , barriers.barrier5.c_open , barriers.barrier6.c_open }
+            needs  bridgedeck.bridgedeck_closed;
+    end
+  end
+
+  group Requirement8:
+    alg bool Fault1 = FTC.D.bar1_f; // Barrier1 stuck closed.
+    alg bool Fault2 = FTC.D.bar4_f; // Barrier4 stuck closed.
+
+    // (N8) If not all leaving barriers are open, the entering barriers cannot be opened.
+    group Nominal:
+      requirement {barriers.barrier2.c_open, barriers.barrier3.c_open}
+            needs (not Fault1 => barriers.barrier1.open) and
+                  (not Fault2 => barriers.barrier4.open);
+    end
+
+    // (FTC8) If a barrier is stuck in the closed position, the barriers belonging
+    //        to the other traffic lanes are allowed to open.
+    group PostFault:
+      requirement barriers.barrier2.c_open
+            needs (Fault1 => false) and // If barrier 1 stuck-closed, 2 cannot open.
+                  (Fault2 => true);     // If barrier 4 stuck-closed, 2 can open.
+      requirement barriers.barrier3.c_open
+            needs (Fault1 => true) and  // If barrier 1 stuck-closed, 3 can open.
+                  (Fault2 => false);    // If barrier 4 stuck-closed, 3 cannot open.
+    end
+  end
+
+  group Requirement9:
+     alg bool Fault1 = FTC.D.bar1_f or FTC.D.bar2_f; // Barrier 1 or 2 stuck closed (K to C.)
+     alg bool Fault2 = FTC.D.bar3_f or FTC.D.bar4_f; // Barrier 3 or 4 stuck closed (C to K).
+     alg bool Fault3 = FTC.D.bar5_f or FTC.D.bar6_f; // Barrier 5 or 6 stuck closed (Slow).
+
+     // (N9) If not all barriers are open, the stop signs cannot be disabled.
+     group Nominal:
+       requirement {LTS.stopsigns.stop1.c_off, LTS.stopsigns.stop2.c_off,
+                    LTS.stopsigns.stop3.c_off, LTS.stopsigns.stop4.c_off, LTS.stopsigns.stop5.c_off,
+                    LTS.stopsigns.stop6.c_off, LTS.stopsigns.stop7.c_off, LTS.stopsigns.stop8.c_off}
+              needs(not Fault1 => barriers.KtoC_open) and
+                   (not Fault2 => barriers.CtoK_open) and
+                   (not Fault3 => barriers.slow_open);
+     end
+
+     // (FTC9) If a barrier is stuck in the closed position, the stop signs belonging
+     //        to the other traffic lanes are allowed to disable.
+     group PostFault:
+       requirement {LTS.stopsigns.stop3.c_off, LTS.stopsigns.stop4.c_off}
+              needs(Fault1 => false) and // If barrier 1 or 2 stuck closed, stop 3 & 4 not allowed to turn off.
+                   (Fault2 => true)  and
+                   (Fault3 => true);
+
+       requirement {LTS.stopsigns.stop1.c_off, LTS.stopsigns.stop2.c_off}
+              needs(Fault1 => true)  and
+                   (Fault2 => false) and // If barrier 3 or 4 stuck closed, stop 1 & 2 not allowed to turn off.
+                   (Fault3 => true);
+
+       requirement {LTS.stopsigns.stop5.c_off, LTS.stopsigns.stop6.c_off,
+                    LTS.stopsigns.stop7.c_off, LTS.stopsigns.stop8.c_off}
+              needs(Fault1 => true)  and
+                   (Fault2 => true)  and
+                   (Fault3 => false);    // If barrier 5 or 6 stuck closed, stop 5, 6, 7 & 8 not allowed to turn off.
+     end
+  end
+
+  group Requirement10:
+     alg bool Fault1 = FTC.D.bar1_f or FTC.D.bar2_f; // Barrier 1 or 2 stuck closed (K to C).
+     alg bool Fault2 = FTC.D.bar3_f or FTC.D.bar4_f; // Barrier 3 or 4 stuck closed (C to K).
+     alg bool Fault3 = FTC.D.bar5_f or FTC.D.bar6_f; // Barrier 5 or 6 stuck closed (Slow).
+
+     // (N10) If not all stop signs are disabled, the pre signs cannot be disabled.
+     group Nominal:
+       requirement {LTS.presigns.ps1.c_off, LTS.presigns.ps2.c_off, LTS.presigns.ps3.c_off,
+                    LTS.presigns.ps4.c_off, LTS.presigns.ps5.c_off, LTS.presigns.ps6.c_off}
+             needs (not Fault1 => LTS.stopsigns.K_off) and // Stop signs 3 & 4 disabled.
+                   (not Fault2 => LTS.stopsigns.C_off) and // Stop signs 1 & 2 disabled.
+                   (not Fault3 => LTS.stopsigns.slow_off); // Stop signs 5, 6, 7 & 8 disabled.
+     end
+
+     // (FTC10) If a barrier is stuck in the closed position, the pre signs belonging
+     //         to the other traffic lanes are allowed to disable.
+     group PostFault:
+       requirement {LTS.presigns.ps1.c_off, LTS.presigns.ps2.c_off, LTS.presigns.ps3.c_off}
+             needs (Fault1 => true)  and // If barrier 1 or 2 is stuck-closed then stop sign 3 & 4       cannot turn off, pre sign 1, 2 & 3 are     allowed to turn off.
+                   (Fault2 => false) and // If barrier 3 or 4 is stuck-closed then stop sign 1 & 2       cannot turn off, pre sign 1, 2 & 3 are not allowed to turn off.
+                   (Fault3 => true);     // If barrier 5 or 6 is stuck-closed then stop sign 5, 6, 7 & 8 cannot turn off, pre sign 1, 2 & 3 are     allowed to turn off.
+       requirement {LTS.presigns.ps4.c_off, LTS.presigns.ps5.c_off, LTS.presigns.ps6.c_off}
+             needs (Fault1 => false) and // If barrier 1 or 2 is stuck-closed then stop sign 3 & 4       cannot turn off, pre sign 4, 5, & 6 are not allowed to turn off.
+                   (Fault2 => true)  and // If barrier 3 or 4 is stuck-closed then stop sign 1 & 2       cannot turn off, pre sign 4, 5, & 6 are     allowed to turn off.
+                   (Fault3 => true);     // If barrier 5 or 6 is stuck-closed then stop sign 5, 6, 7 & 8 cannot turn off, pre sign 4, 5, & 6 are     allowed to turn off.
+     end
+  end
+end
+
+// Functional requirements to map operator instructions to actions.
+group function_requirements:
+  group LTS_Functional:
+    group def Sign(event sign_c_on, sign_c_off):
+      alg bool f_bridge = FTC.D.bridge_f;
+
+      // (FN1a) A sign is allowed to turn on when the enable land traffic signs button is pushed.
+      // (FN1b) A sign is allowed to turn off when the close bridge deck button is pushed, while the land traffic signs button is not pushed.
+      group Nominal:
+        requirement sign_c_on
+              needs not f_bridge => LTS.button_on.pushed;
+        requirement sign_c_off
+              needs not f_bridge => (bridgedeck.command_close and not LTS.button_on.pushed);
+      end
+
+      // (FTC1b) If the bridge deck erroneously opens, all signaling lights should immediately turn on.
+      group PostFault2:
+        requirement sign_c_on
+              needs f_bridge => true;
+        requirement sign_c_off
+              needs f_bridge => true;
+      end
+    end
+
+    group stopsigns:
+      stopsign1 : Sign(LTS.stopsigns.stop1.c_on, LTS.stopsigns.stop1.c_off);
+      stopsign2 : Sign(LTS.stopsigns.stop2.c_on, LTS.stopsigns.stop2.c_off);
+      stopsign3 : Sign(LTS.stopsigns.stop3.c_on, LTS.stopsigns.stop3.c_off);
+      stopsign4 : Sign(LTS.stopsigns.stop4.c_on, LTS.stopsigns.stop4.c_off);
+      stopsign5 : Sign(LTS.stopsigns.stop5.c_on, LTS.stopsigns.stop5.c_off);
+      stopsign6 : Sign(LTS.stopsigns.stop6.c_on, LTS.stopsigns.stop6.c_off);
+      stopsign7 : Sign(LTS.stopsigns.stop7.c_on, LTS.stopsigns.stop7.c_off);
+      stopsign8 : Sign(LTS.stopsigns.stop8.c_on, LTS.stopsigns.stop8.c_off);
+    end
+
+    group presigns:
+      presignps1 : Sign(LTS.presigns.ps1.c_on, LTS.presigns.ps1.c_off);
+      presignps2 : Sign(LTS.presigns.ps2.c_on, LTS.presigns.ps2.c_off);
+      presignps3 : Sign(LTS.presigns.ps3.c_on, LTS.presigns.ps3.c_off);
+      presignps4 : Sign(LTS.presigns.ps4.c_on, LTS.presigns.ps4.c_off);
+      presignps5 : Sign(LTS.presigns.ps5.c_on, LTS.presigns.ps5.c_off);
+      presignps6 : Sign(LTS.presigns.ps6.c_on, LTS.presigns.ps6.c_off);
+    end
+  end
+
+  group Barriers_Functional:
+    group def barrier (event barrier_c_close, barrier_c_stop, barrier_c_open;
+                       alg bool command_close, command_open, command_stop,
+                                barrier_S_closed, barrier_S_open,
+                                barrier_A_closing, barrier_A_opening,
+                                f_sc): // barrier stuck closed.
+
+      // (FN2a) A barrier is allowed to close when the close barriers button is pushed, and the barrier is not already closed.
+      // (FN2b) A barrier is allowed to stop when:
+        // (FN2b.1) The stop barriers button is pushed, or
+        // (FN2b.2) The barrier reaches the fully closed position while closing, or
+        // (FN2b.3) The barrier reaches the fully open position while opening.
+      // (FN3c) A barrier is allowed to open when it not fully open and the stop and closed button are not pushed, and when:
+        // (FN3c.1) The open barrier button is pushed, or
+        // (FN3c.2) The close bridge deck button is pushed.
+      group Nominal:
+        requirement barrier_c_close
+              needs not f_sc => (command_close and
+                                not barrier_S_closed);
+
+        requirement barrier_c_stop
+              needs not f_sc => (command_stop or
+                                (barrier_S_closed and barrier_A_closing) or
+                                (barrier_S_open   and barrier_A_opening));
+        requirement barrier_c_open
+              needs not f_sc => ((command_open or bridgedeck.command_close) and
+                                not command_close and
+                                not command_stop  and
+                                not barrier_S_open);
+      end
+
+      // (FF2) If a barrier is stuck closed it stops and cannot start again.
+      group PostFault:
+        requirement barrier_c_stop
+              needs f_sc => true;
+
+        requirement barrier_c_close
+              needs f_sc => false;
+
+        requirement barrier_c_open
+              needs f_sc => false;
+      end
+    end
+
+    barrier1 : barrier(barriers.barrier1.c_close, barriers.barrier1.c_stop, barriers.barrier1.c_open,
+                       barriers.command_close_leaving, barriers.command_open_leaving, barriers.command_stop_leaving,
+                       barriers.barrier1.S.closed,  barriers.barrier1.S.open,
+                       barriers.barrier1.A.closing, barriers.barrier1.A.opening,
+                       FTC.D.bar1_f);
+    barrier2 : barrier(barriers.barrier2.c_close, barriers.barrier2.c_stop, barriers.barrier2.c_open,
+                       barriers.command_close_entering, barriers.command_open_entering, barriers.command_stop_entering,
+                       barriers.barrier2.S.closed,  barriers.barrier2.S.open,
+                       barriers.barrier2.A.closing, barriers.barrier2.A.opening,
+                       FTC.D.bar2_f);
+    barrier3 : barrier(barriers.barrier3.c_close, barriers.barrier3.c_stop, barriers.barrier3.c_open,
+                       barriers.command_close_entering, barriers.command_open_entering, barriers.command_stop_entering,
+                       barriers.barrier3.S.closed,  barriers.barrier3.S.open,
+                       barriers.barrier3.A.closing, barriers.barrier3.A.opening,
+                       FTC.D.bar3_f);
+    barrier4 : barrier(barriers.barrier4.c_close, barriers.barrier4.c_stop, barriers.barrier4.c_open,
+                       barriers.command_close_leaving, barriers.command_open_leaving, barriers.command_stop_leaving,
+                       barriers.barrier4.S.closed,  barriers.barrier4.S.open,
+                       barriers.barrier4.A.closing, barriers.barrier4.A.opening,
+                       FTC.D.bar4_f);
+    barrier5 : barrier(barriers.barrier5.c_close, barriers.barrier5.c_stop, barriers.barrier5.c_open,
+                       barriers.command_close_slow, barriers.command_open_slow, barriers.command_stop_slow,
+                       barriers.barrier5.S.closed,  barriers.barrier5.S.open,
+                       barriers.barrier5.A.closing, barriers.barrier5.A.opening,
+                       FTC.D.bar5_f);
+    barrier6 : barrier(barriers.barrier6.c_close, barriers.barrier6.c_stop, barriers.barrier6.c_open,
+                       barriers.command_close_slow, barriers.command_open_slow, barriers.command_stop_slow,
+                       barriers.barrier6.S.closed,  barriers.barrier6.S.open,
+                       barriers.barrier6.A.closing, barriers.barrier6.A.opening,
+                       FTC.D.bar6_f);
+  end
+
+  group Shipping_sign_Functional:
+    group def shipsign(controllable c_red, c_redred, c_redgreen, c_green;
+                       alg bool command_rd, command_gn, command_rg, command_sp):
+      // (FN3a) A red sign aspect is allowed to show when or when:
+        // (FN3a.1) the red button is pushed.
+        // (FN3a.2) the bridge deck is manually stopped when it not fully closed or fully open.
+      // (FN3b) A redgreen sign aspect is allowed to show when the redgreen button is pushed.
+      // (FN3c) A redred sign aspect is allowed to show when the redred button is pushed.
+      // (FN3d) A green sign aspect is allowed to show when the green button is pushed.
+      group Nominal:
+        requirement c_red
+              needs (command_rd or
+                    (bridgedeck.button_stop.pushed and bridgedeck.S.between));
+
+        requirement c_redgreen
+              needs command_rg;
+
+        requirement c_redred
+              needs command_sp;
+
+        requirement c_green
+              needs command_gn;
+      end
+    end
+
+    sign1 : shipsign(shipping_signs.upstream.N.c_red,   shipping_signs.upstream.N.c_redred, shipping_signs.upstream.N.c_redgreen,
+                     shipping_signs.upstream.N.c_green,
+                     shipping_signs.upstream.command_rd, shipping_signs.upstream.command_gn,
+                     shipping_signs.upstream.command_rg, shipping_signs.upstream.command_sp);
+    sign2 : shipsign(shipping_signs.upstream.S.c_red,   shipping_signs.upstream.S.c_redred, shipping_signs.upstream.S.c_redgreen,
+                     shipping_signs.upstream.S.c_green,
+                     shipping_signs.upstream.command_rd, shipping_signs.upstream.command_gn,
+                     shipping_signs.upstream.command_rg, shipping_signs.upstream.command_sp);
+    sign3 : shipsign(shipping_signs.downstream.N.c_red,   shipping_signs.downstream.N.c_redred, shipping_signs.downstream.N.c_redgreen,
+                     shipping_signs.downstream.N.c_green,
+                     shipping_signs.downstream.command_rd, shipping_signs.downstream.command_gn,
+                     shipping_signs.downstream.command_rg, shipping_signs.downstream.command_sp);
+    sign4 : shipsign(shipping_signs.downstream.S.c_red,   shipping_signs.downstream.S.c_redred, shipping_signs.downstream.S.c_redgreen,
+                     shipping_signs.downstream.S.c_green,
+                     shipping_signs.downstream.command_rd, shipping_signs.downstream.command_gn,
+                     shipping_signs.downstream.command_rg, shipping_signs.downstream.command_sp);
+  end
+
+  group Bridgedeck_Functional:
+    // (FN4a) The bridge deck is allowed to open when the open button is pushed, and the bridge deck is not already open.
+    // (FN4b) The bridge deck is allowed to close when the close button is pushed, and the bridge deck is not already closed.
+    // (FN4c) The bridge deck is allowed to stop when:
+      // (FN4c.1) The stop button is pushed, or
+      // (FN4c.2) The bridge is fully open and opening, or
+      // (FN4c.3) The bridge is fully closed and closing.
+    group nominal:
+      requirement bridgedeck.c_open
+          needs bridgedeck.command_open and
+                not bridgedeck.S.up;
+
+      requirement bridgedeck.c_close
+          needs bridgedeck.command_close and
+                not bridgedeck.S.closed;
+
+      requirement bridgedeck.c_stop
+          needs bridgedeck.command_stop or
+                (bridgedeck.S.up     and bridgedeck.A.opening) or
+                (bridgedeck.S.closed and bridgedeck.A.closing);
+    end
+  end
+end

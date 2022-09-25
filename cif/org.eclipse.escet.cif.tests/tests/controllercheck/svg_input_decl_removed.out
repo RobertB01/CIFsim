@@ -5,9 +5,13 @@ Iteration 1.
     The following events have been encountered in a controllable-event loop of automaton p:
         (p.c), which is not controllable unconnectable.
 
+Checking for confluence...
+
 CONCLUSION:
-    ERROR, the specification may NOT have finite response.
+    [ERROR] The specification may NOT have finite response.
     
-    At least one controllable-event loop was found.
-    The following events might still occur in a controllable-event loop:
-        - p.c
+        At least one controllable-event loop was found.
+        The following events might still occur in a controllable-event loop:
+            - p.c
+
+    [OK] The specification has confluence.

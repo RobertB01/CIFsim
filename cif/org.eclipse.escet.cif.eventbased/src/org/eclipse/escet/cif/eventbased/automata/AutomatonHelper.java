@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpInterface;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
 
@@ -295,8 +296,10 @@ public class AutomatonHelper {
      * </p>
      *
      * @param aut Automaton to prune.
+     * @param synDump Object dumping information about the performed synthesis, or {@code null} if no information needs
+     *     to be saved.
      */
-    public static void removeNonReachables(Automaton aut) {
+    public static void removeNonReachables(Automaton aut, SynthesisDumpInterface synDump) {
         if (aut.initial == null) {
             // Automaton without initial location.
             aut.clear();
@@ -304,7 +307,7 @@ public class AutomatonHelper {
         }
 
         Set<Location> reachables = getReachables(aut);
-        removeExcludedLocations(aut, reachables);
+        removeExcludedLocations(aut, reachables, synDump);
     }
 
     /**
@@ -340,8 +343,10 @@ public class AutomatonHelper {
      *
      * @param aut Automaton to prune.
      * @param locs Locations to keep.
+     * @param synDump Object dumping information about the performed synthesis, or {@code null} if no information needs
+     *     to be saved.
      */
-    private static void removeExcludedLocations(Automaton aut, Set<Location> locs) {
+    private static void removeExcludedLocations(Automaton aut, Set<Location> locs, SynthesisDumpInterface synDump) {
         Location loc = aut.locations;
         while (loc != null) {
             if (locs.contains(loc)) {
@@ -350,6 +355,9 @@ public class AutomatonHelper {
             }
             Location locDel = loc;
             loc = loc.nextLoc;
+            if (synDump != null) {
+                synDump.nonReachableLocation(locDel);
+            }
             aut.removeLocation(locDel);
         }
     }

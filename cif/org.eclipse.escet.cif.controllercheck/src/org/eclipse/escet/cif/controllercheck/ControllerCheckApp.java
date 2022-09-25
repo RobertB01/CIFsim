@@ -13,6 +13,9 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
@@ -32,7 +35,10 @@ import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
+import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
+import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
+import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -152,14 +158,72 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Check for finite response.
-        OutputProvider.out("Checking for finite response...");
-        boolean finiteResponse = new FiniteResponseChecker().checkSystem(spec);
-        if (isTerminationRequested()) {
-            return 0;
+        // Perform computations for both checkers.
+        PrepareChecks prepareChecks = new PrepareChecks();
+        if (!prepareChecks.compute(spec)) {
+            return 0; // Termination requested.
         }
 
-        return finiteResponse ? 0 : 1;
+        // Warn if specification doesn't look very useful.
+        if (prepareChecks.getAutomata().isEmpty()) {
+            warn("The specification contains no automata.");
+        } else if (prepareChecks.getControllableEvents().isEmpty()) {
+            warn("The specification contains no used controllable events.");
+        }
+
+        CheckConclusion finiteResponseConclusion = null;
+        boolean finiteResponseHolds;
+        if (EnableFiniteResponseChecking.checkFiniteResponse()) {
+            // Check the finite response property.
+            OutputProvider.out("Checking for finite response...");
+            finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
+            if (finiteResponseConclusion == null || isTerminationRequested()) {
+                return 0;
+            }
+            finiteResponseHolds = finiteResponseConclusion.propertyHolds();
+        } else {
+            finiteResponseHolds = true; // Don't invalidate confluence checking result.
+        }
+
+        CheckConclusion confluenceConclusion = null;
+        boolean confluenceHolds;
+        if (EnableConfluenceChecking.checkConfluence()) {
+            // Check the confluence property.
+            OutputProvider.out();
+            OutputProvider.out("Checking for confluence...");
+            confluenceConclusion = new ConfluenceChecker().checkSystem(prepareChecks);
+            if (confluenceConclusion == null || isTerminationRequested()) {
+                return 0;
+            }
+            confluenceHolds = confluenceConclusion.propertyHolds();
+        } else {
+            confluenceHolds = true; // Don't invalidate finite response checking result.
+        }
+
+        // Output the checker conclusions.
+        out();
+        out("CONCLUSION:");
+        iout();
+        if (finiteResponseConclusion != null) {
+            finiteResponseConclusion.printDetails();
+        } else {
+            out("Finite response checking was disabled, finite response property is unknown.");
+        }
+        dout();
+
+        if (!finiteResponseHolds || !confluenceHolds) {
+            out(); // Empty line between conclusions if an error occurs.
+        }
+
+        iout();
+        if (confluenceConclusion != null) {
+            confluenceConclusion.printDetails();
+        } else {
+            out("Confluence checking was disabled, confluence property is unknown.");
+        }
+        dout();
+
+        return (finiteResponseHolds && confluenceHolds) ? 0 : 1;
     }
 
     @Override
@@ -174,7 +238,10 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
 
         List<Option> checkOpts = list();
         checkOpts.add(Options.getInstance(InputFileOption.class));
+        checkOpts.add(Options.getInstance(EnableFiniteResponseChecking.class));
         checkOpts.add(Options.getInstance(PrintControlLoopsOutputOption.class));
+        checkOpts.add(Options.getInstance(EnableConfluenceChecking.class));
+
         OptionCategory checksCat;
         checksCat = new OptionCategory("Checks", "Controller properties check options.", list(), checkOpts);
 

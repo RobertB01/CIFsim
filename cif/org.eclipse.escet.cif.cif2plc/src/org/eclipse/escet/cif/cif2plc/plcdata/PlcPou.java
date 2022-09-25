@@ -13,21 +13,13 @@
 
 package org.eclipse.escet.cif.cif2plc.plcdata;
 
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption.getPlcOutputType;
-import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.FUNCTION;
-import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.PROGRAM;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcProject.INDENT;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
-import org.eclipse.escet.common.java.Assert;
 
 /** PLC Program Organization Unit (POU). */
 public class PlcPou extends PlcObject {
@@ -98,156 +90,5 @@ public class PlcPou extends PlcObject {
 
         // Return the name of the new temporary variable.
         return varName;
-    }
-
-    @Override
-    public Box toBox() {
-        CodeBox c = headerToBox();
-        c.add();
-        c.add(body);
-        c.add("END_%s", pouType);
-        return c;
-    }
-
-    /**
-     * Converts the header of the POU to IEC 61131-3 syntax. The header includes the POU type, name, return type, and
-     * variables, but not the body or the final closing keyword.
-     *
-     * @return The header of the POU in IEC 61131-3 syntax.
-     */
-    public CodeBox headerToBox() {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        String retTypeTxt = (retType == null) ? "" : fmt(": %s", retType);
-        c.add("%s %s%s", pouType, name, retTypeTxt);
-        if (!inputVars.isEmpty()) {
-            c.add("VAR_INPUT");
-            c.indent();
-            for (PlcVariable var: inputVars) {
-                c.add(var);
-            }
-            c.dedent();
-            c.add("END_VAR");
-        }
-        if (!outputVars.isEmpty()) {
-            c.add("VAR_OUTPUT");
-            c.indent();
-            for (PlcVariable var: outputVars) {
-                c.add(var);
-            }
-            c.dedent();
-            c.add("END_VAR");
-        }
-        if (!localVars.isEmpty()) {
-            c.add("VAR");
-            c.indent();
-            for (PlcVariable var: localVars) {
-                c.add(var);
-            }
-            c.dedent();
-            c.add("END_VAR");
-        }
-        if (!tempVars.isEmpty()) {
-            c.add("VAR_TEMP");
-            c.indent();
-            for (PlcVariable var: tempVars) {
-                c.add(var);
-            }
-            c.dedent();
-            c.add("END_VAR");
-        }
-        return c;
-    }
-
-    @Override
-    public Box toBoxS7() {
-        CodeBox c = new MemoryCodeBox(INDENT);
-
-        // Is optimized block access supported? Only supported for S7-1500 and S7-1200. It optimizes data storage and
-        // performance.
-        boolean optimizedBlockAccess = getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200;
-
-        // Get the POU text, either FUNCTION for functions, or ORGANIZATION_BLOCK for the main program.
-        String pouTypeText;
-        switch (pouType) {
-            case FUNCTION:
-                pouTypeText = "FUNCTION";
-                break;
-            case PROGRAM:
-                pouTypeText = "ORGANIZATION_BLOCK";
-                break;
-
-            default:
-                throw new RuntimeException("Unknown pou type: " + pouType);
-        }
-
-        // Write header. The header includes the POU type, name and return type.
-        String retTypeTxt = (retType == null) ? "" : fmt(": %s", retType);
-        c.add("%s %s%s", pouTypeText, name, retTypeTxt);
-        c.add("{ S7_Optimized_Access := '%b' }", optimizedBlockAccess);
-        c.indent();
-
-        // Write the input variables.
-        if (!inputVars.isEmpty()) {
-            c.add("VAR_INPUT");
-            c.indent();
-            for (PlcVariable var: inputVars) {
-                c.add("%s: %s;", var.name, var.type);
-            }
-            c.dedent();
-            c.add("END_VAR");
-        }
-
-        // Write the local variables.
-        if (!localVars.isEmpty()) {
-            if (pouType == FUNCTION) {
-                // S7 doesn't have local variables in functions. Instead, all variables are temporary. They do the same
-                // but are named differently. That is, after exiting the function, the values are lost. This is similar
-                // to how CIF and TwinCAT handle local variables in functions.
-                c.add("VAR_TEMP");
-                c.indent();
-                for (PlcVariable var: localVars) {
-                    c.add("%s: %s;", var.name, var.type);
-                }
-                c.dedent();
-                c.add("END_VAR");
-            }
-            // else: Different from functions, local variables of programs are persistent and are written to a DB file.
-        }
-
-        // Write the temporary variables.
-        if (!tempVars.isEmpty() || !outputVars.isEmpty()) {
-            // Functions shouldn't have variables declared as temporary. As all variables are temporary. Function can't
-            // have output variables.
-            Assert.areEqual(pouType, PROGRAM);
-
-            c.add("VAR_TEMP");
-            c.indent();
-            for (PlcVariable var: tempVars) {
-                c.add("%s: %s;", var.name, var.type);
-            }
-            for (PlcVariable var: outputVars) {
-                // There should only be two output variables, timerValue0 and timerValue1. These are part of the main
-                // program. In S7 the main program cannot have output variables. Hence, we add them as temporary
-                // variables.
-                Assert.areEqual(outputVars.size(), 2);
-                c.add("%s: %s;", var.name, var.type);
-            }
-            c.dedent();
-            c.add("END_VAR");
-        }
-
-        // Write the program body.
-        c.dedent();
-        c.add();
-        c.add("BEGIN");
-
-        c.indent();
-        c.add(body);
-
-        // Close POU.
-        c.dedent();
-        c.add("END_%s", pouTypeText);
-
-        return c;
     }
 }
