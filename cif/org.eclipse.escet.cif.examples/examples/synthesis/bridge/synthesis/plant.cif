@@ -13,545 +13,668 @@
 
 import "plant_templates.cif";
 
+// Stop signs.
 group StopSigns:
-    plant Actuator:
-        controllable c_on, c_emrgOn, c_off;
-        location Off:
-            initial; marked;
-            edge c_on     goto On;
-            edge c_emrgOn goto On;
-        location On:
-            edge c_off    goto Off;
-    end
+  // Actuator.
+  plant Actuator:
+    controllable c_on, c_emrgOn, c_off;
 
-    plant S1:
-        uncontrollable u_on, u_off;
-        location Off:
-            initial; marked;
-            edge u_on  goto On;
-        location On:
-            edge u_off goto Off;
-    end
-    plant S2:
-        uncontrollable u_on, u_off;
-        location Off:
-            initial; marked;
-            edge u_on  goto On;
-        location On:
-            edge u_off goto Off;
-    end
-    plant S3:
-        uncontrollable u_on, u_off;
-        location Off:
-            initial; marked;
-            edge u_on  goto On;
-        location On:
-            edge u_off goto Off;
-    end
-    plant S4:
-        uncontrollable u_on, u_off;
-        location Off:
-            initial; marked;
-            edge u_on  goto On;
-        location On:
-            edge u_off goto Off;
-    end
-    plant S5:
-        uncontrollable u_on, u_off;
-        location Off:
-            initial; marked;
-            edge u_on  goto On;
-        location On:
-            edge u_off goto Off;
-    end
+    location Off:
+      initial; marked;
+      edge c_on     goto On;
+      edge c_emrgOn goto On;
 
-    //Diagnoser information
-    input bool S1StaysOff, S2StaysOff, S3StaysOff, S4StaysOff, S5StaysOff;
+    location On:
+      edge c_off    goto Off;
+  end
+
+  // Sensors.
+  plant S1:
+    uncontrollable u_on, u_off;
+
+    location Off:
+      initial; marked;
+      edge u_on  goto On;
+
+    location On:
+      edge u_off goto Off;
+  end
+
+  plant S2:
+    uncontrollable u_on, u_off;
+
+    location Off:
+      initial; marked;
+      edge u_on  goto On;
+
+    location On:
+      edge u_off goto Off;
+  end
+
+  plant S3:
+    uncontrollable u_on, u_off;
+
+    location Off:
+      initial; marked;
+      edge u_on  goto On;
+
+    location On:
+      edge u_off goto Off;
+  end
+
+  plant S4:
+    uncontrollable u_on, u_off;
+
+    location Off:
+      initial; marked;
+      edge u_on  goto On;
+
+    location On:
+      edge u_off goto Off;
+  end
+
+  plant S5:
+    uncontrollable u_on, u_off;
+
+    location Off:
+      initial; marked;
+      edge u_on  goto On;
+
+    location On:
+      edge u_off goto Off;
+  end
+
+  // Sensor faults.
+  input bool S1StaysOff, S2StaysOff, S3StaysOff, S4StaysOff, S5StaysOff;
 end
 
-// Timers
-SSsOnTimer : Timer(StopSigns.S1.On and StopSigns.S4.On);
+SSsOnTimer: Timer(StopSigns.S1.On and StopSigns.S4.On);
 
+// Boom barriers.
 group BB:
-    plant L:
-        controllable c_on, c_emrgOn, c_off;
-        location Off:
-            initial; marked;
-            edge c_on     goto On;
-            edge c_emrgOn goto On;
-        location On:
-            edge c_off    goto Off;
-    end
-    plant Alternate:
-        controllable c_mode1, c_mode2;
-        location Mode1:
-            initial; marked;
-            edge c_mode2  goto Mode2;
-        location Mode2:
-            marked;
-            edge c_mode1  goto Mode1;
-    end
+  // Lights.
+  plant L:
+    controllable c_on, c_emrgOn, c_off;
+
+    location Off:
+      initial; marked;
+      edge c_on     goto On;
+      edge c_emrgOn goto On;
+
+    location On:
+      edge c_off    goto Off;
+  end
+
+  // Light alternation.
+  plant Alternate:
+    controllable c_mode1, c_mode2;
+
+    location Mode1:
+      initial; marked;
+      edge c_mode2 goto Mode2;
+
+    location Mode2:
+      marked;
+      edge c_mode1 goto Mode1;
+  end
 end
 
 group def BoomBarrier():
-    plant Actuator:
-        controllable c_open, c_close, c_stop, c_emrgStop;
-        location Idle:
-            initial; marked;
-            edge c_open  goto Opening;
-            edge c_close goto Closing;
-        location Opening:
-            edge c_stop, c_emrgStop goto Idle;
-        location Closing:
-            edge c_stop, c_emrgStop goto Idle;
-    end
-    plant Open:
-        uncontrollable u_open_on, u_open_off;
-        location Off:
-            edge u_open_on  goto On;
-        location On:
-            initial; marked;
-            edge u_open_off goto Off;
-    end
-    plant Closed:
-        uncontrollable u_closed_on, u_closed_off;
-        location Off:
-            initial; marked;
-            edge u_closed_on  goto On;
-        location On:
-            edge u_closed_off goto Off;
-    end
-    plant NotOpen:
-        uncontrollable u_notOpen_on, u_notOpen_off;
-        location Off:
-            initial; marked;
-            edge u_notOpen_on  goto On;
-        location On:
-            edge u_notOpen_off goto Off;
-    end
-    plant NotClosed:
-        uncontrollable u_notClosed_on, u_notClosed_off;
-        location Off:
-            edge u_notClosed_on  goto On;
-        location On:
-            initial; marked;
-            edge u_notClosed_off goto Off;
-    end
+  // Actuator.
+  plant Actuator:
+    controllable c_open, c_close, c_stop, c_emrgStop;
 
-    // Diagnoser information
-    input bool Stuck, UndesiredClosed, UndesiredOpen;
+    location Idle:
+      initial; marked;
+      edge c_open             goto Opening;
+      edge c_close            goto Closing;
+
+    location Opening:
+      edge c_stop, c_emrgStop goto Idle;
+
+    location Closing:
+      edge c_stop, c_emrgStop goto Idle;
+  end
+
+  // Sensors.
+  plant Open:
+    uncontrollable u_open_on, u_open_off;
+
+    location Off:
+      edge u_open_on  goto On;
+
+    location On:
+      initial; marked;
+      edge u_open_off goto Off;
+  end
+
+  plant Closed:
+    uncontrollable u_closed_on, u_closed_off;
+
+    location Off:
+      initial; marked;
+      edge u_closed_on  goto On;
+
+    location On:
+      edge u_closed_off goto Off;
+  end
+
+  plant NotOpen:
+    uncontrollable u_notOpen_on, u_notOpen_off;
+
+    location Off:
+      initial; marked;
+      edge u_notOpen_on  goto On;
+
+    location On:
+      edge u_notOpen_off goto Off;
+  end
+
+  plant NotClosed:
+    uncontrollable u_notClosed_on, u_notClosed_off;
+
+    location Off:
+      edge u_notClosed_on  goto On;
+
+    location On:
+      initial; marked;
+      edge u_notClosed_off goto Off;
+  end
+
+  // Faults.
+  input bool Stuck, UndesiredClosed, UndesiredOpen;
 end
 
-BB1 : BoomBarrier();
-BB2 : BoomBarrier();
+BB1: BoomBarrier();
+BB2: BoomBarrier();
 
-// Timers
-BBsOpenTimer   : Timer(BB1.Open.On and BB2.Open.On);
-BB1OpenTimer   : Timer(BB1.Open.On);
-BB1ClosedTimer : Timer(BB1.Closed.On);
-BB2OpenTimer   : Timer(BB2.Open.On);
-BB2ClosedTimer : Timer(BB2.Closed.On);
+BBsOpenTimer:   Timer(BB1.Open.On and BB2.Open.On);
+BB1OpenTimer:   Timer(BB1.Open.On);
+BB1ClosedTimer: Timer(BB1.Closed.On);
+BB2OpenTimer:   Timer(BB2.Open.On);
+BB2ClosedTimer: Timer(BB2.Closed.On);
 
+// Vessel traffic lights.
 group def VesselTrafficLight():
-    plant Actuator:
-        controllable c_red, c_redGreen, c_redRed, c_green, c_emrg;
-        location RedRed:
-            edge c_red      goto Red;
-        location Red:
-            initial; marked;
-            edge c_redGreen goto RedGreen;
-            edge c_redRed   goto RedRed;
-        location RedGreen:
-            edge c_red      goto Red;
-            edge c_green    goto Green;
-            edge c_emrg     goto Red;
-        location Green:
-            edge c_red      goto Red;
-            edge c_emrg     goto Red;
-    end
-    plant Activated:
-        controllable c_on, c_off;
-        location On:
-            initial; marked;
-            edge c_off goto Off;
-        location Off:
-            edge c_on  goto On;
-    end
+  // Actuators.
+  plant Actuator:
+    controllable c_red, c_redGreen, c_redRed, c_green, c_emrg;
 
-    plant Red:
-        uncontrollable u_red_on, u_red_off;
-        location Off:
-            edge u_red_on  goto On;
-        location On:
-            initial; marked;
-            edge u_red_off goto Off;
-    end
-    plant Green:
-        uncontrollable u_green_on, u_green_off;
-        location Off:
-            initial; marked;
-            edge u_green_on  goto On;
-        location On:
-            edge u_green_off goto Off;
-    end
-    plant Red2:
-        uncontrollable u_red2_on, u_red2_off;
-        location Off:
-            initial; marked;
-            edge u_red2_on  goto On;
-        location On:
-            marked;
-            edge u_red2_off goto Off;
-    end
-    alg bool RedAspect      = Red.On and Green.Off;
-    alg bool RedGreenAspect = Red.On and Green.On;
+    location RedRed:
+      edge c_red      goto Red;
 
-    // Diagnoser information
-    input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
-    alg bool Fault = RedStaysOff or GreenStaysOff or Red2StaysOff;
+    location Red:
+      initial; marked;
+      edge c_redGreen goto RedGreen;
+      edge c_redRed   goto RedRed;
+
+    location RedGreen:
+      edge c_red      goto Red;
+      edge c_green    goto Green;
+      edge c_emrg     goto Red;
+
+    location Green:
+      edge c_red      goto Red;
+      edge c_emrg     goto Red;
+  end
+
+  plant Activated:
+    controllable c_on, c_off;
+
+    location On:
+      initial; marked;
+      edge c_off goto Off;
+
+    location Off:
+      edge c_on  goto On;
+  end
+
+  // Sensors.
+  plant Red:
+    uncontrollable u_red_on, u_red_off;
+
+    location Off:
+      edge u_red_on  goto On;
+
+    location On:
+      initial; marked;
+      edge u_red_off goto Off;
+  end
+
+  plant Green:
+    uncontrollable u_green_on, u_green_off;
+
+    location Off:
+      initial; marked;
+      edge u_green_on  goto On;
+
+    location On:
+      edge u_green_off goto Off;
+  end
+
+  plant Red2:
+    uncontrollable u_red2_on, u_red2_off;
+
+    location Off:
+      initial; marked;
+      edge u_red2_on  goto On;
+
+    location On:
+      marked;
+      edge u_red2_off goto Off;
+  end
+
+  alg bool RedAspect      = Red.On and Green.Off;
+  alg bool RedGreenAspect = Red.On and Green.On;
+
+  // Defects.
+  input bool RedStaysOff, GreenStaysOff, Red2StaysOff;
+  alg bool Fault = RedStaysOff or GreenStaysOff or Red2StaysOff;
 end
 
-VTL1 : VesselTrafficLight();
-VTL2 : VesselTrafficLight();
-VTL3 : VesselTrafficLight();
-VTL4 : VesselTrafficLight();
-VTL5 : VesselTrafficLight();
-VTL6 : VesselTrafficLight();
-VTL7 : VesselTrafficLight();
-VTL8 : VesselTrafficLight();
+VTL1: VesselTrafficLight();
+VTL2: VesselTrafficLight();
+VTL3: VesselTrafficLight();
+VTL4: VesselTrafficLight();
+VTL5: VesselTrafficLight();
+VTL6: VesselTrafficLight();
+VTL7: VesselTrafficLight();
+VTL8: VesselTrafficLight();
 
+// Brake.
 group BR:
-    plant Actuator: //( SAFE )
-        controllable c_release, c_apply, c_emrgStop;
-        location Apply:
-            initial; marked;
-            edge c_release  goto Release;
-        location Release:
-            edge c_apply    goto Apply;
-            edge c_emrgStop goto Apply;
-    end
+  // Actuator.
+  plant Actuator:
+    controllable c_release, c_apply, c_emrgStop;
 
-    plant Sensor:
-        uncontrollable u_released, u_applied;
-        location Applied:
-            initial; marked;
-            edge u_released goto Released;
-        location Released:
-            edge u_applied  goto Applied;
-    end
+    location Apply:
+      initial; marked;
+      edge c_release  goto Release;
 
-    plant Release:
-        uncontrollable u_release, u_apply;
-        location Off:
-            initial; marked;
-            edge u_release goto On;
-        location On:
-            edge u_apply   goto Off;
-    end
+    location Release:
+      edge c_apply    goto Apply;
+      edge c_emrgStop goto Apply;
+  end
+
+  // Sensors.
+  plant Sensor:
+    uncontrollable u_released, u_applied;
+
+    location Applied:
+      initial; marked;
+      edge u_released goto Released;
+
+    location Released:
+      edge u_applied  goto Applied;
+  end
+
+  plant Release:
+    uncontrollable u_release, u_apply;
+
+    location Off:
+      initial; marked;
+      edge u_release goto On;
+
+    location On:
+      edge u_apply   goto Off;
+  end
 end
 
+// Locking mechanism.
 group LM:
-    plant Valve:
-        controllable c_lock, c_unlock, c_stop, c_emrgStop;
-        location Idle:
-            initial; marked;
-            edge c_lock goto Lock;
-            edge c_unlock goto Unlock;
-        location Lock:
-            edge c_stop, c_emrgStop goto Idle;
-        location Unlock:
-            edge c_stop, c_emrgStop goto Idle;
-    end
-    plant Pump:
-        controllable c_on, c_off, c_emrgStop;
-        location Off:
-            initial; marked;
-            edge c_on goto On;
-        location On:
-            edge c_off, c_emrgStop goto Off;
-    end
-    plant Locked:
-        uncontrollable u_locked_on, u_locked_off;
-        location Off:
-            edge u_locked_on  goto On;
-        location On:
-            initial; marked;
-            edge u_locked_off goto Off;
-    end
-    plant Unlocked:
-        uncontrollable u_unlocked_on, u_unlocked_off;
-        location Off:
-            initial; marked;
-            edge u_unlocked_on  goto On;
-        location On:
-            edge u_unlocked_off goto Off;
-    end
+  // Actuators.
+  plant Valve:
+    controllable c_lock, c_unlock, c_stop, c_emrgStop;
 
-    // Diagnoser information
-    input bool Stuck, UndesiredUnlock;
+    location Idle:
+      initial; marked;
+      edge c_lock             goto Lock;
+      edge c_unlock           goto Unlock;
+
+    location Lock:
+      edge c_stop, c_emrgStop goto Idle;
+
+    location Unlock:
+      edge c_stop, c_emrgStop goto Idle;
+  end
+
+  plant Pump:
+    controllable c_on, c_off, c_emrgStop;
+
+    location Off:
+      initial; marked;
+      edge c_on              goto On;
+
+    location On:
+      edge c_off, c_emrgStop goto Off;
+  end
+
+  // Sensors.
+  plant Locked:
+    uncontrollable u_locked_on, u_locked_off;
+
+    location Off:
+      edge u_locked_on  goto On;
+
+    location On:
+      initial; marked;
+      edge u_locked_off goto Off;
+  end
+
+  plant Unlocked:
+    uncontrollable u_unlocked_on, u_unlocked_off;
+
+    location Off:
+      initial; marked;
+      edge u_unlocked_on  goto On;
+
+    location On:
+      edge u_unlocked_off goto Off;
+  end
+
+  // Faults.
+  input bool Stuck, UndesiredUnlock;
 end
 
-// Timers
-LMLockedTimer      : Timer(LM.Locked.On);
-LMUnlockedTimer100 : Timer(LM.Unlocked.On);
-LMUnlockedTimer3   : Timer(LM.Unlocked.On);
+LMLockedTimer:      Timer(LM.Locked.On);
+LMUnlockedTimer100: Timer(LM.Unlocked.On);
+LMUnlockedTimer3:   Timer(LM.Unlocked.On);
 
+// Bridge deck.
 group BD:
-    plant Motor:
-        controllable c_on, c_off, c_emrgStop;
-        location Off:
-            initial; marked;
-            edge c_on       goto On;
-        location On:
-            edge c_off      goto Off;
-            edge c_emrgStop goto Off;
-    end
-    plant Direction:
-        controllable c_open, c_close, c_stop, c_emrgStop;
-        location Idle:
-            initial; marked;
-            edge c_open  goto Opening;
-            edge c_close goto Closing;
-        location Opening:
-            edge c_stop, c_emrgStop goto Idle;
-        location Closing:
-            edge c_stop, c_emrgStop goto Idle;
-    end
-    plant Speed:
-        controllable c_stop, c_fast, c_slow, c_emrgStop;
-        location Idle:  // 0%
-            initial; marked;
-            edge c_fast goto Fast;
-            edge c_slow goto Slow;
-        location Fast:  // 100%
-            edge c_stop, c_emrgStop  goto Idle;
-            edge c_slow goto Slow;
-        location Slow: // 19%
-            edge c_stop, c_emrgStop  goto Idle;
-            edge c_fast goto Fast;
-    end
+  // Motor.
+  plant Motor:
+    controllable c_on, c_off, c_emrgStop;
 
-    plant Closed2:
-        uncontrollable u_closed2_on, u_closed2_off;
-        location Off:
-            edge u_closed2_on  goto On;
-        location On:
-            initial; marked;
-            edge u_closed2_off goto Off;
-    end
-    plant Closed:
-        uncontrollable u_closed_on, u_closed_off;
-        location Off:
-            edge u_closed_on  goto On;
-        location On:
-            initial; marked;
-            edge u_closed_off goto Off;
-    end
-    plant BClosed:
-        uncontrollable u_bClosed_on, u_bClosed_off;
-        location Off:
-            edge u_bClosed_on  goto On;
-        location On:
-            initial; marked;
-            edge u_bClosed_off goto Off;
-    end
-    plant BBClosed:
-        uncontrollable u_bbClosed_on, u_bbClosed_off;
-        location Off:
-            edge u_bbClosed_on  goto On;
-        location On:
-            initial; marked;
-            edge u_bbClosed_off goto Off;
-    end
-    plant BBOpen:
-        uncontrollable u_bbOpen_on, u_bbOpen_off;
-        location Off:
-            initial; marked;
-            edge u_bbOpen_on  goto On;
-        location On:
-            edge u_bbOpen_off goto Off;
-    end
-    plant BOpen:
-        uncontrollable u_bOpen_on, u_bOpen_off;
-        location Off:
-            initial; marked;
-            edge u_bOpen_on  goto On;
-        location On:
-            edge u_bOpen_off goto Off;
-    end
-    plant Open:
-        uncontrollable u_open_on, u_open_off;
-        location Off:
-            initial; marked;
-            edge u_open_on  goto On;
-        location On:
-            edge u_open_off goto Off;
-    end
+    location Off:
+      initial; marked;
+      edge c_on       goto On;
 
-    // Diagnoser information
-    input bool NotDecelerating, UndesiredClosed, UndesiredOpen;
+    location On:
+      edge c_off      goto Off;
+      edge c_emrgStop goto Off;
+  end
 
+  // Frequency converter.
+  plant Direction:
+    controllable c_open, c_close, c_stop, c_emrgStop;
+
+    location Idle:
+      initial; marked;
+      edge c_open             goto Opening;
+      edge c_close            goto Closing;
+
+    location Opening:
+      edge c_stop, c_emrgStop goto Idle;
+
+    location Closing:
+      edge c_stop, c_emrgStop goto Idle;
+  end
+
+  // Frequency converter speed.
+  plant Speed:
+    controllable c_stop, c_fast, c_slow, c_emrgStop;
+
+    location Idle: // 0%
+      initial; marked;
+      edge c_fast             goto Fast;
+      edge c_slow             goto Slow;
+
+    location Fast: // 100%
+      edge c_stop, c_emrgStop goto Idle;
+      edge c_slow             goto Slow;
+
+    location Slow: // 19%
+      edge c_stop, c_emrgStop goto Idle;
+      edge c_fast             goto Fast;
+  end
+
+  // Sensors.
+  plant Closed2:
+    uncontrollable u_closed2_on, u_closed2_off;
+
+    location Off:
+      edge u_closed2_on  goto On;
+
+    location On:
+      initial; marked;
+      edge u_closed2_off goto Off;
+  end
+
+  plant Closed:
+    uncontrollable u_closed_on, u_closed_off;
+
+    location Off:
+      edge u_closed_on  goto On;
+
+    location On:
+      initial; marked;
+      edge u_closed_off goto Off;
+  end
+
+  plant BClosed:
+    uncontrollable u_bClosed_on, u_bClosed_off;
+
+    location Off:
+      edge u_bClosed_on  goto On;
+
+    location On:
+      initial; marked;
+      edge u_bClosed_off goto Off;
+  end
+
+  plant BBClosed:
+    uncontrollable u_bbClosed_on, u_bbClosed_off;
+
+    location Off:
+      edge u_bbClosed_on  goto On;
+
+    location On:
+      initial; marked;
+      edge u_bbClosed_off goto Off;
+  end
+
+  plant BBOpen:
+    uncontrollable u_bbOpen_on, u_bbOpen_off;
+
+    location Off:
+      initial; marked;
+      edge u_bbOpen_on  goto On;
+
+    location On:
+      edge u_bbOpen_off goto Off;
+  end
+
+  plant BOpen:
+    uncontrollable u_bOpen_on, u_bOpen_off;
+
+    location Off:
+      initial; marked;
+      edge u_bOpen_on  goto On;
+
+    location On:
+      edge u_bOpen_off goto Off;
+  end
+
+  plant Open:
+    uncontrollable u_open_on, u_open_off;
+
+    location Off:
+      initial; marked;
+      edge u_open_on  goto On;
+
+    location On:
+      edge u_open_off goto Off;
+  end
+
+  // Faults.
+  input bool NotDecelerating, UndesiredClosed, UndesiredOpen;
 end
-// Timers
+
 BDClosedTimer: Timer(BD.Closed.On);
 
+// Bridge commands.
 plant BridgeCommands:
-    alg bool CloseLT = L11;
-    alg bool OpenLT  = L13;
-    alg bool CloseBB = L15;
-    alg bool OpenBB  = L17 or L13;
-    alg bool StopBB  = L16;
-    alg bool OpenB   = L21;
-    alg bool CloseB  = L23;
-    alg bool StopB   = L22;
+  alg bool CloseLT = L11;
+  alg bool OpenLT  = L13;
+  alg bool CloseBB = L15;
+  alg bool OpenBB  = L17 or L13;
+  alg bool StopBB  = L16;
+  alg bool OpenB   = L21;
+  alg bool CloseB  = L23;
+  alg bool StopB   = L22;
 
-    alg bool CloseLT_act      = L11;
-    alg bool CloseLT_bdb      = L10 or L11 or L12 or StopSignsOn;
-    alg bool OpenLT_act       = L13 or L17;
-    alg bool OpenLT_bdb       = L12 or L14 or L16 or L17 or L20;
-    alg bool Stop_act         = L12 or L16 or L22;
-    alg bool Stop_bdb         = L11 or L12 or L13 or L15 or L16 or L17 or L21 or L22 or L23;
-    alg bool CloseBB_act      = L15;
-    alg bool CloseBB_bdb      = L14 or L15 or L16;
-    alg bool OpenB_act        = L21;
-    alg bool OpenB_bdb        = L20 or L21 or L22;
-    alg bool CloseB_act       = L23;
-    alg bool CloseB_bdb       = L22 or L23 or L31;
-    alg bool Window1CloseAble = L10 or L14 or L20 or L30 or L31;
-    alg bool Window2CloseAble = L10 or L14 or L20 or L30 or L31;
-    alg bool Window1Visible   = L10 or L11 or L12 or L13 or L14 or L15 or L16 or L17;
-    alg bool Window2Visible   = L20 or L21 or L22 or L23 or L30 or L31;
+  alg bool CloseLT_act      = L11;
+  alg bool CloseLT_obl      = L10 or L11 or L12 or StopSignsOn;
+  alg bool OpenLT_act       = L13 or L17;
+  alg bool OpenLT_obl       = L12 or L14 or L16 or L17 or L20;
+  alg bool Stop_act         = L12 or L16 or L22;
+  alg bool Stop_obl         = L11 or L12 or L13 or L15 or L16 or L17 or L21 or L22 or L23;
+  alg bool CloseBB_act      = L15;
+  alg bool CloseBB_obl      = L14 or L15 or L16;
+  alg bool OpenB_act        = L21;
+  alg bool OpenB_obl        = L20 or L21 or L22;
+  alg bool CloseB_act       = L23;
+  alg bool CloseB_obl       = L22 or L23 or L31;
+  alg bool Window1Closeable = L10 or L14 or L20 or L30 or L31;
+  alg bool Window2Closeable = L10 or L14 or L20 or L30 or L31;
+  alg bool Window1Visible   = L10 or L11 or L12 or L13 or L14 or L15 or L16 or L17;
+  alg bool Window2Visible   = L20 or L21 or L22 or L23 or L30 or L31;
 
-    monitor u_closeLT, u_openLT, u_openB, u_closeB, u_closeBB, u_stop;
-    uncontrollable u_closeLT, u_openLT, u_openB, u_closeB, u_closeBB, u_stop,
-                   Done_u_closeLT, Done_u_openLT, Done_u_closeBB, Done_BarrierOpen,
-                   Done_u_openBRed, Done_u_openBNotRed, Done_u_closeB, Done_8, Done_9,
-                   u_emerg;
+  monitor u_closeLT, u_openLT, u_openB, u_closeB, u_closeBB, u_stop;
+  uncontrollable u_closeLT, u_openLT, u_openB, u_closeB, u_closeBB, u_stop,
+                 Done_u_closeLT, Done_u_openLT, Done_u_closeBB, Done_BarrierOpen,
+                 Done_u_openBRed, Done_u_openBNotRed, Done_u_closeB, Done_8, Done_9,
+                 u_emerg;
 
-    // When all signs have a red lamp enabled, and no green lamp.
-    alg bool Red = (VTL1.RedAspect or VTL2.RedAspect) and (VTL3.RedAspect or VTL4.RedAspect) and
-                   (VTL5.RedAspect or VTL6.RedAspect) and (VTL7.RedAspect or VTL8.RedAspect) and
-                    VTL1.Green.Off and VTL2.Green.Off and VTL3.Green.Off and VTL4.Green.Off and
-                    VTL5.Green.Off and VTL6.Green.Off and VTL7.Green.Off and VTL8.Green.Off;
+  // When all signs have a red lamp enabled, and no green lamp.
+  alg bool Red              = (VTL1.RedAspect or VTL2.RedAspect) and (VTL3.RedAspect or VTL4.RedAspect) and
+                              (VTL5.RedAspect or VTL6.RedAspect) and (VTL7.RedAspect or VTL8.RedAspect) and
+                               VTL1.Green.Off and VTL2.Green.Off and VTL3.Green.Off and VTL4.Green.Off and
+                               VTL5.Green.Off and VTL6.Green.Off and VTL7.Green.Off and VTL8.Green.Off;
+  alg bool closeBBd         = BB1.Closed.On and BB2.Closed.On;
+  alg bool BridgeMayNotMove = (VTL1.Fault and VTL2.Fault) or (VTL3.Fault and VTL4.Fault) or
+                              (VTL5.Fault and VTL6.Fault) or (VTL7.Fault and VTL8.Fault) or
+                              not closeBBd;
+  alg bool StopSignsOn      = StopSigns.S1.On and StopSigns.S4.On and SSsOnTimer.Finished;
 
-    alg bool closeBBd = BB1.Closed.On and BB2.Closed.On;
-    alg bool BridgeMayNotMove = (VTL1.Fault and VTL2.Fault) or (VTL3.Fault and VTL4.Fault)or
-                                (VTL5.Fault and VTL6.Fault) or (VTL7.Fault and VTL8.Fault) or
-                                  not closeBBd;
-    alg bool StopSignsOn  = StopSigns.S1.On and StopSigns.S4.On and SSsOnTimer.Finished;
-    location L10: //Land traffic open
-        initial; marked;
-        edge u_closeLT                                       goto L11;
+  location L10: // Land traffic open.
+    initial; marked;
+    edge u_closeLT                                                         goto L11;
 
-    location L11: //Land traffic close
-        edge u_stop                                          goto L12;
-        edge u_emerg      when emergency                     goto L12;
-        edge Done_u_closeLT when StopSignsOn                 goto L14;
+  location L11: // Land traffic close.
+    edge u_stop                                                            goto L12;
+    edge u_emerg            when emergency                                 goto L12;
+    edge Done_u_closeLT     when StopSignsOn                               goto L14;
 
-    location L12: //Land traffic stop
-        edge u_closeLT                                       goto L11;
-        edge u_openLT                                        goto L13;
+  location L12: // Land traffic stop.
+    edge u_closeLT                                                         goto L11;
+    edge u_openLT                                                          goto L13;
 
-    location L13: //Land traffic open
-        edge u_stop                                          goto L12;
-        edge u_emerg     when emergency                      goto L12;
-        edge Done_u_openLT when StopSigns.Actuator.Off       goto L10;
+  location L13: // Land traffic open.
+    edge u_stop                                                            goto L12;
+    edge u_emerg            when emergency                                 goto L12;
+    edge Done_u_openLT      when StopSigns.Actuator.Off                    goto L10;
 
-    location L14: //Land traffic closed
-        edge u_openLT                                        goto L13;
-        edge u_closeBB when StopSignsOn                      goto L15;
+  location L14: // Land traffic closed.
+    edge u_openLT                                                          goto L13;
+    edge u_closeBB          when StopSignsOn                               goto L15;
 
-    location L15: //Barriers closed
-        edge u_stop                                          goto L16;
-        edge u_emerg            when EmergencyStop.Active    goto L16;
-        edge Done_u_closeBB when BB1.Closed.On and
-                                     BB2.Closed.On           goto L20;
+  location L15: // Barriers closed.
+    edge u_stop                                                            goto L16;
+    edge u_emerg            when EmergencyStop.Active                      goto L16;
+    edge Done_u_closeBB     when BB1.Closed.On and BB2.Closed.On           goto L20;
 
-    location L16: //Barriers stopped
-        edge u_closeBB goto L15;
-        edge u_openLT        goto L17;
+  location L16: // Barriers stopped.
+    edge u_closeBB                                                         goto L15;
+    edge u_openLT                                                          goto L17;
 
-    location L17: //Barriers open
-        edge Done_BarrierOpen when BB1.Open.On and
-                                   BB2.Open.On               goto L13;
-        edge u_stop                                          goto L16;
-        edge u_emerg when EmergencyStop.Active               goto L16;
+  location L17: // Barriers open.
+    edge Done_BarrierOpen   when BB1.Open.On and BB2.Open.On               goto L13;
+    edge u_stop                                                            goto L16;
+    edge u_emerg            when EmergencyStop.Active                      goto L16;
 
-    location L20: //Barriers closed
-        edge u_openB when not BridgeMayNotMove
-                              or OverrideSwitch.On           goto L21;
-        edge u_openLT                                        goto L17;
+  location L20: // Barriers closed.
+    edge u_openB            when not BridgeMayNotMove or OverrideSwitch.On goto L21;
+    edge u_openLT                                                          goto L17;
 
-    location L21: //Bridge Opening
-        edge u_stop goto L22;
-        edge u_emerg               when EmergencyStop.Active goto L22;
-        edge Done_u_openBRed    when      Red and BD.Open.On goto L31;
-        edge Done_u_openBNotRed when  not Red and BD.Open.On goto L30;
+  location L21: // Bridge opening.
+    edge u_stop                                                            goto L22;
+    edge u_emerg            when EmergencyStop.Active                      goto L22;
+    edge Done_u_openBRed    when     Red and BD.Open.On                    goto L31;
+    edge Done_u_openBNotRed when not Red and BD.Open.On                    goto L30;
 
-    location L22: //Bridge stopped
-        edge u_openB  goto L21;
-        edge u_closeB goto L23;
+  location L22: // Bridge stopped.
+    edge u_openB                                                           goto L21;
+    edge u_closeB                                                          goto L23;
 
-    location L23: //Bridge Closing
-        edge u_stop                                          goto L22;
-        edge u_emerg          when EmergencyStop.Active      goto L22;
-        edge Done_u_closeB when BD.Closed.On and
-                                   LM.Locked.On              goto L20;
+  location L23: // Bridge closing.
+    edge u_stop                                                            goto L22;
+    edge u_emerg            when EmergencyStop.Active                      goto L22;
+    edge Done_u_closeB      when BD.Closed.On and LM.Locked.On             goto L20;
 
-    location L30: //Bridge closed, not red aspects
-        edge Done_8 when Red or OverrideSwitch.On            goto L31;
+  location L30: // Bridge closed, not red aspects.
+    edge Done_8             when Red or OverrideSwitch.On                  goto L31;
 
-    location L31: //Bridge closed, red aspects
-        edge u_closeB                                        goto L23;
-        edge Done_9 when not Red and not OverrideSwitch.On   goto L30;
+  location L31: // Bridge closed, red aspects.
+    edge u_closeB                                                          goto L23;
+    edge Done_9             when not Red and not OverrideSwitch.On         goto L30;
 end
 
+// Vessel traffic lights commands.
 uncontrollable u_r2, u_r2Off;
 
-CommandVTL12 : VTLCommands(not CommandVTL34.Green and BD.Open.On and (not VTL3.RedStaysOff or not VTL4.RedStaysOff),
-                           not VTL3.Actuator.RedGreen and not VTL4.Actuator.RedGreen and not BridgeCommands.CloseB_act,
-                           CommandVTL12.Red and CommandVTL34.Red and CommandVTL56.Red and CommandVTL78.Red,
-                           BridgeCommands.StopB or EmergencyStop.Active,
-                           BridgeCommands.Done_u_openBRed,
-                           BridgeCommands.Done_u_openBNotRed,
-                           u_r2, u_r2Off);
-CommandVTL34 : VTLCommands(not CommandVTL12.Green and BD.Open.On and (not VTL1.RedStaysOff or not VTL2.RedStaysOff),
-                           not VTL1.Actuator.RedGreen and not VTL2.Actuator.RedGreen and not BridgeCommands.CloseB_act,
-                           CommandVTL12.Red and CommandVTL34.Red and CommandVTL56.Red and CommandVTL78.Red,
-                           BridgeCommands.StopB or EmergencyStop.Active,
-                           BridgeCommands.Done_u_openBRed,
-                           BridgeCommands.Done_u_openBNotRed,
-                           u_r2, u_r2Off);
-CommandVTL56 : VTLCommands(not CommandVTL78.Green and BD.Open.On and (not VTL7.RedStaysOff or not VTL8.RedStaysOff),
-                           not VTL7.Actuator.RedGreen and not VTL8.Actuator.RedGreen  and not BridgeCommands.CloseB_act,
-                           CommandVTL12.Red and CommandVTL34.Red and CommandVTL56.Red and CommandVTL78.Red,
-                           BridgeCommands.StopB or EmergencyStop.Active,
-                           BridgeCommands.Done_u_openBRed,
-                           BridgeCommands.Done_u_openBNotRed,
-                           u_r2, u_r2Off);
-CommandVTL78 : VTLCommands(not CommandVTL56.Green and BD.Open.On and (not VTL5.RedStaysOff or not VTL6.RedStaysOff),
-                           not VTL5.Actuator.RedGreen and not VTL6.Actuator.RedGreen and not BridgeCommands.CloseB_act,
-                           CommandVTL12.Red and CommandVTL34.Red and CommandVTL56.Red and CommandVTL78.Red,
-                           BridgeCommands.StopB or EmergencyStop.Active,
-                           BridgeCommands.Done_u_openBRed,
-                           BridgeCommands.Done_u_openBNotRed,
-                           u_r2, u_r2Off);
+CommandVTL12: VTLCommands(not CommandVTL34.Green and BD.Open.On and (not VTL3.RedStaysOff or not VTL4.RedStaysOff),
+                          not VTL3.Actuator.RedGreen and not VTL4.Actuator.RedGreen and not BridgeCommands.CloseB_act,
+                          CommandVTL12.Red and CommandVTL34.Red and CommandVTL56.Red and CommandVTL78.Red,
+                          BridgeCommands.StopB or EmergencyStop.Active,
+                          BridgeCommands.Done_u_openBRed,
+                          BridgeCommands.Done_u_openBNotRed,
+                          u_r2, u_r2Off);
+CommandVTL34: VTLCommands(not CommandVTL12.Green and BD.Open.On and (not VTL1.RedStaysOff or not VTL2.RedStaysOff),
+                          not VTL1.Actuator.RedGreen and not VTL2.Actuator.RedGreen and not BridgeCommands.CloseB_act,
+                          CommandVTL12.Red and CommandVTL34.Red and CommandVTL56.Red and CommandVTL78.Red,
+                          BridgeCommands.StopB or EmergencyStop.Active,
+                          BridgeCommands.Done_u_openBRed,
+                          BridgeCommands.Done_u_openBNotRed,
+                          u_r2, u_r2Off);
+CommandVTL56: VTLCommands(not CommandVTL78.Green and BD.Open.On and (not VTL7.RedStaysOff or not VTL8.RedStaysOff),
+                          not VTL7.Actuator.RedGreen and not VTL8.Actuator.RedGreen  and not BridgeCommands.CloseB_act,
+                          CommandVTL12.Red and CommandVTL34.Red and CommandVTL56.Red and CommandVTL78.Red,
+                          BridgeCommands.StopB or EmergencyStop.Active,
+                          BridgeCommands.Done_u_openBRed,
+                          BridgeCommands.Done_u_openBNotRed,
+                          u_r2, u_r2Off);
+CommandVTL78: VTLCommands(not CommandVTL56.Green and BD.Open.On and (not VTL5.RedStaysOff or not VTL6.RedStaysOff),
+                          not VTL5.Actuator.RedGreen and not VTL6.Actuator.RedGreen and not BridgeCommands.CloseB_act,
+                          CommandVTL12.Red and CommandVTL34.Red and CommandVTL56.Red and CommandVTL78.Red,
+                          BridgeCommands.StopB or EmergencyStop.Active,
+                          BridgeCommands.Done_u_openBRed,
+                          BridgeCommands.Done_u_openBNotRed,
+                          u_r2, u_r2Off);
 
+// Emergency stop.
 alg bool emergency = EmergencyStop.Active or BD.NotDecelerating or BD.UndesiredClosed;
+
 plant EmergencyStop:
-    uncontrollable u_emerg_on, u_emerg_off;
-    location Inactive:
-        initial; marked;
-        edge u_emerg_on  goto Active;
-    location Active:
-        edge u_emerg_off goto Inactive;
+  uncontrollable u_emerg_on, u_emerg_off;
+
+  location Inactive:
+    initial; marked;
+    edge u_emerg_on  goto Active;
+
+  location Active:
+    edge u_emerg_off goto Inactive;
 end
 
+// Override switch.
 plant OverrideSwitch:
-    uncontrollable u_turn_on, u_turn_off;
-    location Off:
-        initial; marked;
-        edge u_turn_on  goto On;
-    location On:
-        edge u_turn_off goto Off;
+  uncontrollable u_turn_on, u_turn_off;
+
+  location Off:
+    initial; marked;
+    edge u_turn_on  goto On;
+
+  location On:
+    edge u_turn_off goto Off;
 end

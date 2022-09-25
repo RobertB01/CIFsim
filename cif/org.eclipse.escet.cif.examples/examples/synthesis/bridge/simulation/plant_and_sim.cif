@@ -13,27 +13,31 @@
 
 import "plant.cif";
 
-automaton ResetKnop:
-    disc bool ResetStoringen = false;
-    uncontrollable u_reset;
+// Reset button.
+automaton ResetButton:
+  disc bool ResetFaults = false;
+  uncontrollable u_reset;
 
-    location:
-        initial;
-        edge u_reset do ResetStoringen := not ResetStoringen;
+  location:
+    initial;
+    edge u_reset do ResetFaults := not ResetFaults;
 end
 
+// Override switch.
 automaton OverrideSwitch:
-    uncontrollable u_turn_on, u_turn_off;
-    location Off:
-        initial; marked;
-        edge u_turn_on goto On;
+  uncontrollable u_turn_on, u_turn_off;
 
-    location On:
-        edge u_turn_off goto Off;
+  location Off:
+    initial; marked;
+    edge u_turn_on  goto On;
+
+  location On:
+    edge u_turn_off goto Off;
 end
 
+// Supervisor skeleton.
 group sup:
-    group ResetKnop:
-         alg bool ResetStoring = .ResetKnop.ResetStoringen;
-    end
+  group ResetButton:
+    alg bool ResetFaults = .ResetButton.ResetFaults;
+  end
 end

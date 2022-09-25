@@ -13,341 +13,346 @@
 
 import "plant.cif";
 
-group Beveiligingen:
-    group VF2: //Stop signs and boom barriers
-        requirement BB1.Actuator.c_close needs StopSigns.S1.On and StopSigns.S4.On and SSsOnTimer.Finished;
-        requirement BB2.Actuator.c_close needs StopSigns.S1.On and StopSigns.S4.On and SSsOnTimer.Finished;
-    end
+// Safety requirements.
+group SafetyRequirements:
+  group SR2: // Stop signs and boom barriers.
+    requirement BB1.Actuator.c_close needs StopSigns.S1.On and StopSigns.S4.On and SSsOnTimer.Finished;
+    requirement BB2.Actuator.c_close needs StopSigns.S1.On and StopSigns.S4.On and SSsOnTimer.Finished;
+  end
 
-    group VF4: //Boom barriers and bridge
-        requirement LM.Pump.c_on          needs BB1.Closed.On and BB2.Closed.On;
-        requirement BD.Motor.c_on         needs BB1.Closed.On and BB2.Closed.On;
-        requirement BR.Actuator.c_release needs BB1.Closed.On and BB2.Closed.On;
-        requirement LM.Valve.c_lock       needs BB1.Closed.On and BB2.Closed.On;
-        requirement LM.Valve.c_unlock     needs BB1.Closed.On and BB2.Closed.On;
-        requirement BD.Direction.c_open   needs BB1.Closed.On and BB2.Closed.On;
-        requirement BD.Direction.c_close  needs BB1.Closed.On and BB2.Closed.On;
-    end
+  group SR4: // Boom barriers and bridge.
+    requirement LM.Pump.c_on          needs BB1.Closed.On and BB2.Closed.On;
+    requirement BD.Motor.c_on         needs BB1.Closed.On and BB2.Closed.On;
+    requirement BR.Actuator.c_release needs BB1.Closed.On and BB2.Closed.On;
+    requirement LM.Valve.c_lock       needs BB1.Closed.On and BB2.Closed.On;
+    requirement LM.Valve.c_unlock     needs BB1.Closed.On and BB2.Closed.On;
+    requirement BD.Direction.c_open   needs BB1.Closed.On and BB2.Closed.On;
+    requirement BD.Direction.c_close  needs BB1.Closed.On and BB2.Closed.On;
+  end
 
-    group VF5: //Bridge and vessel traffic lights
-        requirement VTL1.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
-        requirement VTL2.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
-        requirement VTL3.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
-        requirement VTL4.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
-        requirement VTL5.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
-        requirement VTL6.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
-        requirement VTL7.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
-        requirement VTL8.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
-    end
+  group SR5: // Bridge and vessel traffic lights.
+    requirement VTL1.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
+    requirement VTL2.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
+    requirement VTL3.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
+    requirement VTL4.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
+    requirement VTL5.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
+    requirement VTL6.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
+    requirement VTL7.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
+    requirement VTL8.Actuator.c_green needs BD.Open.On and BR.Sensor.Applied and BR.Actuator.Apply;
+  end
 
-    group VF6A: //VTL 1-2 and VTL 3-4
-        requirement VTL3.Actuator.c_green    needs (VTL1.RedAspect or VTL2.RedAspect) and (not VTL1.RedStaysOff or not VTL2.RedStaysOff);
-        requirement VTL4.Actuator.c_green    needs (VTL1.RedAspect or VTL2.RedAspect) and (not VTL1.RedStaysOff or not VTL2.RedStaysOff);
+  group SR6A: // VTL 1-2 and VTL 3-4.
+    requirement VTL3.Actuator.c_green    needs (VTL1.RedAspect or VTL2.RedAspect) and (not VTL1.RedStaysOff or not VTL2.RedStaysOff);
+    requirement VTL4.Actuator.c_green    needs (VTL1.RedAspect or VTL2.RedAspect) and (not VTL1.RedStaysOff or not VTL2.RedStaysOff);
 
-        requirement VTL3.Actuator.c_redGreen needs not VTL1.RedGreenAspect and not VTL2.RedGreenAspect;
-        requirement VTL4.Actuator.c_redGreen needs not VTL1.RedGreenAspect and not VTL2.RedGreenAspect;
-    end
+    requirement VTL3.Actuator.c_redGreen needs not VTL1.RedGreenAspect and not VTL2.RedGreenAspect;
+    requirement VTL4.Actuator.c_redGreen needs not VTL1.RedGreenAspect and not VTL2.RedGreenAspect;
+  end
 
-    group VF6B: //VTL 3-4 and VTL 1-2
-        requirement VTL1.Actuator.c_green    needs (VTL3.RedAspect or VTL4.RedAspect) and (not VTL3.RedStaysOff or not VTL4.RedStaysOff);
-        requirement VTL2.Actuator.c_green    needs (VTL3.RedAspect or VTL4.RedAspect) and (not VTL3.RedStaysOff or not VTL4.RedStaysOff);
+  group SR6B: // VTL 3-4 and VTL 1-2.
+    requirement VTL1.Actuator.c_green    needs (VTL3.RedAspect or VTL4.RedAspect) and (not VTL3.RedStaysOff or not VTL4.RedStaysOff);
+    requirement VTL2.Actuator.c_green    needs (VTL3.RedAspect or VTL4.RedAspect) and (not VTL3.RedStaysOff or not VTL4.RedStaysOff);
 
-        requirement VTL1.Actuator.c_redGreen needs not VTL3.RedGreenAspect and not VTL4.RedGreenAspect;
-        requirement VTL2.Actuator.c_redGreen needs not VTL3.RedGreenAspect and not VTL4.RedGreenAspect;
-    end
+    requirement VTL1.Actuator.c_redGreen needs not VTL3.RedGreenAspect and not VTL4.RedGreenAspect;
+    requirement VTL2.Actuator.c_redGreen needs not VTL3.RedGreenAspect and not VTL4.RedGreenAspect;
+  end
 
-    group VF6C: //VTL 5-6 and VTL 7-8
-        requirement VTL7.Actuator.c_green    needs (VTL5.RedAspect or VTL6.RedAspect) and (not VTL5.RedStaysOff or not VTL6.RedStaysOff);
-        requirement VTL8.Actuator.c_green    needs (VTL5.RedAspect or VTL6.RedAspect) and (not VTL5.RedStaysOff or not VTL6.RedStaysOff);
+  group SR6C: // VTL 5-6 and VTL 7-8.
+    requirement VTL7.Actuator.c_green    needs (VTL5.RedAspect or VTL6.RedAspect) and (not VTL5.RedStaysOff or not VTL6.RedStaysOff);
+    requirement VTL8.Actuator.c_green    needs (VTL5.RedAspect or VTL6.RedAspect) and (not VTL5.RedStaysOff or not VTL6.RedStaysOff);
 
-        requirement VTL7.Actuator.c_redGreen needs not VTL5.RedGreenAspect and not VTL6.RedGreenAspect;
-        requirement VTL8.Actuator.c_redGreen needs not VTL5.RedGreenAspect and not VTL6.RedGreenAspect;
-    end
+    requirement VTL7.Actuator.c_redGreen needs not VTL5.RedGreenAspect and not VTL6.RedGreenAspect;
+    requirement VTL8.Actuator.c_redGreen needs not VTL5.RedGreenAspect and not VTL6.RedGreenAspect;
+  end
 
-    group VF6D: //VTL 7-8 and VTL 5-6
-        requirement VTL5.Actuator.c_green    needs (VTL7.RedAspect or VTL8.RedAspect) and (not VTL7.RedStaysOff or not VTL8.RedStaysOff);
-        requirement VTL6.Actuator.c_green    needs (VTL7.RedAspect or VTL8.RedAspect) and (not VTL7.RedStaysOff or not VTL8.RedStaysOff);
+  group SR6D: // VTL 7-8 and VTL 5-6.
+    requirement VTL5.Actuator.c_green    needs (VTL7.RedAspect or VTL8.RedAspect) and (not VTL7.RedStaysOff or not VTL8.RedStaysOff);
+    requirement VTL6.Actuator.c_green    needs (VTL7.RedAspect or VTL8.RedAspect) and (not VTL7.RedStaysOff or not VTL8.RedStaysOff);
 
-        requirement VTL5.Actuator.c_redGreen needs not VTL7.RedGreenAspect and not VTL8.RedGreenAspect;
-        requirement VTL6.Actuator.c_redGreen needs not VTL7.RedGreenAspect and not VTL8.RedGreenAspect;
-    end
+    requirement VTL5.Actuator.c_redGreen needs not VTL7.RedGreenAspect and not VTL8.RedGreenAspect;
+    requirement VTL6.Actuator.c_redGreen needs not VTL7.RedGreenAspect and not VTL8.RedGreenAspect;
+  end
 
-    group VF7: //Vessel traffic lights and bridge
-        alg bool redLampShown =   (VTL1.Red.On    or VTL2.Red.On   ) and (not VTL1.RedStaysOff or not VTL2.RedStaysOff) and
-                                  (VTL3.Red.On    or VTL4.Red.On   ) and (not VTL3.RedStaysOff or not VTL4.RedStaysOff) and
-                                  (VTL5.Red.On    or VTL6.Red.On   ) and (not VTL5.RedStaysOff or not VTL6.RedStaysOff) and
-                                  (VTL7.Red.On    or VTL8.Red.On   ) and (not VTL7.RedStaysOff or not VTL8.RedStaysOff);
-        alg bool RedAspectShown = (VTL1.RedAspect or VTL2.RedAspect) and (not VTL1.RedStaysOff or not VTL2.RedStaysOff) and
-                                  (VTL3.RedAspect or VTL4.RedAspect) and (not VTL3.RedStaysOff or not VTL4.RedStaysOff) and
-                                  (VTL5.RedAspect or VTL6.RedAspect) and (not VTL5.RedStaysOff or not VTL6.RedStaysOff) and
-                                  (VTL7.RedAspect or VTL8.RedAspect) and (not VTL7.RedStaysOff or not VTL8.RedStaysOff);
+  group SR7: // Vessel traffic lights and bridge.
+    alg bool redLampShown   = (VTL1.Red.On    or VTL2.Red.On   ) and (not VTL1.RedStaysOff or not VTL2.RedStaysOff) and
+                              (VTL3.Red.On    or VTL4.Red.On   ) and (not VTL3.RedStaysOff or not VTL4.RedStaysOff) and
+                              (VTL5.Red.On    or VTL6.Red.On   ) and (not VTL5.RedStaysOff or not VTL6.RedStaysOff) and
+                              (VTL7.Red.On    or VTL8.Red.On   ) and (not VTL7.RedStaysOff or not VTL8.RedStaysOff);
+    alg bool RedAspectShown = (VTL1.RedAspect or VTL2.RedAspect) and (not VTL1.RedStaysOff or not VTL2.RedStaysOff) and
+                              (VTL3.RedAspect or VTL4.RedAspect) and (not VTL3.RedStaysOff or not VTL4.RedStaysOff) and
+                              (VTL5.RedAspect or VTL6.RedAspect) and (not VTL5.RedStaysOff or not VTL6.RedStaysOff) and
+                              (VTL7.RedAspect or VTL8.RedAspect) and (not VTL7.RedStaysOff or not VTL8.RedStaysOff);
 
 
-        requirement BD.Motor.c_on         needs RedAspectShown or OverrideSwitch.On;
-        requirement BR.Actuator.c_release needs redLampShown   or OverrideSwitch.On;
-        requirement LM.Pump.c_on          needs redLampShown   or OverrideSwitch.On;
-        requirement LM.Valve.c_lock       needs redLampShown   or OverrideSwitch.On;
-        requirement LM.Valve.c_unlock     needs redLampShown   or OverrideSwitch.On;
-        requirement BD.Direction.c_open   needs redLampShown   or OverrideSwitch.On;
-        requirement BD.Direction.c_close  needs redLampShown   or OverrideSwitch.On;
-    end
+    requirement BD.Motor.c_on         needs RedAspectShown or OverrideSwitch.On;
+    requirement BR.Actuator.c_release needs redLampShown   or OverrideSwitch.On;
+    requirement LM.Pump.c_on          needs redLampShown   or OverrideSwitch.On;
+    requirement LM.Valve.c_lock       needs redLampShown   or OverrideSwitch.On;
+    requirement LM.Valve.c_unlock     needs redLampShown   or OverrideSwitch.On;
+    requirement BD.Direction.c_open   needs redLampShown   or OverrideSwitch.On;
+    requirement BD.Direction.c_close  needs redLampShown   or OverrideSwitch.On;
+  end
 
-    group VF8: //Bridge and boom barriers
-        requirement BB1.Actuator.c_open         needs BD.Closed2.On and LM.Locked.On;
-        requirement BB2.Actuator.c_open         needs BD.Closed2.On and LM.Locked.On;
-    end
+  group SR8: // Bridge and boom barriers.
+    requirement BB1.Actuator.c_open         needs BD.Closed2.On and LM.Locked.On;
+    requirement BB2.Actuator.c_open         needs BD.Closed2.On and LM.Locked.On;
+  end
 
-    group VF10: //Boom barriers and stop signs
-        requirement StopSigns.Actuator.c_off    needs BB1.Open.On and BB2.Open.On and BBsOpenTimer.Finished;
-        requirement BB.L.c_off                  needs BB1.Open.On and BB2.Open.On and BBsOpenTimer.Finished;
-    end
+  group SR10: // Boom barriers and stop signs.
+    requirement StopSigns.Actuator.c_off    needs BB1.Open.On and BB2.Open.On and BBsOpenTimer.Finished;
+    requirement BB.L.c_off                  needs BB1.Open.On and BB2.Open.On and BBsOpenTimer.Finished;
+  end
 
-    group VF11: //Undesired movements and stop signs
-        requirement StopSigns.Actuator.c_emrgOn needs BB1.UndesiredClosed or BB2.UndesiredClosed or BD.UndesiredOpen or LM.UndesiredUnlock;
-        requirement BB.L.c_emrgOn               needs BB1.UndesiredClosed or BB2.UndesiredClosed or BD.UndesiredOpen or LM.UndesiredUnlock;
+  group SR11: // Undesired movements and stop signs.
+    requirement StopSigns.Actuator.c_emrgOn needs BB1.UndesiredClosed or BB2.UndesiredClosed or BD.UndesiredOpen or LM.UndesiredUnlock;
+    requirement BB.L.c_emrgOn               needs BB1.UndesiredClosed or BB2.UndesiredClosed or BD.UndesiredOpen or LM.UndesiredUnlock;
 
-        requirement StopSigns.Actuator.c_off    needs not BB1.UndesiredClosed and not BB2.UndesiredClosed and not BD.UndesiredOpen and not LM.UndesiredUnlock;
-        requirement BB.L.c_off                  needs not BB1.UndesiredClosed and not BB2.UndesiredClosed and not BD.UndesiredOpen and not LM.UndesiredUnlock;
-    end
+    requirement StopSigns.Actuator.c_off    needs not BB1.UndesiredClosed and not BB2.UndesiredClosed and not BD.UndesiredOpen and not LM.UndesiredUnlock;
+    requirement BB.L.c_off                  needs not BB1.UndesiredClosed and not BB2.UndesiredClosed and not BD.UndesiredOpen and not LM.UndesiredUnlock;
+  end
 
-    group VF13a: //Dangerous vessel traffic light aspects 1
-        requirement VTL1.Activated.c_off         needs     VTL1.RedStaysOff;
-        requirement VTL1.Activated.c_on          needs not VTL1.RedStaysOff;
-    end
+  group SR13a: // Dangerous vessel traffic light aspects 1.
+    requirement VTL1.Activated.c_off         needs     VTL1.RedStaysOff;
+    requirement VTL1.Activated.c_on          needs not VTL1.RedStaysOff;
+  end
 
-    group VF13b: //Dangerous vessel traffic light aspects 2
-        requirement VTL2.Activated.c_off         needs     VTL2.RedStaysOff;
-        requirement VTL2.Activated.c_on          needs not VTL2.RedStaysOff;
-    end
+  group SR13b: // Dangerous vessel traffic light aspects 2.
+    requirement VTL2.Activated.c_off         needs     VTL2.RedStaysOff;
+    requirement VTL2.Activated.c_on          needs not VTL2.RedStaysOff;
+  end
 
-    group VF13c: //Dangerous vessel traffic light aspects 3
-        requirement VTL3.Activated.c_off         needs     VTL3.RedStaysOff;
-        requirement VTL3.Activated.c_on          needs not VTL3.RedStaysOff;
-    end
+  group SR13c: // Dangerous vessel traffic light aspects 3.
+    requirement VTL3.Activated.c_off         needs     VTL3.RedStaysOff;
+    requirement VTL3.Activated.c_on          needs not VTL3.RedStaysOff;
+  end
 
-    group VF13d: //Dangerous vessel traffic light aspects 4
-        requirement VTL4.Activated.c_off         needs     VTL4.RedStaysOff;
-        requirement VTL4.Activated.c_on          needs not VTL4.RedStaysOff;
-    end
+  group SR13d: // Dangerous vessel traffic light aspects 4.
+    requirement VTL4.Activated.c_off         needs     VTL4.RedStaysOff;
+    requirement VTL4.Activated.c_on          needs not VTL4.RedStaysOff;
+  end
 
-    group VF13e: //Dangerous vessel traffic light aspects 5
-        requirement VTL5.Activated.c_off         needs     VTL5.RedStaysOff;
-        requirement VTL5.Activated.c_on          needs not VTL5.RedStaysOff;
-    end
+  group SR13e: // Dangerous vessel traffic light aspects 5.
+    requirement VTL5.Activated.c_off         needs     VTL5.RedStaysOff;
+    requirement VTL5.Activated.c_on          needs not VTL5.RedStaysOff;
+  end
 
-    group VF13f: //Dangerous vessel traffic light aspects 6
-        requirement VTL6.Activated.c_off         needs     VTL6.RedStaysOff;
-        requirement VTL6.Activated.c_on          needs not VTL6.RedStaysOff;
-    end
+  group SR13f: // Dangerous vessel traffic light aspects 6.
+    requirement VTL6.Activated.c_off         needs     VTL6.RedStaysOff;
+    requirement VTL6.Activated.c_on          needs not VTL6.RedStaysOff;
+  end
 
-    group VF13g: //Dangerous vessel traffic light aspects 7
-        requirement VTL7.Activated.c_off         needs     VTL7.RedStaysOff;
-        requirement VTL7.Activated.c_on          needs not VTL7.RedStaysOff;
-    end
+  group SR13g: // Dangerous vessel traffic light aspects 7.
+    requirement VTL7.Activated.c_off         needs     VTL7.RedStaysOff;
+    requirement VTL7.Activated.c_on          needs not VTL7.RedStaysOff;
+  end
 
-    group VF13h: //Dangerous vessel traffic light aspects 8
-        requirement VTL8.Activated.c_off         needs     VTL8.RedStaysOff;
-        requirement VTL8.Activated.c_on          needs not VTL8.RedStaysOff;
-    end
+  group SR13h: // Dangerous vessel traffic light aspects 8.
+    requirement VTL8.Activated.c_off         needs     VTL8.RedStaysOff;
+    requirement VTL8.Activated.c_on          needs not VTL8.RedStaysOff;
+  end
 end
 
-group Functioneel:
-    //Dont close when already closed
-    requirement BB1.Actuator.c_close needs BB1.NotClosed.On;
-    requirement BB2.Actuator.c_close needs BB2.NotClosed.On;
+// Functional requirements.
+group FunctionalRequirements:
+  // Don't close when already closed.
+  requirement BB1.Actuator.c_close needs BB1.NotClosed.On;
+  requirement BB2.Actuator.c_close needs BB2.NotClosed.On;
 
-    //Dont close when stuck
-    requirement BB1.Actuator.c_close needs not BB1.Stuck;
-    requirement BB2.Actuator.c_close needs not BB2.Stuck;
+  // Don't close when stuck.
+  requirement BB1.Actuator.c_close needs not BB1.Stuck;
+  requirement BB2.Actuator.c_close needs not BB2.Stuck;
 
-    //Dont open when open
-    requirement BB1.Actuator.c_open  needs BB1.NotOpen.On;
-    requirement BB2.Actuator.c_open  needs BB2.NotOpen.On;
+  // Don't open when open.
+  requirement BB1.Actuator.c_open  needs BB1.NotOpen.On;
+  requirement BB2.Actuator.c_open  needs BB2.NotOpen.On;
 
-    //Dont open when stuck
-    requirement BB1.Actuator.c_open  needs not BB1.Stuck;
-    requirement BB2.Actuator.c_open  needs not BB2.Stuck;
+  // Don't open when stuck.
+  requirement BB1.Actuator.c_open  needs not BB1.Stuck;
+  requirement BB2.Actuator.c_open  needs not BB2.Stuck;
 
-    //Stop when
-    //      *Closed for 300 ms
-    //      *Open for 600 ms
-    //      *Stuck
-    requirement BB1.Actuator.c_stop needs
-       (BB1.Actuator.Closing and BB1ClosedTimer.Finished and BB1.NotClosed.Off) or
-       (BB1.Actuator.Opening and BB1OpenTimer.Finished   and BB1.NotOpen.Off)   or
-       BB1.Stuck;
-    requirement BB2.Actuator.c_stop needs
-       (BB2.Actuator.Closing and BB2ClosedTimer.Finished and BB2.NotClosed.Off) or
-       (BB2.Actuator.Opening and BB2OpenTimer.Finished   and BB2.NotOpen.Off)   or
-       BB2.Stuck;
+  // Stop when:
+  //  - Closed for 300 ms, or
+  //  - Open for 600 ms, or
+  //  - Stuck.
+  requirement BB1.Actuator.c_stop needs
+    (BB1.Actuator.Closing and BB1ClosedTimer.Finished and BB1.NotClosed.Off) or
+    (BB1.Actuator.Opening and BB1OpenTimer.Finished   and BB1.NotOpen.Off)   or
+    BB1.Stuck;
+  requirement BB2.Actuator.c_stop needs
+    (BB2.Actuator.Closing and BB2ClosedTimer.Finished and BB2.NotClosed.Off) or
+    (BB2.Actuator.Opening and BB2OpenTimer.Finished   and BB2.NotOpen.Off)   or
+    BB2.Stuck;
 
-    //Brake may be released when
-    //      *The release brake signal is switched on.
-    requirement BR.Actuator.c_release needs BR.Release.On;
+  // Brake may be released when:
+  //  - The release brake signal is switched on.
+  requirement BR.Actuator.c_release needs BR.Release.On;
 
-    //Brake may be applied when
-    //      *The release brake signal is switched off.
-    requirement BR.Actuator.c_apply   needs BR.Release.Off;
+  // Brake may be applied when:
+  //  - The release brake signal is switched off.
+  requirement BR.Actuator.c_apply  needs BR.Release.Off;
 
-    //Locking mechanism may unlock when
-    //      *not unlocked
-    //      *motor is idle
-    requirement LM.Valve.c_unlock needs
-        not LM.Unlocked.On and
-        BD.Direction.Idle;
+  // Locking mechanism may unlock when:
+  //  - Not unlocked.
+  //  - Motor is idle.
+  requirement LM.Valve.c_unlock needs
+    not LM.Unlocked.On and
+    BD.Direction.Idle;
 
-    //Locking mechanism may lock when
-    //      *not locked
-    //      *bridge is closed (2x)
-    //      *brake is applied
-    //      *motor is idle
-    requirement LM.Valve.c_lock needs
-        not LM.Locked.On  and
-        BD.Closed.On      and
-        BD.Closed2.On     and
-        BR.Sensor.Applied and
-        BD.Direction.Idle;
+  // Locking mechanism may lock when:
+  //  - Not locked.
+  //  - Bridge is closed (2x).
+  //  - Brake is applied.
+  //  - Motor is idle.
+  requirement LM.Valve.c_lock needs
+    not LM.Locked.On  and
+    BD.Closed.On      and
+    BD.Closed2.On     and
+    BR.Sensor.Applied and
+    BD.Direction.Idle;
 
-    //Locking mechanism may stop when
-    //      *unlocked for 100 ms
-    //      *locked for 500 ms
-    requirement LM.Valve.c_stop     needs
-        (LM.Valve.Unlock and LMUnlockedTimer100.Finished and LM.Unlocked.On) or
-        (LM.Valve.Lock   and LMLockedTimer.Finished      and LM.Locked.On);
+  // Locking mechanism may stop when:
+  //  - Unlocked for 100 ms, or
+  //  - Locked for 500 ms.
+  requirement LM.Valve.c_stop needs
+    (LM.Valve.Unlock and LMUnlockedTimer100.Finished and LM.Unlocked.On) or
+    (LM.Valve.Lock   and LMLockedTimer.Finished      and LM.Locked.On);
 
-    //Pump may start when
-    //      *vale is not idle
-    requirement LM.Pump.c_on needs
-        not LM.Valve.Idle;
+  // Pump may start when:
+  //  - Valve is not idle.
+  requirement LM.Pump.c_on  needs
+    not LM.Valve.Idle;
 
-    //Pump mag stoppen als:
-    //      *vale is idle
-    requirement LM.Pump.c_off needs
-        LM.Valve.Idle;
+  // Pump may stop when:
+  //  - Valve is idle.
+  requirement LM.Pump.c_off needs
+    LM.Valve.Idle;
 
-    //Motor may switch off when
-    //      *Not both barriers are closed, or
-    //      *More than two red lamps are off (when the ovveride switch is not present)
-    requirement BD.Motor.c_off    needs
-        not (BB1.Closed.On and BB2.Closed.On) or
-        (not Beveiligingen.VF7.redLampShown and not OverrideSwitch.On);
+  // Motor may switch off when:
+  //  - Not both barriers are closed, or
+  //  - More than two red lamps are off (when the override switch is not present).
+  requirement BD.Motor.c_off    needs
+    not (BB1.Closed.On and BB2.Closed.On) or
+    (not SafetyRequirements.SR7.redLampShown and not OverrideSwitch.On);
 
-    //Bridge may open when:
-    //    *not open
-    //    *unlocked for 3 s.
-    requirement BD.Direction.c_open  needs
-        not BD.Open.On            and
-        LMUnlockedTimer3.Finished and
-        LM.Unlocked.On;
+  // Bridge may open when:
+  //  - Not open.
+  //  - Unlocked for 3 s.
+  requirement BD.Direction.c_open  needs
+    not BD.Open.On            and
+    LMUnlockedTimer3.Finished and
+    LM.Unlocked.On;
 
-    //Bridge may close when
-    //    *not closed
-    //    *unlocked
-    requirement BD.Direction.c_close needs
-        not BD.Closed.On  and
-        LM.Unlocked.On;
+  // Bridge may close when:
+  //  - Not closed.
+  //  - Unlocked.
+  requirement BD.Direction.c_close needs
+    not BD.Closed.On and
+    LM.Unlocked.On;
 
-    //The bridge may stop when
-    //      *open
-    //      *closed for 3s
-    requirement BD.Direction.c_stop needs
-       (BD.Open.On   and                            BD.Direction.Opening) or
-       (BD.Closed.On and BDClosedTimer.Finished and BD.Direction.Closing);
+  // The bridge may stop when:
+  //  - Open, or
+  //  - Closed for 3s.
+  requirement BD.Direction.c_stop needs
+    (BD.Open.On   and                            BD.Direction.Opening) or
+    (BD.Closed.On and BDClosedTimer.Finished and BD.Direction.Closing);
 
-    //Speed may go to fast when
-    //      * opening and not BBOpen, BOpen, or Open, or
-    //      * closing and not BBClosed, BClosed, or Closed.
-    requirement BD.Speed.c_fast  needs
-       BD.Direction.Opening  and BD.Open.Off   and BD.BOpen.Off   and BD.BBOpen.Off or
-       BD.Direction.Closing  and BD.Closed.Off and BD.BClosed.Off and BD.BBClosed.Off;
+  // Speed may go to fast when:
+  //  - Opening and not BBOpen, BOpen, or Open, or
+  //  - Closing and not BBClosed, BClosed, or Closed.
+  requirement BD.Speed.c_fast  needs
+    BD.Direction.Opening and BD.Open.Off   and BD.BOpen.Off   and BD.BBOpen.Off or
+    BD.Direction.Closing and BD.Closed.Off and BD.BClosed.Off and BD.BBClosed.Off;
 
-    //Speed may got to slow when
-    //      * Fast is not allowed
-    //      * opening and not open.
-    //      * closing and not closed.
-    requirement BD.Speed.c_slow needs
+  // Speed may got to slow when:
+  //  - Fast is not allowed.
+  //  - Opening and not open.
+  //  - Closing and not closed.
+  requirement BD.Speed.c_slow needs
     not(BD.Direction.Opening and BD.Open.Off   and BD.BOpen.Off   and BD.BBOpen.Off or
         BD.Direction.Closing and BD.Closed.Off and BD.BClosed.Off and BD.BBClosed.Off);
-    requirement BD.Speed.c_slow needs
-       BD.Direction.Opening and BD.Open.Off or
-       BD.Direction.Closing and BD.Closed.Off;
+  requirement BD.Speed.c_slow needs
+    BD.Direction.Opening and BD.Open.Off or
+    BD.Direction.Closing and BD.Closed.Off;
 
-    //Speed may go to idle when
-    //      *direction is idle
-    requirement BD.Speed.c_stop needs
-       BD.Direction.Idle;
+  // Speed may go to idle when:
+  //  - Direction is idle.
+  requirement BD.Speed.c_stop needs
+    BD.Direction.Idle;
 end
 
+// GUI.
 group GUI:
-    group emergencyStops:
-        requirement BB1.Actuator.c_emrgStop needs emergency or BridgeCommands.StopBB;
-        requirement BB2.Actuator.c_emrgStop needs emergency or BridgeCommands.StopBB;
-        requirement BR.Actuator.c_emrgStop  needs emergency or BridgeCommands.StopB;
-        requirement LM.Valve.c_emrgStop     needs emergency or BridgeCommands.StopB;
-        requirement LM.Pump.c_emrgStop      needs emergency or BridgeCommands.StopB;
-        requirement BD.Motor.c_emrgStop     needs emergency or BridgeCommands.StopB;
-        requirement BD.Direction.c_emrgStop needs emergency or BridgeCommands.StopB;
-        requirement BD.Speed.c_emrgStop     needs emergency or BridgeCommands.StopB;
+  // Emergency stop.
+  group EmergencyStops:
+    requirement BB1.Actuator.c_emrgStop needs emergency or BridgeCommands.StopBB;
+    requirement BB2.Actuator.c_emrgStop needs emergency or BridgeCommands.StopBB;
+    requirement BR.Actuator.c_emrgStop  needs emergency or BridgeCommands.StopB;
+    requirement LM.Valve.c_emrgStop     needs emergency or BridgeCommands.StopB;
+    requirement LM.Pump.c_emrgStop      needs emergency or BridgeCommands.StopB;
+    requirement BD.Motor.c_emrgStop     needs emergency or BridgeCommands.StopB;
+    requirement BD.Direction.c_emrgStop needs emergency or BridgeCommands.StopB;
+    requirement BD.Speed.c_emrgStop     needs emergency or BridgeCommands.StopB;
 
-        requirement BB1.Actuator.c_open     needs not emergency;
-        requirement BB1.Actuator.c_close    needs not emergency;
-        requirement BB2.Actuator.c_open     needs not emergency;
-        requirement BB2.Actuator.c_close    needs not emergency;
-        requirement BR.Actuator.c_release   needs not emergency;
-        requirement LM.Valve.c_unlock       needs not emergency;
-        requirement LM.Valve.c_lock         needs not emergency;
-        requirement LM.Pump.c_on            needs not emergency;
-        requirement BD.Direction.c_open     needs not emergency;
-        requirement BD.Direction.c_close    needs not emergency;
-        requirement BD.Speed.c_fast         needs not emergency;
-        requirement BD.Speed.c_slow         needs not emergency;
-        requirement BD.Motor.c_on           needs not emergency;
+    requirement BB1.Actuator.c_open     needs not emergency;
+    requirement BB1.Actuator.c_close    needs not emergency;
+    requirement BB2.Actuator.c_open     needs not emergency;
+    requirement BB2.Actuator.c_close    needs not emergency;
+    requirement BR.Actuator.c_release   needs not emergency;
+    requirement LM.Valve.c_unlock       needs not emergency;
+    requirement LM.Valve.c_lock         needs not emergency;
+    requirement LM.Pump.c_on            needs not emergency;
+    requirement BD.Direction.c_open     needs not emergency;
+    requirement BD.Direction.c_close    needs not emergency;
+    requirement BD.Speed.c_fast         needs not emergency;
+    requirement BD.Speed.c_slow         needs not emergency;
+    requirement BD.Motor.c_on           needs not emergency;
 
-        requirement BR.Actuator.c_release   needs not BridgeCommands.StopB;
-        requirement BD.Motor.c_on           needs not BridgeCommands.StopB;
-        requirement LM.Pump.c_on            needs not BridgeCommands.StopB;
-        requirement BD.Speed.c_fast         needs not BridgeCommands.StopB;
-        requirement BD.Speed.c_slow         needs not BridgeCommands.StopB;
-    end
+    requirement BR.Actuator.c_release   needs not BridgeCommands.StopB;
+    requirement BD.Motor.c_on           needs not BridgeCommands.StopB;
+    requirement LM.Pump.c_on            needs not BridgeCommands.StopB;
+    requirement BD.Speed.c_fast         needs not BridgeCommands.StopB;
+    requirement BD.Speed.c_slow         needs not BridgeCommands.StopB;
+  end
 
-    //LVS IN
-    requirement StopSigns.Actuator.c_on     needs BridgeCommands.CloseLT;
-    requirement BB.L.c_on                   needs BridgeCommands.CloseLT;
+  // Land traffic close.
+  requirement StopSigns.Actuator.c_on   needs BridgeCommands.CloseLT;
+  requirement BB.L.c_on                 needs BridgeCommands.CloseLT;
 
-    //Barriers Close
-    requirement BB1.Actuator.c_close        needs BridgeCommands.CloseBB;
-    requirement BB2.Actuator.c_close        needs BridgeCommands.CloseBB;
+  // Barriers close.
+  requirement BB1.Actuator.c_close      needs BridgeCommands.CloseBB;
+  requirement BB2.Actuator.c_close      needs BridgeCommands.CloseBB;
 
-    //Bridge Open
-    requirement BD.Direction.c_open         needs BridgeCommands.OpenB;
-    requirement LM.Valve.c_unlock           needs BridgeCommands.OpenB;
+  // Bridge open.
+  requirement BD.Direction.c_open       needs BridgeCommands.OpenB;
+  requirement LM.Valve.c_unlock         needs BridgeCommands.OpenB;
 
-    //Bridge Close
-    requirement BD.Direction.c_close        needs BridgeCommands.CloseB;
-    requirement LM.Valve.c_lock             needs BridgeCommands.CloseB;
+  // Bridge close.
+  requirement BD.Direction.c_close      needs BridgeCommands.CloseB;
+  requirement LM.Valve.c_lock           needs BridgeCommands.CloseB;
 
-    //Barriers Open
-    requirement BB1.Actuator.c_open         needs BridgeCommands.OpenBB;
-    requirement BB2.Actuator.c_open         needs BridgeCommands.OpenBB;
+  // Barriers open.
+  requirement BB1.Actuator.c_open       needs BridgeCommands.OpenBB;
+  requirement BB2.Actuator.c_open       needs BridgeCommands.OpenBB;
 
-    //LVS Uit
-    requirement StopSigns.Actuator.c_off    needs BridgeCommands.OpenLT or BridgeCommands.L10;
-    requirement BB.L.c_off                  needs BridgeCommands.OpenLT or BridgeCommands.L10;
+  // Land traffic open.
+  requirement StopSigns.Actuator.c_off  needs BridgeCommands.OpenLT or BridgeCommands.L10;
+  requirement BB.L.c_off                needs BridgeCommands.OpenLT or BridgeCommands.L10;
 
-    group def GUI_VTL(VTLCommands Button; controllable c_red, c_redGreen, c_redRed, c_green, c_emrgStop):
-        requirement c_red      needs Button.Red;
-        requirement c_redRed   needs Button.RedRed;
-        requirement c_redGreen needs Button.RedGreen and not emergency;
-        requirement c_green    needs Button.Green    and not emergency;
-        requirement c_emrgStop needs emergency;
-    end
+  // Vessel traffic lights.
+  group def GUI_VTL(VTLCommands Button; controllable c_red, c_redGreen, c_redRed, c_green, c_emrgStop):
+    requirement c_red      needs Button.Red;
+    requirement c_redRed   needs Button.RedRed;
+    requirement c_redGreen needs Button.RedGreen and not emergency;
+    requirement c_green    needs Button.Green    and not emergency;
+    requirement c_emrgStop needs emergency;
+  end
 
-    GUI_VTL1 : GUI_VTL(CommandVTL12, VTL1.Actuator.c_red, VTL1.Actuator.c_redGreen, VTL1.Actuator.c_redRed, VTL1.Actuator.c_green, VTL1.Actuator.c_emrg);
-    GUI_VTL2 : GUI_VTL(CommandVTL12, VTL2.Actuator.c_red, VTL2.Actuator.c_redGreen, VTL2.Actuator.c_redRed, VTL2.Actuator.c_green, VTL2.Actuator.c_emrg);
-    GUI_VTL3 : GUI_VTL(CommandVTL34, VTL3.Actuator.c_red, VTL3.Actuator.c_redGreen, VTL3.Actuator.c_redRed, VTL3.Actuator.c_green, VTL3.Actuator.c_emrg);
-    GUI_VTL4 : GUI_VTL(CommandVTL34, VTL4.Actuator.c_red, VTL4.Actuator.c_redGreen, VTL4.Actuator.c_redRed, VTL4.Actuator.c_green, VTL4.Actuator.c_emrg);
-    GUI_VTL5 : GUI_VTL(CommandVTL56, VTL5.Actuator.c_red, VTL5.Actuator.c_redGreen, VTL5.Actuator.c_redRed, VTL5.Actuator.c_green, VTL5.Actuator.c_emrg);
-    GUI_VTL6 : GUI_VTL(CommandVTL56, VTL6.Actuator.c_red, VTL6.Actuator.c_redGreen, VTL6.Actuator.c_redRed, VTL6.Actuator.c_green, VTL6.Actuator.c_emrg);
-    GUI_VTL7 : GUI_VTL(CommandVTL78, VTL7.Actuator.c_red, VTL7.Actuator.c_redGreen, VTL7.Actuator.c_redRed, VTL7.Actuator.c_green, VTL7.Actuator.c_emrg);
-    GUI_VTL8 : GUI_VTL(CommandVTL78, VTL8.Actuator.c_red, VTL8.Actuator.c_redGreen, VTL8.Actuator.c_redRed, VTL8.Actuator.c_green, VTL8.Actuator.c_emrg);
+  GUI_VTL1: GUI_VTL(CommandVTL12, VTL1.Actuator.c_red, VTL1.Actuator.c_redGreen, VTL1.Actuator.c_redRed, VTL1.Actuator.c_green, VTL1.Actuator.c_emrg);
+  GUI_VTL2: GUI_VTL(CommandVTL12, VTL2.Actuator.c_red, VTL2.Actuator.c_redGreen, VTL2.Actuator.c_redRed, VTL2.Actuator.c_green, VTL2.Actuator.c_emrg);
+  GUI_VTL3: GUI_VTL(CommandVTL34, VTL3.Actuator.c_red, VTL3.Actuator.c_redGreen, VTL3.Actuator.c_redRed, VTL3.Actuator.c_green, VTL3.Actuator.c_emrg);
+  GUI_VTL4: GUI_VTL(CommandVTL34, VTL4.Actuator.c_red, VTL4.Actuator.c_redGreen, VTL4.Actuator.c_redRed, VTL4.Actuator.c_green, VTL4.Actuator.c_emrg);
+  GUI_VTL5: GUI_VTL(CommandVTL56, VTL5.Actuator.c_red, VTL5.Actuator.c_redGreen, VTL5.Actuator.c_redRed, VTL5.Actuator.c_green, VTL5.Actuator.c_emrg);
+  GUI_VTL6: GUI_VTL(CommandVTL56, VTL6.Actuator.c_red, VTL6.Actuator.c_redGreen, VTL6.Actuator.c_redRed, VTL6.Actuator.c_green, VTL6.Actuator.c_emrg);
+  GUI_VTL7: GUI_VTL(CommandVTL78, VTL7.Actuator.c_red, VTL7.Actuator.c_redGreen, VTL7.Actuator.c_redRed, VTL7.Actuator.c_green, VTL7.Actuator.c_emrg);
+  GUI_VTL8: GUI_VTL(CommandVTL78, VTL8.Actuator.c_red, VTL8.Actuator.c_redGreen, VTL8.Actuator.c_redRed, VTL8.Actuator.c_green, VTL8.Actuator.c_emrg);
 end

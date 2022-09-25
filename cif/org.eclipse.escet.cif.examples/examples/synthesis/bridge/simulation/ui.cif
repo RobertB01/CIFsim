@@ -11,116 +11,139 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Bridge.
 group BridgeCommands:
-    uncontrollable u_closeLT, u_openLT, u_openB, u_closeB, u_closeBB, u_stop;
+  uncontrollable u_closeLT, u_openLT, u_openB, u_closeB, u_closeBB, u_stop;
 end
 
+// Vessel traffic lights.
 uncontrollable u_r2, u_r2Off;
 
 group def VTLCommands():
-    uncontrollable u_red, u_green;
+  uncontrollable u_red, u_green;
 end
 
-CommandVTL12 : VTLCommands();
-CommandVTL34 : VTLCommands();
-CommandVTL56 : VTLCommands();
-CommandVTL78 : VTLCommands();
+CommandVTL12: VTLCommands();
+CommandVTL34: VTLCommands();
+CommandVTL56: VTLCommands();
+CommandVTL78: VTLCommands();
 
-
+// Emergency stop.
 plant EmergencyStop:
-    uncontrollable u_emerg_on, u_emerg_off;
-    location Inactive:
-        initial; marked;
-        edge u_emerg_on  goto Active;
-    location Active:
-        edge u_emerg_off goto Inactive;
+  uncontrollable u_emerg_on, u_emerg_off;
+
+  location Inactive:
+    initial; marked;
+    edge u_emerg_on  goto Active;
+
+  location Active:
+    edge u_emerg_off goto Inactive;
 end
 
+// Supervisor skeleton.
 group sup:
-    group StopSigns:
-        group Actuator:
-            input bool On;
-        end
+  group StopSigns:
+    group Actuator:
+      input bool On;
     end
-    group BB1:
-        group NotClosed:
-            input bool Off;
-        end
-        group Actuator:
-            input bool Idle;
-        end
-    end
-    group BB2:
-        group NotClosed:
-            input bool Off;
-        end
-        group Actuator:
-            input bool Idle;
-        end
-    end
-    group BD:
-        group Closed:
-            input bool On;
-        end
-        group Open:
-            input bool On;
-        end
-    end
-    group BridgeCommands:
-        input bool CloseLT_act,      CloseLT_bdb,
-                   OpenLT_act,       OpenLT_bdb,
-                   Stop_act,         Stop_bdb,
-                   CloseBB_act,      CloseBB_bdb,
-                   OpenB_act,        OpenB_bdb,
-                   CloseB_act,       CloseB_bdb,
-                   Window1CloseAble, Window1Visible,
-                   Window2CloseAble, Window2Visible;
+  end
+
+  group BB1:
+    group NotClosed:
+      input bool Off;
     end
 
-    group def supVTLCommands():
-        input bool Red, RedRed, RedGreen, Green;
+    group Actuator:
+      input bool Idle;
+    end
+  end
+
+  group BB2:
+    group NotClosed:
+      input bool Off;
     end
 
-    CommandVTL12 : supVTLCommands();
-    CommandVTL34 : supVTLCommands();
-    CommandVTL56 : supVTLCommands();
-    CommandVTL78 : supVTLCommands();
+    group Actuator:
+      input bool Idle;
+    end
+  end
+
+  group BD:
+    group Closed:
+      input bool On;
+    end
+
+    group Open:
+      input bool On;
+    end
+  end
+
+  group BridgeCommands:
+    input bool CloseLT_act,      CloseLT_obl,
+               OpenLT_act,       OpenLT_obl,
+               Stop_act,         Stop_obl,
+               CloseBB_act,      CloseBB_obl,
+               OpenB_act,        OpenB_obl,
+               CloseB_act,       CloseB_obl,
+               Window1Closeable, Window1Visible,
+               Window2Closeable, Window2Visible;
+  end
+
+  group def supVTLCommands():
+    input bool Red, RedRed, RedGreen, Green;
+  end
+
+  CommandVTL12: supVTLCommands();
+  CommandVTL34: supVTLCommands();
+  CommandVTL56: supVTLCommands();
+  CommandVTL78: supVTLCommands();
 end
 
 group StopSigns:
-    input bool fault123;
-    input bool fault45;
+  input bool fault123;
+  input bool fault45;
 end
+
 group BB1:
-    input bool fault;
+  input bool fault;
 end
+
 group BB2:
-    input bool fault;
+  input bool fault;
 end
+
 group VTL1:
-    input bool fault;
+  input bool fault;
 end
+
 group VTL2:
-    input bool fault;
+  input bool fault;
 end
+
 group VTL3:
-    input bool fault;
+  input bool fault;
 end
+
 group VTL4:
-    input bool fault;
+  input bool fault;
 end
+
 group VTL5:
-    input bool fault;
+  input bool fault;
 end
+
 group VTL6:
-    input bool fault;
+  input bool fault;
 end
+
 group VTL7:
-    input bool fault;
+  input bool fault;
 end
+
 group VTL8:
-    input bool fault;
+  input bool fault;
 end
+
 group BD:
-    input bool fault;
+  input bool fault;
 end

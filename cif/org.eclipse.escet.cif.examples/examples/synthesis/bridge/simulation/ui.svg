@@ -26,8 +26,8 @@
    viewBox="0 0 683.36301 540.37845"
    id="svg4814"
    version="1.1"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="UI.svg">
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="ui.svg">
   <defs
      id="defs4816">
     <marker
@@ -99,15 +99,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="399.45626"
-     inkscape:cy="258.74448"
+     inkscape:cx="458.57236"
+     inkscape:cy="404.16207"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1137"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-4"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -169,7 +169,7 @@
     <rect
        style="fill:#888888;fill-opacity:1;stroke:none;stroke-width:0.56304163"
        id="rect1162-6"
-       width="182.47502"
+       width="178.56178"
        height="64.69767"
        x="663.53571"
        y="248.42432"
@@ -213,13 +213,13 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:15px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.25px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="-358.50668"
-       y="837.30664"
+       x="-366.54465"
+       y="833.55664"
        id="text6396"><tspan
          sodipodi:role="line"
          id="tspan6398"
-         x="-358.50668"
-         y="837.30664"
+         x="-366.54465"
+         y="833.55664"
          style="font-size:20px;line-height:1.25;stroke-width:1.25px">Oisterwijksebaan</tspan></text>
     <text
        xml:space="preserve"
@@ -245,7 +245,7 @@
          x="597.34467"
          height="68.588982"
          width="23.651373"
-         id="vtl34"
+         id="VTL34"
          style="opacity:1;fill:#000000;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
          transform="scale(1,-1)" />
       <circle
@@ -292,7 +292,7 @@
          x="188.61855"
          height="54.871185"
          width="18.921099"
-         id="vtl78"
+         id="VTL78"
          style="opacity:1;fill:#000000;stroke:#000000;stroke-width:0.80000001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
       <circle
          r="7"
@@ -324,7 +324,7 @@
          x="188.61855"
          height="54.871185"
          width="18.921099"
-         id="vtl12"
+         id="VTL12"
          style="opacity:1;fill:#000000;stroke:#000000;stroke-width:0.80000001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
       <circle
          r="7"
@@ -356,7 +356,7 @@
          x="188.61855"
          height="54.871185"
          width="18.921099"
-         id="vtl56"
+         id="VTL56"
          style="opacity:1;fill:#000000;stroke:#000000;stroke-width:0.80000001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
       <circle
          r="7"
@@ -700,7 +700,7 @@
        style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
        id="ButtonEmergencyStop"
        cx="-124.41006"
-       cy="808.53564"
+       cy="808.08392"
        r="30" />
     <text
        xml:space="preserve"
@@ -718,7 +718,7 @@
        x="-312.98575"
        height="187.85799"
        width="64.54789"
-       id="brug"
+       id="bridge"
        style="fill:#ffffff;stroke:#000000;stroke-width:0.82033336" />
     <g
        transform="translate(-626.21243,407.57446)"

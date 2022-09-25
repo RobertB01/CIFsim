@@ -11,40 +11,43 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton def Timer(alg real TimerLength):
-    controllable c_start;
-    uncontrollable u_timeout;
+// Basic timers.
+automaton def Timer(alg real duration):
+  controllable c_start;
+  uncontrollable u_timeout;
+  cont t = 0.0 der -1;
+
+  location:
+    initial;
+    edge c_start   do t := duration;
+    edge u_timeout when t <= 0;
+end
+
+SSsOnTimer:         Timer(16.4);
+
+BBsOpenTimer:       Timer(3.0);
+BB1OpenTimer:       Timer(0.6);
+BB1ClosedTimer:     Timer(0.3);
+BB2OpenTimer:       Timer(0.6);
+BB2ClosedTimer:     Timer(0.3);
+
+LMLockedTimer:      Timer(0.5);
+LMUnlockedTimer100: Timer(0.1);
+LMUnlockedTimer3:   Timer(3.0);
+
+BDClosedTimer:      Timer(3.0);
+
+// Boom barrier timer.
+group BB:
+  group Alternate: // Light alternation.
+    controllable c_mode1, c_mode2;
+  end
+
+  plant Switcher: // Light switcher timer.
     cont t = 0.0 der -1;
 
-    location:
-        initial;
-        edge c_start do t := TimerLength;
-        edge u_timeout when t <= 0;
+    location: initial;
+      edge Alternate.c_mode2 when t <= 0 do t := 1000;
+      edge Alternate.c_mode1 when t <= 0 do t := 1;
+  end
 end
-
-group BB:
-    group Alternate:
-        controllable c_mode1, c_mode2;
-    end
-    plant Switcher:
-        cont t = 0.0 der -1;
-        location: initial;
-            edge Alternate.c_mode2 when t <= 0 do t := 1000;
-            edge Alternate.c_mode1 when t <= 0 do t := 1;
-    end
-end
-
-SSsOnTimer         : Timer(16.4);
-
-BBsOpenTimer       : Timer(3.0);
-BB1OpenTimer       : Timer(0.6);
-BB1ClosedTimer     : Timer(0.3);
-BB2OpenTimer       : Timer(0.6);
-BB2ClosedTimer     : Timer(0.3);
-
-LMLockedTimer      : Timer(0.5);
-LMUnlockedTimer100 : Timer(0.1);
-LMUnlockedTimer3   : Timer(3.0);
-
-BDClosedTimer      : Timer(3.0);
-
