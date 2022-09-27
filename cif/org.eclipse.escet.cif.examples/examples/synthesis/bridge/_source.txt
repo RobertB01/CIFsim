@@ -1,0 +1,18 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Model source: Ferdie Reijnen, Eva-Britt Leliveld, Joanna van de Mortel-Fronczak, John van Dinther, Jacobus Rooda and
+Wan Fokkink, "Synthesized fault-tolerant supervisory controllers, with an application to a rotating bridge",
+In: Computers in Industry, volume 130, article 103473, 2021, doi: https://doi.org/10.1016/j.compind.2021.103473.
+
+Model repository: https://github.com/ffhreijnen/OBB.

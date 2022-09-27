@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "plant.cif";
+
+// Reset button.
+automaton ResetButton:
+  disc bool ResetFaults = false;
+  uncontrollable u_reset;
+
+  location:
+    initial;
+    edge u_reset do ResetFaults := not ResetFaults;
+end
+
+// Override switch.
+automaton OverrideSwitch:
+  uncontrollable u_turn_on, u_turn_off;
+
+  location Off:
+    initial; marked;
+    edge u_turn_on  goto On;
+
+  location On:
+    edge u_turn_off goto Off;
+end
+
+// Supervisor skeleton.
+group sup:
+  group ResetButton:
+    alg bool ResetFaults = .ResetButton.ResetFaults;
+  end
+end
