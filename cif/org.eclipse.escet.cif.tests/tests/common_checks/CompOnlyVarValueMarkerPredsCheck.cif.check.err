@@ -1,0 +1,9 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "double_marker_grp.double_marker_in_aut_and_grp.v": discrete variable has multiple predicates that specify its marked values.
+ - Unsupported "double_marker_in_aut.v": discrete variable has multiple predicates that specify its marked values.
+ - Unsupported "double_marker_in_aut_and_spec.v": discrete variable has multiple predicates that specify its marked values.
+ - Unsupported "marker_not_binexpr": automaton has a marker predicate that is not of the form "discrete_variable = marked_value".
+ - Unsupported "marker_not_equal_binexpr": automaton has a marker predicate that is not of the form "discrete_variable = marked_value".
+ - Unsupported "marker_var_not_on_the_left": automaton has a marker predicate that is not of the form "discrete_variable = marked_value".
+ - Unsupported "six_marker.six_marker.v": discrete variable has multiple predicates that specify its marked values.
+ - Unsupported specification: the top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".

@@ -1,0 +1,7 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "CAST_EXPRS_BROADER_TYPE": uses type-changing cast expression "<real>1".
+ - Unsupported "CAST_EXPRS_TO_STR": uses type-changing cast expression "<string>1".
+ - Unsupported "FUNC_REFS_USER_DEF": uses internal user-defined function reference "FUNC_REFS_USER_DEF.f".
+ - Unsupported "FUNC_REFS_USER_DEF_EXT": uses external user-defined function reference "FUNC_REFS_USER_DEF_EXT.f".
+ - Unsupported "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f": uses internal user-defined function local variable reference "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f.v".
+ - Unsupported "USER_DEF_FUNC_PARAM_REFS.f": uses user-defined function parameter reference "USER_DEF_FUNC_PARAM_REFS.f.p".

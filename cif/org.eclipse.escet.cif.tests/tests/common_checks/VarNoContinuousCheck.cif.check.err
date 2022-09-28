@@ -1,0 +1,4 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a.c": variable is a continuous variable.
+ - Unsupported "c": variable is a continuous variable.
+ - Unsupported "g.c": variable is a continuous variable.

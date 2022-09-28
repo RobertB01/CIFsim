@@ -1,0 +1,9 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "state_inv": group has a kindless state invariant.
+ - Unsupported "state_inv.Kindless": group definition has a kindless state invariant.
+ - Unsupported "state_inv.p": group has a plant state invariant.
+ - Unsupported "state_inv.Pl": group definition has a plant state invariant.
+ - Unsupported "state_inv.Sup": automaton definition has a supervisor state invariant.
+ - Unsupported "state_inv.sup": group has a supervisor state invariant.
+ - Unsupported specification: the top level scope of the specification has a kindless state invariant.
+ - Unsupported specification: the top level scope of the specification has a plant state invariant.

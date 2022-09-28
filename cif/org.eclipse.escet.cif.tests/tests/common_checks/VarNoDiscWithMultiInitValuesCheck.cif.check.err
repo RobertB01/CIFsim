@@ -1,0 +1,10 @@
+WARNING: File "common_checks/VarNoDiscWithMultiInitValuesCheck.cif": Semantic warning at line 15, column 12: Discrete variable "a.v_default" is not used anywhere in the specification.
+WARNING: File "common_checks/VarNoDiscWithMultiInitValuesCheck.cif": Semantic warning at line 16, column 12: Discrete variable "a.v1" is not used anywhere in the specification.
+WARNING: File "common_checks/VarNoDiscWithMultiInitValuesCheck.cif": Semantic warning at line 17, column 12: Discrete variable "a.v2" is not used anywhere in the specification.
+WARNING: File "common_checks/VarNoDiscWithMultiInitValuesCheck.cif": Semantic warning at line 18, column 12: Discrete variable "a.v3" is not used anywhere in the specification.
+WARNING: File "common_checks/VarNoDiscWithMultiInitValuesCheck.cif": Semantic warning at line 19, column 12: Discrete variable "a.v_any" is not used anywhere in the specification.
+WARNING: File "common_checks/VarNoDiscWithMultiInitValuesCheck.cif": Semantic warning at line 20, column 12: Discrete variable "a.vx" is not used anywhere in the specification.
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a.v2": discrete variable has multiple (2) potential initial values.
+ - Unsupported "a.v3": discrete variable has multiple (3) potential initial values.
+ - Unsupported "a.v_any": discrete variable has multiple potential initial values (any value in its domain).
