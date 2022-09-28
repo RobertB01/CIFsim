@@ -20,7 +20,18 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 
-/** {@link TypeNoSpecificTypesCheck} with all level 2 disalloweds enabled. */
+/**
+ * {@link TypeNoSpecificTypesCheck} with all level 2 disalloweds enabled.
+ *
+ * <p>
+ * The different levels allow testing more logic (increased code coverage). E.g., disallowing
+ * {@link NoSpecificType#INT_TYPES} includes disallowing {@link NoSpecificType#INT_TYPES_RANGELESS}, meaning that if the
+ * former is disallowed, the latter is not checked. The former has level 1 (one underscore in the enum literal name) and
+ * the latter has level 2 (two underscores in the enum literal name), so testing these disalloweds separately leads to
+ * increased code coverage.
+ * </p>
+ */
+@SuppressWarnings("javadoc")
 public class TypeNoSpecificTypesCheckLevel2 extends TypeNoSpecificTypesCheck {
     /** Constructor for the {@link TypeNoSpecificTypesCheckLevel2} class. */
     public TypeNoSpecificTypesCheckLevel2() {

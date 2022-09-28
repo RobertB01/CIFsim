@@ -20,7 +20,18 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
 
-/** {@link ExprNoSpecificExprsCheck} with all level 2 disalloweds enabled. */
+/**
+ * {@link ExprNoSpecificExprsCheck} with all level 2 disalloweds enabled.
+ *
+ * <p>
+ * The different levels allow testing more logic (increased code coverage). E.g., disallowing
+ * {@link NoSpecificExpr#PROJECTION_EXPRS} includes disallowing {@link NoSpecificExpr#PROJECTION_EXPRS_LISTS}, meaning
+ * that if the former is disallowed, the latter is not checked. The former has level 1 (one underscore in the enum
+ * literal name) and the latter has level 2 (two underscores in the enum literal name), so testing these disalloweds
+ * separately leads to increased code coverage.
+ * </p>
+ */
+@SuppressWarnings("javadoc")
 public class ExprNoSpecificExprsCheckLevel2 extends ExprNoSpecificExprsCheck {
     /** Constructor for the {@link ExprNoSpecificExprsCheckLevel2} class. */
     public ExprNoSpecificExprsCheckLevel2() {
