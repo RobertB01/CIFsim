@@ -34,7 +34,7 @@ As the checker now has multiple properties that it can check, each property chec
 * Two new CIF benchmarking models have been added (issue {escet-issue}364[#364]).
 * The CIF text editor now has theming support, and comes with a dark theme in addition to the existing light theme.
 The text editor now automatically uses its dark theme when the Eclipse built-in dark theme is used, and uses a light theme otherwise.
-The text editor theming behavior can be configured via the Eclipse Preferences dialog (issue {escet-issue}386[#386]).
+The text editor theming behavior can be configured via the Eclipse Preferences dialog (issue {escet-issue}347[#347]).
 
 Improvements and fixes:
 
@@ -46,8 +46,8 @@ This new information in synthesis dump files is now also taken into account by t
 * The CIF controller checker documentation has been improved (issue {escet-issue}145[#145]).
 * The CIF to Supremica transformation precondition check has improved output and no longer crashes on reporting certain precondition violations.
 The preconditions themselves have not changed (issue {escet-issue}398[#398]).
-* The CIF text editor light theme's default color has changed from a near-black slightly-brown color to pure black (issue {escet-issue}386[#386]).
-* The CIF to yEd transformer syntax highligher's default color has changed from a near-black slightly-brown color to pure black (issue {escet-issue}386[#386]).
+* The CIF text editor light theme's default color has changed from a near-black slightly-brown color to pure black (issue {escet-issue}347[#347]).
+* The CIF to yEd transformer syntax highligher's default color has changed from a near-black slightly-brown color to pure black (issue {escet-issue}347[#347]).
 
 === Version 0.6 (2022-07-07)
 

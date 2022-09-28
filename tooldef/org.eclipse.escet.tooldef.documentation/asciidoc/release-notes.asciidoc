@@ -30,11 +30,11 @@ New features:
 
 * The ToolDef text editor now has theming support, and comes with a dark theme in addition to the existing light theme.
 The text editor now automatically uses its dark theme when the Eclipse built-in dark theme is used, and uses a light theme otherwise.
-The text editor theming behavior can be configured via the Eclipse Preferences dialog (issue {escet-issue}386[#386]).
+The text editor theming behavior can be configured via the Eclipse Preferences dialog (issue {escet-issue}347[#347]).
 
 Improvements and fixes:
 
-* The ToolDef text editor light theme's default color has changed from a near-black slightly-brown color to pure black (issue {escet-issue}386[#386]).
+* The ToolDef text editor light theme's default color has changed from a near-black slightly-brown color to pure black (issue {escet-issue}347[#347]).
 
 === Version 0.6 (2022-07-07)
 
