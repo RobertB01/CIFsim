@@ -4,9 +4,9 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "e": event is not declared as controllable or uncontrollable.
  - Unsupported "g.A.e2": event parameter is not declared as controllable or uncontrollable.
  - Unsupported "g.e": event is not declared as controllable or uncontrollable.
- - Unsupported "tau_a1": automaton has an edge with explicitly event "tau" on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a1": automaton has an edge with implicitly event "tau" on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l1": location has an edge with implicitly event "tau" on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l2": location has an edge with explicitly event "tau" on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l3": location has an edge with explicitly event "tau" on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l4": location has an edge with explicitly event "tau" on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a1": automaton has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a1": automaton has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a2.l1": location has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a2.l2": location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a2.l3": location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a2.l4": location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
