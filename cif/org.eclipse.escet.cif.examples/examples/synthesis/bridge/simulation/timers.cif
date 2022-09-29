@@ -47,7 +47,7 @@ group BB:
     cont t = 0.0 der -1;
 
     location: initial;
-      edge Alternate.c_mode2 when t <= 0 do t := 1000;
+      edge Alternate.c_mode2 when t <= 0 do t := 1;
       edge Alternate.c_mode1 when t <= 0 do t := 1;
   end
 end
