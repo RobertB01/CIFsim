@@ -26,9 +26,10 @@ See also the release notes for the specific tools for more information:
 * link:https://eclipse.org/escet/{escet-website-version}/chi/release-notes.html[Chi release notes]
 * link:https://eclipse.org/escet/{escet-website-version}/tooldef/release-notes.html[ToolDef release notes]
 
-=== Version 0.7
+=== Version 0.7 (2022-09-30)
 
-TBD
+This release contains no changes that apply to the Eclipse ESCET toolkit in general.
+Consult the release notes for the specific tools for their changes.
 
 === Version 0.6 (2022-07-07)
 
