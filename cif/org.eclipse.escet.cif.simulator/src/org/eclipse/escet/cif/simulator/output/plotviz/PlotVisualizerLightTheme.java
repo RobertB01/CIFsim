@@ -59,7 +59,7 @@ public class PlotVisualizerLightTheme extends MatlabTheme {
 
     @Override
     public Color getPlotGridLinesColor() {
-        return new Color(245, 245, 245);
+        return new Color(235, 235, 235);
     }
 
     @Override
