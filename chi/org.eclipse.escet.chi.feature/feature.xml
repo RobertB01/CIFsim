@@ -32,8 +32,8 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.escet.common.feature" version="0.7.0.qualifier"/>
-      <import feature="org.eclipse.escet.setext.feature" version="0.7.0.qualifier"/>
+      <import feature="org.eclipse.escet.common.feature" version="0.8.0.qualifier"/>
+      <import feature="org.eclipse.escet.setext.feature" version="0.8.0.qualifier"/>
       <import plugin="org.apache.commons.math3"/>
    </requires>
 
