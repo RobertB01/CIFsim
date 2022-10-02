@@ -22,6 +22,10 @@ The release notes for the versions of ToolDef and the associated tools, as part 
 
 See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
+=== Version 0.8
+
+TBD
+
 === Version 0.7 (2022-09-30)
 
 New features:
