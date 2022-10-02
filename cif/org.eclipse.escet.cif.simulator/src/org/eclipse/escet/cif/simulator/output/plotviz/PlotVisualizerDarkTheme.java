@@ -15,7 +15,14 @@ package org.eclipse.escet.cif.simulator.output.plotviz;
 
 import java.awt.Color;
 
-/** Plot visualizer dark theme. */
+/**
+ * Plot visualizer dark theme.
+ *
+ * <p>
+ * This dark theme extends the {@link PlotVisualizerLightTheme light theme} and should only override its colors. Other
+ * changes should be applied to the light theme, to keep the light and dark themes consistent.
+ * </p>
+ */
 public class PlotVisualizerDarkTheme extends PlotVisualizerLightTheme {
     @Override
     public Color getAxisTickLabelsColor() {
