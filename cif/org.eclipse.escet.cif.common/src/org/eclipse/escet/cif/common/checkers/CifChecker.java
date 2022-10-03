@@ -34,7 +34,7 @@ public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
      *
      * @param conditions The conditions to check.
      */
-    public CifChecker(CifCheck[] conditions) {
+    public CifChecker(CifCheck... conditions) {
         super(conditions);
     }
 

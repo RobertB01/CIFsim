@@ -43,7 +43,7 @@ public class CifPreconditionChecker extends CifChecker {
      *
      * @param preconditions The preconditions to check.
      */
-    public CifPreconditionChecker(CifCheck[] preconditions) {
+    public CifPreconditionChecker(CifCheck... preconditions) {
         super(preconditions);
     }
 
