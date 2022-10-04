@@ -26,7 +26,7 @@ public class PlcCodeGenSettings {
     private String outSuffixReplacement;
 
     /**
-     * If not {@code null} registration which fields have been initialized in the instance, else the fields are
+     * If not {@code null}, registration which fields have been initialized in the instance, else the fields are
      * available for retrieval.
      */
     private BitSet initialized = new BitSet();
@@ -34,7 +34,7 @@ public class PlcCodeGenSettings {
     /**
      * Setter for configuring whether the PLC target type supports named constants.
      *
-     * @param value Value to configure
+     * @param value Value to configure.
      */
     public void setSupportconstants(boolean value) {
         supportsConstants = value;
@@ -54,7 +54,7 @@ public class PlcCodeGenSettings {
     /**
      * Setter for configuring whether the PLC target type supports named constants.
      *
-     * @param value Value to configure
+     * @param value Value to configure.
      */
     public void setOutSuffixReplacement(String value) {
         outSuffixReplacement = value;

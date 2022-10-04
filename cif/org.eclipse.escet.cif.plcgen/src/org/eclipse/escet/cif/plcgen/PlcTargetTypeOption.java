@@ -43,7 +43,7 @@ public class PlcTargetTypeOption extends EnumOption<PlcTargetType> {
     private static String makeDescription() {
         boolean seenDefault = false;
         StringBuilder sb = new StringBuilder();
-        sb.append("Specifies the PLC code output type. Specify ");
+        sb.append("Specifies the PLC code target type. Specify ");
         int last = PlcTargetType.values().length - 1;
         for (int i = 0; i <= last; i++) {
             if (i > 0) {

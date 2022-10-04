@@ -52,7 +52,7 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 
-/** Application entry point for the PLC code generator. */
+/** PLC code generator application. */
 public class MainApp extends Application<IOutputComponent> {
     /**
      * Application main method.
@@ -80,7 +80,7 @@ public class MainApp extends Application<IOutputComponent> {
 
     @Override
     public String getAppName() {
-        return "CIF PLCgen";
+        return "CIF PLC code generator";
     }
 
     @Override
@@ -131,7 +131,7 @@ public class MainApp extends Application<IOutputComponent> {
             Assert.notNull(outPath);
             outPath = Paths.resolve(outPath);
 
-            // Construct the project
+            // Construct the project.
             target.initProject();
             if (isTerminationRequested()) {
                 return 0;
@@ -189,11 +189,11 @@ public class MainApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(RenameWarningsOption.class)); // Currently unused.
 
         List<OptionCategory> generatorSubCats = list();
-        OptionCategory generatorCat = new OptionCategory("PLCgen", "PLCgen options.", generatorSubCats, applicationOpts);
+        OptionCategory generatorCat = new OptionCategory("Generator", "Generator options.", generatorSubCats, applicationOpts);
 
         List<OptionCategory> cats = list(generalCat, generatorCat);
-        OptionCategory options = new OptionCategory("CIF PLCgen Options",
-                "All options for the CIF PLCgen generator.", cats,
+        OptionCategory options = new OptionCategory("CIF PLC Code Generator Options",
+                "All options for the CIF PLC code generator.", cats,
                 list());
 
         return options;

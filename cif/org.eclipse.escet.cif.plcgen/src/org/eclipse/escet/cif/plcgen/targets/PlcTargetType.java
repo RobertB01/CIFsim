@@ -52,7 +52,7 @@ public enum PlcTargetType {
     public final String dialogText;
 
     /**
-     * Constructor for the {@link PlcOutputType} enum.
+     * Constructor for the {@link PlcTargetType} enum.
      *
      * @param dialogText The text to use in dialogs.
      */
