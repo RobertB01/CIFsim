@@ -20,4 +20,5 @@ Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="0.7.0",
  org.eclipse.escet.cif.metamodel.java;bundle-version="0.7.0",
  org.eclipse.escet.cif.cif2plc;bundle-version="0.7.0"
 Automatic-Module-Name: org.eclipse.escet.cif.plcgen
-Export-Package: org.eclipse.escet.cif.plcgen
+Export-Package: org.eclipse.escet.cif.plcgen,
+ org.eclipse.escet.cif.plcgen.targets

@@ -52,29 +52,29 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 
-/** PLC code generator application. */
-public class MainApp extends Application<IOutputComponent> {
+/** Application entry point for the PLC code generator. */
+public class CifPlcGenApp extends Application<IOutputComponent> {
     /**
      * Application main method.
      *
      * @param args The command line arguments supplied to the application.
      */
     public static void main(String[] args) {
-        MainApp app = new MainApp();
+        CifPlcGenApp app = new CifPlcGenApp();
         app.run(args);
     }
 
-    /** Constructor for the {@link MainApp} class. */
-    public MainApp() {
+    /** Constructor for the {@link CifPlcGenApp} class. */
+    public CifPlcGenApp() {
         // Nothing to do here.
     }
 
     /**
-     * Constructor for the {@link MainApp} class.
+     * Constructor for the {@link CifPlcGenApp} class.
      *
      * @param streams The streams to use for input, output, and error streams.
      */
-    public MainApp(AppStreams streams) {
+    public CifPlcGenApp(AppStreams streams) {
         super(streams);
     }
 
@@ -148,6 +148,9 @@ public class MainApp extends Application<IOutputComponent> {
             // Options.getInstance(RenameWarningsOption
 
             target.generateProgram();
+            if (isTerminationRequested()) {
+                return 0;
+            }
 
             // Write output.
             target.writeOutput(outPath);
@@ -189,12 +192,12 @@ public class MainApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(RenameWarningsOption.class)); // Currently unused.
 
         List<OptionCategory> generatorSubCats = list();
-        OptionCategory generatorCat = new OptionCategory("Generator", "Generator options.", generatorSubCats, applicationOpts);
+        OptionCategory generatorCat = new OptionCategory("Generator", "Generator options.", generatorSubCats,
+                applicationOpts);
 
         List<OptionCategory> cats = list(generalCat, generatorCat);
         OptionCategory options = new OptionCategory("CIF PLC Code Generator Options",
-                "All options for the CIF PLC code generator.", cats,
-                list());
+                "All options for the CIF PLC code generator.", cats, list());
 
         return options;
     }

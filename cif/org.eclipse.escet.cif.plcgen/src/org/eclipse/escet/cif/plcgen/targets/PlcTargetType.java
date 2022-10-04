@@ -13,16 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
-import org.eclipse.escet.cif.cif2plc.options.PlcOutputType;
-
-/**
- * PLC being targeted in code generation.
- *
- * <p>
- * This is pretty much a copy of {@link PlcOutputType}, but Java doesn't allow adding new values to an enumeration by
- * extension.
- * </p>
- */
+/** PLC being targeted in code generation. */
 public enum PlcTargetType {
     /** PLCopen XML output. */
     PLC_OPEN_XML("PLCopen XML"),

@@ -48,7 +48,6 @@ public class SiemensS7Target extends PlcBaseTarget {
         Assert.check(OUT_SUFFIX_REPLACEMENTS.containsKey(targetType)); // Java can't check existence before super().
         setOutSuffixReplacement(OUT_SUFFIX_REPLACEMENTS.get(targetType));
         setSupportconstants(true);
-
     }
 
     @Override

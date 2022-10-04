@@ -26,8 +26,8 @@ public class PlcTargetTypeOption extends EnumOption<PlcTargetType> {
 
     /** Constructor for the {@link PlcTargetTypeOption} class. */
     public PlcTargetTypeOption() {
-        super("PLC code target type", makeDescription(), 't', "target-type", "TARGET",
-                DEFAULT_TARGET, true, "Specifies the PLC code target type.");
+        super("PLC code target type", makeDescription(), 't', "target-type", "TARGET", DEFAULT_TARGET, true,
+                "Specifies the PLC code target type.");
     }
 
     @Override
@@ -41,7 +41,6 @@ public class PlcTargetTypeOption extends EnumOption<PlcTargetType> {
      * @return The descriptive string.
      */
     private static String makeDescription() {
-        boolean seenDefault = false;
         StringBuilder sb = new StringBuilder();
         sb.append("Specifies the PLC code target type. Specify ");
         int last = PlcTargetType.values().length - 1;
@@ -57,8 +56,7 @@ public class PlcTargetTypeOption extends EnumOption<PlcTargetType> {
             sb.append(targetType.dialogText.toLowerCase(Locale.US).replace(' ', '-'));
             sb.append('"');
             sb.append(" for " + targetType.dialogText + " output");
-            if (!seenDefault && targetType == DEFAULT_TARGET) {
-                seenDefault = true;
+            if (targetType == DEFAULT_TARGET) {
                 sb.append(" (default)");
             }
         }

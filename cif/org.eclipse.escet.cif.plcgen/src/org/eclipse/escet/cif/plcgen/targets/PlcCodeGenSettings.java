@@ -22,7 +22,7 @@ public class PlcCodeGenSettings {
     /** Whether the PLC target type supports named constants. */
     private boolean supportsConstants;
 
-    /** Replacement string the CIF input file extension in order to derive an output path. */
+    /** Replacement string for the CIF input file extension including dot, in order to derive an output path. */
     private String outSuffixReplacement;
 
     /**

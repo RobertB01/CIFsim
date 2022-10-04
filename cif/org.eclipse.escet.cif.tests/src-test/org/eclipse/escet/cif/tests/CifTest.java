@@ -138,6 +138,12 @@ public class CifTest extends ToolDefBasedPluginUnitTest {
         test("tests/test_cif2plc.tooldef");
     }
 
+    /** PLC code generator tests. */
+    @Test
+    public void testCifPlcGen() {
+        test("tests/test_plcgen.tooldef");
+    }
+
     /** CIF to Supremica tests. */
     @Test
     public void testCifToSupremica() {

@@ -98,7 +98,7 @@ public abstract class PlcBaseTarget extends PlcCodeGenSettings {
 
     /** Construct the main program. */
     public void generateProgram() {
-     // Create code file for program, with header etc.
+        // Create code file for program, with header etc.
         PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
         project.pous.add(main);
 
@@ -107,9 +107,10 @@ public abstract class PlcBaseTarget extends PlcCodeGenSettings {
     }
 
     /**
-     * Write the project to the output file.
+     * Write the project to the output.
      *
-     * @param outputPath Path to write to.
+     * @param outputPath Absolute base path to write to.
+     * @note Depending on the actual implementation a single file or a directory may be written.
      */
     public abstract void writeOutput(String outputPath);
 }
