@@ -22,9 +22,21 @@ The release notes for the versions of Chi and the associated tools, as part of t
 
 See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 0.7
+=== Version 0.8
 
 TBD
+
+=== Version 0.7 (2022-09-30)
+
+New features:
+
+* The Chi text editor now has theming support, and comes with a dark theme in addition to the existing light theme.
+The text editor now automatically uses its dark theme when the Eclipse built-in dark theme is used, and uses a light theme otherwise.
+The text editor theming behavior can be configured via the Eclipse Preferences dialog (issue {escet-issue}347[#347]).
+
+Improvements and fixes:
+
+* The Chi text editor light theme's default color has changed from a near-black slightly-brown color to pure black (issue {escet-issue}347[#347]).
 
 === Version 0.6 (2022-07-07)
 

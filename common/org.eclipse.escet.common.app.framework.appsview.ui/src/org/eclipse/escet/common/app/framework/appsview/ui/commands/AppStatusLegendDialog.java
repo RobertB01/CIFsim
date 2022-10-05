@@ -27,14 +27,13 @@ import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
 
 /** Application status legend dialog. */
 public class AppStatusLegendDialog extends Dialog {
@@ -56,20 +55,19 @@ public class AppStatusLegendDialog extends Dialog {
     protected Control createDialogArea(Composite parent) {
         // Get dialog area.
         Composite area = (Composite)super.createDialogArea(parent);
-        area.setLayout(new FillLayout());
+        area.setLayout(new GridLayout());
 
-        // Add background.
-        Composite background = new Composite(area, SWT.BORDER);
-        background.setLayout(new GridLayout());
+        // Add centered composite.
+        Composite center = new Composite(area, SWT.NONE);
+        center.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+        GridLayout centerLayout = new GridLayout(2, false);
+        centerLayout.marginWidth = 8;
+        centerLayout.marginHeight = 8;
+        centerLayout.horizontalSpacing = 8;
+        centerLayout.verticalSpacing = 8;
+        center.setLayout(centerLayout);
 
-        // Put a tree in the center.
-        Tree tree = new Tree(background, SWT.NO_SCROLL);
-        tree.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-
-        // Set background color, same as background of tree.
-        background.setBackground(tree.getBackground());
-
-        // Add items for each status, with the proper icon.
+        // Add each status.
         for (AppStatus status: AppStatus.values()) {
             // Get icon for status.
             Image icon = icons.getIcon(status);
@@ -77,18 +75,20 @@ public class AppStatusLegendDialog extends Dialog {
                 continue;
             }
 
-            // Add item to tree.
-            TreeItem item = new TreeItem(tree, SWT.NONE);
-            item.setImage(icon);
+            // Add canvas for icon.
+            Canvas canvas = new Canvas(center, SWT.NO_REDRAW_RESIZE);
+            canvas.addPaintListener(e -> e.gc.drawImage(icon, 0, 0));
+            canvas.setLayoutData(new GridData(icon.getBounds().width, icon.getBounds().height));
 
-            // Set item text.
+            // Add label for description.
+            Label label = new Label(center, SWT.NONE);
             String text = status.toString().toLowerCase(Locale.US);
             text = StringUtils.capitalize(text);
-            item.setText(text);
+            label.setText(text);
         }
 
         // Resize shell a bit wider, to make sure the title is fully shown.
-        Point size = tree.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+        Point size = center.computeSize(SWT.DEFAULT, SWT.DEFAULT);
         parent.getShell().setMinimumSize((int)(size.x * 2.5), 50);
 
         // Return the dialog area.

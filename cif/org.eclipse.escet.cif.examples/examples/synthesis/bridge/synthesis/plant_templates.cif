@@ -1,0 +1,56 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Timer.
+plant def Timer(alg bool startCondition):
+  controllable c_start, c_stop;
+  uncontrollable u_timeout;
+
+  location Off:
+    marked; initial;
+    edge c_start when startCondition     goto Running;
+
+  location Running:
+    edge c_stop  when not startCondition goto Off;
+    edge u_timeout                       goto Finished;
+
+  location Finished:
+    marked;
+    edge c_stop  when not startCondition goto Off;
+end
+
+// Vessel traffic light commands.
+plant def VTLCommands(alg bool greenOk, redGreenOk, allRed, emrgStop;
+                      uncontrollable u_auto_green1, u_auto_green2, u_redRed, u_r2Off
+                     ):
+  monitor u_red, u_green, u_redRed, u_auto_green1, u_auto_green2;
+  uncontrollable u_red, u_green, u_emerg;
+
+  location RedRed:
+    edge u_r2Off                                      goto Red;
+
+  location Red:
+    initial; marked;
+    edge u_green                      when redGreenOk goto RedGreen;
+    edge u_redRed                     when allRed     goto RedRed;
+
+  location RedGreen:
+    edge u_red                                        goto Red;
+    edge u_emerg                      when emrgStop   goto Red;
+    edge u_green                      when greenOk    goto Green;
+    edge u_auto_green1, u_auto_green2 when greenOk    goto Green;
+
+  location Green:
+    edge u_red                                        goto Red;
+    edge u_emerg                      when emrgStop   goto Red;
+end

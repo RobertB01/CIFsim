@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton a:
+  disc int v_default;
+  disc int v1 = 1;
+  disc int v2 in {2, 3};
+  disc int v3 in {4, 5, 6};
+  disc int v_any in any;
+  disc int vx = f(3);
+
+  location:
+    initial;
+end
+
+func int f(int x):
+  int y = x + 1;
+  return y;
+end

@@ -139,8 +139,11 @@ public class CifToSupremica {
             warn("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
 
-        // Check preconditions and perform further preprocessing.
-        CifToSupremicaPreChecker.check(spec);
+        // Check preconditions.
+        CifToSupremicaPreChecker checker = new CifToSupremicaPreChecker();
+        checker.reportPreconditionViolations(spec, "CIF to Supremica transformation");
+
+        // Perform further preprocessing.
         preprocess(spec, elimEnums);
 
         // Modify the CIF specification for state invariants.

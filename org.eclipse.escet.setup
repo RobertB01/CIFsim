@@ -186,6 +186,18 @@
           value="255,196,0"/>
       <setupTask
           xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.ui.editors/net.sf.eclipsecs.warning.highlight"
+          value="false"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.ui.editors/net.sf.eclipsecs.warning.text"
+          value="true"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.ui.editors/net.sf.eclipsecs.warning.text.style"
+          value="IBEAM"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.ui.editors/printMargin"
           value="true"/>
       <setupTask

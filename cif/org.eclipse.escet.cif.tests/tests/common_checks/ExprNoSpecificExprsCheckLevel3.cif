@@ -1,0 +1,271 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Top level scope.
+invariant true;
+
+// Group.
+group grp:
+  invariant true;
+end
+
+// Nested group.
+group nested_grp:
+  group nested_grp:
+    invariant true;
+  end
+end
+
+// ALG_VAR_REFS.
+group ALG_VAR_REFS:
+  alg bool a = true;
+  invariant a;
+end
+
+// FUNC_REFS_USER_DEF_INT.
+group FUNC_REFS_USER_DEF_INT:
+  func bool f():
+    return true;
+  end
+  invariant f();
+end
+
+// FUNC_REFS_USER_DEF_EXT.
+group FUNC_REFS_USER_DEF_EXT:
+  func string f(): "java:java.lang.System.lineSeparator|.";
+  invariant f() = "a";
+end
+
+// FUNC_REFS_STD_LIB.
+group FUNC_REFS_STD_LIB:
+  invariant abs(1) = 1;
+end
+
+// BINARY_EXPRS.
+group BINARY_EXPRS:
+  invariant 1 = 1;
+end
+
+// BOOL_LITS.
+group BOOL_LITS:
+  invariant true;
+end
+
+// CAST_EXPRS_EQUAL_TYPE.
+group CAST_EXPRS_EQUAL_TYPE:
+  invariant <bool>true;
+end
+
+// CAST_EXPRS_BROADER_TYPE.
+group CAST_EXPRS_BROADER_TYPE:
+  invariant <real>1 = 1.0;
+end
+
+// CAST_EXPRS_TO_STR.
+group CAST_EXPRS_TO_STR:
+  invariant "1" = <string>1;
+end
+
+// COMP_REFS_EXPLICIT.
+automaton COMP_REFS_EXPLICIT:
+  location:
+    initial;
+  invariant switch COMP_REFS_EXPLICIT: else true end;
+end
+
+// COMP_REFS_SELF.
+automaton COMP_REFS_SELF:
+  location:
+    initial;
+  invariant switch self: else true end;
+end
+
+// COMP_PARAM_REFS.
+group def COMP_PARAM_REFS(alg bool p):
+  invariant p;
+end
+
+// CONST_REFS.
+group CONST_REFS:
+  const bool c = true;
+  invariant c;
+end
+
+// CONT_VAR_REFS.
+group CONT_VAR_REFS:
+  cont c der 1.0;
+  invariant c = 1.0;
+end
+
+// CONT_VAR_REFS_DER.
+group CONT_VAR_REFS_DER:
+  cont c der 1.0;
+  invariant c' = 1.0;
+end
+
+// DICT_LITS.
+group DICT_LITS:
+  invariant {true: false}[true];
+end
+
+// DISC_VAR_REFS.
+automaton DISC_VAR_REFS:
+  disc bool v;
+  location:
+    initial;
+  invariant v;
+end
+
+// USER_DEF_FUNC_PARAM_REFS.
+group USER_DEF_FUNC_PARAM_REFS:
+  func bool f(bool p):
+    return p;
+  end
+end
+
+// INT_USER_DEF_FUNC_LOCAL_VAR_REFS.
+group INT_USER_DEF_FUNC_LOCAL_VAR_REFS:
+  func bool f():
+    bool v = true;
+    return v;
+  end
+end
+
+// ENUM_LIT_REFS.
+group ENUM_LIT_REFS:
+  enum e = e1, e2;
+  invariant e1 = e2;
+end
+
+// TUPLE_FIELD_REFS_NAMELESS.
+group TUPLE_FIELD_REFS_NAMELESS:
+  invariant (true, false)[0];
+end
+
+// TUPLE_FIELD_REFS_NAMED.
+group TUPLE_FIELD_REFS_NAMED:
+  const tuple(bool a, b) c = (true, false);
+  invariant c[a];
+end
+
+// FUNC_CALLS.
+group FUNC_CALLS:
+  invariant abs(1) = 1;
+end
+
+// IF_EXPRS.
+group IF_EXPRS:
+  invariant if true: true else false end;
+end
+
+// INPUT_VAR_REFS.
+group INPUT_VAR_REFS:
+  input bool i;
+  invariant i;
+end
+
+// INT_LITS.
+group INT_LITS:
+  invariant 1 = 1;
+end
+
+// LIST_LITS.
+group LIST_LITS:
+  invariant [1] = [1];
+end
+
+// LOC_REFS.
+automaton LOC_REFS:
+  location loc:
+    initial;
+  invariant loc;
+end
+
+// PROJECTION_EXPRS_LISTS.
+group PROJECTION_EXPRS_LISTS:
+  invariant [true, false][0];
+end
+
+// PROJECTION_EXPRS_DICTS.
+group PROJECTION_EXPRS_DICTS:
+  invariant {true: false}[true];
+end
+
+// PROJECTION_EXPRS_STRINGS.
+group PROJECTION_EXPRS_STRINGS:
+  invariant "abc"[0] = "a";
+end
+
+// PROJECTION_EXPRS_TUPLES_INDEX.
+group PROJECTION_EXPRS_TUPLES_INDEX:
+  invariant (true, false)[0];
+  invariant ((true, false), false)[0][0];
+end
+
+// PROJECTION_EXPRS_TUPLES_FIELD.
+automaton PROJECTION_EXPRS_TUPLES_FIELD:
+  disc tuple(bool a, b) v;
+  location:
+    initial;
+    edge tau do v[a] := v[b];
+end
+
+// REAL_LITS.
+group REAL_LITS:
+  invariant 1.0 = 1.0;
+end
+
+// RECEIVE_EXPRS.
+automaton RECEIVE_EXPRS:
+  event bool e;
+  disc bool v;
+  location:
+    initial;
+    edge e? do v := ?;
+end
+
+// SET_LITS.
+group SET_LITS:
+  invariant true in {true, false};
+end
+
+// SLICE_EXPRS.
+group SLICE_EXPRS:
+  invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
+  invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
+end
+
+// STRING_LITS.
+group STRING_LITS:
+  invariant "a" = "a";
+end
+
+// SWITCH_EXPRS.
+group SWITCH_EXPRS:
+  invariant switch 5: case 5: true else false end;
+end
+
+// TIME_VAR_REFS.
+group TIME_VAR_REFS:
+  invariant time > 0;
+end
+
+// TUPLE_LITS.
+group TUPLE_LITS:
+  invariant (true, false)[0];
+end
+
+// UNARY_EXPRS.
+group UNARY_EXPRS:
+  invariant not true;
+end

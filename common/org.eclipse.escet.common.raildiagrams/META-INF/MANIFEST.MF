@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Common Rail Diagram Generator (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.raildiagrams;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.8.0.qualifier
 Automatic-Module-Name: org.eclipse.escet.common.raildiagrams
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse ESCET
-Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.7.0",
- org.eclipse.escet.setext.runtime;bundle-version="0.7.0",
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.8.0",
+ org.eclipse.escet.setext.runtime;bundle-version="0.8.0",
  org.eclipse.jface.text;bundle-version="3.17.0"
 Export-Package: org.eclipse.escet.common.raildiagrams,
  org.eclipse.escet.common.raildiagrams.config,

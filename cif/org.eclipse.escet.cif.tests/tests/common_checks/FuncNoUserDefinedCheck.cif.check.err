@@ -1,0 +1,5 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "f": function is a user-defined function.
+ - Unsupported "g.f": function is a user-defined function.
+ - Unsupported "g.inc": function is a user-defined function.
+ - Unsupported "inc": function is a user-defined function.

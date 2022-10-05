@@ -62,7 +62,7 @@ Replace `vN.N` by the version, e.g. `v0.1`, `v0.1.1` or `v1.0`.
 
 ** Change the _Release type_ if applicable.
 
-** For _IP Due Diligence Type_ select _Type A - License Compatibility Certification_.
+** Click _Save_.
 
 * Create a GitLab milestone:
 
@@ -101,6 +101,8 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 ** Click _Create issue_.
 
 ** Repeat these steps to create issues for the release candidate (`Release vN.N-RC1`) and final release (`Release vN.N`).
+
+** Repeat these steps to create an issue for <<development-release-process-prepare-git-repo-for-next-version,preparing the Git repository for development>> of the new version (`Prepare Git repo for vN.N development`).
 
 ** If a <<development-release-process-prepare-release-review,release review>> is needed, create an issue for that as well (`Release review for vN.N`).
 
