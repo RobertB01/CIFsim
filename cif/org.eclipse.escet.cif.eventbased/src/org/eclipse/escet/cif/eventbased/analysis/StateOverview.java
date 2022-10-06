@@ -136,7 +136,7 @@ public class StateOverview {
         // Print the state itself.
         texts.add(new SimpleText("Result of "));
         if (!stateExists()) {
-            texts.add(new ColoredText("removed", app.redColor));
+            texts.add(new ColoredText("removed", app.removedColor));
             texts.add(new SimpleText(" "));
         }
         texts.addAll(getStateText(locInfo.targetState, displayFullState));
@@ -157,7 +157,7 @@ public class StateOverview {
                     addFullRemovedEdgesDescription(removedUncontrollables, killerRemovedEdge, displayFullState, 4));
             texts.addAll(addFullRemovedEdgesDescription(removedControllables, null, displayFullState, 4));
         } else {
-            texts.add(new BackgroundColoredText("This state exists in the synthesis result.", app.greenColor));
+            texts.add(new BackgroundColoredText("This state exists in the synthesis result.", app.availableColor));
             texts.add(new SimpleText("\r\n"));
             if (outEdges != null) {
                 texts.add(new SimpleText("\r\n"));
@@ -269,7 +269,7 @@ public class StateOverview {
      * @return Text of the report.
      */
     public List<ReportText> makeRemovedLocationText(RemovedLocationInfo removedState) {
-        List<ReportText> result = list(new SimpleText("State was "), new ColoredText("removed", app.redColor));
+        List<ReportText> result = list(new SimpleText("State was "), new ColoredText("removed", app.removedColor));
         switch (removedState.reason) {
             case IS_BLOCKING:
                 result.add(new SimpleText(" as it is not marked and locally found to be a deadlock state.\r\n"));

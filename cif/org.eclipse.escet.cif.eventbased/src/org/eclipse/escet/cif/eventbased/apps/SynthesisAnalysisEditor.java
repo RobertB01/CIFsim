@@ -36,6 +36,8 @@ import org.eclipse.escet.cif.eventbased.analysis.reporttext.ColoredText;
 import org.eclipse.escet.cif.eventbased.analysis.reporttext.ReportText;
 import org.eclipse.escet.cif.eventbased.analysis.reporttext.SimpleText;
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemePreferenceChangeListener;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemeUtils;
 import org.eclipse.escet.common.eclipse.ui.ControlEditor;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.swt.SWT;
@@ -73,13 +75,16 @@ public class SynthesisAnalysisEditor extends ControlEditor {
     private List<Integer> searchHistory = list();
 
     /** Color to denote 'available'. */
-    public Color greenColor = null;
+    public Color availableColor = null;
 
     /** Color to denote 'removed'. */
-    public Color redColor = null;
+    public Color removedColor = null;
 
     /** Color of a link. */
     public Color linkColor = null;
+
+    /** The Eclipse theme preference change listener. */
+    private EclipseThemePreferenceChangeListener themeListener;
 
     /**
      * Construct a string with a count, and fix the spelling depending on having a singular count.
@@ -372,9 +377,16 @@ public class SynthesisAnalysisEditor extends ControlEditor {
         setPartName(filename);
 
         // Create GUI.
-        greenColor = new Color(0x9A, 0xCD, 0x32); // #9ACD32, yellowgreen.
-        redColor = parent.getDisplay().getSystemColor(SWT.COLOR_RED);
-        linkColor = new Color(0x87, 0xCE, 0xFA); // #87CEFA, lightskyblue.
+        setColors();
+
+        // Add Eclipse theme listener.
+        themeListener = new EclipseThemePreferenceChangeListener(e -> {
+            if (root.isDisposed()) {
+                return;
+            }
+            setColors();
+        });
+        parent.addDisposeListener(e -> themeListener.unregister());
 
         Composite root = buildWidgets(parent);
 
@@ -400,7 +412,7 @@ public class SynthesisAnalysisEditor extends ControlEditor {
         if (data == null) {
             List<ReportText> report = list();
             report.add(
-                    new ColoredText(fmt("Loading of file \"%s\" failed!\r\n", input.getAbsoluteFilePath()), redColor));
+                    new ColoredText(fmt("Loading of file \"%s\" failed!\r\n", input.getAbsoluteFilePath()), removedColor));
             if (ex != null) {
                 report.add(new SimpleText("\r\nReason:\r\n" + exToStr(ex) + "\r\n"));
             }
@@ -414,5 +426,18 @@ public class SynthesisAnalysisEditor extends ControlEditor {
 
         buildAutomataColumn();
         buttons.setEnableBack(searchHistory.size() > 1);
+    }
+
+    /** Set the GUI colors. */
+    private void setColors() {
+        if (EclipseThemeUtils.isDarkThemeInUse()) {
+            availableColor = new Color(0x06, 0x55, 0x3c); // #06553C, green.
+            removedColor = new Color(0xFF, 0x00, 0x00); // #FF0000, red
+            linkColor = new Color(0x0B, 0x24, 0xE5); // #0B24E5, blue.
+        } else {
+            availableColor = new Color(0x9A, 0xCD, 0x32); // #9ACD32, yellowgreen.
+            removedColor = new Color(0xFF, 0x00, 0x00); // #FF0000, red
+            linkColor = new Color(0x87, 0xCE, 0xFA); // #87CEFA, lightskyblue.
+        }
     }
 }
