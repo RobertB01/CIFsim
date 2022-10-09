@@ -17,11 +17,13 @@ import static org.eclipse.escet.cif.simulator.runtime.CifSimulatorMath.realToStr
 import static org.eclipse.escet.common.java.Lists.filter;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -32,6 +34,8 @@ import org.eclipse.escet.cif.simulator.runtime.ode.Trajectories;
 import org.eclipse.escet.cif.simulator.runtime.transitions.EventTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.TimeTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.Transition;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemePreferenceChangeListener;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemeUtils;
 import org.eclipse.escet.common.eclipse.ui.ControlEditor;
 import org.eclipse.escet.common.eclipse.ui.SelectionListenerBase;
 import org.eclipse.escet.common.java.Assert;
@@ -55,6 +59,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -67,7 +72,7 @@ import org.eclipse.swt.widgets.MenuItem;
  * @param <S> The type of state objects to use.
  */
 public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEditor {
-    /** 0-based index of color composite widgets among their siblings. */
+    /** 0-based index of color component (canvas) widgets among their siblings. */
     private static final int COLOR_COMP_IDX = 0;
 
     /** 0-based index of button widgets among their siblings. */
@@ -85,26 +90,44 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
     /** The interactive GUI input component, if available. */
     private InteractiveGuiInputComponent<?> inputComp = null;
 
-    /** Color for non-event choices (e.g. time, history), if available. */
-    private Color otherColor = null;
+    /** Background color for non-event choices (e.g. time, history), if available. */
+    private Color otherColorBg = null;
 
-    /** Color for events that are neither controllable nor uncontrollable, if available. */
-    private Color eventColor = null;
+    /** Background color for events that are neither controllable nor uncontrollable, if available. */
+    private Color eventColorBg = null;
 
-    /** Color for events that are controllable, if available. */
-    private Color ctrlColor = null;
+    /** Background color for events that are controllable, if available. */
+    private Color ctrlColorBg = null;
 
-    /** Color for events that are uncontrollable, if available. */
-    private Color unctrlColor = null;
+    /** Background color for events that are uncontrollable, if available. */
+    private Color unctrlColorBg = null;
 
-    /** Color for disabled, if available. */
-    private Color disabledColor = null;
+    /** Background color for disabled, if available. */
+    private Color disabledColorBg = null;
+
+    /** Text color for non-event choices (e.g. time, history), if available. */
+    private Color otherColorTxt = null;
+
+    /** Text color for events that are neither controllable nor uncontrollable, if available. */
+    private Color eventColorTxt = null;
+
+    /** Text color for events that are controllable, if available. */
+    private Color ctrlColorTxt = null;
+
+    /** Text color for events that are uncontrollable, if available. */
+    private Color unctrlColorTxt = null;
+
+    /** Text color for disabled, if available. */
+    private Color disabledColorTxt = null;
 
     /** The scrolled composite with the optional scroll bar, if available. */
     private ScrolledComposite scroll = null;
 
     /** The composite that contains the buttons, if available. */
     private Composite buttons = null;
+
+    /** Per choice composite, its current choice color. */
+    private Map<Composite, ChoiceColor> choiceColors = map();
 
     /** The italic button label font, if available. */
     private Font italicFont = null;
@@ -138,7 +161,9 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
         buttons = new Composite(scroll, SWT.NONE);
         scroll.setContent(buttons);
 
-        // White background.
+        // For light theme, set background for better contrast against the buttons, and to make it look like a view
+        // rather than an editor. Is ignored when a dark theme is active. For dark theme, views and editors have the
+        // same background, so a different color is also not needed.
         Color white = buttons.getDisplay().getSystemColor(SWT.COLOR_WHITE);
         buttons.setBackground(white);
 
@@ -161,12 +186,13 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
         // Create popup menu.
         popupMenu = new Menu(buttons);
 
-        // Get/create colors.
-        otherColor = buttons.getDisplay().getSystemColor(SWT.COLOR_BLACK);
-        eventColor = new Color(0, 97, 192);
-        ctrlColor = new Color(0, 128, 0);
-        unctrlColor = new Color(160, 0, 0);
-        disabledColor = new Color(192, 192, 192);
+        // Set up colors and theming.
+        setColors();
+        EclipseThemePreferenceChangeListener themeListener = new EclipseThemePreferenceChangeListener(e -> {
+            setColors();
+            applyChoiceColors();
+        });
+        parent.addDisposeListener(e -> themeListener.unregister());
 
         // Get italic font.
         FontData[] fontDatas = buttons.getFont().getFontData();
@@ -184,6 +210,35 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
 
         // Outer control is the composite with scroll bars.
         return scroll;
+    }
+
+    /** Sets the colors based on the current Eclipse theme. */
+    private void setColors() {
+        if (EclipseThemeUtils.isDarkThemeInUse()) {
+            otherColorBg = new Color(255, 255, 255);
+            eventColorBg = new Color(0, 97, 192);
+            ctrlColorBg = new Color(0, 128, 0);
+            unctrlColorBg = new Color(160, 0, 0);
+            disabledColorBg = new Color(128, 128, 128);
+
+            otherColorTxt = otherColorBg;
+            eventColorTxt = new Color(50, 190, 255);
+            ctrlColorTxt = new Color(24, 225, 24);
+            unctrlColorTxt = new Color(255, 100, 100);
+            disabledColorTxt = disabledColorBg;
+        } else {
+            otherColorBg = new Color(0, 0, 0);
+            eventColorBg = new Color(0, 97, 192);
+            ctrlColorBg = new Color(0, 128, 0);
+            unctrlColorBg = new Color(160, 0, 0);
+            disabledColorBg = new Color(192, 192, 192);
+
+            otherColorTxt = otherColorBg;
+            eventColorTxt = eventColorBg;
+            ctrlColorTxt = ctrlColorBg;
+            unctrlColorTxt = unctrlColorBg;
+            disabledColorTxt = disabledColorBg;
+        }
     }
 
     /**
@@ -250,7 +305,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             comp.setData("kind", kind);
 
             // Create color composite.
-            Composite colorComp = new Composite(comp, SWT.NONE);
+            Canvas colorComp = new Canvas(comp, SWT.NO_FOCUS | SWT.NO_BACKGROUND);
 
             // Create button with the name of the event or an other text.
             Button button = new Button(comp, SWT.PUSH);
@@ -272,9 +327,6 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             } else {
                 throw new RuntimeException("Unknown button.");
             }
-
-            // Set color of the text of the button.
-            button.setForeground(getColor(event, true));
 
             // Set up button click handler.
             final int eventIdx = i;
@@ -348,9 +400,17 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             });
 
             // Disable buttons, for now.
-            colorComp.setBackground(getColor(event, false));
+            updateChoiceColor(comp, getChoiceColor(event, false));
             button.setEnabled(false);
             arrow.setEnabled(false);
+
+            // Add color component painter.
+            colorComp.addPaintListener(e -> {
+                ChoiceColor choiceColor = choiceColors.get(comp);
+                Color bgColor = getBgColorForChoiceColor(choiceColor);
+                e.gc.setBackground(bgColor);
+                e.gc.fillRectangle(e.x, e.y, e.width, e.height);
+            });
 
             // Layout the buttons for this event.
             GridLayout gridLayout = new GridLayout(4, false);
@@ -362,7 +422,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             // Color component width.
             int buttonHeight = button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).y;
             GridData colorCompData = new GridData();
-            colorCompData.widthHint = 4;
+            colorCompData.widthHint = 6;
             colorCompData.heightHint = buttonHeight;
             colorComp.setLayoutData(colorCompData);
 
@@ -380,26 +440,123 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
     }
 
     /**
-     * Returns the color to use for a color component.
+     * Returns the choice color to use for a choice.
      *
-     * @param event The event for which to determine the color of the color component, or {@code null} for 'time'.
-     * @param enabled Whether to get an enabled color ({@code true}) or a disabled color ({@code false}).
-     * @return The color to use.
+     * @param event The event for which to determine the choice color, or {@code null} for time/reset/undo.
+     * @param enabled Whether to get an enabled choice color ({@code true}) or a disabled choice color ({@code false}).
+     * @return The choice color.
      */
-    private Color getColor(RuntimeEvent<?> event, boolean enabled) {
+    private ChoiceColor getChoiceColor(RuntimeEvent<?> event, boolean enabled) {
         if (!enabled) {
-            return disabledColor;
+            return ChoiceColor.DISABLED;
         }
         if (event == null) {
-            return otherColor;
+            return ChoiceColor.OTHER;
         }
         if (event.controllable == null) {
-            return eventColor;
+            return ChoiceColor.EVENT;
         }
         if (event.controllable) {
-            return ctrlColor;
+            return ChoiceColor.CTRL;
         }
-        return unctrlColor;
+        return ChoiceColor.UNCTRL;
+    }
+
+    /** Named choice color. */
+    private enum ChoiceColor {
+        /** Other choice color. */
+        OTHER,
+
+        /** Event choice color. */
+        EVENT,
+
+        /** Controllable event choice color. */
+        CTRL,
+
+        /** Uncontrollable event choice color. */
+        UNCTRL,
+
+        /** Disabled choice color. */
+        DISABLED;
+    }
+
+    /**
+     * Sets a choice color for a choice, and {@link #applyChoiceColor applies} it.
+     *
+     * @param composite The composite for the choice.
+     * @param color The choice color.
+     */
+    private void updateChoiceColor(Composite composite, ChoiceColor color) {
+        choiceColors.put(composite, color);
+        applyChoiceColor(composite);
+    }
+
+    /** Applies the choice color for all choices. */
+    private void applyChoiceColors() {
+        for (Composite composite: choiceColors.keySet()) {
+            applyChoiceColor(composite);
+        }
+    }
+
+    /**
+     * Apply the choice color for a choice.
+     *
+     * @param composite The composite for the choice.
+     */
+    private void applyChoiceColor(Composite composite) {
+        // Apply to canvas.
+        Canvas canvas = (Canvas)composite.getChildren()[COLOR_COMP_IDX];
+        canvas.redraw();
+
+        // Apply to button.
+        ChoiceColor choiceColor = choiceColors.get(composite);
+        Color textColor = getTextColorForChoiceColor(choiceColor);
+        Button button = (Button)composite.getChildren()[BUTTON_IDX];
+        button.setForeground(textColor);
+    }
+
+    /**
+     * Returns the background color for the given choice color.
+     *
+     * @param choiceColor The choice color.
+     * @return The background color.
+     */
+    private Color getBgColorForChoiceColor(ChoiceColor choiceColor) {
+        switch (choiceColor) {
+            case OTHER:
+                return otherColorBg;
+            case EVENT:
+                return eventColorBg;
+            case CTRL:
+                return ctrlColorBg;
+            case UNCTRL:
+                return unctrlColorBg;
+            case DISABLED:
+                return disabledColorBg;
+        }
+        throw new RuntimeException("Unknown choice color: " + choiceColor);
+    }
+
+    /**
+     * Returns the text color for the given choice color.
+     *
+     * @param choiceColor The choice color.
+     * @return The text color.
+     */
+    private Color getTextColorForChoiceColor(ChoiceColor choiceColor) {
+        switch (choiceColor) {
+            case OTHER:
+                return otherColorTxt;
+            case EVENT:
+                return eventColorTxt;
+            case CTRL:
+                return ctrlColorTxt;
+            case UNCTRL:
+                return unctrlColorTxt;
+            case DISABLED:
+                return disabledColorTxt;
+        }
+        throw new RuntimeException("Unknown choice color: " + choiceColor);
     }
 
     /**
@@ -491,9 +648,9 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                 comp.layout();
             }
 
-            // Set enabledness of buttons and color of color component.
+            // Set enabledness and colors.
             RuntimeEvent<?> event = isEvent ? spec.events.get(eventIdx) : null;
-            children[COLOR_COMP_IDX].setBackground(getColor(event, enabled));
+            updateChoiceColor(comp, getChoiceColor(event, enabled));
             children[BUTTON_IDX].setEnabled(enabled);
             children[ARROW_IDX].setEnabled(enabled);
             if (enabled && firstEnabledButton == null) {
@@ -551,8 +708,8 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                 comp.layout();
             }
 
-            // Set enabledness of buttons and color of color component.
-            children[COLOR_COMP_IDX].setBackground(getColor(null, true));
+            // Set enabledness and colors.
+            updateChoiceColor(comp, getChoiceColor(null, true));
             children[BUTTON_IDX].setEnabled(true);
             children[ARROW_IDX].setEnabled(true);
             if (firstEnabledButton == null) {
@@ -627,8 +784,8 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                 comp.layout();
             }
 
-            // Set enabledness of buttons and color of color component.
-            children[COLOR_COMP_IDX].setBackground(getColor(null, enabled));
+            // Set enabledness and colors.
+            updateChoiceColor(comp, getChoiceColor(null, enabled));
             children[BUTTON_IDX].setEnabled(enabled);
             children[ARROW_IDX].setEnabled(enabled);
             if (enabled && firstEnabledButton == null) {
@@ -987,9 +1144,9 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
                 comp.layout();
             }
 
-            // Set enabledness of buttons.
+            // Set enabledness and colors.
             RuntimeEvent<?> event = (eventIdx == -1) ? null : spec.events.get(eventIdx);
-            children[COLOR_COMP_IDX].setBackground(getColor(event, false));
+            updateChoiceColor(comp, getChoiceColor(event, false));
             children[BUTTON_IDX].setEnabled(false);
             children[ARROW_IDX].setEnabled(false);
         }
