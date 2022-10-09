@@ -48,6 +48,8 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -62,6 +64,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -193,6 +196,9 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             applyChoiceColors();
         });
         parent.addDisposeListener(e -> themeListener.unregister());
+        addFocusListener(parent);
+        addFocusListener(scroll);
+        addFocusListener(buttons);
 
         // Get italic font.
         FontData[] fontDatas = buttons.getFont().getFontData();
@@ -286,6 +292,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             // Create composite with a border, to make it clear which GUI
             // elements belong together.
             Composite comp = new Composite(buttons, SWT.BORDER);
+            addFocusListener(comp);
 
             // Set custom properties, to be able to distinguish buttons later
             // on.
@@ -306,6 +313,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
 
             // Create color composite.
             Canvas colorComp = new Canvas(comp, SWT.NO_FOCUS | SWT.NO_BACKGROUND);
+            addFocusListener(colorComp);
 
             // Create button with the name of the event or an other text.
             Button button = new Button(comp, SWT.PUSH);
@@ -327,6 +335,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             } else {
                 throw new RuntimeException("Unknown button.");
             }
+            addFocusListener(button);
 
             // Set up button click handler.
             final int eventIdx = i;
@@ -380,9 +389,11 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             // number of transitions that can be undone.
             final Label countLabel = new Label(comp, SWT.NONE);
             countLabel.setText("");
+            addFocusListener(countLabel);
 
             // Create arrow button.
             final Button arrow = new Button(comp, SWT.ARROW | SWT.DOWN);
+            addFocusListener(arrow);
 
             // Set up arrow button click hander.
             arrow.addSelectionListener(new SelectionListenerBase() {
@@ -437,6 +448,33 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
         buttons.pack();
         buttons.layout();
         scroll.notifyListeners(SWT.Resize, null);
+    }
+
+    /**
+     * Add focus listener to the given control, that re-applies the choice colors whenever the control loses or gains
+     * focus.
+     *
+     * <p>
+     * This is needed when a dark theme is active, as when the dark theme is active and a control loses or gains focus,
+     * its custom colors get overwritten by the dark theme.
+     * </p>
+     *
+     * @param control The control to which to add the focus listener.
+     */
+    private void addFocusListener(Control control) {
+        // Upon focus change events, we re-apply the colors. But we do this as a asynchronously executed task, to ensure
+        // that it is executed after the dark theme override has taken place.
+        control.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                Display.getCurrent().asyncExec(() -> applyChoiceColors());
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                Display.getCurrent().asyncExec(() -> applyChoiceColors());
+            }
+        });
     }
 
     /**
@@ -504,6 +542,11 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
      * @param composite The composite for the choice.
      */
     private void applyChoiceColor(Composite composite) {
+        // Ensure GUI input editors is not closed.
+        if (composite.isDisposed()) {
+            return;
+        }
+
         // Apply to canvas.
         Canvas canvas = (Canvas)composite.getChildren()[COLOR_COMP_IDX];
         canvas.redraw();
