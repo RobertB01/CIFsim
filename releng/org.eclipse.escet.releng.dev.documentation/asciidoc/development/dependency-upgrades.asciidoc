@@ -35,8 +35,18 @@ The Eclipse ESCET upgrade policy for the Eclipse Platform/IDE is:
 * Considering the overhead, only upgrade if there is a use for it.
 For instance, if we need a bug fix, some new feature, or so.
 * Upgrade to a new Eclipse version at least once a year, to stay current.
+* Consider the interplay between Eclipse and Java versions.
+Upgrading Eclipse may require upgrading Java if the new Eclipse version has a higher minimum Java version requirement.
+<<development-dependency-upgrades-java,Upgrading Java>> may require upgrading Eclipse to a newer version that supports that Java version.
 
 To upgrade to a new Eclipse Platform/IDE version:
+
+* Check out the information for the new version:
+** Check the link:https://wiki.eclipse.org/Simultaneous_Release[Simultaneous Release] overview page for the link between platform version (e.g. _4.20_) and release name (e.g. _2021-06_).
+** Check `https://www.eclipse.org/projects/project-plan.php?planurl=https://www.eclipse.org/eclipse/development/plans/eclipse_project_plan_N_NN.xml` with `N_NN` replaced by the platform version (e.g. `4_20`), for the project plan of the release, including detailed information about the supported target environments (operating systems, Java versions, etc).
+** Check `https://www.eclipse.org/eclipse/development/readme_eclipse_N.NN.php` with `N.NN` replaced by the platform version (e.g. `4.20`), for the README of the release.
+** Check the link:https://eclipseide.org/release/noteworthy/[New & Noteworthy] page for the new release and all intermediate releases since the previous version.
+Note that you can switch to the New & Noteworthy pages of previous releases using the dropdown at the bottom of the page.
 
 * New development environment
 ** <<development-dev-env-setup-chapter-index,Set up a new development environment>> for the new Eclipse IDE version.
@@ -54,7 +64,7 @@ To upgrade to a new Eclipse Platform/IDE version:
 ** Let Oomph regenerate the target platform, and commit any changes.
 ** Force a rebuild in Eclipse (menu:Project[Clean...]).
 ** Check workspace for any errors/warnings and address them if any.
-** Check _New and Noteworthy_ (release notes) of the new Eclipse version for changes and adapt as necessary.
+** Check _New and Noteworthy_ (release notes) of the new Eclipse version and relevant intermediate versions for changes and adapt as necessary.
 
 * Java formatter profile
 ** Navigate to menu:Window[Preferences].
@@ -132,6 +142,9 @@ For instance, if we need a bug fix, some new feature, or so.
 As a general guideline, if at least 50% of developers, users and enterprises use the new LTS version, consider upgrading.
 Java usage is regularly surveyed, and reports can typically be found online.
 For instance, the link:https://outreach.jakartaee.org/2021-developer-survey-report[2021 Jakarta EE Developer Survey Report] of the Eclipse Jakarta EE project indicates that in 2021 about 58% of the developers and 11% of the enterprises used Java 11.
+* Consider the interplay between Java and Eclipse versions.
+Upgrading Java may require upgrading Eclipse to a newer version that supports that Java version.
+<<development-dependency-upgrades-eclipse,Upgrading Eclipse>> may require upgrading Java if the new Eclipse version has a higher minimum Java version requirement.
 
 To upgrade to a new Java version:
 
