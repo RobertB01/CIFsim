@@ -20,13 +20,20 @@ public class TwinCatTarget extends PlcBaseTarget {
     /** Constructor of the {@link TwinCatTarget} class. */
     public TwinCatTarget() {
         super(PlcTargetType.TWINCAT);
-
-        setOutSuffixReplacement("_twincat");
-        setSupportconstants(true);
     }
 
     @Override
     public void writeOutput(String outputPath) {
         new TwinCatWriter().write(project, outputPath);
+    }
+
+    @Override
+    public boolean getSupportConstants() {
+        return true;
+    }
+
+    @Override
+    public String getOutSuffixReplacement() {
+        return "_twincat";
     }
 }

@@ -20,13 +20,20 @@ public class PlcOpenXmlTarget extends PlcBaseTarget {
     /** Constructor of the {@link PlcOpenXmlTarget} class. */
     public PlcOpenXmlTarget() {
         super(PlcTargetType.PLC_OPEN_XML);
-
-        setOutSuffixReplacement(".plcopen.xml");
-        setSupportconstants(true);
     }
 
     @Override
     public void writeOutput(String outputPath) {
         new PlcOpenXmlWriter().write(project, outputPath);
+    }
+
+    @Override
+    public boolean getSupportConstants() {
+        return true;
+    }
+
+    @Override
+    public String getOutSuffixReplacement() {
+        return ".plcopen.xml";
     }
 }

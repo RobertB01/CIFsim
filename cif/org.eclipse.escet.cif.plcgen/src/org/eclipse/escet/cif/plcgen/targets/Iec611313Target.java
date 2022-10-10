@@ -20,13 +20,20 @@ public class Iec611313Target extends PlcBaseTarget {
     /** Constructor of the {@link Iec611313Target} class. */
     public Iec611313Target() {
         super(PlcTargetType.IEC_61131_3);
-
-        setOutSuffixReplacement("_plc");
-        setSupportconstants(true);
     }
 
     @Override
     public void writeOutput(String outputPath) {
         new Iec611313Writer().write(project, outputPath);
+    }
+
+    @Override
+    public boolean getSupportConstants() {
+        return true;
+    }
+
+    @Override
+    public String getOutSuffixReplacement() {
+        return "_plc";
     }
 }

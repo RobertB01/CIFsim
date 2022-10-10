@@ -46,12 +46,20 @@ public class SiemensS7Target extends PlcBaseTarget {
         super(targetType);
 
         Assert.check(OUT_SUFFIX_REPLACEMENTS.containsKey(targetType)); // Java can't check existence before super().
-        setOutSuffixReplacement(OUT_SUFFIX_REPLACEMENTS.get(targetType));
-        setSupportconstants(true);
     }
 
     @Override
     public void writeOutput(String outputPath) {
         new S7Writer(OUTPUT_TYPES.get(targetType)).write(project, outputPath);
+    }
+
+    @Override
+    public boolean getSupportConstants() {
+        return true;
+    }
+
+    @Override
+    public String getOutSuffixReplacement() {
+        return OUT_SUFFIX_REPLACEMENTS.get(targetType);
     }
 }

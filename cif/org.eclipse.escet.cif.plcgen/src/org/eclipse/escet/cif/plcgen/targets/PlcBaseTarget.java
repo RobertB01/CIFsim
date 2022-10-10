@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -81,7 +81,7 @@ public abstract class PlcBaseTarget extends PlcCodeGenSettings {
         globalInputs = new PlcGlobalVarList("INPUTS", false);
         resource.globalVarLists.add(globalInputs);
 
-        boolean constantsAllowed = getSupportconstants();
+        boolean constantsAllowed = getSupportConstants();
         if (constantsAllowed) {
             globalConsts = new PlcGlobalVarList("CONSTS", true);
             resource.globalVarLists.add(globalConsts);

@@ -20,13 +20,20 @@ public class AbbTarget extends PlcBaseTarget {
     /** Constructor of the {@link AbbTarget} class. */
     public AbbTarget() {
         super(PlcTargetType.ABB);
-
-        setOutSuffixReplacement("_abb");
-        setSupportconstants(false);
     }
 
     @Override
     public void writeOutput(String outputPath) {
         new AbbWriter().write(project, outputPath);
+    }
+
+    @Override
+    public boolean getSupportConstants() {
+        return false;
+    }
+
+    @Override
+    public String getOutSuffixReplacement() {
+        return "_abb";
     }
 }

@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.plcgen;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
@@ -41,7 +40,6 @@ import org.eclipse.escet.cif.plcgen.targets.SiemensS7Target;
 import org.eclipse.escet.cif.plcgen.targets.TwinCatTarget;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -52,7 +50,7 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 
-/** Application entry point for the PLC code generator. */
+/** PLC code generator application. */
 public class CifPlcGenApp extends Application<IOutputComponent> {
     /**
      * Application main method.
@@ -96,69 +94,60 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        try {
-            // Construct the target code generator.
-            PlcTargetType targetType = PlcTargetTypeOption.getPlcTargetType();
-            PlcBaseTarget target;
-            switch (targetType) {
-                case ABB:
-                    target = new AbbTarget();
-                    break;
-                case IEC_61131_3:
-                    target = new Iec611313Target();
-                    break;
-                case PLC_OPEN_XML:
-                    target = new PlcOpenXmlTarget();
-                    break;
-                case S7_1200:
-                case S7_1500:
-                case S7_300:
-                case S7_400:
-                    target = new SiemensS7Target(targetType);
-                    break;
-                case TWINCAT:
-                    target = new TwinCatTarget();
-                    break;
-                default:
-                    throw new RuntimeException("Unknown output type: " + targetType);
-            }
-
-            // Codegen settings should be set now, lock them.
-            target.lockCodeGenSettings();
-
-            // Get output path.
-            String outPath = OutputFileOption.getDerivedPath(".cif", target.getOutSuffixReplacement());
-            Assert.notNull(outPath);
-            outPath = Paths.resolve(outPath);
-
-            // Construct the project.
-            target.initProject();
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Currently unused options.
-            //
-            // PlcNumberBitsOption
-            // PlcMaxIterOption
-            // PlcFormalFuncInvokeArgOption
-            // PlcFormalFuncInvokeFuncOption
-            // ConvertEnumsOption
-            // SimplifyValuesOption
-            // Options.getInstance(RenameWarningsOption
-
-            target.generateProgram();
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Write output.
-            target.writeOutput(outPath);
-        } catch (UnsupportedException ex) {
-            String msg = fmt("PLC code generation failed for CIF file \"%s\".", InputFileOption.getPath());
-            throw new UnsupportedException(msg, ex);
+        // Construct the target code generator.
+        PlcTargetType targetType = PlcTargetTypeOption.getPlcTargetType();
+        PlcBaseTarget target;
+        switch (targetType) {
+            case ABB:
+                target = new AbbTarget();
+                break;
+            case IEC_61131_3:
+                target = new Iec611313Target();
+                break;
+            case PLC_OPEN_XML:
+                target = new PlcOpenXmlTarget();
+                break;
+            case S7_1200:
+            case S7_1500:
+            case S7_300:
+            case S7_400:
+                target = new SiemensS7Target(targetType);
+                break;
+            case TWINCAT:
+                target = new TwinCatTarget();
+                break;
+            default:
+                throw new RuntimeException("Unknown output type: " + targetType);
         }
 
+        // Get output path.
+        String outPath = OutputFileOption.getDerivedPath(".cif", target.getOutSuffixReplacement());
+        Assert.notNull(outPath);
+        outPath = Paths.resolve(outPath);
+
+        // Construct the project.
+        target.initProject();
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // TODO Use these options, see also getAllOptions()
+        //
+        // PlcNumberBitsOption
+        // PlcMaxIterOption
+        // PlcFormalFuncInvokeArgOption
+        // PlcFormalFuncInvokeFuncOption
+        // ConvertEnumsOption
+        // SimplifyValuesOption
+        // RenameWarningsOption
+
+        target.generateProgram();
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Write output.
+        target.writeOutput(outPath);
         return 0;
     }
 
@@ -183,13 +172,13 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(PlcTaskNameOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskPriorityOption.class));
 
-        applicationOpts.add(Options.getInstance(PlcNumberBitsOption.class)); // Currently unused.
-        applicationOpts.add(Options.getInstance(PlcMaxIterOption.class)); // Currently unused.
-        applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeArgOption.class)); // Currently unused.
-        applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeFuncOption.class)); // Currently unused.
-        applicationOpts.add(Options.getInstance(ConvertEnumsOption.class)); // Currently unused.
-        applicationOpts.add(Options.getInstance(SimplifyValuesOption.class)); // Currently unused.
-        applicationOpts.add(Options.getInstance(RenameWarningsOption.class)); // Currently unused.
+        applicationOpts.add(Options.getInstance(PlcNumberBitsOption.class)); // TODO Use its value.
+        applicationOpts.add(Options.getInstance(PlcMaxIterOption.class)); // TODO Use its value.
+        applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeArgOption.class)); // TODO Use its value.
+        applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeFuncOption.class)); // TODO Use its value.
+        applicationOpts.add(Options.getInstance(ConvertEnumsOption.class)); // TODO Use its value.
+        applicationOpts.add(Options.getInstance(SimplifyValuesOption.class)); // TODO Use its value.
+        applicationOpts.add(Options.getInstance(RenameWarningsOption.class)); // TODO Use its value.
 
         List<OptionCategory> generatorSubCats = list();
         OptionCategory generatorCat = new OptionCategory("Generator", "Generator options.", generatorSubCats,
