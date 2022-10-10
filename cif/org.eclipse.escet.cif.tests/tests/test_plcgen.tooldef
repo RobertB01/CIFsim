@@ -21,6 +21,8 @@ end
 string test_path = "plcgen";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1 --warn-rename=yes"];
+
+// TODO Reduce the test_options entries to the set tested files.
 map(string:list string) test_options = {
     "plcgen/button_lamp.cif":                 ["-j MyProj -c MyConfig -r MyResource -n MyTask -i 7 -p 123"],
     "plcgen/constants_elim.cif":              ["--simplify-values=yes"],
