@@ -15,21 +15,17 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
 /** CIF check that does not allow urgent edges. */
 public class EdgeNoUrgentCheck extends CifCheck {
     @Override
     protected void preprocessEdge(Edge edge, CifCheckViolations violations) {
         if (edge.isUrgent()) {
-            Location loc = (Location)edge.eContainer();
-            if (loc.getName() != null) {
-                violations.add(loc, "location has an urgent edge");
-            } else {
-                violations.add((Automaton)loc.eContainer(), "automaton has an urgent edge");
-            }
+            // Report violation on the closest named ancestor of the edge: a location or an automaton.
+            violations.add(edge, new ReportObjectTypeDescrMessage(), new LiteralMessage("has an urgent edge"));
         }
     }
 }

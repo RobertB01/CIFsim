@@ -1,0 +1,40 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+automaton a:
+  location l1:
+    initial;
+    edge e goto l2; // Non-urgent.
+  location l2:
+    edge e now goto l3; // Urgent.
+  location l3:
+    edge e goto l4; // Non-urgent.
+  location l4:
+    edge e now goto l1; // Urgent.
+end
+
+group g:
+  automaton def A():
+    location l1:
+      initial;
+      edge e goto l2; // Non-urgent.
+    location l2:
+      edge e now goto l3; // Urgent.
+    location l3:
+      edge e goto l4; // Non-urgent.
+    location l4:
+      edge e now goto l1; // Urgent.
+  end
+end

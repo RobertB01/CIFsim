@@ -62,7 +62,7 @@ Replace `vN.N` by the version, e.g. `v0.1`, `v0.1.1` or `v1.0`.
 
 ** Change the _Release type_ if applicable.
 
-** For _IP Due Diligence Type_ select _Type A - License Compatibility Certification_.
+** Click _Save_.
 
 * Create a GitLab milestone:
 
@@ -102,6 +102,8 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 
 ** Repeat these steps to create issues for the release candidate (`Release vN.N-RC1`) and final release (`Release vN.N`).
 
+** Repeat these steps to create an issue for <<development-release-process-prepare-git-repo-for-next-version,preparing the Git repository for development>> of the new version (`Prepare Git repo for vN.N development`).
+
 ** If a <<development-release-process-prepare-release-review,release review>> is needed, create an issue for that as well (`Release review for vN.N`).
 
 [[development-release-process-prepare-git-repo-for-next-version]]
@@ -112,10 +114,6 @@ To prepare the Git repository for the next version (not a milestone or release c
 * Run in the root of the Git repository the command `./mvn_escet.sh org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=<new-version>`, where `<new-version>` is replaced by the new version, e.g. `0.2.0.qualifier`.
 This replaces most version numbers automatically.
 Check all changes to ensure no versions are updated that should not be updated.
-
-* Verify that the `feature` `url` and `version` of all `org.eclipse.escet.*` features in `org.eclipse.escet.product/category.xml` are properly updated.
-The old version should no longer be present.
-This should be automatic.
 
 * Verify that the `product` `version` in `org.eclipse.escet.product/escet.product` is properly updated.
 The old version should no longer be present.
@@ -188,7 +186,7 @@ Once the work on `develop` is done for a release (milestone, release candidate, 
 
 * For a final release ensure the `TBD` indication is removed in the release notes of all documentation sets.
 
-* For a final release ensure that all IP is accounted for and all CQs have been approved by the Eclipse Foundation IP team.
+* For a final release ensure that all IP is accounted for and all relevant CQs and IP Team GitLab issues have been approved by the Eclipse Foundation IP team.
 
 * For a final release ensure that a <<development-release-process-prepare-release-review,release review>> has been successfully completed no more than one year ago.
 

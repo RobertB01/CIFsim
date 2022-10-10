@@ -1,0 +1,34 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+event void c1;
+event int c2;
+
+group g:
+  event e;
+  event void c1;
+  event int c2;
+
+  automaton a:
+    event e;
+    controllable void c1;
+    uncontrollable int c2;
+
+    location:
+      initial;
+  end
+end
+
+group def G(event e; event void c1; event int c2):
+end

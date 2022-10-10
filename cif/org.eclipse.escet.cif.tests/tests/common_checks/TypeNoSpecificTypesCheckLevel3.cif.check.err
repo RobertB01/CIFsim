@@ -1,0 +1,5 @@
+WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
+WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 111, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "LIST_TYPES_NON_ARRAY.loc": uses non-array list type "list bool".
+ - Unsupported "LIST_TYPES_NON_ARRAY.v": uses non-array list type "list bool".

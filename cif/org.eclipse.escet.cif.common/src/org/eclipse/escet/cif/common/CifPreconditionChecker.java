@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.cif.common;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.CifChecker;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
 /**
@@ -42,7 +43,7 @@ public class CifPreconditionChecker extends CifChecker {
      *
      * @param preconditions The preconditions to check.
      */
-    public CifPreconditionChecker(CifCheck[] preconditions) {
+    public CifPreconditionChecker(CifCheck... preconditions) {
         super(preconditions);
     }
 
@@ -61,10 +62,11 @@ public class CifPreconditionChecker extends CifChecker {
 
         // Report unsupported specification, if there are any precondition violations.
         if (violations.hasViolations()) {
-            List<String> messages = violations.getViolations().map(v -> "Unsupported " + v.toString())
-                    .collect(Collectors.toList());
-            Collections.sort(messages, Strings.SORTER);
-            String msg = toolName + " failed due to unsatisfied preconditions:\n - " + String.join("\n - ", messages);
+            Set<String> messages = violations.getViolations().map(v -> "Unsupported " + v.toString())
+                    .collect(Collectors.toSet());
+            List<String> sortedMessages = Sets.sortedgeneric(messages, Strings.SORTER);
+            String msg = toolName + " failed due to unsatisfied preconditions:\n - "
+                    + String.join("\n - ", sortedMessages);
             throw new UnsupportedException(msg);
         }
     }

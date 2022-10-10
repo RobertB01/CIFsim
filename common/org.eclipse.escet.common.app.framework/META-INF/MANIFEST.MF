@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Common Application Framework (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.app.framework;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.7.0",
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.8.0",
  org.eclipse.swt;bundle-version="3.113.0";visibility:=reexport,
  org.eclipse.core.runtime;bundle-version="3.17.0",
  org.eclipse.core.resources;bundle-version="3.13.600",
@@ -17,9 +17,11 @@ Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.7.0",
  org.eclipse.ui.console;bundle-version="3.9.0",
  org.eclipse.ui;bundle-version="3.115.0",
  org.apache.commons.io;bundle-version="2.6.0",
- org.eclipse.jdt.core;bundle-version="3.25.0"
+ org.eclipse.jdt.core;bundle-version="3.25.0",
+ org.eclipse.e4.ui.css.swt.theme;bundle-version="0.13.0"
 Export-Package: org.eclipse.escet.common.app.framework,
  org.eclipse.escet.common.app.framework.console,
+ org.eclipse.escet.common.app.framework.eclipse.themes,
  org.eclipse.escet.common.app.framework.exceptions,
  org.eclipse.escet.common.app.framework.io,
  org.eclipse.escet.common.app.framework.javacompiler,

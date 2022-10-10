@@ -1,0 +1,9 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "different_locs.loc1": location has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "different_locs.loc2": location has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "g.p1": group has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "g.p2": group has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "named_invs.I1": invariant is a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "named_invs.I2": invariant is a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "nameless_loc": automaton has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported specification: the top level scope of the specification has a kindless state/event exclusion invariant, lacking a supervisory kind.

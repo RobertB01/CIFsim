@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Chi Runtime (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.chi.runtime;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.escet.chi.runtime,
@@ -10,11 +10,11 @@ Export-Package: org.eclipse.escet.chi.runtime,
  org.eclipse.escet.chi.runtime.data.io,
  org.eclipse.escet.chi.runtime.data.random
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.7.0",
- org.eclipse.escet.common.app.framework;bundle-version="0.7.0",
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.8.0",
+ org.eclipse.escet.common.app.framework;bundle-version="0.8.0",
  org.apache.commons.math3;bundle-version="3.5.0",
- org.eclipse.escet.common.svg;bundle-version="0.7.0",
- org.eclipse.escet.common.eclipse.ui;bundle-version="0.7.0",
+ org.eclipse.escet.common.svg;bundle-version="0.8.0",
+ org.eclipse.escet.common.eclipse.ui;bundle-version="0.8.0",
  org.w3c.dom.svg;bundle-version="1.1.0",
  org.apache.batik.bridge;bundle-version="1.14.0",
  org.apache.commons.lang3;bundle-version="3.1.0"

@@ -1,0 +1,5 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a.l3": location has an edge with a multi-assignment.
+ - Unsupported "all": automaton has an edge with a multi-assignment.
+ - Unsupported "g.A.l3": location has an edge with a multi-assignment.
+ - Unsupported "multi_asgn": automaton has an edge with a multi-assignment.

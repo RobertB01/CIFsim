@@ -14,6 +14,10 @@
 package org.eclipse.escet.setext.texteditor;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.DEFAULT;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.DESCRIPTION;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.IDENTIFIER;
+import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.KEYWORD;
 
 import org.eclipse.escet.setext.parser.SeTextScanner;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
@@ -21,6 +25,7 @@ import org.eclipse.escet.setext.texteditorbase.RuleBasedScannerEx;
 import org.eclipse.escet.setext.texteditorbase.detectors.GenericWhitespaceDetector;
 import org.eclipse.escet.setext.texteditorbase.rules.KeywordsRule;
 import org.eclipse.escet.setext.texteditorbase.rules.RegExRule;
+import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
@@ -29,9 +34,10 @@ public class SeTextTextEditorScanner extends RuleBasedScannerEx {
     /**
      * Constructor for the {@link SeTextTextEditorScanner} class.
      *
+     * @param theme The theme to use.
      * @param manager The color manager to use to create the color tokens.
      */
-    public SeTextTextEditorScanner(ColorManager manager) {
+    public SeTextTextEditorScanner(TextEditorTheme<SeTextTextEditorStylable> theme, ColorManager manager) {
         // Get keywords.
         String[] keywords = SeTextScanner.getKeywords("Keywords");
 
@@ -44,14 +50,15 @@ public class SeTextTextEditorScanner extends RuleBasedScannerEx {
         // Construct and set predicate rules. Make sure we also have a default
         // token.
         IRule[] rules = new IRule[] { //
-                new KeywordsRule(keywords, SeTextStyles.KEYWORD.createToken(manager)), //
-                new RegExRule(idPat, SeTextStyles.IDENTIFIER.createToken(manager)), //
-                new RegExRule(namePat, SeTextStyles.IDENTIFIER.createToken(manager)), //
-                new RegExRule(descrPat, SeTextStyles.DESCRIPTION.createToken(manager)), //
-                new WhitespaceRule(new GenericWhitespaceDetector()), //
+                new KeywordsRule(keywords, theme.getStyle(KEYWORD).createToken(manager)),
+                new RegExRule(idPat, theme.getStyle(IDENTIFIER).createToken(manager)),
+                new RegExRule(namePat, theme.getStyle(IDENTIFIER).createToken(manager)),
+                new RegExRule(descrPat, theme.getStyle(DESCRIPTION).createToken(manager)),
+                new WhitespaceRule(new GenericWhitespaceDetector()),
+                //
         };
         setRules(rules);
 
-        setDefaultReturnToken(SeTextStyles.DEFAULT.createToken(manager));
+        setDefaultReturnToken(theme.getStyle(DEFAULT).createToken(manager));
     }
 }

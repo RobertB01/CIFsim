@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Simulate the synthesized supervisor.
+
+from "lib:cif" import *;
+
+// Make sure that the supervisor has been synthesized.
+if not exists("_generated/supervisor.cif"):
+    errln("ERROR: Please first synthesize the supervisor before executing the simulation script.");
+    exit 1;
+end
+
+// Merge supervisor with diagnosers and various simulation models.
+outln("Preparing simulation model...");
+cifmerge(
+    "_generated/supervisor.cif",
+    "diagnosers/diagnosers.cif",
+    "simulation/plant_and_sim_and_viz.cif",
+    "simulation/ui_and_viz.cif",
+    "simulation/timers.cif",
+    "-o _generated/simulation.cif",
+);
+
+// Simulate controlled system.
+outln("Starting simulation...");
+cifsim(
+    "_generated/simulation.cif",
+    "--input-mode=svg",
+    "--auto-algo=first",
+    "--frame-rate=10",
+    "--speed=3",
+    "--max-delay=10.0",
+);

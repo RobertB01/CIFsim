@@ -16,9 +16,13 @@ package org.eclipse.escet.setext.texteditorbase;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.AUTO;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.DARK;
+import static org.eclipse.escet.setext.texteditorbase.themes.DefaultTextEditorThemeName.LIGHT;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -27,8 +31,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.escet.common.app.framework.AppEnv;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemePreferenceChangeListener;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
@@ -42,6 +49,8 @@ import org.eclipse.escet.setext.runtime.Parser;
 import org.eclipse.escet.setext.runtime.SyntaxWarning;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 import org.eclipse.escet.setext.texteditorbase.scanners.GenericPartitionScanner;
+import org.eclipse.escet.setext.texteditorbase.themes.AutoDarkLightTheme;
+import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.FindReplaceDocumentAdapter;
@@ -51,8 +60,10 @@ import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.ISourceViewerExtension2;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
@@ -66,6 +77,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.statushandlers.StatusManager;
@@ -79,8 +91,11 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  *     type, such as {@link Object}.
  * @param <T2> The type of the decorated abstract syntax tree that results from type checking. If no type checker is
  *     available, use a dummy type, such as {@link Object}.
+ * @param <TT> The enum with the stylables of the text editor.
  */
-public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentListener, IPartListener {
+public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
+        implements IDocumentListener, IPartListener
+{
     /** Whether to print debugging information related to validation timing. */
     private static final boolean DEBUG_TIMING = false;
 
@@ -111,6 +126,18 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
     /** The partition scanner to use for the text editor. */
     private final GenericPartitionScanner scanner;
 
+    /** The creator that given a theme creates a themed source viewer configuration for the text editor. */
+    private final Function<TextEditorTheme<TT>, GenericSourceViewerConfiguration> sourceViewerConfigCreator;
+
+    /** The dark theme for the text editor. */
+    private final TextEditorTheme<TT> darkTheme;
+
+    /** The light theme for the text editor. */
+    private final TextEditorTheme<TT> lightTheme;
+
+    /** The Eclipse theme preference change listener. */
+    private final EclipseThemePreferenceChangeListener themeListener;
+
     /** The SeText generated parser class to use for parsing, or {@code null} if no parser is available. */
     private final Class<? extends Parser<T1>> parserClass;
 
@@ -139,7 +166,10 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
      * Constructor for the {@link GenericTextEditor} class.
      *
      * @param scanner The partition scanner to use for the text editor.
-     * @param viewerConfig The text editor source viewer configuration to use for the text editor.
+     * @param sourceViewerConfigCreator The creator that given a theme creates a themed source viewer configuration for
+     *     the text editor.
+     * @param darkTheme The dark theme for the text editor.
+     * @param lightTheme The light theme for the text editor.
      * @param parserClass The SeText generated parser class to use for parsing, or {@code null} if no parser is
      *     available.
      * @param typeCheckerClass The type checker class to use for type checking, or {@code null} if no type checker is
@@ -151,21 +181,28 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
      * @param singleLineCommentChars The single line comment characters for the language supported by this text editor,
      *     or {@code null} if not applicable.
      */
-    public GenericTextEditor(GenericPartitionScanner scanner, GenericSourceViewerConfiguration viewerConfig,
-            Class<? extends Parser<T1>> parserClass, Class<? extends TypeChecker<T1, T2>> typeCheckerClass,
-            String syntaxProblemMarkerId, String semanticProblemMarkerId, String singleLineCommentChars)
+    public GenericTextEditor(GenericPartitionScanner scanner,
+            Function<TextEditorTheme<TT>, GenericSourceViewerConfiguration> sourceViewerConfigCreator,
+            TextEditorTheme<TT> darkTheme, TextEditorTheme<TT> lightTheme, Class<? extends Parser<T1>> parserClass,
+            Class<? extends TypeChecker<T1, T2>> typeCheckerClass, String syntaxProblemMarkerId,
+            String semanticProblemMarkerId, String singleLineCommentChars)
     {
         this.scanner = scanner;
+        this.sourceViewerConfigCreator = sourceViewerConfigCreator;
+        this.darkTheme = darkTheme;
+        this.lightTheme = lightTheme;
         this.parserClass = parserClass;
         this.typeCheckerClass = typeCheckerClass;
         this.syntaxProblemMarkerId = syntaxProblemMarkerId;
         this.semanticProblemMarkerId = semanticProblemMarkerId;
         this.singleLineCommentChars = singleLineCommentChars;
-        colorManager = new ColorManager();
-        viewerConfig.setColorManager(colorManager);
-        viewerConfig.setPartitionScanner(scanner);
-        viewerConfig.setPreferenceStore(getPreferenceStore());
-        setSourceViewerConfiguration(viewerConfig);
+        this.colorManager = new ColorManager();
+
+        TextEditorTheme<TT> configuredTheme = getConfiguredTheme();
+        GenericSourceViewerConfiguration sourceViewerConfig = createThemedSourceViewerConfig(configuredTheme);
+        setSourceViewerConfiguration(sourceViewerConfig);
+
+        this.themeListener = new EclipseThemePreferenceChangeListener(this::handleThemeChange);
     }
 
     @Override
@@ -338,6 +375,79 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
         // Ensure decoration support has been created and configured.
         getSourceViewerDecorationSupport(viewer);
         return viewer;
+    }
+
+    /**
+     * Returns the theme configured for this text editor.
+     *
+     * @return The theme.
+     */
+    private TextEditorTheme<TT> getConfiguredTheme() {
+        // Get configured theme name.
+        String themeName = Platform.getPreferencesService().getString(EditorsUI.PLUGIN_ID,
+                getClass().getPackageName() + ".theme", AUTO, null);
+
+        // Return the theme.
+        if (themeName.equals(DARK)) {
+            return darkTheme;
+        } else if (themeName.equals(LIGHT)) {
+            return lightTheme;
+        } else { // 'auto', or some other value.
+            return new AutoDarkLightTheme<>(darkTheme, lightTheme);
+        }
+    }
+
+    /**
+     * Applies a new theme to the text editor.
+     *
+     * @param theme The theme to apply.
+     */
+    private void retheme(TextEditorTheme<TT> theme) {
+        // Get source viewer.
+        ISourceViewer viewer = getSourceViewer();
+        Assert.check(viewer instanceof ISourceViewerExtension2);
+        ISourceViewerExtension2 viewer2 = (ISourceViewerExtension2)viewer;
+
+        // Configure a new source viewer configuration.
+        viewer2.unconfigure();
+        viewer.configure(createThemedSourceViewerConfig(theme));
+    }
+
+    /**
+     * Creates a themed source viewer configuration for this text editor.
+     *
+     * @param theme The theme to use.
+     * @return The themed source viewer configuration.
+     */
+    private GenericSourceViewerConfiguration createThemedSourceViewerConfig(TextEditorTheme<TT> theme) {
+        GenericSourceViewerConfiguration sourceViewerConfig = sourceViewerConfigCreator.apply(theme);
+        sourceViewerConfig.setColorManager(colorManager);
+        sourceViewerConfig.setPartitionScanner(scanner);
+        sourceViewerConfig.setPreferenceStore(getPreferenceStore());
+        return sourceViewerConfig;
+    }
+
+    @Override
+    protected void handlePreferenceStoreChanged(PropertyChangeEvent event) {
+        // Handle text editor theme preference change.
+        if (event.getProperty().equals(getClass().getPackageName() + ".theme")) {
+            TextEditorTheme<TT> theme = getConfiguredTheme();
+            retheme(theme);
+            return;
+        }
+
+        // Let super class handle other preference changes.
+        super.handlePreferenceStoreChanged(event);
+    }
+
+    /**
+     * Handle Eclipse theme preference change.
+     *
+     * @param event The theme preference change event.
+     */
+    private void handleThemeChange(PreferenceChangeEvent event) {
+        TextEditorTheme<TT> theme = getConfiguredTheme();
+        retheme(theme);
     }
 
     @Override
@@ -804,6 +914,9 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
         // collection of this editor.
         IPartService ps = getSite().getWorkbenchWindow().getPartService();
         ps.removePartListener(this);
+
+        // Unregister theme-related preference change listener.
+        themeListener.unregister();
 
         // Save folding state. Fails if the file no longer exists, for instance
         // because it has been renamed. However, failures are ignored, so it's

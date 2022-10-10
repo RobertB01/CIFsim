@@ -15,9 +15,15 @@ package org.eclipse.escet.cif.common.checkers;
 
 import static org.eclipse.escet.common.java.Sets.set;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.common.checkers.messages.CifCheckViolationMessage;
+import org.eclipse.escet.cif.common.checkers.messages.SequenceMessage;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF check condition violations. */
@@ -46,13 +52,24 @@ public class CifCheckViolations {
     /**
      * Add a violation.
      *
-     * @param cifObject The named CIF object for which the violation is reported, or {@code null} to report it for the
-     *     CIF specification.
-     * @param message The message describing the violation. E.g., {@code "event is a channel"},
-     *     {@code "automaton is a kindless automaton, lacking a supervisory kind"} or
-     *     {@code "specification has no automata"}.
+     * @param cifObject The CIF object for which the violation is to be reported. Note that:
+     *     <ul>
+     *     <li>If this object itself is not named, then the {@link CifTextUtils#getNamedSelfOrAncestor closest named
+     *     ancestor} is used instead.</li>
+     *     <li>If the object itself is not named, and has no named ancestor, the specification is used.</li>
+     *     <li>To report a violation on an entire specification, either a {@link Specification} or {@code null} may be
+     *     provided.</li>
+     *     </ul>
+     * @param messages The non-empty sequence of concatenated messages describing the violation. The message texts of
+     *     the messages are trimmed and concatenated, with a space being added in between each two message texts if
+     *     needed. The concatenated message text should in principle not start with a capital letter, nor end with a
+     *     period to end the sentence.
+     * @see CifCheckViolation#CifCheckViolation
      */
-    public void add(PositionObject cifObject, String message) {
+    public void add(PositionObject cifObject, CifCheckViolationMessage... messages) {
+        Assert.check(messages.length > 0);
+        CifCheckViolationMessage message = (messages.length == 1) ? messages[0]
+                : new SequenceMessage(Arrays.asList(messages));
         violations.add(new CifCheckViolation(cifObject, message));
     }
 }

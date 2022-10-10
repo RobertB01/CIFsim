@@ -14,19 +14,21 @@
 package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
+import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 
 /**
- * CIF check that allows automata only if they have exactly one initial location. Automata for which this can not be
+ * CIF check that allows automata only if they have exactly one initial location. Automata for which this cannot be
  * determined statically, are also not allowed.
  */
 public class AutOnlyWithOneInitLocCheck extends CifCheck {
@@ -46,9 +48,11 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
     protected void postprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         // There must be exactly one initial location.
         if (initLocCount == 0) {
-            violations.add(aut, "automaton has no initial location");
+            violations.add(aut, new ReportObjectTypeDescrMessage(),
+                    new LiteralMessage("has no initial location"));
         } else if (initLocCount > 1) {
-            violations.add(aut, fmt("automata has multiple (%d) initial locations", initLocCount));
+            violations.add(aut, new ReportObjectTypeDescrMessage(),
+                    new LiteralMessage("has multiple (%,d) initial locations", initLocCount));
         } // Skip if check is disabled (negative value).
     }
 
@@ -68,18 +72,16 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
             initial = loc.getInitials().isEmpty() ? false : evalPreds(loc.getInitials(), true, true);
         } catch (UnsupportedException e) {
             // Can only fail if there is at least one predicate.
-            errMsg = "as one of its initialization predicates can not be statically evaluated";
+            errMsg = "as one of its initialization predicates cannot be statically evaluated";
         } catch (CifEvalException e) {
             // Can only fail if there is at least one predicate.
             errMsg = "as evaluating one of its initialization predicates resulted in an evaluation error";
         }
         if (errMsg != null) {
-            if (loc.getName() != null) {
-                violations.add(loc, "failed to determine whether this is an initial location, " + errMsg);
-            } else {
-                violations.add((Automaton)loc.eContainer(),
-                        "failed to determine whether the automaton's location is an initial location, " + errMsg);
-            }
+            // Report violation on the location, or on its automaton in case the location has no name.
+            violations.add(loc, new LiteralMessage("failed to determine whether the"),
+                    new IfReportOnAncestorMessage("automaton's"),
+                    new LiteralMessage("location is an initial location,"), new LiteralMessage(errMsg));
 
             // Disable initial location count checking.
             initLocCount = -1;

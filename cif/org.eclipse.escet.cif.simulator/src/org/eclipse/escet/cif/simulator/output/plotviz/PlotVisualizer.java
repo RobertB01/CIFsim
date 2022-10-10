@@ -18,8 +18,6 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -37,6 +35,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.escet.cif.simulator.runtime.meta.RuntimeStateObjectMeta;
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemePreferenceChangeListener;
+import org.eclipse.escet.common.app.framework.eclipse.themes.EclipseThemeUtils;
 import org.eclipse.escet.common.eclipse.ui.ControlEditor;
 import org.eclipse.escet.common.eclipse.ui.MsgBox;
 import org.eclipse.escet.common.eclipse.ui.SelectionListenerBase;
@@ -61,15 +61,10 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.PlatformUI;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.style.MatlabTheme;
 import org.knowm.xchart.style.Styler.LegendLayout;
-import org.knowm.xchart.style.Styler.LegendPosition;
 import org.knowm.xchart.style.Styler.TextAlignment;
+import org.knowm.xchart.style.Theme;
 import org.knowm.xchart.style.XYStyler;
-import org.knowm.xchart.style.colors.ChartColor;
-import org.knowm.xchart.style.lines.SeriesLines;
-import org.knowm.xchart.style.markers.Marker;
-import org.knowm.xchart.style.markers.SeriesMarkers;
 
 /** Visualizer to use to graphically plot the values of variables as time progresses, during simulation. */
 public class PlotVisualizer extends ControlEditor {
@@ -92,36 +87,28 @@ public class PlotVisualizer extends ControlEditor {
     /** The plot visualizer update thread. {@code null} until initialized by the {@link #createContents} method. */
     private PlotVisualizerUpdateThread thread;
 
+    /** The Eclipse theme preference change listener. */
+    private EclipseThemePreferenceChangeListener themeListener;
+
     @SuppressWarnings("restriction")
     @Override
     protected Control createContents(Composite parent) {
         // Create chart.
         chart = new XYChartBuilder().build();
-
-        // Configure chart.
+        applyChartStyle();
         chart.setXAxisTitle("time");
+        chart.getStyler().setXAxisMin(0.0);
 
-        // Apply Matlab theme.
-        XYStyler styler = chart.getStyler();
-        styler.setTheme(new MatlabTheme());
-
-        // Custom styling.
-        styler.setAntiAlias(true);
-        styler.setChartPadding(15);
-        styler.setLegendBorderColor(ChartColor.getAWTColor(ChartColor.DARK_GREY));
-        styler.setLegendFont(chart.getStyler().getAxisTitleFont());
-        styler.setLegendLayout(LegendLayout.Horizontal);
-        styler.setLegendPadding(7);
-        styler.setLegendPosition(LegendPosition.OutsideS);
-        styler.setPlotContentSize(1.0);
-        styler.setPlotGridLinesColor(new Color(245, 245, 245));
-        styler.setPlotGridLinesStroke(new BasicStroke());
-        styler.setPlotBackgroundColor(new Color(252, 252, 252));
-        styler.setSeriesMarkers(new Marker[] {SeriesMarkers.NONE});
-        styler.setSeriesLines(new BasicStroke[] {SeriesLines.SOLID});
-        styler.setSeriesColors(MaterialUiColors600.COLORS);
-        styler.setXAxisMin(0.0);
-        styler.setYAxisLabelAlignment(TextAlignment.Centre);
+        // Add Eclipse theme listener.
+        themeListener = new EclipseThemePreferenceChangeListener(e -> {
+            if (canvas.isDisposed()) {
+                return;
+            }
+            applyChartStyle();
+            canvas.updatePixels();
+            canvas.redraw();
+        });
+        parent.addDisposeListener(e -> themeListener.unregister());
 
         // Create canvas on which to display the chart.
         canvas = new PlotVisualizerCanvas(parent, chart);
@@ -168,6 +155,21 @@ public class PlotVisualizer extends ControlEditor {
 
         // Return the canvas as contents of the visualizer.
         return canvas;
+    }
+
+    /** Apply chart style. */
+    @SuppressWarnings("restriction")
+    private void applyChartStyle() {
+        // Apply theme.
+        XYStyler styler = chart.getStyler();
+        Theme theme = EclipseThemeUtils.isDarkThemeInUse() ? new PlotVisualizerDarkTheme()
+                : new PlotVisualizerLightTheme();
+        styler.setTheme(theme);
+
+        // Set styling not set by themes.
+        styler.setAntiAlias(true);
+        styler.setLegendLayout(LegendLayout.Horizontal);
+        styler.setYAxisLabelAlignment(TextAlignment.Centre);
     }
 
     /**

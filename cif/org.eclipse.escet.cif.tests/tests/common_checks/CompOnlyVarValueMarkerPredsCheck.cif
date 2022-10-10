@@ -1,0 +1,98 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton ok_marker:
+  disc bool v in any;
+  marked v = true;
+  location:
+    initial;
+end
+
+automaton double_marker_in_aut:
+  disc bool v in any;
+  marked v = true;
+  marked v = false;
+  location:
+    initial;
+end
+
+group double_marker_grp:
+  automaton double_marker_in_aut_and_grp:
+    disc bool v in any;
+    marked v = true;
+    location:
+      initial;
+  end
+  marked double_marker_in_aut_and_grp.v = false;
+end
+
+automaton double_marker_in_aut_and_spec:
+  disc bool v in any;
+  marked v = true;
+  location:
+    initial;
+end
+marked double_marker_in_aut_and_spec.v = false;
+
+group six_marker:
+  automaton six_marker:
+    disc bool v in any;
+    marked v = true;
+    marked v = false;
+    location:
+      initial;
+  end
+  marked six_marker.v = true;
+  marked six_marker.v = false;
+end
+marked six_marker.six_marker.v = true;
+marked six_marker.six_marker.v = false;
+
+automaton marker_not_binexpr:
+  disc bool v in any;
+  marked v;
+  location:
+    initial;
+end
+
+automaton marker_not_equal_binexpr:
+  disc bool v in any;
+  marked v and v;
+  location:
+    initial;
+end
+
+automaton marker_var_not_on_the_left:
+  disc bool v in any;
+  marked true = v;
+  location:
+    initial;
+end
+
+// In the CIF metamodel, function parameters and local variables are represented as 'DiscVariable'.
+func int func_param_and_local_var(int p):
+  int v = p;
+  v := v + 1;
+  return v;
+end
+
+automaton def AutDef():
+  disc int v in any;
+  marked v = 1;
+  location:
+    initial;
+end
+inst1: AutDef();
+inst2: AutDef();
+marked inst1.v = 2;
+marked inst2.v = 3;
