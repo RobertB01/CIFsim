@@ -376,7 +376,6 @@ public class SynthesisAnalysisEditor extends ControlEditor {
         // Set up colors and theming.
         setColors();
 
-        /** The Eclipse theme preference change listener. */
         EclipseThemePreferenceChangeListener themeListener = new EclipseThemePreferenceChangeListener(e -> {
             if (root.isDisposed()) {
                 return;
