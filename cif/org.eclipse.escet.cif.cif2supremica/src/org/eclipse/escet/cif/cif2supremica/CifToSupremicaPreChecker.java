@@ -31,7 +31,7 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsChec
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoUserDefinedCheck;
 import org.eclipse.escet.cif.common.checkers.checks.InvNoKindlessStateEvtExclCheck;
-import org.eclipse.escet.cif.common.checkers.checks.LocNoStateInvsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlyStaticEvalMarkerPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
@@ -73,7 +73,7 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 // transformation. We do eliminate location references, so we could make a CIF to CIF transformation
                 // that lifts state invariants out of locations to the surrounding automaton, and apply that
                 // transformation before the elimination of location references.
-                new LocNoStateInvsCheck(),
+                new LocOnlySpecificInvariantsCheck(false, true),
 
                 // State invariants in components are only supported if they are requirement invariants.
                 new CompStateInvsOnlyReqsCheck(),
