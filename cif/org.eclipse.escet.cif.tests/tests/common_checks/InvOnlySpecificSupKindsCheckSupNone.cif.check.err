@@ -1,0 +1,12 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "different_locs.loc3": location is a plant invariant, not a kindless or supervisor invariant.
+ - Unsupported "different_locs.loc4": location is a requirement invariant, not a kindless or supervisor invariant.
+ - Unsupported "g.p": group is a plant invariant, not a kindless or supervisor invariant.
+ - Unsupported "g.r": group is a requirement invariant, not a kindless or supervisor invariant.
+ - Unsupported "named_invs.I3": invariant is a plant invariant, not a kindless or supervisor invariant.
+ - Unsupported "named_invs.I4": invariant is a requirement invariant, not a kindless or supervisor invariant.
+ - Unsupported "nameless_loc": automaton is a plant invariant, not a kindless or supervisor invariant.
+ - Unsupported "nameless_loc": automaton is a requirement invariant, not a kindless or supervisor invariant.
+ - Unsupported "state_invs": group is a plant invariant, not a kindless or supervisor invariant.
+ - Unsupported "state_invs": group is a requirement invariant, not a kindless or supervisor invariant.
+ - Unsupported specification: the top level scope of the specification is a plant invariant, not a kindless or supervisor invariant.
