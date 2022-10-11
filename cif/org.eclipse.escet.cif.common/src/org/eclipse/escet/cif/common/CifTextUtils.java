@@ -185,7 +185,9 @@ public class CifTextUtils {
      * @return The textual representation of the supervisory kind in the CIF ASCII syntax.
      */
     public static String kindToStr(SupKind kind) {
-        Assert.check(kind != SupKind.NONE);
+        if (kind.equals(SupKind.NONE)) {
+            return "kindless";
+        }
         return kind.getName().toLowerCase(Locale.US);
     }
 

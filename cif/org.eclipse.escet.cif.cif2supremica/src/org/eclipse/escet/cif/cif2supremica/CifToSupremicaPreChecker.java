@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.cif2supremica;
 
 import org.eclipse.escet.cif.common.CifPreconditionChecker;
-import org.eclipse.escet.cif.common.checkers.checks.AutNoKindlessCheck;
+import org.eclipse.escet.cif.common.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompOnlyVarValueMarkerPredsCheck;
@@ -31,14 +31,15 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsChec
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoUserDefinedCheck;
 import org.eclipse.escet.cif.common.checkers.checks.InvNoKindlessStateEvtExclCheck;
-import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
+import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlyStaticEvalMarkerPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoContinuousCheck;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoInputCheck;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** CIF to Supremica transformation precondition checker. */
 public class CifToSupremicaPreChecker extends CifPreconditionChecker {
@@ -46,7 +47,7 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
     public CifToSupremicaPreChecker() {
         super(
                 // Kindless automata are not supported.
-                new AutNoKindlessCheck(),
+                new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT, SupKind.SUPERVISOR),
 
                 // Events must be controllable or uncontrollable. Tau events are thus not supported.
                 new EventOnlyWithControllabilityCheck(),

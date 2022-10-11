@@ -14,9 +14,12 @@
 package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.makeElementsChoiceText;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 
@@ -200,5 +203,42 @@ public class StringsTest {
             assertEquals(expectedLength, text.chars().count());
             assertTrue(text.chars().allMatch(v -> v == 32));
         }
+    }
+
+    @Test(expected = AssertionError.class)
+    @SuppressWarnings("javadoc")
+    public void testMakeNoChoiceText() {
+        assertEquals("", makeElementsChoiceText(List.of(), null));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testConvertedChoiceText() {
+        assertEquals("**1**", makeElementsChoiceText(List.of(1),
+                n -> fmt("**%d**", n)));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMakeSingleChoiceText() {
+        assertEquals("abc", makeElementsChoiceText(List.of("abc"), null));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMakeDualChoiceText() {
+        assertEquals("abc or def", makeElementsChoiceText(List.of("abc", "def"), null));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMakeTripleChoiceText() {
+        assertEquals("abc, def or ghi", makeElementsChoiceText(List.of("abc", "def", "ghi"), null));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMakeQuadrupleChoiceText() {
+        assertEquals("abc, def, ghi or jkl", makeElementsChoiceText(List.of("abc", "def", "ghi", "jkl"), null));
     }
 }

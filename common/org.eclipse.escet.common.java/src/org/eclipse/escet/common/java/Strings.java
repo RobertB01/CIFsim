@@ -16,12 +16,15 @@ package org.eclipse.escet.common.java;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Formatter;
 import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -457,6 +460,53 @@ public final class Strings {
      */
     public static String makeUppercase(String s) {
         return s.toUpperCase(Locale.US);
+    }
+
+    /**
+     * Construct a descriptive string listing the sorted names of the given elements.
+     *
+     * <p>
+     * <ul>
+     * <li>For a single element {@code K} it creates {@code "K"},</li>
+     * <li>For two elements {@code K1}, {@code K2} it creates {@code "K1 or K2"},</li>
+     * <li>For three or more elements {@code K1}, {@code K2}, {@code ..}, {@code Kn} it creates
+     * {@code "K1, K2, ..., K(n-1) or Kn"},</li>
+     * </ul>
+     * </p>
+     *
+     * @param <T> Type of elements to list.
+     * @param elements Elements to list, collection must be non-empty.
+     * @param strFunc Conversion function of the elements to text, or {@code null} to use {@link Object#toString}.
+     * @return The produced string.
+     */
+    public static <T> String makeElementsChoiceText(Collection<T> elements, Function<T, String> strFunc) {
+        // Convert to text.
+        Stream<String> converted;
+        if (strFunc == null) {
+            converted = elements.stream().map(Object::toString);
+        } else {
+            converted = elements.stream().map(strFunc::apply);
+        }
+
+        // Sort, construct, and return the string.
+        StringBuilder sb = new StringBuilder();
+        int numElements = elements.size();
+        Assert.check(numElements > 0); // Else there is nothing to choose from.
+
+        int numAdded = 0;
+        for (String name: converted.sorted((n1, n2) -> n1.compareTo(n2)).toArray(String[]::new)) {
+            if (numAdded == 0) {
+                sb.append(name); // First name.
+            } else if (numAdded + 1 < numElements) {
+                sb.append(", "); // Not first and not last name.
+                sb.append(name);
+            } else {
+                sb.append(" or ");
+                sb.append(name); // Last name.
+            }
+            numAdded++;
+        }
+        return sb.toString();
     }
 
     /**
