@@ -64,8 +64,8 @@ For non-environment (urgent) events, as well as for non-event choices, the label
 
 Before each element a colored box is shown.
 The box is gray while that particular choice is not available.
-If choices are available, the box is green for <<lang-tut-extensions-synthesis-evtctrl,controllable>> events, red for <<lang-tut-extensions-synthesis-evtctrl,uncontrollable>> events, blue for other events, and black for everything else (_time delay_, _reset_, and _undo_).
-The text of the left button has the same color as the box.
+If choices are available, the box is green for <<lang-tut-extensions-synthesis-evtctrl,controllable>> events, red for <<lang-tut-extensions-synthesis-evtctrl,uncontrollable>> events, blue for other events, and for everything else (_time delay_, _reset_, and _undo_) it is black when using a light theme and white when using a dark theme.
+The text of the left button is colored similarly to the box.
 The colors help to quickly identify elements with possible choices.
 
 === Labels
