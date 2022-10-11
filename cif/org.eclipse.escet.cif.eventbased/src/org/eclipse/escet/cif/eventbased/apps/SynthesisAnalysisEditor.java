@@ -83,9 +83,6 @@ public class SynthesisAnalysisEditor extends ControlEditor {
     /** Color of a link. */
     public Color linkColor = null;
 
-    /** The Eclipse theme preference change listener. */
-    private EclipseThemePreferenceChangeListener themeListener;
-
     /**
      * Construct a string with a count, and fix the spelling depending on having a singular count.
      *
@@ -376,18 +373,22 @@ public class SynthesisAnalysisEditor extends ControlEditor {
         setContentDescription(absFilename.substring(0, dirPrefix));
         setPartName(filename);
 
-        // Create GUI.
+        // Set up colors and theming.
         setColors();
 
-        // Add Eclipse theme listener.
-        themeListener = new EclipseThemePreferenceChangeListener(e -> {
+        /** The Eclipse theme preference change listener. */
+        EclipseThemePreferenceChangeListener themeListener = new EclipseThemePreferenceChangeListener(e -> {
             if (root.isDisposed()) {
                 return;
             }
             setColors();
+
+            // Reset state to update GUI colors.
+            clickedResetState();
         });
         parent.addDisposeListener(e -> themeListener.unregister());
 
+        // Create GUI.
         Composite root = buildWidgets(parent);
 
         // Start loading the dump file in another thread, eventually calling {@link #loadingFinished}.
@@ -411,8 +412,8 @@ public class SynthesisAnalysisEditor extends ControlEditor {
 
         if (data == null) {
             List<ReportText> report = list();
-            report.add(
-                    new ColoredText(fmt("Loading of file \"%s\" failed!\r\n", input.getAbsoluteFilePath()), removedColor));
+            report.add(new ColoredText(fmt("Loading of file \"%s\" failed!\r\n", input.getAbsoluteFilePath()),
+                    removedColor));
             if (ex != null) {
                 report.add(new SimpleText("\r\nReason:\r\n" + exToStr(ex) + "\r\n"));
             }
@@ -431,12 +432,12 @@ public class SynthesisAnalysisEditor extends ControlEditor {
     /** Set the GUI colors. */
     private void setColors() {
         if (EclipseThemeUtils.isDarkThemeInUse()) {
-            availableColor = new Color(0x06, 0x55, 0x3c); // #06553C, green.
-            removedColor = new Color(0xFF, 0x00, 0x00); // #FF0000, red
+            availableColor = new Color(0x06, 0x55, 0x3C); // #06553C, green.
+            removedColor = new Color(0xFF, 0x63, 0x47); // #FF6347, tomato red.
             linkColor = new Color(0x0B, 0x24, 0xE5); // #0B24E5, blue.
         } else {
             availableColor = new Color(0x9A, 0xCD, 0x32); // #9ACD32, yellowgreen.
-            removedColor = new Color(0xFF, 0x00, 0x00); // #FF0000, red
+            removedColor = new Color(0xFF, 0x00, 0x00); // #FF0000, red.
             linkColor = new Color(0x87, 0xCE, 0xFA); // #87CEFA, lightskyblue.
         }
     }
