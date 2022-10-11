@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  cont x;
+  equation x' = 2;
+
+  automaton a:
+  	cont y, y2;
+	equation y' = 3;
+    location U:
+      initial;
+      equation y2' = 4;
+  end
+
+  automaton def A():
+  	cont z1, z2;
+    equation z1' = 4;
+    location:
+      initial;
+      equation z2' = 5;
+  end
+
+  group def G():
+    cont e;
+    equation e' = x';
+  end
+end
