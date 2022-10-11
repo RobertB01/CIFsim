@@ -87,9 +87,6 @@ public class PlotVisualizer extends ControlEditor {
     /** The plot visualizer update thread. {@code null} until initialized by the {@link #createContents} method. */
     private PlotVisualizerUpdateThread thread;
 
-    /** The Eclipse theme preference change listener. */
-    private EclipseThemePreferenceChangeListener themeListener;
-
     @SuppressWarnings("restriction")
     @Override
     protected Control createContents(Composite parent) {
@@ -100,7 +97,7 @@ public class PlotVisualizer extends ControlEditor {
         chart.getStyler().setXAxisMin(0.0);
 
         // Add Eclipse theme listener.
-        themeListener = new EclipseThemePreferenceChangeListener(e -> {
+        EclipseThemePreferenceChangeListener themeListener = new EclipseThemePreferenceChangeListener(e -> {
             if (canvas.isDisposed()) {
                 return;
             }
