@@ -147,12 +147,12 @@ To upgrade to a new Java version:
 ** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.
 ** Update Java keywords for `org.eclipse.escet.common.java.JavaCodeUtils.JAVA_IDS`.
 Update the keywords themselves and the field's JavaDoc, including the link to the Java Language Specification (JLS).
+** Update `dev-env-setup.asciidoc` to match new Java version.
 
 * For any Java versions (e.g. 11 to 12, or 11.0.1 to 11.0.2):
 ** Update the JustJ version (`eclipse.justj.version.*` variables) in the Oomph setup (`org.eclipse.escet.setup`).
 ** Regenerate the target platform file using Oomph.
 ** Update JustJ version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
-** Update `dev-env-setup.asciidoc` to match new Java version.
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 ** Run a <<development-building-and-testing-chapter-index,Maven build>>.
 ** Ensure no errors or warnings during Maven build.
