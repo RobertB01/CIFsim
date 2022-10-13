@@ -28,12 +28,12 @@ public class PlcOpenXmlTarget extends PlcBaseTarget {
     }
 
     @Override
-    public boolean getSupportConstants() {
+    public boolean supportsConstants() {
         return true;
     }
 
     @Override
-    public String getOutSuffixReplacement() {
+    public String pathSuffixReplacement() {
         return ".plcopen.xml";
     }
 }

@@ -54,12 +54,12 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public boolean getSupportConstants() {
+    public boolean supportsConstants() {
         return true;
     }
 
     @Override
-    public String getOutSuffixReplacement() {
+    public String pathSuffixReplacement() {
         return OUT_SUFFIX_REPLACEMENTS.get(targetType);
     }
 }

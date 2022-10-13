@@ -36,7 +36,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 
 /** Base class for generating a {@link PlcProject}. */
-public abstract class PlcBaseTarget extends PlcCodeGenSettings {
+public abstract class PlcBaseTarget extends PlcTypeCapabilities {
     /** PLC target type for code generation. */
     protected final PlcTargetType targetType;
 
@@ -81,7 +81,7 @@ public abstract class PlcBaseTarget extends PlcCodeGenSettings {
         globalInputs = new PlcGlobalVarList("INPUTS", false);
         resource.globalVarLists.add(globalInputs);
 
-        boolean constantsAllowed = getSupportConstants();
+        boolean constantsAllowed = supportsConstants();
         if (constantsAllowed) {
             globalConsts = new PlcGlobalVarList("CONSTS", true);
             resource.globalVarLists.add(globalConsts);

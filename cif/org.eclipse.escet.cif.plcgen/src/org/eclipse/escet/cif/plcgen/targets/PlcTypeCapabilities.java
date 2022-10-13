@@ -13,19 +13,19 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
-/** PLC code generation settings. */
-public abstract class PlcCodeGenSettings {
+/** PLC-type capabilities for code generation. */
+public abstract class PlcTypeCapabilities {
     /**
      * Returns whether or not the PLC target type supports named constants.
      *
      * @return Whether named constants are supported.
      */
-    public abstract boolean getSupportConstants();
+    public abstract boolean supportsConstants();
 
     /**
      * Get replacement string for the CIF input file extension including dot, used to derive an output path.
      *
      * @return The replacement string.
      */
-    public abstract String getOutSuffixReplacement();
+    public abstract String pathSuffixReplacement();
 }

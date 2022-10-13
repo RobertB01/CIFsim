@@ -28,12 +28,12 @@ public class AbbTarget extends PlcBaseTarget {
     }
 
     @Override
-    public boolean getSupportConstants() {
+    public boolean supportsConstants() {
         return false;
     }
 
     @Override
-    public String getOutSuffixReplacement() {
+    public String pathSuffixReplacement() {
         return "_abb";
     }
 }
