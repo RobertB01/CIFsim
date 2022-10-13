@@ -46,7 +46,9 @@ public class AInvariant extends ACifObject {
      * @param events The textual references to the events, or {@code null} for state invariants.
      * @param position Position information.
      */
-    public AInvariant(AIdentifier name, AExpression predicate, Token invKind, List<AName> events, TextPosition position) {
+    public AInvariant(AIdentifier name, AExpression predicate, Token invKind, List<AName> events,
+            TextPosition position)
+    {
         super(position);
         this.name = name;
         this.predicate = predicate;

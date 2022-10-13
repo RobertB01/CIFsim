@@ -50,8 +50,8 @@ Wait for the update to complete and the Eclipse Installer to restart.
 If the button is disabled (grey), you are already using the latest version.
 * In the first wizard window:
 ** Select _Eclipse Platform_ from the big list at the top.
-** Select _2021-06_ for _Product Version_.
-** For _Java 11+ VM_ select _JRE 11.0.12 - \http://download.eclipse.org/justj/jres/11/updates/release/11.0.12_.
+** Select _2022-06_ for _Product Version_.
+** For _Java 11+ VM_ select _JRE 11.x.x - \https://download.eclipse.org/justj/jres/11/updates/release/latest_.
 ** Choose whether you want a P2 bundle pool (recommended).
 ** Click btn:[Next].
 * In the second wizard window:
@@ -81,6 +81,7 @@ This will be used as email for Git commits.
 ** Select btn:[Finish].
 * Wait for the setup to complete and the development environment to be launched.
 ** If asked, accept any licenses and certificates.
+** If you get a _Trust_ dialog, click btn:[Select All] and then btn:[Trust Selected].
 * Press btn:[Finish] in the Eclipse Installer to close the Eclipse Installer.
 * In the new development environment, observe Oomph executing the startup tasks (such as Git clone, importing projects, etc).
 If this is not automatically shown, click the rotating arrows icon in the status bar (bottom right) of the new development environment.

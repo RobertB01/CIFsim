@@ -2473,8 +2473,7 @@ public class CifExprsTypeChecker {
                     argTypes.add("\"" + CifTextUtils.typeToStr(arg.getType()) + "\"");
                 }
 
-                tchecker.addProblem(ErrMsg.FCALL_WRONG_ARG_TYPES, expr.position, funcText,
-                        String.join(", ", argTypes));
+                tchecker.addProblem(ErrMsg.FCALL_WRONG_ARG_TYPES, expr.position, funcText, String.join(", ", argTypes));
                 throw new SemanticException();
             }
         }

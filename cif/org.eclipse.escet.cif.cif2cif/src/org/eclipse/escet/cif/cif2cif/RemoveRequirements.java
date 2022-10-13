@@ -50,8 +50,8 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * Precondition:
  * <ul>
  * <li>Specifications with component definitions/instantiations are currently not supported.</li>
- * <li>Removing requirement automata or declarations from requirement automata that are being used (referred
- * to) in what remains after removal of requirements is not supported.</li>
+ * <li>Removing requirement automata or declarations from requirement automata that are being used (referred to) in what
+ * remains after removal of requirements is not supported.</li>
  * <li>Invariants that may not be removed in locations of requirement automata (if removed) are not supported.</li>
  * </ul>
  * </p>

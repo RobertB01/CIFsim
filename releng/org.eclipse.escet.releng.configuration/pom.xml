@@ -172,7 +172,7 @@ SPDX-License-Identifier: MIT
 
                     <!-- Let JustJ handle the execution environment. -->
                     <!-- See https://www.eclipse.org/justj/?page=documentation for more information. -->
-                    <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-11.0.12</executionEnvironment>
+                    <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-11</executionEnvironment>
 
                     <!-- Special dependency for Eclipse JDT compiler tool fragment. -->
                     <dependency-resolution>
@@ -261,6 +261,14 @@ SPDX-License-Identifier: MIT
                 <version>${tycho.version}</version>
                 <executions>
                     <execution>
+                        <!-- Don't attach (default) metadata before the source-feature execution. -->
+                        <id>default-p2-metadata-default</id>
+                        <configuration>
+                            <attachP2Metadata>false</attachP2Metadata>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- Do attach metadata after the source-feature execution. -->
                         <id>attach-p2-metadata</id>
                         <phase>package</phase>
                         <goals>

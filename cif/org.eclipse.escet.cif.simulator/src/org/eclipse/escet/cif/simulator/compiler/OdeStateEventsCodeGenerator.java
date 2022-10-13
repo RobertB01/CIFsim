@@ -255,7 +255,9 @@ public class OdeStateEventsCodeGenerator {
     /**
      * Collects the time dependent predicates from the component (recursively), and maps them to unique numbers.
      *
-     * <p> In the context of the simulator, input variables are regarded as being 'time constant'. </p>
+     * <p>
+     * In the context of the simulator, input variables are regarded as being 'time constant'.
+     * </p>
      *
      * @param comp The component.
      * @param preds Mapping from the time dependent predicates collected so far, to their unique numbers and an

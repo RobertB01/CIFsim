@@ -21,7 +21,7 @@ pipeline {
 
     tools {
         jdk 'openjdk-jdk11-latest'
-        maven 'apache-maven-3.8.1'
+        maven 'apache-maven-3.8.4'
     }
 
     options {

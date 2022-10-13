@@ -33,8 +33,8 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
  * Basic class to convert events with a controllability status.
  *
  * <p>
- * It also contains an inner class to convert all uncontrollable events to controllable events and an inner
- * class to convert all controllable events to uncontrollable events.
+ * It also contains an inner class to convert all uncontrollable events to controllable events and an inner class to
+ * convert all controllable events to uncontrollable events.
  * </p>
  *
  * <p>

@@ -31,6 +31,7 @@ public class CifExamplesWizard extends CopyFilesNewProjectWizard {
     @Override
     protected Map<String, String> getPathsToCopy() {
         Map<String, String> entries = map();
+        entries.put("examples/.settings", ".settings");
         entries.put("examples/hybrid", "hybrid");
         entries.put("examples/synthesis", "synthesis");
         entries.put("examples/timed", "timed");

@@ -29,6 +29,8 @@ import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.eclipse.ui.ControlEditor;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -55,6 +57,12 @@ public class StateVisualizer extends ControlEditor {
 
     /** Mapping from state object types to icons. Mapping is empty if not available. */
     private Map<StateObjectType, Image> iconMap = map();
+
+    /**
+     * The extra width of the 'value' column, beyond the header/cell texts, in pixels. Is {@code -1} if not yet
+     * initialized.
+     */
+    private int valueColumnExtraWidth = -1;
 
     @Override
     protected Control createContents(Composite parent) {
@@ -148,14 +156,44 @@ public class StateVisualizer extends ControlEditor {
      * @param state The state from which to obtain the values.
      */
     public void update(RuntimeState state) {
+        // Initialize a graphics context on which to measure the text widths.
+        Image image = new Image(table.getDisplay(), 1, 1);
+        GC gc = new GC(image);
+        Font font = table.getFont();
+        gc.setFont(font);
+        TableColumn column = table.getColumn(1);
+
+        // Update the 'value' column cells, computing the maximum width of any text in the column along the way.
+        int width = gc.textExtent(column.getText()).x; // Initialize to the header text width.
         for (int i = 0; i < metas.size(); i++) {
             RuntimeStateObjectMeta meta = metas.get(i);
             String text = state.getStateObjValueText(meta);
             table.getItem(i).setText(1, text);
+            width = Math.max(width, gc.textExtent(text).x);
         }
 
         // Auto size the 'Value' column.
-        table.getColumn(1).pack();
+        //
+        // Packing a table column has become very expensive since changes to SWT in February 2022:
+        // https://github.com/eclipse-platform/eclipse.platform.swt/commit/9976faf68805ba9231fa58fe046a20c6ff00d56c.
+        // As a workaround, the first time we let SWT pack the column. We then determine the extra width compared to
+        // our own computed maximum width of the texts, to account for margins. We remember that extra width for
+        // subsequent updates of the table values, where we avoid packing, and compute the table column width
+        // ourselves, updating it if needed.
+        if (valueColumnExtraWidth == -1) {
+            column.pack();
+            valueColumnExtraWidth = column.getWidth() - width;
+            valueColumnExtraWidth = Math.max(0, valueColumnExtraWidth); // Ensure non-negative extra width.
+        } else {
+            width += valueColumnExtraWidth;
+            if (column.getWidth() != width) {
+                column.setWidth(width);
+            }
+        }
+
+        // Cleanup.
+        gc.dispose();
+        image.dispose();
     }
 
     /**
