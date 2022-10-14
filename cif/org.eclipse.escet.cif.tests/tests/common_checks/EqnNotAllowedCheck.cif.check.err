@@ -1,0 +1,7 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "g": group has an equation.
+ - Unsupported "g.A": automaton definition has an equation.
+ - Unsupported "g.a": automaton has an equation.
+ - Unsupported "g.a.U": location has an equation.
+ - Unsupported "g.G": group definition has an equation.
+ - Unsupported specification: the top level scope of the specification has an equation.

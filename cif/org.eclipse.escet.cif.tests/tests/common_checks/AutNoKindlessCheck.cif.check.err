@@ -1,5 +1,0 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "A1": automaton definition is a kindless automaton, lacking a supervisory kind.
- - Unsupported "a1": automaton is a kindless automaton, lacking a supervisory kind.
- - Unsupported "g.A1": automaton definition is a kindless automaton, lacking a supervisory kind.
- - Unsupported "g.a1": automaton is a kindless automaton, lacking a supervisory kind.

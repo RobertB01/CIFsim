@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -17,16 +17,12 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
-import org.eclipse.escet.cif.metamodel.cif.SupKind;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.Equation;
 
-/** CIF check that does not allow kindless automata (without a supervisory kind). */
-public class AutNoKindlessCheck extends CifCheck {
+/** CIF check not allowing equations. */
+public class EqnNotAllowedCheck extends CifCheck {
     @Override
-    protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
-        if (aut.getKind() == SupKind.NONE) {
-            violations.add(aut, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("is a kindless automaton, lacking a supervisory kind"));
-        }
+    protected void preprocessEquation(Equation equation, CifCheckViolations violations) {
+        violations.add(equation, new ReportObjectTypeDescrMessage(), new LiteralMessage("has an equation"));
     }
 }

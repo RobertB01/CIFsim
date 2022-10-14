@@ -48,8 +48,7 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
     protected void postprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         // There must be exactly one initial location.
         if (initLocCount == 0) {
-            violations.add(aut, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("has no initial location"));
+            violations.add(aut, new ReportObjectTypeDescrMessage(), new LiteralMessage("has no initial location"));
         } else if (initLocCount > 1) {
             violations.add(aut, new ReportObjectTypeDescrMessage(),
                     new LiteralMessage("has multiple (%,d) initial locations", initLocCount));

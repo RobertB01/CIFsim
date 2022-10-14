@@ -1,0 +1,9 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "A1": automaton definition is a kindless automaton, not a plant or requirement automaton.
+ - Unsupported "a1": automaton is a kindless automaton, not a plant or requirement automaton.
+ - Unsupported "g.A1": automaton definition is a kindless automaton, not a plant or requirement automaton.
+ - Unsupported "g.a1": automaton is a kindless automaton, not a plant or requirement automaton.
+ - Unsupported "g.S1": automaton definition is a supervisor automaton, not a plant or requirement automaton.
+ - Unsupported "g.s1": automaton is a supervisor automaton, not a plant or requirement automaton.
+ - Unsupported "S1": automaton definition is a supervisor automaton, not a plant or requirement automaton.
+ - Unsupported "s1": automaton is a supervisor automaton, not a plant or requirement automaton.

@@ -16,7 +16,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g": uses real type "real".
  - Unsupported "g.a": automaton has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
  - Unsupported "g.a": automaton has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "g.a": automaton is a kindless automaton, lacking a supervisory kind.
+ - Unsupported "g.a": automaton is a kindless automaton, not a plant, requirement or supervisor automaton.
  - Unsupported "g.e1": event is not declared as controllable or uncontrollable.
  - Unsupported "g.e2": event is a channel (has a data type).
  - Unsupported "g.f": function is a user-defined function.
