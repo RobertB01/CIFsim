@@ -214,8 +214,7 @@ public class StringsTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMakeElementsChoiceTextConverted() {
-        assertEquals("**1**", makeElementsChoiceText(List.of(1),
-                n -> fmt("**%d**", n)));
+        assertEquals("**1**", makeElementsChoiceText(List.of(1), n -> fmt("**%d**", n)));
     }
 
     @Test
@@ -238,7 +237,6 @@ public class StringsTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMakeQuadrupleChoiceText() {
     public void testMakeElementsChoiceTextQuadrupleWithSorting() {
         assertEquals("abc, def, ghi or jkl", makeElementsChoiceText(List.of("abc", "jkl", "ghi", "def"), null));
     }

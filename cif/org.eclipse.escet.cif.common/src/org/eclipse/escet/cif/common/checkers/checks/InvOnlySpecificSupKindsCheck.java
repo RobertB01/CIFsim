@@ -20,6 +20,8 @@ import java.util.EnumSet;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
+import org.eclipse.escet.cif.common.checkers.messages.IfReportOnSelfMessage;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
@@ -63,8 +65,9 @@ public class InvOnlySpecificSupKindsCheck extends CifCheck {
     @Override
     protected void preprocessInvariant(Invariant inv, CifCheckViolations violations) {
         if (!allowedKinds.contains(inv.getSupKind())) {
-            violations.add(inv, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("is a %s invariant, not a %s invariant",
+            violations.add(inv, new ReportObjectTypeDescrMessage(), new IfReportOnAncestorMessage("has"),
+                    new IfReportOnSelfMessage("is"),
+                    new LiteralMessage("a %s invariant, which is not a %s invariant",
                             CifTextUtils.kindToStr(inv.getSupKind()),
                             makeElementsChoiceText(allowedKinds, CifTextUtils::kindToStr)));
         }

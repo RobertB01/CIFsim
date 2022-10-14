@@ -64,8 +64,7 @@ public class AutOnlySpecificSupKindsCheck extends CifCheck {
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (!allowedKinds.contains(aut.getKind())) {
             violations.add(aut, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("is a %s automaton, not a %s automaton",
-                            CifTextUtils.kindToStr(aut.getKind()),
+                    new LiteralMessage("is a %s automaton, not a %s automaton", CifTextUtils.kindToStr(aut.getKind()),
                             makeElementsChoiceText(allowedKinds, CifTextUtils::kindToStr)));
         }
     }

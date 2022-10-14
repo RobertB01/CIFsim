@@ -498,8 +498,8 @@ public final class Strings {
             if (numAdded == 0) {
                 sb.append(name); // First name.
             } else if (numAdded + 1 < numElements) {
-                sb.append(", "); // Not first and not last name.
-                sb.append(name);
+                sb.append(", ");
+                sb.append(name); // Not first and not last name.
             } else {
                 sb.append(" or ");
                 sb.append(name); // Last name.

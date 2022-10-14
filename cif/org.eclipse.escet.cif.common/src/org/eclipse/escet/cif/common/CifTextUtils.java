@@ -179,7 +179,8 @@ public class CifTextUtils {
     }
 
     /**
-     * Converts a CIF supervisory kind to a textual representation in the CIF ASCII syntax, or to {@code "kindless"} for {@link SupKind#NONE}`.
+     * Converts a CIF supervisory kind to a textual representation in the CIF ASCII syntax, or to {@code "kindless"} for
+     * {@link SupKind#NONE}`.
      *
      * @param kind The CIF supervisory kind.
      * @return The textual representation of the supervisory kind in the CIF ASCII syntax, or {@code "kindless"}.

@@ -11,20 +11,25 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+cont q;
+equation q' = q_der;
+
+alg real q_der = g.x;
+
 group g:
   cont x;
   equation x' = 2;
 
   automaton a:
-  	cont y, y2;
-	equation y' = 3;
+    cont y, y2;
+    equation y' = 3;
     location U:
       initial;
       equation y2' = 4;
   end
 
   automaton def A():
-  	cont z1, z2;
+    cont z1, z2;
     equation z1' = 4;
     location:
       initial;
