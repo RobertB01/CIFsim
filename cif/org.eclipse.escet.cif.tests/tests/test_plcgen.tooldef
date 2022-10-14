@@ -13,7 +13,7 @@
 
 tool int plcgen(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
-    return app("org.eclipse.escet.cif.plcgen", "org.eclipse.escet.cif.plcgen.MainApp", args, stdin, stdout, stderr,
+    return app("org.eclipse.escet.cif.plcgen", "org.eclipse.escet.cif.plcgen.CifPlcGenApp", args, stdin, stdout, stderr,
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
 
