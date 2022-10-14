@@ -22,7 +22,7 @@ import org.eclipse.escet.cif.metamodel.cif.Equation;
 /** CIF check not allowing equations. */
 public class EqnNotAllowedCheck extends CifCheck {
     @Override
-    protected void preprocessEquation(Equation obj, CifCheckViolations arg) {
-        arg.add(obj, new ReportObjectTypeDescrMessage(), new LiteralMessage("has an equation"));
+    protected void preprocessEquation(Equation equation, CifCheckViolations violations) {
+        violations.add(equation, new ReportObjectTypeDescrMessage(), new LiteralMessage("has an equation"));
     }
 }

@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.tests.common.checkers;
 import org.eclipse.escet.cif.common.checkers.checks.InvOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
-/** {@link InvOnlySpecificSupKindsCheck} allowing plants and requirements. */
+/** {@link InvOnlySpecificSupKindsCheck} allowing supervisor and kindless invariants. */
 public class InvOnlySpecificSupKindsCheckSupNone extends InvOnlySpecificSupKindsCheck {
     /** Constructor of the {@link InvOnlySpecificSupKindsCheckSupNone} class. */
     public InvOnlySpecificSupKindsCheckSupNone() {

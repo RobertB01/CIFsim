@@ -179,10 +179,10 @@ public class CifTextUtils {
     }
 
     /**
-     * Converts a CIF supervisory kind to a textual representation in the CIF ASCII syntax.
+     * Converts a CIF supervisory kind to a textual representation in the CIF ASCII syntax, or to {@code "kindless"} for {@link SupKind#NONE}`.
      *
-     * @param kind The CIF supervisory kind. Must not be {@link SupKind#NONE}.
-     * @return The textual representation of the supervisory kind in the CIF ASCII syntax.
+     * @param kind The CIF supervisory kind.
+     * @return The textual representation of the supervisory kind in the CIF ASCII syntax, or {@code "kindless"}.
      */
     public static String kindToStr(SupKind kind) {
         if (kind.equals(SupKind.NONE)) {

@@ -24,7 +24,7 @@ import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
-/** CIF check that does not allow state invariants in locations. */
+/** CIF check that allows invariants in locations only if they are of specific invariant kinds. */
 public class LocOnlySpecificInvariantsCheck extends CifCheck {
     /** Set with invariant kinds for state event exclusion invariants. */
     private static final EnumSet<InvKind> STATE_EVENT_EXCL_KINDS = EnumSet.of(InvKind.EVENT_DISABLES,

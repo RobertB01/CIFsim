@@ -207,38 +207,39 @@ public class StringsTest {
 
     @Test(expected = AssertionError.class)
     @SuppressWarnings("javadoc")
-    public void testMakeNoChoiceText() {
+    public void testMakeElementsChoiceTextNone() {
         assertEquals("", makeElementsChoiceText(List.of(), null));
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testConvertedChoiceText() {
+    public void testMakeElementsChoiceTextConverted() {
         assertEquals("**1**", makeElementsChoiceText(List.of(1),
                 n -> fmt("**%d**", n)));
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMakeSingleChoiceText() {
+    public void testMakeElementsChoiceTextSingle() {
         assertEquals("abc", makeElementsChoiceText(List.of("abc"), null));
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMakeDualChoiceText() {
+    public void testMakeElementsChoiceTextDual() {
         assertEquals("abc or def", makeElementsChoiceText(List.of("abc", "def"), null));
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMakeTripleChoiceText() {
+    public void testMakeElementsChoiceTextTriple() {
         assertEquals("abc, def or ghi", makeElementsChoiceText(List.of("abc", "def", "ghi"), null));
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testMakeQuadrupleChoiceText() {
-        assertEquals("abc, def, ghi or jkl", makeElementsChoiceText(List.of("abc", "def", "ghi", "jkl"), null));
+    public void testMakeElementsChoiceTextQuadrupleWithSorting() {
+        assertEquals("abc, def, ghi or jkl", makeElementsChoiceText(List.of("abc", "jkl", "ghi", "def"), null));
     }
 }
