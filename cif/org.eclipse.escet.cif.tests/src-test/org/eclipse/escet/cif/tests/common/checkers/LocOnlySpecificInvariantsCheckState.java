@@ -21,5 +21,4 @@ public class LocOnlySpecificInvariantsCheckState extends LocOnlySpecificInvarian
     public LocOnlySpecificInvariantsCheckState() {
         super(true, false);
     }
-
 }
