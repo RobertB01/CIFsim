@@ -156,11 +156,11 @@ Names can be given as follows:
 [source, cif]
 ----
 // Multiple named invariants.
-invariant positiveCount: count >= 0;
+invariant nonNegativeCount: count >= 0;
 invariant maximumCount: count <= 5;
 
 // Shorter notation for multiple named invariants.
-invariant positiveCount: count >= 0, maximumCount: count <= 5;
+invariant nonNegativeCount: count >= 0, maximumCount: count <= 5;
 ----
 
 Invariant names must be unique.
