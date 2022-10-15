@@ -38,9 +38,11 @@ public class VarNoDiscWithMultiInitValuesCheck extends CifCheck {
         // Check number of potential initial values.
         int count = var.getValue().getValues().size();
         if (count == 0) { // 0 means 'any' initial value.
-            violations.add(var, new LiteralMessage("has multiple potential initial values (any value in its domain)"));
+            violations.add(var, new LiteralMessage(
+                    "discrete variable has multiple potential initial values (any value in its domain)"));
         } else if (count > 1) {
-            violations.add(var, new LiteralMessage("has multiple (%,d) potential initial values", count));
+            violations.add(var,
+                    new LiteralMessage("discrete variable has multiple (%,d) potential initial values", count));
         }
     }
 }
