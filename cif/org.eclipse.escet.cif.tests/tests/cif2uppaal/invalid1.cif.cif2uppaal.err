@@ -1,2 +1,2 @@
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
- - Specifications without automata are currently not supported.
+ - Unsupported specification: the top level scope of the specification has no automata.

@@ -1,53 +1,44 @@
 WARNING: File "cif2uppaal/invalid2.cif": Semantic warning at line 20, column 13: Automaton "g.a1" has no initial location.
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
- - Evaluation of the initialization predicates "sqrt(-1.0) > 0" of the location of automaton "g.a4" failed.
- - Initialization predicates "g.a3.x1 + g.a3.x2 + g.a3.x3 + g.a3.x4 = 1" of the location of automaton "g.a3" are too complex to evaluate statically.
- - Unsupported automaton "g.a1": automata without an initial location are currently not supported.
- - Unsupported automaton "g.a1": initialization predicates in components are currently not supported.
- - Unsupported automaton "g.a2": automata with multiple (2) initial locations are currently not supported.
- - Unsupported declaration "g.a3.x1": discrete variables with multiple potential initial values are currently not supported.
- - Unsupported declaration "g.a3.x2": discrete variables with multiple potential initial values are currently not supported.
- - Unsupported declaration "g.a3.x3": initial value "g.a3.x2" of the discrete variable is too complex to evaluate statically.
- - Unsupported declaration "g.a3.x4": evaluation of the initial value "(3, sqrt(-1.0))[0]" of the discrete variable failed.
- - Unsupported declaration "g.c": continuous variables are currently not supported.
- - Unsupported declaration "g.f": user-defined functions are currently not supported.
- - Unsupported declaration "g.i": input variables are currently not supported.
- - Unsupported event "chan": event is a channel (has a data type).
- - Unsupported expression "(1, 2)": tuple expressions are currently not supported.
- - Unsupported expression "(3, sqrt(-1.0))": tuple expressions are currently not supported.
- - Unsupported expression "(3, sqrt(-1.0))[0]": projection expressions are currently not supported.
- - Unsupported expression "(g.a5.x, g.a5.y)": tuple expressions are currently not supported.
- - Unsupported expression "-1.0": unary operator "-" is currently not supported, or is not supported for the operand that is used.
- - Unsupported expression "-1.0": unary operator "-" is currently not supported, or is not supported for the operand that is used.
- - Unsupported expression "1.0": real number expressions are currently not supported.
- - Unsupported expression "1.0": real number expressions are currently not supported.
- - Unsupported expression "1.0": real number expressions are currently not supported.
- - Unsupported expression "g.a5.li[0]": projection expressions are currently not supported.
- - Unsupported expression "sqrt(-1.0) > 0": binary operator ">" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "sqrt(-1.0)": function calls are currently not supported.
- - Unsupported expression "sqrt(-1.0)": function calls are currently not supported.
- - Unsupported group "g": initialization predicates in components are currently not supported.
- - Unsupported location of automaton "g.a5": edges with conditional updates ('if' updates) are currently not supported.
- - Unsupported location of automaton "g.a5": edges with multi-assignments are currently not supported.
- - Unsupported location of automaton "g.a5": edges with partial variable assignments are currently not supported.
- - Unsupported location of automaton "g.a5": urgent edges are currently not supported.
- - Unsupported specification: initialization predicates in components are currently not supported.
- - Unsupported type "func real(real)": function types are currently not supported.
- - Unsupported type "func real(real)": function types are currently not supported.
- - Unsupported type "list int[0..5]": list types are currently not supported.
- - Unsupported type "list int[0..5]": list types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "real": real types are currently not supported.
- - Unsupported type "tuple(int[0..5]; int[0..5])": tuple types are currently not supported.
- - Unsupported type "tuple(int[1..1]; int[2..2])": tuple types are currently not supported.
- - Unsupported type "tuple(int[3..3]; real)": tuple types are currently not supported.
+ - Unsupported "chan": event is a channel (has a data type).
+ - Unsupported "g": group contains an initialization predicate.
+ - Unsupported "g.a1": automaton contains an initialization predicate.
+ - Unsupported "g.a1": automaton has no initial location.
+ - Unsupported "g.a2": automaton has multiple (2) initial locations.
+ - Unsupported "g.a3": failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
+ - Unsupported "g.a3.x1": has multiple (2) potential initial values.
+ - Unsupported "g.a3.x2": has multiple potential initial values (any value in its domain).
+ - Unsupported "g.a3.x3": discrete variable discrete variable has initial value that cannot be evaluated statically.
+ - Unsupported "g.a3.x4": discrete variable discrete variable has initial value that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "g.a3.x4": uses function call "sqrt(-1.0)".
+ - Unsupported "g.a3.x4": uses function type "func real(real)".
+ - Unsupported "g.a3.x4": uses projection expression "(3, sqrt(-1.0))[0]".
+ - Unsupported "g.a3.x4": uses real number literal "1.0".
+ - Unsupported "g.a3.x4": uses real type "real".
+ - Unsupported "g.a3.x4": uses tuple literal "(3, sqrt(-1.0))".
+ - Unsupported "g.a3.x4": uses tuple type "tuple(int[3..3]; real)".
+ - Unsupported "g.a3.x4": uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
+ - Unsupported "g.a4": failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
+ - Unsupported "g.a4": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".
+ - Unsupported "g.a4": uses function call "sqrt(-1.0)".
+ - Unsupported "g.a4": uses function type "func real(real)".
+ - Unsupported "g.a4": uses real number literal "1.0".
+ - Unsupported "g.a4": uses real type "real".
+ - Unsupported "g.a4": uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
+ - Unsupported "g.a5": automaton has an edge with a multi-assignment.
+ - Unsupported "g.a5": automaton has an edge with a partial variable assignment.
+ - Unsupported "g.a5": automaton has an edge with an 'if' update.
+ - Unsupported "g.a5": automaton has an urgent edge.
+ - Unsupported "g.a5": uses list type "list int[0..5]".
+ - Unsupported "g.a5": uses projection expression "g.a5.li[0]".
+ - Unsupported "g.a5": uses tuple literal "(1, 2)".
+ - Unsupported "g.a5": uses tuple literal "(g.a5.x, g.a5.y)".
+ - Unsupported "g.a5": uses tuple type "tuple(int[0..5]; int[0..5])".
+ - Unsupported "g.a5": uses tuple type "tuple(int[1..1]; int[2..2])".
+ - Unsupported "g.a5.li": uses list type "list int[0..5]".
+ - Unsupported "g.c": uses real number literal "1.0".
+ - Unsupported "g.c": uses real type "real".
+ - Unsupported "g.c": variable is a continuous variable.
+ - Unsupported "g.f": function is a user-defined function.
+ - Unsupported "g.i": variable is an input variable.
+ - Unsupported specification: the top level scope of the specification contains an initialization predicate.
