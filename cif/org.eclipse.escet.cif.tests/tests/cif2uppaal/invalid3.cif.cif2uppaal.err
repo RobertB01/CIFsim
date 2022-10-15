@@ -1,6 +1,6 @@
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
  - Unsupported "f": function is a user-defined function.
- - Unsupported "p.db": discrete variable discrete variable has initial value that cannot be evaluated statically.
+ - Unsupported "p.db": discrete variable has initial value that cannot be evaluated statically.
  - Unsupported "p.db": uses distribution type "dist bool".
  - Unsupported "p.db": uses function call "constant(true)".
  - Unsupported "p.db": uses function type "func dist bool(bool)".

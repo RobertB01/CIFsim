@@ -45,14 +45,14 @@ public class VarDiscOnlyStaticEvalInitCheck extends CifCheck {
             Expression value = values.getValues().get(0);
             if (!CifValueUtils.hasSingleValue(value, true, true)) {
                 // Report violation.
-                violations.add(var, new ReportObjectTypeDescrMessage(),
+                violations.add(var,
                         new LiteralMessage("discrete variable has initial value that cannot be evaluated statically"));
             } else {
                 try {
                     CifEvalUtils.eval(value, true);
                 } catch (CifEvalException e) {
                     // Report violation.
-                    violations.add(var, new ReportObjectTypeDescrMessage(), new LiteralMessage("discrete variable has "
+                    violations.add(var, new LiteralMessage("discrete variable has "
                             + "initial value that cannot be evaluated statically, as the evaluation resulted in an "
                             + "evaluation error"));
                 }

@@ -6,10 +6,10 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
  - Unsupported "g.a1": automaton has no initial location.
  - Unsupported "g.a2": automaton has multiple (2) initial locations.
  - Unsupported "g.a3": failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
- - Unsupported "g.a3.x1": has multiple (2) potential initial values.
- - Unsupported "g.a3.x2": has multiple potential initial values (any value in its domain).
- - Unsupported "g.a3.x3": discrete variable discrete variable has initial value that cannot be evaluated statically.
- - Unsupported "g.a3.x4": discrete variable discrete variable has initial value that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "g.a3.x1": discrete variable has multiple (2) potential initial values.
+ - Unsupported "g.a3.x2": discrete variable has multiple potential initial values (any value in its domain).
+ - Unsupported "g.a3.x3": discrete variable has initial value that cannot be evaluated statically.
+ - Unsupported "g.a3.x4": discrete variable has initial value that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
  - Unsupported "g.a3.x4": uses function call "sqrt(-1.0)".
  - Unsupported "g.a3.x4": uses function type "func real(real)".
  - Unsupported "g.a3.x4": uses projection expression "(3, sqrt(-1.0))[0]".
