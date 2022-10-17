@@ -18,7 +18,7 @@ include::_part_attributes.asciidoc[]
 
 indexterm:[tools,text editor]
 Part of the CIF tooling is a textual editor for CIF specifications.
-This editor is part of the Eclipse IDE.
+This editor is part of the Eclipse ESCET IDE.
 Below is a list of some of the more notable features of this text editor:
 
 * continuous background validation (integrated parsing and type checking), with error markings directly in the source
@@ -45,6 +45,8 @@ Below is a list of some of the more notable features of this text editor:
 
 * automatic addition of a new line character at the end of the file on save, if none is present (includes smart detection of the platform dependent new line characters that are used in the file)
 
-// Removed the previously present link to documentation about 'text editors and text editing in Eclipse'.
-
 image::{tools-imgsdir}/../screenshot_ide.png[Screenshot CIF text editor]
+
+By default all `.cif` files are opened with the CIF text editor.
+However, large files are opened by the default non-CIF text editor, to prevent performance issues.
+You can open a file in an editor of your choosing by right clicking it and selecting menu:Open With[] and then selecting the editor of your choosing, or choosing menu:Other...[] to open a dialog to choose from a larger selection of editors.
