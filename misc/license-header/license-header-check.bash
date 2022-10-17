@@ -64,6 +64,7 @@ EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.jdt.launching.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.jdt.ui.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.m2e.core.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.pde.core.prefs"
+EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.pde.prefs"
 # Exclude expected test output files.
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.err"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.out"
