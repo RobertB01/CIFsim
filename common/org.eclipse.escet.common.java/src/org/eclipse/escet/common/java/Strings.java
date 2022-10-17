@@ -53,7 +53,7 @@ public final class Strings {
         // Static class.
     }
 
-    /** Line separator for the current platform. Is equal to: <code>System.getProperty("line.separator")</code>. */
+    /** Line separator for the current platform. Is equal to: {@code System.getProperty("line.separator")}. */
     public static final String NL = System.getProperty("line.separator");
 
     /**

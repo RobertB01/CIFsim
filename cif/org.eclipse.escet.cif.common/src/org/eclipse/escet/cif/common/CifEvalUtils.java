@@ -226,7 +226,7 @@ public class CifEvalUtils {
      * Evaluates an expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return A fully evaluated CIF expression.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -442,7 +442,7 @@ public class CifEvalUtils {
      * Evaluates an expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -687,7 +687,7 @@ public class CifEvalUtils {
      * Evaluates a cast expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The cast expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -761,7 +761,7 @@ public class CifEvalUtils {
      * Evaluates a unary expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The unary expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -801,7 +801,7 @@ public class CifEvalUtils {
      * Evaluates a binary expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The binary expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1030,7 +1030,7 @@ public class CifEvalUtils {
      * Evaluates an 'if' expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The 'if' expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1080,7 +1080,7 @@ public class CifEvalUtils {
      * Evaluates a 'switch' expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The 'switch' expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1131,7 +1131,7 @@ public class CifEvalUtils {
      * Evaluates a projection expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The projection expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1178,7 +1178,7 @@ public class CifEvalUtils {
      * Evaluates a slice expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The slice expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1201,7 +1201,7 @@ public class CifEvalUtils {
      * Evaluates a function call expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The function call expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1397,7 +1397,7 @@ public class CifEvalUtils {
      * Evaluates a list expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The list expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1415,7 +1415,7 @@ public class CifEvalUtils {
      * Evaluates a set expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The set expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1433,7 +1433,7 @@ public class CifEvalUtils {
      * Evaluates a tuple expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The tuple expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.
@@ -1451,7 +1451,7 @@ public class CifEvalUtils {
      * Evaluates a dictionary expression. This method may only be used for statically evaluable expressions.
      *
      * @param expr The dictionary expression to evaluate. Must be fully typed.
-     * @param initial Whether the evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
+     * @param initial Whether to evaluate in the initial state ({@code true}) or any state ({@code false}, includes the
      *     initial state). See also {@link CifValueUtils#hasSingleValue}.
      * @return The evaluation result. For the possible types, see the {@link CifEvalUtils} class.
      * @throws CifEvalException In case of expression evaluation failure.

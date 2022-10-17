@@ -28,7 +28,7 @@ public class C99TypeInfoHelper {
      * Find out whether a type supports plain memcmp to check for equality.
      *
      * @param ti Type information object to query.
-     * @return {@code true} if the type can be tested with {@code memcmp}, else {code false}.
+     * @return {@code true} if the type can be tested with {@code memcmp}, else {@code false}.
      */
     public static boolean typeSupportsRawMemCmp(TypeInfo ti) {
         if (ti instanceof C99TypeInfo) {
