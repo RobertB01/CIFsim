@@ -823,9 +823,6 @@ elsewhere.
 This class is also used for the parameters and local variables of internal
 user-defined functions.
 
-Furthermore, the class is used for local variables for the receives on edges
-(the so-called `receive variables').
-
 \begin{constraints}
 \citem{DiscVariable.typeValueMatch}
   Each of the possible values of the discrete variable, if specified, must
@@ -836,9 +833,8 @@ Furthermore, the class is used for local variables for the receives on edges
   Discrete variables may not be declared in groups (including
   specifications). That is, they must be declared in automata.
 
-  They may also be used in function parameters, as local variables in
-  functions, and as receive variables, but then they are usually not called
-  discrete variables.
+  They may also be used in function parameters and as local variables in
+  functions, but then they are usually not called discrete variables.
 \end{constraints}
 }
 
@@ -1109,8 +1105,7 @@ last projection does not exist. It is not allowed to create a new key/value
 pair, if the key of one of the other projections does not exist.
 
 The indices of the projections of the addressables are evaluated in the
-`old' state. Note that the `receive variable', if any, evaluates to the
-received value.
+`old' state.
 
 \begin{constraints}
 \citem{Assignment.addressableSyntax}
@@ -1120,16 +1115,15 @@ received value.
 \citem{Assignment.variablesInScope}
   The variables that are assigned must be a discrete or continuous variables
   declared in the automaton that contains the source location of the edge of
-  this assignment update. This does not include the `receive variable', if any.
-  Discrete and continuous variables may be mixed in a single assignment.
+  this assignment update.  Discrete and continuous variables may be mixed in a
+  single assignment.
 \end{constraints}
 }
 
 \newcommand{\featdocuAssignmentvalue}{
 The value to assign to the variable(s).
 
-This expression is evaluated in the `old' state. Note the `receive variable',
-if any, evaluates to the received value.
+This expression is evaluated in the `old' state.
 }
 
 % Automaton (class)
@@ -1231,9 +1225,6 @@ of those predicates. Note that this represents the mathematical conjunction,
 and not the short-circuit conjunction binary operator. As such, there is
 no ordering between the guards of an edge.
 
-It is not possible to use `receive variables' in the guards (as they are not
-`in scope').
-
 \begin{constraints}
 \citem{Edge.guardTypes}
   The guard predicates must have boolean types.
@@ -1278,9 +1269,6 @@ The updates to execute if the edge is `executed'.
   detected, potentially leading to false positives. We opt for false positives
   rather than runtime checks, to avoid having to handle such cases in many
   tools and transformations.
-
-  Note that `receive variables' may never be assigned in the updates. See
-  also the \emph{Assignment.variablesInScope} constraint.
 \end{constraints}
 }
 
@@ -3221,7 +3209,7 @@ A reference to the value received as part of a channel communication.
 \begin{constraints}
 \citem{ReceivedExpression.scope}
   The received value only exists in the updates of edges, for edges where a
-  value is received. Received variables may not be assigned (are read-only).
+  value is received. Received values may not be assigned (are read-only).
   They may be used on the right hand side of assignments, as projection indices
   in the addressables, and in guards for `if' updates.
 \citem{ReceivedExpression.type}
