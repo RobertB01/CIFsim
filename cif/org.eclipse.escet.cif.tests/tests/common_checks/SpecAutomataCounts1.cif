@@ -1,0 +1,29 @@
+automaton A:
+  location:
+    initial;
+end
+
+requirement R1:
+  location:
+    initial;
+end
+
+requirement R2:
+  location:
+    initial;
+end
+
+supervisor S1:
+  location:
+    initial;
+end
+
+supervisor S2:
+  location:
+    initial;
+end
+
+supervisor S3:
+  location:
+    initial;
+end
