@@ -32,7 +32,7 @@ public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
      * @param conditions The conditions to check.
      */
     public CifChecker(List<CifCheck> conditions) {
-        this(conditions.toArray(i -> new CifCheck[i]));
+        this(conditions.toArray(n -> new CifCheck[n]));
     }
 
     /**
