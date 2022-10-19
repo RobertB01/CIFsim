@@ -13,28 +13,20 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
-import org.eclipse.escet.cif.metamodel.java.CifWithArgWalker;
-
 /**
  * CIF check. Checks whether a given CIF specification satisfies a certain condition.
+ *
+ * <p>
+ * Deriving from this class implies that the check does not support component definitions and/or component
+ * instantiations. Such language constructs should not exist in the checked CIF specification.
+ * </p>
  *
  * @implSpec Override only the relevant {@code preprocess*} and {@code postprocess*} methods. The {@code *crawl*} and
  *     {@code walk*} methods should not be overridden, as they are ignored by {@link CifChecker}.
  */
-public abstract class CifCheck extends CifWithArgWalker<CifCheckViolations> {
-    /**
-     * Whether the check properly checks CIF specifications containing component definitions and/or component
-     * instantiations.
-     *
-     * <p>
-     * By default {@code true}, override if the check does not handle component definitions and/or component
-     * instantiations properly.
-     * </p>
-     *
-     * @return {@copde true} if component definitions and/or component instantiations are properly handled, else
-     *     {@code false}.
-     */
+public class CifCheckNoCompDefInst extends CifCheck {
+    @Override
     public boolean supportsCompDefInst() {
-        return true;
+        return false;
     }
 }
