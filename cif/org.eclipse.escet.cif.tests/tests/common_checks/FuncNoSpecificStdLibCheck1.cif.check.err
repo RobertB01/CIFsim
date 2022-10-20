@@ -1,0 +1,3 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "X.n": discrete variable uses standard library function "abs".
+ - Unsupported "X.n": discrete variable uses standard library function "cos".
