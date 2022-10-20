@@ -21,7 +21,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.common.java.Assert;
 
 /** CIF check that disallows specifications with not enough or too many automata. */
-public class SpecAutomataCounts extends CifCheckNoCompDefInst {
+public class SpecAutomataCountsCheck extends CifCheckNoCompDefInst {
     /** Constant to denote that a boundary should not be modified. */
     public static final int NO_CHANGE = -1;
 
@@ -71,18 +71,18 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     private int numSupervisorAuts;
 
     /**
-     * Constructor of the {@link SpecAutomataCounts} class.
+     * Constructor of the {@link SpecAutomataCountsCheck} class.
      *
      * <p>
      * The constructor imposes no limits to the minimum or maximum number of automata in a component.
      * </p>
      */
-    public SpecAutomataCounts() {
+    public SpecAutomataCountsCheck() {
         minAnyAuts = 0;
         maxAnyAuts = Integer.MAX_VALUE;
 
-        minKindLessAuts = 0;
-        maxKindLessAuts = Integer.MAX_VALUE;
+        minKindlessAuts = 0;
+        maxKindlessAuts = Integer.MAX_VALUE;
 
         minPlantAuts = 0;
         maxPlantAuts = Integer.MAX_VALUE;
@@ -97,11 +97,18 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     /**
      * Daisy-chain function to specify the number of allowed automata without considering their kind.
      *
-     * @param minValue Smallest valid number of automata of any kind that should be available in the component.
-     * @param maxValue Largest valid number of automata of any kind that should be available in the component.
+     * <p>
+     * The valid range for the lower-bound is a non-negative integer less then {@link Integer#MAX_VALUE}, the valid
+     * range of the upper-bound is equal or larger than the lower-bound.
+     * </p>
+     *
+     * @param minValue Smallest valid number of automata of any kind that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
+     * @param maxValue Largest valid number of automata of any kind that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
      * @return The class instance, for daisy-chaining.
      */
-    public SpecAutomataCounts setMinMaxAuts(int minValue, int maxValue) {
+    public SpecAutomataCountsCheck setMinMaxAuts(int minValue, int maxValue) {
         minAnyAuts = (minValue == NO_CHANGE) ? minAnyAuts : minValue;
         maxAnyAuts = (maxValue == NO_CHANGE) ? maxAnyAuts : maxValue;
         return this;
@@ -110,24 +117,38 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     /**
      * Daisy-chain function to specify the number of allowed kindless automata.
      *
-     * @param minValue Smallest valid number of kindless automata that should be available in the component.
-     * @param maxValue Largest valid number of kindless automata that should be available in the component.
+     * <p>
+     * The valid range for the lower-bound is a non-negative integer less then {@link Integer#MAX_VALUE}, the valid
+     * range of the upper-bound is equal or larger than the lower-bound.
+     * </p>
+     *
+     * @param minValue Smallest valid number of kindless automata that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
+     * @param maxValue Largest valid number of kindless automata that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
      * @return The class instance, for daisy-chaining.
      */
-    public SpecAutomataCounts setMinMaxKindlessAuts(int minValue, int maxValue) {
-        minKindLessAuts = (minValue == NO_CHANGE) ? minKindLessAuts : minValue;
-        maxKindLessAuts = (maxValue == NO_CHANGE) ? maxKindLessAuts : maxValue;
+    public SpecAutomataCountsCheck setMinMaxKindlessAuts(int minValue, int maxValue) {
+        minKindlessAuts = (minValue == NO_CHANGE) ? minKindlessAuts : minValue;
+        maxKindlessAuts = (maxValue == NO_CHANGE) ? maxKindlessAuts : maxValue;
         return this;
     }
 
     /**
      * Daisy-chain function to specify the number of allowed plant automata.
      *
-     * @param minValue Smallest valid number of plant automata that should be available in the component.
-     * @param maxValue Largest valid number of plant automata that should be available in the component.
+     * <p>
+     * The valid range for the lower-bound is a non-negative integer less then {@link Integer#MAX_VALUE}, the valid
+     * range of the upper-bound is equal or larger than the lower-bound.
+     * </p>
+     *
+     * @param minValue Smallest valid number of plant automata that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
+     * @param maxValue Largest valid number of plant automata that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
      * @return The class instance, for daisy-chaining.
      */
-    public SpecAutomataCounts setMinMaxPlantAuts(int minValue, int maxValue) {
+    public SpecAutomataCountsCheck setMinMaxPlantAuts(int minValue, int maxValue) {
         minPlantAuts = (minValue == NO_CHANGE) ? minPlantAuts : minValue;
         maxPlantAuts = (maxValue == NO_CHANGE) ? maxPlantAuts : maxValue;
         return this;
@@ -136,11 +157,18 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     /**
      * Daisy-chain function to specify the number of allowed requirement automata.
      *
-     * @param minValue Smallest valid number of requirement automata that should be available in the component.
-     * @param maxValue Largest valid number of requirement automata that should be available in the component.
+     * <p>
+     * The valid range for the lower-bound is a non-negative integer less then {@link Integer#MAX_VALUE}, the valid
+     * range of the upper-bound is equal or larger than the lower-bound.
+     * </p>
+     *
+     * @param minValue Smallest valid number of requirement automata that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
+     * @param maxValue Largest valid number of requirement automata that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
      * @return The class instance, for daisy-chaining.
      */
-    public SpecAutomataCounts setMinMaxRequirementAuts(int minValue, int maxValue) {
+    public SpecAutomataCountsCheck setMinMaxRequirementAuts(int minValue, int maxValue) {
         minRequirementAuts = (minValue == NO_CHANGE) ? minRequirementAuts : minValue;
         maxRequirementAuts = (maxValue == NO_CHANGE) ? maxRequirementAuts : maxValue;
         return this;
@@ -149,11 +177,18 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     /**
      * Daisy-chain function to specify the number of allowed supervisor automata.
      *
-     * @param minValue Smallest valid number of supervisor automata that should be available in the component.
-     * @param maxValue Largest valid number of supervisor automata that should be available in the component.
+     * <p>
+     * The valid range for the lower-bound is a non-negative integer less then {@link Integer#MAX_VALUE}, the valid
+     * range of the upper-bound is equal or larger than the lower-bound.
+     * </p>
+     *
+     * @param minValue Smallest valid number of supervisor automata that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
+     * @param maxValue Largest valid number of supervisor automata that should be available in the specification, use
+     *     {@link #NO_CHANGE} to skip changing the value.
      * @return The class instance, for daisy-chaining.
      */
-    public SpecAutomataCounts setMinMaxSupervisorAuts(int minValue, int maxValue) {
+    public SpecAutomataCountsCheck setMinMaxSupervisorAuts(int minValue, int maxValue) {
         minSupervisorAuts = (minValue == NO_CHANGE) ? minSupervisorAuts : minValue;
         maxSupervisorAuts = (maxValue == NO_CHANGE) ? maxSupervisorAuts : maxValue;
         return this;
@@ -163,20 +198,26 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     protected void preprocessSpecification(Specification spec, CifCheckViolations violations) {
         // Nothing found yet.
         numAnyAuts = 0;
-        numKindLessAuts = 0;
+        numKindlessAuts = 0;
         numPlantAuts = 0;
         numRequirementAuts = 0;
         numSupervisorAuts = 0;
 
         // Check sanity of the bounds.
+        Assert.check(minAnyAuts >= 0);
+        Assert.check(minKindlessAuts >= 0);
+        Assert.check(minPlantAuts >= 0);
+        Assert.check(minRequirementAuts >= 0);
+        Assert.check(minSupervisorAuts >= 0);
+
         Assert.check(minAnyAuts < Integer.MAX_VALUE);
-        Assert.check(minKindLessAuts < Integer.MAX_VALUE);
+        Assert.check(minKindlessAuts < Integer.MAX_VALUE);
         Assert.check(minPlantAuts < Integer.MAX_VALUE);
         Assert.check(minRequirementAuts < Integer.MAX_VALUE);
         Assert.check(minSupervisorAuts < Integer.MAX_VALUE);
 
         Assert.check(minAnyAuts <= maxAnyAuts);
-        Assert.check(minKindLessAuts <= maxKindLessAuts);
+        Assert.check(minKindlessAuts <= maxKindlessAuts);
         Assert.check(minPlantAuts <= maxPlantAuts);
         Assert.check(minRequirementAuts <= maxRequirementAuts);
         Assert.check(minSupervisorAuts <= maxSupervisorAuts);
@@ -186,7 +227,7 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     protected void postprocessSpecification(Specification spec, CifCheckViolations violations) {
         // Verify found counts against allowed counts and report any violation.
         checkAndReport(numAnyAuts, minAnyAuts, maxAnyAuts, "", violations);
-        checkAndReport(numKindLessAuts, minKindLessAuts, maxKindLessAuts, "kindless ", violations);
+        checkAndReport(numKindlessAuts, minKindlessAuts, maxKindlessAuts, "kindless ", violations);
         checkAndReport(numRequirementAuts, minRequirementAuts, maxRequirementAuts, "requirement ", violations);
         checkAndReport(numPlantAuts, minPlantAuts, maxPlantAuts, "plant ", violations);
         checkAndReport(numSupervisorAuts, minSupervisorAuts, maxSupervisorAuts, "supervisor ", violations);
@@ -210,25 +251,28 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
         LiteralMessage requiredMesg;
         if (minAuts == maxAuts) { // One specific count only.
             if (minAuts == 0) {
-                requiredMesg = new LiteralMessage("specification does not allow %sautomata", kindText);
+                requiredMesg = new LiteralMessage("specification does not have exactly 0 %sautomata", kindText);
             } else if (minAuts == 1) {
-                requiredMesg = new LiteralMessage("specification requires exactly 1 %sautomaton", kindText);
+                requiredMesg = new LiteralMessage("specification does not have exactly 1 %sautomaton", kindText);
             } else {
-                requiredMesg = new LiteralMessage("specification requires exactly %d %sautomata", minAuts, kindText);
+                requiredMesg = new LiteralMessage("specification does not have exactly %d %sautomata", minAuts,
+                        kindText);
             }
         } else if (maxAuts == Integer.MAX_VALUE) { // Unbounded upper limit.
             if (minAuts == 1) {
-                requiredMesg = new LiteralMessage("specification requires at least 1 %sautomaton", kindText);
+                requiredMesg = new LiteralMessage("specification does not have at least 1 %sautomaton", kindText);
             } else {
-                requiredMesg = new LiteralMessage("specification requires at least %d %sautomata", minAuts, kindText);
+                requiredMesg = new LiteralMessage("specification does not have at least %d %sautomata", minAuts,
+                        kindText);
             }
         } else { // Some finite different lower and upper limits.
             if (maxAuts == 1) { // Implies minAuts == 0
-                requiredMesg = new LiteralMessage("specification requires at most 1 %sautomaton", kindText);
+                requiredMesg = new LiteralMessage("specification does not have at most 1 %sautomaton", kindText);
             } else if (minAuts == 0) {
-                requiredMesg = new LiteralMessage("specification requires at most %d %sautomata", maxAuts, kindText);
+                requiredMesg = new LiteralMessage("specification does not have at most %d %sautomata", maxAuts,
+                        kindText);
             } else {
-                requiredMesg = new LiteralMessage("specification requires at least %d and at most %d %sautomata",
+                requiredMesg = new LiteralMessage("specification does not have at least %d and at most %d %sautomata",
                         minAuts, maxAuts, kindText);
             }
         }
@@ -260,7 +304,7 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
         numAnyAuts++;
         switch (aut.getKind()) {
             case NONE:
-                numKindLessAuts++;
+                numKindlessAuts++;
                 break;
             case PLANT:
                 numPlantAuts++;

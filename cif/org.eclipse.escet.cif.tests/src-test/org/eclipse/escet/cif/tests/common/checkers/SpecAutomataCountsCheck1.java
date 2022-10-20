@@ -13,18 +13,18 @@
 
 package org.eclipse.escet.cif.tests.common.checkers;
 
-import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCounts;
+import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 
 /**
  * Test checker requiring 2 or 3 automata, exactly 0 kindless, at least 1 plant, 1 requirement, and at most 1
  * supervisors.
  */
-public class SpecAutomataCounts1 extends SpecAutomataCounts {
-    /** Constructor of the {@link SpecAutomataCounts1} class. */
-    public SpecAutomataCounts1() {
+public class SpecAutomataCountsCheck1 extends SpecAutomataCountsCheck {
+    /** Constructor of the {@link SpecAutomataCountsCheck1} class. */
+    public SpecAutomataCountsCheck1() {
         super();
         setMinMaxAuts(2, 3);
-        setMinMaxKindLessAuts(NO_CHANGE, 0);
+        setMinMaxKindlessAuts(NO_CHANGE, 0);
         setMinMaxPlantAuts(1, NO_CHANGE);
         setMinMaxRequirementAuts(1, 1);
         setMinMaxSupervisorAuts(0, 1);

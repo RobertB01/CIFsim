@@ -1,6 +1,0 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported specification: 1 kindless automaton found, specification does not allow kindless automata.
- - Unsupported specification: 2 requirement automata found, specification requires exactly 1 requirement automaton.
- - Unsupported specification: 3 supervisor automata found, specification requires at most 1 supervisor automaton.
- - Unsupported specification: 6 automata found, specification requires at least 2 and at most 3 automata.
- - Unsupported specification: no plant automaton found, specification requires at least 1 plant automaton.
