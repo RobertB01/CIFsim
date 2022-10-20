@@ -74,7 +74,7 @@ public class SpecAutomataCountsCheck extends CifCheckNoCompDefInst {
      * Constructor of the {@link SpecAutomataCountsCheck} class.
      *
      * <p>
-     * The constructor imposes no limits to the minimum or maximum number of automata in a component.
+     * By default, no limits are imposed on the minimum or maximum number of automata in a specification.
      * </p>
      */
     public SpecAutomataCountsCheck() {
