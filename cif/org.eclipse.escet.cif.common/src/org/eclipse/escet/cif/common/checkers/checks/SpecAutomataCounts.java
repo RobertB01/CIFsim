@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.common.java.Assert;
 
-/** Disallow components with not enough or too many automata. */
+/** CIF check that disallows specifications with not enough or too many automata. */
 public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     /** Constant to denote that a boundary should not be modified. */
     public static final int NO_CHANGE = -1;
@@ -31,16 +31,16 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     /** Maximum total number of automata. */
     private int maxAnyAuts;
 
-    /** Minimum number of kind-less automata. */
-    private int minKindLessAuts;
+    /** Minimum number of kindless automata. */
+    private int minKindlessAuts;
 
-    /** Maximum number of kind-less automata. */
-    private int maxKindLessAuts;
-
-    /** Maximum number of plant automata. */
-    private int minPlantAuts;
+    /** Maximum number of kindless automata. */
+    private int maxKindlessAuts;
 
     /** Minimum number of plant automata. */
+    private int minPlantAuts;
+
+    /** Maximum number of plant automata. */
     private int maxPlantAuts;
 
     /** Minimum number of requirement automata. */
@@ -58,8 +58,8 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     /** Found number of automata without considering their kind. */
     private int numAnyAuts;
 
-    /** Found number of kind-less automata. */
-    private int numKindLessAuts;
+    /** Found number of kindless automata. */
+    private int numKindlessAuts;
 
     /** Found number of plant automata. */
     private int numPlantAuts;
@@ -108,13 +108,13 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     }
 
     /**
-     * Daisy-chain function to specify the number of allowed kind-less automata.
+     * Daisy-chain function to specify the number of allowed kindless automata.
      *
-     * @param minValue Smallest valid number of kind-less automata that should be available in the component.
-     * @param maxValue Largest valid number of kind-less automata that should be available in the component.
+     * @param minValue Smallest valid number of kindless automata that should be available in the component.
+     * @param maxValue Largest valid number of kindless automata that should be available in the component.
      * @return The class instance, for daisy-chaining.
      */
-    public SpecAutomataCounts setMinMaxKindLessAuts(int minValue, int maxValue) {
+    public SpecAutomataCounts setMinMaxKindlessAuts(int minValue, int maxValue) {
         minKindLessAuts = (minValue == NO_CHANGE) ? minKindLessAuts : minValue;
         maxKindLessAuts = (maxValue == NO_CHANGE) ? maxKindLessAuts : maxValue;
         return this;
@@ -193,7 +193,7 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
     }
 
     /**
-     * Check the actual number of automata against the minimum boundary, and report a violation if one is detected.
+     * Check the actual number of automata against the minimum and maximum boundaries, and report any violations.
      *
      * @param numAuts Found number of automata.
      * @param minAuts Minimum required number of automata.
@@ -223,10 +223,10 @@ public class SpecAutomataCounts extends CifCheckNoCompDefInst {
                 requiredMesg = new LiteralMessage("specification requires at least %d %sautomata", minAuts, kindText);
             }
         } else { // Some finite different lower and upper limits.
-            if (maxAuts == 1) { // Implies nimAuts == 0
+            if (maxAuts == 1) { // Implies minAuts == 0
                 requiredMesg = new LiteralMessage("specification requires at most 1 %sautomaton", kindText);
             } else if (minAuts == 0) {
-                requiredMesg = new LiteralMessage("specification requires at at most %d %sautomata", maxAuts, kindText);
+                requiredMesg = new LiteralMessage("specification requires at most %d %sautomata", maxAuts, kindText);
             } else {
                 requiredMesg = new LiteralMessage("specification requires at least %d and at most %d %sautomata",
                         minAuts, maxAuts, kindText);
