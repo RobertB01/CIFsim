@@ -31,10 +31,10 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunctionExpression;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * Checker that disallows usage of a specified collection of standard library functions.
+ * CIF check that disallows usage of a specified collection of standard library functions.
  *
  * <p>
- * For disallowing all standard library functions, use {@link ExprNoSpecificExprsCheck}.
+ * To disallow all standard library functions, use {@link ExprNoSpecificExprsCheck} with {@link NoSpecificExpr#FUNC_REFS_STD_LIB}.
  * </p>
  */
 public class FuncNoSpecificStdLibCheck extends CifCheck {
@@ -42,24 +42,24 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
     private static final Map<StdLibFunction, EnumSet<NoSpecificStdLib>> FUNCTION_VALUES;
 
     /** The collection of disallowed standard library functions. */
-    private final EnumSet<NoSpecificStdLib> disAlloweds;
+    private final EnumSet<NoSpecificStdLib> disalloweds;
 
     /**
      * Constructor of the {@link FuncNoSpecificStdLibCheck} class.
      *
-     * @param disAlloweds The collection of disallowed standard library functions.
+     * @param disalloweds The collection of disallowed standard library functions.
      */
-    public FuncNoSpecificStdLibCheck(EnumSet<NoSpecificStdLib> disAlloweds) {
-        this.disAlloweds = disAlloweds;
+    public FuncNoSpecificStdLibCheck(EnumSet<NoSpecificStdLib> disalloweds) {
+        this.disalloweds = disalloweds;
     }
 
     /**
      * Constructor of the {@link FuncNoSpecificStdLibCheck} class.
      *
-     * @param disAlloweds The collection of disallowed standard library functions.
+     * @param disalloweds The collection of disallowed standard library functions.
      */
-    public FuncNoSpecificStdLibCheck(NoSpecificStdLib... disAlloweds) {
-        this(Arrays.stream(disAlloweds).collect(Collectors.toCollection(() -> EnumSet.noneOf(NoSpecificStdLib.class))));
+    public FuncNoSpecificStdLibCheck(NoSpecificStdLib... disalloweds) {
+        this(Arrays.stream(disalloweds).collect(Collectors.toCollection(() -> EnumSet.noneOf(NoSpecificStdLib.class))));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         StdLibFunction func = stdLibRef.getFunction();
         EnumSet<NoSpecificStdLib> funcValues = FUNCTION_VALUES.get(func);
         Assert.notNull(funcValues);
-        if (!isEmptyIntersection(disAlloweds, funcValues)) {
+        if (!isEmptyIntersection(disalloweds, funcValues)) {
             violations.add(stdLibRef, new ReportObjectTypeDescrMessage(),
                     new LiteralMessage("uses standard library function \"%s\"", functionToStr(func)));
         }
@@ -77,7 +77,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
 
     /** Values to specify the disallowed CIF standard library functions. */
     public static enum NoSpecificStdLib {
-        /** Disallow all standard library random distribution functions. */
+        /** Disallow all standard library stochastic distribution functions. */
         STD_LIB_DISTRIBUTION_GROUP(),
 
         /** Disallow all standard library trigonometry functions. */
@@ -177,6 +177,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         STD_LIB_TANH(true, true, false),
 
         // Distributions.
+
         /** Disallow the standard library function {@link StdLibFunction#BERNOULLI}. */
         STD_LIB_BERNOULLI(true, false, true),
 
@@ -222,13 +223,13 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         /** Disallow the standard library function {@link StdLibFunction#WEIBULL}. */
         STD_LIB_WEIBULL(true, false, true);
 
-        /** Whether the enum value is an actual CIF standard library function. */
+        /** Whether the enum value is an actual CIF standard library function (and not a group of them). */
         private boolean isFunc;
 
-        /** Whether the enum value is part of the collection trigonometry functions. */
+        /** Whether the enum value is part of the group of trigonometry functions. */
         private boolean isTrigonometry;
 
-        /** Whether the enum value is part of the random distribution functions. */
+        /** Whether the enum value is part of the group of stochastic distribution functions. */
         private boolean isDistribution;
 
         /**
@@ -247,11 +248,11 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
          * Constructor of the {@link NoSpecificStdLib} class.
          *
          * <p>
-         * Use this constructor for entries that represent existing CIF standard library functions that are not part of
+         * Use this constructor for entries that represent singular CIF standard library functions that are not part of
          * a group of functions.
          * </p>
          *
-         * @param isFunc Whether the enum value represents an actual CIF standard library function.
+         * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of them).
          */
         private NoSpecificStdLib(boolean isFunc) {
             this(isFunc, false, false);
@@ -265,9 +266,9 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
          * or more groups.
          * </p>
          *
-         * @param isFunc Whether the enum value represents an actual CIF standard library function.
+         * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of them).
          * @param isTrigonometry Whether the enum value is part of the group of trigonometry functions.
-         * @param isDistribution Whether the enum value is part of the group of random distribution functions.
+         * @param isDistribution Whether the enum value is part of the group of stochastic distribution functions.
          *
          */
         private NoSpecificStdLib(boolean isFunc, boolean isTrigonometry, boolean isDistribution) {
@@ -280,7 +281,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
          * Construct the set of enum values that can be used to indicate disallowing the function.
          *
          * <p>
-         * Method must be used with enum values that represent an existing standard library function.
+         * Method must be used with enum values that represent an existing standard library function (and not a group of them).
          * </p>
          *
          * @return The entire set of enum values covering the function.
@@ -300,7 +301,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
     }
 
     static {
-        // Construct the set function values for each standard library function.
+        // Construct the set of function values for each standard library function.
         FUNCTION_VALUES = mapc(StdLibFunction.values().length);
 
         FUNCTION_VALUES.put(StdLibFunction.ABS, NoSpecificStdLib.STD_LIB_ABS.computeValues());

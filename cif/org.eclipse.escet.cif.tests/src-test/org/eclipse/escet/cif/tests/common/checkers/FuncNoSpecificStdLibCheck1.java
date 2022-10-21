@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.tests.common.checkers;
 
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck;
 
-/** Test class that disallows the standard libary 'abs' function and all standard library trignonometry functions. */
+/** Test class that disallows the standard library 'abs' function and all standard library trigonometry functions. */
 public class FuncNoSpecificStdLibCheck1 extends FuncNoSpecificStdLibCheck {
     /** Constructor of the {@link FuncNoSpecificStdLibCheck1} class. */
     public FuncNoSpecificStdLibCheck1() {
