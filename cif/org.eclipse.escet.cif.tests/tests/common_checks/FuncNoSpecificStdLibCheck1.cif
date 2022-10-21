@@ -1,5 +1,5 @@
 automaton X:
-  disc dist int d = binomial(0.5, 2);
+  disc dist int d = binomial(asin(sin(0.5)), 2);
   disc int n = round(max(abs(cos(12) * 20), 7) + (sample d)[0]);
   location:
     initial n < 0;
