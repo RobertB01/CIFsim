@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
@@ -34,11 +35,12 @@ import org.eclipse.escet.common.java.Assert;
  * CIF check that disallows usage of a specified collection of standard library functions.
  *
  * <p>
- * To disallow all standard library functions, use {@link ExprNoSpecificExprsCheck} with {@link NoSpecificExpr#FUNC_REFS_STD_LIB}.
+ * To disallow all standard library functions, use {@link ExprNoSpecificExprsCheck} with
+ * {@link NoSpecificExpr#FUNC_REFS_STD_LIB}.
  * </p>
  */
 public class FuncNoSpecificStdLibCheck extends CifCheck {
-    /** For each standard library function the collection of values to check in {@link #disAlloweds}. */
+    /** For each standard library function the collection of values to check in {@link #disalloweds}. */
     private static final Map<StdLibFunction, EnumSet<NoSpecificStdLib>> FUNCTION_VALUES;
 
     /** The collection of disallowed standard library functions. */
@@ -77,12 +79,16 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
 
     /** Values to specify the disallowed CIF standard library functions. */
     public static enum NoSpecificStdLib {
+        // Groups of functions.
+        //
         /** Disallow all standard library stochastic distribution functions. */
-        STD_LIB_DISTRIBUTION_GROUP(),
+        STD_LIB_STOCHASTIC_GROUP(),
 
         /** Disallow all standard library trigonometry functions. */
         STD_LIB_TRIGONOMETRY_GROUP(),
 
+        // Standard library functions without group.
+        //
         /** Disallow the standard library function {@link StdLibFunction#ABS}. */
         STD_LIB_ABS(true),
 
@@ -109,24 +115,6 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
 
         /** Disallow the standard library function {@link StdLibFunction#SQRT}. */
         STD_LIB_SQRT(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#ACOS}. */
-        STD_LIB_ACOS(true, true, false),
-
-        /** Disallow the standard library function {@link StdLibFunction#ASIN}. */
-        STD_LIB_ASIN(true, true, false),
-
-        /** Disallow the standard library function {@link StdLibFunction#ATAN}. */
-        STD_LIB_ATAN(true, true, false),
-
-        /** Disallow the standard library function {@link StdLibFunction#COS}. */
-        STD_LIB_COS(true, true, false),
-
-        /** Disallow the standard library function {@link StdLibFunction#SIN}. */
-        STD_LIB_SIN(true, true, false),
-
-        /** Disallow the standard library function {@link StdLibFunction#TAN}. */
-        STD_LIB_TAN(true, true, false),
 
         /** Disallow the standard library function {@link StdLibFunction#CEIL}. */
         STD_LIB_CEIL(true),
@@ -158,6 +146,26 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         /** Disallow the standard library function {@link StdLibFunction#SIZE}. */
         STD_LIB_SIZE(true),
 
+        // Standard library functions in the trigonometry group.
+        //
+        /** Disallow the standard library function {@link StdLibFunction#ACOS}. */
+        STD_LIB_ACOS(true, true, false),
+
+        /** Disallow the standard library function {@link StdLibFunction#ASIN}. */
+        STD_LIB_ASIN(true, true, false),
+
+        /** Disallow the standard library function {@link StdLibFunction#ATAN}. */
+        STD_LIB_ATAN(true, true, false),
+
+        /** Disallow the standard library function {@link StdLibFunction#COS}. */
+        STD_LIB_COS(true, true, false),
+
+        /** Disallow the standard library function {@link StdLibFunction#SIN}. */
+        STD_LIB_SIN(true, true, false),
+
+        /** Disallow the standard library function {@link StdLibFunction#TAN}. */
+        STD_LIB_TAN(true, true, false),
+
         /** Disallow the standard library function {@link StdLibFunction#ACOSH}. */
         STD_LIB_ACOSH(true, true, false),
 
@@ -176,8 +184,8 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         /** Disallow the standard library function {@link StdLibFunction#TANH}. */
         STD_LIB_TANH(true, true, false),
 
-        // Distributions.
-
+        // Standard library functions in the stochastic group.
+        //
         /** Disallow the standard library function {@link StdLibFunction#BERNOULLI}. */
         STD_LIB_BERNOULLI(true, false, true),
 
@@ -237,7 +245,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
          *
          * <p>
          * Use this constructor for entries that represent a group of functions, for example the
-         * {@link #STD_LIB_DISTRIBUTION_GROUP} group.
+         * {@link #STD_LIB_STOCHASTIC_GROUP} group.
          * </p>
          */
         private NoSpecificStdLib() {
@@ -252,7 +260,8 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
          * a group of functions.
          * </p>
          *
-         * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of them).
+         * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of
+         *     them).
          */
         private NoSpecificStdLib(boolean isFunc) {
             this(isFunc, false, false);
@@ -266,7 +275,8 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
          * or more groups.
          * </p>
          *
-         * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of them).
+         * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of
+         *     them).
          * @param isTrigonometry Whether the enum value is part of the group of trigonometry functions.
          * @param isDistribution Whether the enum value is part of the group of stochastic distribution functions.
          *
@@ -281,7 +291,8 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
          * Construct the set of enum values that can be used to indicate disallowing the function.
          *
          * <p>
-         * Method must be used with enum values that represent an existing standard library function (and not a group of them).
+         * Method must be used with enum values that represent an existing standard library function (and not a group of
+         * them).
          * </p>
          *
          * @return The entire set of enum values covering the function.
@@ -294,7 +305,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
                 values.add(STD_LIB_TRIGONOMETRY_GROUP);
             }
             if (this.isDistribution) {
-                values.add(STD_LIB_DISTRIBUTION_GROUP);
+                values.add(STD_LIB_STOCHASTIC_GROUP);
             }
             return values;
         }
