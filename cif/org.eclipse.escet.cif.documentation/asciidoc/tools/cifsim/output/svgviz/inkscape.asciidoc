@@ -66,10 +66,7 @@ indexterm:[Inkscape,coordinate system]
 
 === Coordinate systems
 
-The coordinate system used by Inkscape uses the lower left corner of the canvas as origin, while the underlying SVG representation uses the upper left corner of the canvas as origin.
-Also, Inkscape uses x and y coordinates of objects relative to the outside of their border (called _stroke_ in Inkscape), while SVG uses x and y coordinates of objects relative to the middle of their border.
-These are two most commonly encountered differences between Inkscape and SVG.
-See the <<tools-cifsim-output-svgviz-chapter-example-tank,tank example>> for some tips and tricks regarding the difference in coordinate systems.
+The coordinate system used by SVG and Inkscape uses the upper left corner of the canvas as origin.
 
 indexterm:[Inkscape,text area]
 indexterm:[Inkscape,flowRoot]
@@ -84,7 +81,7 @@ Once you added it, start typing text.
 Inkscape also allows you to select the text tool, left click anywhere on the canvas, drag the mouse pointer to another position, and only then release the left mouse button.
 This creates a text area, where text is automatically wrapped to multiple lines, so that it stays within the bounds of the text area.
 This feature uses SVG `flowRoot` elements.
-These elements are defined in version 1.2 of the SVG standard, which is currently still a working draft.
+These elements are defined in version 1.2 of the SVG standard.
 These elements are _not_ supported by the CIF simulator, which only supports version 1.1 of the SVG standard.
 
 Using an SVG image with a `flowRoot` or other unsupported SVG feature, results in the following error when the SVG file is <<tools-cifsim-output-svgviz-chapter-viewer,opened>> in Eclipse:
