@@ -25,8 +25,6 @@ This example shows:
 
 * Use of the `scale` standard library function.
 
-* The difference between the coordinate systems of <<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>> and <<tools-cifsim-output-svgviz-chapter-svg,SVG>>.
-
 * How inverting the y-axis can reduce the number of output mappings.
 
 === SVG image
@@ -37,14 +35,9 @@ image::{tools-imgsdir}/cifsim/output/svgviz/tank/tank_inkscape.png[]
 
 The image features a tank (black lines) and the water in the tank (blue rectangle).
 The water rectangle is selected.
-At the top of the screenshot, you see the object's position as Inkscape represents it.
-It shows `15` for the `x` position, and `10` for the `y` position.
-These values are relative to the lower left corner of the canvas.
 In the _XML Editor_ window, you see the position as SVG represents it.
-It shows `15` for the `x` position as well, but `30` for the `y` position.
+It shows `15` for the `x` position and `30` for the `y` position.
 These values are relative to the upper left corner of the canvas.
-Inkscape and SVG use different coordinate systems, where the `y`-axis is reversed.
-The CIF/SVG declarations works on SVG images, and thus uses the coordinate system of SVG.
 
 === CIF specification
 

@@ -10,22 +10,23 @@
 
   SPDX-License-Identifier: MIT
 -->
+
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    width="75"
    height="100"
    id="svg2819"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="lamp.svg">
+   inkscape:version="1.2.1 (9c6d41e4, 2022-07-14)"
+   sodipodi:docname="lamp.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -46,17 +47,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="903"
-     inkscape:window-height="484"
+     inkscape:window-width="734"
+     inkscape:window-height="510"
      id="namedview5"
      showgrid="false"
      inkscape:zoom="2.247619"
-     inkscape:cx="37"
-     inkscape:cy="52.277542"
-     inkscape:window-x="702"
-     inkscape:window-y="120"
+     inkscape:cx="58.2839"
+     inkscape:cy="53.389832"
+     inkscape:window-x="535"
+     inkscape:window-y="1209"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg2819" />
+     inkscape:current-layer="svg2819"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <defs
      id="defs2821">
     <inkscape:perspective

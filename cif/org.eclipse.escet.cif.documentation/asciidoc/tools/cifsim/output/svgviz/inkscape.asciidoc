@@ -34,19 +34,21 @@ indexterm:[Inkscape,changing ids]
 
 As described on the <<tools-cifsim-output-svgviz-chapter-svg,page about SVG>>, every SVG object has an id.
 To change the id of an object in Inkscape, right click on the object, and choose menu:Object Properties[].
-The _Object Properties_ window will appear, which looks like this:
+The _Object Properties_ tab will appear on the right of the interface, which looks like this:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/inkscape/inkscape_props_xml.png[]
 
-In this window, you can change the object's id, by entering a new id in the _Id_ field, and clicking the btn:[Set] button.
+In this tab, you can change the object's id, by entering a new id in the _Id_ field, and clicking the btn:[Set] button.
 
 indexterm:[Inkscape,XML editor]
 
 === XML editor
 
 Inkscape also features an XML editor, that can be used to view and edit the underlying XML representation of the SVG image.
-The screenshot above also shows Inkscape's _XML Editor_ window, which can be opened via menu:Edit[XML Editor...].
+The screenshot above also shows Inkscape's _XML Editor_ as a window, which can be opened via menu:Edit[XML Editor...].
 The XML editor can be useful to find out the exact structure of the XML tree, and to see the precise definitions that were used to represent the objects that you created on Inkscape's canvas.
+Both the object properties tab as well as the XML editor can be fixed to the right of the interface or as a floating window.
+Simply drag the tab to the preferred location.
 
 indexterm:[Inkscape,document size]
 indexterm:[Inkscape,width]
@@ -57,16 +59,16 @@ indexterm:[Inkscape,height]
 
 It is recommended to always set the correct size of the image, before adding any shapes or text labels.
 To do this, select menu:File[Document Properties...], to open the _Document Properties_ window.
-On the _Page_ tab, we recommend to set the _Units_ to _px_.
+On the _Display_ tab, we recommend to set _Format_ to _px_ and _Display units_ to _px_.
 You can then enter the _Width_ and _Height_ of the image.
 
 By default, Inkscape always adds a layer to new images.
 When changing the size of the image as described above, this layer gets a `transform` attribute that can cause all kinds of trouble later on.
 There are several ways to get rid of this `transform` attribute of the layer:
 
-* Select menu:Layer[Layers...], to show the _Layers_ panel.
-In that panel, select _Layer 1_ by clicking on it.
-Then click the _Delete the current layer_ button to remove the selected layer.
+* Select menu:Layer[Layers and Objects...], to show the _Layers and Objects_ panel.
+In that panel, select _Layer 1_ by right clicking on it.
+Then click the _Delete layer_ button to remove the selected layer.
 
 * Use the _XML Editor_ to select the layer (`<svg:g id="layer1"`... node).
 Then click the _Delete node_ button at the top of the _XML Editor_ window to remove the layer.
