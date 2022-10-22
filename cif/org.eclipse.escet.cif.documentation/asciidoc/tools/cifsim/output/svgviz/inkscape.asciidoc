@@ -62,38 +62,6 @@ To do this, select menu:File[Document Properties...], to open the _Document Prop
 On the _Display_ tab, we recommend to set _Format_ to _px_ and _Display units_ to _px_.
 You can then enter the _Width_ and _Height_ of the image.
 
-By default, Inkscape always adds a layer to new images.
-When changing the size of the image as described above, this layer gets a `transform` attribute that can cause all kinds of trouble later on.
-There are several ways to get rid of this `transform` attribute of the layer:
-
-* Select menu:Layer[Layers and Objects...], to show the _Layers and Objects_ panel.
-In that panel, select _Layer 1_ by right clicking on it.
-Then click the _Delete layer_ button to remove the selected layer.
-
-* Use the _XML Editor_ to select the layer (`<svg:g id="layer1"`... node).
-Then click the _Delete node_ button at the top of the _XML Editor_ window to remove the layer.
-Alternatively, after selecting the layer, press the kbd:[Delete] key on the keyboard to delete the selected layer.
-
-* Use the _XML Editor_ to select the layer (`<svg:g id="layer1"`... node).
-Then, on the right, select the `transform` attribute by clicking on it.
-Then click the _Delete attribute_ button at the top of the _XML Editor_ window to remove the attribute.
-
-The first two approaches remove the layer, the third approach keeps the layer and only removes the `transform` attribute.
-
-Alternatively, there is also a way to avoid the `transform` attribute from being added in the first place.
-Instead of using the _Document Properties_ window to change the size of the image, do the following:
-
-* Use the _XML Editor_ to select the entire image (`<svg:svg`... node).
-
-* Select the `width` attribute on the right, by clicking on it.
-
-* Change the value in the text area at the lower right corner of the window.
-
-* Click the btn:[Set] button to save the new width value.
-Alternatively, after typing the new value, press kbd:[Ctrl+Enter] to save the new width value.
-
-* Repeat for the `height` attribute.
-
 indexterm:[Inkscape,coordinate system]
 
 === Coordinate systems
