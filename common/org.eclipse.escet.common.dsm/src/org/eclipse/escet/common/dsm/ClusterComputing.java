@@ -39,7 +39,7 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Functions for hierarchical clustering. */
 public class ClusterComputing {
-    /** Constructor of the static {link ClusterComputing} class. */
+    /** Constructor of the static {@link ClusterComputing} class. */
     private ClusterComputing() {
         // Static class.
     }

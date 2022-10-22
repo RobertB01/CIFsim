@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.tests.common.checkers;
 
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,7 +92,8 @@ public class CifCommonChecksTestApp extends Application<IOutputComponent> {
             // Add the check.
             checks.add(check);
         }
-        Assert.check(!checks.isEmpty(), "Class not found in packages: " + Arrays.toString(packageNames));
+        Assert.check(!checks.isEmpty(),
+                fmt("Class \"%s\" not found in packages: %s", simpleCheckClassName, Arrays.toString(packageNames)));
 
         // Perform check.
         new CifPreconditionChecker(checks).reportPreconditionViolations(spec, "CIF common checks tester");

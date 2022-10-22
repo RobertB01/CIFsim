@@ -22,5 +22,19 @@ import org.eclipse.escet.cif.metamodel.java.CifWithArgWalker;
  *     {@code walk*} methods should not be overridden, as they are ignored by {@link CifChecker}.
  */
 public abstract class CifCheck extends CifWithArgWalker<CifCheckViolations> {
-    // Nothing to do here.
+    /**
+     * Whether the check properly checks CIF specifications containing component definitions and/or component
+     * instantiations.
+     *
+     * <p>
+     * By default {@code true}, override if the check does not handle component definitions and/or component
+     * instantiations properly.
+     * </p>
+     *
+     * @return {@copde true} if component definitions and/or component instantiations are properly handled, else
+     *     {@code false}.
+     */
+    public boolean supportsCompDefInst() {
+        return true;
+    }
 }
