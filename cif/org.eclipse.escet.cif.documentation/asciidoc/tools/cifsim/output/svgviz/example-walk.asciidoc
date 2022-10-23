@@ -54,8 +54,8 @@ For clarity we gave the sub-elements ids as well, although that was not necessar
 
 Note that we moved the person as a whole, to the start of the floor.
 Since `svg:g` elements don't have an `x` and `y` attribute in SVG, Inkscape applies a translation to move the group.
-This is reflected in the XML as a `transform` attribute, with the `translate(-78,15)` value.
-This indicates that the person was moved 78 pixels to the left, and 15 pixels to the bottom (as SVG has its origin in the upper left corner of the canvas).
+This is reflected in the XML as a `transform` attribute, with the `translate(-77,12)` value.
+This indicates that the person was moved 77 pixels to the left, and 12 pixels to the bottom (as SVG has its origin in the upper left corner of the canvas).
 
 To get rid of this, once the person is at the correct initial position, we can ungroup the `person` group (_Ungroup_ command from Inkscape's _Object_ menu), and regroup it.
 By ungrouping the group, the transformation is pushed to the individual elements of the group.

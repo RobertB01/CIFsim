@@ -33,12 +33,12 @@ indexterm:[Inkscape,changing ids]
 === Changing ids
 
 As described on the <<tools-cifsim-output-svgviz-chapter-svg,page about SVG>>, every SVG object has an id.
-To change the id of an object in Inkscape, right click on the object, and choose menu:Object Properties[].
+To change the id of an object in Inkscape, right click on the object, and choose menu:Object Properties...[].
 The _Object Properties_ tab will appear on the right of the interface, which looks like this:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/inkscape/inkscape_props_xml.png[]
 
-In this tab, you can change the object's id, by entering a new id in the _Id_ field, and clicking the btn:[Set] button.
+In this tab, you can change the object's id, by entering a new id in the _ID_ field, and clicking the btn:[Set] button.
 
 indexterm:[Inkscape,XML editor]
 
@@ -47,8 +47,8 @@ indexterm:[Inkscape,XML editor]
 Inkscape also features an XML editor, that can be used to view and edit the underlying XML representation of the SVG image.
 The screenshot above also shows Inkscape's _XML Editor_ as a window, which can be opened via menu:Edit[XML Editor...].
 The XML editor can be useful to find out the exact structure of the XML tree, and to see the precise definitions that were used to represent the objects that you created on Inkscape's canvas.
-Both the object properties tab as well as the XML editor can be fixed to the right of the interface or as a floating window.
-Simply drag the tab to the preferred location.
+Panels like the _Object Properties_ panel and the _XML Editor_ panel can be fixed to the right side of the interface as tabs or be used as floating windows.
+Simply drag each panel to its preferred location.
 
 indexterm:[Inkscape,document size]
 indexterm:[Inkscape,width]
@@ -61,16 +61,17 @@ It is recommended to always set the correct size of the image, before adding any
 To do this, select menu:File[Document Properties...], to open the _Document Properties_ window.
 On the _Display_ tab, we recommend to set _Format_ to _px_ and _Display units_ to _px_.
 You can then enter the _Width_ and _Height_ of the image.
+Finally, in the _XML Editor_ panel, go to the root SVG element and delete the _viewBox_ property.
+This ensures that the coordinates in the XML tree are the same as those displayed on the Inkscape interface.
 
 indexterm:[Inkscape,coordinate system]
 
 === Coordinate systems
 
 The coordinate system used by SVG and Inkscape uses the upper left corner of the canvas as origin.
+Inkscape uses x and y coordinates of objects relative to the outside of their border (called _stroke_ in Inkscape), while SVG uses x and y coordinates of objects relative to the middle of their border.
 
 indexterm:[Inkscape,text area]
-indexterm:[Inkscape,flowRoot]
-indexterm:[SVG,flowRoot]
 
 [[tools-cifsim-output-svgviz-inkscape-textarea]]
 === Text areas
@@ -80,14 +81,3 @@ Once you added it, start typing text.
 
 Inkscape also allows you to select the text tool, left click anywhere on the canvas, drag the mouse pointer to another position, and only then release the left mouse button.
 This creates a text area, where text is automatically wrapped to multiple lines, so that it stays within the bounds of the text area.
-This feature uses SVG `flowRoot` elements.
-These elements are defined in version 1.2 of the SVG standard.
-These elements are _not_ supported by the CIF simulator, which only supports version 1.1 of the SVG standard.
-
-Using an SVG image with a `flowRoot` or other unsupported SVG feature, results in the following error when the SVG file is <<tools-cifsim-output-svgviz-chapter-viewer,opened>> in Eclipse:
-
-[source, console]
-----
-ERROR: SVG image file "some_image.svg" is not an SVG file, is an invalid SVG file, or contains unsupported SVG features.
-CAUSE: invalid.element
-----
