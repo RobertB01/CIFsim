@@ -81,70 +81,11 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
     public static enum NoSpecificStdLib {
         // Groups of functions.
         //
-        /** Disallow all standard library stochastic distribution functions. */
-        STD_LIB_STOCHASTIC_GROUP(),
-
         /** Disallow all standard library trigonometry functions. */
         STD_LIB_TRIGONOMETRY_GROUP(),
 
-        // Standard library functions without group.
-        //
-        /** Disallow the standard library function {@link StdLibFunction#ABS}. */
-        STD_LIB_ABS(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#CBRT}. */
-        STD_LIB_CBRT(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#EXP}. */
-        STD_LIB_EXP(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#LN}. */
-        STD_LIB_LN(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#LOG}. */
-        STD_LIB_LOG(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#MAXIMUM}. */
-        STD_LIB_MAXIMUM(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#MINIMUM}. */
-        STD_LIB_MINIMUM(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#POWER}. */
-        STD_LIB_POWER(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#SQRT}. */
-        STD_LIB_SQRT(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#CEIL}. */
-        STD_LIB_CEIL(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#DELETE}. */
-        STD_LIB_DELETE(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#EMPTY}. */
-        STD_LIB_EMPTY(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#FLOOR}. */
-        STD_LIB_FLOOR(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#FORMAT}. */
-        STD_LIB_FORMAT(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#POP}. */
-        STD_LIB_POP(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#ROUND}. */
-        STD_LIB_ROUND(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#SCALE}. */
-        STD_LIB_SCALE(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#SIGN}. */
-        STD_LIB_SIGN(true),
-
-        /** Disallow the standard library function {@link StdLibFunction#SIZE}. */
-        STD_LIB_SIZE(true),
+        /** Disallow all standard library stochastic distribution functions. */
+        STD_LIB_STOCHASTIC_GROUP(),
 
         // Standard library functions in the trigonometry group.
         //
@@ -229,7 +170,66 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         STD_LIB_UNIFORM(true, false, true),
 
         /** Disallow the standard library function {@link StdLibFunction#WEIBULL}. */
-        STD_LIB_WEIBULL(true, false, true);
+        STD_LIB_WEIBULL(true, false, true),
+
+        // Standard library functions without group.
+        //
+        /** Disallow the standard library function {@link StdLibFunction#ABS}. */
+        STD_LIB_ABS(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#CBRT}. */
+        STD_LIB_CBRT(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#EXP}. */
+        STD_LIB_EXP(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#LN}. */
+        STD_LIB_LN(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#LOG}. */
+        STD_LIB_LOG(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#MAXIMUM}. */
+        STD_LIB_MAXIMUM(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#MINIMUM}. */
+        STD_LIB_MINIMUM(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#POWER}. */
+        STD_LIB_POWER(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#SQRT}. */
+        STD_LIB_SQRT(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#CEIL}. */
+        STD_LIB_CEIL(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#DELETE}. */
+        STD_LIB_DELETE(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#EMPTY}. */
+        STD_LIB_EMPTY(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#FLOOR}. */
+        STD_LIB_FLOOR(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#FORMAT}. */
+        STD_LIB_FORMAT(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#POP}. */
+        STD_LIB_POP(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#ROUND}. */
+        STD_LIB_ROUND(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#SCALE}. */
+        STD_LIB_SCALE(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#SIGN}. */
+        STD_LIB_SIGN(true),
+
+        /** Disallow the standard library function {@link StdLibFunction#SIZE}. */
+        STD_LIB_SIZE(true);
 
         /** Whether the enum value is an actual CIF standard library function (and not a group of them). */
         private boolean isFunc;
@@ -315,37 +315,21 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         // Construct the set of function values for each standard library function.
         FUNCTION_VALUES = mapc(StdLibFunction.values().length);
 
-        FUNCTION_VALUES.put(StdLibFunction.ABS, NoSpecificStdLib.STD_LIB_ABS.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.CBRT, NoSpecificStdLib.STD_LIB_CBRT.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.EXP, NoSpecificStdLib.STD_LIB_EXP.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.LN, NoSpecificStdLib.STD_LIB_LN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.LOG, NoSpecificStdLib.STD_LIB_LOG.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.MAXIMUM, NoSpecificStdLib.STD_LIB_MAXIMUM.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.MINIMUM, NoSpecificStdLib.STD_LIB_MINIMUM.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.POWER, NoSpecificStdLib.STD_LIB_POWER.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SQRT, NoSpecificStdLib.STD_LIB_SQRT.computeValues());
+        // Trigonometry function.
         FUNCTION_VALUES.put(StdLibFunction.ACOS, NoSpecificStdLib.STD_LIB_ACOS.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.ASIN, NoSpecificStdLib.STD_LIB_ASIN.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.ATAN, NoSpecificStdLib.STD_LIB_ATAN.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.COS, NoSpecificStdLib.STD_LIB_COS.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.SIN, NoSpecificStdLib.STD_LIB_SIN.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.TAN, NoSpecificStdLib.STD_LIB_TAN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.CEIL, NoSpecificStdLib.STD_LIB_CEIL.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.DELETE, NoSpecificStdLib.STD_LIB_DELETE.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.EMPTY, NoSpecificStdLib.STD_LIB_EMPTY.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.FLOOR, NoSpecificStdLib.STD_LIB_FLOOR.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.FORMAT, NoSpecificStdLib.STD_LIB_FORMAT.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.POP, NoSpecificStdLib.STD_LIB_POP.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.ROUND, NoSpecificStdLib.STD_LIB_ROUND.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SCALE, NoSpecificStdLib.STD_LIB_SCALE.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SIGN, NoSpecificStdLib.STD_LIB_SIGN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SIZE, NoSpecificStdLib.STD_LIB_SIZE.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.ACOSH, NoSpecificStdLib.STD_LIB_ACOSH.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.ASINH, NoSpecificStdLib.STD_LIB_ASINH.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.ATANH, NoSpecificStdLib.STD_LIB_ATANH.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.COSH, NoSpecificStdLib.STD_LIB_COSH.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.SINH, NoSpecificStdLib.STD_LIB_SINH.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.TANH, NoSpecificStdLib.STD_LIB_TANH.computeValues());
+
+        // Stochastic functions.
         FUNCTION_VALUES.put(StdLibFunction.BERNOULLI, NoSpecificStdLib.STD_LIB_BERNOULLI.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.BETA, NoSpecificStdLib.STD_LIB_BETA.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.BINOMIAL, NoSpecificStdLib.STD_LIB_BINOMIAL.computeValues());
@@ -361,5 +345,29 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         FUNCTION_VALUES.put(StdLibFunction.TRIANGLE, NoSpecificStdLib.STD_LIB_TRIANGLE.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.UNIFORM, NoSpecificStdLib.STD_LIB_UNIFORM.computeValues());
         FUNCTION_VALUES.put(StdLibFunction.WEIBULL, NoSpecificStdLib.STD_LIB_WEIBULL.computeValues());
+
+        // Functions without group.
+        FUNCTION_VALUES.put(StdLibFunction.ABS, NoSpecificStdLib.STD_LIB_ABS.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.CBRT, NoSpecificStdLib.STD_LIB_CBRT.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.EXP, NoSpecificStdLib.STD_LIB_EXP.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.LN, NoSpecificStdLib.STD_LIB_LN.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.LOG, NoSpecificStdLib.STD_LIB_LOG.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.MAXIMUM, NoSpecificStdLib.STD_LIB_MAXIMUM.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.MINIMUM, NoSpecificStdLib.STD_LIB_MINIMUM.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.POWER, NoSpecificStdLib.STD_LIB_POWER.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.SQRT, NoSpecificStdLib.STD_LIB_SQRT.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.CEIL, NoSpecificStdLib.STD_LIB_CEIL.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.DELETE, NoSpecificStdLib.STD_LIB_DELETE.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.EMPTY, NoSpecificStdLib.STD_LIB_EMPTY.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.FLOOR, NoSpecificStdLib.STD_LIB_FLOOR.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.FORMAT, NoSpecificStdLib.STD_LIB_FORMAT.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.POP, NoSpecificStdLib.STD_LIB_POP.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.ROUND, NoSpecificStdLib.STD_LIB_ROUND.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.SCALE, NoSpecificStdLib.STD_LIB_SCALE.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.SIGN, NoSpecificStdLib.STD_LIB_SIGN.computeValues());
+        FUNCTION_VALUES.put(StdLibFunction.SIZE, NoSpecificStdLib.STD_LIB_SIZE.computeValues());
+
+        // Ensure all standard library functions have been added.
+        Assert.areEqual(StdLibFunction.values().length, FUNCTION_VALUES.size());
     }
 }
