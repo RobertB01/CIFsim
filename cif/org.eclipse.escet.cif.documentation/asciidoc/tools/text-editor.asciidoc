@@ -47,6 +47,6 @@ Below is a list of some of the more notable features of this text editor:
 
 image::{tools-imgsdir}/../screenshot_ide.png[Screenshot CIF text editor]
 
-By default all `.cif` files are opened with the CIF text editor.
-However, large files are opened by the default non-CIF text editor, to prevent performance issues.
+Normally, `.cif` files are opened with the CIF text editor.
+Large files are however opened with the default non-CIF text editor to avoid performance issues.
 You can open a file in an editor of your choosing by right clicking it and selecting menu:Open With[] and then selecting the editor of your choosing, or choosing menu:Other...[] to open a dialog to choose from a larger selection of editors.
