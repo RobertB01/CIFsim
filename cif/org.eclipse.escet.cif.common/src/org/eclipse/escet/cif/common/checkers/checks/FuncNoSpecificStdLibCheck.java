@@ -238,7 +238,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         private boolean isTrigonometry;
 
         /** Whether the enum value is part of the group of stochastic distribution functions. */
-        private boolean isDistribution;
+        private boolean isStochastic;
 
         /**
          * Constructor of the {@link NoSpecificStdLib} class.
@@ -278,13 +278,13 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
          * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of
          *     them).
          * @param isTrigonometry Whether the enum value is part of the group of trigonometry functions.
-         * @param isDistribution Whether the enum value is part of the group of stochastic distribution functions.
+         * @param isStochastic Whether the enum value is part of the group of stochastic distribution functions.
          *
          */
-        private NoSpecificStdLib(boolean isFunc, boolean isTrigonometry, boolean isDistribution) {
+        private NoSpecificStdLib(boolean isFunc, boolean isTrigonometry, boolean isStochastic) {
             this.isFunc = isFunc;
             this.isTrigonometry = isTrigonometry;
-            this.isDistribution = isDistribution;
+            this.isStochastic = isStochastic;
         }
 
         /**
@@ -304,7 +304,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
             if (this.isTrigonometry) {
                 values.add(STD_LIB_TRIGONOMETRY_GROUP);
             }
-            if (this.isDistribution) {
+            if (this.isStochastic) {
                 values.add(STD_LIB_STOCHASTIC_GROUP);
             }
             return values;
