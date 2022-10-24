@@ -1,0 +1,5 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "X.d": discrete variable uses standard library function "asin".
+ - Unsupported "X.d": discrete variable uses standard library function "sin".
+ - Unsupported "X.n": discrete variable uses standard library function "abs".
+ - Unsupported "X.n": discrete variable uses standard library function "cos".
