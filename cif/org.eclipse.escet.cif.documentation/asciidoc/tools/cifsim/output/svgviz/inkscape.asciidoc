@@ -61,7 +61,7 @@ It is recommended to always set the correct size of the image, before adding any
 To do this, select menu:File[Document Properties...], to open the _Document Properties_ window.
 On the _Display_ tab, we recommend to set _Format_ to _px_ and _Display units_ to _px_.
 You can then enter the _Width_ and _Height_ of the image.
-Finally, in the _XML Editor_ panel, go to the root SVG element and delete the _viewBox_ property.
+Finally, in the _XML Editor_ panel, select the root SVG element (`<svg:svg`... node) by left clicking it, and delete the _viewBox_ property by clicking the trash can icon in front of it.
 This ensures that the coordinates in the XML tree are the same as those displayed on the Inkscape interface.
 
 indexterm:[Inkscape,coordinate system]
