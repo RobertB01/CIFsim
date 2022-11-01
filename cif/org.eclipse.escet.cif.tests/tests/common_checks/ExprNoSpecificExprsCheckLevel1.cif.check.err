@@ -65,14 +65,14 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "PROJECTION_EXPRS_DICTS": uses boolean literal "true".
  - Unsupported "PROJECTION_EXPRS_DICTS": uses dictionary literal "{true: false}".
  - Unsupported "PROJECTION_EXPRS_DICTS": uses projection expression "{true: false}[true]".
+ - Unsupported "PROJECTION_EXPRS_LISTS": uses boolean literal "false".
  - Unsupported "PROJECTION_EXPRS_LISTS": uses boolean literal "true".
  - Unsupported "PROJECTION_EXPRS_LISTS": uses integer number literal "0".
- - Unsupported "PROJECTION_EXPRS_LISTS": uses projection expression "PROJECTION_EXPRS_LISTS.d[0]".
- - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY": uses boolean literal "false".
+ - Unsupported "PROJECTION_EXPRS_LISTS": uses list literal "[true, false]".
+ - Unsupported "PROJECTION_EXPRS_LISTS": uses projection expression "[true, false][0]".
  - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY": uses boolean literal "true".
  - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY": uses integer number literal "0".
- - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY": uses list literal "[true, false]".
- - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY": uses projection expression "[true, false][0]".
+ - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY": uses projection expression "PROJECTION_EXPRS_LISTS_NON_ARRAY.d[0]".
  - Unsupported "PROJECTION_EXPRS_STRINGS": uses binary expression ""abc"[0] = "a"".
  - Unsupported "PROJECTION_EXPRS_STRINGS": uses integer number literal "0".
  - Unsupported "PROJECTION_EXPRS_STRINGS": uses projection expression ""abc"[0]".
