@@ -192,7 +192,15 @@ automaton LOC_REFS:
 end
 
 // PROJECTION_EXPRS_LISTS.
-group PROJECTION_EXPRS_LISTS:
+automaton PROJECTION_EXPRS_LISTS:
+  disc list bool d;
+  invariant d[0];
+  location:
+    initial;
+end
+
+// PROJECTION_EXPRS_LISTS_NON_ARRAY.
+group PROJECTION_EXPRS_LISTS_NON_ARRAY:
   invariant [true, false][0];
 end
 
