@@ -273,11 +273,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
                 if (ctype instanceof ListType) {
                     addExprViolation(projExpr, "list projection expression", violations);
                 }
-            }
-            if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_NON_ARRAY_LISTS)) {
-                CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
-                if (ctype instanceof ListType && !CifTypeUtils.isArrayType((ListType)ctype)) {
-                    addExprViolation(projExpr, "non-array list projection expression", violations);
+            } else {
+                if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS_LISTS_NON_ARRAY)) {
+                    CifType ctype = CifTypeUtils.normalizeType(projExpr.getChild().getType());
+                    if (ctype instanceof ListType && !CifTypeUtils.isArrayType((ListType)ctype)) {
+                        addExprViolation(projExpr, "non-array list projection expression", violations);
+                    }
                 }
             }
 
@@ -490,7 +491,7 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
         PROJECTION_EXPRS_LISTS,
 
         /** Disallow projection expressions on non-array lists. */
-        PROJECTION_EXPRS_NON_ARRAY_LISTS,
+        PROJECTION_EXPRS_LISTS_NON_ARRAY,
 
         /** Disallow projection expressions on dictionaries. */
         PROJECTION_EXPRS_DICTS,
