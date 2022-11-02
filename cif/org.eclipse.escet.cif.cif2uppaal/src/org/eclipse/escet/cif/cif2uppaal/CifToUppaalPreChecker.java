@@ -26,7 +26,7 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoS
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoUserDefinedCheck;
-import org.eclipse.escet.cif.common.checkers.checks.SpecMustHaveAutCheck;
+import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.common.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
@@ -40,7 +40,7 @@ public class CifToUppaalPreChecker extends CifPreconditionChecker {
     public CifToUppaalPreChecker() {
         super(
                 // Specifications without automata are not supported.
-                new SpecMustHaveAutCheck(),
+                new SpecAutomataCountsCheck().setMinMaxAuts(1, Integer.MAX_VALUE),
 
                 // Initialization predicates outside of locations are not supported.
                 new CompNoInitPredsCheck(),
