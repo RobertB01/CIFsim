@@ -51,7 +51,9 @@ public class CifToUppaalPreChecker extends CifPreconditionChecker {
                 // Discrete variables with multiple initial values are not supported.
                 new VarNoDiscWithMultiInitValuesCheck(),
 
-                // Discrete variables with initial values that cannot be evaluated statically are not supported.
+                // Discrete variables with initial values that cannot be evaluated statically are not supported. The
+                // transformation statically evaluates the initial values, as variables in the initial values are not
+                // supported by UPPAAL.
                 new VarDiscOnlyStaticEvalInitCheck(),
 
                 // Continuous variables are not supported.
@@ -120,7 +122,6 @@ public class CifToUppaalPreChecker extends CifPreconditionChecker {
                         NoSpecificBinaryOp.SUBTRACTION_REALS, //
                         NoSpecificBinaryOp.SUBTRACTION_SETS, //
                         NoSpecificBinaryOp.MULTIPLICATION_REALS, //
-                        NoSpecificBinaryOp.MODULUS_INTS_RANGELESS, //
                         NoSpecificBinaryOp.GREATER_EQUAL_REALS, //
                         NoSpecificBinaryOp.GREATER_THAN_REALS, //
                         NoSpecificBinaryOp.LESS_EQUAL_REALS, //
@@ -135,6 +136,7 @@ public class CifToUppaalPreChecker extends CifPreconditionChecker {
                         NoSpecificUnaryOp.NEGATE_REALS, //
                         NoSpecificUnaryOp.PLUS_REALS, //
                         NoSpecificUnaryOp.SAMPLE)
-                );
+        //
+        );
     }
 }
