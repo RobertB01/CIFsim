@@ -191,7 +191,7 @@ automaton LOC_REFS:
   invariant loc;
 end
 
-// PROJECTION_EXPRS_LISTS._NON_ARRAY
+// PROJECTION_EXPRS_LISTS_NON_ARRAY.
 automaton PROJECTION_EXPRS_LISTS_NON_ARRAY:
   disc list bool d;
   invariant d[0];
