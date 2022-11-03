@@ -1,4 +1,4 @@
-= Plcgen runtime structure
+= PLC code generator runtime structure
 :icons: font
 
 Design document for the PLC code generator, reasoning from runtime back towards the input specification.
@@ -17,9 +17,9 @@ At runtime, the following parts exist:
 * Main program part performing the control operations by executing event transitions.
 This is just the global event execution structure, it describes the order of trying and performing events but not the details of computing such transitions.
 * Main program part handling real time progress by updating data.
-* Code pieces that each computes feasibility of occurrence of a particular event, and if feasible, perform the event by updating state data and/or access input/output variables.
+* Code pieces that each compute enabledness of a particular event, and if enabled, perform the event by updating state data and/or accessing input/output variables.
 * Code pieces for performing input respectively output.
-* Functions for runtime support of CIF primitives and internal CIF functions.
+* Functions for runtime support of CIF primitives and internal user-defined CIF functions.
 
 The 'code pieces' above should be read as 'some code and some local variables that together perform the intended functionality'.
 This is intentionally somewhat vague.
@@ -38,7 +38,7 @@ That should give sufficient freedom for each target to handle its global needs.
 In previous code generators a single variable holding all state exists.
 It's the central data structure and passed around to everything.
 An alternative is to move that data into global variables.
-It avoid having a single big variable with complicated structure, it avoids passing the same data to every code part, and it may simplify variable initialization as symbol tables can carry the initial value of a variable.
+It avoids having a single big variable with complicated structure, it avoids passing the same data to every code part, and it may simplify variable initialization as symbol tables can carry the initial value of a variable.
 
 [WARNING]
 Let's assume single initial state of the CIF specification.
@@ -75,7 +75,7 @@ We may want to eliminate them in a smart way beforehand.
 * Algebraic variables that are never used can be trivially removed.
 * Simple algebraic variables can be inlined.
 * Rarely used algebraic variables can be inlined.
-* Algebraic variables can be replaced by calls to internal functions.
+* Algebraic variables can be replaced by internal user-defined functions.
 
 This needs a definition of 'simple' and 'rarely'.
 
@@ -94,7 +94,7 @@ This simplifies the code at the cost of a more limited form of continuous variab
 
 [WARNING]
 Continuous variables must express being a timer by having a hard-coded derivative of `-1.0`.
-Also they must be always be assigned the same non-negative constant value, be compared with `0` only in edge guards.
+Also they must always be assigned the same non-negative constant value, and be compared with `0` only in edge guards.
 All other uses of continuous variables are not allowed.
 
 [QUESTION]
@@ -114,7 +114,7 @@ In a PLC, such literals can only be used in variable initialization context.
 In all other contexts, such value construction must be performed in assigned storage (that is, in a variable).
 
 As a result, the only literals in a PLC are then the simple numeric and boolean values, along with PLC-specific values such as time and dates.
-The latter likely don't platy a major role as CIF does not have such notions.
+The latter likely don't play a major role as CIF does not have such notions.
 
 [WARNING]
 To honor that limitation, multi-value data creation in expressions should be eliminated or forbidden except in initialization.
@@ -144,7 +144,7 @@ That is, is a transition possible?
 * If the transition is possible, the second step is actually performing the transition and update the state of the program accordingly.
 
 An event is feasible if all participating automata have an active edge (in their current state) that allows the event to happen.
-In detail that means
+In detail that means:
 
 * State/event exclusions must allow the event.
 * Channels must have a sender and a receiver automaton with active edges.
@@ -156,7 +156,7 @@ Implementations may want to store relevant information such as choice of send or
 [WARNING]
 State invariants are not allowed.
 
-Once feasibility is positively established, performing the event then means taking all edges, and perform their assignments.
+Once feasibility is positively established, performing the event then means taking all edges, and performing their updates.
 For channels, one sender automaton and one receiver automaton must perform an edge, where the sent value of the former is needed in performing the edge of the latter.
 All synchronizing automata must also perform an edge.
 All monitoring automata may perform an edge.
