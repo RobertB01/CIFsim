@@ -67,31 +67,47 @@ Note that you can switch to the New & Noteworthy pages of previous releases usin
 ** Check _New and Noteworthy_ (release notes) of the new Eclipse version and relevant intermediate versions for changes and adapt as necessary.
 
 * Java formatter profile
-** Navigate to menu:Window[Preferences].
-** Ensure the Oomph preference recorder is enabled, using the corresponding button at the bottom left of the dialog.
-** In the dialog, navigate to menu:Java[Code Style > Formatter > Eclipse ESCET profile > Edit...].
-** Make a dummy change to the Eclipse ESCET Java formatter profile and close the profile editing dialog by clicking btn:[OK].
-** Close the preferences dialog by clicking btn:[Apply and Close].
-** An Oomph preference recorder dialog will appear that can be dismissed by clicking btn:[Cancel].
-** Repeat the previous steps to revert the dummy change until the Oomph preference recorder dialog appears again.
-** Select the relevant preferences, note their names, and copy the values from the bottom text box to an external text editor.
-** Close the Oomph preference recorder dialog by clicking btn:[Cancel].
-** Open the Oomph setup (`org.eclipse.escet.setup`) and look for the relevant preferences.
-** Right click such a preference and choose menu:Show Properties View[].
-** In the properties view, get the current values of the preferences, and compare them to the new values using your favorite diff tool.
-** Replace the current values of the preferences by the new values.
-** Don't forget to save the updated Oomph setup.
-** In case of formatting profile changes, reformat all Java code using the new formatter profile.
+** Right click the `org.eclipse.escet.common.java` project in the _Package Explorer_ view and choose menu:Properties[].
+** In the properties dialog, select menu:Java Code Style[Formatter].
+** Make sure the _Unmanaged profile_ is selected and click btn:[Edit...].
+** Change the _Profile name_ to `tmp`.
+** Click btn:[OK] to close the profile editing dialog, and then clicking btn:[Apply and Close] to close the properties dialog.
+** Remove the _tmp_ profile:
+*** Remove the `formatter_profile=_tmp` line from the `.settings/org.eclipse.jdt.ui.prefs` file in the project.
+*** Navigate to menu:Window[Preferences].
+*** In the dialog, navigate to menu:Java[Code Style > Formatter].
+*** Select the _tmp_ profile.
+*** Click the btn:[Remove] button and confirm the removal by clicking btn:[Yes].
+*** Close the preference dialog by clicking btn:[Apply and Close].
+*** If an Oomph preference recorder dialog appears, dismiss it by clicking btn:[Cancel].
+** If in the  `org.eclipse.escet.common.java` project, in the `.settings` directory, there are changes to any of the `*.prefs` files:
+*** Run `./copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the new preferences to the central place.
+*** Run `./copy_there.bash` from `misc/java-code-style` to copy the new preferences to all relevant projects.
+*** Refresh all projects, and wait until the rebuild completes.
+*** Commit the preference changes.
+*** Reformat all projects.
+*** Commit any code changes.
+** In case of new formatter preferences, configure them as desired.
+Apply each preference change separately, to allow easier reviewing:
+*** Change a single formatter preference on the `org.eclipse.escet.common.java` project.
+This requires giving the unmanaged profile the name _tmp_ again, as before.
+*** Remove the _tmp_ profile, as before.
+*** Run `./copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the changed formatter preference to the central place.
+*** Run `./copy_there.bash` from `misc/java-code-style` to copy the changed formatter preference to all relevant projects.
+*** Refresh all projects, and wait until the rebuild completes.
+*** Commit the preference changes.
+*** Reformat all projects.
+*** Commit reformatting changes.
 
 * Java errors/warnings settings
-** Right click the `org.eclipse.escet.common.java` project in the Package Explorer view and choose menu:Properties[].
+** Right click the `org.eclipse.escet.common.java` project in the _Package Explorer_ view and choose menu:Properties[].
 ** In the properties dialog, select menu:Java Compiler[Errors/Warnings].
 ** Make a dummy change and apply it by clicking btn:[Apply and Close].
 ** Click btn:[Yes] when asked to _Rebuild the project now to apply the changes of the Error/Warning settings?_.
 ** Revert the dummy change, using again the same steps.
-** In case of changes to `*.prefs` files in the `.settings` directory of that project, configure the new settings as desired.
-** Run `misc/java-code-style/copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the new settings to the central place.
-** Run `misc/java-code-style/copy_there.bash` from `misc/java-code-style` to copy the new settings to all relevant projects.
+** In case of changes to `*.prefs` files in the `.settings` directory of that project, configure the new preferences as desired.
+** Run `./copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the new preferences to the central place.
+** Run `./copy_there.bash` from `misc/java-code-style` to copy the new preferences to all relevant projects.
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 
 * Update Maven version
