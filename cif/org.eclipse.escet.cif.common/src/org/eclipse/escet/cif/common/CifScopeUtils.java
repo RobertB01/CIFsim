@@ -1224,8 +1224,8 @@ public class CifScopeUtils {
      * collect additional references.
      *
      * <p>
-     * Tau expressions, standard library function references, variable 'time' references, and received value
-     * references, are not collected. For wrapped references, the wrappers are collected as well.
+     * Tau expressions, standard library function references, variable 'time' references, and received value references,
+     * are not collected. For wrapped references, the wrappers are collected as well.
      * </p>
      *
      * <p>
