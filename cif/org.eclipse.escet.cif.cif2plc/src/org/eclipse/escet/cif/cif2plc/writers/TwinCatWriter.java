@@ -619,9 +619,9 @@ public class TwinCatWriter extends OutputTypeWriter {
 
     @Override
     protected Box toBox(PlcTypeDecl typeDecl) {
-         // Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT specific,
-         // in that it implements a workaround for a bug in TwinCAT, where structs may in type declarations may not be
-         // terminated with a semicolon.
+        // Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT
+        // specific, in that it implements a workaround for a bug in TwinCAT, where structs in type declarations
+        // may not be terminated with a semicolon.
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", typeDecl.name);
         c.indent();

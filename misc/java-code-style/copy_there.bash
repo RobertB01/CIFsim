@@ -12,6 +12,12 @@
 # SPDX-License-Identifier: MIT
 ################################################################################# 
 
+# This script copies the Java code style related settings stored in this folder to all relevant projects.
+#
+# Usage: ./copy_there.bash
+#
+# See the Eclipse ESCET development documentation for more information.
+
 set -e -u
 
 SCRIPT=`readlink -f $0`

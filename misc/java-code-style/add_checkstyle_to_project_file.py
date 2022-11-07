@@ -12,6 +12,8 @@
 # SPDX-License-Identifier: MIT
 ################################################################################# 
 
+# This Python script is NOT intended to be used directly, but only by the 'copy_there.bash' script.
+
 import sys
 
 # Read input file. Path provided as first command line argument.
