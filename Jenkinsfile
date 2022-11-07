@@ -131,7 +131,7 @@ pipeline {
             environment {
                 DOWNLOADS_PATH = "/home/data/httpd/download.eclipse.org/escet"
                 DOWNLOADS_URL = "genie.escet@projects-storage.eclipse.org:${DOWNLOADS_PATH}"
-                WEBSITE_GIT_URL = "ssh://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git"
+                WEBSITE_GIT_URL = "git@gitlab.eclipse.org:eclipse/escet/escet-website.git"
                 RELEASE_VERSION = "${TAG_NAME}"
             }
             steps {
@@ -163,8 +163,8 @@ pipeline {
                     sh 'scp -r product/org.eclipse.escet.product/target/products/*-win*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
                 }
 
-                // Deploy websites.
-                sshagent(['git.eclipse.org-bot-ssh']) {
+                // Deploy website.
+                sshagent(['gitlab-bot-ssh']) {
                     sh '''
                         mkdir -p deploy/www
                         git clone ${WEBSITE_GIT_URL} deploy/www

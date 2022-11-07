@@ -409,16 +409,7 @@ It may take a few minutes for the Git repository to be synced to the webserver a
 This is to ensure that a bugfix release for an older version doesn't override the standard visible website.
 The following steps explain how to 'promote' a website for a specific version to become the standard visible website:
 
-** Make sure you've uploaded your SSH public key to Eclipse Gerrit.
-This is a one-time only step.
-Go to https://git.eclipse.org/r/.
-Sign in using your Eclipse Foundation committer account.
-Use the gear icon at the top right to access your account settings.
-Under _SSH Keys_ add your SSH public key.
-Also make note of your _username_, _Full name_ and _Email_ address.
-
-** Clone the Eclipes ESCET website Git repository using `git clone ssh://<username>@git.eclipse.org:29418/www.eclipse.org/escet.git`.
-Make sure to replace `<username>` by your Eclipse Foundation committer account _username_.
+** Clone the Eclipse ESCET website Git repository using `git clone https://gitlab.eclipse.org/eclipse/escet/escet-website.git`.
 
 ** In the cloned repository, remove all files/folders in the root of the Git repository pertaining to the current standard visible website.
 Be sure not to remove any of the directories with websites for specific releases.
@@ -432,13 +423,12 @@ E.g. use `git config --local user.name "<full_name>"` and `git config --local us
 
 ** Commit the changes.
 Use as commit message `Set standard visible website to release <version>.`, replacing `<version>` by the release version that will become the new standard visible website.
-Make sure to sign off the commit to pass Eclipse Foundation automatic commit validation.
 E.g. use the following to commit the changes:
-`git commit -s -m "Set standard visible website to release v0.1."`.
+`git commit -m "Set standard visible website to release v0.1."`.
 
 ** Push the changes to the Git server.
 E.g. use `git push`.
-If successful you should see the changes at the Git server's web view, at https://git.eclipse.org/c/www.eclipse.org/escet.git/.
+If successful you should see the changes on GitLab, at https://gitlab.eclipse.org/eclipse/escet/escet-website/-/commits/master.
 
 ** It may take a few minutes for the Git repository to be synced to the webserver, and for the new standard visible website to become available.
 The standard visible website can be accessed at `https://eclipse.org/escet`.
@@ -523,16 +513,7 @@ E.g. for `v0.3` we archive `v0.1` and older, but keep `v0.2`.
 
 * Remove the websites of the identified milestone and release candidate versions:
 
-** Make sure you've uploaded your SSH public key to Eclipse Gerrit.
-This is a one-time only step.
-Go to https://git.eclipse.org/r/.
-Sign in using your Eclipse Foundation committer account.
-Use the gear icon at the top right to access your account settings.
-Under _SSH Keys_ add your SSH public key.
-Also make note of your _username_, _Full name_ and _Email_ address.
-
-** Clone the Eclipes ESCET website Git repository using `git clone ssh://<username>@git.eclipse.org:29418/www.eclipse.org/escet.git`.
-Make sure to replace `<username>` by your Eclipse Foundation committer account _username_.
+** Clone the Eclipse ESCET website Git repository using `git clone https://gitlab.eclipse.org/eclipse/escet/escet-website.git`.
 
 ** In the cloned repository, remove the folders corresponding to the milestone and release candidate versions.
 
@@ -543,13 +524,12 @@ E.g. use `git config --local user.name "<full_name>"` and `git config --local us
 
 ** Commit the changes.
 Use as commit message `Removed milestone and RC websites of release vN.N.`, replacing `vN.N` by the release version, e.g., `v1.0` when removing versions `v1.0-M1` and `v1.0-RC1`.
-Make sure to sign off the commit to pass Eclipse Foundation automatic commit validation.
 E.g. use the following to commit the changes:
-`git commit -s -m "Removed milestone and RC websites of release v1.0."`.
+`git commit -m "Removed milestone and RC websites of release v1.0."`.
 
 ** Push the changes to the Git server.
 E.g. use `git push`.
-If successful you should see the changes at the Git server's web view, at https://git.eclipse.org/c/www.eclipse.org/escet.git/.
+If successful you should see the changes on GitLab, at https://gitlab.eclipse.org/eclipse/escet/escet-website/-/commits/master.
 
 * Remove the downloads of the identified milestone and release candidate versions:
 
