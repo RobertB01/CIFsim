@@ -63,16 +63,10 @@ In the first release, the generator will require a single initial state in the C
 ==== Input/output variables
 
 Input and output hardware connections are linked to variables in the specification.
+Locations may also be used as output values.
 A CSV file listing the CIF name, data type, and hardware address of each connection specifies the variables that are used to exchange data with the controlled system.
 
-In previous generators those variables also lived in the state data, thus creating the need to explicitly copy input and output state data from/to the hardware connections.
-This also leads to having two variables in the program with the same value/purpose, one for storing the value in the program state and one that represents the actual hardware access point.
-
-A better alternative seems to exclude input and output variables from the state if that is feasible.
-Depending on the PLC target, the main control program could access such variables while performing control operations or update for real time progress, or it could insert the above copy of the state variables again and have an explicit input and/or output copy operation as before.
-
-The PLC target decides whether it is safe to directly read from input connections and/or directly write to output connections.
-If it is not safe, the generator should create intermediate input and/or output variables and copy those to the hardware connections at the appropriate time.
+In the first version of the PLC generator those variables live in the state data.
 
 ==== Algebraic variables
 
@@ -166,12 +160,13 @@ Here, possible enhancements are collected and briefly explained to ensure they a
 
 Quite likely these enhancements will not be addressed before a basic version of the generator is available.
 
+=== Improve variable handling
+
+In the first version, variables are not treated in a smart way.
+By improving analysis smarter solutions can be found.
+
 * Making local copies of all state data that may be used in the transition of an event is not always required.
 Reducing the number of copied variables by analyzing read and write patterns in the code will improve the performance of the PLC controller.
-
-* At power-up of a PLC system, the controlled system is in an unknown state.
-CIF has the capability to express multiple initial states and has mechanisms to choose one of them to match the state of the controlled system.
-Enhancing the code generator by implementing these matching mechanisms will reduce the complexity and increase the flexibility while starting the PLC controller program.
 
 * Computing the value of an algebraic variable using a function call can be expensive.
 There is a lot of potential in reducing the costs.
@@ -184,4 +179,37 @@ It may be useful to consider how to relax the limitations associated with its us
 * Not allowing CIF expressions that construct arrays or tuples outside initialization is a severe limitation.
 Extending the support of some forms of multi-value literals may be useful.
 
-* Improve performance of the PLC controller by more careful analysis of how event transitions influence each other, in order to reduce the number of considered events in an iteration of the loop or by reducing the number of iterations (which is already known to be finite due to the finite response property of the input specification).
+=== Improve IO variable handling
+
+Having dedicated variables in the state for representing read input and about to be written output are not always needed.
+Depending on the program and the PLC target, it may be possible to directly read from the PLC input address and/or directly write to the PLC output address.
+This reduces the number of variables as well as improve code readability and performance.
+
+One path to eliminating the variables here may be to analyze the read and write patterns in the program code with respect to these variables, much like the analysis of local copies of state data in event transition code.
+
+=== Improve initial state processing at power-up
+
+In general, at power-up of a PLC system the controlled system is in an unknown state.
+CIF has the capability to deal with this by expressing multiple initial states.
+It also has mechanisms to choose one of them to match the state of the controlled system.
+Enhancing the code generator by implementing these matching mechanisms in the PLC will reduce the complexity and increase the flexibility while starting the PLC controller program.
+
+=== Improve global event processing
+
+Improve performance of the PLC controller by careful analysis of how event transitions influence each other.
+This has impact on the global event loop (named '`first part`' above).
+
+* Research found that introducing small sub-loops at strategic spots inside the global event loop can improve performance.
+
+* If the maximum upper bound to the number of iterations by the global event loop can be established, the outer `while` statement of the loop can be more tightly specified or be replaced by better code.
++
+The upper bound can perhaps be computed for the specific state of the program at the moment of entry, thus further improving performance with a dynamically changing upper bound.
+
+=== Add support for handling common PLC sub-systems.
+
+Modern PLC systems may have safety features or may have connections to SCADA systems.
+The PLC generator can be extended to support such systems, reducing the effort to implement the PLC program.
+
+Adding these features requires additional information about the elements in the CIF specification beyond what the CIF language currently supports.
+With a new mechanism in CIF such information can be attached to the elements directly, which makes it attractive for users.
+At the time of writing, the ability to add annotations to CIF elements is considered for this purpose.
