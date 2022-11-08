@@ -77,7 +77,7 @@ If it is not safe, the generator should create intermediate input and/or output 
 ==== Algebraic variables
 
 Algebraic variables generally make life complicated in PLC code generation.
-To avoid much of the complexities in the first version, every algebraic variable is replaced by a user-define internal function.
+To avoid much of the complexities in the first version, every algebraic variable is replaced by a internal user-defined function.
 
 ==== Continuous variables
 
@@ -89,11 +89,10 @@ This simplifies the code at the cost of a more limited form of continuous variab
 
 Continuous variables must express being a timer by having a hard-coded derivative of `-1.0`.
 Also they must always be assigned the same non-negative constant value to restart the timer, and be compared with `0` only in edge guards.
-All other forms of continuous variables are not allowed.
-Reading them is also not allowed.
+All other forms and uses of continuous variables are not allowed.
 
 Somewhat related to continuous variables is the CIF expression `time`.
-Having an ever-increasing value does not seem like a good idea, therefore CIF `time` is not allowed.
+Having an ever-increasing value does not seem like a good idea, therefore the CIF `time` variable is not allowed.
 
 ==== Multi-value data
 
@@ -119,7 +118,7 @@ Computing a transition of a single event in the second part consists of two step
 
 * First step is to decide whether the event is enabled.
 That is, is a transition possible?
-* If the event is enabled, the second step is actually performing the transition and update the state of the program accordingly.
+* If the event is enabled, the second step is actually performing the transition and updating the state of the program accordingly.
 
 An event is enabled if all participating automata have an active edge (in their current state) that allows the event to happen.
 In detail that means:
@@ -133,7 +132,7 @@ If these conditions hold, the event can be performed, it is an enabled event.
 Implementations may want to store relevant information such as choice of send or receive automata, selected edges, etc to speed up the second step.
 
 Given that an event is enabled, performing the event then means taking an edge in all participating automata.
-In particular, perform their updates.
+In particular, performing their updates.
 For channels, one sender automaton and one receiver automaton must perform an edge, where the sent value of the former is needed in performing the edge of the latter.
 All synchronizing automata must also perform an edge.
 All monitoring automata may perform an edge.
@@ -155,7 +154,7 @@ Values in that tree are elementary literals, possibly projected variables, or fu
 == From CIF specification to runtime structure
 
 The CIF specification structure is used to organize the variables and events in the PLC code.
-For each group in the specification with variables that are needed in the PLC program, a symbol table is created.
+For each component in the specification with variables that are needed in the PLC program, a symbol table is created.
 
 Every event gets two code pieces, one for deciding whether it is enabled and one for performing a transition of an enabled event.
 The initial order of event transition functions is decided by a top-down depth-first walk in the CIF specification tree.
