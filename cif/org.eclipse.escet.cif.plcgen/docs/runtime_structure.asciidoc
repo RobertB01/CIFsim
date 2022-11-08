@@ -205,7 +205,7 @@ This has impact on the global event loop (named '`first part`' above).
 +
 The upper bound can perhaps be computed for the specific state of the program at the moment of entry, thus further improving performance with a dynamically changing upper bound.
 
-=== Add support for handling common PLC sub-systems.
+=== Add support for handling common PLC sub-systems
 
 Modern PLC systems may have safety features or may have connections to SCADA systems.
 The PLC generator can be extended to support such systems, reducing the effort to implement the PLC program.
