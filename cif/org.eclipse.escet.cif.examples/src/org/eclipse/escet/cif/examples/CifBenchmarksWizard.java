@@ -13,10 +13,6 @@
 
 package org.eclipse.escet.cif.examples;
 
-import static org.eclipse.escet.common.java.Maps.map;
-
-import java.util.Map;
-
 import org.eclipse.escet.common.eclipse.ui.CopyFilesNewProjectWizard;
 import org.osgi.framework.FrameworkUtil;
 
@@ -29,13 +25,7 @@ public class CifBenchmarksWizard extends CopyFilesNewProjectWizard {
     }
 
     @Override
-    protected Map<String, String> getPathsToCopy() {
-        Map<String, String> entries = map();
-        entries.put("benchmarks/.settings", ".settings");
-        entries.put("benchmarks/bridge", "bridge");
-        entries.put("benchmarks/festo", "festo");
-        entries.put("benchmarks/sudoku", "sudoku");
-        entries.put("benchmarks/waterway_lock", "waterway_lock");
-        return entries;
+    protected String getSourceFolderPath() {
+        return "benchmarks";
     }
 }

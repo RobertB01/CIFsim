@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.common.eclipse.ui;
 
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.BufferedInputStream;
@@ -26,8 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.IProject;
@@ -70,12 +70,26 @@ public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWi
     protected abstract String getInitialProjectName();
 
     /**
-     * Returns a mapping of plug-in relative paths to copy and the project relative path to which to copy them. Use '/'
-     * as path separators. E.g. 'examples/example1' mapping to 'example1'.
+     * Returns a project-relative path to the source folder that contains the files and folders to copy. Use '/' as path
+     * separators. E.g. 'some/folder' for a folder named 'folder' in a folder named 'some' in an existing project.
      *
-     * @return The mapping.
+     * @return The project-relative path to the source folder.
      */
-    protected abstract Map<String, String> getPathsToCopy();
+    protected abstract String getSourceFolderPath();
+
+    /**
+     * Returns a project-relative path to the target folder that is to contain the files and folders to copy. Use '/' as
+     * path separators. E.g. 'some/folder' for a folder named 'folder' in a folder named 'some' in the new project.
+     *
+     * <p>
+     * By default returns {@code "."} to copy the files and folders to the root of the new project.
+     * </p>
+     *
+     * @return The project-relative path to the target folder.
+     */
+    protected String getTargetFolderPath() {
+        return ".";
+    }
 
     /**
      * Returns the configuration element for this wizard, from the plug-in extension.
@@ -292,52 +306,57 @@ public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWi
      * @throws IOException In case of an I/O error.
      */
     protected void copyFiles(Path projectPath, IProgressMonitor monitor) throws IOException {
+        // Get source and target folder paths.
+        String sourceFolderPath = getSourceFolderPath();
+        String targetFolderPath = getTargetFolderPath();
+        Assert.check(!sourceFolderPath.startsWith("/"));
+        Assert.check(!targetFolderPath.startsWith("/"));
+        Assert.check(!sourceFolderPath.contains("\\"));
+        Assert.check(!targetFolderPath.contains("\\"));
+
+        // Find files and directories within the source folder.
         Bundle bundle = FrameworkUtil.getBundle(getClass());
-        String projectPathSeparator = projectPath.getFileSystem().getSeparator();
+        Enumeration<URL> urlsToCopy = bundle.findEntries(sourceFolderPath, "*", true);
 
-        Map<String, String> entriesToCopy = getPathsToCopy();
-        SubMonitor subMonitor = SubMonitor.convert(monitor, entriesToCopy.entrySet().size());
-        for (Entry<String, String> entryToCopy: entriesToCopy.entrySet()) {
+        // Get files to copy.
+        List<URL> fileUrlsToCopy = list();
+        while (urlsToCopy.hasMoreElements()) {
+            URL urlToCopy = urlsToCopy.nextElement();
+            if (urlToCopy.getPath().endsWith("/")) { // Skip directories.
+                continue;
+            }
+            fileUrlsToCopy.add(urlToCopy);
+        }
+
+        // Copy each file.
+        SubMonitor subMonitor = SubMonitor.convert(monitor, fileUrlsToCopy.size());
+        for (URL fileUrlToCopy: fileUrlsToCopy) {
             subMonitor.split(1);
-            String rootPathToCopy = entryToCopy.getKey();
-            String targetRootPath = entryToCopy.getValue();
-            Assert.check(!rootPathToCopy.startsWith("/"));
-            Assert.check(!targetRootPath.startsWith("/"));
-            Assert.check(!rootPathToCopy.contains("\\"));
-            Assert.check(!targetRootPath.contains("\\"));
-            String localTargetRootPath = targetRootPath.replace("/", projectPathSeparator);
 
-            Enumeration<URL> urlsToCopy = bundle.findEntries(rootPathToCopy, "*", true);
-            while (urlsToCopy.hasMoreElements()) {
-                // Skip directories.
-                URL urlToCopy = urlsToCopy.nextElement();
-                if (urlToCopy.getPath().endsWith("/")) {
-                    continue;
-                }
+            // Get local file system relative path.
+            String pathToCopy = fileUrlToCopy.getPath();
+            Assert.check(pathToCopy.startsWith("/" + sourceFolderPath + "/"));
+            String relPath = pathToCopy.substring(1 + sourceFolderPath.length());
+            while (relPath.startsWith("/")) {
+                relPath = relPath.substring(1);
+            }
+            String projectPathSeparator = projectPath.getFileSystem().getSeparator();
+            String localRelPath = relPath.replace("/", projectPathSeparator);
 
-                // Get local file system relative path.
-                String pathToCopy = urlToCopy.getPath();
-                Assert.check(pathToCopy.startsWith("/" + rootPathToCopy));
-                String relPath = pathToCopy.substring(1 + rootPathToCopy.length());
-                while (relPath.startsWith("/")) {
-                    relPath = relPath.substring(1);
-                }
-                String localRelPath = relPath.replace("/", projectPathSeparator);
+            // Determine target path.
+            String localTargetFolderPath = targetFolderPath.replace("/", projectPathSeparator);
+            Path targetPath = projectPath.resolve(localTargetFolderPath).resolve(localRelPath);
+            targetPath = targetPath.normalize();
 
-                // Determine target path.
+            // Create ancestry directories on disk.
+            Path parentPath = targetPath.getParent();
+            Files.createDirectories(parentPath);
 
-                Path targetPath = projectPath.resolve(localTargetRootPath).resolve(localRelPath);
-
-                // Create ancestry directories on disk.
-                Path parentPath = targetPath.getParent();
-                Files.createDirectories(parentPath);
-
-                // Copy file.
-                try (InputStream istream = new BufferedInputStream(urlToCopy.openStream());
-                     OutputStream ostream = new BufferedOutputStream(new FileOutputStream(targetPath.toFile())))
-                {
-                    IOUtils.copy(istream, ostream);
-                }
+            // Copy file.
+            try (InputStream istream = new BufferedInputStream(fileUrlToCopy.openStream());
+                 OutputStream ostream = new BufferedOutputStream(new FileOutputStream(targetPath.toFile())))
+            {
+                IOUtils.copy(istream, ostream);
             }
         }
     }
