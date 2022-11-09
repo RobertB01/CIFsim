@@ -1,0 +1,56 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant def Fork(controllable take_left, take_right, release_left, release_right):
+  location available:
+    initial;
+    marked;
+    edge take_left goto taken;
+    edge take_right goto taken;
+
+  location taken:
+    edge release_left goto available;
+    edge release_right goto available;
+end
+
+plant def Philosopher():
+  controllable take_left, take_right;
+  controllable release_both;
+
+  location neither:
+    initial;
+    marked;
+    edge take_left goto left;
+    edge take_right goto right;
+
+  location left:
+    edge take_right goto both;
+
+  location right:
+    edge take_left goto both;
+
+  location both:
+    edge release_both goto neither;
+end
+
+f1: Fork(p1.take_left, p5.take_right, p1.release_both, p5.release_both);
+f2: Fork(p2.take_left, p1.take_right, p2.release_both, p1.release_both);
+f3: Fork(p3.take_left, p2.take_right, p3.release_both, p2.release_both);
+f4: Fork(p4.take_left, p3.take_right, p4.release_both, p3.release_both);
+f5: Fork(p5.take_left, p4.take_right, p5.release_both, p4.release_both);
+
+p1: Philosopher();
+p2: Philosopher();
+p3: Philosopher();
+p4: Philosopher();
+p5: Philosopher();
