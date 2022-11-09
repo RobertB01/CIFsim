@@ -1,0 +1,161 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Base functionality for benchmarking. Used by the other benchmarking scripts in this directory.
+
+from "lib:cif" import *;
+from "benchmark__settings.tooldef" import *;
+import java.lang.System.currentTimeMillis;
+import org.eclipse.escet.common.java:org.eclipse.escet.common.java.DateTimeUtils.durationToString;
+
+// Formats a number to a fixed length.
+tool string fmt_nr(int nr, int max_nr):
+    int len = size(str(max_nr));
+    return fmt("%0" + str(len) + "d", nr);
+end
+
+// Executes a benchmark for a given model in a given folder.
+tool benchmark(string folder, string model_file_name):
+    // Logging.
+    outln("Benchmarking %s/%s:", folder, model_file_name);
+
+    // Get settings to use for each of the executions of data-based synthesis.
+    list string executions_settings = get_benchmark_executions_settings();
+
+    // Ensure we have something to execute.
+    int executions_count = size(executions_settings);
+    if executions_count == 0:
+        outln("  Nothing to do...");
+        return;
+    end
+
+    // Create output folder, if it does not yet exist.
+    string output_folder = "_generated";
+    mkdir(output_folder, force=true);
+
+    // Benchmark multiple data-based synthesis executions, with different settings.
+    list long times_millis = [];
+
+    // Execute data-based synthesis.
+    for i, execution_settings in enumerate(executions_settings):
+        // Logging.
+        int nr = i + 1;
+        string settings_txt = execution_settings;
+        if empty(trim(settings_txt)):: settings_txt = "(default settings)";
+        string formatted_nr = fmt_nr(nr, executions_count);
+        outln("  %s/%d: %s", formatted_nr, executions_count, settings_txt);
+
+        // Determine file names.
+        string settings_file = fmt("%s/%s.%s.settings",    output_folder, folder, formatted_nr);
+        string output_file   = fmt("%s/%s.%s.ctrlsys.cif", output_folder, folder, formatted_nr);
+        string stdout_file   = fmt("%s/%s.%s.out",         output_folder, folder, formatted_nr);
+        string stderr_file   = fmt("%s/%s.%s.err",         output_folder, folder, formatted_nr);
+
+        // Write used settings to a file.
+        writefile(settings_file, execution_settings);
+
+        // Perform synthesis, measuring the performance.
+        times_millis = times_millis + [currentTimeMillis()];
+        cifdatasynth(fmt("%s/%s", folder, model_file_name), "-m debug", "-o " + output_file,
+                     "--stats=bdd-perf-max-nodes,bdd-perf-cache -t nodes", execution_settings,
+                     stdout=stdout_file, stderr=stderr_file, ignoreNonZeroExitCode=true);
+        times_millis = times_millis + [currentTimeMillis()];
+
+        // Print errors from synthesis.
+        if isfile(stderr_file):
+            for line in readlines(stderr_file):
+                errln(line);
+            end
+        end
+    end
+
+    // Get metrics as CSV lines.
+    list string metrics_csv_lines = [];
+    metrics_csv_lines = metrics_csv_lines + ["nr, total, nodes, ops, settings"];
+    for i, execution_settings in enumerate(executions_settings):
+        // Read stdout lines.
+        int nr = i + 1;
+        string formatted_nr = fmt_nr(nr, executions_count);
+        string stdout_file = fmt("%s/%s.%s.out", output_folder, folder, formatted_nr);
+        list string lines = [];
+        if isfile(stdout_file):: lines = readlines(stdout_file);
+
+        // Extract performance metrics from stdout lines.
+        int? nodes = null;
+        int? ops = null;
+        for line in lines:
+            if startswith(line, "Maximum used BDD nodes: ") and endswith(line, "."):
+                int x = <int>(trim(line[size("Maximum used BDD nodes: "):-size(".")]));
+                if nodes == null: nodes = x; else nodes = max(<int>nodes, x); end
+            end
+            if startswith(line, "  Operation cache misses: "):
+                int x = <int>(trim(line[size("  Operation cache misses: "):]));
+                if ops == null: ops = x; else ops = max(<int>ops, x); end
+            end
+        end
+
+        // Convert performance metrics to text.
+        string nodes_txt = "?";
+        string ops_txt = "?";
+        if nodes != null:: nodes_txt = str(nodes);
+        if ops != null:: ops_txt = str(ops);
+
+        // Add CSV line.
+        metrics_csv_lines = metrics_csv_lines + [fmt("%s, %d, %s, %s, \"%s\"", formatted_nr, executions_count,
+                                                     nodes_txt, ops_txt, execution_settings)];
+    end
+
+    // Write metrics CSV file.
+    writefile(fmt("%s/%s.metrics.csv", output_folder, folder), metrics_csv_lines);
+
+    // Print metrics CSV to stdout.
+    outln();
+    for metrics_csv_line in metrics_csv_lines:
+        outln("  " + metrics_csv_line);
+    end
+
+    // Get times as CSV lines.
+    list string times_csv_lines = [];
+    times_csv_lines = times_csv_lines + ["nr, total, start_millis, end_millis, durationMillis, durationTxt, settings"];
+    for i, execution_settings in enumerate(executions_settings):
+        int nr = i + 1;
+        string formatted_nr = fmt_nr(nr, executions_count);
+
+        // Calculate duration.
+        long start_millis = times_millis[i * 2];
+        long end_millis = times_millis[(i * 2) + 1];
+        long durationMillis = end_millis - start_millis;
+
+        // Convert duration to text.
+        string durationTxt = <string>durationToString(durationMillis, true);
+
+        // Add CSV line.
+        times_csv_lines = times_csv_lines + [fmt("%s, %d, %d, %d, %d, \"%s\", \"%s\"", formatted_nr, executions_count,
+                                                 start_millis, end_millis, durationMillis, durationTxt,
+                                                 execution_settings)];
+    end
+
+    // Write times CSV file.
+    writefile(output_folder + "/" + folder + ".times.csv", times_csv_lines);
+
+    // Print times CSV to stdout.
+    outln();
+    for times_csv_line in times_csv_lines:
+        outln("  " + times_csv_line);
+    end
+
+    // Print total duration.
+    long totalDuration = times_millis[-1] - times_millis[0];
+    outln();
+    outln("  Total duration: " + <string>durationToString(totalDuration, true));
+end

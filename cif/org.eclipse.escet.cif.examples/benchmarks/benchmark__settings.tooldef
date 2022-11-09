@@ -1,0 +1,108 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Configurable settings to use for benchmarking, used by 'benchmark__base.tooldef'.
+
+// Returns the settings to use for each of the executions of data-based synthesis, as part of a single benchmark.
+tool list string get_benchmark_executions_settings():
+    // Specify the settings to vary during the benchmark. The data-based synthesis execution performance for each of
+    // these different settings is compared against each other ones, by executing data-based synthesis for each entry
+    // of the list.
+    //
+    // By default, a baseline benchmark is performed, executing data-based synthesis once with default settings.
+    list string varying_settings = [
+        ""
+    ];
+
+    // [EXAMPLE]
+    //
+    // To instead compare different variable ordering algorithms, use the following:
+    //
+    // list string varying_settings = [
+    //     "                --force-order=on --sliding-window-order=on",
+    //     "--dcsh-order=on --force-order=on --sliding-window-order=on",
+    // ];
+
+    // ----------
+
+    // Specify the settings to reset. These ensure that the settings that are varied are not affected by defaults of
+    // the data-based synthesis tool.
+    //
+    // By default, no settings are reset, as a baseline benchmark is performed, executing data-based synthesis once
+    // with default settings.
+    string disable_settings_to_vary = "";
+
+    // [EXAMPLE]
+    //
+    // To instead compare different variable ordering algorithms, configure the reset to disable all variable ordering
+    // algorithms first, using the following:
+    //
+    // string disable_settings_to_vary = "--dcsh-order=off --force-order=off --sliding-window-order=off";
+
+    // ----------
+
+    // Specify the extra settings. For each execution of the varying settings, data-based synthesis is executed once
+    // per entry of this list. Thus:
+    // - If this list has a single entry that is an empty string, the extra settings have no effect.
+    // - If a single entry with some settings is given, then data-based synthesis is still executed once per varying
+    //   settings, but the extra settings are applied for each of these executions.
+    // - If multiple entries are given, data-based synthesis is executed for each combination of varying and extra
+    //   settings.
+    //
+    // By default, extra settings are given that have no effect.
+    list string extra_settings = [
+        ""
+    ];
+
+    // [EXAMPLE]
+    //
+    // To instead compare different variable ordering algorithms for different initial variable orderings, use the
+    // following:
+    //
+    // list string extra_settings = [
+    //     "-r model",
+    //     "-r reverse-model",
+    //     "-r sorted",
+    //     "-r reverse-sorted",
+    //     "-r random:1",
+    //     "-r random:2",
+    //     "-r random:3",
+    // ];
+
+    // ----------
+
+    // Combine the various settings to determine the actual settings for each data-based synthesis execution.
+    list string executions_settings = [];
+    for varying_setting in varying_settings:
+        for extra_setting in extra_settings:
+            // Combine the parts, adding spaces in between only if needed.
+            string execution_settings = disable_settings_to_vary;
+
+            if not empty(disable_settings_to_vary) and not empty(varying_setting):
+                execution_settings = execution_settings + " ";
+            end
+
+            execution_settings = execution_settings + varying_setting;
+
+            if not empty(varying_setting) and not empty(extra_setting):
+                execution_settings = execution_settings + " ";
+            end
+
+            execution_settings = execution_settings + extra_setting;
+
+            // Add combined settings.
+            executions_settings = executions_settings + [execution_settings];
+        end
+    end
+    return executions_settings;
+end
