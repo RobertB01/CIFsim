@@ -1,5 +1,6 @@
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "ALG_VAR_REFS": uses algebraic variable reference "ALG_VAR_REFS.a".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses component reference "X".
  - Unsupported "COMP_PARAM_REFS": uses algebraic variable reference "COMP_PARAM_REFS.p".
  - Unsupported "COMP_REFS_EXPLICIT": uses component reference "COMP_REFS_EXPLICIT".
  - Unsupported "COMP_REFS_SELF": uses component reference "self".
@@ -31,3 +32,4 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "TUPLE_FIELD_REFS_NAMED": uses tuple projection expression "TUPLE_FIELD_REFS_NAMED.c[a]".
  - Unsupported "TUPLE_FIELD_REFS_NAMELESS": uses tuple projection expression "(true, false)[0]".
  - Unsupported "TUPLE_LITS": uses tuple projection expression "(true, false)[0]".
+ - Unsupported "X.A": uses component reference "self".

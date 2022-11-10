@@ -3,16 +3,39 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "BINARY_EXPRS": uses binary expression "1 = 1".
  - Unsupported "BINARY_EXPRS": uses integer number literal "1".
  - Unsupported "BOOL_LITS": uses boolean literal "true".
- - Unsupported "CAST_EXPRS_BROADER_TYPE": uses binary expression "<real>1 = 1.0".
- - Unsupported "CAST_EXPRS_BROADER_TYPE": uses cast expression "<real>1".
- - Unsupported "CAST_EXPRS_BROADER_TYPE": uses integer number literal "1".
- - Unsupported "CAST_EXPRS_BROADER_TYPE": uses real number literal "1.0".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses binary expression ""X" = <string>X".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses cast expression "<string>X".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses component reference "X".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses string literal ""X"".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING": uses binary expression ""true" = <string>true".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING": uses boolean literal "true".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING": uses cast expression "<string>true".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING": uses string literal ""true"".
  - Unsupported "CAST_EXPRS_EQUAL_TYPE": uses boolean literal "true".
  - Unsupported "CAST_EXPRS_EQUAL_TYPE": uses cast expression "<bool>true".
- - Unsupported "CAST_EXPRS_TO_STR": uses binary expression ""1" = <string>1".
- - Unsupported "CAST_EXPRS_TO_STR": uses cast expression "<string>1".
- - Unsupported "CAST_EXPRS_TO_STR": uses integer number literal "1".
- - Unsupported "CAST_EXPRS_TO_STR": uses string literal ""1"".
+ - Unsupported "CAST_EXPRS_INT_TO_REAL": uses binary expression "<real>1 = 1.0".
+ - Unsupported "CAST_EXPRS_INT_TO_REAL": uses cast expression "<real>1".
+ - Unsupported "CAST_EXPRS_INT_TO_REAL": uses integer number literal "1".
+ - Unsupported "CAST_EXPRS_INT_TO_REAL": uses real number literal "1.0".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING": uses binary expression ""1" = <string>1".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING": uses cast expression "<string>1".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING": uses integer number literal "1".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING": uses string literal ""1"".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING": uses binary expression ""1.1" = <string>1.1".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING": uses cast expression "<string>1.1".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING": uses real number literal "1.1".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING": uses string literal ""1.1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN": uses cast expression "<bool>"false"".
+ - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN": uses string literal ""false"".
+ - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN": uses unary expression "not <bool>"false"".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT": uses binary expression "1 = <int>"1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT": uses cast expression "<int>"1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT": uses integer number literal "1".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT": uses string literal ""1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL": uses binary expression "1.0 = <real>"1.0"".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL": uses cast expression "<real>"1.0"".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL": uses real number literal "1.0".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL": uses string literal ""1.0"".
  - Unsupported "COMP_REFS_EXPLICIT": uses boolean literal "true".
  - Unsupported "COMP_REFS_EXPLICIT": uses component reference "COMP_REFS_EXPLICIT".
  - Unsupported "COMP_REFS_EXPLICIT": uses switch expression "switch COMP_REFS_EXPLICIT: else true end".
@@ -138,4 +161,9 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "TUPLE_LITS": uses tuple literal "(true, false)".
  - Unsupported "UNARY_EXPRS": uses boolean literal "true".
  - Unsupported "UNARY_EXPRS": uses unary expression "not true".
+ - Unsupported "X.A": uses binary expression ""X" = <string>self".
+ - Unsupported "X.A": uses boolean literal "true".
+ - Unsupported "X.A": uses cast expression "<string>self".
+ - Unsupported "X.A": uses component reference "self".
+ - Unsupported "X.A": uses string literal ""X"".
  - Unsupported specification: uses boolean literal "true".
