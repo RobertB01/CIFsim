@@ -80,12 +80,12 @@ end
 automaton X:
   location A:
     initial;
-    invariant "X" = <string>self;
+    invariant "A" = <string>self;
 end
 
 // CAST_EXPRS_AUTOMATON_TO_STRING.
 group CAST_EXPRS_AUTOMATON_TO_STRING:
-  invariant "X" = <string>X;
+  invariant "A" = <string>X;
 end
 
 // CAST_EXPRS_STRING_TO_INT.

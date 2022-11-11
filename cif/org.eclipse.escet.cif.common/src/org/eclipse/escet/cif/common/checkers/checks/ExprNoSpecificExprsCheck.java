@@ -185,12 +185,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
                     }
                 } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_AUTOMATON_TO_STRING)) {
                     if (!(castExpr.getChild() instanceof SelfExpression) && isAutRefExpr(castExpr.getChild())) {
-                        addExprViolation(castExpr, "cast expression from automaton reference to string", violations);
+                        addExprViolation(castExpr, "cast expression from explicit automaton reference to string", violations);
                         return;
                     }
                 } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_SELF_TO_STRING)) {
                     if (castExpr.getChild() instanceof SelfExpression) {
-                        addExprViolation(castExpr, "cast expression from self reference to string", violations);
+                        addExprViolation(castExpr, "cast expression from automaton self reference to string", violations);
                         return;
                     }
                 }
@@ -521,10 +521,10 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
         /** Disallow cast expressions that cast from boolean to string. */
         CAST_EXPRS_BOOLEAN_TO_STRING,
 
-        /** Disallow cast expressions that cast from automaton reference (excluding 'self') to string. */
+        /** Disallow cast expressions that cast from explicit automaton reference (thus excluding 'self') to string. */
         CAST_EXPRS_AUTOMATON_TO_STRING,
 
-        /** Disallow cast expressions that cast from 'self' reference to string. */
+        /** Disallow cast expressions that cast from automaton 'self' reference to string. */
         CAST_EXPRS_SELF_TO_STRING,
 
         /** Disallow cast expressions that cast from a string. */
