@@ -3,10 +3,10 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "BINARY_EXPRS": uses binary expression "1 = 1".
  - Unsupported "BINARY_EXPRS": uses integer number literal "1".
  - Unsupported "BOOL_LITS": uses boolean literal "true".
- - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses binary expression ""X" = <string>X".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses binary expression ""A" = <string>X".
  - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses cast expression "<string>X".
  - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses component reference "X".
- - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses string literal ""X"".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses string literal ""A"".
  - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING": uses binary expression ""true" = <string>true".
  - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING": uses boolean literal "true".
  - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING": uses cast expression "<string>true".
@@ -161,9 +161,9 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "TUPLE_LITS": uses tuple literal "(true, false)".
  - Unsupported "UNARY_EXPRS": uses boolean literal "true".
  - Unsupported "UNARY_EXPRS": uses unary expression "not true".
- - Unsupported "X.A": uses binary expression ""X" = <string>self".
+ - Unsupported "X.A": uses binary expression ""A" = <string>self".
  - Unsupported "X.A": uses boolean literal "true".
  - Unsupported "X.A": uses cast expression "<string>self".
  - Unsupported "X.A": uses component reference "self".
- - Unsupported "X.A": uses string literal ""X"".
+ - Unsupported "X.A": uses string literal ""A"".
  - Unsupported specification: uses boolean literal "true".
