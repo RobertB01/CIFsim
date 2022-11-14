@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
+import static org.eclipse.escet.cif.common.CifTypeUtils.isAutRefExpr;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -60,10 +61,12 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
+import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.DictType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
+import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 
@@ -139,16 +142,92 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessCastExpression(CastExpression castExpr, CifCheckViolations violations) {
+        // Existence of the cast is not allowed.
         if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS)) {
             addExprViolation(castExpr, "cast expression", violations);
-        } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE)) {
-            CifType ctype = castExpr.getChild().getType();
-            CifType rtype = castExpr.getType();
-            if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
-                // Ignore casting to the child type.
-                return;
+            return;
+        }
+
+        // Check for not having the "T -> T" cast case.
+        CifType childType = castExpr.getChild().getType();
+        CifType resultType = castExpr.getType();
+        if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE)) {
+            if (!CifTypeUtils.checkTypeCompat(childType, resultType, RangeCompat.EQUAL)) {
+                addExprViolation(castExpr, "type-changing cast expression", violations);
             }
-            addExprViolation(castExpr, "type-changing cast expression", violations);
+            return; // T -> T case is allowed below, or user does not need more precise cast information.
+        }
+
+        // Normalize types to avoid doing that below at several points.
+        childType = CifTypeUtils.normalizeType(childType);
+        resultType = CifTypeUtils.normalizeType(resultType);
+
+        // Handle the "X -> string" cast checks.
+        if (resultType instanceof StringType) {
+            if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_TO_STRING)) {
+                addExprViolation(castExpr, "cast expression to string", violations);
+                return;
+            } else {
+                if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_INT_TO_STRING)) {
+                    if (childType instanceof IntType) {
+                        addExprViolation(castExpr, "cast expression from integer to string", violations);
+                        return;
+                    }
+                } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_REAL_TO_STRING)) {
+                    if (childType instanceof RealType) {
+                        addExprViolation(castExpr, "cast expression from real to string", violations);
+                        return;
+                    }
+                } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_BOOLEAN_TO_STRING)) {
+                    if (childType instanceof BoolType) {
+                        addExprViolation(castExpr, "cast expression from boolean to string", violations);
+                        return;
+                    }
+                } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_AUTOMATON_TO_STRING)) {
+                    if (!(castExpr.getChild() instanceof SelfExpression) && isAutRefExpr(castExpr.getChild())) {
+                        addExprViolation(castExpr, "cast expression from explicit automaton reference to string", violations);
+                        return;
+                    }
+                } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_SELF_TO_STRING)) {
+                    if (castExpr.getChild() instanceof SelfExpression) {
+                        addExprViolation(castExpr, "cast expression from automaton self reference to string", violations);
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Handle the "string -> X" cast checks.
+        if (childType instanceof StringType) {
+            if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_FROM_STRING)) {
+                addExprViolation(castExpr, "cast expression from string", violations);
+                return;
+            } else {
+                if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_STRING_TO_INT)) {
+                    if (resultType instanceof IntType) {
+                        addExprViolation(castExpr, "cast expression from string to integer", violations);
+                        return;
+                    }
+                } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_STRING_TO_REAL)) {
+                    if (resultType instanceof RealType) {
+                        addExprViolation(castExpr, "cast expression from string to real", violations);
+                        return;
+                    }
+                } else if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_STRING_TO_BOOLEAN)) {
+                    if (resultType instanceof BoolType) {
+                        addExprViolation(castExpr, "cast expression from string to boolean", violations);
+                        return;
+                    }
+                }
+            }
+        } else if (childType instanceof IntType) {
+            // Finally, deal with the "int -> real" cast.
+            if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS_INT_TO_REAL)) {
+                if (resultType instanceof RealType) {
+                    addExprViolation(castExpr, "cast expression from integer to real", violations);
+                    return;
+                }
+            }
         }
     }
 
@@ -429,6 +508,39 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
         /** Disallow cast expressions that cast to a different type. */
         CAST_EXPRS_NON_EQUAL_TYPE,
+
+        /** Disallow cast expressions that cast to string. */
+        CAST_EXPRS_TO_STRING,
+
+        /** Disallow cast expressions that cast from integer to string. */
+        CAST_EXPRS_INT_TO_STRING,
+
+        /** Disallow cast expressions that cast from real to string. */
+        CAST_EXPRS_REAL_TO_STRING,
+
+        /** Disallow cast expressions that cast from boolean to string. */
+        CAST_EXPRS_BOOLEAN_TO_STRING,
+
+        /** Disallow cast expressions that cast from explicit automaton reference (thus excluding 'self') to string. */
+        CAST_EXPRS_AUTOMATON_TO_STRING,
+
+        /** Disallow cast expressions that cast from automaton 'self' reference to string. */
+        CAST_EXPRS_SELF_TO_STRING,
+
+        /** Disallow cast expressions that cast from a string. */
+        CAST_EXPRS_FROM_STRING,
+
+        /** Disallow cast expressions that cast from string to integer. */
+        CAST_EXPRS_STRING_TO_INT,
+
+        /** Disallow cast expressions that cast from string to real. */
+        CAST_EXPRS_STRING_TO_REAL,
+
+        /** Disallow cast expressions that cast from string to boolean. */
+        CAST_EXPRS_STRING_TO_BOOLEAN,
+
+        /** Disallow cast expressions that cast from integer to real. */
+        CAST_EXPRS_INT_TO_REAL,
 
         /** Disallow all component references (explicit components and 'self' references). */
         COMP_REFS,

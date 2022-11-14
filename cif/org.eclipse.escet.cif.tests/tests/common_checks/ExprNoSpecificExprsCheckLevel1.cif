@@ -61,19 +61,56 @@ group BOOL_LITS:
   invariant true;
 end
 
+// CAST_EXPRS_INT_TO_STRING.
+group CAST_EXPRS_INT_TO_STRING:
+  invariant "1" = <string>1;
+end
+
+// CAST_EXPRS_REAL_TO_STRING.
+group CAST_EXPRS_REAL_TO_STRING:
+  invariant "1.1" = <string>1.1;
+end
+
+// CAST_EXPRS_BOOLEAN_TO_STRING.
+group CAST_EXPRS_BOOLEAN_TO_STRING:
+  invariant "true" = <string>true;
+end
+
+// CAST_EXPRS_SELF_TO_STRING.
+automaton X:
+  location A:
+    initial;
+    invariant "A" = <string>self;
+end
+
+// CAST_EXPRS_AUTOMATON_TO_STRING.
+group CAST_EXPRS_AUTOMATON_TO_STRING:
+  invariant "A" = <string>X;
+end
+
+// CAST_EXPRS_STRING_TO_INT.
+group CAST_EXPRS_STRING_TO_INT:
+  invariant 1 = <int>"1";
+end
+
+// CAST_EXPRS_STRING_TO_REAL.
+group CAST_EXPRS_STRING_TO_REAL:
+  invariant 1.0 = <real>"1.0";
+end
+
+// CAST_EXPRS_STRING_TO_BOOLEAN.
+group CAST_EXPRS_STRING_TO_BOOLEAN:
+  invariant not <bool>"false";
+end
+
 // CAST_EXPRS_EQUAL_TYPE.
 group CAST_EXPRS_EQUAL_TYPE:
   invariant <bool>true;
 end
 
-// CAST_EXPRS_BROADER_TYPE.
-group CAST_EXPRS_BROADER_TYPE:
+// CAST_EXPRS_INT_TO_REAL.
+group CAST_EXPRS_INT_TO_REAL:
   invariant <real>1 = 1.0;
-end
-
-// CAST_EXPRS_TO_STR.
-group CAST_EXPRS_TO_STR:
-  invariant "1" = <string>1;
 end
 
 // COMP_REFS_EXPLICIT.
