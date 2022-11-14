@@ -44,6 +44,7 @@ It now automatically uses its dark theme when the Eclipse built-in dark theme is
 * The CIF event-based synthesis analysis tool now has slightly wider colored boxes that distinguish between disabled and different types of enabled choices, for enhanced visual clarity (issue {escet-issue}417[#417]).
 * The CIF to Supremica transformation precondition check has improved output.
 The preconditions themselves have not changed (issue {escet-issue}368[#368]).
+* Very long lines in the _Console_ view, for instance outputted by the CIF simulator, and long lines in text editors, for instance long lines in synthesized CIF models, now render correctly on Windows (issue {escet-issue}76[#76]).
 * Some very small documentation improvements (issues {escet-issue}199[#199] and {escet-issue}438[#438]).
 
 === Version 0.7 (2022-09-30)
