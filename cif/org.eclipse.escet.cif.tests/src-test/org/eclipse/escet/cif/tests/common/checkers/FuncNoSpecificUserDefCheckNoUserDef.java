@@ -11,16 +11,15 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func int inc(int x):
-  return x + 1;
-end
+package org.eclipse.escet.cif.tests.common.checkers;
 
-func bool f(): "java:somepkg.SomeClass.someMethod|.";
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 
-group g:
-  func int inc(int x):
-    return x + 1;
-  end
+/** Test class that disallows all user-defined functions. */
+public class FuncNoSpecificUserDefCheckNoUserDef extends FuncNoSpecificUserDefCheck {
+    /** Constructor of the {@link FuncNoSpecificUserDefCheckNoUserDef} class. */
+    public FuncNoSpecificUserDefCheckNoUserDef() {
+        super(NoSpecificUserDefFunc.INTERNAL, NoSpecificUserDefFunc.EXTERNAL);
+    }
 
-  func bool f(): "java:somepkg.SomeClass.someMethod|.";
-end
+}

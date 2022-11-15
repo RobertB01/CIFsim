@@ -19,7 +19,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g.a": automaton is a kindless automaton, not a plant, requirement or supervisor automaton.
  - Unsupported "g.e1": event is not declared as controllable or uncontrollable.
  - Unsupported "g.e2": event is a channel (has a data type).
- - Unsupported "g.f": function is a user-defined function.
+ - Unsupported "g.f": is a user-defined function.
  - Unsupported "g.p0": automaton has an edge with a multi-assignment.
  - Unsupported "g.p0": automaton has an edge with a partial variable assignment.
  - Unsupported "g.p0": automaton has an edge with an 'if' update.

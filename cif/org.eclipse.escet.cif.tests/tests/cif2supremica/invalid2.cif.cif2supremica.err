@@ -1,5 +1,5 @@
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
- - Unsupported "f": function is a user-defined function.
+ - Unsupported "f": is a user-defined function.
  - Unsupported "p.db": uses distribution type "dist bool".
  - Unsupported "p.db": uses function call "constant(true)".
  - Unsupported "p.db": uses function type "func dist bool(bool)".
