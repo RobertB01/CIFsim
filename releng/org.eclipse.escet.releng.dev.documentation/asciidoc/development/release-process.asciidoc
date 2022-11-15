@@ -372,12 +372,15 @@ Only version tags with a specific syntax will be picked up by Jenkins to be rele
 For instance, use `v0.1`, `v0.1.1`, `v2.0`, etc for releases, `v0.1-M1` for a milestone build, or `v0.1-RC1` for a release candidate.
 +
 Add the tag via GitLab, at https://gitlab.eclipse.org/eclipse/escet/escet/-/tags/new.
-Use the _Tag name_ also as _Message_ and as _Release notes_.
+Use the _Tag name_ also as _Message_.
 Make sure to select `master` as branch from which to create the tag.
+Click _Create tag_ to create the new tag.
 
-* Go to https://gitlab.eclipse.org/eclipse/escet/escet/-/releases and edit the new GitLab release by clicking the _Edit this release_ icon at the top-right of the release.
-Add the GitLab milestone to the GitLab release, by selecting it under _Milestones_.
-Save the changes.
+* Add a GitLab release for the new tag, at https://gitlab.eclipse.org/eclipse/escet/escet/-/releases/new.
+Select the tag you just created under _Tag name_.
+Set the _Release title_ and _Release notes_ to the tag name.
+Select the relevant milestone under _Milestones_.
+Click _Create release_ to create the new release.
 
 * Go to Jenkins, at https://ci.eclipse.org/escet/job/ESCET%20build/.
 Log in to Jenkins by clicking on the link at the top-right of the page.
