@@ -1,0 +1,4 @@
+WARNING: File "common_checks/FuncNoSpecificIntUserDefFuncStatsCheckAssign.cif": Semantic warning at line 24, column 10: Statement is unreachable.
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "f": user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
+ - Unsupported "g.f": user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
