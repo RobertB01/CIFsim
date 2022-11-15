@@ -40,18 +40,18 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "MODULUS.GG": uses binary operator "mod" in binary expression "1 mod 1".
  - Unsupported "MODULUS.GK": uses binary operator "=" in binary expression "1 mod MODULUS.k = 0".
  - Unsupported "MODULUS.GK": uses binary operator "mod" in binary expression "1 mod MODULUS.k".
- - Unsupported "MODULUS.KG": uses binary operator "=" in binary expression "MODULUS.k mod 1 = 0".
- - Unsupported "MODULUS.KG": uses binary operator "mod" in binary expression "MODULUS.k mod 1".
+ - Unsupported "MODULUS.IG": uses binary operator "=" in binary expression "1 mod 1 = 0".
+ - Unsupported "MODULUS.IG": uses binary operator "mod" in binary expression "1 mod 1".
  - Unsupported "MODULUS.KK": uses binary operator "=" in binary expression "MODULUS.k mod MODULUS.k = 0".
  - Unsupported "MODULUS.KK": uses binary operator "mod" in binary expression "MODULUS.k mod MODULUS.k".
  - Unsupported "MULTIPLICATION.GG": uses binary operator "*" in binary expression "1 * 1".
  - Unsupported "MULTIPLICATION.GG": uses binary operator "=" in binary expression "1 * 1 = 0".
+ - Unsupported "MULTIPLICATION.IR": uses binary operator "*" in binary expression "1 * 1.0".
+ - Unsupported "MULTIPLICATION.IR": uses binary operator "=" in binary expression "1 * 1.0 = 0.0".
  - Unsupported "MULTIPLICATION.KK": uses binary operator "*" in binary expression "MULTIPLICATION.k * MULTIPLICATION.k".
  - Unsupported "MULTIPLICATION.KK": uses binary operator "=" in binary expression "MULTIPLICATION.k * MULTIPLICATION.k = 0".
- - Unsupported "MULTIPLICATION.KR": uses binary operator "*" in binary expression "MULTIPLICATION.k * 1.0".
- - Unsupported "MULTIPLICATION.KR": uses binary operator "=" in binary expression "MULTIPLICATION.k * 1.0 = 0.0".
- - Unsupported "MULTIPLICATION.RK": uses binary operator "*" in binary expression "1.0 * MULTIPLICATION.k".
- - Unsupported "MULTIPLICATION.RK": uses binary operator "=" in binary expression "1.0 * MULTIPLICATION.k = 0.0".
+ - Unsupported "MULTIPLICATION.RI": uses binary operator "*" in binary expression "1.0 * 1".
+ - Unsupported "MULTIPLICATION.RI": uses binary operator "=" in binary expression "1.0 * 1 = 0.0".
  - Unsupported "MULTIPLICATION.RR": uses binary operator "*" in binary expression "1.0 * 1.0".
  - Unsupported "MULTIPLICATION.RR": uses binary operator "=" in binary expression "1.0 * 1.0 = 0.0".
  - Unsupported "SUBSET": uses binary operator "sub" in binary expression "{true} sub {false}".

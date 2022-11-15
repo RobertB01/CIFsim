@@ -119,8 +119,8 @@ group GREATER_EQUAL:
   input int k;
   invariant GG: 1 >= 1;
   invariant KK: k >= k;
-  invariant KR: k >= 1.0;
-  invariant RK: 1.0 >= k;
+  invariant IR: 1 >= 1.0;
+  invariant RI: 1.0 >= 1;
   invariant RR: 1.0 >= 1.0;
 end
 
@@ -129,8 +129,8 @@ group GREATER_THAN:
   input int k;
   invariant GG: 1 > 1;
   invariant KK: k > k;
-  invariant KR: k > 1.0;
-  invariant RK: 1.0 > k;
+  invariant IR: 1 > 1.0;
+  invariant RI: 1.0 > 1;
   invariant RR: 1.0 > 1.0;
 end
 
@@ -153,8 +153,8 @@ group LESS_EQUAL:
   input int k;
   invariant GG: 1 <= 1;
   invariant KK: k <= k;
-  invariant KR: k <= 1.0;
-  invariant RK: 1.0 <= k;
+  invariant IR: 1 <= 1.0;
+  invariant RI: 1.0 <= 1;
   invariant RR: 1.0 <= 1.0;
 end
 
@@ -163,8 +163,8 @@ group LESS_THAN:
   input int k;
   invariant GG: 1 < 1;
   invariant KK: k < k;
-  invariant KR: k < 1.0;
-  invariant RK: 1.0 < k;
+  invariant IR: 1 < 1.0;
+  invariant RI: 1.0 < 1;
   invariant RR: 1.0 < 1.0;
 end
 
@@ -173,7 +173,7 @@ group MODULUS:
   input int k;
   invariant GG: 1 mod 1 = 0;
   invariant GK: 1 mod k = 0;
-  invariant KG: k mod 1 = 0;
+  invariant IG: 1 mod 1 = 0;
   invariant KK: k mod k = 0;
 end
 
@@ -182,8 +182,8 @@ group MULTIPLICATION:
   input int k;
   invariant GG: 1 * 1 = 0;
   invariant KK: k * k = 0;
-  invariant KR: k * 1.0 = 0;
-  invariant RK: 1.0 * k = 0;
+  invariant IR: 1 * 1.0 = 0;
+  invariant RI: 1.0 * 1 = 0;
   invariant RR: 1.0 * 1.0 = 0;
 end
 
