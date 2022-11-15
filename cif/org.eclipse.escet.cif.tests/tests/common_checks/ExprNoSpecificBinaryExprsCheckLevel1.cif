@@ -37,9 +37,9 @@ end
 group ADDITION_NUMBERS:
   input int k;
   invariant GG: 1 + 1 > 0;
-  invariant IG: k + 1 > 0;
-  invariant GI: 1 + k > 0;
-  invariant II: k + k > 0;
+  invariant KG: k + 1 > 0;
+  invariant GK: 1 + k > 0;
+  invariant KK: k + k > 0;
   invariant GR: 1 + 1.0 > 0;
   invariant RG: 1.0 + 1 > 0;
   invariant RR: 1.0 + 1.0 > 0;
@@ -102,11 +102,14 @@ end
 
 // EQUAL.
 group EQUAL:
+  enum E = A, B;
   invariant 1 = 1;
   invariant true = true;
   invariant 1.2 = 1.2;
   invariant [1, 2, 3] = [1, 2, 3];
   invariant {1, 2, 3} = {1, 2, 3};
+  invariant {1:10, 2:20} = {1:10, 2:20};
+  invariant A = A;
   invariant (1, 2, 3) = (1, 2, 3);
   invariant "abc" = "abc";
 end
@@ -115,9 +118,9 @@ end
 group GREATER_EQUAL:
   input int k;
   invariant GG: 1 >= 1;
-  invariant II: k >= k;
-  invariant IR: k >= 1.0;
-  invariant RI: 1.0 >= k;
+  invariant KK: k >= k;
+  invariant KR: k >= 1.0;
+  invariant RK: 1.0 >= k;
   invariant RR: 1.0 >= 1.0;
 end
 
@@ -125,9 +128,9 @@ end
 group GREATER_THAN:
   input int k;
   invariant GG: 1 > 1;
-  invariant II: k > k;
-  invariant IR: k > 1.0;
-  invariant RI: 1.0 > k;
+  invariant KK: k > k;
+  invariant KR: k > 1.0;
+  invariant RK: 1.0 > k;
   invariant RR: 1.0 > 1.0;
 end
 
@@ -140,18 +143,18 @@ end
 group INTEGER_DIVISION:
   input int k;
   invariant GG: 1 div 1 = 0;
-  invariant GI: 1 div k = 0;
-  invariant IG: k div 1 = 0;
-  invariant II: k div k = 0;
+  invariant GK: 1 div k = 0;
+  invariant KG: k div 1 = 0;
+  invariant KK: k div k = 0;
 end
 
 // LESS_EQUAL.
 group LESS_EQUAL:
   input int k;
   invariant GG: 1 <= 1;
-  invariant II: k <= k;
-  invariant IR: k <= 1.0;
-  invariant RI: 1.0 <= k;
+  invariant KK: k <= k;
+  invariant KR: k <= 1.0;
+  invariant RK: 1.0 <= k;
   invariant RR: 1.0 <= 1.0;
 end
 
@@ -159,9 +162,9 @@ end
 group LESS_THAN:
   input int k;
   invariant GG: 1 < 1;
-  invariant II: k < k;
-  invariant IR: k < 1.0;
-  invariant RI: 1.0 < k;
+  invariant KK: k < k;
+  invariant KR: k < 1.0;
+  invariant RK: 1.0 < k;
   invariant RR: 1.0 < 1.0;
 end
 
@@ -169,18 +172,18 @@ end
 group MODULUS:
   input int k;
   invariant GG: 1 mod 1 = 0;
-  invariant GI: 1 mod k = 0;
-  invariant IG: k mod 1 = 0;
-  invariant II: k mod k = 0;
+  invariant GK: 1 mod k = 0;
+  invariant KG: k mod 1 = 0;
+  invariant KK: k mod k = 0;
 end
 
 // MULTIPLICATION.
 group MULTIPLICATION:
   input int k;
   invariant GG: 1 * 1 = 0;
-  invariant II: k * k = 0;
-  invariant IR: k * 1.0 = 0;
-  invariant RI: 1.0 * k = 0;
+  invariant KK: k * k = 0;
+  invariant KR: k * 1.0 = 0;
+  invariant RK: 1.0 * k = 0;
   invariant RR: 1.0 * 1.0 = 0;
 end
 
@@ -193,9 +196,9 @@ end
 group SUBTRACTION_NUMBERS:
   input int k;
   invariant GG: 1 - 1 > 0;
-  invariant IG: k - 1 > 0;
-  invariant GI: 1 - k > 0;
-  invariant II: k - k > 0;
+  invariant KG: k - 1 > 0;
+  invariant GK: 1 - k > 0;
+  invariant KK: k - k > 0;
   invariant GR: 1 - 1.0 > 0;
   invariant RG: 1.0 - 1 > 0;
   invariant RR: 1.0 - 1.0 > 0;
@@ -208,17 +211,19 @@ group SUBTRACTION_CONTAINERS:
   invariant DD: empty({1: 2} - {1: 2});
   invariant DS: empty({1: 2} - {1});
   invariant DLG: empty({1: 2} - [1]);
-  invariant DLI: empty({1: 2} - [k]);
+  invariant DLK: empty({1: 2} - [k]);
 end
 
 // UNEQUAL.
 group UNEQUAL:
+  enum E = A, B;
   invariant 1 != 2;
   invariant true != false;
   invariant 1.2 != 1.5;
   invariant [1, 2, 4] != [1, 2, 3];
   invariant {1, 2, 4} != {1, 2, 3};
+  invariant {1:10, 5:20} != {1:10, 2:20};
+  invariant A = B;
   invariant (1, 2, 4) != (1, 2, 3);
   invariant "abc" != "def";
-
 end

@@ -1,38 +1,38 @@
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "ADDITION_NUMBERS.GG": uses binary operator ">" on operands of types "int[2..2]" and "int[0..0]" in binary expression "1 + 1 > 0".
- - Unsupported "ADDITION_NUMBERS.GI": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "1 + ADDITION_NUMBERS.k > 0".
+ - Unsupported "ADDITION_NUMBERS.GK": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "1 + ADDITION_NUMBERS.k > 0".
  - Unsupported "ADDITION_NUMBERS.GR": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1 + 1.0 > 0".
- - Unsupported "ADDITION_NUMBERS.IG": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "ADDITION_NUMBERS.k + 1 > 0".
- - Unsupported "ADDITION_NUMBERS.II": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "ADDITION_NUMBERS.k + ADDITION_NUMBERS.k > 0".
+ - Unsupported "ADDITION_NUMBERS.KG": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "ADDITION_NUMBERS.k + 1 > 0".
+ - Unsupported "ADDITION_NUMBERS.KK": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "ADDITION_NUMBERS.k + ADDITION_NUMBERS.k > 0".
  - Unsupported "ADDITION_NUMBERS.RG": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1.0 + 1.0 > 0".
  - Unsupported "ADDITION_NUMBERS.RR": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1.0 + 1.0 > 0".
  - Unsupported "GREATER_EQUAL.GG": uses binary operator ">=" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 >= 1".
- - Unsupported "GREATER_EQUAL.II": uses binary operator ">=" on operands of types "int" and "int" in binary expression "GREATER_EQUAL.k >= GREATER_EQUAL.k".
- - Unsupported "GREATER_EQUAL.IR": uses binary operator ">=" on operands of types "int" and "real" in binary expression "GREATER_EQUAL.k >= 1.0".
- - Unsupported "GREATER_EQUAL.RI": uses binary operator ">=" on operands of types "real" and "int" in binary expression "1.0 >= GREATER_EQUAL.k".
+ - Unsupported "GREATER_EQUAL.KK": uses binary operator ">=" on operands of types "int" and "int" in binary expression "GREATER_EQUAL.k >= GREATER_EQUAL.k".
+ - Unsupported "GREATER_EQUAL.KR": uses binary operator ">=" on operands of types "int" and "real" in binary expression "GREATER_EQUAL.k >= 1.0".
+ - Unsupported "GREATER_EQUAL.RK": uses binary operator ">=" on operands of types "real" and "int" in binary expression "1.0 >= GREATER_EQUAL.k".
  - Unsupported "GREATER_THAN.GG": uses binary operator ">" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 > 1".
- - Unsupported "GREATER_THAN.II": uses binary operator ">" on operands of types "int" and "int" in binary expression "GREATER_THAN.k > GREATER_THAN.k".
- - Unsupported "GREATER_THAN.IR": uses binary operator ">" on operands of types "int" and "real" in binary expression "GREATER_THAN.k > 1.0".
- - Unsupported "GREATER_THAN.RI": uses binary operator ">" on operands of types "real" and "int" in binary expression "1.0 > GREATER_THAN.k".
+ - Unsupported "GREATER_THAN.KK": uses binary operator ">" on operands of types "int" and "int" in binary expression "GREATER_THAN.k > GREATER_THAN.k".
+ - Unsupported "GREATER_THAN.KR": uses binary operator ">" on operands of types "int" and "real" in binary expression "GREATER_THAN.k > 1.0".
+ - Unsupported "GREATER_THAN.RK": uses binary operator ">" on operands of types "real" and "int" in binary expression "1.0 > GREATER_THAN.k".
  - Unsupported "grp": uses binary operator "<" on operands of types "int[1..1]" and "int[2..2]" in binary expression "1 < 2".
  - Unsupported "INTEGER_DIVISION.GG": uses binary operator "div" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 div 1".
- - Unsupported "INTEGER_DIVISION.GI": uses binary operator "div" on operands of types "int[1..1]" and "int" in binary expression "1 div INTEGER_DIVISION.k".
- - Unsupported "INTEGER_DIVISION.IG": uses binary operator "div" on operands of types "int" and "int[1..1]" in binary expression "INTEGER_DIVISION.k div 1".
- - Unsupported "INTEGER_DIVISION.II": uses binary operator "div" on operands of types "int" and "int" in binary expression "INTEGER_DIVISION.k div INTEGER_DIVISION.k".
+ - Unsupported "INTEGER_DIVISION.GK": uses binary operator "div" on operands of types "int[1..1]" and "int" in binary expression "1 div INTEGER_DIVISION.k".
+ - Unsupported "INTEGER_DIVISION.KG": uses binary operator "div" on operands of types "int" and "int[1..1]" in binary expression "INTEGER_DIVISION.k div 1".
+ - Unsupported "INTEGER_DIVISION.KK": uses binary operator "div" on operands of types "int" and "int" in binary expression "INTEGER_DIVISION.k div INTEGER_DIVISION.k".
  - Unsupported "LESS_EQUAL.GG": uses binary operator "<=" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 <= 1".
- - Unsupported "LESS_EQUAL.II": uses binary operator "<=" on operands of types "int" and "int" in binary expression "LESS_EQUAL.k <= LESS_EQUAL.k".
- - Unsupported "LESS_EQUAL.IR": uses binary operator "<=" on operands of types "int" and "real" in binary expression "LESS_EQUAL.k <= 1.0".
- - Unsupported "LESS_EQUAL.RI": uses binary operator "<=" on operands of types "real" and "int" in binary expression "1.0 <= LESS_EQUAL.k".
+ - Unsupported "LESS_EQUAL.KK": uses binary operator "<=" on operands of types "int" and "int" in binary expression "LESS_EQUAL.k <= LESS_EQUAL.k".
+ - Unsupported "LESS_EQUAL.KR": uses binary operator "<=" on operands of types "int" and "real" in binary expression "LESS_EQUAL.k <= 1.0".
+ - Unsupported "LESS_EQUAL.RK": uses binary operator "<=" on operands of types "real" and "int" in binary expression "1.0 <= LESS_EQUAL.k".
  - Unsupported "LESS_THAN.GG": uses binary operator "<" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 < 1".
- - Unsupported "LESS_THAN.II": uses binary operator "<" on operands of types "int" and "int" in binary expression "LESS_THAN.k < LESS_THAN.k".
- - Unsupported "LESS_THAN.IR": uses binary operator "<" on operands of types "int" and "real" in binary expression "LESS_THAN.k < 1.0".
- - Unsupported "LESS_THAN.RI": uses binary operator "<" on operands of types "real" and "int" in binary expression "1.0 < LESS_THAN.k".
+ - Unsupported "LESS_THAN.KK": uses binary operator "<" on operands of types "int" and "int" in binary expression "LESS_THAN.k < LESS_THAN.k".
+ - Unsupported "LESS_THAN.KR": uses binary operator "<" on operands of types "int" and "real" in binary expression "LESS_THAN.k < 1.0".
+ - Unsupported "LESS_THAN.RK": uses binary operator "<" on operands of types "real" and "int" in binary expression "1.0 < LESS_THAN.k".
  - Unsupported "nested_grp.nested_grp": uses binary operator "<" on operands of types "int[1..1]" and "int[2..2]" in binary expression "1 < 2".
  - Unsupported "SUBTRACTION_NUMBERS.GG": uses binary operator ">" on operands of types "int[0..0]" and "int[0..0]" in binary expression "1 - 1 > 0".
- - Unsupported "SUBTRACTION_NUMBERS.GI": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "1 - SUBTRACTION_NUMBERS.k > 0".
+ - Unsupported "SUBTRACTION_NUMBERS.GK": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "1 - SUBTRACTION_NUMBERS.k > 0".
  - Unsupported "SUBTRACTION_NUMBERS.GR": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1 - 1.0 > 0".
- - Unsupported "SUBTRACTION_NUMBERS.IG": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "SUBTRACTION_NUMBERS.k - 1 > 0".
- - Unsupported "SUBTRACTION_NUMBERS.II": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "SUBTRACTION_NUMBERS.k - SUBTRACTION_NUMBERS.k > 0".
+ - Unsupported "SUBTRACTION_NUMBERS.KG": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "SUBTRACTION_NUMBERS.k - 1 > 0".
+ - Unsupported "SUBTRACTION_NUMBERS.KK": uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "SUBTRACTION_NUMBERS.k - SUBTRACTION_NUMBERS.k > 0".
  - Unsupported "SUBTRACTION_NUMBERS.RG": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1.0 - 1.0 > 0".
  - Unsupported "SUBTRACTION_NUMBERS.RR": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1.0 - 1.0 > 0".
  - Unsupported "type_decl": uses binary operator "<" on operands of types "int[1..1]" and "int[1..1]" in binary expression "type_decl.a < type_decl.a".

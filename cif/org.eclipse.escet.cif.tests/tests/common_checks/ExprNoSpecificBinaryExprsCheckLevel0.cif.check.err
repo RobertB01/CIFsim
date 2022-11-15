@@ -2,10 +2,10 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "ADDITION_DICTS": uses binary operator "+" in binary expression "{true: false} + {false: true}".
  - Unsupported "ADDITION_LISTS": uses binary operator "+" in binary expression "[1] + [1]".
  - Unsupported "ADDITION_NUMBERS.GG": uses binary operator "+" in binary expression "1 + 1".
- - Unsupported "ADDITION_NUMBERS.GI": uses binary operator "+" in binary expression "1 + ADDITION_NUMBERS.k".
+ - Unsupported "ADDITION_NUMBERS.GK": uses binary operator "+" in binary expression "1 + ADDITION_NUMBERS.k".
  - Unsupported "ADDITION_NUMBERS.GR": uses binary operator "+" in binary expression "1 + 1.0".
- - Unsupported "ADDITION_NUMBERS.IG": uses binary operator "+" in binary expression "ADDITION_NUMBERS.k + 1".
- - Unsupported "ADDITION_NUMBERS.II": uses binary operator "+" in binary expression "ADDITION_NUMBERS.k + ADDITION_NUMBERS.k".
+ - Unsupported "ADDITION_NUMBERS.KG": uses binary operator "+" in binary expression "ADDITION_NUMBERS.k + 1".
+ - Unsupported "ADDITION_NUMBERS.KK": uses binary operator "+" in binary expression "ADDITION_NUMBERS.k + ADDITION_NUMBERS.k".
  - Unsupported "ADDITION_NUMBERS.RG": uses binary operator "+" in binary expression "1.0 + 1.0".
  - Unsupported "ADDITION_NUMBERS.RR": uses binary operator "+" in binary expression "1.0 + 1.0".
  - Unsupported "ADDITION_STRINGS": uses binary operator "+" in binary expression ""a" + "a"".
@@ -27,42 +27,44 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "EQUAL": uses binary operator "=" in binary expression "1 = 1".
  - Unsupported "EQUAL": uses binary operator "=" in binary expression "1.2 = 1.2".
  - Unsupported "EQUAL": uses binary operator "=" in binary expression "[1, 2, 3] = [1, 2, 3]".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "EQUAL.A = EQUAL.A".
  - Unsupported "EQUAL": uses binary operator "=" in binary expression "true = true".
  - Unsupported "EQUAL": uses binary operator "=" in binary expression "{1, 2, 3} = {1, 2, 3}".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "{1: 10, 2: 20} = {1: 10, 2: 20}".
  - Unsupported "IMPLICATION": uses binary operator "=>" in binary expression "true => false".
  - Unsupported "INTEGER_DIVISION.GG": uses binary operator "=" in binary expression "1 div 1 = 0".
- - Unsupported "INTEGER_DIVISION.GI": uses binary operator "=" in binary expression "1 div INTEGER_DIVISION.k = 0".
- - Unsupported "INTEGER_DIVISION.IG": uses binary operator "=" in binary expression "INTEGER_DIVISION.k div 1 = 0".
- - Unsupported "INTEGER_DIVISION.II": uses binary operator "=" in binary expression "INTEGER_DIVISION.k div INTEGER_DIVISION.k = 0".
+ - Unsupported "INTEGER_DIVISION.GK": uses binary operator "=" in binary expression "1 div INTEGER_DIVISION.k = 0".
+ - Unsupported "INTEGER_DIVISION.KG": uses binary operator "=" in binary expression "INTEGER_DIVISION.k div 1 = 0".
+ - Unsupported "INTEGER_DIVISION.KK": uses binary operator "=" in binary expression "INTEGER_DIVISION.k div INTEGER_DIVISION.k = 0".
  - Unsupported "MODULUS.GG": uses binary operator "=" in binary expression "1 mod 1 = 0".
  - Unsupported "MODULUS.GG": uses binary operator "mod" in binary expression "1 mod 1".
- - Unsupported "MODULUS.GI": uses binary operator "=" in binary expression "1 mod MODULUS.k = 0".
- - Unsupported "MODULUS.GI": uses binary operator "mod" in binary expression "1 mod MODULUS.k".
- - Unsupported "MODULUS.IG": uses binary operator "=" in binary expression "MODULUS.k mod 1 = 0".
- - Unsupported "MODULUS.IG": uses binary operator "mod" in binary expression "MODULUS.k mod 1".
- - Unsupported "MODULUS.II": uses binary operator "=" in binary expression "MODULUS.k mod MODULUS.k = 0".
- - Unsupported "MODULUS.II": uses binary operator "mod" in binary expression "MODULUS.k mod MODULUS.k".
+ - Unsupported "MODULUS.GK": uses binary operator "=" in binary expression "1 mod MODULUS.k = 0".
+ - Unsupported "MODULUS.GK": uses binary operator "mod" in binary expression "1 mod MODULUS.k".
+ - Unsupported "MODULUS.KG": uses binary operator "=" in binary expression "MODULUS.k mod 1 = 0".
+ - Unsupported "MODULUS.KG": uses binary operator "mod" in binary expression "MODULUS.k mod 1".
+ - Unsupported "MODULUS.KK": uses binary operator "=" in binary expression "MODULUS.k mod MODULUS.k = 0".
+ - Unsupported "MODULUS.KK": uses binary operator "mod" in binary expression "MODULUS.k mod MODULUS.k".
  - Unsupported "MULTIPLICATION.GG": uses binary operator "*" in binary expression "1 * 1".
  - Unsupported "MULTIPLICATION.GG": uses binary operator "=" in binary expression "1 * 1 = 0".
- - Unsupported "MULTIPLICATION.II": uses binary operator "*" in binary expression "MULTIPLICATION.k * MULTIPLICATION.k".
- - Unsupported "MULTIPLICATION.II": uses binary operator "=" in binary expression "MULTIPLICATION.k * MULTIPLICATION.k = 0".
- - Unsupported "MULTIPLICATION.IR": uses binary operator "*" in binary expression "MULTIPLICATION.k * 1.0".
- - Unsupported "MULTIPLICATION.IR": uses binary operator "=" in binary expression "MULTIPLICATION.k * 1.0 = 0.0".
- - Unsupported "MULTIPLICATION.RI": uses binary operator "*" in binary expression "1.0 * MULTIPLICATION.k".
- - Unsupported "MULTIPLICATION.RI": uses binary operator "=" in binary expression "1.0 * MULTIPLICATION.k = 0.0".
+ - Unsupported "MULTIPLICATION.KK": uses binary operator "*" in binary expression "MULTIPLICATION.k * MULTIPLICATION.k".
+ - Unsupported "MULTIPLICATION.KK": uses binary operator "=" in binary expression "MULTIPLICATION.k * MULTIPLICATION.k = 0".
+ - Unsupported "MULTIPLICATION.KR": uses binary operator "*" in binary expression "MULTIPLICATION.k * 1.0".
+ - Unsupported "MULTIPLICATION.KR": uses binary operator "=" in binary expression "MULTIPLICATION.k * 1.0 = 0.0".
+ - Unsupported "MULTIPLICATION.RK": uses binary operator "*" in binary expression "1.0 * MULTIPLICATION.k".
+ - Unsupported "MULTIPLICATION.RK": uses binary operator "=" in binary expression "1.0 * MULTIPLICATION.k = 0.0".
  - Unsupported "MULTIPLICATION.RR": uses binary operator "*" in binary expression "1.0 * 1.0".
  - Unsupported "MULTIPLICATION.RR": uses binary operator "=" in binary expression "1.0 * 1.0 = 0.0".
  - Unsupported "SUBSET": uses binary operator "sub" in binary expression "{true} sub {false}".
  - Unsupported "SUBTRACTION_CONTAINERS.DD": uses binary operator "-" in binary expression "{1: 2} - {1: 2}".
  - Unsupported "SUBTRACTION_CONTAINERS.DLG": uses binary operator "-" in binary expression "{1: 2} - [1]".
- - Unsupported "SUBTRACTION_CONTAINERS.DLI": uses binary operator "-" in binary expression "{1: 2} - [SUBTRACTION_CONTAINERS.k]".
+ - Unsupported "SUBTRACTION_CONTAINERS.DLK": uses binary operator "-" in binary expression "{1: 2} - [SUBTRACTION_CONTAINERS.k]".
  - Unsupported "SUBTRACTION_CONTAINERS.DS": uses binary operator "-" in binary expression "{1: 2} - {1}".
  - Unsupported "SUBTRACTION_CONTAINERS.SS": uses binary operator "-" in binary expression "{true} - {false}".
  - Unsupported "SUBTRACTION_NUMBERS.GG": uses binary operator "-" in binary expression "1 - 1".
- - Unsupported "SUBTRACTION_NUMBERS.GI": uses binary operator "-" in binary expression "1 - SUBTRACTION_NUMBERS.k".
+ - Unsupported "SUBTRACTION_NUMBERS.GK": uses binary operator "-" in binary expression "1 - SUBTRACTION_NUMBERS.k".
  - Unsupported "SUBTRACTION_NUMBERS.GR": uses binary operator "-" in binary expression "1 - 1.0".
- - Unsupported "SUBTRACTION_NUMBERS.IG": uses binary operator "-" in binary expression "SUBTRACTION_NUMBERS.k - 1".
- - Unsupported "SUBTRACTION_NUMBERS.II": uses binary operator "-" in binary expression "SUBTRACTION_NUMBERS.k - SUBTRACTION_NUMBERS.k".
+ - Unsupported "SUBTRACTION_NUMBERS.KG": uses binary operator "-" in binary expression "SUBTRACTION_NUMBERS.k - 1".
+ - Unsupported "SUBTRACTION_NUMBERS.KK": uses binary operator "-" in binary expression "SUBTRACTION_NUMBERS.k - SUBTRACTION_NUMBERS.k".
  - Unsupported "SUBTRACTION_NUMBERS.RG": uses binary operator "-" in binary expression "1.0 - 1.0".
  - Unsupported "SUBTRACTION_NUMBERS.RR": uses binary operator "-" in binary expression "1.0 - 1.0".
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression ""abc" != "def"".
@@ -72,3 +74,5 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "[1, 2, 4] != [1, 2, 3]".
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "true != false".
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "{1, 2, 4} != {1, 2, 3}".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "{1: 10, 5: 20} != {1: 10, 2: 20}".
+ - Unsupported "UNEQUAL": uses binary operator "=" in binary expression "UNEQUAL.A = UNEQUAL.B".

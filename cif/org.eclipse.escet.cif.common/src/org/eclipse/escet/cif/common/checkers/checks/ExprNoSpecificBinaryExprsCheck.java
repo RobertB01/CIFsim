@@ -162,53 +162,81 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
             case EQUAL:
                 if (disalloweds.contains(NoSpecificBinaryOp.EQUAL)) {
                     addExprViolationOperator(binExpr, violations);
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_BOOL)) {
-                    if (ltype instanceof BoolType || rtype instanceof BoolType) {
-                        addExprViolationOperator(binExpr, violations);
+                } else {
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_BOOL)) {
+                        if (ltype instanceof BoolType || rtype instanceof BoolType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_DICT)) {
-                    if (ltype instanceof DictType || rtype instanceof DictType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_DICT)) {
+                        if (ltype instanceof DictType || rtype instanceof DictType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_ENUM)) {
-                    if (ltype instanceof EnumType || rtype instanceof EnumType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_ENUM)) {
+                        if (ltype instanceof EnumType || rtype instanceof EnumType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_INT)) {
-                    if (ltype instanceof IntType || rtype instanceof IntType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_INT)) {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_INT_RANGED)) {
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType) && !CifTypeUtils.isRangeless((IntType)rtype))
+                            {
+                                addExprViolationOperator(binExpr, violations);
+                            }
+                        }
+                        if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_INT_RANGELESS)) {
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType) && CifTypeUtils.isRangeless((IntType)rtype))
+                            {
+                                addExprViolationOperator(binExpr, violations);
+                            }
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_INT_RANGELESS)) {
-                    if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                            || (rtype instanceof IntType) && CifTypeUtils.isRangeless((IntType)rtype))
-                    {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_LIST)) {
+                        if (ltype instanceof ListType || rtype instanceof ListType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_LIST_ARRAY)) {
+                            if ((ltype instanceof ListType && CifTypeUtils.isArrayType((ListType)ltype))
+                                    || (rtype instanceof ListType && CifTypeUtils.isArrayType((ListType)rtype)))
+                            {
+                                addExprViolationOperator(binExpr, violations);
+                            }
+                        }
+                        if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_LIST_NON_ARRAY)) {
+                            if ((ltype instanceof ListType && !CifTypeUtils.isArrayType((ListType)ltype))
+                                    || (rtype instanceof ListType && !CifTypeUtils.isArrayType((ListType)rtype)))
+                            {
+                                addExprViolationOperator(binExpr, violations);
+                            }
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_LIST)) {
-                    if (ltype instanceof ListType || rtype instanceof ListType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_REAL)) {
+                        if (ltype instanceof RealType || rtype instanceof RealType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_LIST_NON_ARRAY)) {
-                    if ((ltype instanceof ListType && !CifTypeUtils.isArrayType((ListType)ltype))
-                            || (rtype instanceof ListType && !CifTypeUtils.isArrayType((ListType)rtype)))
-                    {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_SET)) {
+                        if (ltype instanceof SetType || rtype instanceof SetType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_REAL)) {
-                    if (ltype instanceof RealType || rtype instanceof RealType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_STRING)) {
+                        if (ltype instanceof StringType || rtype instanceof StringType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_SET)) {
-                    if (ltype instanceof SetType || rtype instanceof SetType) {
-                        addExprViolationOperator(binExpr, violations);
-                    }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_STRING)) {
-                    if (ltype instanceof StringType || rtype instanceof StringType) {
-                        addExprViolationOperator(binExpr, violations);
-                    }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_TUPLE)) {
-                    if (ltype instanceof TupleType || rtype instanceof TupleType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.EQUAL_TUPLE)) {
+                        if (ltype instanceof TupleType || rtype instanceof TupleType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
                 }
                 break;
@@ -462,53 +490,81 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
             case UNEQUAL:
                 if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL)) {
                     addExprViolationOperator(binExpr, violations);
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_BOOL)) {
-                    if (ltype instanceof BoolType || rtype instanceof BoolType) {
-                        addExprViolationOperator(binExpr, violations);
+                } else {
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_BOOL)) {
+                        if (ltype instanceof BoolType || rtype instanceof BoolType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_DICT)) {
-                    if (ltype instanceof DictType || rtype instanceof DictType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_DICT)) {
+                        if (ltype instanceof DictType || rtype instanceof DictType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_ENUM)) {
-                    if (ltype instanceof EnumType || rtype instanceof EnumType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_ENUM)) {
+                        if (ltype instanceof EnumType || rtype instanceof EnumType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_INT)) {
-                    if (ltype instanceof IntType || rtype instanceof IntType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_INT)) {
+                        if (ltype instanceof IntType || rtype instanceof IntType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_INT_RANGELESS)) {
+                            if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType) && CifTypeUtils.isRangeless((IntType)rtype))
+                            {
+                                addExprViolationOperator(binExpr, violations);
+                            }
+                        }
+                        if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_INT_RANGED)) {
+                            if ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType) && !CifTypeUtils.isRangeless((IntType)rtype))
+                            {
+                                addExprViolationOperator(binExpr, violations);
+                            }
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_INT_RANGELESS)) {
-                    if ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                            || (rtype instanceof IntType) && CifTypeUtils.isRangeless((IntType)rtype))
-                    {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_LIST)) {
+                        if (ltype instanceof ListType || rtype instanceof ListType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_LIST_ARRAY)) {
+                            if ((ltype instanceof ListType && CifTypeUtils.isArrayType((ListType)ltype))
+                                    || (rtype instanceof ListType && CifTypeUtils.isArrayType((ListType)rtype)))
+                            {
+                                addExprViolationOperator(binExpr, violations);
+                            }
+                        }
+                        if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_LIST_NON_ARRAY)) {
+                            if ((ltype instanceof ListType && !CifTypeUtils.isArrayType((ListType)ltype))
+                                    || (rtype instanceof ListType && !CifTypeUtils.isArrayType((ListType)rtype)))
+                            {
+                                addExprViolationOperator(binExpr, violations);
+                            }
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_LIST)) {
-                    if (ltype instanceof ListType || rtype instanceof ListType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_REAL)) {
+                        if (ltype instanceof RealType || rtype instanceof RealType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_LIST_NON_ARRAY)) {
-                    if ((ltype instanceof ListType && !CifTypeUtils.isArrayType((ListType)ltype))
-                            || (rtype instanceof ListType && !CifTypeUtils.isArrayType((ListType)rtype)))
-                    {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_SET)) {
+                        if (ltype instanceof SetType || rtype instanceof SetType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_REAL)) {
-                    if (ltype instanceof RealType || rtype instanceof RealType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_STRING)) {
+                        if (ltype instanceof StringType || rtype instanceof StringType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_SET)) {
-                    if (ltype instanceof SetType || rtype instanceof SetType) {
-                        addExprViolationOperator(binExpr, violations);
-                    }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_STRING)) {
-                    if (ltype instanceof StringType || rtype instanceof StringType) {
-                        addExprViolationOperator(binExpr, violations);
-                    }
-                } else if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_TUPLE)) {
-                    if (ltype instanceof TupleType || rtype instanceof TupleType) {
-                        addExprViolationOperator(binExpr, violations);
+                    if (disalloweds.contains(NoSpecificBinaryOp.UNEQUAL_TUPLE)) {
+                        if (ltype instanceof TupleType || rtype instanceof TupleType) {
+                            addExprViolationOperator(binExpr, violations);
+                        }
                     }
                 }
                 break;
@@ -613,11 +669,17 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
         /** Disallow {@link BinaryOperator#EQUAL} on both ranged and rangeless integers. */
         EQUAL_INT,
 
+        /** Disallow {@link BinaryOperator#EQUAL} on ranged integers. */
+        EQUAL_INT_RANGED,
+
         /** Disallow {@link BinaryOperator#EQUAL} on rangeless integers. */
         EQUAL_INT_RANGELESS,
 
         /** Disallow {@link BinaryOperator#EQUAL} on both array and non-array lists. */
         EQUAL_LIST,
+
+        /** Disallow {@link BinaryOperator#EQUAL} on array lists. */
+        EQUAL_LIST_ARRAY,
 
         /** Disallow {@link BinaryOperator#EQUAL} on non-array lists. */
         EQUAL_LIST_NON_ARRAY,
@@ -778,11 +840,17 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
         /** Disallow {@link BinaryOperator#UNEQUAL} on both ranged and rangeless integers. */
         UNEQUAL_INT,
 
+        /** Disallow {@link BinaryOperator#UNEQUAL} on ranged integers. */
+        UNEQUAL_INT_RANGED,
+
         /** Disallow {@link BinaryOperator#UNEQUAL} on rangeless integers. */
         UNEQUAL_INT_RANGELESS,
 
         /** Disallow {@link BinaryOperator#UNEQUAL} on both array and non-array lists. */
         UNEQUAL_LIST,
+
+        /** Disallow {@link BinaryOperator#UNEQUAL} on array lists. */
+        UNEQUAL_LIST_ARRAY,
 
         /** Disallow {@link BinaryOperator#UNEQUAL} on non-array lists. */
         UNEQUAL_LIST_NON_ARRAY,
