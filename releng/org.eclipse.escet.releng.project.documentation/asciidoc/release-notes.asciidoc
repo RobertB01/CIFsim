@@ -30,6 +30,22 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+Improvements and fixes:
+
+* This release is based on Eclipse 2022-06, rather than Eclipse 2021-06 (issue {escet-issue}176[#176]).
+* Eclipse 2022-06 may show for all projects in your existing workspace a warning that they don't have an explicit encoding set.
+To get rid of the warning, open the _Problems_ view via menu:Window[Show View > Problems].
+Then right click the warning and choose menu:Quick Fix[].
+In the _Quick Fix_ dialog, click btn:[Select All] to select all projects, and then click btn:[Finish] to add the UTF-8 encoding to each project (issue {escet-issue}176[#176]).
+* Eclipse 2022-06 may automatically use a dark theme if your operating system is configured to use a dark theme.
+To explicitly choose either a light theme or a dark theme, open the _Preferences_ dialog via menu:Window[Preferences].
+Then select menu:General[Appearance], and for _Theme_ select either _Light_ or _Dark_.
+Select _System_ to automatically select light or dark mode based on the operating system settings (issue {escet-issue}176[#176]).
+* The _Console_ view now has theming support, and comes with a dark theme in addition to the existing light theme.
+The console now automatically uses its dark theme when the Eclipse built-in dark theme is used, and uses a light theme otherwise (issue {escet-issue}417[#417]).
+* The _Application_ view's status legend has been redesigned to support both light and dark themes (issue {escet-issue}417[#417]).
+* Very long lines in the _Console_ view and text editors now render correctly on Windows (issue {escet-issue}76[#76]).
+
 === Version 0.7 (2022-09-30)
 
 This release contains no changes that apply to the Eclipse ESCET toolkit in general.
