@@ -73,6 +73,6 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "1.2 != 1.5".
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "[1, 2, 4] != [1, 2, 3]".
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "true != false".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "UNEQUAL.A != UNEQUAL.B".
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "{1, 2, 4} != {1, 2, 3}".
  - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "{1: 10, 5: 20} != {1: 10, 2: 20}".
- - Unsupported "UNEQUAL": uses binary operator "=" in binary expression "UNEQUAL.A = UNEQUAL.B".

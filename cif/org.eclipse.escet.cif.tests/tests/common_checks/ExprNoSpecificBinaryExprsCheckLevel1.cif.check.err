@@ -112,5 +112,5 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "set int[1..4]" and "set int[1..3]" in binary expression "{1, 2, 4} != {1, 2, 3}".
  - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "string" and "string" in binary expression ""abc" != "def"".
  - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "tuple(int[1..1]; int[2..2]; int[4..4])" and "tuple(int[1..1]; int[2..2]; int[3..3])" in binary expression "(1, 2, 4) != (1, 2, 3)".
- - Unsupported "UNEQUAL": uses binary operator "=" on operands of types "UNEQUAL.E" and "UNEQUAL.E" in binary expression "UNEQUAL.A = UNEQUAL.B".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "UNEQUAL.E" and "UNEQUAL.E" in binary expression "UNEQUAL.A != UNEQUAL.B".
  - Unsupported specification: uses binary operator "<" in binary expression "1 < 2".
