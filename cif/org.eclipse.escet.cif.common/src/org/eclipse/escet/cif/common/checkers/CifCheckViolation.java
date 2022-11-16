@@ -21,6 +21,8 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.checkers.messages.CifCheckViolationMessage;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.position.common.PositionUtils;
+import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF check condition violation. */
@@ -124,9 +126,34 @@ public class CifCheckViolation {
 
     @Override
     public String toString() {
+        return toString(null);
+    }
+
+    /**
+     * Get a text describing the violation.
+     *
+     * @param spec The CIF specification that was checked, or {@code null} if not available.
+     * @return The text describing the violation.
+     */
+    public String toString(Specification spec) {
         String name = (actualReportObject == null) ? "specification"
                 : "\"" + CifTextUtils.getAbsName(actualReportObject) + "\"";
         String messageText = message.getMessageText(this);
-        return fmt("%s: %s.", name, messageText);
+
+        Position position;
+        if (actualReportObject != null && actualReportObject.getPosition() != null) {
+            // Actual report object itself has a position.
+            position = actualReportObject.getPosition();
+        } else if (actualReportObject == null && spec != null && spec.getPosition() != null) {
+            // Actual report object is a specification provided as 'null', and thus without position information, but
+            // the specification is provided to this method.
+            position = spec.getPosition();
+        } else {
+            // No position information available to use.
+            position = null;
+        }
+        String positionText = (position != null) ? fmt(" (%s)", PositionUtils.pos2str(position)) : "";
+
+        return fmt("%s%s: %s.", name, positionText, messageText);
     }
 }

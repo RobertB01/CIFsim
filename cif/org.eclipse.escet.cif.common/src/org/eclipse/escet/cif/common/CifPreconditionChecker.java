@@ -62,7 +62,7 @@ public class CifPreconditionChecker extends CifChecker {
 
         // Report unsupported specification, if there are any precondition violations.
         if (violations.hasViolations()) {
-            Set<String> messages = violations.getViolations().map(v -> "Unsupported " + v.toString())
+            Set<String> messages = violations.getViolations().map(v -> "Unsupported " + v.toString(spec))
                     .collect(Collectors.toSet());
             List<String> sortedMessages = Sets.sortedgeneric(messages, Strings.SORTER);
             String msg = toolName + " failed due to unsatisfied preconditions:\n - "
