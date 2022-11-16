@@ -63,13 +63,13 @@ public class FuncNoSpecificUserDefCheck extends CifCheck {
     }
 
     /**
-     * Report a violation about a user-defined function.
+     * Check a user-defined function.
      *
-     * @param func Function to report.
+     * @param func Function to check.
      * @param funcKind Kind of the function.
      * @param violations Destination of the reported violations, is modified in-place.
      */
-    private void reportFunction(Function func, NoSpecificUserDefFunc funcKind, CifCheckViolations violations) {
+    private void checkFunction(Function func, NoSpecificUserDefFunc funcKind, CifCheckViolations violations) {
         // Check the kind of the function.
         if (disalloweds.contains(funcKind)) {
             if (disalloweds.containsAll(ALL_USER_DEF_FUNCS)) {
