@@ -56,8 +56,6 @@ public class FuncNoSpecificIntUserDefFuncStatsCheck extends CifCheck {
     @Override
     protected void preprocessAssignmentFuncStatement(AssignmentFuncStatement asgStat, CifCheckViolations violations) {
         if (disAlloweds.contains(NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR)) {
-            // CifAddressableUtils.getRefs doesn't properly handle multi-assignments to different non-overlapping parts of
-            // the same variable. In fact, that method crashes on them. So, check here that isn't the case.
             Expression addr = asgStat.getAddressable();
             try {
                 CifAddressableUtils.getRefs(addr);
