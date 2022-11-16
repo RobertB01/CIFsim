@@ -20,8 +20,8 @@ func int f():
     if true:
       break;
     end
-    continue;
     d[0] := 5;
+    continue;
   end
   return 0;
 end
@@ -41,5 +41,4 @@ group g:
     end
     return 0;
   end
-
 end

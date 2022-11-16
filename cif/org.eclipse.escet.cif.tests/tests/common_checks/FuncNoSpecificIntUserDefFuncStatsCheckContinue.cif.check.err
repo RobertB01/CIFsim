@@ -1,4 +1,3 @@
-WARNING: File "common_checks/FuncNoSpecificIntUserDefFuncStatsCheckContinue.cif": Semantic warning at line 24, column 10: Statement is unreachable.
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "f": user-defined function has a 'continue' statement.
  - Unsupported "g.f": user-defined function has a 'continue' statement.
