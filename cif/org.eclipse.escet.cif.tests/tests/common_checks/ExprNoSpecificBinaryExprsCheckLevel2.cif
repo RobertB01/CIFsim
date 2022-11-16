@@ -223,7 +223,7 @@ group UNEQUAL:
   invariant [1, 2, 4] != [1, 2, 3];
   invariant {1, 2, 4} != {1, 2, 3};
   invariant {1:10, 5:20} != {1:10, 2:20};
-  invariant A = B;
+  invariant A != B;
   invariant (1, 2, 4) != (1, 2, 3);
   invariant "abc" != "def";
 end
