@@ -54,12 +54,12 @@ public class FuncNoSpecificUserDefCheck extends CifCheck {
 
     @Override
     protected void preprocessInternalFunction(InternalFunction func, CifCheckViolations violations) {
-        reportFunction(func, NoSpecificUserDefFunc.INTERNAL, violations);
+        checkFunction(func, NoSpecificUserDefFunc.INTERNAL, violations);
     }
 
     @Override
     protected void preprocessExternalFunction(ExternalFunction func, CifCheckViolations violations) {
-        reportFunction(func, NoSpecificUserDefFunc.EXTERNAL, violations);
+        checkFunction(func, NoSpecificUserDefFunc.EXTERNAL, violations);
     }
 
     /**

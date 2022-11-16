@@ -21,5 +21,4 @@ public class FuncNoSpecificUserDefCheckExternal extends FuncNoSpecificUserDefChe
     public FuncNoSpecificUserDefCheckExternal() {
         super(NoSpecificUserDefFunc.EXTERNAL);
     }
-
 }

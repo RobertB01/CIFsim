@@ -33,5 +33,4 @@ group g:
 
   func bool EXT_NO_PARAM_f(): "java:somepkg.SomeClass.someMethod|.";
   func bool EXT_PARAM_h(int v): "java:somepkg.SomeClass.someMethod2|.";
-
 end

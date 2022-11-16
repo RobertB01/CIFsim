@@ -15,11 +15,10 @@ package org.eclipse.escet.cif.tests.common.checkers;
 
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 
-/** Test class that disallows internal user-defined functions. */
+/** Test class that disallows user-defined functions without parameter. */
 public class FuncNoSpecificUserDefCheckNoParam extends FuncNoSpecificUserDefCheck {
     /** Constructor of the {@link FuncNoSpecificUserDefCheckNoParam} class. */
     public FuncNoSpecificUserDefCheckNoParam() {
         super(NoSpecificUserDefFunc.NO_PARAMETER);
     }
-
 }

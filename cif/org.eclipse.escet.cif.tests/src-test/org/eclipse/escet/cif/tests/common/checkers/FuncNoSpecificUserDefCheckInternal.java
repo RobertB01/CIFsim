@@ -21,5 +21,4 @@ public class FuncNoSpecificUserDefCheckInternal extends FuncNoSpecificUserDefChe
     public FuncNoSpecificUserDefCheckInternal() {
         super(NoSpecificUserDefFunc.INTERNAL);
     }
-
 }
