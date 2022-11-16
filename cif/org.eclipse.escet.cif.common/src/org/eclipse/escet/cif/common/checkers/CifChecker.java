@@ -52,8 +52,8 @@ public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
      * @return The violations.
      */
     public CifCheckViolations check(Specification spec) {
-        Assert.check(supportCompDefInst || !CifScopeUtils.hasCompDefInst(spec),
-                "At least one check does not support comp def/inst while the specification contains such a language construct.");
+        Assert.check(supportCompDefInst || !CifScopeUtils.hasCompDefInst(spec), "At least one check does not support "
+                + "comp def/inst while the specification contains such a language construct.");
 
         CifCheckViolations violations = new CifCheckViolations();
         walkSpecification(spec, violations);
