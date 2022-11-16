@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.tests.common.checkers;
 
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
 
-/** Test class for {@link FuncNoSpecificIntUserDefFuncStatsCheck} to check the partial assignments check. */
+/** Test class for {@link FuncNoSpecificIntUserDefFuncStatsCheck} to check the 'break' statements check. */
 public class FuncNoSpecificIntUserDefFuncStatsCheckBreak extends FuncNoSpecificIntUserDefFuncStatsCheck {
     /** Constructor of the {@link FuncNoSpecificIntUserDefFuncStatsCheckBreak} class. */
     public FuncNoSpecificIntUserDefFuncStatsCheckBreak() {

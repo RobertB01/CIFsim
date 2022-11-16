@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.tests.common.checkers;
 
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
 
-/** Test class for {@link FuncNoSpecificIntUserDefFuncStatsCheck} to check the partial assignments check. */
+/** Test class for {@link FuncNoSpecificIntUserDefFuncStatsCheck} to check the 'continue' statements check. */
 public class FuncNoSpecificIntUserDefFuncStatsCheckContinue extends FuncNoSpecificIntUserDefFuncStatsCheck {
     /** Constructor of the {@link FuncNoSpecificIntUserDefFuncStatsCheckContinue} class. */
     public FuncNoSpecificIntUserDefFuncStatsCheckContinue() {

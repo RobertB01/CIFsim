@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.tests.common.checkers;
 
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
 
-/** Test class for {@link FuncNoSpecificIntUserDefFuncStatsCheck} to check the partial assignments check. */
+/** Test class for {@link FuncNoSpecificIntUserDefFuncStatsCheck} to check the 'while' statements check. */
 public class FuncNoSpecificIntUserDefFuncStatsCheckWhile extends FuncNoSpecificIntUserDefFuncStatsCheck {
     /** Constructor of the {@link FuncNoSpecificIntUserDefFuncStatsCheckWhile} class. */
     public FuncNoSpecificIntUserDefFuncStatsCheckWhile() {
