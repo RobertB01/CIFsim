@@ -1,12 +1,12 @@
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "different_locs.loc3": location has a plant invariant, which is not a kindless or supervisor invariant.
- - Unsupported "different_locs.loc4": location has a requirement invariant, which is not a kindless or supervisor invariant.
- - Unsupported "g.p": group has a plant invariant, which is not a kindless or supervisor invariant.
- - Unsupported "g.r": group has a requirement invariant, which is not a kindless or supervisor invariant.
- - Unsupported "named_invs.I3": invariant is a plant invariant, which is not a kindless or supervisor invariant.
- - Unsupported "named_invs.I4": invariant is a requirement invariant, which is not a kindless or supervisor invariant.
- - Unsupported "nameless_loc": automaton has a plant invariant, which is not a kindless or supervisor invariant.
- - Unsupported "nameless_loc": automaton has a requirement invariant, which is not a kindless or supervisor invariant.
- - Unsupported "state_invs": group has a plant invariant, which is not a kindless or supervisor invariant.
- - Unsupported "state_invs": group has a requirement invariant, which is not a kindless or supervisor invariant.
- - Unsupported specification: the top level scope of the specification has a plant invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "different_locs.loc3" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 47, columns 12 .. 15): location has a plant invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "different_locs.loc4" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 50, columns 12 .. 15): location has a requirement invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "g.p" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 27, column 9): group has a plant invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "g.r" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 31, column 9): group has a requirement invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "named_invs.I3" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 73, columns 11 .. 12): invariant is a plant invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "named_invs.I4" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 74, columns 17 .. 18): invariant is a requirement invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "nameless_loc" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 58, columns 11 .. 22): automaton has a plant invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "nameless_loc" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 58, columns 11 .. 22): automaton has a requirement invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "state_invs" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 78, columns 7 .. 16): group has a plant invariant, which is not a kindless or supervisor invariant.
+ - Unsupported "state_invs" (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 78, columns 7 .. 16): group has a requirement invariant, which is not a kindless or supervisor invariant.
+ - Unsupported specification (File "common_checks/InvOnlySpecificSupKindsCheckSupNone.cif": line 1, column 1): the top level scope of the specification has a plant invariant, which is not a kindless or supervisor invariant.
