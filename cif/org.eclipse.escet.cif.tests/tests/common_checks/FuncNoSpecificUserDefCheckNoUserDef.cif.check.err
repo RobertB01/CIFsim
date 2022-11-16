@@ -1,0 +1,9 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "EXT_NO_PARAM_f": is a user-defined function.
+ - Unsupported "EXT_PARAM_h": is a user-defined function.
+ - Unsupported "g.EXT_NO_PARAM_f": is a user-defined function.
+ - Unsupported "g.EXT_PARAM_h": is a user-defined function.
+ - Unsupported "g.INT_NO_PARAM_fifteen": is a user-defined function.
+ - Unsupported "g.INT_PARAM_inc": is a user-defined function.
+ - Unsupported "INT_NO_PARAM_fifteen": is a user-defined function.
+ - Unsupported "INT_PARAM_inc": is a user-defined function.

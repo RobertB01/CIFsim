@@ -1,0 +1,5 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "EXT_NO_PARAM_f": has no parameters.
+ - Unsupported "g.EXT_NO_PARAM_f": has no parameters.
+ - Unsupported "g.INT_NO_PARAM_fifteen": has no parameters.
+ - Unsupported "INT_NO_PARAM_fifteen": has no parameters.
