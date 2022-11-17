@@ -42,6 +42,8 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
@@ -141,16 +143,12 @@ public class CifToPlcPreChecker extends CifWalker {
             // Allow state-event exclusion invariants only.
             new LocOnlySpecificInvariantsCheck(false, true),
 
+            // Only allow internal user-defined functions with at least one parameter.
+            new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
+
             null // Temporary dummy value to allow the final comma.
             //
             );
-
-    @Override
-    protected void preprocessExternalFunction(ExternalFunction func) {
-        String msg = fmt("Unsupported function \"%s\": external user-defined functions are currently not supported.",
-                getAbsName(func));
-        problems.add(msg);
-    }
 
     @Override
     protected void preprocessLocation(Location loc) {
@@ -209,15 +207,6 @@ public class CifToPlcPreChecker extends CifWalker {
         if (initLocCount > 1) {
             String msg = fmt("Unsupported automaton \"%s\": automata with multiple initial locations are currently "
                     + "not supported.", getAbsName(aut));
-            problems.add(msg);
-        }
-    }
-
-    @Override
-    protected void preprocessFunction(Function func) {
-        // Functions must have at least one parameter.
-        if (func.getParameters().isEmpty()) {
-            String msg = fmt("Unsupported function \"%s\": the function has no parameters.", getAbsName(func));
             problems.add(msg);
         }
     }
