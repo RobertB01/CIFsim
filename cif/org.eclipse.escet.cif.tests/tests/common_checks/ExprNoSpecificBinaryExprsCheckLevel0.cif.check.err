@@ -22,7 +22,15 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "DIVISION.RI": uses binary operator "=" in binary expression "1.0 / 1 = 0.0".
  - Unsupported "DIVISION.RR": uses binary operator "/" in binary expression "1.0 / 1.0".
  - Unsupported "DIVISION.RR": uses binary operator "=" in binary expression "1.0 / 1.0 = 0.0".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression ""abc" = "abc"".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "(1, 2, 3) = (1, 2, 3)".
  - Unsupported "EQUAL": uses binary operator "=" in binary expression "1 = 1".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "1.2 = 1.2".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "[1, 2, 3] = [1, 2, 3]".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "EQUAL.A = EQUAL.A".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "true = true".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "{1, 2, 3} = {1, 2, 3}".
+ - Unsupported "EQUAL": uses binary operator "=" in binary expression "{1: 10, 2: 20} = {1: 10, 2: 20}".
  - Unsupported "IMPLICATION": uses binary operator "=>" in binary expression "true => false".
  - Unsupported "INTEGER_DIVISION.GG": uses binary operator "=" in binary expression "1 div 1 = 0".
  - Unsupported "INTEGER_DIVISION.GI": uses binary operator "=" in binary expression "1 div INTEGER_DIVISION.i = 0".
@@ -59,4 +67,12 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "SUBTRACTION_NUMBERS.II": uses binary operator "-" in binary expression "SUBTRACTION_NUMBERS.i - SUBTRACTION_NUMBERS.i".
  - Unsupported "SUBTRACTION_NUMBERS.RG": uses binary operator "-" in binary expression "1.0 - 1.0".
  - Unsupported "SUBTRACTION_NUMBERS.RR": uses binary operator "-" in binary expression "1.0 - 1.0".
- - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "1 != 1".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression ""abc" != "def"".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "(1, 2, 4) != (1, 2, 3)".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "1 != 2".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "1.2 != 1.5".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "[1, 2, 4] != [1, 2, 3]".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "true != false".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "UNEQUAL.A != UNEQUAL.B".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "{1, 2, 4} != {1, 2, 3}".
+ - Unsupported "UNEQUAL": uses binary operator "!=" in binary expression "{1: 10, 5: 20} != {1: 10, 2: 20}".

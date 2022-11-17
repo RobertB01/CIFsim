@@ -17,7 +17,7 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "grp": uses binary operator "<" on operands of types "int[1..1]" and "int[2..2]" in binary expression "1 < 2".
  - Unsupported "INTEGER_DIVISION.GG": uses binary operator "div" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 div 1".
  - Unsupported "INTEGER_DIVISION.GI": uses binary operator "div" on operands of types "int[1..1]" and "int" in binary expression "1 div INTEGER_DIVISION.i".
- - Unsupported "INTEGER_DIVISION.IG": uses binary operator "div" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 div 1".
+ - Unsupported "INTEGER_DIVISION.IG": uses binary operator "div" on operands of types "int" and "int[1..1]" in binary expression "INTEGER_DIVISION.i div 1".
  - Unsupported "INTEGER_DIVISION.II": uses binary operator "div" on operands of types "int" and "int" in binary expression "INTEGER_DIVISION.i div INTEGER_DIVISION.i".
  - Unsupported "LESS_EQUAL.GG": uses binary operator "<=" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 <= 1".
  - Unsupported "LESS_EQUAL.II": uses binary operator "<=" on operands of types "int" and "int" in binary expression "LESS_EQUAL.i <= LESS_EQUAL.i".

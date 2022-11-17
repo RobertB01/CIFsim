@@ -16,12 +16,26 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "ADDITION_NUMBERS.RR": uses binary operator "+" on operands of types "real" and "real" in binary expression "1.0 + 1.0".
  - Unsupported "ADDITION_NUMBERS.RR": uses binary operator ">" in binary expression "1.0 + 1.0 > 0".
  - Unsupported "ADDITION_STRINGS": uses binary operator "+" on operands of types "string" and "string" in binary expression ""a" + "a"".
+ - Unsupported "ADDITION_STRINGS": uses binary operator "=" on operands of types "string" and "string" in binary expression ""a" + "a" = "aa"".
  - Unsupported "BI_CONDITIONAL": uses binary operator "<=>" in binary expression "true <=> false".
  - Unsupported "CONJUNCTION.SS": uses binary operator "and" on operands of types "set bool" and "set bool" in binary expression "{true} and {false}".
  - Unsupported "DISJUNCTION.SS": uses binary operator "or" on operands of types "set bool" and "set bool" in binary expression "{true} or {false}".
+ - Unsupported "DIVISION.II": uses binary operator "=" on operands of types "real" and "real" in binary expression "1 / 1 = 0.0".
+ - Unsupported "DIVISION.IR": uses binary operator "=" on operands of types "real" and "real" in binary expression "1 / 1.0 = 0.0".
+ - Unsupported "DIVISION.RI": uses binary operator "=" on operands of types "real" and "real" in binary expression "1.0 / 1 = 0.0".
+ - Unsupported "DIVISION.RR": uses binary operator "=" on operands of types "real" and "real" in binary expression "1.0 / 1.0 = 0.0".
  - Unsupported "ELEMENT_OF_DICTS": uses binary operator "in" in binary expression "1 in {1: 2}".
  - Unsupported "ELEMENT_OF_LISTS": uses binary operator "in" in binary expression "1 in [1]".
  - Unsupported "ELEMENT_OF_SETS": uses binary operator "in" in binary expression "1 in {1}".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "bool" and "bool" in binary expression "true = true".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "dict(int[1..2]:int[10..20])" and "dict(int[1..2]:int[10..20])" in binary expression "{1: 10, 2: 20} = {1: 10, 2: 20}".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "EQUAL.E" and "EQUAL.E" in binary expression "EQUAL.A = EQUAL.A".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 = 1".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "list[3] int[1..3]" and "list[3] int[1..3]" in binary expression "[1, 2, 3] = [1, 2, 3]".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "real" and "real" in binary expression "1.2 = 1.2".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "set int[1..3]" and "set int[1..3]" in binary expression "{1, 2, 3} = {1, 2, 3}".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "string" and "string" in binary expression ""abc" = "abc"".
+ - Unsupported "EQUAL": uses binary operator "=" on operands of types "tuple(int[1..1]; int[2..2]; int[3..3])" and "tuple(int[1..1]; int[2..2]; int[3..3])" in binary expression "(1, 2, 3) = (1, 2, 3)".
  - Unsupported "GREATER_EQUAL.GG": uses binary operator ">=" in binary expression "1 >= 1".
  - Unsupported "GREATER_EQUAL.II": uses binary operator ">=" in binary expression "GREATER_EQUAL.i >= GREATER_EQUAL.i".
  - Unsupported "GREATER_EQUAL.IR": uses binary operator ">=" in binary expression "1 >= 1.0".
@@ -33,9 +47,13 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "GREATER_THAN.RI": uses binary operator ">" in binary expression "1.0 > 1".
  - Unsupported "GREATER_THAN.RR": uses binary operator ">" in binary expression "1.0 > 1.0".
  - Unsupported "grp": uses binary operator "<" in binary expression "1 < 2".
+ - Unsupported "INTEGER_DIVISION.GG": uses binary operator "=" on operands of types "int[1..1]" and "int[0..0]" in binary expression "1 div 1 = 0".
  - Unsupported "INTEGER_DIVISION.GG": uses binary operator "div" in binary expression "1 div 1".
+ - Unsupported "INTEGER_DIVISION.GI": uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "1 div INTEGER_DIVISION.i = 0".
  - Unsupported "INTEGER_DIVISION.GI": uses binary operator "div" in binary expression "1 div INTEGER_DIVISION.i".
- - Unsupported "INTEGER_DIVISION.IG": uses binary operator "div" in binary expression "1 div 1".
+ - Unsupported "INTEGER_DIVISION.IG": uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "INTEGER_DIVISION.i div 1 = 0".
+ - Unsupported "INTEGER_DIVISION.IG": uses binary operator "div" in binary expression "INTEGER_DIVISION.i div 1".
+ - Unsupported "INTEGER_DIVISION.II": uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "INTEGER_DIVISION.i div INTEGER_DIVISION.i = 0".
  - Unsupported "INTEGER_DIVISION.II": uses binary operator "div" in binary expression "INTEGER_DIVISION.i div INTEGER_DIVISION.i".
  - Unsupported "LESS_EQUAL.GG": uses binary operator "<=" in binary expression "1 <= 1".
  - Unsupported "LESS_EQUAL.II": uses binary operator "<=" in binary expression "LESS_EQUAL.i <= LESS_EQUAL.i".
@@ -47,15 +65,24 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "LESS_THAN.IR": uses binary operator "<" in binary expression "1 < 1.0".
  - Unsupported "LESS_THAN.RI": uses binary operator "<" in binary expression "1.0 < 1".
  - Unsupported "LESS_THAN.RR": uses binary operator "<" in binary expression "1.0 < 1.0".
+ - Unsupported "MODULUS.GG": uses binary operator "=" on operands of types "int[0..0]" and "int[0..0]" in binary expression "1 mod 1 = 0".
  - Unsupported "MODULUS.GG": uses binary operator "mod" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 mod 1".
+ - Unsupported "MODULUS.GI": uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "1 mod MODULUS.i = 0".
  - Unsupported "MODULUS.GI": uses binary operator "mod" on operands of types "int[1..1]" and "int" in binary expression "1 mod MODULUS.i".
+ - Unsupported "MODULUS.IG": uses binary operator "=" on operands of types "int[0..0]" and "int[0..0]" in binary expression "1 mod 1 = 0".
  - Unsupported "MODULUS.IG": uses binary operator "mod" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 mod 1".
+ - Unsupported "MODULUS.II": uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "MODULUS.i mod MODULUS.i = 0".
  - Unsupported "MODULUS.II": uses binary operator "mod" on operands of types "int" and "int" in binary expression "MODULUS.i mod MODULUS.i".
  - Unsupported "MULTIPLICATION.GG": uses binary operator "*" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 * 1".
+ - Unsupported "MULTIPLICATION.GG": uses binary operator "=" on operands of types "int[1..1]" and "int[0..0]" in binary expression "1 * 1 = 0".
  - Unsupported "MULTIPLICATION.II": uses binary operator "*" on operands of types "int" and "int" in binary expression "MULTIPLICATION.i * MULTIPLICATION.i".
+ - Unsupported "MULTIPLICATION.II": uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "MULTIPLICATION.i * MULTIPLICATION.i = 0".
  - Unsupported "MULTIPLICATION.IR": uses binary operator "*" on operands of types "int[1..1]" and "real" in binary expression "1 * 1.0".
+ - Unsupported "MULTIPLICATION.IR": uses binary operator "=" on operands of types "real" and "real" in binary expression "1 * 1.0 = 0.0".
  - Unsupported "MULTIPLICATION.RI": uses binary operator "*" on operands of types "real" and "int[1..1]" in binary expression "1.0 * 1".
+ - Unsupported "MULTIPLICATION.RI": uses binary operator "=" on operands of types "real" and "real" in binary expression "1.0 * 1 = 0.0".
  - Unsupported "MULTIPLICATION.RR": uses binary operator "*" on operands of types "real" and "real" in binary expression "1.0 * 1.0".
+ - Unsupported "MULTIPLICATION.RR": uses binary operator "=" on operands of types "real" and "real" in binary expression "1.0 * 1.0 = 0.0".
  - Unsupported "nested_grp.nested_grp": uses binary operator "<" in binary expression "1 < 2".
  - Unsupported "SUBTRACTION_CONTAINERS.DD": uses binary operator "-" on operands of types "dict(int[1..1]:int[2..2])" and "dict(int[1..1]:int[2..2])" in binary expression "{1: 2} - {1: 2}".
  - Unsupported "SUBTRACTION_CONTAINERS.DLG": uses binary operator "-" on operands of types "dict(int[1..1]:int[2..2])" and "list[1] int[1..1]" in binary expression "{1: 2} - [1]".
@@ -77,4 +104,13 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "SUBTRACTION_NUMBERS.RR": uses binary operator "-" on operands of types "real" and "real" in binary expression "1.0 - 1.0".
  - Unsupported "SUBTRACTION_NUMBERS.RR": uses binary operator ">" in binary expression "1.0 - 1.0 > 0".
  - Unsupported "type_decl": uses binary operator "<" in binary expression "type_decl.a < type_decl.a".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "bool" and "bool" in binary expression "true != false".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "dict(int[1..5]:int[10..20])" and "dict(int[1..2]:int[10..20])" in binary expression "{1: 10, 5: 20} != {1: 10, 2: 20}".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "int[1..1]" and "int[2..2]" in binary expression "1 != 2".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "list[3] int[1..4]" and "list[3] int[1..3]" in binary expression "[1, 2, 4] != [1, 2, 3]".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "real" and "real" in binary expression "1.2 != 1.5".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "set int[1..4]" and "set int[1..3]" in binary expression "{1, 2, 4} != {1, 2, 3}".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "string" and "string" in binary expression ""abc" != "def"".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "tuple(int[1..1]; int[2..2]; int[4..4])" and "tuple(int[1..1]; int[2..2]; int[3..3])" in binary expression "(1, 2, 4) != (1, 2, 3)".
+ - Unsupported "UNEQUAL": uses binary operator "!=" on operands of types "UNEQUAL.E" and "UNEQUAL.E" in binary expression "UNEQUAL.A != UNEQUAL.B".
  - Unsupported specification: uses binary operator "<" in binary expression "1 < 2".
