@@ -44,6 +44,8 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck.NoSpecificStatement;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
@@ -149,40 +151,22 @@ public class CifToPlcPreChecker extends CifWalker {
             // Allow state-event exclusion invariants only.
             new LocOnlySpecificInvariantsCheck(false, true),
 
-            // Only allow internal user-defined functions with at least one parameter.
-            new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
-
             // No urgency.
             new LocNoUrgentCheck(), //
             new EdgeNoUrgentCheck(),
 
+            // Only allow internal user-defined functions with at least one parameter.
+            new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
+
+            // Limit internal user-defined function assignments.
+            //
+            // We use CifAddressableUtils.getRefs in the code generation, which doesn't properly handle
+            // multi-assignments to different non-overlapping parts of the same variable.
+            new FuncNoSpecificIntUserDefFuncStatsCheck(NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR),
+
             null // Temporary dummy value to allow the final comma.
     //
     );
-
-    @Override
-    protected void preprocessAssignmentFuncStatement(AssignmentFuncStatement asgn) {
-        // We use CifAddressableUtils.getRefs in the code generation, which
-        // doesn't properly handle multi-assignments to different
-        // non-overlapping parts of the same variable. In fact, that method
-        // crashes on them. So, check here that isn't the case.
-        Expression addr = asgn.getAddressable();
-        try {
-            CifAddressableUtils.getRefs(addr);
-        } catch (DuplVarAsgnException ex) {
-            // Get function.
-            EObject parent = asgn.eContainer();
-            while (!(parent instanceof InternalFunction)) {
-                parent = parent.eContainer();
-            }
-            InternalFunction func = (InternalFunction)parent;
-
-            // Add problem.
-            String msg = fmt("Unsupported function \"%s\": the function has a multi-assignment that assigns multiple "
-                    + "(non-overlapping) parts of a single variable.", getAbsName(func));
-            problems.add(msg);
-        }
-    }
 
     @Override
     protected void preprocessContinueFuncStatement(ContinueFuncStatement cfs) {
