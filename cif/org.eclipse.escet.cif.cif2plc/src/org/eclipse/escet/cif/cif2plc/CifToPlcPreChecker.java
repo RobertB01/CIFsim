@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -134,30 +135,15 @@ public class CifToPlcPreChecker extends CifWalker {
             // No initialization predicates in components.
             new CompNoInitPredsCheck(),
 
+            // Disc variables must have single initial value.
+            new VarNoDiscWithMultiInitValuesCheck(),
+
             // Allow state-event exclusion invariants only.
             new LocOnlySpecificInvariantsCheck(false, true),
 
             null // Temporary dummy value to allow the final comma.
             //
             );
-
-    @Override
-    protected void preprocessDiscVariable(DiscVariable var) {
-        // Skip all but discrete variables declared in components.
-        EObject parent = var.eContainer();
-        if (!(parent instanceof ComplexComponent)) {
-            return;
-        }
-
-        // Check for no multiple initial values.
-        VariableValue values = var.getValue();
-        if (values != null && values.getValues().size() != 1) {
-            String msg = fmt(
-                    "Unsupported discrete variable \"%s\": the variable has multiple potential initial values.",
-                    getAbsName(var));
-            problems.add(msg);
-        }
-    }
 
     @Override
     protected void preprocessExternalFunction(ExternalFunction func) {
