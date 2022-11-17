@@ -41,6 +41,7 @@ import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
@@ -141,6 +142,9 @@ public class CifToPlcPreChecker extends CifWalker {
             // Disc variables must have single initial value.
             new VarNoDiscWithMultiInitValuesCheck(),
 
+            // Automata with single initial location.
+            new AutOnlyWithOneInitLocCheck(),
+
             // Allow state-event exclusion invariants only.
             new LocOnlySpecificInvariantsCheck(false, true),
 
@@ -155,56 +159,11 @@ public class CifToPlcPreChecker extends CifWalker {
             );
 
     @Override
-    protected void preprocessLocation(Location loc) {
-        // Initialization.
-        boolean initial = false;
-        try {
-            initial = loc.getInitials().isEmpty() ? false : evalPreds(loc.getInitials(), true, true);
-        } catch (CifEvalException e) {
-            // Can only fail if there is at least one predicate.
-            String msg = fmt("Failed to evaluate initialization predicate(s): %s.", exprsToStr(loc.getInitials()));
-            problems.add(msg);
-
-            // Disable initial location count checking.
-            initLocCount = -1;
-        }
-
-        if (initial && initLocCount != -1) {
-            initLocCount++;
-        }
-    }
-
-    @Override
     protected void preprocessEdge(Edge edge) {
         // Urgency.
         if (edge.isUrgent()) {
             Location loc = (Location)edge.eContainer();
             String msg = fmt("Unsupported %s: urgent edges are currently not supported.", getLocationText1(loc));
-            problems.add(msg);
-        }
-    }
-
-    @Override
-    protected void preprocessAutomaton(Automaton aut) {
-        // Reset initial locations counter.
-        initLocCount = 0;
-
-        // One more automaton encountered.
-        autCount++;
-    }
-
-    @Override
-    protected void postprocessAutomaton(Automaton aut) {
-        // Exactly one initial location.
-        if (initLocCount == 0) {
-            String msg = fmt("Unsupported automaton \"%s\": automata without an initial location are currently "
-                    + "not supported.", getAbsName(aut));
-            problems.add(msg);
-        }
-
-        if (initLocCount > 1) {
-            String msg = fmt("Unsupported automaton \"%s\": automata with multiple initial locations are currently "
-                    + "not supported.", getAbsName(aut));
             problems.add(msg);
         }
     }
