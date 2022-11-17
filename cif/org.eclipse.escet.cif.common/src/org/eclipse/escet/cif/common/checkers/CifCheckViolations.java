@@ -31,6 +31,19 @@ public class CifCheckViolations {
     /** The violations collected so far. */
     private final Set<CifCheckViolation> violations = set();
 
+    /** The CIF specification being checked. */
+    private final Specification spec;
+
+    /**
+     * Constructor for the {@link CifCheckViolations} class.
+     *
+     * @param spec The CIF specification being checked.
+     */
+    public CifCheckViolations(Specification spec) {
+        Assert.notNull(spec);
+        this.spec = spec;
+    }
+
     /**
      * Returns whether any violations were collected so far.
      *
@@ -70,6 +83,7 @@ public class CifCheckViolations {
         Assert.check(messages.length > 0);
         CifCheckViolationMessage message = (messages.length == 1) ? messages[0]
                 : new SequenceMessage(Arrays.asList(messages));
+        cifObject = (cifObject != null) ? cifObject : spec;
         violations.add(new CifCheckViolation(cifObject, message));
     }
 }
