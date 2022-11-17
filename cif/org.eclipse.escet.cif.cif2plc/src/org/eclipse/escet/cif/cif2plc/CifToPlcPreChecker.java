@@ -198,9 +198,28 @@ public class CifToPlcPreChecker extends CifWalker {
             // Disallow sampling.
             new ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp.SAMPLE),
 
-            // Disallow element of, and subset.
-            new ExprNoSpecificBinaryExprsCheck(NoSpecificBinaryOp.ELEMENT_OF, //
-                    NoSpecificBinaryOp.SUBSET),
+            // Disallow element of, and subset operators, allow boolean conjunction and disjunction, allow equality on
+            // booleans integers and reals, allow addition and subtraction on integer and reals.
+            new ExprNoSpecificBinaryExprsCheck(NoSpecificBinaryOp.ADDITION_LISTS, //
+                    NoSpecificBinaryOp.ADDITION_STRINGS, //
+                    NoSpecificBinaryOp.ADDITION_DICTS, //
+                    NoSpecificBinaryOp.ELEMENT_OF, //
+                    NoSpecificBinaryOp.EQUAL_DICT, //
+                    NoSpecificBinaryOp.EQUAL_LIST, //
+                    NoSpecificBinaryOp.EQUAL_SET, //
+                    NoSpecificBinaryOp.EQUAL_STRING, //
+                    NoSpecificBinaryOp.EQUAL_TUPLE, //
+                    NoSpecificBinaryOp.SUBSET, //
+                    NoSpecificBinaryOp.SUBTRACTION_DICTS, //
+                    NoSpecificBinaryOp.SUBTRACTION_LISTS, //
+                    NoSpecificBinaryOp.SUBTRACTION_SETS, //
+                    NoSpecificBinaryOp.CONJUNCTION_SETS, //
+                    NoSpecificBinaryOp.DISJUNCTION_SETS, //
+                    NoSpecificBinaryOp.UNEQUAL_DICT, //
+                    NoSpecificBinaryOp.UNEQUAL_LIST, //
+                    NoSpecificBinaryOp.UNEQUAL_SET, //
+                    NoSpecificBinaryOp.UNEQUAL_STRING, //
+                    NoSpecificBinaryOp.UNEQUAL_TUPLE),
 
             null // Temporary dummy value to allow the final comma.
     //
@@ -237,59 +256,6 @@ public class CifToPlcPreChecker extends CifWalker {
 
         // Not a type of an expression.
         super.walkCifType(type);
-    }
-
-    @Override
-    protected void preprocessBinaryExpression(BinaryExpression expr) {
-        // Check supported.
-        BinaryOperator op = expr.getOperator();
-        switch (op) {
-            case IMPLICATION:
-            case BI_CONDITIONAL:
-            case LESS_THAN:
-            case LESS_EQUAL:
-            case GREATER_THAN:
-            case GREATER_EQUAL:
-            case MULTIPLICATION:
-            case DIVISION:
-            case INTEGER_DIVISION:
-            case MODULUS:
-                return;
-
-            case DISJUNCTION:
-            case CONJUNCTION: {
-                CifType ltype = normalizeType(expr.getLeft().getType());
-                if (ltype instanceof BoolType) {
-                    return;
-                }
-                break;
-            }
-
-            case EQUAL:
-            case UNEQUAL: {
-                CifType ltype = normalizeType(expr.getLeft().getType());
-                if (ltype instanceof BoolType || ltype instanceof IntType || ltype instanceof RealType
-                        || ltype instanceof EnumType)
-                {
-                    return;
-                }
-                break;
-            }
-
-            case ADDITION:
-            case SUBTRACTION: {
-                CifType ltype = normalizeType(expr.getLeft().getType());
-                if (ltype instanceof IntType || ltype instanceof RealType) {
-                    return;
-                }
-                break;
-            }
-        }
-
-        // Unsupported.
-        String msg = fmt("Unsupported expression \"%s\": binary operator \"%s\" is currently not supported, or is not "
-                + "supported for the operands that are used.", exprToStr(expr), operatorToStr(op));
-        problems.add(msg);
     }
 
     @Override
