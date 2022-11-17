@@ -40,6 +40,8 @@ import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
+import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -123,13 +125,13 @@ public class CifToPlcPreChecker extends CifWalker {
         }
     }
 
-    @Override
-    protected void postprocessSpecification(Specification spec) {
-        if (autCount == 0) {
-            String msg = "Unsupported specification: specifications without automata are currently not supported.";
-            problems.add(msg);
-        }
-    }
+    List<CifCheck> checks = list(
+            // At least one automaton.
+            new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
+
+            null // Temporary dummy value to allow the final comma.
+            //
+            );
 
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp) {
