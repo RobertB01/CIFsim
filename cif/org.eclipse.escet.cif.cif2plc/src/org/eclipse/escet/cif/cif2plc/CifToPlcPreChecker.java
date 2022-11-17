@@ -43,6 +43,7 @@ import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
@@ -152,21 +153,12 @@ public class CifToPlcPreChecker extends CifWalker {
             new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
 
             // No urgency.
-            new LocNoUrgentCheck(),
+            new LocNoUrgentCheck(), //
+            new EdgeNoUrgentCheck(),
 
             null // Temporary dummy value to allow the final comma.
-            //
-            );
-
-    @Override
-    protected void preprocessEdge(Edge edge) {
-        // Urgency.
-        if (edge.isUrgent()) {
-            Location loc = (Location)edge.eContainer();
-            String msg = fmt("Unsupported %s: urgent edges are currently not supported.", getLocationText1(loc));
-            problems.add(msg);
-        }
-    }
+    //
+    );
 
     @Override
     protected void preprocessAssignmentFuncStatement(AssignmentFuncStatement asgn) {
