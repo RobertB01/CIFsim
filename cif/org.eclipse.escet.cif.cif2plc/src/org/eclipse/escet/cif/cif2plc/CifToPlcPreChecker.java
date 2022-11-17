@@ -158,30 +158,16 @@ public class CifToPlcPreChecker extends CifWalker {
             // Only allow internal user-defined functions with at least one parameter.
             new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
 
-            // Limit internal user-defined function assignments.
+            // Limit internal user-defined function assignments and disallow the 'continue' statement.
             //
             // We use CifAddressableUtils.getRefs in the code generation, which doesn't properly handle
             // multi-assignments to different non-overlapping parts of the same variable.
-            new FuncNoSpecificIntUserDefFuncStatsCheck(NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR),
+            new FuncNoSpecificIntUserDefFuncStatsCheck(NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR, //
+                    NoSpecificStatement.CONTINUE),
 
             null // Temporary dummy value to allow the final comma.
     //
     );
-
-    @Override
-    protected void preprocessContinueFuncStatement(ContinueFuncStatement cfs) {
-        // Get function.
-        EObject parent = cfs.eContainer();
-        while (!(parent instanceof InternalFunction)) {
-            parent = parent.eContainer();
-        }
-        InternalFunction func = (InternalFunction)parent;
-
-        // Add problem.
-        String msg = fmt("Unsupported function \"%s\": the internal user-defined function contains a \"continue\" "
-                + "statement.", getAbsName(func));
-        problems.add(msg);
-    }
 
     @Override
     protected void preprocessDictType(DictType type) {
