@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
@@ -146,18 +147,15 @@ public class CifToPlcPreChecker extends CifWalker {
             // Only allow internal user-defined functions with at least one parameter.
             new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
 
+            // No urgency.
+            new LocNoUrgentCheck(),
+
             null // Temporary dummy value to allow the final comma.
             //
             );
 
     @Override
     protected void preprocessLocation(Location loc) {
-        // Urgency.
-        if (loc.isUrgent()) {
-            String msg = fmt("Unsupported %s: urgent locations are currently not supported.", getLocationText1(loc));
-            problems.add(msg);
-        }
-
         // Initialization.
         boolean initial = false;
         try {
