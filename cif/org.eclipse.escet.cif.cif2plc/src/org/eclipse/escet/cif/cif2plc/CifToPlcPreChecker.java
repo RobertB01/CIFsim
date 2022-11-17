@@ -44,8 +44,12 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck.NoSpecificStatement;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
@@ -191,6 +195,13 @@ public class CifToPlcPreChecker extends CifWalker {
                     NoSpecificExpr.STRING_LITS, //
                     NoSpecificExpr.SLICE_EXPRS),
 
+            // Disallow sampling.
+            new ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp.SAMPLE),
+
+            // Disallow element of, and subset.
+            new ExprNoSpecificBinaryExprsCheck(NoSpecificBinaryOp.ELEMENT_OF, //
+                    NoSpecificBinaryOp.SUBSET),
+
             null // Temporary dummy value to allow the final comma.
     //
     );
@@ -226,26 +237,6 @@ public class CifToPlcPreChecker extends CifWalker {
 
         // Not a type of an expression.
         super.walkCifType(type);
-    }
-
-    @Override
-    protected void preprocessUnaryExpression(UnaryExpression expr) {
-        // Check supported.
-        UnaryOperator op = expr.getOperator();
-        switch (op) {
-            case INVERSE:
-            case NEGATE:
-            case PLUS:
-                return;
-
-            case SAMPLE:
-                break;
-        }
-
-        // Unsupported.
-        String msg = fmt("Unsupported expression \"%s\": unary operator \"%s\" is currently not supported.",
-                exprToStr(expr), operatorToStr(op));
-        problems.add(msg);
     }
 
     @Override
@@ -293,10 +284,6 @@ public class CifToPlcPreChecker extends CifWalker {
                 }
                 break;
             }
-
-            case ELEMENT_OF:
-            case SUBSET:
-                break;
         }
 
         // Unsupported.
