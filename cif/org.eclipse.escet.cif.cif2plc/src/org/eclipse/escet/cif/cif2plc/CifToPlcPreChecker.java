@@ -174,17 +174,6 @@ public class CifToPlcPreChecker extends CifWalker {
             problems.add(msg);
         }
 
-        // State invariants, as state/event exclusion invariants are eliminated.
-        List<Expression> invPreds = listc(loc.getInvariants().size());
-        for (Invariant inv: loc.getInvariants()) {
-            invPreds.add(inv.getPredicate());
-        }
-        if (!CifValueUtils.isTriviallyTrue(invPreds, false, true)) {
-            String msg = fmt("Unsupported %s: state invariants in locations are currently not supported.",
-                    getLocationText1(loc));
-            problems.add(msg);
-        }
-
         // Initialization.
         boolean initial = false;
         try {
