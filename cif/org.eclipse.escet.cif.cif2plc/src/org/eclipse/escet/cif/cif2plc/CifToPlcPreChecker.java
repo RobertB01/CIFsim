@@ -51,6 +51,8 @@ import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.N
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
@@ -165,21 +167,19 @@ public class CifToPlcPreChecker extends CifWalker {
             new FuncNoSpecificIntUserDefFuncStatsCheck(NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR, //
                     NoSpecificStatement.CONTINUE),
 
+            // Disallow various types completely.
+            new TypeNoSpecificTypesCheck(NoSpecificType.DICT_TYPES, //
+                    NoSpecificType.DIST_TYPES, //
+                    NoSpecificType.SET_TYPES, //
+                    NoSpecificType.STRING_TYPES, //
+                    // S7 transformation doesn't support list types. That is because S7 doesn't support functions
+                    // returning arrays and doesn't support arrays of arrays.
+                    (PlcOutputTypeOption.isS7Output() ? NoSpecificType.LIST_TYPES
+                            : NoSpecificType.LIST_TYPES_NON_ARRAY)),
+
             null // Temporary dummy value to allow the final comma.
     //
     );
-
-    @Override
-    protected void preprocessDictType(DictType type) {
-        String msg = fmt("Unsupported type \"%s\": dictionary types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessDistType(DistType type) {
-        String msg = fmt("Unsupported type \"%s\": distribution types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
 
     @Override
     protected void preprocessFuncType(FuncType type) {
@@ -187,43 +187,6 @@ public class CifToPlcPreChecker extends CifWalker {
         // data, to be passed around, stored in variables, etc.
         String msg = fmt("Unsupported type \"%s\": function types are currently not supported. That is, calling "
                 + "functions is supported, but using them as data is not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessListType(ListType type) {
-        // S7 transformation doesn't support list types. That is because S7 doesn't support functions returning arrays
-        // and doesn't support arrays of arrays.
-        if (PlcOutputTypeOption.isS7Output()) {
-            String msg = fmt("Unsupported type \"%s\": list types are currently not supported for %s output.",
-                    typeToStr(type), PlcOutputTypeOption.getPlcOutputType().dialogText);
-            problems.add(msg);
-            return;
-        }
-
-        // We support arrays.
-        if (isArrayType(type)) {
-            return;
-        }
-
-        // All other list types are not supported.
-        String msg = fmt("Unsupported type \"%s\": non-array list types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessSetType(SetType type) {
-        // Could potentially use arrays in ST, but they have a fixed
-        // length.
-        String msg = fmt("Unsupported type \"%s\": set types are currently not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessStringType(StringType type) {
-        // Could potentially use strings in ST, but they have limited
-        // maximum length.
-        String msg = fmt("Unsupported type \"%s\": string types are currently not supported.", typeToStr(type));
         problems.add(msg);
     }
 
