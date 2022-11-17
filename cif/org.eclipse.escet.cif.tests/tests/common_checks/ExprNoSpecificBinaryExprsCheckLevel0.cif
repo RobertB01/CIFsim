@@ -102,7 +102,16 @@ end
 
 // EQUAL.
 group EQUAL:
+  enum E = A, B;
   invariant 1 = 1;
+  invariant true = true;
+  invariant 1.2 = 1.2;
+  invariant [1, 2, 3] = [1, 2, 3];
+  invariant {1, 2, 3} = {1, 2, 3};
+  invariant {1:10, 2:20} = {1:10, 2:20};
+  invariant A = A;
+  invariant (1, 2, 3) = (1, 2, 3);
+  invariant "abc" = "abc";
 end
 
 // GREATER_EQUAL.
@@ -207,5 +216,14 @@ end
 
 // UNEQUAL.
 group UNEQUAL:
-  invariant 1 != 1;
+  enum E = A, B;
+  invariant 1 != 2;
+  invariant true != false;
+  invariant 1.2 != 1.5;
+  invariant [1, 2, 4] != [1, 2, 3];
+  invariant {1, 2, 4} != {1, 2, 3};
+  invariant {1:10, 5:20} != {1:10, 2:20};
+  invariant A != B;
+  invariant (1, 2, 4) != (1, 2, 3);
+  invariant "abc" != "def";
 end
