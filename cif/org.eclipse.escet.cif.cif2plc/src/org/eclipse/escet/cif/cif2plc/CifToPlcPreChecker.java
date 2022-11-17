@@ -41,6 +41,8 @@ import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
@@ -129,30 +131,15 @@ public class CifToPlcPreChecker extends CifWalker {
             // At least one automaton.
             new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 
+            // No initialization predicates in components.
+            new CompNoInitPredsCheck(),
+
+            // Allow state-event exclusion invariants only.
+            new LocOnlySpecificInvariantsCheck(false, true),
+
             null // Temporary dummy value to allow the final comma.
             //
             );
-
-    @Override
-    protected void preprocessComplexComponent(ComplexComponent comp) {
-        // Initialization.
-        if (!CifValueUtils.isTriviallyTrue(comp.getInitials(), true, true)) {
-            String msg = fmt("Unsupported %s: initialization predicates in components are currently not supported.",
-                    getComponentText1(comp));
-            problems.add(msg);
-        }
-
-        // State invariants, as state/event exclusion invariants are eliminated.
-        List<Expression> invPreds = listc(comp.getInvariants().size());
-        for (Invariant inv: comp.getInvariants()) {
-            invPreds.add(inv.getPredicate());
-        }
-        if (!CifValueUtils.isTriviallyTrue(invPreds, false, true)) {
-            String msg = fmt("Unsupported %s: state invariants in components are currently not supported.",
-                    getComponentText1(comp));
-            problems.add(msg);
-        }
-    }
 
     @Override
     protected void preprocessDiscVariable(DiscVariable var) {
