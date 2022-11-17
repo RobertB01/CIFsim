@@ -52,6 +52,8 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsChec
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck.NoSpecificStatement;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
@@ -221,6 +223,25 @@ public class CifToPlcPreChecker extends CifWalker {
                     NoSpecificBinaryOp.UNEQUAL_STRING, //
                     NoSpecificBinaryOp.UNEQUAL_TUPLE),
 
+            // Limit standard library functions.
+            new FuncNoSpecificStdLibCheck(NoSpecificStdLib.STD_LIB_STOCHASTIC_GROUP, //
+                    NoSpecificStdLib.STD_LIB_ACOSH, //
+                    NoSpecificStdLib.STD_LIB_ASINH, //
+                    NoSpecificStdLib.STD_LIB_ATANH, //
+                    NoSpecificStdLib.STD_LIB_COSH, //
+                    NoSpecificStdLib.STD_LIB_SINH, //
+                    NoSpecificStdLib.STD_LIB_TANH, //
+                    NoSpecificStdLib.STD_LIB_CEIL, //
+                    NoSpecificStdLib.STD_LIB_DELETE, //
+                    NoSpecificStdLib.STD_LIB_EMPTY, //
+                    NoSpecificStdLib.STD_LIB_FLOOR, //
+                    NoSpecificStdLib.STD_LIB_FORMAT, //
+                    NoSpecificStdLib.STD_LIB_POP, //
+                    NoSpecificStdLib.STD_LIB_ROUND, //
+                    NoSpecificStdLib.STD_LIB_SCALE, //
+                    NoSpecificStdLib.STD_LIB_SIGN, //
+                    NoSpecificStdLib.STD_LIB_SIZE),
+
             null // Temporary dummy value to allow the final comma.
     //
     );
@@ -260,80 +281,6 @@ public class CifToPlcPreChecker extends CifWalker {
 
     @Override
     protected void preprocessFunctionCallExpression(FunctionCallExpression expr) {
-        // Check supported.
-        Expression fexpr = expr.getFunction();
-        if (fexpr instanceof FunctionExpression) {
-            return;
-        } else if (fexpr instanceof StdLibFunctionExpression) {
-            // Check supported stdlib.
-            StdLibFunctionExpression lExpr = (StdLibFunctionExpression)fexpr;
-            StdLibFunction stdlib = lExpr.getFunction();
-            switch (stdlib) {
-                // Supported.
-                case ABS:
-                case CBRT:
-                case EXP:
-                case LN:
-                case LOG:
-                case MAXIMUM:
-                case MINIMUM:
-                case POWER:
-                case SQRT:
-                case ACOS:
-                case ASIN:
-                case ATAN:
-                case COS:
-                case SIN:
-                case TAN:
-                    return;
-
-                // Unsupported.
-                case CEIL:
-                case DELETE:
-                case EMPTY:
-                case FLOOR:
-                case FORMAT:
-                case POP:
-                case ROUND:
-                case SCALE:
-                case SIGN:
-                case SIZE:
-                case ACOSH:
-                case ASINH:
-                case ATANH:
-                case COSH:
-                case SINH:
-                case TANH:
-                    break;
-
-                // Distributions (unsupported).
-                case BERNOULLI:
-                case BETA:
-                case BINOMIAL:
-                case CONSTANT:
-                case ERLANG:
-                case EXPONENTIAL:
-                case GAMMA:
-                case GEOMETRIC:
-                case LOG_NORMAL:
-                case NORMAL:
-                case POISSON:
-                case RANDOM:
-                case TRIANGLE:
-                case UNIFORM:
-                case WEIBULL:
-                    break;
-            }
-
-            // Unsupported stdlib.
-            String msg = fmt(
-                    "Unsupported expression \"%s\": standard  library function \"%s\" is currently not "
-                            + "supported, or is not supported for the arguments that are used.",
-                    exprToStr(expr), functionToStr(stdlib));
-            problems.add(msg);
-            return;
-        }
-
         // Unsupported function call.
         String msg = fmt(
                 "Unsupported expression \"%s\": function calls on anything other than standard library functions "
