@@ -44,6 +44,8 @@ import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck.NoSpecificStatement;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
@@ -177,6 +179,18 @@ public class CifToPlcPreChecker extends CifWalker {
                     (PlcOutputTypeOption.isS7Output() ? NoSpecificType.LIST_TYPES
                             : NoSpecificType.LIST_TYPES_NON_ARRAY)),
 
+            // Allow only casting to the same type and int to real, allow projection tuples and arrays, forbid string,
+            // set, and dictionary literals, and forbid slicing.
+            new ExprNoSpecificExprsCheck(NoSpecificExpr.CAST_EXPRS_FROM_STRING, //
+                    NoSpecificExpr.CAST_EXPRS_TO_STRING, //
+                    NoSpecificExpr.DICT_LITS, //
+                    NoSpecificExpr.PROJECTION_EXPRS_DICTS, //
+                    NoSpecificExpr.PROJECTION_EXPRS_LISTS_NON_ARRAY, //
+                    NoSpecificExpr.PROJECTION_EXPRS_STRINGS, //
+                    NoSpecificExpr.SET_LITS, //
+                    NoSpecificExpr.STRING_LITS, //
+                    NoSpecificExpr.SLICE_EXPRS),
+
             null // Temporary dummy value to allow the final comma.
     //
     );
@@ -212,33 +226,6 @@ public class CifToPlcPreChecker extends CifWalker {
 
         // Not a type of an expression.
         super.walkCifType(type);
-    }
-
-    @Override
-    protected void preprocessStringExpression(StringExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": string values are currently not supported.", exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessCastExpression(CastExpression expr) {
-        // Check supported.
-        CifType ctype = normalizeType(expr.getChild().getType());
-        CifType rtype = normalizeType(expr.getType());
-        if (ctype instanceof IntType && rtype instanceof RealType) {
-            // Integer to real conversion supported by PLC code.
-            return;
-        }
-        if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
-            // Keeping the type the same is supported by removing the cast.
-            return;
-        }
-
-        // Unsupported.
-        String msg = fmt(
-                "Unsupported expression \"%s\": casts from type \"%s\" to type \"%s\" are currently not supported.",
-                exprToStr(expr), typeToStr(ctype), typeToStr(rtype));
-        problems.add(msg);
     }
 
     @Override
@@ -315,28 +302,6 @@ public class CifToPlcPreChecker extends CifWalker {
         // Unsupported.
         String msg = fmt("Unsupported expression \"%s\": binary operator \"%s\" is currently not supported, or is not "
                 + "supported for the operands that are used.", exprToStr(expr), operatorToStr(op));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessProjectionExpression(ProjectionExpression expr) {
-        // Check supported.
-        CifType ctype = normalizeType(expr.getChild().getType());
-        if (ctype instanceof TupleType) {
-            return;
-        } else if (ctype instanceof ListType && isArrayType((ListType)ctype)) {
-            return;
-        }
-
-        // Unsupported.
-        String msg = fmt("Unsupported expression \"%s\": projections on anything other than tuples and arrays is "
-                + "currently not supported.", exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessSliceExpression(SliceExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": slicing is currently not supported.", exprToStr(expr));
         problems.add(msg);
     }
 
@@ -421,18 +386,6 @@ public class CifToPlcPreChecker extends CifWalker {
                 "Unsupported expression \"%s\": function calls on anything other than standard library functions "
                         + "and internal user-defined functions is currently not supported.",
                 exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessSetExpression(SetExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": sets are currently not supported.", exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessDictExpression(DictExpression expr) {
-        String msg = fmt("Unsupported expression \"%s\": dictionaries are currently not supported.", exprToStr(expr));
         problems.add(msg);
     }
 
