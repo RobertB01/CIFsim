@@ -57,8 +57,13 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "DISC_VAR_REFS": uses boolean literal "true".
  - Unsupported "ENUM_LIT_REFS": uses binary expression "ENUM_LIT_REFS.e1 = ENUM_LIT_REFS.e2".
  - Unsupported "FUNC_CALLS": uses binary expression "abs(1) = 1".
+ - Unsupported "FUNC_CALLS": uses boolean literal "true".
+ - Unsupported "FUNC_CALLS": uses external user-defined function reference "FUNC_CALLS.extF".
  - Unsupported "FUNC_CALLS": uses function call "abs(1)".
+ - Unsupported "FUNC_CALLS": uses function call "FUNC_CALLS.extF(true)".
+ - Unsupported "FUNC_CALLS": uses function call "FUNC_CALLS.intF(true)".
  - Unsupported "FUNC_CALLS": uses integer number literal "1".
+ - Unsupported "FUNC_CALLS": uses internal user-defined function reference "FUNC_CALLS.intF".
  - Unsupported "FUNC_CALLS": uses standard library function reference "abs".
  - Unsupported "FUNC_REFS_STD_LIB": uses binary expression "abs(1) = 1".
  - Unsupported "FUNC_REFS_STD_LIB": uses function call "abs(1)".
@@ -161,6 +166,13 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "TUPLE_LITS": uses tuple literal "(true, false)".
  - Unsupported "UNARY_EXPRS": uses boolean literal "true".
  - Unsupported "UNARY_EXPRS": uses unary expression "not true".
+ - Unsupported "USER_DEF_FUNC_REFS": uses external user-defined function reference "USER_DEF_FUNC_REFS.extF".
+ - Unsupported "USER_DEF_FUNC_REFS": uses function call "USER_DEF_FUNC_REFS.g(USER_DEF_FUNC_REFS.extF)".
+ - Unsupported "USER_DEF_FUNC_REFS": uses function call "USER_DEF_FUNC_REFS.g(USER_DEF_FUNC_REFS.intF)".
+ - Unsupported "USER_DEF_FUNC_REFS": uses internal user-defined function reference "USER_DEF_FUNC_REFS.g".
+ - Unsupported "USER_DEF_FUNC_REFS": uses internal user-defined function reference "USER_DEF_FUNC_REFS.intF".
+ - Unsupported "USER_DEF_FUNC_REFS.g": uses boolean literal "true".
+ - Unsupported "USER_DEF_FUNC_REFS.g": uses function call "USER_DEF_FUNC_REFS.g.f(true)".
  - Unsupported "X.A": uses binary expression ""A" = <string>self".
  - Unsupported "X.A": uses boolean literal "true".
  - Unsupported "X.A": uses cast expression "<string>self".

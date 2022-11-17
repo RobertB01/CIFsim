@@ -1,0 +1,4 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f": uses internal user-defined function local variable reference "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f.v".
+ - Unsupported "USER_DEF_FUNC_REFS": uses external user-defined function reference as data value "USER_DEF_FUNC_REFS.extF".
+ - Unsupported "USER_DEF_FUNC_REFS": uses internal user-defined function reference as data value "USER_DEF_FUNC_REFS.intF".

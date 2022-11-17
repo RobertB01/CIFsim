@@ -6,6 +6,8 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN": uses cast expression from string "<bool>"false"".
  - Unsupported "CAST_EXPRS_STRING_TO_INT": uses cast expression from string "<int>"1"".
  - Unsupported "CAST_EXPRS_STRING_TO_REAL": uses cast expression from string "<real>"1.0"".
+ - Unsupported "FUNC_CALLS": uses external user-defined function reference "FUNC_CALLS.extF".
+ - Unsupported "FUNC_CALLS": uses internal user-defined function reference "FUNC_CALLS.intF".
  - Unsupported "FUNC_CALLS": uses standard library function reference "abs".
  - Unsupported "FUNC_REFS_STD_LIB": uses standard library function reference "abs".
  - Unsupported "FUNC_REFS_USER_DEF_EXT": uses external user-defined function reference "FUNC_REFS_USER_DEF_EXT.f".
@@ -21,4 +23,7 @@ ERROR: CIF common checks tester failed due to unsatisfied preconditions:
  - Unsupported "TUPLE_FIELD_REFS_NAMED": uses tuple index-projection expression "TUPLE_FIELD_REFS_NAMED.c[a]".
  - Unsupported "TUPLE_FIELD_REFS_NAMELESS": uses tuple index-projection expression "(true, false)[0]".
  - Unsupported "TUPLE_LITS": uses tuple index-projection expression "(true, false)[0]".
+ - Unsupported "USER_DEF_FUNC_REFS": uses external user-defined function reference "USER_DEF_FUNC_REFS.extF".
+ - Unsupported "USER_DEF_FUNC_REFS": uses internal user-defined function reference "USER_DEF_FUNC_REFS.g".
+ - Unsupported "USER_DEF_FUNC_REFS": uses internal user-defined function reference "USER_DEF_FUNC_REFS.intF".
  - Unsupported "X.A": uses cast expression to string "<string>self".
