@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -42,11 +39,21 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
-import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
-/** Automatic variable ordering hyper-edge creator. */
-class LegacyHyperEdgeCreator {
+/**
+ * Legacy automatic variable ordering hyper-edge creator. Creates the following hyper-edges:
+ * <ul>
+ * <li>Per invariant, a hyper-edge for the variables that occur in the invariant.</li>
+ * <li>Per edge in an automaton, per guard, per comparison binary expression, a hyper-edge for the variables that occur
+ * in the binary expression.</li>
+ * <li>Per assignment, a hyper-edge for the variables that occur in the addressable and value of the assignment.</li>
+ * <li>Per event, a hyper-edge for the variables that occur in the guards and updates of all edges for that event in the
+ * entire specification.</li>
+ * </ul>
+ * Variables that occur via algebraic variables are taken into account.
+ **/
+class LegacyHyperEdgeCreator extends HyperEdgeCreator {
     /** The synthesis variables. */
     private List<SynthesisVariable> variables;
 
@@ -56,14 +63,8 @@ class LegacyHyperEdgeCreator {
     /** Mapping from events to the CIF variable objects to put on the hyper-edge for that event. */
     private Map<Event, Set<PositionObject>> eventHyperEdges = map();
 
-    /**
-     * Creates and returns hyper-edges for the given CIF specification.
-     *
-     * @param spec The CIF specification.
-     * @param variables The synthesis variables.
-     * @return The hyper-edges.
-     */
-    List<BitSet> getHyperEdges(Specification spec, List<SynthesisVariable> variables) {
+    @Override
+    public List<BitSet> getHyperEdges(Specification spec, List<SynthesisVariable> variables) {
         // Initialization.
         this.variables = variables;
         this.hyperEdges = list();
@@ -72,7 +73,7 @@ class LegacyHyperEdgeCreator {
         // Create hyper-edges.
         addHyperEdges(spec);
         for (Set<PositionObject> vars: eventHyperEdges.values()) {
-            addHyperEdge(vars);
+            addHyperEdge(variables, vars, hyperEdges);
         }
 
         // Cleanup.
@@ -81,7 +82,7 @@ class LegacyHyperEdgeCreator {
         this.variables = null;
         this.hyperEdges = null;
 
-        // Return the hyperedges.
+        // Return the hyper-edges.
         return rslt;
     }
 
@@ -97,7 +98,7 @@ class LegacyHyperEdgeCreator {
             VariableCollector varCollector = new VariableCollector();
             Set<PositionObject> vars = set();
             varCollector.collectCifVarObjs(pred, vars);
-            addHyperEdge(vars);
+            addHyperEdge(variables, vars, hyperEdges);
         }
 
         // Add hyper-edges for CIF automata.
@@ -110,7 +111,7 @@ class LegacyHyperEdgeCreator {
                     VariableCollector varCollector = new VariableCollector();
                     Set<PositionObject> vars = set();
                     varCollector.collectCifVarObjs(pred, vars);
-                    addHyperEdge(vars);
+                    addHyperEdge(variables, vars, hyperEdges);
                 }
 
                 // Add hyper-edges for the edges of the CIF automaton.
@@ -145,7 +146,7 @@ class LegacyHyperEdgeCreator {
                 Set<PositionObject> vars = set();
                 varCollector.collectCifVarObjs(cmp.getLeft(), vars);
                 varCollector.collectCifVarObjs(cmp.getRight(), vars);
-                addHyperEdge(vars);
+                addHyperEdge(variables, vars, hyperEdges);
             }
         }
 
@@ -199,12 +200,12 @@ class LegacyHyperEdgeCreator {
             }
             Assignment asgn = (Assignment)update;
 
-            // Add hyperedge per assignment.
+            // Add hyper-edge per assignment.
             VariableCollector varCollector = new VariableCollector();
             Set<PositionObject> vars = set();
             varCollector.collectCifVarObjs(asgn.getAddressable(), vars);
             varCollector.collectCifVarObjs(asgn.getValue(), vars);
-            addHyperEdge(vars);
+            addHyperEdge(variables, vars, hyperEdges);
         }
     }
 }
