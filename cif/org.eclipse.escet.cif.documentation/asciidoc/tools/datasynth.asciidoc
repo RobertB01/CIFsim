@@ -121,6 +121,11 @@ For more information, see the <<tools-datasynth-supervisor-bdd>> section below.
 The initial order of the boolean variables is determined by this option.
 For more information, see the <<tools-datasynth-var-order>> section below.
 
+* _BDD hyper-edge creation algorithm_: CIF variables and automata are represented using one or more boolean variables.
+The variable order can be improved and optimized by various variable ordering algorithms.
+This option controls how hyper-edges are created, which are used by the variable ordering algorithms.
+For more information, see the <<tools-datasynth-var-order>> section below.
+
 * _BDD DCSH variable ordering algorithm_: CIF variables and automata are represented using one or more boolean variables.
 The initial order of the boolean variables can be improved by enabling this option.
 For more information, see the <<tools-datasynth-var-order>> section below.
@@ -1118,8 +1123,28 @@ They are also not applied if the model has no guards, updates, or other predicat
 Without such relations, the algorithms lack the required input to search for improved variable orders.
 
 The variable relations serve as input for the algorithms.
-Different algorithms may use different representations of the variable relations, such as _hyper-edges_ or _graph edges_.
-Further information about these representations may be obtained by enabling <<tools-datasynth-dbg-output,debug output>>.
+Different algorithms may use different representations of the variable relations, which currently include _hyper-edges_ and _graph edges_.
+The graph edges are derived from the hyper-edges.
+The variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see <<tools-datasynth-options,options>> section above):
+
+* _Legacy_ (default)
++
+The legacy hyper-edge creator creates the following hyper-edges:
++
+** Per invariant, a hyper-edge for the variables that occur in the invariant.
+** Per edge in an automaton, per guard, per comparison binary expression, a hyper-edge for the variables that occur in the binary expression.
+** Per assignment, a hyper-edge for the variables that occur in the addressable and value of the assignment.
+** Per event, a hyper-edge for the variables that occur in the guards and updates of all edges for that event in the entire specification.
++
+* _Linearized_
++
+The linearized hyper-edge creator creates the following hyper-edges:
++
+** Per <<tools-cif2cif-chapter-linearize-product,linearized>> edge, a hyper-edge for the variables that occur in the guards and updates of that linearized edge.
+
+All hyper-edge creators take variables that occur indirectly via algebraic variables into account.
+
+More information about the various representations of variable relations may be obtained during synthesis by enabling <<tools-datasynth-dbg-output,debug output>>.
 
 The following variable ordering algorithms are available:
 
@@ -1224,6 +1249,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | <<tools-datasynth-var-order>>
 | Better order for smaller BDD representations
 | Choose the best order, depends on the model, (reversed) model/sorted usually good choices, custom order allows for best performance
+
+| Order
+| BDD hyper-edge creation algorithm
+| <<tools-datasynth-var-order>>
+| Better order for smaller BDD representations
+| Choose the algorithms that produces the best order, depends on the model
 
 | Order
 | BDD DCSH variable ordering algorithm
