@@ -1936,6 +1936,7 @@ public class CifToSynthesisConverter {
         // Add linearized edges.
         if (tauOk) {
             // Linearize edges for all events in the alphabet.
+            // Must match a similar call to linearize edges in `LinearizedHyperEdgeCreator'.
             List<Edge> cifEdges = list();
             LinearizeProduct.linearizeEdges(automata, alphabets, set2list(synthAut.alphabet), locPtrManager, false,
                     true, cifEdges);
