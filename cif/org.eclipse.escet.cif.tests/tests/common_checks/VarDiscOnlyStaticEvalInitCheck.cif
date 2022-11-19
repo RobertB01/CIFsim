@@ -14,9 +14,16 @@
 automaton A:
   disc real v1 = sqrt(-1.0);
   disc real v2 in {sqrt(-1.0), sqrt(-1.0)};
-  disc bool v3 = (v1 = v2);
-  disc bool v4 in {(v1 = v2), (v1 = v2)};
-  disc real v5 in any;
+  disc real v3 in {1.0, sqrt(-1.0), sqrt(-1.0), 2.0};
+  disc bool v4 = (v1 = v2);
+  disc bool v5 in {(v1 = v2), (v1 = v2)};
+  disc real v6 in any;
+  disc real v7;
   location:
     initial;
+end
+
+func bool F(real v8):
+    real v9 = sqrt(-1.0);
+    return v8 > v9;
 end
