@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
@@ -116,7 +117,20 @@ public class VarOrdererHelper {
      * @return The hyper-edges.
      */
     private BitSet[] createHyperEdges() {
-        HyperEdgeCreator creator = new HyperEdgeCreator();
+        // Create hyper-edge creation algorithm.
+        LegacyHyperEdgeCreator creator;
+        switch (BddHyperEdgeAlgoOption.getAlgo()) {
+            case LEGACY:
+                creator = new LegacyHyperEdgeCreator();
+                break;
+            case LINEARIZED:
+                creator = new LinearizedHyperEdgeCreator();
+                break;
+            default:
+                throw new AssertionError("Unknown algorithm: " + BddHyperEdgeAlgoOption.getAlgo());
+        }
+
+        // Create hyper-edges.
         BitSet[] hyperEdges = creator.getHyperEdges(spec, variables).toArray(n -> new BitSet[n]);
         for (BitSet hyperEdge: hyperEdges) {
             Assert.check(!hyperEdge.isEmpty());

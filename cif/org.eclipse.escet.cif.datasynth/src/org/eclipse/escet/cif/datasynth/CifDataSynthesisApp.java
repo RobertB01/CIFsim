@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
 import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
+import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.BddInitNodeTableSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddOpCacheRatioOption;
 import org.eclipse.escet.cif.datasynth.options.BddOpCacheSizeOption;
@@ -423,6 +424,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         bddOpts.add(Options.getInstance(BddOutputOption.class));
         bddOpts.add(Options.getInstance(BddOutputNamePrefixOption.class));
         bddOpts.add(Options.getInstance(BddVariableOrderOption.class));
+        bddOpts.add(Options.getInstance(BddHyperEdgeAlgoOption.class));
         bddOpts.add(Options.getInstance(BddDcshVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddForceVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddSlidingWindowVarOrderOption.class));
