@@ -12,18 +12,18 @@ WARNING: File "common_checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning a
 WARNING: File "common_checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 149, column 46: Location parameter "loc_params_no_initial.a" is not used anywhere in the specification.
 WARNING: File "common_checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 149, column 49: Location parameter "loc_params_no_initial.b" is not used anywhere in the specification.
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "autdefs.init_pred_eval_error_report_on_aut": failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
- - Unsupported "autdefs.init_pred_eval_error_report_on_loc.loc": failed to determine whether the location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
- - Unsupported "autdefs.init_pred_non_static_eval_report_on_aut": failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
- - Unsupported "autdefs.init_pred_non_static_eval_report_on_loc.loc": failed to determine whether the location is an initial location, as one of its initialization predicates cannot be statically evaluated.
- - Unsupported "autdefs.no_init_loc": automaton definition has no initial location.
- - Unsupported "autdefs.three_init_loc": automaton definition has multiple (3) initial locations.
- - Unsupported "autdefs.two_init_loc": automaton definition has multiple (2) initial locations.
- - Unsupported "auts.init_pred_eval_error_report_on_aut": failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
- - Unsupported "auts.init_pred_eval_error_report_on_loc.loc": failed to determine whether the location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
- - Unsupported "auts.init_pred_non_static_eval_report_on_aut": failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
- - Unsupported "auts.init_pred_non_static_eval_report_on_loc.loc": failed to determine whether the location is an initial location, as one of its initialization predicates cannot be statically evaluated.
- - Unsupported "auts.no_init_loc": automaton has no initial location.
- - Unsupported "auts.three_init_loc": automaton has multiple (3) initial locations.
- - Unsupported "auts.two_init_loc": automaton has multiple (2) initial locations.
- - Unsupported "loc_params_no_initial": automaton definition has no initial location.
+ - Unsupported "autdefs.init_pred_eval_error_report_on_aut" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 138, columns 17 .. 50): failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
+ - Unsupported "autdefs.init_pred_eval_error_report_on_loc.loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 134, columns 14 .. 16): failed to determine whether the location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
+ - Unsupported "autdefs.init_pred_non_static_eval_report_on_aut" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 128, columns 17 .. 55): failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
+ - Unsupported "autdefs.init_pred_non_static_eval_report_on_loc.loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 124, columns 14 .. 16): failed to determine whether the location is an initial location, as one of its initialization predicates cannot be statically evaluated.
+ - Unsupported "autdefs.no_init_loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 92, columns 17 .. 27): automaton definition has no initial location.
+ - Unsupported "autdefs.three_init_loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 112, columns 17 .. 30): automaton definition has multiple (3) initial locations.
+ - Unsupported "autdefs.two_init_loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 102, columns 17 .. 28): automaton definition has multiple (2) initial locations.
+ - Unsupported "auts.init_pred_eval_error_report_on_aut" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 76, columns 13 .. 46): failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
+ - Unsupported "auts.init_pred_eval_error_report_on_loc.loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 72, columns 14 .. 16): failed to determine whether the location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
+ - Unsupported "auts.init_pred_non_static_eval_report_on_aut" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 66, columns 13 .. 51): failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
+ - Unsupported "auts.init_pred_non_static_eval_report_on_loc.loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 62, columns 14 .. 16): failed to determine whether the location is an initial location, as one of its initialization predicates cannot be statically evaluated.
+ - Unsupported "auts.no_init_loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 30, columns 13 .. 23): automaton has no initial location.
+ - Unsupported "auts.three_init_loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 50, columns 13 .. 26): automaton has multiple (3) initial locations.
+ - Unsupported "auts.two_init_loc" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 40, columns 13 .. 24): automaton has multiple (2) initial locations.
+ - Unsupported "loc_params_no_initial" (File "common_checks/AutOnlyWithOneInitLocCheck.cif": line 149, columns 15 .. 35): automaton definition has no initial location.

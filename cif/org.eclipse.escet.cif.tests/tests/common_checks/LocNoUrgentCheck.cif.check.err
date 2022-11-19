@@ -1,5 +1,5 @@
 WARNING: File "common_checks/LocNoUrgentCheck.cif": Semantic warning at line 33, column 34: Location parameter "loc_param.loc" is not used anywhere in the specification.
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "a.loc1": location is urgent.
- - Unsupported "a.loc3": location is urgent.
- - Unsupported "nameless_loc": automaton has an urgent location.
+ - Unsupported "a.loc1" (File "common_checks/LocNoUrgentCheck.cif": line 15, columns 12 .. 15): location is urgent.
+ - Unsupported "a.loc3" (File "common_checks/LocNoUrgentCheck.cif": line 20, columns 12 .. 15): location is urgent.
+ - Unsupported "nameless_loc" (File "common_checks/LocNoUrgentCheck.cif": line 27, columns 11 .. 22): automaton has an urgent location.

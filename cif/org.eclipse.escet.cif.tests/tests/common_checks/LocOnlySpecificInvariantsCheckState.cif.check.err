@@ -1,4 +1,4 @@
 WARNING: File "common_checks/LocOnlySpecificInvariantsCheckState.cif": Semantic warning at line 65, column 34: Location parameter "loc_param.l" is not used anywhere in the specification.
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "non_state_inv.non_state_inv.loc": location has a state/event exclusion invariant.
- - Unsupported "state_inv_with_kind.non_state_inv.loc": location has a state/event exclusion invariant.
+ - Unsupported "non_state_inv.non_state_inv.loc" (File "common_checks/LocOnlySpecificInvariantsCheckState.cif": line 43, columns 14 .. 16): location has a state/event exclusion invariant.
+ - Unsupported "state_inv_with_kind.non_state_inv.loc" (File "common_checks/LocOnlySpecificInvariantsCheckState.cif": line 56, columns 14 .. 16): location has a state/event exclusion invariant.

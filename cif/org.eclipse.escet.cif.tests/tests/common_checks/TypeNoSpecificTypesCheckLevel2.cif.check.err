@@ -1,10 +1,10 @@
 WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
 WARNING: File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 111, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "COMP_DEF_TYPES2.p": uses component definition type "COMP_DEF_TYPES1".
- - Unsupported "grp.t": uses rangeless integer type "int".
- - Unsupported "INT_TYPES_RANGELESS.loc": uses rangeless integer type "int".
- - Unsupported "INT_TYPES_RANGELESS.v": uses rangeless integer type "int".
- - Unsupported "nested_grp.nested_grp.t": uses rangeless integer type "int".
- - Unsupported "t": uses rangeless integer type "int".
- - Unsupported "type_decl.t": uses rangeless integer type "int".
+ - Unsupported "COMP_DEF_TYPES2.p" (File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": line 38, column 43): uses component definition type "COMP_DEF_TYPES1".
+ - Unsupported "grp.t" (File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": line 19, column 8): uses rangeless integer type "int".
+ - Unsupported "INT_TYPES_RANGELESS.loc" (File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": line 75, columns 12 .. 14): uses rangeless integer type "int".
+ - Unsupported "INT_TYPES_RANGELESS.v" (File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": line 74, column 12): uses rangeless integer type "int".
+ - Unsupported "nested_grp.nested_grp.t" (File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": line 25, column 10): uses rangeless integer type "int".
+ - Unsupported "t" (File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": line 15, column 6): uses rangeless integer type "int".
+ - Unsupported "type_decl.t" (File "common_checks/TypeNoSpecificTypesCheckLevel2.cif": line 31, column 8): uses rangeless integer type "int".
