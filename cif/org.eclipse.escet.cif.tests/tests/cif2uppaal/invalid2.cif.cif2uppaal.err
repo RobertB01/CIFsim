@@ -1,44 +1,44 @@
 WARNING: File "cif2uppaal/invalid2.cif": Semantic warning at line 20, column 13: Automaton "g.a1" has no initial location.
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
- - Unsupported "chan": event is a channel (has a data type).
- - Unsupported "g": group contains an initialization predicate.
- - Unsupported "g.a1": automaton contains an initialization predicate.
- - Unsupported "g.a1": automaton has no initial location.
- - Unsupported "g.a2": automaton has multiple (2) initial locations.
- - Unsupported "g.a3": failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
- - Unsupported "g.a3.x1": discrete variable has multiple (2) potential initial values.
- - Unsupported "g.a3.x2": discrete variable has multiple potential initial values (any value in its domain).
- - Unsupported "g.a3.x3": discrete variable has initial value that cannot be evaluated statically.
- - Unsupported "g.a3.x4": discrete variable has initial value that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
- - Unsupported "g.a3.x4": uses function call "sqrt(-1.0)".
- - Unsupported "g.a3.x4": uses function type "func real(real)".
- - Unsupported "g.a3.x4": uses projection expression "(3, sqrt(-1.0))[0]".
- - Unsupported "g.a3.x4": uses real number literal "1.0".
- - Unsupported "g.a3.x4": uses real type "real".
- - Unsupported "g.a3.x4": uses tuple literal "(3, sqrt(-1.0))".
- - Unsupported "g.a3.x4": uses tuple type "tuple(int[3..3]; real)".
- - Unsupported "g.a3.x4": uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
- - Unsupported "g.a4": failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
- - Unsupported "g.a4": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".
- - Unsupported "g.a4": uses function call "sqrt(-1.0)".
- - Unsupported "g.a4": uses function type "func real(real)".
- - Unsupported "g.a4": uses real number literal "1.0".
- - Unsupported "g.a4": uses real type "real".
- - Unsupported "g.a4": uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
- - Unsupported "g.a5": automaton has an edge with a multi-assignment.
- - Unsupported "g.a5": automaton has an edge with a partial variable assignment.
- - Unsupported "g.a5": automaton has an edge with an 'if' update.
- - Unsupported "g.a5": automaton has an urgent edge.
- - Unsupported "g.a5": uses list type "list int[0..5]".
- - Unsupported "g.a5": uses projection expression "g.a5.li[0]".
- - Unsupported "g.a5": uses tuple literal "(1, 2)".
- - Unsupported "g.a5": uses tuple literal "(g.a5.x, g.a5.y)".
- - Unsupported "g.a5": uses tuple type "tuple(int[0..5]; int[0..5])".
- - Unsupported "g.a5": uses tuple type "tuple(int[1..1]; int[2..2])".
- - Unsupported "g.a5.li": uses list type "list int[0..5]".
- - Unsupported "g.c": uses real number literal "1.0".
- - Unsupported "g.c": uses real type "real".
- - Unsupported "g.c": variable is a continuous variable.
- - Unsupported "g.f": function is a user-defined function.
- - Unsupported "g.i": variable is an input variable.
- - Unsupported specification: the top level scope of the specification contains an initialization predicate.
+ - Unsupported "chan" (File "cif2uppaal/invalid2.cif": line 14, columns 17 .. 20): event is a channel (has a data type).
+ - Unsupported "g" (File "cif2uppaal/invalid2.cif": line 17, column 7): group contains an initialization predicate.
+ - Unsupported "g.a1" (File "cif2uppaal/invalid2.cif": line 20, columns 13 .. 14): automaton contains an initialization predicate.
+ - Unsupported "g.a1" (File "cif2uppaal/invalid2.cif": line 20, columns 13 .. 14): automaton has no initial location.
+ - Unsupported "g.a2" (File "cif2uppaal/invalid2.cif": line 27, columns 13 .. 14): automaton has multiple (2) initial locations.
+ - Unsupported "g.a3" (File "cif2uppaal/invalid2.cif": line 35, columns 13 .. 14): failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
+ - Unsupported "g.a3.x1" (File "cif2uppaal/invalid2.cif": line 36, columns 20 .. 21): discrete variable has multiple (2) potential initial values.
+ - Unsupported "g.a3.x2" (File "cif2uppaal/invalid2.cif": line 37, columns 20 .. 21): discrete variable has multiple potential initial values (any value in its domain).
+ - Unsupported "g.a3.x3" (File "cif2uppaal/invalid2.cif": line 38, columns 20 .. 21): discrete variable's initial value cannot be evaluated statically.
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): discrete variable's initial value cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): uses function call "sqrt(-1.0)".
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): uses function type "func real(real)".
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): uses projection expression "(3, sqrt(-1.0))[0]".
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): uses real number literal "1.0".
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): uses real type "real".
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): uses tuple literal "(3, sqrt(-1.0))".
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): uses tuple type "tuple(int[3..3]; real)".
+ - Unsupported "g.a3.x4" (File "cif2uppaal/invalid2.cif": line 39, columns 20 .. 21): uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
+ - Unsupported "g.a4" (File "cif2uppaal/invalid2.cif": line 54, columns 13 .. 14): failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
+ - Unsupported "g.a4" (File "cif2uppaal/invalid2.cif": line 54, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".
+ - Unsupported "g.a4" (File "cif2uppaal/invalid2.cif": line 54, columns 13 .. 14): uses function call "sqrt(-1.0)".
+ - Unsupported "g.a4" (File "cif2uppaal/invalid2.cif": line 54, columns 13 .. 14): uses function type "func real(real)".
+ - Unsupported "g.a4" (File "cif2uppaal/invalid2.cif": line 54, columns 13 .. 14): uses real number literal "1.0".
+ - Unsupported "g.a4" (File "cif2uppaal/invalid2.cif": line 54, columns 13 .. 14): uses real type "real".
+ - Unsupported "g.a4" (File "cif2uppaal/invalid2.cif": line 54, columns 13 .. 14): uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): automaton has an edge with a multi-assignment.
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): automaton has an edge with a partial variable assignment.
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): automaton has an edge with an 'if' update.
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): automaton has an urgent edge.
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): uses list type "list int[0..5]".
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): uses projection expression "g.a5.li[0]".
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): uses tuple literal "(1, 2)".
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): uses tuple literal "(g.a5.x, g.a5.y)".
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): uses tuple type "tuple(int[0..5]; int[0..5])".
+ - Unsupported "g.a5" (File "cif2uppaal/invalid2.cif": line 61, columns 13 .. 14): uses tuple type "tuple(int[1..1]; int[2..2])".
+ - Unsupported "g.a5.li" (File "cif2uppaal/invalid2.cif": line 63, columns 25 .. 26): uses list type "list int[0..5]".
+ - Unsupported "g.c" (File "cif2uppaal/invalid2.cif": line 47, column 8): uses real number literal "1.0".
+ - Unsupported "g.c" (File "cif2uppaal/invalid2.cif": line 47, column 8): uses real type "real".
+ - Unsupported "g.c" (File "cif2uppaal/invalid2.cif": line 47, column 8): variable is a continuous variable.
+ - Unsupported "g.f" (File "cif2uppaal/invalid2.cif": line 50, column 13): is a user-defined function.
+ - Unsupported "g.i" (File "cif2uppaal/invalid2.cif": line 48, column 14): variable is an input variable.
+ - Unsupported specification (File "cif2uppaal/invalid2.cif": line 1, column 1): the top level scope of the specification contains an initialization predicate.
