@@ -125,6 +125,20 @@ public class CifToUppaalPreChecker extends CifPreconditionChecker {
                         NoSpecificBinaryOp.SUBTRACTION_REALS, //
                         NoSpecificBinaryOp.SUBTRACTION_SETS, //
                         NoSpecificBinaryOp.MULTIPLICATION_REALS, //
+                        NoSpecificBinaryOp.EQUAL_BOOL, //
+                        NoSpecificBinaryOp.EQUAL_DICT, //
+                        NoSpecificBinaryOp.EQUAL_LIST, //
+                        NoSpecificBinaryOp.EQUAL_REAL, //
+                        NoSpecificBinaryOp.EQUAL_SET, //
+                        NoSpecificBinaryOp.EQUAL_STRING, //
+                        NoSpecificBinaryOp.EQUAL_TUPLE, //
+                        NoSpecificBinaryOp.UNEQUAL_BOOL, //
+                        NoSpecificBinaryOp.UNEQUAL_DICT, //
+                        NoSpecificBinaryOp.UNEQUAL_LIST, //
+                        NoSpecificBinaryOp.UNEQUAL_REAL, //
+                        NoSpecificBinaryOp.UNEQUAL_SET, //
+                        NoSpecificBinaryOp.UNEQUAL_STRING, //
+                        NoSpecificBinaryOp.UNEQUAL_TUPLE, //
                         NoSpecificBinaryOp.GREATER_EQUAL_REALS, //
                         NoSpecificBinaryOp.GREATER_THAN_REALS, //
                         NoSpecificBinaryOp.LESS_EQUAL_REALS, //
