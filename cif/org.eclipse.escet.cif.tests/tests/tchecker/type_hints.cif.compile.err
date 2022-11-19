@@ -1,5 +1,4 @@
 ERROR: File "tchecker/type_hints.cif": Semantic error at line 17, column 16: Could not determine the type of expression "[]". Please use a cast expression to explicitly specify the type.
-ERROR: File "tchecker/type_hints.cif": Semantic error at line 31, column 17: Binary operator "=" can not be applied to values of type "int[4..4]" and "real".
 ERROR: File "tchecker/type_hints.cif": Semantic error at line 39, column 23: The type "tuple(int[1..1]; int[2..2]; int[3..3])" of the value of algebraic variable "tup1" is incompatible with the type "tuple(int a1; int a2)" of the algebraic variable.
 ERROR: File "tchecker/type_hints.cif": Semantic error at line 40, column 27: The type "tuple(int[1..1]; int[2..2])" of the value of algebraic variable "tup2" is incompatible with the type "tuple(int a1; int a2; int a3)" of the algebraic variable.
 ERROR: Failed to load CIF file "tchecker/type_hints.cif": the file has errors.

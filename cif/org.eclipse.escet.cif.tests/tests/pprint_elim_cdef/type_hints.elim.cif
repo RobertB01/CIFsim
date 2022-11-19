@@ -1,0 +1,7 @@
+alg bool a1 = 1.0 = 1.0;
+alg bool a2 = 1.0 = 1.0;
+alg bool b1 = 1.0 = g.r;
+alg bool b2 = g.r = 1.0;
+group g:
+  alg real r = 1.0;
+end

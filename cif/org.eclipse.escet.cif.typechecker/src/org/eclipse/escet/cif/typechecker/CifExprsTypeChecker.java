@@ -1477,6 +1477,15 @@ public class CifExprsTypeChecker {
             case UNEQUAL: {
                 // t, t -> bool
 
+                // There is type widening for integer expressions (from int to real) for the right side, but not for the
+                // left side. If the left side has integer type, and the right side has real type then retry the left
+                // side.
+                if (left instanceof IntExpression && nltype instanceof IntType && nrtype instanceof RealType) {
+                    left = transExpression(expr.left, rtype, scope, context, tchecker);
+                    ltype = left.getType();
+                    rslt.setLeft(left);
+                }
+
                 if (!CifTypeUtils.supportsValueEquality(ltype) || !CifTypeUtils.supportsValueEquality(rtype)
                         || !checkTypeCompat(ltype, rtype, RangeCompat.IGNORE))
                 {
