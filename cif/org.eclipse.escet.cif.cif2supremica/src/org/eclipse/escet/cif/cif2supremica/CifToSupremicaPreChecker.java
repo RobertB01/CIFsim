@@ -29,7 +29,8 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoUserDefinedCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.common.checkers.checks.InvNoKindlessStateEvtExclCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
@@ -103,7 +104,7 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 new LocNoUrgentCheck(), new EdgeNoUrgentCheck(),
 
                 // User-defined functions are not supported.
-                new FuncNoUserDefinedCheck(),
+                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.INTERNAL, NoSpecificUserDefFunc.EXTERNAL),
 
                 // Channels are not supported.
                 new EventNoChannelsCheck(),

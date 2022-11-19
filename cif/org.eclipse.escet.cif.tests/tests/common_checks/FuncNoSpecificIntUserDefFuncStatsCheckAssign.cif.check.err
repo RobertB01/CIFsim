@@ -1,0 +1,3 @@
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "f" (File "common_checks/FuncNoSpecificIntUserDefFuncStatsCheckAssign.cif": line 14, column 10): user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
+ - Unsupported "g.f" (File "common_checks/FuncNoSpecificIntUserDefFuncStatsCheckAssign.cif": line 30, column 12): user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.

@@ -1,12 +1,12 @@
 WARNING: File "common_checks/EventOnlyWithControllabilityCheck.cif": Semantic warning at line 30, column 10: Duplicate event "tau" on a single edge in automaton "tau_a2".
 WARNING: File "common_checks/EventOnlyWithControllabilityCheck.cif": Semantic warning at line 30, column 15: Duplicate event "tau" on a single edge in automaton "tau_a2".
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "e": event is not declared as controllable or uncontrollable.
- - Unsupported "g.A.e2": event parameter is not declared as controllable or uncontrollable.
- - Unsupported "g.e": event is not declared as controllable or uncontrollable.
- - Unsupported "tau_a1": automaton has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a1": automaton has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l1": location has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l2": location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l3": location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l4": location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "e" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 21, column 7): event is not declared as controllable or uncontrollable.
+ - Unsupported "g.A.e2" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 42, columns 25 .. 26): event parameter is not declared as controllable or uncontrollable.
+ - Unsupported "g.e" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 38, column 9): event is not declared as controllable or uncontrollable.
+ - Unsupported "tau_a1" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 14, columns 11 .. 16): automaton has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a1" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 14, columns 11 .. 16): automaton has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a2.l1" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 24, columns 12 .. 13): location has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a2.l2" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 27, columns 12 .. 13): location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a2.l3" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 29, columns 12 .. 13): location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "tau_a2.l4" (File "common_checks/EventOnlyWithControllabilityCheck.cif": line 31, columns 12 .. 13): location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.

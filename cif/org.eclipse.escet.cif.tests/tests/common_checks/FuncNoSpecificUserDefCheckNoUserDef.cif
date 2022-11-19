@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int INT_PARAM_inc(int x):
+  return x + 1;
+end
+
+func int INT_NO_PARAM_fifteen():
+  return 15;
+end
+
+func bool EXT_NO_PARAM_f(): "java:somepkg.SomeClass.someMethod|.";
+func bool EXT_PARAM_h(int v): "java:somepkg.SomeClass.someMethod2|.";
+
+group g:
+  func int INT_PARAM_inc(int x):
+    return x + 1;
+  end
+
+  func int INT_NO_PARAM_fifteen():
+    return 15;
+  end
+
+  func bool EXT_NO_PARAM_f(): "java:somepkg.SomeClass.someMethod|.";
+  func bool EXT_PARAM_h(int v): "java:somepkg.SomeClass.someMethod2|.";
+end

@@ -1,63 +1,63 @@
 WARNING: File "cif2supremica/invalid1.cif": Semantic warning at line 31, column 9: Automaton "g.p0" has no initial location.
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
- - Unsupported "g": group contains an initialization predicate.
- - Unsupported "g": group has a kindless state invariant.
- - Unsupported "g": group has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported "g": group has a marker predicate that is not of the form "discrete_variable = marked_value".
- - Unsupported "g": group has a plant state invariant.
- - Unsupported "g": group has a supervisor state invariant.
- - Unsupported "g": uses list literal "[false, true]".
- - Unsupported "g": uses list literal "[false]".
- - Unsupported "g": uses list literal "[true]".
- - Unsupported "g": uses list type "list bool".
- - Unsupported "g": uses list type "list[1] bool".
- - Unsupported "g": uses list type "list[2] bool".
- - Unsupported "g": uses real number literal "1.2".
- - Unsupported "g": uses real type "real".
- - Unsupported "g.a": automaton has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "g.a": automaton has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "g.a": automaton is a kindless automaton, not a plant, requirement or supervisor automaton.
- - Unsupported "g.e1": event is not declared as controllable or uncontrollable.
- - Unsupported "g.e2": event is a channel (has a data type).
- - Unsupported "g.f": function is a user-defined function.
- - Unsupported "g.p0": automaton has an edge with a multi-assignment.
- - Unsupported "g.p0": automaton has an edge with a partial variable assignment.
- - Unsupported "g.p0": automaton has an edge with an 'if' update.
- - Unsupported "g.p0": automaton has an urgent location.
- - Unsupported "g.p0": automaton has no initial location.
- - Unsupported "g.p0": uses list type "list bool".
- - Unsupported "g.p0": uses projection expression "g.p0.lb[0]".
- - Unsupported "g.p0": uses tuple literal "(1, 2)".
- - Unsupported "g.p0": uses tuple literal "(g.p0.x1, g.p0.x2)".
- - Unsupported "g.p0": uses tuple type "tuple(int[1..1]; int[2..2])".
- - Unsupported "g.p0": uses tuple type "tuple(int[1..2]; int[1..2])".
- - Unsupported "g.p0.cnt": uses real number literal "1.0".
- - Unsupported "g.p0.cnt": uses real type "real".
- - Unsupported "g.p0.cnt": variable is a continuous variable.
- - Unsupported "g.p0.inp": variable is an input variable.
- - Unsupported "g.p0.lb": discrete variable has multiple predicates that specify its marked values.
- - Unsupported "g.p0.lb": uses list literal "[true]".
- - Unsupported "g.p0.lb": uses list type "list bool".
- - Unsupported "g.p0.lb": uses list type "list[1] bool".
- - Unsupported "g.p0.x1": discrete variable has multiple (2) potential initial values.
- - Unsupported "g.p0.x1": discrete variable has multiple predicates that specify its marked values.
- - Unsupported "g.p0.x2": discrete variable has multiple potential initial values (any value in its domain).
- - Unsupported "g.p1": automaton has a location with a marker predicate that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
- - Unsupported "g.p1": automaton has a location with a state invariant.
- - Unsupported "g.p1": failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
- - Unsupported "g.p1": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".
- - Unsupported "g.p1": uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-2.0) > 0".
- - Unsupported "g.p1": uses function call "sqrt(-1.0)".
- - Unsupported "g.p1": uses function call "sqrt(-2.0)".
- - Unsupported "g.p1": uses function type "func real(real)".
- - Unsupported "g.p1": uses real number literal "1.0".
- - Unsupported "g.p1": uses real number literal "2.0".
- - Unsupported "g.p1": uses real type "real".
- - Unsupported "g.p1": uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
- - Unsupported "g.p1": uses unary operator "-" on an operand of type "real" in unary expression "-2.0".
- - Unsupported "g.p2": automaton has multiple (2) initial locations.
- - Unsupported "g.snd": automaton has an urgent edge.
- - Unsupported specification: the top level scope of the specification contains an initialization predicate.
- - Unsupported specification: the top level scope of the specification has a kindless state invariant.
- - Unsupported specification: the top level scope of the specification has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported specification: the top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group contains an initialization predicate.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a kindless state invariant.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a marker predicate that is not of the form "discrete_variable = marked_value".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a plant state invariant.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a supervisor state invariant.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[false, true]".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[false]".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[true]".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list type "list bool".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list type "list[1] bool".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list type "list[2] bool".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses real number literal "1.2".
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses real type "real".
+ - Unsupported "g.a" (File "cif2supremica/invalid1.cif": line 18, column 13): automaton has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "g.a" (File "cif2supremica/invalid1.cif": line 18, column 13): automaton has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
+ - Unsupported "g.a" (File "cif2supremica/invalid1.cif": line 18, column 13): automaton is a kindless automaton, not a plant, requirement or supervisor automaton.
+ - Unsupported "g.e1" (File "cif2supremica/invalid1.cif": line 15, columns 9 .. 10): event is not declared as controllable or uncontrollable.
+ - Unsupported "g.e2" (File "cif2supremica/invalid1.cif": line 16, columns 26 .. 27): event is a channel (has a data type).
+ - Unsupported "g.f" (File "cif2supremica/invalid1.cif": line 90, column 13): is a user-defined function.
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has an edge with a multi-assignment.
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has an edge with a partial variable assignment.
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has an edge with an 'if' update.
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has an urgent location.
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has no initial location.
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses list type "list bool".
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses projection expression "g.p0.lb[0]".
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses tuple literal "(1, 2)".
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses tuple literal "(g.p0.x1, g.p0.x2)".
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses tuple type "tuple(int[1..1]; int[2..2])".
+ - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses tuple type "tuple(int[1..2]; int[1..2])".
+ - Unsupported "g.p0.cnt" (File "cif2supremica/invalid1.cif": line 34, columns 10 .. 12): uses real number literal "1.0".
+ - Unsupported "g.p0.cnt" (File "cif2supremica/invalid1.cif": line 34, columns 10 .. 12): uses real type "real".
+ - Unsupported "g.p0.cnt" (File "cif2supremica/invalid1.cif": line 34, columns 10 .. 12): variable is a continuous variable.
+ - Unsupported "g.p0.inp" (File "cif2supremica/invalid1.cif": line 35, columns 16 .. 18): variable is an input variable.
+ - Unsupported "g.p0.lb" (File "cif2supremica/invalid1.cif": line 36, columns 20 .. 21): discrete variable has multiple predicates that specify its marked values.
+ - Unsupported "g.p0.lb" (File "cif2supremica/invalid1.cif": line 36, columns 20 .. 21): uses list literal "[true]".
+ - Unsupported "g.p0.lb" (File "cif2supremica/invalid1.cif": line 36, columns 20 .. 21): uses list type "list bool".
+ - Unsupported "g.p0.lb" (File "cif2supremica/invalid1.cif": line 36, columns 20 .. 21): uses list type "list[1] bool".
+ - Unsupported "g.p0.x1" (File "cif2supremica/invalid1.cif": line 32, columns 20 .. 21): discrete variable has multiple (2) potential initial values.
+ - Unsupported "g.p0.x1" (File "cif2supremica/invalid1.cif": line 32, columns 20 .. 21): discrete variable has multiple predicates that specify its marked values.
+ - Unsupported "g.p0.x2" (File "cif2supremica/invalid1.cif": line 33, columns 20 .. 21): discrete variable has multiple potential initial values (any value in its domain).
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): automaton has a location with a marker predicate that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): automaton has a location with a state invariant.
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-2.0) > 0".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses function call "sqrt(-1.0)".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses function call "sqrt(-2.0)".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses function type "func real(real)".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses real number literal "1.0".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses real number literal "2.0".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses real type "real".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses unary operator "-" on an operand of type "real" in unary expression "-2.0".
+ - Unsupported "g.p2" (File "cif2supremica/invalid1.cif": line 62, columns 9 .. 10): automaton has multiple (2) initial locations.
+ - Unsupported "g.snd" (File "cif2supremica/invalid1.cif": line 25, columns 9 .. 11): automaton has an urgent edge.
+ - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification contains an initialization predicate.
+ - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification has a kindless state invariant.
+ - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".

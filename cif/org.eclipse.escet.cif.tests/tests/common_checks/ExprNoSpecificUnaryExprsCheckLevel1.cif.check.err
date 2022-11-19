@@ -1,7 +1,7 @@
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "NEGATE_INTS_RANGED": uses unary operator "-" on an operand of type "int[1..1]" in unary expression "-1".
- - Unsupported "NEGATE_INTS_RANGELESS": uses unary operator "-" on an operand of type "int" in unary expression "-NEGATE_INTS_RANGELESS.v".
- - Unsupported "NEGATE_INTS_REALS": uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
- - Unsupported "PLUS_INTS_RANGED": uses unary operator "+" on an operand of type "int[1..1]" in unary expression "+1".
- - Unsupported "PLUS_INTS_RANGELESS": uses unary operator "+" on an operand of type "int" in unary expression "+PLUS_INTS_RANGELESS.v".
- - Unsupported "PLUS_REALS": uses unary operator "+" on an operand of type "real" in unary expression "+1.0".
+ - Unsupported "NEGATE_INTS_RANGED" (File "common_checks/ExprNoSpecificUnaryExprsCheckLevel1.cif": line 43, columns 7 .. 24): uses unary operator "-" on an operand of type "int[1..1]" in unary expression "-1".
+ - Unsupported "NEGATE_INTS_RANGELESS" (File "common_checks/ExprNoSpecificUnaryExprsCheckLevel1.cif": line 48, columns 11 .. 31): uses unary operator "-" on an operand of type "int" in unary expression "-NEGATE_INTS_RANGELESS.v".
+ - Unsupported "NEGATE_INTS_REALS" (File "common_checks/ExprNoSpecificUnaryExprsCheckLevel1.cif": line 56, columns 7 .. 23): uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
+ - Unsupported "PLUS_INTS_RANGED" (File "common_checks/ExprNoSpecificUnaryExprsCheckLevel1.cif": line 61, columns 7 .. 22): uses unary operator "+" on an operand of type "int[1..1]" in unary expression "+1".
+ - Unsupported "PLUS_INTS_RANGELESS" (File "common_checks/ExprNoSpecificUnaryExprsCheckLevel1.cif": line 66, columns 11 .. 29): uses unary operator "+" on an operand of type "int" in unary expression "+PLUS_INTS_RANGELESS.v".
+ - Unsupported "PLUS_REALS" (File "common_checks/ExprNoSpecificUnaryExprsCheckLevel1.cif": line 74, columns 7 .. 16): uses unary operator "+" on an operand of type "real" in unary expression "+1.0".

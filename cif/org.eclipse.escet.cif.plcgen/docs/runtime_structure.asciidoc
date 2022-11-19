@@ -1,0 +1,215 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+= PLC code generator runtime structure
+:icons: font
+
+Design document for the PLC code generator, reasoning from runtime back towards the input specification.
+
+Note that this document only sketches a global structure, the specific details of it may differ between different PLC targets and/or decisions about what to support in the initial implementation.
+
+== PLC at runtime
+
+At runtime, the following parts exist:
+
+* Controller state data stored in variables.
+* Input and output variables.
+* Project structure creating and initializing the other parts for as far as necessary.
+* Main program part performing the control operations by executing event transitions.
+This is just the global event execution structure, it describes the order of trying and performing events but not the details of computing such transitions.
+* Main program part handling real time progress by updating data.
+* Code pieces that each compute enabledness of a particular event, and if enabled, perform the event by updating state data and/or accessing input/output variables.
+* Code pieces for performing input respectively output.
+* Functions for runtime support of CIF primitives and internal user-defined CIF functions.
+
+The 'code pieces' above should be read as 'some code and some local variables that together perform the intended functionality'.
+This is intentionally somewhat vague.
+It can be seen as a light-weight PLC function to some extent, but a PLC target can make its own decisions here without much effort.
+The intention is to have a flexible way of assembling code pieces together into a working program by the PLC target.
+
+=== Project structure
+
+Project structure is very PLC specific, it seems best to handle that close to each PLC target at this time.
+That should give sufficient freedom for each target to handle its global needs.
+
+=== Variables at runtime
+
+In previous code generators a single variable holding all state exists.
+It's the central data structure and passed around to everything.
+An alternative is to move that data into global variables.
+It avoids having a single big variable with complicated structure, it avoids passing the same data to every code part, and it may simplify variable initialization as symbol tables can carry the initial value of a variable.
+
+When updating the state by performing an event transition, CIF fully separates existing state from new state.
+Any change in data is performed by reading from the existing state and writing to the new state.
+Once all changes are done, the new state becomes the existing state, and the previous existing state is discarded.
+
+In the PLC code generator a more conservative approach is used.
+First a local copy is made of all state variables that are read in the transition.
+Then the state update is performed by reading from the local copies and writing to the global state.
+Finally, the local copies are discarded.
+
+In the first release, the generator will require a single initial state in the CIF specification.
+
+==== Input/output variables
+
+Input and output hardware connections are linked to variables in the specification.
+Locations may also be used as output values.
+A CSV file listing the CIF name, data type, and hardware address of each connection specifies the variables that are used to exchange data with the controlled system.
+
+In the first version of the PLC generator those variables live in the state data.
+
+==== Algebraic variables
+
+Algebraic variables generally make life complicated in PLC code generation.
+To avoid much of the complexities in the first version, every algebraic variable is replaced by a internal user-defined function.
+
+==== Continuous variables
+
+The current PLC code generators implicitly have the assumption that the derivative of a continuous variable is constant in time.
+They implement it by measuring passed time between execution runs, and update the continuous variables accordingly.
+
+An alternative is to use a timer block to represent continuous variables.
+This simplifies the code at the cost of a more limited form of continuous variables.
+
+Continuous variables must express being a timer by having a hard-coded derivative of `-1.0`.
+Also they must always be assigned the same non-negative constant value to restart the timer, and be compared with `0` only in edge guards.
+All other forms and uses of continuous variables are not allowed.
+
+Somewhat related to continuous variables is the CIF expression `time`.
+Having an ever-increasing value does not seem like a good idea, therefore the CIF `time` variable is not allowed.
+
+==== Multi-value data
+
+In CIF, data with more than one value, like literal lists and tuples can be constructed as data value in an expression.
+In a PLC, such literals can only be used in variable initialization context.
+In all other contexts, such value construction must be performed in assigned storage (that is, in a variable).
+
+As a result, multi-value literals can only be used for initialization in CIF.
+Otherwise, the only allowed literals are simple numeric, enumeration and boolean values.
+
+=== Event transitions
+
+An event transition is the elementary processing step in controlling a system with the PLC.
+
+There are two parts needed for executing event transitions within the main program.
+The first part is the global structure of how to perform event transitions until blocked.
+Computing an event transition itself is the second part.
+The first and second part together (where the second part is only performed if the event is enabled) is the global event transition function.
+
+The solution at global level in the first version is to repeatedly try to perform all event functions until none of them can be performed any more.
+
+Computing a transition of a single event in the second part consists of two steps:
+
+* First step is to decide whether the event is enabled.
+That is, is a transition possible?
+* If the event is enabled, the second step is actually performing the transition and updating the state of the program accordingly.
+
+An event is enabled if all participating automata have an active edge (in their current state) that allows the event to happen.
+In detail that means:
+
+* State/event exclusion invariants must allow the event.
+* Channels must have a sender and a receiver automaton with active edges.
+* Automata that do not send nor receive and also do not monitor the event must have an active edge.
+For events that are not channels, at least one automaton with the event in its alphabet must have an active edge.
+
+If these conditions hold, the event can be performed, it is an enabled event.
+Implementations may want to store relevant information such as choice of send or receive automata, selected edges, etc to speed up the second step.
+
+Given that an event is enabled, performing the event then means taking an edge in all participating automata.
+In particular, performing their updates.
+For channels, one sender automaton and one receiver automaton must perform an edge, where the sent value of the former is needed in performing the edge of the latter.
+All synchronizing automata must also perform an edge.
+All monitoring automata may perform an edge.
+
+State invariants are not allowed.
+
+==== Implementation notes
+
+Testing whether an event is enabled is about checking conditions, although computed values may be needed.
+Performing an event is about assigning computed values to state variables.
+
+In general, computing the optimal code to generate is too complicated to do beforehand.
+Instead, a common approach is the generate working code and then optimize it to a better form.
+Such an approach implies the need for modifying already generated code.
+
+To keep things simple, generated code is stored in a statement object tree.
+Values in that tree are elementary literals, possibly projected variables, or function applications.
+
+== From CIF specification to runtime structure
+
+The CIF specification structure is used to organize the variables and events in the PLC code.
+For each component in the specification with variables that are needed in the PLC program, a symbol table is created.
+
+Every event gets two code pieces, one for deciding whether it is enabled and one for performing a transition of an enabled event.
+The initial order of event transition functions is decided by a top-down depth-first walk in the CIF specification tree.
+
+== Future enhancements
+
+There are always opportunities to enhance the code generator.
+Here, possible enhancements are collected and briefly explained to ensure they are preserved.
+
+Quite likely these enhancements will not be addressed before a basic version of the generator is available.
+
+=== Improve variable handling
+
+In the first version, variables are not treated in a smart way.
+By improving analysis smarter solutions can be found.
+
+* Making local copies of all state data that may be used in the transition of an event is not always required.
+Reducing the number of copied variables by analyzing read and write patterns in the code will improve the performance of the PLC controller.
+
+* Computing the value of an algebraic variable using a function call can be expensive.
+There is a lot of potential in reducing the costs.
+Algebraic variables that are never used can be trivially removed (thus reducing the size of the produced PLC program).
+Simple or rarely used algebraic variables can be inlined (for a suitable definition of 'simple' and 'rarely').
+
+* Continuous variables have more uses than timers.
+It may be useful to consider how to relax the limitations associated with its use for timing.
+
+* Not allowing CIF expressions that construct arrays or tuples outside initialization is a severe limitation.
+Extending the support of some forms of multi-value literals may be useful.
+
+=== Improve IO variable handling
+
+Having dedicated variables in the state for representing read input and about to be written output are not always needed.
+Depending on the program and the PLC target, it may be possible to directly read from the PLC input address and/or directly write to the PLC output address.
+This reduces the number of variables as well as improve code readability and performance.
+
+One path to eliminating the variables here may be to analyze the read and write patterns in the program code with respect to these variables, much like the analysis of local copies of state data in event transition code.
+
+=== Improve initial state processing at power-up
+
+In general, at power-up of a PLC system the controlled system is in an unknown state.
+CIF has the capability to deal with this by expressing multiple initial states.
+It also has mechanisms to choose one of them to match the state of the controlled system.
+Enhancing the code generator by implementing these matching mechanisms in the PLC will reduce the complexity and increase the flexibility while starting the PLC controller program.
+
+=== Improve global event processing
+
+Improve performance of the PLC controller by careful analysis of how event transitions influence each other.
+This has impact on the global event loop (named '`first part`' above).
+
+* Research found that introducing small sub-loops at strategic spots inside the global event loop can improve performance.
+
+* If the maximum upper bound to the number of iterations by the global event loop can be established, the outer `while` statement of the loop can be more tightly specified or be replaced by better code.
++
+The upper bound can perhaps be computed for the specific state of the program at the moment of entry, thus further improving performance with a dynamically changing upper bound.
+
+=== Add support for handling common PLC sub-systems
+
+Modern PLC systems may have safety features or may have connections to SCADA systems.
+The PLC generator can be extended to support such systems, reducing the effort to implement the PLC program.
+
+Adding these features requires additional information about the elements in the CIF specification beyond what the CIF language currently supports.
+With a new mechanism in CIF such information can be attached to the elements directly, which makes it attractive for users.
+At the time of writing, the ability to add annotations to CIF elements is considered for this purpose.

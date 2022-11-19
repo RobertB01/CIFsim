@@ -11,16 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func int inc(int x):
-  return x + 1;
-end
+// Executes a benchmark for the 'bridge' model.
+// Configure the settings to benchmark in 'benchmark__settings.tooldef'.
 
-func bool f(): "java:somepkg.SomeClass.someMethod|.";
+from "benchmark__base.tooldef" import *;
 
-group g:
-  func int inc(int x):
-    return x + 1;
-  end
-
-  func bool f(): "java:somepkg.SomeClass.someMethod|.";
-end
+benchmark("bridge", "requirements.cif");

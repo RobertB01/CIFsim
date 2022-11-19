@@ -453,6 +453,26 @@ public class CifScopeUtils {
     }
 
     /**
+     * Returns the specification that contains the given object. If a specification is provided, it itself is returned.
+     *
+     * @param obj The given object.
+     * @return The specification.
+     * @throws IllegalArgumentException If the given object is not a specification and is not contained in a
+     *     specification.
+     */
+    public static Specification getSpecification(PositionObject obj) {
+        Assert.notNull(obj); // Ensure an actual object is provided.
+        while (obj != null && !(obj instanceof Specification)) {
+            obj = (PositionObject)obj.eContainer();
+        }
+        if (obj == null) {
+            throw new IllegalArgumentException("Object is not contained in a specification: " + obj);
+        }
+        Assert.check(obj instanceof Specification);
+        return (Specification)obj;
+    }
+
+    /**
      * Returns the object with the given name, from the given scope.
      *
      * @param scope The scope. Must not be a 'via' scope (a component instantiation scope or component parameter scope).
@@ -1224,8 +1244,8 @@ public class CifScopeUtils {
      * collect additional references.
      *
      * <p>
-     * Tau expressions, standard library function references, variable 'time' references, and received value
-     * references, are not collected. For wrapped references, the wrappers are collected as well.
+     * Tau expressions, standard library function references, variable 'time' references, and received value references,
+     * are not collected. For wrapped references, the wrappers are collected as well.
      * </p>
      *
      * <p>

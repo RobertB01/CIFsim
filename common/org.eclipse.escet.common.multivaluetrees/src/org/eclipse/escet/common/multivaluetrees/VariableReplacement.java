@@ -19,8 +19,8 @@ import org.eclipse.escet.common.java.Assert;
  * Description of a variable replacement in a multi-value tree.
  *
  * <p>
- * Recommended usage is to make a {@code TreeSet<VariableReplacement>} and insert the created replacements in
- * it. When all replacements have been collected, convert it to an array, and the result is properly sorted for use in
+ * Recommended usage is to make a {@code TreeSet<VariableReplacement>} and insert the created replacements in it. When
+ * all replacements have been collected, convert it to an array, and the result is properly sorted for use in
  * {@link Tree#adjacentReplacements}.
  * </p>
  *
