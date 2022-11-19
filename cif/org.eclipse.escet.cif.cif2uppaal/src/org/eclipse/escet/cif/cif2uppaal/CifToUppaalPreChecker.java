@@ -25,7 +25,8 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoUserDefinedCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
@@ -69,7 +70,9 @@ public class CifToUppaalPreChecker extends CifPreconditionChecker {
                 new EdgeNoUrgentCheck(),
 
                 // User-defined functions are not supported.
-                new FuncNoUserDefinedCheck(),
+                new FuncNoSpecificUserDefCheck( //
+                        NoSpecificUserDefFunc.INTERNAL, //
+                        NoSpecificUserDefFunc.EXTERNAL),
 
                 // Channels are not supported.
                 new EventNoChannelsCheck(),
