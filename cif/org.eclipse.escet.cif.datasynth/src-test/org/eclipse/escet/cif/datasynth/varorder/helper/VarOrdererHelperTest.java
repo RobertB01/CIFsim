@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
+import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
+import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption.BddHyperEdgeAlgo;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
@@ -33,12 +35,29 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.common.app.framework.AppEnv;
+import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /** Tests for {@link VarOrdererHelper}. */
 public class VarOrdererHelperTest {
+    @SuppressWarnings("javadoc")
+    @BeforeClass
+    public static void beforeClass() {
+        AppEnv.registerSimple();
+        Options.set(BddHyperEdgeAlgoOption.class, BddHyperEdgeAlgo.LEGACY);
+    }
+
+    @SuppressWarnings("javadoc")
+    @AfterClass
+    public static void afterClass() {
+        AppEnv.unregisterApplication();
+    }
+
     @SuppressWarnings("javadoc")
     @Test
     public void testReorder() {
