@@ -134,11 +134,8 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
         if (!isEmptyIntersection(disalloweds, funcFlags)) {
             addExprViolation(userDefFuncRef, funcKind + " user-defined function reference", violations);
-        } else {
-            if (!isEmptyIntersection(disalloweds, funcAsDataFlags) && !isUsedInFunctionCallContext(userDefFuncRef)) {
-                addExprViolation(userDefFuncRef, funcKind + " user-defined function reference as data value",
-                        violations);
-            }
+        } else if (!isEmptyIntersection(disalloweds, funcAsDataFlags) && !isUsedInFunctionCallContext(userDefFuncRef)) {
+            addExprViolation(userDefFuncRef, funcKind + " user-defined function reference as data value", violations);
         }
     }
 
