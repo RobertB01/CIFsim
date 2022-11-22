@@ -42,7 +42,7 @@ SPDX-License-Identifier: MIT
 
         <!-- Specify Java version for Maven plugin compilation. -->
         <!-- Tycho takes this from files within the projects, but Maven plugins are not compiled with Tycho. -->
-        <escet.java.version>11</escet.java.version>
+        <escet.java.version>17</escet.java.version>
         <maven.compiler.source>${escet.java.version}</maven.compiler.source>
         <maven.compiler.target>${escet.java.version}</maven.compiler.target>
 
