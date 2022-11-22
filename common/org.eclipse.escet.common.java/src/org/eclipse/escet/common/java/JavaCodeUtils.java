@@ -35,7 +35,7 @@ public class JavaCodeUtils {
     /**
      * Java language keywords, reserved identifiers and identifiers with special meaning.
      *
-     * @see <a href="https://docs.oracle.com/javase/specs/jls/se11/html/jls-3.html#jls-3.9">Keywords, Java Language
+     * @see <a href="https://docs.oracle.com/javase/specs/jls/se17/html/jls-3.html#jls-3.9">Keywords, Java Language
      *     Specification</a>
      */
     public static final Set<String> JAVA_IDS = set(
