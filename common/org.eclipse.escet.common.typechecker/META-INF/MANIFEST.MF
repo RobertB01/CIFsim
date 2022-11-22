@@ -4,7 +4,7 @@ Bundle-Name: ESCET Common Type Checker Functionality (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.typechecker;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.common.typechecker
 Require-Bundle: org.eclipse.escet.common.position.metamodel;bundle-version="0.8.0",
