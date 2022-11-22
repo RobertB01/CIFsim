@@ -49,7 +49,7 @@ public class CifDataSynthesisLocationPointerManager implements LocationPointerMa
     /**
      * Constructor for the {@link CifDataSynthesisLocationPointerManager} class.
      *
-     * @param automata The automata for which to manage location pointers.
+     * @param automata The automata that need location pointers.
      */
     public CifDataSynthesisLocationPointerManager(List<Automaton> automata) {
         // Create a dummy specification to hold the location pointer variables, for proper containment.

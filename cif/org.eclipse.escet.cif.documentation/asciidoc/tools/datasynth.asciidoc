@@ -1144,7 +1144,7 @@ The linearized hyper-edge creator creates the following hyper-edges:
 
 All hyper-edge creators take variables that occur indirectly via algebraic variables into account.
 
-More information about the various representations of variable relations may be obtained during synthesis by enabling <<tools-datasynth-dbg-output,debug output>>.
+More detailed information about the various representations of variable relations may be obtained during synthesis by enabling <<tools-datasynth-dbg-output,debug output>>.
 
 The following variable ordering algorithms are available:
 

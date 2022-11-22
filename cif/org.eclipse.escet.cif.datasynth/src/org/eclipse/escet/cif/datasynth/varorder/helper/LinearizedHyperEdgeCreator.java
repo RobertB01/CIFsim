@@ -50,7 +50,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 /**
  * Linearized automatic variable ordering hyper-edge creator. Creates the following hyper-edges:
  * <ul>
- * <li>Per linearized edge, a hyper-edge for the variables that occur in the guards and updates of that linearized
+ * <li>For each linearized edge, a hyper-edge is created for the variables that occur in the guards and updates of that linearized
  * edge.</li>
  * </ul>
  * Variables that occur via algebraic variables are taken into account.

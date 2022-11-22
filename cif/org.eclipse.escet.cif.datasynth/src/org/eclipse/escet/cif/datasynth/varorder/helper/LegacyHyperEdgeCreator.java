@@ -44,11 +44,11 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 /**
  * Legacy automatic variable ordering hyper-edge creator. Creates the following hyper-edges:
  * <ul>
- * <li>Per invariant, a hyper-edge for the variables that occur in the invariant.</li>
- * <li>Per edge in an automaton, per guard, per comparison binary expression, a hyper-edge for the variables that occur
+ * <li>For each invariant, a hyper-edge is created for the variables that occur in the invariant.</li>
+ * <li>For each edge in an automaton, for each guard, for each comparison binary expression, a hyper-edge is created  for the variables that occur
  * in the binary expression.</li>
- * <li>Per assignment, a hyper-edge for the variables that occur in the addressable and value of the assignment.</li>
- * <li>Per event, a hyper-edge for the variables that occur in the guards and updates of all edges for that event in the
+ * <li>For each assignment, a hyper-edge is created for the variables that occur in the addressable and value of the assignment.</li>
+ * <li>For each event, a hyper-edge is created for the variables that occur in the guards and updates of all edges for that event in the
  * entire specification.</li>
  * </ul>
  * Variables that occur via algebraic variables are taken into account.

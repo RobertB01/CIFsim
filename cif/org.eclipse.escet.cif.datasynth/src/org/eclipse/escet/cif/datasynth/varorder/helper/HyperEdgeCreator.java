@@ -43,7 +43,7 @@ abstract class HyperEdgeCreator {
      * @param variables The synthesis variables in the order in which they occur in a hyper-edge.
      * @param edgeVars The CIF variable objects for which to create a new hyper-edge. This must be a subset of the
      *     variables represented by {@code variables}.
-     * @param hyperEdges The collection of hyper-edges to which to add the new hyper-edge.
+     * @param hyperEdges The collection of hyper-edges so far, gets expanded in-place.
      */
     protected void addHyperEdge(List<SynthesisVariable> variables, Collection<PositionObject> edgeVars,
             List<BitSet> hyperEdges)
