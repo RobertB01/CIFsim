@@ -1,64 +1,64 @@
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
- - Unsupported "f": is a user-defined function.
- - Unsupported "p.db": uses distribution type "dist bool".
- - Unsupported "p.db": uses function call "constant(true)".
- - Unsupported "p.db": uses function type "func dist bool(bool)".
- - Unsupported "p.dbb": uses dictionary literal "{true: false}".
- - Unsupported "p.dbb": uses dictionary type "dict(bool:bool)".
- - Unsupported "p.fbb": uses function type "func bool(bool)".
- - Unsupported "p.i": uses rangeless integer type "int".
- - Unsupported "p.l": location has a state invariant.
- - Unsupported "p.l": location has an edge with a multi-assignment.
- - Unsupported "p.l": location has an edge with a partial variable assignment.
- - Unsupported "p.l": uses binary operator "*" on operands of types "real" and "real" in binary expression "p.r * p.r".
- - Unsupported "p.l": uses binary operator "+" on operands of types "real" and "real" in binary expression "p.r + p.r".
- - Unsupported "p.l": uses binary operator "-" on operands of types "real" and "real" in binary expression "p.r - p.r".
- - Unsupported "p.l": uses binary operator "/" in binary expression "p.r / p.r".
- - Unsupported "p.l": uses binary operator "<" on operands of types "int" and "int" in binary expression "p.i < p.i".
- - Unsupported "p.l": uses binary operator "<=" on operands of types "int" and "int" in binary expression "p.i <= p.i".
- - Unsupported "p.l": uses binary operator ">" on operands of types "int" and "int" in binary expression "p.i > p.i".
- - Unsupported "p.l": uses binary operator ">=" on operands of types "int" and "int" in binary expression "p.i >= p.i".
- - Unsupported "p.l": uses binary operator "and" on operands of types "set bool" and "set bool" in binary expression "{true} and {false}".
- - Unsupported "p.l": uses binary operator "div" on operands of types "int" and "int" in binary expression "p.i div p.i".
- - Unsupported "p.l": uses binary operator "in" in binary expression "true in p.sb".
- - Unsupported "p.l": uses binary operator "mod" on operands of types "int" and "int" in binary expression "p.i mod p.i".
- - Unsupported "p.l": uses binary operator "or" on operands of types "set bool" and "set bool" in binary expression "{true} or {false}".
- - Unsupported "p.l": uses binary operator "sub" in binary expression "p.sb sub p.sb".
- - Unsupported "p.l": uses conditional expression "if true: 1 else 2 end".
- - Unsupported "p.l": uses dictionary literal "{true: true}".
- - Unsupported "p.l": uses dictionary type "dict(bool:bool)".
- - Unsupported "p.l": uses distribution type "dist bool".
- - Unsupported "p.l": uses function type "func bool(bool)".
- - Unsupported "p.l": uses list type "list bool".
- - Unsupported "p.l": uses projection expression "p.tbb[a]".
- - Unsupported "p.l": uses rangeless integer type "int".
- - Unsupported "p.l": uses real number literal "1.0".
- - Unsupported "p.l": uses real type "real".
- - Unsupported "p.l": uses set literal "{false}".
- - Unsupported "p.l": uses set literal "{true}".
- - Unsupported "p.l": uses set type "set bool".
- - Unsupported "p.l": uses slice expression "p.lb[:]".
- - Unsupported "p.l": uses string literal ""a"".
- - Unsupported "p.l": uses string type "string".
- - Unsupported "p.l": uses switch expression "switch 1: else 2 end".
- - Unsupported "p.l": uses switch expression "switch p: case l: 3 end".
- - Unsupported "p.l": uses time variable reference "time".
- - Unsupported "p.l": uses tuple literal "(p.b, p.db)".
- - Unsupported "p.l": uses tuple type "tuple(bool a; bool b)".
- - Unsupported "p.l": uses tuple type "tuple(bool; dist bool)".
- - Unsupported "p.l": uses type-changing cast expression "<real>1".
- - Unsupported "p.l": uses unary operator "+" on an operand of type "int" in unary expression "+p.i".
- - Unsupported "p.l": uses unary operator "-" on an operand of type "int" in unary expression "-p.i".
- - Unsupported "p.l": uses unary operator "sample" in unary expression "sample p.db".
- - Unsupported "p.lb": uses list literal "[true]".
- - Unsupported "p.lb": uses list type "list bool".
- - Unsupported "p.lb": uses list type "list[1] bool".
- - Unsupported "p.r": uses real number literal "1.2".
- - Unsupported "p.r": uses real type "real".
- - Unsupported "p.sb": uses set literal "{true}".
- - Unsupported "p.sb": uses set type "set bool".
- - Unsupported "p.str": uses string literal ""a"".
- - Unsupported "p.str": uses string type "string".
- - Unsupported "p.tbb": uses tuple literal "(true, false)".
- - Unsupported "p.tbb": uses tuple type "tuple(bool a; bool b)".
- - Unsupported "p.tbb": uses tuple type "tuple(bool; bool)".
+ - Unsupported "f" (File "cif2supremica/invalid2.cif": line 62, column 11): is a user-defined function.
+ - Unsupported "p.db" (File "cif2supremica/invalid2.cif": line 25, columns 18 .. 19): uses distribution type "dist bool".
+ - Unsupported "p.db" (File "cif2supremica/invalid2.cif": line 25, columns 18 .. 19): uses function call "constant(true)".
+ - Unsupported "p.db" (File "cif2supremica/invalid2.cif": line 25, columns 18 .. 19): uses function type "func dist bool(bool)".
+ - Unsupported "p.dbb" (File "cif2supremica/invalid2.cif": line 24, columns 24 .. 26): uses dictionary literal "{true: false}".
+ - Unsupported "p.dbb" (File "cif2supremica/invalid2.cif": line 24, columns 24 .. 26): uses dictionary type "dict(bool:bool)".
+ - Unsupported "p.fbb" (File "cif2supremica/invalid2.cif": line 26, columns 24 .. 26): uses function type "func bool(bool)".
+ - Unsupported "p.i" (File "cif2supremica/invalid2.cif": line 18, column 12): uses rangeless integer type "int".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): location has a state invariant.
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): location has an edge with a multi-assignment.
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): location has an edge with a partial variable assignment.
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "*" on operands of types "real" and "real" in binary expression "p.r * p.r".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "+" on operands of types "real" and "real" in binary expression "p.r + p.r".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "-" on operands of types "real" and "real" in binary expression "p.r - p.r".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "/" in binary expression "p.r / p.r".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "<" on operands of types "int" and "int" in binary expression "p.i < p.i".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "<=" on operands of types "int" and "int" in binary expression "p.i <= p.i".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator ">" on operands of types "int" and "int" in binary expression "p.i > p.i".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator ">=" on operands of types "int" and "int" in binary expression "p.i >= p.i".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "and" on operands of types "set bool" and "set bool" in binary expression "{true} and {false}".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "div" on operands of types "int" and "int" in binary expression "p.i div p.i".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "in" in binary expression "true in p.sb".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "mod" on operands of types "int" and "int" in binary expression "p.i mod p.i".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "or" on operands of types "set bool" and "set bool" in binary expression "{true} or {false}".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "sub" in binary expression "p.sb sub p.sb".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses conditional expression "if true: 1 else 2 end".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses dictionary literal "{true: true}".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses dictionary type "dict(bool:bool)".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses distribution type "dist bool".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses function type "func bool(bool)".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses list type "list bool".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses projection expression "p.tbb[a]".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses rangeless integer type "int".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses real number literal "1.0".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses real type "real".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses set literal "{false}".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses set literal "{true}".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses set type "set bool".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses slice expression "p.lb[:]".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses string literal ""a"".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses string type "string".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses switch expression "switch 1: else 2 end".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses switch expression "switch p: case l: 3 end".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses time variable reference "time".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses tuple literal "(p.b, p.db)".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses tuple type "tuple(bool a; bool b)".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses tuple type "tuple(bool; dist bool)".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses type-changing cast expression "<real>1".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses unary operator "+" on an operand of type "int" in unary expression "+p.i".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses unary operator "-" on an operand of type "int" in unary expression "-p.i".
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses unary operator "sample" in unary expression "sample p.db".
+ - Unsupported "p.lb" (File "cif2supremica/invalid2.cif": line 20, columns 18 .. 19): uses list literal "[true]".
+ - Unsupported "p.lb" (File "cif2supremica/invalid2.cif": line 20, columns 18 .. 19): uses list type "list bool".
+ - Unsupported "p.lb" (File "cif2supremica/invalid2.cif": line 20, columns 18 .. 19): uses list type "list[1] bool".
+ - Unsupported "p.r" (File "cif2supremica/invalid2.cif": line 19, column 13): uses real number literal "1.2".
+ - Unsupported "p.r" (File "cif2supremica/invalid2.cif": line 19, column 13): uses real type "real".
+ - Unsupported "p.sb" (File "cif2supremica/invalid2.cif": line 21, columns 17 .. 18): uses set literal "{true}".
+ - Unsupported "p.sb" (File "cif2supremica/invalid2.cif": line 21, columns 17 .. 18): uses set type "set bool".
+ - Unsupported "p.str" (File "cif2supremica/invalid2.cif": line 22, columns 15 .. 17): uses string literal ""a"".
+ - Unsupported "p.str" (File "cif2supremica/invalid2.cif": line 22, columns 15 .. 17): uses string type "string".
+ - Unsupported "p.tbb" (File "cif2supremica/invalid2.cif": line 23, columns 24 .. 26): uses tuple literal "(true, false)".
+ - Unsupported "p.tbb" (File "cif2supremica/invalid2.cif": line 23, columns 24 .. 26): uses tuple type "tuple(bool a; bool b)".
+ - Unsupported "p.tbb" (File "cif2supremica/invalid2.cif": line 23, columns 24 .. 26): uses tuple type "tuple(bool; bool)".

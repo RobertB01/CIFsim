@@ -1,29 +1,24 @@
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING": uses cast expression to string "<string>X".
- - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING": uses cast expression to string "<string>true".
- - Unsupported "CAST_EXPRS_INT_TO_STRING": uses cast expression to string "<string>1".
- - Unsupported "CAST_EXPRS_REAL_TO_STRING": uses cast expression to string "<string>1.1".
- - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN": uses cast expression from string "<bool>"false"".
- - Unsupported "CAST_EXPRS_STRING_TO_INT": uses cast expression from string "<int>"1"".
- - Unsupported "CAST_EXPRS_STRING_TO_REAL": uses cast expression from string "<real>"1.0"".
- - Unsupported "FUNC_CALLS": uses external user-defined function reference "FUNC_CALLS.extF".
- - Unsupported "FUNC_CALLS": uses internal user-defined function reference "FUNC_CALLS.intF".
- - Unsupported "FUNC_CALLS": uses standard library function reference "abs".
- - Unsupported "FUNC_REFS_STD_LIB": uses standard library function reference "abs".
- - Unsupported "FUNC_REFS_USER_DEF_EXT": uses external user-defined function reference "FUNC_REFS_USER_DEF_EXT.f".
- - Unsupported "FUNC_REFS_USER_DEF_INT": uses internal user-defined function reference "FUNC_REFS_USER_DEF_INT.f".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD": uses tuple field-projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[a]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD": uses tuple field-projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[b]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD": uses tuple index-projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[a]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD": uses tuple index-projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[b]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX": uses tuple index-projection expression "((true, false), false)[0]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX": uses tuple index-projection expression "((true, false), false)[0][0]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX": uses tuple index-projection expression "(true, false)[0]".
- - Unsupported "TUPLE_FIELD_REFS_NAMED": uses tuple field-projection expression "TUPLE_FIELD_REFS_NAMED.c[a]".
- - Unsupported "TUPLE_FIELD_REFS_NAMED": uses tuple index-projection expression "TUPLE_FIELD_REFS_NAMED.c[a]".
- - Unsupported "TUPLE_FIELD_REFS_NAMELESS": uses tuple index-projection expression "(true, false)[0]".
- - Unsupported "TUPLE_LITS": uses tuple index-projection expression "(true, false)[0]".
- - Unsupported "USER_DEF_FUNC_REFS": uses external user-defined function reference "USER_DEF_FUNC_REFS.extF".
- - Unsupported "USER_DEF_FUNC_REFS": uses internal user-defined function reference "USER_DEF_FUNC_REFS.g".
- - Unsupported "USER_DEF_FUNC_REFS": uses internal user-defined function reference "USER_DEF_FUNC_REFS.intF".
- - Unsupported "X.A": uses cast expression to string "<string>self".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 87, columns 7 .. 36): uses cast expression to string "<string>X".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 75, columns 7 .. 34): uses cast expression to string "<string>true".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 65, columns 7 .. 30): uses cast expression to string "<string>1".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 70, columns 7 .. 31): uses cast expression to string "<string>1.1".
+ - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 102, columns 7 .. 34): uses cast expression from string "<bool>"false"".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 92, columns 7 .. 30): uses cast expression from string "<int>"1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 97, columns 7 .. 31): uses cast expression from string "<real>"1.0"".
+ - Unsupported "FUNC_CALLS" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 199, columns 7 .. 16): uses standard library function reference "abs".
+ - Unsupported "FUNC_REFS_STD_LIB" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 50, columns 7 .. 23): uses standard library function reference "abs".
+ - Unsupported "FUNC_REFS_USER_DEF_EXT" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 44, columns 7 .. 28): uses external user-defined function reference "FUNC_REFS_USER_DEF_EXT.f".
+ - Unsupported "FUNC_REFS_USER_DEF_INT" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 36, columns 7 .. 28): uses internal user-defined function reference "FUNC_REFS_USER_DEF_INT.f".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 261, columns 11 .. 39): uses tuple field-projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[a]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 261, columns 11 .. 39): uses tuple field-projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[b]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 261, columns 11 .. 39): uses tuple index-projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[a]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 261, columns 11 .. 39): uses tuple index-projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[b]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 255, columns 7 .. 35): uses tuple index-projection expression "((true, false), false)[0]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 255, columns 7 .. 35): uses tuple index-projection expression "((true, false), false)[0][0]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 255, columns 7 .. 35): uses tuple index-projection expression "(true, false)[0]".
+ - Unsupported "TUPLE_FIELD_REFS_NAMED" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 193, columns 7 .. 28): uses tuple field-projection expression "TUPLE_FIELD_REFS_NAMED.c[a]".
+ - Unsupported "TUPLE_FIELD_REFS_NAMED" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 193, columns 7 .. 28): uses tuple index-projection expression "TUPLE_FIELD_REFS_NAMED.c[a]".
+ - Unsupported "TUPLE_FIELD_REFS_NAMELESS" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 188, columns 7 .. 31): uses tuple index-projection expression "(true, false)[0]".
+ - Unsupported "TUPLE_LITS" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 309, columns 7 .. 16): uses tuple index-projection expression "(true, false)[0]".
+ - Unsupported "X.A" (File "common_checks/ExprNoSpecificExprsCheckLevel3.cif": line 81, column 12): uses cast expression to string "<string>self".

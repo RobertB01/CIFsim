@@ -1,9 +1,9 @@
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "different_locs.loc1": location has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported "different_locs.loc2": location has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported "g.p1": group has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported "g.p2": group has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported "named_invs.I1": invariant is a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported "named_invs.I2": invariant is a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported "nameless_loc": automaton has a kindless state/event exclusion invariant, lacking a supervisory kind.
- - Unsupported specification: the top level scope of the specification has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "different_locs.loc1" (File "common_checks/InvNoKindlessStateEvtExclCheck.cif": line 41, columns 12 .. 15): location has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "different_locs.loc2" (File "common_checks/InvNoKindlessStateEvtExclCheck.cif": line 44, columns 12 .. 15): location has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "g.p1" (File "common_checks/InvNoKindlessStateEvtExclCheck.cif": line 19, columns 9 .. 10): group has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "g.p2" (File "common_checks/InvNoKindlessStateEvtExclCheck.cif": line 23, columns 9 .. 10): group has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "named_invs.I1" (File "common_checks/InvNoKindlessStateEvtExclCheck.cif": line 71, columns 15 .. 16): invariant is a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "named_invs.I2" (File "common_checks/InvNoKindlessStateEvtExclCheck.cif": line 72, columns 15 .. 16): invariant is a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported "nameless_loc" (File "common_checks/InvNoKindlessStateEvtExclCheck.cif": line 58, columns 11 .. 22): automaton has a kindless state/event exclusion invariant, lacking a supervisory kind.
+ - Unsupported specification (File "common_checks/InvNoKindlessStateEvtExclCheck.cif": line 1, column 1): the top level scope of the specification has a kindless state/event exclusion invariant, lacking a supervisory kind.
