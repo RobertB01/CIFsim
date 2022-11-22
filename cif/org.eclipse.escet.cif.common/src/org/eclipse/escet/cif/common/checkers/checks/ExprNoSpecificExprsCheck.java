@@ -135,7 +135,8 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
         if (!isEmptyIntersection(disalloweds, funcFlags)) {
             addExprViolation(userDefFuncRef, funcKind + " user-defined function reference", violations);
         } else if (!isEmptyIntersection(disalloweds, funcAsDataFlags) && !isUsedInFunctionCallContext(userDefFuncRef)) {
-            addExprViolation(userDefFuncRef, funcKind + " user-defined function reference as data value", violations);
+            addExprViolation(userDefFuncRef, funcKind + " user-defined function reference", "as data value",
+                    violations);
         }
     }
 
@@ -510,7 +511,20 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addExprViolation(Expression expr, String description, CifCheckViolations violations) {
-        violations.add(expr, new LiteralMessage("uses %s \"%s\"", description, exprToStr(expr)));
+        addExprViolation(expr, description, "", violations);
+    }
+
+    /**
+     * Add a violation for the given expression.
+     *
+     * @param expr The expression.
+     * @param description The description of the expression.
+     * @param postfix Additional description after the expression.
+     * @param violations The violations collected so far. Is modified in-place.
+     */
+    private void addExprViolation(Expression expr, String description, String postfix, CifCheckViolations violations) {
+        violations.add(expr, new LiteralMessage("uses %s \"%s\"%s", description, exprToStr(expr),
+                postfix.isEmpty() ? postfix : (" " + postfix)));
     }
 
     /** The expression to disallow. */
