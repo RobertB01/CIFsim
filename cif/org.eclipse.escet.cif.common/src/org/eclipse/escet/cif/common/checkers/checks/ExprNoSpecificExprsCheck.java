@@ -143,10 +143,10 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
     }
 
     /**
-     * Is the provided function expression used in function call context?
+     * Is the provided function expression used in a function call context?
      *
      * @param funcExpr Function expression to check.
-     * @return Whether the function expression is used in function call context.
+     * @return Whether the function expression is used in a function call context.
      */
     private boolean isUsedInFunctionCallContext(FunctionExpression funcExpr) {
         return (funcExpr.eContainer() instanceof FunctionCallExpression)
