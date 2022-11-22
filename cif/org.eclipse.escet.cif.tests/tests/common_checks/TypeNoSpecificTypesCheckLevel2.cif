@@ -66,6 +66,13 @@ func bool f():
 end
 invariant FUNC_TYPES: f() = true;
 
+automaton FUNC_TYPES_AS_DATA:
+  disc func bool () fn = f;
+  location:
+    initial;
+    edge when not fn();
+end
+
 // INT_TYPES_RANGED.
 invariant INT_TYPES_RANGED: 1 = 1;
 
