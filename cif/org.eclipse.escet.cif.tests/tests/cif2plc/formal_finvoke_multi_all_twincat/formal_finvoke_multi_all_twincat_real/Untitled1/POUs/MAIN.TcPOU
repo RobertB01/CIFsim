@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="MAIN">
-    <Declaration>
-      <![CDATA[PROGRAM MAIN
+    <Declaration><![CDATA[PROGRAM MAIN
 VAR_OUTPUT
     timerValue0: TIME;
     timerValue1: TIME;
@@ -24,11 +23,9 @@ VAR_TEMP
     loopCount: INT;
     b1: BOOL;
     b2: BOOL;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[
+      <ST><![CDATA[
 // Handle 'time' and cycle time.
 cnt := cnt + 1;
 
@@ -555,8 +552,7 @@ WHILE TRUE DO
         loopsKilled := loopsKilled + 1;
         EXIT;
     END_IF;
-END_WHILE;]]>
-      </ST>
+END_WHILE;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>
