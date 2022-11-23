@@ -1,6 +1,0 @@
-WARNING: File "common_checks/LocNoStateInvsCheck.cif": Semantic warning at line 65, column 34: Location parameter "loc_param.l" is not used anywhere in the specification.
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "a.loc": location has a state invariant.
- - Unsupported "named_inv": automaton has a location with a state invariant.
- - Unsupported "nameless_loc": automaton has a location with a state invariant.
- - Unsupported "state_inv_with_kind.non_state_inv.loc": location has a state invariant.
