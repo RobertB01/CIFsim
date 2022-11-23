@@ -13,34 +13,8 @@
 
 package org.eclipse.escet.cif.cif2plc;
 
-import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
-import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.exprsToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.functionToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifTextUtils.getComponentText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
-import static org.eclipse.escet.cif.common.CifTypeUtils.isArrayType;
-import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption;
-import org.eclipse.escet.cif.common.CifAddressableUtils;
-import org.eclipse.escet.cif.common.CifAddressableUtils.DuplVarAsgnException;
-import org.eclipse.escet.cif.common.CifEvalException;
-import org.eclipse.escet.cif.common.CifTypeUtils;
-import org.eclipse.escet.cif.common.CifValueUtils;
-import org.eclipse.escet.cif.common.RangeCompat;
-import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
@@ -62,90 +36,12 @@ import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
-import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.DictExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ExpressionsPackage;
-import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SetExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SliceExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
-import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunctionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.StringExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
-import org.eclipse.escet.cif.metamodel.cif.functions.AssignmentFuncStatement;
-import org.eclipse.escet.cif.metamodel.cif.functions.ContinueFuncStatement;
-import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
-import org.eclipse.escet.cif.metamodel.cif.functions.Function;
-import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
-import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.DictType;
-import org.eclipse.escet.cif.metamodel.cif.types.DistType;
-import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
-import org.eclipse.escet.cif.metamodel.cif.types.FuncType;
-import org.eclipse.escet.cif.metamodel.cif.types.IntType;
-import org.eclipse.escet.cif.metamodel.cif.types.ListType;
-import org.eclipse.escet.cif.metamodel.cif.types.RealType;
-import org.eclipse.escet.cif.metamodel.cif.types.SetType;
-import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
-import org.eclipse.escet.cif.metamodel.java.CifWalker;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
-import org.eclipse.escet.common.java.Strings;
 
 /** CIF PLC code generator precondition checker. Does not support component definition/instantiation. */
-public class CifToPlcPreChecker extends CifWalker {
-    /** {@link FunctionCallExpression}.{@link FunctionCallExpression#getFunction() function} metamodel feature. */
-    private static final EReference FCE_FUNC_REF = ExpressionsPackage.eINSTANCE.getFunctionCallExpression_Function();
-
-    /** Precondition violations found so far. */
-    private final List<String> problems = list();
-
-    /**
-     * The number of initial locations found for the automaton being checked. Only valid while checking an automaton. Is
-     * set to {@code -1} to disable this check due to evaluation errors in initialization predicates.
-     */
-    private int initLocCount;
-
-    /** The number of automata encountered. */
-    private int autCount;
-
-    /**
-     * Checks the CIF specification to make sure it satisfies the preconditions for the transformation.
-     *
-     * @param spec The CIF specification to check.
-     * @throws UnsupportedException If a precondition is violated.
-     */
-    public void check(Specification spec) {
-        // Find precondition violations.
-        walkSpecification(spec);
-
-        // If we have any problems, the specification is unsupported.
-        Collections.sort(problems, Strings.SORTER);
-        if (!problems.isEmpty()) {
-            String msg = "CIF PLC code generator failed due to unsatisfied preconditions:\n - "
-                    + String.join("\n - ", problems);
-            throw new UnsupportedException(msg);
-        }
-    }
-
-    List<CifCheck> checks = list(
+public class CifToPlcPreChecker extends CifPreconditionChecker {
+    /** Constructor of the {@link CifToPlcPreChecker} class. */
+    public CifToPlcPreChecker() {
+        super(
             // At least one automaton.
             new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 
@@ -242,9 +138,6 @@ public class CifToPlcPreChecker extends CifWalker {
                     NoSpecificStdLib.STD_LIB_ROUND, //
                     NoSpecificStdLib.STD_LIB_SCALE, //
                     NoSpecificStdLib.STD_LIB_SIGN, //
-                    NoSpecificStdLib.STD_LIB_SIZE),
-
-            null // Temporary dummy value to allow the final comma.
-    //
-    );
+                    NoSpecificStdLib.STD_LIB_SIZE));
+    }
 }
