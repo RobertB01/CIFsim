@@ -1123,8 +1123,8 @@ They are also not applied if the model has no guards, updates, or other predicat
 Without such relations, the algorithms lack the required input to search for improved variable orders.
 
 The variable relations serve as input for the algorithms.
-Different algorithms may use different representations of the variable relations, which currently include _hyper-edges_ and _graph edges_.
-The graph edges are derived from the hyper-edges.
+Different algorithms may use different representations of the variable relations.
+One such representation is _hyper-edges_, and another is _graph edges_, which are derived from the hyper-edges.
 The variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see <<tools-datasynth-options,options>> section above):
 
 * _Legacy_ (default)
