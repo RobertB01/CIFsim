@@ -68,14 +68,15 @@ class LinearizedHyperEdgeCreator extends LegacyHyperEdgeCreator {
         Set<Event> events = alphabets.stream().map(a -> union(a.syncAlphabet, a.sendAlphabet, a.recvAlphabet))
                 .reduce((eventSet1, eventSet2) -> union(eventSet1, eventSet2)).get();
 
-        // Linearize a copy of the specification.
+        // Linearize the edges of the copy of the specification.
         // Must match a similar call to linearize edges in `CifToSynthesisConverter'.
         CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(automata);
         List<Edge> linearizedEdges = list();
         LinearizeProduct.linearizeEdges(automata, alphabets, set2list(events), locPtrManager, false, true,
                 linearizedEdges);
 
-        // Create variable mapping.
+        // Create variable mapping, based on the absolute names of objects from the original and copied specification.
+        // The absolute names are identical, as only edges are linearized, not the entire specification.
         VariableMapping varMap = new VariableMapping(variables);
 
         // Create a hyper-edge for each linearized edge.
