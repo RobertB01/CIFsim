@@ -168,8 +168,14 @@ To upgrade to a new Java version:
 ** Update `Bundle-RequiredExecutionEnvironment` for all plug-in manifests.
 ** Update `JRE_CONTAINER` in all `.classpath` files.
 ** Update `JRE_CONTAINER` in all launch configurations (`.launch` files).
-** Update Java versions in `org.eclipse.jdt.core.prefs` files.
+** Update Java versions in `org.eclipse.jdt.core.prefs` files (`compiler.codegen.targetPlatform`, `compiler.compliance`, and `compiler.source`).
+** Update `autofix.py` by changing the replaced by compliance level and adding new compliance levels to change (`org.eclipse.escet.chi.metamodel`, `org.eclipse.escet.cif.metamodel`, `org.eclipse.escet.common.position.metamodel`, and `org.eclipse.escet.tooldef.metamodel`).
+** Run the `autofix.py` script.
+Changes should be observed in `chi.genmodel`, `cif.genmodel`, `position.genmodel`, and `tooldef.genmodel`.
+** Regenerate model code by opening the `.genmodel` files and right click and choose menu:Generate Model Code[].
+There won't always be changes.
 ** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
+** Update `osgi.requiredJavaVersion` in the product launch configuration (`org.eclipse.escet.product/product-escet.launch`).
 ** Update Java version for `escet.java.version` in `org.eclipse.escet.releng.configuration/pom.xml`.
 ** Update Java version for `executionEnvironment` in `org.eclipse.escet.releng.configuration/pom.xml`.
 ** Update Java version in `Jenkinsfile`.
@@ -177,6 +183,8 @@ To upgrade to a new Java version:
 ** Update Java keywords for `org.eclipse.escet.common.java.JavaCodeUtils.JAVA_IDS`.
 Update the keywords themselves and the field's JavaDoc, including the link to the Java Language Specification (JLS).
 ** Update `dev-env-setup.asciidoc` to match new Java version.
+** Update documentation links to the new version (search for `https://docs.oracle.com`).
+** Search for the current Java version to find other references (e.g., search for `17`).
 
 * For any Java versions (e.g. 17 to 18, or 17.0.1 to 17.0.2):
 ** Update the JustJ version (`eclipse.justj.version.*` variables) in the Oomph setup (`org.eclipse.escet.setup`).
