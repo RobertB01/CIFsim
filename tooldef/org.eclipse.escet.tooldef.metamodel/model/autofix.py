@@ -39,15 +39,51 @@ genmodel_content = genmodel_content.replace(
 # Fix Java compliance level.
 genmodel_content = genmodel_content.replace(
     'complianceLevel="5.0"',
-    'complianceLevel="8.0"'
+    'complianceLevel="17.0"'
 )
 genmodel_content = genmodel_content.replace(
     'complianceLevel="6.0"',
-    'complianceLevel="8.0"'
+    'complianceLevel="17.0"'
 )
 genmodel_content = genmodel_content.replace(
     'complianceLevel="7.0"',
-    'complianceLevel="8.0"'
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="8.0"',
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="9.0"',
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="10.0"',
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="11.0"',
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="12.0"',
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="13.0"',
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="14.0"',
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="15.0"',
+    'complianceLevel="17.0"'
+)
+genmodel_content = genmodel_content.replace(
+    'complianceLevel="16.0"',
+    'complianceLevel="17.0"'
 )
 
 # Set base package.
