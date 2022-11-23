@@ -175,9 +175,10 @@ public class CifToPlcPreChecker extends CifWalker {
             new FuncNoSpecificIntUserDefFuncStatsCheck(NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR, //
                     NoSpecificStatement.CONTINUE),
 
-            // Disallow various types completely.
+            // Disallow various types completely and function types in non-call context.
             new TypeNoSpecificTypesCheck(NoSpecificType.DICT_TYPES, //
                     NoSpecificType.DIST_TYPES, //
+                    NoSpecificType.FUNC_TYPES_AS_DATA, //
                     NoSpecificType.SET_TYPES, //
                     NoSpecificType.STRING_TYPES, //
                     // S7 transformation doesn't support list types. That is because S7 doesn't support functions
@@ -186,10 +187,11 @@ public class CifToPlcPreChecker extends CifWalker {
                             : NoSpecificType.LIST_TYPES_NON_ARRAY)),
 
             // Allow only casting to the same type and int to real, allow projection tuples and arrays, forbid string,
-            // set, and dictionary literals, and forbid slicing.
+            // set, and dictionary literals, forbid slicing, and function references outside call context.
             new ExprNoSpecificExprsCheck(NoSpecificExpr.CAST_EXPRS_FROM_STRING, //
                     NoSpecificExpr.CAST_EXPRS_TO_STRING, //
                     NoSpecificExpr.DICT_LITS, //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA, //
                     NoSpecificExpr.PROJECTION_EXPRS_DICTS, //
                     NoSpecificExpr.PROJECTION_EXPRS_LISTS_NON_ARRAY, //
                     NoSpecificExpr.PROJECTION_EXPRS_STRINGS, //
@@ -245,61 +247,4 @@ public class CifToPlcPreChecker extends CifWalker {
             null // Temporary dummy value to allow the final comma.
     //
     );
-
-    @Override
-    protected void preprocessFuncType(FuncType type) {
-        // We support functions directly in function calls, but not as
-        // data, to be passed around, stored in variables, etc.
-        String msg = fmt("Unsupported type \"%s\": function types are currently not supported. That is, calling "
-                + "functions is supported, but using them as data is not supported.", typeToStr(type));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void walkCifType(CifType type) {
-        // Skip checking types of expressions, as the expressions are already
-        // checked, and we don't transform the types of expressions. An
-        // exception is the type of 'if' expressions, as they become the return
-        // type of a function. Note that 'if' expressions with 'wrong' types
-        // can't be introduced by linearization (for algebraic variables), as
-        // algebraic variables of such types are unsupported as well. Since
-        // 'switch' expressions are converted to 'if' expressions due to the
-        // use of linearization, we also check their types as an exception.
-        // Similarly, for the default values of functions, parameterless
-        // functions may be introduced, but such use of function types is
-        // unsupported as well.
-        EObject parent = type.eContainer();
-        if (parent instanceof Expression && !(parent instanceof IfExpression)
-                && !(parent instanceof SwitchExpression))
-        {
-            return;
-        }
-
-        // Not a type of an expression.
-        super.walkCifType(type);
-    }
-
-    @Override
-    protected void preprocessFunctionCallExpression(FunctionCallExpression expr) {
-        // Unsupported function call.
-        String msg = fmt(
-                "Unsupported expression \"%s\": function calls on anything other than standard library functions "
-                        + "and internal user-defined functions is currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessFunctionExpression(FunctionExpression expr) {
-        // Function references used as the function to call in function call
-        // expressions are allowed. All other uses of function references
-        // (functions as values), are not supported.
-        if (expr.eContainer() instanceof FunctionCallExpression && expr.eContainmentFeature() == FCE_FUNC_REF) {
-            return;
-        }
-
-        String msg = fmt("Unsupported expression \"%s\": the use of functions as values is currently not supported.",
-                exprToStr(expr));
-        problems.add(msg);
-    }
 }
