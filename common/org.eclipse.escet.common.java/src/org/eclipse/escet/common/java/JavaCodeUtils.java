@@ -39,7 +39,7 @@ public class JavaCodeUtils {
      *     Specification</a>
      */
     public static final Set<String> JAVA_IDS = set(
-            // Keywords.
+            // Reserved keywords.
             "abstract", "assert", // a
             "boolean", "break", "byte", // b
             "case", "catch", "char", "class", "const", "continue", // c, 'const' is reserved
@@ -58,8 +58,22 @@ public class JavaCodeUtils {
             "while", // w
             "_", // _
 
-            // Other (literals and identifiers with special meaning).
-            "false", "null", "true", "var");
+            // Contextual keywords.
+            "exports", // e
+            "module", // m
+            "non-sealed", // n
+            "open", "opens", // o
+            "permits", "provides", // p
+            "record", "requires", // r
+            "sealed", // s
+            "to", "transitive", // t
+            "uses", // u
+            "var", // v
+            "with", // w
+            "yield", // y
+
+            // Literals.
+            "false", "null", "true");
 
     /**
      * Returns a Java compatible name for the given {@code name}, that does not conflict with Java's reserved
