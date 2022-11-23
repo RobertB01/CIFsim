@@ -67,10 +67,12 @@ class LinearizedHyperEdgeCreator extends LegacyHyperEdgeCreator {
         List<Alphabets> alphabets = CifEventUtils.getAllAlphabets(automata, null);
         Set<Event> events = alphabets.stream().map(a -> union(a.syncAlphabet, a.sendAlphabet, a.recvAlphabet))
                 .reduce((eventSet1, eventSet2) -> union(eventSet1, eventSet2)).get();
+        List<Automaton> lpAuts = automata.stream().filter(aut -> aut.getLocations().size() > 1)
+                .collect(Collectors.toList());
 
         // Linearize the edges of the copy of the specification.
         // Must match a similar call to linearize edges in `CifToSynthesisConverter'.
-        CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(automata);
+        CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(lpAuts);
         List<Edge> linearizedEdges = list();
         LinearizeProduct.linearizeEdges(automata, alphabets, set2list(events), locPtrManager, false, true,
                 linearizedEdges);

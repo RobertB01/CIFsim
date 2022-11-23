@@ -49,9 +49,12 @@ public class CifDataSynthesisLocationPointerManager implements LocationPointerMa
     /**
      * Constructor for the {@link CifDataSynthesisLocationPointerManager} class.
      *
-     * @param automata The automata that need location pointers.
+     * @param automata The automata that need location pointers. They must each have more than one location.
      */
     public CifDataSynthesisLocationPointerManager(List<Automaton> automata) {
+        // Ensure that the automata actual require location pointer variables.
+        Assert.check(automata.stream().allMatch(aut -> aut.getLocations().size() > 1));
+
         // Create a dummy specification to hold the location pointer variables, for proper containment.
         Specification dummySpec = newSpecification();
 
