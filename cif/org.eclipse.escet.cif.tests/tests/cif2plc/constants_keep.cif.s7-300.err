@@ -1,3 +1,5 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/constants_keep.cif".
-CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported type "list[3] real": list types are currently not supported for S7-300 output.
+CAUSE: CIF to PLC transformation failed due to unsatisfied preconditions:
+ - Unsupported "aut" (File "cif2plc/constants_keep.cif": line 28, columns 11 .. 13): uses list type "list[3] real".
+ - Unsupported "cl" (File "cif2plc/constants_keep.cif": line 19, columns 20 .. 21): uses list type "list[3] real".
+ - Unsupported specification (File "cif2plc/constants_keep.cif": line 1, column 1): uses list type "list[3] real".

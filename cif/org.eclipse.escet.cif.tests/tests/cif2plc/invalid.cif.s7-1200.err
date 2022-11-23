@@ -1,86 +1,87 @@
 WARNING: File "cif2plc/invalid.cif": Semantic warning at line 49, column 7: Automaton "p2" has no initial location.
 WARNING: File "cif2plc/invalid.cif": Semantic warning at line 73, column 17: Discrete variable "q.v9" is not used anywhere in the specification.
 ERROR: PLC code generation failed for CIF file "cif2plc/invalid.cif".
-CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported automaton "p": initialization predicates in components are currently not supported.
- - Unsupported automaton "p": state invariants in components are currently not supported.
- - Unsupported automaton "p2": automata without an initial location are currently not supported.
- - Unsupported automaton "p3": automata with multiple initial locations are currently not supported.
- - Unsupported discrete variable "p.x": the variable has multiple potential initial values.
- - Unsupported discrete variable "p.y": the variable has multiple potential initial values.
- - Unsupported discrete variable "q.v7": the variable has multiple potential initial values.
- - Unsupported expression """": string values are currently not supported.
- - Unsupported expression ""%s"": string values are currently not supported.
- - Unsupported expression ""a"": string values are currently not supported.
- - Unsupported expression ""a"": string values are currently not supported.
- - Unsupported expression ""a"": string values are currently not supported.
- - Unsupported expression "1 in q.v6": binary operator "in" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "<int>q.v1": casts from type "string" to type "int" are currently not supported.
- - Unsupported expression "[f2][q.i]()": function calls on anything other than standard library functions and internal user-defined functions is currently not supported.
- - Unsupported expression "acosh(q.r)": standard  library function "acosh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "asinh(q.r)": standard  library function "asinh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "atanh(q.r)": standard  library function "atanh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "ceil(q.r)": standard  library function "ceil" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "constant(true)": standard  library function "constant" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "cosh(q.r)": standard  library function "cosh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "del(q.v5, 0)": standard  library function "del" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "empty(q.v5 + [1])": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "empty(q.v6 - {1})": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "empty(q.v6 and q.v6)": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "empty(q.v6 or q.v6)": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "f1": the use of functions as values is currently not supported.
- - Unsupported expression "f2": the use of functions as values is currently not supported.
- - Unsupported expression "floor(q.r)": standard  library function "floor" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "fmt("%s", q.v1) != """: binary operator "!=" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "fmt("%s", q.v1)": standard  library function "fmt" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "pop(q.v5)": standard  library function "pop" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "q.v4(1)": function calls on anything other than standard library functions and internal user-defined functions is currently not supported.
- - Unsupported expression "q.v5 + [1]": binary operator "+" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v5 = q.v5": binary operator "=" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v5[0]": projections on anything other than tuples and arrays is currently not supported.
- - Unsupported expression "q.v5[:]": slicing is currently not supported.
- - Unsupported expression "q.v5[:][0]": projections on anything other than tuples and arrays is currently not supported.
- - Unsupported expression "q.v6 != q.v6": binary operator "!=" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v6 - {1}": binary operator "-" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v6 and q.v6": binary operator "and" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v6 or q.v6": binary operator "or" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "round(q.r)": standard  library function "round" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "sample q.v3": unary operator "sample" is currently not supported.
- - Unsupported expression "scale(q.r, 2, 3, 4, 5)": standard  library function "scale" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "sign(q.r)": standard  library function "sign" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "sinh(q.r)": standard  library function "sinh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(del(q.v5, 0))": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(q.v1)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(q.v2)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(q.v5)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(q.v6)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(q.v7)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "tanh(q.r)": standard  library function "tanh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "{1: true}": dictionaries are currently not supported.
- - Unsupported expression "{1} sub q.v6": binary operator "sub" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "{1}": sets are currently not supported.
- - Unsupported expression "{1}": sets are currently not supported.
- - Unsupported expression "{1}": sets are currently not supported.
- - Unsupported function "f": the function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
- - Unsupported function "f1": external user-defined functions are currently not supported.
- - Unsupported function "f2": the function has no parameters.
- - Unsupported function "f2": the internal user-defined function contains a "continue" statement.
- - Unsupported group "g": initialization predicates in components are currently not supported.
- - Unsupported group "g": state invariants in components are currently not supported.
- - Unsupported location "a" of automaton "p": state invariants in locations are currently not supported.
- - Unsupported location "a" of automaton "p": urgent locations are currently not supported.
- - Unsupported location "b" of automaton "p": urgent edges are currently not supported.
- - Unsupported specification: initialization predicates in components are currently not supported.
- - Unsupported specification: state invariants in components are currently not supported.
- - Unsupported type "dict(int:bool)": dictionary types are currently not supported.
- - Unsupported type "dist bool": distribution types are currently not supported.
- - Unsupported type "func int(int)": function types are currently not supported. That is, calling functions is supported, but using them as data is not supported.
- - Unsupported type "list int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[2] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[2] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "set int": set types are currently not supported.
- - Unsupported type "string": string types are currently not supported.
+CAUSE: CIF to PLC transformation failed due to unsatisfied preconditions:
+ - Unsupported "f" (File "cif2plc/invalid.cif": line 123, column 10): user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
+ - Unsupported "f" (File "cif2plc/invalid.cif": line 123, column 10): uses list type "list[5] int".
+ - Unsupported "f.p" (File "cif2plc/invalid.cif": line 124, column 15): uses list type "list[5] int".
+ - Unsupported "f1" (File "cif2plc/invalid.cif": line 40, columns 10 .. 11): is an external user-defined function.
+ - Unsupported "f2" (File "cif2plc/invalid.cif": line 42, columns 10 .. 11): has no parameters.
+ - Unsupported "f2" (File "cif2plc/invalid.cif": line 42, columns 10 .. 11): user-defined function has a 'continue' statement.
+ - Unsupported "g" (File "cif2plc/invalid.cif": line 17, column 7): group contains an initialization predicate.
+ - Unsupported "p" (File "cif2plc/invalid.cif": line 22, column 7): automaton contains an initialization predicate.
+ - Unsupported "p.a" (File "cif2plc/invalid.cif": line 29, column 12): location has a state invariant.
+ - Unsupported "p.a" (File "cif2plc/invalid.cif": line 29, column 12): location is urgent.
+ - Unsupported "p.b" (File "cif2plc/invalid.cif": line 35, column 12): location has an urgent edge.
+ - Unsupported "p.x" (File "cif2plc/invalid.cif": line 23, column 12): discrete variable has multiple potential initial values (any value in its domain).
+ - Unsupported "p.y" (File "cif2plc/invalid.cif": line 24, column 12): discrete variable has multiple (2) potential initial values.
+ - Unsupported "p2" (File "cif2plc/invalid.cif": line 49, columns 7 .. 8): automaton has no initial location.
+ - Unsupported "p3" (File "cif2plc/invalid.cif": line 53, columns 7 .. 8): automaton has multiple (2) initial locations.
+ - Unsupported "q.v1" (File "cif2plc/invalid.cif": line 61, columns 15 .. 16): uses string literal ""a"".
+ - Unsupported "q.v1" (File "cif2plc/invalid.cif": line 61, columns 15 .. 16): uses string type "string".
+ - Unsupported "q.v2" (File "cif2plc/invalid.cif": line 62, columns 23 .. 24): uses dictionary literal "{1: true}".
+ - Unsupported "q.v2" (File "cif2plc/invalid.cif": line 62, columns 23 .. 24): uses dictionary type "dict(int:bool)".
+ - Unsupported "q.v2" (File "cif2plc/invalid.cif": line 62, columns 23 .. 24): uses dictionary type "dict(int[1..1]:bool)".
+ - Unsupported "q.v3" (File "cif2plc/invalid.cif": line 63, columns 18 .. 19): discrete variable uses standard library function "constant".
+ - Unsupported "q.v3" (File "cif2plc/invalid.cif": line 63, columns 18 .. 19): uses distribution type "dist bool".
+ - Unsupported "q.v4" (File "cif2plc/invalid.cif": line 64, columns 22 .. 23): uses external user-defined function reference "f1" as data value.
+ - Unsupported "q.v4" (File "cif2plc/invalid.cif": line 64, columns 22 .. 23): uses function type "func int(int)" as data value.
+ - Unsupported "q.v5" (File "cif2plc/invalid.cif": line 65, columns 17 .. 18): uses list type "list int".
+ - Unsupported "q.v5" (File "cif2plc/invalid.cif": line 65, columns 17 .. 18): uses list type "list[1] int[1..1]".
+ - Unsupported "q.v6" (File "cif2plc/invalid.cif": line 66, columns 16 .. 17): uses set literal "{1}".
+ - Unsupported "q.v6" (File "cif2plc/invalid.cif": line 66, columns 16 .. 17): uses set type "set int".
+ - Unsupported "q.v6" (File "cif2plc/invalid.cif": line 66, columns 16 .. 17): uses set type "set int[1..1]".
+ - Unsupported "q.v7" (File "cif2plc/invalid.cif": line 68, columns 20 .. 21): discrete variable has multiple potential initial values (any value in its domain).
+ - Unsupported "q.v7" (File "cif2plc/invalid.cif": line 68, columns 20 .. 21): uses list type "list[2] int".
+ - Unsupported "q.v8" (File "cif2plc/invalid.cif": line 69, columns 17 .. 18): uses list type "list int".
+ - Unsupported "q.v8" (File "cif2plc/invalid.cif": line 69, columns 17 .. 18): uses list type "list[2] int".
+ - Unsupported "q.v9" (File "cif2plc/invalid.cif": line 73, columns 17 .. 18): uses list type "list int".
+ - Unsupported "q.v9" (File "cif2plc/invalid.cif": line 73, columns 17 .. 18): uses list type "list[2] int".
+ - Unsupported "q.v9" (File "cif2plc/invalid.cif": line 73, columns 17 .. 18): uses string literal ""a"".
+ - Unsupported "q.v9" (File "cif2plc/invalid.cif": line 73, columns 17 .. 18): uses string type "string".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification contains an initialization predicate.
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "acosh".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "asinh".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "atanh".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "ceil".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "cosh".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "del".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "empty".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "floor".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "fmt".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "pop".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "round".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "scale".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "sign".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "sinh".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "size".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "tanh".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "!=" on operands of types "set int" and "set int" in binary expression "q.v6 != q.v6".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "!=" on operands of types "string" and "string" in binary expression "fmt("%s", q.v1) != """.
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "+" on operands of types "list int" and "list[1] int[1..1]" in binary expression "q.v5 + [1]".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "-" on operands of types "set int" and "set int[1..1]" in binary expression "q.v6 - {1}".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "=" on operands of types "list int" and "list int" in binary expression "q.v5 = q.v5".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "and" on operands of types "set int" and "set int" in binary expression "q.v6 and q.v6".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "in" in binary expression "1 in q.v6".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "or" on operands of types "set int" and "set int" in binary expression "q.v6 or q.v6".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses binary operator "sub" in binary expression "{1} sub q.v6".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses cast expression from string "<int>q.v1".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses dictionary type "dict(int:bool)".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses distribution type "dist bool".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses function type "func int()" as data value.
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses function type "func int(int)" as data value.
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses internal user-defined function reference "f2" as data value.
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses list type "list int".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses list type "list[1] func int()".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses list type "list[1] int[1..1]".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses list type "list[2] int".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses non-array list projection expression "q.v5[0]".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses non-array list projection expression "q.v5[:][0]".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses set literal "{1}".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses set type "set int".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses set type "set int[1..1]".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses slice expression "q.v5[:]".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses string literal """".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses string literal ""%s"".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses string type "string".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): uses unary operator "sample" in unary expression "sample q.v3".

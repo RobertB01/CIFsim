@@ -1,13 +1,34 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/arrays.cif".
-CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported type "list[0] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[2] list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[2] list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[2] list[5] int[0..99]": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[5] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[5] int[0..99]": list types are currently not supported for S7-1200 output.
+CAUSE: CIF to PLC transformation failed due to unsatisfied preconditions:
+ - Unsupported "aut.empty_arr" (File "cif2plc/arrays.cif": line 41, columns 20 .. 28): uses list type "list[0] int".
+ - Unsupported "aut.l" (File "cif2plc/arrays.cif": line 39, column 20): uses list type "list[5] int".
+ - Unsupported "aut.l" (File "cif2plc/arrays.cif": line 39, column 20): uses list type "list[5] int[0..50]".
+ - Unsupported "aut.l1" (File "cif2plc/arrays.cif": line 43, columns 12 .. 13): uses list type "list[5] int".
+ - Unsupported "aut.l2" (File "cif2plc/arrays.cif": line 47, columns 12 .. 13): uses list type "list[5] int".
+ - Unsupported "aut.l3" (File "cif2plc/arrays.cif": line 50, columns 12 .. 13): uses list type "list[2] list[5] int[0..99]".
+ - Unsupported "aut.l3" (File "cif2plc/arrays.cif": line 50, columns 12 .. 13): uses list type "list[5] int".
+ - Unsupported "aut.l3" (File "cif2plc/arrays.cif": line 50, columns 12 .. 13): uses list type "list[5] int[0..99]".
+ - Unsupported "aut.l3" (File "cif2plc/arrays.cif": line 50, columns 12 .. 13): uses list type "list[5] int[11..55]".
+ - Unsupported "aut.l4" (File "cif2plc/arrays.cif": line 53, columns 12 .. 13): uses list type "list[2] list[5] int".
+ - Unsupported "aut.l4" (File "cif2plc/arrays.cif": line 53, columns 12 .. 13): uses list type "list[2] list[5] int[0..99]".
+ - Unsupported "aut.l4" (File "cif2plc/arrays.cif": line 53, columns 12 .. 13): uses list type "list[5] int".
+ - Unsupported "aut.l4" (File "cif2plc/arrays.cif": line 53, columns 12 .. 13): uses list type "list[5] int[0..99]".
+ - Unsupported "aut.l5" (File "cif2plc/arrays.cif": line 56, columns 12 .. 13): uses list type "list[2] list[5] int".
+ - Unsupported "aut.l5" (File "cif2plc/arrays.cif": line 56, columns 12 .. 13): uses list type "list[2] list[5] int[0..99]".
+ - Unsupported "aut.l5" (File "cif2plc/arrays.cif": line 56, columns 12 .. 13): uses list type "list[5] int".
+ - Unsupported "aut.l5" (File "cif2plc/arrays.cif": line 56, columns 12 .. 13): uses list type "list[5] int[0..99]".
+ - Unsupported "aut.l6" (File "cif2plc/arrays.cif": line 59, columns 12 .. 13): uses list type "list[2] list[5] int[0..99]".
+ - Unsupported "aut.l6" (File "cif2plc/arrays.cif": line 59, columns 12 .. 13): uses list type "list[5] int[0..99]".
+ - Unsupported "aut.l7" (File "cif2plc/arrays.cif": line 62, columns 12 .. 13): uses list type "list[0] int".
+ - Unsupported "aut.ll" (File "cif2plc/arrays.cif": line 40, columns 35 .. 36): uses list type "list[2] list[5] int[0..50]".
+ - Unsupported "aut.ll" (File "cif2plc/arrays.cif": line 40, columns 35 .. 36): uses list type "list[2] list[5] int[0..99]".
+ - Unsupported "aut.ll" (File "cif2plc/arrays.cif": line 40, columns 35 .. 36): uses list type "list[5] int[0..50]".
+ - Unsupported "aut.ll" (File "cif2plc/arrays.cif": line 40, columns 35 .. 36): uses list type "list[5] int[0..99]".
+ - Unsupported "lf" (File "cif2plc/arrays.cif": line 24, columns 18 .. 19): uses list type "list[5] int".
+ - Unsupported "lf.l" (File "cif2plc/arrays.cif": line 24, column 33): uses list type "list[5] int".
+ - Unsupported "lf.r" (File "cif2plc/arrays.cif": line 25, column 15): uses list type "list[5] int".
+ - Unsupported "llf" (File "cif2plc/arrays.cif": line 30, columns 26 .. 28): uses list type "list[2] list[5] int".
+ - Unsupported "llf" (File "cif2plc/arrays.cif": line 30, columns 26 .. 28): uses list type "list[5] int".
+ - Unsupported "llf.r" (File "cif2plc/arrays.cif": line 31, column 23): uses list type "list[2] list[5] int".
+ - Unsupported "llf.r" (File "cif2plc/arrays.cif": line 31, column 23): uses list type "list[5] int".
+ - Unsupported "pf" (File "cif2plc/arrays.cif": line 20, columns 10 .. 11): uses list type "list[5] int[0..50]".
