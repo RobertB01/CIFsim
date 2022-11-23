@@ -45,8 +45,8 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
             // At least one automaton.
             new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 
-            // No initialization predicates in components.
-            new CompNoInitPredsCheck(),
+            // No initialization predicates in components, ignoring initialization predicates that trivially hold.
+            new CompNoInitPredsCheck(true),
 
             // Disc variables must have single initial value.
             new VarNoDiscWithMultiInitValuesCheck(),
@@ -54,8 +54,8 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
             // Automata with single initial location.
             new AutOnlyWithOneInitLocCheck(),
 
-            // Allow state-event exclusion invariants only.
-            new LocOnlySpecificInvariantsCheck(false, true),
+            // Allow state invariants that trivially hold as well and allow all state-event exclusion invariants.
+            new LocOnlySpecificInvariantsCheck(false, true, true),
 
             // No urgency.
             new LocNoUrgentCheck(), //

@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
@@ -24,11 +25,36 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
  * outside of locations.
  */
 public class CompNoInitPredsCheck extends CifCheck {
+    /** Whether to ignore initialization predicates that trivially hold. */
+    private final boolean ignoreTriviallyTrueInitPreds;
+
+    /**
+     * Constructor of the {@link CompNoInitPredsCheck} class.
+     *
+     * <p>
+     * Using this constructor causes the check to also report initialization predicates that trivially hold.
+     * </p>
+     */
+    public CompNoInitPredsCheck() {
+        this(false);
+    }
+
+    /**
+     * Constructor of the {@link CompNoInitPredsCheck} class.
+     *
+     * @param ignoreTriviallyTrueInitPreds Whether to ignore initialization predicates that trivially hold.
+     */
+    public CompNoInitPredsCheck(boolean ignoreTriviallyTrueInitPreds) {
+        this.ignoreTriviallyTrueInitPreds = ignoreTriviallyTrueInitPreds;
+    }
+
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         if (!comp.getInitials().isEmpty()) {
-            violations.add(comp, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("contains an initialization predicate"));
+            if (!ignoreTriviallyTrueInitPreds || !CifValueUtils.isTriviallyTrue(comp.getInitials(), false, true)) {
+                violations.add(comp, new ReportObjectTypeDescrMessage(),
+                        new LiteralMessage("contains an initialization predicate"));
+            }
         }
     }
 }
