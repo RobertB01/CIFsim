@@ -121,17 +121,17 @@ public class VarOrdererHelper {
         LegacyHyperEdgeCreator creator;
         switch (BddHyperEdgeAlgoOption.getAlgo()) {
             case LEGACY:
-                creator = new LegacyHyperEdgeCreator();
+                creator = new LegacyHyperEdgeCreator(spec, variables);
                 break;
             case LINEARIZED:
-                creator = new LinearizedHyperEdgeCreator();
+                creator = new LinearizedHyperEdgeCreator(spec, variables);
                 break;
             default:
                 throw new AssertionError("Unknown algorithm: " + BddHyperEdgeAlgoOption.getAlgo());
         }
 
         // Create hyper-edges.
-        BitSet[] hyperEdges = creator.getHyperEdges(spec, variables).toArray(n -> new BitSet[n]);
+        BitSet[] hyperEdges = creator.getHyperEdges().toArray(n -> new BitSet[n]);
         for (BitSet hyperEdge: hyperEdges) {
             Assert.check(!hyperEdge.isEmpty());
         }

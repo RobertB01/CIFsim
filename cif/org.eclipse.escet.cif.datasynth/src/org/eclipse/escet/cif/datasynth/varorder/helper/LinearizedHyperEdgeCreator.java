@@ -56,10 +56,20 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * Variables that occur via algebraic variables are taken into account.
  **/
 class LinearizedHyperEdgeCreator extends LegacyHyperEdgeCreator {
+    /**
+     * Constructor for the {@link LinearizedHyperEdgeCreator} class.
+     *
+     * @param spec The CIF specification.
+     * @param variables The synthesis variables.
+     */
+    LinearizedHyperEdgeCreator(Specification spec, List<SynthesisVariable> variables) {
+        super(spec, variables);
+    }
+
     @Override
-    public List<BitSet> getHyperEdges(Specification inputSpec, List<SynthesisVariable> variables) {
+    public List<BitSet> getHyperEdges() {
         // Create a copy of the specification, to prevent modifying the input specification.
-        Specification spec = EMFHelper.deepclone(inputSpec);
+        Specification spec = EMFHelper.deepclone(getSpecification());
 
         // Collect all automata and alphabets.
         List<Automaton> automata = CifCollectUtils.collectAutomata(spec, list());
@@ -79,7 +89,7 @@ class LinearizedHyperEdgeCreator extends LegacyHyperEdgeCreator {
 
         // Create variable mapping, based on the absolute names of objects from the original and copied specification.
         // The absolute names are identical, as only edges are linearized, not the entire specification.
-        VariableMapping varMap = new VariableMapping(variables);
+        VariableMapping varMap = new VariableMapping(getVariables());
 
         // Create a hyper-edge for each linearized edge.
         List<BitSet> hyperEdges = listc(linearizedEdges.size());
@@ -99,7 +109,7 @@ class LinearizedHyperEdgeCreator extends LegacyHyperEdgeCreator {
             edgeVars = varMap.mapVars(edgeVars);
 
             // Add hyper-edge.
-            addHyperEdge(variables, edgeVars, hyperEdges);
+            addHyperEdge(edgeVars, hyperEdges);
         }
 
         // Return the hyper-edges.
