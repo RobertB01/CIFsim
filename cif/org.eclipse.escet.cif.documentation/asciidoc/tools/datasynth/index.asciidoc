@@ -42,3 +42,22 @@ That is, the controlled system permits all safe, controllable, and non-blocking 
 Note that <<lang-tut-time-deadlock,deadlock>> is not prevented for marked states.
 
 The synthesis algorithm is based on <<ouedraogo11>>.
+
+The following additional information is available:
+
+* <<tools-datasynth-starting>>
+* <<tools-datasynth-options>>
+* <<tools-datasynth-supported>>
+* <<tools-detasynth-early-prob-detect>>
+* <<tools-datasynth-supervisor>>
+* <<tools-datasynth-simplification>>
+* <<tools-datasynth-forward-reach>>
+* <<tools-datasynth-input-vars>>
+* <<tools-datasynth-init>>
+* <<tools-datasynth-performance>>
+* <<tools-datasynth-edge-order>>
+* <<tools-datasynth-var-order>>
+* <<tools-datasynth-op-cache>>
+* <<tools-datasynth-dbg-output>>
+* <<tools-datasynth-stats>>
+* <<tools-datasynth-references>>
