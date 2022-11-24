@@ -378,9 +378,9 @@ include::tools/datasynth/performance.asciidoc[]
 
 include::tools/datasynth/edge-order.asciidoc[]
 
-include::tools/datasynth/bdd-variable-order.asciidoc[]
+include::tools/datasynth/variable-order.asciidoc[]
 
-include::tools/datasynth/bdd-operation-cache.asciidoc[]
+include::tools/datasynth/operation-cache.asciidoc[]
 
 include::tools/datasynth/debug-output.asciidoc[]
 
