@@ -11,11 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-[[tools-datasynth-simplification]]
-== Simplification
+indexterm:[data-based supervisory controller synthesis,simplification]
 
-The synthesis algorithm computes various predicates, such as the conditions under which the controllable events may take place in the controlled system, and the initialization predicate of the controlled system.
-These predicates are included in the supervisor that results from synthesis.
+[[tools-datasynth-simplification]]
+== Predicate simplification
+
+The data-based synthesis algorithm computes various predicates, such as the conditions under which the controllable events may take place in the controlled system, and the initialization predicate of the controlled system.
+These predicates are included in the <<tools-datasynth-supervisor,supervisor that results from synthesis>>.
 
 However, if the controlled system imposes the exact same restrictions as the uncontrolled system, there is no need to list the full conditions in the supervisor, as the plants already define that behavior.
 The supervisor imposes no additional restrictions with respect to the plants, and it suffices to use `true` as condition for the supervisor to make that explicit.
@@ -78,7 +80,7 @@ The following simplifications are available:
 | State plant invariants from the input specification
 |===
 
-Which simplifications should be performed, can be specified using the _BDD predicate simplify_ option (see <<tools-datasynth-options,options>> section above).
+Which simplifications should be performed, can be specified using the _BDD predicate simplify_ option (see the <<tools-datasynth-options,options section>>).
 
 The table above lists in the first column, the option values to use for each of the simplifications, on the command line.
 The names given in the first column should be combined using commas, and used as option value.
@@ -98,7 +100,7 @@ The fourth column indicates under the assumption of which predicate the simplifi
 The simplification algorithm is not perfect, and may not simplify the predicates as much as could potentially be possible.
 
 When simplifying with respect to state requirement invariants, the supervisor no longer enforces those requirements, as they are assumed to already hold.
-As such, the simplification prevents such invariants from being removed from the resulting CIF specification.
+As such, the simplification prevents such invariants <<tools-datasynth-supervisor,from being removed>> from the resulting CIF specification.
 This applies to some of the other simplifications as well.
 For instance, the simplification over state/event exclusion requirement invariants leads to them being part of the output as well.
 This may affect whether other tools can handle the resulting supervisor model as input, depending on what kind of features they support.

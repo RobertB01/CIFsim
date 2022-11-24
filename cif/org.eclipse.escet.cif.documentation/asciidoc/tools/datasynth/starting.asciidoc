@@ -13,9 +13,10 @@
 
 indexterm:[data-based supervisory controller synthesis,start]
 
-== Starting the transformation
+[[tools-datasynth-starting]]
+== Starting the data-based synthesis tool
 
-The transformation can be started in the following ways:
+The data-based synthesis tool can be started in the following ways:
 
 * In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF synthesis tools[Apply data-based synthesis...].
 

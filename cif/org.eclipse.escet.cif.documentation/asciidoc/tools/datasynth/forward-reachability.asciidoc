@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,forward reachability]
 [[tools-datasynth-forward-reach]]
 == Forward reachability
 
-Synthesis essentially works by calculations that involve predicates that partition the entire state space into states that satisfy a property or don't satisfy a property.
+Data-based synthesis essentially works by calculations that involve predicates that partition the entire state space into states that satisfy a property or don't satisfy a property.
 For instance, a marker predicate may indicate which states of the state space are marked.
 All other states are thus not marked.
 
@@ -64,4 +64,4 @@ However, computing the forward reachability may also take time and cost memory, 
 It depends on the specification being synthesized whether enabling forward reachability increases or decreases performance.
 It also depends on the specification whether there is any benefit to using forward reachability for the guards of the supervisor.
 Forward reachability is disabled by default.
-It can be enabled using the _Forward reachability_ option (see <<tools-datasynth-options,options>> section above).
+It can be enabled using the _Forward reachability_ option (see the <<tools-datasynth-options,options section>>).

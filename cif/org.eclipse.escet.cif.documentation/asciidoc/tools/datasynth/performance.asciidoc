@@ -131,7 +131,7 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 
 The first column categorizes the different options a bit, for different kind of options.
 The second column lists the different options.
-The third column indicates in which section on this page of the documentation you can find more information about that option.
+The third column indicates in which section of the data-based synthesis tool documentation you can find more information about that option.
 The fourth column indicates the effect of the option.
 The fifth column indicates what to choose for the option, for best performance, although a trade-off may be involved.
 

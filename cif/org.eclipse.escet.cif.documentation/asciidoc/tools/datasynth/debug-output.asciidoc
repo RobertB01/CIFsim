@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,debugging]
 [[tools-datasynth-dbg-output]]
 == Debug output
 
-By default, the synthesis algorithm shows no progress information, and does not explain how the resulting supervisor is obtained.
+By default, the data-based synthesis algorithm shows no progress information, and does not explain how the resulting supervisor is obtained.
 By enabling debug output, detailed information is printed to the console.
 Debug output can be enabled by setting the _Output mode_ option (_General_ category) to _Debug_.
 
@@ -29,7 +29,7 @@ The performance degradation stems mostly from the printing of predicates.
 Predicates are internally represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 To print them, they are converted to CNF or DNF predicates, similar to one of the approaches to <<tools-datasynth-supervisor-bdd,convert>> BDDs to CIF predicates for synthesis output.
 
-To limit the performance degradation, options are available to limit the conversion of BDDs to CNF/DNF predicates.
+To limit the performance degradation, <<tools-datasynth-options,options>> are available to limit the conversion of BDDs to CNF/DNF predicates.
 The _BDD debug max nodes_ controls the maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug output.
 The default is `10` nodes.
 The maximum must be in the range [1 .. 2^31^ - 1].

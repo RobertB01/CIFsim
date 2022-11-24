@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,variable order]
 [[tools-datasynth-var-order]]
 == BDD variable order
 
-Internally, predicates are represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+Internally, data-based synthesis represents predicates using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 CIF variables and automata are represented using one or more boolean variables (also called BDD variables or bits).
 For instance, a boolean CIF variable is represented using a single boolean/BDD variable, and a CIF variable of type `int[0..8]` is represented using four boolean/BDD variables (9 possible values, log~2~(9) ≈ 3.17).
 For each automaton with two or more locations, a location pointer variable is created, that represents the current or active location of that automaton.
@@ -39,7 +39,7 @@ For each CIF variable and location pointer, two synthesis variables are created,
 For a single CIF variable or location pointer, the old and new synthesis variables are always kept together, and interleaved.
 The old synthesis variable is also always before the new synthesis variable.
 
-The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see <<tools-datasynth-options,options>> section above).
+The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see the <<tools-datasynth-options,options section>>).
 Several predefined orders exist, and it is also possible to define a custom order.
 By default, the sorted order is used.
 The following predefined orders exist:
@@ -171,7 +171,7 @@ Without such relations, the algorithms lack the required input to search for imp
 The variable relations serve as input for the algorithms.
 Different algorithms may use different representations of the variable relations.
 One such representation is _hyper-edges_, and another is _graph edges_, which are derived from the hyper-edges.
-The variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see <<tools-datasynth-options,options>> section above):
+The variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see the <<tools-datasynth-options,options section>>):
 
 * _Legacy_ (default)
 +
@@ -202,7 +202,7 @@ DCSH applies two algorithms, the Weighted Cuthill-McKee bandwidth-reducing algor
 It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the Weighted Event Span (WES) metric.
 +
 The DCSH algorithm is currently considered experimental.
-It is therefore disabled by default, but can be enabled using the _BDD DCSH variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
+It is therefore disabled by default, but can be enabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 
 * _FORCE_
 +
@@ -213,7 +213,7 @@ Conceptually, highly related variables 'pull' each other closer with more force 
 Each new order is promoted as the new best order, if it is better than the current best order, based on the total span metric.
 The iterative algorithm stops once a fixed point has been reached, or after at most 10 * ceil(log~e~(n)) iterations of the algorithm have been performed, with `n` the number of synthesis variables.
 +
-The FORCE algorithm is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
+The FORCE algorithm is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 
 * _Sliding window_
 +
@@ -225,11 +225,11 @@ For instance, for a variable order `a;b;c;d;e` and windows length 3, the window 
 For each window, it computes all possible variable permutations, and selects the best one based on the total span metric.
 It then replaces the window by the best permutation of that window, before moving on to the next window.
 +
-The sliding window algorithm is enabled by default, but can be disabled using the _BDD sliding window variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
+The sliding window algorithm is enabled by default, but can be disabled using the _BDD sliding window variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 +
 The default maximum length of the window that is used is 4.
 The actual window may be smaller, if less than 4 variables and/or location pointers are present in the model.
-The maximum length of the window can be configured using the _BDD sliding window size_ option (see <<tools-datasynth-options,options>> section above).
+The maximum length of the window can be configured using the _BDD sliding window size_ option (see the <<tools-datasynth-options,options section>>).
 The option to set the maximum length only has effect if the sliding window variable ordering algorithm is enabled.
 The size must be an integer number in the range [1 .. 12].
 

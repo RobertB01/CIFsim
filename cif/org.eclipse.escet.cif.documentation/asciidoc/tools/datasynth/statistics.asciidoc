@@ -18,7 +18,7 @@ indexterm:[data-based supervisory controller synthesis,statistics]
 
 The data-based synthesis tool supports printing various kinds of statistics.
 By default, no statistics are printed.
-Statistics can be enabled using the _Statistics_ option (see <<tools-datasynth-options,options>> section above).
+Statistics can be enabled using the _Statistics_ option (see the <<tools-datasynth-options,options section>>).
 The following statistics are available:
 
 * _BDD garbage collection_ [`bdd-gc-collect`]
@@ -27,7 +27,7 @@ Prints BDD garbage collection information before and after each garbage collecti
 +
 The BDD library that is used maintains an internal node table.
 Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
-See also the BDD library initial node table size option (see <<tools-datasynth-options,options>> section above).
+See also the BDD library initial node table size option (see the <<tools-datasynth-options,options section>>).
 +
 BDD garbage collection information is printed to the console before and after each garbage collection.
 The printed information includes the size of the node table, the number of free nodes, timing information, etc.
@@ -39,7 +39,7 @@ Prints BDD node table resize information each time a BDD node table resize is pe
 The BDD library that is used maintains an internal node table.
 Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
 If only very limited space could be reclaimed by garbage collection, the size of the node table is increased.
-See also the BDD library initial node table size option (see <<tools-datasynth-options,options>> section above).
+See also the BDD library initial node table size option (see the <<tools-datasynth-options,options section>>).
 +
 BDD node table resize information is printed to the console each time the node table is resized.
 The printed information includes the old and new sizes of the node table.
@@ -49,7 +49,7 @@ The printed information includes the old and new sizes of the node table.
 Prints metrics related to the BDD cache.
 +
 The BDD library that is used implements a cache to speed up the calculations.
-For more information, see the <<tools-datasynth-op-cache>> section below.
+For more information, see the <<tools-datasynth-op-cache, section about BDD operation caches>>.
 +
 The information is printed to the console, after execution, just before termination of the tool.
 The table below shows all metrics printed and their meaning.

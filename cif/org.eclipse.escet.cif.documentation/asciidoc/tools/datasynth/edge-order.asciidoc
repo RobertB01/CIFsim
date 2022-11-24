@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,edge order]
 [[tools-datasynth-edge-order]]
 == Edge order
 
-Supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
+Data-basd supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
 This involves repeatedly following edges to find those states, using a fixed point computation.
 
 During reachability computations the edges are considered one by one to find more reachable states.
@@ -33,13 +33,13 @@ Considering other edges first will lead to wasted computations, as they won't fi
 
 Besides finding or not finding new states, which new states are found first and in what order may also influence performance.
 It may lead to smaller or larger intermediate BDD representations of predicates.
-See the section on the <<tools-datasynth-var-order,BDD variable order>> for more information.
+See the <<tools-datasynth-var-order,section about BDD variable order>> for more information.
 
 Synthesis does not directly use the edges from the model.
 It applies <<tools-cif2cif-chapter-linearize-product,linearization>> and then uses the edges from the linearized model.
 Edges are internally also added to <<tools-datasynth-input-vars,support input variables>> during synthesis.
 
-The order in which the edges are considered is determined by the _Edge order_ option (see <<tools-datasynth-options,options>> section above).
+The order in which the edges are considered is determined by the _Edge order_ option (see the <<tools-datasynth-options,options section>>).
 Several predefined orders exist, and it is also possible to define a custom order.
 By default, the _model ordering_ is used.
 The following predefined orders exist:
@@ -91,5 +91,3 @@ Every event and input variable needs to be included in the order.
 
 Determining the best edge order is difficult as it can be tricky to predict which edges will lead to finding new states and quickly reaching the fixed point result.
 When in doubt, use the default value of the option.
-
-indexterm:[data-based supervisory controller synthesis,simplification]

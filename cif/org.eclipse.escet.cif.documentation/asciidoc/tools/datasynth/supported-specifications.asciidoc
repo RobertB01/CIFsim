@@ -13,7 +13,8 @@
 
 indexterm:[data-based supervisory controller synthesis,supported specifications]
 
-== Supported specifications
+[[tools-datasynth-supported]]
+== Specifications supported by data-based synthesis
 
 The data-based supervisory controller synthesis tool supports a subset of CIF specifications.
 The following restrictions apply:
@@ -162,9 +163,6 @@ For the following constraints:
 * `ie` is a supported integer expression, as described above.
 
 * `ee` is a supported enumeration expression, as described above.
-
-Additionally, the tool warns about state/event exclusion invariants for events that are not in the alphabet of any automaton.
-Such invariants have no effect, as they try to (further) restrict events that are never enabled to begin with.
 
 indexterm:[data-based supervisory controller synthesis,preprocessing]
 

@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,operation cache]
 [[tools-datasynth-op-cache]]
 == BDD operation cache
 
-One of the main properties of BDDs is that they employ full sharing.
+One of the main properties of the BDDs used by the data-based synthesis algorithm is that they employ full sharing.
 That is, if a part of a binary tree needs to be represented more than once, it is stored only once, and reused.
 This leads to BDDs being represented using directed acyclic graphs, rather than binary trees.
 
@@ -37,4 +37,4 @@ Increasing the cache size can significantly increase performance for large syste
 However, a larger than needed cache may also significantly decrease performance, as a cache that is too large may no longer fit within CPU caches, leading to more expensive accesses to the main memory.
 
 The operation cache size can be configured in two ways: as a fixed size that remains the same during the entire synthesis, or a variable cache size that grows in size as the node table grows in size.
-See the <<tools-datasynth-options,options>> section above for details.
+See the <<tools-datasynth-options,options section>> for further details.
