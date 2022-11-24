@@ -1,0 +1,86 @@
+indexterm:[data-based supervisory controller synthesis,resulting supervisor]
+
+[[tools-datasynth-supervisor]]
+=== Resulting supervisor
+
+If the supervisor has to restrict so much of the behavior of the uncontrolled system that no initial state remains, the controlled system becomes empty.
+The synthesis algorithm then ends with an _empty supervisor_ error, and no output CIF file is created.
+
+If an initial state remains after synthesis, an output CIF file is created.
+The contents is the controlled system.
+The controlled system is obtained by taking the input specification, and modifying it.
+The requirement automata are changed to supervisor automata.
+Some or all of the requirement invariants may be <<tools-cif2cif-chapter-remove-reqs,removed>>, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
+The remaining requirement invariants are changed to supervisor invariants.
+An additional external supervisor automaton is added.
+Also, depending on the simplifications that are applied, the requirement automata may serve as <<lang-tut-data-chapter-monitoring,monitors>> or _observers_ for the external supervisor, or may actually impose the requirement restrictions.
+An external supervisor is a `supervisor` automaton that adds restrictions to the uncontrolled system (the plants), and potentially the requirement automata, depending on the simplifications that are applied.
+The supervisor uses the same events as the plants, and refers to plant and requirement locations and variables in its conditions.
+
+By default, the resulting external supervisor automaton is put in the empty <<lang-tut-reuse2-chapter-namespaces,namespace>>, at the top level of the resulting specification.
+That is, the supervisor automaton is not put in any groups.
+See the <<tools-datasynth-supervisor-namespace>> section for more information.
+
+By default, the added supervisor automaton is named `sup`.
+Using the _Supervisor name_ option (see <<tools-datasynth-options,options>> section above), it is possible to specify a different name.
+Custom supervisor automaton names must be valid CIF identifiers, i.e. they may consist of letters, digits, and underscores (`+_+`), but may not start with a digit.
+If the resulting supervisor automaton has a name that conflicts with an existing declaration, it is automatically renamed to have a non-conflicting name.
+In such cases, a warning is printed to the console to inform the user.
+
+The resulting supervisor has exactly one self loop edge for each of the controllable events in the alphabet of the controlled system (which is equal to the alphabet of the uncontrolled system).
+These self loops represent the possible conditions under which the supervisor allows the events to occur in the controlled system.
+The exact predicates may vary, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
+
+If there are controllable events that are never enabled in the controlled system, a warning is printed to the console.
+Enabling <<tools-datasynth-forward-reach,forward reachability>> ensures that warnings are also printed for events that are only enabled in the unreachable part of the statespace.
+Disabling forward reachability may lead to false negatives, i.e. such cases may not be reported.
+
+The resulting supervisor may have an initialization predicate that restricts the states in which the system may be initialized (may start), on top of the initialization constraints already present in the uncontrolled system.
+For more information on this initialization predicate, see the section on <<tools-datasynth-init,initialization>> below.
+
+[[tools-datasynth-supervisor-namespace]]
+==== Namespace
+
+As indicated above, by default the resulting supervisor automaton is put in the empty <<lang-tut-reuse2-chapter-namespaces,namespace>>, at the top level of the resulting specification.
+That is, the supervisor automaton is not put in any groups.
+
+It is possible to add a namespace to the entire resulting specification.
+That is, to put groups around the original plants and requirements, the added supervisor automaton, etc.
+A namespace can be added using the _Supervisor namespace_ option (see <<tools-datasynth-options,options>> section above).
+By default, no additional namespace is added.
+
+By adding a namespace around the entire resulting specification, the synthesis result can be easily <<tools-chapter-mergecif,merged>> with for instance a simulation model.
+The added namespace ensures that there are no naming conflicts between the plants of the simulation model and the similarly original plants.
+The events are not put in the new namespace, but are instead kept in their original place, wrapped in groups as necessary to keep their original identities (absolute names).
+This ensures that it remains possible to connect (merge) the events of the synthesis output with the events of the simulation model.
+
+The namespace specified using the option, must consist of one or more valid CIF identifiers, separated by dots (`.`).
+Valid CIF identifiers consist of one or more letters, digits, and underscores (`+_+`), but may not start with a digit.
+As an example, consider namespace `a.b`.
+A group `b` is wrapped around the entire synthesis result, and a group `a` is wrapped around group `b`.
+Group `a` is then the new synthesis result.
+
+If a part of the namespace has the same name as an event that remains in its original place, this leads to a conflict, and synthesis fails.
+If the namespace does not conflict, but is non-empty (it contains an event or it contains a group that contains an event), synthesis also fails.
+
+[[tools-datasynth-supervisor-bdd]]
+==== BDD representation in CIF
+
+Internally, predicates are represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+The supervisor that is the output of synthesis, contains several predicates as well.
+For instance, it has self loops with guard predicates, and it may have an initialization predicate.
+The predicates represented as BDDs need to be represented as CIF predicates.
+There are multiple approaches to do this, and the _BDD output mode_ option (see <<tools-datasynth-options,options>> section above), can be used to configure the approach to use.
+
+The first approach, which is also the default approach (named `normal`), is to use either link:https://en.wikipedia.org/wiki/Conjunctive_normal_form[Conjunctive Normal Form] (CNF) or link:https://en.wikipedia.org/wiki/Disjunctive_normal_form[Disjunctive Normal Form] (DNF) predicates.
+This approach has as benefit that for relatively small predicates (usually for small systems), the CIF predicates are often intuitive, and can easily understood.
+The downside is that for larger systems, the CIF predicates often grow exponentially in size.
+
+The second approached (named `nodes`), is to represent the internal BDD nodes directly in CIF.
+The BDD is then more or less coded directly in CIF, using some constants and algebraic variables, and is evaluated using a BDD evaluation function.
+The benefit is that for larger systems, this representation remains relatively small, and at the very least doesn't blow up nearly as much as the CNF and DNF representations.
+The downside to this approach, is that it leads to a supervisor that can not be easily understood by inspecting it.
+For this approach, several objects are created in the top level scope of the CIF specification.
+The names of these declarations all share a common prefix.
+The default prefix is `bdd`, but it can be changed using the _BDD output name prefix_ option (see <<tools-datasynth-options,options>> section above).
+No existing declarations, whose names start with that prefix, should be present in the top level scope of the specification.

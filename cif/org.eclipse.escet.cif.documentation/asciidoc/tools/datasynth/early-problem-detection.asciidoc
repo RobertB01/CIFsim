@@ -1,0 +1,16 @@
+indexterm:[data-based supervisory controller synthesis,checks]
+
+[[tools-detasynth-early-prob-detect]]
+=== Early problem detection
+
+The synthesis algorithm checks the specification for common issues, for early detection of problems that will lead to an empty supervisor.
+If such a problem is detected, a warning is printed to the console.
+Among others, checks are included for no initial states/variables, no marked states, and no states due to the state requirement invariants.
+
+The synthesis algorithm also checks whether there are events that are never enabled in the input specification.
+If such a problem is detected, a warning is printed to the console.
+Among others, checks are included for events that are forbidden by automaton guards, event/state exclusion plant and requirement invariants, and state plant invariants.
+
+The synthesis algorithm also checks for plant invariants or plant automata that reference requirement state.
+If such a problem is detected, a warning is printed to the console.
+Among others, references in guards, updates, invariant predicates, initialization predicates, marker predicates and initial values for discrete variables are detected.

@@ -1,0 +1,54 @@
+indexterm:[data-based supervisory controller synthesis,forward reachability]
+
+[[tools-datasynth-forward-reach]]
+=== Forward reachability
+
+Synthesis essentially works by calculations that involve predicates that partition the entire state space into states that satisfy a property or don't satisfy a property.
+For instance, a marker predicate may indicate which states of the state space are marked.
+All other states are thus not marked.
+
+indexterm:[reachability]
+indexterm:[fixed point]
+Calculations during synthesis often involve link:https://en.wikipedia.org/wiki/Reachability[reachability].
+For instance, from which states is it possible to reach a marker state?
+To compute the states that can reach a marker state, the marker predicate of the input specification is used.
+The marker predicate indicates the states that are themselves marked.
+Then, the states are calculated that can reach one of those marked states, via a single transition.
+They are put together, to form the states that are marked or can be marked after one transition.
+By taking another such step, we can add the states that can reach a marked state via two transitions.
+We then have all states that can reach a marked state via zero, one, or two transitions.
+We can repeat this until no new states are found, which is called reaching a link:https://en.wikipedia.org/wiki/Fixed_point_%28mathematics%29[fixed point].
+
+indexterm:[reachability,backward]
+This form of reachability is called backward reachability, as it starts with some target (e.g. marked states), and goes backwards to find all states from which the target can be reached.
+Backward reachability can lead to states that could never be reached from an initial state, even in the uncontrolled system.
+This leads to two separate issues.
+
+The first issue is about unintuitive resulting supervisor guards.
+The resulting supervisor forbids certain transitions, by restricting controllable events.
+It among others forbids transitions that end up in states from which no marked state can be reached.
+However, if those forbidden states can never be reached from an initial state, there is no reason to restrict the controllable events in such cases.
+The guards of the resulting supervisor then appear to restrict the controllable events, while in fact the guard doesn't impose a restriction for the controlled system.
+The supervisor simply doesn't have the necessary information to know this.
+
+The second issue is about performance.
+Expanding unreachable states during backward reachability takes time and costs memory, while it has no useful effect on the resulting controlled system.
+
+indexterm:[reachability,forward]
+The use of forward reachability can be a solution to both problems.
+Forward reachability starts with the initial states, and adds states reachable via one transitions, then via two transitions, then via three transitions, etc.
+This is repeated until all reachable states are found.
+
+By combining both forward and backward reachability, the supervisor knows about states that exist in the uncontrolled system (due to forward reachability) and about states that it should forbid (due to backward reachability).
+This leads to the supervisor only restricting transitions that are strictly necessary.
+However, both when using forward reachability and when not using it, the synthesized supervisor is safe, non-blocking, and maximally permissive.
+It is only the guards that are more complex than they might need to be, if forward reachability is not used.
+More complex guards are often less readable, and potentially more expensive to implement in an actual controller.
+
+By combining both forward and backward reachability, parts of the state space that are not relevant may not have to be expanded (as much), which may improve performance.
+However, computing the forward reachability may also take time and cost memory, thus reducing performance.
+
+It depends on the specification being synthesized whether enabling forward reachability increases or decreases performance.
+It also depends on the specification whether there is any benefit to using forward reachability for the guards of the supervisor.
+Forward reachability is disabled by default.
+It can be enabled using the _Forward reachability_ option (see <<tools-datasynth-options,options>> section above).

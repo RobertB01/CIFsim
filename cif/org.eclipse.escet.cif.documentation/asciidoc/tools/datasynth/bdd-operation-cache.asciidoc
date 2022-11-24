@@ -1,0 +1,27 @@
+indexterm:[data-based supervisory controller synthesis,operation cache]
+
+[[tools-datasynth-op-cache]]
+=== BDD operation cache
+
+One of the main properties of BDDs is that they employ full sharing.
+That is, if a part of a binary tree needs to be represented more than once, it is stored only once, and reused.
+This leads to BDDs being represented using directed acyclic graphs, rather than binary trees.
+
+The BDD library uses an operation cache to speed up synthesis.
+Whenever a certain operation is performed on one or more nodes of a BDD graph, the result is cached.
+If that same operation is performed again on the same nodes, the cached result is reused, if available.
+This way, repeated calculations can be prevented for shared sub-graphs.
+
+The operation cache is essential for the performance of the synthesis algorithm.
+With an infinite cache, the operations are generally linear in the number of nodes used to represent the BDDs on which they are applied.
+Without caching, the computation time grows exponentially.
+
+Obviously, in practice we can't have an infinite cache, as a computer only has a finite amount of memory available.
+We thus need to work with a finite cache.
+Whenever a new cached operation result doesn't fit in the cache, an older result is overwritten, and will need to be recomputed if it is needed again.
+
+Increasing the cache size can significantly increase performance for large systems, as a cache that is too small is ineffective, and results in many operations needing to be repeated, that could have otherwise been obtained from the cache.
+However, a larger than needed cache may also significantly decrease performance, as a cache that is too large may no longer fit within CPU caches, leading to more expensive accesses to the main memory.
+
+The operation cache size can be configured in two ways: as a fixed size that remains the same during the entire synthesis, or a variable cache size that grows in size as the node table grows in size.
+See the <<tools-datasynth-options,options>> section above for details.

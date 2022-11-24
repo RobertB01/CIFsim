@@ -1,0 +1,19 @@
+indexterm:[data-based supervisory controller synthesis,input variables]
+
+[[tools-datasynth-input-vars]]
+=== Input variables
+
+Data-based synthesis supports input variables.
+The model itself doesn't specify which value an input variable has at any given moment.
+Input variables can thus have any value (as long as it fits within the data type of the variable), and the value can change at any time.
+Input variables are ideal to model sensors.
+
+To support this for data-based synthesis, the input variable is treated as a discrete variable with an arbitrary initial value.
+To allow the input variable to arbitrarily change, an uncontrollable event is added (with the same absolute name as the input variable).
+Also, a single edge is added for that event.
+The edge is always enabled (guard `true`, since the input variable can always change value), and the update indicates that it can get any value that it doesn't currently have (`x+ != x` for `x` an input variable, with `x` the value of the variable before the update, and `x+` the value of the variable after the update).
+Obviously, the value of the input variable is kept within the range of values that is allowed by its data type.
+
+Using synthesis with requirements that restrict the allowed values of an input variable will result in an empty supervisor, as a supervisor can't prevent the environment from changing the value of the input variable (it would have to restrict the uncontrollable event that is internally added to model value changes of the input variable).
+A supervisor can however impose additional restrictions on the <<tools-datasynth-init,initial>> value of an input variable.
+The supervisor can then only guarantee safe, non-blocking behavior if the system is initialized in accordance with the additional initialization restrictions.
