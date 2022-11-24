@@ -1,5 +1,18 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 [bibliography]
-=== References
+== References
 
 * [[[aloul03,Aloul et al. (2003)]]] Fadi A. Aloul, Igor L. Markov and Karem A. Sakallah, "FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic", In: Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119, 2003, doi:link:https://doi.org/10.1145/764808.764839[10.1145/764808.764839]
 

@@ -1,7 +1,20 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 indexterm:[data-based supervisory controller synthesis,initialization]
 
 [[tools-datasynth-init]]
-=== Initialization
+== Initialization
 
 The synthesis algorithm ensures that in the controlled system, the state requirement invariants hold in all reachable states.
 It also ensures that in the controlled system, for all transitions from reachable states, the events only occur if the requirement automata and state/event exclusion invariants allow them.

@@ -1,7 +1,20 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 indexterm:[data-based supervisory controller synthesis,operation cache]
 
 [[tools-datasynth-op-cache]]
-=== BDD operation cache
+== BDD operation cache
 
 One of the main properties of BDDs is that they employ full sharing.
 That is, if a part of a binary tree needs to be represented more than once, it is stored only once, and reused.

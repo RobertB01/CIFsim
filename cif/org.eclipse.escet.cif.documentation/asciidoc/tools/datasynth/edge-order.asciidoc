@@ -1,7 +1,20 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 indexterm:[data-based supervisory controller synthesis,edge order]
 
 [[tools-datasynth-edge-order]]
-=== Edge order
+== Edge order
 
 Supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
 This involves repeatedly following edges to find those states, using a fixed point computation.

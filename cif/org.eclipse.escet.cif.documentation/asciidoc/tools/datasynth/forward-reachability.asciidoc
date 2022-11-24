@@ -1,7 +1,20 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 indexterm:[data-based supervisory controller synthesis,forward reachability]
 
 [[tools-datasynth-forward-reach]]
-=== Forward reachability
+== Forward reachability
 
 Synthesis essentially works by calculations that involve predicates that partition the entire state space into states that satisfy a property or don't satisfy a property.
 For instance, a marker predicate may indicate which states of the state space are marked.

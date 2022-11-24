@@ -1,7 +1,20 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 indexterm:[data-based supervisory controller synthesis,debugging]
 
 [[tools-datasynth-dbg-output]]
-=== Debug output
+== Debug output
 
 By default, the synthesis algorithm shows no progress information, and does not explain how the resulting supervisor is obtained.
 By enabling debug output, detailed information is printed to the console.
