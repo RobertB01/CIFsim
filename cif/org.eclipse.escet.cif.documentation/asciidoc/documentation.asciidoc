@@ -352,7 +352,7 @@ include::tools/text-editor.asciidoc[]
 
 :leveloffset: +2
 
-include::tools/datasynth.asciidoc[]
+include::tools/datasynth/index.asciidoc[]
 
 include::tools/eventbased/index.asciidoc[]
 
