@@ -448,7 +448,7 @@ public class BuiltInFileTools {
      * @return {@code false} if the first file does not exist (if allowed by enabling {@code allowNonExisting}), if the
      *     first file is older than any the reference files, or if the first file has the same last change date as any
      *     of the reference files and {@code sameAsNewer} is disabled. {@code true} if the first file is newer than all
-     *     of the reference files, if the first file has the same last change date as some the reference files and
+     *     of the reference files, if the first file has the same last change date as some of the reference files and
      *     {@code sameAsNewer} is enabled and is newer than all of the other reference files, or if the first file has
      *     the same last change date as all the reference files and {@code sameAsNewer} is enabled.
      * @throws ToolDefException If the first file does not exist and {@code allowNonExisting} is disabled, if any of the
