@@ -27,6 +27,12 @@ end
 // Executes a benchmark for a given model in a given folder.
 tool benchmark(string folder, string model_file_name):
     // Logging.
+    outln("=============================================");
+    outln("=== CIF data-based synthesis benchmarking ===");
+    outln("=============================================");
+    outln();
+    outln("NOTE: synthesis takes longer when benchmarking due to the collection of platform-independent performance metrics.");
+    outln();
     outln("Benchmarking %s/%s:", folder, model_file_name);
 
     // Get settings to use for each of the executions of data-based synthesis.
