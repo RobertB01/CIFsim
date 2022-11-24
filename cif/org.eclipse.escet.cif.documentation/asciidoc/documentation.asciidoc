@@ -354,6 +354,42 @@ include::tools/text-editor.asciidoc[]
 
 include::tools/datasynth/index.asciidoc[]
 
+:leveloffset: +1
+
+include::tools/datasynth/starting.asciidoc[]
+
+include::tools/datasynth/options.asciidoc[]
+
+include::tools/datasynth/supported-specifications.asciidoc[]
+
+include::tools/datasynth/early-problem-detection.asciidoc[]
+
+include::tools/datasynth/resulting-supervisor.asciidoc[]
+
+include::tools/datasynth/simplification.asciidoc[]
+
+include::tools/datasynth/forward-reachability.asciidoc[]
+
+include::tools/datasynth/input-variables.asciidoc[]
+
+include::tools/datasynth/initialization.asciidoc[]
+
+include::tools/datasynth/performance.asciidoc[]
+
+include::tools/datasynth/edge-order.asciidoc[]
+
+include::tools/datasynth/bdd-variable-order.asciidoc[]
+
+include::tools/datasynth/bdd-operation-cache.asciidoc[]
+
+include::tools/datasynth/debug-output.asciidoc[]
+
+include::tools/datasynth/statistics.asciidoc[]
+
+include::tools/datasynth/references.asciidoc[]
+
+:leveloffset: -1
+
 include::tools/eventbased/index.asciidoc[]
 
 :leveloffset: +1
