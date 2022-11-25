@@ -4,7 +4,7 @@
     modelDirectory="/org.eclipse.escet.common.position.metamodel/src-gen" editDirectory=""
     editorDirectory="" modelPluginID="org.eclipse.escet.common.position.metamodel"
     modelName="Position" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
+    testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0"
     copyrightFields="false" operationReflection="true" importOrganizing="true">
   <foreignModel>position.ecore</foreignModel>
   <genPackages prefix="Position" basePackage="org.eclipse.escet.common.position.metamodel"

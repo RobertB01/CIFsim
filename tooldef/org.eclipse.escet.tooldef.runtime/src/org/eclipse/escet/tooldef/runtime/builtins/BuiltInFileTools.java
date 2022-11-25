@@ -435,7 +435,8 @@ public class BuiltInFileTools {
     }
 
     /**
-     * Checks whether a file is newer (was modified at a later date/time) than some reference files.
+     * Checks whether a file is newer (was modified at a later date/time) than some reference files. The minimum
+     * modification time difference that can be detected is 1 millisecond.
      *
      * @param path The absolute or relative local file system path of the file for which to check whether it is newer
      *     than the reference files. May contain both {@code "\"} and {@code "/"} as path separators.
@@ -501,6 +502,10 @@ public class BuiltInFileTools {
             throw new ToolDefException(msg, ex);
         }
 
+        // If a file is copied, it may loose modification time precision. To still obtain equal modification times in
+        // such cases, convert to milliseconds.
+        long filetimeMillis = filetime.toMillis();
+
         for (int i = 0; i < refpaths.size(); i++) {
             FileTime reftime;
             try {
@@ -511,10 +516,12 @@ public class BuiltInFileTools {
                 throw new ToolDefException(msg, ex);
             }
 
-            if (filetime.compareTo(reftime) < 0) {
+            long reftimeMillis = reftime.toMillis();
+
+            if (filetimeMillis < reftimeMillis) {
                 return false;
             }
-            if (filetime.compareTo(reftime) == 0 && !sameAsNewer) {
+            if (filetimeMillis == reftimeMillis && !sameAsNewer) {
                 return false;
             }
         }

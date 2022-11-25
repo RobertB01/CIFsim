@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="proj11_TupleStruct_1">
-    <Declaration>
-      <![CDATA[FUNCTION proj11_TupleStruct_1: LREAL
+    <Declaration><![CDATA[FUNCTION proj11_TupleStruct_1: LREAL
 VAR_INPUT
     tuple: TupleStruct_1;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[proj11_TupleStruct_1 := tuple.field11;]]>
-      </ST>
+      <ST><![CDATA[proj11_TupleStruct_1 := tuple.field11;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

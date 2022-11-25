@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="func_fac2">
-    <Declaration>
-      <![CDATA[FUNCTION func_fac2: DINT
+    <Declaration><![CDATA[FUNCTION func_fac2: DINT
 VAR_INPUT
     farg2_fac2_a: DINT;
 END_VAR
 VAR
     farg_fac2_a: DINT;
     fvar_fac2_rslt: DINT;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[farg_fac2_a := farg2_fac2_a;
+      <ST><![CDATA[farg_fac2_a := farg2_fac2_a;
 // Initialize local variables.
 fvar_fac2_rslt := 1;
 
@@ -23,8 +20,7 @@ WHILE ((farg_fac2_a) > (0)) DO
     farg_fac2_a := (farg_fac2_a) - (1);
 END_WHILE;
 func_fac2 := fvar_fac2_rslt;
-RETURN;]]>
-      </ST>
+RETURN;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>
