@@ -435,7 +435,7 @@ public class BuiltInFileTools {
     }
 
     /**
-     * Checks whether a file is newer (was modified at a later date/time) than some reference files. Minimum
+     * Checks whether a file is newer (was modified at a later date/time) than some reference files. The minimum
      * modification time difference that can be detected is 1 millisecond.
      *
      * @param path The absolute or relative local file system path of the file for which to check whether it is newer
