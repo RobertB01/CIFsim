@@ -19,7 +19,6 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.FileVisitResult.SKIP_SUBTREE;
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -496,7 +495,6 @@ public class BuiltInFileTools {
         FileTime filetime;
         try {
             filetime = Files.getLastModifiedTime(absPath);
-            warn(absPath + filetime.toString());
         } catch (IOException ex) {
             String msg = fmt(
                     "Failed to determine if file is newer: failed to get the last modified time of file \"%s\".", path);
