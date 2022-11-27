@@ -35,13 +35,13 @@ Invariants with a `supervisor` kind, as well as kindless/regular invariants (wit
 
 * Continuous variables are not supported.
 
-* Only discrete/input variables with a boolean type, ranged integer type (e.g. `int[0..5]`), or enumeration type are supported.
+* Discrete and input variables are supported, but only if they have a boolean type, ranged integer type (e.g. `int[0..5]`), or enumeration type.
 For integer types, ranges that include negative integer values are not supported.
-For algebraic variables and algebraic parameters of components, all types are supported.
-For constants, all types are supported.
 
 * Discrete variables must have supported initial values.
 If explicit initial values are given, they must be supported predicates (for boolean variables) or supported expressions as described below (for all other variables).
+
+* Constants, algebraic variables and algebraic parameters of components are supported as long as their values are supported in the context where they are used (as described below).
 
 * Automata with non-determinism for controllable events are not supported.
 That is, automata that have locations with multiple outgoing edges for the same controllable event, with overlapping guards (e.g. `x > 1` and `x < 4`), are not supported.
@@ -57,7 +57,9 @@ The supported predicates are:
 
 * Boolean literals (`true`, `false`).
 
-* Discrete/input/algebraic boolean variables (`x`, for `x` a discrete, input, or algebraic variable with a boolean type).
+* Discrete and input boolean variables (`x`, for `x` a discrete or input variable with a boolean type).
+
+* Algebraic boolean variables with supported predicates as their values (`x`, for `x` an algebraic variable with a boolean type).
 
 * Boolean constants (`x`, for `x` a constant with a boolean type).
 
@@ -96,7 +98,9 @@ The supported expressions are:
 
 * An enumeration literal/value.
 
-* Discrete/input/algebraic integer/enumeration variables (`x`, for `x` a discrete, input, or algebraic variable with an integer or enumeration type).
+* Discrete and input integer/enumeration variables (`x`, for `x` a discrete or input variable with an integer or enumeration type).
+
+* Algebraic integer/enumeration variables with supported expressions as their values (`x`, for `x` an algebraic variable with an integer or enumeration type).
 
 * Integer/enumeration constants (`x`, for `x` a constant with an integer or enumeration type).
 
