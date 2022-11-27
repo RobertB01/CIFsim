@@ -172,6 +172,32 @@ For the following constraints:
 
 * `ee` is a supported enumeration expression, as described above.
 
+What exactly is supported for assignments, expressions and predicates can be subtle.
+And rewriting them slightly if they are unsupported, may make them supported.
+Here as some examples, where variable `x` is a supported discrete variable:
+
+* `x := x - 2` is supported, while `x := x + (-2)` is not.
+The former matches `xi := ie - ie`, with `x` and `2` being supported integer expressions.
+The latter is not supported.
+While it matches `xi := ie`, and the `ie` matches `i + j`, the `j` is then `-2`, which is not a supported integer expression.
+
+* `x := x + 1 - 1` is supported, while `x := x - 1 + 1` is not.
+The former is parsed as `x := (x + 1) - 1`, which matches `xi := ie - ie`.
+The left `ie` is then `x + 1`, which matches `i + j`, with `x` and `1` being supported integer expressions.
+The latter is parsed as `x := (x - 1) + 1`, which matches `xi := ie`.
+Then `ie` is then `(x - 1) + 1`, which matches `i + j`, with `i` being `x - 1`, which is not a supported integer expression.
+
+* `x := x - (1 - 1)` is supported, while `x := x - 1 - 1` is not.
+The former matches `xi := ie - ie`, with the right `ie` being `1 - 1`, which can be statically evaluated to `0`, and is therefore supported.
+The latter is parsed as `x := (x - 1) - 1`.
+While it matches `xi := ie - ie`, the left `ie` is then `x - 1`, which is not a supported integer expression.
+
+* `x := x + 1 - y` and `x := x + y - 1` are supported, while `x := x - (y - 1)` and `x := x - (1 - y)` are not.
+The former two are parsed as `x := (x + 1) - y` and `x := (x + y) - 1`, which leads to the `-` as top-level operator in the expression at the right hand side of the assignment.
+This matches `xi := ie - ie` and is thus supported.
+The latter two are unsupported, as the `-` operator is not a the top-level, and subtraction is not a supported operation for integer expressions.
+Only subtraction at the top-level binary operator of the right hand side of assignment form `xi := ie - ie` is supported.
+
 indexterm:[data-based supervisory controller synthesis,preprocessing]
 
 === Preprocessing
