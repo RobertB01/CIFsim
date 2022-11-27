@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Specify the SVG image to use for visualization.
+svgfile "wolf_goat_cabbage.svg";
+
+// Placeholders for game state.
+input bool GameWon, GameOver;
+
+group bank1:
+  input bool hasWolf, hasGoat, hasCabbage;
+end
+
+group bank2:
+  input bool hasWolf, hasGoat, hasCabbage;
+end
+
+group boat:
+  input bool hasWolf, hasGoat, hasCabbage;
+  input int[1..2] atBank;
+end
+
+// Map the state of the game to properties of elements of the SVG image.
+svgout id "wolf1"        attr "visibility" value if bank1.hasWolf:            "visible" else "hidden" end;
+svgout id "goat1"        attr "visibility" value if bank1.hasGoat:            "visible" else "hidden" end;
+svgout id "cabbage1"     attr "visibility" value if bank1.hasCabbage:         "visible" else "hidden" end;
+
+svgout id "wolf-boat"    attr "visibility" value if boat.hasWolf:             "visible" else "hidden" end;
+svgout id "goat-boat"    attr "visibility" value if boat.hasGoat:             "visible" else "hidden" end;
+svgout id "cabbage-boat" attr "visibility" value if boat.hasCabbage:          "visible" else "hidden" end;
+
+svgout id "wolf2"        attr "visibility" value if bank2.hasWolf:            "visible" else "hidden" end;
+svgout id "goat2"        attr "visibility" value if bank2.hasGoat:            "visible" else "hidden" end;
+svgout id "cabbage2"     attr "visibility" value if bank2.hasCabbage:         "visible" else "hidden" end;
+
+svgout id "game-over"    attr "display"    value if GameOver:                 "inherit" else "none"   end;
+svgout id "game-won"     attr "display"    value if GameWon and not GameOver: "inherit" else "none"   end;
+
+svgout id "boat"         attr "transform"  value if boat.atBank = 1:          "" else "translate(70,0)" end;
+svgout id "wolf-boat"    attr "transform"  value if boat.atBank = 1:          "" else "translate(70,0)" end;
+svgout id "goat-boat"    attr "transform"  value if boat.atBank = 1:          "" else "translate(70,0)" end;
+svgout id "cabbage-boat" attr "transform"  value if boat.atBank = 1:          "" else "translate(70,0)" end;

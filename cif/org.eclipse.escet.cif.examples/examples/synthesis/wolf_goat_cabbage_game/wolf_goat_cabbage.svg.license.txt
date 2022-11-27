@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Wolf icon:
+- Source: https://iconduck.com/emojis/36478/wolf-face
+- License: Apache License 2.0
+
+Goat icon:
+- Source: https://iconduck.com/emojis/36435/goat
+- License: Apache License 2.0
+
+Cabbage icon:
+- Source: https://iconduck.com/emojis/46478/leafy-green
+- License: Creative Commons Attribution 4.0 International

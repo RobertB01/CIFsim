@@ -1,0 +1,21 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import *;
+
+mkdir("generated", force=true);
+
+cifdatasynth("wolf_goat_cabbage.requirements.cif --forward-reach=true -merror -o generated/wolf_goat_cabbage.supervisor.cif");
+cifexplorer("generated/wolf_goat_cabbage.supervisor.cif -merror -o generated/wolf_goat_cabbage.statespace.cif");
+cif2yed("generated/wolf_goat_cabbage.statespace.cif -merror -kmodel -o generated/wolf_goat_cabbage.solutions.graphml");
+outln("Open 'generated/wolf_goat_cabbage.solutions.graphml' in yEd and apply 'One-Click Layout' to see the solutions.");

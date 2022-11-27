@@ -1,0 +1,66 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Models the 'wolf, goat and cabbage problem', see https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem.
+
+import "wolf_goat_cabbage.actions.cif";
+
+// River banks.
+plant def RiverBank(alg bool boatAtThisBank, hasWolfInit, hasGoatInit, hasCabbageInit):
+  disc bool hasWolf = hasWolfInit, hasGoat = hasGoatInit, hasCabbage = hasCabbageInit;
+
+  uncontrollable u_eat;
+
+  location alive:
+    initial; marked;
+
+    edge c_wolfIn!     when boatAtThisBank and hasWolf                    do hasWolf    := false;
+    edge c_goatIn!     when boatAtThisBank and hasGoat                    do hasGoat    := false;
+    edge c_cabbageIn!  when boatAtThisBank and hasCabbage                 do hasCabbage := false;
+
+    edge c_wolfOut?    when boatAtThisBank                                do hasWolf    := true;
+    edge c_goatOut?    when boatAtThisBank                                do hasGoat    := true;
+    edge c_cabbageOut? when boatAtThisBank                                do hasCabbage := true;
+
+    edge u_eat         when not boatAtThisBank and hasWolf and hasGoat    do hasGoat    := false;
+    edge u_eat         when not boatAtThisBank and hasGoat and hasCabbage do hasCabbage := false;
+end
+
+bank1: RiverBank(boat.atBank = 1, true, true, true);    // Initially the wolf, goat and cabbage are here.
+bank2: RiverBank(boat.atBank = 2, false, false, false); // The wolf, goat and cabbage should all get here safely.
+
+// Boat.
+plant boat:
+  disc int[1..2] atBank = 1; // Initially, the boat is at river bank 1.
+  disc bool hasWolf = false, hasGoat = false, hasCabbage = false;
+  alg bool isEmpty = not hasWolf and not hasGoat and not hasCabbage;
+
+  location:
+    initial; marked;
+
+    edge c_toOtherBank                 do atBank     := 3 - atBank;
+
+    edge c_wolfIn?     when isEmpty    do hasWolf    := true;
+    edge c_goatIn?     when isEmpty    do hasGoat    := true;
+    edge c_cabbageIn?  when isEmpty    do hasCabbage := true;
+
+    edge c_wolfOut!    when hasWolf    do hasWolf    := false;
+    edge c_goatOut!    when hasGoat    do hasGoat    := false;
+    edge c_cabbageOut! when hasCabbage do hasCabbage := false;
+end
+
+// Winning and losing conditions.
+alg bool GameWon = bank2.hasWolf and bank2.hasGoat and bank2.hasCabbage;
+alg bool GameOver = (not bank1.hasWolf    and not boat.hasWolf    and not bank2.hasWolf) or
+                    (not bank1.hasGoat    and not boat.hasGoat    and not bank2.hasGoat) or
+                    (not bank1.hasCabbage and not boat.hasCabbage and not bank2.hasCabbage);

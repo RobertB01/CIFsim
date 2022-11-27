@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "wolf_goat_cabbage.game.cif";
+
+// Prevent that anything gets eaten.
+requirement not GameOver;
+
+// Ensure that we can always win.
+marked GameWon;
+
+/////
+// The remaining requirements are needed only to ensure simulation will take a logical path.
+/////
+
+// Stop doing anything once the game is won.
+requirement {c_wolfIn, c_goatIn, c_cabbageIn, c_toOtherBank} needs not GameWon;
+
+// Prevent useless loading into, and unloading from, the boat, without going to the other bank.
+requirement PreventUselessInOut:
+  disc int[0..2] inAtBank = 0;
+
+  location:
+    initial; marked;
+    edge c_wolfIn, c_goatIn, c_cabbageIn    when inAtBank = 0            do inAtBank := boat.atBank;
+    edge c_wolfOut, c_goatOut, c_cabbageOut when inAtBank != boat.atBank do inAtBank := 0;
+end
+
+// Prevent useless moves:
+// - Prevent moving as a first step, without anything on the boat.
+// - Prevent moving the boat back and forth without transporting anything on or off the boat.
+// - Prevent moving the same object back and forth.
+// - Prevent (partial) undoing of the solution.
+// A solution requires at least seven moves, so don't allow more.
+requirement PreventUselessUndoing:
+  disc int[0..7] moveCount = 0;
+
+  location:
+    initial; marked;
+    edge c_toOtherBank when moveCount < 7 do moveCount := moveCount + 1;
+end

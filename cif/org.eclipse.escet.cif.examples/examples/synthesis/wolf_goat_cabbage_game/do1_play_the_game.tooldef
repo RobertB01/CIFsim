@@ -1,0 +1,19 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import *;
+
+mkdir("generated", force=true);
+
+cifmerge("wolf_goat_cabbage.game.cif wolf_goat_cabbage.interaction.cif -merror -o generated/wolf_goat_cabbage.play_game.cif");
+cifsim("generated/wolf_goat_cabbage.play_game.cif -i svg --frame-rate=30");

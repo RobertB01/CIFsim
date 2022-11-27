@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Import actions.
+import "wolf_goat_cabbage.actions.cif";
+
+// Delay a bit before each action when playing a solution.
+automaton delayBeforeEachAction:
+  const real delay_time = 1;
+  cont t = delay_time der -1;
+
+  location Delay:
+    initial;
+    edge when t <= 0 goto doAction;
+
+  location doAction:
+    edge c_wolfIn, c_wolfOut, c_goatIn, c_goatOut, c_cabbageIn, c_cabbageOut, c_toOtherBank do t := delay_time goto Delay;
+end
+
+// No more delays after the game is won.
+input bool GameWon;
+
+automaton noDelayAfterWon:
+  location Delay:
+    initial;
+    edge when GameWon goto FinalDelay;
+
+  location FinalDelay: // This allows a final delay to get a last frame in the visualization, showing the game is won.
+    edge when delayBeforeEachAction.t <= 0 goto NoMoreDelay;
+
+  location NoMoreDelay:
+    urgent;
+end
