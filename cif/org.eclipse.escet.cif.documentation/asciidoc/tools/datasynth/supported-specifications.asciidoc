@@ -52,7 +52,7 @@ Note that this check is performed on the <<tools-cif2cif-chapter-linearize-produ
 * I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
 
-Only limited forms of predicates (for markers, invariants, initialization, guards, etc) are supported.
+Only limited forms of predicates (for markers, invariants, initialization, guards, initial values of boolean variables, right hand sides of assignments, etc) are supported.
 The supported predicates are:
 
 * Boolean literals (`true`, `false`).
