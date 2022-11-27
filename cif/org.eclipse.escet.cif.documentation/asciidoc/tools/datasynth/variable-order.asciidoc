@@ -187,6 +187,7 @@ The legacy hyper-edge creator creates the following hyper-edges:
 The linearized hyper-edge creator creates the following hyper-edges:
 +
 ** Per <<tools-cif2cif-chapter-linearize-product,linearized>> edge, a hyper-edge for the variables that occur in the guards and updates of that linearized edge.
+State/event exclusion invariants are taken into account, by first <<tools-cif2cif-chapter-elim-state-event-excl-invs,converting them to automata>>.
 
 All hyper-edge creators take variables that occur indirectly via algebraic variables into account.
 
