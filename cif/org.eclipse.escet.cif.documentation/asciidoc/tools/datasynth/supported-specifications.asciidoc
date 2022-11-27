@@ -113,31 +113,35 @@ That is, `j` must essentially be constant.
 
 * Any other valid CIF expression (computation) that results in a non-negative integer value or an enumeration value, as long as the computation is not too complex to be performed statically.
 That is, the computation must essentially represent a fixed/constant value.
-
++
 Here are some examples of computations that can be statically evaluated:
++
+--
+** `true and false` (result is `false`)
 
-* `true and false` (result is `false`)
+** `c or false`, for a constant `c` with value `false` (result is `false`)
 
-* `c or false`, for a constant `c` with value `false` (result is `false`)
+** `1 + 1` (result is `2`)
 
-* `1 + 1` (result is `2`)
+** `2 * 5` (result is `10`)
 
-* `2 * 5` (result is `10`)
+** `floor(3.14)` (result is `3`)
 
-* `floor(3.14)` (result is `3`)
-
-* `c + 1`, for a constant `c` with value `2` (result is `3`)
-
+** `c + 1`, for a constant `c` with value `2` (result is `3`)
+--
++
 Here are some examples of computations that can _not_ be statically evaluated:
-
-* `v + 1`, for `v` a discrete variable.
++
+--
+** `v + 1`, for `v` a discrete variable.
 The computation results in different values for different values of `v`.
 
-* `v = true` for `v` a discrete variable.
+** `v = true` for `v` a discrete variable.
 The computation results in different values for different values of `v`.
 
-* `v = e` for `v` a discrete variable and `e` an enumeration literal/value.
+** `v = e` for `v` a discrete variable and `e` an enumeration literal/value.
 The computation results in different values for different values of `v`.
+--
 
 Only limited forms of assignments are supported.
 The supported assignments are:
