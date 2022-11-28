@@ -51,7 +51,7 @@ public class CompNoInitPredsCheck extends CifCheck {
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         if (!comp.getInitials().isEmpty()) {
-            if (!ignoreTriviallyTrueInitPreds || !CifValueUtils.isTriviallyTrue(comp.getInitials(), false, true)) {
+            if (!ignoreTriviallyTrueInitPreds || !CifValueUtils.isTriviallyTrue(comp.getInitials(), true, true)) {
                 violations.add(comp, new ReportObjectTypeDescrMessage(),
                         new LiteralMessage("contains an initialization predicate"));
             }

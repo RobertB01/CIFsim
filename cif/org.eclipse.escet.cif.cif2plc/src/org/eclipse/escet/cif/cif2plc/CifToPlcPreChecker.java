@@ -48,31 +48,33 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
             // No initialization predicates in components, ignoring initialization predicates that trivially hold.
             new CompNoInitPredsCheck(true),
 
-            // Disc variables must have single initial value.
+            // Discrete variables must have a single initial value.
             new VarNoDiscWithMultiInitValuesCheck(),
 
-            // Automata with single initial location.
+            // Automata must have a single initial location.
             new AutOnlyWithOneInitLocCheck(),
 
-            // Allow state invariants that trivially hold as well and allow all state-event exclusion invariants.
+            // Disallow state invariants, except ones that don't impose a restriction. State/event exclusion variants have been eliminated during pre-processing.
             new LocOnlySpecificInvariantsCheck(false, true, true),
 
             // No urgency.
             new LocNoUrgentCheck(), //
             new EdgeNoUrgentCheck(),
 
-            // Only allow internal user-defined functions with at least one parameter.
+            // Disallow external user-defined functions, and only allow internal user-defined functions with at least one parameter.
             new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
 
             // Limit internal user-defined function assignments and disallow the 'continue' statement.
             //
             // We use CifAddressableUtils.getRefs in the code generation, which doesn't properly handle
             // multi-assignments to different non-overlapping parts of the same variable.
-            new FuncNoSpecificIntUserDefFuncStatsCheck(NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR, //
+            new FuncNoSpecificIntUserDefFuncStatsCheck( //
+                    NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR, //
                     NoSpecificStatement.CONTINUE),
 
             // Disallow various types completely and function types in non-call context.
-            new TypeNoSpecificTypesCheck(NoSpecificType.DICT_TYPES, //
+            new TypeNoSpecificTypesCheck( //
+                    NoSpecificType.DICT_TYPES, //
                     NoSpecificType.DIST_TYPES, //
                     NoSpecificType.FUNC_TYPES_AS_DATA, //
                     NoSpecificType.SET_TYPES, //
@@ -82,9 +84,10 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
                     (PlcOutputTypeOption.isS7Output() ? NoSpecificType.LIST_TYPES
                             : NoSpecificType.LIST_TYPES_NON_ARRAY)),
 
-            // Allow only casting to the same type and int to real, allow projection tuples and arrays, forbid string,
+            // Allow only casting to the same type and int to real, allow projection only on tuples and arrays, forbid string,
             // set, and dictionary literals, forbid slicing, and function references outside call context.
-            new ExprNoSpecificExprsCheck(NoSpecificExpr.CAST_EXPRS_FROM_STRING, //
+            new ExprNoSpecificExprsCheck( //
+                    NoSpecificExpr.CAST_EXPRS_FROM_STRING, //
                     NoSpecificExpr.CAST_EXPRS_TO_STRING, //
                     NoSpecificExpr.DICT_LITS, //
                     NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA, //
@@ -98,9 +101,10 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
             // Disallow sampling.
             new ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp.SAMPLE),
 
-            // Disallow element of, and subset operators, allow boolean conjunction and disjunction, allow equality on
-            // booleans integers and reals, allow addition and subtraction on integer and reals.
-            new ExprNoSpecificBinaryExprsCheck(NoSpecificBinaryOp.ADDITION_LISTS, //
+            // Disallow element of, and subset operators. Allow conjunction and disjunction only on boolens, allow equality only on
+            // booleans, integers, reals and enums, allow addition and subtraction only on integers and reals.
+            new ExprNoSpecificBinaryExprsCheck( //
+                    NoSpecificBinaryOp.ADDITION_LISTS, //
                     NoSpecificBinaryOp.ADDITION_STRINGS, //
                     NoSpecificBinaryOp.ADDITION_DICTS, //
                     NoSpecificBinaryOp.ELEMENT_OF, //
@@ -122,7 +126,8 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
                     NoSpecificBinaryOp.UNEQUAL_TUPLE),
 
             // Limit standard library functions.
-            new FuncNoSpecificStdLibCheck(NoSpecificStdLib.STD_LIB_STOCHASTIC_GROUP, //
+            new FuncNoSpecificStdLibCheck( //
+                    NoSpecificStdLib.STD_LIB_STOCHASTIC_GROUP, //
                     NoSpecificStdLib.STD_LIB_ACOSH, //
                     NoSpecificStdLib.STD_LIB_ASINH, //
                     NoSpecificStdLib.STD_LIB_ATANH, //
@@ -138,6 +143,8 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
                     NoSpecificStdLib.STD_LIB_ROUND, //
                     NoSpecificStdLib.STD_LIB_SCALE, //
                     NoSpecificStdLib.STD_LIB_SIGN, //
-                    NoSpecificStdLib.STD_LIB_SIZE));
+                    NoSpecificStdLib.STD_LIB_SIZE)
+        //
+        );
     }
 }

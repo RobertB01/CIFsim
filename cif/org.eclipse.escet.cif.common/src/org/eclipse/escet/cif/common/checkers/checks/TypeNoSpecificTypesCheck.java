@@ -112,10 +112,10 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
     }
 
     /**
-     * Is the provided function type used in function call context?
+     * Is the provided function type used in a function call context?
      *
      * @param funcType Function type to check.
-     * @return Whether the function expression is used in function call context.
+     * @return Whether the function expression is used in a function call context.
      */
     private boolean isUsedInFunctionCallContext(FuncType funcType) {
         if (!(funcType.eContainer() instanceof BaseFunctionExpression)) {
@@ -195,7 +195,7 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
      *
      * @param type The type.
      * @param description The description of the type.
-     * @param postfix Text after the type.
+     * @param postfix Additional description after the type.
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addTypeViolation(CifType type, String description, String postfix, CifCheckViolations violations) {
