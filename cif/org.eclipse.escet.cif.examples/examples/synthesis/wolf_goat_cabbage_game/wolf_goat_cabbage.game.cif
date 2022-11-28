@@ -60,7 +60,8 @@ plant boat:
 end
 
 // Winning and losing conditions.
-alg bool GameWon = bank2.hasWolf and bank2.hasGoat and bank2.hasCabbage;
-alg bool GameOver = (not bank1.hasWolf    and not boat.hasWolf    and not bank2.hasWolf) or
-                    (not bank1.hasGoat    and not boat.hasGoat    and not bank2.hasGoat) or
-                    (not bank1.hasCabbage and not boat.hasCabbage and not bank2.hasCabbage);
+alg bool GameWon      = bank2.hasWolf and bank2.hasGoat and bank2.hasCabbage;
+alg bool GameOver     = WolfEaten or GoatEaten or CabbageEaten;
+alg bool WolfEaten    = not (bank1.hasWolf    or boat.hasWolf    or bank2.hasWolf);
+alg bool GoatEaten    = not (bank1.hasGoat    or boat.hasGoat    or bank2.hasGoat);
+alg bool CabbageEaten = not (bank1.hasCabbage or boat.hasCabbage or bank2.hasCabbage);
