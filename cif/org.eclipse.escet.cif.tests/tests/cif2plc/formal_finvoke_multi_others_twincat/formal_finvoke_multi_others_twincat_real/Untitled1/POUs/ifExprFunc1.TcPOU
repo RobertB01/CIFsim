@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="ifExprFunc1">
-    <Declaration>
-      <![CDATA[FUNCTION ifExprFunc1: BOOL
+    <Declaration><![CDATA[FUNCTION ifExprFunc1: BOOL
 VAR_INPUT
     dummy: INT;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[IF (func_f1(TRUE)) THEN
+      <ST><![CDATA[IF (func_f1(TRUE)) THEN
     ifExprFunc1 := TRUE;
 ELSE
     ifExprFunc1 := TRUE;
-END_IF;]]>
-      </ST>
+END_IF;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

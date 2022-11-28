@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="alg_g_a_X2">
-    <Declaration>
-      <![CDATA[FUNCTION alg_g_a_X2: LREAL
+    <Declaration><![CDATA[FUNCTION alg_g_a_X2: LREAL
 VAR_INPUT
     state: STATE;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[alg_g_a_X2 := state.curTime;]]>
-      </ST>
+      <ST><![CDATA[alg_g_a_X2 := state.curTime;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

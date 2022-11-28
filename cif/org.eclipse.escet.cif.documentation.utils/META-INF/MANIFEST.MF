@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.escet.cif.documentation.utils;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.cif.documentation.utils
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.cif.documentation.utils
 Require-Bundle: org.eclipse.escet.cif.simulator;bundle-version="0.8.0",

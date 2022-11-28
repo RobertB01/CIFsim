@@ -199,6 +199,7 @@ tool bool filenewer(string path, list string refpaths, bool allowNonExisting = f
 ----
 
 Checks whether a file is newer (was modified at a later date/time) than some reference file(s).
+The minimum modification time difference that can be detected is 1 millisecond.
 
 _Parameters_
 
@@ -219,7 +220,7 @@ Whether to treat files with the same last change date as being the same (`false`
 _Returns_
 
 `false` if the first file does not exist (if allowed by enabling `allowNonExisting`), if the first file is older than any the reference files, or if the first file has the same last change date as any of the reference files and `sameAsNewer` is disabled.
-`true` if the first file is newer than all of the reference files, if the first file has the same last change date as some the reference files and `sameAsNewer` is enabled and is newer than all of the other reference files, or if the first file has the same last change date as all the reference files and `sameAsNewer` is enabled.
+`true` if the first file is newer than all of the reference files, if the first file has the same last change date as some of the reference files and `sameAsNewer` is enabled and is newer than all of the other reference files, or if the first file has the same last change date as all the reference files and `sameAsNewer` is enabled.
 
 _Runtime errors_
 
