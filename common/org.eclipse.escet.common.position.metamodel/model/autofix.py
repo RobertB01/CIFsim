@@ -13,6 +13,7 @@
 ################################################################################# 
 
 import os.path
+import re
 
 # Get paths.
 lang_name = 'position'
@@ -27,18 +28,7 @@ with open(genmodel_path, 'r') as f:
     genmodel_content = f.read().replace('\r', '')
 
 # Fix Java compliance level.
-genmodel_content = genmodel_content.replace(
-    'complianceLevel="5.0"',
-    'complianceLevel="8.0"'
-)
-genmodel_content = genmodel_content.replace(
-    'complianceLevel="6.0"',
-    'complianceLevel="8.0"'
-)
-genmodel_content = genmodel_content.replace(
-    'complianceLevel="7.0"',
-    'complianceLevel="8.0"'
-)
+genmodel_content = re.sub('complianceLevel="\d+\.\d+"', 'complianceLevel="17.0"', genmodel_content)
 
 # Set base package.
 genmodel_content = genmodel_content.replace(

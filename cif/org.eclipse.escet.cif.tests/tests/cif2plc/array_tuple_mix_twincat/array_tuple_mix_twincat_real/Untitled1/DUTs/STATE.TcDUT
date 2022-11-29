@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <DUT Name="STATE">
-    <Declaration>
-      <![CDATA[TYPE STATE:
+    <Declaration><![CDATA[TYPE STATE:
     STRUCT
         curTime: LREAL;
         dvar_M_aut_tii AT %Q*: TupleStruct_1;
@@ -12,8 +11,7 @@
         dvar_M_aut_j AT %Q*: DINT;
         dvar_M_aut AT %Q*: enum_E;
     END_STRUCT
-END_TYPE]]>
-    </Declaration>
+END_TYPE]]></Declaration>
     <ObjectProperties/>
   </DUT>
 </TcPlcObject>

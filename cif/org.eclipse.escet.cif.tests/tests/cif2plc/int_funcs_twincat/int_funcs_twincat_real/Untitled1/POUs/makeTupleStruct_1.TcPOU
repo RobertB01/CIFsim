@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="makeTupleStruct_1">
-    <Declaration>
-      <![CDATA[FUNCTION makeTupleStruct_1: TupleStruct_1
+    <Declaration><![CDATA[FUNCTION makeTupleStruct_1: TupleStruct_1
 VAR_INPUT
     field0: DINT;
     field1: DINT;
 END_VAR
 VAR
     rslt: TupleStruct_1;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[rslt.field0 := field0;
+      <ST><![CDATA[rslt.field0 := field0;
 rslt.field1 := field1;
-makeTupleStruct_1 := rslt;]]>
-      </ST>
+makeTupleStruct_1 := rslt;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

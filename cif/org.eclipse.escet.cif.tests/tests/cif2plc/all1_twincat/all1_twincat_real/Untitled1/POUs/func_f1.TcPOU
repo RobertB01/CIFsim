@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="func_f1">
-    <Declaration>
-      <![CDATA[FUNCTION func_f1: DINT
+    <Declaration><![CDATA[FUNCTION func_f1: DINT
 VAR_INPUT
     farg_f1_x: DINT;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[func_f1 := (farg_f1_x) + (1);
-RETURN;]]>
-      </ST>
+      <ST><![CDATA[func_f1 := (farg_f1_x) + (1);
+RETURN;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

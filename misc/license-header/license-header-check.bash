@@ -88,6 +88,7 @@ EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*_license.txt"
 # Prepare post excludes (can't exclude specifically enough with grep).
 POST_EXCLUDE_PATTERN="^$"
 # Exclude files that explicitly should not have a license header.
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./.mvn/jvm.config:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./CODE_OF_CONDUCT.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./CONTRIBUTING.asciidoc:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./DEPENDENCIES.txt:0$"

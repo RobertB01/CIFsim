@@ -4,7 +4,7 @@ Bundle-Name: ESCET CIF Common (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.common;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.cif.common,
  org.eclipse.escet.cif.common.checkers,

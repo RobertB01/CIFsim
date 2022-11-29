@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="derivcvar_M_p_t3">
-    <Declaration>
-      <![CDATA[FUNCTION derivcvar_M_p_t3: LREAL
+    <Declaration><![CDATA[FUNCTION derivcvar_M_p_t3: LREAL
 VAR_INPUT
     state: STATE;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[derivcvar_M_p_t3 := state.cvar_M_p_t3;]]>
-      </ST>
+      <ST><![CDATA[derivcvar_M_p_t3 := state.cvar_M_p_t3;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

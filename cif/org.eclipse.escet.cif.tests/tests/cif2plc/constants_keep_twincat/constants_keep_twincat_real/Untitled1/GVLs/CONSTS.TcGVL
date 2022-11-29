@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <GVL Name="CONSTS">
-    <Declaration>
-      <![CDATA[VAR_GLOBAL CONSTANT // CONSTS
+    <Declaration><![CDATA[VAR_GLOBAL CONSTANT // CONSTS
     const_d: DINT := 1;
     const_cl: ARRAY[0..2] of LREAL := [1.0, 1.0, 2.0];
     const_x: DINT := -1;
     const_b: DINT := (const_d) + (1);
     const_a: DINT := (const_b) * (2);
     const_c: DINT := (const_a) - (1);
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <ObjectProperties/>
   </GVL>
 </TcPlcObject>

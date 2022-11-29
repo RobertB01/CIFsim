@@ -4,7 +4,7 @@ Bundle-Name: ESCET CIF to CIF Transformations (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.cif2cif;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.escet.cif.metamodel.java;bundle-version="0.8.0",
  org.eclipse.escet.cif.metamodel;bundle-version="0.8.0",
