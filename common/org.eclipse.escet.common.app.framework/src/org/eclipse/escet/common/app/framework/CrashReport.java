@@ -565,6 +565,7 @@ public final class CrashReport {
      * @param s The {@link AppStream} to print the details to.
      * @param indent The indentation level to use.
      */
+    @SuppressWarnings("removal")
     private static void printThreadGroups(ThreadGroup grp, AppStream s, int indent) {
         s.println(fmt("%sThreadGroup[name=%s, maxpi=%d, daemon=%s, destroyed=%s]", Strings.spaces(indent),
                 grp.getName(), grp.getMaxPriority(), grp.isDaemon(), grp.isDestroyed()));

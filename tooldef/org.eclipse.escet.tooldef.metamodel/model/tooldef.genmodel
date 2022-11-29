@@ -4,7 +4,7 @@
     modelDirectory="/org.eclipse.escet.tooldef.metamodel/src-gen" editDirectory=""
     editorDirectory="" modelPluginID="org.eclipse.escet.tooldef.metamodel" modelName="Tooldef"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory=""
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0" copyrightFields="false"
     usedGenPackages="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.genmodel#//position"
     operationReflection="true" importOrganizing="true">
   <foreignModel>tooldef.ecore</foreignModel>
