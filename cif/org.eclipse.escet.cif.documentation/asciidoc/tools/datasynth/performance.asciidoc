@@ -1,0 +1,143 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,performance]
+
+[[tools-datasynth-performance]]
+== Performance
+
+The following <<tools-datasynth-options,options>> have an effect on the performance of data-based synthesis:
+
+[cols="5,15,15,20,40",options="header"]
+|===
+| Kind
+| Option
+| Section
+| Effect
+| Choose
+
+| Output
+| BDD output mode
+| <<tools-datasynth-supervisor-bdd>>
+| Representation of BDDs in the output model
+| Use `nodes` output variant for best performance
+
+| Output
+| BDD predicate simplify
+| <<tools-datasynth-simplification>>
+| Potentially smaller BDDs in the output
+| Enable for smaller output, although simplification itself also takes time
+
+| Order
+| BDD variable order
+| <<tools-datasynth-var-order>>
+| Better order for smaller BDD representations
+| Choose the best order, depends on the model, (reversed) model/sorted usually good choices, custom order allows for best performance
+
+| Order
+| BDD hyper-edge creation algorithm
+| <<tools-datasynth-var-order>>
+| Better order for smaller BDD representations
+| Choose the algorithms that produces the best order, depends on the model
+
+| Order
+| BDD DCSH variable ordering algorithm
+| <<tools-datasynth-var-order>>
+| Better order for smaller BDD representations
+| Enable for automatic ordering
+
+| Order
+| BDD FORCE variable ordering algorithm
+| <<tools-datasynth-var-order>>
+| Better order for smaller BDD representations
+| Enable for automatic ordering
+
+| Order
+| BDD sliding window variable ordering algorithm
+| <<tools-datasynth-var-order>>
+| Better order for smaller BDD representations
+| Enable for automatic ordering
+
+| Order
+| BDD sliding window size
+| <<tools-datasynth-var-order>>
+| Better order for smaller BDD representations
+| Larger windows might allow for more optimization, but take more time
+
+| Library
+| BDD library initial node table size
+| <<tools-datasynth-stats>>
+| More storage for less resizes
+| Increase size for less resizes, at the cost of less memory locality
+
+| Library
+| BDD library operation cache size/ratio
+| <<tools-datasynth-op-cache>>
+| Increase cache for less computations
+| Enable, larger costs more memory, larger leads to less memory locality, size/ratio depends on model
+
+| Algorithm
+| Forward reachability
+| <<tools-datasynth-forward-reach>>
+| Explore only reachable state space
+| Enable to reduce state space, although calculation itself may also be expensive, depends on model
+
+| Order
+| Edge order
+| <<tools-datasynth-edge-order>>
+| Better order for less computations and smaller BDD representations
+| Choose the best order, depends on the model, custom order allows for best performance
+
+| Debug
+| Output mode
+| <<tools-datasynth-dbg-output>>
+| Debug output on console
+| Disable for better performance
+
+| Debug
+| BDD debug max nodes/paths
+| <<tools-datasynth-dbg-output>>
+| Size of predicates in debug output
+| The smaller, the less blowup, the better the performance
+
+| Debug
+| Statistics
+| <<tools-datasynth-stats>>
+| Statistics output on console or to file
+| Disable for better performance
+
+| Warnings
+| Event warning
+| <<tools-detasynth-early-prob-detect>> and <<tools-datasynth-supervisor>>
+| Warning for never enabled events
+| Disable for better performance
+
+| Warnings
+| Plants referencing requirements warnings
+| <<tools-detasynth-early-prob-detect>>
+| Warning for plants that reference requirement state
+| Disable for better performance
+|===
+
+The first column categorizes the different options a bit, for different kind of options.
+The second column lists the different options.
+The third column indicates in which section of the data-based synthesis tool documentation you can find more information about that option.
+The fourth column indicates the effect of the option.
+The fifth column indicates what to choose for the option, for best performance, although a trade-off may be involved.
+
+Obviously, the actual model that is used has a large impact as well.
+More variables often leads to longer synthesis times.
+However, the predicates that are used may also significantly impact performance.
+
+Try to use state/event exclusion requirement invariants instead of requirement automata with a single location and self loops.
+Also, try to avoid an event-based modeling style, and use a data-based modeling style instead, if possible.

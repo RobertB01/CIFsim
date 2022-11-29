@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,checks]
+
+[[tools-detasynth-early-prob-detect]]
+== Early problem detection
+
+The data-based synthesis tool checks the specification for common issues, for early detection of problems that will lead to an empty supervisor.
+If such a problem is detected, a warning is printed to the console.
+Among others, checks are included for no initial states/variables, no marked states, and no states due to the state requirement invariants.
+
+The tool also checks whether there are events that are never enabled in the input specification.
+If such a problem is detected, a warning is printed to the console.
+Among others, checks are included for events that are forbidden by automaton guards, event/state exclusion plant and requirement invariants, and state plant invariants.
+
+Additionally, the tool warns about state/event exclusion invariants for events that are not in the alphabet of any automaton.
+Such invariants have no effect, as they try to (further) restrict events that are never enabled to begin with.
+
+The tool furthermore checks for plant invariants or plant automata that reference requirement state.
+If such a problem is detected, a warning is printed to the console.
+Among others, references in guards, updates, invariant predicates, initialization predicates, marker predicates and initial values for discrete variables are detected.

@@ -1,0 +1,265 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,supported specifications]
+
+[[tools-datasynth-supported]]
+== Specifications supported by data-based synthesis
+
+The data-based supervisory controller synthesis tool supports a subset of CIF specifications.
+The following restrictions apply:
+
+* Only `plant` and `requirement` automata are supported.
+Automata with a `supervisor` kind, as well as kindless/regular automata (without a supervisory kind) are not supported.
+
+* Specifications without plant automata are not supported.
+
+* Events not declared as controllable or uncontrollable are not supported.
+This includes the `tau` event, both explicitly used on edges, as well as implicitly for edges without explicitly mentioned events.
+
+* The use of channels (events with data types) in requirements is not supported.
+That is, requirements that send or receive (with or without data) are not supported.
+
+* Only `plant` and `requirement` invariants are supported.
+Invariants with a `supervisor` kind, as well as kindless/regular invariants (without a supervisory kind) are not supported.
+
+* Continuous variables are not supported.
+
+* Only discrete/input variables with a boolean type, ranged integer type (e.g. `int[0..5]`), or enumeration type are supported.
+For integer types, ranges that include negative integer values are not supported.
+For algebraic variables and algebraic parameters of components, all types are supported.
+For constants, all types are supported.
+
+* Discrete variables must have supported initial values.
+If explicit initial values are given, they must be supported predicates (for boolean variables) or supported expressions as described below (for all other variables).
+
+* Automata with non-determinism for controllable events are not supported.
+That is, automata that have locations with multiple outgoing edges for the same controllable event, with overlapping guards (e.g. `x > 1` and `x < 4`), are not supported.
+Note that this check is performed on the <<tools-cif2cif-chapter-linearize-product,linearized>> guards, and may therefore lead to false positives, as the check is an over-approximation and guard overlap may be detected for unreachable states.
+
+* Conditional updates (`if` updates), multi-assignments, and partial variable assignments are not supported.
+
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
+
+Only limited forms of predicates (for markers, invariants, initialization, guards, etc) are supported.
+The supported predicates are:
+
+* Boolean literals (`true`, `false`).
+
+* Discrete/input/algebraic boolean variables (`x`, for `x` a discrete, input, or algebraic variable with a boolean type).
+
+* Boolean constants (`x`, for `x` a constant with a boolean type).
+
+* Locations (`aut.loc`, for `aut` and automaton and `loc` a location of that automaton).
+
+* The unary inverse operator (`not`) on a supported predicate.
+
+* The binary logical conjunction (`and`) on two supported predicates.
+
+* The binary logical disjunction (`or`) on two supported predicates.
+
+* The binary logical implication (`+=>+`) on two supported predicates.
+
+* The binary logical bi-conditional (`+<=>+`) on two supported predicates.
+
+* The binary equality comparison (`=`) on two supported predicates, or on two supported integer or enumeration expressions.
+
+* The binary inequality comparison (`!=`) on two supported predicates, or on two supported integer or enumeration expressions.
+
+* The binary less than comparison (`<`) on two supported integer expressions.
+
+* The binary less than or equal comparison (`+<=+`) on two supported integer expressions.
+
+* The binary greater than comparison (`>`) on two supported integer expressions.
+
+* The binary greater than or equal comparison (`>=`) on two supported integer expressions.
+
+* Conditional expressions (`if` expressions) with supported guard and resulting value predicates.
+
+* `Switch` expressions with supported control value and resulting value predicates.
+
+Only limited forms of integer and enumeration expressions (for binary comparisons, initial values of variables, right hand sides of assignments, etc) are supported.
+The supported expressions are:
+
+* A non-negative integer literal/value.
+
+* An enumeration literal/value.
+
+* Discrete/input/algebraic integer/enumeration variables (`x`, for `x` a discrete, input, or algebraic variable with an integer or enumeration type).
+
+* Integer/enumeration constants (`x`, for `x` a constant with an integer or enumeration type).
+
+* `+i` for `i` a supported integer expression.
+
+* `i + j` for `i` and `j` supported integer expressions.
+
+* `i div j` and `i mod j` for `i` a supported integer expressions, and `j` a positive integer value, or a computation that results in a positive integer value, as long as the computation is not too complex to be performed statically.
+That is, `j` must essentially be constant.
+
+* Conditional expressions (`if` expressions) with supported guard predicates and supported resulting values.
+
+* `Switch` expressions with supported control values and supported resulting values.
+
+* Any other valid CIF expression (computation) that results in a non-negative integer value or an enumeration value, as long as the computation is not too complex to be performed statically.
+That is, the computation must essentially represent a fixed/constant value.
+
+Here are some examples of computations that can be statically evaluated:
+
+* `true and false` (result is `false`)
+
+* `c or false`, for a constant `c` with value `false` (result is `false`)
+
+* `1 + 1` (result is `2`)
+
+* `2 * 5` (result is `10`)
+
+* `floor(3.14)` (result is `3`)
+
+* `c + 1`, for a constant `c` with value `2` (result is `3`)
+
+Here are some examples of computations that can _not_ be statically evaluated:
+
+* `v + 1`, for `v` a discrete variable.
+The computation results in different values for different values of `v`.
+
+* `v = true` for `v` a discrete variable.
+The computation results in different values for different values of `v`.
+
+* `v = e` for `v` a discrete variable and `e` an enumeration literal/value.
+The computation results in different values for different values of `v`.
+
+Only limited forms of assignments are supported.
+The supported assignments are:
+
+* `xb := p`
+
+* `xi := ie`
+
+* `xi := ie - ie`
+
+* `xe := ee`
+
+For the following constraints:
+
+* `xb` is a boolean variable.
+
+* `xi` is a supported integer variable, as described above.
+
+* `xe` is an enumeration variable.
+
+* `p` is a supported predicate, as described above.
+
+* `ie` is a supported integer expression, as described above.
+
+* `ee` is a supported enumeration expression, as described above.
+
+indexterm:[data-based supervisory controller synthesis,preprocessing]
+
+=== Preprocessing
+
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be synthesized:
+
+* <<tools-cif2cif-chapter-remove-io-decls>>
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+Additionally, the CIF specification is converted to an internal representation on which the synthesis is performed.
+This conversion also applies <<tools-cif2cif-chapter-linearize-product,linearization (product variant)>> to the edges.
+Predicates are represented internally using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+
+indexterm:[data-based supervisory controller synthesis,requirements]
+
+=== Supported requirements
+
+Three types of requirements are supported:
+<<lang-tut-data-chapter-stat-invariants,state invariants>>, <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>, and <<lang-tut-extensions-synthesis-autkind,requirement automata>>.
+For state invariants and state/event exclusion invariants, both named and nameless variants are supported.
+
+State invariants are global conditions over the values of variables (and locations of automata) that must always hold.
+Such requirements are sometimes also called mutual state exclusions.
+Here are some examples:
+
+[source, cif]
+----
+requirement invariant x != 0 and not p.b;
+requirement invariant x > 5;
+requirement R1: invariant not(x = 1 and y = 1) or q.x = a;
+
+requirement (x = 1 and y = 1) or (x = 2 and y = 2);
+requirement (3 <= x and x < = 5) or (2 <= y and y <= 7);
+requirement x = 1 => y > 2;
+----
+
+State/event exclusion invariants or simply state/event exclusions are additional conditions under which transitions may take place for certain events.
+Here are some examples:
+
+[source, cif]
+----
+requirement invariant buffer.c_add    needs buffer.count < 5;
+requirement invariant buffer.c_remove needs buffer.count > 0;
+requirement invariant button.on = 1 disables lamp.c_turn_on;
+requirement invariant R3: buffer.c_remove needs buffer.count > 0;
+
+requirement {lamp.c_turn_on, motor.c_turn_on} needs button.Off;
+requirement p.x = 3 and p.y > 7 disables p.u_something;
+----
+
+Requirement automata are simply automata marked as `requirement`.
+They usually introduce additional state by using multiple locations or a variable.
+The additional state is used to be able to express the requirement.
+One common example is a counter.
+For instance, consider the following requirement, which prevents more than three products being added to a buffer:
+
+[source, cif]
+----
+requirement automaton counter:
+  disc int[0..5] count = 0;
+
+  requirement invariant count <= 3;
+
+  location:
+    initial;
+    marked;
+
+    edge buffer.c_add do count := count + 1;
+end
+----
+
+Another common example is a requirement that introduces ordering.
+For instance, consider the following requirement, which states that `motor1` must always be turned on before `motor2` is turned on, and they must always be turned off in the opposite order:
+
+[source, cif]
+----
+requirement automaton order:
+  location on1:
+    initial;
+    marked;
+    edge motor1.c_on goto on2;
+
+  location on2:
+    edge motor2.c_on goto off2;
+
+  location off2:
+    edge motor2.c_off goto off1;
+
+  location off1:
+    edge motor1.c_off goto on1;
+end
+----
+
+Besides the explicit requirements, synthesis also prevents runtime errors.
+This includes enforcing that integer variables stay within their range of allowed values.
+This is essentially an implicit requirement.
+For instance, for a CIF specification with a variable `x` of type `int[0..5]` and a variable `y` of type `int[1..3]`, requirement invariant `+0 <= x and x <= 5 and 1 <= y and y <= 3+` is implicitly added and enforced by the synthesis algorithm.
+In the resulting controlled system, no runtime errors due to variables being assigned values outside their domain (integer value range) occur.
