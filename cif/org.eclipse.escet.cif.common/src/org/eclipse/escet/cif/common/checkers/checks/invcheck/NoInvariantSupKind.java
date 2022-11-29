@@ -34,6 +34,9 @@ public enum NoInvariantSupKind implements NoKindInterface<SupKind> {
     /** No invariants allowed in components without supervisor kind. */
     KINDLESS(EnumSet.of(SupKind.NONE), ReportPriority.ELEMENT, "kindless");
 
+    /** The number of values in the aspect enumeration {@link SupKind}. */
+    public static final int NUMBER_OF_VALUES = SupKind.values().length;
+
     /** Values that are disallowed of the {@link SupKind} aspect. */
     private final EnumSet<SupKind> disallowedValues;
 
@@ -54,11 +57,6 @@ public enum NoInvariantSupKind implements NoKindInterface<SupKind> {
         this.disallowedValues = disallowedValues;
         this.reportPriority = reportPriority;
         this.reportText = reportText;
-    }
-
-    @Override
-    public int numberOfValues() {
-        return SupKind.values().length;
     }
 
     @Override

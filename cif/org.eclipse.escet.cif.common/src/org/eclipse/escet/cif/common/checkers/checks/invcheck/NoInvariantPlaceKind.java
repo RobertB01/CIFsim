@@ -26,6 +26,9 @@ public enum NoInvariantPlaceKind implements NoKindInterface<PlaceKind> {
     /** No invariants allowed in components. */
     COMPONENTS(EnumSet.of(PlaceKind.COMPONENT), ReportPriority.ELEMENT, "in a component");
 
+    /** The number of values in the aspect enumeration {@link PlaceKind}. */
+    public static final int NUMBER_OF_VALUES = PlaceKind.values().length;
+
     /** Values that are disallowed of the {@link PlaceKind} aspect. */
     private final EnumSet<PlaceKind> disallowedValues;
 
@@ -46,11 +49,6 @@ public enum NoInvariantPlaceKind implements NoKindInterface<PlaceKind> {
         this.disallowedValues = disallowedValues;
         this.reportPriority = reportPriority;
         this.reportText = reportText;
-    }
-
-    @Override
-    public int numberOfValues() {
-        return PlaceKind.values().length;
     }
 
     @Override

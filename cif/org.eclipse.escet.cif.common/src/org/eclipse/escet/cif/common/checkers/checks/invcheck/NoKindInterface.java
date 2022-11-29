@@ -20,13 +20,6 @@ package org.eclipse.escet.cif.common.checkers.checks.invcheck;
  */
 public interface NoKindInterface<A extends Enum<?>> {
     /**
-     * Get number of values in aspect enumeration A.
-     *
-     * @return The number of values in the aspect enumeration.
-     */
-    public int numberOfValues();
-
-    /**
      * Return whether the given aspect value is covered by the disallowance value.
      *
      * @param value Aspect value to test.

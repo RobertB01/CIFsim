@@ -34,6 +34,9 @@ public enum NoInvariantKind implements NoKindInterface<InvKind> {
     /** No state/event needs invariants allowed. */
     STATE_EVENT_NEEDS(EnumSet.of(InvKind.EVENT_NEEDS), ReportPriority.ELEMENT, "needs state event exclusion");
 
+    /** The number of values in the aspect enumeration {@link InvKind}. */
+    public static final int NUMBER_OF_VALUES = InvKind.values().length;
+
     /** Values that are disallowed of the {@link InvKind} aspect. */
     private final EnumSet<InvKind> disallowedValues;
 
@@ -54,11 +57,6 @@ public enum NoInvariantKind implements NoKindInterface<InvKind> {
         this.disallowedValues = disallowedValues;
         this.reportPriority = reportPriority;
         this.reportText = reportText;
-    }
-
-    @Override
-    public int numberOfValues() {
-        return InvKind.values().length;
     }
 
     @Override
