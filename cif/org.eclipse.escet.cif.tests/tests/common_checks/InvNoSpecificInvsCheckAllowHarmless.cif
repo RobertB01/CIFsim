@@ -1,0 +1,84 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+plant e needs true; // Harmless.
+
+group g:
+  group p1:
+    invariant e needs true; // Harmless.
+  end
+
+  group p2:
+    invariant false disables e; // Harmless.
+  end
+
+  group p:
+    plant e needs true; // Harmless.
+  end
+
+  group r:
+    requirement e needs true; // Harmless.
+  end
+
+  group s:
+    supervisor e needs true; // Harmless.
+  end
+end
+
+automaton different_locs:
+  location loc1:
+    initial;
+    invariant e needs true; // Harmless.
+  location loc2:
+    initial;
+    invariant true disables e; // NOT harmless.
+  location loc3:
+    initial;
+    plant e needs true; // Harmless.
+  location loc4:
+    initial;
+    requirement e needs true; // Harmless.
+  location loc5:
+    initial;
+    supervisor e needs false; // NOT harmless.
+end
+
+automaton nameless_loc:
+  location:
+    initial;
+    invariant e needs true; // Harmless.
+    invariant true disables e; // NOT harmless.
+    plant e needs true; // Harmless.
+    requirement e needs true; // Harmless.
+    supervisor e needs true; // Harmless.
+end
+
+automaton named_invs:
+  location:
+    initial;
+    invariant I1: e needs true; // Harmless.
+    invariant I2: true disables e; // NOT harmless.
+    plant I3: e needs true; // Harmless.
+    requirement I4: e needs true; // Harmless.
+    supervisor I5: e needs true; // Harmless.
+end
+
+group state_invs:
+  invariant true; // Harmless.
+  invariant false; // NOT harmless.
+  plant true; // Harmless.
+  requirement true; // Harmless.
+  supervisor true; // Harmless.
+end

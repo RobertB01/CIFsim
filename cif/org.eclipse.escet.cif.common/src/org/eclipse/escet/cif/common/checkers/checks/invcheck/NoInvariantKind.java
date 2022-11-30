@@ -26,13 +26,13 @@ public enum NoInvariantKind implements NoKindInterface<InvKind> {
     STATE(EnumSet.of(InvKind.STATE), ReportPriority.GROUP, "state"),
 
     /** No state/event exclusion invariants allowed. */
-    STATE_EVENT(EnumSet.of(InvKind.EVENT_DISABLES, InvKind.EVENT_NEEDS), ReportPriority.GROUP, "state event exclusion"),
+    STATE_EVENT(EnumSet.of(InvKind.EVENT_DISABLES, InvKind.EVENT_NEEDS), ReportPriority.GROUP, "state/event exclusion"),
 
     /** No state/event disables invariants allowed. */
-    STATE_EVENT_DISABLES(EnumSet.of(InvKind.EVENT_DISABLES), ReportPriority.ELEMENT, "disables state event exclusion"),
+    STATE_EVENT_DISABLES(EnumSet.of(InvKind.EVENT_DISABLES), ReportPriority.ELEMENT, "'disables' state/event exclusion"),
 
     /** No state/event needs invariants allowed. */
-    STATE_EVENT_NEEDS(EnumSet.of(InvKind.EVENT_NEEDS), ReportPriority.ELEMENT, "needs state event exclusion");
+    STATE_EVENT_NEEDS(EnumSet.of(InvKind.EVENT_NEEDS), ReportPriority.ELEMENT, "'needs' state/event exclusion");
 
     /** The number of values in the aspect enumeration {@link InvKind}. */
     public static final int NUMBER_OF_VALUES = InvKind.values().length;
