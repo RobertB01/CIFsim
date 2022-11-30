@@ -173,7 +173,7 @@ For the following constraints:
 * `ee` is a supported enumeration expression, as described above.
 
 What exactly is supported for assignments, expressions and predicates can be subtle.
-And rewriting them slightly if they are unsupported, may make them supported.
+Slightly rewriting the unsupported form may make them supported.
 Here as some examples, where variable `x` is a supported discrete variable:
 
 * `x := x - 2` is supported, while `x := x + (-2)` is not.
