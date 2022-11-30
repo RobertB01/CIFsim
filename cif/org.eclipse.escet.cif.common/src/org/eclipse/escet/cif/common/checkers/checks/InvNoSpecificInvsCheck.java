@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.DisallowedInvariantsSubset;
@@ -43,6 +44,12 @@ public class InvNoSpecificInvsCheck extends CifCheck {
      * </p>
      */
     private List<List<DisallowedInvariantsSubset>> disallowedSubsets;
+
+    /**
+     * If {@code true}, invariants that can be statically analyzed to never block behavior are silently skipped. If
+     * {@code false} all invariants are checked against the disallowed subsets and reported if violations are found.
+     */
+    private boolean ignoreTriviallyHarmlessInvariants = false;
 
     /** Constructor of the {@link InvNoSpecificInvsCheck} class. */
     public InvNoSpecificInvsCheck() {
@@ -108,12 +115,53 @@ public class InvNoSpecificInvsCheck extends CifCheck {
         return this;
     }
 
+    /**
+     * Disable checking of invariants that never block any behavior after static analysis of the condition.
+     *
+     * @return The check instance, for daisy-chaining.
+     */
+    public InvNoSpecificInvsCheck ignoreTriviallyHarmlessInvariants() {
+        return ignoreTriviallyHarmlessInvariants(true);
+    }
+
+    /**
+     * Configure whether invariants that never block any behavior after static analysis of the condition should be
+     * ignored.
+     *
+     * @param ignore If {@code true}, invariants that never block any behavior after static analysis are silently
+     *      skipped, else they are checked aginst the disallowed substs and report if violations are found.
+     * @return The check instance, for daisy-chaining.
+     */
+    public InvNoSpecificInvsCheck ignoreTriviallyHarmlessInvariants(boolean ignore) {
+        ignoreTriviallyHarmlessInvariants = ignore;
+        return this;
+    }
+
     @Override
     protected void preprocessInvariant(Invariant inv, CifCheckViolations violations) {
         // Extract the three aspects of the invariant to examine.
         SupKind supKind = inv.getSupKind();
         InvKind invKind = inv.getInvKind();
         PlaceKind placeKind = (inv.eContainer() instanceof Location) ? PlaceKind.LOCATION : PlaceKind.COMPONENT;
+
+        // If harmless invariants should be skipped, check if 'inv' is such an invariant.
+        if (ignoreTriviallyHarmlessInvariants) {
+            switch (invKind) {
+                case EVENT_DISABLES:
+                    if (CifValueUtils.isTriviallyFalse(inv.getPredicate(), false, true)) {
+                        return;
+                    }
+                    break;
+                case EVENT_NEEDS:
+                case STATE:
+                    if (CifValueUtils.isTriviallyTrue(inv.getPredicate(), false, true)) {
+                        return;
+                    }
+                    break;
+                default:
+                    throw new AssertionError("Unexpected invariant kind found.");
+            }
+        }
 
         // Compute the index in the flattened three dimensional array, and report for all found disallowed subsets.
         int index = computeIndex(supKind, invKind, placeKind);
