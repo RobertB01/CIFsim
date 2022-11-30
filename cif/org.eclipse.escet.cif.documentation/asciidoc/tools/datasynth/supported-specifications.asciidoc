@@ -147,56 +147,63 @@ The computation results in different values for different values of `v`.
 The computation results in different values for different values of `v`.
 --
 
-Only limited forms of assignments are supported.
-The supported assignments are:
+Only limited forms of assignments are supported:
 
-* `xb := p`
+* The supported forms are:
 
-* `xi := ie`
+** `xb := p` (with `xb` a boolean variable, and `p` a supported predicate)
 
-* `xi := ie - ie`
+** `xi := ie`
 
-* `xe := ee`
+** `xi := ie - ie`
 
-For the following constraints:
+** `xe := ee`
 
-* `xb` is a boolean variable.
+* For the following constraints:
 
-* `xi` is a supported integer variable, as described above.
+** `xb` is a boolean variable.
 
-* `xe` is an enumeration variable.
+** `xi` is a supported integer variable, as described above.
 
-* `p` is a supported predicate, as described above.
+** `xe` is an enumeration variable.
 
-* `ie` is a supported integer expression, as described above.
+** `p` is a supported predicate, as described above.
 
-* `ee` is a supported enumeration expression, as described above.
+** `ie` is a supported integer expression, as described above.
 
-What exactly is supported for assignments, expressions and predicates can be subtle.
-Slightly rewriting the unsupported form may make them supported.
-Here as some examples, where variable `x` is a supported discrete variable:
+** `ee` is a supported enumeration expression, as described above.
 
-* `x := x - 2` is supported, while `x := x + (-2)` is not.
-The former matches `xi := ie - ie`, with `x` and `2` being supported integer expressions.
-The latter is not supported.
-While it matches `xi := ie`, and the `ie` matches `i + j`, the `j` is then `-2`, which is not a supported integer expression.
+What exactly is supported for assignments, expressions and predicates can be subtle:
 
-* `x := x + 1 - 1` is supported, while `x := x - 1 + 1` is not.
-The former is parsed as `x := (x + 1) - 1`, which matches `xi := ie - ie`.
-The left `ie` is then `x + 1`, which matches `i + j`, with `x` and `1` being supported integer expressions.
-The latter is parsed as `x := (x - 1) + 1`, which matches `xi := ie`.
-Then `ie` is then `(x - 1) + 1`, which matches `i + j`, with `i` being `x - 1`, which is not a supported integer expression.
+* For instance, subtraction is only supported as the top-level operator at the right hand side of an assignment, and not anywhere else in expressions.
 
-* `x := x - (1 - 1)` is supported, while `x := x - 1 - 1` is not.
-The former matches `xi := ie - ie`, with the right `ie` being `1 - 1`, which can be statically evaluated to `0`, and is therefore supported.
-The latter is parsed as `x := (x - 1) - 1`.
-While it matches `xi := ie - ie`, the left `ie` is then `x - 1`, which is not a supported integer expression.
+* To see whether an assignment is supported, first match it against the supported forms listed above.
+Then, for each of the parts of the assignment that are matched against the placeholder variables, check the listed constraints.
+If a placeholder matches an expression or predicate, recursively check whether the expression or predicate is supported, by matching it against its supported forms, etc.
 
-* `x := x + 1 - y` and `x := x + y - 1` are supported, while `x := x - (y - 1)` and `x := x - (1 - y)` are not.
-The former two are parsed as `x := (x + 1) - y` and `x := (x + y) - 1`, which leads to the `-` as top-level operator in the expression at the right hand side of the assignment.
-This matches `xi := ie - ie` and is thus supported.
-The latter two are unsupported, as the `-` operator is not a the top-level, and subtraction is not a supported operation for integer expressions.
-Only subtraction at the top-level binary operator of the right hand side of assignment form `xi := ie - ie` is supported.
+* Slightly rewriting an unsupported form may make it supported.
+If an assignment, expression or predicate is not supported, changes such as adding parenthesis or swapping the order of operator arguments, could make it supported.
+
+* Here as some examples, where variable `x` is a supported discrete variable:
+
+** `x := x - 2` is supported, while `x := x + (-2)` is not.
+Assignment `x := x - 2` matches `xi := ie - ie`, with the first `ie` matching `x` and the second `ie` matching `2`, both of which are supported integer expressions.
+Assignment  `x := x + (-2)` matches `xi := ie`, with the `ie` matching `i + j`, and the `j` then matching `-2`, which is not a supported integer expression.
+
+** `x := x + 1 - 1` is supported, while `x := x - 1 + 1` is not.
+Assignment `x := x + 1 - 1` is parsed as `x := (x + 1) - 1`, which matches `xi := ie - ie`.
+The first `ie` matches `x + 1`, which matches `i + j`, with `i` matching `x` and `j` matching `1`, both of which are supported integer expressions.
+The second `ie` matches `1`, which is also a supported integer expression.
+Assignment `x := x - 1 + 1` is parsed as `x := (x - 1) + 1`, which matches `xi := ie`, with `ie` matching `(x - 1) + 1`, which matches `i + j`, with `i` matching `x - 1`, which is not a supported integer expression, as the `-` operator is not at the top level.
+
+** `x := x - (3 - 1)` is supported, while `x := x - 1 - 1` is not.
+Assignment `x := x - (3 - 1)` matches `xi := ie - ie`, with the first `ie` matching `x`, a supported integer expression, and the second `ie` matching `3 - 1`, which can be statically evaluated to `2`, and is therefore supported.
+Assignment `x := x - 1 - 1` is parsed as `x := (x - 1) - 1`, which matches `xi := ie - ie`, with the first `ie` matching `x - 1`, which is not a supported integer expression, as the `-` operator is not at the top level.
+
+** `x := x + 1 - y` and `x := x + y - 1` are supported, while `x := x - (y - 1)` and `x := x - (1 - y)` are not.
+The former two assignments are parsed as `x := (x + 1) - y` and `x := (x + y) - 1`.
+They both match `xi := ie - ie`, with the `-` operator at the top level.
+The latter two assignments are not supported, as the `-` operators in `(y - 1`) and `(1 - y)` are in those cases not at the top level.
 
 indexterm:[data-based supervisory controller synthesis,preprocessing]
 
