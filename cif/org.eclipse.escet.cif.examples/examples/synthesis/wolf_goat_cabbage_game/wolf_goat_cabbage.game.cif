@@ -32,8 +32,8 @@ plant def RiverBank(alg bool boatAtThisBank, hasWolfInit, hasGoatInit, hasCabbag
     edge c_goatOut?    when boatAtThisBank                                do hasGoat    := true;
     edge c_cabbageOut? when boatAtThisBank                                do hasCabbage := true;
 
-    edge u_eat         when not boatAtThisBank and hasWolf and hasGoat    do hasGoat    := false;
     edge u_eat         when not boatAtThisBank and hasGoat and hasCabbage do hasCabbage := false;
+    edge u_eat         when not boatAtThisBank and hasWolf and hasGoat    do hasGoat    := false;
 end
 
 bank1: RiverBank(boat.atBank = 1, true, true, true);    // Initially the wolf, goat and cabbage are here.
