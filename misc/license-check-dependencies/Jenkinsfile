@@ -42,7 +42,7 @@ pipeline {
 
             post {
                 always {
-                    archiveArtifacts 'DEPENDENCIES*.txt'
+                    archiveArtifacts 'DEPENDENCIES*'
                 }
             }
         }
