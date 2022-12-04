@@ -24,7 +24,7 @@ marked GameWon;
 /////
 
 // Stop doing anything once the game is won.
-requirement {c_wolfIn, c_goatIn, c_cabbageIn, c_toOtherBank} needs not GameWon;
+requirement GameWon disables {c_wolfIn, c_goatIn, c_cabbageIn, c_toOtherBank};
 
 // Prevent useless loading into, and unloading from, the boat, without going to the other bank.
 requirement PreventUselessInOut:
