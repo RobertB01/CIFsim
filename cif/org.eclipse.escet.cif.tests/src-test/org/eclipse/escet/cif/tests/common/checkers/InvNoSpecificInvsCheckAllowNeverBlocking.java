@@ -19,12 +19,12 @@ import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKin
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 
 /** CIF check that only allows invariants that never block any behavior after static analysis. */
-public class InvNoSpecificInvsCheckAllowHarmless extends InvNoSpecificInvsCheck {
-    /** Constructor of the {@InvNoSpecificInvsCheckAllowHarmless} class. */
-    public InvNoSpecificInvsCheckAllowHarmless() {
+public class InvNoSpecificInvsCheckAllowNeverBlocking extends InvNoSpecificInvsCheck {
+    /** Constructor of the {@InvNoSpecificInvsCheckAllowNeverBlocking} class. */
+    public InvNoSpecificInvsCheckAllowNeverBlocking() {
         super();
 
         disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, NoInvariantPlaceKind.ALL_PLACES);
-        ignoreTriviallyHarmlessInvariants();
+        ignoreNeverBlockingInvariants();
     }
 }

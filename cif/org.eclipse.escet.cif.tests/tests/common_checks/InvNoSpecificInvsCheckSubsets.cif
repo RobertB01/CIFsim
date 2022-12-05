@@ -31,7 +31,6 @@ group g:
 
   group p:
     plant e needs true; // Plant 'needs' state/event exclusion invariant.
-
   end
 
   group r:

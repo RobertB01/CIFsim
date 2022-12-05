@@ -49,7 +49,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
      * If {@code true}, invariants that can be statically analyzed to never block behavior are silently skipped. If
      * {@code false} all invariants are checked against the disallowed subsets and reported if violations are found.
      */
-    private boolean ignoreTriviallyHarmlessInvariants = false;
+    private boolean ignoreNeverBlockingInvariants = false;
 
     /** Constructor of the {@link InvNoSpecificInvsCheck} class. */
     public InvNoSpecificInvsCheck() {
@@ -121,8 +121,8 @@ public class InvNoSpecificInvsCheck extends CifCheck {
      *
      * @return The check instance, for daisy-chaining.
      */
-    public InvNoSpecificInvsCheck ignoreTriviallyHarmlessInvariants() {
-        return ignoreTriviallyHarmlessInvariants(true);
+    public InvNoSpecificInvsCheck ignoreNeverBlockingInvariants() {
+        return ignoreNeverBlockingInvariants(true);
     }
 
     /**
@@ -134,8 +134,8 @@ public class InvNoSpecificInvsCheck extends CifCheck {
      *     violations are found.
      * @return The check instance, for daisy-chaining.
      */
-    public InvNoSpecificInvsCheck ignoreTriviallyHarmlessInvariants(boolean ignore) {
-        ignoreTriviallyHarmlessInvariants = ignore;
+    public InvNoSpecificInvsCheck ignoreNeverBlockingInvariants(boolean ignore) {
+        ignoreNeverBlockingInvariants = ignore;
         return this;
     }
 
@@ -146,8 +146,8 @@ public class InvNoSpecificInvsCheck extends CifCheck {
         InvKind invKind = inv.getInvKind();
         PlaceKind placeKind = (inv.eContainer() instanceof Location) ? PlaceKind.LOCATION : PlaceKind.COMPONENT;
 
-        // If harmless invariants should be skipped, check if 'inv' is such an invariant.
-        if (ignoreTriviallyHarmlessInvariants) {
+        // If never blocking invariants should be skipped, check if 'inv' is such an invariant.
+        if (ignoreNeverBlockingInvariants) {
             switch (invKind) {
                 case EVENT_DISABLES:
                     if (CifValueUtils.isTriviallyFalse(inv.getPredicate(), false, true)) {
