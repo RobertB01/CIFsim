@@ -128,7 +128,9 @@ public class InvNoSpecificInvsCheck extends CifCheck {
      * Configure whether invariants that never block any behavior after static analysis of the condition should be
      * ignored.
      *
-     * @param ignore If {@code true}, invariants that can be statically analyzed to never block behavior are silently skipped. If {@code false} all invariants are checked against the disallowed subsets and reported if violations are found.
+     * @param ignore If {@code true}, invariants that can be statically analyzed to never block behavior are silently
+     *     skipped. If {@code false} all invariants are checked against the disallowed subsets and reported if
+     *     violations are found.
      * @return The check instance, for daisy-chaining.
      */
     public InvNoSpecificInvsCheck ignoreTriviallyHarmlessInvariants(boolean ignore) {
