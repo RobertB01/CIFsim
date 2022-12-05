@@ -70,12 +70,12 @@ public class DisallowedInvariantsSubset {
     }
 
     /**
-     * Report the provided invariant as a violation that is covered by this subset.
+     * Add the provided invariant as a violation to be reported for this subset.
      *
      * @param inv Invariant to report.
      * @param violations The violations collected so far, is modified in-place.
      */
-    public void report(Invariant inv, CifCheckViolations violations) {
+    public void addViolation(Invariant inv, CifCheckViolations violations) {
         // Example: "plant state invariant in a location"
         // Some aspects may not have text, which makes the code somewhat complicated.
         String text = concatText(noSupKind.getReportText(), noInvKind.getReportText());

@@ -170,7 +170,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
         List<DisallowedInvariantsSubset> subsets = disallowedSubsets.get(index);
         if (subsets != null) {
             for (DisallowedInvariantsSubset subset: subsets) {
-                subset.report(inv, violations);
+                subset.addViolation(inv, violations);
             }
         }
     }
