@@ -20,19 +20,19 @@ import org.eclipse.escet.cif.metamodel.cif.SupKind;
 /** Invariant disallowance values for the supervisory kind aspect. */
 public enum NoInvariantSupKind implements NoKindInterface<SupKind> {
     /** No invariants allowed. */
-    ALL_KINDS(EnumSet.allOf(SupKind.class), ReportPriority.GLOBAL, null),
+    ALL_KINDS(EnumSet.allOf(SupKind.class), ReportPriority.GLOBAL, null, null),
 
     /** No invariants allowed in plants. */
-    PLANT(EnumSet.of(SupKind.PLANT), ReportPriority.ELEMENT, "plant"),
+    PLANT(EnumSet.of(SupKind.PLANT), ReportPriority.ELEMENT, "a", "plant"),
 
     /** No invariants allowed in requirements. */
-    REQUIREMENT(EnumSet.of(SupKind.REQUIREMENT), ReportPriority.ELEMENT, "requirement"),
+    REQUIREMENT(EnumSet.of(SupKind.REQUIREMENT), ReportPriority.ELEMENT, "a", "requirement"),
 
     /** No invariants allowed in supervisors. */
-    SUPERVISOR(EnumSet.of(SupKind.SUPERVISOR), ReportPriority.ELEMENT, "supervisor"),
+    SUPERVISOR(EnumSet.of(SupKind.SUPERVISOR), ReportPriority.ELEMENT, "a", "supervisor"),
 
     /** No invariants allowed in components without a supervisory kind. */
-    KINDLESS(EnumSet.of(SupKind.NONE), ReportPriority.ELEMENT, "kindless");
+    KINDLESS(EnumSet.of(SupKind.NONE), ReportPriority.ELEMENT, "a", "kindless");
 
     /** The number of values in the aspect enumeration {@link SupKind}. */
     public static final int NUMBER_OF_VALUES = SupKind.values().length;
@@ -43,6 +43,9 @@ public enum NoInvariantSupKind implements NoKindInterface<SupKind> {
     /** Relevance of reporting on the {@link SupKind} disallowance aspect. */
     private final ReportPriority reportPriority;
 
+    /** Article to use in front of the {@link #reportText}, {@code null} if there is no report text. */
+    private final String articleText;
+
     /** Text to report on this aspect if an invariant is found to be disallowed, may be {@code null}. */
     private final String reportText;
 
@@ -51,11 +54,13 @@ public enum NoInvariantSupKind implements NoKindInterface<SupKind> {
      *
      * @param disallowedValues Values that are disallowed of the {@link SupKind} aspect.
      * @param reportPriority Relevance of reporting on the {@link SupKind} disallowance aspect.
+     * @param articleText Article to use in front of the report text, {@code null} if there is no report text.
      * @param reportText Text to report on this aspect if an invariant is found to be disallowed, may be {@code null}.
      */
-    private NoInvariantSupKind(EnumSet<SupKind> disallowedValues, ReportPriority reportPriority, String reportText) {
+    private NoInvariantSupKind(EnumSet<SupKind> disallowedValues, ReportPriority reportPriority, String articleText, String reportText) {
         this.disallowedValues = disallowedValues;
         this.reportPriority = reportPriority;
+        this.articleText = articleText;
         this.reportText = reportText;
     }
 
@@ -67,6 +72,11 @@ public enum NoInvariantSupKind implements NoKindInterface<SupKind> {
     @Override
     public int getReportRelevance() {
         return reportPriority.getReportRelevance();
+    }
+
+    @Override
+    public String getArticleText() {
+        return articleText;
     }
 
     @Override

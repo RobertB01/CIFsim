@@ -35,6 +35,13 @@ public interface NoKindInterface<A extends Enum<?>> {
     public int getReportRelevance();
 
     /**
+     * Retrieve the article text to add before the report text of this aspect.
+     *
+     * @return Text to add before the report text, is {@code null} if there is no report text.
+     */
+    public String getArticleText();
+
+    /**
      * Retrieve the text to produce for this aspect for reporting the disallowed invariant.
      *
      * @return Text to produce for this aspect for reporting disallowance, is {@code null} if there is nothing to

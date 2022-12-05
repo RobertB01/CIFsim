@@ -17,7 +17,6 @@ import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnSelfMessage;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
@@ -66,7 +65,8 @@ public class DisallowedInvariantsSubset {
      * @return Whether an invariant with the combined given aspects is disallowed.
      */
     public boolean isDisallowed(SupKind supKind, InvKind invKind, PlaceKind placeKind) {
-        return noSupKind.isDisallowed(supKind) && noInvKind.isDisallowed(invKind) && noPlaceKind.isDisallowed(placeKind);
+        return noSupKind.isDisallowed(supKind) && noInvKind.isDisallowed(invKind)
+                && noPlaceKind.isDisallowed(placeKind);
     }
 
     /**
@@ -76,30 +76,39 @@ public class DisallowedInvariantsSubset {
      * @param violations The violations collected so far, is modified in-place.
      */
     public void addViolation(Invariant inv, CifCheckViolations violations) {
-        // Example: "plant state invariant in a location"
-        // Some aspects may not have text, which makes the code somewhat complicated.
-        String text = concatText(noSupKind.getReportText(), noInvKind.getReportText());
-        text = concatText(text, "invariant");
-        text = concatText(text, noPlaceKind.getReportText());
+        // Example: "plant state invariant in a location".
+        // Some aspects may not have text.
+        String text = null;
+        text = addAspectText(text, noSupKind);
+        text = addAspectText(text, noInvKind);
+        text = (text == null) ? "an invariant" : " invariant";
+        text = addAspectText(text, noPlaceKind);
 
-        violations.add(inv, new ReportObjectTypeDescrMessage(), new IfReportOnAncestorMessage("has"), new
-                 IfReportOnSelfMessage("is"), new LiteralMessage(text));
+        violations.add(inv, new IfReportOnAncestorMessage("has"), new IfReportOnSelfMessage("is"),
+                new LiteralMessage(text));
     }
 
     /**
-     * Concatenate two strings separated with a space.
+     * Append the report of an aspect to the report string. Also prepends a matching article the first time.
      *
-     * @param prevText Already added text, may be {@code null}.
-     * @param newText Text to append, may be {@code null}.
-     * @return The concatenated text if at least one of the arguments is not {@code null}, else {@code null}.
+     * @param reportText Collected report text so far, is {@code null} if no text has been added so far.
+     * @param noKind Aspect to query for report and possibly article text.
+     * @return The updated report text.
      */
-    private static String concatText(String prevText, String newText) {
-        if (prevText == null) {
-            return newText;
-        } else if (newText == null) {
-            return prevText;
-        } else {
-            return prevText + " " + newText;
+    private static String addAspectText(String reportText, NoKindInterface<?> noKind) {
+        String aspectReportText = noKind.getReportText();
+
+        // Aspect has nothing to say.
+        if (aspectReportText == null) {
+            return reportText;
         }
+
+        // First aspect with text.
+        if (reportText == null) {
+            return noKind.getArticleText() + " " + aspectReportText;
+        }
+
+        // Append the aspect text.
+        return reportText + " " + aspectReportText;
     }
 }
