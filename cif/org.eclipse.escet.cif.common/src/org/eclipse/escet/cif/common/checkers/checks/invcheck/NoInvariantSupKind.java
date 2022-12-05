@@ -31,7 +31,7 @@ public enum NoInvariantSupKind implements NoKindInterface<SupKind> {
     /** No invariants allowed in supervisors. */
     SUPERVISOR(EnumSet.of(SupKind.SUPERVISOR), ReportPriority.ELEMENT, "supervisor"),
 
-    /** No invariants allowed in components without supervisor kind. */
+    /** No invariants allowed in components without a supervisory kind. */
     KINDLESS(EnumSet.of(SupKind.NONE), ReportPriority.ELEMENT, "kindless");
 
     /** The number of values in the aspect enumeration {@link SupKind}. */

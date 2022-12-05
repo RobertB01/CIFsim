@@ -30,7 +30,7 @@ public interface NoKindInterface<A extends Enum<?>> {
     /**
      * Retrieve how relevant reporting disallowance on this aspect is.
      *
-     * @return Relevance of reporeting disallowance, higher value is more relevant.
+     * @return Relevance of reporting disallowance, higher value is more relevant.
      */
     public int getReportRelevance();
 

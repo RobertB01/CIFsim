@@ -37,7 +37,7 @@ public enum ReportPriority {
     }
 
     /**
-     * Retrieve how relevant it is to report on the aspect.
+     * Retrieve how relevant it is to report on the aspect, higher value is more relevant.
      *
      * @return Relevance of reporting on the aspect.
      */

@@ -73,7 +73,7 @@ public class DisallowedInvariantsSubset {
      * Report the provided invariant as a violation that is covered by this subset.
      *
      * @param inv Invariant to report.
-     * @param violations Reported violations thus far, is modified in-place.
+     * @param violations The violations collected so far, is modified in-place.
      */
     public void report(Invariant inv, CifCheckViolations violations) {
         // Example: "plant state invariant in a location"

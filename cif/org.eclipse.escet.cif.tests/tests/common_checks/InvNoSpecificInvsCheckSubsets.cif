@@ -11,12 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Requirement state invariant in a location.
-// Plant 'needs' state/event exclusion invariant.
+// Check for:
+// - Requirement state invariant in a location.
+// - Plant 'needs' state/event exclusion invariant.
 
 event e;
 
-plant e needs true;
+plant e needs true; // Plant 'needs' state/event exclusion invariant.
 requirement true;
 
 group g:

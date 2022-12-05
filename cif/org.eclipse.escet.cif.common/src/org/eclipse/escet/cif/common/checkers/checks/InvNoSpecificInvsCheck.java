@@ -128,8 +128,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
      * Configure whether invariants that never block any behavior after static analysis of the condition should be
      * ignored.
      *
-     * @param ignore If {@code true}, invariants that never block any behavior after static analysis are silently
-     *      skipped, else they are checked aginst the disallowed substs and report if violations are found.
+     * @param ignore If {@code true}, invariants that can be statically analyzed to never block behavior are silently skipped. If {@code false} all invariants are checked against the disallowed subsets and reported if violations are found.
      * @return The check instance, for daisy-chaining.
      */
     public InvNoSpecificInvsCheck ignoreTriviallyHarmlessInvariants(boolean ignore) {
@@ -174,7 +173,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
     }
 
     /**
-     * Compute the index of the flattened 3 dimensional array in the outer list of {@link #disallowedSubsets}.
+     * Compute the index of the flattened 3-dimensional array in the outer list of {@link #disallowedSubsets}.
      *
      * @param supKind Value for the supervisory kind aspect.
      * @param invKind Value for the invariant kind aspect.
