@@ -52,7 +52,7 @@ public enum NoInvariantPlaceKind implements NoKindInterface<PlaceKind> {
     }
 
     @Override
-    public boolean covers(PlaceKind value) {
+    public boolean isDisallowed(PlaceKind value) {
         return disallowedValues.contains(value);
     }
 

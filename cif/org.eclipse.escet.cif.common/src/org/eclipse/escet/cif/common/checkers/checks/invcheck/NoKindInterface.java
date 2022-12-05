@@ -20,12 +20,12 @@ package org.eclipse.escet.cif.common.checkers.checks.invcheck;
  */
 public interface NoKindInterface<A extends Enum<?>> {
     /**
-     * Return whether the given aspect value is covered by the disallowance value.
+     * Return whether the aspect is disallowed for the given value.
      *
      * @param value Aspect value to test.
-     * @return Whether the aspect is in fact disallowed on the given aspect.
+     * @return Whether the aspect is disallowed for the given value.
      */
-    public boolean covers(A value);
+    public boolean isDisallowed(A value);
 
     /**
      * Retrieve how relevant reporting disallowance on this aspect is.

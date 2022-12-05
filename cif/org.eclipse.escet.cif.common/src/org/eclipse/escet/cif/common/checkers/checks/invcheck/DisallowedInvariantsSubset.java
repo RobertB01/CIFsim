@@ -63,10 +63,10 @@ public class DisallowedInvariantsSubset {
      * @param supKind Supervisory aspect kind to test.
      * @param invKind Invariant aspect kind to test.
      * @param placeKind Place aspect kind to test.
-     * @return Whether an invariant with the combined given aspects is covered by this disallowed subset.
+     * @return Whether an invariant with the combined given aspects is disallowed.
      */
-    public boolean covers(SupKind supKind, InvKind invKind, PlaceKind placeKind) {
-        return noSupKind.covers(supKind) && noInvKind.covers(invKind) && noPlaceKind.covers(placeKind);
+    public boolean isDisallowed(SupKind supKind, InvKind invKind, PlaceKind placeKind) {
+        return noSupKind.isDisallowed(supKind) && noInvKind.isDisallowed(invKind) && noPlaceKind.isDisallowed(placeKind);
     }
 
     /**

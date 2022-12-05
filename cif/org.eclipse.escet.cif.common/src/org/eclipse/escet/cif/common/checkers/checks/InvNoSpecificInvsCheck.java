@@ -78,35 +78,36 @@ public class InvNoSpecificInvsCheck extends CifCheck {
     {
         DisallowedInvariantsSubset disallowedInvs = new DisallowedInvariantsSubset(noSupKind, noInvKind, noPlaceKind);
         for (SupKind supKind: SupKind.values()) {
-            if (!noSupKind.covers(supKind)) {
+            if (!noSupKind.isDisallowed(supKind)) {
                 continue;
             }
             for (InvKind invKind: InvKind.values()) {
-                if (!noInvKind.covers(invKind)) {
+                if (!noInvKind.isDisallowed(invKind)) {
                     continue;
                 }
                 for (PlaceKind placeKind: PlaceKind.values()) {
-                    if (noPlaceKind.covers(placeKind)) {
-                        // Compute the array index.
-                        int index = computeIndex(supKind, invKind, placeKind);
-                        List<DisallowedInvariantsSubset> currentReports = disallowedSubsets.get(index);
+                    if (!noPlaceKind.isDisallowed(placeKind)) {
+                        continue;
+                    }
 
-                        // Add the new disallowed subset.
-                        if (currentReports == null) {
-                            // There are no other subsets yet, create a new list to store it.
-                            disallowedSubsets.set(index, list(disallowedInvs));
-                        } else {
-                            // The entry already has other subsets. Compare report relevance.
-                            // If the new entry is more relevant it triumphs over all existing entries,
-                            // if it has the same relevance, append it.
-                            int newRelevance = disallowedInvs.getReportRelevance();
-                            int currentRelevance = first(currentReports).getReportRelevance();
-                            if (newRelevance > currentRelevance) {
-                                currentReports.clear();
-                                currentReports.add(disallowedInvs);
-                            } else if (newRelevance == currentRelevance) {
-                                currentReports.add(disallowedInvs);
-                            }
+                    // The new disallowed subset applies for this combination of aspect values, add it.
+                    int index = computeIndex(supKind, invKind, placeKind);
+                    List<DisallowedInvariantsSubset> currentReports = disallowedSubsets.get(index);
+
+                    if (currentReports == null) {
+                        // There are no other subsets yet, create a new list to store it.
+                        disallowedSubsets.set(index, list(disallowedInvs));
+                    } else {
+                        // The entry already has other subsets. Compare report relevance.
+                        // If the new entry is more relevant it triumphs over all existing entries,
+                        // if it has the same relevance, append it.
+                        int newRelevance = disallowedInvs.getReportRelevance();
+                        int currentRelevance = first(currentReports).getReportRelevance();
+                        if (newRelevance > currentRelevance) {
+                            currentReports.clear();
+                            currentReports.add(disallowedInvs);
+                        } else if (newRelevance == currentRelevance) {
+                            currentReports.add(disallowedInvs);
                         }
                     }
                 }

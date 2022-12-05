@@ -60,7 +60,7 @@ public enum NoInvariantSupKind implements NoKindInterface<SupKind> {
     }
 
     @Override
-    public boolean covers(SupKind value) {
+    public boolean isDisallowed(SupKind value) {
         return disallowedValues.contains(value);
     }
 

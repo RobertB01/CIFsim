@@ -60,7 +60,7 @@ public enum NoInvariantKind implements NoKindInterface<InvKind> {
     }
 
     @Override
-    public boolean covers(InvKind value) {
+    public boolean isDisallowed(InvKind value) {
         return disallowedValues.contains(value);
     }
 
