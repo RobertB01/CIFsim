@@ -25,7 +25,7 @@ public enum ReportPriority {
     ELEMENT(1);
 
     /** Relative relevance of reporting an aspect of a rule, higher value is more relevant. */
-    private int relevance;
+    private final int relevance;
 
     /**
      * Constructor of the {@link ReportPriority} enumeration.

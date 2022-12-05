@@ -45,7 +45,7 @@ public enum NoInvariantPlaceKind implements NoKindInterface<PlaceKind> {
      * @param reportPriority Relevance of reporting on the {@link PlaceKind} disallowance aspect.
      * @param reportText Text to report on this aspect if an invariant is found to be disallowed, may be {@code null}.
      */
-    NoInvariantPlaceKind(EnumSet<PlaceKind> disallowedValues, ReportPriority reportPriority, String reportText) {
+    private NoInvariantPlaceKind(EnumSet<PlaceKind> disallowedValues, ReportPriority reportPriority, String reportText) {
         this.disallowedValues = disallowedValues;
         this.reportPriority = reportPriority;
         this.reportText = reportText;

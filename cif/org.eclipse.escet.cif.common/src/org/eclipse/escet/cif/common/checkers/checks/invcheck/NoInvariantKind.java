@@ -53,7 +53,7 @@ public enum NoInvariantKind implements NoKindInterface<InvKind> {
      * @param reportPriority Relevance of reporting on the {@link InvKind} disallowance aspect.
      * @param reportText Text to report on this aspect if an invariant is found to be disallowed, may be {@code null}.
      */
-    NoInvariantKind(EnumSet<InvKind> disallowedValues, ReportPriority reportPriority, String reportText) {
+    private NoInvariantKind(EnumSet<InvKind> disallowedValues, ReportPriority reportPriority, String reportText) {
         this.disallowedValues = disallowedValues;
         this.reportPriority = reportPriority;
         this.reportText = reportText;
