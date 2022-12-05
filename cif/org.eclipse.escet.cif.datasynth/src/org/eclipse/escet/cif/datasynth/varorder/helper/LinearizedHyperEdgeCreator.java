@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
@@ -70,6 +71,10 @@ class LinearizedHyperEdgeCreator extends LegacyHyperEdgeCreator {
     public List<BitSet> getHyperEdges() {
         // Create a copy of the specification, to prevent modifying the input specification.
         Specification spec = EMFHelper.deepclone(getSpecification());
+
+        // Convert state/event exclusion invariants to automata. They will then be taken into account for the linearized
+        // edges, similar to how they are also part of the linearized edges during synthesis itself.
+        new ElimStateEvtExclInvs().transform(spec);
 
         // Collect all automata and alphabets.
         List<Automaton> automata = CifCollectUtils.collectAutomata(spec, list());
