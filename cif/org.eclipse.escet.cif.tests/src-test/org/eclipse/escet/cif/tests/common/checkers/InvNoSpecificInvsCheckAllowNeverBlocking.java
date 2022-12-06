@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 
 /** CIF check that only allows invariants that never block any behavior after static analysis. */
 public class InvNoSpecificInvsCheckAllowNeverBlocking extends InvNoSpecificInvsCheck {
-    /** Constructor of the {@InvNoSpecificInvsCheckAllowNeverBlocking} class. */
+    /** Constructor of the {@link InvNoSpecificInvsCheckAllowNeverBlocking} class. */
     public InvNoSpecificInvsCheckAllowNeverBlocking() {
         super();
 

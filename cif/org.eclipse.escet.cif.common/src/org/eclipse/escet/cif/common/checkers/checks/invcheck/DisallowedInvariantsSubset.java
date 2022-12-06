@@ -80,7 +80,7 @@ public class DisallowedInvariantsSubset {
     }
 
     /**
-     * Compare this disallowed subset with the given right side, and deciode which of the sets are larger.
+     * Compare this disallowed subset with the given right side, and decide which of the sets are larger.
      *
      * @param right Right side to compare with.
      * @return Which of the sets are larger.

@@ -117,7 +117,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
         Assert.check(!currentSets.isEmpty());
 
         // Compare the new set with all existing sets to decide whether the new set is useful and which of the current
-        // sets becomes obsolete.
+        // sets become obsolete.
         BitSet keepExistingIndices = new BitSet(currentSets.size()); // Existing entries to keep.
         int index = 0;
         for (DisallowedInvariantsSubset right: currentSets) {
@@ -125,7 +125,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
                 case EQUAL:
                     return; // New entry is the same as the tested right side, we're done.
                 case RIGHT_LARGER:
-                    return; // New entry is a proper subset of the tested right side we're done.
+                    return; // New entry is a proper subset of the tested right side, we're done.
 
                 case LEFT_LARGER:
                     // Drop the tested right side, it's a proper subset of the new entry.
@@ -144,7 +144,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
         // If we get here, then the above loop never reached "EQUAL or "RIGHT_LARGER", thus all existing entries are
         // "LEFT_LARGER" or "BOTH_LARGER".
         //
-        // Walk again through the currentSets, moving entries that must be kept to the start of the list.
+        // Walk again through the 'currentSets', moving entries that must be kept to the start of the list.
         int freeIndex = 0;
         for (index = 0; index < currentSets.size(); index++) {
             if (!keepExistingIndices.get(index)) {
