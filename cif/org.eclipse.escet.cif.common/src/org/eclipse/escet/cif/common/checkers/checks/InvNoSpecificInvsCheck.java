@@ -141,7 +141,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
             index++;
         }
 
-        // If we get here, then the above loop never reached "EQUAL or "RIGHT_LARGER", thus all existing entries are
+        // If we get here, then the above loop never reached "EQUAL" or "RIGHT_LARGER", thus all existing entries are
         // "LEFT_LARGER" or "BOTH_LARGER".
         //
         // Walk again through the 'currentSets', moving entries that must be kept to the start of the list.
