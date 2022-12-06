@@ -16,23 +16,16 @@ package org.eclipse.escet.cif.common.checkers.checks.invcheck;
 /**
  * Interface for the disallowance enumeration on an aspect of an invariant.
  *
- * @param <A> Aspect enumeration type.
+ * @param <E> Aspect enumeration type.
  */
-public interface NoKindInterface<A extends Enum<?>> {
+public interface NoKindInterface<E extends Enum<E>> {
     /**
      * Return whether the aspect is disallowed for the given value.
      *
      * @param value Aspect value to test.
      * @return Whether the aspect is disallowed for the given value.
      */
-    public boolean isDisallowed(A value);
-
-    /**
-     * Retrieve how relevant reporting disallowance on this aspect is.
-     *
-     * @return Relevance of reporting disallowance, higher value is more relevant.
-     */
-    public int getReportRelevance();
+    public boolean isDisallowed(E value);
 
     /**
      * Retrieve the article text to add before the report text of this aspect.

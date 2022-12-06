@@ -13,10 +13,10 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 
+import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifValueUtils;
@@ -31,6 +31,7 @@ import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.common.java.Assert;
 
 /** CIF check that disallows subsets of invariants on invariant kind, supervisory kind and/or place of specification. */
 public class InvNoSpecificInvsCheck extends CifCheck {
@@ -65,7 +66,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
      * Add a disallowed invariant subset to the collection.
      *
      * <p>
-     * The forbidden subset is the invariants that are covered in all three arguments.
+     * The forbidden subset represents the invariants that are disallowed in all three aspects.
      * </p>
      *
      * @param noSupKind Forbidden values for the supervisory kind in the invariants subset.
@@ -98,22 +99,80 @@ public class InvNoSpecificInvsCheck extends CifCheck {
                         // There are no other subsets yet, create a new list to store it.
                         disallowedSubsets.set(index, list(disallowedInvs));
                     } else {
-                        // The entry already has other subsets. Compare report relevance.
-                        // If the new entry is more relevant it triumphs over all existing entries,
-                        // if it has the same relevance, append it.
-                        int newRelevance = disallowedInvs.getReportRelevance();
-                        int currentRelevance = first(currentReports).getReportRelevance();
-                        if (newRelevance > currentRelevance) {
-                            currentReports.clear();
-                            currentReports.add(disallowedInvs);
-                        } else if (newRelevance == currentRelevance) {
-                            currentReports.add(disallowedInvs);
-                        }
+                        updateDisallowedSets(currentReports, disallowedInvs);
                     }
                 }
             }
         }
         return this;
+    }
+
+    /**
+     * Update the current sets for the newly added set.
+     *
+     * @param currentSets Sets already stored.
+     * @param newSet Set to be added to the set.
+     */
+    private void updateDisallowedSets(List<DisallowedInvariantsSubset> currentSets, DisallowedInvariantsSubset newSet) {
+        Assert.check(!currentSets.isEmpty());
+
+        // Compare the new set with all existing sets to decide whether the new set is useful and which of the current
+        // sets becomes obsolete.
+        BitSet keepExistingIndices = new BitSet(currentSets.size()); // Existing entries to keep.
+        int index = 0;
+        for (DisallowedInvariantsSubset right: currentSets) {
+            switch (newSet.compareSubset(right)) {
+                case EQUAL:
+                    return; // New entry is the same as the tested right side, we're done.
+                case RIGHT_LARGER:
+                    return; // New entry is a proper subset of the tested right side we're done.
+
+                case LEFT_LARGER:
+                    // Drop the tested right side, it's a proper subset of the new entry.
+                    break;
+
+                case BOTH_LARGER:
+                    keepExistingIndices.set(index);
+                    break;
+
+                default:
+                    throw new AssertionError("Unexpected comparison result found.");
+            }
+            index++;
+        }
+
+        // If we get here, then the above loop never reached "EQUAL or "RIGHT_LARGER", thus all existing entries are
+        // "LEFT_LARGER" or "BOTH_LARGER".
+        //
+        // Walk again through the currentSets, moving entries that must be kept to the start of the list.
+        int freeIndex = 0;
+        for (index = 0; index < currentSets.size(); index++) {
+            if (!keepExistingIndices.get(index)) {
+                continue;
+            }
+
+            if (freeIndex < index) {
+                currentSets.set(freeIndex, currentSets.get(index)); // Copy 'index' item to 'freeIndex' item.
+            }
+            // Else no copy operation was needed.
+
+            freeIndex++; // The free index must be incremented in both cases though.
+        }
+
+        // Add the new set to the sets and possibly cleanup.
+        if (freeIndex == currentSets.size()) {
+            currentSets.add(newSet);
+        } else {
+            currentSets.set(freeIndex, newSet);
+            freeIndex++;
+
+            // Strip the last part of the list so the list is again completely filled.
+            int currentSize = currentSets.size();
+            while (freeIndex < currentSize) {
+                currentSize--;
+                currentSets.remove(currentSize); // Restores the "currentSize == currentSets.size()" invariant.
+            }
+        }
     }
 
     /**
@@ -165,7 +224,7 @@ public class InvNoSpecificInvsCheck extends CifCheck {
             }
         }
 
-        // Compute the index in the flattened three dimensional array, and report for all found disallowed subsets.
+        // Compute the index in the flattened 3-dimensional array, and report for all found disallowed subsets.
         int index = computeIndex(supKind, invKind, placeKind);
         List<DisallowedInvariantsSubset> subsets = disallowedSubsets.get(index);
         if (subsets != null) {

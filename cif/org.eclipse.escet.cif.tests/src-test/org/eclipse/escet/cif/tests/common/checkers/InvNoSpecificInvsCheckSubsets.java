@@ -18,9 +18,9 @@ import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 
-/** CIF check that disallows state requirement invariants in locations and 'need' state/event exclusion invariants. */
+/** CIF check that disallows requirement state invariants in locations and 'needs' state/event exclusion invariants. */
 public class InvNoSpecificInvsCheckSubsets extends InvNoSpecificInvsCheck {
-    /** Constructor of the {@InvNoSpecificInvsCheckAllowHarmless} class. */
+    /** Constructor of the {@link InvNoSpecificInvsCheckSubsets} class. */
     public InvNoSpecificInvsCheckSubsets() {
         super();
 

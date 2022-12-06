@@ -18,22 +18,19 @@ import java.util.EnumSet;
 /** Invariant disallowance values for the place kind aspect. */
 public enum NoInvariantPlaceKind implements NoKindInterface<PlaceKind> {
     /** No invariants allowed both in locations and in component bodies. */
-    ALL_PLACES(EnumSet.allOf(PlaceKind.class), ReportPriority.GLOBAL, null),
+    ALL_PLACES(EnumSet.allOf(PlaceKind.class), null),
 
     /** No invariants allowed in locations. */
-    LOCATIONS(EnumSet.of(PlaceKind.LOCATION), ReportPriority.ELEMENT, "in a location"),
+    LOCATIONS(EnumSet.of(PlaceKind.LOCATION), "in a location"),
 
     /** No invariants allowed in components. */
-    COMPONENTS(EnumSet.of(PlaceKind.COMPONENT), ReportPriority.ELEMENT, "in a component");
+    COMPONENTS(EnumSet.of(PlaceKind.COMPONENT), "in a component");
 
     /** The number of values in the aspect enumeration {@link PlaceKind}. */
     public static final int NUMBER_OF_VALUES = PlaceKind.values().length;
 
     /** Values that are disallowed of the {@link PlaceKind} aspect. */
     private final EnumSet<PlaceKind> disallowedValues;
-
-    /** Relevance of reporting on the {@link PlaceKind} disallowance aspect. */
-    private final ReportPriority reportPriority;
 
     /** Text to report on this aspect if an invariant is found to be disallowed, may be {@code null}. */
     private final String reportText;
@@ -42,12 +39,10 @@ public enum NoInvariantPlaceKind implements NoKindInterface<PlaceKind> {
      * Constructor of the {@link NoInvariantPlaceKind} enumeration class.
      *
      * @param disallowedValues Values that are disallowed of the {@link PlaceKind} aspect.
-     * @param reportPriority Relevance of reporting on the {@link PlaceKind} disallowance aspect.
      * @param reportText Text to report on this aspect if an invariant is found to be disallowed, may be {@code null}.
      */
-    private NoInvariantPlaceKind(EnumSet<PlaceKind> disallowedValues, ReportPriority reportPriority, String reportText) {
+    private NoInvariantPlaceKind(EnumSet<PlaceKind> disallowedValues, String reportText) {
         this.disallowedValues = disallowedValues;
-        this.reportPriority = reportPriority;
         this.reportText = reportText;
     }
 
@@ -56,14 +51,20 @@ public enum NoInvariantPlaceKind implements NoKindInterface<PlaceKind> {
         return disallowedValues.contains(value);
     }
 
-    @Override
-    public int getReportRelevance() {
-        return reportPriority.getReportRelevance();
+    /**
+     * Compare the disallowance set of this instance with the set of the given right side, and decide which of the sets
+     * are larger.
+     *
+     * @param right Right side to compare against.
+     * @return Which of the sets are larger.
+     */
+    public SubSetRelation compareSubset(NoInvariantPlaceKind right) {
+        return SubSetRelation.compare(disallowedValues, right.disallowedValues);
     }
 
     @Override
     public String getArticleText() {
-        throw new AssertionError("Place is never the first text in a report.");
+        throw new AssertionError("Place should never be the first text in a report.");
     }
 
     @Override

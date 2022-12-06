@@ -48,15 +48,6 @@ public class DisallowedInvariantsSubset {
     }
 
     /**
-     * Get the report relevance of the stored subset of invariants.
-     *
-     * @return The report relevance of the stored subset of invariants.
-     */
-    public int getReportRelevance() {
-        return noSupKind.getReportRelevance() + noInvKind.getReportRelevance() + noPlaceKind.getReportRelevance();
-    }
-
-    /**
      * Compute whether this disallowed invariant subset includes the invariant with the given aspect values.
      *
      * @param supKind Supervisory aspect kind to test.
@@ -81,11 +72,26 @@ public class DisallowedInvariantsSubset {
         String text = null;
         text = addAspectText(text, noSupKind);
         text = addAspectText(text, noInvKind);
-        text = (text == null) ? "an invariant" : " invariant";
+        text = (text == null) ? "an invariant" : text + " invariant";
         text = addAspectText(text, noPlaceKind);
 
         violations.add(inv, new IfReportOnAncestorMessage("has"), new IfReportOnSelfMessage("is"),
                 new LiteralMessage(text));
+    }
+
+    /**
+     * Compare this disallowed subset with the given right side, and deciode which of the sets are larger.
+     *
+     * @param right Right side to compare with.
+     * @return Which of the sets are larger.
+     */
+    public SubSetRelation compareSubset(DisallowedInvariantsSubset right) {
+        SubSetRelation noSupKindRelation = noSupKind.compareSubset(right.noSupKind);
+        SubSetRelation noInvKindRelation = noInvKind.compareSubset(right.noInvKind);
+        SubSetRelation noPlaceKindRelation = noPlaceKind.compareSubset(right.noPlaceKind);
+        return SubSetRelation.getRelation(
+                noSupKindRelation.leftLarger || noInvKindRelation.leftLarger || noPlaceKindRelation.leftLarger,
+                noSupKindRelation.rightLarger || noInvKindRelation.rightLarger || noPlaceKindRelation.rightLarger);
     }
 
     /**
