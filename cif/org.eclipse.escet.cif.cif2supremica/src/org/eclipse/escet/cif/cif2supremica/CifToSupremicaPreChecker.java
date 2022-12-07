@@ -33,7 +33,6 @@ import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlyStaticEvalMarkerPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
@@ -73,19 +72,20 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 // introduce additional initialization predicates.
                 new AutOnlyWithOneInitLocCheck(),
 
+                // State invariants in components are only supported if they are requirement invariants.
+                new CompStateInvsOnlyReqsCheck(),
+
+                // State/event exclusion invariants are transformed into automata and must have a kind.
+                //
                 // State invariants in locations are not supported. We would need to change 'invariant X' in location
                 // 'L' to 'invariant L => X' (in the automaton), but references to locations are not supported by the
                 // transformation. We do eliminate location references, so we could make a CIF to CIF transformation
                 // that lifts state invariants out of locations to the surrounding automaton, and apply that
                 // transformation before the elimination of location references.
-                new LocOnlySpecificInvariantsCheck(false, true),
-
-                // State invariants in components are only supported if they are requirement invariants.
-                new CompStateInvsOnlyReqsCheck(),
-
-                // State/event exclusion invariants are transformed into automata and must have a kind.
-                new InvNoSpecificInvsCheck().disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE_EVENT,
-                        NoInvariantPlaceKind.ALL_PLACES),
+                new InvNoSpecificInvsCheck() //
+                        .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE_EVENT, NoInvariantPlaceKind.ALL_PLACES) //
+                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
+                                NoInvariantPlaceKind.LOCATIONS),
 
                 // Discrete variables with multiple potential initial values are not supported. Actually, Supremica
                 // allows an initialization predicate, rather than a value, and the latest version seems to require
