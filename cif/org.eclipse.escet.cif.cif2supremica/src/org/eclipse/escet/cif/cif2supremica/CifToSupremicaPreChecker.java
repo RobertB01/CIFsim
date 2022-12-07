@@ -81,12 +81,12 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 // that lifts state invariants out of locations to the surrounding automaton, and apply that
                 // transformation before the elimination of location references.
                 new InvNoSpecificInvsCheck() //
-                        .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE_EVENT, NoInvariantPlaceKind.ALL_PLACES) //
+                        .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE_EVENT,
+                                NoInvariantPlaceKind.ALL_PLACES) //
                         .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
                         .disallow(NoInvariantSupKind.PLANT, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
                         .disallow(NoInvariantSupKind.SUPERVISOR, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
-                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
-                                NoInvariantPlaceKind.LOCATIONS),
+                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE, NoInvariantPlaceKind.LOCATIONS),
 
                 // Discrete variables with multiple potential initial values are not supported. Actually, Supremica
                 // allows an initialization predicate, rather than a value, and the latest version seems to require
