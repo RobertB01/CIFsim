@@ -1,14 +1,16 @@
 WARNING: File "cif2plc/invalid.cif": Semantic warning at line 49, column 7: Automaton "p2" has no initial location.
 WARNING: File "cif2plc/invalid.cif": Semantic warning at line 73, column 17: Discrete variable "q.v9" is not used anywhere in the specification.
 ERROR: PLC code generation failed for CIF file "cif2plc/invalid.cif".
-CAUSE: CIF to PLC transformation failed due to unsatisfied preconditions:
+CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
  - Unsupported "f" (File "cif2plc/invalid.cif": line 123, column 10): user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
  - Unsupported "f1" (File "cif2plc/invalid.cif": line 40, columns 10 .. 11): is an external user-defined function.
  - Unsupported "f2" (File "cif2plc/invalid.cif": line 42, columns 10 .. 11): has no parameters.
  - Unsupported "f2" (File "cif2plc/invalid.cif": line 42, columns 10 .. 11): user-defined function has a 'continue' statement.
  - Unsupported "g" (File "cif2plc/invalid.cif": line 17, column 7): group contains an initialization predicate.
+ - Unsupported "g" (File "cif2plc/invalid.cif": line 17, column 7): has a state invariant.
  - Unsupported "p" (File "cif2plc/invalid.cif": line 22, column 7): automaton contains an initialization predicate.
- - Unsupported "p.a" (File "cif2plc/invalid.cif": line 29, column 12): location has a state invariant.
+ - Unsupported "p" (File "cif2plc/invalid.cif": line 22, column 7): has a state invariant.
+ - Unsupported "p.a" (File "cif2plc/invalid.cif": line 29, column 12): has a state invariant.
  - Unsupported "p.a" (File "cif2plc/invalid.cif": line 29, column 12): location is urgent.
  - Unsupported "p.b" (File "cif2plc/invalid.cif": line 35, column 12): location has an urgent edge.
  - Unsupported "p.x" (File "cif2plc/invalid.cif": line 23, column 12): discrete variable has multiple potential initial values (any value in its domain).
@@ -33,6 +35,7 @@ CAUSE: CIF to PLC transformation failed due to unsatisfied preconditions:
  - Unsupported "q.v9" (File "cif2plc/invalid.cif": line 73, columns 17 .. 18): uses non-array list type "list int".
  - Unsupported "q.v9" (File "cif2plc/invalid.cif": line 73, columns 17 .. 18): uses string literal ""a"".
  - Unsupported "q.v9" (File "cif2plc/invalid.cif": line 73, columns 17 .. 18): uses string type "string".
+ - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): has a state invariant.
  - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification contains an initialization predicate.
  - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "acosh".
  - Unsupported specification (File "cif2plc/invalid.cif": line 1, column 1): the top level scope of the specification uses standard library function "asinh".

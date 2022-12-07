@@ -1,5 +1,5 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/array_tuple_mix.cif".
-CAUSE: CIF to PLC transformation failed due to unsatisfied preconditions:
+CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
  - Unsupported "aut.l1" (File "cif2plc/array_tuple_mix.cif": line 24, columns 12 .. 13): uses list type "list[2] int".
  - Unsupported "aut.l1" (File "cif2plc/array_tuple_mix.cif": line 24, columns 12 .. 13): uses list type "list[2] tuple(int a; int b)".
  - Unsupported "aut.l2" (File "cif2plc/array_tuple_mix.cif": line 28, columns 12 .. 13): uses list type "list[2] int".

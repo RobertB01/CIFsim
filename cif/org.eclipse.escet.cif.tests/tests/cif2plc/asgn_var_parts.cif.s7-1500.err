@@ -1,5 +1,5 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/asgn_var_parts.cif".
-CAUSE: CIF to PLC transformation failed due to unsatisfied preconditions:
+CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
  - Unsupported "a" (File "cif2plc/asgn_var_parts.cif": line 16, column 11): uses list type "list[5] int".
  - Unsupported "a.li" (File "cif2plc/asgn_var_parts.cif": line 17, columns 20 .. 21): uses list type "list[5] int".
  - Unsupported "f" (File "cif2plc/asgn_var_parts.cif": line 25, column 10): uses list type "list[5] int".

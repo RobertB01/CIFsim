@@ -1,5 +1,5 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/arrays.cif".
-CAUSE: CIF to PLC transformation failed due to unsatisfied preconditions:
+CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
  - Unsupported "aut.empty_arr" (File "cif2plc/arrays.cif": line 41, columns 20 .. 28): uses list type "list[0] int".
  - Unsupported "aut.l" (File "cif2plc/arrays.cif": line 39, column 20): uses list type "list[5] int".
  - Unsupported "aut.l" (File "cif2plc/arrays.cif": line 39, column 20): uses list type "list[5] int[0..50]".
