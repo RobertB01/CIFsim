@@ -31,7 +31,7 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsChec
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
-import org.eclipse.escet.cif.common.checkers.checks.InvNoKindlessStateEvtExclCheck;
+import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocOnlyStaticEvalMarkerPredsCheck;
@@ -40,6 +40,9 @@ import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoS
 import org.eclipse.escet.cif.common.checkers.checks.VarNoContinuousCheck;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoInputCheck;
+import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** CIF to Supremica transformation precondition checker. */
@@ -81,7 +84,8 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 new CompStateInvsOnlyReqsCheck(),
 
                 // State/event exclusion invariants are transformed into automata and must have a kind.
-                new InvNoKindlessStateEvtExclCheck(),
+                new InvNoSpecificInvsCheck().disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE_EVENT,
+                        NoInvariantPlaceKind.ALL_PLACES),
 
                 // Discrete variables with multiple potential initial values are not supported. Actually, Supremica
                 // allows an initialization predicate, rather than a value, and the latest version seems to require
