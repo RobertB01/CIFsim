@@ -18,7 +18,6 @@ import org.eclipse.escet.cif.common.checkers.checks.AutOnlySpecificSupKindsCheck
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompOnlyVarValueMarkerPredsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.CompStateInvsOnlyReqsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EventNoChannelsCheck;
@@ -72,10 +71,9 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 // introduce additional initialization predicates.
                 new AutOnlyWithOneInitLocCheck(),
 
-                // State invariants in components are only supported if they are requirement invariants.
-                new CompStateInvsOnlyReqsCheck(),
-
                 // State/event exclusion invariants are transformed into automata and must have a kind.
+                //
+                // State invariants in components are only supported if they are requirement invariants.
                 //
                 // State invariants in locations are not supported. We would need to change 'invariant X' in location
                 // 'L' to 'invariant L => X' (in the automaton), but references to locations are not supported by the
@@ -84,6 +82,9 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 // transformation before the elimination of location references.
                 new InvNoSpecificInvsCheck() //
                         .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE_EVENT, NoInvariantPlaceKind.ALL_PLACES) //
+                        .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
+                        .disallow(NoInvariantSupKind.PLANT, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
+                        .disallow(NoInvariantSupKind.SUPERVISOR, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
                         .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                 NoInvariantPlaceKind.LOCATIONS),
 
