@@ -30,12 +30,15 @@ import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.checks.LocOnlySpecificInvariantsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
+import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 
 /** CIF PLC code generator precondition checker. Does not support component definition/instantiation. */
 public class CifToPlcPreChecker extends CifPreconditionChecker {
@@ -54,9 +57,10 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
                 // Automata must have a single initial location.
                 new AutOnlyWithOneInitLocCheck(),
 
-                // Disallow state invariants, except ones that don't impose a restriction. State/event exclusion
-                // variants have been eliminated during pre-processing.
-                new LocOnlySpecificInvariantsCheck(false, true, true),
+                // Ignore the invariants that never block behavior and disallow all other state invariants.
+                new InvNoSpecificInvsCheck() //
+                        .ignoreNeverBlockingInvariants() //
+                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE, NoInvariantPlaceKind.ALL_PLACES),
 
                 // No urgency.
                 new LocNoUrgentCheck(), //
