@@ -1,0 +1,237 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,variable order]
+
+[[tools-datasynth-var-order]]
+== BDD variable order
+
+Internally, data-based synthesis represents predicates using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+CIF variables and automata are represented using one or more boolean variables (also called BDD variables or bits).
+For instance, a boolean CIF variable is represented using a single boolean/BDD variable, and a CIF variable of type `int[0..8]` is represented using four boolean/BDD variables (9 possible values, log~2~(9) ≈ 3.17).
+For each automaton with two or more locations, a location pointer variable is created, that represents the current or active location of that automaton.
+For instance, an automaton with three locations is represented using two boolean/BDD variables.
+Two boolean/BDD variables can represent 2^2^ = 4 values, so one value is not used.
+
+The CIF variables and location pointer variables for the automata (together called synthesis variables) can be ordered.
+This ordering can significantly influence the performance of synthesis.
+Synthesis variables that have a higher influence on the result of predicates (simply put, occur more frequently in predicates) should generally be put earlier in the ordering.
+Furthermore, in general, strongly related synthesis variables (e.g. by comparison, integer computation, or assignment) should be kept closely together in the order.
+For two synthesis variables `x` and `y`, examples of predicates that introduce relations are `x = y` (by comparison) and `5 < x + y` (by integer computation), and examples of assignments that introduce relations are `x := y` and `x := y + 1` (both by assignment).
+
+For the initial variable ordering, it is possible to order the BDD variables per synthesis variable, or to interleave the BDD/boolean variables of some synthesis variables.
+This can significantly influences the performance of synthesis.
+Generally, strongly related synthesis variables should be interleaved.
+
+For more information on ordering and its influence on performance, see Chapter 3 of <<minato96>>.
+
+For each CIF variable and location pointer, two synthesis variables are created, one storing the old/current value (before a transition), and one storing the new value (after a transition).
+For a single CIF variable or location pointer, the old and new synthesis variables are always kept together, and interleaved.
+The old synthesis variable is also always before the new synthesis variable.
+
+The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see the <<tools-datasynth-options,options section>>).
+Several predefined orders exist, and it is also possible to define a custom order.
+By default, the sorted order is used.
+The following predefined orders exist:
+
+* _model ordering without interleaving_ (option value `model`)
++
+The initial order of the synthesis variables is as they occur in the model.
+A location pointer, for an automaton with two or more locations, is put before the variables declared in that automaton.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+
+* _reverse model ordering without interleaving_ (option value `reverse-model`)
++
+The initial order of the synthesis variables is as they occur in the model, but reversed.
+A location pointer, for an automaton with two or more locations, is put after the variables declared in that automaton, in this reverse order.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+The old variables are still before the new variables; this is not reversed.
+
+* _sorted ordering without interleaving_ (option value `sorted`)
++
+The initial order of the synthesis variables is based on the names of the variables and automata.
+They are sorted alphabetically in ascending order, based on their absolute names.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+
+* _reverse sorted ordering without interleaving_ (option value `reverse-sorted`)
++
+The initial order of the synthesis variables is based on the names of the variables and automata.
+They are sorted alphabetically in descending order, based on their absolute names.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+The old variables are still before the new variables; this is not reversed.
+
+* _random ordering without interleaving_ (option value `random` or `random:SEED`)
++
+The variables and automata are initially ordered randomly.
+If no seed is specified, a random seed is used, resulting in a random random order.
+If a seed is specified, a fixed random order is used.
+That is, using the same seed again, results in the same random order.
+The `SEED` must be an integer number in the range [0 .. 2^64^ - 1].
+For instance, use `random:123` as option value to get a random order that can be repeated on a subsequent synthesis for the same model.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+
+Furthermore, a custom initial order can be defined.
+Custom orders consist of absolute names of variables and automata.
+That is, for an automaton `a`, with a discrete variable `x`, the absolute name of the variable is `a.x`.
+The `+*+` character can be used as wildcard in those names, and indicates zero or more characters.
+In case of multiple matches, the matches are sorted increasingly on their absolute names, and interleaved.
+
+Multiple names can be separated with `;` characters.
+The synthesis variables matching the name pattern before the `;` are ordered before the synthesis variables matching the name pattern after the `;`.
+The `;` separator does not introduce interleaving.
+The `,` separator can be used instead of the `;` separator to introduce order but also introduce interleaving.
+
+Each name pattern in the order must match at least one variable or automaton.
+A variable or automaton may not be included more than once in the order.
+Every variable and automaton (with two or more locations) needs to be included in the order.
+It is not possible to specify new variables, as they are always directly after their corresponding old variables, and they are always interleaved.
+
+For instance, consider two automata: `a` and `b`, each with three variables of type `int[0..3]`: `x1`, `x2`, and `x3`.
+The automata have three locations each, so location pointers are created for them.
+We thus have six discrete variables: `a.x1`, `a.x2`, `a.x3`, `b.x1`, `b.x2`, and `b.x3`, and two location pointer variables: `a` and `b`.
+Consider the following custom order: `+b*;a.x3,a.x1;a.x2,a+`.
+Pattern `+b*+` matches location pointer variable `b` as well as the three discrete variables of automaton `b` (`b.x1`, `b.x2`, and `b.x3`).
+They are ordered in increasing alphabetic order, and are interleaved.
+Variables `a.x3` and `a.x1` are also interleaved, with `a.x3` before `a.x1`.
+Finally, variable `a.x2` is ordered before the location pointer for automaton `a`, and they are interleaved as well.
+This results in the following initial boolean/BDD variable ordering, with bits whose name ends with `pass:c[+]` representing bits of new variables rather than current/old variables, and `x#0` representing bit zero of variable `x`:
+
+[%hardbreaks]
+`b#0`
+`b+#0`
+`b.x1#0`
+`b.x1+#0`
+`b.x2#0`
+`b.x2+#0`
+`b.x3#0`
+`b.x3+#0`
+`b#1`
+`b+#1`
+`b.x1#1`
+`b.x1+#1`
+`b.x2#1`
+`b.x2+#1`
+`b.x3#1`
+`b.x3+#1`
+
+[%hardbreaks]
+`a.x3#0`
+`a.x3+#0`
+`a.x1#0`
+`a.x1+#0`
+`a.x3#1`
+`a.x3+#1`
+`a.x1#1`
+`a.x1+#1`
+
+[%hardbreaks]
+`a.x2#0`
+`a.x2+#0`
+`a#0`
+`a+#0`
+`a.x2#1`
+`a.x2+#1`
+`a#1`
+`a+#1`
+
+The default orders are often not optimal performance-wise.
+Manually specifying a custom order often requires specialist knowledge and can take quite some time.
+Luckily, there are algorithms that can automatically compute a decent variable order.
+
+The algorithms all take an initial variable ordering, and try to improve it using a fast heuristic.
+Some algorithms search for a local optimum.
+A better initial variable ordering may then result in a better final variable ordering (a better local optimum), and may also speed up the automatic variable ordering algorithm itself (reaching an optimum faster).
+Other algorithms search for a global optimum.
+However, the algorithms are all based on heuristics.
+The guarantees that they provide differ, but none of them guarantees that synthesis will actually be quicker.
+In practice however, they typically do improve synthesis performance, especially for larger and more complex models.
+
+For the initial variable ordering, the CIF variables and location pointers may be arbitrarily interleaved.
+If an automatic variable ordering algorithm changes the initial order, no synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+
+The automatic variable ordering algorithms are not applied if the CIF model has less than two synthesis variables, as with zero variables there is nothing to order, and with one variable there is only one possible order.
+They are also not applied if the model has no guards, updates, or other predicates from which to derive relations between the variables.
+Without such relations, the algorithms lack the required input to search for improved variable orders.
+
+The variable relations serve as input for the algorithms.
+Different algorithms may use different representations of the variable relations.
+One such representation is _hyper-edges_, and another is _graph edges_, which are derived from the hyper-edges.
+The variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see the <<tools-datasynth-options,options section>>):
+
+* _Legacy_ (default)
++
+The legacy hyper-edge creator creates the following hyper-edges:
++
+** Per invariant, a hyper-edge for the variables that occur in the invariant.
+** Per edge in an automaton, per guard, per comparison binary expression, a hyper-edge for the variables that occur in the binary expression.
+** Per assignment, a hyper-edge for the variables that occur in the addressable and value of the assignment.
+** Per event, a hyper-edge for the variables that occur in the guards and updates of all edges for that event in the entire specification.
++
+* _Linearized_
++
+The linearized hyper-edge creator creates the following hyper-edges:
++
+** Per <<tools-cif2cif-chapter-linearize-product,linearized>> edge, a hyper-edge for the variables that occur in the guards and updates of that linearized edge.
+State/event exclusion invariants are taken into account, by first <<tools-cif2cif-chapter-elim-state-event-excl-invs,converting them to automata>>.
+
+All hyper-edge creators take variables that occur indirectly via algebraic variables into account.
+
+More detailed information about the various representations of variable relations may be obtained during synthesis by enabling <<tools-datasynth-dbg-output,debug output>>.
+
+The following variable ordering algorithms are available:
+
+* _DCSH_
++
+The DCSH algorithm of <<lousberg20>> aims to find good global variable orders.
++
+DCSH applies two algorithms, the Weighted Cuthill-McKee bandwidth-reducing algorithm and the Sloan profile/wavefront-reducing algorithm.
+It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the Weighted Event Span (WES) metric.
++
+The DCSH algorithm is currently considered experimental.
+It is therefore disabled by default, but can be enabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+
+* _FORCE_
++
+The FORCE algorithm of <<aloul03>> aims to optimize an existing variable order, but may get stuck in a local optimum.
++
+FORCE iteratively computes new variable orders by considering relations between the variables.
+Conceptually, highly related variables 'pull' each other closer with more force than less related variables do.
+Each new order is promoted as the new best order, if it is better than the current best order, based on the total span metric.
+The iterative algorithm stops once a fixed point has been reached, or after at most 10 * ceil(log~e~(n)) iterations of the algorithm have been performed, with `n` the number of synthesis variables.
++
+The FORCE algorithm is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+
+* _Sliding window_
++
+The sliding window algorithm aims to locally optimize an existing variable order for each window.
++
+The sliding window algorithm 'slides' over the variable order, from left to right, one variable at a time, using a fixed-length _window_.
+A window is a part of the entire order.
+For instance, for a variable order `a;b;c;d;e` and windows length 3, the window at index 0 would be `a;b;c`, at index 1 it would be `b;c;d`, and at index 2 it would be `c;d;e`.
+For each window, it computes all possible variable permutations, and selects the best one based on the total span metric.
+It then replaces the window by the best permutation of that window, before moving on to the next window.
++
+The sliding window algorithm is enabled by default, but can be disabled using the _BDD sliding window variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
++
+The default maximum length of the window that is used is 4.
+The actual window may be smaller, if less than 4 variables and/or location pointers are present in the model.
+The maximum length of the window can be configured using the _BDD sliding window size_ option (see the <<tools-datasynth-options,options section>>).
+The option to set the maximum length only has effect if the sliding window variable ordering algorithm is enabled.
+The size must be an integer number in the range [1 .. 12].
+
+If enabled, the algorithms are applied in the order they are listed above.

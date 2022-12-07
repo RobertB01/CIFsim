@@ -98,6 +98,7 @@ This requires giving the unmanaged profile the name _tmp_ again, as before.
 *** Commit the preference changes.
 *** Reformat all projects.
 *** Commit reformatting changes.
+** If any changes were made to the formatter preferences, manually update the `org.eclipse.escet.*.metamodel` projects to have the same formatter settings as the rest of the projects.
 
 * Java errors/warnings settings
 ** Right click the `org.eclipse.escet.common.java` project in the _Package Explorer_ view and choose menu:Properties[].
@@ -164,21 +165,33 @@ Upgrading Java may require upgrading Eclipse to a newer version that supports th
 
 To upgrade to a new Java version:
 
-* For major Java versions (e.g. 11 to 12):
-** Update `Bundle-RequiredExecutionEnvironment` for all plug-in manifests.
-** Update `JRE_CONTAINER` in all `.classpath` files.
-** Update `JRE_CONTAINER` in all launch configurations (`.launch` files).
-** Update Java versions in `org.eclipse.jdt.core.prefs` files.
-** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
-** Update Java version for `escet.java.version` in `org.eclipse.escet.releng.configuration/pom.xml`.
-** Update Java version for `executionEnvironment` in `org.eclipse.escet.releng.configuration/pom.xml`.
-** Update Java version in `Jenkinsfile`.
-** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.
-** Update Java keywords for `org.eclipse.escet.common.java.JavaCodeUtils.JAVA_IDS`.
+* For major Java versions (e.g. 17 to 18):
+** Update all (plugin) projects:
+*** Update `Bundle-RequiredExecutionEnvironment` for all plug-in manifests.
+*** Update `JRE_CONTAINER` in all `.classpath` files.
+*** Update `JRE_CONTAINER` in all launch configurations (`.launch` files).
+*** Update Java versions in all `org.eclipse.jdt.core.prefs` files (`compiler.codegen.targetPlatform`, `compiler.compliance`, and `compiler.source`).
+** Update all metamodel projects (`org.eclipse.escet.*.metamodel` projects):
+*** Update the `autofix.py` scripts of these projects, by changing the compliance level resulting from replacements.
+*** Change in all `*.genmodel` files the `complianceLevel`.
+*** Regenerate the model code for each metamodel project, by opening the corresponding `.genmodel` file, right clicking the root node of the opened generator model, and choosing menu:Generate Model Code[].
+There won't always be changes.
+** Update the product:
+*** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
+*** Update `osgi.requiredJavaVersion` in the product launch configuration (`org.eclipse.escet.product/product-escet.launch`).
+** Update the build:
+*** Update Java version for `escet.java.version` in `org.eclipse.escet.releng.configuration/pom.xml`.
+*** Update Java version for `executionEnvironment` in `org.eclipse.escet.releng.configuration/pom.xml`.
+*** Update Java version in `Jenkinsfile`.
+*** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.
+** Update all Java code and documentation:
+*** Update Java keywords for `org.eclipse.escet.common.java.JavaCodeUtils.JAVA_IDS`.
 Update the keywords themselves and the field's JavaDoc, including the link to the Java Language Specification (JLS).
-** Update `dev-env-setup.asciidoc` to match new Java version.
+*** Update `dev-env-setup.asciidoc` to match new Java version.
+*** Update links to specific versions of the Java documentation (search for `https://docs.oracle.com`).
+** Search for the current Java version to find other references (e.g., search for `17`).
 
-* For any Java versions (e.g. 11 to 12, or 11.0.1 to 11.0.2):
+* For any Java versions (e.g. 17 to 18, or 17.0.1 to 17.0.2):
 ** Update the JustJ version (`eclipse.justj.version.*` variables) in the Oomph setup (`org.eclipse.escet.setup`).
 ** Regenerate the target platform file using Oomph.
 ** Update JustJ version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).

@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,debugging]
+
+[[tools-datasynth-dbg-output]]
+== Debug output
+
+By default, the data-based synthesis algorithm shows no progress information, and does not explain how the resulting supervisor is obtained.
+By enabling debug output, detailed information is printed to the console.
+Debug output can be enabled by setting the _Output mode_ option (_General_ category) to _Debug_.
+
+The debug output also contains information about the number of states in the resulting controlled system (the uncontrolled system restricted by the synthesized supervisor).
+If the resulting supervisor (and thus the controlled system) is empty, or if <<tools-datasynth-forward-reach,forward reachability>> is enabled, the number of states that is printed is an exact number (e.g. `exactly 0 states`, `exactly 1 state`, `exactly 1,234 states`).
+In other situations, the controlled behavior predicate that is used to determine the number potentially gives an over-approximation, and an upper bound on the number of states is printed (e.g. `at most 1,234 states`).
+
+Enabling debug output may significantly slow down the synthesis algorithm, especially for larger models.
+The performance degradation stems mostly from the printing of predicates.
+Predicates are internally represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+To print them, they are converted to CNF or DNF predicates, similar to one of the approaches to <<tools-datasynth-supervisor-bdd,convert>> BDDs to CIF predicates for synthesis output.
+
+To limit the performance degradation, <<tools-datasynth-options,options>> are available to limit the conversion of BDDs to CNF/DNF predicates.
+The _BDD debug max nodes_ controls the maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug output.
+The default is `10` nodes.
+The maximum must be in the range [1 .. 2^31^ - 1].
+The option can be set to have an infinite maximum (no maximum), using option value `inf`.
+The _BDD debug max paths_ option controls the maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the debug output.
+The default is `10` paths.
+The maximum must be in the range [1 .. 1.7e308].
+The option can be set to have an infinite maximum (no maximum), using option value `inf`.
+If a BDD has more than the specified maximum number of nodes, or more than the specified number of true paths, it is not converted to a CNF/DNF predicate.
+Instead, it is converted to a textual representation that indicates the number of nodes and true paths, e.g. `<bdd 1,234n 5,678p>` for a BDD with 1,234 nodes and 5,678 true paths.
+
+By limiting the conversion of BDDs to CNF/DNF predicates, debug output can still be used for large models to see progress information, while not degrading the performance too much.

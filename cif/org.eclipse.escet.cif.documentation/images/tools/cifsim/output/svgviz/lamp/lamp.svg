@@ -10,65 +10,51 @@
 
   SPDX-License-Identifier: MIT
 -->
+
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   version="1.1"
    width="75"
    height="100"
-   id="svg2819"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="lamp.svg">
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e4, 2022-07-14)"
+   sodipodi:docname="lamp.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
+     id="namedview7"
      pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="903"
-     inkscape:window-height="484"
-     id="namedview5"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
      showgrid="false"
-     inkscape:zoom="2.247619"
-     inkscape:cx="37"
-     inkscape:cy="52.277542"
-     inkscape:window-x="702"
-     inkscape:window-y="120"
+     inkscape:zoom="2.7747457"
+     inkscape:cx="37.841305"
+     inkscape:cy="53.338221"
+     inkscape:window-width="1464"
+     inkscape:window-height="778"
+     inkscape:window-x="4082"
+     inkscape:window-y="189"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg2819" />
+     inkscape:current-layer="layer1" />
   <defs
-     id="defs2821">
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 52.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="74 : 52.5 : 1"
-       inkscape:persp3d-origin="37 : 35 : 1"
-       id="perspective9" />
-  </defs>
-  <path
-     d="m 62.43731,34.999017 a 24.937405,24.938483 0 0 1 -49.87481,0 24.937405,24.938483 0 1 1 49.87481,0 z"
-     id="lamp"
-     style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:0.09688673px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#000000;stroke-width:0.847929"
+       id="lamp"
+       cx="37.522068"
+       cy="34.329174"
+       r="25" />
+  </g>
 </svg>

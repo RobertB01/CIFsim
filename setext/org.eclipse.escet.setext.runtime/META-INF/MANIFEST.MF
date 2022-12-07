@@ -4,7 +4,7 @@ Bundle-Name: ESCET SeText Runtime (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.setext.runtime;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.escet.setext.runtime,
  org.eclipse.escet.setext.runtime.exceptions,
  org.eclipse.escet.setext.runtime.io

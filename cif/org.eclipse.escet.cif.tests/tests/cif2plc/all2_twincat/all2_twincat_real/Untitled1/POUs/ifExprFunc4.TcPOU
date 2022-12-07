@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="ifExprFunc4">
-    <Declaration>
-      <![CDATA[FUNCTION ifExprFunc4: DINT
+    <Declaration><![CDATA[FUNCTION ifExprFunc4: DINT
 VAR_INPUT
     state: STATE;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[IF (state.dvar_M_p_vf) THEN
+      <ST><![CDATA[IF (state.dvar_M_p_vf) THEN
     ifExprFunc4 := 8;
 ELSIF (state.dvar_M_p_vt) THEN
     ifExprFunc4 := 9;
 ELSE
     ifExprFunc4 := 10;
-END_IF;]]>
-      </ST>
+END_IF;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

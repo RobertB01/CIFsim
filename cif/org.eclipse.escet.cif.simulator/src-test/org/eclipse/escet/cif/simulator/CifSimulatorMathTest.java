@@ -393,7 +393,7 @@ public class CifSimulatorMathTest {
         assertEquals(false, CifSimulatorMath.empty(d23));
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("removal")
     @Test
     public void testEqualBool() {
         assertEquals(true, CifSimulatorMath.equal(true, true));
@@ -439,7 +439,7 @@ public class CifSimulatorMathTest {
         assertEquals(true, CifSimulatorMath.equal(t4, t3));
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("removal")
     @Test
     public void testEqualInt() {
         assertEquals(true, CifSimulatorMath.equal(-0, 0));
@@ -490,7 +490,7 @@ public class CifSimulatorMathTest {
         assertEquals(true, CifSimulatorMath.equal(m, l));
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("removal")
     @Test
     public void testEqualReal() {
         assertEquals(true, CifSimulatorMath.equal(-0.0, 0.0));

@@ -1,0 +1,63 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-chapter-datasynth]]
+== Data-based supervisory controller synthesis
+
+indexterm:[data-based supervisory controller synthesis]
+indexterm:[tools,data-based supervisory controller synthesis]
+indexterm:[synthesis,data-based]
+The data-based supervisory controller synthesis tool performs data-based supervisory controller synthesis, or simply data-based synthesis.
+It can be used to <<lang-tut-extensions-chapter-synthesis,synthesize>> a supervisor for an untimed CIF specification, with data (e.g. <<lang-tut-data-chapter-discrete-variables,discrete variables>>).
+Synthesis is an essential part of the <<sbe-chapter-index,synthesis-based engineering>> approach to develop supervisory controllers.
+
+For a CIF specification with plants and requirements, the tool computes a supervisor.
+The supervisor restricts the plants in such a way that the resulting controlled system satisfies the following properties:
+
+* The controlled system is safe.
+That is, all reachable states in the controlled system satisfy the requirements.
+
+* The controlled system is controllable.
+That is, for all reachable states in the controlled system, the <<lang-tut-extensions-synthesis-evtctrl,uncontrollable>> events that are enabled in the same state in the uncontrolled system are still possible in the controlled system.
+In other words, uncontrollable events are not restricted.
+
+* The controlled system is non-blocking.
+That is, it is possible to reach a <<lang-tut-extensions-synthesis-marked,marked>> state from all reachable states in the controlled system.
+
+* The controlled system is maximally permissive (or simply maximal).
+That is, the controlled system permits all safe, controllable, and non-blocking behaviors.
+
+Note that <<lang-tut-time-deadlock,deadlock>> is not prevented for marked states.
+
+The synthesis algorithm is based on <<ouedraogo11>>.
+
+The following additional information is available:
+
+* <<tools-datasynth-starting>>
+* <<tools-datasynth-options>>
+* <<tools-datasynth-supported>>
+* <<tools-detasynth-early-prob-detect>>
+* <<tools-datasynth-supervisor>>
+* <<tools-datasynth-simplification>>
+* <<tools-datasynth-forward-reach>>
+* <<tools-datasynth-input-vars>>
+* <<tools-datasynth-init>>
+* <<tools-datasynth-performance>>
+* <<tools-datasynth-edge-order>>
+* <<tools-datasynth-var-order>>
+* <<tools-datasynth-op-cache>>
+* <<tools-datasynth-dbg-output>>
+* <<tools-datasynth-stats>>
+* <<tools-datasynth-references>>

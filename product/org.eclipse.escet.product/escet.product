@@ -15,7 +15,7 @@
 
    <launcherArgs>
       <vmArgs>-Declipse.p2.max.threads=10
--Dosgi.requiredJavaVersion=11
+-Dosgi.requiredJavaVersion=17
 -Dosgi.dataAreaRequiresExplicitInit=true
 -Xms256m
 --add-modules=ALL-SYSTEM

@@ -30,6 +30,13 @@ indexterm:[SVG visualization,Batik]
 Multiple versions of the SVG standard exist.
 The CIF simulator uses the free and open source link:https://xmlgraphics.apache.org/batik/[Apache Batik SVG Toolkit] to render SVG images.
 Batik supports version 1.1 of the SVG specification.
+Using an SVG image with unsupported SVG features results in the following error when the SVG file is <<tools-cifsim-output-svgviz-chapter-viewer,opened>> in Eclipse:
+
+[source, console]
+----
+ERROR: SVG image file "some_image.svg" is not an SVG file, is an invalid SVG file, or contains unsupported SVG features.
+CAUSE: invalid.element
+----
 
 indexterm:[SVG,XML]
 SVG image files are stored in an link:https://en.wikipedia.org/wiki/XML[XML]-based file format.

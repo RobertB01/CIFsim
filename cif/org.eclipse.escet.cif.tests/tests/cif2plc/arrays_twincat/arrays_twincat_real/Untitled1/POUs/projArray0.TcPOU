@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="projArray0">
-    <Declaration>
-      <![CDATA[FUNCTION projArray0: DINT
+    <Declaration><![CDATA[FUNCTION projArray0: DINT
 VAR_INPUT
     arr: ARRAY[0..4] of DINT;
     idx: DINT;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[projArray0 := arr[normProjIdx(idx, 5)];]]>
-      </ST>
+      <ST><![CDATA[projArray0 := arr[normProjIdx(idx, 5)];]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

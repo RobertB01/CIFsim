@@ -4,7 +4,7 @@ Bundle-Name: ESCET Chi Runtime (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.chi.runtime;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.escet.chi.runtime,
  org.eclipse.escet.chi.runtime.data,
  org.eclipse.escet.chi.runtime.data.io,

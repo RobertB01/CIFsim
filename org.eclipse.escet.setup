@@ -36,7 +36,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.justj.version.major"
-      value="11"/>
+      value="17"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.justj.version.minor"
@@ -44,7 +44,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.justj.version.micro"
-      value="16"/>
+      value="5"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
