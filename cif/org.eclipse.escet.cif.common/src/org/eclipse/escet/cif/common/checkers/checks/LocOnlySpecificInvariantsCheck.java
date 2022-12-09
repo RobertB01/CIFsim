@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import java.util.EnumSet;
 
-import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
@@ -37,36 +36,15 @@ public class LocOnlySpecificInvariantsCheck extends CifCheck {
     /** Whether to allow state/event exclusion invariants in locations. */
     private final boolean allowStateEventExclusionInvariants;
 
-    /** Whether to ignore invariants that trivially hold. */
-    private final boolean ignoreTriviallyTrueInvariants;
-
     /**
      * Constructor of the {@link LocOnlySpecificInvariantsCheck} class.
-     *
-     * <p>
-     * Using this constructor causes the check to also report invariants that trivially hold.
-     * </p>
      *
      * @param allowStateInvariants Whether to allow state invariants in locations.
      * @param allowStateEventExclusionInvariants Whether to allow state/event exclusion invariants in locations.
      */
     public LocOnlySpecificInvariantsCheck(boolean allowStateInvariants, boolean allowStateEventExclusionInvariants) {
-        this(allowStateInvariants, allowStateEventExclusionInvariants, false);
-    }
-
-    /**
-     * Constructor of the {@link LocOnlySpecificInvariantsCheck} class.
-     *
-     * @param allowStateInvariants Whether to allow state invariants in locations.
-     * @param allowStateEventExclusionInvariants Whether to allow state/event exclusion invariants in locations.
-     * @param ignoreTriviallyTrueInvariants Whether to ignore invariants that trivially hold.
-     */
-    public LocOnlySpecificInvariantsCheck(boolean allowStateInvariants, boolean allowStateEventExclusionInvariants,
-            boolean ignoreTriviallyTrueInvariants)
-    {
         this.allowStateInvariants = allowStateInvariants;
         this.allowStateEventExclusionInvariants = allowStateEventExclusionInvariants;
-        this.ignoreTriviallyTrueInvariants = ignoreTriviallyTrueInvariants;
     }
 
     @Override
@@ -74,19 +52,15 @@ public class LocOnlySpecificInvariantsCheck extends CifCheck {
         // Note that location parameters never have invariants.
         for (Invariant inv: loc.getInvariants()) {
             if (!allowStateInvariants && inv.getInvKind() == InvKind.STATE) {
-                if (!ignoreTriviallyTrueInvariants || !CifValueUtils.isTriviallyTrue(inv.getPredicate(), false, true)) {
-                    // Report violation on the location, or on its automaton in case the location has no name.
-                    violations.add(loc, new ReportObjectTypeDescrMessage(), new LiteralMessage("has"),
-                            new IfReportOnAncestorMessage("a location with"), new LiteralMessage("a state invariant"));
-                }
+                // Report violation on the location, or on its automaton in case the location has no name.
+                violations.add(loc, new ReportObjectTypeDescrMessage(), new LiteralMessage("has"),
+                        new IfReportOnAncestorMessage("a location with"), new LiteralMessage("a state invariant"));
             }
             if (!allowStateEventExclusionInvariants && STATE_EVENT_EXCL_KINDS.contains(inv.getInvKind())) {
-                if (!ignoreTriviallyTrueInvariants || !CifValueUtils.isTriviallyTrue(inv.getPredicate(), false, true)) {
-                    // Report violation on the location, or on its automaton in case the location has no name.
-                    violations.add(loc, new ReportObjectTypeDescrMessage(), new LiteralMessage("has"),
-                            new IfReportOnAncestorMessage("a location with"),
-                            new LiteralMessage("a state/event exclusion invariant"));
-                }
+                // Report violation on the location, or on its automaton in case the location has no name.
+                violations.add(loc, new ReportObjectTypeDescrMessage(), new LiteralMessage("has"),
+                        new IfReportOnAncestorMessage("a location with"),
+                        new LiteralMessage("a state/event exclusion invariant"));
             }
         }
     }
