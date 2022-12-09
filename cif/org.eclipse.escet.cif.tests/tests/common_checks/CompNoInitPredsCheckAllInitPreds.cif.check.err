@@ -1,10 +1,10 @@
 ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "g_nontrivial" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 39, columns 7 .. 18): group contains an initialization predicate.
- - Unsupported "g_nontrivial.a" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 42, column 13): automaton contains an initialization predicate.
- - Unsupported "g_nontrivial.A" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 48, column 17): automaton definition contains an initialization predicate.
- - Unsupported "g_nontrivial.G" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 54, column 13): group definition contains an initialization predicate.
- - Unsupported "g_trivial" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 19, columns 7 .. 15): group contains an initialization predicate.
- - Unsupported "g_trivial.a" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 22, column 13): automaton contains an initialization predicate.
- - Unsupported "g_trivial.A" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 28, column 17): automaton definition contains an initialization predicate.
- - Unsupported "g_trivial.G" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 34, column 13): group definition contains an initialization predicate.
+ - Unsupported "g_nontrivial" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 38, columns 7 .. 18): group contains an initialization predicate.
+ - Unsupported "g_nontrivial.a" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 41, column 13): automaton contains an initialization predicate.
+ - Unsupported "g_nontrivial.A" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 47, column 17): automaton definition contains an initialization predicate.
+ - Unsupported "g_nontrivial.G" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 53, column 13): group definition contains an initialization predicate.
+ - Unsupported "g_trivial" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 18, columns 7 .. 15): group contains an initialization predicate.
+ - Unsupported "g_trivial.a" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 21, column 13): automaton contains an initialization predicate.
+ - Unsupported "g_trivial.A" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 27, column 17): automaton definition contains an initialization predicate.
+ - Unsupported "g_trivial.G" (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 33, column 13): group definition contains an initialization predicate.
  - Unsupported specification (File "common_checks/CompNoInitPredsCheckAllInitPreds.cif": line 1, column 1): the top level scope of the specification contains an initialization predicate.
