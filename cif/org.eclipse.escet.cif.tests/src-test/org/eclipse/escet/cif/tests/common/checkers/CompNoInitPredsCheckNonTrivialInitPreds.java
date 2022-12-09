@@ -15,7 +15,10 @@ package org.eclipse.escet.cif.tests.common.checkers;
 
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 
-/** {@link CompNoInitPredsCheck} class where only presence of initialization predicates is checked. */
+/**
+ * {@link CompNoInitPredsCheck} class where only presence of initialization predicates is checked that could block
+ * behavior.
+ */
 public class CompNoInitPredsCheckNonTrivialInitPreds extends CompNoInitPredsCheck {
     /** Constructor of the {@link CompNoInitPredsCheckNonTrivialInitPreds} class. */
     public CompNoInitPredsCheckNonTrivialInitPreds() {
