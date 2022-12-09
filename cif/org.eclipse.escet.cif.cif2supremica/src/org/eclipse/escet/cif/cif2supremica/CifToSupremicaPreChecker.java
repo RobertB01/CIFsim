@@ -71,21 +71,22 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 // introduce additional initialization predicates.
                 new AutOnlyWithOneInitLocCheck(),
 
-                // State/event exclusion invariants are transformed into automata and must have a kind.
-                //
-                // State invariants in components are only supported if they are requirement invariants.
-                //
-                // State invariants in locations are not supported. We would need to change 'invariant X' in location
-                // 'L' to 'invariant L => X' (in the automaton), but references to locations are not supported by the
-                // transformation. We do eliminate location references, so we could make a CIF to CIF transformation
-                // that lifts state invariants out of locations to the surrounding automaton, and apply that
-                // transformation before the elimination of location references.
                 new InvNoSpecificInvsCheck() //
+                        // Kindless state/event exclusion invariants are not supported, they must have a supervisory
+                        // kind.
                         .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE_EVENT,
                                 NoInvariantPlaceKind.ALL_PLACES) //
+
+                        // State invariants in components are only supported if they are requirement invariants.
                         .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
                         .disallow(NoInvariantSupKind.PLANT, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
                         .disallow(NoInvariantSupKind.SUPERVISOR, NoInvariantKind.STATE, NoInvariantPlaceKind.COMPONENTS) //
+
+                        // State invariants in locations are not supported. We would need to change 'invariant X' in
+                        // location 'L' to 'invariant L => X' (in the automaton), but references to locations are not
+                        // supported by the transformation. We do eliminate location references, so we could make a CIF
+                        // to CIF transformation that lifts state invariants out of locations to the surrounding
+                        // automaton, and apply that transformation before the elimination of location references.
                         .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE, NoInvariantPlaceKind.LOCATIONS),
 
                 // Discrete variables with multiple potential initial values are not supported. Actually, Supremica
