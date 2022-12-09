@@ -1,11 +1,11 @@
 WARNING: File "cif2supremica/invalid1.cif": Semantic warning at line 31, column 9: Automaton "g.p0" has no initial location.
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group contains an initialization predicate.
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a kindless state invariant.
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a kindless state/event exclusion invariant, lacking a supervisory kind.
  - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a marker predicate that is not of the form "discrete_variable = marked_value".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a plant state invariant.
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a supervisor state invariant.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): has a kindless state invariant in a component.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): has a kindless state/event exclusion invariant.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): has a plant state invariant in a component.
+ - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): has a supervisor state invariant in a component.
  - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[false, true]".
  - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[false]".
  - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[true]".
@@ -43,8 +43,8 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g.p0.x1" (File "cif2supremica/invalid1.cif": line 32, columns 20 .. 21): discrete variable has multiple predicates that specify its marked values.
  - Unsupported "g.p0.x2" (File "cif2supremica/invalid1.cif": line 33, columns 20 .. 21): discrete variable has multiple potential initial values (any value in its domain).
  - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): automaton has a location with a marker predicate that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): automaton has a location with a state invariant.
  - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
+ - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): has a state invariant in a location.
  - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".
  - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-2.0) > 0".
  - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses function call "sqrt(-1.0)".
@@ -57,7 +57,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses unary operator "-" on an operand of type "real" in unary expression "-2.0".
  - Unsupported "g.p2" (File "cif2supremica/invalid1.cif": line 62, columns 9 .. 10): automaton has multiple (2) initial locations.
  - Unsupported "g.snd" (File "cif2supremica/invalid1.cif": line 25, columns 9 .. 11): automaton has an urgent edge.
+ - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): has a kindless state invariant in a component.
+ - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): has a kindless state/event exclusion invariant.
  - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification contains an initialization predicate.
- - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification has a kindless state invariant.
- - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification has a kindless state/event exclusion invariant, lacking a supervisory kind.
  - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".
