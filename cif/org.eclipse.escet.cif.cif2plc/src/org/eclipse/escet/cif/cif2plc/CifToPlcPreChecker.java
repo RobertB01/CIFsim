@@ -57,7 +57,7 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
                 // Automata must have a single initial location.
                 new AutOnlyWithOneInitLocCheck(),
 
-                // Ignore the invariants that never block behavior and disallow all other state invariants.
+                // Disallow state invariants, except ones that never block behavior.
                 new InvNoSpecificInvsCheck() //
                         .ignoreNeverBlockingInvariants() //
                         .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE, NoInvariantPlaceKind.ALL_PLACES),
@@ -108,7 +108,7 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
                 // Disallow sampling.
                 new ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp.SAMPLE),
 
-                // Disallow element of, and subset operators. Allow conjunction and disjunction only on boolens, allow
+                // Disallow element of, and subset operators. Allow conjunction and disjunction only on booleans, allow
                 // equality only on booleans, integers, reals and enums, allow addition and subtraction only on integers
                 // and reals.
                 new ExprNoSpecificBinaryExprsCheck( //
