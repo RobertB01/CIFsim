@@ -24,7 +24,7 @@ import java.util.List;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
 import org.eclipse.escet.common.java.BitSets;
 
 /**

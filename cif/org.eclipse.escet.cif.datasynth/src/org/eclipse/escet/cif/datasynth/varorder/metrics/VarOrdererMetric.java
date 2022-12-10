@@ -11,13 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.datasynth.varorder.metrics;
 
 import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 
 /** Variable orderer metric. Lower metric values (heuristically) indicate better variable orders. */
 public interface VarOrdererMetric {

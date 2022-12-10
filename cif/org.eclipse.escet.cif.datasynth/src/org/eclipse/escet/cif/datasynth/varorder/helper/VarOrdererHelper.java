@@ -32,6 +32,8 @@ import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.WesMetric;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;

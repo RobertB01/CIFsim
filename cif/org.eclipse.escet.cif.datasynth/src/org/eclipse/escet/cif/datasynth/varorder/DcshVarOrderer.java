@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.datasynth.varorder;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
 
 /**
  * DSM-based Cuthill-McKee/Sloan variable ordering Heuristic (DCSH).
