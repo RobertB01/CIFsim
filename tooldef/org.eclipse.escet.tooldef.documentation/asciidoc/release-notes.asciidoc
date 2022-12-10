@@ -28,6 +28,8 @@ TBD
 
 Improvements and fixes:
 
+* The `filenewer` tool now only checks for modification time differences that are at least one millisecond (issue {escet-issue}259[#259]).
+* Small documentation improvement for the `filenewer` tool documentation (issue {escet-issue}456[#456]).
 * Normally, `.tooldef` files are opened with the ToolDef text editor.
 Large files are now however opened with the default non-ToolDef text editor to avoid performance issues.
 You can open a file in an editor of your choosing by right clicking it and selecting menu:Open With[] and then selecting the editor of your choosing, or choosing menu:Other...[] to open a dialog to choose from a larger selection of editors (issue {escet-issue}199[#199]).
