@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.datasynth.varorder.helper;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -211,50 +210,6 @@ public class VarOrdererHelper {
      */
     public void dbg(int dbgLevel, String msg, Object... args) {
         OutputProvider.dbg(Strings.spaces(dbgLevel * 2) + msg, args);
-    }
-
-    /**
-     * Compute the total span metric.
-     *
-     * @param order The variable order.
-     * @return The total span.
-     */
-    public long computeTotalSpanForVarOrder(List<SynthesisVariable> order) {
-        int[] newIndices = getNewIndicesForVarOrder(order);
-        return computeTotalSpanForNewIndices(newIndices);
-    }
-
-    /**
-     * Compute the total span metric.
-     *
-     * @param order The node order.
-     * @return The total span.
-     */
-    public long computeTotalSpanForNodeOrder(List<Node> order) {
-        int[] newIndices = getNewIndicesForNodeOrder(order);
-        return computeTotalSpanForNewIndices(newIndices);
-    }
-
-    /**
-     * Compute the Weighted Event Span (WES) metric.
-     *
-     * @param order The variable order.
-     * @return The Weighted Event Span (WES).
-     */
-    public double computeWesForVarOrder(List<SynthesisVariable> order) {
-        int[] newIndices = getNewIndicesForVarOrder(order);
-        return computeWesForNewIndices(newIndices);
-    }
-
-    /**
-     * Compute the Weighted Event Span (WES) metric.
-     *
-     * @param order The node order.
-     * @return The Weighted Event Span (WES).
-     */
-    public double computeWesForNodeOrder(List<Node> order) {
-        int[] newIndices = getNewIndicesForNodeOrder(order);
-        return computeWesForNewIndices(newIndices);
     }
 
     /**

@@ -16,6 +16,9 @@ package org.eclipse.escet.cif.datasynth.varorder.helper;
 import java.util.BitSet;
 import java.util.List;
 
+import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
+
 /** Variable orderer metric. Lower metric values (heuristically) indicate better variable orders. */
 public interface VarOrdererMetric {
     /**
@@ -26,4 +29,32 @@ public interface VarOrdererMetric {
      * @return The metric value.
      */
     public double computeForNewIndices(int[] newIndices, List<BitSet> hyperEdges);
+
+    /**
+     * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
+     *
+     * @param helper Helper for variable ordering algorithms.
+     * @param order The variable order.
+     * @param hyperEdges The hyper-edges to use to compute the metric value.
+     * @return The metric value.
+     */
+    public default double computeForVarOrder(VarOrdererHelper helper, List<SynthesisVariable> order,
+            List<BitSet> hyperEdges)
+    {
+        int[] newIndices = helper.getNewIndicesForVarOrder(order);
+        return computeForNewIndices(newIndices, hyperEdges);
+    }
+
+    /**
+     * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
+     *
+     * @param helper Helper for variable ordering algorithms.
+     * @param order The node order.
+     * @param hyperEdges The hyper-edges to use to compute the metric value.
+     * @return The metric value.
+     */
+    public default double computeForNodeOrder(VarOrdererHelper helper, List<Node> order, List<BitSet> hyperEdges) {
+        int[] newIndices = helper.getNewIndicesForNodeOrder(order);
+        return computeForNewIndices(newIndices, hyperEdges);
+    }
 }
