@@ -13,12 +13,15 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.helper;
 
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,9 +47,6 @@ import org.eclipse.escet.common.java.Strings;
  * </ul>
  */
 public class VarOrdererHelper {
-    /** The CIF specification. */
-    private final Specification spec;
-
     /** The synthesis variables, in their original order, before applying any algorithm on it. */
     private final List<SynthesisVariable> variables;
 
@@ -54,16 +54,17 @@ public class VarOrdererHelper {
     private final Map<SynthesisVariable, Integer> origIndices;
 
     /**
-     * The hyper-edges representation of the CIF specification. Each hyper-edge bitset represents related synthesis
-     * variables. Each bit in a hyper-edge bitset represents a synthesis variable.
+     * For each {@link RelationsKind} (outer list), the hyper-edges representing relations from the CIF specification
+     * (inner list). Each hyper-edge bitset represents related synthesis variables. Each bit in a hyper-edge bitset
+     * represents a synthesis variable.
      */
-    private final BitSet[] hyperEdges;
+    private final List<List<BitSet>> hyperEdges;
 
     /**
-     * The graph representation of the CIF specification. Each node represents a synthesis variable. Each edge
-     * represents a weighted relation between two different synthesis variables.
+     * For each {@link RelationsKind}, the graph representing relations from the CIF specification. Each node represents
+     * a synthesis variable. Each edge represents a weighted relation between two different synthesis variables.
      */
-    private final Graph graph;
+    private final List<Graph> graphs;
 
     /** The number of characters to use for printing the total span metric in debug output. */
     private final int metricLengthTotalSpan;
@@ -87,13 +88,25 @@ public class VarOrdererHelper {
      * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
      */
     public VarOrdererHelper(Specification spec, List<SynthesisVariable> variables) {
-        // Store the input.
-        this.spec = spec;
+        // Store the variables.
         this.variables = variables;
 
-        // Compute and store different representations of the specification.
-        this.hyperEdges = createHyperEdges();
-        this.graph = createGraph();
+        // Compute and store different representations of the relations from the specification.
+        List<BitSet> legacyHyperEdges = createHyperEdges(new LegacyHyperEdgeCreator(spec, variables));
+        List<BitSet> linearizedHyperEdges = createHyperEdges(new LinearizedHyperEdgeCreator(spec, variables));
+        List<BitSet> configuredHyperEdges = switch (BddHyperEdgeAlgoOption.getAlgo()) {
+            case LEGACY -> legacyHyperEdges;
+            case LINEARIZED -> linearizedHyperEdges;
+        };
+        this.hyperEdges = list(configuredHyperEdges, legacyHyperEdges, linearizedHyperEdges);
+
+        Graph legacyGraph = createGraph(legacyHyperEdges);
+        Graph linearizedGraph = createGraph(linearizedHyperEdges);
+        Graph configuredGraph = switch (BddHyperEdgeAlgoOption.getAlgo()) {
+            case LEGACY -> legacyGraph;
+            case LINEARIZED -> linearizedGraph;
+        };
+        this.graphs = list(configuredGraph, legacyGraph, linearizedGraph);
 
         // Store additional derivative information used to improve performance of some helper operations.
         this.origIndices = IntStream.range(0, variables.size()).boxed()
@@ -114,38 +127,24 @@ public class VarOrdererHelper {
      * Create hyper-edges representing relations between variables of the CIF specification. Each hyper-edge bitset
      * represents related synthesis variables. Each bit in a hyper-edge bitset represents a synthesis variable.
      *
+     * @param creator The hyper-edge creator to use to create the hyper-edges.
      * @return The hyper-edges.
      */
-    private BitSet[] createHyperEdges() {
-        // Create hyper-edge creation algorithm.
-        LegacyHyperEdgeCreator creator;
-        switch (BddHyperEdgeAlgoOption.getAlgo()) {
-            case LEGACY:
-                creator = new LegacyHyperEdgeCreator(spec, variables);
-                break;
-            case LINEARIZED:
-                creator = new LinearizedHyperEdgeCreator(spec, variables);
-                break;
-            default:
-                throw new AssertionError("Unknown algorithm: " + BddHyperEdgeAlgoOption.getAlgo());
-        }
-
-        // Create hyper-edges.
-        BitSet[] hyperEdges = creator.getHyperEdges().toArray(n -> new BitSet[n]);
-        for (BitSet hyperEdge: hyperEdges) {
-            Assert.check(!hyperEdge.isEmpty());
-        }
-        return hyperEdges;
+    private List<BitSet> createHyperEdges(HyperEdgeCreator creator) {
+        List<BitSet> hyperEdges = creator.getHyperEdges();
+        Assert.check(hyperEdges.stream().allMatch(edge -> !edge.isEmpty()));
+        return Collections.unmodifiableList(hyperEdges);
     }
 
     /**
      * Returns hyper-edges representing relations between variables of the CIF specification. Each hyper-edge bitset
      * represents related synthesis variables. Each bit in a hyper-edge bitset represents a synthesis variable.
      *
+     * @param relationsKind The kind of relations for which to return the hyper-edges.
      * @return The hyper-edges.
      */
-    public BitSet[] getHyperEdges() {
-        return hyperEdges;
+    public List<BitSet> getHyperEdges(RelationsKind relationsKind) {
+        return hyperEdges.get(relationsKind.ordinal());
     }
 
     /**
@@ -153,12 +152,13 @@ public class VarOrdererHelper {
      * Each node represents a synthesis variable. Each edge represents a weighted relation between two different
      * synthesis variables.
      *
+     * @param hyperEdges The hyper-edges from which to create the graph.
      * @return The graph.
      */
-    private Graph createGraph() {
+    private Graph createGraph(List<BitSet> hyperEdges) {
         // Compute weighted graph edges. The number of times two variables occur together in a hyper-edge determines
         // the weight of the graph edge between the two variables.
-        Map<Pair<Integer, Integer>, Integer> graphEdges = mapc(hyperEdges.length);
+        Map<Pair<Integer, Integer>, Integer> graphEdges = mapc(hyperEdges.size());
         for (BitSet edge: hyperEdges) {
             for (int i: BitSets.iterateTrueBits(edge)) {
                 for (int j: BitSets.iterateTrueBits(edge, i + 1)) {
@@ -185,10 +185,11 @@ public class VarOrdererHelper {
      * Each node represents a synthesis variable. Each edge represents a weighted relation between two different
      * synthesis variables.
      *
+     * @param relationsKind The kind of relations for which to return the graph.
      * @return The graph.
      */
-    public Graph getGraph() {
-        return graph;
+    public Graph getGraph(RelationsKind relationsKind) {
+        return graphs.get(relationsKind.ordinal());
     }
 
     /**
