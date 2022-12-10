@@ -13,18 +13,17 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.helper;
 
+import java.util.BitSet;
 import java.util.List;
-
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 
 /** Variable orderer metric. Lower metric values (heuristically) indicate better variable orders. */
 public interface VarOrdererMetric {
     /**
      * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
      *
-     * @param helper Helper for variable ordering algorithms.
-     * @param order The variable order.
+     * @param newIndices For each variable, its new 0-based index.
+     * @param hyperEdges The hyper-edges to use to compute the metric value.
      * @return The metric value.
      */
-    public double compute(VarOrdererHelper helper, List<SynthesisVariable> order);
+    public double computeForNewIndices(int[] newIndices, List<BitSet> hyperEdges);
 }

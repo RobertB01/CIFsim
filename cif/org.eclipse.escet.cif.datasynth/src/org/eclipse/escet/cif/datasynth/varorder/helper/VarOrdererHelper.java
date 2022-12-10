@@ -236,32 +236,6 @@ public class VarOrdererHelper {
     }
 
     /**
-     * Compute the total span metric.
-     *
-     * @param newIndices For each variable, its new 0-based index.
-     * @return The total span.
-     */
-    public long computeTotalSpanForNewIndices(int[] newIndices) {
-        // Total span is the sum of the span of the edges.
-        long totalSpan = 0;
-        for (BitSet edge: hyperEdges) {
-            // Get minimum and maximum index of the vertices of the edge.
-            int minIdx = Integer.MAX_VALUE;
-            int maxIdx = 0;
-            for (int i: BitSets.iterateTrueBits(edge)) {
-                int newIdx = newIndices[i];
-                minIdx = Math.min(minIdx, newIdx);
-                maxIdx = Math.max(maxIdx, newIdx);
-            }
-
-            // Get span of the edge and update total span.
-            int span = maxIdx - minIdx;
-            totalSpan += span;
-        }
-        return totalSpan;
-    }
-
-    /**
      * Compute the Weighted Event Span (WES) metric.
      *
      * @param order The variable order.
@@ -281,46 +255,6 @@ public class VarOrdererHelper {
     public double computeWesForNodeOrder(List<Node> order) {
         int[] newIndices = getNewIndicesForNodeOrder(order);
         return computeWesForNewIndices(newIndices);
-    }
-
-    /**
-     * Compute the Weighted Event Span (WES) metric.
-     *
-     * @param newIndices For each variable, its new 0-based index.
-     * @return The Weighted Event Span (WES).
-     */
-    public double computeWesForNewIndices(int[] newIndices) {
-        // This method is based on formula 7 from: Sam Lousberg, Sander Thuijsman and Michel Reniers, "DSM-based
-        // variable ordering heuristic for reduced computational effort of symbolic supervisor synthesis",
-        // IFAC-PapersOnLine, volume 53, issue 4, pages 429-436, 2020, https://doi.org/10.1016/j.ifacol.2021.04.058.
-        //
-        // The formula is: WES = SUM_{e in E} (2 * x_b) / |x| * (x_b - x_t + 1) / (|x| * |E|)
-        // Where:
-        // 1) 'E' is the set of edges. We use the hyper-edges.
-        // 2) 'x' the current-state variables. We use the synthesis variables.
-        // 3) 'x_b'/'x_t' the indices of the bottom/top BDD-variable in 'T_e(X)', the transition relation of edge 'e'.
-        // Note that we use hyper-edges as edges. Also, variables in the variable order with lower indices are higher
-        // (less deep, closer to the root) in the BDDs, while variables with higher indices are lower (deeper, closer
-        // to the leafs) in the BDDs. Therefore, we use for each hyper-edge: the highest index of a variable with an
-        // enabled bit in that hyper-edge as 'x_b', and the lowest index of a variable with an enabled bit in that
-        // hyper-edge as 'x_t'.
-        double nx = variables.size();
-        double nE = hyperEdges.length;
-        double wes = 0;
-        for (BitSet edge: hyperEdges) {
-            // Compute 'x_t' and 'x_b' for this edge.
-            int xT = Integer.MAX_VALUE;
-            int xB = 0;
-            for (int i: BitSets.iterateTrueBits(edge)) {
-                int newIdx = newIndices[i];
-                xT = Math.min(xT, newIdx);
-                xB = Math.max(xB, newIdx);
-            }
-
-            // Update WES for this edge.
-            wes += (2 * xB) / nx * (xB - xT + 1) / (nx * nE);
-        }
-        return wes;
     }
 
     /**
