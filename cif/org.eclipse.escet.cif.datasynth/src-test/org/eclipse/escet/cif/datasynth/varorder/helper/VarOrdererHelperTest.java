@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
@@ -141,12 +140,11 @@ public class VarOrdererHelperTest {
 
         // Test hyper-edges: c/e (invariant), a/b (guard), b/a (guard), a/c (guard), c/d (update), c/d (update), c/d
         // (update), a/b/c/d (event c_e).
-        BitSet[] hyperEdges = helper.getHyperEdges();
-        assertEquals("[{2, 4}, {0, 1}, {0, 1}, {0, 2}, {2, 3}, {2, 3}, {2, 3}, {0, 1, 2, 3}]",
-                Arrays.toString(hyperEdges));
+        List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.LEGACY);
+        assertEquals("[{2, 4}, {0, 1}, {0, 1}, {0, 2}, {2, 3}, {2, 3}, {2, 3}, {0, 1, 2, 3}]", hyperEdges.toString());
 
         // Test graph edges: (b, 3, a), (a, 2, c), (a, 1, d), (b, 1, c), (b, 1, d), (c, 4, d), (c, 1, e).
-        Graph graph = helper.getGraph();
+        Graph graph = helper.getGraph(RelationsKind.LEGACY);
         String expectedGraphText = String.join("\n", list( //
                 ".321.", //
                 "3.11.", //
@@ -160,20 +158,20 @@ public class VarOrdererHelperTest {
         // WES = 8/5*3/40 + 2/5*2/40 + 2/5*2/40 + 4/5*3/40 + 6/5*2/40 + 6/5*2/40 + 6/5*2/40 + 6/5*4/40 = 0.52.
         int[] defaultIndices = {0, 1, 2, 3, 4}; // For each variable in 'variables', its new 0-based index.
         assertEquals("Total span:   12 (total)   1.50 (avg/edge) / WES:   0.520000 (total)   0.065000 (avg/edge) [x]",
-                helper.fmtMetrics(defaultIndices, "x"));
+                helper.fmtMetrics(defaultIndices, "x", RelationsKind.LEGACY));
 
         // Test metrics for reverse order.
         // Total span: unchanged from original order.
         // WES = 4/5*3/40 + 8/5*2/40 + 8/5*2/40 + 8/5*3/40 + 4/5*2/40 + 4/5*2/40 + 4/5*2/40 + 8/5*4/40 = 0.52.
         int[] reverseIndices = {4, 3, 2, 1, 0}; // For each variable in 'variables', its new 0-based index.
         assertEquals("Total span:   12 (total)   1.50 (avg/edge) / WES:   0.620000 (total)   0.077500 (avg/edge) [x]",
-                helper.fmtMetrics(reverseIndices, "x"));
+                helper.fmtMetrics(reverseIndices, "x", RelationsKind.LEGACY));
 
         // Test metrics for a random order.
         // Total span: 2 + 4 + 4 + 1 + 1 + 1 + 1 + 4 = 18.
         // WES: 6/5*3/40 + 8/5*5/40 + 8/5*5/40 + 2/5*2/40 + 4/5*2/40 + 4/5*2/40 + 4/5*2/40 + 8/5*5/40 = 0.83.
         int[] randomIndices = {0, 4, 1, 2, 3}; // For each variable in 'variables', its new 0-based index.
         assertEquals("Total span:   18 (total)   2.25 (avg/edge) / WES:   0.830000 (total)   0.103750 (avg/edge) [x]",
-                helper.fmtMetrics(randomIndices, "x"));
+                helper.fmtMetrics(randomIndices, "x", RelationsKind.LEGACY));
     }
 }
