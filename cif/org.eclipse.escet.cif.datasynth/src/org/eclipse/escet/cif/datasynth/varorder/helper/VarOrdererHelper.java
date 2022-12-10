@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth.varorder.helper;
 
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -65,20 +66,29 @@ public class VarOrdererHelper {
      */
     private final List<Graph> graphs;
 
-    /** The number of characters to use for printing the total span metric in debug output. */
-    private final int metricLengthTotalSpan;
-
-    /** The number of characters to use for printing the total span metric, as average per edge, in debug output. */
-    private final int metricLengthTotalSpanAvg;
-
-    /** The number of characters to use for printing the Weighted Event Span (WES) metric in debug output. */
-    private final int metricLengthWes;
-
     /**
-     * The number of characters to use for printing the Weighted Event Span (WES) metric, as average per edge, in debug
+     * For each {@link RelationsKind}, the number of characters to use for printing the total span metric in debug
      * output.
      */
-    private final int metricLengthWesAvg;
+    private final List<Integer> metricLengthsTotalSpan = listc(RelationsKind.values().length);
+
+    /**
+     * For each {@link RelationsKind}, the number of characters to use for printing the total span metric, as average
+     * per edge, in debug output.
+     */
+    private final List<Integer> metricLengthsTotalSpanAvg = listc(RelationsKind.values().length);
+
+    /**
+     * For each {@link RelationsKind}, the number of characters to use for printing the Weighted Event Span (WES) metric
+     * in debug output.
+     */
+    private final List<Integer> metricLengthsWes = listc(RelationsKind.values().length);
+
+    /**
+     * For each {@link RelationsKind}, the number of characters to use for printing the Weighted Event Span (WES)
+     * metric, as average per edge, in debug output.
+     */
+    private final List<Integer> metricLengthsWesAvg = listc(RelationsKind.values().length);
 
     /**
      * Constructor for the {@link VarOrdererHelper} class.
@@ -115,11 +125,14 @@ public class VarOrdererHelper {
         // current value of each metric, and allow for two additional characters. Based on the assumption that the
         // metrics won't get a 100 times worse, this should provide enough space to neatly print them. If they do get
         // over a 100 times worse, printing may be slightly less neat, but will still work.
-        this.metricLengthTotalSpan = fmt("%,d", computeTotalSpanForVarOrder(variables)).length() + 2;
-        this.metricLengthTotalSpanAvg = fmt("%,.2f", (double)computeTotalSpanForVarOrder(variables) / hyperEdges.length)
-                .length() + 2;
-        this.metricLengthWes = fmt("%,.6f", computeWesForVarOrder(variables)).length() + 2;
-        this.metricLengthWesAvg = fmt("%,.6f", computeWesForVarOrder(variables) / hyperEdges.length).length() + 2;
+        for (List<BitSet> edges: hyperEdges) {
+            int[] indices = getNewIndicesForVarOrder(variables);
+            this.metricLengthsTotalSpan.add(fmt("%,d", TotalSpanMetric.compute(indices, edges)).length() + 2);
+            this.metricLengthsTotalSpanAvg
+                    .add(fmt("%,.2f", (double)TotalSpanMetric.compute(indices, edges) / edges.size()).length() + 2);
+            this.metricLengthsWes.add(fmt("%,.6f", WesMetric.compute(indices, edges)).length() + 2);
+            this.metricLengthsWesAvg.add(fmt("%,.6f", WesMetric.compute(indices, edges) / edges.size()).length() + 2);
+        }
     }
 
     /**
@@ -218,10 +231,13 @@ public class VarOrdererHelper {
      * @param dbgLevel The debug indentation level.
      * @param order The variable order.
      * @param annotation A human-readable text indicating the reason for printing the metrics.
+     * @param relationsKind The relations to use to compute metric values.
      */
-    public void dbgMetricsForVarOrder(int dbgLevel, List<SynthesisVariable> order, String annotation) {
+    public void dbgMetricsForVarOrder(int dbgLevel, List<SynthesisVariable> order, String annotation,
+            RelationsKind relationsKind)
+    {
         int[] newIndices = getNewIndicesForVarOrder(order);
-        dbgMetricsForNewIndices(dbgLevel, newIndices, annotation);
+        dbgMetricsForNewIndices(dbgLevel, newIndices, annotation, relationsKind);
     }
 
     /**
@@ -230,10 +246,11 @@ public class VarOrdererHelper {
      * @param dbgLevel The debug indentation level.
      * @param order The node order.
      * @param annotation A human-readable text indicating the reason for printing the metrics.
+     * @param relationsKind The relations to use to compute metric values.
      */
-    public void dbgMetricsForNodeOrder(int dbgLevel, List<Node> order, String annotation) {
+    public void dbgMetricsForNodeOrder(int dbgLevel, List<Node> order, String annotation, RelationsKind relationsKind) {
         int[] newIndices = getNewIndicesForNodeOrder(order);
-        dbgMetricsForNewIndices(dbgLevel, newIndices, annotation);
+        dbgMetricsForNewIndices(dbgLevel, newIndices, annotation, relationsKind);
     }
 
     /**
@@ -242,9 +259,12 @@ public class VarOrdererHelper {
      * @param dbgLevel The debug indentation level.
      * @param newIndices For each variable, its new 0-based index.
      * @param annotation A human-readable text indicating the reason for printing the metrics.
+     * @param relationsKind The relations to use to compute metric values.
      */
-    public void dbgMetricsForNewIndices(int dbgLevel, int[] newIndices, String annotation) {
-        String msg = fmtMetrics(newIndices, annotation);
+    public void dbgMetricsForNewIndices(int dbgLevel, int[] newIndices, String annotation,
+            RelationsKind relationsKind)
+    {
+        String msg = fmtMetrics(newIndices, annotation, relationsKind);
         dbg(dbgLevel, msg);
     }
 
@@ -253,15 +273,19 @@ public class VarOrdererHelper {
      *
      * @param newIndices For each variable, its new 0-based index.
      * @param annotation A human-readable text indicating the reason for formatting the metrics.
+     * @param relationsKind The relations to use to compute metric values.
      * @return The formatted metrics.
      */
-    public String fmtMetrics(int[] newIndices, String annotation) {
-        long totalSpan = computeTotalSpanForNewIndices(newIndices);
-        double wes = computeWesForNewIndices(newIndices);
-        String fmtTotalSpan = fmt("%," + metricLengthTotalSpan + "d", totalSpan);
-        String fmtTotalSpanAvg = fmt("%," + metricLengthTotalSpanAvg + ".2f", (double)totalSpan / hyperEdges.length);
-        String fmtWes = fmt("%," + metricLengthWes + ".6f", wes);
-        String fmtWesAvg = fmt("%," + metricLengthWesAvg + ".6f", wes / hyperEdges.length);
+    public String fmtMetrics(int[] newIndices, String annotation, RelationsKind relationsKind) {
+        List<BitSet> hyperEdges = getHyperEdges(relationsKind);
+        long totalSpan = TotalSpanMetric.compute(newIndices, hyperEdges);
+        double wes = WesMetric.compute(newIndices, hyperEdges);
+        String fmtTotalSpan = fmt("%," + metricLengthsTotalSpan.get(relationsKind.ordinal()) + "d", totalSpan);
+        String fmtTotalSpanAvg = fmt("%," + metricLengthsTotalSpanAvg.get(relationsKind.ordinal()) + ".2f",
+                (double)totalSpan / hyperEdges.size());
+        String fmtWes = fmt("%," + metricLengthsWes.get(relationsKind.ordinal()) + ".6f", wes);
+        String fmtWesAvg = fmt("%," + metricLengthsWesAvg.get(relationsKind.ordinal()) + ".6f",
+                wes / hyperEdges.size());
         return fmt("Total span: %s (total) %s (avg/edge) / WES: %s (total) %s (avg/edge) [%s]", fmtTotalSpan,
                 fmtTotalSpanAvg, fmtWes, fmtWesAvg, annotation);
     }
