@@ -15,6 +15,11 @@
 import "wolf_goat_cabbage.actions.cif";
 import "wolf_goat_cabbage.visualization.cif";
 
+// Placeholders for game state.
+group boat:
+  input bool isEmpty;
+end
+
 // Dummy automaton/action for when clicking an interactive SVG element has no effect.
 event no_action;
 
@@ -25,16 +30,16 @@ automaton disabled_actions:
 end
 
 // Allow playing the game by clicking objects.
-svgin id "wolf1"        event if boat.atBank = 1: c_wolfIn    else no_action end;
-svgin id "goat1"        event if boat.atBank = 1: c_goatIn    else no_action end;
-svgin id "cabbage1"     event if boat.atBank = 1: c_cabbageIn else no_action end;
+svgin id "wolf1"        event if boat.atBank = 1 and boat.isEmpty: c_wolfIn    else no_action end;
+svgin id "goat1"        event if boat.atBank = 1 and boat.isEmpty: c_goatIn    else no_action end;
+svgin id "cabbage1"     event if boat.atBank = 1 and boat.isEmpty: c_cabbageIn else no_action end;
 
-svgin id "wolf-boat"    event                     c_wolfOut;
-svgin id "goat-boat"    event                     c_goatOut;
-svgin id "cabbage-boat" event                     c_cabbageOut;
+svgin id "wolf-boat"    event                                      c_wolfOut;
+svgin id "goat-boat"    event                                      c_goatOut;
+svgin id "cabbage-boat" event                                      c_cabbageOut;
 
-svgin id "wolf2"        event if boat.atBank = 2: c_wolfIn    else no_action end;
-svgin id "goat2"        event if boat.atBank = 2: c_goatIn    else no_action end;
-svgin id "cabbage2"     event if boat.atBank = 2: c_cabbageIn else no_action end;
+svgin id "wolf2"        event if boat.atBank = 2 and boat.isEmpty: c_wolfIn    else no_action end;
+svgin id "goat2"        event if boat.atBank = 2 and boat.isEmpty: c_goatIn    else no_action end;
+svgin id "cabbage2"     event if boat.atBank = 2 and boat.isEmpty: c_cabbageIn else no_action end;
 
-svgin id "boat"         event                     c_toOtherBank;
+svgin id "boat"         event                                      c_toOtherBank;
