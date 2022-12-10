@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.datasynth.varorder;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
+import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
 
@@ -31,17 +32,18 @@ public class DcshVarOrderer extends ChoiceVarOrderer {
     /**
      * Constructor for the {@link DcshVarOrderer} class.
      *
+     * @param nodeFinder The pseudo-peripheral node finder to use.
      * @param metric The metric to use to pick the best order.
      * @param relationsKind The relations to use to compute metric values.
      */
-    public DcshVarOrderer(VarOrdererMetric metric, RelationsKind relationsKind) {
+    public DcshVarOrderer(PseudoPeripheralNodeFinder nodeFinder, VarOrdererMetric metric, RelationsKind relationsKind) {
         super("DCSH", list(
                 // First algorithm.
-                new WeightedCuthillMcKeeVarOrderer(relationsKind),
+                new WeightedCuthillMcKeeVarOrderer(nodeFinder, relationsKind),
                 // Second algorithm.
                 new SloanVarOrderer(relationsKind),
                 // Reverse first algorithm.
-                new ReverseVarOrderer(new WeightedCuthillMcKeeVarOrderer(relationsKind), relationsKind),
+                new ReverseVarOrderer(new WeightedCuthillMcKeeVarOrderer(nodeFinder, relationsKind), relationsKind),
                 // Reverse second algorithm.
                 new ReverseVarOrderer(new SloanVarOrderer(relationsKind), relationsKind)),
                 // Other settings.

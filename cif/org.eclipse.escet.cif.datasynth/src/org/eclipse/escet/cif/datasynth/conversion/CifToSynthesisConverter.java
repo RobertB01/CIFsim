@@ -100,6 +100,7 @@ import org.eclipse.escet.cif.datasynth.varorder.SequentialVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.SlidingWindowVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.VarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
+import org.eclipse.escet.cif.datasynth.varorder.graph.algos.GeorgeLiuPseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
@@ -843,7 +844,8 @@ public class CifToSynthesisConverter {
         // Get algorithms to apply.
         List<VarOrderer> orderers = list();
         if (BddDcshVarOrderOption.isEnabled()) {
-            orderers.add(new DcshVarOrderer(new WesMetric(), RelationsKind.CONFIGURED));
+            orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
+                    RelationsKind.CONFIGURED));
         }
         if (BddForceVarOrderOption.isEnabled()) {
             orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
