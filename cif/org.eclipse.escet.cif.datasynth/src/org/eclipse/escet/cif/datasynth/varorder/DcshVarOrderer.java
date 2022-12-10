@@ -15,7 +15,8 @@ package org.eclipse.escet.cif.datasynth.varorder;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererMetric;
 
 /**
  * DSM-based Cuthill-McKee/Sloan variable ordering Heuristic (DCSH).
@@ -27,13 +28,23 @@ import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
  * </p>
  */
 public class DcshVarOrderer extends ChoiceVarOrderer {
-    /** Constructor for the {@link DcshVarOrderer} class. */
-    public DcshVarOrderer() {
-        super("DCSH", list( //
-                new WeightedCuthillMcKeeVarOrderer(), // First algorithm.
-                new SloanVarOrderer(), // Second algorithm.
-                new ReverseVarOrderer(new WeightedCuthillMcKeeVarOrderer()), // Reverse first algorithm.
-                new ReverseVarOrderer(new SloanVarOrderer()) // Reverse second algorithm.
-        ), VarOrdererHelper::computeWesForVarOrder);
+    /**
+     * Constructor for the {@link DcshVarOrderer} class.
+     *
+     * @param metric The metric to use to pick the best order.
+     * @param relationsKind The relations to use to compute metric values.
+     */
+    public DcshVarOrderer(VarOrdererMetric metric, RelationsKind relationsKind) {
+        super("DCSH", list(
+                // First algorithm.
+                new WeightedCuthillMcKeeVarOrderer(relationsKind),
+                // Second algorithm.
+                new SloanVarOrderer(relationsKind),
+                // Reverse first algorithm.
+                new ReverseVarOrderer(new WeightedCuthillMcKeeVarOrderer(relationsKind), relationsKind),
+                // Reverse second algorithm.
+                new ReverseVarOrderer(new SloanVarOrderer(relationsKind), relationsKind)),
+                // Other settings.
+                metric, relationsKind);
     }
 }

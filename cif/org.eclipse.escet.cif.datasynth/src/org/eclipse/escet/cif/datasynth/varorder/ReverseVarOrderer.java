@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 
 /** Variable ordering algorithm that returns the reverse order of another algorithm. */
@@ -24,13 +25,18 @@ public class ReverseVarOrderer implements VarOrderer {
     /** The algorithm to apply. */
     private final VarOrderer algorithm;
 
+    /** The relations to use to compute metric values. */
+    private final RelationsKind relationsKind;
+
     /**
      * Constructor for the {@link ReverseVarOrderer} class.
      *
      * @param algorithm The algorithm to apply.
+     * @param relationsKind The relations to use to compute metric values.
      */
-    public ReverseVarOrderer(VarOrderer algorithm) {
+    public ReverseVarOrderer(VarOrderer algorithm, RelationsKind relationsKind) {
         this.algorithm = algorithm;
+        this.relationsKind = relationsKind;
     }
 
     @Override
@@ -51,7 +57,7 @@ public class ReverseVarOrderer implements VarOrderer {
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Reversed the variable order.");
-            helper.dbgMetricsForVarOrder(dbgLevel, order, "reversed");
+            helper.dbgMetricsForVarOrder(dbgLevel, order, "reversed", relationsKind);
         }
 
         // Return the resulting variable order.

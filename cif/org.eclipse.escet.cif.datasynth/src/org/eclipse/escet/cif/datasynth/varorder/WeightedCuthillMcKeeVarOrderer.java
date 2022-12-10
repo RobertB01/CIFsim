@@ -19,6 +19,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.WeightedCuthillMcKeeNodeOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 
 /**
@@ -27,17 +28,29 @@ import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
  * @see WeightedCuthillMcKeeNodeOrderer
  */
 public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
+    /** The relations to use to obtain the graph and to compute metric values. */
+    private final RelationsKind relationsKind;
+
+    /**
+     * Constructor for the {@link WeightedCuthillMcKeeVarOrderer} class.
+     *
+     * @param relationsKind The relations to use to obtain the graph and to compute metric values.
+     */
+    public WeightedCuthillMcKeeVarOrderer(RelationsKind relationsKind) {
+        this.relationsKind = relationsKind;
+    }
+
     @Override
     public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel)
     {
         // Get graph.
-        Graph graph = helper.getGraph();
+        Graph graph = helper.getGraph(relationsKind);
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Applying Weighted Cuthill-McKee algorithm.");
-            helper.dbgMetricsForVarOrder(dbgLevel, inputOrder, "before");
+            helper.dbgMetricsForVarOrder(dbgLevel, inputOrder, "before", relationsKind);
         }
 
         // Apply algorithm.
@@ -45,7 +58,7 @@ public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNodeOrder(dbgLevel, order, "after");
+            helper.dbgMetricsForNodeOrder(dbgLevel, order, "after", relationsKind);
         }
 
         // Return the resulting order.
