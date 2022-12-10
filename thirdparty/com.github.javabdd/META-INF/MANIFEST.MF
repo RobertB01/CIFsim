@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.github.javabdd;singleton:=true
 Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: com.github.javabdd
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/com.github.javabdd-3.0.0.jar
 Export-Package: com.github.javabdd

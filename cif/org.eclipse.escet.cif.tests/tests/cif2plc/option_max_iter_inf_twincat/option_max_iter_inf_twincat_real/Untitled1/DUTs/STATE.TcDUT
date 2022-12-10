@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <DUT Name="STATE">
-    <Declaration>
-      <![CDATA[TYPE STATE:
+    <Declaration><![CDATA[TYPE STATE:
     STRUCT
         curTime: LREAL;
         dvar_M_p_x AT %Q*: DINT;
         cvar_M_p_t AT %Q*: LREAL;
     END_STRUCT
-END_TYPE]]>
-    </Declaration>
+END_TYPE]]></Declaration>
     <ObjectProperties/>
   </DUT>
 </TcPlcObject>

@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation&#xA;&#xA;See the NOTICE file(s) distributed with this work for additional&#xA;information regarding copyright ownership.&#xA;&#xA;This program and the accompanying materials are made available under the terms&#xA;of the MIT License which is available at https://opensource.org/licenses/MIT&#xA;&#xA;SPDX-License-Identifier: MIT&#xA;&#xA;Disable Eclipse Java formatter for generated code file:&#xA;@formatter:off"
     modelDirectory="/org.eclipse.escet.cif.metamodel/src-gen" editDirectory="" editorDirectory=""
     modelPluginID="org.eclipse.escet.cif.metamodel" modelName="Cif" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
+    testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0"
     copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.genmodel#//position"
     operationReflection="true" importOrganizing="true">
   <foreignModel>cif.ecore</foreignModel>

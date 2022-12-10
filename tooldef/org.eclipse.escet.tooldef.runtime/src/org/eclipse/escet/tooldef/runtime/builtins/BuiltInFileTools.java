@@ -435,7 +435,8 @@ public class BuiltInFileTools {
     }
 
     /**
-     * Checks whether a file is newer (was modified at a later date/time) than some reference files.
+     * Checks whether a file is newer (was modified at a later date/time) than some reference files. The minimum
+     * modification time difference that can be detected is 1 millisecond.
      *
      * @param path The absolute or relative local file system path of the file for which to check whether it is newer
      *     than the reference files. May contain both {@code "\"} and {@code "/"} as path separators.
@@ -448,7 +449,7 @@ public class BuiltInFileTools {
      * @return {@code false} if the first file does not exist (if allowed by enabling {@code allowNonExisting}), if the
      *     first file is older than any the reference files, or if the first file has the same last change date as any
      *     of the reference files and {@code sameAsNewer} is disabled. {@code true} if the first file is newer than all
-     *     of the reference files, if the first file has the same last change date as some the reference files and
+     *     of the reference files, if the first file has the same last change date as some of the reference files and
      *     {@code sameAsNewer} is enabled and is newer than all of the other reference files, or if the first file has
      *     the same last change date as all the reference files and {@code sameAsNewer} is enabled.
      * @throws ToolDefException If the first file does not exist and {@code allowNonExisting} is disabled, if any of the
@@ -501,6 +502,10 @@ public class BuiltInFileTools {
             throw new ToolDefException(msg, ex);
         }
 
+        // If a file is copied, it may loose modification time precision. To still obtain equal modification times in
+        // such cases, convert to milliseconds.
+        long filetimeMillis = filetime.toMillis();
+
         for (int i = 0; i < refpaths.size(); i++) {
             FileTime reftime;
             try {
@@ -511,10 +516,12 @@ public class BuiltInFileTools {
                 throw new ToolDefException(msg, ex);
             }
 
-            if (filetime.compareTo(reftime) < 0) {
+            long reftimeMillis = reftime.toMillis();
+
+            if (filetimeMillis < reftimeMillis) {
                 return false;
             }
-            if (filetime.compareTo(reftime) == 0 && !sameAsNewer) {
+            if (filetimeMillis == reftimeMillis && !sameAsNewer) {
                 return false;
             }
         }

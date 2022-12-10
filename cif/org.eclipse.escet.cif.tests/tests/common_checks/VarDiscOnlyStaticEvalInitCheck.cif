@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton A:
+  disc real v1 = sqrt(-1.0);
+  disc real v2 in {sqrt(-1.0), sqrt(-1.0)};
+  disc real v3 in {1.0, sqrt(-1.0), sqrt(-1.0), 2.0};
+  disc bool v4 = (v1 = v2);
+  disc bool v5 in {(v1 = v2), (v1 = v2)};
+  disc real v6 in any;
+  disc real v7;
+  location:
+    initial;
+end
+
+func bool F(real v8):
+    real v9 = sqrt(-1.0);
+    return v8 > v9;
+end

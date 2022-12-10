@@ -155,7 +155,8 @@ public class CifToUppaal {
         new EnumsToInts().transform(spec);
 
         // Check preconditions.
-        new CifToUppaalPreChecker().check(spec);
+        CifToUppaalPreChecker checker = new CifToUppaalPreChecker();
+        checker.reportPreconditionViolations(spec, "CIF to UPPAAL transformation");
 
         // Collect various things from the CIF specification.
         List<Event> events = list();

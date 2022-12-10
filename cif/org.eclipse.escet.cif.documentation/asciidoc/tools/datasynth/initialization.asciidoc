@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,initialization]
+
+[[tools-datasynth-init]]
+== Initialization
+
+The data-based synthesis algorithm ensures that in the controlled system, the state requirement invariants hold in all reachable states.
+It also ensures that in the controlled system, for all transitions from reachable states, the events only occur if the requirement automata and state/event exclusion invariants allow them.
+
+The synthesis algorithm does not restrict any uncontrollable events.
+Instead, such restrictions are propagated backwards to the source state of the edge with the uncontrollable event, and from there to the transitions that lead to the source state, etc.
+They are propagated backwards until an edge with a controllable event is encountered (for which the guard can be restricted) or the initial state is reached (and the initialization predicate can be restricted).
+
+If a variable in the uncontrolled system has a single initial value, and the initialization predicate is restricted to not allow this initial value, initialization will be impossible, causing an _empty supervisor_ error.
+For discrete variables with <<lang-tut-data-discvar-init-multiple,multiple potential initial values>>, the synthesis algorithm may restrict initialization to disallow certain initial values, while still leaving possibilities for initialization.
+For discrete variables declared to initially have an <<lang-tut-data-discvar-init-any,arbitrary>> initial value, as well as for input variables, the synthesis algorithm essentially determines under which conditions the system can be started, and still exhibits only safe, non-blocking behavior.
+
+If the controlled system requires more strict initialization than the uncontrolled system, an additional initialization predicate is added to the resulting supervisor.
+The exact predicate may differ, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.

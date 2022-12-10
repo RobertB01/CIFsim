@@ -15,11 +15,13 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTypeUtils.isAutRefExpr;
+import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 
 import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
@@ -38,6 +40,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.DictExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ExpressionsPackage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FieldExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionExpression;
@@ -69,9 +72,13 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
+import org.eclipse.escet.common.java.Assert;
 
 /** CIF check that does not allow certain expressions. */
 public class ExprNoSpecificExprsCheck extends CifCheck {
+    /** {@link FunctionCallExpression}.{@link FunctionCallExpression#getFunction() function} metamodel feature. */
+    private static final EReference FCE_FUNC_REF = ExpressionsPackage.eINSTANCE.getFunctionCallExpression_Function();
+
     /** The expressions to disallow. */
     private final EnumSet<NoSpecificExpr> disalloweds;
 
@@ -102,26 +109,54 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessFunctionExpression(FunctionExpression userDefFuncRef, CifCheckViolations violations) {
-        if ((disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF)
-                || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF_INT))
-                && userDefFuncRef.getFunction() instanceof InternalFunction)
-        {
-            addExprViolation(userDefFuncRef, "internal user-defined function reference", violations);
+        EnumSet<NoSpecificExpr> funcFlags, funcAsDataFlags;
+        String funcKind;
+        if (userDefFuncRef.getFunction() instanceof InternalFunction) {
+            funcFlags = EnumSet.of( //
+                    NoSpecificExpr.FUNC_REFS, //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF, //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF_INT);
+            funcAsDataFlags = EnumSet.of( //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA, //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF_INT_AS_DATA);
+            funcKind = "internal";
+        } else {
+            Assert.check(userDefFuncRef.getFunction() instanceof ExternalFunction);
+            funcFlags = EnumSet.of( //
+                    NoSpecificExpr.FUNC_REFS, //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF, //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF_EXT);
+            funcAsDataFlags = EnumSet.of( //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA, //
+                    NoSpecificExpr.FUNC_REFS_USER_DEF_EXT_AS_DATA);
+            funcKind = "external";
         }
 
-        if ((disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF)
-                || disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF_EXT))
-                && userDefFuncRef.getFunction() instanceof ExternalFunction)
-        {
-            addExprViolation(userDefFuncRef, "external user-defined function reference", violations);
+        if (!isEmptyIntersection(disalloweds, funcFlags)) {
+            addExprViolation(userDefFuncRef, funcKind + " user-defined function reference", violations);
+        } else if (!isEmptyIntersection(disalloweds, funcAsDataFlags) && !isUsedInFunctionCallContext(userDefFuncRef)) {
+            addExprViolation(userDefFuncRef, funcKind + " user-defined function reference", "as data value",
+                    violations);
         }
+    }
+
+    /**
+     * Is the provided function expression used in a function call context?
+     *
+     * @param funcExpr Function expression to check.
+     * @return Whether the function expression is used in a function call context.
+     */
+    private boolean isUsedInFunctionCallContext(FunctionExpression funcExpr) {
+        return (funcExpr.eContainer() instanceof FunctionCallExpression)
+                && funcExpr.eContainmentFeature() == FCE_FUNC_REF;
     }
 
     @Override
     protected void preprocessStdLibFunctionExpression(StdLibFunctionExpression stdLibRef,
             CifCheckViolations violations)
     {
-        if (disalloweds.contains(NoSpecificExpr.FUNC_REFS) || disalloweds.contains(NoSpecificExpr.FUNC_REFS_STD_LIB)) {
+        EnumSet<NoSpecificExpr> funcFlags = EnumSet.of(NoSpecificExpr.FUNC_REFS, NoSpecificExpr.FUNC_REFS_STD_LIB);
+        if (!isEmptyIntersection(disalloweds, funcFlags)) {
             addExprViolation(stdLibRef, "standard library function reference", violations);
         }
     }
@@ -476,7 +511,20 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addExprViolation(Expression expr, String description, CifCheckViolations violations) {
-        violations.add(expr, new LiteralMessage("uses %s \"%s\"", description, exprToStr(expr)));
+        addExprViolation(expr, description, "", violations);
+    }
+
+    /**
+     * Add a violation for the given expression.
+     *
+     * @param expr The expression.
+     * @param description The description of the expression.
+     * @param postfix Additional description after the expression.
+     * @param violations The violations collected so far. Is modified in-place.
+     */
+    private void addExprViolation(Expression expr, String description, String postfix, CifCheckViolations violations) {
+        violations.add(expr, new LiteralMessage("uses %s \"%s\"%s", description, exprToStr(expr),
+                postfix.isEmpty() ? postfix : (" " + postfix)));
     }
 
     /** The expression to disallow. */
@@ -490,11 +538,20 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
         /** Disallow references to all user-defined functions (internal and external ones). */
         FUNC_REFS_USER_DEF,
 
+        /** Disallow references to all user-defined functions as data value (internal and external ones). */
+        FUNC_REFS_USER_DEF_AS_DATA,
+
         /** Disallow references to internal user-defined functions. */
         FUNC_REFS_USER_DEF_INT,
 
+        /** Disallow references to internal user-defined functions as data value. */
+        FUNC_REFS_USER_DEF_INT_AS_DATA,
+
         /** Disallow references to external user-defined functions. */
         FUNC_REFS_USER_DEF_EXT,
+
+        /** Disallow references to external user-defined functions as data value. */
+        FUNC_REFS_USER_DEF_EXT_AS_DATA,
 
         /** Disallow references to standard library functions. */
         FUNC_REFS_STD_LIB,

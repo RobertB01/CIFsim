@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
 
 /**
- * {@link ExprNoSpecificExprsCheck} with all level 4 and higher disalloweds enabled.
+ * {@link ExprNoSpecificExprsCheck} with all level 4 disalloweds enabled.
  *
  * <p>
  * The different levels allow testing more logic (increased code coverage). E.g., disallowing
@@ -35,7 +35,7 @@ import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
 public class ExprNoSpecificExprsCheckLevel4 extends ExprNoSpecificExprsCheck {
     /** Constructor for the {@link ExprNoSpecificExprsCheckLevel4} class. */
     public ExprNoSpecificExprsCheckLevel4() {
-        super(Arrays.stream(NoSpecificExpr.values()).filter(v -> StringUtils.countMatches(v.name(), "_") >= 4)
+        super(Arrays.stream(NoSpecificExpr.values()).filter(v -> StringUtils.countMatches(v.name(), "_") == 4)
                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(NoSpecificExpr.class))));
     }
 }

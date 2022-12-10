@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="func_f3">
-    <Declaration>
-      <![CDATA[FUNCTION func_f3: DINT
+    <Declaration><![CDATA[FUNCTION func_f3: DINT
 VAR_INPUT
     farg_f3_z: DINT;
 END_VAR
@@ -11,11 +10,9 @@ VAR
     fvar_f3_y: DINT;
     tmp0: DINT;
     tmp1: DINT;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[// Initialize local variables.
+      <ST><![CDATA[// Initialize local variables.
 fvar_f3_x := 1;
 fvar_f3_y := 2;
 
@@ -27,8 +24,7 @@ tmp1 := proj1_TupleStruct_1(makeTupleStruct_1(fvar_f3_y, fvar_f3_x));
 fvar_f3_x := tmp0;
 fvar_f3_y := tmp1;
 func_f3 := ((fvar_f3_x) + (fvar_f3_y)) + (farg_f3_z);
-RETURN;]]>
-      </ST>
+RETURN;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

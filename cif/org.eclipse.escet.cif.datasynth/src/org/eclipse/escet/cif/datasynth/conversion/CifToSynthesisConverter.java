@@ -23,13 +23,9 @@ import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.INT
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariableExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newMonitors;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
@@ -366,26 +362,9 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Create a 'dummy' discrete variable per location pointer variable. Used later to create updates for location
-        // pointers.
-        final Map<Automaton, DiscVariable> autToLpMap = mapc(automata.size());
-        final Map<DiscVariable, Automaton> lpToAutMap = mapc(automata.size());
-        Specification dummySpec = newSpecification();
+        // Create location pointer manager.
         List<Automaton> lpAuts = filter(cifVarObjs, Automaton.class);
-        for (Automaton lpAut: lpAuts) {
-            // Create discrete variable. Set name for debugging only, even though absolute automata names are not valid
-            // names for variables. No initial value or type is set.
-            DiscVariable var = newDiscVariable();
-            var.setName(getAbsName(lpAut));
-
-            // Store discrete variable.
-            autToLpMap.put(lpAut, var);
-            lpToAutMap.put(var, lpAut);
-
-            // Add variable to dummy specification for proper containment. Note that technically, discrete variables
-            // need to be contained in automata.
-            dummySpec.getDeclarations().add(var);
-        }
+        CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(lpAuts);
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
@@ -397,7 +376,7 @@ public class CifToSynthesisConverter {
             PositionObject cifVarObj = cifVarObjs.get(i);
             if (cifVarObj instanceof Automaton) {
                 Automaton lpAut = (Automaton)cifVarObj;
-                DiscVariable lpVar = autToLpMap.get(lpAut);
+                DiscVariable lpVar = locPtrManager.getLocationPointer(lpAut);
                 synthAut.variables[i] = createLpVar(lpAut, lpVar);
             } else {
                 synthAut.variables[i] = convertTypedVar((Declaration)cifVarObj);
@@ -421,46 +400,6 @@ public class CifToSynthesisConverter {
 
         // Create auxiliary data for updates.
         createUpdateAuxiliaries(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
-            return synthAut;
-        }
-
-        // Create location pointer manager.
-        LocationPointerManager locPtrManager = new LocationPointerManager() {
-            @Override
-            public Update createLocUpdate(Location loc) {
-                // Get 0-based location index.
-                Automaton aut = (Automaton)loc.eContainer();
-                int locIdx = aut.getLocations().indexOf(loc);
-
-                // Get variable.
-                DiscVariable lp = autToLpMap.get(aut);
-                Assert.notNull(lp);
-
-                // Get integer type 'int[0..n-1] for 'n' locations.
-                IntType type = newIntType();
-                type.setLower(0);
-                type.setUpper(aut.getLocations().size() - 1);
-
-                // Create and return 'lp := locIdx' assignment.
-                DiscVariableExpression lpRef = newDiscVariableExpression();
-                lpRef.setVariable(lp);
-                lpRef.setType(type);
-
-                Assignment asgn = newAssignment();
-                asgn.setAddressable(lpRef);
-                asgn.setValue(CifValueUtils.makeInt(locIdx));
-
-                return asgn;
-            }
-
-            @Override
-            public Expression createLocRef(Location loc) {
-                // Create CIF location reference expression, to be converted later.
-                return LocRefExprCreator.DEFAULT.create(loc);
-            }
-        };
-
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -576,7 +515,7 @@ public class CifToSynthesisConverter {
         }
 
         // Convert plant and requirement automata.
-        convertPlantReqAuts(plants, requirements, plantAlphabets, reqAlphabets, locPtrManager, lpToAutMap, synthAut);
+        convertPlantReqAuts(plants, requirements, plantAlphabets, reqAlphabets, locPtrManager, synthAut);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -1981,12 +1920,11 @@ public class CifToSynthesisConverter {
      * @param plantAlphabets Per plant automaton, all the alphabets.
      * @param reqAlphabets Per requirement automaton, all the alphabets.
      * @param locPtrManager Location pointer manager.
-     * @param lpToAutMap Mapping from CIF location pointer variables to the CIF automata for which they were created.
      * @param synthAut The synthesis automaton to be updated.
      */
     private void convertPlantReqAuts(List<Automaton> plants, List<Automaton> requirements,
-            List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets, LocationPointerManager locPtrManager,
-            Map<DiscVariable, Automaton> lpToAutMap, SynthesisAutomaton synthAut)
+            List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets,
+            CifDataSynthesisLocationPointerManager locPtrManager, SynthesisAutomaton synthAut)
     {
         // Combine information about plants and requirements.
         List<Automaton> automata = concat(plants, requirements);
@@ -1998,6 +1936,7 @@ public class CifToSynthesisConverter {
         // Add linearized edges.
         if (tauOk) {
             // Linearize edges for all events in the alphabet.
+            // Must match a similar call to linearize edges in `LinearizedHyperEdgeCreator'.
             List<Edge> cifEdges = list();
             LinearizeProduct.linearizeEdges(automata, alphabets, set2list(synthAut.alphabet), locPtrManager, false,
                     true, cifEdges);
@@ -2052,7 +1991,7 @@ public class CifToSynthesisConverter {
 
                 // Convert and set assignments.
                 List<Update> updates = cifEdge.getUpdates();
-                convertUpdates(updates, synthEdge, lpToAutMap, synthAut);
+                convertUpdates(updates, synthEdge, locPtrManager, synthAut);
             }
 
             if (synthAut.env.isTerminationRequested()) {
@@ -2271,11 +2210,11 @@ public class CifToSynthesisConverter {
      *
      * @param updates The CIF updates.
      * @param synthEdge The synthesis edge in which to store the synthesis updates. Is modified in-place.
-     * @param lpToAutMap Mapping from CIF location pointer variables to the CIF automata for which they were created.
+     * @param locPtrManager Location pointer manager.
      * @param aut The synthesis automaton.
      */
-    private void convertUpdates(List<Update> updates, SynthesisEdge synthEdge, Map<DiscVariable, Automaton> lpToAutMap,
-            SynthesisAutomaton aut)
+    private void convertUpdates(List<Update> updates, SynthesisEdge synthEdge,
+            CifDataSynthesisLocationPointerManager locPtrManager, SynthesisAutomaton aut)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
@@ -2285,7 +2224,7 @@ public class CifToSynthesisConverter {
         BDD relation = aut.factory.one();
         BDD error = aut.factory.zero();
         for (Update update: updates) {
-            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, lpToAutMap, aut);
+            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, aut);
             if (aut.env.isTerminationRequested()) {
                 return;
             }
@@ -2338,13 +2277,13 @@ public class CifToSynthesisConverter {
      * @param update The CIF update to convert.
      * @param assignments The assignments converted so far. Is modified in-place.
      * @param assigned Per synthesis variable, whether it has been assigned on this edge. Is modified in-place.
-     * @param lpToAutMap Mapping from CIF location pointer variables to the CIF automata for which they were created.
+     * @param locPtrManager Location pointer manager.
      * @param aut The synthesis automaton.
      * @return The update relation and runtime error predicate. May be {@code null} if the update can't be converted due
      *     to a precondition violation.
      */
     private Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
-            Map<DiscVariable, Automaton> lpToAutMap, SynthesisAutomaton aut)
+            CifDataSynthesisLocationPointerManager locPtrManager, SynthesisAutomaton aut)
     {
         // Make sure it is not a conditional update ('if' update).
         if (update instanceof IfUpdate) {
@@ -2380,7 +2319,7 @@ public class CifToSynthesisConverter {
         // pointers are only created for automata with more than one location, and updates are only created for non self
         // loop edges. Since automata with one location have only self loops, automata for which location pointer
         // updates are created also have location pointer variables.
-        Automaton cifAut = lpToAutMap.get(cifVar);
+        Automaton cifAut = locPtrManager.getAutomaton(cifVar);
         if (cifAut != null) {
             // Get synthesis variable.
             int varIdx = getLpVarIdx(aut.variables, cifAut);

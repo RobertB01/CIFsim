@@ -195,9 +195,29 @@ group TUPLE_FIELD_REFS_NAMED:
   invariant c[a];
 end
 
+group USER_DEF_FUNC_REFS:
+  func bool intF(bool x):
+    return x;
+  end
+  func bool extF(bool x): "java:somepkg.SomeClass.someMethod|.";
+  func bool g(func bool (bool) f):
+    return f(true);
+  end
+
+  invariant g(intF);
+  invariant g(extF);
+end
+
 // FUNC_CALLS.
 group FUNC_CALLS:
+  func bool intF(bool x):
+    return x;
+  end
+  func bool extF(bool x): "java:somepkg.SomeClass.someMethod|.";
+
   invariant abs(1) = 1;
+  invariant intF(true);
+  invariant extF(true);
 end
 
 // IF_EXPRS.

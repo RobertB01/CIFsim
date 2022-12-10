@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.escet.common.dsm;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.common.dsm
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.apache.commons.math3;bundle-version="3.6.1",
  org.eclipse.escet.common.java;bundle-version="0.8.0",

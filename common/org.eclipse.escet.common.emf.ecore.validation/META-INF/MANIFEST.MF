@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Common EMF EValidator Adapter (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.emf.ecore.validation;singleton:=true
 Bundle-Version: 0.8.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.escet.common.emf.ecore.validation
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse ESCET

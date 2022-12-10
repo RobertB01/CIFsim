@@ -1,0 +1,14 @@
+WARNING: File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": Semantic warning at line 17, column 13: Discrete variable "A.v3" is not used anywhere in the specification.
+WARNING: File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": Semantic warning at line 18, column 13: Discrete variable "A.v4" is not used anywhere in the specification.
+WARNING: File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": Semantic warning at line 19, column 13: Discrete variable "A.v5" is not used anywhere in the specification.
+WARNING: File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": Semantic warning at line 20, column 13: Discrete variable "A.v6" is not used anywhere in the specification.
+WARNING: File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": Semantic warning at line 21, column 13: Discrete variable "A.v7" is not used anywhere in the specification.
+ERROR: CIF common checks tester failed due to unsatisfied preconditions:
+ - Unsupported "A.v1" (File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": line 15, columns 13 .. 14): discrete variable's initial value cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "A.v2" (File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": line 16, columns 13 .. 14): discrete variable's 1st initial value cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "A.v2" (File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": line 16, columns 13 .. 14): discrete variable's 2nd initial value cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "A.v3" (File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": line 17, columns 13 .. 14): discrete variable's 2nd initial value cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "A.v3" (File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": line 17, columns 13 .. 14): discrete variable's 3rd initial value cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "A.v4" (File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": line 18, columns 13 .. 14): discrete variable's initial value cannot be evaluated statically.
+ - Unsupported "A.v5" (File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": line 19, columns 13 .. 14): discrete variable's 1st initial value cannot be evaluated statically.
+ - Unsupported "A.v5" (File "common_checks/VarDiscOnlyStaticEvalInitCheck.cif": line 19, columns 13 .. 14): discrete variable's 2nd initial value cannot be evaluated statically.

@@ -1,0 +1,199 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Generates overview HTML file for benchmark results.
+
+import java.lang.Long.decode;
+import java.lang.Long.valueOf;
+import org.apache.commons.lang3:org.apache.commons.lang3.StringEscapeUtils.escapeHtml4 as escape;
+
+// Initialize metrics info:
+// - metrics_*: from benchmark model name (column) to configuration (row) to metric value (cell).
+// - configs: the configurations used for benchmarking.
+// - names: the names of the models used for benchmarking.
+map(string: map(int: long)) metrics_nodes = {};
+map(string: map(int: long)) metrics_ops   = {};
+list string configs;
+list string names;
+
+// Find benchmarking results.
+list string file_names = sorted(find("_generated", "*.metrics.csv"));
+if size(file_names) == 0:
+    errln("No benchmark results found. Execute one or more benchmarks before generating an overview of the results.");
+    exit 1;
+end
+
+// Process the benchmark metrics files.
+bool first_file = true;
+for f in file_names:
+    // Get benchmark model name.
+    string name = replace(f, ".metrics.csv", "");
+    metrics_nodes[name] = {};
+    metrics_ops  [name] = {};
+    names = names + [name];
+
+    // Get benchmark experiment lines. Remove header line.
+    list string lines = readlines(pathjoin("_generated", f));
+    lines = delidx(lines, 0);
+
+    // Process the experiment lines.
+    for line in lines:
+        list string parts = split(line, ",");
+        int config_nr = <int>valueOf(trim(parts[0]));
+        long nodes_cnt = <long>valueOf(trim(parts[2]));
+        long ops_cnt   = <long>valueOf(trim(parts[3]));
+        metrics_nodes[name][config_nr] = nodes_cnt;
+        metrics_ops  [name][config_nr] = ops_cnt;
+        if first_file:
+            string config = join(parts[4:], ",");
+            config = trim(config);
+            if startswith(config, "\""):: config = config[1:];
+            if endswith  (config, "\""):: config = config[:-1];
+            configs = configs + [config];
+        end
+    end
+
+    // Next file is no longer first file.
+    first_file = false;
+end
+
+// Calculate best values.
+long max_long = <long>decode("0x7fffffffffffffff");
+list long best_values_nodes;
+list long best_values_ops;
+for name in names:
+    long best_value_nodes = max_long;
+    long best_value_ops   = max_long;
+    for value in values(metrics_nodes[name]):: best_value_nodes = min(best_value_nodes, value);
+    for value in values(metrics_ops  [name]):: best_value_ops   = min(best_value_ops  , value);
+    best_values_nodes = best_values_nodes + [best_value_nodes];
+    best_values_ops   = best_values_ops   + [best_value_ops  ];
+end
+
+// Construct the HTML table lines.
+list string html_lines = [
+    "<!DOCTYPE html>",
+    "<html lang='en'>",
+    "  <head>",
+    "    <title>Benchmark results overview</title>",
+    "    <meta charset='utf-8'>",
+    "    <style>",
+    "      h2 {",
+    "        margin: 0;",
+    "      }",
+    "      table {",
+    "        border-spacing: 0;",
+    "      }",
+    "      table tr.last-row td {",
+    "        border-bottom: solid 2px black;",
+    "      }",
+    "      table th {",
+    "        background: black;",
+    "        color: white;",
+    "      }",
+    "      table td, table th {",
+    "        padding: 2px 5px;",
+    "        border: solid 1px black;",
+    "        text-align: left;",
+    "        margin: 0;",
+    "      }",
+    "      table td:first-of-type, table th:first-of-type {",
+    "        border-left: solid 2px black;",
+    "      }",
+    "      table td:last-of-type, table th:last-of-type {",
+    "        border-right: solid 2px black;",
+    "      }",
+    "      table th.name {",
+    "        text-align: center;",
+    "      }",
+    "      table td.metric {",
+    "        text-align: right;",
+    "      }",
+    "      table td.metric.best {",
+    "        background: #e0ffe0;",
+    "        font-weight: bold;",
+    "      }",
+    "      table td.dummy {",
+    "        border: 0;",
+    "        padding-left: 0;",
+    "      }",
+    "    </style>",
+    "  </head>",
+    "  <body>",
+    "    <h2>CIF data-based synthesis benchmark results overview</h2>",
+    "    <table>"
+];
+
+list string lines_nodes;
+list string lines_ops;
+
+lines_nodes = lines_nodes + ["      <tr>"];
+lines_ops   = lines_ops   + ["      <tr>"];
+lines_nodes = lines_nodes + ["        <th>Nr</th>"];
+lines_ops   = lines_ops   + ["        <th>Nr</th>"];
+lines_nodes = lines_nodes + ["        <th>Configuration</th>"];
+lines_ops   = lines_ops   + ["        <th>Configuration</th>"];
+for name in names:
+    lines_nodes = lines_nodes + [fmt("        <th class='name'>%s</th>", escape(name))];
+    lines_ops   = lines_ops   + [fmt("        <th class='name'>%s</th>", escape(name))];
+end
+lines_nodes = lines_nodes + ["      </tr>"];
+lines_ops   = lines_ops   + ["      </tr>"];
+
+for idx, config in enumerate(configs):
+    if empty(trim(config)):: config = "(default)";
+    bool last_config = idx == size(configs) - 1;
+    string close_extra_classes;
+    if last_config:: close_extra_classes = close_extra_classes + " class='last-row'";
+    lines_nodes = lines_nodes + [fmt("      <tr%s>", close_extra_classes)];
+    lines_ops   = lines_ops   + [fmt("      <tr%s>", close_extra_classes)];
+    lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", idx + 1, size(configs))];
+    lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", idx + 1, size(configs))];
+    lines_nodes = lines_nodes + [fmt("        <td class='config'>%s</td>", escape(config))];
+    lines_ops   = lines_ops   + [fmt("        <td class='config'>%s</td>", escape(config))];
+    for idx2, name in enumerate(names):
+        long value_nodes = metrics_nodes[name][idx + 1];
+        long value_ops   = metrics_ops  [name][idx + 1];
+        string text_nodes = <string>escape(fmt("%,d", value_nodes));
+        string text_ops   = <string>escape(fmt("%,d", value_ops  ));
+        string extra_class_nodes;
+        string extra_class_ops;
+        if best_values_nodes[idx2] == value_nodes:: extra_class_nodes = extra_class_nodes + " best";
+        if best_values_ops  [idx2] == value_ops  :: extra_class_ops   = extra_class_ops   + " best";
+        lines_nodes = lines_nodes + [fmt("        <td class='metric%s'>%s</td>", extra_class_nodes, text_nodes)];
+        lines_ops   = lines_ops   + [fmt("        <td class='metric%s'>%s</td>", extra_class_ops  , text_ops  )];
+    end
+    lines_nodes = lines_nodes + ["      </tr>"];
+    lines_ops   = lines_ops   + ["      </tr>"];
+end
+
+html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>&nbsp;</td></tr>"];
+html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>Maximum number of used BDD nodes:</td></tr>"];
+html_lines = html_lines + lines_nodes;
+html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>&nbsp;</td></tr>"];
+html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>Number of BDD operations:</td></tr>"];
+html_lines = html_lines + lines_ops;
+
+html_lines = html_lines + [
+    "    </table>",
+    "  </body>",
+    "</html>"
+];
+
+// Write the overview metrics files.
+string html_filepath = replace(pathjoin("_generated", "_overview.html"), "\\", "/");
+writefile(html_filepath, html_lines);
+
+// Done.
+outln("Processed %,d benchmark result(s), for %,d configuration(s) each.", size(names), size(configs));
+outln("See \"%s\" for the generated overview.", html_filepath);

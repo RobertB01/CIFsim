@@ -20,7 +20,7 @@ pipeline {
     }
 
     tools {
-        jdk 'openjdk-jdk11-latest'
+        jdk 'openjdk-jdk17-latest'
         maven 'apache-maven-3.8.4'
     }
 

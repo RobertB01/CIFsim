@@ -41,19 +41,13 @@ echo "Checking for restricted dependencies..."
 grep restricted DEPENDENCIES.generated.processed.txt
 RESTRICTED=$?
 
-# Cleanup.
-rm DEPENDENCIES.generated.txt
-if [ $ANY_DIFFS -eq 0 ]; then
-    # No differences, so can remove generated file.
-    rm DEPENDENCIES.generated.processed.txt
-fi
-
 # Fail on differences and/or restricted dependencies.
+SCRIPT_EXIT_CODE=0
 if [ $ANY_DIFFS -ne 0 ]; then
     >&2 echo
     >&2 echo "FAILED: Differences found:"
     >&2 echo " - Please replace DEPENDENCIES.txt by DEPENDENCIES.generated.processed.txt."
-    exit 1
+    SCRIPT_EXIT_CODE=1
 fi
 if [ $RESTRICTED -ne 1 ]; then
     >&2 echo
@@ -67,9 +61,55 @@ if [ $RESTRICTED -ne 1 ]; then
     >&2 echo "   https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues."
     >&2 echo " - In case of a false positive, file an issue for the Eclipse Dash license check tool,"
     >&2 echo "   at https://github.com/eclipse/dash-licenses/issues."
-    exit 1
+    SCRIPT_EXIT_CODE=1
 fi
 
-# Success.
-echo
-echo "SUCCESS: License check OK."
+# If the check failed, prepare a file to reduce the effort to create a GitLab issue.
+MD_FILENAME=DEPENDENCIES.gitlab_issue_content.md
+if [ $SCRIPT_EXIT_CODE -eq 0 ]; then
+    rm -rf $MD_FILENAME
+else
+    echo "[Eclipse ESCET GitLab issue title]" > $MD_FILENAME
+    echo >> $MD_FILENAME
+    echo "Third party dependencies license check failure `date +%Y-%m-%d`" >> $MD_FILENAME
+    echo >> $MD_FILENAME
+    echo "[Eclipse ESCET GitLab issue description]" >> $MD_FILENAME
+    if [ $ANY_DIFFS -ne 0 ]; then
+        echo >> $MD_FILENAME
+        echo "Differences found:" >> $MD_FILENAME
+        echo "\`\`\`diff" >> $MD_FILENAME
+        diff --strip-trailing-cr -u DEPENDENCIES.txt DEPENDENCIES.generated.processed.txt >> $MD_FILENAME
+        echo "\`\`\`" >> $MD_FILENAME
+    fi
+    if [ $RESTRICTED -ne 1 ]; then
+        echo >> $MD_FILENAME
+        echo "Restricted dependencies found:" >> $MD_FILENAME
+        echo "\`\`\`" >> $MD_FILENAME
+        grep restricted DEPENDENCIES.generated.processed.txt >> $MD_FILENAME
+        echo "\`\`\`" >> $MD_FILENAME
+    fi
+
+    >&2 echo
+    >&2 echo "Please create an issue in the Eclipse ESCET GitLab at"
+    >&2 echo "https://gitlab.eclipse.org/eclipse/escet/escet/-/issues"
+    >&2 echo "to track the third party dependencies license check failure."
+    >&2 echo "To create the issue with minimal effort, use the content from:"
+    >&2 echo "$MD_FILENAME"
+fi
+
+# Indicate success.
+if [ $SCRIPT_EXIT_CODE -eq 0 ]; then
+    echo
+    echo "SUCCESS: License check OK."
+fi
+
+# Cleanup.
+rm target/dash/review-summary
+rm DEPENDENCIES.generated.txt
+if [ $ANY_DIFFS -eq 0 ]; then
+    # No differences, so can remove generated file.
+    rm DEPENDENCIES.generated.processed.txt
+fi
+
+# Exit with exit code 0 on success, and 1 on failure.
+exit $SCRIPT_EXIT_CODE

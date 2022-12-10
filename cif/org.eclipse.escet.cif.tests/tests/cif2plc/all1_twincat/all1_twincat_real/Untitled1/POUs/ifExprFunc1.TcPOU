@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="ifExprFunc1">
-    <Declaration>
-      <![CDATA[FUNCTION ifExprFunc1: DINT
+    <Declaration><![CDATA[FUNCTION ifExprFunc1: DINT
 VAR_INPUT
     farg_fac_a: DINT;
-END_VAR]]>
-    </Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST>
-        <![CDATA[IF ((farg_fac_a) = (0)) THEN
+      <ST><![CDATA[IF ((farg_fac_a) = (0)) THEN
     ifExprFunc1 := 1;
 ELSE
     ifExprFunc1 := (func_fac((farg_fac_a) - (1))) * (farg_fac_a);
-END_IF;]]>
-      </ST>
+END_IF;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>
