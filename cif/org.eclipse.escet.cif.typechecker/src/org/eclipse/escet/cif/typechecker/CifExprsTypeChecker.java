@@ -1477,18 +1477,24 @@ public class CifExprsTypeChecker {
             case UNEQUAL: {
                 // t, t -> bool
 
-                // There is type widening for integer expressions (from int to real) for the right side, but not for the
-                // left side. If the left side has integer type, and the right side has real type then retry the left
-                // side.
-                if (left instanceof IntExpression && nltype instanceof IntType && nrtype instanceof RealType) {
+                // Determine whether the left and right expression types are supported.
+                boolean typesOk = CifTypeUtils.supportsValueEquality(ltype) && CifTypeUtils.supportsValueEquality(rtype)
+                        && checkTypeCompat(ltype, rtype, RangeCompat.IGNORE);
+
+                // We used the type of the left expression as hint for the right expression. If this didn't produce a
+                // valid combination of left and right expression types, we may still try to type check the left
+                // expression with the type of the right expression as hint. This could make the binary expression
+                // supported, for instance in case of type widening from int to real, or for empty sets and
+                // dictionaries.
+                if (!typesOk) {
                     left = transExpression(expr.left, rtype, scope, context, tchecker);
                     ltype = left.getType();
                     rslt.setLeft(left);
+                    typesOk = CifTypeUtils.supportsValueEquality(ltype) && CifTypeUtils.supportsValueEquality(rtype)
+                            && checkTypeCompat(ltype, rtype, RangeCompat.IGNORE);
                 }
 
-                if (!CifTypeUtils.supportsValueEquality(ltype) || !CifTypeUtils.supportsValueEquality(rtype)
-                        || !checkTypeCompat(ltype, rtype, RangeCompat.IGNORE))
-                {
+                if (!typesOk) {
                     tchecker.addProblem(ErrMsg.BINOP_INVALID_TYPES, expr.position, expr.operator,
                             CifTextUtils.typeToStr(ltype), CifTextUtils.typeToStr(rtype));
                     throw new SemanticException();
