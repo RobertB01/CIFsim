@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.datasynth.varorder.hyperedges;
 
 import static org.eclipse.escet.common.java.Maps.mapc;
 
@@ -28,7 +28,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Automatic variable ordering hyper-edge creator. */
-abstract class HyperEdgeCreator {
+public abstract class HyperEdgeCreator {
     /** The CIF specification. Must not be modified. */
     private final Specification spec;
 
@@ -44,7 +44,7 @@ abstract class HyperEdgeCreator {
      * @param spec The CIF specification. Must not be modified.
      * @param variables The synthesis variables.
      */
-    HyperEdgeCreator(Specification spec, List<SynthesisVariable> variables) {
+    public HyperEdgeCreator(Specification spec, List<SynthesisVariable> variables) {
         this.spec = spec;
         this.variables = variables;
 
@@ -89,7 +89,7 @@ abstract class HyperEdgeCreator {
      *     whether each variable is included in the hyper-edge or not. The bit indices in the bitsets correspond to the
      *     indices of the {@link #getVariables synthesis variables}.
      */
-    abstract List<BitSet> getHyperEdges();
+    public abstract List<BitSet> getHyperEdges();
 
     /**
      * Add a hyper-edge for the given CIF variable objects. Creating and adding a hyper-edge is skipped if no CIF

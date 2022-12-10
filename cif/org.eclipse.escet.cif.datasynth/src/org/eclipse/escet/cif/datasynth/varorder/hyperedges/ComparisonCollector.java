@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.datasynth.varorder.hyperedges;
 
 import static org.eclipse.escet.common.java.Lists.list;
 

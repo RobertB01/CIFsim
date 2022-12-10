@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.datasynth.varorder.hyperedges;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -54,7 +54,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </ul>
  * Variables that occur via algebraic variables are taken into account.
  **/
-class LegacyHyperEdgeCreator extends HyperEdgeCreator {
+public class LegacyHyperEdgeCreator extends HyperEdgeCreator {
     /** The hyper-edges created so far. */
     private List<BitSet> hyperEdges = list();
 
@@ -67,7 +67,7 @@ class LegacyHyperEdgeCreator extends HyperEdgeCreator {
      * @param spec The CIF specification.
      * @param variables The synthesis variables.
      */
-    LegacyHyperEdgeCreator(Specification spec, List<SynthesisVariable> variables) {
+    public LegacyHyperEdgeCreator(Specification spec, List<SynthesisVariable> variables) {
         super(spec, variables);
     }
 
