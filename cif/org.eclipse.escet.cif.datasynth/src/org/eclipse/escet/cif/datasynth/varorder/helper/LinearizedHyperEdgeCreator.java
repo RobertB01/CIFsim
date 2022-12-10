@@ -56,7 +56,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </ul>
  * Variables that occur via algebraic variables are taken into account.
  **/
-class LinearizedHyperEdgeCreator extends LegacyHyperEdgeCreator {
+class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
     /**
      * Constructor for the {@link LinearizedHyperEdgeCreator} class.
      *
