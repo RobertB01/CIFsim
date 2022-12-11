@@ -11,31 +11,30 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Execute this ToolDef to play a movie with one of the solutions.
-// There are two solutions, and one is selected at random.
+// Execute this ToolDef to generate a yEd diagram with all the safe moves.
 
 from "lib:cif" import *;
 
 mkdir("generated", force=true);
 
 cifdatasynth(
-    "models/wolf_goat_cabbage.requirements.no_useless_moves.cif",
+    "models/wolf_goat_cabbage.requirements.only_safe_moves.cif",
     "--forward-reach=true",
     "--output-mode=error",
-    "--output=generated/wolf_goat_cabbage.play_solution.supervisor.cif",
+    "--output=generated/wolf_goat_cabbage.safe_moves.supervisor.cif",
 );
 
-cifmerge(
-    "generated/wolf_goat_cabbage.play_solution.supervisor.cif",
-    "models/wolf_goat_cabbage.visualization.cif",
-    "models/wolf_goat_cabbage.delays.cif",
+cifexplorer(
+    "generated/wolf_goat_cabbage.safe_moves.supervisor.cif",
     "--output-mode=error",
-    "--output=generated/wolf_goat_cabbage.play_solution.simulation.cif",
+    "--output=generated/wolf_goat_cabbage.safe_moves.statespace.cif",
 );
 
-cifsim(
-    "generated/wolf_goat_cabbage.play_solution.simulation.cif",
-    "--input-mode=auto",
-    "--auto-algo=random",
-    "--frame-rate=30",
+cif2yed(
+    "generated/wolf_goat_cabbage.safe_moves.statespace.cif",
+    "--output-mode=error",
+    "--diagram-kinds=model",
+    "--output=generated/wolf_goat_cabbage.safe_moves.graphml",
 );
+
+outln("Open 'generated/wolf_goat_cabbage.safe_moves.graphml' in yEd and apply 'One-Click Layout' to see all safe moves.");
