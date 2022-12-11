@@ -7,7 +7,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported "p.dbb" (File "cif2supremica/invalid2.cif": line 24, columns 24 .. 26): uses dictionary type "dict(bool:bool)".
  - Unsupported "p.fbb" (File "cif2supremica/invalid2.cif": line 26, columns 24 .. 26): uses function type "func bool(bool)".
  - Unsupported "p.i" (File "cif2supremica/invalid2.cif": line 18, column 12): uses rangeless integer type "int".
- - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): location has a state invariant.
+ - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): has a state invariant in a location.
  - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): location has an edge with a multi-assignment.
  - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): location has an edge with a partial variable assignment.
  - Unsupported "p.l" (File "cif2supremica/invalid2.cif": line 28, column 12): uses binary operator "*" on operands of types "real" and "real" in binary expression "p.r * p.r".
