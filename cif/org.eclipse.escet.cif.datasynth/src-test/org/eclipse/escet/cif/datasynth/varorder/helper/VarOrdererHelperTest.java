@@ -13,8 +13,11 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.helper;
 
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.Assert.assertEquals;
@@ -27,11 +30,13 @@ import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption.BddHyperEdgeAlgo;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
+import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.common.app.framework.AppEnv;
@@ -62,6 +67,7 @@ public class VarOrdererHelperTest {
     public void testReorder() {
         // Create CIF specification.
         Specification spec = newSpecification();
+
         InputVariable va = newInputVariable("a", null, newIntType(0, null, 0));
         InputVariable vb = newInputVariable("b", null, newIntType(0, null, 0));
         InputVariable vc = newInputVariable("c", null, newIntType(0, null, 0));
@@ -73,25 +79,38 @@ public class VarOrdererHelperTest {
         spec.getDeclarations().add(vd);
         spec.getDeclarations().add(ve);
 
+        Automaton aut = newAutomaton();
+        spec.getComponents().add(aut);
+        aut.setName("f");
+        Location loc1 = newLocation();
+        Location loc2 = newLocation();
+        aut.getLocations().add(loc1);
+        aut.getLocations().add(loc2);
+        loc1.setName("loc1");
+        loc2.setName("loc2");
+        DiscVariable vf = newDiscVariable("f", null, null, null);
+
         // Create synthesis variables.
         SynthesisVariable a = new SynthesisInputVariable(va, newIntType(0, null, 0), 1, 0, 0);
         SynthesisVariable b = new SynthesisInputVariable(vb, newIntType(0, null, 0), 1, 0, 0);
         SynthesisVariable c = new SynthesisInputVariable(vc, newIntType(0, null, 0), 1, 0, 0);
         SynthesisVariable d = new SynthesisInputVariable(vd, newIntType(0, null, 0), 1, 0, 0);
         SynthesisVariable e = new SynthesisInputVariable(ve, newIntType(0, null, 0), 1, 0, 0);
-        List<SynthesisVariable> variables = list(a, b, c, d, e);
+        SynthesisVariable f = new SynthesisLocPtrVariable(aut, vf);
+        List<SynthesisVariable> variables = list(a, b, c, d, e, f);
 
         // Reorder the variables.
-        int[] newIndices = {0, 4, 1, 2, 3}; // For each variable in 'variables', its new 0-based index.
+        int[] newIndices = {0, 4, 1, 5, 2, 3}; // For each variable in 'variables', its new 0-based index.
         VarOrdererHelper helper = new VarOrdererHelper(spec, variables);
         List<SynthesisVariable> ordered = helper.reorderForNewIndices(newIndices);
 
         // Check the result. Invariant: ordered[newIndices[i]] == variables[i].
         assertSame(a, ordered.get(0));
         assertSame(c, ordered.get(1));
-        assertSame(d, ordered.get(2));
-        assertSame(e, ordered.get(3));
+        assertSame(e, ordered.get(2));
+        assertSame(f, ordered.get(3));
         assertSame(b, ordered.get(4));
+        assertSame(d, ordered.get(5));
     }
 
     @SuppressWarnings("javadoc")
