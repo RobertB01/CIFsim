@@ -72,8 +72,8 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 new AutOnlyWithOneInitLocCheck(),
 
                 new InvNoSpecificInvsCheck() //
-                        // Kindless state/event exclusion invariants are not supported, they must have a supervisory
-                        // kind.
+                        // Kindless state/event exclusion invariants are not supported. They must have a supervisory
+                        // kind, as these invariants are transformed into automata, which must also not be kindless.
                         .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.STATE_EVENT,
                                 NoInvariantPlaceKind.ALL_PLACES) //
 
