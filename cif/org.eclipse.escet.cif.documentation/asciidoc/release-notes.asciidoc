@@ -47,9 +47,11 @@ They now automatically use their dark theme when the Eclipse built-in dark theme
 It now automatically uses its dark theme when the Eclipse built-in dark theme is used, and uses a light theme otherwise (issue {escet-issue}417[#417]).
 * The CIF event-based synthesis analysis tool now has slightly wider colored boxes that distinguish between disabled and different types of enabled choices, for enhanced visual clarity (issue {escet-issue}417[#417]).
 * The CIF to Supremica transformation precondition check has improved output.
-The preconditions themselves have not changed (issues {escet-issue}368[#368], {escet-issue}424[#424] and {escet-issue}442[#442]).
+The preconditions themselves have not changed (issues {escet-issue}368[#368], {escet-issue}424[#424], {escet-issue}442[#442] and {escet-issue}470[#470]).
 * The CIF to UPPAAL transformation precondition check has been migrated to the new precondition check framework, which is already used by the CIF to Supremica transformation, resulting in improved output.
 The preconditions themselves have not changed (issue {escet-issue}424[#424]).
+* The CIF PLC code generator precondition check has been migrated to the new precondition check framework, which is already used by the CIF to Supremica transformation, resulting in improved output.
+The preconditions themselves have not changed (issue {escet-issue}457[#457]).
 * Very long lines in the _Console_ view, for instance outputted by the CIF simulator, and long lines in text editors, for instance long lines in synthesized CIF models, now render correctly on Windows (issue {escet-issue}76[#76]).
 * The CIF documentation has been updated to account for changes in recent Inkscape versions (issue {escet-issue}357[#357]).
 * The CIF data-based synthesis documentation has been split into multiple pages, as it was getting quite long (issue {escet-issue}460[#460]).
