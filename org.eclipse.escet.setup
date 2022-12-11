@@ -140,6 +140,10 @@
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.m2e.core/eclipse.m2.autoUpdateProjects"
           value="true"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.m2e.core/eclipse.m2.problem.notCoveredMojoExecution"
+          value="ignore"/>
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
