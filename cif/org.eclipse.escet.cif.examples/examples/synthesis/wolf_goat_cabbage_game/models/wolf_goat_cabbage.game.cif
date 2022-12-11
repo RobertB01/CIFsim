@@ -11,7 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Models the 'wolf, goat and cabbage problem', see https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem.
+//////////////////////////////////////////////////////////////////////////////
+// Model of the 'Wolf, goat and cabbage' problem/game.
+// Contains the game state, object moves, eating, and win/lose conditions.
+// See also https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem.
+//////////////////////////////////////////////////////////////////////////////
 
 import "wolf_goat_cabbage.actions.cif";
 
@@ -21,7 +25,7 @@ plant def RiverBank(alg bool boatAtThisBank, hasWolfInit, hasGoatInit, hasCabbag
 
   uncontrollable u_eat;
 
-  location alive:
+  location:
     initial; marked;
 
     edge c_wolfIn!     when boatAtThisBank and hasWolf                    do hasWolf    := false;

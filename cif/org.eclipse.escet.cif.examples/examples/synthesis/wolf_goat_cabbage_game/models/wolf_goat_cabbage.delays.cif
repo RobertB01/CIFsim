@@ -11,6 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////////
+// A random solution can be played as a movie using simulation.
+// Model delays between actions to ensure the movie isn't immediately over.
+//////////////////////////////////////////////////////////////////////////////
+
 // Import actions.
 import "wolf_goat_cabbage.actions.cif";
 
@@ -35,7 +40,7 @@ automaton noDelayAfterWon:
     initial;
     edge when GameWon goto FinalDelay;
 
-  location FinalDelay: // This allows a final delay to get a last frame in the visualization, showing the game is won.
+  location FinalDelay: // Allow a final delay to get a last frame in the visualization, showing the game is won.
     edge when delayBeforeEachAction.t <= 0 goto NoMoreDelay;
 
   location NoMoreDelay:
