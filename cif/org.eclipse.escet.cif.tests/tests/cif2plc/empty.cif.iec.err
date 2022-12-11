@@ -1,3 +1,3 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/empty.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported specification: specifications without automata are currently not supported.
+ - Unsupported specification (File "cif2plc/empty.cif": line 1, column 1): no automaton found, specification does not have at least 1 automaton.

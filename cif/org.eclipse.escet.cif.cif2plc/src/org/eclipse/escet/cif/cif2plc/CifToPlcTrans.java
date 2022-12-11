@@ -381,7 +381,8 @@ public class CifToPlcTrans {
         // linearization etc may change the specification, the precondition
         // checker should be enough to ensure only supported features are
         // encountered during transformation.
-        new CifToPlcPreChecker().check(spec);
+        CifToPlcPreChecker checker = new CifToPlcPreChecker();
+        checker.reportPreconditionViolations(spec, "CIF PLC code generator");
 
         // Linearize the specification, to get rid of parallel composition,
         // event synchronization, and channels. We choose the variant that

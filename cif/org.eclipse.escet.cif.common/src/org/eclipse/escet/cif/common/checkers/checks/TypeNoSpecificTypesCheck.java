@@ -18,10 +18,14 @@ import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import java.util.Arrays;
 import java.util.EnumSet;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
+import org.eclipse.escet.cif.metamodel.cif.expressions.BaseFunctionExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ExpressionsPackage;
+import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentType;
@@ -39,6 +43,9 @@ import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 
 /** CIF check that does not allow certain types. */
 public class TypeNoSpecificTypesCheck extends CifCheck {
+    /** {@link FunctionCallExpression}.{@link FunctionCallExpression#getFunction() function} metamodel feature. */
+    private static final EReference FCE_FUNC_REF = ExpressionsPackage.eINSTANCE.getFunctionCallExpression_Function();
+
     /** The types, or sub-types, to disallow. */
     private final EnumSet<NoSpecificType> disalloweds;
 
@@ -99,7 +106,24 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
     protected void preprocessFuncType(FuncType funcType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.FUNC_TYPES)) {
             addTypeViolation(funcType, "function type", violations);
+        } else if (disalloweds.contains(NoSpecificType.FUNC_TYPES_AS_DATA) && !isUsedInFunctionCallContext(funcType)) {
+            addTypeViolation(funcType, "function type", "as data value", violations);
         }
+    }
+
+    /**
+     * Is the provided function type used in a function call context?
+     *
+     * @param funcType Function type to check.
+     * @return Whether the function expression is used in a function call context.
+     */
+    private boolean isUsedInFunctionCallContext(FuncType funcType) {
+        if (!(funcType.eContainer() instanceof BaseFunctionExpression)) {
+            return false;
+        }
+        BaseFunctionExpression baseFuncExpr = (BaseFunctionExpression)funcType.eContainer();
+        return (baseFuncExpr.eContainer() instanceof FunctionCallExpression)
+                && baseFuncExpr.eContainmentFeature() == FCE_FUNC_REF;
     }
 
     @Override
@@ -163,7 +187,20 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addTypeViolation(CifType type, String description, CifCheckViolations violations) {
-        violations.add(type, new LiteralMessage("uses %s \"%s\"", description, typeToStr(type)));
+        addTypeViolation(type, description, "", violations);
+    }
+
+    /**
+     * Add a violation for the given type.
+     *
+     * @param type The type.
+     * @param description The description of the type.
+     * @param postfix Additional description after the type.
+     * @param violations The violations collected so far. Is modified in-place.
+     */
+    private void addTypeViolation(CifType type, String description, String postfix, CifCheckViolations violations) {
+        violations.add(type, new LiteralMessage("uses %s \"%s\"%s", description, typeToStr(type),
+                postfix.isEmpty() ? "" : (" " + postfix)));
     }
 
     /** The type, or sub-type, to disallow. */
@@ -185,6 +222,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
         /** Disallow function types. Note that this includes standard library function types. */
         FUNC_TYPES,
+
+        /**
+         * Disallow function types outside call context. This includes storage of standard library distribution
+         * functions in discrete variables.
+         */
+        FUNC_TYPES_AS_DATA,
 
         /** Disallow all integer types (ranged and rangeless ones). */
         INT_TYPES,

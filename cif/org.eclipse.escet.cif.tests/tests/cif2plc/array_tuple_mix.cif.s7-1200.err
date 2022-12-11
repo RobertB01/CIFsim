@@ -1,5 +1,13 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/array_tuple_mix.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported type "list[2] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[2] int": list types are currently not supported for S7-1200 output.
- - Unsupported type "list[2] tuple(int a; int b)": list types are currently not supported for S7-1200 output.
+ - Unsupported "aut.l1" (File "cif2plc/array_tuple_mix.cif": line 24, columns 12 .. 13): uses list type "list[2] int".
+ - Unsupported "aut.l1" (File "cif2plc/array_tuple_mix.cif": line 24, columns 12 .. 13): uses list type "list[2] tuple(int a; int b)".
+ - Unsupported "aut.l2" (File "cif2plc/array_tuple_mix.cif": line 28, columns 12 .. 13): uses list type "list[2] int".
+ - Unsupported "aut.l2" (File "cif2plc/array_tuple_mix.cif": line 28, columns 12 .. 13): uses list type "list[2] tuple(int a; int b)".
+ - Unsupported "aut.l3" (File "cif2plc/array_tuple_mix.cif": line 31, columns 12 .. 13): uses list type "list[2] tuple(int a; int b)".
+ - Unsupported "aut.l4" (File "cif2plc/array_tuple_mix.cif": line 34, columns 12 .. 13): uses list type "list[2] tuple(int a; int b)".
+ - Unsupported "aut.ltii" (File "cif2plc/array_tuple_mix.cif": line 19, columns 32 .. 35): uses list type "list[2] tuple(int a; int b)".
+ - Unsupported "aut.ltii" (File "cif2plc/array_tuple_mix.cif": line 19, columns 32 .. 35): uses list type "list[2] tuple(int[3..5]; int[4..6])".
+ - Unsupported "aut.tlili" (File "cif2plc/array_tuple_mix.cif": line 20, columns 32 .. 36): uses list type "list[2] int".
+ - Unsupported "aut.tlili" (File "cif2plc/array_tuple_mix.cif": line 20, columns 32 .. 36): uses list type "list[2] int[7..8]".
+ - Unsupported "aut.tlili" (File "cif2plc/array_tuple_mix.cif": line 20, columns 32 .. 36): uses list type "list[2] int[9..10]".

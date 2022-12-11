@@ -1,6 +1,0 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "g" (File "common_checks/CompNoInitPredsCheck.cif": line 16, column 7): group contains an initialization predicate.
- - Unsupported "g.a" (File "common_checks/CompNoInitPredsCheck.cif": line 20, column 13): automaton contains an initialization predicate.
- - Unsupported "g.A" (File "common_checks/CompNoInitPredsCheck.cif": line 26, column 17): automaton definition contains an initialization predicate.
- - Unsupported "g.G" (File "common_checks/CompNoInitPredsCheck.cif": line 32, column 13): group definition contains an initialization predicate.
- - Unsupported specification (File "common_checks/CompNoInitPredsCheck.cif": line 1, column 1): the top level scope of the specification contains an initialization predicate.
