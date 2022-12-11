@@ -11,20 +11,24 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-import "wolf_goat_cabbage.game.cif";
+//////////////////////////////////////////////////////////////////////////////
+// With the requirements enforced, only safe moves can be made.
+//
+// The safe moves can be inspected, revealing useless moves are still possible, including:
+//  - Unloading from the boat what was just loaded into it, without moving the boat in between.
+//  - Moving the boat back and forth without transporting anything on or off the boat.
+//  - Moving the same object back and forth.
+//  - (Partial) undoing of the solution as far as it is already achieved.
+//  - Making moves after you've already won.
+//
+// Model additional restrictions to prevent these useless moves, in order to:
+//  - Allow looking at only the relevant safe moves.
+//  - Allow playing a random solution as a movie using simulation.
+//
+// A supervisor synthesized with these extra restrictions allows only safe and useful moves.
+//////////////////////////////////////////////////////////////////////////////
 
-// Prevent that anything gets eaten.
-requirement not GameOver;
-
-// Ensure that we can always win.
-marked GameWon;
-
-/////
-// The remaining requirements are needed only to ensure simulation will take a logical path.
-/////
-
-// Stop doing anything once the game is won.
-requirement GameWon disables {c_wolfIn, c_goatIn, c_cabbageIn, c_toOtherBank};
+import "wolf_goat_cabbage.requirements.only_safe_moves.cif";
 
 // Prevent useless loading into, and unloading from, the boat, without going to the other bank.
 requirement PreventUselessInOut:
@@ -36,11 +40,6 @@ requirement PreventUselessInOut:
     edge c_wolfOut, c_goatOut, c_cabbageOut when inAtBank != boat.atBank do inAtBank := 0;
 end
 
-// Prevent useless moves:
-// - Prevent moving as a first step, without anything on the boat.
-// - Prevent moving the boat back and forth without transporting anything on or off the boat.
-// - Prevent moving the same object back and forth.
-// - Prevent (partial) undoing of the solution.
 // A solution requires at least seven moves, so don't allow more.
 requirement PreventUselessUndoing:
   disc int[0..7] moveCount = 0;
@@ -49,3 +48,6 @@ requirement PreventUselessUndoing:
     initial; marked;
     edge c_toOtherBank when moveCount < 7 do moveCount := moveCount + 1;
 end
+
+// Stop doing anything once the game is won.
+requirement GameWon disables {c_wolfIn, c_goatIn, c_cabbageIn, c_toOtherBank};
