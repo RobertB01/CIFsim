@@ -13,8 +13,8 @@
 
 // -----
 // Models the requirements of the game to ensure you can win and don't lose.
-// These requirements prevent anything from getting eaten.
-// The supervisor synthesized using these requirements allows only safe moves.
+// The supervisor synthesized using these requirements allows only 'safe' moves.
+// In this case 'safe' means that nothing gets eaten, and we can always still win the game.
 // -----
 
 import "wolf_goat_cabbage.game.cif";
@@ -22,5 +22,7 @@ import "wolf_goat_cabbage.game.cif";
 // Prevent that anything gets eaten.
 requirement not GameOver;
 
-// Ensure that we can always win.
+// Synthesis ensures that a marked state can always be reached.
+// If that is not possible, synthesis indicates a solution does not exist by producing an 'empty supervisor' error.
+// Therefore, indicate that the state in which we win should always be reachable.
 marked GameWon;
