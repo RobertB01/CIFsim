@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////
+// -----
 // With the requirements enforced, only safe moves can be made.
 //
 // The safe moves can be inspected, revealing useless moves are still possible, including:
@@ -26,7 +26,7 @@
 //  - Allow playing a random solution as a movie using simulation.
 //
 // A supervisor synthesized with these extra restrictions allows only safe and useful moves.
-//////////////////////////////////////////////////////////////////////////////
+// -----
 
 import "wolf_goat_cabbage.requirements.only_safe_moves.cif";
 
