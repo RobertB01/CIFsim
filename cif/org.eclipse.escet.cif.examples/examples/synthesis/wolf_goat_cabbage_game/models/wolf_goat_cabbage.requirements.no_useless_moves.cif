@@ -1,0 +1,53 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// -----
+// With the requirements enforced, only safe moves can be made.
+//
+// The safe moves can be inspected, revealing useless moves are still possible, including:
+//  - Unloading from the boat what was just loaded into it, without moving the boat in between.
+//  - Moving the boat back and forth without transporting anything on or off the boat.
+//  - Moving the same object back and forth.
+//  - (Partial) undoing of the solution as far as it is already achieved.
+//  - Making moves after you've already won.
+//
+// Model additional restrictions to prevent these useless moves, in order to:
+//  - Allow looking at only the relevant safe moves.
+//  - Allow playing a random solution as a movie using simulation.
+//
+// A supervisor synthesized with these extra restrictions allows only safe and useful moves.
+// -----
+
+import "wolf_goat_cabbage.requirements.only_safe_moves.cif";
+
+// Prevent useless loading into, and unloading from, the boat, without going to the other bank.
+requirement PreventUselessInOut:
+  disc int[0..2] inAtBank = 0;
+
+  location:
+    initial; marked;
+    edge c_wolfIn, c_goatIn, c_cabbageIn    when inAtBank = 0            do inAtBank := boat.atBank;
+    edge c_wolfOut, c_goatOut, c_cabbageOut when inAtBank != boat.atBank do inAtBank := 0;
+end
+
+// A solution requires at least seven moves, so don't allow more.
+requirement PreventUselessUndoing:
+  disc int[0..7] moveCount = 0;
+
+  location:
+    initial; marked;
+    edge c_toOtherBank when moveCount < 7 do moveCount := moveCount + 1;
+end
+
+// Stop doing anything once the game is won.
+requirement GameWon disables {c_wolfIn, c_goatIn, c_cabbageIn, c_toOtherBank};

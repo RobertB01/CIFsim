@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Execute this ToolDef to play a movie with one of the solutions.
+// There are two solutions, and one is selected at random.
+
+from "lib:cif" import *;
+
+mkdir("generated", force=true);
+
+cifdatasynth(
+    "models/wolf_goat_cabbage.requirements.no_useless_moves.cif",
+    "--forward-reach=true",
+    "--output-mode=error",
+    "--output=generated/wolf_goat_cabbage.play_solution.supervisor.cif",
+);
+
+cifmerge(
+    "generated/wolf_goat_cabbage.play_solution.supervisor.cif",
+    "models/wolf_goat_cabbage.visualization.cif",
+    "models/wolf_goat_cabbage.delays.cif",
+    "--output-mode=error",
+    "--output=generated/wolf_goat_cabbage.play_solution.simulation.cif",
+);
+
+cifsim(
+    "generated/wolf_goat_cabbage.play_solution.simulation.cif",
+    "--input-mode=auto",
+    "--auto-algo=random",
+    "--frame-rate=30",
+);

@@ -1,0 +1,49 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// With the requirements enforced, only safe moves can be made.
+//
+// The safe moves can be inspected, revealing useless moves are still possible, including:
+//  - Unloading from the boat what was just loaded into it, without moving the boat in between.
+//  - Moving the boat back and forth without transporting anything on or off the boat.
+//  - Moving the same object back and forth.
+//  - (Partial) undoing of the solution as far as it is already achieved.
+//  - Making moves after you've already won.
+//
+// Execute this ToolDef to generate a yEd diagram with all the safe, useful moves.
+
+from "lib:cif" import *;
+
+mkdir("generated", force=true);
+
+cifdatasynth(
+    "models/wolf_goat_cabbage.requirements.no_useless_moves.cif",
+    "--forward-reach=true",
+    "--output-mode=error",
+    "--output=generated/wolf_goat_cabbage.safe_useful_moves.supervisor.cif",
+);
+
+cifexplorer(
+    "generated/wolf_goat_cabbage.safe_useful_moves.supervisor.cif",
+    "--output-mode=error",
+    "--output=generated/wolf_goat_cabbage.safe_useful_moves.statespace.cif",
+);
+
+cif2yed(
+    "generated/wolf_goat_cabbage.safe_useful_moves.statespace.cif",
+    "--output-mode=error",
+    "--diagram-kinds=model",
+    "--output=generated/wolf_goat_cabbage.safe_useful_moves.graphml",
+);
+
+outln("Open 'generated/wolf_goat_cabbage.safe_useful_moves.graphml' in yEd and apply 'One-Click Layout' to see all safe, useful moves.");
