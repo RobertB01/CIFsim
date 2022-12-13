@@ -22,7 +22,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
 import org.eclipse.escet.common.java.BitSets;
 
 /**
@@ -35,13 +37,30 @@ import org.eclipse.escet.common.java.BitSets;
  * </p>
  */
 public class ForceVarOrderer implements VarOrderer {
+    /** The metric to use to pick the best order. */
+    private final VarOrdererMetric metric;
+
+    /** The relations to use to compute metric values. */
+    private final RelationsKind relationsKind;
+
+    /**
+     * Constructor for the {@link ForceVarOrderer} class.
+     *
+     * @param metric The metric to use to pick the best order.
+     * @param relationsKind The relations to use to compute metric values.
+     */
+    public ForceVarOrderer(VarOrdererMetric metric, RelationsKind relationsKind) {
+        this.metric = metric;
+        this.relationsKind = relationsKind;
+    }
+
     @Override
     public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel)
     {
-        // Get hyper-edges.
+        // Get variable count and hyper-edges.
         int varCnt = inputOrder.size();
-        BitSet[] hyperEdges = helper.getHyperEdges();
+        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
@@ -59,7 +78,7 @@ public class ForceVarOrderer implements VarOrderer {
         }
 
         // Crate 'cogs' storage: the center of gravity for each hyper-edge.
-        double[] cogs = new double[hyperEdges.length];
+        double[] cogs = new double[hyperEdges.size()];
 
         // Initialize 'edgeCounts': per variable/vertex, the number of hyper-edges of which it is a part.
         int[] edgeCounts = new int[varCnt];
@@ -82,18 +101,18 @@ public class ForceVarOrderer implements VarOrderer {
             helper.dbg(dbgLevel, "Maximum number of iterations: %,d", maxIter);
         }
 
-        // Initialize total span.
-        long curTotalSpan = helper.computeTotalSpanForNewIndices(curIndices);
-        long bestTotalSpan = curTotalSpan;
+        // Initialize metric values.
+        double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
+        double bestMetricValue = curMetricValue;
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "before");
+            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "before", relationsKind);
         }
 
         // Perform iterations of the algorithm.
         for (int curIter = 0; curIter < maxIter; curIter++) {
             // Compute center of gravity for each edge.
-            for (int i = 0; i < hyperEdges.length; i++) {
-                BitSet edge = hyperEdges[i];
+            for (int i = 0; i < hyperEdges.size(); i++) {
+                BitSet edge = hyperEdges.get(i);
                 double cog = 0;
                 for (int j: BitSets.iterateTrueBits(edge)) {
                     cog += curIndices[j];
@@ -103,8 +122,8 @@ public class ForceVarOrderer implements VarOrderer {
 
             // Compute (new) locations.
             Arrays.fill(locations, 0.0);
-            for (int i = 0; i < hyperEdges.length; i++) {
-                BitSet edge = hyperEdges[i];
+            for (int i = 0; i < hyperEdges.size(); i++) {
+                BitSet edge = hyperEdges.get(i);
                 for (int j: BitSets.iterateTrueBits(edge)) {
                     locations[j] += cogs[i];
                 }
@@ -124,34 +143,34 @@ public class ForceVarOrderer implements VarOrderer {
                 curIndices[idxLocPairs.get(i).idx] = i;
             }
 
-            // Get new total span.
-            long newTotalSpan = helper.computeTotalSpanForNewIndices(curIndices);
+            // Get new metric value.
+            double newMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
             if (dbgEnabled) {
-                helper.dbgMetricsForNewIndices(dbgLevel, curIndices, fmt("iteration %,d", curIter + 1));
+                helper.dbgMetricsForNewIndices(dbgLevel, curIndices, fmt("iteration %,d", curIter + 1), relationsKind);
             }
 
-            // Stop when total span stops changing. We could stop as soon as it stops decreasing. However, we may end
+            // Stop when metric value stops changing. We could stop as soon as it stops decreasing. However, we may end
             // up in a local optimum. By continuing, and allowing increases, we can get out of the local optimum, and
             // try to find a better local or global optimum. We could potentially get stuck in an oscillation. However,
             // we have a maximum on the number of iterations, so it always terminates. We may spend more iterations
             // than needed, but the FORCE algorithm is fast, so it is not expected to be an issue.
-            if (newTotalSpan == curTotalSpan) {
+            if (newMetricValue == curMetricValue) {
                 break;
             }
 
-            // Update best order, if new order is better than the current best order (has lower total span).
-            if (newTotalSpan < bestTotalSpan) {
+            // Update best order, if new order is better than the current best order (has lower metric value).
+            if (newMetricValue < bestMetricValue) {
                 System.arraycopy(curIndices, 0, bestIndices, 0, varCnt);
-                bestTotalSpan = newTotalSpan;
+                bestMetricValue = newMetricValue;
             }
 
             // Prepare for next iteration.
-            curTotalSpan = newTotalSpan;
+            curMetricValue = newMetricValue;
         }
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, bestIndices, "after");
+            helper.dbgMetricsForNewIndices(dbgLevel, bestIndices, "after", relationsKind);
         }
 
         // Return the best order.

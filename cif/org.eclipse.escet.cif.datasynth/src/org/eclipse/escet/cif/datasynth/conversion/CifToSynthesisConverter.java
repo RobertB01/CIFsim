@@ -49,6 +49,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -98,7 +99,12 @@ import org.eclipse.escet.cif.datasynth.varorder.ForceVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.SequentialVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.SlidingWindowVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.VarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
+import org.eclipse.escet.cif.datasynth.varorder.graph.algos.GeorgeLiuPseudoPeripheralNodeFinder;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.WesMetric;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -838,14 +844,15 @@ public class CifToSynthesisConverter {
         // Get algorithms to apply.
         List<VarOrderer> orderers = list();
         if (BddDcshVarOrderOption.isEnabled()) {
-            orderers.add(new DcshVarOrderer());
+            orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
+                    RelationsKind.CONFIGURED));
         }
         if (BddForceVarOrderOption.isEnabled()) {
-            orderers.add(new ForceVarOrderer());
+            orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
         }
         if (BddSlidingWindowVarOrderOption.isEnabled()) {
             int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen));
+            orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
         }
 
         // Only apply a variable ordering algorithm if at least one of them is enabled.
@@ -872,8 +879,11 @@ public class CifToSynthesisConverter {
         // relations exist for improving the variable order. It also avoids division by zero issues.
         List<SynthesisVariable> variables = Arrays.asList(synthAut.variables);
         VarOrdererHelper helper = new VarOrdererHelper(spec, variables);
-        long graphEdgeCount = helper.getGraph().edgeCount();
-        if (helper.getHyperEdges().length == 0) {
+        List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
+        Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
+        long hyperEdgeCount = hyperEdges.size();
+        long graphEdgeCount = graph.edgeCount();
+        if (hyperEdgeCount == 0) {
             if (dbgEnabled) {
                 dbg();
                 dbg("Skipping automatic variable ordering: no hyper-edges.");
@@ -894,7 +904,7 @@ public class CifToSynthesisConverter {
         if (dbgEnabled) {
             dbg();
             dbg("Applying automatic variable ordering:");
-            dbg("  Number of hyper-edges: %,d", helper.getHyperEdges().length);
+            dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
             dbg("  Number of graph edges: %,d", graphEdgeCount);
             dbg();
         }

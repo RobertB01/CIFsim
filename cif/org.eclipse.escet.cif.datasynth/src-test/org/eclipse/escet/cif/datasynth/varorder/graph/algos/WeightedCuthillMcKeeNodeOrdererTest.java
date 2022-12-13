@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 public class WeightedCuthillMcKeeNodeOrdererTest extends NodeOrdererTest {
     @Override
     protected NodeOrderer createNodeOrderer() {
-        return new WeightedCuthillMcKeeNodeOrderer();
+        return new WeightedCuthillMcKeeNodeOrderer(new GeorgeLiuPseudoPeripheralNodeFinder());
     }
 
     @Override

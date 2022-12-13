@@ -15,10 +15,13 @@ package org.eclipse.escet.cif.datasynth.varorder;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
 import org.eclipse.escet.common.java.PermuteUtils;
 
 /** Sliding window algorithm variable ordering heuristic. */
@@ -26,13 +29,23 @@ public class SlidingWindowVarOrderer implements VarOrderer {
     /** The maximum length of the window. */
     private final int maxLen;
 
+    /** The metric to use to pick the best order. */
+    private final VarOrdererMetric metric;
+
+    /** The relations to use to compute metric values. */
+    private final RelationsKind relationsKind;
+
     /**
      * Constructor for the {@link SlidingWindowVarOrderer} class.
      *
      * @param maxLen The maximum length of the window.
+     * @param metric The metric to use to pick the best order.
+     * @param relationsKind The relations to use to compute metric values.
      */
-    public SlidingWindowVarOrderer(int maxLen) {
+    public SlidingWindowVarOrderer(int maxLen, VarOrdererMetric metric, RelationsKind relationsKind) {
         this.maxLen = maxLen;
+        this.metric = metric;
+        this.relationsKind = relationsKind;
     }
 
     @Override
@@ -53,11 +66,12 @@ public class SlidingWindowVarOrderer implements VarOrderer {
             helper.dbg(dbgLevel, "Window length: %,d", length);
         }
 
-        // Initialize current indices and total span.
+        // Initialize current indices and metric value.
+        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
         int[] curIndices = helper.getNewIndicesForVarOrder(inputOrder);
-        long curSpan = helper.computeTotalSpanForNewIndices(curIndices);
+        double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "before");
+            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "before", relationsKind);
         }
 
         // Process all windows.
@@ -69,33 +83,33 @@ public class SlidingWindowVarOrderer implements VarOrderer {
             System.arraycopy(curIndices, offset, window, 0, length);
             PermuteUtils.permute(window, windowPerms);
 
-            // Compute total span for each order.
+            // Compute metric value for each order.
             int bestIdx = -1;
             int[] windowIndices = curIndices.clone();
             for (int i = 0; i < windowPerms.length; i++) {
                 int[] windowPerm = windowPerms[i];
                 System.arraycopy(windowPerm, 0, windowIndices, offset, length);
-                long windowSpan = helper.computeTotalSpanForNewIndices(windowIndices);
-                if (windowSpan < curSpan) { // Check for better order (with lower total span).
-                    curSpan = windowSpan;
+                double windowMetricValue = metric.computeForNewIndices(windowIndices, hyperEdges);
+                if (windowMetricValue < curMetricValue) { // Check for better order (with lower metric value).
+                    curMetricValue = windowMetricValue;
                     bestIdx = i;
                 }
             }
 
-            // Update order if improved by this window (has lower total span).
+            // Update order if improved by this window (has lower metric value).
             if (bestIdx >= 0) {
                 System.arraycopy(windowPerms[bestIdx], 0, curIndices, offset, length);
 
                 if (dbgEnabled) {
                     helper.dbgMetricsForNewIndices(dbgLevel, curIndices,
-                            fmt("window %d..%d", offset, offset + length - 1));
+                            fmt("window %d..%d", offset, offset + length - 1), relationsKind);
                 }
             }
         }
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "after");
+            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "after", relationsKind);
         }
 
         // Return the resulting order.

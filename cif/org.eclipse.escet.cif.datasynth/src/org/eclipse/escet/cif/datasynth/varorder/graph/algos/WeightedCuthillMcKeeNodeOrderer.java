@@ -38,6 +38,18 @@ import org.eclipse.escet.common.java.Assert;
  * </p>
  */
 public class WeightedCuthillMcKeeNodeOrderer extends NodeOrderer {
+    /** The pseudo-peripheral node finder to use. */
+    private final PseudoPeripheralNodeFinder nodeFinder;
+
+    /**
+     * Constructor for the {@link WeightedCuthillMcKeeNodeOrderer} class.
+     *
+     * @param nodeFinder The pseudo-peripheral node finder to use.
+     */
+    public WeightedCuthillMcKeeNodeOrderer(PseudoPeripheralNodeFinder nodeFinder) {
+        this.nodeFinder = nodeFinder;
+    }
+
     @Override
     protected List<Node> orderNodesPartition(Graph graph, List<Node> partition) {
         // In the paper by Lousberg et al, unconnected nodes in the graph (nodes without any edges) are treated as a
@@ -63,7 +75,7 @@ public class WeightedCuthillMcKeeNodeOrderer extends NodeOrderer {
         List<Node> vR = listc(partition.size());
 
         // Line 2: Compute pseudo-peripheral node 'p'.
-        Node p = new GeorgeLiuPseudoPeripheralNodeFinder().findPseudoPeripheralNode(graph, partition, null);
+        Node p = nodeFinder.findPseudoPeripheralNode(graph, partition, null);
 
         // Line 3: Mark 'p' and append 'p' to 'R'.
         BitSet marked = bitset(graph.size());

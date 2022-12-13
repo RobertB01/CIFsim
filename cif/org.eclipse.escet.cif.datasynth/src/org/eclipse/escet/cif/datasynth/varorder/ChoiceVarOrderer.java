@@ -13,11 +13,13 @@
 
 package org.eclipse.escet.cif.datasynth.varorder;
 
+import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
 import org.eclipse.escet.common.java.Assert;
 
 /** Variable ordering algorithm that applies multiple other algorithms, and picks the best order. */
@@ -31,14 +33,18 @@ public class ChoiceVarOrderer implements VarOrderer {
     /** The metric to use to pick the best order. */
     private final VarOrdererMetric metric;
 
+    /** The relations to use to compute metric values. */
+    private final RelationsKind relationsKind;
+
     /**
      * Constructor for the {@link ChoiceVarOrderer} class. Does not name the choice-based algorithm.
      *
      * @param algorithms The sequence of algorithms to apply. Must be at least two algorithms.
      * @param metric The metric to use to pick the best order.
+     * @param relationsKind The relations to use to compute metric values.
      */
-    public ChoiceVarOrderer(List<VarOrderer> algorithms, VarOrdererMetric metric) {
-        this(null, algorithms, metric);
+    public ChoiceVarOrderer(List<VarOrderer> algorithms, VarOrdererMetric metric, RelationsKind relationsKind) {
+        this(null, algorithms, metric, relationsKind);
     }
 
     /**
@@ -47,11 +53,15 @@ public class ChoiceVarOrderer implements VarOrderer {
      * @param name The name of the choice-based algorithm.
      * @param algorithms The sequence of algorithms to apply. Must be at least two algorithms.
      * @param metric The metric to use to pick the best order.
+     * @param relationsKind The relations to use to compute metric values.
      */
-    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms, VarOrdererMetric metric) {
+    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms, VarOrdererMetric metric,
+            RelationsKind relationsKind)
+    {
         this.name = name;
         this.algorithms = algorithms;
         this.metric = metric;
+        this.relationsKind = relationsKind;
         Assert.check(algorithms.size() >= 2);
     }
 
@@ -84,7 +94,8 @@ public class ChoiceVarOrderer implements VarOrderer {
             List<SynthesisVariable> algoOrder = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
 
             // Update best order (with lowest metric value).
-            double algoMetric = metric.compute(helper, algoOrder);
+            List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
+            double algoMetric = metric.computeForVarOrder(helper, algoOrder, hyperEdges);
             if (algoMetric < bestMetric) {
                 bestOrder = algoOrder;
                 bestMetric = algoMetric;
