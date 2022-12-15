@@ -1,0 +1,66 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group equal_on_int_vs_real:
+  alg bool a1 = 1.0 = 1;
+  alg bool a2 = 1 = 1.0;
+
+  group def G():
+    alg real r = 1.0;
+  end
+
+  g : G();
+
+  alg bool b1 = 1 = g.r;
+  alg bool b2 = g.r = 1;
+
+  alg bool b3 = (1 + 1) = g.r;
+  alg bool b4 = g.r = (1 + 1);
+end
+
+group unequal_on_int_vs_real:
+  alg bool a1 = 1.0 != 1;
+  alg bool a2 = 1 != 1.0;
+
+  group def G():
+    alg real r = 1.0;
+  end
+
+  g : G();
+
+  alg bool b1 = 1 != g.r;
+  alg bool b2 = g.r != 1;
+
+  alg bool b3 = (1 + 1) != g.r;
+  alg bool b4 = g.r != (1 + 1);
+end
+
+group equal_unequal_on_empty_set:
+  alg bool b1 = <set int>{}  = {1, 2};
+  alg bool b2 = {1, 2}       = <set int>{};
+  alg bool b3 = <set int>{}  = <set int>{};
+
+  alg bool b4 = <set int>{} != {1, 2};
+  alg bool b5 = {1, 2}      != <set int>{};
+  alg bool b6 = <set int>{} != <set int>{};
+end
+
+group equal_unequal_on_empty_dict:
+  alg bool b1 = <dict(int:int)>{}  = {1:2};
+  alg bool b2 = {1:2}              = <dict(int:int)>{};
+  alg bool b3 = <dict(int:int)>{}  = <dict(int:int)>{};
+
+  alg bool b4 = <dict(int:int)>{} != {1:2};
+  alg bool b5 = {1:2}             != <dict(int:int)>{};
+  alg bool b6 = <dict(int:int)>{} != <dict(int:int)>{};
+end
