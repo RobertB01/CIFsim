@@ -26,11 +26,18 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version
 
 TBD
 
+Language changes:
+
+* Improved type checking for the `=` and `!=` binary expressions.
+The type checker now not only uses the type of the left operand as type hint for the right operand, but also the type of the right operand as type hint for the left operand, in case the former is not sufficient.
+This allows for instance type widening for the left operand to be derived from the right operand, such that both expressions `x = 1` and `1 = x` are now supported, with `x` a `real`-valued variable (issue {escet-issue}446[#446]).
+
 New features:
 
 * The CIF data-based synthesis tool now has a second hyper-edge creator, the linearized hyper-edge creator, which may improve performance.
 The legacy hyper-edge creator is still used by default.
 The hyper-edge creator can be configured using the new _BDD hyper-edge creation algorithm_ option (issue {escet-issue}380[#380]).
+* A new CIF example model has been added (issue {escet-issue}465[#465]).
 * A new CIF benchmarking model has been added (issue {escet-issue}451[#451]).
 * The CIF benchmarking models now come with scripts to easily benchmark data-based synthesis (issues {escet-issue}375[#375] and {escet-issue}455[#455]).
 
