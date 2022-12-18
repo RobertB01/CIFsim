@@ -44,7 +44,7 @@ TO_REMOVE=$(cat $FILENAME_CONTENTS)
 rm -rf $TO_REMOVE
 
 # Copy files for new standard visible website.
-echo "Removing files of new standard visible website..."
+echo "Copying files of new standard visible website..."
 cp -r ${VERSION_TO_MAKE_DEFAULT}/* .
 
 # Update metadata files.
