@@ -28,10 +28,6 @@
                value="%aboutText">
          </property>
          <property
-               name="introTitle"
-               value="Welcome to Eclipse ESCET (Incubation)">
-         </property>
-         <property
                name="aboutImage"
                value="images/escet_about.png">
          </property>
@@ -40,8 +36,20 @@
                value="images/escet_16x16.png,images/escet_32x32.png,images/escet_48x48.png,images/escet_64x64.png,images/escet_128x128.png,images/escet_256x256.png">
          </property>
          <property
+               name="introTitle"
+               value="Eclipse Supervisory Control Engineering Toolkit">
+         </property>
+         <property
                name="introBrandingImage"
                value="product:images/escet_intro.png">
+         </property>
+         <property
+               name="introBrandingImageText"
+               value="Eclipse ESCET™">
+         </property>
+         <property
+               name="introDescription-root"
+               value="Welcome to Eclipse ESCET™">
          </property>
          <property
                name="preferenceCustomization"
@@ -55,6 +63,61 @@
             introId="org.eclipse.ui.intro.universal"
             productId="org.eclipse.escet.product.branding.product">
       </introProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.quicklinks">
+      <url
+            description="Read general information related to the Eclipse ESCET toolkit as a whole, its general tools, its release notes, and more."
+            icon="platform:/plugin/org.eclipse.ui.intro.universal/themes/solstice/graphics/icons/ctool/start-cheatsheet.png"
+            importance="medium"
+            label="Eclipse ESCET documentation"
+            location="http://org.eclipse.ui.intro/showHelpTopic?id=/org.eclipse.escet.releng.project.documentation/documentation.html">
+      </url>
+      <url
+            description="Read about the CIF language and tools, its release notes, and more."
+            icon="platform:/plugin/org.eclipse.ui.intro.universal/themes/solstice/graphics/icons/ctool/start-cheatsheet.png"
+            importance="medium"
+            label="CIF documentation"
+            location="http://org.eclipse.ui.intro/showHelpTopic?id=/org.eclipse.escet.cif.documentation/documentation.html">
+      </url>
+      <url
+            description="Read about the Chi language and tools, its release notes, and more."
+            icon="platform:/plugin/org.eclipse.ui.intro.universal/themes/solstice/graphics/icons/ctool/start-cheatsheet.png"
+            importance="medium"
+            label="Chi documentation"
+            location="http://org.eclipse.ui.intro/showHelpTopic?id=/org.eclipse.escet.chi.documentation/documentation.html">
+      </url>
+      <url
+            description="Read about the ToolDef language and tools, its release notes, and more."
+            icon="platform:/plugin/org.eclipse.ui.intro.universal/themes/solstice/graphics/icons/ctool/start-cheatsheet.png"
+            importance="medium"
+            label="ToolDef documentation"
+            location="http://org.eclipse.ui.intro/showHelpTopic?id=/org.eclipse.escet.tooldef.documentation/documentation.html">
+      </url>
+      <command
+            description="Get started with examples that show the use of the CIF language and tools."
+            icon="platform:/plugin/org.eclipse.ui.intro.universal/themes/solstice/graphics/icons/ctool/import-existing-project.png"
+            id="org.eclipse.ui.newWizard(newWizardId=org.eclipse.escet.cif.examples.CifExamplesWizard)"
+            importance="medium"
+            label="Import CIF example models"
+            resolution="standby">
+      </command>
+      <command
+            description="Get started with CIF benchmark models."
+            icon="platform:/plugin/org.eclipse.ui.intro.universal/themes/solstice/graphics/icons/ctool/import-existing-project.png"
+            id="org.eclipse.ui.newWizard(newWizardId=org.eclipse.escet.cif.examples.CifBenchmarksWizard)"
+            importance="medium"
+            label="Import CIF benchmark models"
+            resolution="standby">
+      </command>
+      <command
+            description="Create a new empty project for storing your models and other files."
+            icon="platform:/plugin/org.eclipse.ui.intro.universal/themes/solstice/graphics/icons/ctool/new-project.png"
+            id="org.eclipse.ui.newWizard(newWizardId=org.eclipse.ui.wizards.new.project)"
+            importance="medium"
+            label="Create empty project"
+            resolution="standby">
+      </command>
    </extension>
 
 </plugin>
