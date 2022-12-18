@@ -45,6 +45,7 @@ SPDX-License-Identifier: MIT
         <escet.java.version>17</escet.java.version>
         <maven.compiler.source>${escet.java.version}</maven.compiler.source>
         <maven.compiler.target>${escet.java.version}</maven.compiler.target>
+        <maven.compiler.release>${escet.java.version}</maven.compiler.release>
 
         <!-- Minimal Maven version to use. -->
         <maven.minimal.version>3.6.3</maven.minimal.version>
