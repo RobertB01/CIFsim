@@ -37,7 +37,7 @@
          </property>
          <property
                name="introTitle"
-               value="Eclipse Supervisory Control Engineering Toolkit (Incubation)">
+               value="Eclipse Supervisory Control Engineering Toolkit">
          </property>
          <property
                name="introBrandingImage"
@@ -111,7 +111,7 @@
             resolution="standby">
       </command>
       <command
-            description="Create a new empty project in which to store your files."
+            description="Create a new empty project for storing your models and other files."
             icon="platform:/plugin/org.eclipse.ui.intro.universal/themes/solstice/graphics/icons/ctool/new-project.png"
             id="org.eclipse.ui.newWizard(newWizardId=org.eclipse.ui.wizards.new.project)"
             importance="medium"
