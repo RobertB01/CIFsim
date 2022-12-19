@@ -161,6 +161,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.ui.editors/3.14.300.v20210913-0815, EPL-2
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.forms/3.11.300.v20211022-1451, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.ide.application/1.4.400.v20220502-1523, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.ide/3.19.0.v20220511-1638, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.plugin/org.eclipse.ui.intro.quicklinks/1.1.100.v20210315-0954, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.plugin/org.eclipse.ui.intro.universal/3.4.200.v20210409-1747, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.intro/3.6.500.v20220317-1346, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.navigator.resources/3.8.400.v20220203-1803, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.navigator/3.10.200.v20211009-1706, EPL-2.0, approved, eclipse.platform
