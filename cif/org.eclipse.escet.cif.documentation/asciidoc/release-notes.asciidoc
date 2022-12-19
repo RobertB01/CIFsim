@@ -26,9 +26,20 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version
 
 TBD
 
+Language changes:
+
+* Improved type checking for the `=` and `!=` binary expressions.
+The type checker now not only uses the type of the left operand as type hint for the right operand, but also the type of the right operand as type hint for the left operand, in case the former is not sufficient.
+This allows for instance type widening for the left operand to be derived from the right operand, such that both expressions `x = 1` and `1 = x` are now supported, with `x` a `real`-valued variable (issue {escet-issue}446[#446]).
+
 New features:
 
+* The CIF data-based synthesis tool now has a second hyper-edge creator, the linearized hyper-edge creator, which may improve performance.
+The legacy hyper-edge creator is still used by default.
+The hyper-edge creator can be configured using the new _BDD hyper-edge creation algorithm_ option (issue {escet-issue}380[#380]).
+* A new CIF example model has been added (issue {escet-issue}465[#465]).
 * A new CIF benchmarking model has been added (issue {escet-issue}451[#451]).
+* The CIF benchmarking models now come with scripts to easily benchmark data-based synthesis (issues {escet-issue}375[#375] and {escet-issue}455[#455]).
 
 Improvements and fixes:
 
@@ -43,9 +54,16 @@ They now automatically use their dark theme when the Eclipse built-in dark theme
 It now automatically uses its dark theme when the Eclipse built-in dark theme is used, and uses a light theme otherwise (issue {escet-issue}417[#417]).
 * The CIF event-based synthesis analysis tool now has slightly wider colored boxes that distinguish between disabled and different types of enabled choices, for enhanced visual clarity (issue {escet-issue}417[#417]).
 * The CIF to Supremica transformation precondition check has improved output.
-The preconditions themselves have not changed (issue {escet-issue}368[#368]).
+The preconditions themselves have not changed (issues {escet-issue}368[#368], {escet-issue}424[#424], {escet-issue}442[#442] and {escet-issue}470[#470]).
+* The CIF to UPPAAL transformation precondition check has been migrated to the new precondition check framework, which is already used by the CIF to Supremica transformation, resulting in improved output.
+The preconditions themselves have not changed (issue {escet-issue}424[#424]).
+* The CIF PLC code generator precondition check has been migrated to the new precondition check framework, which is already used by the CIF to Supremica transformation, resulting in improved output.
+The preconditions themselves have not changed (issue {escet-issue}457[#457]).
 * Very long lines in the _Console_ view, for instance outputted by the CIF simulator, and long lines in text editors, for instance long lines in synthesized CIF models, now render correctly on Windows (issue {escet-issue}76[#76]).
-* Some very small documentation improvements (issues {escet-issue}199[#199] and {escet-issue}438[#438]).
+* The CIF documentation has been updated to account for changes in recent Inkscape versions (issue {escet-issue}357[#357]).
+* The CIF data-based synthesis documentation has been split into multiple pages, as it was getting quite long (issue {escet-issue}460[#460]).
+* The CIF data-based synthesis documentation on supported updates, expressions and predicates has been improved (issue {escet-issue}459[#459]).
+* Some very small other documentation improvements (issues {escet-issue}199[#199], {escet-issue}438[#438] and {escet-issue}460[#460]).
 
 === Version 0.7 (2022-09-30)
 

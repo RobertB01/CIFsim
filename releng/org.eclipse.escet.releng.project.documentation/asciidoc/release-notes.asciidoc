@@ -44,7 +44,10 @@ Select _System_ to automatically select light or dark mode based on the operatin
 * The _Console_ view now has theming support, and comes with a dark theme in addition to the existing light theme.
 The console now automatically uses its dark theme when the Eclipse built-in dark theme is used, and uses a light theme otherwise (issue {escet-issue}417[#417]).
 * The _Application_ view's status legend has been redesigned to support both light and dark themes (issue {escet-issue}417[#417]).
+* Improved the Eclipse ESCET IDE welcome screen, by making it fit better with the used theme, by adding some useful links to get started, and more (issue {escet-issue}32[#32]).
 * Very long lines in the _Console_ view and text editors now render correctly on Windows (issue {escet-issue}76[#76]).
+* Eclipse ESCET now bundles Java 17 rather than Java 11 (issue {escet-issue}259[#259]).
+* The website of the current Eclipse ESCET release no longer links to version-specific URLs (issue {escet-issue}394[#394]).
 
 === Version 0.7 (2022-09-30)
 
