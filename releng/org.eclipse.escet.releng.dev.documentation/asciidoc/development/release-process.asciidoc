@@ -96,7 +96,7 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 
 ** For _Milestone_ select the just created GitLab milestone.
 
-** For _Labels_ select _RelEng_ and _Type::Enhancement_.
+** For _Labels_ select _RelEng/DevOps_ and _Type::Enhancement_.
 
 ** Click _Create issue_.
 
@@ -360,7 +360,7 @@ Replace `#NNN` by the relevant issue number.
 
 ** For _Milestone_ select the relevant milestone.
 
-** For _Labels_ select _RelEng_ and _Type::Enhancement_.
+** For _Labels_ select _RelEng/DevOps_ and _Type::Enhancement_.
 
 ** Click _Create merge request_.
 
