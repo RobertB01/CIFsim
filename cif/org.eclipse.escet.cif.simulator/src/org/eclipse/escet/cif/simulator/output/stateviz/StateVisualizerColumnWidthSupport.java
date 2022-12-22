@@ -13,6 +13,9 @@
 
 package org.eclipse.escet.cif.simulator.output.stateviz;
 
+import java.util.stream.IntStream;
+
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TableColumn;
@@ -27,6 +30,9 @@ public class StateVisualizerColumnWidthSupport {
 
     /** The graphic context on which to measure text widths. */
     private final GC gc;
+
+    /** Per ASCII character, its width in pixels, or {@code -1} if not yet measured. */
+    private final int[] widths = IntStream.generate(() -> -1).limit(256).toArray();
 
     /** The current width of the column, in pixels. */
     private int curWidth;
@@ -63,7 +69,22 @@ public class StateVisualizerColumnWidthSupport {
      * @return The width in pixels.
      */
     private int getTextWidth(String text) {
-        return gc.textExtent(text).x;
+        // Measure the text width, one character at a time.
+        int calc = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            Assert.check(c >= 0 && c < widths.length);
+            int l = widths[c];
+            if (l == -1) {
+                l = gc.textExtent(String.valueOf(c)).x;
+                widths[c] = l;
+            }
+            calc += l;
+        }
+
+        // Return the text width.
+        // Add a few pixels, just in case per-character measurements deviate from 'entire text at once' measurements.
+        return calc + 4;
     }
 
     /**
