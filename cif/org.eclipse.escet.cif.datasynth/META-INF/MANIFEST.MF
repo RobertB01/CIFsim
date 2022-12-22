@@ -28,10 +28,10 @@ Export-Package: org.eclipse.escet.cif.datasynth,
  org.eclipse.escet.cif.datasynth.conversion,
  org.eclipse.escet.cif.datasynth.options,
  org.eclipse.escet.cif.datasynth.spec,
- org.eclipse.escet.cif.datasynth.varorder,
  org.eclipse.escet.cif.datasynth.varorder.graph,
  org.eclipse.escet.cif.datasynth.varorder.graph.algos,
  org.eclipse.escet.cif.datasynth.varorder.helper,
  org.eclipse.escet.cif.datasynth.varorder.hyperedges,
- org.eclipse.escet.cif.datasynth.varorder.metrics
+ org.eclipse.escet.cif.datasynth.varorder.metrics,
+ org.eclipse.escet.cif.datasynth.varorder.orderers
 Automatic-Module-Name: org.eclipse.escet.cif.datasynth

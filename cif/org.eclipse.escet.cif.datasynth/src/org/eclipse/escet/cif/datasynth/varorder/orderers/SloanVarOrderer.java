@@ -11,38 +11,32 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinder;
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.WeightedCuthillMcKeeNodeOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.graph.algos.SloanNodeOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 
 /**
- * Weighted Cuthill-McKee bandwidth-reducing variable ordering heuristic.
+ * Sloan profile/wavefront-reducing variable ordering heuristic.
  *
- * @see WeightedCuthillMcKeeNodeOrderer
+ * @see SloanNodeOrderer
  */
-public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
-    /** The pseudo-peripheral node finder to use. */
-    private final PseudoPeripheralNodeFinder nodeFinder;
-
+public class SloanVarOrderer implements VarOrderer {
     /** The relations to use to obtain the graph and to compute metric values. */
     private final RelationsKind relationsKind;
 
     /**
-     * Constructor for the {@link WeightedCuthillMcKeeVarOrderer} class.
+     * Constructor for the {@link SloanVarOrderer} class.
      *
-     * @param nodeFinder The pseudo-peripheral node finder to use.
      * @param relationsKind The relations to use to obtain the graph and to compute metric values.
      */
-    public WeightedCuthillMcKeeVarOrderer(PseudoPeripheralNodeFinder nodeFinder, RelationsKind relationsKind) {
-        this.nodeFinder = nodeFinder;
+    public SloanVarOrderer(RelationsKind relationsKind) {
         this.relationsKind = relationsKind;
     }
 
@@ -55,12 +49,12 @@ public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying Weighted Cuthill-McKee algorithm.");
+            helper.dbg(dbgLevel, "Applying Sloan algorithm.");
             helper.dbgMetricsForVarOrder(dbgLevel, inputOrder, "before", relationsKind);
         }
 
         // Apply algorithm.
-        List<Node> order = new WeightedCuthillMcKeeNodeOrderer(nodeFinder).orderNodes(graph);
+        List<Node> order = new SloanNodeOrderer().orderNodes(graph);
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {

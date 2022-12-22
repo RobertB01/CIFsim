@@ -11,32 +11,31 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.SloanNodeOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
 
-/**
- * Sloan profile/wavefront-reducing variable ordering heuristic.
- *
- * @see SloanNodeOrderer
- */
-public class SloanVarOrderer implements VarOrderer {
-    /** The relations to use to obtain the graph and to compute metric values. */
+/** Variable ordering algorithm that returns the reverse order of another algorithm. */
+public class ReverseVarOrderer implements VarOrderer {
+    /** The algorithm to apply. */
+    private final VarOrderer algorithm;
+
+    /** The relations to use to compute metric values. */
     private final RelationsKind relationsKind;
 
     /**
-     * Constructor for the {@link SloanVarOrderer} class.
+     * Constructor for the {@link ReverseVarOrderer} class.
      *
-     * @param relationsKind The relations to use to obtain the graph and to compute metric values.
+     * @param algorithm The algorithm to apply.
+     * @param relationsKind The relations to use to compute metric values.
      */
-    public SloanVarOrderer(RelationsKind relationsKind) {
+    public ReverseVarOrderer(VarOrderer algorithm, RelationsKind relationsKind) {
+        this.algorithm = algorithm;
         this.relationsKind = relationsKind;
     }
 
@@ -44,24 +43,24 @@ public class SloanVarOrderer implements VarOrderer {
     public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel)
     {
-        // Get graph.
-        Graph graph = helper.getGraph(relationsKind);
-
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying Sloan algorithm.");
-            helper.dbgMetricsForVarOrder(dbgLevel, inputOrder, "before", relationsKind);
+            helper.dbg(dbgLevel, "Applying algorithm, and reversing its result:");
         }
 
-        // Apply algorithm.
-        List<Node> order = new SloanNodeOrderer().orderNodes(graph);
+        // Apply the algorithm.
+        List<SynthesisVariable> order = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
+
+        // Reverse the order.
+        Collections.reverse(order);
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNodeOrder(dbgLevel, order, "after", relationsKind);
+            helper.dbg(dbgLevel, "Reversed the variable order.");
+            helper.dbgMetricsForVarOrder(dbgLevel, order, "reversed", relationsKind);
         }
 
-        // Return the resulting order.
-        return helper.reorderForNodeOrder(order);
+        // Return the resulting variable order.
+        return order;
     }
 }
