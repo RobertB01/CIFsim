@@ -74,9 +74,12 @@ pipeline {
                         # Configure 'sign' profile for build.
                         # Sign 'master' branch, to allow checking release signing before deployment.
                         # Sign releases. Determined based on release version tag name.
-                        if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+
+                        #TMP
+                        #if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             BUILD_ARGS="$BUILD_ARGS -Psign"
-                        fi
+                        #fi
+                        #END TMP
 
                         # Override the 'escet.version.enduser' property for releases. Remains 'dev' otherwise.
                         if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
