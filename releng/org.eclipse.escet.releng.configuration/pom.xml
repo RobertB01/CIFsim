@@ -209,10 +209,10 @@ SPDX-License-Identifier: MIT
                             <ws>cocoa</ws>
                             <arch>x86_64</arch>
                         </environment>
+                    </environments>
 
                     <!-- For building and using Maven plugins during the build. -->
                     <pomDependencies>consider</pomDependencies>
-                    </environments>
                 </configuration>
             </plugin>
 
