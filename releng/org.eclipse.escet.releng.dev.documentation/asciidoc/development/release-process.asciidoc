@@ -561,8 +561,16 @@ It may take a few minutes for deleting to complete.
 
 * Archive the downloads of the identified final versions:
 
-** Links to `download.eclipse.org` link:https://wiki.eclipse.org/index.php?title=Equinox/p2/p2.mirrorsURL&diff=444984&oldid=370895[should transparently redirect] to `archive.eclipse.org` for archived files.
-However, this did not work for P2 update sites in the past.
-Hence, this step has been omitted so far, to prevent existing URLs to P2 update sites from breaking for our users.
-Once we verify that these issues have been resolved, we can archive older final releases.
-We could test this when archiving milestone and release candidate versions.
+** Note that links to `download.eclipse.org` link:https://wiki.eclipse.org/index.php?title=Equinox/p2/p2.mirrorsURL&diff=444984&oldid=370895[transparently redirect] to `archive.eclipse.org` for archived files.
+We can therefore safely archive final versions, without breaking links to update sites that use `download.eclipse.org`.
+
+** Go to https://download.eclipse.org/escet/.
+
+** Make sure you are logged in.
+This should make check-boxes appear.
+
+** Select the folders to archive and click the _Move selected to archive.eclipse.org_ button.
+It may take a few minutes for archiving to complete.
+
+** Do not remove final versions.
+They should be kept forever.
