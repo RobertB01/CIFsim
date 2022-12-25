@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET ToolDef I/O (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.tooldef.io;singleton:=true
-Bundle-Version: 0.8.0.qualifier
+Bundle-Version: 0.9.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.setext.runtime;bundle-version="0.8.0",
- org.eclipse.escet.tooldef.parser;bundle-version="0.8.0",
- org.eclipse.escet.tooldef.typechecker;bundle-version="0.8.0",
- org.eclipse.escet.tooldef.metamodel;bundle-version="0.8.0",
- org.eclipse.escet.common.typechecker;bundle-version="0.8.0"
+Require-Bundle: org.eclipse.escet.setext.runtime;bundle-version="0.9.0",
+ org.eclipse.escet.tooldef.parser;bundle-version="0.9.0",
+ org.eclipse.escet.tooldef.typechecker;bundle-version="0.9.0",
+ org.eclipse.escet.tooldef.metamodel;bundle-version="0.9.0",
+ org.eclipse.escet.common.typechecker;bundle-version="0.9.0"
 Export-Package: org.eclipse.escet.tooldef.io
 Automatic-Module-Name: org.eclipse.escet.tooldef.io
