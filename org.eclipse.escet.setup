@@ -285,8 +285,6 @@
     <requirement
         name="org.eclipse.sirius.specifier.feature.group"/>
     <requirement
-        name="org.sonatype.tycho.m2e.feature.feature.group"/>
-    <requirement
         name="net.sf.eclipsecs.feature.group"/>
     <requirement
         name="de.jcup.asciidoctoreditor.feature.group"/>
