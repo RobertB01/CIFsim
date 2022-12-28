@@ -28,7 +28,7 @@ public interface VarOrderer {
      * offer such guarantees. Some heuristic algorithms may in certain cases even produce 'worse' orders.
      * </p>
      *
-     * @param helper Helper for variable ordering algorithms.
+     * @param helper Helper for variable ordering.
      * @param inputOrder The input variable order (to attempt) to improve. Must not be changed in-place.
      * @param dbgEnabled Whether debug output is enabled.
      * @param dbgLevel The debug indentation level.

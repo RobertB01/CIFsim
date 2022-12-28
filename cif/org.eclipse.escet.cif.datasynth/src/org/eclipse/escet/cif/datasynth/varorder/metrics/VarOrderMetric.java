@@ -34,7 +34,7 @@ public interface VarOrderMetric {
     /**
      * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
      *
-     * @param helper Helper for variable ordering algorithms.
+     * @param helper Helper for variable ordering.
      * @param order The variable order.
      * @param hyperEdges The hyper-edges to use to compute the metric value.
      * @return The metric value.
@@ -49,7 +49,7 @@ public interface VarOrderMetric {
     /**
      * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
      *
-     * @param helper Helper for variable ordering algorithms.
+     * @param helper Helper for variable ordering.
      * @param order The node order.
      * @param hyperEdges The hyper-edges to use to compute the metric value.
      * @return The metric value.
