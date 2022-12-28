@@ -33,5 +33,6 @@ Export-Package: org.eclipse.escet.cif.datasynth,
  org.eclipse.escet.cif.datasynth.varorder.helper,
  org.eclipse.escet.cif.datasynth.varorder.hyperedges,
  org.eclipse.escet.cif.datasynth.varorder.metrics,
- org.eclipse.escet.cif.datasynth.varorder.orderers
+ org.eclipse.escet.cif.datasynth.varorder.orderers,
+ org.eclipse.escet.cif.datasynth.varorder.orders
 Automatic-Module-Name: org.eclipse.escet.cif.datasynth
