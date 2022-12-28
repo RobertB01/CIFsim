@@ -20,8 +20,8 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
-/** Variable orderer metric. Lower metric values (heuristically) indicate better variable orders. */
-public interface VarOrdererMetric {
+/** Variable order metric. Lower metric values (heuristically) indicate better variable orders. */
+public interface VarOrderMetric {
     /**
      * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
      *

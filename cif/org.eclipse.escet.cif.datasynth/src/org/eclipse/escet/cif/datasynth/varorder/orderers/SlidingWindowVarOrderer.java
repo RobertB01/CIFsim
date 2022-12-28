@@ -21,7 +21,7 @@ import java.util.List;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
 import org.eclipse.escet.common.java.PermuteUtils;
 
 /** Sliding window algorithm variable ordering heuristic. */
@@ -30,7 +30,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
     private final int maxLen;
 
     /** The metric to use to pick the best order. */
-    private final VarOrdererMetric metric;
+    private final VarOrderMetric metric;
 
     /** The relations to use to compute metric values. */
     private final RelationsKind relationsKind;
@@ -42,7 +42,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
      * @param metric The metric to use to pick the best order.
      * @param relationsKind The relations to use to compute metric values.
      */
-    public SlidingWindowVarOrderer(int maxLen, VarOrdererMetric metric, RelationsKind relationsKind) {
+    public SlidingWindowVarOrderer(int maxLen, VarOrderMetric metric, RelationsKind relationsKind) {
         this.maxLen = maxLen;
         this.metric = metric;
         this.relationsKind = relationsKind;

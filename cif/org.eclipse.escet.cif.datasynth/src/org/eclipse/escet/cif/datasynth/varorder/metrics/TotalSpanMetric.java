@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.escet.common.java.BitSets;
 
 /** Total span metric. */
-public class TotalSpanMetric implements VarOrdererMetric {
+public class TotalSpanMetric implements VarOrderMetric {
     @Override
     public double computeForNewIndices(int[] newIndices, List<BitSet> hyperEdges) {
         return compute(newIndices, hyperEdges);

@@ -24,7 +24,7 @@ import java.util.List;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
 import org.eclipse.escet.common.java.BitSets;
 
 /**
@@ -38,7 +38,7 @@ import org.eclipse.escet.common.java.BitSets;
  */
 public class ForceVarOrderer implements VarOrderer {
     /** The metric to use to pick the best order. */
-    private final VarOrdererMetric metric;
+    private final VarOrderMetric metric;
 
     /** The relations to use to compute metric values. */
     private final RelationsKind relationsKind;
@@ -49,7 +49,7 @@ public class ForceVarOrderer implements VarOrderer {
      * @param metric The metric to use to pick the best order.
      * @param relationsKind The relations to use to compute metric values.
      */
-    public ForceVarOrderer(VarOrdererMetric metric, RelationsKind relationsKind) {
+    public ForceVarOrderer(VarOrderMetric metric, RelationsKind relationsKind) {
         this.metric = metric;
         this.relationsKind = relationsKind;
     }

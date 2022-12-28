@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.escet.common.java.BitSets;
 
 /** Weighted Event Span (WES) metric. */
-public class WesMetric implements VarOrdererMetric {
+public class WesMetric implements VarOrderMetric {
     @Override
     public double computeForNewIndices(int[] newIndices, List<BitSet> hyperEdges) {
         return compute(newIndices, hyperEdges);
