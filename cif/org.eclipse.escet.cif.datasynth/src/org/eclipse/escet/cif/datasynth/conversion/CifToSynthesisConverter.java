@@ -97,7 +97,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.GeorgeLiuPseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.WesMetric;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.DcshVarOrderer;
@@ -878,7 +878,7 @@ public class CifToSynthesisConverter {
         // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
         // relations exist for improving the variable order. It also avoids division by zero issues.
         List<SynthesisVariable> variables = Arrays.asList(synthAut.variables);
-        VarOrdererHelper helper = new VarOrdererHelper(spec, variables);
+        VarOrderHelper helper = new VarOrderHelper(spec, variables);
         List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
         Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
         long hyperEdgeCount = hyperEdges.size();

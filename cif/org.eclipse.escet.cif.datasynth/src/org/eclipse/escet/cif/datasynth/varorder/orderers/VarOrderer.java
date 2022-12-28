@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.datasynth.varorder.orderers;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
 /** Variable ordering algorithm. */
 public interface VarOrderer {
@@ -34,6 +34,6 @@ public interface VarOrderer {
      * @param dbgLevel The debug indentation level.
      * @return The new variable order, as produced by the algorithm.
      */
-    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel);
 }

@@ -51,7 +51,7 @@ import org.eclipse.escet.common.java.Strings;
  * <li>Various utility methods.</li>
  * </ul>
  */
-public class VarOrdererHelper {
+public class VarOrderHelper {
     /** The synthesis variables, in their original order, before applying any algorithm on it. */
     private final List<SynthesisVariable> variables;
 
@@ -96,12 +96,12 @@ public class VarOrdererHelper {
     private final List<Integer> metricLengthsWesAvg = listc(RelationsKind.values().length);
 
     /**
-     * Constructor for the {@link VarOrdererHelper} class.
+     * Constructor for the {@link VarOrderHelper} class.
      *
      * @param spec The CIF specification.
      * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
      */
-    public VarOrdererHelper(Specification spec, List<SynthesisVariable> variables) {
+    public VarOrderHelper(Specification spec, List<SynthesisVariable> variables) {
         // Store the variables.
         this.variables = Collections.unmodifiableList(variables);
 
