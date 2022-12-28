@@ -45,7 +45,7 @@ import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
 
 /**
- * Helper for variable ordering algorithms. It provides:
+ * Helper for variable ordering. It provides:
  * <ul>
  * <li>Various representations of the CIF specification that algorithms may operate upon.</li>
  * <li>Various utility methods.</li>
@@ -103,7 +103,7 @@ public class VarOrdererHelper {
      */
     public VarOrdererHelper(Specification spec, List<SynthesisVariable> variables) {
         // Store the variables.
-        this.variables = variables;
+        this.variables = Collections.unmodifiableList(variables);
 
         // Compute and store different representations of the relations from the specification.
         List<BitSet> legacyHyperEdges = createHyperEdges(new LegacyHyperEdgeCreator(spec, variables));
@@ -138,6 +138,15 @@ public class VarOrdererHelper {
             this.metricLengthsWes.add(fmt("%,.6f", WesMetric.compute(indices, edges)).length() + 2);
             this.metricLengthsWesAvg.add(fmt("%,.6f", WesMetric.compute(indices, edges) / edges.size()).length() + 2);
         }
+    }
+
+    /**
+     * Returns the synthesis variables, in their original order, before applying any algorithm on it.
+     *
+     * @return The synthesis variables.
+     */
+    public List<SynthesisVariable> getVariables() {
+        return variables;
     }
 
     /**
