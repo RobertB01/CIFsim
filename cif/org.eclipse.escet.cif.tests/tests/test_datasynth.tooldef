@@ -36,6 +36,8 @@ map(string:list string) test_options = {
     "datasynth/bdd_out_nodes.cif":                        ["-t nodes -p n"],
     "datasynth/dining_philosophers4.cif":                 [opt_simplify_all],
     "datasynth/edge_order_custom_basic.cif":              ["-e C,p.event,D,p.z,p.a,p.X,p.Y,p.c"],
+    "datasynth/edge_order_custom_dupl_no.cif":            ["--stats=bdd-perf-cache,bdd-perf-max-nodes -e Counter.dec,Actuator.off,Counter.inc,Actuator.on"],
+    "datasynth/edge_order_custom_dupl_yes.cif":           ["--stats=bdd-perf-cache,bdd-perf-max-nodes -e Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --edge-order-duplicate-events=allowed"],
     "datasynth/edge_order_dupl_match1.cif":               ["-e p.c,*"],
     "datasynth/edge_order_dupl_match2.cif":               ["-e p.event,*"],
     "datasynth/edge_order_missing.cif":                   ["-e q.*"],
