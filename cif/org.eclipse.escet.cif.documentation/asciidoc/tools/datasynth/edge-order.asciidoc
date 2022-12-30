@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,edge order]
 [[tools-datasynth-edge-order]]
 == Edge order
 
-Data-basd supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
+Data-based supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
 This involves repeatedly following edges to find those states, using a fixed point computation.
 
 During reachability computations the edges are considered one by one to find more reachable states.
