@@ -30,6 +30,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.concat;
+import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.filter;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
@@ -40,6 +41,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.copy;
+import static org.eclipse.escet.common.java.Sets.difference;
 import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
@@ -86,6 +88,8 @@ import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -2552,20 +2556,24 @@ public class CifToSynthesisConverter {
         // Order the edges.
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
             // No reordering. Keep linearized model order.
+            synthAut.orderedEdges = synthAut.edges;
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
             // Reorder to the reverse of the linearized model order.
-            Collections.reverse(synthAut.edges);
+            synthAut.orderedEdges = copy(synthAut.edges);
+            Collections.reverse(synthAut.orderedEdges);
         } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
-            // Sort based on absolute name.
-            Collections.sort(synthAut.edges,
+            // Sort based on absolute event names.
+            synthAut.orderedEdges = copy(synthAut.edges);
+            Collections.sort(synthAut.orderedEdges,
                     (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
-            // Sort based on absolute name.
-            Collections.sort(synthAut.edges,
+            // Sort based on absolute event names.
+            synthAut.orderedEdges = copy(synthAut.edges);
+            Collections.sort(synthAut.orderedEdges,
                     (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
 
             // Reorder to the reverse of the sorted order.
-            Collections.reverse(synthAut.edges);
+            Collections.reverse(synthAut.orderedEdges);
         } else if (orderTxt.toLowerCase(Locale.US).equals("random")
                 || orderTxt.toLowerCase(Locale.US).startsWith("random:"))
         {
@@ -2583,14 +2591,15 @@ public class CifToSynthesisConverter {
             }
 
             // Shuffle to random order.
+            synthAut.orderedEdges = copy(synthAut.edges);
             if (seed == null) {
-                Collections.shuffle(synthAut.edges);
+                Collections.shuffle(synthAut.orderedEdges);
             } else {
-                Collections.shuffle(synthAut.edges, new Random(seed));
+                Collections.shuffle(synthAut.orderedEdges, new Random(seed));
             }
         } else {
-            // Sort based on supplied custom order.
-            List<SynthesisEdge> edges = listc(synthAut.edges.size());
+            // Sort based on supplied custom event order.
+            synthAut.orderedEdges = listc(synthAut.edges.size());
             Set<SynthesisEdge> processedEdges = set();
 
             // Process elements.
@@ -2628,35 +2637,39 @@ public class CifToSynthesisConverter {
                 Collections.sort(matches,
                         (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
 
-                for (SynthesisEdge edge: matches) {
-                    if (processedEdges.contains(edge)) {
-                        String msg = fmt("Invalid edge order: \"%s\" is included more than once.",
-                                getAbsName(edge.event, false));
-                        throw new InvalidOptionException(msg);
+                // Check for duplicate events, if duplicates are disallowed.
+                if (EdgeOrderDuplicateEventsOption.getDuplicateEvents() == EdgeOrderDuplicateEvents.DISALLOWED) {
+                    for (SynthesisEdge edge: matches) {
+                        if (processedEdges.contains(edge)) {
+                            String msg = fmt("Invalid edge order: event \"%s\" is included more than once. "
+                                    + "If the duplicate event is intentional, enable allowing duplicate events "
+                                    + "in the custom event order using the \"Edge order duplicate events\" option.",
+                                    getAbsName(edge.event, false));
+                            throw new InvalidOptionException(msg);
+                        }
                     }
-                    processedEdges.add(edge);
                 }
 
                 // Update for matched edges.
-                edges.addAll(matches);
+                for (SynthesisEdge edge: matches) {
+                    processedEdges.add(edge);
+                }
+                synthAut.orderedEdges.addAll(matches);
             }
 
             // Check completeness.
-            if (edges.size() < synthAut.edges.size()) {
+            Set<SynthesisEdge> missingEdges = difference(list2set(synthAut.edges), processedEdges);
+            if (!missingEdges.isEmpty()) {
                 Set<String> names = set();
-                for (SynthesisEdge edge: synthAut.edges) {
-                    if (!processedEdges.contains(edge)) {
-                        names.add("\"" + getAbsName(edge.event, false) + "\"");
-                    }
+                for (SynthesisEdge edge: missingEdges) {
+                    names.add("\"" + getAbsName(edge.event, false) + "\"");
                 }
                 List<String> sortedNames = Sets.sortedgeneric(names, Strings.SORTER);
-                String msg = fmt("Invalid edge order: the following are missing from the specified order: %s.",
+                String msg = fmt("Invalid edge order: the following events are missing from the specified order: %s.",
                         String.join(", ", sortedNames));
                 throw new InvalidOptionException(msg);
             }
 
-            // Set new edge order.
-            synthAut.edges = edges;
         }
     }
 
