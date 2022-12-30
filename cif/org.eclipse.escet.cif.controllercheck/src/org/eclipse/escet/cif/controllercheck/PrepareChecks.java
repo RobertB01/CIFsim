@@ -302,8 +302,7 @@ public class PrepareChecks {
      * @return Variable in the MDD tree for non-original values.
      */
     public VarInfo[] getNonOriginalVariables() {
-        // First entry in 'varInfos' is null.
-        int numVariables = (builder.cifVarInfoBuilder.varInfos.size() - 1) / NUM_INDICES;
+        int numVariables = builder.cifVarInfoBuilder.varInfos.size() / NUM_INDICES;
         VarInfo[] nonOriginalsVarInfos = new VarInfo[numVariables * (NUM_INDICES - 1)];
         int nextFree = 0;
         for (VarInfo vinfo: builder.cifVarInfoBuilder.varInfos) {
