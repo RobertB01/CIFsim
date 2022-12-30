@@ -21,7 +21,7 @@ import org.eclipse.escet.common.java.TextPosition;
 public class ASvgFile extends AIoDecl {
     /**
      * The absolute or relative local file system path to the SVG image, allowing both {@code "/"} and {@code "\"} as
-     * path separators.
+     * file separators.
      */
     public final AStringToken svgPath;
 
@@ -29,7 +29,7 @@ public class ASvgFile extends AIoDecl {
      * Constructor for the {@link ASvgFile} class.
      *
      * @param svgPath The absolute or relative local file system path to the SVG image, allowing both {@code "/"} and
-     *     {@code "\"} as path separators.
+     *     {@code "\"} as file separators.
      * @param position Position information.
      */
     public ASvgFile(AStringToken svgPath, TextPosition position) {

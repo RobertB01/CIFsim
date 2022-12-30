@@ -702,7 +702,7 @@ class AsciiDocHtmlModifier {
                 newRelHref = ".";
             }
 
-            // Ensure the correct path separators.
+            // Ensure the correct file separators.
             Verify.verify(!ref.contains("\\"), ref);
             newRelHref = newRelHref.replace("\\", "/");
             Verify.verify(!newRelHref.contains("\\"), newRelHref);

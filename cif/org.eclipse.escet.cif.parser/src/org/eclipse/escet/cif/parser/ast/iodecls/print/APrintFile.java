@@ -21,7 +21,7 @@ import org.eclipse.escet.common.java.TextPosition;
 public class APrintFile extends AIoDecl {
     /**
      * The absolute or relative local file system path to the file to which to print, allowing both {@code "/"} and
-     * {@code "\"} as path separators.
+     * {@code "\"} as file separators.
      */
     public final AStringToken path;
 
@@ -29,7 +29,7 @@ public class APrintFile extends AIoDecl {
      * Constructor for the {@link APrintFile} class.
      *
      * @param path The absolute or relative local file system path to the file to which to print, allowing both
-     *     {@code "/"} and {@code "\"} as path separators.
+     *     {@code "/"} and {@code "\"} as file separators.
      * @param position Position information.
      */
     public APrintFile(AStringToken path, TextPosition position) {

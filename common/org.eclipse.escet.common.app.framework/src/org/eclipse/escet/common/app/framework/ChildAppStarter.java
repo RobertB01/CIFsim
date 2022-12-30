@@ -113,15 +113,15 @@ public class ChildAppStarter {
      * @param stdinPath Specify whether to have a standard input (stdin) stream and where the input comes from. Use
      *     {@code ""} to not have a stdin stream, {@code "-"} to use the stdin stream of the ToolDef interpreter, or
      *     otherwise an absolute or relative local file system path of the file from which to read the standard input.
-     *     May contain both {@code "\"} and {@code "/"} as path separators.
+     *     May contain both {@code "\"} and {@code "/"} as file separators.
      * @param stdoutPath Specify whether to have a standard output (stdout) stream and where to write the standard
      *     output. Use {@code ""} to not have a stdout stream, {@code "-"} to use the stdout stream of the ToolDef
      *     interpreter, or otherwise an absolute or relative local file system path of the file to which to write the
-     *     standard output. May contain both {@code "\"} and {@code "/"} as path separators.
+     *     standard output. May contain both {@code "\"} and {@code "/"} as file separators.
      * @param stderrPath Specify whether to have a standard error (stderr) stream and where to write the standard error
      *     output. Use {@code ""} to not have a stderr stream, {@code "-"} to use the stderr stream of the ToolDef
      *     interpreter, or otherwise an absolute or relative local file system path of the file to which to write the
-     *     standard error output. May contain both {@code "\"} and {@code "/"} as path separators. Is ignored when the
+     *     standard error output. May contain both {@code "\"} and {@code "/"} as file separators. Is ignored when the
      *     standard error stream is redirected to the standard output stream.
      * @param appendOut Whether to append to the stdout file ({@code true}) or overwrite it ({@code false}). Is ignored
      *     when standard output is not written to a file.

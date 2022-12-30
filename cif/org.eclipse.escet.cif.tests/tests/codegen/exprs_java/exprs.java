@@ -1057,8 +1057,8 @@ public abstract class exprs {
      * @param target The file or special target to which text is to be printed.
      *      If printed to a file, an absolute or relative local file system
      *      path is given. Paths may contain both {@code "/"} and {@code "\\"}
-     *      as path separators. Use {@link exprsUtils#normalizePrintTarget}
-     *      to normalize the path to use path separators for the current
+     *      as file separators. Use {@link exprsUtils#normalizePrintTarget}
+     *      to normalize the path to use file separators for the current
      *      platform. There are two special targets: {@code ":stdout"} to print
      *      to the standard output stream, and {@code ":stderr"} to print to
      *      the standard error stream.
@@ -1109,8 +1109,8 @@ public abstract class exprs {
 
     /** {@link exprs} utility code. */
     public static class exprsUtils {
-        /** The path separator for the current platform. */
-        private static final String PATH_SEPARATOR = System.getProperty("file.separator");
+        /** The file separator for the current platform. */
+        private static final String FILE_SEPARATOR = System.getProperty("file.separator");
 
         /** Constructor for the {@link exprsUtils} class. */
         private exprsUtils() {
@@ -1725,17 +1725,17 @@ public abstract class exprs {
         }
 
         /**
-         * Normalizes a print target path. Path separators {@code "\\"} and
-         * {@code "/"} are replaced by the path separator of the current platform,
-         * i.e. {@link #PATH_SEPARATOR}.
+         * Normalizes a print target path. File separators {@code "\\"} and
+         * {@code "/"} are replaced by the file separator of the current platform,
+         * i.e. {@link #FILE_SEPARATOR}.
          *
          * @param path The print target path. Should not be special target
          *      {@code ":stdout"} or {@code ":stderr"}.
          * @return The normalized print target path.
          */
         public static String normalizePrintTarget(String path) {
-            if (!PATH_SEPARATOR.equals("/"))  path = path.replace("/",  PATH_SEPARATOR);
-            if (!PATH_SEPARATOR.equals("\\")) path = path.replace("\\", PATH_SEPARATOR);
+            if (!FILE_SEPARATOR.equals("/"))  path = path.replace("/",  FILE_SEPARATOR);
+            if (!FILE_SEPARATOR.equals("\\")) path = path.replace("\\", FILE_SEPARATOR);
             return path;
         }
 

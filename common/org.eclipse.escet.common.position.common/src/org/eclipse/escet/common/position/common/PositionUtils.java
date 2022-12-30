@@ -32,7 +32,7 @@ public class PositionUtils {
      * Creates and returns a dummy {@link Position} object, covering the first character in the input.
      *
      * @param location The location of the source file that contains the position. Must be an absolute local file system
-     *     path, with platform specific path separators. The path does not have to refer to an existing file.
+     *     path, with platform specific file separators. The path does not have to refer to an existing file.
      * @param src Source information, or {@code null} if not available.
      * @return {@link Position} covering the first character of the input.
      */

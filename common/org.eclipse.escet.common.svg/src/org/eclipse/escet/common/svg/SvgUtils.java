@@ -58,7 +58,7 @@ public class SvgUtils {
      * framework exceptions.
      *
      * @param svgAbsPath The absolute path to the SVG file. May be an absolute local file system path with platform
-     *     specific path separators, or an Eclipse platform URI.
+     *     specific file separators, or an Eclipse platform URI.
      * @return The SVG document.
      * @throws SvgException If loading the SVG image file fails.
      */
@@ -85,7 +85,7 @@ public class SvgUtils {
      * exceptions.
      *
      * @param svgAbsPath The absolute path to the SVG file. May be an absolute local file system path with platform
-     *     specific path separators, or an Eclipse platform URI.
+     *     specific file separators, or an Eclipse platform URI.
      * @return The SVG document.
      * @throws FileNotFoundException If the SVG image file could not be found, is a directory, or for some other reason
      *     could not be opened for reading. Note that {@link FileNotFoundException} is a derived class of

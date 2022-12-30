@@ -101,7 +101,7 @@ public class TwinCatWriter extends OutputTypeWriter {
      */
     @Override
     public void write(PlcProject project, String slnDirPath) {
-        slnDirPath = Paths.resolve(slnDirPath); // Switch to platform-specific directory separators.
+        slnDirPath = Paths.resolve(slnDirPath); // Switch to platform-specific file separators.
 
         this.project = project;
 
@@ -136,7 +136,7 @@ public class TwinCatWriter extends OutputTypeWriter {
      * Finds the projects within the TwinCAT solution.
      *
      * @param slnDirPath The absolute local file system path of the directory containing the TwinCAT solution, with
-     *     platform specific path separators.
+     *     platform specific file separators.
      * @throws InvalidOptionException If the solution path does not refer to a directory with the expected files and
      *     sub-directories.
      */

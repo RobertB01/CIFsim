@@ -40,7 +40,7 @@ public abstract class Scanner {
 
     /**
      * The location of the source file being scanned. Must be an absolute local file system path, with platform specific
-     * path separators. The path does not have to refer to an existing file. That is, it may not be assumed that a file
+     * file separators. The path does not have to refer to an existing file. That is, it may not be assumed that a file
      * with that path actually exists on disk.
      */
     protected String location;
@@ -157,7 +157,7 @@ public abstract class Scanner {
      *
      * @param reader The reader to use to read code points from the input.
      * @param location The location of the source file being scanned. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param src The source of the input data. This text is prefixed to exception messages. May be {@code null} to
      *     indicate no source\ information is available.
      * @param debug The debug mode.
@@ -430,7 +430,7 @@ public abstract class Scanner {
      *
      * @param input The input to scan.
      * @param location The location of the source file being scanned. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param debug The debug mode to use.
      * @param optimize Whether to optimize the scanner to skip tokens if they are not needed.
      * @return The sequence of tokens.
