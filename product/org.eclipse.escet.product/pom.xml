@@ -121,12 +121,24 @@
                         <version>${eclipse.cbi.version}</version>
                         <executions>
                             <execution>
+                                <id>package-dmg-x86_64</id>
                                 <goals>
                                     <goal>package-dmg</goal>
                                 </goals>
                                 <phase>integration-test</phase>
                                 <configuration>
                                     <source>${project.build.directory}/products/eclipse-escet-incubation-${escet.version.enduser}-macosx.cocoa.x86_64.tar.gz</source>
+                                    <sign>true</sign>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>package-dmg-aarch64</id>
+                                <goals>
+                                    <goal>package-dmg</goal>
+                                </goals>
+                                <phase>integration-test</phase>
+                                <configuration>
+                                    <source>${project.build.directory}/products/eclipse-escet-incubation-${escet.version.enduser}-macosx.cocoa.aarch64.tar.gz</source>
                                     <sign>true</sign>
                                 </configuration>
                             </execution>
@@ -170,7 +182,7 @@
                         <version>${eclipse.cbi.version}</version>
                         <executions>
                             <execution>
-                                <id>sign</id>
+                                <id>sign-x86_64</id>
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
@@ -179,12 +191,26 @@
                                     <signFiles>
                                         <signFile>${project.build.directory}/products/${project.name}/macosx/cocoa/x86_64/EclipseESCET-${escet.version.enduser}.app</signFile>
                                     </signFiles>
-                                    <timeoutMillis>300000</timeoutMillis>
-                                    <continueOnFail>${macSigner.forceContinue}</continueOnFail>
-                                    <entitlements>${project.basedir}/application.entitlement</entitlements>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>sign-aarch64</id>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <signFiles>
+                                        <signFile>${project.build.directory}/products/${project.name}/macosx/cocoa/aarch64/EclipseESCET-${escet.version.enduser}.app</signFile>
+                                    </signFiles>
                                 </configuration>
                             </execution>
                         </executions>
+                        <configuration>
+                            <timeoutMillis>300000</timeoutMillis>
+                            <continueOnFail>${macSigner.forceContinue}</continueOnFail>
+                            <entitlements>${project.basedir}/application.entitlement</entitlements>
+                        </configuration>
                     </plugin>
 
                 </plugins>
