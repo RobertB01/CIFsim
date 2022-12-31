@@ -32,7 +32,7 @@ public class ToolDefInterpreter {
      * Executes a ToolDef script.
      *
      * @param script The ToolDef script to execute.
-     * @param path The absolute local file system path to the script. The path contains separators for the current
+     * @param path The absolute local file system path to the script. The path contains file separators for the current
      *     platform.
      * @param app The ToolDef interpreter application.
      * @return The exit code.

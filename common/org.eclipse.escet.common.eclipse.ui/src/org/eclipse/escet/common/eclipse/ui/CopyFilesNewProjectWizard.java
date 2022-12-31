@@ -70,7 +70,7 @@ public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWi
     protected abstract String getInitialProjectName();
 
     /**
-     * Returns a project-relative path to the source folder that contains the files and folders to copy. Use '/' as path
+     * Returns a project-relative path to the source folder that contains the files and folders to copy. Use '/' as file
      * separators. E.g. 'some/folder' for a folder named 'folder' in a folder named 'some' in an existing project.
      *
      * @return The project-relative path to the source folder.
@@ -79,7 +79,7 @@ public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWi
 
     /**
      * Returns a project-relative path to the target folder that is to contain the files and folders to copy. Use '/' as
-     * path separators. E.g. 'some/folder' for a folder named 'folder' in a folder named 'some' in the new project.
+     * file separators. E.g. 'some/folder' for a folder named 'folder' in a folder named 'some' in the new project.
      *
      * <p>
      * By default returns {@code "."} to copy the files and folders to the root of the new project.
@@ -340,11 +340,11 @@ public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWi
             while (relPath.startsWith("/")) {
                 relPath = relPath.substring(1);
             }
-            String projectPathSeparator = projectPath.getFileSystem().getSeparator();
-            String localRelPath = relPath.replace("/", projectPathSeparator);
+            String projectFileSeparator = projectPath.getFileSystem().getSeparator();
+            String localRelPath = relPath.replace("/", projectFileSeparator);
 
             // Determine target path.
-            String localTargetFolderPath = targetFolderPath.replace("/", projectPathSeparator);
+            String localTargetFolderPath = targetFolderPath.replace("/", projectFileSeparator);
             Path targetPath = projectPath.resolve(localTargetFolderPath).resolve(localRelPath);
             targetPath = targetPath.normalize();
 

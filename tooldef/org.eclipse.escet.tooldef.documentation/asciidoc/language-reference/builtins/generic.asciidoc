@@ -69,17 +69,17 @@ Escapes work the same inside of quoted parts as they do outside of quoted parts.
 `stdin`::
 Specify whether to have a standard input (stdin) stream and where the input comes from.
 Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file from which to read the standard input.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `stdout`::
 Specify whether to have a standard output (stdout) stream and where to write the standard output.
 Use `+""+` to not have a stdout stream, `+"-"+` to use the stdout stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard output.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `stderr`::
 Specify whether to have a standard error (stderr) stream and where to write the standard error output.
 Use `+""+` to not have a stderr stream, `+"-"+` to use the stderr stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard error output.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 Is ignored when the standard error stream is redirected to the standard output stream.
 
 `appendOut`::
@@ -149,17 +149,17 @@ Escapes work the same inside of quoted parts as they do outside of quoted parts.
 `stdin`::
 Specify whether to have a standard input (stdin) stream and where the input comes from.
 Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file from which to read the standard input.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `stdout`::
 Specify whether to have a standard output (stdout) stream and where to write the standard output.
 Use `+""+` to not have a stdout stream, `+"-"+` to use the stdout stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard output.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `stderr`::
 Specify whether to have a standard error (stderr) stream and where to write the standard error output.
 Use `+""+` to not have a stderr stream, `+"-"+` to use the stderr stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard error output.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 Is ignored when the standard error stream is redirected to the standard output stream.
 
 `appendOut`::
@@ -220,17 +220,17 @@ Escapes work the same inside of quoted parts as they do outside of quoted parts.
 `stdin`::
 Specify whether to have a standard input (stdin) stream and where the input comes from.
 Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file from which to read the standard input.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `stdout`::
 Specify whether to have a standard output (stdout) stream and where to write the standard output.
 Use `+""+` to not have a stdout stream, `+"-"+` to use the stdout stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard output.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `stderr`::
 Specify whether to have a standard error (stderr) stream and where to write the standard error output.
 Use `+""+` to not have a stderr stream, `+"-"+` to use the stderr stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard error output.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 Is ignored when the standard error stream is redirected to the standard output stream.
 
 `appendOut`::

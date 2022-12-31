@@ -50,7 +50,7 @@ public class ExtFuncs {
      * @param className The name of the class that contains the function, including its package (if any).
      * @param methodName The name of the method.
      * @param classPath The class path, as absolute or relative local file system paths to directories or JAR files.
-     *     Paths may use either {@code \} or {@code /} as path separators. Class path entries are to be separated by
+     *     Paths may use either {@code \} or {@code /} as file separators. Class path entries are to be separated by
      *     {@code ;} characters. If {@code null}, the system class path is used, otherwise the system class path is
      *     extended with the given class path entries.
      * @param workingDir The absolute local file system path against which to resolve relative class path entries.

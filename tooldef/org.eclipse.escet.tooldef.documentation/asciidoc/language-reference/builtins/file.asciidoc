@@ -51,11 +51,11 @@ _Parameters_
 
 `source`::
 The absolute or relative local file system path of the source file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `target`::
 The absolute or relative local file system path of the target file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `overwrite`::
 Whether to overwrite the target file if it already exists.
@@ -90,13 +90,13 @@ _Parameters_
 `source`::
 The absolute or relative local file system path of the source directory.
 All files and directories in the source directory are copied recursively.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `target`::
 The absolute or relative local file system path of the target directory.
 This is the directory in which the contents of the source directory are copied.
 The source directory itself is not copied, only the files and directories contained in the source directory.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 _Runtime errors_
 
@@ -125,16 +125,16 @@ _Parameters_
 
 `file1`::
 The absolute or relative local file system path of the first file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `file2`::
 The absolute or relative local file system path of the second file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `output`::
 Specify whether/where to write a unified diff if the files differ.
 Use `+""+` to not write a unified diff, `+"-"+` to write the unified diff to the standard output stream (stdout), or otherwise an absolute or relative local file system path of the file to which to write the unified diff.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `missingAsEmpty`::
 Treat a missing first/second file as empty (`true`) or as an error (`false`).
@@ -180,7 +180,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the file or directory.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 _Returns_
 
@@ -205,11 +205,11 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the file for which to check whether it is newer than the reference file(s).
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `refpath`, `refpaths`::
 The absolute or relative local file system path of the reference file(s).
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `allowNonExisting`::
 Whether to allow the first file to not exist (`true`) or consider it an error if the first file does not exist (`false`).
@@ -246,7 +246,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `missingAsZero`::
 Whether to return 0 if the file does not exist (`true`) or consider it an error if the file does not exist (`false`).
@@ -279,7 +279,7 @@ _Parameters_
 `path`::
 The absolute or relative local file system path of the directory in which to search.
 The directory itself is never returned.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `pattern`::
 The pattern to use to match files/directories.
@@ -325,7 +325,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the directory.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 _Returns_
 
@@ -347,7 +347,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 _Returns_
 
@@ -369,7 +369,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the directory to create.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `force`::
 Whether to skip creating the directory if it already exists (`true`) or fail if it already exists (`false`).
@@ -399,11 +399,11 @@ _Parameters_
 
 `source`::
 The absolute or relative local file system path of the source file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `target`::
 The absolute or relative local file system path of the target file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `overwrite`::
 Whether to overwrite the target file if it already exists.
@@ -439,12 +439,12 @@ _Parameters_
 `source`::
 The absolute or relative local file system path of the source directory.
 The directory itself and all files and directories in it are moved recursively.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `target`::
 The absolute or relative local file system path of the target directory.
 This is the directory into which the contents of the source directory are moved.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 _Runtime errors_
 
@@ -473,7 +473,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the file to read.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 _Returns_
 
@@ -504,7 +504,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `force`::
 Whether to ignore non-existing files (`true`) or consider it an error (`false`).
@@ -537,7 +537,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the directory.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `force`::
 Whether to ignore non-existing directories (`true`) or consider it an error (`false`).
@@ -573,7 +573,7 @@ _Parameters_
 
 `path`::
 The absolute or relative local file system path of the file.
-May contain both `\` and `/` as path separators.
+May contain both `\` and `/` as file separators.
 
 `text`, `lines`::
 The text or lines of text to write to the file.

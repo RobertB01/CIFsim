@@ -261,7 +261,7 @@ public abstract class Parser<T> {
 
     /**
      * Returns the location of the source file being parsed, as an absolute local file system path, with platform
-     * specific path separators. The path does not necessarily refer to an existing file.
+     * specific file separators. The path does not necessarily refer to an existing file.
      *
      * @return The location of the source file.
      */
@@ -275,7 +275,7 @@ public abstract class Parser<T> {
      *
      * @param inputText The textual input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @return The parse result, usually and abstract syntax tree.
      *
      * @throws SyntaxException If parsing failed.
@@ -289,7 +289,7 @@ public abstract class Parser<T> {
      *
      * @param inputText The textual input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param src The source of the data to be parsed. This text is prefixed to scanning and parsing exception messages.
      *     May be {@code null} to indicate no source information is available.
      * @return The parse result, usually and abstract syntax tree.
@@ -305,7 +305,7 @@ public abstract class Parser<T> {
      *
      * @param inputText The textual input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param debug The debug mode (what debug output to generate).
      * @return The parse result, usually and abstract syntax tree.
      *
@@ -320,7 +320,7 @@ public abstract class Parser<T> {
      *
      * @param inputText The textual input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param src The source of the data to be parsed. This text is prefixed to scanning and parsing exception messages.
      *     May be {@code null} to indicate no source information is available.
      * @param debug The debug mode (what debug output to generate).
@@ -428,7 +428,7 @@ public abstract class Parser<T> {
      *
      * @param stream The stream to use to read bytes from the input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @return The parse result, usually and abstract syntax tree.
      *
      * @throws InputOutputException If reading the input failed due to an I/O error.
@@ -444,7 +444,7 @@ public abstract class Parser<T> {
      *
      * @param stream The stream to use to read bytes from the input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param src The source of the data to be parsed. This text is prefixed to scanning and parsing exception messages.
      *     May be {@code null} to indicate no source information is available.
      * @return The parse result, usually and abstract syntax tree.
@@ -462,7 +462,7 @@ public abstract class Parser<T> {
      *
      * @param stream The stream to use to read bytes from the input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param debug The debug mode (what debug output to generate).
      * @return The parse result, usually and abstract syntax tree.
      *
@@ -479,7 +479,7 @@ public abstract class Parser<T> {
      *
      * @param stream The stream to use to read bytes from the input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param src The source of the data to be parsed. This text is prefixed to scanning and parsing exception messages.
      *     May be {@code null} to indicate no source information is available.
      * @param debug The debug mode (what debug output to generate).
@@ -513,7 +513,7 @@ public abstract class Parser<T> {
      *
      * @param reader The reader to use to read code points from the input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @return The parse result, usually and abstract syntax tree.
      *
      * @throws InputOutputException If reading the input failed due to an I/O error.
@@ -528,7 +528,7 @@ public abstract class Parser<T> {
      *
      * @param reader The reader to use to read code points from the input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param src The source of the data to be parsed. This text is prefixed to scanning and parsing exception messages.
      *     May be {@code null} to indicate no source information is available.
      * @return The parse result, usually and abstract syntax tree.
@@ -545,7 +545,7 @@ public abstract class Parser<T> {
      *
      * @param reader The reader to use to read code points from the input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param debug The debug mode (what debug output to generate).
      * @return The parse result, usually and abstract syntax tree.
      *
@@ -561,7 +561,7 @@ public abstract class Parser<T> {
      *
      * @param reader The reader to use to read code points from the input.
      * @param location The location of the source file being parsed. Must be an absolute local file system path, with
-     *     platform specific path separators. The path does not have to refer to an existing file.
+     *     platform specific file separators. The path does not have to refer to an existing file.
      * @param src The source of the data to be parsed. This text is prefixed to scanning and parsing exception messages.
      *     May be {@code null} to indicate no source information is available.
      * @param debug The debug mode (what debug output to generate).

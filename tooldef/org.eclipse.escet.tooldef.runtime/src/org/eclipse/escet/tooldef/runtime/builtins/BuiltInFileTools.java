@@ -65,9 +65,9 @@ public class BuiltInFileTools {
      * Copies a file from a source location to a target location.
      *
      * @param source The absolute or relative local file system path of the source file. May contain both {@code "\"}
-     *     and {@code "/"} as path separators.
+     *     and {@code "/"} as file separators.
      * @param target The absolute or relative local file system path of the target file. May contain both {@code "\"}
-     *     and {@code "/"} as path separators.
+     *     and {@code "/"} as file separators.
      * @param overwrite Whether to overwrite the target file if it already exists.
      * @throws ToolDefException If the source file does not exist.
      * @throws ToolDefException If the source is a directory rather than a file, or it could not be determined whether
@@ -132,11 +132,11 @@ public class BuiltInFileTools {
      * </p>
      *
      * @param source The absolute or relative local file system path of the source directory. All files and directories
-     *     in the source directory are copied recursively. May contain both {@code "\"} and {@code "/"} as path
+     *     in the source directory are copied recursively. May contain both {@code "\"} and {@code "/"} as file
      *     separators.
      * @param target The absolute or relative local file system path of the target directory. This is the directory in
      *     which the contents of the source directory are copied. The source directory itself is not copied, only the
-     *     files and directories contained in the source directory. May contain both {@code "\"} and {@code "/"} as path
+     *     files and directories contained in the source directory. May contain both {@code "\"} and {@code "/"} as file
      *     separators.
      * @throws ToolDefException If the source directory does not exist.
      * @throws ToolDefException If the source is a file rather than a directory, or it could not be determined whether
@@ -160,11 +160,11 @@ public class BuiltInFileTools {
      * </p>
      *
      * @param source The absolute or relative local file system path of the source directory. All files and directories
-     *     in the source directory are copied recursively. May contain both {@code "\"} and {@code "/"} as path
+     *     in the source directory are copied recursively. May contain both {@code "\"} and {@code "/"} as file
      *     separators.
      * @param target The absolute or relative local file system path of the target directory. This is the directory in
      *     which the contents of the source directory are copied. The source directory itself is not copied, only the
-     *     files and directories contained in the source directory. May contain both {@code "\"} and {@code "/"} as path
+     *     files and directories contained in the source directory. May contain both {@code "\"} and {@code "/"} as file
      *     separators.
      * @param op The name of the operation to perform, e.g. {@code "copy"} or {@code "move"}.
      * @throws ToolDefException If the source directory does not exist.
@@ -290,13 +290,13 @@ public class BuiltInFileTools {
      * Computes the differences between two files.
      *
      * @param file1 The absolute or relative local file system path of the first file. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @param file2 The absolute or relative local file system path of the second file. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @param output Specify whether/where to write a unified diff if the files differ. Use {@code ""} to not write a
      *     unified diff, {@code "-"} to write the unified diff to stdout, or otherwise an absolute or relative local
      *     file system path of the file to which to write the unified diff. May contain both {@code "\"} and {@code "/"}
-     *     as path separators.
+     *     as file separators.
      * @param missingAsEmpty Treat a missing first/second file as empty ({@code true}) or as an error ({@code false}).
      * @param warnOnDiff Emit a warning for differing files ({@code true}) or not ({@code false}). If a warning is
      *     emitted to stderr, the unified diff (if enabled) is printed first.
@@ -402,7 +402,7 @@ public class BuiltInFileTools {
      * Does a file or directory with the given path exist?
      *
      * @param path The absolute or relative local file system path of the file or directory. May contain both
-     *     {@code "\"} and {@code "/"} as path separators.
+     *     {@code "\"} and {@code "/"} as file separators.
      * @return {@code true} if the file or directory exists, {@code false} otherwise.
      */
     public static boolean exists(String path) {
@@ -414,9 +414,9 @@ public class BuiltInFileTools {
      * Checks whether a file is newer (was modified at a later date/time) than a reference file.
      *
      * @param path The absolute or relative local file system path of the file for which to check whether it is newer
-     *     than the reference file. May contain both {@code "\"} and {@code "/"} as path separators.
+     *     than the reference file. May contain both {@code "\"} and {@code "/"} as file separators.
      * @param refpath The absolute or relative local file system path of the reference file. May contain both
-     *     {@code "\"} and {@code "/"} as path separators.
+     *     {@code "\"} and {@code "/"} as file separators.
      * @param allowNonExisting Whether to allow the first file to not exist ({@code true}) or consider it an error if
      *     the first file does not exist ({@code false}).
      * @param sameAsNewer Whether to treat files with the same last change date as being the same ({@code false}) or as
@@ -439,9 +439,9 @@ public class BuiltInFileTools {
      * modification time difference that can be detected is 1 millisecond.
      *
      * @param path The absolute or relative local file system path of the file for which to check whether it is newer
-     *     than the reference files. May contain both {@code "\"} and {@code "/"} as path separators.
+     *     than the reference files. May contain both {@code "\"} and {@code "/"} as file separators.
      * @param refpaths The absolute or relative local file system path of the reference files. May contain both
-     *     {@code "\"} and {@code "/"} as path separators.
+     *     {@code "\"} and {@code "/"} as file separators.
      * @param allowNonExisting Whether to allow the first file to not exist ({@code true}) or consider it an error if
      *     the first file does not exist ({@code false}).
      * @param sameAsNewer Whether to treat files with the same last change date as being the same ({@code false}) or as
@@ -533,7 +533,7 @@ public class BuiltInFileTools {
      * Returns the size of the file, in bytes.
      *
      * @param path The absolute or relative local file system path of the file. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @param missingAsZero Whether to return {@code 0} if the file does not exist ({@code true}) or consider it an
      *     error if the file does not exist ({@code false}).
      * @return The size of the file in bytes, or {@code 0} if the file is missing and {@code missingAsZero} is enabled.
@@ -572,7 +572,7 @@ public class BuiltInFileTools {
      * Searches a directory for files and/or directories matching a pattern.
      *
      * @param path The absolute or relative local file system path of the directory in which to search. The directory
-     *     itself is never returned. May contain both {@code "\"} and {@code "/"} as path separators.
+     *     itself is never returned. May contain both {@code "\"} and {@code "/"} as file separators.
      * @param pattern The pattern to use to match files/directories. Is a Java NIO glob pattern. Pattern {@code "*"}
      *     matches all files and directories.
      * @param recursive Whether to recursively look in sub-directories.
@@ -714,7 +714,7 @@ public class BuiltInFileTools {
      * Does a directory with the given path exist?
      *
      * @param path The absolute or relative local file system path of the directory. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @return {@code true} if the directory exists, {@code false} if it doesn't exist or is not a directory.
      */
     public static boolean isdir(String path) {
@@ -726,7 +726,7 @@ public class BuiltInFileTools {
      * Does a file with the given path exist?
      *
      * @param path The absolute or relative local file system path of the file. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @return {@code true} if the file exists, {@code false} if it doesn't exist or is not a file.
      */
     public static boolean isfile(String path) {
@@ -738,7 +738,7 @@ public class BuiltInFileTools {
      * Creates the given directory, and optionally its parents as needed.
      *
      * @param path The absolute or relative local file system path of the directory to create. May contain both
-     *     {@code "\"} and {@code "/"} as path separators.
+     *     {@code "\"} and {@code "/"} as file separators.
      * @param force Whether to skip creating the directory if it already exists ({@code true}) or fail if it already
      *     exists ({@code false}).
      * @param parents Whether to allow creating parents as needed ({@code true}) or fail if the parent directory does
@@ -778,9 +778,9 @@ public class BuiltInFileTools {
      * another directory.
      *
      * @param source The absolute or relative local file system path of the source file. May contain both {@code "\"}
-     *     and {@code "/"} as path separators.
+     *     and {@code "/"} as file separators.
      * @param target The absolute or relative local file system path of the target file. May contain both {@code "\"}
-     *     and {@code "/"} as path separators.
+     *     and {@code "/"} as file separators.
      * @param overwrite Whether to overwrite the target file if it already exists.
      * @throws ToolDefException If the source file does not exist.
      * @throws ToolDefException If the source is a directory rather than a file, or it could not be determined whether
@@ -846,10 +846,10 @@ public class BuiltInFileTools {
      * </p>
      *
      * @param source The absolute or relative local file system path of the source directory. The directory itself and
-     *     all files and directories in it are moved recursively. May contain both {@code "\"} and {@code "/"} as path
+     *     all files and directories in it are moved recursively. May contain both {@code "\"} and {@code "/"} as file
      *     separators.
      * @param target The absolute or relative local file system path of the target directory. This is the directory into
-     *     which the contents of the source directory are moved. May contain both {@code "\"} and {@code "/"} as path
+     *     which the contents of the source directory are moved. May contain both {@code "\"} and {@code "/"} as file
      *     separators.
      * @throws ToolDefException If the source directory does not exist.
      * @throws ToolDefException If the source is a file rather than a directory, or it could not be determined whether
@@ -869,7 +869,7 @@ public class BuiltInFileTools {
      * Read lines of text from a file.
      *
      * @param path The absolute or relative local file system path of the file to read. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @return The lines of text from the file.
      * @throws ToolDefException If the file does not exist, is a directory rather than a file, it could not be
      *     determined whether the path refers to a file or a directory, for some other reason could not be opened for
@@ -927,7 +927,7 @@ public class BuiltInFileTools {
      * Removes a file.
      *
      * @param path The absolute or relative local file system path of the file. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @param force Whether to ignore non-existing files ({@code true}) or consider it an error ({@code false}).
      * @return {@code true} if the file was removed, {@code false} if it could not be removed because it did not exist
      *     and {@code force} is enabled.
@@ -967,7 +967,7 @@ public class BuiltInFileTools {
      * Removes a directory, recursively.
      *
      * @param path The absolute or relative local file system path of the directory. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @param force Whether to ignore non-existing directories ({@code true}) or consider it an error ({@code false}).
      * @return {@code true} if the directory was removed, {@code false} if it could not be removed because it did not
      *     exist and {@code force} is enabled.
@@ -985,7 +985,7 @@ public class BuiltInFileTools {
      * Removes a directory, recursively.
      *
      * @param path The absolute or relative local file system path of the directory. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @param force Whether to ignore non-existing directories ({@code true}) or consider it an error ({@code false}).
      * @param op The name of the operation to perform, e.g. {@code "remove"} or {@code "move"}.
      * @return {@code true} if the directory was removed, {@code false} if it could not be removed because it did not
@@ -1080,7 +1080,7 @@ public class BuiltInFileTools {
      * Writes text to a file.
      *
      * @param path The absolute or relative local file system path of the file. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @param text The text to write to the file.
      * @param append Whether to append the text to the file if it already exists ({@code true}), or overwrite the file
      *     if it already exists ({@code false}).
@@ -1122,7 +1122,7 @@ public class BuiltInFileTools {
      * Writes lines of text to a file.
      *
      * @param path The absolute or relative local file system path of the file. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @param lines The lines of text to write to the file.
      * @param append Whether to append the lines text to the file if it already exists ({@code true}), or overwrite the
      *     file if it already exists ({@code false}).

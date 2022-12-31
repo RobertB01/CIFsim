@@ -34,7 +34,7 @@ public class PlatformUriUtils {
      * Is the given path an Eclipse platform URI?
      *
      * @param path The path. May be an absolute or relative local file system path, with both {@code \} and {@code /} as
-     *     separators. May also be an Eclipse platform URI.
+     *     file separators. May also be an Eclipse platform URI.
      * @return {@code true} if the path is an Eclipse platform URI, {@code false} otherwise.
      */
     public static boolean isPlatformUri(String path) {
@@ -45,7 +45,7 @@ public class PlatformUriUtils {
      * Is the given path absolute, rather than relative?
      *
      * @param path The absolute or relative path. May be an absolute or relative local file system path, with both
-     *     {@code \} and {@code /} as separators. May also be an Eclipse platform URI.
+     *     {@code \} and {@code /} as file separators. May also be an Eclipse platform URI.
      * @return {@code true} if the path is an absolute path, {@code false} if it is relative.
      */
     public static boolean isAbsolute(String path) {
@@ -56,7 +56,7 @@ public class PlatformUriUtils {
      * Does the given path exist?
      *
      * @param absPath The absolute path. May be an absolute local file system path, with both {@code \} and {@code /} as
-     *     separators. May also be an Eclipse platform URI.
+     *     file separators. May also be an Eclipse platform URI.
      * @return {@code true} if the path exists, {@code false} if it doesn't exist or it could not be determined whether
      *     the path exists.
      */
@@ -86,11 +86,11 @@ public class PlatformUriUtils {
      * </p>
      *
      * @param path The path to resolve. May be an absolute or relative local file system path, with both {@code \} and
-     *     {@code /} as separators. May also be an Eclipse platform URI.
+     *     {@code /} as file separators. May also be an Eclipse platform URI.
      * @param absDir The absolute directory path against which to resolve the given path. May be an absolute local file
-     *     system path, with both {@code \} and {@code /} as separators. May also be an Eclipse platform URI.
+     *     system path, with both {@code \} and {@code /} as file separators. May also be an Eclipse platform URI.
      * @return The absolute path that results from the resolving. May be an absolute local file system path, with only
-     *     platform specific path separators. May also be an Eclipse platform URI. Is normalized (i.e. does not contain
+     *     platform specific file separators. May also be an Eclipse platform URI. Is normalized (i.e. does not contain
      *     {@code "."} or {@code ".."} parts).
      */
     public static String resolve(String path, String absDir) {
@@ -139,15 +139,15 @@ public class PlatformUriUtils {
      * </p>
      *
      * @param absTgtPath The absolute path to the target file or directory. This path is turned into a relative path.
-     *     May be an absolute local file system path, with both {@code \} and {@code /} as separators. May also be an
-     *     Eclipse platform URI. Must be normalized (i.e. must not contain {@code "."} or {@code ".."} parts).
+     *     May be an absolute local file system path, with both {@code \} and {@code /} as file separators. May also be
+     *     an Eclipse platform URI. Must be normalized (i.e. must not contain {@code "."} or {@code ".."} parts).
      * @param absRelDir The absolute path to the directory against which to generate a relative path. The resulting path
      *     is relative to this directory, if possible. May be an absolute local file system path, with both {@code \}
-     *     and {@code /} as separators. May also be an Eclipse platform URI. Must be normalized (i.e. must not contain
-     *     {@code "."} or {@code ".."} parts).
+     *     and {@code /} as file separators. May also be an Eclipse platform URI. Must be normalized (i.e. must not
+     *     contain {@code "."} or {@code ".."} parts).
      * @return A path to the given target file or directory, relative to the given directory if possible, and an
      *     absolute path otherwise. May be an absolute or relative local file system path, or an Eclipse platform URI.
-     *     The result uses {@code /} as directory separator, regardless of the directory separators used in the input.
+     *     The result uses {@code /} as file separator, regardless of the file separators used in the input.
      */
     public static String getRelativePath(String absTgtPath, String absRelDir) {
         if (isPlatformUri(absTgtPath)) {

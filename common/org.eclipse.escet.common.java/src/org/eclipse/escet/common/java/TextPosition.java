@@ -19,7 +19,7 @@ public class TextPosition implements Comparable<TextPosition> {
      * The location of the source file that contains the position.
      *
      * <p>
-     * Must be an absolute path with platform-specific path separators, but does not need to exist at the file system.
+     * Must be an absolute path with platform-specific file separators, but does not need to exist at the file system.
      * </p>
      */
     public final String location;
@@ -67,7 +67,7 @@ public class TextPosition implements Comparable<TextPosition> {
      * Constructor of the {@link TextPosition} class.
      *
      * @param location The location of the source file that contains the position. Must be an absolute path with
-     *     platform-specific path separators, but does not need to exist at the file system.
+     *     platform-specific file separators, but does not need to exist at the file system.
      * @param startLine The {@code 1}-based line index of the start (inclusive) of the position region with respect to
      *     the start of the source text.
      * @param startColumn The {@code 1}-based codepoint index at the {@code startLine} of the start (inclusive) of the
@@ -91,7 +91,7 @@ public class TextPosition implements Comparable<TextPosition> {
      * Constructor of the {@link TextPosition} class.
      *
      * @param location The location of the source file that contains the position. Must be an absolute path with
-     *     platform-specific path separators, but does not need to exist at the file system.
+     *     platform-specific file separators, but does not need to exist at the file system.
      * @param source Source identification (usually a filename), may be {@code null}.
      * @param startLine The {@code 1}-based line index of the start (inclusive) of the position region with respect to
      *     the start of the source text.
@@ -241,7 +241,7 @@ public class TextPosition implements Comparable<TextPosition> {
      * Construct a dummy position containing the first character of the given location without source identification.
      *
      * @param location The location of the source file that contains the position. Must be an absolute path with
-     *     platform-specific path separators, but does not need to exist at the file system.
+     *     platform-specific file separators, but does not need to exist at the file system.
      * @return The created position.
      */
     public static TextPosition createDummy(String location) {
@@ -252,7 +252,7 @@ public class TextPosition implements Comparable<TextPosition> {
      * Construct a dummy position containing the first character of the given location and source.
      *
      * @param location The location of the source file that contains the position. Must be an absolute path with
-     *     platform-specific path separators, but does not need to exist at the file system.
+     *     platform-specific file separators, but does not need to exist at the file system.
      * @param source Source identification (usually a filename), may be {@code null}.
      * @return The created position.
      */

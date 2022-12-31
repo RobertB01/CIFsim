@@ -196,8 +196,8 @@ This method informs that new print output has been generated during execution.
 The `text` is the text that is to be printed.
 The `target` indicates the file or special target to which text is to be printed.
 If printed to a file, an absolute or relative local file system path is given.
-Paths may contain both `/` and `\` as path separators.
-Supply the path to the `<prefix>Utils.normalizePrintTarget` method to normalize the path to use path separators for the current platform on which the Java code is executed.
+Paths may contain both `/` and `\` as file separators.
+Supply the path to the `<prefix>Utils.normalizePrintTarget` method to normalize the path to use file separators for the current platform on which the Java code is executed.
 +
 There are two special targets: `:stdout` to print to the standard output stream, and `:stderr` to print to the standard error stream.
 +

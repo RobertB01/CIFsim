@@ -81,7 +81,7 @@ public class PlcOpenXmlWriter extends OutputTypeWriter {
      */
     @Override
     public void write(PlcProject project, String filePath) {
-        filePath = Paths.resolve(filePath); // Switch to platform-specific directory separators.
+        filePath = Paths.resolve(filePath); // Switch to platform-specific file separators.
 
         // Create document from project.
         Document doc = transProject(project);
@@ -523,7 +523,7 @@ public class PlcOpenXmlWriter extends OutputTypeWriter {
     /**
      * Validates the written PLCopen XML file against the XSD schema.
      *
-     * @param filePath The absolute local file system path of the PLCopen XML file, with platform specific path
+     * @param filePath The absolute local file system path of the PLCopen XML file, with platform specific file
      *     separators.
      */
     private void validateDocument(String filePath) {
@@ -584,7 +584,7 @@ public class PlcOpenXmlWriter extends OutputTypeWriter {
      * Writes a PLCopen XML file, given the contents as an XML document.
      *
      * @param doc The XML document to use as contents for the file.
-     * @param filePath The absolute local file system path of the PLCopen XML file to write, with platform specific path
+     * @param filePath The absolute local file system path of the PLCopen XML file to write, with platform specific file
      *     separators.
      */
     private void writeDocument(Document doc, String filePath) {

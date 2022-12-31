@@ -25,7 +25,7 @@ import org.eclipse.escet.common.typechecker.TypeChecker;
 public class SourceFile {
     /**
      * The absolute local file system path or Eclipse Platform URI of the source file. It is normalized (i.e. does not
-     * contain {@code "."} or {@code ".."} parts). For local file system paths, it contains platform specific path
+     * contain {@code "."} or {@code ".."} parts). For local file system paths, it contains platform specific file
      * separators.
      */
     public final String absPath;
@@ -50,7 +50,7 @@ public class SourceFile {
      *
      * @param absPath The absolute local file system path or Eclipse Platform URI of the source file. It is normalized
      *     (i.e. does not contain {@code "."} or {@code ".."} parts). For local file system paths, it contains platform
-     *     specific path separators.
+     *     specific file separators.
      * @param main Whether the source file is the main file, and was thus not imported.
      * @param importingPos The position information of the import in the importing file, from which this source file is
      *     imported, or {@code null} for the main file.
@@ -70,7 +70,7 @@ public class SourceFile {
     /**
      * Returns the absolute local file system path or platform URI of the directory that contains the source file. It is
      * normalized (i.e. does not contain {@code "."} or {@code ".."} parts). For local file system paths, it contains
-     * platform specific path separators.
+     * platform specific file separators.
      *
      * @return The absolute local file system path or platform URI of the directory that contains the source file.
      * @see TypeChecker#getSourceFileDir
@@ -88,7 +88,7 @@ public class SourceFile {
      * @param mainFile The main source file relative to which to get the path.
      * @return A path to this source file, relative to the given directory that contains the given main source file, if
      *     possible, and an absolute path otherwise. May be an absolute or relative local file system path, or an
-     *     Eclipse platform URI. The result uses {@code "/"} as directory separator.
+     *     Eclipse platform URI. The result uses {@code "/"} as file separator.
      * @see PlatformUriUtils#getRelativePath
      */
     public String getRelativePathFrom(SourceFile mainFile) {
@@ -104,11 +104,11 @@ public class SourceFile {
      * An example of the latter is Windows paths with different drive prefixes.
      *
      * @param absPath The absolute path to the target file or directory. This path is turned into a relative path. May
-     *     be an absolute local file system path, with both {@code "\"} and {@code "/"} as separators. May also be an
-     *     Eclipse platform URI. Must be normalized (i.e. must not contain "." or ".." parts).
+     *     be an absolute local file system path, with both {@code "\"} and {@code "/"} as file separators. May also be
+     *     an Eclipse platform URI. Must be normalized (i.e. must not contain "." or ".." parts).
      * @return A path to the given target file or directory, relative to this source file if possible, and an absolute
      *     path otherwise. May be an absolute or relative local file system path, or an Eclipse platform URI. The result
-     *     uses {@code "/"} as directory separator.
+     *     uses {@code "/"} as file separator.
      * @see PlatformUriUtils#getRelativePath
      */
     public String getRelativePathTo(String absPath) {
@@ -119,9 +119,9 @@ public class SourceFile {
      * Resolves a path against the directory that contains this source file.
      *
      * @param path The path to resolve. May be an absolute or relative local file system path, with both {@code "\"} and
-     *     {@code "/"} as separators. May also be an Eclipse platform URI.
+     *     {@code "/"} as file separators. May also be an Eclipse platform URI.
      * @return The absolute path that results from the resolving. May be an absolute local file system path, with only
-     *     platform specific path separators. May also be an Eclipse platform URI. Is normalized (i.e. does not contain
+     *     platform specific file separators. May also be an Eclipse platform URI. Is normalized (i.e. does not contain
      *     "." or ".." parts).
      * @see PlatformUriUtils#resolve
      */

@@ -44,8 +44,8 @@ Optionally, a Java class path may be given at the end, preceded by a bar (`|`) c
 The class path entries must be separated by semicolons (`;`) regardless of the operating system.
 The class path entries are absolute or relative local file system paths to Jar files or directories with Java class files.
 Relative paths are resolved against the directory that contains the CIF specification in which the external user-defined function is declared.
-Both Linux/Mac path separators (`/`) and Windows path separators (`\`) may be used in class path entries.
-However, `\` must be escaped as `\\` in CIF string literals, and thus it is recommended to always use `/` as path separator.
+Both Linux/Mac file separators (`/`) and Windows file separators (`\`) may be used in class path entries.
+However, `\` must be escaped as `\\` in CIF string literals, and thus it is recommended to always use `/` as file separator.
 A discussion of the Java class path concept is beyond the scope of this documentation.
 
 indexterm:[external user-defined Java functions,supported types]

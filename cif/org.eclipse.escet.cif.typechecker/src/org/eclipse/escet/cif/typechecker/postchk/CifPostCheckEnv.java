@@ -38,7 +38,7 @@ public abstract class CifPostCheckEnv {
      * contains the CIF file being checked.
      *
      * @param path The path to the CIF file to import. May be an absolute or relative local file system path, with both
-     *     {@code \} and {@code /} as separators. May also be an Eclipse platform URI.
+     *     {@code \} and {@code /} as file separators. May also be an Eclipse platform URI.
      * @return The {@link SourceFile#absPath absolute path} to the CIF file to import.
      * @throws IllegalStateException If the source CIF file path is not available.
      */

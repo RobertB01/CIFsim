@@ -20,7 +20,7 @@ import org.eclipse.escet.common.java.TextPosition;
 public class AImport extends ACifObject {
     /**
      * The absolute or relative local file system path to the CIF source file to import, allowing both {@code "/"} and
-     * {@code "\"} as path separators.
+     * {@code "\"} as file separators.
      */
     public final AStringToken source;
 
@@ -28,7 +28,7 @@ public class AImport extends ACifObject {
      * Constructor for the {@link AImport} class.
      *
      * @param source The absolute or relative local file system path to the CIF source file to import, allowing both
-     *     {@code "/"} and {@code "\"} as path separators.
+     *     {@code "/"} and {@code "\"} as file separators.
      * @param position Position information.
      */
     public AImport(AStringToken source, TextPosition position) {

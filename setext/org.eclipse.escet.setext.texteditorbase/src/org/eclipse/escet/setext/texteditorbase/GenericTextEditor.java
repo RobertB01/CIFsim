@@ -594,7 +594,7 @@ public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
         }
 
         // Get absolute local file system path to source file, with platform
-        // specific path separators.
+        // specific file separators.
         IPath fileLocation = file.getLocation();
         if (fileLocation == null) {
             return; // File no longer exists.

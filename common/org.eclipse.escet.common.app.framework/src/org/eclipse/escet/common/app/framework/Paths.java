@@ -39,7 +39,7 @@ public class Paths {
 
     /**
      * Returns the application's current working directory. This is an absolute local file system path. The path
-     * contains separators for the current platform.
+     * contains file separators for the current platform.
      *
      * @return The application's current working directory.
      * @see AppEnv#getProperty
@@ -56,7 +56,7 @@ public class Paths {
      * Sets the application's current working directory.
      *
      * @param path The absolute local file system path that is the new current working directory of the current
-     *     application. The path must contain separators for the current platform.
+     *     application. The path must contain file separators for the current platform.
      * @return The previous current working directory of the application.
      *
      * @see AppEnv#setProperty
@@ -77,7 +77,7 @@ public class Paths {
      *     local file system path.
      */
     public static boolean isAbsolute(String path) {
-        // Linux and macOS absolute path, for all supported path separators.
+        // Linux and macOS absolute path, for all supported file separators.
         if (path.startsWith("\\")) {
             return true;
         }
@@ -85,7 +85,7 @@ public class Paths {
             return true;
         }
 
-        // Microsoft Windows absolute path, for all supported path separators.
+        // Microsoft Windows absolute path, for all supported file separators.
         if (path.length() >= 3 && path.charAt(1) == ':') {
             char c3 = path.charAt(2);
             if (c3 == '\\' || c3 == '/') {
@@ -102,8 +102,8 @@ public class Paths {
      * application.
      *
      * @param path The absolute or relative local file system path to resolve. It may contain both {@code \} and
-     *     {@code /} as separators.
-     * @return The absolute path that results from the resolving. Contains only platform specific path separators.
+     *     {@code /} as file separators.
+     * @return The absolute path that results from the resolving. Contains only platform specific file separators.
      * @see #getCurWorkingDir
      */
     public static String resolve(String path) {
@@ -114,10 +114,10 @@ public class Paths {
      * Resolves an absolute or relative local file system path, relative to the given current working directory.
      *
      * @param path The absolute or relative local file system path to resolve. It may contain both {@code \} and
-     *     {@code /} as separators.
+     *     {@code /} as file separators.
      * @param curWorkingDir The absolute current working directory against which to resolve relative local file system
      *     paths.
-     * @return The absolute path that results from the resolving. Contains only platform specific path separators.
+     * @return The absolute path that results from the resolving. Contains only platform specific file separators.
      * @see #getCurWorkingDir
      */
     public static String resolve(String path, String curWorkingDir) {
@@ -125,7 +125,7 @@ public class Paths {
         // working directory.
         if (isAbsolute(path)) {
             // Join with '.'. The '.' is removed, but as a side effect, the
-            // path is normalized and gets platform specific separators.
+            // path is normalized and gets platform specific file separators.
             return join(path, ".");
         }
 
@@ -137,9 +137,10 @@ public class Paths {
      * Joins two or more paths together.
      *
      * @param paths The paths to join together. The first path may be an absolute local file system path, with platform
-     *     separators, or a relative local file system path with either {@code \} or {@code /} as separators. All
-     *     remaining paths must be relative local file system paths with either {@code \} or {@code /} as separators.
-     * @return The joined path. Contains only platform specific separators.
+     *     file separators, or a relative local file system path with either {@code \} or {@code /} as file separators.
+     *     All remaining paths must be relative local file system paths with either {@code \} or {@code /} as file
+     *     separators.
+     * @return The joined path. Contains only platform specific file separators.
      * @see File#separatorChar
      */
     public static String join(String... paths) {
@@ -255,14 +256,14 @@ public class Paths {
         }
 
         // Return joined absolute or relative local file system path, with
-        // platform specific separators.
+        // platform specific file separators.
         return rslt.replace('/', getPlatformSeparator());
     }
 
     /**
      * Constructs a Java file URI from an absolute local file system path.
      *
-     * @param absPath The absolute local file system path, with platform specific separators.
+     * @param absPath The absolute local file system path, with platform specific file separators.
      * @return The Java file URI for the given path.
      * @see File#separatorChar
      */
@@ -377,9 +378,9 @@ public class Paths {
     }
 
     /**
-     * Returns the separator that is the separator for the current platform.
+     * Returns the file separator that is the separator for the current platform.
      *
-     * @return The separator that is the separator for the current platform.
+     * @return The file separator that is the separator for the current platform.
      * @see File#separatorChar
      */
     public static char getPlatformSeparator() {
@@ -390,9 +391,9 @@ public class Paths {
     }
 
     /**
-     * Returns the separator that is <em>not</em> the separator for the current platform.
+     * Returns the file separator that is <em>not</em> the separator for the current platform.
      *
-     * @return The separator that is <em>not</em> the separator for the current platform.
+     * @return The file separator that is <em>not</em> the separator for the current platform.
      * @see File#separatorChar
      */
     public static char getNonPlatformSeparator() {
@@ -406,11 +407,11 @@ public class Paths {
      * Returns the file extension of the given file, or {@code ""} if the file has no file extension.
      *
      * @param path The absolute or relative local file system path to the file. May contain both {@code "\"} and
-     *     {@code "/"} as path separators.
+     *     {@code "/"} as file separators.
      * @return The file extension, or {@code ""}.
      */
     public static String getExtension(String path) {
-        // Find last path separator.
+        // Find last file separator.
         int idx = Math.max(path.lastIndexOf('\\'), path.lastIndexOf('/'));
 
         // Cut of the directory, making sure only the file name remains.
@@ -475,10 +476,10 @@ public class Paths {
      * @param absRelDir The absolute local file system path to the 'relative' directory. The resulting path is relative
      *     to this directory.
      * @return A relative local file system path to the given target file or directory. The result uses {@code /} as
-     *     directory separator, regardless of the directory separators used in the input.
+     *     file separator, regardless of the file separators used in the input.
      */
     public static String getRelativePath(String absTgtPath, String absRelDir) {
-        // Normalize path separators.
+        // Normalize file separators.
         absTgtPath = absTgtPath.replace('\\', '/');
         absRelDir = absRelDir.replace('\\', '/');
 
@@ -491,7 +492,7 @@ public class Paths {
         }
 
         // Split to sequences of path parts. Removes the last part if empty,
-        // thereby getting rid of trailing path separators. Handle '/' paths
+        // thereby getting rid of trailing file separators. Handle '/' paths
         // as a special case.
         String[] absTargetParts = absTgtPath.equals("/") ? new String[] {""} : absTgtPath.split("/");
         String[] absRelDirParts = absRelDir.equals("/") ? new String[] {""} : absRelDir.split("/");
@@ -533,7 +534,7 @@ public class Paths {
             rsltParts.add(".");
         }
 
-        // Join and return the result using '/' separators.
+        // Join and return the result using '/' file separators.
         return (rsltParts.size() == 1 && rsltParts.get(0).endsWith(":")) ? rsltParts.get(0) + "/"
                 : String.join("/", rsltParts);
     }
@@ -542,18 +543,18 @@ public class Paths {
      * Returns the absolute directory path of the directory that contains the given file.
      *
      * @param absFilePath The absolute path to the file for which to return the absolute directory path. May contain
-     *     both {@code /} and {@code \} as path separators.
+     *     both {@code /} and {@code \} as file separators.
      * @return The absolute directory path of the directory that contains the given file.
      */
     public static String getAbsFilePathDir(String absFilePath) {
         // Start with absolute file path.
         String rslt = absFilePath;
 
-        // Find last path separator.
+        // Find last file separator.
         int idx = Math.max(rslt.lastIndexOf('\\'), rslt.lastIndexOf('/'));
         Assert.check(idx >= 0);
 
-        // Cut off file name and last path separator.
+        // Cut off file name and last file separator.
         rslt = rslt.substring(0, idx);
 
         // Fix files in root of file system or drive.
@@ -574,11 +575,11 @@ public class Paths {
      * is, returns the last part of the path.
      *
      * @param filePath The absolute or relative local file system path to the file for which to return the file name.
-     *     May contain both {@code /} and {@code \} as path separators.
+     *     May contain both {@code /} and {@code \} as file separators.
      * @return The file name.
      */
     public static String getFileName(String filePath) {
-        // Find last path separator.
+        // Find last file separator.
         int idx = Math.max(filePath.lastIndexOf('\\'), filePath.lastIndexOf('/'));
         return (idx == -1) ? filePath : filePath.substring(idx + 1);
     }
