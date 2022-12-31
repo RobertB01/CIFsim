@@ -149,6 +149,7 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.services/3.10.200.v20210723-0643, EP
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi/3.18.0.v20220516-2155, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.pde.build/3.11.200.v20220503-0921, EPL-2.0, approved, eclipse.pde
 p2/orbit/p2.eclipse.plugin/org.eclipse.pde.core/3.15.200.v20220527-1237, EPL-2.0, approved, eclipse.pde
+p2/orbit/p2.eclipse.plugin/org.eclipse.swt.cocoa.macosx.aarch64/3.120.0.v20220530-1036, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.cocoa.macosx.x86_64/3.120.0.v20220530-1036, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.gtk.linux.x86_64/3.120.0.v20220530-1036, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.win32.win32.x86_64/3.120.0.v20220530-1036, EPL-2.0, approved, eclipse.platform
