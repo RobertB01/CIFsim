@@ -30,7 +30,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 public class CifCheckViolation {
     /**
      * The provided CIF object for which the violation is to be reported. If it is not a named CIF object, the violation
-     * is reported on its closest named ancestor. is never {@code null}, but may be a {@link Specification}.
+     * is reported on its closest named ancestor. Is never {@code null}, but may be a {@link Specification}.
      */
     private final PositionObject providedReportObject;
 
