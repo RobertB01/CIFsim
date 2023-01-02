@@ -43,6 +43,7 @@ import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.ContinuousPerformanceStatisticsFileOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
@@ -444,6 +445,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SupervisorNamespaceOption.class));
         synthOpts.add(Options.getInstance(ForwardReachOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderOption.class));
+        synthOpts.add(Options.getInstance(EdgeOrderDuplicateEventsOption.class));
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
         synthOpts.add(Options.getInstance(ContinuousPerformanceStatisticsFileOption.class));
         synthOpts.add(Options.getInstance(EventWarnOption.class));

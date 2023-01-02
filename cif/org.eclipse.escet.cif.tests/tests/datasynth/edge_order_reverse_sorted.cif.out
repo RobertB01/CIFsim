@@ -47,13 +47,13 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: p.z) (guard: true)
-    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
-    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
     Edge: (event: p.c) (guard: true)
     Edge: (event: p.a) (guard: true)
+    Edge: (event: p.z) (guard: true)
     Edge: (event: D) (guard: true) (assignments: D+ != D)
     Edge: (event: C) (guard: true) (assignments: C+ != C)
+    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
 
 Restricting behavior using state/event exclusion plants.
 
@@ -83,13 +83,13 @@ Computing controlled system guards.
 
 Final synthesis result:
   State: (controlled-behavior: true)
-    Edge: (event: p.z) (guard: true)
-    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
-    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
     Edge: (event: p.c) (guard: true)
     Edge: (event: p.a) (guard: true)
+    Edge: (event: p.z) (guard: true)
     Edge: (event: D) (guard: true) (assignments: D+ != D)
     Edge: (event: C) (guard: true) (assignments: C+ != C)
+    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
 
 Controlled system:                     exactly 16 states.
 

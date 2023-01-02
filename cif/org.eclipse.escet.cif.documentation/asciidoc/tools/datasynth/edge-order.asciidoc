@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,edge order]
 [[tools-datasynth-edge-order]]
 == Edge order
 
-Data-basd supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
+Data-based supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
 This involves repeatedly following edges to find those states, using a fixed point computation.
 
 During reachability computations the edges are considered one by one to find more reachable states.
@@ -39,7 +39,7 @@ Synthesis does not directly use the edges from the model.
 It applies <<tools-cif2cif-chapter-linearize-product,linearization>> and then uses the edges from the linearized model.
 Edges are internally also added to <<tools-datasynth-input-vars,support input variables>> during synthesis.
 
-The order in which the edges are considered is determined by the _Edge order_ option (see the <<tools-datasynth-options,options section>>).
+The order in which the edges are considered for reachability computations is determined by the _Edge order_ option (see the <<tools-datasynth-options,options section>>).
 Several predefined orders exist, and it is also possible to define a custom order.
 By default, the _model ordering_ is used.
 The following predefined orders exist:
@@ -48,23 +48,27 @@ The following predefined orders exist:
 +
 The order of the edges is as they occur in the linearized model.
 Edges for input variables are always put after the other edges, sorted based on the <<tools-datasynth-var-order,variable order>>.
+Edges are considered exactly once per reachability iteration.
 
 * _reverse model ordering_ (option value `reverse-model`)
 +
 The order of the edges is as they occur in the linearized model, but reversed.
 Edges for input variable are thus always put before the other edges, sorted based on the reversed variable order.
+Edges are considered exactly once per reachability iteration.
 
 * _sorted ordering_ (option value `sorted`)
 +
 The order of the edges is based on the names of their corresponding events and input variables.
 They are sorted alphabetically in ascending order, based on their absolute names.
 In case edges are labeled with the same event, the edges are ordered based on the linearized model order.
+Edges are considered exactly once per reachability iteration.
 
 * _reverse sorted ordering_ (option value `reverse-sorted`)
 +
 The order of the edges is based on the names of their corresponding events and input variables.
 They are sorted alphabetically in descending order, based on their absolute names.
 In case edges are labeled with the same event, the edges are ordered based on the reversed linearized model order.
+Edges are considered exactly once per reachability iteration.
 
 * _random ordering_ (option value `random` or `random:SEED`)
 +
@@ -75,19 +79,24 @@ That is, using the same seed again, results in the same random order.
 The `SEED` must be an integer number in the range [0 .. 2^64^ - 1].
 For instance, use `random:123` as option value to get a random order that can be repeated on a subsequent synthesis for the same model.
 
-Furthermore, a custom order can be defined.
+* _custom ordering_
++
 Custom orders consist of absolute names of events and input variables.
 That is, for an automaton `a`, with an event `x`, the absolute name of the event is `a.x`.
 In case edges are labeled with the same event, the edges are ordered based on the linearized model order.
 The `+*+` character can be used as wildcard in those names, and indicates zero or more characters.
 In case of multiple matches, the matches are sorted alphabetically in ascending order, based on their absolute names.
-
++
 Multiple names can be separated with `,` characters.
 The edges and input variables matching the name pattern before the `,` are ordered before the edges and input variables matching the name pattern after the `,`.
-
++
 Each name pattern in the order must match at least one event or input variable.
-An event or input variable may not be included more than once in the order.
 Every event and input variable needs to be included in the order.
++
+By default, an event or input variable may not be included more than once in the order.
+This allows detecting accidental duplicate inclusion of events in the order.
+It can however be useful to include events multiple times in the order, for instance if for some model considering the event twice leads to immediately finding a new state during the reachability operation, while this would otherwise only be found in the next iteration.
+To allow events to be included multiple times in the custom order, use the _Edge order duplicate events_ option (see the <<tools-datasynth-options,options section>>).
 
 Determining the best edge order is difficult as it can be tricky to predict which edges will lead to finding new states and quickly reaching the fixed point result.
 When in doubt, use the default value of the option.

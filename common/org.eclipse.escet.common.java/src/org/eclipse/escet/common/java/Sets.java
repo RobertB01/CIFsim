@@ -17,6 +17,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -161,34 +162,38 @@ public class Sets {
     }
 
     /**
-     * Returns the difference of two sets.
+     * Returns the set difference of two collections. The resulting set contains the elements of the first collection
+     * that are not in the second collection.
      *
-     * @param <T1> The type of the elements of the first set.
-     * @param <T2> The type of the elements of the second set.
+     * @param <T1> The type of the elements of the first collection.
+     * @param <T2> The type of the elements of the second collection.
      * @param <TR> The type of the elements of the resulting set.
-     * @param set1 The first set.
-     * @param set2 The second set.
-     * @return The difference of the two sets.
+     * @param first The first collection.
+     * @param second The second collection.
+     * @return The difference set.
      */
-    public static <TR, T1 extends TR, T2 extends TR> Set<TR> difference(Set<T1> set1, Set<T2> set2) {
-        Set<TR> rslt = copy(set1);
-        rslt.removeAll(set2);
+    public static <TR, T1 extends TR, T2 extends TR> Set<TR> difference(Collection<T1> first, Collection<T2> second) {
+        Set<TR> rslt = new LinkedHashSet<>(first);
+        rslt.removeAll(second);
         return rslt;
     }
 
     /**
-     * Returns the difference of the first set with the sets, that is: 'set \ sets[0] \ sets[1] \ ... \ sets[n]'.
+     * Returns the set difference of any number of collections. The resulting set contains the elements of the first
+     * collection that are not in any of the other collections.
      *
+     * @param <TI> The type of the elements of the input collections.
      * @param <TR> The type of the elements of the resulting set.
-     * @param <TI> The type of the elements of the input sets.
-     * @param set The first set.
-     * @param sets The rest of the sets.
-     * @return The difference of the first set with the rest.
+     * @param first The first collection.
+     * @param others The other collections.
+     * @return The difference set.
      */
     @SafeVarargs
-    public static <TR, TI extends TR> Set<TR> difference(Set<? extends TI> set, Set<? extends TI>... sets) {
-        Set<TR> rslt = copy(set);
-        for (Set<? extends TI> s: sets) {
+    public static <TR, TI extends TR> Set<TR> difference(Collection<? extends TI> first,
+            Collection<? extends TI>... others)
+    {
+        Set<TR> rslt = new LinkedHashSet<>(first);
+        for (Collection<? extends TI> s: others) {
             rslt.removeAll(s);
         }
         return rslt;

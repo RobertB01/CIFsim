@@ -467,6 +467,26 @@ public class SetsTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testDifferenceVariousTypes() {
+        assertEquals(set(1, 2, 3), difference(set(1, 2, 3), set()));
+        assertEquals(set(2, 3), difference(set(1, 2, 3), set(1)));
+        assertEquals(set(1), difference(set(1, 1, 2, 2, 3, 3), set(2, 2, 3)));
+
+        assertEquals(set(1, 2, 3), difference(set(1, 2, 3), list()));
+        assertEquals(set(2, 3), difference(set(1, 2, 3), list(1)));
+        assertEquals(set(1), difference(set(1, 1, 2, 2, 3, 3), list(2, 2, 3)));
+
+        assertEquals(set(1, 2, 3), difference(list(1, 2, 3), set()));
+        assertEquals(set(2, 3), difference(list(1, 2, 3), set(1)));
+        assertEquals(set(1), difference(list(1, 1, 2, 2, 3, 3), set(2, 2, 3)));
+
+        assertEquals(set(1, 2, 3), difference(list(1, 2, 3), list()));
+        assertEquals(set(2, 3), difference(list(1, 2, 3), list(1)));
+        assertEquals(set(1), difference(list(1, 1, 2, 2, 3, 3), list(2, 2, 3)));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testCopy() {
         RuntimeException e1 = new NullPointerException();
         RuntimeException e2 = new IllegalArgumentException();

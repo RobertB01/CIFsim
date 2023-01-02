@@ -1444,7 +1444,7 @@ public class CifDataSynthesis {
             BDD oldPred = pred.id();
 
             // Push through all edges.
-            for (SynthesisEdge edge: aut.edges) {
+            for (SynthesisEdge edge: aut.orderedEdges) {
                 // Skip edges if requested.
                 if (!ctrl && edge.event.getControllable()) {
                     continue;

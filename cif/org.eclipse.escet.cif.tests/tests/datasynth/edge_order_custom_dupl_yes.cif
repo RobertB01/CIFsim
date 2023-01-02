@@ -1,0 +1,55 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant Counter:
+  controllable dec, inc;
+
+  location zero:
+    initial;
+    marked;
+    edge inc goto one;
+
+  location one:
+    edge dec goto zero;
+    edge inc goto two;
+
+  location two:
+    edge dec goto one;
+    edge inc goto three;
+
+  location three:
+    edge dec goto two;
+    edge inc goto four;
+
+  location four:
+    edge dec goto three;
+    edge inc goto five;
+
+  location five:
+    edge dec goto four;
+end
+
+plant Actuator:
+  controllable on, off;
+
+  location Off:
+    initial;
+    marked;
+    edge on goto On;
+
+  location On:
+    edge off goto Off;
+end
+
+requirement Actuator.on  needs Counter.zero;
+requirement Actuator.off needs Counter.five;
