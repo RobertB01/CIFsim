@@ -177,8 +177,8 @@ BDD cache statistics:
   Node creation chain accesses: 0
   Node creation cache hits:     373
   Node creation cache misses:   222
-  Operation count:              2860
-  Operation cache hits:         521
+  Operation count:              2832
+  Operation cache hits:         498
   Operation cache misses:       849
 Maximum used BDD nodes: 108.
 Writing output CIF file "datasynth/edge_order_custom_dupl_no.ctrlsys.real.cif".
