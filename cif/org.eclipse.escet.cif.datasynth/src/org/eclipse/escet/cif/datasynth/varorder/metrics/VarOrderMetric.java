@@ -18,10 +18,10 @@ import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
-/** Variable orderer metric. Lower metric values (heuristically) indicate better variable orders. */
-public interface VarOrdererMetric {
+/** Variable order metric. Lower metric values (heuristically) indicate better variable orders. */
+public interface VarOrderMetric {
     /**
      * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
      *
@@ -34,12 +34,12 @@ public interface VarOrdererMetric {
     /**
      * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
      *
-     * @param helper Helper for variable ordering algorithms.
+     * @param helper Helper for variable ordering.
      * @param order The variable order.
      * @param hyperEdges The hyper-edges to use to compute the metric value.
      * @return The metric value.
      */
-    public default double computeForVarOrder(VarOrdererHelper helper, List<SynthesisVariable> order,
+    public default double computeForVarOrder(VarOrderHelper helper, List<SynthesisVariable> order,
             List<BitSet> hyperEdges)
     {
         int[] newIndices = helper.getNewIndicesForVarOrder(order);
@@ -49,12 +49,12 @@ public interface VarOrdererMetric {
     /**
      * Compute the metric value. Lower metric values (heuristically) indicate better variable orders.
      *
-     * @param helper Helper for variable ordering algorithms.
+     * @param helper Helper for variable ordering.
      * @param order The node order.
      * @param hyperEdges The hyper-edges to use to compute the metric value.
      * @return The metric value.
      */
-    public default double computeForNodeOrder(VarOrdererHelper helper, List<Node> order, List<BitSet> hyperEdges) {
+    public default double computeForNodeOrder(VarOrderHelper helper, List<Node> order, List<BitSet> hyperEdges) {
         int[] newIndices = helper.getNewIndicesForNodeOrder(order);
         return computeForNewIndices(newIndices, hyperEdges);
     }

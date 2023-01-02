@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.common.java.Assert;
 
 /**
@@ -38,7 +38,7 @@ public class SequentialVarOrderer implements VarOrderer {
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel)
     {
         // Debug output before applying the algorithms.

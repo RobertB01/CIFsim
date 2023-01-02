@@ -11,15 +11,15 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
 import org.eclipse.escet.common.java.Assert;
 
 /** Variable ordering algorithm that applies multiple other algorithms, and picks the best order. */
@@ -31,7 +31,7 @@ public class ChoiceVarOrderer implements VarOrderer {
     private final List<VarOrderer> algorithms;
 
     /** The metric to use to pick the best order. */
-    private final VarOrdererMetric metric;
+    private final VarOrderMetric metric;
 
     /** The relations to use to compute metric values. */
     private final RelationsKind relationsKind;
@@ -43,7 +43,7 @@ public class ChoiceVarOrderer implements VarOrderer {
      * @param metric The metric to use to pick the best order.
      * @param relationsKind The relations to use to compute metric values.
      */
-    public ChoiceVarOrderer(List<VarOrderer> algorithms, VarOrdererMetric metric, RelationsKind relationsKind) {
+    public ChoiceVarOrderer(List<VarOrderer> algorithms, VarOrderMetric metric, RelationsKind relationsKind) {
         this(null, algorithms, metric, relationsKind);
     }
 
@@ -55,7 +55,7 @@ public class ChoiceVarOrderer implements VarOrderer {
      * @param metric The metric to use to pick the best order.
      * @param relationsKind The relations to use to compute metric values.
      */
-    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms, VarOrdererMetric metric,
+    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms, VarOrderMetric metric,
             RelationsKind relationsKind)
     {
         this.name = name;
@@ -66,7 +66,7 @@ public class ChoiceVarOrderer implements VarOrderer {
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel)
     {
         // Debug output before applying the algorithms.

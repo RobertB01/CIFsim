@@ -47,8 +47,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/** Tests for {@link VarOrdererHelper}. */
-public class VarOrdererHelperTest {
+/** Tests for {@link VarOrderHelper}. */
+public class VarOrderHelperTest {
     @SuppressWarnings("javadoc")
     @BeforeClass
     public static void beforeClass() {
@@ -101,7 +101,7 @@ public class VarOrdererHelperTest {
 
         // Reorder the variables.
         int[] newIndices = {0, 4, 1, 5, 2, 3}; // For each variable in 'variables', its new 0-based index.
-        VarOrdererHelper helper = new VarOrdererHelper(spec, variables);
+        VarOrderHelper helper = new VarOrderHelper(spec, variables);
         List<SynthesisVariable> ordered = helper.reorderForNewIndices(newIndices);
 
         // Check the result. Invariant: ordered[newIndices[i]] == variables[i].
@@ -155,7 +155,7 @@ public class VarOrdererHelperTest {
         List<SynthesisVariable> variables = list(a, b, c, d, e);
 
         // Create helper.
-        VarOrdererHelper helper = new VarOrdererHelper(spec, variables);
+        VarOrderHelper helper = new VarOrderHelper(spec, variables);
 
         // Test hyper-edges: c/e (invariant), a/b (guard), b/a (guard), a/c (guard), c/d (update), c/d (update), c/d
         // (update), a/b/c/d (event c_e).

@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
 /** Variable ordering algorithm. */
 public interface VarOrderer {
@@ -28,12 +28,12 @@ public interface VarOrderer {
      * offer such guarantees. Some heuristic algorithms may in certain cases even produce 'worse' orders.
      * </p>
      *
-     * @param helper Helper for variable ordering algorithms.
+     * @param helper Helper for variable ordering.
      * @param inputOrder The input variable order (to attempt) to improve. Must not be changed in-place.
      * @param dbgEnabled Whether debug output is enabled.
      * @param dbgLevel The debug indentation level.
      * @return The new variable order, as produced by the algorithm.
      */
-    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel);
 }

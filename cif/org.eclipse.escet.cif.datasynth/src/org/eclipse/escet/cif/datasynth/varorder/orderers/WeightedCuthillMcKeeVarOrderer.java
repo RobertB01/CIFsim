@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.WeightedCuthillMcKeeNodeOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
 /**
  * Weighted Cuthill-McKee bandwidth-reducing variable ordering heuristic.
@@ -47,7 +47,7 @@ public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel)
     {
         // Get graph.

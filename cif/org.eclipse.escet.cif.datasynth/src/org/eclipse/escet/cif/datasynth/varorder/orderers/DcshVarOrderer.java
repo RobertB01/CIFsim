@@ -11,13 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrdererMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
 
 /**
  * DSM-based Cuthill-McKee/Sloan variable ordering Heuristic (DCSH).
@@ -36,7 +36,7 @@ public class DcshVarOrderer extends ChoiceVarOrderer {
      * @param metric The metric to use to pick the best order.
      * @param relationsKind The relations to use to compute metric values.
      */
-    public DcshVarOrderer(PseudoPeripheralNodeFinder nodeFinder, VarOrdererMetric metric, RelationsKind relationsKind) {
+    public DcshVarOrderer(PseudoPeripheralNodeFinder nodeFinder, VarOrderMetric metric, RelationsKind relationsKind) {
         super("DCSH", list(
                 // First algorithm.
                 new WeightedCuthillMcKeeVarOrderer(nodeFinder, relationsKind),

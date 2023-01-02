@@ -11,14 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
 /** Variable ordering algorithm that returns the reverse order of another algorithm. */
 public class ReverseVarOrderer implements VarOrderer {
@@ -40,7 +40,7 @@ public class ReverseVarOrderer implements VarOrderer {
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrdererHelper helper, List<SynthesisVariable> inputOrder,
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
             boolean dbgEnabled, int dbgLevel)
     {
         // Debug output before applying the algorithm.
