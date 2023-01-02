@@ -1430,6 +1430,7 @@ public class CifDataSynthesis {
 
         // Compute fixed point.
         int iter = 0;
+        int noChangeCount = 0;
         while (true) {
             // Print iteration, for debugging.
             iter++;
@@ -1437,69 +1438,74 @@ public class CifDataSynthesis {
                 dbg("%s reachability: iteration %d.", (forward ? "Forward" : "Backward"), iter);
             }
 
-            // Store current/old predicate, to detect fixed point later on.
-            if (aut.env.isTerminationRequested()) {
-                return null;
-            }
-            BDD oldPred = pred.id();
-
             // Push through all edges.
             for (SynthesisEdge edge: aut.orderedEdges) {
                 // Skip edges if requested.
+                boolean skip = false;
                 if (!ctrl && edge.event.getControllable()) {
-                    continue;
-                }
-                if (!unctrl && !edge.event.getControllable()) {
-                    continue;
+                    noChangeCount++;
+                    skip = true;
+                } else if (!unctrl && !edge.event.getControllable()) {
+                    noChangeCount++;
+                    skip = true;
                 }
                 if (aut.env.isTerminationRequested()) {
                     return null;
                 }
 
-                // Apply edge. Apply the runtime error predicates when applying backward.
-                BDD updPred = pred.id();
-                updPred = edge.apply(updPred, bad, forward, restriction, !forward);
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
-
-                // Extend reachable states.
-                BDD newPred = pred.id().orWith(updPred);
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
-
-                // Detect change.
-                if (pred.equals(newPred)) {
-                    newPred.free();
-                    continue;
-                } else {
+                // Apply the edge, if not skipped.
+                if (!skip) {
+                    // Apply edge. Apply the runtime error predicates when applying backward.
+                    BDD updPred = pred.id();
+                    updPred = edge.apply(updPred, bad, forward, restriction, !forward);
                     if (aut.env.isTerminationRequested()) {
                         return null;
                     }
-                    if (dbgEnabled) {
-                        String restrTxt;
-                        if (restriction == null) {
-                            restrTxt = "";
-                        } else {
-                            Assert.notNull(restrictionName);
-                            restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
-                                    bddToStr(restriction, aut));
-                        }
-                        dbg("%s: %s -> %s [%s reach with edge: %s%s]", Strings.makeInitialUppercase(predName),
-                                bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
-                                edge.toString(0, ""), restrTxt);
+
+                    // Extend reachable states.
+                    BDD newPred = pred.id().orWith(updPred);
+                    if (aut.env.isTerminationRequested()) {
+                        return null;
                     }
-                    pred.free();
-                    pred = newPred;
-                    changed = true;
+
+                    // Detect change.
+                    if (pred.equals(newPred)) {
+                        // No change.
+                        newPred.free();
+                        noChangeCount++;
+                    } else {
+                        // Change.
+                        if (aut.env.isTerminationRequested()) {
+                            return null;
+                        }
+                        if (dbgEnabled) {
+                            String restrTxt;
+                            if (restriction == null) {
+                                restrTxt = "";
+                            } else {
+                                Assert.notNull(restrictionName);
+                                restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
+                                        bddToStr(restriction, aut));
+                            }
+                            dbg("%s: %s -> %s [%s reach with edge: %s%s]", Strings.makeInitialUppercase(predName),
+                                    bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
+                                    edge.toString(0, ""), restrTxt);
+                        }
+                        pred.free();
+                        pred = newPred;
+                        changed = true;
+                        noChangeCount = 0;
+                    }
+                }
+
+                // Detect fixed point during iteration.
+                if (noChangeCount == aut.orderedEdges.size()) {
+                    break;
                 }
             }
 
-            // Detect fixed point.
-            boolean fixedPoint = pred.equals(oldPred);
-            oldPred.free();
-            if (fixedPoint) {
+            // Detect fixed point after iteration.
+            if (noChangeCount == aut.orderedEdges.size()) {
                 break;
             }
         }
