@@ -2651,25 +2651,22 @@ public class CifToSynthesisConverter {
                 }
 
                 // Update for matched edges.
-                for (SynthesisEdge edge: matches) {
-                    processedEdges.add(edge);
-                }
+                processedEdges.addAll(matches);
                 synthAut.orderedEdges.addAll(matches);
             }
 
             // Check completeness.
-            Set<SynthesisEdge> missingEdges = difference(list2set(synthAut.edges), processedEdges);
+            Set<SynthesisEdge> missingEdges = difference(synthAut.edges, processedEdges);
             if (!missingEdges.isEmpty()) {
                 Set<String> names = set();
                 for (SynthesisEdge edge: missingEdges) {
                     names.add("\"" + getAbsName(edge.event, false) + "\"");
                 }
                 List<String> sortedNames = Sets.sortedgeneric(names, Strings.SORTER);
-                String msg = fmt("Invalid edge order: the following events are missing from the specified order: %s.",
+                String msg = fmt("Invalid edge order: the following event(s) are missing from the specified order: %s.",
                         String.join(", ", sortedNames));
                 throw new InvalidOptionException(msg);
             }
-
         }
     }
 
