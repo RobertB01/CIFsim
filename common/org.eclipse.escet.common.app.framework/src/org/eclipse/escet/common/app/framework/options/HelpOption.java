@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -181,7 +181,7 @@ public class HelpOption extends BooleanOption {
      * @param s The stream to print the output to.
      */
     public static void printHelpCopyrightEclipseEscet(AppStream s) {
-        outw(s, "Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation");
+        outw(s, "Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation");
         outw(s, "");
         outw(s, "See the NOTICE file(s) distributed with this work for additional information regarding copyright "
                 + "ownership.");

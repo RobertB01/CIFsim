@@ -3,7 +3,7 @@
 <fileset-config file-format-version="1.2.0" simple-config="false" sync-formatter="false">
   <local-check-config name="Eclipse ESCET Checkstyle" location="/org.eclipse.escet.releng.configuration/checkstyle.xml" type="project" description="Eclipse ESCET Checkstyle.
 
-Copyright (c) 2010, 2022 Contributors to the Eclipse Foundation
+Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
 
 See the NOTICE file(s) distributed with this work for additional
 information regarding copyright ownership.
