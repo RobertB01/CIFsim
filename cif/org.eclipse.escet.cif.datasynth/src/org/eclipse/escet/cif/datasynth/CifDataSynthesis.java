@@ -1428,10 +1428,10 @@ public class CifDataSynthesis {
             edge.preApply(forward, restriction);
         }
 
-        // Compute fixed point.
+        // Apply edges until we get a fixed point.
         int iter = 0;
-        int noChangeCount = 0;
-        while (true) {
+        int remainingEdges = aut.orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
+        while (remainingEdges > 0) {
             // Print iteration, for debugging.
             iter++;
             if (dbgEnabled) {
@@ -1443,10 +1443,10 @@ public class CifDataSynthesis {
                 // Skip edges if requested.
                 boolean skip = false;
                 if (!ctrl && edge.event.getControllable()) {
-                    noChangeCount++;
+                    remainingEdges--;
                     skip = true;
                 } else if (!unctrl && !edge.event.getControllable()) {
-                    noChangeCount++;
+                    remainingEdges--;
                     skip = true;
                 }
                 if (aut.env.isTerminationRequested()) {
@@ -1472,7 +1472,7 @@ public class CifDataSynthesis {
                     if (pred.equals(newPred)) {
                         // No change.
                         newPred.free();
-                        noChangeCount++;
+                        remainingEdges--;
                     } else {
                         // Change.
                         if (aut.env.isTerminationRequested()) {
@@ -1494,19 +1494,14 @@ public class CifDataSynthesis {
                         pred.free();
                         pred = newPred;
                         changed = true;
-                        noChangeCount = 0;
+                        remainingEdges = aut.orderedEdges.size();
                     }
                 }
 
                 // Detect fixed point during iteration.
-                if (noChangeCount == aut.orderedEdges.size()) {
+                if (remainingEdges == 0) {
                     break;
                 }
-            }
-
-            // Detect fixed point after iteration.
-            if (noChangeCount == aut.orderedEdges.size()) {
-                break;
             }
         }
 
