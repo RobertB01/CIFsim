@@ -63,17 +63,14 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.x3 = 1 or p.x3 = 3 [marker predicate]
-Backward reachability: iteration 1.
 Controlled behavior: true -> p.x3 = 1 or p.x3 = 3.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p.x3 = 0 or p.x3 = 2 [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)) [initialization predicate]
 Forward controlled-behavior: p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)) -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [restricted to current/previous controlled-behavior predicate: p.x3 = 1 or p.x3 = 3]
-Forward reachability: iteration 1.
 Forward controlled-behavior: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [fixed point].
 Controlled behavior: p.x3 = 1 or p.x3 = 3 -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3).
 
@@ -84,12 +81,10 @@ Round 2: started.
 Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.x3 = 1 or p.x3 = 3 [marker predicate]
 Backward controlled-behavior: p.x3 = 1 or p.x3 = 3 -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [restricted to current/previous controlled-behavior predicate: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)]
-Backward reachability: iteration 1.
 Backward controlled-behavior: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (p.x1 != 1 or (p.x2 != 1 or p.x3 != 1)) and (p.x1 != 3 or (p.x2 != 3 or p.x3 != 3)) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 

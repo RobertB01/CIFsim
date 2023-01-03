@@ -60,7 +60,6 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.x = 3 [marker predicate]
 Backward controlled-behavior: p.x = 3 -> false [restricted to current/previous controlled-behavior predicate: p.x = 1]
-Backward reachability: iteration 1.
 Backward controlled-behavior: false [fixed point].
 Controlled behavior: p.x = 1 -> false.
 
