@@ -1494,7 +1494,7 @@ public class CifDataSynthesis {
                     pred.free();
                     pred = newPred;
                     changed = true;
-                    remainingEdges = aut.orderedEdges.size();
+                    remainingEdges = aut.orderedEdges.size(); // Change found, reset the counter.
                 }
             }
         }
