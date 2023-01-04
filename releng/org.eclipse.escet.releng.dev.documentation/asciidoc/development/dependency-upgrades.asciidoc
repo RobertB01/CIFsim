@@ -178,7 +178,7 @@ To upgrade to a new Java version:
 There won't always be changes.
 ** Update the product:
 *** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
-*** Update `osgi.requiredJavaVersion` in the product launch configuration (`org.eclipse.escet.product/product-escet.launch`).
+*** Update `osgi.requiredJavaVersion` in the product launch configuration (`org.eclipse.escet.product/*.launch`).
 ** Update the build:
 *** Update Java version for `escet.java.version` in `org.eclipse.escet.releng.configuration/pom.xml`.
 *** Update Java version for `executionEnvironment` in `org.eclipse.escet.releng.configuration/pom.xml`.
