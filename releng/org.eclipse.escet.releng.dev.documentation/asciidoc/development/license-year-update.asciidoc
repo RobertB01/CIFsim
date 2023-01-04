@@ -1,0 +1,47 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[development-license-year-update-chapter-index]]
+== License year update
+
+The source files in the Eclipse ESCET toolset contain license headers.
+The current year is part of that license header.
+Therefore, at the beginning of each new year, the license headers need to be updated.
+
+To update the license year:
+
+* Change the year in the source file headers, where `xxxx` is the previous year and `yyyy` is the new year:
+** In Eclipse, select menu:Search[Search...].
+** For _Containg text_ enter: `([0-9]\{4\}), xxxx Contributors to the Eclipse Foundation`.
+** Enable _Regular expression_.
+** Click btn:[Replace...] and wait for the _Replace Text Matches_ window to appear.
+** For _With_ enter: `($1), yyyy Contributors to the Eclipse Foundation`.
+** Click btn:[OK].
+** Again select menu:Search[Search...].
+** For _Containg text_ enter: `xxxx Contributors to the Eclipse Foundation`.
+** Click btn:[Replace...] and wait for the _Replace Text Matches_ window to appear.
+** For _With_ enter: `xxxx, yyyy Contributors to the Eclipse Foundation`.
+** Update the header of `char_cls_empty.setext` (`org.eclipse.escet.setext.tests/test_models/models_invalid`).
+* Check if anything was missed by searching for the previous year (menu:Search[Search...]).
+* Update the desired license-header regular expression in `license-header-check.bash` (`misc/license-header`).
+* Run `license-header-check.bash` and fix the violations if there are any.
+* Create a license update issue for next year:
+** Go to https://gitlab.eclipse.org/eclipse/escet/escet/-/issues.
+** Sign in with your Eclipse Foundation account using the link at the top-right of the page.
+** Click _New issue_.
+** For _Title_ enter `Update license headers for new year`.
+** For _Labels_ select _RelEng/DevOps_ and _Type::Enhancement_.
+** For _Due data_ select the first day of the new year.
+** Click _Create issue_.
