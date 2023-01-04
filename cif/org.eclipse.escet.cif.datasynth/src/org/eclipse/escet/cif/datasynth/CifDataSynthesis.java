@@ -1428,28 +1428,24 @@ public class CifDataSynthesis {
             edge.preApply(forward, restriction);
         }
 
-        // Compute fixed point.
+        // Apply edges until we get a fixed point.
         int iter = 0;
-        while (true) {
+        int remainingEdges = aut.orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
+        while (remainingEdges > 0) {
             // Print iteration, for debugging.
             iter++;
             if (dbgEnabled) {
                 dbg("%s reachability: iteration %d.", (forward ? "Forward" : "Backward"), iter);
             }
 
-            // Store current/old predicate, to detect fixed point later on.
-            if (aut.env.isTerminationRequested()) {
-                return null;
-            }
-            BDD oldPred = pred.id();
-
             // Push through all edges.
             for (SynthesisEdge edge: aut.orderedEdges) {
                 // Skip edges if requested.
-                if (!ctrl && edge.event.getControllable()) {
-                    continue;
-                }
-                if (!unctrl && !edge.event.getControllable()) {
+                if ((!ctrl && edge.event.getControllable()) || (!unctrl && !edge.event.getControllable())) {
+                    remainingEdges--;
+                    if (remainingEdges == 0) {
+                        break; // Fixed point reached.
+                    }
                     continue;
                 }
                 if (aut.env.isTerminationRequested()) {
@@ -1471,9 +1467,14 @@ public class CifDataSynthesis {
 
                 // Detect change.
                 if (pred.equals(newPred)) {
+                    // No change.
                     newPred.free();
-                    continue;
+                    remainingEdges--;
+                    if (remainingEdges == 0) {
+                        break; // Fixed point reached.
+                    }
                 } else {
+                    // Change.
                     if (aut.env.isTerminationRequested()) {
                         return null;
                     }
@@ -1493,14 +1494,8 @@ public class CifDataSynthesis {
                     pred.free();
                     pred = newPred;
                     changed = true;
+                    remainingEdges = aut.orderedEdges.size(); // Change found, reset the counter.
                 }
-            }
-
-            // Detect fixed point.
-            boolean fixedPoint = pred.equals(oldPred);
-            oldPred.free();
-            if (fixedPoint) {
-                break;
             }
         }
 

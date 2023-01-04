@@ -65,7 +65,6 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.x = 3 [marker predicate]
-Backward reachability: iteration 1.
 Controlled behavior: true -> p.x = 3.
 
 Round 1: finished, all states are bad.

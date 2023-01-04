@@ -65,17 +65,14 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1 [marker predicate]
-Backward reachability: iteration 1.
 Controlled behavior: true -> p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (p.x != 2 or p.y != 2) and (p.x != 1 or p.y != 1) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: true [initialization predicate]
 Forward controlled-behavior: true -> p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1 [restricted to current/previous controlled-behavior predicate: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1]
-Forward reachability: iteration 1.
 Forward controlled-behavior: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1 [fixed point].
 
 Round 1: finished, controlled behavior is stable.
