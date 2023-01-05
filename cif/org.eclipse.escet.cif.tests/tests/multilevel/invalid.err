@@ -1,0 +1,14 @@
+WARNING: File "multilevel/invalid.cif": Semantic warning at line 28, column 13: Automaton "g.no_initial" has no initial location.
+WARNING: File "multilevel/invalid.cif": Semantic warning at line 37, column 20: Discrete variable "g.p.x1" is not used anywhere in the specification.
+WARNING: File "multilevel/invalid.cif": Semantic warning at line 38, column 20: Discrete variable "g.p.x2" is not used anywhere in the specification.
+ERROR: CIF to DMM transformation failed due to unsatisfied preconditions:
+ - Unsupported "g" (File "multilevel/invalid.cif": line 18, column 7): group has an equation.
+ - Unsupported "g" (File "multilevel/invalid.cif": line 18, column 7): has a kindless invariant.
+ - Unsupported "g.no_initial" (File "multilevel/invalid.cif": line 28, columns 13 .. 22): automaton has an edge with an explicit "tau" event on it.
+ - Unsupported "g.no_initial" (File "multilevel/invalid.cif": line 28, columns 13 .. 22): automaton has an edge with an implicit "tau" event on it.
+ - Unsupported "g.p" (File "multilevel/invalid.cif": line 35, column 9): has a plant invariant.
+ - Unsupported "g.p" (File "multilevel/invalid.cif": line 35, column 9): has an invariant in a location.
+ - Unsupported "g.p.cnt" (File "multilevel/invalid.cif": line 39, columns 10 .. 12): variable is a continuous variable.
+ - Unsupported "g.x" (File "multilevel/invalid.cif": line 56, column 8): variable is a continuous variable.
+ - Unsupported "g.y" (File "multilevel/invalid.cif": line 57, column 8): variable is a continuous variable.
+ - Unsupported specification (File "multilevel/invalid.cif": line 1, column 1): 1 kindless automaton found, specification does not have exactly 0 kindless automata.

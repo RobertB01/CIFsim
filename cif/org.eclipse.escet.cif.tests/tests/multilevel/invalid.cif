@@ -1,0 +1,69 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+enum A = ON, OFF;
+input bool a;
+alg bool b = not a;
+
+group g:
+  event int[0..5] e1, e2;
+  event A e3;
+  event e4;
+
+  invariant 1 + 1 = 2;
+  invariant 1 = 3;                  // Non-true invariant in group.
+
+  initial 1 = 3;                    // Non-true initialization in group.
+
+  automaton no_initial:             // No initial location. Automaton type.
+    input bool var;                 // Input variable declaration in automaton.
+    location:
+      edge e1, e2, e3, tau;         // Explicit 'tau'.
+      edge when true;               // Implicit 'tau'.
+  end
+
+  plant p:
+    enum B = YES, NO;               // Enumeration declaration inside automaton.
+    disc int[1..2] x1 in {1,2};     // Non-deterministic variable init.
+    disc int[1..2] x2 in any;       // Non-deterministic variable init.
+    cont cnt der 1.0;               // Continuous variable, real type/value.
+    disc list bool lb = [true];     // List type/expr.
+
+    plant invariant 1 + 1 = 2;
+    plant invariant 1 = 3;          // Non-true invariant in automaton.
+
+    location:
+      initial true;
+      edge e1 when r.l1;            // Reference to requirement location.
+      edge e2 do lb := lb + [false];
+      edge e3 when a;               // Reference to input variable in plant.
+      edge e4 when b;               // Reference to algebraic variable that depends on input variable.
+
+      plant invariant 1+1 = 2;
+      plant invariant 1 = 3;        // Non-true invariant in location.
+  end
+
+  cont x der 1;
+  cont y;
+  equation y' = 2;                  // Equation.
+
+  requirement r:
+    controllable c;
+    uncontrollable u;
+    location l1:
+      initial;
+      edge c goto l2;
+    location l2:
+      edge u goto l1;
+  end
+end
