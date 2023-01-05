@@ -52,4 +52,37 @@ public class Dmm {
         this.rowLabels = dmm.rowLabels;
         this.columnLabels = dmm.columnLabels;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        // Header with first column empty.
+        sb.append("\"\"");
+        for (Label label: columnLabels) {
+            sb.append(",");
+            String labelText = (label == null) ? "null" : label.toString();
+            sb.append("\"" + labelText + "\"");
+        }
+        sb.append(System.lineSeparator());
+
+        // All rows.
+        for (int row = 0; row < rowLabels.length; row++) {
+            sb.append("\"" + rowLabels[row].toString() + "\"");
+            for (int col = 0; col < columnLabels.length; col++) {
+                sb.append(",");
+                // Output value, but for integers omit the trailing ".0".
+                double value = adjacencies.getEntry(row, col);
+                if ((int)value == value) {
+                    sb.append((int)value);
+                } else {
+                    sb.append(value);
+                }
+            }
+            // Skip %n at last line.
+            if (row < rowLabels.length - 1) {
+                sb.append(System.lineSeparator());
+            }
+        }
+        return sb.toString();
+    }
 }
