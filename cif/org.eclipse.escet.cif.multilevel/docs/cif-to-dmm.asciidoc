@@ -1,0 +1,95 @@
+= The CIF to DMM conversion
+
+Definition of the conversion rules to extract a set of DMMs from a CIF specification.
+
+The definition is based on <<goorden20>>, but with extensions.
+This version is more aligned with features available in CIF.
+It also introduces requirement groups (collections of related requirements) to deal with requirements that are only indirectly related to plants.
+
+== Elements of the computation
+
+In the CIF to DMM conversion there are three kinds of elements:
+
+* _Plant elements_, the plant automata and input variables that define the system behavior.
+* _Requirement elements_,  the requirement automata and requirement state/event exclusion invariants in components.
+* _Relation elements_, the events, automaton locations, discrete variables and input variables in the specification.
+
+Some of the plant elements must always be kept together, similarly some of the requirement elements need to stay together as well.
+For this reason the conversion first groups plant elements and requirement elements into _plant groups_ respectively _requirement groups_.
+Then it relates plant groups with requirement groups using the relation elements.
+
+The generated DMMs contain how plant elements are grouped into plant groups, requirement elements are grouped into requirement groups, and what relations between plant groups and requirement groups exist.
+
+== Grouping
+
+In the grouping plants and requirements, the concepts _ownership_ and _access_ are used.
+Ownership only exists for discrete variables and locations in this conversion.
+A discrete variable is owned by a plant or requirement automaton if the variable is defined within the automaton.
+A location is owned by a plant or requirement automaton if the location is is one of the locations of that automaton.
+
+An input variable always accesses itself.
+Otherwise, access only counts if the accessed element is explicitly mentioned in the plant or requirement definition outside the declarations.
+For example, an event declared in an automaton is not accessed by it unless the event is a member of its alphabet (that is, used at an edge, or mentioned in the `alphabet` or `monitor` events).
+
+Ownership and access of an element for a group exist if at least one of the members of the group has ownership respectively accessed the element.
+
+=== Plant groups
+
+The purpose of grouping plant elements is to make self-contained groups.
+That is, two different groups of plants have no shared elements.
+The rules for making plant groups are:
+
+* Every plant element is a plant group.
+* Two different plant groups must be merged if and only if
+** one plant group owns and the other plant group accesses a same location or discrete variable,
+** both plant groups accesses a same location or discrete variable, or
+** both plant groups access a same input variable or event.
+
+=== Requirement groups
+
+Requirement elements are grouped to properly deal with requirements that only indirectly relate to plant group(s).
+They may for example restrict behavior of another requirement.
+The rules for making requirement groups are:
+
+* Each requirement element is a requirement group.
+* Two different requirement groups must be merged if and only if
+** one requirement group owns and the other requirement group accesses a same location or discrete variable, or
+** both requirement groups access an event that is not accessed by any plant element.
+
+Compared with the rules on merging plant groups, the merge rule on locations and discrete variables needs ownership of one of the requirement groups, input variables have been dropped as they are considered to be plant-like, and the merge rule on events requires exclusive use of the event by requirements.
+
+== Relating plant groups with requirement groups
+
+When none of the rules for merging plant groups and requirement groups applies any more, a plant group is related with a requirement group if at least one of the following conditions holds:
+
+* One group owns a location and the other group accesses that location.
+* One group owns a discrete variable and the other group accesses that variable.
+* Both groups access the same input variable.
+* Both groups access the same event.
+
+The rules do not require that each requirement group must become related to at least one plant group.
+However, a requirement group that has no relation with any plant group cannot restrict behavior.
+Therefore, it is likely that a modeling mistake has been made in such a case, and the tool may report it as warning or error.
+
+== Future enhancements
+
+As always, further enhancement of the conversion can be done.
+The list below exists to ensure the ideas are preserved.
+It is however not an exhaustive list, other improvements likely exist as well.
+
+* Variables with single value domain can be eliminated by replacing them by a constant.
+
+* Discrete variables with one initial value that are never modified can be eliminated by replacing them by a constant.
+
+* Location access of a plant with one location can be replaced by a `true` constant. It may however break a relation between groups.
+
+* State/event exclusion invariants specified in locations can be considered to be requirement invariants that uses the plant locations as input.
+
+[bibliography]
+[[tools-multilevel-ciftodmm-references]]
+== References
+
+* [[[goorden20,Goorden et al. (2020)]]]
+M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda,
+"Structuring Multilevel Discrete-Event Systems With Dependence Structure Matrices,",
+IEEE Transactions on Automatic Control, vol. 65, no. 4, pp. 1625-1639, April 2020, doi: 10.1109/TAC.2019.2928119.
