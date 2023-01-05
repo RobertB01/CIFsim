@@ -58,6 +58,11 @@ WEBSITES_FILES_AND_DIRS=$(cat $FILENAME_CONTENTS)
 find $WEBSITES_FILES_AND_DIRS -type f -iname "*.html" -print0 | \
     xargs -0 sed -i "s@https://eclipse.org/escet/${VERSION_TO_MAKE_DEFAULT}/@https://eclipse.org/escet/@g"
 
+# Remove robots meta tag.
+echo "Removing robots meta tag in HTML files..."
+find $WEBSITES_FILES_AND_DIRS -type f -iname "*.html" -print0 | \
+    xargs -0 sed -i "s/<meta name=\"robots\" content=\"noindex\">//"
+
 # Stage all changes.
 git add -A
 
