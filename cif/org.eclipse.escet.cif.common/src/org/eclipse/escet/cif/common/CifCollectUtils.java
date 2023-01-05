@@ -235,8 +235,8 @@ public class CifCollectUtils {
          * modified.
          * </p>
          *
-         * @param traverseCompDefs Whether to search component definitions as well.
          * @param comp Root component to traverse.
+         * @param traverseCompDefs Whether to search component definitions as well.
          */
         public ComplexComponentSpliterator(ComplexComponent comp, boolean traverseCompDefs) {
             this.traverseCompDefs = traverseCompDefs;
