@@ -22,7 +22,7 @@ Therefore, at the beginning of each new year, the license headers need to be upd
 
 To update the license year:
 
-* Change the year in the source file headers, where `xxxx` is the previous year and `yyyy` is the new year:
+* Change the year in the source file headers, where `xxxx` is the previous year, `yyyy` is the new year, and `zzzz` the year after that:
 ** In Eclipse, select menu:Search[Search...].
 ** For _Containg text_ enter: `([0-9]\{4\}), xxxx Contributors to the Eclipse Foundation`.
 ** Enable _Regular expression_ and disable _Case sensitive_.
@@ -45,7 +45,7 @@ To update the license year:
 ** Go to https://gitlab.eclipse.org/eclipse/escet/escet/-/issues.
 ** Sign in with your Eclipse Foundation account using the link at the top-right of the page.
 ** Click _New issue_.
-** For _Title_ enter `Update license headers for yyyy`.
+** For _Title_ enter `Update license headers for zzzz`.
 ** For _Labels_ select _RelEng/DevOps_ and _Type::Enhancement_.
 ** For _Description_ enter `See the development documentation for the steps to follow.`
 ** For _Due data_ select the first day of the new year.
