@@ -54,6 +54,7 @@ The following topics are discussed in more detail:
 * <<development-release-process-chapter-index>>
 * <<development-third-party-tools-chapter-index>>
 * <<development-dependency-upgrades-chapter-index>>
+* <<development-license-year-update-chapter-index>>
 * <<legal-chapter-index>>
 
 *Common libraries and development tools*
@@ -96,6 +97,8 @@ include::development/release-process.asciidoc[]
 include::development/third-party-tools.asciidoc[]
 
 include::development/dependency-upgrades.asciidoc[]
+
+include::development/license-year-update.asciidoc[]
 
 :leveloffset: -1
 
