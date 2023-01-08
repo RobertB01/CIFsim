@@ -104,10 +104,10 @@ public class CifToDmm {
      * </p>
      *
      * @param spec Specification to convert.
-     * @return The resulting DMMs.
+     * @return The resulting DMMs. May be {@code null} if case termination is requested.
      */
     public static CifRelations convertToDmms(Specification spec) {
-        // Construct a new collector and fill it with relations in the given specification.
+        // Construct a new collector and fill it with the relations from the given specification.
         RelationsCollector collector = new RelationsCollector();
         collector.collect(spec);
         if (AppEnv.isTerminationRequested()) {

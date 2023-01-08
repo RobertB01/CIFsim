@@ -60,7 +60,7 @@ public class RelationsCollector extends CifWalker {
     /** Constant denoting there is no valid index available. */
     private static final int INVALID_INDEX = -1;
 
-    /** Found objects in the specification and their index. */
+    /** Elements of the specification and their index. */
     private Map<PositionObject, Integer> registeredObjects = map();
 
     /** Reverse storage of {@link #registeredObjects}, from index to the object. */
@@ -81,7 +81,7 @@ public class RelationsCollector extends CifWalker {
     /** Collector for collecting accessed variables and locations from expressions. */
     private ExpressionCollector exprCollector = new ExpressionCollector();
 
-    /** Walker for collecting accessed variables or locations of an expression. */
+    /** Walker for collecting accessed variables and locations of an expression. */
     private static class ExpressionCollector extends CifWithArgWalker<Set<PositionObject>> {
         /**
          * Collect the referenced variables and locations from the expression.
@@ -286,7 +286,7 @@ public class RelationsCollector extends CifWalker {
     }
 
     /**
-     * Process the declaration of a complex component and register relevant facts.
+     * Process the declarations of a complex component and register relevant facts.
      *
      * @param decls Declarations to process.
      * @param groupIndex Either {@link #INVALID_INDEX} or the unique index number of the containing component.
@@ -308,11 +308,11 @@ public class RelationsCollector extends CifWalker {
                 int declIndex = getIndex(decl);
                 registerAccessedRelation(decl, declIndex);
             } else if (decl instanceof DiscVariable) {
-                // Disc variables can only occur in an owning automaton.
+                // Discrete variables can only occur in an owning automaton.
                 registerOwnedRelation(decl, groupIndex);
 
                 // A discrete variable must be owned by a requirement to be considered for merging requirements. Note
-                // that keeping relation will also enable merging two requirements that both only access the variable
+                // that keeping this relation will also enable merging two requirements that both only access the variable
                 // but that is fine as at some point the requirement with ownership of the variable will be merged into
                 // the group as well.
                 if (!isRequirementElement(groupIndex)) {

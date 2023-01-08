@@ -25,7 +25,7 @@ public class WriteDMMsOption extends BooleanOption {
                 "Write DMMs",
 
                 // description
-                "Whether to write the computed DMMs for multi-level synthesis be written to a file (BOOL=yes) or "
+                "Whether to write computed DMMs for multi-level synthesis to a file (BOOL=yes) or "
                         + "skip it (BOOL=no). [DEFAULT=no]",
 
                 // cmdShort

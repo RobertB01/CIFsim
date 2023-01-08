@@ -24,18 +24,18 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 
-/** CIF check that the specification has at least one plant element (an input variable or a plant automaton). */
+/** CIF check that only allows specifications with at least one plant element (an input variable or a plant automaton). */
 public class HasPlantCheck extends CifCheck {
     /** Number of plants found in the specification. */
     private int numPlants;
 
     @Override
-    protected void preprocessSpecification(Specification obj, CifCheckViolations violations) {
+    protected void preprocessSpecification(Specification spec, CifCheckViolations violations) {
         numPlants = 0;
     }
 
     @Override
-    protected void postprocessSpecification(Specification obj, CifCheckViolations violations) {
+    protected void postprocessSpecification(Specification spec, CifCheckViolations violations) {
         if (numPlants < 1) {
             violations.add(null,
                     new LiteralMessage("specification has neither a plant automaton nor an input variable"));
@@ -43,16 +43,14 @@ public class HasPlantCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessAutomaton(Automaton aut, CifCheckViolations arg) {
+    protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (aut.getKind() == SupKind.PLANT) {
             numPlants++;
         }
     }
 
     @Override
-    protected void preprocessInputVariable(InputVariable inp, CifCheckViolations arg) {
-        if (!(normalizeType(inp.getType()) instanceof VoidType)) {
-            numPlants++;
-        }
+    protected void preprocessInputVariable(InputVariable inp, CifCheckViolations violations) {
+        numPlants++;
     }
 }

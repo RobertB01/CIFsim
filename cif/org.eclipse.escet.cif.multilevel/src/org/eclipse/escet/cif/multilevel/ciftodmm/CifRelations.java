@@ -41,7 +41,7 @@ public class CifRelations {
      *
      * @param plantGroups Relations from plant-group columns to plant element rows.
      * @param requirementGroups Relations from requirement-group columns to requirement element rows.
-     * @param relations Relations between plant groups and requirement groups.
+     * @param relations Relations from plant-group columns to requirement-group rows.
      */
     public CifRelations(Dmm plantGroups, Dmm requirementGroups, Dmm relations) {
         this.plantGroups = plantGroups;

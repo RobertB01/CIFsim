@@ -33,7 +33,7 @@ public class Dmm {
      *
      * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
      *     node {@code j}.
-     * @param rowLabels Names of the labels of the elements along the rows
+     * @param rowLabels Names of the labels of the elements along the rows.
      * @param columnLabels Names of the labels of the elements along the columns.
      */
     public Dmm(RealMatrix adjacencies, Label[] rowLabels, Label[] columnLabels) {
@@ -56,6 +56,7 @@ public class Dmm {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
         // Header with first column empty.
         sb.append("\"\"");
         for (Label label: columnLabels) {
@@ -78,7 +79,7 @@ public class Dmm {
                     sb.append(value);
                 }
             }
-            // Skip %n at last line.
+            // Skip newline at last line.
             if (row < rowLabels.length - 1) {
                 sb.append(System.lineSeparator());
             }

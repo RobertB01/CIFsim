@@ -81,7 +81,7 @@ public class Labels {
         if (element instanceof Location loc) {
             return new LocationLabel(loc);
         }
-        throw new AssertionError("Unexpected position object class encountered.");
+        throw new AssertionError("Unexpected position object class encountered: " + element);
     }
 
     /** DMM label holding a CIF automaton. */
@@ -167,7 +167,7 @@ public class Labels {
 
     /** DMM label holding a CIF location. */
     public static class LocationLabel extends Label {
-        /** Event stored in the label. */
+        /** Location stored in the label. */
         public final Location location;
 
         /**

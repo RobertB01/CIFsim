@@ -95,7 +95,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Cif to DMM conversion.
+        // CIF to DMM conversion.
         CifRelations cifRelations = CifToDmm.convertToDmms(spec);
         if (isTerminationRequested()) {
             return 0;
@@ -131,9 +131,9 @@ public class MultilevelApp extends Application<IOutputComponent> {
         List<Option> programOpts = List.of(Options.getInstance(InputFileOption.class),
                 Options.getInstance(OutputFileOption.class), Options.getInstance(WriteDMMsOption.class));
         OptionCategory programCat = new OptionCategory("Multi-level synthesis",
-                "All options for multi-level synthesis.", List.of(), programOpts);
+                "Multi-level synthesis options.", List.of(), programOpts);
 
-        return new OptionCategory("Multi-level Synthesis Options", "All options for CIF multi-level synthesis.",
+        return new OptionCategory("CIF Multi-level Synthesis Options", "All options for the CIF multi-level synthesis tool.",
                 List.of(generalCat, programCat), List.of());
     }
 }

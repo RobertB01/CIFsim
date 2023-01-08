@@ -24,20 +24,20 @@ It also introduces requirement groups (collections of related requirements) to d
 In the CIF to DMM conversion there are three kinds of elements:
 
 * _Plant elements_, the plant automata and input variables that define the system behavior.
-* _Requirement elements_,  the requirement automata and requirement state/event exclusion invariants in components.
+* _Requirement elements_, the requirement automata and requirement state/event exclusion invariants in components.
 * _Relation elements_, the events, automaton locations, discrete variables and input variables in the specification.
 
 Some of the plant elements must always be kept together, similarly some of the requirement elements need to stay together as well.
 For this reason the conversion first groups plant elements and requirement elements into _plant groups_ respectively _requirement groups_.
 Then it relates plant groups with requirement groups using the relation elements.
 
-The generated DMMs contain how plant elements are grouped into plant groups, requirement elements are grouped into requirement groups, and what relations between plant groups and requirement groups exist.
+The generated DMMs capture how plant elements are grouped into plant groups, requirement elements are grouped into requirement groups, and what relations between plant groups and requirement groups exist.
 
 == Grouping
 
 In the grouping plants and requirements, the concepts _ownership_ and _access_ are used.
 Ownership only exists for discrete variables and locations in this conversion.
-A discrete variable is owned by a plant or requirement automaton if the variable is defined within the automaton.
+A discrete variable is owned by the plant or requirement automaton in which it is declared.
 A location is owned by a plant or requirement automaton if the location is is one of the locations of that automaton.
 
 An input variable always accesses itself.
@@ -55,7 +55,7 @@ The rules for making plant groups are:
 * Every plant element is a plant group.
 * Two different plant groups must be merged if and only if
 ** one plant group owns and the other plant group accesses a same location or discrete variable,
-** both plant groups accesses a same location or discrete variable, or
+** both plant groups access a same location or discrete variable, or
 ** both plant groups access a same input variable or event.
 
 === Requirement groups
@@ -96,13 +96,9 @@ It is however not an exhaustive list, other improvements likely exist as well.
 
 * Location access of a plant with one location can be replaced by a `true` constant. It may however break a relation between groups.
 
-* State/event exclusion invariants specified in locations can be considered to be requirement invariants that uses the plant locations as input.
+* State/event exclusion invariants specified in locations can be considered to be requirement invariants that use the plant locations as input.
 
 [bibliography]
-[[tools-multilevel-ciftodmm-references]]
 == References
 
-* [[[goorden20,Goorden et al. (2020)]]]
-M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda,
-"Structuring Multilevel Discrete-Event Systems With Dependence Structure Matrices,",
-IEEE Transactions on Automatic Control, vol. 65, no. 4, pp. 1625-1639, April 2020, doi: 10.1109/TAC.2019.2928119.
+* [[[goorden20,Goorden et al. (2020)]]] M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda, "Structuring Multilevel Discrete-Event Systems With Dependence Structure Matrices", IEEE Transactions on Automatic Control, volume 65, issue 4, pages 1625-1639, 2020, doi:link:https://doi.org/10.1109/TAC.2019.2928119[10.1109/TAC.2019.2928119].

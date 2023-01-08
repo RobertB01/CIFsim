@@ -70,7 +70,7 @@ public class DisjunctGroupsBuilder {
         private final BitSet irrelevantAccesses;
 
         /**
-         * Constructor of the {@link DisjunctGroupsBuilder.RequirementsShareRelation} class.
+         * Constructor of the {@link RequirementsShareRelation} class.
          *
          * @param irrelevantAccesses Accesses that should not be taken into account to decide sharing of relations
          *     between two requirement groups.
