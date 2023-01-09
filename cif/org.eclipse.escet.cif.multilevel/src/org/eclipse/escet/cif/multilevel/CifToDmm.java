@@ -159,16 +159,16 @@ public class CifToDmm {
     }
 
     /**
-     * Construct a Dmm to define groups.
+     * Construct a DMM to define groups.
      *
      * <p>
      * Groups are stored column-wise, elements of the group are stored row-wise.
      * </p>
      *
      * @param collector Collected relations in the specification.
-     * @param groups Groups that must be stored in the Dmm.
-     * @param labelFunc Function that constructs a label for the N-th group.
-     * @return The created Dmm.
+     * @param groups Groups that must be stored in the DMM.
+     * @param labelFunc Function that constructs each group label.
+     * @return The created DMM.
      */
     private static Dmm makeGroupDmm(RelationsCollector collector, List<OwnedAndAccessedElements> groups,
             Function<Integer, Label> labelFunc)
