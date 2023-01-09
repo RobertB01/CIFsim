@@ -186,7 +186,7 @@ public class CifToDmm {
             columnLabels[col] = labelFunc.apply(col);
 
             for (int groupElement: new BitSetIterator(group.groupElements)) {
-                rowLabels[row] = Labels.makeLabel(collector.getObject(groupElement));
+                rowLabels[row] = Labels.makeLabel(collector.getElement(groupElement));
                 dmmValues.setEntry(row, col, 1);
                 row++;
             }

@@ -61,10 +61,10 @@ public class RelationsCollector extends CifWalker {
     private static final int INVALID_INDEX = -1;
 
     /** Elements of the specification and their index. */
-    private Map<PositionObject, Integer> registeredObjects = map();
+    private Map<PositionObject, Integer> elementsToIndex = map();
 
-    /** Reverse storage of {@link #registeredObjects}, from index to the object. */
-    private List<PositionObject> reverseObjects = list();
+    /** Reverse storage of {@link #elementsToIndex}, from index to the element. */
+    private List<PositionObject> elementsByIndex = list();
 
     /** Indices of elements that should not be taken into account for grouping requirements. */
     private BitSet irrelevantRequirementAccessRelations = new BitSet();
@@ -280,8 +280,8 @@ public class RelationsCollector extends CifWalker {
      * @note The accessing group may or may not own the variables or locations.
      */
     private void expressionAccess(Expression expr, int accessingGroupIndex) {
-        for (PositionObject posObj: exprCollector.collectDecls(expr)) {
-            registerAccessedRelation(posObj, accessingGroupIndex);
+        for (PositionObject element: exprCollector.collectDecls(expr)) {
+            registerAccessedRelation(element, accessingGroupIndex);
         }
     }
 
@@ -343,12 +343,12 @@ public class RelationsCollector extends CifWalker {
     /**
      * Register an element as a plant element.
      *
-     * @param posObject Object to register.
+     * @param element Element to register.
      * @return The unique index of the element.
      */
-    private int registerPlantElement(PositionObject posObject) {
-        Assert.check(posObject instanceof Automaton || posObject instanceof InputVariable);
-        int objIndex = getIndex(posObject);
+    private int registerPlantElement(PositionObject element) {
+        Assert.check(element instanceof Automaton || element instanceof InputVariable);
+        int objIndex = getIndex(element);
         plantElementIndices.set(objIndex);
         constructEmptyGroupRelations(objIndex);
         return objIndex;
@@ -367,12 +367,12 @@ public class RelationsCollector extends CifWalker {
     /**
      * Register an element as a requirement element.
      *
-     * @param posObject Object to register.
+     * @param element Element to register.
      * @return The unique index of the element.
      */
-    private int registerRequirementElement(PositionObject posObject) {
-        Assert.check(posObject instanceof Automaton || posObject instanceof Invariant);
-        int objIndex = getIndex(posObject);
+    private int registerRequirementElement(PositionObject element) {
+        Assert.check(element instanceof Automaton || element instanceof Invariant);
+        int objIndex = getIndex(element);
         requirementElementIndices.set(objIndex);
         constructEmptyGroupRelations(objIndex);
         return objIndex;
@@ -400,60 +400,60 @@ public class RelationsCollector extends CifWalker {
     }
 
     /**
-     * Register ownership of the given object by its group.
+     * Register ownership of the given element by its group.
      *
-     * @param posObject Object to register as owned.
+     * @param element Element to register as owned.
      * @param groupIndex The unique index of the group element.
      */
-    private void registerOwnedRelation(PositionObject posObject, int groupIndex) {
+    private void registerOwnedRelation(PositionObject element, int groupIndex) {
         Assert.check(groupIndex != INVALID_INDEX);
         OwnedAndAccessedElements groupRelations = relationsByGroup.get(groupIndex);
-        groupRelations.setOwnedRelation(getIndex(posObject));
+        groupRelations.setOwnedRelation(getIndex(element));
     }
 
     /**
-     * Register access of the given object by a group.
+     * Register access of the given element by a group.
      *
-     * @param posObject Object to register as accessed.
-     * @param groupIndex The unique index of a group accessing the object.
-     * @note The accessing group may or may not own the object.
+     * @param element Element to register as accessed.
+     * @param groupIndex The unique index of a group accessing the element.
+     * @note The accessing group may or may not own the element.
      */
-    private void registerAccessedRelation(PositionObject posObject, int groupIndex) {
+    private void registerAccessedRelation(PositionObject element, int groupIndex) {
         Assert.check(groupIndex != INVALID_INDEX);
         OwnedAndAccessedElements groupRelations = relationsByGroup.get(groupIndex);
-        int objIndex = getIndex(posObject);
+        int objIndex = getIndex(element);
         groupRelations.setAccessedRelation(objIndex);
 
         // Mark events accessed by plants as ignored for requirement grouping.
-        if (isPlantElement(groupIndex) && (posObject instanceof Event)) {
+        if (isPlantElement(groupIndex) && (element instanceof Event)) {
             irrelevantRequirementAccessRelations.set(objIndex);
         }
     }
 
     /**
-     * Retrieve the unique element index number for the given object.
+     * Retrieve the unique element index number for the given element.
      *
      * <p>
-     * If it is not found, a new object is registered.
+     * If it is not found, a new element is registered.
      * </p>
      *
-     * @param posObj Object to find or add in the registered objects.
-     * @return Unique index number of the given object.
+     * @param element Element to find or add in the registered elements.
+     * @return Unique index number of the given element.
      */
-    public int getIndex(PositionObject posObj) {
+    public int getIndex(PositionObject element) {
         // Try finding a previous registration.
-        Integer storedIndex = registeredObjects.get(posObj);
+        Integer storedIndex = elementsToIndex.get(element);
         if (storedIndex != null) {
             return storedIndex;
         }
 
         // Construct a new registration.
-        int newIndex = registeredObjects.size();
-        registeredObjects.put(posObj, newIndex); // Store the object and its index.
-        reverseObjects.add(posObj); // Store the new object at its index;
+        int newIndex = elementsToIndex.size();
+        elementsToIndex.put(element, newIndex); // Store the element and its index.
+        elementsByIndex.add(element); // Store the new element at its index;
 
         // Register input variables as elements that should be ignored in shared access between requirements.
-        if (posObj instanceof InputVariable) {
+        if (element instanceof InputVariable) {
             irrelevantRequirementAccessRelations.set(newIndex);
         }
 
@@ -461,22 +461,13 @@ public class RelationsCollector extends CifWalker {
     }
 
     /**
-     * Obtain the number of stored objects in the relations collector.
+     * Retrieve a collected element by its index.
      *
-     * @return The number of stored objects.
+     * @param index Index of the element to retrieve.
+     * @return The retrieved element.
      */
-    public int getObjectsCount() {
-        return registeredObjects.size();
-    }
-
-    /**
-     * Retrieve a collected object by its index.
-     *
-     * @param index Index of the object to retrieve.
-     * @return The retrieved object.
-     */
-    public PositionObject getObject(int index) {
-        return reverseObjects.get(index);
+    public PositionObject getElement(int index) {
+        return elementsByIndex.get(index);
     }
 
     /**
