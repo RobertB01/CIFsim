@@ -176,7 +176,7 @@ public class Labels {
          * @param location Location in the label.
          */
         public LocationLabel(Location location) {
-            super(CifTextUtils.getAbsName(location, false));
+            super(CifTextUtils.getLocationText1(location));
             this.location = location;
         }
     }
