@@ -32,10 +32,14 @@ public class OwnedAndAccessedElements {
     /**
      * Constructor of the {@link OwnedAndAccessedElements} class for a single plant or requirement element.
      *
-     * @param element Unique number of a plant or requirement element that has the elements.
+     * <p>
+     * The {@link #ownedElements} and {@link #accessedElements} are empty after construction.
+     * </p>
+     *
+     * @param elementIndex Index number of a plant or requirement element that has the elements.
      */
-    public OwnedAndAccessedElements(int element) {
-        this(makeBitset(element), new BitSet(), new BitSet());
+    public OwnedAndAccessedElements(int elementIndex) {
+        this(makeBitset(elementIndex), new BitSet(), new BitSet());
     }
 
     /**
