@@ -312,9 +312,9 @@ public class RelationsCollector extends CifWalker {
                 registerOwnedRelation(decl, groupIndex);
 
                 // A discrete variable must be owned by a requirement to be considered for merging requirements. Note
-                // that keeping this relation will also enable merging two requirements that both only access the variable
-                // but that is fine as at some point the requirement with ownership of the variable will be merged into
-                // the group as well.
+                // that keeping this relation will also enable merging two requirements that both only access the
+                // variable but that is fine as at some point the requirement with ownership of the variable will be
+                // merged into the group as well.
                 if (!isRequirementElement(groupIndex)) {
                     int declIndex = getIndex(decl);
                     irrelevantRequirementAccessRelations.set(declIndex);
@@ -510,6 +510,7 @@ public class RelationsCollector extends CifWalker {
     public List<OwnedAndAccessedElements> computeRequirementGroups() {
         List<OwnedAndAccessedElements> requirementRelations = requirementElementIndices.stream()
                 .mapToObj(index -> relationsByGroup.get(index)).collect(Collectors.toList());
-        return DisjunctGroupsBuilder.createRequirementGroups(requirementRelations, irrelevantRequirementAccessRelations);
+        return DisjunctGroupsBuilder.createRequirementGroups(requirementRelations,
+                irrelevantRequirementAccessRelations);
     }
 }

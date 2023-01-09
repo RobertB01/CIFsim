@@ -73,19 +73,26 @@ public class CifToDmm {
     private static class CifToDmmChecker extends CifPreconditionChecker {
         /** Constructor of the {@link CifToDmm.CifToDmmChecker} class. */
         public CifToDmmChecker() {
-            super(// Should have only plant and requirement automata.
+            super(
+                    // Should have only plant and requirement automata.
                     new SpecAutomataCountsCheck().setMinMaxKindlessAuts(NO_CHANGE, 0).setMinMaxSupervisorAuts(NO_CHANGE,
                             0), //
-                    new HasPlantCheck(), // Both plant automata and input variables count as 'plant'.
 
-                    new InvNoSpecificInvsCheck() // Only requirement state/event exclusion invariants in components.
+                    // Need at least one plant element, to prevent empty DMMs.
+                    // Both plant automata and input variables count as 'plant'.
+                    new SpecHasPlantCheck(),
+
+                    // Need at least one requirement element, to prevent empty DMMs.
+                    // Both requirement automata and state/event exclusion invariants count as requirement.
+                    new SpecHasRequirementCheck(),
+
+                    // Only requirement state/event exclusion invariants in components are supported.
+                    new InvNoSpecificInvsCheck()
                             .disallow(KINDLESS, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
                             .disallow(SUPERVISOR, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
                             .disallow(PLANT, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
                             .disallow(REQUIREMENT, STATE, ALL_PLACES) //
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, LOCATIONS),
-                    new HasRequirementCheck(), // Both requirement automata and state/event exclusion invariants count
-                                               // as requirement.
 
                     // Unsupported features.
                     new TypeNoSpecificTypesCheck(NoSpecificType.COMP_DEF_TYPES, NoSpecificType.COMP_TYPES), //

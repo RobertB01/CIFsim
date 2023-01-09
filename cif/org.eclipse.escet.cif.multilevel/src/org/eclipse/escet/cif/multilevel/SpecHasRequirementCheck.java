@@ -23,10 +23,10 @@ import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 
 /**
- * CIF check that only allows specifications with at least one requirement element (a requirement automaton or a state/event
- * exclusion requirement invariant).
+ * CIF check that only allows specifications with at least one requirement element (a requirement automaton or a
+ * state/event exclusion requirement invariant).
  */
-public class HasRequirementCheck extends CifCheck {
+public class SpecHasRequirementCheck extends CifCheck {
     /** Number of requirements found in the specification. */
     private int numReqs;
 

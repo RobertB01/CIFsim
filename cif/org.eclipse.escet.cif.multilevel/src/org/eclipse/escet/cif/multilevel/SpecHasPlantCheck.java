@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.multilevel;
 
-import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
@@ -22,10 +20,11 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
-import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 
-/** CIF check that only allows specifications with at least one plant element (an input variable or a plant automaton). */
-public class HasPlantCheck extends CifCheck {
+/**
+ * CIF check that only allows specifications with at least one plant element (an input variable or a plant automaton).
+ */
+public class SpecHasPlantCheck extends CifCheck {
     /** Number of plants found in the specification. */
     private int numPlants;
 

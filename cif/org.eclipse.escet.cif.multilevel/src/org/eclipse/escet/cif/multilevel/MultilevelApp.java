@@ -130,10 +130,10 @@ public class MultilevelApp extends Application<IOutputComponent> {
 
         List<Option> programOpts = List.of(Options.getInstance(InputFileOption.class),
                 Options.getInstance(OutputFileOption.class), Options.getInstance(WriteDMMsOption.class));
-        OptionCategory programCat = new OptionCategory("Multi-level synthesis",
-                "Multi-level synthesis options.", List.of(), programOpts);
+        OptionCategory programCat = new OptionCategory("Multi-level synthesis", "Multi-level synthesis options.",
+                List.of(), programOpts);
 
-        return new OptionCategory("CIF Multi-level Synthesis Options", "All options for the CIF multi-level synthesis tool.",
-                List.of(generalCat, programCat), List.of());
+        return new OptionCategory("CIF Multi-level Synthesis Options",
+                "All options for the CIF multi-level synthesis tool.", List.of(generalCat, programCat), List.of());
     }
 }
