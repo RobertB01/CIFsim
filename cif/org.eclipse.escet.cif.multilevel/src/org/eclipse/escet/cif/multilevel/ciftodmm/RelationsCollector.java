@@ -308,11 +308,13 @@ public class RelationsCollector extends CifWalker {
             // Type declarations are irrelevant.
 
             if (decl instanceof InputVariable) {
-                registerPlantElement(decl);
+                int declIndex = registerPlantElement(decl);
 
                 // Input variables are not owned.
-                int declIndex = getIndex(decl);
                 registerAccessedRelation(decl, declIndex);
+
+                // Register input variables as elements that should be ignored in shared access between requirements.
+                irrelevantRequirementAccessRelations.set(declIndex);
             } else if (decl instanceof DiscVariable) {
                 // Discrete variables can only occur in an owning automaton.
                 registerOwnedRelation(decl, groupIndex);
@@ -456,12 +458,6 @@ public class RelationsCollector extends CifWalker {
         int newIndex = elementsToIndex.size();
         elementsToIndex.put(element, newIndex); // Store the element and its index.
         elementsByIndex.add(element); // Store the new element at its index;
-
-        // Register input variables as elements that should be ignored in shared access between requirements.
-        if (element instanceof InputVariable) {
-            irrelevantRequirementAccessRelations.set(newIndex);
-        }
-
         return newIndex;
     }
 
