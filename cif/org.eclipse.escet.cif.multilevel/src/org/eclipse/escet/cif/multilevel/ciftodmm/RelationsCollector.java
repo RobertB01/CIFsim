@@ -232,7 +232,7 @@ public class RelationsCollector extends CifWalker {
      * Register access to elements in the update at an edge by an accessing element.
      *
      * @param updates Updates to analyze for access.
-     * @param accessingGroupIndex Index of the group that accesses the event.
+     * @param accessingGroupIndex Index of the group that accesses elements in the update.
      * @note The accessing group may or may not own the found elements in the update.
      */
     private void updateAccess(List<Update> updates, int accessingGroupIndex) {
