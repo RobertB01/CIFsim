@@ -292,7 +292,7 @@ public class RelationsCollector extends CifWalker {
      */
     private void collectDeclarations(List<Declaration> decls, int groupIndex) {
         for (Declaration decl: decls) {
-            // Algebraic variables are searched.
+            // Algebraic variables are irrelevant since their defining expressions are examined when used.
             // Constants are irrelevant.
             // Continuous variables are not allowed.
             // Enumeration declarations are irrelevant.
