@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.multilevel;
 
-import static org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck.NO_CHANGE;
 import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind.STATE;
 import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind.ALL_PLACES;
 import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind.LOCATIONS;
@@ -31,16 +30,17 @@ import java.util.stream.IntStream;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.cif.common.CifPreconditionChecker;
+import org.eclipse.escet.cif.common.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoContinuousCheck;
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
 import org.eclipse.escet.cif.multilevel.ciftodmm.Labels;
 import org.eclipse.escet.cif.multilevel.ciftodmm.OwnedAndAccessedElements;
@@ -75,8 +75,7 @@ public class CifToDmm {
         public CifToDmmPreChecker() {
             super(
                     // Should have only plant and requirement automata.
-                    new SpecAutomataCountsCheck().setMinMaxKindlessAuts(NO_CHANGE, 0).setMinMaxSupervisorAuts(NO_CHANGE,
-                            0), //
+                    new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT), //
 
                     // Need at least one plant element, to prevent empty DMMs.
                     // Both plant automata and input variables count as 'plant'.
