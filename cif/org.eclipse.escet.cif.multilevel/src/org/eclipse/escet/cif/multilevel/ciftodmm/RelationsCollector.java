@@ -179,7 +179,7 @@ public class RelationsCollector extends CifWalker {
                 registerOwnedRelation(loc, ownerIndex);
 
                 // If the location is not in a requirement automaton, ignore it in requirement grouping relations.
-                // Not ignoring this location will also enable merging requirements that both access the location
+                // Not ignoring this location will also enable merging requirements that both only access the location
                 // but that is fine as eventually the owning requirement is added too in that case.
                 if (!ownerIsRequirement) {
                     irrelevantRequirementAccessRelations.set(getIndex(loc));
@@ -317,10 +317,9 @@ public class RelationsCollector extends CifWalker {
                 // Discrete variables can only occur in an owning automaton.
                 registerOwnedRelation(decl, groupIndex);
 
-                // A discrete variable must be owned by a requirement to be considered for merging requirements. Note
-                // that keeping this relation will also enable merging two requirements that both only access the
-                // variable but that is fine as at some point the requirement with ownership of the variable will be
-                // merged into the group as well.
+                // If the discrete variable is not in a requirement automaton, ignore it in requirement grouping relations.
+                // Not ignoring this discrete variable will also enable merging requirements that both only access the
+                // variable but that is fine as eventually the owning requirement is added too in that case.
                 if (!isRequirementElement(groupIndex)) {
                     int declIndex = getIndex(decl);
                     irrelevantRequirementAccessRelations.set(declIndex);
