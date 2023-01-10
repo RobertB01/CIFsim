@@ -39,7 +39,7 @@ public class Labels {
     /**
      * Construct a label for plant group {@code n}.
      *
-     * @param n Number of the plant group to label.
+     * @param n Index number of the plant group to label.
      * @return The generated label.
      */
     public static Label makePlantGroupLabel(int n) {
@@ -49,7 +49,7 @@ public class Labels {
     /**
      * Construct a label for requirement group {@code n}.
      *
-     * @param n Number of the requirement group to label.
+     * @param n Index number of the requirement group to label.
      * @return The generated label.
      */
     public static Label makeRequirementGroupLabel(int n) {
