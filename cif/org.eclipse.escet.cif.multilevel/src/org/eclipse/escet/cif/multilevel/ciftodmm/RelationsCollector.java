@@ -75,8 +75,8 @@ public class RelationsCollector extends CifWalker {
     /** Indices of requirement elements. */
     private BitSet requirementElementIndices = new BitSet();
 
-    /** Relations by group (that is, one plant and requirement element). */
-    private Map<Integer, OwnedAndAccessedElements> relationsByGroup = map();
+    /** Relations of singular plant or requirement element indices. */
+    private Map<Integer, OwnedAndAccessedElements> relationsByGroupElement = map();
 
     /** Collector for collecting accessed variables and locations from expressions. */
     private ExpressionCollector exprCollector = new ExpressionCollector();
@@ -395,7 +395,7 @@ public class RelationsCollector extends CifWalker {
      */
     private void constructEmptyGroupRelations(int groupIndex) {
         OwnedAndAccessedElements groupRelations = new OwnedAndAccessedElements(groupIndex);
-        OwnedAndAccessedElements prevGroupRelations = relationsByGroup.put(groupIndex, groupRelations);
+        OwnedAndAccessedElements prevGroupRelations = relationsByGroupElement.put(groupIndex, groupRelations);
         Assert.check(prevGroupRelations == null); // Should be a new entry.
     }
 
@@ -407,7 +407,7 @@ public class RelationsCollector extends CifWalker {
      */
     private void registerOwnedRelation(PositionObject element, int groupIndex) {
         Assert.check(groupIndex != INVALID_INDEX);
-        OwnedAndAccessedElements groupRelations = relationsByGroup.get(groupIndex);
+        OwnedAndAccessedElements groupRelations = relationsByGroupElement.get(groupIndex);
         groupRelations.setOwnedRelation(getIndex(element));
     }
 
@@ -420,7 +420,7 @@ public class RelationsCollector extends CifWalker {
      */
     private void registerAccessedRelation(PositionObject element, int groupIndex) {
         Assert.check(groupIndex != INVALID_INDEX);
-        OwnedAndAccessedElements groupRelations = relationsByGroup.get(groupIndex);
+        OwnedAndAccessedElements groupRelations = relationsByGroupElement.get(groupIndex);
         int elementIndex = getIndex(element);
         groupRelations.setAccessedRelation(elementIndex);
 
@@ -477,9 +477,9 @@ public class RelationsCollector extends CifWalker {
      * @return All relations of the group.
      */
     public OwnedAndAccessedElements getGroupRelations(int groupIndex) {
-        OwnedAndAccessedElements oar = relationsByGroup.get(groupIndex);
-        Assert.notNull(oar);
-        return oar;
+        OwnedAndAccessedElements groupRelations = relationsByGroupElement.get(groupIndex);
+        Assert.notNull(groupRelations);
+        return groupRelations;
     }
 
     /**
@@ -489,7 +489,7 @@ public class RelationsCollector extends CifWalker {
      */
     public List<OwnedAndAccessedElements> computePlantGroups() {
         List<OwnedAndAccessedElements> plantRelations = plantElementIndices.stream()
-                .mapToObj(index -> relationsByGroup.get(index)).collect(Collectors.toList());
+                .mapToObj(index -> relationsByGroupElement.get(index)).collect(Collectors.toList());
         return DisjunctGroupsBuilder.createPlantGroups(plantRelations);
     }
 
@@ -500,7 +500,7 @@ public class RelationsCollector extends CifWalker {
      */
     public List<OwnedAndAccessedElements> computeRequirementGroups() {
         List<OwnedAndAccessedElements> requirementRelations = requirementElementIndices.stream()
-                .mapToObj(index -> relationsByGroup.get(index)).collect(Collectors.toList());
+                .mapToObj(index -> relationsByGroupElement.get(index)).collect(Collectors.toList());
         return DisjunctGroupsBuilder.createRequirementGroups(requirementRelations,
                 irrelevantRequirementAccessRelations);
     }
