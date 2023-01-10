@@ -319,7 +319,8 @@ public class RelationsCollector extends CifWalker {
                 // Discrete variables can only occur in an owning automaton.
                 registerOwnedRelation(decl, groupIndex);
 
-                // If the discrete variable is not in a requirement automaton, ignore it in requirement grouping relations.
+                // If the discrete variable is not in a requirement automaton, ignore it in requirement grouping
+                // relations.
                 // Not ignoring this discrete variable will also enable merging requirements that both only access the
                 // variable but that is fine as eventually the owning requirement is added too in that case.
                 if (!isRequirementElement(groupIndex)) {
