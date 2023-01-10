@@ -82,7 +82,7 @@ public class CifToDmm {
                     new SpecHasRequirementCheck(),
 
                     // Only requirement state/event exclusion invariants in components are supported.
-                    new InvNoSpecificInvsCheck()
+                    new InvNoSpecificInvsCheck() //
                             .disallow(KINDLESS, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
                             .disallow(SUPERVISOR, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
                             .disallow(PLANT, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
