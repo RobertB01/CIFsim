@@ -348,10 +348,10 @@ public class RelationsCollector extends CifWalker {
      */
     private int registerPlantElement(PositionObject element) {
         Assert.check(element instanceof Automaton || element instanceof InputVariable);
-        int objIndex = getIndex(element);
-        plantElementIndices.set(objIndex);
-        constructEmptyGroupRelations(objIndex);
-        return objIndex;
+        int elementIndex = getIndex(element);
+        plantElementIndices.set(elementIndex);
+        constructEmptyGroupRelations(elementIndex);
+        return elementIndex;
     }
 
     /**
@@ -372,10 +372,10 @@ public class RelationsCollector extends CifWalker {
      */
     private int registerRequirementElement(PositionObject element) {
         Assert.check(element instanceof Automaton || element instanceof Invariant);
-        int objIndex = getIndex(element);
-        requirementElementIndices.set(objIndex);
-        constructEmptyGroupRelations(objIndex);
-        return objIndex;
+        int elementIndex = getIndex(element);
+        requirementElementIndices.set(elementIndex);
+        constructEmptyGroupRelations(elementIndex);
+        return elementIndex;
     }
 
     /**
@@ -421,12 +421,12 @@ public class RelationsCollector extends CifWalker {
     private void registerAccessedRelation(PositionObject element, int groupIndex) {
         Assert.check(groupIndex != INVALID_INDEX);
         OwnedAndAccessedElements groupRelations = relationsByGroup.get(groupIndex);
-        int objIndex = getIndex(element);
-        groupRelations.setAccessedRelation(objIndex);
+        int elementIndex = getIndex(element);
+        groupRelations.setAccessedRelation(elementIndex);
 
         // Mark events accessed by plants as ignored for requirement grouping.
         if (isPlantElement(groupIndex) && (element instanceof Event)) {
-            irrelevantRequirementAccessRelations.set(objIndex);
+            irrelevantRequirementAccessRelations.set(elementIndex);
         }
     }
 

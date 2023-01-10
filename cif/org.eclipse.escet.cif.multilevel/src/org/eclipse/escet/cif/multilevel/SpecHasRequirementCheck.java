@@ -31,12 +31,12 @@ public class SpecHasRequirementCheck extends CifCheck {
     private int numReqs;
 
     @Override
-    protected void preprocessSpecification(Specification obj, CifCheckViolations arg) {
+    protected void preprocessSpecification(Specification spec, CifCheckViolations violations) {
         numReqs = 0;
     }
 
     @Override
-    protected void postprocessSpecification(Specification obj, CifCheckViolations violations) {
+    protected void postprocessSpecification(Specification spec, CifCheckViolations violations) {
         if (numReqs < 1) {
             violations.add(null,
                     new LiteralMessage("specification has neither a requirement automaton nor a state/event exclusion "
@@ -45,7 +45,7 @@ public class SpecHasRequirementCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessInvariant(Invariant inv, CifCheckViolations arg) {
+    protected void preprocessInvariant(Invariant inv, CifCheckViolations violations) {
         // Ignore non-requirement invariants.
         if (inv.getSupKind() != SupKind.REQUIREMENT) {
             return;
@@ -58,7 +58,7 @@ public class SpecHasRequirementCheck extends CifCheck {
     }
 
     @Override
-    protected void preprocessAutomaton(Automaton aut, CifCheckViolations arg) {
+    protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (aut.getKind() == SupKind.REQUIREMENT) {
             numReqs++;
         }
