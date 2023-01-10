@@ -1,4 +1,4 @@
-DMMs of the "multilevel/SimpleLockStateReqWithGroups.cif" CIF specification.
+DMMs of the "multilevel/simple_lock_state_req_with_groups.cif" CIF specification.
 
 Plant groups:
 "","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
