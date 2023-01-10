@@ -39,9 +39,9 @@ for test in tests:
     outln("Testing \"%s\"...", test);
 
     // Get paths.
-    string test_dmm_exp  = chfileext(test, oldext="cif", newext="dmms.exp");
+    string test_dmm_exp  = chfileext(test, oldext="cif", newext="dmms.expected.txt");
     string test_err_exp  = chfileext(test, oldext="cif", newext="err");
-    string test_dmm_real = chfileext(test, oldext="cif", newext="dmms");
+    string test_dmm_real = chfileext(test, oldext="cif", newext="dmms.txt");
     string test_err_real = chfileext(test, oldext="cif", newext="err.real");
 
     // Execute.

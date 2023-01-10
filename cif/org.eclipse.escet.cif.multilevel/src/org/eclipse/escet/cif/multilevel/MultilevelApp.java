@@ -102,7 +102,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         if (WriteDMMsOption.writeDmms()) {
-            String outPath = OutputFileOption.getDerivedPath(".cif", ".dmms");
+            String outPath = OutputFileOption.getDerivedPath(".cif", ".dmms.txt");
             cifRelations.writeDmms(InputFileOption.getPath(), outPath);
         }
         if (isTerminationRequested()) {
