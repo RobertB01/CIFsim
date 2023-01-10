@@ -15,13 +15,10 @@ package org.eclipse.escet.cif.multilevel;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
-import org.eclipse.escet.cif.cif2cif.RemoveCifSvgDecls;
-import org.eclipse.escet.cif.cif2cif.RemovePrintDecls;
+import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesOptimized;
-import org.eclipse.escet.cif.cif2cif.SwitchesToIfs;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
@@ -78,10 +75,14 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Specification transformations.
         new ElimComponentDefInst().transform(spec);
         new ElimSelf().transform(spec);
-        new RemoveCifSvgDecls().transform(spec);
-        new RemovePrintDecls().transform(spec);
-        new SwitchesToIfs().transform(spec);
-        new AddDefaultInitialValues().transform(spec);
+
+        // Remove/ignore I/O declarations, to increase the supported subset.
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            OutputProvider.warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+        }
+
         new SimplifyValuesOptimized().transform(spec);
         if (isTerminationRequested()) {
             return 0;
