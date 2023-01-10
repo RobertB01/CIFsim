@@ -359,7 +359,7 @@ public class RelationsCollector extends CifWalker {
      * @param index Index to check.
      * @return Whether the element at the index is considered to be a plant element.
      */
-    public boolean isPlantElement(int index) {
+    boolean isPlantElement(int index) {
         return plantElementIndices.get(index);
     }
 
@@ -383,7 +383,7 @@ public class RelationsCollector extends CifWalker {
      * @param index Index to check.
      * @return Whether the element at the index is considered to be a requirement element.
      */
-    public boolean isRequirementElement(int index) {
+    boolean isRequirementElement(int index) {
         return requirementElementIndices.get(index);
     }
 
@@ -439,7 +439,7 @@ public class RelationsCollector extends CifWalker {
      * @param element Element to find or add in the registered elements.
      * @return Unique index number of the given element.
      */
-    public int getIndex(PositionObject element) {
+    int getIndex(PositionObject element) {
         // Try finding a previous registration.
         Integer storedIndex = elementsToIndex.get(element);
         if (storedIndex != null) {
@@ -465,7 +465,7 @@ public class RelationsCollector extends CifWalker {
      * @param index Index of the element to retrieve.
      * @return The retrieved element.
      */
-    public PositionObject getElement(int index) {
+    PositionObject getElement(int index) {
         return elementsByIndex.get(index);
     }
 
@@ -475,7 +475,7 @@ public class RelationsCollector extends CifWalker {
      * @param groupIndex Index of the group element.
      * @return All relations of the group.
      */
-    public OwnedAndAccessedElements getGroupRelations(int groupIndex) {
+    OwnedAndAccessedElements getGroupRelations(int groupIndex) {
         OwnedAndAccessedElements groupRelations = relationsByGroupElement.get(groupIndex);
         Assert.notNull(groupRelations);
         return groupRelations;
