@@ -241,8 +241,7 @@ public class RelationsCollector extends CifWalker {
 
         while (!notDoneUpdates.isEmpty()) {
             Update upd = notDoneUpdates.poll();
-            if (upd instanceof Assignment) {
-                Assignment asg = (Assignment)upd;
+            if (upd instanceof Assignment asg) {
                 expressionAccess(asg.getAddressable(), accessingGroupIndex);
                 expressionAccess(asg.getValue(), accessingGroupIndex);
             } else {
