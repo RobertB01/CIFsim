@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.cif2cif.SimplifyValuesOptimized;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
+import org.eclipse.escet.cif.multilevel.ciftodmm.CifToDmm;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;

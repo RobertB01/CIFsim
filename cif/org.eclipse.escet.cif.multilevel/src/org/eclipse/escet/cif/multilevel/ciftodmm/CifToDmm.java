@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.multilevel;
+package org.eclipse.escet.cif.multilevel.ciftodmm;
 
 import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind.STATE;
 import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind.ALL_PLACES;
@@ -41,10 +41,6 @@ import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
-import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
-import org.eclipse.escet.cif.multilevel.ciftodmm.Labels;
-import org.eclipse.escet.cif.multilevel.ciftodmm.OwnedAndAccessedElements;
-import org.eclipse.escet.cif.multilevel.ciftodmm.RelationsCollector;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.dsm.Dmm;
 import org.eclipse.escet.common.dsm.Label;

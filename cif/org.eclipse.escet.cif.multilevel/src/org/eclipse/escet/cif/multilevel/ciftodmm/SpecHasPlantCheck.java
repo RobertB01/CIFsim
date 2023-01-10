@@ -11,56 +11,45 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.multilevel;
+package org.eclipse.escet.cif.multilevel.ciftodmm;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.metamodel.cif.InvKind;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 
 /**
- * CIF check that only allows specifications with at least one requirement element (a requirement automaton or a
- * state/event exclusion requirement invariant).
+ * CIF check that only allows specifications with at least one plant element (an input variable or a plant automaton).
  */
-public class SpecHasRequirementCheck extends CifCheck {
-    /** Number of requirements found in the specification. */
-    private int numReqs;
+public class SpecHasPlantCheck extends CifCheck {
+    /** Number of plants found in the specification. */
+    private int numPlants;
 
     @Override
     protected void preprocessSpecification(Specification spec, CifCheckViolations violations) {
-        numReqs = 0;
+        numPlants = 0;
     }
 
     @Override
     protected void postprocessSpecification(Specification spec, CifCheckViolations violations) {
-        if (numReqs < 1) {
+        if (numPlants < 1) {
             violations.add(null,
-                    new LiteralMessage("specification has neither a requirement automaton nor a state/event exclusion "
-                            + "requirement invariant"));
-        }
-    }
-
-    @Override
-    protected void preprocessInvariant(Invariant inv, CifCheckViolations violations) {
-        // Ignore non-requirement invariants.
-        if (inv.getSupKind() != SupKind.REQUIREMENT) {
-            return;
-        }
-
-        // Only count state/event exclusion invariants.
-        if (inv.getInvKind() == InvKind.EVENT_DISABLES || inv.getInvKind() == InvKind.EVENT_NEEDS) {
-            numReqs++;
+                    new LiteralMessage("specification has neither a plant automaton nor an input variable"));
         }
     }
 
     @Override
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
-        if (aut.getKind() == SupKind.REQUIREMENT) {
-            numReqs++;
+        if (aut.getKind() == SupKind.PLANT) {
+            numPlants++;
         }
+    }
+
+    @Override
+    protected void preprocessInputVariable(InputVariable inp, CifCheckViolations violations) {
+        numPlants++;
     }
 }
