@@ -108,7 +108,6 @@ public class DisjunctGroupsBuilder {
         Set<OwnedAndAccessedElements> nonSharingGroups = set(); // Groups that do not share relations with each other.
 
         // Try adding elements one at a time, examining the non-sharing groups so far.
-        //
         for (OwnedAndAccessedElements element: elements) {
             // Replaces 'element' as soon as merging with an overlapping non-sharing group must take place.
             // In this way, the original element is preserved.
