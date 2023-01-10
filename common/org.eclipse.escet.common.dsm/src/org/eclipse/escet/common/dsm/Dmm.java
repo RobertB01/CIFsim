@@ -17,6 +17,9 @@ import org.apache.commons.math3.linear.RealMatrix;
 
 /** Data storage of a domain mapping matrix. */
 public class Dmm {
+    /** RFC-4180 line separator. */
+    private static final String CRLF = "\r\n";
+
     /**
      * Adjacency matrix of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to node {@code j}.
      */
@@ -61,14 +64,13 @@ public class Dmm {
         sb.append("\"\"");
         for (Label label: columnLabels) {
             sb.append(",");
-            String labelText = (label == null) ? "null" : label.toString();
-            sb.append("\"" + labelText + "\"");
+            sb.append("\"" + label.toString().replace("\"", "\"\"") + "\""); // RFC-4180 " -> "" escaping.
         }
-        sb.append(System.lineSeparator());
+        sb.append(CRLF);
 
         // All rows.
         for (int row = 0; row < rowLabels.length; row++) {
-            sb.append("\"" + rowLabels[row].toString() + "\"");
+            sb.append("\"" + rowLabels[row].toString().replace("\"", "\"\"") + "\""); // RFC-4180 " -> "" escaping.
             for (int col = 0; col < columnLabels.length; col++) {
                 sb.append(",");
                 // Output value, but for integers omit the trailing ".0".
@@ -79,9 +81,9 @@ public class Dmm {
                     sb.append(value);
                 }
             }
-            // Skip newline at last line.
+            // Skip newline at last line (is allowed by RFC-4180).
             if (row < rowLabels.length - 1) {
-                sb.append(System.lineSeparator());
+                sb.append(CRLF);
             }
         }
         return sb.toString();
