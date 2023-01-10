@@ -342,7 +342,7 @@ public class RelationsCollector extends CifWalker {
     /**
      * Register an element as a plant element.
      *
-     * @param element Element to register.
+     * @param element Plant automaton or input variable to register.
      * @return The unique index of the element.
      */
     private int registerPlantElement(PositionObject element) {
@@ -366,7 +366,7 @@ public class RelationsCollector extends CifWalker {
     /**
      * Register an element as a requirement element.
      *
-     * @param element Element to register.
+     * @param element Requirement automaton or requirement invariant to register.
      * @return The unique index of the element.
      */
     private int registerRequirementElement(PositionObject element) {
