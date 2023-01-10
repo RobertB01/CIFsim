@@ -36,6 +36,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
+import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -193,6 +194,13 @@ public class RelationsCollector extends CifWalker {
                     eventAccess(edge.getEvents(), ownerIndex); // Events.
                     expressionAccess(edge.getGuards(), ownerIndex); // Guards.
                     updateAccess(edge.getUpdates(), ownerIndex); // Updates.
+
+                    // Also examine the sent values.
+                    for (EdgeEvent ee: edge.getEvents()) {
+                        if (ee instanceof EdgeSend edgeSend && edgeSend.getValue() != null) {
+                            expressionAccess(edgeSend.getValue(), ownerIndex);
+                        }
+                    }
                 }
             }
         }
@@ -222,10 +230,9 @@ public class RelationsCollector extends CifWalker {
      */
     private void eventAccess(EdgeEvent ee, int accessingGroupIndex) {
         Expression evtExpr = ee.getEvent();
-        if (evtExpr instanceof EventExpression) {
-            Event evt = ((EventExpression)evtExpr).getEvent();
-            registerAccessedRelation(evt, accessingGroupIndex);
-        }
+        Assert.check(evtExpr instanceof EventExpression);
+        Event evt = ((EventExpression)evtExpr).getEvent();
+        registerAccessedRelation(evt, accessingGroupIndex);
     }
 
     /**
