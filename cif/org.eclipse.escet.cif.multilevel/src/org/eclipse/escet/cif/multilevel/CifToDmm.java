@@ -65,14 +65,14 @@ public class CifToDmm {
      * @param spec Specification to check.
      */
     public static void checkSpec(Specification spec) {
-        CifPreconditionChecker checker = new CifToDmmChecker();
+        CifPreconditionChecker checker = new CifToDmmPreChecker();
         checker.reportPreconditionViolations(spec, "CIF to DMM transformation");
     }
 
     /** CIF checker class to check pre-conditions of the CIF to DMM conversion. */
-    private static class CifToDmmChecker extends CifPreconditionChecker {
-        /** Constructor of the {@link CifToDmm.CifToDmmChecker} class. */
-        public CifToDmmChecker() {
+    private static class CifToDmmPreChecker extends CifPreconditionChecker {
+        /** Constructor of the {@link CifToDmm.CifToDmmPreChecker} class. */
+        public CifToDmmPreChecker() {
             super(
                     // Should have only plant and requirement automata.
                     new SpecAutomataCountsCheck().setMinMaxKindlessAuts(NO_CHANGE, 0).setMinMaxSupervisorAuts(NO_CHANGE,
