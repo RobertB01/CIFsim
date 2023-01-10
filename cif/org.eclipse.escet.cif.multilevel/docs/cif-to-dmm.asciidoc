@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-= The CIF to DMM conversion
+= The CIF to DMM transformation
 
-Definition of the conversion rules to extract a set of DMMs from a CIF specification.
+Definition of the transformation rules to extract a set of DMMs from a CIF specification.
 
 The definition is based on <<goorden20>>, but with extensions.
 This version is more aligned with features available in CIF.
@@ -21,14 +21,14 @@ It also introduces requirement groups (collections of related requirements) to d
 
 == Elements of the computation
 
-In the CIF to DMM conversion there are three kinds of elements:
+In the CIF to DMM transformation there are three kinds of elements:
 
 * _Plant elements_, the plant automata and input variables that define the system behavior.
 * _Requirement elements_, the requirement automata and requirement state/event exclusion invariants in components.
 * _Relation elements_, the events, automaton locations, discrete variables and input variables in the specification.
 
 Some of the plant elements must always be kept together, similarly some of the requirement elements need to stay together as well.
-For this reason the conversion first groups plant elements and requirement elements into _plant groups_ respectively _requirement groups_.
+For this reason the transformation first groups plant elements and requirement elements into _plant groups_ respectively _requirement groups_.
 Then it relates plant groups with requirement groups using the relation elements.
 
 The generated DMMs capture how plant elements are grouped into plant groups, requirement elements are grouped into requirement groups, and what relations between plant groups and requirement groups exist.
@@ -36,7 +36,7 @@ The generated DMMs capture how plant elements are grouped into plant groups, req
 == Grouping
 
 In the grouping plants and requirements, the concepts _ownership_ and _access_ are used.
-Ownership only exists for discrete variables and locations in this conversion.
+Ownership only exists for discrete variables and locations in this transformation.
 A discrete variable is owned by the plant or requirement automaton in which it is declared.
 A location is owned by a plant or requirement automaton if the location is is one of the locations of that automaton.
 
@@ -86,7 +86,7 @@ Therefore, it is likely that a modeling mistake has been made in such a case, an
 
 == Future enhancements
 
-As always, further enhancement of the conversion can be done.
+As always, further enhancement of the transformation can be done.
 The list below exists to ensure the ideas are preserved.
 It is however not an exhaustive list, other improvements likely exist as well.
 

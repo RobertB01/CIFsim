@@ -65,7 +65,7 @@ public class CifToDmm {
         checker.reportPreconditionViolations(spec, "CIF to DMM transformation");
     }
 
-    /** CIF checker class to check pre-conditions of the CIF to DMM conversion. */
+    /** CIF checker class to check pre-conditions of the CIF to DMM transformation. */
     private static class CifToDmmPreChecker extends CifPreconditionChecker {
         /** Constructor of the {@link CifToDmm.CifToDmmPreChecker} class. */
         public CifToDmmPreChecker() {
@@ -91,7 +91,7 @@ public class CifToDmm {
 
                     // Unsupported features.
                     new TypeNoSpecificTypesCheck(NoSpecificType.COMP_DEF_TYPES, NoSpecificType.COMP_TYPES), //
-                    new EventNoTauCheck(), // TODO Could be ignored in the CIF to DMM conversion.
+                    new EventNoTauCheck(), // TODO Could be ignored in the CIF to DMM transformation.
                     new VarNoContinuousCheck(), //
                     new EqnNotAllowedCheck() //
             );
@@ -105,10 +105,10 @@ public class CifToDmm {
      * Specification is assumed to be within the boundaries of the {@link #checkSpec} conditions.
      * </p>
      *
-     * @param spec Specification to convert.
+     * @param spec Specification to transformation.
      * @return The resulting DMMs. May be {@code null} if case termination is requested.
      */
-    public static CifRelations convertToDmms(Specification spec) {
+    public static CifRelations transformToDmms(Specification spec) {
         // Construct a new collector and fill it with the relations from the given specification.
         RelationsCollector collector = new RelationsCollector();
         collector.collect(spec);

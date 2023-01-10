@@ -50,7 +50,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.junit.Before;
 import org.junit.Test;
 
-/** Tests for the CIF to DMM conversion. */
+/** Tests for the CIF to DMM transformation. */
 public class CifToDmmTest {
     /** Storage of the constructed test specification. */
     private Specification spec;

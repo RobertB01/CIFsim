@@ -90,15 +90,15 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Verify pre-conditions.
-        // TODO: CifToDmm prechecker only verifies conditions needed for the CIF to DMM conversion, other parts of the
+        // TODO: CifToDmm prechecker only verifies conditions needed for the CIF to DMM transformation, other parts of the
         // TODO: multilevel application need more or other checks.
         CifToDmm.checkSpec(spec);
         if (isTerminationRequested()) {
             return 0;
         }
 
-        // CIF to DMM conversion.
-        CifRelations cifRelations = CifToDmm.convertToDmms(spec);
+        // CIF to DMM transformation.
+        CifRelations cifRelations = CifToDmm.transformToDmms(spec);
         if (isTerminationRequested()) {
             return 0;
         }
