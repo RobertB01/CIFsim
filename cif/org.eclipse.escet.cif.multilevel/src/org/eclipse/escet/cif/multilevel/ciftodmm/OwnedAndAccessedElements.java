@@ -20,7 +20,7 @@ import java.util.BitSet;
 
 /** Owned and accessed elements of a group (one or more plant or requirement elements). */
 public class OwnedAndAccessedElements {
-    /** Plant and/or requirement elements that have the elements. */
+    /** Elements of the plant or requirement groups. */
     public final BitSet groupElements;
 
     /** Elements owned by the {@link #groupElements}. */
@@ -36,7 +36,7 @@ public class OwnedAndAccessedElements {
      * The {@link #ownedElements} and {@link #accessedElements} are empty after construction.
      * </p>
      *
-     * @param elementIndex Index number of a plant or requirement element that has the elements.
+     * @param elementIndex Index number of a plant or requirement group element.
      */
     public OwnedAndAccessedElements(int elementIndex) {
         this(makeBitset(elementIndex), new BitSet(), new BitSet());
@@ -58,7 +58,7 @@ public class OwnedAndAccessedElements {
     /**
      * Constructor of the {@link OwnedAndAccessedElements} class.
      *
-     * @param elements Plant and/or requirement elements that have the elements.
+     * @param elements Elements of the plant or requirement group.
      * @param ownedElements Elements owned by the {@link #groupElements}.
      * @param accessedElements Elements accessed by the {@link #groupElements}.
      */
