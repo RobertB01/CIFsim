@@ -20,7 +20,7 @@ indexterm:[type]
 A type defines the set of possible values of an expression or a variable.
 Its syntax is defined as follows.
 
-image::{ref-imgsdir}/rail_diagrams/type.png[]
+image::{ref-imgsdir}/rail_diagrams/type.rr.png[]
 
 * The `ElementaryType` block contains types that do not build on other types.
 They are explained further in <<ref-elementary-type>>.
@@ -83,7 +83,7 @@ indexterm:[type,elementary]
 The elementary types do not depend on other types to define their set of allowed values.
 They have the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/elementary_type.png[]
+image::{ref-imgsdir}/rail_diagrams/elementary_type.rr.png[]
 
 As you can see, they are mostly just a single keyword.
 The `ConstantExpression` nodes in the `matrix` type line are integer expressions with a fixed (and known) value before execution of the program.
@@ -196,7 +196,7 @@ indexterm:[type,container]
 The main function of container types is to organize and hold a collection of values of another type (the _element type_).
 The syntax diagram of the container types is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/container_type.png[]
+image::{ref-imgsdir}/rail_diagrams/container_type.rr.png[]
 
 The language has three container types, _lists_ (explained in <<ref-list-type>>), _sets_ (explained in <<ref-set-type>>), and _dictionaries_ (explained in <<ref-dictionary-type>>).
 
@@ -211,7 +211,7 @@ Duplicate element values are allowed.
 
 The syntax of a list type is given below.
 
-image::{ref-imgsdir}/rail_diagrams/list_type.png[]
+image::{ref-imgsdir}/rail_diagrams/list_type.rr.png[]
 
 It starts with the keyword `list`, optionally followed by a parenthesized (non-negative) integer expression denoting the initial number of element values in the collection, and finally the type of the element values.
 
@@ -239,7 +239,7 @@ Duplicate element values are silently discarded.
 
 The syntax of the set type is given below.
 
-image::{ref-imgsdir}/rail_diagrams/set_type.png[]
+image::{ref-imgsdir}/rail_diagrams/set_type.rr.png[]
 
 The set type starts with a `set` keyword, followed by the type of its elements.
 Its initial value is the empty set.
@@ -264,7 +264,7 @@ In addition, the dictionary has a value of its value type associated with each k
 
 The syntax of a dictionary type is given below.
 
-image::{ref-imgsdir}/rail_diagrams/dictionary_type.png[]
+image::{ref-imgsdir}/rail_diagrams/dictionary_type.rr.png[]
 
 The syntax starts with a `dict` keyword, and the key type and value type between parentheses, separated by a colon.
 The initial value of a dictionary type is the empty dictionary.
@@ -287,7 +287,7 @@ indexterm:[type,tuple]
 A tuple contains a fixed number of values of (possibly) different types.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/tuple_type.png[]
+image::{ref-imgsdir}/rail_diagrams/tuple_type.rr.png[]
 
 A tuple type starts with the keyword `tuple`, followed by the list of its fields between parentheses.
 Each field has a name and a type.
@@ -317,7 +317,7 @@ indexterm:[type,channel]
 The channel type defines the direction and the type of values transported.
 The syntax of the channel type is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/channel_type.png[]
+image::{ref-imgsdir}/rail_diagrams/channel_type.rr.png[]
 
 The `chan` keyword denotes a channel type is being created.
 It may be followed by allowed directions of transport, a `!` means that sending values is allowed but not for receiving, and a `?` means that receiving values is allowed and sending is not allowed.
@@ -341,7 +341,7 @@ indexterm:[type,distribution]
 The distribution type represents a stochastic distribution.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/distribution_type.png[]
+image::{ref-imgsdir}/rail_diagrams/distribution_type.rr.png[]
 
 A stochastic distribution allows modeling of random behavior, but with a known chance distribution.
 The `Type` block in the `DistributionType` diagram defines the type of values drawn.
@@ -356,7 +356,7 @@ indexterm:[type,function]
 The function type can hold a function.
 Its syntax is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/function_type.png[]
+image::{ref-imgsdir}/rail_diagrams/function_type.rr.png[]
 
 A function type starts with the keyword `func` followed by the return type of the function and the type of the formal parameters.
 The purpose of the function type is to pass functions to processes or other functions, for example, the predicate function in `sort` and `insert`, see <<ref-list-stdlib>>.
@@ -370,7 +370,7 @@ indexterm:[type,process]
 The process type is similar to the function type (discussed in <<ref-function-type>>), except this type can hold a process definition.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/process_type.png[]
+image::{ref-imgsdir}/rail_diagrams/process_type.rr.png[]
 
 The type starts with the keyword `proc` followed by the formal parameters of the process definition to store between parentheses.
 Expressions with process types are explained in <<ref-process-expression>>.

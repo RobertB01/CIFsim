@@ -18,7 +18,7 @@ include::_part_attributes.asciidoc[]
 
 At global level, a Chi program is a sequence of definitions, as shown in the following diagram.
 
-image::{ref-imgsdir}/rail_diagrams/program.png[]
+image::{ref-imgsdir}/rail_diagrams/program.rr.png[]
 
 Each of the definitions is explained below.
 The syntax diagram suggests that a `;` separator is obligatory between definitions.
@@ -37,7 +37,7 @@ indexterm:[enum]
 With enumerations, you create a new enumeration type containing a number of names (called enumeration values).
 The syntax is given below.
 
-image::{ref-imgsdir}/rail_diagrams/enumdef.png[]
+image::{ref-imgsdir}/rail_diagrams/enumdef.rr.png[]
 
 The enumeration definitions start with the keyword `enum`, followed by a sequence of definitions separated with a `,`.
 Each definition associates an enumeration type name with a set of enumeration value names.
@@ -74,7 +74,7 @@ indexterm:[definition,type]
 Type definitions allow you to assign a name to a type.
 By using a name instead of the type itself, readability of the program increases.
 
-image::{ref-imgsdir}/rail_diagrams/typedef.png[]
+image::{ref-imgsdir}/rail_diagrams/typedef.rr.png[]
 
 A type definition starts with the keyword `type`, followed by a number of 'assignments' that associate a type name with a type, separated with a `,`.
 For further details about type names and types, see <<ref-chapter-types>>.
@@ -112,7 +112,7 @@ For example, if you have a constant named `speed`, and you want to investigate h
 
 The syntax of constant definitions is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/constantdef.png[]
+image::{ref-imgsdir}/rail_diagrams/constantdef.rr.png[]
 
 An example:
 
@@ -140,7 +140,7 @@ A process is an entity that shows behavior over time.
 A process definition is a template for such a process.
 It is defined as follows.
 
-image::{ref-imgsdir}/rail_diagrams/procdef.png[]
+image::{ref-imgsdir}/rail_diagrams/procdef.rr.png[]
 
 The definition starts with the keyword `proc` optionally followed by an exit type.
 The name of the process definition, and its formal parameters concludes the header.
@@ -183,7 +183,7 @@ For example, giving it a channel or a process instance is not allowed.
 Like the process, a model also has a definition.
 It is defined below.
 
-image::{ref-imgsdir}/rail_diagrams/modeldef.png[]
+image::{ref-imgsdir}/rail_diagrams/modeldef.rr.png[]
 
 The syntax is exactly the same as process definitions explained in <<ref-process-definitions>>, except it starts with a `model` keyword instead.
 A model can be started directly in the simulator (see <<tool-chapter-software-operation>>), or as part of an experiment, explained in <<tut-experiment>>, and <<ref-xper-definitions>>.
@@ -206,7 +206,7 @@ Rather than duplicating it (which creates consistency problems when updating the
 
 The syntax of a function definition is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/funcdef.png[]
+image::{ref-imgsdir}/rail_diagrams/funcdef.rr.png[]
 
 In the syntax, the only thing that changes compared with the syntax in <<ref-process-definitions>> or <<ref-model-definitions>> is the additional `Type` node that defines the type resulting from the computation.
 
@@ -239,7 +239,7 @@ indexterm:[xper]
 An experiment can execute one or more model simulations, collect their exit values, and combine them into a experiment result.
 Its syntax is shown below.
 
-image::{ref-imgsdir}/rail_diagrams/xperdef.png[]
+image::{ref-imgsdir}/rail_diagrams/xperdef.rr.png[]
 
 An experiment definition has some function-like restrictions, like not being able to use sub-process statements, no communication, and no use of time.
 On the other hand, it does not return a value, and it can start model simulations that have a non-void exit type (<<ref-void-type>> discusses the void type).
@@ -293,7 +293,7 @@ Definitions above often take values as parameter to allow customizing their beha
 The definition of those parameters are called _formal parameters_.
 The syntax of formal parameters is shown below.
 
-image::{ref-imgsdir}/rail_diagrams/formalparms.png[]
+image::{ref-imgsdir}/rail_diagrams/formalparms.rr.png[]
 
 As you can see, they are just variable declarations (explained in the <<ref-variable-declarations>> section), except you may not add an initial value, since their values are obtained during use of the definition.
 

@@ -23,7 +23,7 @@ indexterm:[expression,parenthesized]
 Expressions are computations to obtain a value.
 The generic syntax of an expression is shown below.
 
-image::{ref-imgsdir}/rail_diagrams/generic_expression.png[]
+image::{ref-imgsdir}/rail_diagrams/generic_expression.rr.png[]
 
 * As shown in Path 1, a name may be used in an expression.
 It must refer to a value that can be used in an expression.
@@ -42,7 +42,7 @@ Parentheses may also be used to clarify the meaning of a complicated expression.
 [[ref-typed-expression]]
 === Typed expressions
 
-image::{ref-imgsdir}/rail_diagrams/typed_expression.png[]
+image::{ref-imgsdir}/rail_diagrams/typed_expression.rr.png[]
 
 The number of operators in expressions is quite large.
 Also, each node has an associated type, and the allowed operators depend heavily on the types of the sub-expressions.
@@ -91,7 +91,7 @@ indexterm:[expression,enumeration value]
 
 Enumeration values may be used as literal value in an expression.
 
-image::{ref-imgsdir}/rail_diagrams/enum_value.png[]
+image::{ref-imgsdir}/rail_diagrams/enum_value.rr.png[]
 
 See <<ref-enum-definitions>> for a discussion about enumeration definitions and enumeration values.
 
@@ -138,7 +138,7 @@ indexterm:[expression,boolean]
 
 The literal values for the boolean data type are as follows.
 
-image::{ref-imgsdir}/rail_diagrams/bool_expression.png[]
+image::{ref-imgsdir}/rail_diagrams/bool_expression.rr.png[]
 
 The values `true` and `false` are also the only available values of the boolean data type.
 
@@ -200,7 +200,7 @@ indexterm:[expression,integer]
 
 The syntax of an integer literal number is (at character level) as follows.
 
-image::{ref-imgsdir}/rail_diagrams/literal_integer_number.png[]
+image::{ref-imgsdir}/rail_diagrams/literal_integer_number.rr.png[]
 
 NOTE: This diagram works at lexical level (at the level of single characters), white space or comments are not allowed between elements in this diagram.
 
@@ -379,13 +379,13 @@ Real numbers are an important means to express values in the contiguous domain.
 The type of a real number expression is a `real` type, see <<ref-real-type>> for more information about the type.
 The syntax of real number values is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/real_number_values.png[]
+image::{ref-imgsdir}/rail_diagrams/real_number_values.rr.png[]
 
 There are two ways to construct real numbers, by writing a literal real number, or by using `time` which returns the current time in the model.
 
 The syntax of a literal real number (at character level) is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/lexical_real_number.png[]
+image::{ref-imgsdir}/rail_diagrams/lexical_real_number.rr.png[]
 
 NOTE: This diagram works at lexical level (at the level of single characters), white space or comments are not allowed between elements in this diagram.
 
@@ -523,7 +523,7 @@ Strings are sequences of characters.
 Their most frequent use is to construct text to output to the screen.
 A string literal is defined as follows.
 
-image::{ref-imgsdir}/rail_diagrams/lexical_string_literal.png[]
+image::{ref-imgsdir}/rail_diagrams/lexical_string_literal.rr.png[]
 
 NOTE: This diagram works at lexical level (at the level of single characters), white space or comments are not allowed between elements in this diagram.
 
@@ -653,7 +653,7 @@ Lists are very versatile data structures, the Chi language has a large number of
 The most elementary list expression is a literal list.
 It has the following syntax.
 
-image::{ref-imgsdir}/rail_diagrams/literal_list.png[]
+image::{ref-imgsdir}/rail_diagrams/literal_list.rr.png[]
 
 The first line shows the syntax of an empty list.
 The `Type` block denotes the element type of the list, for example `<int>[]` is an empty list of integer values.
@@ -848,7 +848,7 @@ indexterm:[expression,set]
 
 Literal sets are written as follows.
 
-image::{ref-imgsdir}/rail_diagrams/literal_set.png[]
+image::{ref-imgsdir}/rail_diagrams/literal_set.rr.png[]
 
 The first line shows the syntax of an empty set.
 The `Type` block denotes the element type of the set, for example `<int>{}` is an empty set of integer values.
@@ -968,7 +968,7 @@ indexterm:[expression,dictionary]
 
 Literal dictionaries are written using the syntax shown below.
 
-image::{ref-imgsdir}/rail_diagrams/literal_dictionary.png[]
+image::{ref-imgsdir}/rail_diagrams/literal_dictionary.rr.png[]
 
 An empty dictionary needs the key and value type prefix, for example `<string:int>{}` is an empty dictionary with strings as key, and integer numbers as value.
 Literal values of such a dictionary are:
@@ -1113,7 +1113,7 @@ indexterm:[expression,tuple]
 A tuple expression is a value of a tuple type (explained in <<ref-tuple-type>>).
 A tuple expression literal value is written as shown below.
 
-image::{ref-imgsdir}/rail_diagrams/literal_tuple.png[]
+image::{ref-imgsdir}/rail_diagrams/literal_tuple.rr.png[]
 
 A literal tuple is a comma separated sequence of expressions of length two or longer, surrounded by a pair of parentheses.
 The number of expressions and the type of each expression decide the tuple type.
@@ -1423,7 +1423,7 @@ The other thing that you can do is to wait for termination of the process by mea
 
 The syntax of a matrix literal value is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/literal_matrix.png[]
+image::{ref-imgsdir}/rail_diagrams/literal_matrix.rr.png[]
 
 The literal starts with a `[` symbol, and ends with a `]` symbol.
 In between it has at least two comma-separated lists of real number values, separated with a `;` symbol.
@@ -1451,7 +1451,7 @@ See <<ref-cast-expression>> for an explanation of cast expressions.
 A cast expression converts a value from one type to another.
 The syntax of a cast expression is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/cast_expression.png[]
+image::{ref-imgsdir}/rail_diagrams/cast_expression.rr.png[]
 
 You write the result type, followed by an expression between parentheses.
 The value of the expression is converted to the given type.
@@ -1548,7 +1548,7 @@ The other way around (from a real number to an integer number) does not exist as
 A function call starts a function to compute its result value from the input parameters.
 The syntax is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/func_call_expression.png[]
+image::{ref-imgsdir}/rail_diagrams/func_call_expression.rr.png[]
 
 The `Expression` before the open parenthesis represents the function to call.
 Often this is a simple name like `size` (the name of one of the standard library functions), but you can have more complicated expressions.
