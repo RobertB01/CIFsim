@@ -1,0 +1,120 @@
+################################################################################
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https:#opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+################################################################################
+
+terminal.token.ALTKW: alt
+terminal.token.ANDKW: and
+terminal.token.ASTERISKTK: *
+terminal.token.BECOMESTK: =
+terminal.token.BOOLKW: bool
+terminal.token.BREAKKW: break
+terminal.token.CARETTK: ^
+terminal.token.CHANKW: chan
+terminal.token.CHANNELKW: channel
+terminal.token.CLOSEKW: close
+terminal.token.COLONTK: :
+terminal.token.COMMATK: ,
+terminal.token.CONSTKW: const
+terminal.token.CONTINUEKW: continue
+terminal.token.CURCLOSETK: }
+terminal.token.CUROPENTK: {
+terminal.token.DELAYKW: delay
+terminal.token.DICTKW: dict
+terminal.token.DISTKW: dist
+terminal.token.DIVKW: div
+terminal.token.DOTTK: .
+terminal.token.ELIFKW: elif
+terminal.token.ELSEKW: else
+terminal.token.ENDKW: end
+terminal.token.ENUMKW: enum
+terminal.token.EXITKW: exit
+terminal.token.EQTK: ==
+terminal.token.FALSEKW: false
+terminal.token.FORKW: for
+terminal.token.FILEKW: file
+terminal.token.FINISHKW: finish
+terminal.token.FUNCKW: func
+terminal.token.GETK: >=
+terminal.token.GTTK: >
+terminal.token.IDENTIFIERTK: Identifier
+terminal.token.IFKW: if
+terminal.token.INKW: in
+terminal.token.INSTKW: inst
+terminal.token.INTKW: int
+terminal.token.LETK: <=
+terminal.token.LISTKW: list
+terminal.token.LTTK: <
+terminal.token.MATRIXKW: matrix
+terminal.token.MINUSTK: -
+terminal.token.MODELKW: model
+terminal.token.MODKW: mod
+terminal.token.NETK: !=
+terminal.token.NOTKW: not
+terminal.token.NUMBERTK: Number
+terminal.token.ORKW: or
+terminal.token.PAROPENTK: (
+terminal.token.PARCLOSETK: )
+terminal.token.PASSKW: pass
+terminal.token.PLUSTK: +
+terminal.token.PROCKW: proc
+terminal.token.READKW: read
+terminal.token.REALKW: real
+terminal.token.REALTK: Real
+terminal.token.RECEIVETK: ?
+terminal.token.RETURNKW: return
+terminal.token.RUNKW: run
+terminal.token.SAMPLEKW: sample
+terminal.token.SELECTKW: select
+terminal.token.SEMICOLTK: ;
+terminal.token.SENDRECEIVETK: !?
+terminal.token.SENDTK: !
+terminal.token.SETKW: set
+terminal.token.SLASHTK: /
+terminal.token.SQCLOSETK: ]
+terminal.token.SQOPENTK: [
+terminal.token.STARTKW: start
+terminal.token.STRINGKW: string
+terminal.token.STRINGTK: String
+terminal.token.SUBKW: sub
+terminal.token.TERMINATEKW: terminate
+terminal.token.TIMEKW: time
+terminal.token.TIMERKW: time
+terminal.token.TRUEKW: true
+terminal.token.TUPLEKW: tuple
+terminal.token.TYPEKW: type
+terminal.token.UNWINDKW: unwind
+terminal.token.VOIDKW: void
+terminal.token.WHILEKW: while
+terminal.token.WRITEKW: write
+terminal.token.WRITELNKW: writeln
+terminal.token.XPERKW: xper
+terminal.token.ZEROTK: 0
+terminal.token.ZERONINETK: 0...9
+terminal.token.expTK: e
+terminal.token.EXPTK: E
+terminal.token.ONENINETK: 1...9
+terminal.token.QUOTETK: "
+terminal.token.BACKSLASHTK: \\
+terminal.token.STRESC: ?
+terminal.token.SINGLE: not \'\"\', \'\\\', \'TAB\', or \'NL\'
+terminal.token.NTK: n
+terminal.token.TTK: t
+
+terminal.token.CONSTANTNAMETK: ConstantName
+terminal.token.ENUMTYPENAMETK: EnumtypeName
+terminal.token.ENUMVALUENAMETK: EnumvalueName
+terminal.token.FIELDNAMETK: FieldName
+terminal.token.FUNCTIONNAMETK: FunctionName
+terminal.token.MODELNAMETK: ModelName
+terminal.token.XPERNAMETK: ExperimentName
+terminal.token.PROCESSNAMETK: ProcessName
+terminal.token.TYPENAMETK: TypeName
+terminal.token.VARNAMETK: VariableName
