@@ -1,8 +1,0 @@
-
-from "lib:cif" import *;
-
-for z in find("", "*.rr"):
-    cpfile("lexical_string_literal.rr.props", chfileext(z, "rr", "rr.props"), true);
-end
-
-
