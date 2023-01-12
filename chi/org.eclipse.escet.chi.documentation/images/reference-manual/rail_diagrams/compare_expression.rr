@@ -22,4 +22,3 @@ BooleanExpression : Expression ( EQTK | NETK ) Expression
                   | SetExpression SUBKW SetExpression
                   | DictionaryExpression SUBKW DictionaryExpression
                   ;
-                  
