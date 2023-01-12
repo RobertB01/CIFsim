@@ -57,10 +57,10 @@ automaton outcome:
     edge coin.land goto tails; // Second way to land.
 
   location heads:
-    edge pick_up goto unknown;
+    edge coin.pick_up goto unknown;
 
   location tails:
-    edge pick_up goto unknown;
+    edge coin.pick_up goto unknown;
 end
 ----
 
