@@ -99,7 +99,7 @@ public class CifToDmm {
     }
 
     /**
-     * Convert the CIF specification to a set of DMMs.
+     * Transform the CIF specification to a set of DMMs.
      *
      * <p>
      * Specification is assumed to be within the boundaries of the {@link #checkSpec} conditions.

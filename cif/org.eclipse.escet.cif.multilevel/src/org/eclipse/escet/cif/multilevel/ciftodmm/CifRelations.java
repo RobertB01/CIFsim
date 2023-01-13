@@ -52,7 +52,7 @@ public class CifRelations {
     /**
      * Write the DMMs to an output file.
      *
-     * @param cifPath Path of the CIF specification that was converted.
+     * @param cifPath Path of the CIF specification that was transformed.
      * @param outPath Destination of the written output.
      */
     public void writeDmms(String cifPath, String outPath) {

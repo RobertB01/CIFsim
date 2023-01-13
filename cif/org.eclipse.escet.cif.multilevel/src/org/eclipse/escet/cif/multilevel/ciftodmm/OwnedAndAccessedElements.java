@@ -20,7 +20,7 @@ import java.util.BitSet;
 
 /** Owned and accessed elements of a group (one or more plant or requirement elements). */
 public class OwnedAndAccessedElements {
-    /** Elements of the plant or requirement groups. */
+    /** Elements of the plant or requirement group. */
     public final BitSet groupElements;
 
     /** Elements owned by the {@link #groupElements}. */
@@ -58,12 +58,12 @@ public class OwnedAndAccessedElements {
     /**
      * Constructor of the {@link OwnedAndAccessedElements} class.
      *
-     * @param elements Elements of the plant or requirement group.
+     * @param groupElements Elements of the plant or requirement group.
      * @param ownedElements Elements owned by the {@link #groupElements}.
      * @param accessedElements Elements accessed by the {@link #groupElements}.
      */
-    public OwnedAndAccessedElements(BitSet elements, BitSet ownedElements, BitSet accessedElements) {
-        this.groupElements = elements;
+    public OwnedAndAccessedElements(BitSet groupElements, BitSet ownedElements, BitSet accessedElements) {
+        this.groupElements = groupElements;
         this.ownedElements = ownedElements;
         this.accessedElements = accessedElements;
     }

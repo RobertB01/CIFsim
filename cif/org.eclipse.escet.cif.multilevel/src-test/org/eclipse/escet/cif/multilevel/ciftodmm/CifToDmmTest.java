@@ -118,7 +118,7 @@ public class CifToDmmTest {
     }
 
     /**
-     * Use a disc variable or an input variable as guard in an edge.
+     * Use a discrete variable or an input variable as guard in an edge.
      *
      * @param edge Edge to use.
      * @param decl Variable to add.
@@ -138,7 +138,7 @@ public class CifToDmmTest {
     /**
      * Use a location as guard in an edge.
      *
-     * @param edge Edge to use
+     * @param edge Edge to use.
      * @param useLoc Location to reference as guard.
      */
     private void useLocInEdge(Edge edge, Location useLoc) {
@@ -251,7 +251,7 @@ public class CifToDmmTest {
 
     @SuppressWarnings("javadoc")
     @Test
-    public void discvarOwnerTest() {
+    public void discVarOwnerTest() {
         // plant p:
         // disc bool pdisc;
         // input bool pinput;
@@ -291,12 +291,12 @@ public class CifToDmmTest {
         OwnedAndAccessedElements plantAutRels = collector.getGroupRelations(plantAutIndex);
         assertEquals(0, plantAutRels.accessedElements.cardinality());
         assertEquals(1, plantAutRels.ownedElements.cardinality());
-        assertTrue(plantAutRels.ownedElements.get(pdiscIndex)); // Discvar in the plant is owned by it.
+        assertTrue(plantAutRels.ownedElements.get(pdiscIndex)); // Discrete variable in the plant is owned by it.
 
         OwnedAndAccessedElements reqAutRels = collector.getGroupRelations(reqAutIndex);
         assertEquals(0, reqAutRels.accessedElements.cardinality());
         assertEquals(1, reqAutRels.ownedElements.cardinality());
-        assertTrue(reqAutRels.ownedElements.get(rdiscIndex)); // Discvar in the requirement is owned by it.
+        assertTrue(reqAutRels.ownedElements.get(rdiscIndex)); // Discrete variable in the requirement is owned by it.
 
         OwnedAndAccessedElements pinputRels = collector.getGroupRelations(pinputIndex);
         assertEquals(1, pinputRels.accessedElements.cardinality()); // pinput accesses itself.
@@ -379,12 +379,12 @@ public class CifToDmmTest {
     @SuppressWarnings("javadoc")
     @Test
     public void mergePlantAutsOnAccessedDiscVarTest() {
-        // Requirement automaton with a discvar.
+        // Requirement automaton with a discrete variable.
         Automaton reqAut = makeAddRequirementAut("req");
         DiscVariable discVar = makeDiscVar("discvar");
         reqAut.getDeclarations().add(discVar);
 
-        // 2 plants with different events accessing the discvar.
+        // 2 plants with different events accessing the discrete variable.
         Automaton plantAut1 = makeAddPlantAut("p1");
         Automaton plantAut2 = makeAddPlantAut("p2");
         Event evt1 = newEvent(true, "evt1", null, null);
