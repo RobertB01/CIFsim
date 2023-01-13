@@ -168,7 +168,7 @@ public class CifToDmmTest {
     @SuppressWarnings("javadoc")
     @Test
     public void autsAccessOtherLocationTest() {
-        // controllable pevt;
+        // controllable pevt, specEvent;
         //
         // plant p:
         // location loc0:
@@ -459,7 +459,6 @@ public class CifToDmmTest {
         // end
         Automaton reqAut = makeAddRequirementAut("r1");
         Location rloc = addLocation(reqAut, "rloc");
-        spec.getComponents().add(reqAut);
 
         Event evt1 = newEvent(true, "evt1", null, null);
         Event evt2 = newEvent(true, "evt2", null, null);
@@ -468,13 +467,11 @@ public class CifToDmmTest {
 
         Automaton plantAut1 = makeAddPlantAut("p1");
         addLocation(plantAut1, "loc1");
-        spec.getComponents().add(plantAut1);
         Edge edge1 = addEdge(plantAut1, evt1);
         useLocInEdge(edge1, rloc);
 
         Automaton plantAut2 = makeAddPlantAut("p2");
         addLocation(plantAut2, "loc2");
-        spec.getComponents().add(plantAut2);
         Edge edge2 = addEdge(plantAut2, evt2);
         useLocInEdge(edge2, rloc);
 
@@ -500,14 +497,12 @@ public class CifToDmmTest {
         // end
         Automaton plantAut1 = makeAddPlantAut("p1");
         Location loc1 = addLocation(plantAut1, "loc1");
-        spec.getComponents().add(plantAut1);
 
         Event evt2 = newEvent(true, "evt2", null, null);
         spec.getDeclarations().add(evt2);
 
         Automaton plantAut2 = makeAddPlantAut("p2");
         addLocation(plantAut2, "loc2");
-        spec.getComponents().add(plantAut2);
         Edge edge2 = addEdge(plantAut2, evt2);
         useLocInEdge(edge2, loc1);
 
@@ -525,12 +520,12 @@ public class CifToDmmTest {
     public void mergeReqsOnEventNotUsedByPlant() {
         // controllable evt;
         //
-        // requirement r1:
+        // requirement req1:
         // location loc1:
         // edge evt;
         // end
         //
-        // requirement r2:
+        // requirement req2:
         // location loc2:
         // edge evt;
         // end
@@ -538,11 +533,9 @@ public class CifToDmmTest {
         spec.getDeclarations().add(evt);
 
         Automaton req1 = makeAddRequirementAut("req1");
-        spec.getComponents().add(req1);
         addEdge(req1, evt);
 
         Automaton req2 = makeAddRequirementAut("req2");
-        spec.getComponents().add(req2);
         addEdge(req2, evt);
 
         RelationsCollector collector = new RelationsCollector();
@@ -565,12 +558,12 @@ public class CifToDmmTest {
         // edge evt;
         // end
         //
-        // requirement r1:
+        // requirement req1:
         // location loc1:
         // edge evt;
         // end
         //
-        // requirement r2:
+        // requirement req2:
         // location loc2:
         // edge evt;
         // end
@@ -578,15 +571,12 @@ public class CifToDmmTest {
         spec.getDeclarations().add(evt);
 
         Automaton plant = makeAddPlantAut("plant");
-        spec.getComponents().add(plant);
         addEdge(plant, evt);
 
         Automaton req1 = makeAddRequirementAut("req1");
-        spec.getComponents().add(req1);
         addEdge(req1, evt);
 
         Automaton req2 = makeAddRequirementAut("req2");
-        spec.getComponents().add(req2);
         addEdge(req2, evt);
 
         RelationsCollector collector = new RelationsCollector();
@@ -603,12 +593,12 @@ public class CifToDmmTest {
         //
         // input bool inp;
         //
-        // requirement r1:
+        // requirement req1:
         // location loc1:
         // edge evt1 when inp;
         // end
         //
-        // requirement r2:
+        // requirement req2:
         // location loc2:
         // edge evt2 when inp;
         // end
@@ -621,11 +611,9 @@ public class CifToDmmTest {
         spec.getDeclarations().add(inp);
 
         Automaton req1 = makeAddRequirementAut("req1");
-        spec.getComponents().add(req1);
         useDeclInEdge(addEdge(req1, evt1), inp);
 
         Automaton req2 = makeAddRequirementAut("req2");
-        spec.getComponents().add(req2);
         useDeclInEdge(addEdge(req2, evt2), inp);
 
         RelationsCollector collector = new RelationsCollector();
@@ -644,12 +632,12 @@ public class CifToDmmTest {
         // disc bool dvar;
         // end
         //
-        // requirement r1:
+        // requirement req1:
         // location loc1:
         // edge evt1 when dvar;
         // end
         //
-        // requirement r2:
+        // requirement req2:
         // location loc2:
         // edge evt2 when dvar;
         // end
@@ -663,11 +651,9 @@ public class CifToDmmTest {
         plant.getDeclarations().add(dvar);
 
         Automaton req1 = makeAddRequirementAut("req1");
-        spec.getComponents().add(req1);
         useDeclInEdge(addEdge(req1, evt1), dvar);
 
         Automaton req2 = makeAddRequirementAut("req2");
-        spec.getComponents().add(req2);
         useDeclInEdge(addEdge(req2, evt2), dvar);
 
         RelationsCollector collector = new RelationsCollector();
@@ -682,13 +668,13 @@ public class CifToDmmTest {
         // controllable evt1;
         // controllable evt2;
         //
-        // requirement r1:
+        // requirement req1:
         // disc bool dvar;
         // location loc1:
         // edge evt1 when dvar;
         // end
         //
-        // requirement r2:
+        // requirement req2:
         // location loc2:
         // edge evt2 when dvar;
         // end
@@ -701,11 +687,9 @@ public class CifToDmmTest {
 
         Automaton req1 = makeAddRequirementAut("req1");
         req1.getDeclarations().add(dvar);
-        spec.getComponents().add(req1);
         useDeclInEdge(addEdge(req1, evt1), dvar);
 
         Automaton req2 = makeAddRequirementAut("req2");
-        spec.getComponents().add(req2);
         useDeclInEdge(addEdge(req2, evt2), dvar);
 
         RelationsCollector collector = new RelationsCollector();
@@ -728,12 +712,12 @@ public class CifToDmmTest {
         // location ploc;
         // end
         //
-        // requirement r1:
+        // requirement req1:
         // location loc1:
         // edge evt1 when ploc;
         // end
         //
-        // requirement r2:
+        // requirement req2:
         // location loc2:
         // edge evt2 when ploc;
         // end
@@ -746,11 +730,9 @@ public class CifToDmmTest {
         Location ploc = addLocation(plant, "ploc");
 
         Automaton req1 = makeAddRequirementAut("req1");
-        spec.getComponents().add(req1);
         useLocInEdge(addEdge(req1, evt1), ploc);
 
         Automaton req2 = makeAddRequirementAut("req2");
-        spec.getComponents().add(req2);
         useLocInEdge(addEdge(req2, evt2), ploc);
 
         RelationsCollector collector = new RelationsCollector();
@@ -774,11 +756,10 @@ public class CifToDmmTest {
 
         Automaton req1 = makeAddRequirementAut("req1");
         Location loc1 = addLocation(req1, "loc1");
-        spec.getComponents().add(req1);
 
-        Invariant reqInv = newInvariant(newEventExpression(evt2, null, null), InvKind.EVENT_DISABLES, "reqInv", null,
+        Invariant r2 = newInvariant(newEventExpression(evt2, null, null), InvKind.EVENT_DISABLES, "r2", null,
                 newLocationExpression(loc1, null, newBoolType()), SupKind.REQUIREMENT);
-        spec.getInvariants().add(reqInv);
+        spec.getInvariants().add(r2);
 
         RelationsCollector collector = new RelationsCollector();
         collector.collect(spec);

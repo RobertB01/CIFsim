@@ -12,73 +12,73 @@
 //////////////////////////////////////////////////////////////////////////////
 
 plant def Lamp():
-    controllable c_green, c_red;
+  controllable c_green, c_red;
 
-    location Red:
-        initial; marked;
-        edge c_green goto Green;
-    location Green:
-        edge c_red goto Red;
+  location Red:
+    initial; marked;
+    edge c_green goto Green;
+  location Green:
+    edge c_red goto Red;
 end
 
 plant def Door_acc(uncontrollable event u_on_open, u_on_closed, u_off_open, u_off_closed):
-    controllable c_on_open, c_off_open, c_on_close, c_off_close;
+  controllable c_on_open, c_off_open, c_on_close, c_off_close;
 
-    location Rest:
-        initial; marked;
-        edge c_on_open goto Opening;
-        edge c_on_close goto Closing;
-    location Opening:
-        edge c_off_open goto Rest;
-        edge u_off_closed, u_on_open;
-    location Closing:
-        edge c_off_close goto Rest;
-        edge u_off_open, u_on_closed;
+  location Rest:
+    initial; marked;
+    edge c_on_open goto Opening;
+    edge c_on_close goto Closing;
+  location Opening:
+    edge c_off_open goto Rest;
+    edge u_off_closed, u_on_open;
+  location Closing:
+    edge c_off_close goto Rest;
+    edge u_off_open, u_on_closed;
 end
 
 plant def Sewer_acc(uncontrollable event u_on, u_off):
-    controllable c_open, c_close;
+  controllable c_open, c_close;
 
-    location Close:
-        initial; marked;
-        edge c_open goto Open;
-        edge u_off;
-    location Open:
-        edge c_close goto Close;
-        edge u_on;
+  location Close:
+    initial; marked;
+    edge c_open goto Open;
+    edge u_off;
+  location Open:
+    edge c_close goto Close;
+    edge u_on;
 end
 
 plant def Door_sensor():
-    uncontrollable u_on_open, u_off_open, u_on_closed, u_off_closed;
+  uncontrollable u_on_open, u_off_open, u_on_closed, u_off_closed;
 
-    location Closed:
-        initial; marked;
-        edge u_off_closed goto Midle;
-    location Midle:
-        edge u_on_closed goto Closed;
-        edge u_on_open goto Open;
-    location Open:
-        edge u_off_open goto Midle;
+  location Closed:
+    initial; marked;
+    edge u_off_closed goto Midle;
+  location Midle:
+    edge u_on_closed goto Closed;
+    edge u_on_open goto Open;
+  location Open:
+    edge u_off_open goto Midle;
 end
 
 plant def EqualWaterDef():
-    uncontrollable u_on, u_off;
+  uncontrollable u_on, u_off;
 
-    location Off:
-        initial; marked;
-        edge u_on goto On;
-    location On:
-        edge u_off goto Off;
+  location Off:
+    initial; marked;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
 end
 
 plant def Sewer_sensor():
-    uncontrollable u_on, u_off;
+  uncontrollable u_on, u_off;
 
-    location Off:
-        initial; marked;
-        edge u_on goto On;
-    location On:
-        edge u_off goto Off;
+  location Off:
+    initial; marked;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
 end
 
 group def DoorDef():
@@ -92,65 +92,48 @@ group def SewerDef():
 end
 
 group def LockHead():
-  LampEntering : Lamp();
-  LampLeaving : Lamp();
+  LampEntering: Lamp();
+  LampLeaving: Lamp();
   Door: DoorDef();
   Sewer: SewerDef();
   EqualWater: EqualWaterDef();
 
-  requirement EqualWater.Off
-    disables Door.Actuator.c_on_open;
+  requirement EqualWater.Off disables Door.Actuator.c_on_open;
 
-  requirement LampLeaving.Green
-    disables LampEntering.c_green;
+  requirement LampLeaving.Green disables LampEntering.c_green;
 
-  requirement not Door.Sensor.Open
-    disables LampEntering.c_green;
+  requirement not Door.Sensor.Open disables LampEntering.c_green;
 
-  requirement not Door.Actuator.Rest
-    disables LampEntering.c_green;
+  requirement not Door.Actuator.Rest disables LampEntering.c_green;
 
-  requirement not LampEntering.Red
-    disables {Door.Actuator.c_on_close, Door.Actuator.c_on_open};
+  requirement not LampEntering.Red disables {Door.Actuator.c_on_close, Door.Actuator.c_on_open};
 
-  requirement not LampLeaving.Red
-    disables {Door.Actuator.c_on_close, Door.Actuator.c_on_open};
+  requirement not LampLeaving.Red disables {Door.Actuator.c_on_close, Door.Actuator.c_on_open};
 
-  requirement LampEntering.Green
-    disables LampLeaving.c_green;
+  requirement LampEntering.Green disables LampLeaving.c_green;
 
-  requirement not Door.Sensor.Open
-    disables LampLeaving.c_green;
+  requirement not Door.Sensor.Open disables LampLeaving.c_green;
 
-  requirement not Door.Actuator.Rest
-    disables LampLeaving.c_green;
+  requirement not Door.Actuator.Rest disables LampLeaving.c_green;
 end
 
 group Lock:
   Side1: LockHead();
   Side2: LockHead();
 
-  requirement Side1.Sewer.Sensor.On or Side1.Sewer.Actuator.Open
-    disables Side2.Sewer.Actuator.c_open;
+  requirement Side1.Sewer.Sensor.On or Side1.Sewer.Actuator.Open disables Side2.Sewer.Actuator.c_open;
 
-  requirement not Side1.Door.Sensor.Closed or Side1.Door.Actuator.Opening
-    disables Side2.Sewer.Actuator.c_open;
+  requirement not Side1.Door.Sensor.Closed or Side1.Door.Actuator.Opening disables Side2.Sewer.Actuator.c_open;
 
-  requirement Side1.Sewer.Sensor.On or Side1.Sewer.Actuator.Open
-    disables Side2.Door.Actuator.c_on_open;
+  requirement Side1.Sewer.Sensor.On or Side1.Sewer.Actuator.Open disables Side2.Door.Actuator.c_on_open;
 
-  requirement not Side1.Door.Sensor.Closed or Side1.Door.Actuator.Opening
-    disables Side2.Door.Actuator.c_on_open;
+  requirement not Side1.Door.Sensor.Closed or Side1.Door.Actuator.Opening disables Side2.Door.Actuator.c_on_open;
 
-  requirement Side2.Sewer.Sensor.On or Side2.Sewer.Actuator.Open
-    disables Side1.Sewer.Actuator.c_open;
+  requirement Side2.Sewer.Sensor.On or Side2.Sewer.Actuator.Open disables Side1.Sewer.Actuator.c_open;
 
-  requirement not Side2.Door.Sensor.Closed or Side2.Door.Actuator.Opening
-    disables Side1.Sewer.Actuator.c_open;
+  requirement not Side2.Door.Sensor.Closed or Side2.Door.Actuator.Opening disables Side1.Sewer.Actuator.c_open;
 
-  requirement Side2.Sewer.Sensor.On or Side2.Sewer.Actuator.Open
-    disables Side1.Door.Actuator.c_on_open;
+  requirement Side2.Sewer.Sensor.On or Side2.Sewer.Actuator.Open disables Side1.Door.Actuator.c_on_open;
 
-  requirement not Side2.Door.Sensor.Closed or Side2.Door.Actuator.Opening
-    disables Side1.Door.Actuator.c_on_open;
+  requirement not Side2.Door.Sensor.Closed or Side2.Door.Actuator.Opening disables Side1.Door.Actuator.c_on_open;
 end

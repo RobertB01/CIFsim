@@ -214,10 +214,8 @@ public class RelationsCollector extends CifWalker {
      * @note The accessing group may or may not own the events.
      */
     private void eventAccess(List<EdgeEvent> ees, int accessingGroupIndex) {
-        if (ees != null) {
-            for (EdgeEvent ee: ees) {
-                eventAccess(ee, accessingGroupIndex);
-            }
+        for (EdgeEvent ee: ees) {
+            eventAccess(ee, accessingGroupIndex);
         }
     }
 
