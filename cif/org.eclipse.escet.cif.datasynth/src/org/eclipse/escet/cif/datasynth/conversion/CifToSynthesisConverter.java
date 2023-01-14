@@ -787,18 +787,6 @@ public class CifToSynthesisConverter {
             elem.left.group = elem.right;
         }
 
-        // Apply automatic variable ordering algorithms, if requested. Also prints variable debug output, if requested.
-        applyVariableReorder(synthAut, spec, dbgEnabled);
-    }
-
-    /**
-     * Applies the variable reordering algorithms.
-     *
-     * @param synthAut The synthesis automaton. Is modified in-place.
-     * @param spec The CIF specification.
-     * @param dbgEnabled Whether debug output is enabled.
-     */
-    private static void applyVariableReorder(SynthesisAutomaton synthAut, Specification spec, boolean dbgEnabled) {
         // Print variable debugging information before automatic ordering.
         if (dbgEnabled) {
             debugCifVars(synthAut);
