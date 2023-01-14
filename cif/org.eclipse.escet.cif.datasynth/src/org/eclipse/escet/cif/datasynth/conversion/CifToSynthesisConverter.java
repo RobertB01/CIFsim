@@ -796,6 +796,11 @@ public class CifToSynthesisConverter {
             return;
         }
 
+        // Initialize to model variable order without interleaving.
+        for (int i = 0; i < synthAut.variables.length; i++) {
+            synthAut.variables[i].group = i;
+        }
+
         // Get the variable order.
         List<SynthesisVariable> modelOrder = Arrays.asList(synthAut.variables);
         VarOrderHelper helper = new VarOrderHelper(spec, modelOrder);
