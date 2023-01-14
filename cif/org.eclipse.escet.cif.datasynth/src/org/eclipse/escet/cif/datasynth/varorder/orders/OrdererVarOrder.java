@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orders;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +49,10 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
         // Get variables of the initial variable order, without interleaving.
         List<SynthesisVariable> initialVariables = initialOrder.order(helper, dbgEnabled, dbgLevel).stream()
                 .map(p -> p.left).collect(Collectors.toList());
+
+        // Apply algorithm.
+        dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
+        dbg("  Number of graph edges: %,d", graphEdgeCount);
 
         // Apply variable ordering algorithm.
         List<SynthesisVariable> orderedVariables = orderer.order(helper, initialVariables, dbgEnabled, dbgLevel);

@@ -889,10 +889,6 @@ public class CifToSynthesisConverter {
             }
             return;
         }
-
-        // Apply algorithm.
-        dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
-        dbg("  Number of graph edges: %,d", graphEdgeCount);
     }
 
     /**
