@@ -36,6 +36,12 @@ public class CustomVarOrder extends NonInterleavedVarOrder {
 
     @Override
     public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
+        // Debug output.
+        if (dbgEnabled) {
+            helper.dbg(dbgLevel, "Applying a custom variable order.");
+        }
+
+        // Return the custom variable order.
         return order;
     }
 }
