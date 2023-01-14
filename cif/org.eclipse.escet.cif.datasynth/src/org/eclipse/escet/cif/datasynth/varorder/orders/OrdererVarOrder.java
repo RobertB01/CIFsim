@@ -83,8 +83,9 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
             }
         }
 
-        // Apply variable ordering algorithm.
-        List<SynthesisVariable> orderedVariables = orderer.order(helper, initialVariables, dbgEnabled, dbgLevel);
+        // Apply variable ordering algorithm(s).
+        List<SynthesisVariable> orderedVariables = skipAlgorithms ? initialVariables
+                : orderer.order(helper, initialVariables, dbgEnabled, dbgLevel);
 
         // Return non-interleaved variable order.
         return getNonInterleavedOrder(orderedVariables);
