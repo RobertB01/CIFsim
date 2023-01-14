@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orders;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-
 import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,23 +66,21 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
             helper.dbg();
         }
 
-        // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
-        // relations exist for improving the variable order. It also avoids division by zero issues.
+        // Only apply variable ordering algorithm(s) if all representations of the CIF specification as represented by
+        // the helper are non-empty. This ensures that variable relations exist for improving the variable order with
+        // variable ordering algorithms. It also avoids division by zero issues.
+        boolean skipAlgorithms = false;
         if (hyperEdgeCount == 0) {
+            skipAlgorithms = true;
             if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: no hyper-edges.");
-                dbg();
+                helper.dbg(dbgLevel, "Skipping variable ordering algorithm(s): no hyper-edges.");
             }
-            return;
         }
         if (graphEdgeCount == 0) {
+            skipAlgorithms = true;
             if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: no graph edges.");
-                dbg();
+                helper.dbg(dbgLevel, "Skipping variable ordering algorithm(s): no graph edges.");
             }
-            return;
         }
 
         // Apply variable ordering algorithm.
