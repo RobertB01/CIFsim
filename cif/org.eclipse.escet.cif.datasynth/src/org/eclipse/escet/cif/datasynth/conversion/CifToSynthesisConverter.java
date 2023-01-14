@@ -768,6 +768,20 @@ public class CifToSynthesisConverter {
             initialVarOrder = new CustomVarOrder(customVarOrder);
         }
 
+        // Collect and configure variable ordering algorithms to apply.
+        List<VarOrderer> orderers = list();
+        if (BddDcshVarOrderOption.isEnabled()) {
+            orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
+                    RelationsKind.CONFIGURED));
+        }
+        if (BddForceVarOrderOption.isEnabled()) {
+            orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
+        }
+        if (BddSlidingWindowVarOrderOption.isEnabled()) {
+            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
+            orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
+        }
+
         // Skip ordering, including debug output printing, if no variables are present.
         int varCnt = synthAut.variables.length;
         if (varCnt == 0) {
@@ -788,20 +802,6 @@ public class CifToSynthesisConverter {
         // Print variable debugging information before automatic ordering.
         if (dbgEnabled) {
             debugCifVars(synthAut);
-        }
-
-        // Get algorithms to apply.
-        List<VarOrderer> orderers = list();
-        if (BddDcshVarOrderOption.isEnabled()) {
-            orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
-                    RelationsKind.CONFIGURED));
-        }
-        if (BddForceVarOrderOption.isEnabled()) {
-            orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
-        }
-        if (BddSlidingWindowVarOrderOption.isEnabled()) {
-            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
         }
 
         // Only apply a variable ordering algorithm if at least one of them is enabled.
