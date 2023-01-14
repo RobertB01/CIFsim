@@ -54,14 +54,15 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
         List<SynthesisVariable> initialVariables = initialOrder.order(helper, dbgEnabled, dbgLevel).stream()
                 .map(p -> p.left).collect(Collectors.toList());
 
+        // Create new variable order helper, based on the initial variable order, rather than on model order.
+        helper = helper.copy(initialVariables);
+
         // Apply algorithm.
         dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
         dbg("  Number of graph edges: %,d", graphEdgeCount);
 
         // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
         // relations exist for improving the variable order. It also avoids division by zero issues.
-        List<SynthesisVariable> curOrder = Arrays.asList(synthAut.variables);
-        VarOrderHelper helper = new VarOrderHelper(spec, curOrder);
         List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
         Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
         long hyperEdgeCount = hyperEdges.size();

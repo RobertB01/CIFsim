@@ -52,6 +52,9 @@ import org.eclipse.escet.common.java.Strings;
  * </ul>
  */
 public class VarOrderHelper {
+    /** The CIF specification. Is only used to create new variable order helpers from this one. */
+    private final Specification spec;
+
     /** The synthesis variables, in their original order, before applying any algorithm on it. */
     private final List<SynthesisVariable> variables;
 
@@ -102,7 +105,8 @@ public class VarOrderHelper {
      * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
      */
     public VarOrderHelper(Specification spec, List<SynthesisVariable> variables) {
-        // Store the variables.
+        // Store the arguments.
+        this.spec = spec;
         this.variables = Collections.unmodifiableList(variables);
 
         // Compute and store different representations of the relations from the specification.
@@ -138,6 +142,17 @@ public class VarOrderHelper {
             this.metricLengthsWes.add(fmt("%,.6f", WesMetric.compute(indices, edges)).length() + 2);
             this.metricLengthsWesAvg.add(fmt("%,.6f", WesMetric.compute(indices, edges) / edges.size()).length() + 2);
         }
+    }
+
+    /**
+     * Copies this variable order helper. The various representations of the CIF specification that algorithms may
+     * operate upon are recreated using the variables in the given order.
+     *
+     * @param newVariables The order of the variables to use to create the new variable order helper.
+     * @return The new variable order helper.
+     */
+    public VarOrderHelper copy(List<SynthesisVariable> newVariables) {
+        return new VarOrderHelper(spec, newVariables);
     }
 
     /**
