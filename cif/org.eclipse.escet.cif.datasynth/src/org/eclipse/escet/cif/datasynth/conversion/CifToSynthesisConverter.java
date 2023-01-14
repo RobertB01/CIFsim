@@ -834,6 +834,20 @@ public class CifToSynthesisConverter {
         List<Pair<SynthesisVariable, Integer>> newOrder = varOrder.order(helper, dbgEnabled, 1);
         List<SynthesisVariable> varsInNewOrder = newOrder.stream().map(p -> p.left).collect(Collectors.toList());
 
+        // Check sanity of current and new variable orders.
+        Assert.areEqual(curOrder.size(), newOrder.size()); // Same length.
+        Assert.areEqual(list2set(varsInCurOrder), list2set(varsInNewOrder)); // Same variables.
+        Assert.areEqual(curOrder.get(0).right, 0); // First variable is in first group.
+        Assert.areEqual(newOrder.get(0).right, 0); // First variable is in first group.
+        for (int i = 1; i < curOrder.size(); i++) { // Variable groups are consecutively numbered.
+            int curOrderPrevGrp = curOrder.get(i - 1).right;
+            int curOrderCurGrp = curOrder.get(i).right;
+            int newOrderPrevGrp = newOrder.get(i - 1).right;
+            int newOrderCurGrp = newOrder.get(i).right;
+            Assert.check(curOrderPrevGrp == curOrderCurGrp || curOrderPrevGrp + 1 == curOrderCurGrp);
+            Assert.check(newOrderPrevGrp == newOrderCurGrp || newOrderPrevGrp + 1 == newOrderCurGrp);
+        }
+
         // Update the variable order.
         synthAut.variables = newOrder.stream().map(p -> p.left).toArray(n -> new SynthesisVariable[n]);
         for (Pair<SynthesisVariable, Integer> elem: newOrder) {
@@ -877,8 +891,6 @@ public class CifToSynthesisConverter {
         }
 
         if (orderChanged) {
-            Assert.areEqual(curOrder.size(), newOrder.size()); // Same length.
-            Assert.areEqual(list2set(curOrder), list2set(newOrder)); // Same variables.
             synthAut.variables = newOrder.toArray(n -> new SynthesisVariable[n]);
             for (int i = 0; i < synthAut.variables.length; i++) {
                 synthAut.variables[i].group = i;
