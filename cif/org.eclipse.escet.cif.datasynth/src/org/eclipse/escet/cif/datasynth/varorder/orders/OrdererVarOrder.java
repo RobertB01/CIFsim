@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.datasynth.varorder.orders;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,16 +56,20 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
         // Create new variable order helper, based on the initial variable order, rather than on model order.
         helper = helper.copy(initialVariables);
 
-        // Apply algorithm.
-        dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
-        dbg("  Number of graph edges: %,d", graphEdgeCount);
-
-        // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
-        // relations exist for improving the variable order. It also avoids division by zero issues.
+        // Print debug output about the representations of the CIF specification represented by the helper.
         List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
         Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
         long hyperEdgeCount = hyperEdges.size();
         long graphEdgeCount = graph.edgeCount();
+        if (dbgEnabled) {
+            helper.dbg();
+            helper.dbg(dbgLevel, "Number of hyper-edges: %,d", hyperEdgeCount);
+            helper.dbg(dbgLevel, "Number of graph edges: %,d", graphEdgeCount);
+            helper.dbg();
+        }
+
+        // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
+        // relations exist for improving the variable order. It also avoids division by zero issues.
         if (hyperEdgeCount == 0) {
             if (dbgEnabled) {
                 dbg();
