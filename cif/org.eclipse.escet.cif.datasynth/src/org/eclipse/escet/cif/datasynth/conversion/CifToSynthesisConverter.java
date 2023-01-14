@@ -659,7 +659,7 @@ public class CifToSynthesisConverter {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private void orderVars(SynthesisAutomaton synthAut, Specification spec, boolean dbgEnabled) {
-        // Skip ordering, including debug output printing, if any variables failed to convert.
+        // Skip ordering, including option processing and debug output printing, if any variables failed to convert.
         if (Arrays.asList(synthAut.variables).contains(null)) {
             return;
         }
