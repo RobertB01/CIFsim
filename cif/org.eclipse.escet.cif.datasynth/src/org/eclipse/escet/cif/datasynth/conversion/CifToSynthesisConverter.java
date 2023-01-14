@@ -62,6 +62,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
@@ -819,6 +820,11 @@ public class CifToSynthesisConverter {
         // Create variable order helper, based on model order.
         List<SynthesisVariable> modelOrder = Collections.unmodifiableList(Arrays.asList(synthAut.variables));
         VarOrderHelper helper = new VarOrderHelper(spec, modelOrder);
+
+        // Get current variable order.
+        List<SynthesisVariable> varsInCurOrder = modelOrder;
+        List<Pair<SynthesisVariable, Integer>> curOrder = IntStream.range(0, varsInCurOrder.size())
+                .mapToObj(i -> pair(varsInCurOrder.get(i), i)).collect(Collectors.toList());
 
         // Get the variable order.
         List<Pair<SynthesisVariable, Integer>> newOrder = varOrder.order(helper, false, 1);
