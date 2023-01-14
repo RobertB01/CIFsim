@@ -801,6 +801,11 @@ public class CifToSynthesisConverter {
             synthAut.variables[i].group = i;
         }
 
+        // Print variable debugging information, before ordering.
+        if (dbgEnabled) {
+            debugCifVars(synthAut);
+        }
+
         // Get the variable order.
         List<SynthesisVariable> modelOrder = Arrays.asList(synthAut.variables);
         VarOrderHelper helper = new VarOrderHelper(spec, modelOrder);
@@ -810,11 +815,6 @@ public class CifToSynthesisConverter {
         synthAut.variables = newOrder.stream().map(p -> p.left).toArray(n -> new SynthesisVariable[n]);
         for (Pair<SynthesisVariable, Integer> elem: newOrder) {
             elem.left.group = elem.right;
-        }
-
-        // Print variable debugging information before automatic ordering.
-        if (dbgEnabled) {
-            debugCifVars(synthAut);
         }
 
         // Only apply a variable ordering algorithm if at least one of them is enabled.
