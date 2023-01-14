@@ -854,6 +854,17 @@ public class CifToSynthesisConverter {
             elem.left.group = elem.right;
         }
 
+        // If the new order differs from the current order, print updated variable debugging information.
+        boolean orderChanged = !curOrder.equals(newOrder);
+        if (dbgEnabled) {
+            dbg();
+            dbg("Variable order %schanged.", orderChanged ? "" : "un");
+            if (orderChanged) {
+                debugCifVars(synthAut);
+            }
+            dbg();
+        }
+
         // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
         // relations exist for improving the variable order. It also avoids division by zero issues.
         List<SynthesisVariable> curOrder = Arrays.asList(synthAut.variables);
@@ -882,21 +893,6 @@ public class CifToSynthesisConverter {
         // Apply algorithm.
         dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
         dbg("  Number of graph edges: %,d", graphEdgeCount);
-
-        // If the new order differs from the current order, reorder.
-        boolean orderChanged = !curOrder.equals(newOrder);
-        if (dbgEnabled) {
-            dbg();
-            dbg("Variable order %schanged.", orderChanged ? "" : "un");
-        }
-
-        // Print variable debugging information after automatic ordering.
-        if (dbgEnabled) {
-            if (orderChanged) {
-                debugCifVars(synthAut);
-            }
-            dbg();
-        }
     }
 
     /**
