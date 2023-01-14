@@ -826,8 +826,13 @@ public class CifToSynthesisConverter {
         List<Pair<SynthesisVariable, Integer>> curOrder = IntStream.range(0, varsInCurOrder.size())
                 .mapToObj(i -> pair(varsInCurOrder.get(i), i)).collect(Collectors.toList());
 
-        // Get the variable order.
-        List<Pair<SynthesisVariable, Integer>> newOrder = varOrder.order(helper, false, 1);
+        // Get new variable order.
+        if (dbgEnabled) {
+            dbg();
+            dbg("Applying variable ordering:");
+        }
+        List<Pair<SynthesisVariable, Integer>> newOrder = varOrder.order(helper, dbgEnabled, 1);
+        List<SynthesisVariable> varsInNewOrder = newOrder.stream().map(p -> p.left).collect(Collectors.toList());
 
         // Update the variable order.
         synthAut.variables = newOrder.stream().map(p -> p.left).toArray(n -> new SynthesisVariable[n]);
@@ -861,14 +866,8 @@ public class CifToSynthesisConverter {
         }
 
         // Apply algorithm.
-        if (dbgEnabled) {
-            dbg();
-            dbg("Applying automatic variable ordering:");
-            dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
-            dbg("  Number of graph edges: %,d", graphEdgeCount);
-            dbg();
-        }
-        List<SynthesisVariable> newOrder = orderer.order(helper, curOrder, dbgEnabled, 1);
+        dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
+        dbg("  Number of graph edges: %,d", graphEdgeCount);
 
         // If the new order differs from the current order, reorder.
         boolean orderChanged = !curOrder.equals(newOrder);
