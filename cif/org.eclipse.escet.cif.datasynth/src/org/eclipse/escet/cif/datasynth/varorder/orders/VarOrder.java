@@ -24,7 +24,7 @@ public interface VarOrder {
     /**
      * Produce a variable order.
      *
-     * @param helper Helper for variable ordering.
+     * @param helper Helper for variable ordering, with variables in model order.
      * @param dbgEnabled Whether debug output is enabled.
      * @param dbgLevel The debug indentation level.
      * @return The variable order. Each variable is accompanied with its 0-based group index number. Variables are in
