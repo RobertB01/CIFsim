@@ -111,6 +111,7 @@ import org.eclipse.escet.cif.datasynth.varorder.orderers.SlidingWindowVarOrderer
 import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orders.CustomVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.ModelVarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.orders.OrdererVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.RandomVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.ReverseVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.SortedVarOrder;
@@ -782,6 +783,13 @@ public class CifToSynthesisConverter {
             orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
         }
 
+        // Configure final variable order.
+        VarOrder varOrder = initialVarOrder;
+        if (!orderers.isEmpty()) {
+            varOrder = new OrdererVarOrder(initialVarOrder,
+                    (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
+        }
+
         // Skip ordering, including debug output printing, if no variables are present.
         int varCnt = synthAut.variables.length;
         if (varCnt == 0) {
@@ -857,7 +865,6 @@ public class CifToSynthesisConverter {
             dbg("  Number of graph edges: %,d", graphEdgeCount);
             dbg();
         }
-        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
         List<SynthesisVariable> newOrder = orderer.order(helper, curOrder, dbgEnabled, 1);
 
         // If the new order differs from the current order, reorder.
