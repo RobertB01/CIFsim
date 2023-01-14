@@ -14,7 +14,9 @@ CIF variables and location pointers:
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
   Total                                      6      32        54          84          ~64%
 
-Applying automatic variable ordering:
+Applying variable ordering:
+  Applying model variable order.
+
   Number of hyper-edges: 10
   Number of graph edges: 5
 
