@@ -806,6 +806,16 @@ public class CifToSynthesisConverter {
             debugCifVars(synthAut);
         }
 
+        // Only apply variable ordering if there are at least two variables (to order).
+        if (synthAut.variables.length < 2) {
+            if (dbgEnabled) {
+                dbg();
+                dbg("Skipping variable ordering: only one variable present.");
+                dbg();
+            }
+            return;
+        }
+
         // Get the variable order.
         List<SynthesisVariable> modelOrder = Arrays.asList(synthAut.variables);
         VarOrderHelper helper = new VarOrderHelper(spec, modelOrder);
@@ -815,16 +825,6 @@ public class CifToSynthesisConverter {
         synthAut.variables = newOrder.stream().map(p -> p.left).toArray(n -> new SynthesisVariable[n]);
         for (Pair<SynthesisVariable, Integer> elem: newOrder) {
             elem.left.group = elem.right;
-        }
-
-        // Only apply a variable ordering algorithm if there are at least two variables (to order).
-        if (synthAut.variables.length < 2) {
-            if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: only one variable present.");
-                dbg();
-            }
-            return;
         }
 
         // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
