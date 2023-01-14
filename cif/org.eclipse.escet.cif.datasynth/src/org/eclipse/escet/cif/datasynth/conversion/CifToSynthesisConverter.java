@@ -51,7 +51,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -99,7 +98,6 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.GeorgeLiuPseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
@@ -863,31 +861,6 @@ public class CifToSynthesisConverter {
                 debugCifVars(synthAut);
             }
             dbg();
-        }
-
-        // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
-        // relations exist for improving the variable order. It also avoids division by zero issues.
-        List<SynthesisVariable> curOrder = Arrays.asList(synthAut.variables);
-        VarOrderHelper helper = new VarOrderHelper(spec, curOrder);
-        List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
-        Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
-        long hyperEdgeCount = hyperEdges.size();
-        long graphEdgeCount = graph.edgeCount();
-        if (hyperEdgeCount == 0) {
-            if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: no hyper-edges.");
-                dbg();
-            }
-            return;
-        }
-        if (graphEdgeCount == 0) {
-            if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: no graph edges.");
-                dbg();
-            }
-            return;
         }
     }
 

@@ -15,10 +15,14 @@ package org.eclipse.escet.cif.datasynth.varorder.orders;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 
+import java.util.Arrays;
+import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
 import org.eclipse.escet.common.java.Pair;
@@ -53,6 +57,31 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
         // Apply algorithm.
         dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
         dbg("  Number of graph edges: %,d", graphEdgeCount);
+
+        // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
+        // relations exist for improving the variable order. It also avoids division by zero issues.
+        List<SynthesisVariable> curOrder = Arrays.asList(synthAut.variables);
+        VarOrderHelper helper = new VarOrderHelper(spec, curOrder);
+        List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
+        Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
+        long hyperEdgeCount = hyperEdges.size();
+        long graphEdgeCount = graph.edgeCount();
+        if (hyperEdgeCount == 0) {
+            if (dbgEnabled) {
+                dbg();
+                dbg("Skipping automatic variable ordering: no hyper-edges.");
+                dbg();
+            }
+            return;
+        }
+        if (graphEdgeCount == 0) {
+            if (dbgEnabled) {
+                dbg();
+                dbg("Skipping automatic variable ordering: no graph edges.");
+                dbg();
+            }
+            return;
+        }
 
         // Apply variable ordering algorithm.
         List<SynthesisVariable> orderedVariables = orderer.order(helper, initialVariables, dbgEnabled, dbgLevel);
