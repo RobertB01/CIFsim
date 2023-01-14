@@ -816,9 +816,11 @@ public class CifToSynthesisConverter {
             return;
         }
 
-        // Get the variable order.
-        List<SynthesisVariable> modelOrder = Arrays.asList(synthAut.variables);
+        // Create variable order helper, based on model order.
+        List<SynthesisVariable> modelOrder = Collections.unmodifiableList(Arrays.asList(synthAut.variables));
         VarOrderHelper helper = new VarOrderHelper(spec, modelOrder);
+
+        // Get the variable order.
         List<Pair<SynthesisVariable, Integer>> newOrder = varOrder.order(helper, false, 1);
 
         // Update the variable order.
