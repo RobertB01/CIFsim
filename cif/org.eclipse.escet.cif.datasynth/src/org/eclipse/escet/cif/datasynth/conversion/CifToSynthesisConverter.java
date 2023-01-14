@@ -817,16 +817,6 @@ public class CifToSynthesisConverter {
             elem.left.group = elem.right;
         }
 
-        // Only apply a variable ordering algorithm if at least one of them is enabled.
-        if (orderers.isEmpty()) {
-            if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: no algorithms selected.");
-                dbg();
-            }
-            return;
-        }
-
         // Only apply a variable ordering algorithm if there are at least two variables (to order).
         if (synthAut.variables.length < 2) {
             if (dbgEnabled) {
