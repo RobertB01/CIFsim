@@ -848,8 +848,8 @@ public class CifToSynthesisConverter {
             Assert.check(newOrderPrevGrp == newOrderCurGrp || newOrderPrevGrp + 1 == newOrderCurGrp);
         }
 
-        // Update the variable order.
-        synthAut.variables = newOrder.stream().map(p -> p.left).toArray(n -> new SynthesisVariable[n]);
+        // Update the variable order of the synthesis automaton.
+        synthAut.variables = varsInNewOrder.toArray(n -> new SynthesisVariable[n]);
         for (Pair<SynthesisVariable, Integer> elem: newOrder) {
             elem.left.group = elem.right;
         }
@@ -888,13 +888,6 @@ public class CifToSynthesisConverter {
         if (dbgEnabled) {
             dbg();
             dbg("Variable order %schanged.", orderChanged ? "" : "un");
-        }
-
-        if (orderChanged) {
-            synthAut.variables = newOrder.toArray(n -> new SynthesisVariable[n]);
-            for (int i = 0; i < synthAut.variables.length; i++) {
-                synthAut.variables[i].group = i;
-            }
         }
 
         // Print variable debugging information after automatic ordering.
