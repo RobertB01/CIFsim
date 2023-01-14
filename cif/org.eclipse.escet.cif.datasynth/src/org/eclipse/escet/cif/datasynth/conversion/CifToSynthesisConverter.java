@@ -664,21 +664,19 @@ public class CifToSynthesisConverter {
             return;
         }
 
-        // Get order from option.
+        // Configure initial variable order.
         String orderTxt = BddVariableOrderOption.getOrder();
-
-        // Order the variables.
-        VarOrder varOrder;
+        VarOrder initialVarOrder;
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
-            varOrder = new ModelVarOrder();
+            initialVarOrder = new ModelVarOrder();
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
-            varOrder = new ReverseVarOrder(new ModelVarOrder());
+            initialVarOrder = new ReverseVarOrder(new ModelVarOrder());
         } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
-            varOrder = new SortedVarOrder();
+            initialVarOrder = new SortedVarOrder();
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
-            varOrder = new ReverseVarOrder(new SortedVarOrder());
+            initialVarOrder = new ReverseVarOrder(new SortedVarOrder());
         } else if (orderTxt.toLowerCase(Locale.US).equals("random")) {
-            varOrder = new RandomVarOrder(null);
+            initialVarOrder = new RandomVarOrder(null);
         } else if (orderTxt.toLowerCase(Locale.US).startsWith("random:")) {
             int idx = orderTxt.indexOf(":");
             String seedTxt = orderTxt.substring(idx + 1);
@@ -689,7 +687,7 @@ public class CifToSynthesisConverter {
                 String msg = fmt("Invalid BDD variable random order seed number: \"%s\".", orderTxt);
                 throw new InvalidOptionException(msg, ex);
             }
-            varOrder = new RandomVarOrder(seed);
+            initialVarOrder = new RandomVarOrder(seed);
         } else {
             // Parse option value to custom order.
             List<Pair<SynthesisVariable, Integer>> customVarOrder = list();
@@ -767,7 +765,7 @@ public class CifToSynthesisConverter {
             }
 
             // Construct custom variable order.
-            varOrder = new CustomVarOrder(customVarOrder);
+            initialVarOrder = new CustomVarOrder(customVarOrder);
         }
 
         // Skip ordering, including debug output printing, if no variables are present.
