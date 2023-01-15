@@ -112,10 +112,14 @@ public class CifDataSynthesis {
             if (aut.env.isTerminationRequested()) {
                 return;
             }
+
             aut.ctrlBeh = aut.factory.one();
+            aut.initialCtrl = aut.initialPlantInv.id();
+
             if (dbgEnabled) {
                 dbg();
                 dbg("Initialized controlled-behavior predicate: %s.", bddToStr(aut.ctrlBeh, aut));
+                dbg("Initialized controlled-initialization predicate: %s.", bddToStr(aut.initialCtrl, aut));
             }
 
             // Apply requirements.
@@ -883,6 +887,28 @@ public class CifDataSynthesis {
                     return updPred;
                 });
                 applyReqsPerEdge(aut, reqsPerEdge, true, dbgEnabled, "state");
+
+                // Restrict the initialization predicate of the controlled system, allowing only states that satisfy
+                // the state requirement invariants.
+                BDD newInitialCtrl = aut.initialCtrl.and(aut.reqInv);
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+
+                if (aut.initialCtrl.equals(newInitialCtrl)) {
+                    newInitialCtrl.free();
+                } else {
+                    if (aut.env.isTerminationRequested()) {
+                        return;
+                    }
+                    if (dbgEnabled) {
+                        dbg("Controlled initialization: %s -> %s [state requirements: %s].",
+                                bddToStr(aut.initialCtrl, aut), bddToStr(newInitialCtrl, aut),
+                                bddToStr(aut.reqInv, aut));
+                    }
+                    aut.initialCtrl.free();
+                    aut.initialCtrl = newInitialCtrl;
+                }
 
                 // Cleanup.
                 for (BDD bdd: aut.reqInvsComps) {
@@ -1707,8 +1733,8 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Checks the synthesis result, to see whether an initial state is still present. Also determines the initialization
-     * predicate of the controlled system ({@link SynthesisAutomaton#initialCtrl}).
+     * Checks the synthesis result, to see whether an initial state is still present. Also updates the initialization
+     * predicate of the controlled system ({@link SynthesisAutomaton#initialCtrl}) with the controlled behavior.
      *
      * @param aut The synthesis result.
      * @param doForward Whether to do forward reachability during synthesis.
@@ -1717,8 +1743,8 @@ public class CifDataSynthesis {
      *     ({@code false}).
      */
     private static boolean checkInitStatePresent(SynthesisAutomaton aut, boolean doForward, boolean dbgEnabled) {
-        // Get initialization predicate for controlled system.
-        aut.initialCtrl = aut.initialPlantInv.and(aut.ctrlBeh);
+        // Update initialization predicate for controlled system with the controlled behavior.
+        aut.initialCtrl = aut.initialCtrl.andWith(aut.ctrlBeh.id());
         if (aut.env.isTerminationRequested()) {
             return true;
         }
