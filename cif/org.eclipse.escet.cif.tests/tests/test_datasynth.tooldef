@@ -48,6 +48,8 @@ map(string:list string) test_options = {
     "datasynth/edge_order_both_reverse_model.cif":        ["--edge-order-backward=reverse-model  --edge-order-forward=reverse-model"],
     "datasynth/edge_order_both_reverse_sorted.cif":       ["--edge-order-backward=reverse-sorted --edge-order-forward=reverse-sorted"],
     "datasynth/edge_order_both_sorted.cif":               ["--edge-order-backward=sorted         --edge-order-forward=sorted"],
+    "datasynth/edge_order_forward_random_off.cif":        ["--edge-order-forward=random:88 --forward-reach=off"],
+    "datasynth/edge_order_forward_random_on.cif":         ["--edge-order-forward=random:88 --forward-reach=on"],
     "datasynth/edge_order_old_option_unsupported.cif":    ["-e random"],
     "datasynth/edge_order_single_backward_random.cif":    ["--edge-order-backward=random:88"],
     "datasynth/edge_order_single_forward_random.cif":     ["--edge-order-forward=random:88"],
