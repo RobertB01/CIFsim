@@ -1106,78 +1106,81 @@ public class CifDataSynthesis {
 
             // Process each requirement.
             for (BDD req: reqsIterable) {
-            // Skip trivially true requirements.
-            if (req.isOne()) {
-                continue;
-            }
+                // Skip trivially true requirements.
+                if (req.isOne()) {
+                    continue;
+                }
 
-            // Enforce the additional condition.
-            if (edge.event.getControllable()) {
-                // For controllable events, we can simply restrict the guard.
-                BDD newGuard = edge.guard.and(req);
+                // Enforce the additional condition.
+                if (edge.event.getControllable()) {
+                    // For controllable events, we can simply restrict the guard.
+                    BDD newGuard = edge.guard.and(req);
 
-                if (edge.guard.equals(newGuard)) {
-                    newGuard.free();
+                    if (edge.guard.equals(newGuard)) {
+                        newGuard.free();
+                    } else {
+                        if (aut.env.isTerminationRequested()) {
+                            return;
+                        }
+                        if (dbgEnabled) {
+                            if (firstDbg) {
+                                firstDbg = false;
+                                dbg();
+                            }
+                            dbg("Edge %s: guard: %s -> %s [%s requirement: %s].", edge.toString(0, ""),
+                                    bddToStr(edge.guard, aut), bddToStr(newGuard, aut), dbgDescription,
+                                    bddToStr(req, aut));
+                        }
+                        edge.guard.free();
+                        edge.guard = newGuard;
+                        changed = true;
+                        guardChanged = true;
+                    }
                 } else {
+                    // For uncontrollable events, update the controlled-behavior predicate. If the guard of the edge
+                    // holds
+                    // (event enabled in the plant), and the requirement condition doesn't hold (event disabled by the
+                    // requirement), the edge may not be taken.
+                    //
+                    // reqBad = guard && !req
+                    // reqGood = !(guard && !req) = !guard || req = guard => req
+                    //
+                    // Only good states in controlled behavior. So restrict controlled behavior with 'reqGood'.
+                    BDD reqGood = edge.guard.imp(req);
                     if (aut.env.isTerminationRequested()) {
                         return;
                     }
-                    if (dbgEnabled) {
-                        if (firstDbg) {
-                            firstDbg = false;
-                            dbg();
-                        }
-                        dbg("Edge %s: guard: %s -> %s [%s requirement: %s].", edge.toString(0, ""),
-                                bddToStr(edge.guard, aut), bddToStr(newGuard, aut), dbgDescription, bddToStr(req, aut));
-                    }
-                    edge.guard.free();
-                    edge.guard = newGuard;
-                    changed = true;
-                    guardChanged = true;
-                }
-            } else {
-                // For uncontrollable events, update the controlled-behavior predicate. If the guard of the edge holds
-                // (event enabled in the plant), and the requirement condition doesn't hold (event disabled by the
-                // requirement), the edge may not be taken.
-                //
-                // reqBad = guard && !req
-                // reqGood = !(guard && !req) = !guard || req = guard => req
-                //
-                // Only good states in controlled behavior. So restrict controlled behavior with 'reqGood'.
-                BDD reqGood = edge.guard.imp(req);
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
 
-                BDD newCtrlBeh = aut.ctrlBeh.id().andWith(reqGood);
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
-
-                if (aut.ctrlBeh.equals(newCtrlBeh)) {
-                    newCtrlBeh.free();
-                } else {
+                    BDD newCtrlBeh = aut.ctrlBeh.id().andWith(reqGood);
                     if (aut.env.isTerminationRequested()) {
                         return;
                     }
-                    if (dbgEnabled) {
-                        if (firstDbg) {
-                            firstDbg = false;
-                            dbg();
-                        }
-                        dbg("Controlled behavior: %s -> %s [%s requirement: %s, edge: %s].", bddToStr(aut.ctrlBeh, aut),
-                                bddToStr(newCtrlBeh, aut), dbgDescription, bddToStr(req, aut), edge.toString(0, ""));
-                    }
-                    aut.ctrlBeh.free();
-                    aut.ctrlBeh = newCtrlBeh;
-                    changed = true;
-                }
-            }
 
-            // Free requirement predicate, if requested.
-            if (freeReqs) {
-                req.free();
-            }
+                    if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                        newCtrlBeh.free();
+                    } else {
+                        if (aut.env.isTerminationRequested()) {
+                            return;
+                        }
+                        if (dbgEnabled) {
+                            if (firstDbg) {
+                                firstDbg = false;
+                                dbg();
+                            }
+                            dbg("Controlled behavior: %s -> %s [%s requirement: %s, edge: %s].",
+                                    bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut), dbgDescription,
+                                    bddToStr(req, aut), edge.toString(0, ""));
+                        }
+                        aut.ctrlBeh.free();
+                        aut.ctrlBeh = newCtrlBeh;
+                        changed = true;
+                    }
+                }
+
+                // Free requirement predicate, if requested.
+                if (freeReqs) {
+                    req.free();
+                }
             }
         }
 
