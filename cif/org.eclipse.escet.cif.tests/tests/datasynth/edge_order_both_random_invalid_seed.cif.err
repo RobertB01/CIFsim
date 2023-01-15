@@ -1,2 +1,2 @@
-ERROR: Invalid edge random order seed number: "random:x".
+ERROR: Invalid random backward edge order seed number: "random:x".
 CAUSE: (NumberFormatException) For input string: "x"

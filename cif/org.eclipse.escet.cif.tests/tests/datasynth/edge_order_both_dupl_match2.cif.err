@@ -1,1 +1,1 @@
-ERROR: Invalid edge order: event "p.event" is included more than once. If the duplicate event is intentional, enable allowing duplicate events in the custom event order using the "Edge order duplicate events" option.
+ERROR: Invalid custom backward edge order: event "p.event" is included more than once. If the duplicate event is intentional, enable allowing duplicate events in the custom event order using the "Edge order duplicate events" option.

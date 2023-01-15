@@ -1,1 +1,1 @@
-ERROR: Invalid edge order: the following event(s) are missing from the specified order: "p.c", "p.event", "x", "y".
+ERROR: Invalid custom backward edge order: the following event(s) are missing from the specified order: "p.c", "p.event", "x", "y".
