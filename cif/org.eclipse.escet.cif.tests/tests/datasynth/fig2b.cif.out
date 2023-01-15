@@ -84,8 +84,8 @@ Extended controlled-behavior predicate using variable ranges: p.x != 4.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: e1) (guard: p.L0 and (0 <= p.x and p.x <= 7)) (assignments: p.x := p.x + 2, p := p.L1): guard: p.L0 and (0 <= p.x and p.x <= 7) -> (p.L1 or p.x != 8) and (p.L1 or p.x != 9) and ((p.L1 or p.x != 7) and p.L0) [requirement: p.x != 8 and (p.x != 9 and p.x != 7)].
-Controlled behavior: p.x != 4 -> (p.L1 or p.x != 4) and (p.L0 or p.x != 8) and ((p.L0 or not(p.x = 4 or p.x = 6)) and (p.L0 or p.x != 7)) [requirement: 0 <= p.x and (p.x <= 7 and not(p.x = 6 or p.x = 7)), edge: (event: e2) (guard: p.L1 and (p.L0 or p.x != 9)) (assignments: p.x := p.x + 1, p := p.L0)].
+Edge (event: e1) (guard: p.L0 and (0 <= p.x and p.x <= 7)) (assignments: p.x := p.x + 2, p := p.L1): guard: p.L0 and (0 <= p.x and p.x <= 7) -> (p.L1 or p.x != 8) and (p.L1 or p.x != 9) and ((p.L1 or p.x != 7) and p.L0) [state/event exclusion requirement: p.x != 8 and (p.x != 9 and p.x != 7)].
+Controlled behavior: p.x != 4 -> (p.L1 or p.x != 4) and (p.L0 or p.x != 8) and ((p.L0 or not(p.x = 4 or p.x = 6)) and (p.L0 or p.x != 7)) [state/event exclusion requirement: 0 <= p.x and (p.x <= 7 and not(p.x = 6 or p.x = 7)), edge: (event: e2) (guard: p.L1 and (p.L0 or p.x != 9)) (assignments: p.x := p.x + 1, p := p.L0)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: (p.L1 or p.x != 4) and (p.L0 or p.x != 8) and ((p.L0 or not(p.x = 4 or p.x = 6)) and (p.L0 or p.x != 7)))

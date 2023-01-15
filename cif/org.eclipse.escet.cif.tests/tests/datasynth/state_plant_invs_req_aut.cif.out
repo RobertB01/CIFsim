@@ -76,7 +76,7 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: A.c) (guard: not A.l1 -> A.l2): guard: A.l2 -> false [requirement: A.l1].
+Edge (event: A.c) (guard: not A.l1 -> A.l2): guard: A.l2 -> false [state/event exclusion requirement: A.l1].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)

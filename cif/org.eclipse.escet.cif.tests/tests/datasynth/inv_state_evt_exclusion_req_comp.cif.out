@@ -72,9 +72,9 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
-Edge (event: g) (guard: true): guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11) [requirement: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
-Edge (event: h) (guard: true): guard: true -> a.x = 12 or a.x = 13 [requirement: a.x = 12 or a.x = 13].
+Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
+Edge (event: g) (guard: true): guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11) [state/event exclusion requirement: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
+Edge (event: h) (guard: true): guard: true -> a.x = 12 or a.x = 13 [state/event exclusion requirement: a.x = 12 or a.x = 13].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)

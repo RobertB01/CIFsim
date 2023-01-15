@@ -90,8 +90,8 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: e) (guard: cnt.c = 1) (assignments: rcv1.x := 1): guard: cnt.c = 1 -> cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) [requirement: rcv1.x = 0 or (rcv1.x = 2 and rcv2.x = 1 or (rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)].
-Edge (event: e) (guard: cnt.c = 2) (assignments: rcv2.x := 2): guard: cnt.c = 2 -> cnt.c = 2 and rcv1.x = 0 or (cnt.c = 2 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 2 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) [requirement: rcv1.x = 0 or (rcv1.x = 2 and rcv2.x = 1 or (rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)].
+Edge (event: e) (guard: cnt.c = 1) (assignments: rcv1.x := 1): guard: cnt.c = 1 -> cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) [state/event exclusion requirement: rcv1.x = 0 or (rcv1.x = 2 and rcv2.x = 1 or (rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)].
+Edge (event: e) (guard: cnt.c = 2) (assignments: rcv2.x := 2): guard: cnt.c = 2 -> cnt.c = 2 and rcv1.x = 0 or (cnt.c = 2 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 2 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) [state/event exclusion requirement: rcv1.x = 0 or (rcv1.x = 2 and rcv2.x = 1 or (rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)

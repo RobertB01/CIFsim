@@ -62,7 +62,7 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3)): guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3 [requirement: p.x = 4 or p.x = 3].
+Edge (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3)): guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3 [state/event exclusion requirement: p.x = 4 or p.x = 3].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)

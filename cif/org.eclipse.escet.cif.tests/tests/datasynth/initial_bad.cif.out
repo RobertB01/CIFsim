@@ -67,8 +67,8 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Controlled behavior: true -> <bdd 13n 27p> [requirement: p.x != 3, edge: (event: u1) (guard: p.l0) (assignments: p := p.l1)].
-Controlled behavior: <bdd 13n 27p> -> <bdd 17n 27p> [requirement: p.x != 6, edge: (event: u2) (guard: p.l1) (assignments: p := p.l2)].
+Controlled behavior: true -> <bdd 13n 27p> [state/event exclusion requirement: p.x != 3, edge: (event: u1) (guard: p.l0) (assignments: p := p.l1)].
+Controlled behavior: <bdd 13n 27p> -> <bdd 17n 27p> [state/event exclusion requirement: p.x != 6, edge: (event: u2) (guard: p.l1) (assignments: p := p.l2)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: <bdd 17n 27p>)

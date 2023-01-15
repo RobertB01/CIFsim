@@ -97,7 +97,7 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: add) (guard: true) (assignments: p.c := p.c + x): guard: true -> q.l1 [requirement: q.l1].
+Edge (event: add) (guard: true) (assignments: p.c := p.c + x): guard: true -> q.l1 [state/event exclusion requirement: q.l1].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: r1.inactive or r3.inactive)
