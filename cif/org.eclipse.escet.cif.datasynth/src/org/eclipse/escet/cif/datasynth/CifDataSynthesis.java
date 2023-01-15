@@ -854,8 +854,7 @@ public class CifDataSynthesis {
 
                         // The guard of the edge is restricted such that transitioning to a state that violates the
                         // requirement invariants is not possible. The update to the predicate is obtained by applying
-                        // the
-                        // edge's update backward to the state requirement invariant.
+                        // the edge's update backward to the state requirement invariant.
                         BDD updPred = reqInv.id();
                         edge.preApply(false, null);
                         updPred = edge.apply(updPred, // pred
@@ -875,9 +874,8 @@ public class CifDataSynthesis {
 
                         // Simplify. That is, because the edge guard is restricted, 'reqInv' will always be 'true'. This
                         // ensures that for an edge with update 'y := y + 1' and state requirement invariant 'x != 3'
-                        // that
-                        // the edge won't get an extra guard 'x != 3'. Simplifying is best effort, it may be possible to
-                        // simplify the guard further.
+                        // that the edge won't get an extra guard 'x != 3'. Simplifying is best effort, it may be
+                        // possible to simplify the guard further.
                         BDD updPredSimplified = updPred.simplify(reqInv);
                         if (updPred.equals(updPredSimplified)) {
                             updPredSimplified.free();
@@ -920,9 +918,8 @@ public class CifDataSynthesis {
                             }
                         } else {
                             // For uncontrollable events, update the controlled-behavior predicate. If the guard of the
-                            // edge
-                            // holds (event enabled in the plant), and the requirement condition doesn't hold (event
-                            // disabled by the requirements), the edge may not be taken.
+                            // edge holds (event enabled in the plant), and the requirement condition doesn't hold
+                            // (event disabled by the requirements), the edge may not be taken.
                             //
                             // reqBad = guard && !reqInv
                             // reqGood = !(guard && !reqInv) = !guard || reqInv = guard => reqInv
