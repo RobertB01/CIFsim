@@ -61,6 +61,7 @@ Edge (event: u2) (guard: A.l2) (assignments: A := A.l4): guard: A.l2 -> false.
 Edge (event: u3) (guard: A.l2) (assignments: A := A.l5): guard: A.l2 -> false.
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: A.l1.
 
 Restricting behavior using state requirements.
 

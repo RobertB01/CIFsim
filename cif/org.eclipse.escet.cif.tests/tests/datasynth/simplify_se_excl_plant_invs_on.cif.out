@@ -67,6 +67,7 @@ Uncontrolled system:
     Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5)
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: true.
 
 Restricting behavior using state requirements.
 

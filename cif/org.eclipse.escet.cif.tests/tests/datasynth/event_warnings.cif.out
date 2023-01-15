@@ -176,6 +176,7 @@ Edge (event: p.c10) (guard: p.l1 and p.z = 1) (assignments: p.z := p.z + 1): gua
 Edge (event: q.u4) (guard: p.w = 5): guard: p.w = 5 -> false.
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: p.w = 0 and (p.x = 0 and p.l1) and (p.y = 0 and p.z = 1 and (a.l1 and b.l1)).
 
 Restricting behavior using state requirements.
 Controlled behavior: true -> p.y != 5 [state requirements: p.y != 5].

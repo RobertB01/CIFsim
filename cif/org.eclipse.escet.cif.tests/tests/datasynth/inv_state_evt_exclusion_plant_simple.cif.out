@@ -56,6 +56,7 @@ Uncontrolled system:
     Edge: (event: u) (guard: a.l1 -> false) (assignments: a := a.l2)
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: a.l1.
 
 Restricting behavior using state requirements.
 

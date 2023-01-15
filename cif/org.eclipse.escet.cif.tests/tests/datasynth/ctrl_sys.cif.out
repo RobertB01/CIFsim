@@ -73,6 +73,7 @@ Uncontrolled system:
 Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: g.p.l0.
 
 Restricting behavior using state requirements.
 Controlled behavior: true -> g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)) [state requirements: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))].

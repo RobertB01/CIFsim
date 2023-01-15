@@ -67,6 +67,7 @@ Uncontrolled system:
 Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: pe.a and (q1.x = 0 and q1.y = 1).
 
 Restricting behavior using state requirements.
 

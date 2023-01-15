@@ -52,6 +52,7 @@ Restricting behavior using state/event exclusion plants.
 Restricting uncontrolled behavior using state plant invariants.
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: p.x = 1.
 
 Restricting behavior using state requirements.
 

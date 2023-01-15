@@ -65,6 +65,7 @@ Edge (event: u2) (guard: true) (assignments: A.Vu2 := A.Vu2 + 1): guard: true ->
 Edge (event: u3) (guard: true) (assignments: A.Vu3 := A.Vu3 + 1): guard: true -> A.Vu3 != 3.
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0).
 
 Restricting behavior using state requirements.
 

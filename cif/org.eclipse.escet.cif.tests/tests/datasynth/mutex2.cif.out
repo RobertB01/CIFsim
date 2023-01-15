@@ -74,6 +74,7 @@ Uncontrolled system:
 Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: machine1.Idle and machine2.Idle.
 
 Restricting behavior using state requirements.
 Controlled behavior: true -> not machine1.Producing or not machine2.Producing [state requirements: not machine1.Producing or not machine2.Producing].
