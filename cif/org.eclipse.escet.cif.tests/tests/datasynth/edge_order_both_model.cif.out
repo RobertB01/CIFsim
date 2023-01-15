@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/edge_order_model.cif".
+Reading CIF file "datasynth/edge_order_both_model.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -100,4 +100,4 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/edge_order_model.ctrlsys.real.cif".
+Writing output CIF file "datasynth/edge_order_both_model.ctrlsys.real.cif".

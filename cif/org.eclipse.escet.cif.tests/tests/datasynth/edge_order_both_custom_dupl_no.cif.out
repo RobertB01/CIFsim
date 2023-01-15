@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/edge_order_custom_dupl_no.cif".
+Reading CIF file "datasynth/edge_order_both_custom_dupl_no.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -181,4 +181,4 @@ BDD cache statistics:
   Operation cache hits:         498
   Operation cache misses:       849
 Maximum used BDD nodes: 108.
-Writing output CIF file "datasynth/edge_order_custom_dupl_no.ctrlsys.real.cif".
+Writing output CIF file "datasynth/edge_order_both_custom_dupl_no.ctrlsys.real.cif".
