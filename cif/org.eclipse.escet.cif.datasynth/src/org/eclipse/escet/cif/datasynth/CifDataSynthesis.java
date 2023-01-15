@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
@@ -1067,7 +1068,11 @@ public class CifDataSynthesis {
         }
 
         // Apply state/event exclusion requirement invariants, per edge.
-        applyReqsPerEdge(aut, edge -> aut.stateEvtExclReqs.get(edge.event), true, dbgEnabled, "state/event exclusion");
+        Function<SynthesisEdge, Stream<BDD>> reqsPerEdge = edge -> {
+            BDD req = aut.stateEvtExclReqs.get(edge.event);
+            return (req == null) ? Stream.empty() : Stream.of(req);
+        };
+        applyReqsPerEdge(aut, reqsPerEdge, false, dbgEnabled, "state/event exclusion");
 
         // Free no longer needed predicates.
         for (BDD bdd: aut.stateEvtExclReqs.values()) {
@@ -1080,35 +1085,27 @@ public class CifDataSynthesis {
      * Apply requirements, per edge.
      *
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
-     * @param reqPerEdge Function that gives per edge the requirement to apply. May be {@code null}, but only if
-     *     {@code allowNullReqs} is {@code true}. The requirement predicates obtained via this function are not freed by
-     *     this method.
-     * @param allowNullReqs Allow {@code null} requirements to be skipped ({@code true}), or disallow requirements to be
-     *     {@code null} ({@code false}).
+     * @param reqsPerEdge Function that gives per edge a stream of requirements to apply.
+     * @param freeReqs Whether to free the requirements after they are applied ({@code true}) or not ({@code false}).
      * @param dbgEnabled Whether debug output is enabled.
      * @param dbgDescription Description of the kind of requirements that are applied.
      */
-    private static void applyReqsPerEdge(SynthesisAutomaton aut, Function<SynthesisEdge, BDD> reqPerEdge,
-            boolean allowNullReqs, boolean dbgEnabled, String dbgDescription)
+    private static void applyReqsPerEdge(SynthesisAutomaton aut, Function<SynthesisEdge, Stream<BDD>> reqsPerEdge,
+            boolean freeReqs, boolean dbgEnabled, String dbgDescription)
     {
         boolean firstDbg = true;
         boolean changed = false;
         boolean guardChanged = false;
         for (SynthesisEdge edge: aut.edges) {
-            // Get additional condition for the edge.
+            // Get requirements for the edge.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            BDD req = reqPerEdge.apply(edge);
+            Stream<BDD> reqsStream = reqsPerEdge.apply(edge);
+            Iterable<BDD> reqsIterable = () -> reqsStream.iterator();
 
-            // Skip non-existing requirements, if allowed.
-            if (req == null) {
-                if (allowNullReqs) {
-                    continue;
-                }
-                throw new AssertionError("Non-existing requirement.");
-            }
-
+            // Process each requirement.
+            for (BDD req: reqsIterable) {
             // Skip trivially true requirements.
             if (req.isOne()) {
                 continue;
@@ -1175,6 +1172,12 @@ public class CifDataSynthesis {
                     aut.ctrlBeh = newCtrlBeh;
                     changed = true;
                 }
+            }
+
+            // Free requirement predicate, if requested.
+            if (freeReqs) {
+                req.free();
+            }
             }
         }
 
