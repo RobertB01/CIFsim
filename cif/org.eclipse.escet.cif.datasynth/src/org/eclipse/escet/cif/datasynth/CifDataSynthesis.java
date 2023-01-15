@@ -808,25 +808,30 @@ public class CifDataSynthesis {
             dbg("Restricting behavior using state requirements.");
         }
 
-        // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the controlled
-        // system if the state requirement invariants hold.
-        BDD newCtrlBeh = aut.ctrlBeh.id().andWith(aut.reqInv.id());
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
-
-        if (aut.ctrlBeh.equals(newCtrlBeh)) {
-            newCtrlBeh.free();
-        } else {
+        boolean transform = false; // TODO: replace this variable with an option.
+        if (!transform) {
+            // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
+            // controlled system if the state requirement invariants hold.
+            BDD newCtrlBeh = aut.ctrlBeh.id().andWith(aut.reqInv.id());
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            if (dbgEnabled) {
-                dbg("Controlled behavior: %s -> %s [state requirements: %s].", bddToStr(aut.ctrlBeh, aut),
-                        bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
+
+            if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                newCtrlBeh.free();
+            } else {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                if (dbgEnabled) {
+                    dbg("Controlled behavior: %s -> %s [state requirements: %s].", bddToStr(aut.ctrlBeh, aut),
+                            bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
+                }
+                aut.ctrlBeh.free();
+                aut.ctrlBeh = newCtrlBeh;
             }
-            aut.ctrlBeh.free();
-            aut.ctrlBeh = newCtrlBeh;
+        } else {
+            // TODO: implement this.
         }
     }
 
