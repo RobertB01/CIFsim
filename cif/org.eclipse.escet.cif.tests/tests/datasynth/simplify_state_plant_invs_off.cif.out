@@ -73,7 +73,9 @@ Restricting uncontrolled behavior using state plant invariants.
 
 Edge (event: e) (guard: p.loc1) (assignments: p := p.loc2): guard: p.loc1 -> p.loc1 and (p.x = 4 or p.x = 5).
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 

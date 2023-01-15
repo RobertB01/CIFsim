@@ -88,7 +88,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: p.y != 2.
+Initialized controlled-behavior predicate: true.
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> p.y != 2 [state requirements: p.y != 2].
 
 Extending controlled-behavior predicate using variable ranges.
 

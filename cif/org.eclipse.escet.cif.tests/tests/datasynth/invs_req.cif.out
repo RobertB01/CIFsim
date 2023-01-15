@@ -53,7 +53,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: p.l1 and p.x = 3 or p.l2 and p.x = 0.
+Initialized controlled-behavior predicate: true.
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [state requirements: p.l1 and p.x = 3 or p.l2 and p.x = 0].
 
 Extending controlled-behavior predicate using variable ranges.
 

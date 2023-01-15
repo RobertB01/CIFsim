@@ -95,7 +95,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: buffer3.count != 3 or (buffer2.count != 3 or buffer1.count != 3).
+Initialized controlled-behavior predicate: true.
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> buffer3.count != 3 or (buffer2.count != 3 or buffer1.count != 3) [state requirements: buffer3.count != 3 or (buffer2.count != 3 or buffer1.count != 3)].
 
 Extending controlled-behavior predicate using variable ranges.
 

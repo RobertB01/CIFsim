@@ -65,7 +65,9 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -177,7 +179,7 @@ BDD cache statistics:
   Node creation chain accesses: 0
   Node creation cache hits:     373
   Node creation cache misses:   222
-  Operation count:              2832
+  Operation count:              2833
   Operation cache hits:         498
   Operation cache misses:       849
 Maximum used BDD nodes: 108.

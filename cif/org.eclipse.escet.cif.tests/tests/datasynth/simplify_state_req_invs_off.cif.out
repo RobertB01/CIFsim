@@ -69,7 +69,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)).
+Initialized controlled-behavior predicate: true.
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [state requirements: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))].
 
 Extending controlled-behavior predicate using variable ranges.
 

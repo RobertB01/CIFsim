@@ -74,7 +74,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: 0 <= count_max3.cnt and count_max3.cnt <= 3.
+Initialized controlled-behavior predicate: true.
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> 0 <= count_max3.cnt and count_max3.cnt <= 3 [state requirements: 0 <= count_max3.cnt and count_max3.cnt <= 3].
 
 Extending controlled-behavior predicate using variable ranges.
 

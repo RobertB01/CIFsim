@@ -88,7 +88,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: machine1.producing = 0 or machine2.producing = 0.
+Initialized controlled-behavior predicate: true.
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> machine1.producing = 0 or machine2.producing = 0 [state requirements: machine1.producing = 0 or machine2.producing = 0].
 
 Extending controlled-behavior predicate using variable ranges.
 
