@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
@@ -1065,17 +1066,51 @@ public class CifDataSynthesis {
             dbg("Restricting behavior using state/event exclusion requirements.");
         }
 
+        // Apply state/event exclusion requirement invariants, per edge.
+        applyReqsPerEdge(aut, edge -> aut.stateEvtExclReqs.get(edge.event), true, dbgEnabled, "state/event exclusion");
+
+        // Free no longer needed predicates.
+        for (BDD bdd: aut.stateEvtExclReqs.values()) {
+            bdd.free();
+        }
+        aut.stateEvtExclReqs = null;
+    }
+
+    /**
+     * Apply requirements, per edge.
+     *
+     * @param aut The automaton on which to perform synthesis. Is modified in-place.
+     * @param reqPerEdge Function that gives per edge the requirement to apply. May be {@code null}, but only if
+     *     {@code allowNullReqs} is {@code true}. The requirement predicates obtained via this function are not freed by
+     *     this method.
+     * @param allowNullReqs Allow {@code null} requirements to be skipped ({@code true}), or disallow requirements to be
+     *     {@code null} ({@code false}).
+     * @param dbgEnabled Whether debug output is enabled.
+     * @param dbgDescription Description of the kind of requirements that are applied.
+     */
+    private static void applyReqsPerEdge(SynthesisAutomaton aut, Function<SynthesisEdge, BDD> reqPerEdge,
+            boolean allowNullReqs, boolean dbgEnabled, String dbgDescription)
+    {
         boolean firstDbg = true;
         boolean changed = false;
         boolean guardChanged = false;
         for (SynthesisEdge edge: aut.edges) {
-            // Get additional condition for the edge. Skip for internal events that are not in the original
-            // specification and for trivially true conditions.
+            // Get additional condition for the edge.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            BDD req = aut.stateEvtExclReqs.get(edge.event);
-            if (req == null || req.isOne()) {
+            BDD req = reqPerEdge.apply(edge);
+
+            // Skip non-existing requirements, if allowed.
+            if (req == null) {
+                if (allowNullReqs) {
+                    continue;
+                }
+                throw new AssertionError("Non-existing requirement.");
+            }
+
+            // Skip trivially true requirements.
+            if (req.isOne()) {
                 continue;
             }
 
@@ -1095,8 +1130,8 @@ public class CifDataSynthesis {
                             firstDbg = false;
                             dbg();
                         }
-                        dbg("Edge %s: guard: %s -> %s [state/event exclusion requirement: %s].", edge.toString(0, ""),
-                                bddToStr(edge.guard, aut), bddToStr(newGuard, aut), bddToStr(req, aut));
+                        dbg("Edge %s: guard: %s -> %s [%s requirement: %s].", edge.toString(0, ""),
+                                bddToStr(edge.guard, aut), bddToStr(newGuard, aut), dbgDescription, bddToStr(req, aut));
                     }
                     edge.guard.free();
                     edge.guard = newGuard;
@@ -1106,7 +1141,7 @@ public class CifDataSynthesis {
             } else {
                 // For uncontrollable events, update the controlled-behavior predicate. If the guard of the edge holds
                 // (event enabled in the plant), and the requirement condition doesn't hold (event disabled by the
-                // requirements), the edge may not be taken.
+                // requirement), the edge may not be taken.
                 //
                 // reqBad = guard && !req
                 // reqGood = !(guard && !req) = !guard || req = guard => req
@@ -1133,9 +1168,8 @@ public class CifDataSynthesis {
                             firstDbg = false;
                             dbg();
                         }
-                        dbg("Controlled behavior: %s -> %s [state/event exclusion requirement: %s, edge: %s].",
-                                bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut), bddToStr(req, aut),
-                                edge.toString(0, ""));
+                        dbg("Controlled behavior: %s -> %s [%s requirement: %s, edge: %s].", bddToStr(aut.ctrlBeh, aut),
+                                bddToStr(newCtrlBeh, aut), dbgDescription, bddToStr(req, aut), edge.toString(0, ""));
                     }
                     aut.ctrlBeh.free();
                     aut.ctrlBeh = newCtrlBeh;
@@ -1149,15 +1183,9 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled && changed) {
             dbg();
-            dbg("Restricted behavior using state/event exclusion requirements:");
+            dbg("Restricted behavior using %s requirements:", dbgDescription);
             dbg(aut.toString(1, guardChanged));
         }
-
-        // Free no longer needed predicates.
-        for (BDD bdd: aut.stateEvtExclReqs.values()) {
-            bdd.free();
-        }
-        aut.stateEvtExclReqs = null;
     }
 
     /**
