@@ -65,3 +65,4 @@ It depends on the specification being synthesized whether enabling forward reach
 It also depends on the specification whether there is any benefit to using forward reachability for the guards of the supervisor.
 Forward reachability is disabled by default.
 It can be enabled using the _Forward reachability_ option (see the <<tools-datasynth-options,options section>>).
+The order in which the edges of the specification are considered also influences the performance (see the <<tools.datasynth-edge-order,edge order section>>).

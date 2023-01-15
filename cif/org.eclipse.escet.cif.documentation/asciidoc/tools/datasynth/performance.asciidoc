@@ -93,7 +93,13 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Enable to reduce state space, although calculation itself may also be expensive, depends on model
 
 | Order
-| Edge order
+| Edge order for backward reachability
+| <<tools-datasynth-edge-order>>
+| Better order for less computations and smaller BDD representations
+| Choose the best order, depends on the model, custom order allows for best performance
+
+| Order
+| Edge order for forward reachability
 | <<tools-datasynth-edge-order>>
 | Better order for less computations and smaller BDD representations
 | Choose the best order, depends on the model, custom order allows for best performance

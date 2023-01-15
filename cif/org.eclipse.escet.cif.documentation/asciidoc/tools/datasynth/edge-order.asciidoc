@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,edge order]
 [[tools-datasynth-edge-order]]
 == Edge order
 
-Data-based supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
+Data-based supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (<<tools-datasynth-forward-reach,forward reachability>>), or which states can reach which other states (backward reachability).
 This involves repeatedly following edges to find those states, using a fixed point computation.
 
 During reachability computations the edges are considered one by one to find more reachable states.
@@ -39,10 +39,10 @@ Synthesis does not directly use the edges from the model.
 It applies <<tools-cif2cif-chapter-linearize-product,linearization>> and then uses the edges from the linearized model.
 Edges are internally also added to <<tools-datasynth-input-vars,support input variables>> during synthesis.
 
-The order in which the edges are considered for reachability computations is determined by the _Edge order_ option (see the <<tools-datasynth-options,options section>>).
+The order in which the edges are considered for reachability computations is determined by the _Edge order for backward reachability_ and _Edge order for forward reachability_ options (see the <<tools-datasynth-options,options section>>).
 Several predefined orders exist, and it is also possible to define a custom order.
-By default, the _model ordering_ is used.
-The following predefined orders exist:
+By default, the _model ordering_ is used for both backward and forward reachability computations.
+The following orders can be used:
 
 * _model ordering_ (option value `model`)
 +
@@ -99,4 +99,4 @@ It can however be useful to include events multiple times in the order, for inst
 To allow events to be included multiple times in the custom order, use the _Edge order duplicate events_ option (see the <<tools-datasynth-options,options section>>).
 
 Determining the best edge order is difficult as it can be tricky to predict which edges will lead to finding new states and quickly reaching the fixed point result.
-When in doubt, use the default value of the option.
+When in doubt, keep the default values of the options.
