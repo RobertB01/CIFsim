@@ -1138,9 +1138,8 @@ public class CifDataSynthesis {
                     }
                 } else {
                     // For uncontrollable events, update the controlled-behavior predicate. If the guard of the edge
-                    // holds
-                    // (event enabled in the plant), and the requirement condition doesn't hold (event disabled by the
-                    // requirement), the edge may not be taken.
+                    // holds (event enabled in the plant), and the requirement condition doesn't hold (event disabled
+                    // by the requirement), the edge may not be taken.
                     //
                     // reqBad = guard && !req
                     // reqGood = !(guard && !req) = !guard || req = guard => req
