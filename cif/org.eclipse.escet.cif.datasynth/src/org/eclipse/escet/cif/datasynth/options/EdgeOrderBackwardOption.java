@@ -16,16 +16,16 @@ package org.eclipse.escet.cif.datasynth.options;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
-/** Edge order option. */
+/** Edge order for backward reachability option. */
 public class EdgeOrderBackwardOption extends StringOption {
     /** Constructor for the {@link EdgeOrderBackwardOption} class. */
     public EdgeOrderBackwardOption() {
         super(
                 // name
-                "Edge order",
+                "Edge order for backward reachability",
 
                 // description
-                "The edge ordering. Specify " +
+                "The edge ordering to use for backward reachability computations. Specify " +
 
                         "\"model\" (default) for linearized model ordering, with edges for input variables sorted as "
                         + "in the variable ordering, " +
@@ -46,10 +46,10 @@ public class EdgeOrderBackwardOption extends StringOption {
                         + "characters. Separate names with \",\".",
 
                 // cmdShort
-                'e',
+                null,
 
                 // cmdLong
-                "edge-order",
+                "edge-order-backward",
 
                 // cmdValue
                 "EDGEORDER",
@@ -64,7 +64,7 @@ public class EdgeOrderBackwardOption extends StringOption {
                 true,
 
                 // optDialogDescr
-                "The edge ordering. Specify " +
+                "The edge ordering to use for backward reachability computations. Specify " +
 
                         "\"model\" for linearized model ordering, with edges for input variables sorted as in the "
                         + "variable ordering, " +
