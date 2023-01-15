@@ -585,11 +585,13 @@ public class CifDataSynthesis {
         aut.plantInvComps.free();
         aut.plantInvLocs.free();
 
-        for (BDD bdd: aut.reqInvsComps) {
-            bdd.free();
-        }
-        for (BDD bdd: aut.reqInvsLocs) {
-            bdd.free();
+        if (StateReqApplyOption.getMode() == StateReqApplyMode.CTRL_BEH) {
+            for (BDD bdd: aut.reqInvsComps) {
+                bdd.free();
+            }
+            for (BDD bdd: aut.reqInvsLocs) {
+                bdd.free();
+            }
         }
         aut.reqInvComps.free();
         aut.reqInvLocs.free();
@@ -638,9 +640,11 @@ public class CifDataSynthesis {
         aut.plantInvsLocs = null;
         aut.plantInvLocs = null;
 
-        aut.reqInvsComps = null;
+        if (StateReqApplyOption.getMode() == StateReqApplyMode.CTRL_BEH) {
+            aut.reqInvsComps = null;
+            aut.reqInvsLocs = null;
+        }
         aut.reqInvComps = null;
-        aut.reqInvsLocs = null;
         aut.reqInvLocs = null;
 
         aut.initialsVars = null;
@@ -879,6 +883,17 @@ public class CifDataSynthesis {
                     return updPred;
                 });
                 applyReqsPerEdge(aut, reqsPerEdge, true, dbgEnabled, "state");
+
+                // Cleanup.
+                for (BDD bdd: aut.reqInvsComps) {
+                    bdd.free();
+                }
+                for (BDD bdd: aut.reqInvsLocs) {
+                    bdd.free();
+                }
+                aut.reqInvsComps = null;
+                aut.reqInvsLocs = null;
+
                 break;
             }
             default:
