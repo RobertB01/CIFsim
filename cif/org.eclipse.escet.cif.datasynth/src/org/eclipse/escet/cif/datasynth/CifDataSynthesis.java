@@ -34,6 +34,8 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
+import org.eclipse.escet.cif.datasynth.options.StateReqApplyOption;
+import org.eclipse.escet.cif.datasynth.options.StateReqApplyOption.StateReqApplyMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -809,8 +811,9 @@ public class CifDataSynthesis {
             dbg("Restricting behavior using state requirements.");
         }
 
-        boolean transform = false; // TODO: replace this variable with an option.
-        if (!transform) {
+        StateReqApplyMode applyMode = StateReqApplyOption.getMode();
+        switch (applyMode) {
+            case CTRL_BEH: {
             // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
             // controlled system if the state requirement invariants hold.
             BDD newCtrlBeh = aut.ctrlBeh.id().andWith(aut.reqInv.id());
@@ -831,7 +834,9 @@ public class CifDataSynthesis {
                 aut.ctrlBeh.free();
                 aut.ctrlBeh = newCtrlBeh;
             }
-        } else {
+            break;
+            }
+            case EDGE_GUARD_OR_CTRL_BEH: {
             // Apply state requirement invariants in similar way as state/event exclusion requirement invariants.
             boolean firstDbg = true;
             boolean changed = false;
@@ -961,6 +966,10 @@ public class CifDataSynthesis {
                 dbg("Restricted behavior using state requirements:");
                 dbg(aut.toString(1, guardChanged));
             }
+            break;
+            }
+            default:
+                throw new RuntimeException("Unknown mode: " + applyMode);
         }
     }
 
