@@ -957,7 +957,7 @@ public class CifDataSynthesis {
                             firstDbg = false;
                             dbg();
                         }
-                        dbg("Edge %s: guard: %s -> %s [requirement: %s].", edge.toString(0, ""),
+                        dbg("Edge %s: guard: %s -> %s [state/event exclusion requirement: %s].", edge.toString(0, ""),
                                 bddToStr(edge.guard, aut), bddToStr(newGuard, aut), bddToStr(req, aut));
                     }
                     edge.guard.free();
@@ -995,8 +995,9 @@ public class CifDataSynthesis {
                             firstDbg = false;
                             dbg();
                         }
-                        dbg("Controlled behavior: %s -> %s [requirement: %s, edge: %s].", bddToStr(aut.ctrlBeh, aut),
-                                bddToStr(newCtrlBeh, aut), bddToStr(req, aut), edge.toString(0, ""));
+                        dbg("Controlled behavior: %s -> %s [state/event exclusion requirement: %s, edge: %s].",
+                                bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut), bddToStr(req, aut),
+                                edge.toString(0, ""));
                     }
                     aut.ctrlBeh.free();
                     aut.ctrlBeh = newCtrlBeh;
