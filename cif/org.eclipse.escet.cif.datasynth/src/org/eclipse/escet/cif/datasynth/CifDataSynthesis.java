@@ -103,6 +103,16 @@ public class CifDataSynthesis {
                 applyStatePlantInvs(aut, dbgEnabled);
             }
 
+            // Initialize controlled behavior.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            aut.ctrlBeh = aut.factory.one();
+            if (dbgEnabled) {
+                dbg();
+                dbg("Initialized controlled-behavior predicate: %s.", bddToStr(aut.ctrlBeh, aut));
+            }
+
             // Apply requirements.
             if (aut.env.isTerminationRequested()) {
                 return;
@@ -783,24 +793,40 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Initializes the controlled-behavior predicate, to the invariants, as preprocessing step for synthesis. The idea
-     * is that a state is only in the controlled system if the state requirement invariant holds.
+     * Applies the state requirement invariants, as preprocessing step for synthesis.
      *
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void applyStateReqInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
-        aut.ctrlBeh = aut.reqInv.id();
-
+        // Apply the state requirement invariants.
         if (aut.env.isTerminationRequested()) {
             return;
         }
         if (dbgEnabled) {
             dbg();
-            dbg("Initialized controlled-behavior predicate using invariants: %s.", bddToStr(aut.ctrlBeh, aut));
+            dbg("Restricting behavior using state requirements.");
+        }
+
+        // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the controlled
+        // system if the state requirement invariants hold.
+        BDD newCtrlBeh = aut.ctrlBeh.id().andWith(aut.reqInv.id());
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+
+        if (aut.ctrlBeh.equals(newCtrlBeh)) {
+            newCtrlBeh.free();
+        } else {
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            if (dbgEnabled) {
+                dbg("Controlled behavior: %s -> %s [state requirements: %s].", bddToStr(aut.ctrlBeh, aut),
+                        bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
+            }
+            aut.ctrlBeh.free();
+            aut.ctrlBeh = newCtrlBeh;
         }
     }
 
