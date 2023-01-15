@@ -814,159 +814,162 @@ public class CifDataSynthesis {
         StateReqApplyMode applyMode = StateReqApplyOption.getMode();
         switch (applyMode) {
             case CTRL_BEH: {
-            // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
-            // controlled system if the state requirement invariants hold.
-            BDD newCtrlBeh = aut.ctrlBeh.id().andWith(aut.reqInv.id());
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            if (aut.ctrlBeh.equals(newCtrlBeh)) {
-                newCtrlBeh.free();
-            } else {
+                // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
+                // controlled system if the state requirement invariants hold.
+                BDD newCtrlBeh = aut.ctrlBeh.id().andWith(aut.reqInv.id());
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
-                if (dbgEnabled) {
-                    dbg("Controlled behavior: %s -> %s [state requirements: %s].", bddToStr(aut.ctrlBeh, aut),
-                            bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
+
+                if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                    newCtrlBeh.free();
+                } else {
+                    if (aut.env.isTerminationRequested()) {
+                        return;
+                    }
+                    if (dbgEnabled) {
+                        dbg("Controlled behavior: %s -> %s [state requirements: %s].", bddToStr(aut.ctrlBeh, aut),
+                                bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
+                    }
+                    aut.ctrlBeh.free();
+                    aut.ctrlBeh = newCtrlBeh;
                 }
-                aut.ctrlBeh.free();
-                aut.ctrlBeh = newCtrlBeh;
-            }
-            break;
+                break;
             }
             case EDGE_GUARD_OR_CTRL_BEH: {
-            // Apply state requirement invariants in similar way as state/event exclusion requirement invariants.
-            boolean firstDbg = true;
-            boolean changed = false;
-            boolean guardChanged = false;
-            for (SynthesisEdge edge: aut.edges) {
-                for (BDD reqInv: concat(aut.reqInvsComps, aut.reqInvsLocs)) {
-                    if (aut.env.isTerminationRequested()) {
-                        return;
-                    }
-
-                    // Skip trivial requirements.
-                    if (reqInv.isOne()) {
-                        continue;
-                    }
-
-                    // The guard of the edge is restricted such that transitioning to a state that violates the
-                    // requirement invariants is not possible. The update to the predicate is obtained by applying the
-                    // edge's update backward to the state requirement invariant.
-                    BDD updPred = reqInv.id();
-                    edge.preApply(false, null);
-                    updPred = edge.apply(updPred, // pred
-                            false, // bad
-                            false, // forward
-                            null, // restriction
-                            false); // don't apply error. The supervisor should restrict that.
-                    edge.postApply(false);
-
-                    if (updPred.isOne()) {
-                        continue;
-                    }
-
-                    if (aut.env.isTerminationRequested()) {
-                        return;
-                    }
-
-                    // Simplify. That is, because the edge guard is restricted, 'reqInv' will always be 'true'. This
-                    // ensures that for an edge with update 'y := y + 1' and state requirement invariant 'x != 3' that
-                    // the edge won't get an extra guard 'x != 3'. Simplifying is best effort, it may be possible to
-                    // simplify the guard further.
-                    BDD updPredSimplified = updPred.simplify(reqInv);
-                    if (updPred.equals(updPredSimplified)) {
-                        updPredSimplified.free();
-                    } else {
-                        updPred.free();
-                        updPred = updPredSimplified;
-                    }
-
-                    if (updPred.isOne()) {
-                        continue;
-                    }
-
-                    if (aut.env.isTerminationRequested()) {
-                        return;
-                    }
-
-                    // Enforce the additional condition.
-                    if (edge.event.getControllable()) {
-                        // For controllable events, we can simply restrict the guard.
-                        BDD newGuard = edge.guard.id().andWith(updPred);
-
-                        if (edge.guard.equals(newGuard)) {
-                            newGuard.free();
-                        } else {
-                            if (aut.env.isTerminationRequested()) {
-                                return;
-                            }
-                            if (dbgEnabled) {
-                                if (firstDbg) {
-                                    firstDbg = false;
-                                    dbg();
-                                }
-                                dbg("Edge %s: guard: %s -> %s [state requirement: %s].", edge.toString(0, ""),
-                                        bddToStr(edge.guard, aut), bddToStr(newGuard, aut), bddToStr(reqInv, aut));
-                            }
-                            edge.guard.free();
-                            edge.guard = newGuard;
-                            changed = true;
-                            guardChanged = true;
-                        }
-                    } else {
-                        // For uncontrollable events, update the controlled-behavior predicate. If the guard of the edge
-                        // holds (event enabled in the plant), and the requirement condition doesn't hold (event
-                        // disabled by the requirements), the edge may not be taken.
-                        //
-                        // reqBad = guard && !reqInv
-                        // reqGood = !(guard && !reqInv) = !guard || reqInv = guard => reqInv
-                        //
-                        // Only good states in controlled behavior. So restrict controlled behavior with 'reqGood'.
-                        BDD reqGood = edge.guard.id().impWith(updPred);
+                // Apply state requirement invariants in similar way as state/event exclusion requirement invariants.
+                boolean firstDbg = true;
+                boolean changed = false;
+                boolean guardChanged = false;
+                for (SynthesisEdge edge: aut.edges) {
+                    for (BDD reqInv: concat(aut.reqInvsComps, aut.reqInvsLocs)) {
                         if (aut.env.isTerminationRequested()) {
                             return;
                         }
 
-                        BDD newCtrlBeh = aut.ctrlBeh.id().andWith(reqGood);
+                        // Skip trivial requirements.
+                        if (reqInv.isOne()) {
+                            continue;
+                        }
+
+                        // The guard of the edge is restricted such that transitioning to a state that violates the
+                        // requirement invariants is not possible. The update to the predicate is obtained by applying
+                        // the
+                        // edge's update backward to the state requirement invariant.
+                        BDD updPred = reqInv.id();
+                        edge.preApply(false, null);
+                        updPred = edge.apply(updPred, // pred
+                                false, // bad
+                                false, // forward
+                                null, // restriction
+                                false); // don't apply error. The supervisor should restrict that.
+                        edge.postApply(false);
+
+                        if (updPred.isOne()) {
+                            continue;
+                        }
+
                         if (aut.env.isTerminationRequested()) {
                             return;
                         }
 
-                        if (aut.ctrlBeh.equals(newCtrlBeh)) {
-                            newCtrlBeh.free();
+                        // Simplify. That is, because the edge guard is restricted, 'reqInv' will always be 'true'. This
+                        // ensures that for an edge with update 'y := y + 1' and state requirement invariant 'x != 3'
+                        // that
+                        // the edge won't get an extra guard 'x != 3'. Simplifying is best effort, it may be possible to
+                        // simplify the guard further.
+                        BDD updPredSimplified = updPred.simplify(reqInv);
+                        if (updPred.equals(updPredSimplified)) {
+                            updPredSimplified.free();
                         } else {
+                            updPred.free();
+                            updPred = updPredSimplified;
+                        }
+
+                        if (updPred.isOne()) {
+                            continue;
+                        }
+
+                        if (aut.env.isTerminationRequested()) {
+                            return;
+                        }
+
+                        // Enforce the additional condition.
+                        if (edge.event.getControllable()) {
+                            // For controllable events, we can simply restrict the guard.
+                            BDD newGuard = edge.guard.id().andWith(updPred);
+
+                            if (edge.guard.equals(newGuard)) {
+                                newGuard.free();
+                            } else {
+                                if (aut.env.isTerminationRequested()) {
+                                    return;
+                                }
+                                if (dbgEnabled) {
+                                    if (firstDbg) {
+                                        firstDbg = false;
+                                        dbg();
+                                    }
+                                    dbg("Edge %s: guard: %s -> %s [state requirement: %s].", edge.toString(0, ""),
+                                            bddToStr(edge.guard, aut), bddToStr(newGuard, aut), bddToStr(reqInv, aut));
+                                }
+                                edge.guard.free();
+                                edge.guard = newGuard;
+                                changed = true;
+                                guardChanged = true;
+                            }
+                        } else {
+                            // For uncontrollable events, update the controlled-behavior predicate. If the guard of the
+                            // edge
+                            // holds (event enabled in the plant), and the requirement condition doesn't hold (event
+                            // disabled by the requirements), the edge may not be taken.
+                            //
+                            // reqBad = guard && !reqInv
+                            // reqGood = !(guard && !reqInv) = !guard || reqInv = guard => reqInv
+                            //
+                            // Only good states in controlled behavior. So restrict controlled behavior with 'reqGood'.
+                            BDD reqGood = edge.guard.id().impWith(updPred);
                             if (aut.env.isTerminationRequested()) {
                                 return;
                             }
-                            if (dbgEnabled) {
-                                if (firstDbg) {
-                                    firstDbg = false;
-                                    dbg();
-                                }
-                                dbg("Controlled behavior: %s -> %s [state requirement: %s, edge: %s].",
-                                        bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut), bddToStr(reqInv, aut),
-                                        edge.toString(0, ""));
+
+                            BDD newCtrlBeh = aut.ctrlBeh.id().andWith(reqGood);
+                            if (aut.env.isTerminationRequested()) {
+                                return;
                             }
-                            aut.ctrlBeh.free();
-                            aut.ctrlBeh = newCtrlBeh;
-                            changed = true;
+
+                            if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                                newCtrlBeh.free();
+                            } else {
+                                if (aut.env.isTerminationRequested()) {
+                                    return;
+                                }
+                                if (dbgEnabled) {
+                                    if (firstDbg) {
+                                        firstDbg = false;
+                                        dbg();
+                                    }
+                                    dbg("Controlled behavior: %s -> %s [state requirement: %s, edge: %s].",
+                                            bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut),
+                                            bddToStr(reqInv, aut), edge.toString(0, ""));
+                                }
+                                aut.ctrlBeh.free();
+                                aut.ctrlBeh = newCtrlBeh;
+                                changed = true;
+                            }
                         }
                     }
                 }
-            }
 
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-            if (dbgEnabled && changed) {
-                dbg();
-                dbg("Restricted behavior using state requirements:");
-                dbg(aut.toString(1, guardChanged));
-            }
-            break;
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                if (dbgEnabled && changed) {
+                    dbg();
+                    dbg("Restricted behavior using state requirements:");
+                    dbg(aut.toString(1, guardChanged));
+                }
+                break;
             }
             default:
                 throw new RuntimeException("Unknown mode: " + applyMode);
