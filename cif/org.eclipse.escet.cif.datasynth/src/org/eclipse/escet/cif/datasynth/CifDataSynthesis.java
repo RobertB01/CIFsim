@@ -826,7 +826,7 @@ public class CifDataSynthesis {
             case CTRL_BEH: {
                 // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
                 // controlled system if the state requirement invariants hold.
-                BDD newCtrlBeh = aut.ctrlBeh.id().andWith(aut.reqInv.id());
+                BDD newCtrlBeh = aut.ctrlBeh.and(aut.reqInv);
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
