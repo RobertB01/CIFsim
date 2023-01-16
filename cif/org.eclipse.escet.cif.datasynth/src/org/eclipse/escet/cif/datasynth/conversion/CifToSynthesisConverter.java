@@ -840,9 +840,10 @@ public class CifToSynthesisConverter {
         for (int i = 1; i < curOrder.size(); i++) { // Variable groups are consecutively numbered.
             int curOrderPrevGrp = curOrder.get(i - 1).right;
             int curOrderCurGrp = curOrder.get(i).right;
+            Assert.check(curOrderPrevGrp == curOrderCurGrp || curOrderPrevGrp + 1 == curOrderCurGrp);
+
             int newOrderPrevGrp = newOrder.get(i - 1).right;
             int newOrderCurGrp = newOrder.get(i).right;
-            Assert.check(curOrderPrevGrp == curOrderCurGrp || curOrderPrevGrp + 1 == curOrderCurGrp);
             Assert.check(newOrderPrevGrp == newOrderCurGrp || newOrderPrevGrp + 1 == newOrderCurGrp);
         }
 
@@ -853,8 +854,8 @@ public class CifToSynthesisConverter {
         }
 
         // If the new order differs from the current order, print updated variable debugging information.
-        boolean orderChanged = !curOrder.equals(newOrder);
         if (dbgEnabled) {
+            boolean orderChanged = !curOrder.equals(newOrder);
             dbg();
             dbg("Variable order %schanged.", orderChanged ? "" : "un");
             if (orderChanged) {

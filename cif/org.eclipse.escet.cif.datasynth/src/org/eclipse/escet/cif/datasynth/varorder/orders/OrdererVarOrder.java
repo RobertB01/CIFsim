@@ -52,7 +52,7 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
                 .map(p -> p.left).collect(Collectors.toList());
 
         // Create new variable order helper, based on the initial variable order, rather than on model order.
-        helper = helper.copy(initialVariables);
+        helper = new VarOrderHelper(helper, initialVariables);
 
         // Print debug output about the representations of the CIF specification represented by the helper.
         List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);

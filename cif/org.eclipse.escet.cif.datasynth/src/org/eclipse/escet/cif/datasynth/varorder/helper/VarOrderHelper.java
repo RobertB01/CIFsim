@@ -145,14 +145,13 @@ public class VarOrderHelper {
     }
 
     /**
-     * Copies this variable order helper. The various representations of the CIF specification that algorithms may
-     * operate upon are recreated using the variables in the given order.
+     * Constructor for the {@link VarOrderHelper} class.
      *
-     * @param newVariables The order of the variables to use to create the new variable order helper.
-     * @return The new variable order helper.
+     * @param helper The existing variable order helper from which to inherit the CIF specification.
+     * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
      */
-    public VarOrderHelper copy(List<SynthesisVariable> newVariables) {
-        return new VarOrderHelper(spec, newVariables);
+    public VarOrderHelper(VarOrderHelper helper, List<SynthesisVariable> variables) {
+        this(helper.spec, variables);
     }
 
     /**
