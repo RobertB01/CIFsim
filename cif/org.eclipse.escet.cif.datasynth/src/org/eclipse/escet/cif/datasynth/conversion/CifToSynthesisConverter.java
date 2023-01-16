@@ -2520,11 +2520,12 @@ public class CifToSynthesisConverter {
      *
      * @param edges The edges in linearized model order.
      * @param orderTxt The order as textual value from the option, for the given direction.
-     * @param forward Order for forward reachability ({@code true}) or backward reachability ({@code false}).
+     * @param forForwardReachability Order for forward reachability ({@code true}) or backward reachability
+     *     ({@code false}).
      * @return The ordered edges.
      */
     private static List<SynthesisEdge> orderEdgesForDirection(List<SynthesisEdge> edges, String orderTxt,
-            boolean forward)
+            boolean forForwardReachability)
     {
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
             // No reordering. Keep linearized model order.
@@ -2554,7 +2555,7 @@ public class CifToSynthesisConverter {
                     seed = Long.parseUnsignedLong(seedTxt);
                 } catch (NumberFormatException ex) {
                     String msg = fmt("Invalid random %s edge order seed number: \"%s\".",
-                            forward ? "forward" : "backward", orderTxt);
+                            forForwardReachability ? "forward" : "backward", orderTxt);
                     throw new InvalidOptionException(msg, ex);
                 }
             }
@@ -2599,7 +2600,7 @@ public class CifToSynthesisConverter {
                     String msg = fmt(
                             "Invalid custom %s edge order: can't find a match for \"%s\". There is no supported event "
                                     + "or input variable in the specification that matches the given name pattern.",
-                            forward ? "forward" : "backward", elemTxt);
+                            forForwardReachability ? "forward" : "backward", elemTxt);
                     throw new InvalidOptionException(msg);
                 }
 
@@ -2614,7 +2615,7 @@ public class CifToSynthesisConverter {
                             String msg = fmt("Invalid custom %s edge order: event \"%s\" is included more than once. "
                                     + "If the duplicate event is intentional, enable allowing duplicate events "
                                     + "in the custom event order using the \"Edge order duplicate events\" option.",
-                                    forward ? "forward" : "backward", getAbsName(edge.event, false));
+                                    forForwardReachability ? "forward" : "backward", getAbsName(edge.event, false));
                             throw new InvalidOptionException(msg);
                         }
                     }
@@ -2636,7 +2637,7 @@ public class CifToSynthesisConverter {
                 String msg = fmt(
                         "Invalid custom %s edge order: "
                                 + "the following event(s) are missing from the specified order: %s.",
-                        forward ? "forward" : "backward", String.join(", ", sortedNames));
+                        forForwardReachability ? "forward" : "backward", String.join(", ", sortedNames));
                 throw new InvalidOptionException(msg);
             }
 
