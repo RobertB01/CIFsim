@@ -97,6 +97,8 @@ By default, an event or input variable may not be included more than once in the
 This allows detecting accidental duplicate inclusion of events in the order.
 It can however be useful to include events multiple times in the order, for instance if for some model considering the event twice leads to immediately finding a new state during the reachability operation, while this would otherwise only be found in the next iteration.
 To allow events to be included multiple times in the custom order, use the _Edge order duplicate events_ option (see the <<tools-datasynth-options,options section>>).
+This option applies to both the backward and forward edge order.
 
 Determining the best edge order is difficult as it can be tricky to predict which edges will lead to finding new states and quickly reaching the fixed point result.
 When in doubt, keep the default values of the options.
+If you specify a custom edge order for backward reachability, typically the reverse order is a decent order for forward reachability, and vice versa.
