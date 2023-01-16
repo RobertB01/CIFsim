@@ -60,19 +60,18 @@ for test in tests:
     string test_err_real = chfileext(test, oldext="cif", newext="err.real");
 
     // Execute.
-    options = options;
     cifcontrollercheck([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
 
     // Compare output.
-    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
     bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
-    if not stderr_diff:: rmfile(test_err_real);
+    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
     if not stdout_diff:: rmfile(test_out_real);
+    if not stderr_diff:: rmfile(test_err_real);
 
     // Update counts.
     int diff_count = 0;
-    if stderr_diff:: diff_count = diff_count + 1;
     if stdout_diff:: diff_count = diff_count + 1;
+    if stderr_diff:: diff_count = diff_count + 1;
 
     count = count + 1;
     if diff_count == 0:: successes = successes + 1;
