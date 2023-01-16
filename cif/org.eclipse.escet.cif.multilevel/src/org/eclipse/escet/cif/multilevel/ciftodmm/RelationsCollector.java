@@ -119,7 +119,7 @@ public class RelationsCollector extends CifWalker {
         protected void preprocessAlgVariableExpression(AlgVariableExpression algvarExpr,
                 Set<PositionObject> accessedElements)
         {
-            // Also search the algvar expression.
+            // Also search the algebraic variable's defining expression.
             walkExpression(algvarExpr.getVariable().getValue(), accessedElements);
         }
     }
@@ -185,52 +185,33 @@ public class RelationsCollector extends CifWalker {
                     irrelevantRequirementAccessRelations.set(getIndex(loc));
                 }
 
-                // Process initials and markeds.
-                expressionAccess(loc.getInitials(), ownerIndex);
+                // Process markeds.
                 expressionAccess(loc.getMarkeds(), ownerIndex);
+
+                // Skip initials as that is used only before the first transition.
 
                 // Process edges.
                 for (Edge edge: loc.getEdges()) {
-                    eventAccess(edge.getEvents(), ownerIndex); // Events.
-                    expressionAccess(edge.getGuards(), ownerIndex); // Guards.
-                    updateAccess(edge.getUpdates(), ownerIndex); // Updates.
-
-                    // Also examine the sent values.
+                    // Process the events.
                     for (EdgeEvent ee: edge.getEvents()) {
+                        // Examine sent value if it exists.
                         if (ee instanceof EdgeSend edgeSend && edgeSend.getValue() != null) {
                             expressionAccess(edgeSend.getValue(), ownerIndex);
                         }
+
+                        // Register the event.
+                        Expression evtExpr = ee.getEvent();
+                        Assert.check(evtExpr instanceof EventExpression);
+                        Event evt = ((EventExpression)evtExpr).getEvent();
+                        registerAccessedRelation(evt, ownerIndex);
                     }
+
+                    // Process guards and updates
+                    expressionAccess(edge.getGuards(), ownerIndex);
+                    updateAccess(edge.getUpdates(), ownerIndex);
                 }
             }
         }
-    }
-
-    /**
-     * Register access to all the events at an edge by an accessing element.
-     *
-     * @param ees Events being accessed.
-     * @param accessingGroupIndex Index of the group that accesses the events.
-     * @note The accessing group may or may not own the events.
-     */
-    private void eventAccess(List<EdgeEvent> ees, int accessingGroupIndex) {
-        for (EdgeEvent ee: ees) {
-            eventAccess(ee, accessingGroupIndex);
-        }
-    }
-
-    /**
-     * Register access to the event at an edge by an accessing element.
-     *
-     * @param ee Event being accessed.
-     * @param accessingGroupIndex Index of the group that accesses the event.
-     * @note The accessing group may or may not own the event.
-     */
-    private void eventAccess(EdgeEvent ee, int accessingGroupIndex) {
-        Expression evtExpr = ee.getEvent();
-        Assert.check(evtExpr instanceof EventExpression);
-        Event evt = ((EventExpression)evtExpr).getEvent();
-        registerAccessedRelation(evt, accessingGroupIndex);
     }
 
     /**
@@ -316,6 +297,8 @@ public class RelationsCollector extends CifWalker {
             } else if (decl instanceof DiscVariable) {
                 // Discrete variables can only occur in an owning automaton.
                 registerOwnedRelation(decl, groupIndex);
+
+                // Skip initial value as that is used only before the first transition.
 
                 // If the discrete variable is not in a requirement automaton, ignore it in requirement grouping
                 // relations.
