@@ -67,9 +67,9 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
             helper.dbg();
         }
 
-        // Only apply variable ordering algorithm(s) if all of the helper's representations are non-empty. This ensures
-        // that variable relations exist for improving the variable order with variable ordering algorithms. It also
-        // avoids division by zero issues.
+        // Determine whether to apply variable ordering algorithm(s), or skip them. They are only applied if all of the
+        // helper's representations are non-empty. This ensures that variable relations exist for improving the variable
+        // order with variable ordering algorithms. It also avoids division by zero issues.
         boolean skipAlgorithms = false;
         if (hyperEdgeCount == 0) {
             skipAlgorithms = true;
@@ -84,7 +84,7 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
             }
         }
 
-        // Apply variable ordering algorithm(s).
+        // Apply variable ordering algorithm(s), if not skipped.
         List<SynthesisVariable> orderedVariables = skipAlgorithms ? initialVariables
                 : orderer.order(helper, initialVariables, dbgEnabled, dbgLevel);
 
