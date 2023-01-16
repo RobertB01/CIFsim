@@ -49,7 +49,7 @@ public class EdgeOrderBackwardOption extends StringOption {
                 null,
 
                 // cmdLong
-                "edge-order-backward",
+                "backward-edge-order",
 
                 // cmdValue
                 "EDGEORDER",
