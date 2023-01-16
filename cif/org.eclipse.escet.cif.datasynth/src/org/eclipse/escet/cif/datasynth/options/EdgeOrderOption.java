@@ -18,6 +18,12 @@ import org.eclipse.escet.common.app.framework.options.StringOption;
 
 /** Edge order option. */
 public class EdgeOrderOption extends StringOption {
+    /** Message to indicate the option is unsupported. */
+    private static final String UNSUPPORTED_MESSAGE = "This option is no longer supported. "
+            + "It will be removed in a future version of the tool. "
+            + "Use the 'Edge order for backward reachability' and "
+            + "'Edge order for forward reachability' options instead.";
+
     /** Constructor for the {@link EdgeOrderOption} class. */
     public EdgeOrderOption() {
         super(
@@ -25,9 +31,7 @@ public class EdgeOrderOption extends StringOption {
                 "Edge order",
 
                 // description
-                "The edge ordering. This option is no longer supported. It will be removed in a future version of "
-                        + "the tool. Use the 'Edge order for backward reachability' and 'Edge order for forward "
-                        + "reachability' options instead.",
+                "The edge ordering. " + UNSUPPORTED_MESSAGE,
 
                 // cmdShort
                 'e',
@@ -48,9 +52,7 @@ public class EdgeOrderOption extends StringOption {
                 true,
 
                 // optDialogDescr
-                "The edge ordering. This option is no longer supported. It will be removed in a future version of "
-                        + "the tool. Use the 'Edge order for backward reachability' and 'Edge order for forward "
-                        + "reachability' options instead.",
+                "The edge ordering. " + UNSUPPORTED_MESSAGE,
 
                 // optDialogLabelText
                 "Edge order:");
@@ -58,9 +60,6 @@ public class EdgeOrderOption extends StringOption {
 
     @Override
     public String parseValue(String optName, String value) {
-        throw new InvalidOptionException("The edge ordering option is used. "
-                + "This option is no longer supported. It will be removed in a future version of the tool. "
-                + "Use the 'Edge order for backward reachability' and 'Edge order for forward reachability' options "
-                + "instead.");
+        throw new InvalidOptionException("The edge ordering option is used. " + UNSUPPORTED_MESSAGE);
     }
 }
