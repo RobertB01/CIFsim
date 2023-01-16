@@ -47,7 +47,13 @@ import org.eclipse.escet.common.java.Strings;
 /**
  * Helper for variable ordering. It provides:
  * <ul>
- * <li>Various representations of the CIF specification that algorithms may operate upon.</li>
+ * <li>Multiple representations of the relations between synthesis variables, derived from the CIF specification.
+ * Algorithms may operate upon these representations:
+ * <ul>
+ * <li>{@link #getHyperEdges Hyper-edges}</li>
+ * <li>{@link #getGraph Graph}</li>
+ * </ul>
+ * </li>
  * <li>Various utility methods.</li>
  * </ul>
  */

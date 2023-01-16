@@ -54,7 +54,8 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
         // Create new variable order helper, based on the initial variable order, rather than on model order.
         helper = new VarOrderHelper(helper, initialVariables);
 
-        // Print debug output about the representations of the CIF specification represented by the helper.
+        // Print debug output about the helper's representations of the synthesis variable relations from the CIF
+        // specification.
         List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
         Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
         long hyperEdgeCount = hyperEdges.size();
@@ -66,9 +67,9 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
             helper.dbg();
         }
 
-        // Only apply variable ordering algorithm(s) if all representations of the CIF specification as represented by
-        // the helper are non-empty. This ensures that variable relations exist for improving the variable order with
-        // variable ordering algorithms. It also avoids division by zero issues.
+        // Only apply variable ordering algorithm(s) if all of the helper's representations are non-empty. This ensures
+        // that variable relations exist for improving the variable order with variable ordering algorithms. It also
+        // avoids division by zero issues.
         boolean skipAlgorithms = false;
         if (hyperEdgeCount == 0) {
             skipAlgorithms = true;
