@@ -1349,7 +1349,7 @@ public class CifDataSynthesis {
                 break;
             }
             if (unchanged == 0) {
-                BDD init = aut.initialPlantInv.and(aut.ctrlBeh);
+                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                 boolean noInit = init.isZero();
                 init.free();
                 if (noInit) {
@@ -1430,7 +1430,7 @@ public class CifDataSynthesis {
                     break;
                 }
                 if (unchanged == 0) {
-                    BDD init = aut.initialPlantInv.and(aut.ctrlBeh);
+                    BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                     boolean noInit = init.isZero();
                     init.free();
                     if (noInit) {
@@ -1445,12 +1445,13 @@ public class CifDataSynthesis {
                     return;
                 }
 
-                // Compute controlled-behavior predicate from initialization of the uncontrolled system (fixed point).
+                // Compute controlled-behavior predicate from initialization of the controlled system as determined so
+                // far (fixed point).
                 if (doTiming) {
                     timing.mainFwInit.start();
                 }
                 try {
-                    newCtrlBeh = reachability(aut.initialPlantInv.id(), false, // bad
+                    newCtrlBeh = reachability(aut.initialCtrl.id(), false, // bad
                             true, // forward
                             true, // ctrl
                             true, // unctrl
@@ -1499,7 +1500,7 @@ public class CifDataSynthesis {
                 break;
             }
             if (!doForward && unchanged == 0) {
-                BDD init = aut.initialPlantInv.and(aut.ctrlBeh);
+                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                 boolean noInit = init.isZero();
                 init.free();
                 if (noInit) {
