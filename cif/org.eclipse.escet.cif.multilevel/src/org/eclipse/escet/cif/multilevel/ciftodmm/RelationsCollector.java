@@ -188,8 +188,6 @@ public class RelationsCollector extends CifWalker {
                 // Process markeds.
                 expressionAccess(loc.getMarkeds(), ownerIndex);
 
-                // Skip initials as that is used only before the first transition.
-
                 // Process edges.
                 for (Edge edge: loc.getEdges()) {
                     // Process the events.
@@ -297,8 +295,6 @@ public class RelationsCollector extends CifWalker {
             } else if (decl instanceof DiscVariable) {
                 // Discrete variables can only occur in an owning automaton.
                 registerOwnedRelation(decl, groupIndex);
-
-                // Skip initial value as that is used only before the first transition.
 
                 // If the discrete variable is not in a requirement automaton, ignore it in requirement grouping
                 // relations.
