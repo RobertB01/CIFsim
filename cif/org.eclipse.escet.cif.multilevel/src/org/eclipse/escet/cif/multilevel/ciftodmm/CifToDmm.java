@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -31,12 +31,15 @@ import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.cif.common.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlySpecificSupKindsCheck;
+import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.common.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
 import org.eclipse.escet.cif.common.checkers.checks.VarNoContinuousCheck;
+import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -70,8 +73,14 @@ public class CifToDmm {
         /** Constructor of the {@link CifToDmm.CifToDmmPreChecker} class. */
         public CifToDmmPreChecker() {
             super(
+                    // Ensure there are no relations between elements hidden in initialization expressions.
+                    // TODO: Decide the semantics of these expressions in relating plant and/or requirements.
+                    new AutOnlyWithOneInitLocCheck(), //
+                    new VarNoDiscWithMultiInitValuesCheck(), //
+                    new VarDiscOnlyStaticEvalInitCheck(),
+
                     // Should have only plant and requirement automata.
-                    new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT), //
+                    new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT),
 
                     // Need at least one plant element, to prevent empty DMMs.
                     // Both plant automata and input variables count as 'plant'.
