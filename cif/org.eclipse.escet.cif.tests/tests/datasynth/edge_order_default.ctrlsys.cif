@@ -1,0 +1,24 @@
+input bool D;
+input bool C;
+plant automaton p:
+  input bool Y;
+  input bool X;
+  controllable c;
+  controllable a;
+  controllable z;
+  location l1:
+    initial;
+    marked;
+    edge c;
+    edge a;
+    edge z;
+end
+supervisor automaton sup:
+  alphabet p.c, p.a, p.z;
+  location:
+    initial;
+    marked;
+    edge p.a when true;
+    edge p.c when true;
+    edge p.z when true;
+end

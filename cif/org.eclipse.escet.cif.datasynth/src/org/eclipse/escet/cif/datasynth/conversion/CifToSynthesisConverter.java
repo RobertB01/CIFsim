@@ -36,6 +36,7 @@ import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -88,9 +89,10 @@ import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -2469,35 +2471,44 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Orders the synthesis edges.
+     * Orders the synthesis edges, for reachability computations.
      *
      * @param synthAut The synthesis automaton. Is modified in-place.
      */
     private void orderEdges(SynthesisAutomaton synthAut) {
-        // Get order from option.
-        String orderTxt = EdgeOrderOption.getOrder();
+        synthAut.orderedEdgesBackward = orderEdgesForDirection(synthAut.edges, EdgeOrderBackwardOption.getOrder(),
+                false);
+        synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, EdgeOrderForwardOption.getOrder(), true);
+    }
 
-        // Order the edges.
+    /**
+     * Orders the synthesis edges, for a single direction, i.e., for forward or backward reachability computations.
+     *
+     * @param edges The edges in linearized model order.
+     * @param orderTxt The order as textual value from the option, for the given direction.
+     * @param forForwardReachability Order for forward reachability ({@code true}) or backward reachability
+     *     ({@code false}).
+     * @return The ordered edges.
+     */
+    private static List<SynthesisEdge> orderEdgesForDirection(List<SynthesisEdge> edges, String orderTxt,
+            boolean forForwardReachability)
+    {
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
             // No reordering. Keep linearized model order.
-            synthAut.orderedEdges = synthAut.edges;
+            return edges;
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
             // Reorder to the reverse of the linearized model order.
-            synthAut.orderedEdges = copy(synthAut.edges);
-            Collections.reverse(synthAut.orderedEdges);
+            return reverse(edges);
         } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
             // Sort based on absolute event names.
-            synthAut.orderedEdges = copy(synthAut.edges);
-            Collections.sort(synthAut.orderedEdges,
-                    (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
+            return edges.stream()
+                    .sorted((v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)))
+                    .toList();
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
-            // Sort based on absolute event names.
-            synthAut.orderedEdges = copy(synthAut.edges);
-            Collections.sort(synthAut.orderedEdges,
-                    (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
-
-            // Reorder to the reverse of the sorted order.
-            Collections.reverse(synthAut.orderedEdges);
+            // Sort based on absolute event names, and reverse.
+            return reverse(edges.stream()
+                    .sorted((v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)))
+                    .toList());
         } else if (orderTxt.toLowerCase(Locale.US).equals("random")
                 || orderTxt.toLowerCase(Locale.US).startsWith("random:"))
         {
@@ -2509,21 +2520,23 @@ public class CifToSynthesisConverter {
                 try {
                     seed = Long.parseUnsignedLong(seedTxt);
                 } catch (NumberFormatException ex) {
-                    String msg = fmt("Invalid edge random order seed number: \"%s\".", orderTxt);
+                    String msg = fmt("Invalid random %s edge order seed number: \"%s\".",
+                            forForwardReachability ? "forward" : "backward", orderTxt);
                     throw new InvalidOptionException(msg, ex);
                 }
             }
 
             // Shuffle to random order.
-            synthAut.orderedEdges = copy(synthAut.edges);
+            List<SynthesisEdge> orderedEdges = copy(edges);
             if (seed == null) {
-                Collections.shuffle(synthAut.orderedEdges);
+                Collections.shuffle(orderedEdges);
             } else {
-                Collections.shuffle(synthAut.orderedEdges, new Random(seed));
+                Collections.shuffle(orderedEdges, new Random(seed));
             }
+            return orderedEdges;
         } else {
             // Sort based on supplied custom event order.
-            synthAut.orderedEdges = listc(synthAut.edges.size());
+            List<SynthesisEdge> orderedEdges = listc(edges.size());
             Set<SynthesisEdge> processedEdges = set();
 
             // Process elements.
@@ -2541,7 +2554,7 @@ public class CifToSynthesisConverter {
 
                 // Found actual element. Look up matching synthesis edges.
                 List<SynthesisEdge> matches = list();
-                for (SynthesisEdge edge: synthAut.edges) {
+                for (SynthesisEdge edge: edges) {
                     String name = getAbsName(edge.event, false);
                     if (pattern.matcher(name).matches()) {
                         matches.add(edge);
@@ -2551,9 +2564,9 @@ public class CifToSynthesisConverter {
                 // Need a least one match.
                 if (matches.isEmpty()) {
                     String msg = fmt(
-                            "Invalid edge order: can't find a match for \"%s\". There is no supported event "
+                            "Invalid custom %s edge order: can't find a match for \"%s\". There is no supported event "
                                     + "or input variable in the specification that matches the given name pattern.",
-                            elemTxt);
+                            forForwardReachability ? "forward" : "backward", elemTxt);
                     throw new InvalidOptionException(msg);
                 }
 
@@ -2565,10 +2578,10 @@ public class CifToSynthesisConverter {
                 if (EdgeOrderDuplicateEventsOption.getDuplicateEvents() == EdgeOrderDuplicateEvents.DISALLOWED) {
                     for (SynthesisEdge edge: matches) {
                         if (processedEdges.contains(edge)) {
-                            String msg = fmt("Invalid edge order: event \"%s\" is included more than once. "
+                            String msg = fmt("Invalid custom %s edge order: event \"%s\" is included more than once. "
                                     + "If the duplicate event is intentional, enable allowing duplicate events "
                                     + "in the custom event order using the \"Edge order duplicate events\" option.",
-                                    getAbsName(edge.event, false));
+                                    forForwardReachability ? "forward" : "backward", getAbsName(edge.event, false));
                             throw new InvalidOptionException(msg);
                         }
                     }
@@ -2576,21 +2589,26 @@ public class CifToSynthesisConverter {
 
                 // Update for matched edges.
                 processedEdges.addAll(matches);
-                synthAut.orderedEdges.addAll(matches);
+                orderedEdges.addAll(matches);
             }
 
             // Check completeness.
-            Set<SynthesisEdge> missingEdges = difference(synthAut.edges, processedEdges);
+            Set<SynthesisEdge> missingEdges = difference(edges, processedEdges);
             if (!missingEdges.isEmpty()) {
                 Set<String> names = set();
                 for (SynthesisEdge edge: missingEdges) {
                     names.add("\"" + getAbsName(edge.event, false) + "\"");
                 }
                 List<String> sortedNames = Sets.sortedgeneric(names, Strings.SORTER);
-                String msg = fmt("Invalid edge order: the following event(s) are missing from the specified order: %s.",
-                        String.join(", ", sortedNames));
+                String msg = fmt(
+                        "Invalid custom %s edge order: "
+                                + "the following event(s) are missing from the specified order: %s.",
+                        forForwardReachability ? "forward" : "backward", String.join(", ", sortedNames));
                 throw new InvalidOptionException(msg);
             }
+
+            // Return the custom edge order.
+            return orderedEdges;
         }
     }
 

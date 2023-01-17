@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/edge_order_custom_dupl_yes.cif".
+Reading CIF file "datasynth/edge_order_both_custom_dupl_no.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -113,11 +113,15 @@ Backward controlled-behavior: not Counter.four and (not Counter.five and Actuato
 Backward controlled-behavior: (Counter.zero or Counter.four) and Actuator.Off or (Counter.two and Actuator.Off or (Counter.one or Counter.three) and Actuator.Off) -> (Counter.two or (Counter.three or Actuator.Off)) and (not Counter.two and not Counter.three or Actuator.Off) [backward reach with edge: (event: Counter.dec) (guard: Counter.five) (assignments: Counter := Counter.four), restricted to current/previous controlled-behavior predicate: true]
 Backward controlled-behavior: (Counter.two or (Counter.three or Actuator.Off)) and (not Counter.two and not Counter.three or Actuator.Off) -> (Counter.zero or Counter.four) and Actuator.Off or Counter.two and Actuator.Off or (Counter.one and Actuator.Off or (Counter.five or Counter.three and Actuator.Off)) [backward reach with edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off), restricted to current/previous controlled-behavior predicate: true]
 Backward controlled-behavior: (Counter.zero or Counter.four) and Actuator.Off or Counter.two and Actuator.Off or (Counter.one and Actuator.Off or (Counter.five or Counter.three and Actuator.Off)) -> (not Counter.zero and not Counter.one or Actuator.Off) and (not Counter.two and not Counter.three or Actuator.Off) [backward reach with edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: (not Counter.zero and not Counter.one or Actuator.Off) and (not Counter.two and not Counter.three or Actuator.Off) -> (not Counter.zero or Actuator.Off) and ((not Counter.two or Actuator.Off) and (not Counter.one or Actuator.Off)) [backward reach with edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: (not Counter.zero or Actuator.Off) and ((not Counter.two or Actuator.Off) and (not Counter.one or Actuator.Off)) -> not Counter.zero and not Counter.one or Actuator.Off [backward reach with edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: not Counter.zero and not Counter.one or Actuator.Off -> not Counter.zero or Actuator.Off [backward reach with edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: not Counter.zero or Actuator.Off -> true [backward reach with edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 2.
+Backward controlled-behavior: (not Counter.zero and not Counter.one or Actuator.Off) and (not Counter.two and not Counter.three or Actuator.Off) -> (not Counter.zero or Actuator.Off) and ((not Counter.two or Actuator.Off) and (not Counter.one or Actuator.Off)) [backward reach with edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 3.
+Backward controlled-behavior: (not Counter.zero or Actuator.Off) and ((not Counter.two or Actuator.Off) and (not Counter.one or Actuator.Off)) -> not Counter.zero and not Counter.one or Actuator.Off [backward reach with edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 4.
+Backward controlled-behavior: not Counter.zero and not Counter.one or Actuator.Off -> not Counter.zero or Actuator.Off [backward reach with edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 5.
+Backward controlled-behavior: not Counter.zero or Actuator.Off -> true [backward reach with edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 6.
 Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
@@ -177,12 +181,12 @@ Simplification of controlled system under the assumption of the plants:
 
 Constructing output CIF specification.
 BDD cache statistics:
-  Node creation requests:       633
+  Node creation requests:       672
   Node creation chain accesses: 0
-  Node creation cache hits:     344
+  Node creation cache hits:     373
   Node creation cache misses:   222
-  Operation count:              3150
-  Operation cache hits:         896
-  Operation cache misses:       789
+  Operation count:              2832
+  Operation cache hits:         498
+  Operation cache misses:       849
 Maximum used BDD nodes: 108.
-Writing output CIF file "datasynth/edge_order_custom_dupl_yes.ctrlsys.real.cif".
+Writing output CIF file "datasynth/edge_order_both_custom_dupl_no.ctrlsys.real.cif".

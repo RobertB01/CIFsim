@@ -13,11 +13,17 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
 /** Edge order option. */
 public class EdgeOrderOption extends StringOption {
+    /** Message to indicate the option is unsupported. */
+    private static final String UNSUPPORTED_MESSAGE = "This option is no longer supported. "
+            + "It will be removed in a future version of the tool. "
+            + "Use the 'Edge order for backward reachability' and "
+            + "'Edge order for forward reachability' options instead.";
+
     /** Constructor for the {@link EdgeOrderOption} class. */
     public EdgeOrderOption() {
         super(
@@ -25,25 +31,7 @@ public class EdgeOrderOption extends StringOption {
                 "Edge order",
 
                 // description
-                "The edge ordering. Specify " +
-
-                        "\"model\" (default) for linearized model ordering, with edges for input variables sorted as "
-                        + "in the variable ordering, " +
-
-                        "\"reverse-model\" for reverse linearized model ordering, with edges for input variables "
-                        + "reverse sorted as in the variable ordering, " +
-
-                        "\"sorted\" for sorted order, " +
-
-                        "\"reverse-sorted\" for reverse sorted order, " +
-
-                        "\"random\" for random order (with random seed), " +
-
-                        "\"random:SEED\" for random order (with \"SEED\" as seed, in range [0..2^64-1]), " +
-
-                        "or specify a custom ordering. Custom orders consist of names of events and input variables. "
-                        + "The \"*\" character can be used as wildcard in names, and indicates zero or more "
-                        + "characters. Separate names with \",\".",
+                "The edge ordering. " + UNSUPPORTED_MESSAGE,
 
                 // cmdShort
                 'e',
@@ -64,36 +52,14 @@ public class EdgeOrderOption extends StringOption {
                 true,
 
                 // optDialogDescr
-                "The edge ordering. Specify " +
-
-                        "\"model\" for linearized model ordering, with edges for input variables sorted as in the "
-                        + "variable ordering, " +
-
-                        "\"reverse-model\" for reverse linearized model ordering, with edges for input variables "
-                        + "reverse sorted as in the variable ordering, " +
-
-                        "\"sorted\" for sorted order, " +
-
-                        "\"reverse-sorted\" for reverse sorted order, " +
-
-                        "\"random\" for random order (with random seed), " +
-
-                        "\"random:SEED\" for random order (with \"SEED\" as seed, in range [0..2^64-1]), " +
-
-                        "or specify a custom ordering. Custom orders consist of names of events and input variables. "
-                        + "The \"*\" character can be used as wildcard in names, and indicates zero or more "
-                        + "characters. Separate names with \",\".",
+                "The edge ordering. " + UNSUPPORTED_MESSAGE,
 
                 // optDialogLabelText
                 "Edge order:");
     }
 
-    /**
-     * Returns the value of the {@link EdgeOrderOption} option.
-     *
-     * @return The value of the {@link EdgeOrderOption} option.
-     */
-    public static String getOrder() {
-        return Options.get(EdgeOrderOption.class);
+    @Override
+    public String parseValue(String optName, String value) {
+        throw new InvalidOptionException("The edge ordering option is used. " + UNSUPPORTED_MESSAGE);
     }
 }

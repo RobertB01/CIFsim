@@ -1,2 +1,0 @@
-ERROR: Invalid edge random order seed number: "random:x".
-CAUSE: (NumberFormatException) For input string: "x"
