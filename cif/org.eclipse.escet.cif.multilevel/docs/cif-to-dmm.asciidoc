@@ -71,6 +71,11 @@ The rules for making requirement groups are:
 
 Compared with the rules on merging plant groups, the merge rule on locations and discrete variables needs ownership of one of the requirement groups, input variables have been dropped as they are considered to be plant-like, and the merge rule on events requires exclusive use of the event by requirements.
 
+Note that a requirement group does not require a relation to a plant group by the rules.
+Such requirement groups will also participate in merges with another requirement group if one of the rules applies to them.
+Therefore, requirement groups that are completely unrelated to all plant groups may occur in the result of this transformation.
+Whether such groups need special treatment (for example, warn the user about it) should be decided by the user of the result.
+
 == Relating plant groups with requirement groups
 
 When none of the rules for merging plant groups and requirement groups applies any more, a plant group is related with a requirement group if at least one of the following conditions holds:
