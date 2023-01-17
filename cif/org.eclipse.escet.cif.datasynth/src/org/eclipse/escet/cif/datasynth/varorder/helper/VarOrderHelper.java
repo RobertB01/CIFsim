@@ -47,11 +47,20 @@ import org.eclipse.escet.common.java.Strings;
 /**
  * Helper for variable ordering. It provides:
  * <ul>
- * <li>Various representations of the CIF specification that algorithms may operate upon.</li>
+ * <li>Multiple representations of the relations between synthesis variables, derived from the CIF specification.
+ * Algorithms may operate upon these representations:
+ * <ul>
+ * <li>{@link #getHyperEdges Hyper-edges}</li>
+ * <li>{@link #getGraph Graph}</li>
+ * </ul>
+ * </li>
  * <li>Various utility methods.</li>
  * </ul>
  */
 public class VarOrderHelper {
+    /** The CIF specification. Is only used to create new variable order helpers from this one. */
+    private final Specification spec;
+
     /** The synthesis variables, in their original order, before applying any algorithm on it. */
     private final List<SynthesisVariable> variables;
 
@@ -102,7 +111,8 @@ public class VarOrderHelper {
      * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
      */
     public VarOrderHelper(Specification spec, List<SynthesisVariable> variables) {
-        // Store the variables.
+        // Store the arguments.
+        this.spec = spec;
         this.variables = Collections.unmodifiableList(variables);
 
         // Compute and store different representations of the relations from the specification.
@@ -138,6 +148,16 @@ public class VarOrderHelper {
             this.metricLengthsWes.add(fmt("%,.6f", WesMetric.compute(indices, edges)).length() + 2);
             this.metricLengthsWesAvg.add(fmt("%,.6f", WesMetric.compute(indices, edges) / edges.size()).length() + 2);
         }
+    }
+
+    /**
+     * Constructor for the {@link VarOrderHelper} class.
+     *
+     * @param helper The existing variable order helper from which to inherit the CIF specification.
+     * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
+     */
+    public VarOrderHelper(VarOrderHelper helper, List<SynthesisVariable> variables) {
+        this(helper.spec, variables);
     }
 
     /**

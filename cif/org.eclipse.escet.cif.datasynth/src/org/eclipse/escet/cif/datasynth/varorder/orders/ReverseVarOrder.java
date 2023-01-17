@@ -42,6 +42,11 @@ public class ReverseVarOrder extends NonInterleavedVarOrder {
         // Get variable order to reverse.
         List<Pair<SynthesisVariable, Integer>> orderToReverse = order.order(helper, dbgEnabled, dbgLevel);
 
+        // Debug output.
+        if (dbgEnabled) {
+            helper.dbg(dbgLevel, "Reversing the variable order.");
+        }
+
         // Reverse the order.
         int maxGroupNr = orderToReverse.stream().map(p -> p.right).max(Integer::compareTo).get();
         List<Pair<SynthesisVariable, Integer>> reverseOrder = reverse(orderToReverse).stream()

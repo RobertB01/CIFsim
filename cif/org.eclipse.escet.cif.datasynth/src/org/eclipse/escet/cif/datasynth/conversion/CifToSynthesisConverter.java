@@ -51,7 +51,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -62,6 +61,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
@@ -98,7 +98,6 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.GeorgeLiuPseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
@@ -111,6 +110,7 @@ import org.eclipse.escet.cif.datasynth.varorder.orderers.SlidingWindowVarOrderer
 import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orders.CustomVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.ModelVarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.orders.OrdererVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.RandomVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.ReverseVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.SortedVarOrder;
@@ -659,26 +659,24 @@ public class CifToSynthesisConverter {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private void orderVars(SynthesisAutomaton synthAut, Specification spec, boolean dbgEnabled) {
-        // Skip ordering, including debug output printing, if any variables failed to convert.
+        // Skip ordering, including option processing and debug output printing, if any variables failed to convert.
         if (Arrays.asList(synthAut.variables).contains(null)) {
             return;
         }
 
-        // Get order from option.
+        // Configure initial variable order.
         String orderTxt = BddVariableOrderOption.getOrder();
-
-        // Order the variables.
-        VarOrder varOrder;
+        VarOrder initialVarOrder;
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
-            varOrder = new ModelVarOrder();
+            initialVarOrder = new ModelVarOrder();
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
-            varOrder = new ReverseVarOrder(new ModelVarOrder());
+            initialVarOrder = new ReverseVarOrder(new ModelVarOrder());
         } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
-            varOrder = new SortedVarOrder();
+            initialVarOrder = new SortedVarOrder();
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
-            varOrder = new ReverseVarOrder(new SortedVarOrder());
+            initialVarOrder = new ReverseVarOrder(new SortedVarOrder());
         } else if (orderTxt.toLowerCase(Locale.US).equals("random")) {
-            varOrder = new RandomVarOrder(null);
+            initialVarOrder = new RandomVarOrder(null);
         } else if (orderTxt.toLowerCase(Locale.US).startsWith("random:")) {
             int idx = orderTxt.indexOf(":");
             String seedTxt = orderTxt.substring(idx + 1);
@@ -689,7 +687,7 @@ public class CifToSynthesisConverter {
                 String msg = fmt("Invalid BDD variable random order seed number: \"%s\".", orderTxt);
                 throw new InvalidOptionException(msg, ex);
             }
-            varOrder = new RandomVarOrder(seed);
+            initialVarOrder = new RandomVarOrder(seed);
         } else {
             // Parse option value to custom order.
             List<Pair<SynthesisVariable, Integer>> customVarOrder = list();
@@ -767,44 +765,10 @@ public class CifToSynthesisConverter {
             }
 
             // Construct custom variable order.
-            varOrder = new CustomVarOrder(customVarOrder);
+            initialVarOrder = new CustomVarOrder(customVarOrder);
         }
 
-        // Skip ordering, including debug output printing, if no variables are present.
-        int varCnt = synthAut.variables.length;
-        if (varCnt == 0) {
-            return;
-        }
-
-        // Get the variable order.
-        List<SynthesisVariable> modelOrder = Arrays.asList(synthAut.variables);
-        VarOrderHelper helper = new VarOrderHelper(spec, modelOrder);
-        List<Pair<SynthesisVariable, Integer>> newOrder = varOrder.order(helper, false, 1);
-
-        // Update the variable order.
-        synthAut.variables = newOrder.stream().map(p -> p.left).toArray(n -> new SynthesisVariable[n]);
-        for (Pair<SynthesisVariable, Integer> elem: newOrder) {
-            elem.left.group = elem.right;
-        }
-
-        // Apply automatic variable ordering algorithms, if requested. Also prints variable debug output, if requested.
-        applyVariableReorder(synthAut, spec, dbgEnabled);
-    }
-
-    /**
-     * Applies the variable reordering algorithms.
-     *
-     * @param synthAut The synthesis automaton. Is modified in-place.
-     * @param spec The CIF specification.
-     * @param dbgEnabled Whether debug output is enabled.
-     */
-    private static void applyVariableReorder(SynthesisAutomaton synthAut, Specification spec, boolean dbgEnabled) {
-        // Print variable debugging information before automatic ordering.
-        if (dbgEnabled) {
-            debugCifVars(synthAut);
-        }
-
-        // Get algorithms to apply.
+        // Collect and configure variable ordering algorithms to apply.
         List<VarOrderer> orderers = list();
         if (BddDcshVarOrderOption.isEnabled()) {
             orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
@@ -818,80 +782,82 @@ public class CifToSynthesisConverter {
             orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
         }
 
-        // Only apply a variable ordering algorithm if at least one of them is enabled.
-        if (orderers.isEmpty()) {
-            if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: no algorithms selected.");
-                dbg();
-            }
+        // Configure final variable order.
+        VarOrder varOrder = initialVarOrder;
+        if (!orderers.isEmpty()) {
+            varOrder = new OrdererVarOrder(initialVarOrder,
+                    (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
+        }
+
+        // Skip ordering, including debug output printing, if no variables are present.
+        int varCnt = synthAut.variables.length;
+        if (varCnt == 0) {
             return;
         }
 
-        // Only apply a variable ordering algorithm if there are at least two variables (to order).
+        // Initialize to model variable order without interleaving.
+        for (int i = 0; i < synthAut.variables.length; i++) {
+            synthAut.variables[i].group = i;
+        }
+
+        // Print variable debugging information, before ordering.
+        if (dbgEnabled) {
+            debugCifVars(synthAut);
+        }
+
+        // Only apply variable ordering if there are at least two variables (to order).
         if (synthAut.variables.length < 2) {
             if (dbgEnabled) {
                 dbg();
-                dbg("Skipping automatic variable ordering: only one variable present.");
+                dbg("Skipping variable ordering: only one variable present.");
                 dbg();
             }
             return;
         }
 
-        // Only apply a variable ordering algorithm if there are hyper-edges and graph edges, to ensures that variable
-        // relations exist for improving the variable order. It also avoids division by zero issues.
-        List<SynthesisVariable> curOrder = Arrays.asList(synthAut.variables);
-        VarOrderHelper helper = new VarOrderHelper(spec, curOrder);
-        List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
-        Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
-        long hyperEdgeCount = hyperEdges.size();
-        long graphEdgeCount = graph.edgeCount();
-        if (hyperEdgeCount == 0) {
-            if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: no hyper-edges.");
-                dbg();
-            }
-            return;
-        }
-        if (graphEdgeCount == 0) {
-            if (dbgEnabled) {
-                dbg();
-                dbg("Skipping automatic variable ordering: no graph edges.");
-                dbg();
-            }
-            return;
-        }
+        // Create variable order helper, based on model order.
+        List<SynthesisVariable> modelOrder = Collections.unmodifiableList(Arrays.asList(synthAut.variables));
+        VarOrderHelper helper = new VarOrderHelper(spec, modelOrder);
 
-        // Apply algorithm.
+        // Get current variable order.
+        List<SynthesisVariable> varsInCurOrder = modelOrder;
+        List<Pair<SynthesisVariable, Integer>> curOrder = IntStream.range(0, varsInCurOrder.size())
+                .mapToObj(i -> pair(varsInCurOrder.get(i), i)).collect(Collectors.toList());
+
+        // Get new variable order.
         if (dbgEnabled) {
             dbg();
-            dbg("Applying automatic variable ordering:");
-            dbg("  Number of hyper-edges: %,d", hyperEdgeCount);
-            dbg("  Number of graph edges: %,d", graphEdgeCount);
-            dbg();
+            dbg("Applying variable ordering:");
         }
-        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
-        List<SynthesisVariable> newOrder = orderer.order(helper, curOrder, dbgEnabled, 1);
+        List<Pair<SynthesisVariable, Integer>> newOrder = varOrder.order(helper, dbgEnabled, 1);
+        List<SynthesisVariable> varsInNewOrder = newOrder.stream().map(p -> p.left).collect(Collectors.toList());
 
-        // If the new order differs from the current order, reorder.
-        boolean orderChanged = !curOrder.equals(newOrder);
+        // Check sanity of current and new variable orders.
+        Assert.areEqual(curOrder.size(), newOrder.size()); // Same length.
+        Assert.areEqual(list2set(varsInCurOrder), list2set(varsInNewOrder)); // Same variables.
+        Assert.areEqual(curOrder.get(0).right, 0); // First variable is in first group.
+        Assert.areEqual(newOrder.get(0).right, 0); // First variable is in first group.
+        for (int i = 1; i < curOrder.size(); i++) { // Variable groups are consecutively numbered.
+            int curOrderPrevGrp = curOrder.get(i - 1).right;
+            int curOrderCurGrp = curOrder.get(i).right;
+            Assert.check(curOrderPrevGrp == curOrderCurGrp || curOrderPrevGrp + 1 == curOrderCurGrp);
+
+            int newOrderPrevGrp = newOrder.get(i - 1).right;
+            int newOrderCurGrp = newOrder.get(i).right;
+            Assert.check(newOrderPrevGrp == newOrderCurGrp || newOrderPrevGrp + 1 == newOrderCurGrp);
+        }
+
+        // Update the variable order of the synthesis automaton.
+        synthAut.variables = varsInNewOrder.toArray(n -> new SynthesisVariable[n]);
+        for (Pair<SynthesisVariable, Integer> elem: newOrder) {
+            elem.left.group = elem.right;
+        }
+
+        // If the new order differs from the current order, print updated variable debugging information.
         if (dbgEnabled) {
+            boolean orderChanged = !curOrder.equals(newOrder);
             dbg();
             dbg("Variable order %schanged.", orderChanged ? "" : "un");
-        }
-
-        if (orderChanged) {
-            Assert.areEqual(curOrder.size(), newOrder.size()); // Same length.
-            Assert.areEqual(list2set(curOrder), list2set(newOrder)); // Same variables.
-            synthAut.variables = newOrder.toArray(n -> new SynthesisVariable[n]);
-            for (int i = 0; i < synthAut.variables.length; i++) {
-                synthAut.variables[i].group = i;
-            }
-        }
-
-        // Print variable debugging information after automatic ordering.
-        if (dbgEnabled) {
             if (orderChanged) {
                 debugCifVars(synthAut);
             }

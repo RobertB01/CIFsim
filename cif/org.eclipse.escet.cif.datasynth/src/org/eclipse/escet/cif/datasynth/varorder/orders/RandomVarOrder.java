@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth.varorder.orders;
 
 import static org.eclipse.escet.common.java.Lists.copy;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +40,12 @@ public class RandomVarOrder extends NonInterleavedVarOrder {
 
     @Override
     public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
+        // Debug output.
+        if (dbgEnabled) {
+            helper.dbg(dbgLevel, "Applying a random variable order%s.",
+                    (seed == null) ? "" : fmt(" using seed %d", seed));
+        }
+
         // Get variables in model order.
         List<SynthesisVariable> modelOrder = helper.getVariables();
 
