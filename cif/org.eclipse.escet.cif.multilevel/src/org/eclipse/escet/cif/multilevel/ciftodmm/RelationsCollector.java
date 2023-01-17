@@ -206,7 +206,7 @@ public class RelationsCollector extends CifWalker {
                         registerAccessedRelation(evt, ownerIndex);
                     }
 
-                    // Process guards and updates
+                    // Process guards and updates.
                     expressionAccess(edge.getGuards(), ownerIndex);
                     updateAccess(edge.getUpdates(), ownerIndex);
                 }

@@ -22,7 +22,7 @@ end
 // Configuration.
 string test_path = "multilevel";
 string test_pattern = "*.cif";
-list string default_options = ["--devmode=1", "--output-mode=debug"];
+list string default_options = ["--devmode=1", "--output-mode=debug", "--write-dmms=yes"];
 
 map(string:list string) test_options = {};
 set string test_skip = {};
@@ -48,7 +48,7 @@ end
 for test in tests:
     // Get test specific options.
     list string options = default_options;
-    list string extra_options = ["--write-dmms=yes"];
+    list string extra_options;
     if contains(test_options, test):: extra_options = test_options[test];
     options = options + extra_options;
 
