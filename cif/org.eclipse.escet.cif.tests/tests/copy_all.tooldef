@@ -30,6 +30,7 @@ copy_files(".",           "txt.real",     "txt");
 copy_files(".",           "graphml.real", "graphml");
 copy_files(".",           "wmod.real",    "wmod");
 copy_files(".",           "trajdata",     "trajdata.expected");
+copy_files(".",           "dmms.txt",     "dmms.expected.txt");
 
 tool copy_dirs(string dirpath, string old_postfix, string new_postfix):
     list string paths = find(dirpath, "*" + old_postfix, files=false, recursive=false);

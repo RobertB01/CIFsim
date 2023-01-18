@@ -43,6 +43,7 @@ failures = failures + tooldef("test_datasynth.tooldef", ignoreNonZeroExitCode=tr
 failures = failures + tooldef("test_event_disabler.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_explorer.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_merger.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_multilevel.tooldef", ignoreNonZeroExitCode=true);
 
 failures = failures + tooldef("test_simulator.tooldef", ignoreNonZeroExitCode=true);
 
