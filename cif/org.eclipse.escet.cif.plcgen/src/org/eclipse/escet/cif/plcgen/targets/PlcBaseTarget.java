@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 
 /** Base class for generating a {@link PlcProject}. */
@@ -36,9 +37,15 @@ public abstract class PlcBaseTarget {
         codeStorage = new PlcCodeStorage(this);
     }
 
-    /** Create and initialize the PLC project for storing generated code. */
-    public void initProject() {
-        codeStorage.initProject();
+    /**
+     * Perform the transformation.
+     *
+     * @param settings Configuration of the application.
+     * @return Whether the transformation succeeded, termination request is not successful.
+     */
+    public boolean transform(PlcGenSettings settings) {
+        codeStorage.setup(settings);
+        return !settings.shouldTerminate.get();
     }
 
     /** Construct the main program. */
@@ -53,7 +60,7 @@ public abstract class PlcBaseTarget {
      * @note Depending on the actual implementation a single file or a directory may be written.
      */
     public void writeOutput(String outputPath) {
-        codeStorage.writeOutput(outputPath);
+        codeStorage.writeOutput();
     }
 
     /**

@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.cif2plc.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
@@ -38,6 +39,7 @@ import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.targets.SiemensS7Target;
 import org.eclipse.escet.cif.plcgen.targets.TwinCatTarget;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -120,16 +122,13 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
                 throw new RuntimeException("Unknown output type: " + targetType);
         }
 
+        PlcGenSettings settings = makePlcGenSettings(target);
+        target.transform(settings);
+
         // Get output path.
         String outPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
         Assert.notNull(outPath);
         outPath = Paths.resolve(outPath);
-
-        // Construct the project.
-        target.initProject();
-        if (isTerminationRequested()) {
-            return 0;
-        }
 
         // TODO Use these options, see also getAllOptions()
         //
@@ -149,6 +148,34 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         // Write output.
         target.writeOutput(outPath);
         return 0;
+    }
+
+    /**
+     * Construct settings for the PLC code generator.
+     *
+     * @param target The target to generate PLC code for.
+     * @return The constructed settings instance.
+     */
+    private PlcGenSettings makePlcGenSettings(PlcBaseTarget target) {
+        String projectName = PlcProjectNameOption.getProjName();
+        String configurationName = PlcConfigurationNameOption.getCfgName();
+        String resourceName = PlcResourceNameOption.getResName();
+        String plcTaskName = PlcTaskNameOption.getTaskName();
+        int taskCyceTime = PlcTaskCycleTimeOption.getTaskCycleTime();
+        int priority = PlcTaskPriorityOption.getTaskPrio();
+
+        String inputPath = InputFileOption.getPath();
+        String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
+
+        Supplier<Boolean> shouldTerminate = new Supplier<>() {
+            @Override
+            public Boolean get() {
+                return AppEnv.isTerminationRequested();
+            }
+        };
+
+        return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
+                inputPath, outputPath, shouldTerminate);
     }
 
     @Override

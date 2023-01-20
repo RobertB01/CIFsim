@@ -15,12 +15,6 @@ package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType.INT_TYPE;
 
-import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
-import org.eclipse.escet.cif.cif2plc.options.PlcProjectNameOption;
-import org.eclipse.escet.cif.cif2plc.options.PlcResourceNameOption;
-import org.eclipse.escet.cif.cif2plc.options.PlcTaskCycleTimeOption;
-import org.eclipse.escet.cif.cif2plc.options.PlcTaskNameOption;
-import org.eclipse.escet.cif.cif2plc.options.PlcTaskPriorityOption;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcGlobalVarList;
@@ -35,12 +29,16 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 
 /** Stores and writes generated PLC code. */
 public class PlcCodeStorage {
     /** PLC target to generate code for. */
     private PlcBaseTarget target;
+
+    /** Destination for the generated code. */
+    private String outputPath;
 
     /** Project with PLC code. */
     protected PlcProject project;
@@ -66,14 +64,20 @@ public class PlcCodeStorage {
         this.target = target;
     }
 
-    /** Create and initialize the PLC project for storing generated code. */
-    public void initProject() {
+    /**
+     * Setup the generator.
+     *
+     * @param settings Configuration of the application.
+     */
+    public void setup(PlcGenSettings settings) {
+        this.outputPath = settings.outputPath;
+
         // Create project, configuration, resource, and task.
-        project = new PlcProject(PlcProjectNameOption.getProjName());
-        PlcConfiguration config = new PlcConfiguration(PlcConfigurationNameOption.getCfgName());
-        PlcResource resource = new PlcResource(PlcResourceNameOption.getResName());
-        task = new PlcTask(PlcTaskNameOption.getTaskName(), PlcTaskCycleTimeOption.getTaskCycleTime(),
-                PlcTaskPriorityOption.getTaskPrio());
+        project = new PlcProject(settings.projectName);
+        PlcConfiguration config = new PlcConfiguration(settings.configurationName);
+        PlcResource resource = new PlcResource(settings.resourceName);
+        task = new PlcTask(settings.taskName, settings.taskCycleTime,
+                settings.taskPriority);
 
         project.configurations.add(config);
         config.resources.add(resource);
@@ -108,14 +112,11 @@ public class PlcCodeStorage {
         task.pouInstances.add(new PlcPouInstance("MAIN", main));
     }
 
-    /**
-     * Write the project to the output.
-     *
-     * @param outputPath Absolute base path to write to.
-     * @note Depending on the actual implementation a single file or a directory may be written.
-     */
-    public void writeOutput(String outputPath) {
+    /** Write the project to the output. */
+    public void writeOutput() {
         OutputTypeWriter writer = target.getPlcCodeWriter();
+
+        // Depending on the actual write implementation a single file or a directory may be written.
         writer.write(project, outputPath);
     }
 }
