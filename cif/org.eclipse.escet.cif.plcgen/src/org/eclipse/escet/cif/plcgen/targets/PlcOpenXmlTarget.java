@@ -33,7 +33,7 @@ public class PlcOpenXmlTarget extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return ".plcopen.xml";
     }
 }

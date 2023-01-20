@@ -33,7 +33,7 @@ public class Iec611313Target extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return "_plc";
     }
 }

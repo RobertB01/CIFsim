@@ -33,7 +33,7 @@ public class AbbTarget extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return "_abb";
     }
 }

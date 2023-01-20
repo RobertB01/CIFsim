@@ -36,7 +36,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 
 /** Base class for generating a {@link PlcProject}. */
-public abstract class PlcBaseTarget extends PlcTypeCapabilities {
+public abstract class PlcBaseTarget {
     /** PLC target type for code generation. */
     protected final PlcTargetType targetType;
 
@@ -113,4 +113,18 @@ public abstract class PlcBaseTarget extends PlcTypeCapabilities {
      * @note Depending on the actual implementation a single file or a directory may be written.
      */
     public abstract void writeOutput(String outputPath);
+
+    /**
+     * Returns whether or not the PLC target type supports named constants.
+     *
+     * @return Whether named constants are supported.
+     */
+    public abstract boolean supportsConstants();
+
+    /**
+     * Get replacement string for the CIF input file extension including dot, used to derive an output path.
+     *
+     * @return The replacement string.
+     */
+    public abstract String getPathSuffixReplacement();
 }

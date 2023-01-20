@@ -59,7 +59,7 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return OUT_SUFFIX_REPLACEMENTS.get(targetType);
     }
 }

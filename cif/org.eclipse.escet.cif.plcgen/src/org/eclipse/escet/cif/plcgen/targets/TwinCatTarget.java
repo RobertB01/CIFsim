@@ -33,7 +33,7 @@ public class TwinCatTarget extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return "_twincat";
     }
 }

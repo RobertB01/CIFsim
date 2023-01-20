@@ -121,7 +121,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         }
 
         // Get output path.
-        String outPath = OutputFileOption.getDerivedPath(".cif", target.pathSuffixReplacement());
+        String outPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
         Assert.notNull(outPath);
         outPath = Paths.resolve(outPath);
 
