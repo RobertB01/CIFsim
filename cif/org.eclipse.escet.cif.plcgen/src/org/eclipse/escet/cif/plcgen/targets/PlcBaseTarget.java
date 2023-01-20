@@ -16,10 +16,14 @@ package org.eclipse.escet.cif.plcgen.targets;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcBaseTarget {
+    /** CIF file information extractor. */
+    private CifProcessor cifProcessor;
+
     /** PLC code storage and writing. */
     private PlcCodeStorage codeStorage;
 
@@ -34,6 +38,7 @@ public abstract class PlcBaseTarget {
     public PlcBaseTarget(PlcTargetType targetType) {
         this.targetType = targetType;
 
+        cifProcessor = new CifProcessor();
         codeStorage = new PlcCodeStorage(this);
     }
 
@@ -46,6 +51,10 @@ public abstract class PlcBaseTarget {
     public boolean transform(PlcGenSettings settings) {
         codeStorage.setup(settings);
         if (settings.shouldTerminate.get()) {
+            return false;
+        }
+
+        if (!cifProcessor.transform(settings)) {
             return false;
         }
 

@@ -31,7 +31,6 @@ import org.eclipse.escet.cif.cif2plc.options.PlcTaskNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskPriorityOption;
 import org.eclipse.escet.cif.cif2plc.options.RenameWarningsOption;
 import org.eclipse.escet.cif.cif2plc.options.SimplifyValuesOption;
-import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.plcgen.targets.AbbTarget;
 import org.eclipse.escet.cif.plcgen.targets.Iec611313Target;
 import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
@@ -89,12 +88,6 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Read CIF specification.
-        new CifReader().init().read(); // Currently not used.
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
         // Construct the target code generator.
         PlcTargetType targetType = PlcTargetTypeOption.getPlcTargetType();
         PlcBaseTarget target;
@@ -161,7 +154,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         };
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, outputPath, shouldTerminate);
+                inputPath, Paths.resolve(inputPath), outputPath, shouldTerminate);
     }
 
     @Override

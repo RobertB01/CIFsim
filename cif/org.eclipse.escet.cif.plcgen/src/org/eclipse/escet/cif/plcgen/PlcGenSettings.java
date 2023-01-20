@@ -35,8 +35,11 @@ public class PlcGenSettings {
     /** Priority of the plc task. */
     public final int taskPriority;
 
-    /** Path to the CIF specification to transform. */
+    /** User-specified path to the CIF specification to transform. */
     public final String inputPath;
+
+    /** Absolute path to the CIF specification to transform. */
+    public final String absInputPath;
 
     /** Destination for the generated code. */
     public final String outputPath;
@@ -53,12 +56,14 @@ public class PlcGenSettings {
      * @param taskName Name of the PLC task.
      * @param taskCycleTime Cycle time of the plc task.
      * @param taskPriority Priority of the plc task.
-     * @param inputPath Path to the CIF specification to transform.
+     * @param inputPath User-specified path to the CIF specification to transform.
+     * @param absInputPath Absolute path to the CIF specification to transform.
      * @param outputPath Destination for the generated code.
      * @param shouldTerminate Callback whether execution should be terminated on user request.
      */
     PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
-            int taskCycleTime, int taskPriority, String inputPath, String outputPath, Supplier<Boolean> shouldTerminate)
+            int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
+            Supplier<Boolean> shouldTerminate)
     {
         this.projectName = projectName;
         this.configurationName = configurationName;
@@ -67,6 +72,7 @@ public class PlcGenSettings {
         this.taskCycleTime = taskCycleTime;
         this.taskPriority = taskPriority;
         this.inputPath = inputPath;
+        this.absInputPath = absInputPath;
         this.outputPath = outputPath;
         this.shouldTerminate = shouldTerminate;
     }
