@@ -35,9 +35,13 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcBaseTarget {
+    /** PLC code storage and writing. */
+    private PlcCodeStorage codeStorage;
+
     /** PLC target type for code generation. */
     protected final PlcTargetType targetType;
 
@@ -63,6 +67,8 @@ public abstract class PlcBaseTarget {
      */
     public PlcBaseTarget(PlcTargetType targetType) {
         this.targetType = targetType;
+
+        codeStorage = new PlcCodeStorage(this);
     }
 
     /** Create and initialize the PLC project for storing generated code. */
