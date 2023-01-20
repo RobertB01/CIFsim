@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Predicate;
@@ -46,7 +47,7 @@ public class RailRoadDiagramGeneratorMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         Log log = getLog();
 
-        // Search for AsciiDoc files.
+        // Search for railroad diagram specification files.
         List<Path> inputPaths;
         try {
             Predicate<Path> isRailRoadFile = p -> p.getFileName().toString().toLowerCase(Locale.US).endsWith(".rr");
@@ -60,16 +61,24 @@ public class RailRoadDiagramGeneratorMojo extends AbstractMojo {
         // Generate images for the railroad diagram specifications.
         log.info(String.format(Locale.US, "Generating %d railroad diagram image(s).", inputPaths.size()));
         for (Path inputPath: inputPaths) {
-            // Derive paths.
-            Path configPath = inputPath.resolveSibling(inputPath.getFileName().toString() + ".props");
-            if (!Files.isRegularFile(configPath)) {
-                configPath = null;
+            // Find property files.
+            List<Path> configPaths = new ArrayList<>(2);
+            Path sharedConfigPath = inputPath.resolveSibling("_shared.rr.props");
+            Path specificConfigPath = inputPath.resolveSibling(inputPath.getFileName().toString() + ".props");
+            if (Files.isRegularFile(specificConfigPath)) {
+                configPaths.add(specificConfigPath);
             }
+
+            if (Files.isRegularFile(sharedConfigPath)) {
+                configPaths.add(sharedConfigPath);
+            }
+
+            // Set output path.
             Path outputPath = inputPath.resolveSibling(inputPath.getFileName().toString() + ".png");
 
             // Generate image.
             try {
-                RailRoadDiagramGenerator.generate(inputPath, configPath, outputPath, OutputFormat.IMAGES,
+                RailRoadDiagramGenerator.generate(inputPath, configPaths, outputPath, OutputFormat.IMAGES,
                         log.isDebugEnabled() ? log::debug : null, log::warn);
             } catch (Throwable e) {
                 log.error(e);

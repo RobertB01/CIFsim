@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams;
 
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.awt.Color;
@@ -73,23 +74,25 @@ public class RailRoadDiagramGenerator {
             return; // Never reached.
         }
         Path configPath = (args.length == 3) ? null : Paths.get(args[3]);
+        List<Path> configPaths = listc(1);
+        configPaths.add(configPath);
 
         // Generate railroad diagram image.
-        generate(inputPath, configPath, outputPath, outputFormat, null, System.err::println);
+        generate(inputPath, configPaths, outputPath, outputFormat, null, System.err::println);
     }
 
     /**
      * Generate railroad diagram image.
      *
      * @param inputPath The path to the input file with the railroad diagram specification.
-     * @param configPath The path to the configuration file to use, or {@code null} to use the default configuration.
+     * @param configPaths The paths to the configuration files to use, or {@code null} to use the default configuration.
      * @param outputPath The path to the output image file.
      * @param outputFormat The requested output format.
      * @param debugLogger The debug logger to use, or {@code null} to not log debug output.
      * @param warningLogger The warning logger to use.
      * @throws IOException In case of an I/O error.
      */
-    public static void generate(Path inputPath, Path configPath, Path outputPath, OutputFormat outputFormat,
+    public static void generate(Path inputPath, List<Path> configPaths, Path outputPath, OutputFormat outputFormat,
             Consumer<String> debugLogger, Consumer<String> warningLogger) throws IOException
     {
         // Setup output target and configuration.
@@ -107,11 +110,13 @@ public class RailRoadDiagramGenerator {
         Configuration config = new Configuration(outputTarget, debugLogger);
 
         // Load the configuration file.
-        if (configPath != null) {
-            try {
-                config.loadPropertiesFile(configPath);
-            } catch (IOException e) {
-                throw new IOException(fmt("Failed to read configuration file \"%s\".", configPath), e);
+        if (configPaths != null) {
+            for (Path configPath: configPaths) {
+                try {
+                    config.loadPropertiesFile(configPath);
+                } catch (IOException e) {
+                    throw new IOException(fmt("Failed to read configuration file \"%s\".", configPath), e);
+                }
             }
         }
 
