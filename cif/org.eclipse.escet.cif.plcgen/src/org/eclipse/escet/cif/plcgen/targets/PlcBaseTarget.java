@@ -34,6 +34,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcTask;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcBaseTarget {
@@ -112,7 +113,17 @@ public abstract class PlcBaseTarget {
      * @param outputPath Absolute base path to write to.
      * @note Depending on the actual implementation a single file or a directory may be written.
      */
-    public abstract void writeOutput(String outputPath);
+    public void writeOutput(String outputPath) {
+        OutputTypeWriter writer = getPlcCodeWriter();
+        writer.write(project, outputPath);
+    }
+
+    /**
+     * Get the writer instance for storing the generated PLC code to the file system.
+     *
+     * @return The requested PLC code writer.
+     */
+    protected abstract OutputTypeWriter getPlcCodeWriter();
 
     /**
      * Returns whether or not the PLC target type supports named constants.

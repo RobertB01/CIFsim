@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.targets;
 import java.util.Map;
 
 import org.eclipse.escet.cif.cif2plc.options.PlcOutputType;
+import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.cif2plc.writers.S7Writer;
 import org.eclipse.escet.common.java.Assert;
 
@@ -49,8 +50,8 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public void writeOutput(String outputPath) {
-        new S7Writer(OUTPUT_TYPES.get(targetType)).write(project, outputPath);
+    public OutputTypeWriter getPlcCodeWriter() {
+        return new S7Writer(OUTPUT_TYPES.get(targetType));
     }
 
     @Override
