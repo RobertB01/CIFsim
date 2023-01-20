@@ -61,7 +61,7 @@ public abstract class PlcBaseTarget {
      *
      * @return The requested PLC code writer.
      */
-    protected abstract OutputTypeWriter getPlcCodeWriter();
+    public abstract OutputTypeWriter getPlcCodeWriter();
 
     /**
      * Returns whether or not the PLC target type supports named constants.

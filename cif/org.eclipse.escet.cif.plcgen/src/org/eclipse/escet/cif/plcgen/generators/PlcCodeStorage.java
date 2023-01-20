@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType.INT_TYPE;
 
 import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
@@ -36,9 +35,9 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
-import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 
-/** Stores generated PLC code. */
+/** Stores and writes generated PLC code. */
 public class PlcCodeStorage {
     /** PLC target to generate code for. */
     private PlcBaseTarget target;
@@ -84,7 +83,7 @@ public class PlcCodeStorage {
         globalInputs = new PlcGlobalVarList("INPUTS", false);
         resource.globalVarLists.add(globalInputs);
 
-        boolean constantsAllowed = supportsConstants();
+        boolean constantsAllowed = target.supportsConstants();
         if (constantsAllowed) {
             globalConsts = new PlcGlobalVarList("CONSTS", true);
             resource.globalVarLists.add(globalConsts);
@@ -116,7 +115,7 @@ public class PlcCodeStorage {
      * @note Depending on the actual implementation a single file or a directory may be written.
      */
     public void writeOutput(String outputPath) {
-        OutputTypeWriter writer = getPlcCodeWriter();
+        OutputTypeWriter writer = target.getPlcCodeWriter();
         writer.write(project, outputPath);
     }
 }
