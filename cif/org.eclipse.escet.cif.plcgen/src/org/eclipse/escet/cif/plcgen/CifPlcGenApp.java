@@ -50,7 +50,6 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.java.Assert;
 
 /** PLC code generator application. */
 public class CifPlcGenApp extends Application<IOutputComponent> {
@@ -125,11 +124,6 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         PlcGenSettings settings = makePlcGenSettings(target);
         target.transform(settings);
 
-        // Get output path.
-        String outPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
-        Assert.notNull(outPath);
-        outPath = Paths.resolve(outPath);
-
         // TODO Use these options, see also getAllOptions()
         //
         // PlcNumberBitsOption
@@ -139,14 +133,6 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         // ConvertEnumsOption
         // SimplifyValuesOption
         // RenameWarningsOption
-
-        target.generateProgram();
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Write output.
-        target.writeOutput(outPath);
         return 0;
     }
 

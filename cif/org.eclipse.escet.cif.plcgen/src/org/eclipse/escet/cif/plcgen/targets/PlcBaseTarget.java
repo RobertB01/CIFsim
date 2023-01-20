@@ -45,22 +45,17 @@ public abstract class PlcBaseTarget {
      */
     public boolean transform(PlcGenSettings settings) {
         codeStorage.setup(settings);
-        return !settings.shouldTerminate.get();
-    }
+        if (settings.shouldTerminate.get()) {
+            return false;
+        }
 
-    /** Construct the main program. */
-    public void generateProgram() {
         codeStorage.generateProgram();
-    }
+        if (settings.shouldTerminate.get()) {
+            return false;
+        }
 
-    /**
-     * Write the project to the output.
-     *
-     * @param outputPath Absolute base path to write to.
-     * @note Depending on the actual implementation a single file or a directory may be written.
-     */
-    public void writeOutput(String outputPath) {
         codeStorage.writeOutput();
+        return true;
     }
 
     /**
