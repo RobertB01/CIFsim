@@ -60,7 +60,7 @@ Consider the following CIF specification:
 automaton car:
   event increase, decrease, arrived;
   disc real speed = 0;
-  cont pos der speed;
+  cont pos = 0 der speed;
 
   location underway:
     initial;
