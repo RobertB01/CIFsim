@@ -75,7 +75,8 @@ public class RailRoadDiagramGenerator {
         Path configPath = (args.length == 3) ? null : Paths.get(args[3]);
 
         // Generate railroad diagram image.
-        generate(inputPath, configPath, outputPath, outputFormat, null, System.err::println);
+        Consumer<String> debugOutput = null;
+        generate(inputPath, configPath, outputPath, outputFormat, debugOutput, System.err::println);
     }
 
     /**
