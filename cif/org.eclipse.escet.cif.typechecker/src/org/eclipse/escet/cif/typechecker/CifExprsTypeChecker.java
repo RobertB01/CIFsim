@@ -1448,7 +1448,7 @@ public class CifExprsTypeChecker {
                     throw new SemanticException();
                 }
 
-                rslt.setType(CifTypeUtils.mergeTypes(ltype, rtype));
+                rslt.setType(CifTypeUtils.mergeTypes(ltype, rtype, rslt.getPosition()));
                 break;
             }
 
@@ -1551,7 +1551,7 @@ public class CifExprsTypeChecker {
                     // list t, list t -> list t
                     // list[l1..u1] t, list[l2..u2] t -> list[l1+l2..u1+u2] t
                     if (checkTypeCompat(ltype, rtype, RangeCompat.IGNORE)) {
-                        resultType = CifTypeUtils.mergeTypes(ltype, rtype);
+                        resultType = CifTypeUtils.mergeTypes(ltype, rtype, rslt.getPosition());
                     }
 
                     ListType lltype = (ListType)nltype;
@@ -1576,11 +1576,11 @@ public class CifExprsTypeChecker {
                     }
                 } else if (nltype instanceof StringType && nrtype instanceof StringType) {
                     // string, string -> string
-                    resultType = CifTypeUtils.mergeTypes(ltype, rtype);
+                    resultType = CifTypeUtils.mergeTypes(ltype, rtype, rslt.getPosition());
                 } else if (nltype instanceof DictType && nrtype instanceof DictType) {
                     // dict(k:v), dict(k:v) -> dict(k:v)
                     if (checkTypeCompat(ltype, rtype, RangeCompat.IGNORE)) {
-                        resultType = CifTypeUtils.mergeTypes(ltype, rtype);
+                        resultType = CifTypeUtils.mergeTypes(ltype, rtype, rslt.getPosition());
                     }
                 }
 
@@ -1641,12 +1641,12 @@ public class CifExprsTypeChecker {
                 } else if (nltype instanceof SetType && nrtype instanceof SetType) {
                     // set t, set t -> set t
                     if (checkTypeCompat(ltype, rtype, RangeCompat.IGNORE)) {
-                        resultType = CifTypeUtils.mergeTypes(ltype, rtype);
+                        resultType = CifTypeUtils.mergeTypes(ltype, rtype, rslt.getPosition());
                     }
                 } else if (nltype instanceof DictType && nrtype instanceof DictType) {
                     // dict(k:v), dict(k:v) -> dict(k:v)
                     if (checkTypeCompat(ltype, rtype, RangeCompat.IGNORE)) {
-                        resultType = CifTypeUtils.mergeTypes(ltype, rtype);
+                        resultType = CifTypeUtils.mergeTypes(ltype, rtype, rslt.getPosition());
                     }
                 } else if (nltype instanceof DictType && nrtype instanceof SetType) {
                     // dict(k:v), set(k) -> dict(k:v)
@@ -4013,6 +4013,10 @@ public class CifExprsTypeChecker {
     private static ListExpression transListExpression(AListExpression expr, CifType hint, SymbolScope<?> scope,
             ExprContext context, CifTypeChecker tchecker)
     {
+        // Create list expression.
+        ListExpression rslt = newListExpression();
+        rslt.setPosition(expr.createPosition());
+
         // Get type hint for first child.
         CifType nhint = normalizeHint(hint);
         CifType childHint = null;
@@ -4063,7 +4067,7 @@ public class CifExprsTypeChecker {
                         throw new SemanticException();
                     }
 
-                    etype = CifTypeUtils.mergeTypes(etype, elem.getType());
+                    etype = CifTypeUtils.mergeTypes(etype, elem.getType(), rslt.getPosition());
                 }
             }
         }
@@ -4075,9 +4079,7 @@ public class CifExprsTypeChecker {
         type.setLower(elems.size());
         type.setUpper(elems.size());
 
-        // Create list expression.
-        ListExpression rslt = newListExpression();
-        rslt.setPosition(expr.createPosition());
+        // Set remaining fields of list expression.
         rslt.setType(type);
         rslt.getElements().addAll(elems);
         return rslt;
@@ -4130,6 +4132,10 @@ public class CifExprsTypeChecker {
         // Precondition check.
         Assert.check(!expr.elements.isEmpty());
 
+        // Create set expression.
+        SetExpression rslt = newSetExpression();
+        rslt.setPosition(expr.createPosition());
+
         // Get type hint for first child.
         CifType nhint = normalizeHint(hint);
         CifType childHint = null;
@@ -4170,7 +4176,7 @@ public class CifExprsTypeChecker {
                     throw new SemanticException();
                 }
 
-                etype = CifTypeUtils.mergeTypes(etype, elem.getType());
+                etype = CifTypeUtils.mergeTypes(etype, elem.getType(), rslt.getPosition());
             }
         }
 
@@ -4179,9 +4185,7 @@ public class CifExprsTypeChecker {
         type.setPosition(expr.createPosition());
         type.setElementType(etype);
 
-        // Create set expression.
-        SetExpression rslt = newSetExpression();
-        rslt.setPosition(expr.createPosition());
+        // Set remaining fields of set expression.
         rslt.setType(type);
         rslt.getElements().addAll(elems);
         return rslt;
@@ -4262,6 +4266,10 @@ public class CifExprsTypeChecker {
         // Precondition check.
         Assert.check(!expr.pairs.isEmpty());
 
+        // Create dictionary expression.
+        DictExpression rslt = newDictExpression();
+        rslt.setPosition(expr.createPosition());
+
         // Get type hints for first pair.
         CifType nhint = normalizeHint(hint);
         CifType keyHint = null;
@@ -4324,7 +4332,7 @@ public class CifExprsTypeChecker {
                     throw new SemanticException();
                 }
 
-                ktype = CifTypeUtils.mergeTypes(ktype, pair.getKey().getType());
+                ktype = CifTypeUtils.mergeTypes(ktype, pair.getKey().getType(), rslt.getPosition());
 
                 // Value type.
                 if (!checkTypeCompat(vtype, pair.getValue().getType(), RangeCompat.IGNORE)) {
@@ -4337,18 +4345,16 @@ public class CifExprsTypeChecker {
                     throw new SemanticException();
                 }
 
-                vtype = CifTypeUtils.mergeTypes(vtype, pair.getValue().getType());
+                vtype = CifTypeUtils.mergeTypes(vtype, pair.getValue().getType(), rslt.getPosition());
             }
         }
 
-        // Create dictionary expression.
+        // Set remaining fields of dictionary expression.
         DictType type = newDictType();
         type.setPosition(expr.createPosition());
         type.setKeyType(ktype);
         type.setValueType(vtype);
 
-        DictExpression rslt = newDictExpression();
-        rslt.setPosition(expr.createPosition());
         rslt.setType(type);
         rslt.getPairs().addAll(pairs);
         return rslt;
@@ -4367,6 +4373,7 @@ public class CifExprsTypeChecker {
     private static IfExpression transIfExpression(AIfExpression expr, CifType hint, SymbolScope<?> scope,
             ExprContext context, CifTypeChecker tchecker)
     {
+        // Create 'if' expression.
         IfExpression rslt = newIfExpression();
         rslt.setPosition(expr.createPosition());
 
@@ -4440,10 +4447,10 @@ public class CifExprsTypeChecker {
         // Compute type for 'if' expression. Note that we merge at least once,
         // and thus don't need to deep clone here.
         CifType mergedType = thenType;
-        mergedType = CifTypeUtils.mergeTypes(mergedType, elseType);
+        mergedType = CifTypeUtils.mergeTypes(mergedType, elseType, rslt.getPosition());
         for (ElifExpression elif: rslt.getElifs()) {
             CifType elifType = elif.getThen().getType();
-            mergedType = CifTypeUtils.mergeTypes(mergedType, elifType);
+            mergedType = CifTypeUtils.mergeTypes(mergedType, elifType, rslt.getPosition());
         }
         rslt.setType(mergedType);
 
@@ -4464,6 +4471,7 @@ public class CifExprsTypeChecker {
     private static SwitchExpression transSwitchExpression(ASwitchExpression expr, CifType hint, SymbolScope<?> scope,
             ExprContext context, CifTypeChecker tchecker)
     {
+        // Create switch expression.
         SwitchExpression rslt = newSwitchExpression();
         rslt.setPosition(expr.createPosition());
 
@@ -4536,7 +4544,8 @@ public class CifExprsTypeChecker {
         CifType mergedType = null;
         for (SwitchCase cse: cases) {
             CifType caseType = cse.getValue().getType();
-            mergedType = (mergedType == null) ? caseType : CifTypeUtils.mergeTypes(mergedType, caseType);
+            mergedType = (mergedType == null) ? caseType
+                    : CifTypeUtils.mergeTypes(mergedType, caseType, rslt.getPosition());
         }
         if (cases.size() == 1) {
             mergedType = deepclone(mergedType);
