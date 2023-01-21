@@ -41,19 +41,19 @@ automaton producer2:
 end
 
 automaton consumer1:
-  disc int nr = -1;
+  disc list int nrs;
 
   location:
     initial;
-    edge provide? do nr := ?;
+    edge provide? do nrs := nrs + [?];
 end
 
 automaton consumer2:
-  disc int nr = -1;
+  disc list int nrs;
 
   location:
     initial;
-    edge provide? do nr := ?;
+    edge provide? do nrs := nrs + [?];
 end
 ----
 
