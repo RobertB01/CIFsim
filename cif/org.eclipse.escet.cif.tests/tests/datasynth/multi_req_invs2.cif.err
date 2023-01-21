@@ -1,2 +1,2 @@
 WARNING: File "datasynth/multi_req_invs2.cif": Semantic warning at line 27, column 12: The alphabet of automaton "r" globally disables event "d", as the event is not used on any of the edges of the automaton.
-WARNING: Event "d" is never enabled in the input specification, taking into account automaton guards, state/event exclusion invariants, and state plant invariants.
+WARNING: Event "d" is never enabled in the input specification, taking into account automaton guards and invariants.
