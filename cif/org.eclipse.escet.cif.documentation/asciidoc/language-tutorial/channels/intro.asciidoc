@@ -199,4 +199,5 @@ Both consumers can receive products from either producer.
 At all times, four transitions are possible:
 `producer1` communicates with `consumer1`, `producer1` communicates with `consumer2`, `producer2` communicates with `consumer1`, or `producer2` communicates with `consumer2`.
 
-// TODO: refer to future component definition/instantiation lesson
+Notice that the `producer1` and `producer2` automata and the `consumer1` and `consumer2` automate are identical.
+In the lesson on <<lang-tut-reuse2-chapter-aut-def-inst,Automaton definition/instantiation>>, it is shown how this model can be improved.
