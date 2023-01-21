@@ -747,8 +747,8 @@ public class CifExprsTypeChecker {
             Assert.check(value >= 0);
             RealExpression realExpr = newRealExpression();
             realExpr.setValue(str(value) + ".0");
-            realExpr.setPosition(intExpr.getPosition());
-            realExpr.setType(newRealType());
+            realExpr.setPosition(expr.createPosition());
+            realExpr.setType(newRealType(expr.createPosition()));
             return realExpr;
         }
 
