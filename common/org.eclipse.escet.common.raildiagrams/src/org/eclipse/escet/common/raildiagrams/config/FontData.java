@@ -13,15 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams.config;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-
-import org.eclipse.escet.common.raildiagrams.util.Position2D;
-import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** Data about the font used for generating text in the output. */
 public class FontData {
@@ -49,38 +41,6 @@ public class FontData {
         this.fontStyle = style;
         this.fontSize = size;
         font = new Font(name, style.fontStyle, size);
-    }
-
-    /**
-     * Paint the provided text at the indicated position.
-     *
-     * @param gd Graphics context.
-     * @param x X coordinate of the top-left position.
-     * @param y Y coordinate of the top-left position.
-     * @param color Color of the text.
-     * @param text Text to paint.
-     */
-    public void paint(int x, int y, Color color, Graphics2D gd, String text) {
-        FontRenderContext renderContext = gd.getFontRenderContext();
-        TextLayout layout = new TextLayout(text, font, renderContext);
-        Rectangle2D bounds = layout.getPixelBounds(renderContext, 0, 0);
-        gd.setColor(color);
-        layout.draw(gd, (float)(x - bounds.getX()), (float)(y - bounds.getY()));
-    }
-
-    /**
-     * Get the size and top-left offset of the box around the provided text.
-     *
-     * @param gd Graphics context.
-     * @param text Text to measure.
-     * @return Size and offset of the text.
-     */
-    public TextSizeOffset getTextSizeOffset(Graphics2D gd, String text) {
-        FontRenderContext renderContext = gd.getFontRenderContext();
-        TextLayout layout = new TextLayout(text, font, renderContext);
-        Rectangle2D bounds = layout.getPixelBounds(renderContext, 0, 0);
-        return new TextSizeOffset(new Position2D(0, 0),
-                new Size2D((int)Math.ceil(bounds.getWidth()), (int)Math.ceil(bounds.getHeight())));
     }
 
     /** Available styles of text. */
