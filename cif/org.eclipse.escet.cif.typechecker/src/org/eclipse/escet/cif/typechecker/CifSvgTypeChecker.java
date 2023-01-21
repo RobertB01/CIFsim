@@ -340,6 +340,7 @@ public class CifSvgTypeChecker {
             try {
                 // Create metamodel representation of the entry.
                 entry = newSvgInEventIfEntry();
+                entry.setPosition(astEntry.createPosition());
 
                 // Check guard/source predicate, if not 'else'.
                 if (astEntry.guard != null) {

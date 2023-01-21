@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.parser.ast.iodecls.svg;
 
 import java.util.List;
 
+import org.eclipse.escet.common.java.TextPosition;
+
 /** A CIF/SVG input mapping event choice that uses an if/then/else construct to choose the event. */
 public class ASvgInEventIf extends ASvgInEvent {
     /** The entries of the if/then/else. */
@@ -24,8 +26,10 @@ public class ASvgInEventIf extends ASvgInEvent {
      * Constructor for the {@link ASvgInEventIf} class.
      *
      * @param entries The entries of the if/then/else.
+     * @param position Position information.
      */
-    public ASvgInEventIf(List<ASvgInEventIfEntry> entries) {
+    public ASvgInEventIf(List<ASvgInEventIfEntry> entries, TextPosition position) {
+        super(position);
         this.entries = entries;
     }
 }

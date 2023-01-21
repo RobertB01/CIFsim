@@ -1601,20 +1601,22 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // SvgInEvent : Name;
     public ASvgInEvent parseSvgInEvent1(AName a1) {
-        return new ASvgInEventSingle(a1);
+        return new ASvgInEventSingle(a1, a1.position);
     }
 
-    @Override // SvgInEvent : IFKW Expression COLONTK Name OptSvgInEventElifs ELSEKW Name ENDKW;
-    public ASvgInEvent parseSvgInEvent2(AExpression a2, AName a4, List<ASvgInEventIfEntry> l5, AName a7) {
-        l5.add(0, new ASvgInEventIfEntry(a2, a4));
-        l5.add(new ASvgInEventIfEntry(null, a7));
-        return new ASvgInEventIf(l5);
+    @Override // SvgInEvent : @IFKW Expression @COLONTK Name OptSvgInEventElifs @ELSEKW Name ENDKW;
+    public ASvgInEvent parseSvgInEvent2(Token t1, AExpression a2, Token t3, AName a4, List<ASvgInEventIfEntry> l5,
+            Token t6, AName a7)
+    {
+        l5.add(0, new ASvgInEventIfEntry(a2, a4, t3.position));
+        l5.add(new ASvgInEventIfEntry(null, a7, t6.position));
+        return new ASvgInEventIf(l5, t1.position);
     }
 
-    @Override // SvgInEvent : IFKW Expression COLONTK Name SvgInEventElifs ENDKW;
-    public ASvgInEvent parseSvgInEvent3(AExpression a2, AName a4, List<ASvgInEventIfEntry> l5) {
-        l5.add(0, new ASvgInEventIfEntry(a2, a4));
-        return new ASvgInEventIf(l5);
+    @Override // SvgInEvent : @IFKW Expression @COLONTK Name SvgInEventElifs ENDKW;
+    public ASvgInEvent parseSvgInEvent3(Token t1, AExpression a2, Token t3, AName a4, List<ASvgInEventIfEntry> l5) {
+        l5.add(0, new ASvgInEventIfEntry(a2, a4, t3.position));
+        return new ASvgInEventIf(l5, t1.position);
     }
 
     @Override // OptSvgInEventElifs : ;
@@ -1627,14 +1629,16 @@ public final class CifParserHooks implements CifParser.Hooks {
         return l1;
     }
 
-    @Override // SvgInEventElifs : ELIFKW Expression COLONTK Name;
-    public List<ASvgInEventIfEntry> parseSvgInEventElifs1(AExpression a2, AName a4) {
-        return list(new ASvgInEventIfEntry(a2, a4));
+    @Override // SvgInEventElifs : @ELIFKW Expression COLONTK Name;
+    public List<ASvgInEventIfEntry> parseSvgInEventElifs1(Token t1, AExpression a2, AName a4) {
+        return list(new ASvgInEventIfEntry(a2, a4, t1.position));
     }
 
-    @Override // SvgInEventElifs : SvgInEventElifs ELIFKW Expression COLONTK Name;
-    public List<ASvgInEventIfEntry> parseSvgInEventElifs2(List<ASvgInEventIfEntry> l1, AExpression a3, AName a5) {
-        l1.add(new ASvgInEventIfEntry(a3, a5));
+    @Override // SvgInEventElifs : SvgInEventElifs @ELIFKW Expression COLONTK Name;
+    public List<ASvgInEventIfEntry> parseSvgInEventElifs2(List<ASvgInEventIfEntry> l1, Token t2, AExpression a3,
+            AName a5)
+    {
+        l1.add(new ASvgInEventIfEntry(a3, a5, t2.position));
         return l1;
     }
 
