@@ -268,7 +268,7 @@ public class StateInvPredCodeGenerator {
             return;
         }
 
-        // Time dependent invariants are currently not supported. If they were
+        // Time dependent state invariants are currently not supported. If they were
         // supported, consider this specification:
         //
         // plant a:
@@ -294,7 +294,7 @@ public class StateInvPredCodeGenerator {
         // subsequent transitions. In fact, if the invariant wouldn't hold
         // after the time transition, the new state is invalid.
 
-        String msg = fmt("Time dependent invariants are currently not supported by the CIF simulator: \"%s\".",
+        String msg = fmt("Time dependent state invariants are currently not supported by the CIF simulator: \"%s\".",
                 escapeJava(invToStr(inv, false)));
         throw new UnsupportedException(msg);
     }
