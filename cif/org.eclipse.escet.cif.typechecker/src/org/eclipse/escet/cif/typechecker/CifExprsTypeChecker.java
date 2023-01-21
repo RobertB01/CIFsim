@@ -5078,12 +5078,14 @@ public class CifExprsTypeChecker {
         if (scope instanceof AutScope) {
             Automaton aut = ((AutScope)scope).getObject();
             ComponentType type = newComponentType();
+            type.setPosition(expr.createPosition());
             type.setComponent(aut);
             rslt.setType(type);
         } else {
             Assert.check(scope instanceof AutDefScope);
             ComponentDef cdef = ((AutDefScope)scope).getObject();
             ComponentDefType type = newComponentDefType();
+            type.setPosition(expr.createPosition());
             type.setDefinition(cdef);
             rslt.setType(type);
         }
