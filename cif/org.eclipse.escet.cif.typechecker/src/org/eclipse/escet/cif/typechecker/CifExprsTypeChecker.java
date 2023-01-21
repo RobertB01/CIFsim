@@ -4662,7 +4662,7 @@ public class CifExprsTypeChecker {
             Assert.check(locAut == aut);
 
             // Fix the scoping of the location reference expression.
-            changeLocRefScope(key, switchValue);
+            changeLocRefScope(key, switchValue, key.getPosition());
         } else {
             // Transform expression.
             CifType keyHint = switchValue.getType();
@@ -4711,9 +4711,11 @@ public class CifExprsTypeChecker {
      *     expression in its containment.
      * @param autRef The automaton reference expression, valid from the scope of the 'switch' expression. It may be an
      *     automaton self reference.
+     * @param position The position used for newly created expressions and types. The position itself is not used, only
+     *     clones are used.
      * @return The location reference, potentially with added wrapping expressions.
      */
-    private static Expression changeLocRefScope(Expression locRef, Expression autRef) {
+    private static Expression changeLocRefScope(Expression locRef, Expression autRef, Position position) {
         // Automaton 'self' reference.
         if (autRef instanceof SelfExpression) {
             return locRef;
@@ -4724,12 +4726,13 @@ public class CifExprsTypeChecker {
             // Create wrapping expression for automaton parameter reference.
             CompParamExpression expr = (CompParamExpression)autRef;
             CompParamWrapExpression wrap = newCompParamWrapExpression();
+            wrap.setPosition(copyPosition(position));
 
             // Put parameter in the new wrapper.
             wrap.setParameter(expr.getParameter());
 
             // Location references always have a boolean type.
-            wrap.setType(newBoolType());
+            wrap.setType(newBoolType(copyPosition(position)));
 
             // Replace current location reference by new wrapper.
             EMFHelper.updateParentContainment(locRef, wrap);
@@ -4745,14 +4748,15 @@ public class CifExprsTypeChecker {
         if (autRef instanceof CompParamWrapExpression) {
             // Recursively handle child of wrapped automaton reference.
             CompParamWrapExpression wrap1 = (CompParamWrapExpression)autRef;
-            locRef = changeLocRefScope(locRef, wrap1.getReference());
+            locRef = changeLocRefScope(locRef, wrap1.getReference(), position);
 
             // Copy wrapping expression.
             CompParamWrapExpression wrap2 = newCompParamWrapExpression();
+            wrap2.setPosition(copyPosition(position));
             wrap2.setParameter(wrap1.getParameter());
 
             // Location references always have a boolean type.
-            wrap2.setType(newBoolType());
+            wrap2.setType(newBoolType(copyPosition(position)));
 
             // Replace current location reference by new wrapper.
             EMFHelper.updateParentContainment(locRef, wrap2);
@@ -4767,14 +4771,15 @@ public class CifExprsTypeChecker {
         if (autRef instanceof CompInstWrapExpression) {
             // Recursively handle child of wrapped automaton reference.
             CompInstWrapExpression wrap1 = (CompInstWrapExpression)autRef;
-            locRef = changeLocRefScope(locRef, wrap1.getReference());
+            locRef = changeLocRefScope(locRef, wrap1.getReference(), position);
 
             // Copy wrapping expression.
             CompInstWrapExpression wrap2 = newCompInstWrapExpression();
+            wrap2.setPosition(copyPosition(position));
             wrap2.setInstantiation(wrap1.getInstantiation());
 
             // Location references always have a boolean type.
-            wrap2.setType(newBoolType());
+            wrap2.setType(newBoolType(copyPosition(position)));
 
             // Replace current location reference by new wrapper.
             EMFHelper.updateParentContainment(locRef, wrap2);
@@ -4805,7 +4810,8 @@ public class CifExprsTypeChecker {
 
             // Create wrapping expression for automaton instantiation.
             CompInstWrapExpression wrap = newCompInstWrapExpression();
-            wrap.setType(newBoolType());
+            wrap.setPosition(copyPosition(position));
+            wrap.setType(newBoolType(copyPosition(position)));
             wrap.setInstantiation((ComponentInst)comp);
 
             // Replace current location reference by new wrapper.
