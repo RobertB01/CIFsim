@@ -888,7 +888,7 @@ public class CifToPlcTrans {
 
         // Add function.
         String name = getPlcName(func);
-        CifType rtype = makeTupleType(deepclone(func.getReturnTypes()));
+        CifType rtype = makeTupleType(deepclone(func.getReturnTypes()), null);
         pou = new PlcPou(name, PlcPouType.FUNCTION, transType(rtype));
         project.pous.add(pou);
 

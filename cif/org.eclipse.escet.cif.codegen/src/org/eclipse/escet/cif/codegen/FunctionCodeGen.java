@@ -53,7 +53,7 @@ public abstract class FunctionCodeGen {
      * @return The return type of the function.
      */
     public CifType getReturnType() {
-        return makeTupleType(deepclone(function.getReturnTypes()));
+        return makeTupleType(deepclone(function.getReturnTypes()), null);
     }
 
     /**

@@ -1115,7 +1115,7 @@ public class CifValueUtils {
             for (InternalFunction func: funcs) {
                 // Get type of the function.
                 FuncType t = newFuncType();
-                CifType rt = makeTupleType(func.getReturnTypes());
+                CifType rt = makeTupleType(func.getReturnTypes(), null);
                 t.setReturnType(deepclone(rt));
                 for (FunctionParameter param: func.getParameters()) {
                     CifType pt = param.getParameter().getType();

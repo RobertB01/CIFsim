@@ -1637,7 +1637,7 @@ public class CifTypeUtils {
      * Creates a tuple type for the given field types, if needed.
      *
      * <p>
-     * The field types are not deep cloned, so there containment may change as a result of using this method.
+     * The field types are not deep cloned, so their containment may change as a result of using this method.
      * </p>
      *
      * <p>
@@ -1645,9 +1645,11 @@ public class CifTypeUtils {
      * </p>
      *
      * @param fieldTypes The field types. Must have at least one element.
+     * @param position The position used for newly created types. The position itself is not used, only clones are used.
+     *     May be {@code null} to not set position information.
      * @return If there is only one element, that element, or a tuple with the given elements otherwise.
      */
-    public static CifType makeTupleType(List<CifType> fieldTypes) {
+    public static CifType makeTupleType(List<CifType> fieldTypes, Position position) {
         Assert.check(!fieldTypes.isEmpty());
 
         if (fieldTypes.size() == 1) {
@@ -1655,8 +1657,10 @@ public class CifTypeUtils {
         }
 
         TupleType tupleType = newTupleType();
+        tupleType.setPosition(copyPosition(position));
         for (CifType fieldType: fieldTypes) {
             Field field = newField();
+            field.setPosition(copyPosition(position));
             field.setType(deepclone(fieldType));
             tupleType.getFields().add(field);
         }
@@ -1675,9 +1679,11 @@ public class CifTypeUtils {
      * </p>
      *
      * @param values The values. Must have at least one value.
+     * @param position The position used for newly created types. The position itself is not used, only clones are used.
+     *     May be {@code null} to not set position information.
      * @return If there is only one element, that element, or a tuple with the given elements otherwise.
      */
-    public static CifType makeTupleTypeFromValues(List<Expression> values) {
+    public static CifType makeTupleTypeFromValues(List<Expression> values, Position position) {
         Assert.check(!values.isEmpty());
 
         if (values.size() == 1) {
@@ -1685,8 +1691,10 @@ public class CifTypeUtils {
         }
 
         TupleType tupleType = newTupleType();
+        tupleType.setPosition(copyPosition(position));
         for (Expression value: values) {
             Field field = newField();
+            field.setPosition(copyPosition(position));
             field.setType(deepclone(value.getType()));
             tupleType.getFields().add(field);
         }
@@ -1698,15 +1706,18 @@ public class CifTypeUtils {
      * parameters and return types of the given function.
      *
      * @param func The function.
+     * @param position The position used for newly created types. The position itself is not used, only clones are used.
+     *     May be {@code null} to not set position information.
      * @return The type of the function.
      */
-    public static FuncType getFunctionType(Function func) {
+    public static FuncType makeFunctionType(Function func, Position position) {
         FuncType type = newFuncType();
+        type.setPosition(copyPosition(position));
         for (FunctionParameter param: func.getParameters()) {
             CifType paramType = param.getParameter().getType();
             type.getParamTypes().add(deepclone(paramType));
         }
-        type.setReturnType(makeTupleType(deepclone(func.getReturnTypes())));
+        type.setReturnType(makeTupleType(deepclone(func.getReturnTypes()), position));
         return type;
     }
 

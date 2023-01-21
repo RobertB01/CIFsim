@@ -240,7 +240,7 @@ public class FunctionScope extends ParentScope<Function> {
 
         // Create a single return type for the function.
         Assert.check(!returnTypes.isEmpty());
-        this.returnType = makeTupleType(deepclone(returnTypes));
+        this.returnType = makeTupleType(deepclone(returnTypes), getPosition());
 
         // Type check the function parameters.
         tchecker.addToCycle(this);
@@ -665,7 +665,7 @@ public class FunctionScope extends ParentScope<Function> {
 
             // Construct one return type for the return values.
             Assert.check(!values.isEmpty());
-            CifType retStatType = makeTupleTypeFromValues(values);
+            CifType retStatType = makeTupleTypeFromValues(values, rstat.getPosition());
 
             // Make sure return values are compatible with return type of the
             // function.

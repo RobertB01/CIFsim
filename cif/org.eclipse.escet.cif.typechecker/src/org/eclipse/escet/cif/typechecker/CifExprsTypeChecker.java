@@ -1107,7 +1107,7 @@ public class CifExprsTypeChecker {
                 }
 
                 DistType dtype = (DistType)nctype;
-                CifType type = makeTupleType(list(dtype.getSampleType(), ctype));
+                CifType type = makeTupleType(list(dtype.getSampleType(), ctype), rslt.getPosition());
                 rslt.setType(deepclone(type));
 
                 break;
@@ -3408,7 +3408,7 @@ public class CifExprsTypeChecker {
                     ltype.setUpper(Math.max(0, ltype.getUpper() - 1));
                 }
 
-                CifType rtype = makeTupleType(list(ltype.getElementType(), ltype));
+                CifType rtype = makeTupleType(list(ltype.getElementType(), ltype), mmCall.getPosition());
                 resultType.setReturnType(deepclone(rtype));
 
                 break;
