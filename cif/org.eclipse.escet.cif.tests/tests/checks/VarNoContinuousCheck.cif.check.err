@@ -1,4 +1,4 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "a.c" (File "common_checks/VarNoContinuousCheck.cif": line 22, column 8): variable is a continuous variable.
- - Unsupported "c" (File "common_checks/VarNoContinuousCheck.cif": line 14, column 6): variable is a continuous variable.
- - Unsupported "g.c" (File "common_checks/VarNoContinuousCheck.cif": line 17, column 8): variable is a continuous variable.
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a.c" (File "checks/VarNoContinuousCheck.cif": line 22, column 8): variable is a continuous variable.
+ - Unsupported "c" (File "checks/VarNoContinuousCheck.cif": line 14, column 6): variable is a continuous variable.
+ - Unsupported "g.c" (File "checks/VarNoContinuousCheck.cif": line 17, column 8): variable is a continuous variable.

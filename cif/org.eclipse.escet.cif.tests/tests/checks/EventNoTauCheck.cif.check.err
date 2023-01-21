@@ -1,9 +1,9 @@
-WARNING: File "common_checks/EventNoTauCheck.cif": Semantic warning at line 30, column 10: Duplicate event "tau" on a single edge in automaton "a2".
-WARNING: File "common_checks/EventNoTauCheck.cif": Semantic warning at line 30, column 15: Duplicate event "tau" on a single edge in automaton "a2".
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "a1" (File "common_checks/EventNoTauCheck.cif": line 14, columns 11 .. 12): automaton has an edge with an explicit "tau" event on it.
- - Unsupported "a1" (File "common_checks/EventNoTauCheck.cif": line 14, columns 11 .. 12): automaton has an edge with an implicit "tau" event on it.
- - Unsupported "a2.l1" (File "common_checks/EventNoTauCheck.cif": line 24, columns 12 .. 13): location has an edge with an implicit "tau" event on it.
- - Unsupported "a2.l2" (File "common_checks/EventNoTauCheck.cif": line 27, columns 12 .. 13): location has an edge with an explicit "tau" event on it.
- - Unsupported "a2.l3" (File "common_checks/EventNoTauCheck.cif": line 29, columns 12 .. 13): location has an edge with an explicit "tau" event on it.
- - Unsupported "a2.l4" (File "common_checks/EventNoTauCheck.cif": line 31, columns 12 .. 13): location has an edge with an explicit "tau" event on it.
+WARNING: File "checks/EventNoTauCheck.cif": Semantic warning at line 30, column 10: Duplicate event "tau" on a single edge in automaton "a2".
+WARNING: File "checks/EventNoTauCheck.cif": Semantic warning at line 30, column 15: Duplicate event "tau" on a single edge in automaton "a2".
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a1" (File "checks/EventNoTauCheck.cif": line 14, columns 11 .. 12): automaton has an edge with an explicit "tau" event on it.
+ - Unsupported "a1" (File "checks/EventNoTauCheck.cif": line 14, columns 11 .. 12): automaton has an edge with an implicit "tau" event on it.
+ - Unsupported "a2.l1" (File "checks/EventNoTauCheck.cif": line 24, columns 12 .. 13): location has an edge with an implicit "tau" event on it.
+ - Unsupported "a2.l2" (File "checks/EventNoTauCheck.cif": line 27, columns 12 .. 13): location has an edge with an explicit "tau" event on it.
+ - Unsupported "a2.l3" (File "checks/EventNoTauCheck.cif": line 29, columns 12 .. 13): location has an edge with an explicit "tau" event on it.
+ - Unsupported "a2.l4" (File "checks/EventNoTauCheck.cif": line 31, columns 12 .. 13): location has an edge with an explicit "tau" event on it.

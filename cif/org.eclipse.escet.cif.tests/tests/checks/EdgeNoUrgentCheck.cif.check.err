@@ -1,5 +1,5 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "a.l2" (File "common_checks/EdgeNoUrgentCheck.cif": line 20, columns 12 .. 13): location has an urgent edge.
- - Unsupported "a.l4" (File "common_checks/EdgeNoUrgentCheck.cif": line 24, columns 12 .. 13): location has an urgent edge.
- - Unsupported "g.A.l2" (File "common_checks/EdgeNoUrgentCheck.cif": line 33, columns 14 .. 15): location has an urgent edge.
- - Unsupported "g.A.l4" (File "common_checks/EdgeNoUrgentCheck.cif": line 37, columns 14 .. 15): location has an urgent edge.
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a.l2" (File "checks/EdgeNoUrgentCheck.cif": line 20, columns 12 .. 13): location has an urgent edge.
+ - Unsupported "a.l4" (File "checks/EdgeNoUrgentCheck.cif": line 24, columns 12 .. 13): location has an urgent edge.
+ - Unsupported "g.A.l2" (File "checks/EdgeNoUrgentCheck.cif": line 33, columns 14 .. 15): location has an urgent edge.
+ - Unsupported "g.A.l4" (File "checks/EdgeNoUrgentCheck.cif": line 37, columns 14 .. 15): location has an urgent edge.

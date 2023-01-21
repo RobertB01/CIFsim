@@ -1,6 +1,6 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "different_locs.loc2" (File "common_checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 44, columns 12 .. 15): has an invariant.
- - Unsupported "different_locs.loc5" (File "common_checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 53, columns 12 .. 15): has an invariant.
- - Unsupported "named_invs.I2" (File "common_checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 72, columns 15 .. 16): is an invariant.
- - Unsupported "nameless_loc" (File "common_checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 58, columns 11 .. 22): has an invariant.
- - Unsupported "state_invs" (File "common_checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 78, columns 7 .. 16): has an invariant.
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "different_locs.loc2" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 44, columns 12 .. 15): has an invariant.
+ - Unsupported "different_locs.loc5" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 53, columns 12 .. 15): has an invariant.
+ - Unsupported "named_invs.I2" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 72, columns 15 .. 16): is an invariant.
+ - Unsupported "nameless_loc" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 58, columns 11 .. 22): has an invariant.
+ - Unsupported "state_invs" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 78, columns 7 .. 16): has an invariant.
