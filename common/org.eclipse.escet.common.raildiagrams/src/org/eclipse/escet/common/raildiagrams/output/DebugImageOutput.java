@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
-import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGraphics;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -107,7 +105,7 @@ public class DebugImageOutput extends ImageOutput {
 
     /** Clear the {@link #scratchImage} to full white. */
     private void clearScratchImage() {
-        Graphics2D tempGd = getGraphics(scratchImage.image);
+        Graphics2D tempGd = scratchImage.getGraphics();
         tempGd.setBackground(Color.WHITE);
         tempGd.fillRect(0, 0, width, height);
     }
