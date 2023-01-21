@@ -246,6 +246,9 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
             EventsPostChecker.check(specNoCompDef, env);
         }
 
+        // Check specification to ensure all objects have position information.
+        new PositionInfoPresenceChecker().check(scope.getObject());
+
         // Return type checking result.
         return scope.getObject();
     }
