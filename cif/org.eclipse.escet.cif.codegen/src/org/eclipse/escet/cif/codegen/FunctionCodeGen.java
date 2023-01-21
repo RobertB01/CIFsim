@@ -131,7 +131,7 @@ public abstract class FunctionCodeGen {
             ifElseFrame.generateEndIf(code);
         } else if (statement instanceof ReturnFuncStatement) {
             ReturnFuncStatement rstat = (ReturnFuncStatement)statement;
-            Expression retValue = CifValueUtils.makeTuple(deepclone(rstat.getValues()));
+            Expression retValue = CifValueUtils.makeTuple(deepclone(rstat.getValues()), null);
             generateReturnFuncStatement(retValue, code, safeScope, ctxt);
         } else if (statement instanceof WhileFuncStatement) {
             WhileFuncStatement wstat = (WhileFuncStatement)statement;

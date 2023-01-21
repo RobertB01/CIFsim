@@ -446,7 +446,7 @@ public class FunctionScope extends ParentScope<Function> {
                 addrs.add(addr);
             }
 
-            Expression addr = CifValueUtils.makeTuple(addrs);
+            Expression addr = CifValueUtils.makeTuple(addrs, astat.getPosition());
             astat.setAddressable(addr);
 
             // Make sure we refer to local variables and/or function
@@ -510,7 +510,7 @@ public class FunctionScope extends ParentScope<Function> {
                 values.add(value);
             }
 
-            Expression value = CifValueUtils.makeTuple(values);
+            Expression value = CifValueUtils.makeTuple(values, astat.getPosition());
             astat.setValue(value);
 
             // Compatible types for addressable and value.

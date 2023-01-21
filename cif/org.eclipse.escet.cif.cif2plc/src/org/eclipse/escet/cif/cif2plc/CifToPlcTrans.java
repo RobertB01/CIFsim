@@ -1045,7 +1045,7 @@ public class CifToPlcTrans {
             ReturnFuncStatement rstat = (ReturnFuncStatement)stat;
             String name = getPlcName(func);
             List<Expression> values = rstat.getValues();
-            Expression value = makeTuple(values);
+            Expression value = makeTuple(values, null);
             CodeBox c = pou.body;
             c.add("%s := %s;", name, transExpr(value, null, false));
             c.add("RETURN;");

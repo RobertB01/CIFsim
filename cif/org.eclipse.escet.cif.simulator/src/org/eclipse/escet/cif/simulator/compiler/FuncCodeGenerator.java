@@ -410,7 +410,7 @@ public class FuncCodeGenerator {
             c.add("}");
         } else if (statement instanceof ReturnFuncStatement) {
             ReturnFuncStatement rstat = (ReturnFuncStatement)statement;
-            Expression retValue = makeTuple(deepclone(rstat.getValues()));
+            Expression retValue = makeTuple(deepclone(rstat.getValues()), null);
 
             // Start of 'try'.
             c.add("try {");
