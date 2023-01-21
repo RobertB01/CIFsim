@@ -318,6 +318,7 @@ public class CifSvgTypeChecker {
      */
     private SvgInEvent checkSvgInEvent(ASvgInEventSingle astSingle, SymbolScope<?> scope) {
         SvgInEventSingle single = newSvgInEventSingle();
+        single.setPosition(astSingle.createPosition());
         Expression eventRef = CifEventRefTypeChecker.checkEventRef(astSingle.name, scope, tchecker);
         single.setEvent(eventRef);
         return single;
@@ -332,6 +333,7 @@ public class CifSvgTypeChecker {
      */
     private SvgInEvent checkSvgInEvent(ASvgInEventIf astIf, SymbolScope<?> scope) {
         SvgInEventIf mmIf = newSvgInEventIf();
+        mmIf.setPosition(astIf.createPosition());
         List<SvgInEventIfEntry> entries = mmIf.getEntries();
         for (ASvgInEventIfEntry astEntry: astIf.entries) {
             SvgInEventIfEntry entry;
