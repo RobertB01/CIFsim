@@ -75,7 +75,9 @@ public class RailRoadDiagramGenerator {
         }
         Path configPath = (args.length == 3) ? null : Paths.get(args[3]);
         List<Path> configPaths = listc(1);
-        configPaths.add(configPath);
+        if (configPath != null) {
+            configPaths.add(configPath);
+        }
 
         // Generate railroad diagram image.
         generate(inputPath, configPaths, outputPath, outputFormat, null, System.err::println);
@@ -85,7 +87,9 @@ public class RailRoadDiagramGenerator {
      * Generate railroad diagram image.
      *
      * @param inputPath The path to the input file with the railroad diagram specification.
-     * @param configPaths The paths to the configuration files to use, or {@code null} to use the default configuration.
+     * @param configPaths The default built-in configuration is applied first. Then each of the given configurations is
+     *     applied, in order. You may for instance provide a shared configuration first, and a specific configuration
+     *     second, to allow the specific configuration to override the shared one.
      * @param outputPath The path to the output image file.
      * @param outputFormat The requested output format.
      * @param debugLogger The debug logger to use, or {@code null} to not log debug output.
@@ -109,14 +113,12 @@ public class RailRoadDiagramGenerator {
         }
         Configuration config = new Configuration(outputTarget, debugLogger);
 
-        // Load the configuration file.
-        if (configPaths != null) {
-            for (Path configPath: configPaths) {
-                try {
-                    config.loadPropertiesFile(configPath);
-                } catch (IOException e) {
-                    throw new IOException(fmt("Failed to read configuration file \"%s\".", configPath), e);
-                }
+        // Load the configuration files.
+        for (Path configPath: configPaths) {
+            try {
+                config.loadPropertiesFile(configPath);
+            } catch (IOException e) {
+                throw new IOException(fmt("Failed to read configuration file \"%s\".", configPath), e);
             }
         }
 

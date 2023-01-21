@@ -65,12 +65,11 @@ public class RailRoadDiagramGeneratorMojo extends AbstractMojo {
             List<Path> configPaths = new ArrayList<>(2);
             Path sharedConfigPath = inputPath.resolveSibling("_shared.rr.props");
             Path specificConfigPath = inputPath.resolveSibling(inputPath.getFileName().toString() + ".props");
-            if (Files.isRegularFile(specificConfigPath)) {
-                configPaths.add(specificConfigPath);
-            }
-
             if (Files.isRegularFile(sharedConfigPath)) {
                 configPaths.add(sharedConfigPath);
+            }
+            if (Files.isRegularFile(specificConfigPath)) {
+                configPaths.add(specificConfigPath);
             }
 
             // Set output path.
