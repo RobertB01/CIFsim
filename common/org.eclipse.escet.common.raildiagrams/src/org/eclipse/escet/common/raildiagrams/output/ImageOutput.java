@@ -269,10 +269,9 @@ public abstract class ImageOutput extends OutputTarget {
         FontRenderContext renderContext = textGd.getFontRenderContext();
         TextLayout layout = new TextLayout(text, fontData.font, renderContext);
         Rectangle2D area = layout.getPixelBounds(renderContext, 0, 0);
+
         Position2D offset = new Position2D(-(int)area.getX(), vertOffset);
-
         Size2D size = new Size2D((int)area.getWidth(), height);
-
         return new TextSizeOffset(offset, size);
     }
 
