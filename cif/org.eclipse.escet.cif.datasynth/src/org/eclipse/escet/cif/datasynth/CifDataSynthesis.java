@@ -1200,20 +1200,19 @@ public class CifDataSynthesis {
                 continue;
             }
 
-            // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
-            // plant invariants are all 'false'. State plant invariants are included in 'edge.guard'. There might be
-            // multiple edges for an event.
-            if (aut.eventEdges.get(event).stream().filter(edge -> !edge.guard.isZero()).count() == 0) {
-                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards, "
-                        + "state/event exclusion invariants, and state plant invariants.",
-                        CifTextUtils.getAbsName(event));
-                aut.disabledEvents.add(event);
-                continue;
-            }
-
-            // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
-            // invariants are all 'false'. State plant invariants are included in 'edge.guard'. There might be multiple
-            // edges for an event.
+            // Check whether the guards on edges of automata combined with invariants are all 'false'. There might be
+            // multiple edges for an event. State plant invariants are included in edge guards. Depending on options,
+            // state requirement invariants may always be in the controlled behavior, or they may also be included in
+            // edge guards. State requirement invariants will however only be in the edge guards for controllable
+            // events, and are simplified under the assumption that the requirement already holds in the source state
+            // of the edge. The full restriction may thus not be in the edge guard. For uncontrollable events, the
+            // state requirement invariants will always be in the controlled behavior, regardless of the options.
+            //
+            // If all state requirement invariants are encoded into the controlled behavior, we could check edge guards,
+            // state/event exclusion invariants, and state plant invariants only. And then check them again while also
+            // considering state requirement invariants. If state requirement invariants are encoded into edge guards
+            // or the controlled behavior, only the second option remains. To simplify the implementation and make it
+            // more consistent regardless of the options, we only perform the second check.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
