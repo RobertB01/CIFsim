@@ -19,8 +19,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.escet.cif.common.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
+import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.Application;

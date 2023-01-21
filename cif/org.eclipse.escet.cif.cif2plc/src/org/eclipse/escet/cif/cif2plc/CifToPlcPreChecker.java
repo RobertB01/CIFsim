@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.cif2plc;
 
 import org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption;
-import org.eclipse.escet.cif.common.CifPreconditionChecker;
+import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
