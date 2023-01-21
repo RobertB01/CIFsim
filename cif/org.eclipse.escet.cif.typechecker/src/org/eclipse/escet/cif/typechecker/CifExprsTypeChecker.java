@@ -727,18 +727,6 @@ public class CifExprsTypeChecker {
             throw new SemanticException();
         }
 
-        // Construct metamodel representation.
-        IntExpression intExpr = newIntExpression();
-        intExpr.setPosition(expr.createPosition());
-        intExpr.setValue(value);
-
-        // Set type. Ignore integer type hints, including their range bounds.
-        IntType type = newIntType();
-        type.setPosition(expr.createPosition());
-        type.setLower(value);
-        type.setUpper(value);
-        intExpr.setType(type);
-
         // Automatically widen to 'real' if provided as type hint.
         CifType nhint = normalizeHint(hint);
         if (nhint instanceof RealType) {
@@ -751,6 +739,18 @@ public class CifExprsTypeChecker {
             realExpr.setType(newRealType(expr.createPosition()));
             return realExpr;
         }
+
+        // Construct metamodel representation.
+        IntExpression intExpr = newIntExpression();
+        intExpr.setPosition(expr.createPosition());
+        intExpr.setValue(value);
+
+        // Set type. Ignore integer type hints, including their range bounds.
+        IntType type = newIntType();
+        type.setPosition(expr.createPosition());
+        type.setLower(value);
+        type.setUpper(value);
+        intExpr.setType(type);
 
         // Return integer literal metamodel representation.
         return intExpr;
