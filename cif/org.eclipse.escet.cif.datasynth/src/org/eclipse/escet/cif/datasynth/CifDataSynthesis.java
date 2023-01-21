@@ -215,11 +215,17 @@ public class CifDataSynthesis {
                 dbg(aut.toString(1));
             }
 
-            // Check whether initial state present.
+            // Determine controlled system initialization predicate.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            boolean emptySup = !checkInitStatePresent(aut, doForward, dbgEnabled);
+            determineCtrlSysInit(aut);
+
+            // Check whether an initial state is present, or the supervisor is empty.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            boolean emptySup = !checkInitStatePresent(aut);
 
             // Debug output: number of states in controlled system.
             if (aut.env.isTerminationRequested()) {
@@ -1733,26 +1739,28 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Checks the synthesis result, to see whether an initial state is still present. Also updates the initialization
-     * predicate of the controlled system ({@link SynthesisAutomaton#initialCtrl}) with the controlled behavior.
+     * Determine the initialization predicate of the controlled system, updating the initialization predicate of the
+     * controlled system as computed so far ({@link SynthesisAutomaton#initialCtrl}) with the controlled behavior.
      *
      * @param aut The synthesis result.
-     * @param doForward Whether to do forward reachability during synthesis.
-     * @param dbgEnabled Whether debug output is enabled.
-     * @return Whether an initial state exists in the controlled system ({@code true}) or the supervisor is empty
-     *     ({@code false}).
      */
-    private static boolean checkInitStatePresent(SynthesisAutomaton aut, boolean doForward, boolean dbgEnabled) {
+    private static void determineCtrlSysInit(SynthesisAutomaton aut) {
         // Update initialization predicate for controlled system with the controlled behavior.
         aut.initialCtrl = aut.initialCtrl.andWith(aut.ctrlBeh.id());
-        if (aut.env.isTerminationRequested()) {
-            return true;
-        }
 
         // Free no longer needed predicates.
         aut.initialPlantInv.free();
         aut.initialPlantInv = null;
+    }
 
+    /**
+     * Check the synthesis result, to see whether an initial state is still present.
+     *
+     * @param aut The synthesis result.
+     * @return Whether an initial state exists in the controlled system ({@code true}) or the supervisor is empty
+     *     ({@code false}).
+     */
+    private static boolean checkInitStatePresent(SynthesisAutomaton aut) {
         // Check for empty supervisor (no initial state).
         boolean emptySup = aut.initialCtrl.isZero();
         return !emptySup;
