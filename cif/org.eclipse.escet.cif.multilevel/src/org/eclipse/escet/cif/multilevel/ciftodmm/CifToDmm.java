@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.eclipse.escet.cif.common.CifPreconditionChecker;
+import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EqnNotAllowedCheck;
