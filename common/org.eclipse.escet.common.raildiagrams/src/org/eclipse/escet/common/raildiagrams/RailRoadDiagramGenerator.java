@@ -60,7 +60,7 @@ public class RailRoadDiagramGenerator {
         // Process command line arguments.
         boolean askedHelp = false;
         for (int i = 0; !askedHelp && i < args.length; i++) {
-            askedHelp = args[i].equals("-h") || args[i].equals("-help");
+            askedHelp = args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help");
         }
         if (askedHelp || (args.length != 3 && args.length != 4)) {
             System.err.println(
