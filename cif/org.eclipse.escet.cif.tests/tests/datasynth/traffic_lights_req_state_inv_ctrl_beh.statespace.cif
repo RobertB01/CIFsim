@@ -1,0 +1,16 @@
+controllable green_A;
+controllable red_A;
+controllable green_B;
+controllable red_B;
+automaton statespace:
+  alphabet green_A, red_A, green_B, red_B;
+  location loc1:
+    initial;
+    marked;
+    edge green_A goto loc2;
+    edge green_B goto loc3;
+  location loc2:
+    edge red_A goto loc1;
+  location loc3:
+    edge red_B goto loc1;
+end
