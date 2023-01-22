@@ -26,6 +26,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Effect
 | Choose
 
+| Input
+| State requirement invariant application
+| <<tools-detasynth-state-req-invs>>
+| Impacts the up-front effort, size of the controlled behavior, number of iterations to reach fixed points, and the post-synthesis effort
+| Complex trade-off between different effects, depends on the model
+
 | Output
 | BDD output mode
 | <<tools-datasynth-supervisor-bdd>>

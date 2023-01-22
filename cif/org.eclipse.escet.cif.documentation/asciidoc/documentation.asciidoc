@@ -382,6 +382,8 @@ include::tools/datasynth/variable-order.asciidoc[]
 
 include::tools/datasynth/operation-cache.asciidoc[]
 
+include::tools/datasynth/state-requirement-invariants.asciidoc[]
+
 include::tools/datasynth/debug-output.asciidoc[]
 
 include::tools/datasynth/statistics.asciidoc[]

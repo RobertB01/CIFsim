@@ -46,6 +46,11 @@ For more information, see the <<tools-datasynth-edge-order,section about edge or
 By default, duplicate events are disallowed.
 For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
 
+* _State requirement invariant application_: Specify how state requirement invariants are applied during synthesis.
+By default, they are all applied to the controlled behavior.
+But, they can also be applied per edge, to the guards for edges with controllable events, and to the controlled behavior for edges with uncontrollable events.
+For more information, see the <<tools-datasynth-state-req-invs,section on state requirement invariants>>.
+
 * _Statistics_: The kinds of statistics to print.
 By default, no statistics are printed.
 For more information, see the <<tools-datasynth-stats,section about statistics>>.
