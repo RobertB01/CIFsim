@@ -138,9 +138,8 @@ public class CifDataSynthesis {
             }
             applyStateEvtExclReqs(aut, dbgEnabled);
 
-            // Re-initialize applying edges after applying the state plant invariants and state/event exclusion
-            // requirement invariants. The state requirement invariants are added to the controlled behavior rather than
-            // to the edge guards, so for them it is not needed to re-initialize the application of edges.
+            // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
+            // (depending on options), and state/event exclusion requirement invariants.
             for (SynthesisEdge edge: aut.edges) {
                 if (aut.env.isTerminationRequested()) {
                     return;
