@@ -26,7 +26,7 @@ public class StateReqApplyOption extends EnumOption<StateReqApplyMode> {
                 "State requirement invariant application",
 
                 // description
-                "Specify how state requirement invariants are applied during pre-synthesis. "
+                "Specify how state requirement invariants are applied during synthesis. "
                         + "Specify \"ctrl-beh\" (default) to apply them all to the controlled behavior, "
                         + "or \"edge-guard-or-ctrl-beh\" to apply them per edge, to the guards for edges with "
                         + "controllable events, and to the controlled behavior for edges with uncontrollable events.",
@@ -47,7 +47,7 @@ public class StateReqApplyOption extends EnumOption<StateReqApplyMode> {
                 true,
 
                 // optDialogDescr
-                "Specify how state requirement invariants are applied during pre-synthesis. "
+                "Specify how state requirement invariants are applied during synthesis. "
                         + "Either apply them all to the controlled behavior, or apply them per edge, to the guards "
                         + "for edges with controllable events, and to the controlled behavior for edges with "
                         + "uncontrollable events.");
