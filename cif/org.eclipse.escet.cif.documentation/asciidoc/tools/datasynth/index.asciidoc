@@ -48,7 +48,7 @@ The following additional information is available:
 * <<tools-datasynth-starting>>
 * <<tools-datasynth-options>>
 * <<tools-datasynth-supported>>
-* <<tools-detasynth-early-prob-detect>>
+* <<tools-datasynth-early-prob-detect>>
 * <<tools-datasynth-supervisor>>
 * <<tools-datasynth-simplification>>
 * <<tools-datasynth-forward-reach>>

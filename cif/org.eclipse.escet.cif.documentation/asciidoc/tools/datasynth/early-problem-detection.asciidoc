@@ -13,7 +13,7 @@
 
 indexterm:[data-based supervisory controller synthesis,checks]
 
-[[tools-detasynth-early-prob-detect]]
+[[tools-datasynth-early-prob-detect]]
 == Early problem detection
 
 The data-based synthesis tool checks the specification for common issues, for early detection of problems that will lead to an empty supervisor.
