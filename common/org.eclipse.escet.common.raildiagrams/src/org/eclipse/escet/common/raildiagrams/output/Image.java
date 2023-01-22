@@ -75,6 +75,18 @@ public class Image {
     }
 
     /**
+     * Construct a graphics handle for the image and configure it.
+     *
+     * @param image Image that needs a graphics handle.
+     * @return The configured handle.
+     */
+    public static Graphics2D getGraphics(BufferedImage image) {
+        Graphics2D gd = image.createGraphics();
+        gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        return gd;
+    }
+
+    /**
      * Fill the entire image with the given ARGB color.
      *
      * @param argb Color to use for filling.
@@ -118,17 +130,5 @@ public class Image {
             String msg = fmt("Failed to write PNG image file \"%s\".", path);
             throw new IOException(msg, ex);
         }
-    }
-
-    /**
-     * Construct a graphics handle for a buffer and configure it.
-     *
-     * @param image Buffer that needs a graphics handle.
-     * @return The configured handle.
-     */
-    public static Graphics2D getGraphics(BufferedImage image) {
-        Graphics2D gd = image.createGraphics();
-        gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        return gd;
     }
 }
