@@ -263,8 +263,8 @@ public abstract class ImageOutput extends OutputTarget {
     @Override
     public TextSizeOffset getTextSizeOffset(String text, FontData fontData) {
         FontMetrics fm = textGd.getFontMetrics(fontData.font);
-        int height = fm.getMaxAscent() + fm.getMaxDescent();
-        int vertOffset = fm.getMaxAscent();
+        int height = fm.getAscent() + fm.getDescent();
+        int vertOffset = fm.getAscent();
 
         FontRenderContext renderContext = textGd.getFontRenderContext();
         TextLayout layout = new TextLayout(text, fontData.font, renderContext);
