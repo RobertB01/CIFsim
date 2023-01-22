@@ -83,6 +83,8 @@ map(string:list string) test_options = {
     "datasynth/state_plant_invs_req_aut.cif":                            ["--forward-reach=on"],
     "datasynth/state_plant_invs_simple.cif":                             ["--forward-reach=on"],
     "datasynth/state_plant_invs_unctrl.cif":                             [opt_simplify_all],
+    "datasynth/state_req_inv_in_ctrl_beh.cif":                           ["--state-req-invs=ctrl-beh"],
+    "datasynth/state_req_inv_in_edge_guard_or_ctrl_beh.cif":             ["--state-req-invs=edge-guard-or-ctrl-beh"],
     "datasynth/stats.cif":                                               ["--stats=bdd-perf-cache,bdd-perf-cont,bdd-perf-max-nodes"],
     "datasynth/traffic_lights_req_state_inv_ctrl_beh.cif":               ["--state-req-invs=ctrl-beh"],
     "datasynth/traffic_lights_req_state_inv_edge_guard_or_ctrl_beh.cif": ["--state-req-invs=edge-guard-or-ctrl-beh"],
