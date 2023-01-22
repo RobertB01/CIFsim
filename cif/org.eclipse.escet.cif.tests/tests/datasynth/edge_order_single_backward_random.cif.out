@@ -1,0 +1,185 @@
+Reading CIF file "datasynth/edge_order_single_backward_random.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   Counter   0      3 * 2     6 * 2       8 * 2       75%
+  2      location pointer  n/a   Actuator  1      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  Total                                    2      8         16          20          80%
+
+Applying variable ordering:
+  Applying model variable order.
+
+  Number of hyper-edges: 6
+  Number of graph edges: 0
+
+  Skipping variable ordering algorithm(s): no graph edges.
+
+Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         Counter.zero
+Initial   (aut/locs init predicate):         Actuator.Off
+Initial   (auts/locs init predicate):        Counter.zero and Actuator.Off
+Initial   (uncontrolled system):             Counter.zero and Actuator.Off
+Initial   (system, combined init/plant inv): Counter.zero and Actuator.Off
+Initial   (system, combined init/state inv): Counter.zero and Actuator.Off
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       Counter.zero
+Marked    (aut/locs marker predicate):       Actuator.Off
+Marked    (auts/locs marker predicate):      Counter.zero and Actuator.Off
+Marked    (uncontrolled system):             Counter.zero and Actuator.Off
+Marked    (system, combined mark/plant inv): Counter.zero and Actuator.Off
+Marked    (system, combined mark/state inv): Counter.zero and Actuator.Off
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  Event "Actuator.on" needs:
+    Counter.zero
+  Event "Actuator.off" needs:
+    Counter.five
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one)
+    Edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two)
+    Edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three)
+    Edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four)
+    Edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five)
+    Edge: (event: Counter.dec) (guard: Counter.one) (assignments: Counter := Counter.zero)
+    Edge: (event: Counter.dec) (guard: Counter.two) (assignments: Counter := Counter.one)
+    Edge: (event: Counter.dec) (guard: Counter.three) (assignments: Counter := Counter.two)
+    Edge: (event: Counter.dec) (guard: Counter.four) (assignments: Counter := Counter.three)
+    Edge: (event: Counter.dec) (guard: Counter.five) (assignments: Counter := Counter.four)
+    Edge: (event: Actuator.on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On)
+    Edge: (event: Actuator.off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off)
+
+Restricting behavior using state/event exclusion plants.
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: location pointer for automaton "Counter" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: Actuator.on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Counter.zero and Actuator.Off [requirement: Counter.zero].
+Edge (event: Actuator.off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Counter.five and Actuator.On [requirement: Counter.five].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: true)
+    Edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one)
+    Edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two)
+    Edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three)
+    Edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four)
+    Edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five)
+    Edge: (event: Counter.dec) (guard: Counter.one) (assignments: Counter := Counter.zero)
+    Edge: (event: Counter.dec) (guard: Counter.two) (assignments: Counter := Counter.one)
+    Edge: (event: Counter.dec) (guard: Counter.three) (assignments: Counter := Counter.two)
+    Edge: (event: Counter.dec) (guard: Counter.four) (assignments: Counter := Counter.three)
+    Edge: (event: Counter.dec) (guard: Counter.five) (assignments: Counter := Counter.four)
+    Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
+    Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: Counter.zero and Actuator.Off [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: Counter.zero and Actuator.Off -> (Counter.zero or Counter.one) and Actuator.Off [backward reach with edge: (event: Counter.dec) (guard: Counter.one) (assignments: Counter := Counter.zero), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: (Counter.zero or Counter.one) and Actuator.Off -> (Counter.zero or Counter.two) and Actuator.Off or Counter.one and Actuator.Off [backward reach with edge: (event: Counter.dec) (guard: Counter.two) (assignments: Counter := Counter.one), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: (Counter.zero or Counter.two) and Actuator.Off or Counter.one and Actuator.Off -> not Counter.four and (not Counter.five and Actuator.Off) [backward reach with edge: (event: Counter.dec) (guard: Counter.three) (assignments: Counter := Counter.two), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 3.
+Backward controlled-behavior: not Counter.four and (not Counter.five and Actuator.Off) -> (Counter.zero or Counter.four) and Actuator.Off or (Counter.two and Actuator.Off or (Counter.one or Counter.three) and Actuator.Off) [backward reach with edge: (event: Counter.dec) (guard: Counter.four) (assignments: Counter := Counter.three), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: (Counter.zero or Counter.four) and Actuator.Off or (Counter.two and Actuator.Off or (Counter.one or Counter.three) and Actuator.Off) -> (Counter.two or (Counter.three or Actuator.Off)) and (not Counter.two and not Counter.three or Actuator.Off) [backward reach with edge: (event: Counter.dec) (guard: Counter.five) (assignments: Counter := Counter.four), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 4.
+Backward controlled-behavior: (Counter.two or (Counter.three or Actuator.Off)) and (not Counter.two and not Counter.three or Actuator.Off) -> (Counter.zero or Counter.four) and Actuator.Off or Counter.two and Actuator.Off or (Counter.one and Actuator.Off or (Counter.five or Counter.three and Actuator.Off)) [backward reach with edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: (Counter.zero or Counter.four) and Actuator.Off or Counter.two and Actuator.Off or (Counter.one and Actuator.Off or (Counter.five or Counter.three and Actuator.Off)) -> (not Counter.zero and not Counter.one or Actuator.Off) and (not Counter.two and not Counter.three or Actuator.Off) [backward reach with edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: (not Counter.zero and not Counter.one or Actuator.Off) and (not Counter.two and not Counter.three or Actuator.Off) -> (not Counter.zero or Actuator.Off) and ((not Counter.two or Actuator.Off) and (not Counter.one or Actuator.Off)) [backward reach with edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 5.
+Backward controlled-behavior: (not Counter.zero or Actuator.Off) and ((not Counter.two or Actuator.Off) and (not Counter.one or Actuator.Off)) -> not Counter.zero and not Counter.one or Actuator.Off [backward reach with edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 6.
+Backward controlled-behavior: not Counter.zero and not Counter.one or Actuator.Off -> not Counter.zero or Actuator.Off [backward reach with edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 7.
+Backward controlled-behavior: not Counter.zero or Actuator.Off -> true [backward reach with edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 8.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: Counter.zero and Actuator.Off [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: Counter.zero and Actuator.Off -> (Counter.zero or Counter.one) and Actuator.Off [forward reach with edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (Counter.zero or Counter.one) and Actuator.Off -> (Counter.zero or Counter.two) and Actuator.Off or Counter.one and Actuator.Off [forward reach with edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (Counter.zero or Counter.two) and Actuator.Off or Counter.one and Actuator.Off -> not Counter.four and (not Counter.five and Actuator.Off) [forward reach with edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: not Counter.four and (not Counter.five and Actuator.Off) -> (Counter.zero or Counter.four) and Actuator.Off or (Counter.two and Actuator.Off or (Counter.one or Counter.three) and Actuator.Off) [forward reach with edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (Counter.zero or Counter.four) and Actuator.Off or (Counter.two and Actuator.Off or (Counter.one or Counter.three) and Actuator.Off) -> (Counter.two or (Counter.three or Actuator.Off)) and (not Counter.two and not Counter.three or Actuator.Off) [forward reach with edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (Counter.two or (Counter.three or Actuator.Off)) and (not Counter.two and not Counter.three or Actuator.Off) -> Counter.zero or Counter.four and Actuator.Off or (Counter.two and Actuator.Off or ((Counter.one or Counter.five) and Actuator.Off or Counter.three and Actuator.Off)) [forward reach with edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: Counter.zero or Counter.four and Actuator.Off or (Counter.two and Actuator.Off or ((Counter.one or Counter.five) and Actuator.Off or Counter.three and Actuator.Off)) -> (not Counter.four and not Counter.five or Actuator.Off) and (not Counter.two and not Counter.three or Actuator.Off) [forward reach with edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (not Counter.four and not Counter.five or Actuator.Off) and (not Counter.two and not Counter.three or Actuator.Off) -> (not Counter.four or Actuator.Off) and ((not Counter.five or Actuator.Off) and (not Counter.three or Actuator.Off)) [forward reach with edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (not Counter.four or Actuator.Off) and ((not Counter.five or Actuator.Off) and (not Counter.three or Actuator.Off)) -> not Counter.four and not Counter.five or Actuator.Off [forward reach with edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: not Counter.four and not Counter.five or Actuator.Off -> not Counter.five or Actuator.Off [forward reach with edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: not Counter.five or Actuator.Off -> true [forward reach with edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 3.
+Forward controlled-behavior: true [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one)
+    Edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two)
+    Edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three)
+    Edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four)
+    Edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five)
+    Edge: (event: Counter.dec) (guard: Counter.one) (assignments: Counter := Counter.zero)
+    Edge: (event: Counter.dec) (guard: Counter.two) (assignments: Counter := Counter.one)
+    Edge: (event: Counter.dec) (guard: Counter.three) (assignments: Counter := Counter.two)
+    Edge: (event: Counter.dec) (guard: Counter.four) (assignments: Counter := Counter.three)
+    Edge: (event: Counter.dec) (guard: Counter.five) (assignments: Counter := Counter.four)
+    Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
+    Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
+
+Controlled system:                     exactly 12 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         Counter.zero and Actuator.Off
+Initial (controlled system):           Counter.zero and Actuator.Off
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event Counter.inc: guard: not Counter.five -> true [assume not Counter.five].
+  Event Counter.dec: guard: not Counter.zero -> true [assume not Counter.zero].
+  Event Actuator.on: guard: Counter.zero and Actuator.Off -> Counter.zero [assume Actuator.Off].
+  Event Actuator.off: guard: Counter.five and Actuator.On -> Counter.five [assume Actuator.On].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/edge_order_single_backward_random.ctrlsys.real.cif".

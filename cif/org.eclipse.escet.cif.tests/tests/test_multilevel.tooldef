@@ -1,0 +1,104 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+tool int multilevel(string... args, string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.multilevel", "org.eclipse.escet.cif.multilevel.MultilevelApp", args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int multilevel(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.multilevel", "org.eclipse.escet.cif.multilevel.MultilevelApp", args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// Configuration.
+string test_path = "multilevel";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1", "--output-mode=debug", "--write-dmms=yes"];
+
+map(string:list string) test_options = {};
+set string test_skip = {};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test_dmm_exp  = chfileext(test, oldext="cif", newext="dmms.expected.txt");
+    string test_out_exp  = chfileext(test, oldext="cif", newext="out");
+    string test_err_exp  = chfileext(test, oldext="cif", newext="err");
+    string test_dmm_real = chfileext(test, oldext="cif", newext="dmms.txt");
+    string test_out_real = chfileext(test, oldext="cif", newext="out.real");
+    string test_err_real = chfileext(test, oldext="cif", newext="err.real");
+
+    // Execute.
+    multilevel([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare output.
+    bool dmm_diff = diff(test_dmm_exp, test_dmm_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+    if not dmm_diff:: rmfile(test_dmm_real, true);
+    if not stdout_diff:: rmfile(test_out_real);
+    if not stderr_diff:: rmfile(test_err_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if dmm_diff:: diff_count = diff_count + 1;
+    if stdout_diff:: diff_count = diff_count + 1;
+    if stderr_diff:: diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

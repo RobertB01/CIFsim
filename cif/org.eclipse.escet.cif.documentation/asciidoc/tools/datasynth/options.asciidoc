@@ -37,12 +37,20 @@ For more information, see the <<tools-datasynth-supervisor-namespace,section abo
 Is disabled by default.
 For more information, see the <<tools-datasynth-forward-reach,section about forward reachability>>.
 
-* _Edge order_: Synthesis involves many reachability computations.
-This involves following edges (forward or backward) to find reachable states.
-The order in which the edges are considered for such computations is determined by this option.
+* _Edge order_: This option is no longer supported.
+Use the _Edge order for backward reachability_ and _Edge order for forward reachability_ options instead.
+
+* _Edge order for backward reachability_: Synthesis involves many reachability computations.
+Some of them involve following edges backward to find reachable states.
+The order in which the edges are considered for such backward reachability computations is determined by this option.
 For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
 
-* _Edge order duplicate events_: Specify whether duplicate events are allowed for custom edge orders specified using the _Edge order_ option.
+* _Edge order for forward reachability_: Synthesis involves many reachability computations.
+Some of them involve following edges forward to find reachable states.
+The order in which the edges are considered for such forward reachability computations is determined by this option.
+For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
+
+* _Edge order duplicate events_: Specify whether duplicate events are allowed for custom edge orders specified using the _Edge order for backward reachability_ and _Edge order for forward reachability_ options.
 By default, duplicate events are disallowed.
 For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
 

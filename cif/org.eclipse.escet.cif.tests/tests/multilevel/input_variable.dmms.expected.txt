@@ -1,0 +1,14 @@
+DMMs of the "multilevel/input_variable.cif" CIF specification.
+
+Plant groups:
+"","PG1","PG2"
+"var",1,0
+"A",0,1
+
+Requirement groups:
+"","RG1"
+"requirement invariant A.a needs var",1
+
+Plant-groups/requirement-groups relations:
+"","PG1","PG2"
+"RG1",1,1

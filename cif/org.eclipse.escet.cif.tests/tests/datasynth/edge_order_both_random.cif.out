@@ -1,0 +1,112 @@
+Reading CIF file "datasynth/edge_order_both_random.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind            Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      input variable  bool  D     0      1 * 2     2 * 2       2 * 2       100%
+  2      input variable  bool  C     1      1 * 2     2 * 2       2 * 2       100%
+  3      input variable  bool  p.Y   2      1 * 2     2 * 2       2 * 2       100%
+  4      input variable  bool  p.X   3      1 * 2     2 * 2       2 * 2       100%
+  -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                              4      8         16          16          100%
+
+Applying variable ordering:
+  Applying model variable order.
+
+  Number of hyper-edges: 0
+  Number of graph edges: 0
+
+  Skipping variable ordering algorithm(s): no hyper-edges.
+  Skipping variable ordering algorithm(s): no graph edges.
+
+Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             true
+Initial   (system, combined init/plant inv): true
+Initial   (system, combined init/state inv): true
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined mark/plant inv): true
+Marked    (system, combined mark/state inv): true
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: p.c) (guard: true)
+    Edge: (event: p.a) (guard: true)
+    Edge: (event: p.z) (guard: true)
+    Edge: (event: D) (guard: true) (assignments: D+ != D)
+    Edge: (event: C) (guard: true) (assignments: C+ != C)
+    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
+
+Restricting behavior using state/event exclusion plants.
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: true [initialization predicate]
+Forward reachability: iteration 1.
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: p.c) (guard: true)
+    Edge: (event: p.a) (guard: true)
+    Edge: (event: p.z) (guard: true)
+    Edge: (event: D) (guard: true) (assignments: D+ != D)
+    Edge: (event: C) (guard: true) (assignments: C+ != C)
+    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
+
+Controlled system:                     exactly 16 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         true
+Initial (controlled system):           true
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/edge_order_both_random.ctrlsys.real.cif".

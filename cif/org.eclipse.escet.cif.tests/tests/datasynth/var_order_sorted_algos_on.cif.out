@@ -7,14 +7,16 @@ CIF variables and location pointers:
   -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
   1      location pointer   n/a        buffer1        0      1 * 2     2 * 2       2 * 2       100%
   2      discrete variable  int[0..3]  buffer1.count  1      2 * 2     4 * 2       4 * 2       100%
-  3      location pointer   n/a        buffer2        2      1 * 2     2 * 2       2 * 2       100%
-  4      discrete variable  int[0..3]  buffer2.count  3      2 * 2     4 * 2       4 * 2       100%
-  5      location pointer   n/a        buffer3        4      1 * 2     2 * 2       2 * 2       100%
-  6      discrete variable  int[0..3]  buffer3.count  5      2 * 2     4 * 2       4 * 2       100%
+  3      location pointer   n/a        buffer3        2      1 * 2     2 * 2       2 * 2       100%
+  4      discrete variable  int[0..3]  buffer3.count  3      2 * 2     4 * 2       4 * 2       100%
+  5      location pointer   n/a        buffer2        4      1 * 2     2 * 2       2 * 2       100%
+  6      discrete variable  int[0..3]  buffer2.count  5      2 * 2     4 * 2       4 * 2       100%
   -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
   Total                                               6      18        36          36          100%
 
-Applying automatic variable ordering:
+Applying variable ordering:
+  Applying sorted variable order.
+
   Number of hyper-edges: 22
   Number of graph edges: 6
 

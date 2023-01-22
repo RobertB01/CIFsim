@@ -1593,8 +1593,9 @@ public class CifDataSynthesis {
         }
 
         // Apply edges until we get a fixed point.
+        List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
         int iter = 0;
-        int remainingEdges = aut.orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
+        int remainingEdges = orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
         while (remainingEdges > 0) {
             // Print iteration, for debugging.
             iter++;
@@ -1603,7 +1604,7 @@ public class CifDataSynthesis {
             }
 
             // Push through all edges.
-            for (SynthesisEdge edge: aut.orderedEdges) {
+            for (SynthesisEdge edge: orderedEdges) {
                 // Skip edges if requested.
                 if ((!ctrl && edge.event.getControllable()) || (!unctrl && !edge.event.getControllable())) {
                     remainingEdges--;
@@ -1658,7 +1659,7 @@ public class CifDataSynthesis {
                     pred.free();
                     pred = newPred;
                     changed = true;
-                    remainingEdges = aut.orderedEdges.size(); // Change found, reset the counter.
+                    remainingEdges = orderedEdges.size(); // Change found, reset the counter.
                 }
             }
         }

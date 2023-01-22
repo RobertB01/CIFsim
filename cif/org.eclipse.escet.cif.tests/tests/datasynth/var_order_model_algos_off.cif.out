@@ -14,7 +14,10 @@ CIF variables and location pointers:
   -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
   Total                                               6      18        36          36          100%
 
-Skipping automatic variable ordering: no algorithms selected.
+Applying variable ordering:
+  Applying model variable order.
+
+Variable order unchanged.
 
 Starting data-based synthesis.
 

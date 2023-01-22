@@ -1,0 +1,84 @@
+DMMs of the "multilevel/simple_lock_state_req_with_groups.cif" CIF specification.
+
+Plant groups:
+"","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
+"Lock.Side1.LampEntering",1,0,0,0,0,0,0,0,0,0
+"Lock.Side1.LampLeaving",0,1,0,0,0,0,0,0,0,0
+"Lock.Side1.EqualWater",0,0,1,0,0,0,0,0,0,0
+"Lock.Side2.LampEntering",0,0,0,1,0,0,0,0,0,0
+"Lock.Side2.LampLeaving",0,0,0,0,1,0,0,0,0,0
+"Lock.Side2.EqualWater",0,0,0,0,0,1,0,0,0,0
+"Lock.Side1.Door.Actuator",0,0,0,0,0,0,1,0,0,0
+"Lock.Side1.Door.Sensor",0,0,0,0,0,0,1,0,0,0
+"Lock.Side1.Sewer.Actuator",0,0,0,0,0,0,0,1,0,0
+"Lock.Side1.Sewer.Sensor",0,0,0,0,0,0,0,1,0,0
+"Lock.Side2.Door.Actuator",0,0,0,0,0,0,0,0,1,0
+"Lock.Side2.Door.Sensor",0,0,0,0,0,0,0,0,1,0
+"Lock.Side2.Sewer.Actuator",0,0,0,0,0,0,0,0,0,1
+"Lock.Side2.Sewer.Sensor",0,0,0,0,0,0,0,0,0,1
+
+Requirement groups:
+"","RG1","RG2","RG3","RG4","RG5","RG6","RG7","RG8","RG9","RG10","RG11","RG12","RG13","RG14","RG15","RG16","RG17","RG18","RG19","RG20","RG21","RG22","RG23","RG24","RG25","RG26","RG27","RG28","RG29","RG30"
+"requirement invariant Lock.Side1.Sewer.Sensor.On or Lock.Side1.Sewer.Actuator.Open disables Lock.Side2.Sewer.Actuator.c_open",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.Door.Sensor.Closed or Lock.Side1.Door.Actuator.Opening disables Lock.Side2.Sewer.Actuator.c_open",0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant Lock.Side1.Sewer.Sensor.On or Lock.Side1.Sewer.Actuator.Open disables Lock.Side2.Door.Actuator.c_on_open",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.Door.Sensor.Closed or Lock.Side1.Door.Actuator.Opening disables Lock.Side2.Door.Actuator.c_on_open",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant Lock.Side2.Sewer.Sensor.On or Lock.Side2.Sewer.Actuator.Open disables Lock.Side1.Sewer.Actuator.c_open",0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side2.Door.Sensor.Closed or Lock.Side2.Door.Actuator.Opening disables Lock.Side1.Sewer.Actuator.c_open",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant Lock.Side2.Sewer.Sensor.On or Lock.Side2.Sewer.Actuator.Open disables Lock.Side1.Door.Actuator.c_on_open",0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side2.Door.Sensor.Closed or Lock.Side2.Door.Actuator.Opening disables Lock.Side1.Door.Actuator.c_on_open",0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant Lock.Side1.EqualWater.Off disables Lock.Side1.Door.Actuator.c_on_open",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant Lock.Side1.LampLeaving.Green disables Lock.Side1.LampEntering.c_green",0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.Door.Sensor.Open disables Lock.Side1.LampEntering.c_green",0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.Door.Actuator.Rest disables Lock.Side1.LampEntering.c_green",0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.LampEntering.Red disables Lock.Side1.Door.Actuator.c_on_close",0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.LampEntering.Red disables Lock.Side1.Door.Actuator.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.LampLeaving.Red disables Lock.Side1.Door.Actuator.c_on_close",0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.LampLeaving.Red disables Lock.Side1.Door.Actuator.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant Lock.Side1.LampEntering.Green disables Lock.Side1.LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.Door.Sensor.Open disables Lock.Side1.LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side1.Door.Actuator.Rest disables Lock.Side1.LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+"requirement invariant Lock.Side2.EqualWater.Off disables Lock.Side2.Door.Actuator.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
+"requirement invariant Lock.Side2.LampLeaving.Green disables Lock.Side2.LampEntering.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side2.Door.Sensor.Open disables Lock.Side2.LampEntering.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side2.Door.Actuator.Rest disables Lock.Side2.LampEntering.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+"requirement invariant not Lock.Side2.LampEntering.Red disables Lock.Side2.Door.Actuator.c_on_close",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+"requirement invariant not Lock.Side2.LampEntering.Red disables Lock.Side2.Door.Actuator.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+"requirement invariant not Lock.Side2.LampLeaving.Red disables Lock.Side2.Door.Actuator.c_on_close",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+"requirement invariant not Lock.Side2.LampLeaving.Red disables Lock.Side2.Door.Actuator.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+"requirement invariant Lock.Side2.LampEntering.Green disables Lock.Side2.LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"requirement invariant not Lock.Side2.Door.Sensor.Open disables Lock.Side2.LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+"requirement invariant not Lock.Side2.Door.Actuator.Rest disables Lock.Side2.LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+
+Plant-groups/requirement-groups relations:
+"","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
+"RG1",0,0,0,0,0,0,0,1,0,1
+"RG2",0,0,0,0,0,0,1,0,0,1
+"RG3",0,0,0,0,0,0,0,1,1,0
+"RG4",0,0,0,0,0,0,1,0,1,0
+"RG5",0,0,0,0,0,0,0,1,0,1
+"RG6",0,0,0,0,0,0,0,1,1,0
+"RG7",0,0,0,0,0,0,1,0,0,1
+"RG8",0,0,0,0,0,0,1,0,1,0
+"RG9",0,0,1,0,0,0,1,0,0,0
+"RG10",1,1,0,0,0,0,0,0,0,0
+"RG11",1,0,0,0,0,0,1,0,0,0
+"RG12",1,0,0,0,0,0,1,0,0,0
+"RG13",1,0,0,0,0,0,1,0,0,0
+"RG14",1,0,0,0,0,0,1,0,0,0
+"RG15",0,1,0,0,0,0,1,0,0,0
+"RG16",0,1,0,0,0,0,1,0,0,0
+"RG17",1,1,0,0,0,0,0,0,0,0
+"RG18",0,1,0,0,0,0,1,0,0,0
+"RG19",0,1,0,0,0,0,1,0,0,0
+"RG20",0,0,0,0,0,1,0,0,1,0
+"RG21",0,0,0,1,1,0,0,0,0,0
+"RG22",0,0,0,1,0,0,0,0,1,0
+"RG23",0,0,0,1,0,0,0,0,1,0
+"RG24",0,0,0,1,0,0,0,0,1,0
+"RG25",0,0,0,1,0,0,0,0,1,0
+"RG26",0,0,0,0,1,0,0,0,1,0
+"RG27",0,0,0,0,1,0,0,0,1,0
+"RG28",0,0,0,1,1,0,0,0,0,0
+"RG29",0,0,0,0,1,0,0,0,1,0
+"RG30",0,0,0,0,1,0,0,0,1,0

@@ -1,0 +1,2 @@
+ERROR: Invalid value for option "-e": "random".
+CAUSE: The edge ordering option is used. This option is no longer supported. It will be removed in a future version of the tool. Use the 'Edge order for backward reachability' and 'Edge order for forward reachability' options instead.
