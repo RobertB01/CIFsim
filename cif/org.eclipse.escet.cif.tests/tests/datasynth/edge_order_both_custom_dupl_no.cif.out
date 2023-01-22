@@ -73,7 +73,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: Counter.zero and Actuator.Off.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -83,8 +86,8 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: Actuator.on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Counter.zero and Actuator.Off [requirement: Counter.zero].
-Edge (event: Actuator.off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Counter.five and Actuator.On [requirement: Counter.five].
+Edge (event: Actuator.on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Counter.zero and Actuator.Off [state/event exclusion requirement: Counter.zero].
+Edge (event: Actuator.off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Counter.five and Actuator.On [state/event exclusion requirement: Counter.five].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)
@@ -185,7 +188,7 @@ BDD cache statistics:
   Node creation chain accesses: 0
   Node creation cache hits:     373
   Node creation cache misses:   222
-  Operation count:              2832
+  Operation count:              2833
   Operation cache hits:         498
   Operation cache misses:       849
 Maximum used BDD nodes: 108.
