@@ -113,6 +113,15 @@ public class NamedNode extends DiagramElement {
         vertPadding = Math.max(vertPadding, minPadding);
         horPadding = Math.max(horPadding, minPadding);
 
+        // Compute amount of empty horizontal space left and right of the text.
+        int minimalNodeWidth = 2 * (cornerRadius > 0 ? cornerRadius : 0);
+        int emptyHorSpace = minimalNodeWidth - textSize.width;
+        if (emptyHorSpace > 2 * horPadding) {
+            // Text box is not wide enough to fill all empty space in the node, text will not be centered.
+            // Adjust horizontal padding.
+            horPadding = (emptyHorSpace + 1) / 2;
+        }
+
         // Create the 4 lines around the name, and give them to the proper distance from the name.
         HorLine topLine = new HorLine(solver, "top-line", boxColor, boxLineWidth);
         HorLine bottomLine = new HorLine(solver, "bottom-line", boxColor, boxLineWidth);
