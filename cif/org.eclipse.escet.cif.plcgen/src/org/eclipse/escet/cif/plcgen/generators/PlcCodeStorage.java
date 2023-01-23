@@ -84,7 +84,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global output variable table.
+     * Add a variable to the global constants table.
      *
      * @param var Variable to add.
      */
