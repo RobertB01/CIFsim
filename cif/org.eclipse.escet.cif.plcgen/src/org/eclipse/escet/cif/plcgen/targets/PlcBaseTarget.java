@@ -43,9 +43,9 @@ public abstract class PlcBaseTarget {
     }
 
     /**
-     * Perform the transformation.
+     * Generate and write the PLC code.
      *
-     * @param settings Configuration of the application.
+     * @param settings Configuration to use.
      * @return Whether the transformation succeeded, termination request is not successful.
      */
     public boolean transform(PlcGenSettings settings) {
@@ -68,7 +68,7 @@ public abstract class PlcBaseTarget {
     }
 
     /**
-     * Get the writer instance for storing the generated PLC code to the file system.
+     * Get the writer for writing the generated PLC code to the file system.
      *
      * @return The requested PLC code writer.
      */

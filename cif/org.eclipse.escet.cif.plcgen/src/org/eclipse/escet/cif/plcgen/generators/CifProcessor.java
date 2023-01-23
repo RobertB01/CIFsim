@@ -16,13 +16,13 @@ package org.eclipse.escet.cif.plcgen.generators;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 
-/** Extracts information form the CIF input file, and passes it on to other code generators. */
+/** Extracts information from the CIF input file, to be used during PLC code generation. */
 public class CifProcessor {
     /**
-     * Perform the transformation.
+     * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
      *
-     * @param settings Configuration of the application.
-     * @return Whether the transformation succeeded, termination request is not successful.
+     * @param settings Configuration to use.
+     * @return Whether processing succeeded ({@code true}) or termination was requested ({@code false}).
      */
     public boolean transform(PlcGenSettings settings) {
         // Read CIF specification.

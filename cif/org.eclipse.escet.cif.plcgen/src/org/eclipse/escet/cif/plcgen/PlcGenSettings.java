@@ -15,9 +15,9 @@ package org.eclipse.escet.cif.plcgen;
 
 import java.util.function.Supplier;
 
-/** PlcGen configuration data. */
+/** PLC code generator configuration. */
 public class PlcGenSettings {
-    /** Name of the generated project. */
+    /** Name of the PLC project. */
     public final String projectName;
 
     /** Name of the PLC configuration. */
@@ -29,22 +29,22 @@ public class PlcGenSettings {
     /** Name of the PLC task. */
     public final String taskName;
 
-    /** Cycle time of the plc task. */
+    /** Cycle time of the PLC task, in milliseconds. Set to {@code 0} to disable periodic task scheduling. */
     public final int taskCycleTime;
 
-    /** Priority of the plc task. */
+    /** Priority of the PLC task. Must be in the range [0..65535]. */
     public final int taskPriority;
 
-    /** User-specified path to the CIF specification to transform. */
+    /** User-specified path to the CIF specification for which to generate PLC code. */
     public final String inputPath;
 
-    /** Absolute path to the CIF specification to transform. */
+    /** Absolute path to the CIF specification for which to generate PLC code. */
     public final String absInputPath;
 
-    /** Destination for the generated code. */
+    /** Absolute base path to which to write the generated code. */
     public final String outputPath;
 
-    /** Callback whether execution should be terminated on user request. */
+    /** Callback that indicates whether execution should be terminated on user request. */
     public final Supplier<Boolean> shouldTerminate;
 
     /**

@@ -88,7 +88,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Construct the target code generator.
+        // Configure code generation.
         PlcTargetType targetType = PlcTargetTypeOption.getPlcTargetType();
         PlcBaseTarget target;
         switch (targetType) {
@@ -113,8 +113,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             default:
                 throw new RuntimeException("Unknown output type: " + targetType);
         }
-
         PlcGenSettings settings = makePlcGenSettings(target);
+
+        // Generate PLC code and write it to the file system.
         target.transform(settings);
 
         // TODO Use these options, see also getAllOptions()
@@ -146,12 +147,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String inputPath = InputFileOption.getPath();
         String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
 
-        Supplier<Boolean> shouldTerminate = new Supplier<>() {
-            @Override
-            public Boolean get() {
-                return AppEnv.isTerminationRequested();
-            }
-        };
+        Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
                 inputPath, Paths.resolve(inputPath), outputPath, shouldTerminate);

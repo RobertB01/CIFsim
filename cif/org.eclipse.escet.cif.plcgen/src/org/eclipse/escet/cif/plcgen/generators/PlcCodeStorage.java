@@ -37,7 +37,7 @@ public class PlcCodeStorage {
     /** PLC target to generate code for. */
     private PlcBaseTarget target;
 
-    /** Destination for the generated code. */
+    /** Absolute base path to which to write the generated code. */
     private String outputPath;
 
     /** Project with PLC code. */
@@ -65,9 +65,9 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Setup the generator.
+     * Setup the storage.
      *
-     * @param settings Configuration of the application.
+     * @param settings Configuration to use.
      */
     public void setup(PlcGenSettings settings) {
         this.outputPath = settings.outputPath;
@@ -112,11 +112,13 @@ public class PlcCodeStorage {
         task.pouInstances.add(new PlcPouInstance("MAIN", main));
     }
 
-    /** Write the project to the output. */
+    /**
+     * Write the project to the output.
+     *
+     * @note Depending on the actual write implementation a single file or a directory may be written.
+     */
     public void writeOutput() {
         OutputTypeWriter writer = target.getPlcCodeWriter();
-
-        // Depending on the actual write implementation a single file or a directory may be written.
         writer.write(project, outputPath);
     }
 }
