@@ -23,7 +23,7 @@ public class CifProcessor {
      *
      * @param settings Configuration to use.
      */
-    public void generate(PlcGenSettings settings) {
+    public void process(PlcGenSettings settings) {
         // Read CIF specification.
         new CifReader().init(settings.inputPath, settings.absInputPath, false).read(); // Currently not used.
     }

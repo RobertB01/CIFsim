@@ -53,7 +53,7 @@ public abstract class PlcTarget {
             return;
         }
 
-        cifProcessor.generate(settings);
+        cifProcessor.process(settings);
         if (settings.shouldTerminate.get()) {
             return;
         }
