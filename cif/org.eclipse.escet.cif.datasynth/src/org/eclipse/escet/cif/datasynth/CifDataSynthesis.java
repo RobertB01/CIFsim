@@ -272,10 +272,6 @@ public class CifDataSynthesis {
                 timing.postSynth.stop();
             }
         }
-
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
     }
 
     /**
@@ -704,13 +700,13 @@ public class CifDataSynthesis {
 
             // Enforce the additional condition by restricting the guard.
             BDD newGuard = edge.guard.and(plant);
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
 
             if (edge.guard.equals(newGuard)) {
                 newGuard.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
                 if (dbgEnabled) {
                     if (firstDbg) {
                         firstDbg = false;
@@ -742,9 +738,6 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void applyStatePlantInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Restricting uncontrolled behavior using state plant invariants.");
@@ -789,13 +782,13 @@ public class CifDataSynthesis {
 
             // Store.
             BDD newGuard = edge.guard.id().andWith(updPred);
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
 
             if (edge.guard.equals(newGuard)) {
                 newGuard.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
                 if (dbgEnabled) {
                     if (!guardUpdated) {
                         dbg();
@@ -818,9 +811,6 @@ public class CifDataSynthesis {
      */
     private static void applyStateReqInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Apply the state requirement invariants.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Restricting behavior using state requirements.");
@@ -839,9 +829,6 @@ public class CifDataSynthesis {
                 if (aut.ctrlBeh.equals(newCtrlBeh)) {
                     newCtrlBeh.free();
                 } else {
-                    if (aut.env.isTerminationRequested()) {
-                        return;
-                    }
                     if (dbgEnabled) {
                         dbg("Controlled behavior: %s -> %s [state requirements: %s].", bddToStr(aut.ctrlBeh, aut),
                                 bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
@@ -903,9 +890,6 @@ public class CifDataSynthesis {
                 if (aut.initialCtrl.equals(newInitialCtrl)) {
                     newInitialCtrl.free();
                 } else {
-                    if (aut.env.isTerminationRequested()) {
-                        return;
-                    }
                     if (dbgEnabled) {
                         dbg("Controlled initialization: %s -> %s [state requirements: %s].",
                                 bddToStr(aut.initialCtrl, aut), bddToStr(newInitialCtrl, aut),
@@ -949,9 +933,6 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void applyVarRanges(SynthesisAutomaton aut, boolean dbgEnabled) {
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Extending controlled-behavior predicate using variable ranges.");
@@ -966,11 +947,11 @@ public class CifDataSynthesis {
 
             // Compute out of range predicate.
             BDD range = BddUtils.getVarDomain(var, false, aut.factory);
-
-            // Update controlled-behavior predicate.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
+
+            // Update controlled-behavior predicate.
             BDD newCtrlBeh = aut.ctrlBeh.and(range);
             if (aut.env.isTerminationRequested()) {
                 return;
@@ -980,9 +961,6 @@ public class CifDataSynthesis {
                 newCtrlBeh.free();
                 range.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
                 if (dbgEnabled) {
                     if (firstDbg) {
                         firstDbg = false;
@@ -1016,9 +994,6 @@ public class CifDataSynthesis {
     private static void applyStateEvtExclReqs(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Update guards and controlled-behavior predicate, to ensure that transitions not allowed by the state/event
         // exclusion requirement invariants, are blocked.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Restricting behavior using state/event exclusion requirements.");
@@ -1076,13 +1051,13 @@ public class CifDataSynthesis {
                 if (edge.event.getControllable()) {
                     // For controllable events, we can simply restrict the guard.
                     BDD newGuard = edge.guard.and(req);
+                    if (aut.env.isTerminationRequested()) {
+                        return;
+                    }
 
                     if (edge.guard.equals(newGuard)) {
                         newGuard.free();
                     } else {
-                        if (aut.env.isTerminationRequested()) {
-                            return;
-                        }
                         if (dbgEnabled) {
                             if (firstDbg) {
                                 firstDbg = false;
@@ -1119,9 +1094,6 @@ public class CifDataSynthesis {
                     if (aut.ctrlBeh.equals(newCtrlBeh)) {
                         newCtrlBeh.free();
                     } else {
-                        if (aut.env.isTerminationRequested()) {
-                            return;
-                        }
                         if (dbgEnabled) {
                             if (firstDbg) {
                                 firstDbg = false;
@@ -1220,6 +1192,10 @@ public class CifDataSynthesis {
             // more consistent regardless of the options, we only perform the second check.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
                 if (!enabledExpression.isZero()) {
                     enabledExpression.free();
@@ -1572,9 +1548,6 @@ public class CifDataSynthesis {
             if (pred.equals(restrictedPred)) {
                 restrictedPred.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
                 if (dbgEnabled) {
                     Assert.notNull(restrictionName);
                     dbg("%s: %s -> %s [restricted to %s predicate: %s]", Strings.makeInitialUppercase(predName),
@@ -1590,6 +1563,9 @@ public class CifDataSynthesis {
         // Prepare edges for being applied.
         for (SynthesisEdge edge: aut.edges) {
             edge.preApply(forward, restriction);
+        }
+        if (aut.env.isTerminationRequested()) {
+            return null;
         }
 
         // Apply edges until we get a fixed point.
@@ -1640,9 +1616,6 @@ public class CifDataSynthesis {
                     }
                 } else {
                     // Change.
-                    if (aut.env.isTerminationRequested()) {
-                        return null;
-                    }
                     if (dbgEnabled) {
                         String restrTxt;
                         if (restriction == null) {
@@ -1687,9 +1660,6 @@ public class CifDataSynthesis {
      */
     private static void determineCtrlSysGuards(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Compute guards of edges with controllable events.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Computing controlled system guards.");
@@ -1721,9 +1691,6 @@ public class CifDataSynthesis {
             if (edge.guard.equals(newGuard)) {
                 newGuard.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
                 if (dbgEnabled) {
                     if (!guardUpdated) {
                         dbg();
@@ -1809,44 +1776,39 @@ public class CifDataSynthesis {
      */
     private static void determineOutputInitial(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Print some debug output.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Initial (synthesis result):            %s", bddToStr(aut.ctrlBeh, aut));
             dbg("Initial (uncontrolled system):         %s", bddToStr(aut.initialUnctrl, aut));
             dbg("Initial (controlled system):           %s", bddToStr(aut.initialCtrl, aut));
         }
-
-        // What initialization was allowed in the uncontrolled system, but is no longer allowed in the controlled
-        // system, as thus has been removed as allowed initialization? The inverse of that is what the supervisor adds
-        // as additional initialization restriction on top of the uncontrolled system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
 
+        // What initialization was allowed in the uncontrolled system, but is no longer allowed in the controlled
+        // system, as thus has been removed as allowed initialization? The inverse of that is what the supervisor adds
+        // as additional initialization restriction on top of the uncontrolled system.
         BDD initialRemoved = aut.initialUnctrl.id().andWith(aut.initialCtrl.not());
         if (aut.env.isTerminationRequested()) {
             return;
         }
 
         BDD initialAdded = initialRemoved.not();
-
         if (aut.env.isTerminationRequested()) {
             return;
         }
+
         if (dbgEnabled) {
             dbg("Initial (removed by supervisor):       %s", bddToStr(initialRemoved, aut));
             dbg("Initial (added by supervisor):         %s", bddToStr(initialAdded, aut));
         }
-
-        // Determine initialization predicate. The initialization predicate of the controlled system is used, if it is
-        // at all restricted with respect to the uncontrolled system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
 
+        // Determine initialization predicate. The initialization predicate of the controlled system is used, if it is
+        // at all restricted with respect to the uncontrolled system.
         EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
         List<String> assumptionTxts = list();
 
@@ -2047,9 +2009,6 @@ public class CifDataSynthesis {
      */
     private static void determineOutputGuards(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards, boolean dbgEnabled) {
         // Get simplifications to perform.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
         List<String> assumptionTxts = list();
 
