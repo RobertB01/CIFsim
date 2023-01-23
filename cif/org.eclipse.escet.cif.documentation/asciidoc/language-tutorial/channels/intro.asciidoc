@@ -39,25 +39,25 @@ automaton producer:
 end
 
 automaton consumer1:
-  disc int nr = -1;
+  disc list int nrs;
 
   location:
     initial;
-    edge provide1 do nr := producer.nr;
+    edge provide1 do nrs := nrs + [producer.nr];
 end
 
 automaton consumer2:
-  disc int nr = -1;
+  disc list int nrs;
 
   location:
     initial;
-    edge provide2 do nr := producer.nr;
+    edge provide2 do nrs := nrs + [producer.nr];
 end
 ----
 
 The `producer` keeps track of the identification number (variable `nr`) of the current product, and provides products to either the first consumer (event `provide1`) or the second consumer (`provide2`).
-Both consumers have an identification number of their current product as well (variable `nr` in the consumer automata).
-Initially, the consumers don't have a product, as indicated by value `-1`.
+Both consumers have a list of their products (variable `nrs` in the consumer automata).
+Initially, the consumers don't have a product, and the list is empty.
 When a consumer gets a new product, it looks up the identification number of the product at the producer, and stores it locally.
 The producer then moves on to the next product, by increasing its current identification number.
 
@@ -113,19 +113,19 @@ automaton producer:
 end
 
 automaton consumer1:
-  disc int nr = -1;
+  disc list int nrs;
 
   location:
     initial;
-    edge provide? do nr := ?;
+    edge provide? do nrs := nrs + [?];
 end
 
 automaton consumer2:
-  disc int nr = -1;
+  disc list int nrs;
 
   location:
     initial;
-    edge provide? do nr := ?;
+    edge provide? do nrs := nrs + [?];
 end
 ----
 
@@ -147,7 +147,7 @@ indexterm:[variable,?]
 indexterm:[?]
 The edges of the consumers have been modified as well.
 The channel is used with a question mark (`?`) after the channel name, indicating that the consumers receive over the channel.
-The received value, which is available as the `?` variable in the update, is directly assigned to the `nr` variable of the consumer.
+The received value, which is available as the `?` variable in the update, is directly added to the `nrs` list of the consumer.
 
 By using channels, we no longer need multiple events, and the producer does not need to be modified if another consumer is added.
 This makes the model scalable to varying amount of consumers.
@@ -177,19 +177,19 @@ automaton producer2:
 end
 
 automaton consumer1:
-  disc int nr = -1;
+  disc list int nrs;
 
   location:
     initial;
-    edge provide? do nr := ?;
+    edge provide? do nrs := nrs + [?];
 end
 
 automaton consumer2:
-  disc int nr = -1;
+  disc list int nrs;
 
   location:
     initial;
-    edge provide? do nr := ?;
+    edge provide? do nrs := nrs + [?];
 end
 ----
 
@@ -199,4 +199,5 @@ Both consumers can receive products from either producer.
 At all times, four transitions are possible:
 `producer1` communicates with `consumer1`, `producer1` communicates with `consumer2`, `producer2` communicates with `consumer1`, or `producer2` communicates with `consumer2`.
 
-// TODO: refer to future component definition/instantiation lesson
+Note that the `producer1` and `producer2` automata are identical, as are the `consumer1` and `consumer2` automata.
+In the lesson on <<lang-tut-reuse2-chapter-aut-def-inst,automaton definition/instantiation>>, it is shown how this duplication can be prevented.
