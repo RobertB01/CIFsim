@@ -16,6 +16,8 @@ package org.eclipse.escet.common.raildiagrams.output;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferInt;
@@ -61,6 +63,27 @@ public class Image {
 
         DataBufferInt dbInt = (DataBufferInt)buffer;
         pixels = dbInt.getData();
+    }
+
+    /**
+     * Construct a graphics handle for the image.
+     *
+     * @return The configured handle.
+     */
+    public Graphics2D getGraphics() {
+        return getGraphics(image);
+    }
+
+    /**
+     * Construct a graphics handle for an image and configure it.
+     *
+     * @param image Image that needs a graphics handle.
+     * @return The configured handle.
+     */
+    public static Graphics2D getGraphics(BufferedImage image) {
+        Graphics2D gd = image.createGraphics();
+        gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        return gd;
     }
 
     /**

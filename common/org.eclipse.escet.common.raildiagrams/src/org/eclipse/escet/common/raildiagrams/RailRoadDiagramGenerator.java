@@ -58,9 +58,14 @@ public class RailRoadDiagramGenerator {
      */
     public static void main(String[] args) throws IOException {
         // Process command line arguments.
-        if (args.length != 3 && args.length != 4) {
-            System.err.printf("Expected 3 or 4 command line arguments, but got %d.%n", args.length);
-            System.exit(1);
+        boolean askedHelp = false;
+        for (int i = 0; !askedHelp && i < args.length; i++) {
+            askedHelp = args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help");
+        }
+        if (askedHelp || (args.length != 3 && args.length != 4)) {
+            System.err.println(
+                    "Usage: Generator [-h | -help | --help] <diagram-file> <png-file> \"images\"|\"dbg-images\" [<config-file>]");
+            System.exit(askedHelp ? 0 : 1);
         }
         Path inputPath = Paths.get(args[0]);
         Path outputPath = Paths.get(args[1]);
@@ -75,7 +80,8 @@ public class RailRoadDiagramGenerator {
         Path configPath = (args.length == 3) ? null : Paths.get(args[3]);
 
         // Generate railroad diagram image.
-        generate(inputPath, configPath, outputPath, outputFormat, null, System.err::println);
+        Consumer<String> debugOutput = null;
+        generate(inputPath, configPath, outputPath, outputFormat, debugOutput, System.err::println);
     }
 
     /**
