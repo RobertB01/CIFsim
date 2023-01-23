@@ -21,12 +21,6 @@ import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcTarget {
-    /** CIF file information extractor. */
-    private CifProcessor cifProcessor;
-
-    /** PLC code storage and writing. */
-    private PlcCodeStorage codeStorage;
-
     /** PLC target type for code generation. */
     protected final PlcTargetType targetType;
 
@@ -37,9 +31,6 @@ public abstract class PlcTarget {
      */
     public PlcTarget(PlcTargetType targetType) {
         this.targetType = targetType;
-
-        cifProcessor = new CifProcessor();
-        codeStorage = new PlcCodeStorage(this);
     }
 
     /**
@@ -48,17 +39,15 @@ public abstract class PlcTarget {
      * @param settings Configuration to use.
      */
     public void generate(PlcGenSettings settings) {
-        codeStorage.setup(settings);
-        if (settings.shouldTerminate.get()) {
-            return;
-        }
+        CifProcessor cifProcessor = new CifProcessor();
+        PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
 
         cifProcessor.process(settings);
         if (settings.shouldTerminate.get()) {
             return;
         }
 
-        codeStorage.generateProgram();
+        codeStorage.finishPlcProgram();
         if (settings.shouldTerminate.get()) {
             return;
         }
