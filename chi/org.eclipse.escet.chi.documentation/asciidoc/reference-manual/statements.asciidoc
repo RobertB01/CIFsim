@@ -25,7 +25,7 @@ They define what is done and in which order.
 Many statements use data for their decisions, which is stored in local variables.
 The combined local variables and statements are called 'body' with the following syntax.
 
-image::{ref-imgsdir}/rail_diagrams/body.png[]
+image::{ref-imgsdir}/rail_diagrams/body.rr.png[]
 
 Data values available to the process are the global constants (see <<ref-constant-definitions>>) and enumeration values (see <<ref-enum-definitions>>).
 The formal parameters of the surrounding process definition (explained in <<ref-process-definitions>>) or the surrounding function definition (explained in <<ref-function-definitions>>) are added as well.
@@ -35,7 +35,7 @@ Data storage that can be modified by the process are the local variables, define
 The data values and the modifiable data storage is used by the statements of the `Body` in the path after `1`.
 For ease of reference they are grouped by kind of statement as shown in the `Statement` diagram below.
 
-image::{ref-imgsdir}/rail_diagrams/statement.png[]
+image::{ref-imgsdir}/rail_diagrams/statement.rr.png[]
 
 * The `AssignmentStatement` is used to assign new values to the local variables (and explained further in <<ref-assignment-statement>>).
 
@@ -63,7 +63,7 @@ indexterm:[declaration,variable]
 
 Local variables are introduced in a process or function using the following syntax.
 
-image::{ref-imgsdir}/rail_diagrams/vardef.png[]
+image::{ref-imgsdir}/rail_diagrams/vardef.rr.png[]
 
 Variable definitions start with a `Type` node (its syntax if explained in <<ref-chapter-types>>), followed by a sequence of variable names where each variable may be initialized with a value by means of the `= Expression` path.
 If no value is assigned, the variable gets the default value of the type.
@@ -80,7 +80,7 @@ indexterm:[statement,assignment]
 An assignment statement assigns one or more values to the local variables.
 Its syntax is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/assignment_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/assignment_statement.rr.png[]
 
 The assignment statement computes the value of every `Expression` at the right.
 If there is one expression, its value is also the value to assign.
@@ -89,7 +89,7 @@ If there are more expressions, a tuple value is constructed, combining all value
 indexterm:[addressable]
 At the left, a number of `Addressable` blocks define where the computed value is assigned to.
 
-image::{ref-imgsdir}/rail_diagrams/addressable.png[]
+image::{ref-imgsdir}/rail_diagrams/addressable.rr.png[]
 
 An `Addressable` is a variable.
 If the variable has a tuple type (see <<ref-tuple-type>>) a field of the tuple may be assigned only using Path 1.
@@ -197,7 +197,7 @@ indexterm:[statement,iterative]
 
 The iterative statements are shown below.
 
-image::{ref-imgsdir}/rail_diagrams/iterative_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/iterative_statement.rr.png[]
 
 The Chi language has two statements for repeatedly executing a body (a sequence of statements), a `while` statement and a `for` statement.
 The former is the generic iterative statement, the latter simplifies the common case of iterating over a collection of values.
@@ -210,7 +210,7 @@ indexterm:[statement,while]
 [[ref-while-loop-statement]]
 ==== While loop statement
 
-image::{ref-imgsdir}/rail_diagrams/while_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/while_statement.rr.png[]
 
 A while loop starts with the keyword `while` with a boolean condition.
 Between the colon and the `end` keyword, the body of statements is given, which is executed repeatedly.
@@ -244,7 +244,7 @@ indexterm:[statement,for]
 [[ref-for-loop-statement]]
 ==== For loop statement
 
-image::{ref-imgsdir}/rail_diagrams/for_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/for_statement.rr.png[]
 
 A common case for iterating is to execute some statements for every value in a collection, for example a list:
 
@@ -312,7 +312,7 @@ indexterm:[statement,break]
 [[ref-break-statement]]
 ==== Break statement
 
-image::{ref-imgsdir}/rail_diagrams/break_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/break_statement.rr.png[]
 
 The `break` statement may only be used inside the body of a loop statement.
 When executed, the inner-most loop statement ends immediately, and execution continues with the first statement after the inner-most loop statement.
@@ -346,7 +346,7 @@ indexterm:[statement,continue]
 Another common case when executing the body of an inner-most loop is that the remaining statements of the body should be skipped this time.
 It can be expressed with an `if` statement, but a `continue` statement is often easier.
 
-image::{ref-imgsdir}/rail_diagrams/continue_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/continue_statement.rr.png[]
 
 The syntax of the continue statement is just `continue`.
 An example to demonstrate its operation:
@@ -383,7 +383,7 @@ The boolean expression of the `else` alternative always holds.
 
 The syntax of the choice statement is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/choice_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/choice_statement.rr.png[]
 
 Processing starts with evaluating the `BooleanExpression` behind the `if`.
 If it evaluates to `true`, the statements behind it are executed, and the choice statement ends.
@@ -446,7 +446,7 @@ indexterm:[statement,sub-process]
 The sub-process statements deal with creating and managing of new processes.
 The statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
 
-image::{ref-imgsdir}/rail_diagrams/subprocess_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/subprocess_statement.rr.png[]
 
 The `RunStartStatement` block creates new processes (see <<ref-run-and-start-statements>> for details), while the `FinishStatement` waits for a process to end (further explanation at <<ref-finish-statement>>).
 
@@ -460,7 +460,7 @@ indexterm:[statement,start]
 
 The `run` and `start` commands take a sequence of process instance as their argument.
 
-image::{ref-imgsdir}/rail_diagrams/run_start.png[]
+image::{ref-imgsdir}/rail_diagrams/run_start.rr.png[]
 
 Both statements start all instances listed in the sequence.
 The `start` statement ends directly after starting the processes, while the `run` statement waits until all the started instances have ended.
@@ -470,7 +470,7 @@ indexterm:[process,instance]
 indexterm:[instance,process]
 A process instance has the following syntax.
 
-image::{ref-imgsdir}/rail_diagrams/process_instance.png[]
+image::{ref-imgsdir}/rail_diagrams/process_instance.rr.png[]
 
 The elementary process instance is created using Path 1.
 It consists of a process name (which must be one of the names of the <<ref-process-definitions>>), followed by a sequence of actual parameters for the process between parentheses.
@@ -532,7 +532,7 @@ The `finish` statement allows waiting for the end of a process instance.
 The statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
 Its syntax is as follows.
 
-image::{ref-imgsdir}/rail_diagrams/finish_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/finish_statement.rr.png[]
 
 Each process variable must be of type `inst` (see <<ref-inst-type>> for details).
 The statement ends when all referenced process instances have ended.
@@ -582,7 +582,7 @@ The channel values are given to processes `P` and `Q` through their formal param
 
 The communication statements are as follows.
 
-image::{ref-imgsdir}/rail_diagrams/communication_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/communication_statement.rr.png[]
 
 The elementary communication statements for sending and receiving at a single channel are the <<ref-send-statement>> and the <<ref-receive-statement>>.
 The <<ref-select-statement>> is used for monitoring several channels and conditions at the same time, until at least one of them becomes available.
@@ -597,7 +597,7 @@ The send statement send signals or data away through a channel.
 The statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/send_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/send_statement.rr.png[]
 
 The statement takes a channel value (derived from `ChannelExpression`), and waits until another process can receive on the same channel.
 When that happens, and the channel is a synchronization channel, a signal 'Communication has occurred' is being sent, if the channel also carries data, the `Expression` value is computed and sent to the other process.
@@ -624,7 +624,7 @@ The receive statement receives signals or data from a channel.
 The statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/receive_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/receive_statement.rr.png[]
 
 The statement takes a channel value (derived from the `ChannelExpression`), and waits until another process can send on the same channel.
 For synchronization channels, it receives just a signal that the communication has occurred, for channels carrying data, the data value is received and stored in the variable indicated by `Addressable`.
@@ -658,7 +658,7 @@ The statement may only be used in <<ref-process-definitions>> and <<ref-model-de
 
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/select_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/select_statement.rr.png[]
 
 The statement has one or more `SelectCondition` alternatives that are all monitored.
 The first alternative is prefixed with `select` to denote it is a the start of a select statement, the other alternatives each start with `alt` (which is an abbreviation of 'alternative').
@@ -668,7 +668,7 @@ At that moment, one of the conditions is selected to be executed, and the select
 
 The syntax of a `SelectCondition` is:
 
-image::{ref-imgsdir}/rail_diagrams/select_condition.png[]
+image::{ref-imgsdir}/rail_diagrams/select_condition.rr.png[]
 
 In its simplest form, a `SelectCondition` is a `SelectAlternative` (taking Path 1).
 At Path 2, the condition is eventually also an `SelectAlternative`, but prefixed with an `unwind` construct, and with an additional `end` keyword at the end to terminate the unwind.
@@ -676,7 +676,7 @@ At Path 2, the condition is eventually also an `SelectAlternative`, but prefixed
 The unwind construct allows for a compact notation of a large number of alternatives that must be monitored.
 Examples are provided below.
 
-image::{ref-imgsdir}/rail_diagrams/select_alternative.png[]
+image::{ref-imgsdir}/rail_diagrams/select_alternative.rr.png[]
 
 Using Path 1, a `SelectAlternative` can be a <<ref-send-statement>> or a <<ref-receive-statement>>, which may optionally have a `BooleanExpression` condition prefix.
 Path 2 allows for a condition without a send or receive statement.
@@ -773,7 +773,7 @@ In addition, the `unwind` allows for nested loops to unfold for example `list li
 
 Finally, there are a number of other useful statements.
 
-image::{ref-imgsdir}/rail_diagrams/other_statements.png[]
+image::{ref-imgsdir}/rail_diagrams/other_statements.rr.png[]
 
 The <<ref-delay-statement>> waits for the given amount of time units, the <<ref-write-statement>> outputs text to the screen or a file, the <<ref-close-statement>> closes a file, the <<ref-return-statement>> returns a value from a function.
 the <<ref-exit-statement>> ends the execution of all processes, and the <<ref-pass-statement>> does nothing.
@@ -788,7 +788,7 @@ The `delay` statement is useful to wait some time.
 The statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/delay_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/delay_statement.rr.png[]
 
 The `IntegerExpression` or `RealExpression` is evaluated, and is the amount of time that the statement waits.
 The value of the expression is computed only at the start, it is not evaluated while waiting.
@@ -811,7 +811,7 @@ indexterm:[statement,write]
 The write statement is used to output text to the screen or to a file.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/write_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/write_statement.rr.png[]
 
 The _format string_ at 2 is a literal string value (further explained at <<ref-string-expression>>) which defines what gets written.
 Its text is copied to the output, except for two types of patterns which are replaced before being copied.
@@ -898,7 +898,7 @@ indexterm:[statement,close]
 [[ref-close-statement]]
 ==== Close statement
 
-image::{ref-imgsdir}/rail_diagrams/close_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/close_statement.rr.png[]
 
 The `close` statement takes a value of type `file` as argument (see <<ref-file-type>> for details about the file type).
 It closes the given file, which means that the file is no longer available for read or write.
@@ -916,7 +916,7 @@ indexterm:[return,statement]
 The return statement may only be used in a <<ref-function-definitions>>.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/return_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/return_statement.rr.png[]
 
 The statement starts with a `return` keyword, followed by one or more (comma-separated) expressions that form the value to return to the caller of the function.
 
@@ -943,7 +943,7 @@ indexterm:[exit,value]
 The `exit` statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
 It has the following syntax:
 
-image::{ref-imgsdir}/rail_diagrams/exit_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/exit_statement.rr.png[]
 
 The exit statement allows for immediately stopping the current model simulation.
 The statement may be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
@@ -962,7 +962,7 @@ indexterm:[statement,pass]
 [[ref-pass-statement]]
 ==== Pass statement
 
-image::{ref-imgsdir}/rail_diagrams/pass_statement.png[]
+image::{ref-imgsdir}/rail_diagrams/pass_statement.rr.png[]
 
 The `pass` statement does nothing.
 Its purpose is to act as a place holder for a statement at a point where there is nothing useful to do (for example to make an empty process), or to explicitly state nothing is being done at some point:

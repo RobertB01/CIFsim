@@ -41,7 +41,6 @@ The following third party tools are used to generate/convert images:
 * Inkscape, to convert `.svg` images.
 * LaTeX, to generate images, including `dvips`, `latex`, `pdfcrop` and `pdflatex`.
 * Make, run `Makefile` builds, to generate images.
-* LaTeX `rail` package, including `rail`.
 
 The following third party tools are used to build some of the documentation:
 

@@ -145,6 +145,18 @@
                         </configuration>
                     </execution>
 
+                    <!-- Generate railroad diagrams. -->
+                    <execution>
+                        <id>generate-railroad-diagrams</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-railroad-diagrams</goal>
+                        </goals>
+                        <configuration>
+                            <rootPath>${project.basedir}/images</rootPath>
+                        </configuration>
+                    </execution>
+
                     <!-- Split single-page HTML to multi-page HTML. -->
                     <execution>
                         <id>eclipse-help-multi-page-html-split</id>
