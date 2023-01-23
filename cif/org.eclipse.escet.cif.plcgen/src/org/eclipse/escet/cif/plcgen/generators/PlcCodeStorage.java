@@ -84,6 +84,20 @@ public class PlcCodeStorage {
     }
 
     /**
+     * Add a variable to the global output variable table.
+     *
+     * @param var Variable to add.
+     */
+    public void addConstant(PlcVariable var) {
+        Assert.check(target.supportsConstants());
+
+        if (globalConstants == null) {
+            globalConstants = new PlcGlobalVarList("CONSTANTS", true);
+        }
+        globalConstants.variables.add(var);
+    }
+
+    /**
      * Add a variable to the global input variable table.
      *
      * @param var Variable to add.
@@ -105,20 +119,6 @@ public class PlcCodeStorage {
             globalOutputs = new PlcGlobalVarList("OUTPUTS", false);
         }
         globalOutputs.variables.add(var);
-    }
-
-    /**
-     * Add a variable to the global constants table.
-     *
-     * @param var Variable to add.
-     */
-    public void addConstant(PlcVariable var) {
-        Assert.check(target.supportsConstants());
-
-        if (globalConstants == null) {
-            globalConstants = new PlcGlobalVarList("CONSTANTS", true);
-        }
-        globalConstants.variables.add(var);
     }
 
     /**
@@ -146,14 +146,14 @@ public class PlcCodeStorage {
         project.pous.add(main);
 
         // Global variable list of the main program. Note that the cif2plc Siemens target requires the "TIMERS" name.
-        PlcGlobalVarList globalTimers = new PlcGlobalVarList("TIMERS", false);
-        addGlobalVariableTable(globalTimers);
+        PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
+        addGlobalVariableTable(mainVariables);
 
         // Add main program variables.
         PlcType tonType = new PlcDerivedType("TON");
-        globalTimers.variables.add(new PlcVariable("timer0", tonType));
-        globalTimers.variables.add(new PlcVariable("timer1", tonType));
-        globalTimers.variables.add(new PlcVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
+        mainVariables.variables.add(new PlcVariable("timer0", tonType));
+        mainVariables.variables.add(new PlcVariable("timer1", tonType));
+        mainVariables.variables.add(new PlcVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
 
         // Add program to task.
         task.pouInstances.add(new PlcPouInstance("MAIN", main));
