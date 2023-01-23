@@ -46,25 +46,24 @@ public abstract class PlcTarget {
      * Generate and write the PLC code.
      *
      * @param settings Configuration to use.
-     * @return Whether generating the PLC code succeeded, termination request is not successful.
      */
-    public boolean generate(PlcGenSettings settings) {
+    public void generate(PlcGenSettings settings) {
         codeStorage.setup(settings);
         if (settings.shouldTerminate.get()) {
-            return false;
+            return;
         }
 
-        if (!cifProcessor.generate(settings)) {
-            return false;
+        cifProcessor.generate(settings);
+        if (settings.shouldTerminate.get()) {
+            return;
         }
 
         codeStorage.generateProgram();
         if (settings.shouldTerminate.get()) {
-            return false;
+            return;
         }
 
         codeStorage.writeOutput();
-        return true;
     }
 
     /**

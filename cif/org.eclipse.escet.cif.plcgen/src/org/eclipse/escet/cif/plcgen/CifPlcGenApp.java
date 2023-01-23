@@ -147,6 +147,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String inputPath = InputFileOption.getPath();
         String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
 
+        // Required invariant: Once it returns true, it must return true on subsequent calls.
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,

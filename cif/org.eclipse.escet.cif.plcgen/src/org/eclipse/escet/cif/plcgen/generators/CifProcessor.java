@@ -22,11 +22,9 @@ public class CifProcessor {
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
      *
      * @param settings Configuration to use.
-     * @return Whether processing succeeded ({@code true}) or termination was requested ({@code false}).
      */
-    public boolean generate(PlcGenSettings settings) {
+    public void generate(PlcGenSettings settings) {
         // Read CIF specification.
         new CifReader().init(settings.inputPath, settings.absInputPath, false).read(); // Currently not used.
-        return !settings.shouldTerminate.get();
     }
 }
