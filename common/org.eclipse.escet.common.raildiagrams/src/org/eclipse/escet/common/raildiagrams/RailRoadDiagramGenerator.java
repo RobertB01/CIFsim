@@ -78,10 +78,9 @@ public class RailRoadDiagramGenerator {
             System.exit(1);
             return; // Never reached.
         }
-        Path configPath = (args.length == 3) ? null : Paths.get(args[3]);
         List<Path> configPaths = listc(1);
-        if (configPath != null) {
-            configPaths.add(configPath);
+        if (args.length == 4) {
+            configPaths.add(Paths.get(args[3]));
         }
 
         // Generate railroad diagram image.
@@ -93,7 +92,7 @@ public class RailRoadDiagramGenerator {
      * Generate railroad diagram image.
      *
      * @param inputPath The path to the input file with the railroad diagram specification.
-     * @param configPaths The default built-in configuration is applied first. Then each of the given configurations is
+     * @param configPaths The paths to the configuration files to use. The default built-in configuration is applied first. Then each of the given configurations is
      *     applied, in order. You may for instance provide a shared configuration first, and a specific configuration
      *     second, to allow the specific configuration to override the shared one.
      * @param outputPath The path to the output image file.
