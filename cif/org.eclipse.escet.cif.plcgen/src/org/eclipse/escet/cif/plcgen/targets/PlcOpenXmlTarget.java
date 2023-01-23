@@ -13,18 +13,19 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.cif2plc.writers.PlcOpenXmlWriter;
 
 /** Code generator for the PLCopen XML PLC type. */
-public class PlcOpenXmlTarget extends PlcBaseTarget {
+public class PlcOpenXmlTarget extends PlcTarget {
     /** Constructor of the {@link PlcOpenXmlTarget} class. */
     public PlcOpenXmlTarget() {
         super(PlcTargetType.PLC_OPEN_XML);
     }
 
     @Override
-    public void writeOutput(String outputPath) {
-        new PlcOpenXmlWriter().write(project, outputPath);
+    public OutputTypeWriter getPlcCodeWriter() {
+        return new PlcOpenXmlWriter();
     }
 
     @Override
@@ -33,7 +34,7 @@ public class PlcOpenXmlTarget extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return ".plcopen.xml";
     }
 }

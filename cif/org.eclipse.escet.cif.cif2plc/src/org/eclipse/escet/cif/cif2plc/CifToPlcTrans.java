@@ -507,7 +507,7 @@ public class CifToPlcTrans {
             resource.globalVarLists.add(globalConsts);
         }
 
-        // Timer global variable list.
+        // Timer global variable list. The "TIMERS" name is required by the Siemens output type.
         PlcGlobalVarList globalTimers = new PlcGlobalVarList("TIMERS", false);
         resource.globalVarLists.add(globalTimers);
         PlcType tonType = new PlcDerivedType("TON");

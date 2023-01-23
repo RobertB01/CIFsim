@@ -14,17 +14,18 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.cif2plc.writers.Iec611313Writer;
+import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 
 /** Code generator for the IEC 61131-3 PLC type. */
-public class Iec611313Target extends PlcBaseTarget {
+public class Iec611313Target extends PlcTarget {
     /** Constructor of the {@link Iec611313Target} class. */
     public Iec611313Target() {
         super(PlcTargetType.IEC_61131_3);
     }
 
     @Override
-    public void writeOutput(String outputPath) {
-        new Iec611313Writer().write(project, outputPath);
+    public OutputTypeWriter getPlcCodeWriter() {
+        return new Iec611313Writer();
     }
 
     @Override
@@ -33,7 +34,7 @@ public class Iec611313Target extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return "_plc";
     }
 }
