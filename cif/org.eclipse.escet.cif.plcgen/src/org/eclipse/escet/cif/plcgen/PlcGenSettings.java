@@ -54,12 +54,13 @@ public class PlcGenSettings {
      * @param configurationName Name of the PLC configuration.
      * @param resourceName Name of the PLC resource.
      * @param taskName Name of the PLC task.
-     * @param taskCycleTime Cycle time of the plc task.
-     * @param taskPriority Priority of the plc task.
-     * @param inputPath User-specified path to the CIF specification to transform.
-     * @param absInputPath Absolute path to the CIF specification to transform.
-     * @param outputPath Destination for the generated code.
-     * @param shouldTerminate Callback whether execution should be terminated on user request.
+     * @param taskCycleTime Cycle time of the PLC task, in milliseconds. Set to {@code 0} to disable periodic task
+     *     scheduling.
+     * @param taskPriority Priority of the PLC task. Must be in the range [0..65535].
+     * @param inputPath User-specified path to the CIF specification for which to generate PLC code.
+     * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
+     * @param outputPath Absolute base path to which to write the generated code.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      */
     PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
