@@ -108,7 +108,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global output variable table.
+     * Add a variable to the global constants table.
      *
      * @param var Variable to add.
      */
@@ -162,7 +162,7 @@ public class PlcCodeStorage {
     /**
      * Add the given variable table to the PLC code if the table exists.
      *
-     * @param varTable Variable table to add if it exists.
+     * @param varTable Variable table to add if it exists (is non-{@code null}).
      */
     private void addGlobalVariableTable(PlcGlobalVarList varTable) {
         if (varTable != null) {

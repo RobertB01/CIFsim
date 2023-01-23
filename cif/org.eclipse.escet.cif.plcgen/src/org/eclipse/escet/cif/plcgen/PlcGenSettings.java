@@ -50,7 +50,7 @@ public class PlcGenSettings {
     /**
      * Constructor of the {@link PlcGenSettings} class.
      *
-     * @param projectName Name of the generated project.
+     * @param projectName Name of the PLC project.
      * @param configurationName Name of the PLC configuration.
      * @param resourceName Name of the PLC resource.
      * @param taskName Name of the PLC task.
