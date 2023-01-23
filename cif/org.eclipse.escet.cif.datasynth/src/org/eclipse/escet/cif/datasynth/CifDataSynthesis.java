@@ -36,8 +36,8 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
-import org.eclipse.escet.cif.datasynth.options.StateReqApplyOption;
-import org.eclipse.escet.cif.datasynth.options.StateReqApplyOption.StateReqApplyMode;
+import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
+import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -590,7 +590,7 @@ public class CifDataSynthesis {
         aut.plantInvComps.free();
         aut.plantInvLocs.free();
 
-        if (StateReqApplyOption.getMode() == StateReqApplyMode.CTRL_BEH) {
+        if (StateReqInvEnforceOption.getMode() == StateReqInvEnforceMode.ALL_CTRL_BEH) {
             for (BDD bdd: aut.reqInvsComps) {
                 bdd.free();
             }
@@ -645,7 +645,7 @@ public class CifDataSynthesis {
         aut.plantInvsLocs = null;
         aut.plantInvLocs = null;
 
-        if (StateReqApplyOption.getMode() == StateReqApplyMode.CTRL_BEH) {
+        if (StateReqInvEnforceOption.getMode() == StateReqInvEnforceMode.ALL_CTRL_BEH) {
             aut.reqInvsComps = null;
             aut.reqInvsLocs = null;
         }
@@ -816,9 +816,9 @@ public class CifDataSynthesis {
             dbg("Restricting behavior using state requirements.");
         }
 
-        StateReqApplyMode applyMode = StateReqApplyOption.getMode();
-        switch (applyMode) {
-            case CTRL_BEH: {
+        StateReqInvEnforceMode enforceMode = StateReqInvEnforceOption.getMode();
+        switch (enforceMode) {
+            case ALL_CTRL_BEH: {
                 // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
                 // controlled system if the state requirement invariants hold.
                 BDD newCtrlBeh = aut.ctrlBeh.and(aut.reqInv);
@@ -838,7 +838,7 @@ public class CifDataSynthesis {
                 }
                 break;
             }
-            case EDGE_GUARD_OR_CTRL_BEH: {
+            case PER_EDGE: {
                 // Apply state requirement invariants, per edge.
                 List<BDD> reqInvs = concat(aut.reqInvsComps, aut.reqInvsLocs);
                 Function<SynthesisEdge, Stream<BDD>> reqsPerEdge = edge -> reqInvs.stream().map(reqInv -> {
@@ -912,7 +912,7 @@ public class CifDataSynthesis {
                 break;
             }
             default:
-                throw new RuntimeException("Unknown mode: " + applyMode);
+                throw new RuntimeException("Unknown mode: " + enforceMode);
         }
     }
 

@@ -50,7 +50,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.PlantsRefReqsWarnOption;
-import org.eclipse.escet.cif.datasynth.options.StateReqApplyOption;
+import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNameOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNamespaceOption;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
@@ -451,7 +451,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(EdgeOrderBackwardOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderForwardOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderDuplicateEventsOption.class));
-        synthOpts.add(Options.getInstance(StateReqApplyOption.class));
+        synthOpts.add(Options.getInstance(StateReqInvEnforceOption.class));
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
         synthOpts.add(Options.getInstance(ContinuousPerformanceStatisticsFileOption.class));
         synthOpts.add(Options.getInstance(EventWarnOption.class));

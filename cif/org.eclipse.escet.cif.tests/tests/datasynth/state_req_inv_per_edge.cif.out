@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/state_req_inv_in_edge_guard_or_ctrl_beh.cif".
+Reading CIF file "datasynth/state_req_inv_per_edge.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -164,4 +164,4 @@ Simplification of controlled system initialization predicate under the assumptio
   Initial: <bdd 13n 27p> -> <bdd 12n 27p> [assume <bdd 13n 125p>].
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/state_req_inv_in_edge_guard_or_ctrl_beh.ctrlsys.real.cif".
+Writing output CIF file "datasynth/state_req_inv_per_edge.ctrlsys.real.cif".

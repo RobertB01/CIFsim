@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/traffic_lights_req_state_inv_edge_guard_or_ctrl_beh.cif".
+Reading CIF file "datasynth/traffic_lights_req_state_inv_per_edge.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -157,4 +157,4 @@ Simplification of controlled system under the assumption of the plants:
   Event red_B: guard: LightB.Green -> true [assume LightB.Green].
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/traffic_lights_req_state_inv_edge_guard_or_ctrl_beh.ctrlsys.real.cif".
+Writing output CIF file "datasynth/traffic_lights_req_state_inv_per_edge.ctrlsys.real.cif".
