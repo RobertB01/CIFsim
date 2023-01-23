@@ -116,7 +116,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         PlcGenSettings settings = makePlcGenSettings(target);
 
         // Generate PLC code and write it to the file system.
-        target.transform(settings);
+        target.generate(settings);
 
         // TODO Use these options, see also getAllOptions()
         //
