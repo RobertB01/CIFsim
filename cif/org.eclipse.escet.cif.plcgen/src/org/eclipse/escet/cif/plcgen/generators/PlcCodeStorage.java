@@ -30,12 +30,12 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 
 /** Stores and writes generated PLC code. */
 public class PlcCodeStorage {
     /** PLC target to generate code for. */
-    private PlcBaseTarget target;
+    private PlcTarget target;
 
     /** Absolute base path to which to write the generated code. */
     private String outputPath;
@@ -60,7 +60,7 @@ public class PlcCodeStorage {
      *
      * @param target PLC target to generate code for.
      */
-    public PlcCodeStorage(PlcBaseTarget target) {
+    public PlcCodeStorage(PlcTarget target) {
         this.target = target;
     }
 
@@ -76,8 +76,7 @@ public class PlcCodeStorage {
         project = new PlcProject(settings.projectName);
         PlcConfiguration config = new PlcConfiguration(settings.configurationName);
         PlcResource resource = new PlcResource(settings.resourceName);
-        task = new PlcTask(settings.taskName, settings.taskCycleTime,
-                settings.taskPriority);
+        task = new PlcTask(settings.taskName, settings.taskCycleTime, settings.taskPriority);
 
         project.configurations.add(config);
         config.resources.add(resource);

@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 
 /** Base class for generating a {@link PlcProject}. */
-public abstract class PlcBaseTarget {
+public abstract class PlcTarget {
     /** CIF file information extractor. */
     private CifProcessor cifProcessor;
 
@@ -31,11 +31,11 @@ public abstract class PlcBaseTarget {
     protected final PlcTargetType targetType;
 
     /**
-     * Constructor of the {@link PlcBaseTarget} class.
+     * Constructor of the {@link PlcTarget} class.
      *
      * @param targetType PLC target type for code generation.
      */
-    public PlcBaseTarget(PlcTargetType targetType) {
+    public PlcTarget(PlcTargetType targetType) {
         this.targetType = targetType;
 
         cifProcessor = new CifProcessor();
