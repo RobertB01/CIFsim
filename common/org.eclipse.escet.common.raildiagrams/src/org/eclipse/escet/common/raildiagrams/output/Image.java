@@ -75,7 +75,7 @@ public class Image {
     }
 
     /**
-     * Construct a graphics handle for the image and configure it.
+     * Construct a graphics handle for an image and configure it.
      *
      * @param image Image that needs a graphics handle.
      * @return The configured handle.

@@ -64,7 +64,7 @@ public class RailRoadDiagramGenerator {
         }
         if (askedHelp || (args.length != 3 && args.length != 4)) {
             System.err.println(
-                    "Usage: Generator [-h | -help] <diagram-file> <png-file> \"images\"|\"dbg-images\" [<config-file>]");
+                    "Usage: Generator [-h | -help | --help] <diagram-file> <png-file> \"images\"|\"dbg-images\" [<config-file>]");
             System.exit(askedHelp ? 0 : 1);
         }
         Path inputPath = Paths.get(args[0]);
