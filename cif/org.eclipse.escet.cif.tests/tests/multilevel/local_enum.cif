@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant A:
+  enum Labels = ON, OFF;
+  event a, b;
+
+  location l1:
+    initial;
+    edge a goto l2;
+  location l2:
+    edge b goto l1;
+end
+
+plant B:
+  event c, d;
+  disc A.Labels x = A.OFF;
+
+  location:
+    initial;
+    edge c do x := A.ON;
+    edge d do x := A.OFF;
+end
+
+plant C:
+  event e;
+
+  location:
+    initial;
+    edge e;
+end
+
+requirement C.e needs B.x = A.ON;

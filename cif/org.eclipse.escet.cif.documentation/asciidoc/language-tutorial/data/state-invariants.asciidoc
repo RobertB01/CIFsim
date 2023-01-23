@@ -133,7 +133,7 @@ The goal is to keep the value of in the range [0..100].
 The invariant is simple and direct.
 The guard however, has to state the condition under which the update does not violate the goal.
 That is, the upper bound has to be decreased by three, and the result has to be divided by two, to get the highest value (48) for which the update is still within the valid range of values.
-That is, for value 48 the update results in value 99 (2 * 48 + 3 = 99), and for value 49 the update results in value 101 (2 * 48 + 3 = 99).
+That is, for value 48 the update results in value 99 (2 * 48 + 3 = 99), and for value 49 the update results in value 101 (2 * 49 + 3 = 101).
 The more complex the update, the harder it is to figure out the guard to use to keep satisfy the goal.
 
 You can of course also use `+2 * x + 3 <= 100+` as guard, instead of `+x <= 48+`.

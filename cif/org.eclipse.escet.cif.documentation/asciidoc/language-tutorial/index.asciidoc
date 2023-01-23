@@ -34,7 +34,7 @@ indexterm:[timed system]
 indexterm:[hybrid system]
 
 CIF supports discrete event models, that are mostly concerned with what happens, and in which order.
-CIF also supports timed systems, where timing plays and explicit role, and hybrid systems, which combine the discrete events with timing.
+CIF also supports timed systems, where timing plays an explicit role, and hybrid systems, which combine the discrete events with timing.
 This makes CIF suitable for modeling of all kinds of systems.
 
 The CIF tooling puts a particular focus on supporting the entire development process of controllers.

@@ -25,6 +25,11 @@ import org.eclipse.escet.common.java.Strings;
 public class SortedVarOrder extends NonInterleavedVarOrder {
     @Override
     public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
+        // Debug output.
+        if (dbgEnabled) {
+            helper.dbg(dbgLevel, "Applying sorted variable order.");
+        }
+
         // Get variables in model order.
         List<SynthesisVariable> modelOrder = helper.getVariables();
 

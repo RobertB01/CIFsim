@@ -1,0 +1,47 @@
+group Counter:
+  controllable dec;
+  controllable inc;
+end
+group Actuator:
+  controllable on;
+  controllable off;
+end
+automaton statespace:
+  alphabet Counter.inc, Counter.dec, Actuator.on, Actuator.off;
+  location loc1:
+    initial;
+    marked;
+    edge Counter.inc goto loc2;
+    edge Actuator.on goto loc3;
+  location loc2:
+    edge Counter.inc goto loc4;
+    edge Counter.dec goto loc1;
+  location loc3:
+    edge Counter.inc goto loc5;
+  location loc4:
+    edge Counter.inc goto loc6;
+    edge Counter.dec goto loc2;
+  location loc5:
+    edge Counter.inc goto loc7;
+    edge Counter.dec goto loc3;
+  location loc6:
+    edge Counter.inc goto loc8;
+    edge Counter.dec goto loc4;
+  location loc7:
+    edge Counter.inc goto loc9;
+    edge Counter.dec goto loc5;
+  location loc8:
+    edge Counter.inc goto loc10;
+    edge Counter.dec goto loc6;
+  location loc9:
+    edge Counter.inc goto loc11;
+    edge Counter.dec goto loc7;
+  location loc10:
+    edge Counter.dec goto loc8;
+  location loc11:
+    edge Counter.inc goto loc12;
+    edge Counter.dec goto loc9;
+  location loc12:
+    edge Counter.dec goto loc11;
+    edge Actuator.off goto loc10;
+end

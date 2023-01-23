@@ -1,0 +1,42 @@
+plant automaton Counter:
+  controllable dec;
+  controllable inc;
+  location zero:
+    initial;
+    marked;
+    edge inc goto one;
+  location one:
+    edge dec goto zero;
+    edge inc goto two;
+  location two:
+    edge dec goto one;
+    edge inc goto three;
+  location three:
+    edge dec goto two;
+    edge inc goto four;
+  location four:
+    edge dec goto three;
+    edge inc goto five;
+  location five:
+    edge dec goto four;
+end
+plant automaton Actuator:
+  controllable on;
+  controllable off;
+  location Off:
+    initial;
+    marked;
+    edge on goto On;
+  location On:
+    edge off goto Off;
+end
+supervisor automaton sup:
+  alphabet Counter.inc, Counter.dec, Actuator.on, Actuator.off;
+  location:
+    initial;
+    marked;
+    edge Actuator.off when Counter.five;
+    edge Actuator.on when Counter.zero;
+    edge Counter.dec when true;
+    edge Counter.inc when true;
+end

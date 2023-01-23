@@ -69,10 +69,16 @@ public class SynthesisAutomaton {
     public List<SynthesisEdge> edges;
 
     /**
-     * The linearized edges, ordered for reachability computations. Contains all edges from {@link #edges} at least
-     * once.
+     * The linearized edges, ordered for backward reachability computations. Contains all edges from {@link #edges} at
+     * least once.
      */
-    public List<SynthesisEdge> orderedEdges;
+    public List<SynthesisEdge> orderedEdgesBackward;
+
+    /**
+     * The linearized edges, ordered for forward reachability computations. Contains all edges from {@link #edges} at
+     * least once.
+     */
+    public List<SynthesisEdge> orderedEdgesForward;
 
     /** Mapping from events to their corresponding linearized edges. */
     public Map<Event, List<SynthesisEdge>> eventEdges;

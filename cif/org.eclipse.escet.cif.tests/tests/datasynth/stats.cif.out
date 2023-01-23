@@ -9,7 +9,7 @@ CIF variables and location pointers:
   -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
   Total                                       1      10        52          64          ~81%
 
-Skipping automatic variable ordering: only one variable present.
+Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 

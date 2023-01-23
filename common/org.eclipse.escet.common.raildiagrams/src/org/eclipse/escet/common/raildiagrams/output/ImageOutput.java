@@ -13,9 +13,11 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
-import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.getGraphics;
-
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +30,6 @@ import org.eclipse.escet.common.raildiagrams.graphics.Area;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
-import org.eclipse.escet.common.raildiagrams.graphics.PaintSupport;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
@@ -36,6 +37,7 @@ import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
 import org.eclipse.escet.common.raildiagrams.output.MarchingRectangles.PixelCoverage;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
+import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** Base class for generating images. */
 public abstract class ImageOutput extends OutputTarget {
@@ -47,8 +49,8 @@ public abstract class ImageOutput extends OutputTarget {
 
     /** Constructor of the {@link ImageOutput} class. */
     public ImageOutput() {
-        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-        textGd = getGraphics(image);
+        BufferedImage dummyImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        textGd = Image.getGraphics(dummyImage);
     }
 
     /**
@@ -248,14 +250,29 @@ public abstract class ImageOutput extends OutputTarget {
         int left = solver.getVarValue(textGraphic.left) + baseLeft;
 
         FontData fd = textGraphic.font;
+        FontRenderContext renderContext = textGd.getFontRenderContext();
+        TextLayout layout = new TextLayout(textGraphic.text, fd.font, renderContext);
+
+        Graphics2D gd = image.getGraphics();
+        gd.setColor(textGraphic.color);
+
         Position2D offset = textGraphic.offset;
-        Graphics2D gd = PaintSupport.getGraphics(image.image);
-        fd.paint(left + offset.x, top + offset.y, textGraphic.color, gd, textGraphic.text);
+        layout.draw(gd, left + offset.x, top + offset.y);
     }
 
     @Override
     public TextSizeOffset getTextSizeOffset(String text, FontData fontData) {
-        return fontData.getTextSizeOffset(textGd, text);
+        FontMetrics fm = textGd.getFontMetrics(fontData.font);
+        int height = fm.getAscent() + fm.getDescent();
+        int vertOffset = fm.getAscent();
+
+        FontRenderContext renderContext = textGd.getFontRenderContext();
+        TextLayout layout = new TextLayout(text, fontData.font, renderContext);
+        Rectangle2D area = layout.getPixelBounds(renderContext, 0, 0);
+
+        Position2D offset = new Position2D(-(int)area.getX(), vertOffset);
+        Size2D size = new Size2D((int)area.getWidth(), height);
+        return new TextSizeOffset(offset, size);
     }
 
     /**

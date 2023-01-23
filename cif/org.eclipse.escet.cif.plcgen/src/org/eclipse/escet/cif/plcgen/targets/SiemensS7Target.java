@@ -16,11 +16,12 @@ package org.eclipse.escet.cif.plcgen.targets;
 import java.util.Map;
 
 import org.eclipse.escet.cif.cif2plc.options.PlcOutputType;
+import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.cif2plc.writers.S7Writer;
 import org.eclipse.escet.common.java.Assert;
 
 /** Code generator for Siemens S7-300, S7-400, S7-1200, and S7-1500 PLC types. */
-public class SiemensS7Target extends PlcBaseTarget {
+public class SiemensS7Target extends PlcTarget {
     /** Replacement strings for the extension in the CIF input file name to construct an output path. */
     private static final Map<PlcTargetType, String> OUT_SUFFIX_REPLACEMENTS;
 
@@ -49,8 +50,8 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public void writeOutput(String outputPath) {
-        new S7Writer(OUTPUT_TYPES.get(targetType)).write(project, outputPath);
+    public OutputTypeWriter getPlcCodeWriter() {
+        return new S7Writer(OUTPUT_TYPES.get(targetType));
     }
 
     @Override
@@ -59,7 +60,7 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return OUT_SUFFIX_REPLACEMENTS.get(targetType);
     }
 }

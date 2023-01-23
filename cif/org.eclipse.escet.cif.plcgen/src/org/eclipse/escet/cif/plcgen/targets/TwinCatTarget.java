@@ -13,18 +13,19 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.cif2plc.writers.TwinCatWriter;
 
 /** Code generator for the TwinCAT PLC type. */
-public class TwinCatTarget extends PlcBaseTarget {
+public class TwinCatTarget extends PlcTarget {
     /** Constructor of the {@link TwinCatTarget} class. */
     public TwinCatTarget() {
         super(PlcTargetType.TWINCAT);
     }
 
     @Override
-    public void writeOutput(String outputPath) {
-        new TwinCatWriter().write(project, outputPath);
+    public OutputTypeWriter getPlcCodeWriter() {
+        return new TwinCatWriter();
     }
 
     @Override
@@ -33,7 +34,7 @@ public class TwinCatTarget extends PlcBaseTarget {
     }
 
     @Override
-    public String pathSuffixReplacement() {
+    public String getPathSuffixReplacement() {
         return "_twincat";
     }
 }
