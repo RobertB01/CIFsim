@@ -92,9 +92,10 @@ public class RailRoadDiagramGenerator {
      * Generate railroad diagram image.
      *
      * @param inputPath The path to the input file with the railroad diagram specification.
-     * @param configPaths The paths to the configuration files to use. The default built-in configuration is applied first. Then each of the given configurations is
-     *     applied, in order. You may for instance provide a shared configuration first, and a specific configuration
-     *     second, to allow the specific configuration to override the shared one.
+     * @param configPaths The paths to the configuration files to use. The default built-in configuration is applied
+     *     first. Then each of the given configurations is applied, in order. You may for instance provide a shared
+     *     configuration first, and a specific configuration second, to allow the specific configuration to override the
+     *     shared one.
      * @param outputPath The path to the output image file.
      * @param outputFormat The requested output format.
      * @param debugLogger The debug logger to use, or {@code null} to not log debug output.
