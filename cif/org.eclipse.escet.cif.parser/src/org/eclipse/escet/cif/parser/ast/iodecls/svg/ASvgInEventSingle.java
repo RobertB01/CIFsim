@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.parser.ast.iodecls.svg;
 
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** A CIF/SVG input mapping event choice that chooses a single fixed event. */
 public class ASvgInEventSingle extends ASvgInEvent {
@@ -24,8 +25,10 @@ public class ASvgInEventSingle extends ASvgInEvent {
      * Constructor for the {@link ASvgInEventSingle} class.
      *
      * @param name The textual reference to the event.
+     * @param position Position information.
      */
-    public ASvgInEventSingle(AName name) {
+    public ASvgInEventSingle(AName name, TextPosition position) {
+        super(position);
         this.name = name;
     }
 }

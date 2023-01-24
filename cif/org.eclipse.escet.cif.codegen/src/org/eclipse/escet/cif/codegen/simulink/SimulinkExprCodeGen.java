@@ -98,7 +98,7 @@ public class SimulinkExprCodeGen extends C89ExprCodeGen {
         }
         callText.append(')');
 
-        CifType retType = makeTupleType(deepclone(func.getReturnTypes()));
+        CifType retType = makeTupleType(deepclone(func.getReturnTypes()), null);
         TypeInfo retTi = ctxt.typeToTarget(retType);
 
         // Result type is always a value!

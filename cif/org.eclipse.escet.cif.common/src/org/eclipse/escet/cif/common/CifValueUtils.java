@@ -45,6 +45,7 @@ import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
 
 import java.util.ArrayDeque;
 import java.util.BitSet;
@@ -138,6 +139,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.ListProductIterator;
+import org.eclipse.escet.common.position.metamodel.position.Position;
 
 /** CIF value utility methods. */
 public class CifValueUtils {
@@ -1115,7 +1117,7 @@ public class CifValueUtils {
             for (InternalFunction func: funcs) {
                 // Get type of the function.
                 FuncType t = newFuncType();
-                CifType rt = makeTupleType(func.getReturnTypes());
+                CifType rt = makeTupleType(func.getReturnTypes(), null);
                 t.setReturnType(deepclone(rt));
                 for (FunctionParameter param: func.getParameters()) {
                     CifType pt = param.getParameter().getType();
@@ -1982,9 +1984,11 @@ public class CifValueUtils {
      * </p>
      *
      * @param elements The elements. Must have at least one element.
+     * @param position The position used for newly created expressions and types. The position itself is not used, only
+     *     clones are used. May be {@code null} to not set position information.
      * @return If there is only one element, that element, or a tuple with the given elements otherwise.
      */
-    public static Expression makeTuple(List<Expression> elements) {
+    public static Expression makeTuple(List<Expression> elements, Position position) {
         Assert.check(!elements.isEmpty());
 
         if (elements.size() == 1) {
@@ -1992,13 +1996,16 @@ public class CifValueUtils {
         }
 
         TupleType tupleType = newTupleType();
+        tupleType.setPosition(copyPosition(position));
         for (Expression element: elements) {
             Field field = newField();
+            field.setPosition(copyPosition(position));
             field.setType(deepclone(element.getType()));
             tupleType.getFields().add(field);
         }
 
         TupleExpression tuple = newTupleExpression();
+        tuple.setPosition(copyPosition(position));
         tuple.getFields().addAll(elements);
         tuple.setType(tupleType);
         return tuple;
@@ -2323,7 +2330,7 @@ public class CifValueUtils {
             ListProductIterator<Expression> iter = new ListProductIterator<>(fieldsValues);
             while (iter.hasNext()) {
                 List<Expression> elems = iter.next();
-                values.add(makeTuple(deepclone(elems)));
+                values.add(makeTuple(deepclone(elems), null));
             }
             return values;
         }

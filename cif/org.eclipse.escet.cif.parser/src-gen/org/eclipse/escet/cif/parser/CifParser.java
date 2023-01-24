@@ -61532,11 +61532,11 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce2();
                 Object o5 = doReduce2();
                 Object o4 = doReduce2();
-                doReduce2();
+                Object o3 = doReduce2();
                 Object o2 = doReduce2();
-                doReduce2();
+                Object o1 = doReduce2();
 
-                ASvgInEvent o = hooks.parseSvgInEvent3((AExpression)o2, (AName)o4, (List<ASvgInEventIfEntry>)o5);
+                ASvgInEvent o = hooks.parseSvgInEvent3((Token)o1, (AExpression)o2, (Token)o3, (AName)o4, (List<ASvgInEventIfEntry>)o5);
 
                 reduce = true;
                 reduceNonTerminal = 79;
@@ -61618,10 +61618,10 @@ public final class CifParser extends Parser<ASpecification> {
                 Object o5 = doReduce2();
                 doReduce2();
                 Object o3 = doReduce2();
-                doReduce2();
+                Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                List<ASvgInEventIfEntry> o = hooks.parseSvgInEventElifs2((List<ASvgInEventIfEntry>)o1, (AExpression)o3, (AName)o5);
+                List<ASvgInEventIfEntry> o = hooks.parseSvgInEventElifs2((List<ASvgInEventIfEntry>)o1, (Token)o2, (AExpression)o3, (AName)o5);
 
                 reduce = true;
                 reduceNonTerminal = 81;
@@ -61701,14 +61701,14 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce1(token, 79);
                 doReduce2();
                 Object o7 = doReduce2();
-                doReduce2();
+                Object o6 = doReduce2();
                 Object o5 = doReduce2();
                 Object o4 = doReduce2();
-                doReduce2();
+                Object o3 = doReduce2();
                 Object o2 = doReduce2();
-                doReduce2();
+                Object o1 = doReduce2();
 
-                ASvgInEvent o = hooks.parseSvgInEvent2((AExpression)o2, (AName)o4, (List<ASvgInEventIfEntry>)o5, (AName)o7);
+                ASvgInEvent o = hooks.parseSvgInEvent2((Token)o1, (AExpression)o2, (Token)o3, (AName)o4, (List<ASvgInEventIfEntry>)o5, (Token)o6, (AName)o7);
 
                 reduce = true;
                 reduceNonTerminal = 79;
@@ -61790,9 +61790,9 @@ public final class CifParser extends Parser<ASpecification> {
                 Object o4 = doReduce2();
                 doReduce2();
                 Object o2 = doReduce2();
-                doReduce2();
+                Object o1 = doReduce2();
 
-                List<ASvgInEventIfEntry> o = hooks.parseSvgInEventElifs1((AExpression)o2, (AName)o4);
+                List<ASvgInEventIfEntry> o = hooks.parseSvgInEventElifs1((Token)o1, (AExpression)o2, (AName)o4);
 
                 reduce = true;
                 reduceNonTerminal = 81;
@@ -105214,27 +105214,32 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code SvgInEvent : IFKW Expression COLONTK Name OptSvgInEventElifs ELSEKW Name ENDKW;}</p>
+         * <p>{@code SvgInEvent : @IFKW Expression @COLONTK Name OptSvgInEventElifs @ELSEKW Name ENDKW;}</p>
          *
+         * @param t1 {@code IFKW}.
          * @param a2 {@code Expression}.
+         * @param t3 {@code COLONTK}.
          * @param a4 {@code Name}.
          * @param l5 {@code OptSvgInEventElifs}.
+         * @param t6 {@code ELSEKW}.
          * @param a7 {@code Name}.
          * @return The parser call back hook result.
          */
-        public ASvgInEvent parseSvgInEvent2(AExpression a2, AName a4, List<ASvgInEventIfEntry> l5, AName a7);
+        public ASvgInEvent parseSvgInEvent2(Token t1, AExpression a2, Token t3, AName a4, List<ASvgInEventIfEntry> l5, Token t6, AName a7);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code SvgInEvent : IFKW Expression COLONTK Name SvgInEventElifs ENDKW;}</p>
+         * <p>{@code SvgInEvent : @IFKW Expression @COLONTK Name SvgInEventElifs ENDKW;}</p>
          *
+         * @param t1 {@code IFKW}.
          * @param a2 {@code Expression}.
+         * @param t3 {@code COLONTK}.
          * @param a4 {@code Name}.
          * @param l5 {@code SvgInEventElifs}.
          * @return The parser call back hook result.
          */
-        public ASvgInEvent parseSvgInEvent3(AExpression a2, AName a4, List<ASvgInEventIfEntry> l5);
+        public ASvgInEvent parseSvgInEvent3(Token t1, AExpression a2, Token t3, AName a4, List<ASvgInEventIfEntry> l5);
 
         /**
          * Parser call back hook for rule/production:
@@ -105258,25 +105263,27 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code SvgInEventElifs : ELIFKW Expression COLONTK Name;}</p>
+         * <p>{@code SvgInEventElifs : @ELIFKW Expression COLONTK Name;}</p>
          *
+         * @param t1 {@code ELIFKW}.
          * @param a2 {@code Expression}.
          * @param a4 {@code Name}.
          * @return The parser call back hook result.
          */
-        public List<ASvgInEventIfEntry> parseSvgInEventElifs1(AExpression a2, AName a4);
+        public List<ASvgInEventIfEntry> parseSvgInEventElifs1(Token t1, AExpression a2, AName a4);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code SvgInEventElifs : SvgInEventElifs ELIFKW Expression COLONTK Name;}</p>
+         * <p>{@code SvgInEventElifs : SvgInEventElifs @ELIFKW Expression COLONTK Name;}</p>
          *
          * @param l1 {@code SvgInEventElifs}.
+         * @param t2 {@code ELIFKW}.
          * @param a3 {@code Expression}.
          * @param a5 {@code Name}.
          * @return The parser call back hook result.
          */
-        public List<ASvgInEventIfEntry> parseSvgInEventElifs2(List<ASvgInEventIfEntry> l1, AExpression a3, AName a5);
+        public List<ASvgInEventIfEntry> parseSvgInEventElifs2(List<ASvgInEventIfEntry> l1, Token t2, AExpression a3, AName a5);
 
         /**
          * Parser call back hook for rule/production:

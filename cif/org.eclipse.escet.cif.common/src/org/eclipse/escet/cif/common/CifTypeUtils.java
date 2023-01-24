@@ -28,6 +28,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newVoidType;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
 
 import java.util.List;
 
@@ -85,6 +86,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.position.metamodel.position.Position;
 
 /** CIF type and scoping related utility methods. */
 public class CifTypeUtils {
@@ -932,8 +934,8 @@ public class CifTypeUtils {
     /**
      * Merges two compatible types to get the union of both types. Note that:
      * <ul>
-     * <li>The resulting types are either clones of (parts of) the input types, or they are freshly constructed (and
-     * have no position information).</li>
+     * <li>The resulting types are either clones of (parts of) the input types, or they are freshly constructed (with
+     * optional position information).</li>
      * <li>The fields of tuple types may have no names.</li>
      * <li>The two types must be contained in the same scope.</li>
      * <li>Component types and component definition types can not be merged.</li>
@@ -941,9 +943,11 @@ public class CifTypeUtils {
      *
      * @param type1 The first type.
      * @param type2 The second type.
+     * @param position The position used for newly created types. The position itself is not used, only clones are used.
+     *     May be {@code null} to not set position information.
      * @return The merged type, which is the union of both types.
      */
-    public static CifType mergeTypes(CifType type1, CifType type2) {
+    public static CifType mergeTypes(CifType type1, CifType type2, Position position) {
         // Normalize both types first, to get rid of top level type references
         // and wrapping types.
         CifType origType1 = type1;
@@ -952,21 +956,20 @@ public class CifTypeUtils {
 
         // Merge based on the mutual types.
         if (type1 instanceof BoolType && type2 instanceof BoolType) {
-            return newBoolType();
+            return newBoolType(copyPosition(position));
         }
 
         if (type1 instanceof IntType && type2 instanceof IntType) {
             IntType itype1 = (IntType)type1;
             IntType itype2 = (IntType)type2;
 
-            if (isRangeless(itype1) || isRangeless(itype2)) {
-                return newIntType();
-            } else {
-                IntType itype = newIntType();
+            IntType itype = newIntType();
+            itype.setPosition(copyPosition(position));
+            if (!isRangeless(itype1) && !isRangeless(itype2)) {
                 itype.setLower(Math.min(itype1.getLower(), itype2.getLower()));
                 itype.setUpper(Math.max(itype1.getUpper(), itype2.getUpper()));
-                return itype;
             }
+            return itype;
         }
 
         if (type1 instanceof EnumType && type2 instanceof EnumType) {
@@ -980,11 +983,11 @@ public class CifTypeUtils {
         }
 
         if (type1 instanceof RealType && type2 instanceof RealType) {
-            return newRealType();
+            return newRealType(copyPosition(position));
         }
 
         if (type1 instanceof StringType && type2 instanceof StringType) {
-            return newStringType();
+            return newStringType(copyPosition(position));
         }
 
         if (type1 instanceof ListType && type2 instanceof ListType) {
@@ -992,19 +995,21 @@ public class CifTypeUtils {
             ListType ltype2 = (ListType)type2;
 
             ListType ltype = newListType();
+            ltype.setPosition(copyPosition(position));
             if (!isRangeless(ltype1) && !isRangeless(ltype2)) {
                 ltype.setLower(Math.min(ltype1.getLower(), ltype2.getLower()));
                 ltype.setUpper(Math.max(ltype1.getUpper(), ltype2.getUpper()));
             }
 
-            CifType etype = mergeTypes(ltype1.getElementType(), ltype2.getElementType());
+            CifType etype = mergeTypes(ltype1.getElementType(), ltype2.getElementType(), position);
             ltype.setElementType(etype);
             return ltype;
         }
 
         if (type1 instanceof SetType && type2 instanceof SetType) {
-            CifType etype = mergeTypes(((SetType)type1).getElementType(), ((SetType)type2).getElementType());
+            CifType etype = mergeTypes(((SetType)type1).getElementType(), ((SetType)type2).getElementType(), position);
             SetType stype = newSetType();
+            stype.setPosition(copyPosition(position));
             stype.setElementType(etype);
             return stype;
         }
@@ -1013,17 +1018,18 @@ public class CifTypeUtils {
             FuncType ftype1 = (FuncType)type1;
             FuncType ftype2 = (FuncType)type2;
 
-            CifType rtype = mergeTypes(ftype1.getReturnType(), ftype2.getReturnType());
+            CifType rtype = mergeTypes(ftype1.getReturnType(), ftype2.getReturnType(), position);
 
             int cnt1 = ftype1.getParamTypes().size();
             int cnt2 = ftype2.getParamTypes().size();
             Assert.check(cnt1 == cnt2);
             List<CifType> ptypes = listc(cnt1);
             for (int i = 0; i < cnt1; i++) {
-                ptypes.add(mergeTypes(ftype1.getParamTypes().get(i), ftype2.getParamTypes().get(i)));
+                ptypes.add(mergeTypes(ftype1.getParamTypes().get(i), ftype2.getParamTypes().get(i), position));
             }
 
             FuncType ftype = newFuncType();
+            ftype.setPosition(copyPosition(position));
             ftype.setReturnType(rtype);
             ftype.getParamTypes().addAll(ptypes);
             return ftype;
@@ -1033,10 +1039,11 @@ public class CifTypeUtils {
             DictType dtype1 = (DictType)type1;
             DictType dtype2 = (DictType)type2;
 
-            CifType ktype = mergeTypes(dtype1.getKeyType(), dtype2.getKeyType());
-            CifType vtype = mergeTypes(dtype1.getValueType(), dtype2.getValueType());
+            CifType ktype = mergeTypes(dtype1.getKeyType(), dtype2.getKeyType(), position);
+            CifType vtype = mergeTypes(dtype1.getValueType(), dtype2.getValueType(), position);
 
             DictType dtype = newDictType();
+            dtype.setPosition(copyPosition(position));
             dtype.setKeyType(ktype);
             dtype.setValueType(vtype);
             return dtype;
@@ -1053,28 +1060,31 @@ public class CifTypeUtils {
             for (int i = 0; i < cnt1; i++) {
                 Field field1 = ttype1.getFields().get(i);
                 Field field2 = ttype2.getFields().get(i);
-                CifType ftype = mergeTypes(field1.getType(), field2.getType());
+                CifType ftype = mergeTypes(field1.getType(), field2.getType(), position);
 
                 // Construct new nameless field.
                 Field field = newField();
+                field.setPosition(copyPosition(position));
                 field.setType(ftype);
                 fields.add(field);
             }
 
             TupleType ttype = newTupleType();
+            ttype.setPosition(copyPosition(position));
             ttype.getFields().addAll(fields);
             return ttype;
         }
 
         if (type1 instanceof DistType && type2 instanceof DistType) {
-            CifType stype = mergeTypes(((DistType)type1).getSampleType(), ((DistType)type2).getSampleType());
+            CifType stype = mergeTypes(((DistType)type1).getSampleType(), ((DistType)type2).getSampleType(), position);
             DistType dtype = newDistType();
+            dtype.setPosition(copyPosition(position));
             dtype.setSampleType(stype);
             return dtype;
         }
 
         if (type1 instanceof VoidType && type2 instanceof VoidType) {
-            return newVoidType();
+            return newVoidType(copyPosition(position));
         }
 
         String msg = "Unknown/unexpected types: " + type1 + ", " + type2;
@@ -1627,7 +1637,7 @@ public class CifTypeUtils {
      * Creates a tuple type for the given field types, if needed.
      *
      * <p>
-     * The field types are not deep cloned, so there containment may change as a result of using this method.
+     * The field types are not deep cloned, so their containment may change as a result of using this method.
      * </p>
      *
      * <p>
@@ -1635,9 +1645,11 @@ public class CifTypeUtils {
      * </p>
      *
      * @param fieldTypes The field types. Must have at least one element.
+     * @param position The position used for newly created types. The position itself is not used, only clones are used.
+     *     May be {@code null} to not set position information.
      * @return If there is only one element, that element, or a tuple with the given elements otherwise.
      */
-    public static CifType makeTupleType(List<CifType> fieldTypes) {
+    public static CifType makeTupleType(List<CifType> fieldTypes, Position position) {
         Assert.check(!fieldTypes.isEmpty());
 
         if (fieldTypes.size() == 1) {
@@ -1645,8 +1657,10 @@ public class CifTypeUtils {
         }
 
         TupleType tupleType = newTupleType();
+        tupleType.setPosition(copyPosition(position));
         for (CifType fieldType: fieldTypes) {
             Field field = newField();
+            field.setPosition(copyPosition(position));
             field.setType(deepclone(fieldType));
             tupleType.getFields().add(field);
         }
@@ -1665,9 +1679,11 @@ public class CifTypeUtils {
      * </p>
      *
      * @param values The values. Must have at least one value.
+     * @param position The position used for newly created types. The position itself is not used, only clones are used.
+     *     May be {@code null} to not set position information.
      * @return If there is only one element, that element, or a tuple with the given elements otherwise.
      */
-    public static CifType makeTupleTypeFromValues(List<Expression> values) {
+    public static CifType makeTupleTypeFromValues(List<Expression> values, Position position) {
         Assert.check(!values.isEmpty());
 
         if (values.size() == 1) {
@@ -1675,8 +1691,10 @@ public class CifTypeUtils {
         }
 
         TupleType tupleType = newTupleType();
+        tupleType.setPosition(copyPosition(position));
         for (Expression value: values) {
             Field field = newField();
+            field.setPosition(copyPosition(position));
             field.setType(deepclone(value.getType()));
             tupleType.getFields().add(field);
         }
@@ -1688,15 +1706,18 @@ public class CifTypeUtils {
      * parameters and return types of the given function.
      *
      * @param func The function.
+     * @param position The position used for newly created types. The position itself is not used, only clones are used.
+     *     May be {@code null} to not set position information.
      * @return The type of the function.
      */
-    public static FuncType getFunctionType(Function func) {
+    public static FuncType makeFunctionType(Function func, Position position) {
         FuncType type = newFuncType();
+        type.setPosition(copyPosition(position));
         for (FunctionParameter param: func.getParameters()) {
             CifType paramType = param.getParameter().getType();
             type.getParamTypes().add(deepclone(paramType));
         }
-        type.setReturnType(makeTupleType(deepclone(func.getReturnTypes())));
+        type.setReturnType(makeTupleType(deepclone(func.getReturnTypes()), position));
         return type;
     }
 

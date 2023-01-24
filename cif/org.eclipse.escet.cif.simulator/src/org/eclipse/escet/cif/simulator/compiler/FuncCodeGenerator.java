@@ -109,7 +109,7 @@ public class FuncCodeGenerator {
         JavaCodeFile file = ctxt.addCodeFile(className);
 
         // Get return type.
-        CifType retType = makeTupleType(deepclone(func.getReturnTypes()));
+        CifType retType = makeTupleType(deepclone(func.getReturnTypes()), null);
 
         // Get function type.
         FuncType funcType = newFuncType();
@@ -410,7 +410,7 @@ public class FuncCodeGenerator {
             c.add("}");
         } else if (statement instanceof ReturnFuncStatement) {
             ReturnFuncStatement rstat = (ReturnFuncStatement)statement;
-            Expression retValue = makeTuple(deepclone(rstat.getValues()));
+            Expression retValue = makeTuple(deepclone(rstat.getValues()), null);
 
             // Start of 'try'.
             c.add("try {");

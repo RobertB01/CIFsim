@@ -582,7 +582,7 @@ public class SynthesisToCifConverter {
                 // Return function call to evaluate the BDD.
                 FunctionExpression funcRef = newFunctionExpression();
                 funcRef.setFunction(bddEvalFunc);
-                funcRef.setType(CifTypeUtils.getFunctionType(bddEvalFunc));
+                funcRef.setType(CifTypeUtils.makeFunctionType(bddEvalFunc, null));
 
                 Expression arg0 = CifValueUtils.makeInt(idx);
 
@@ -652,7 +652,7 @@ public class SynthesisToCifConverter {
         CifType fieldType1 = tupleExpr.getFields().get(1).getType();
         CifType fieldType2 = tupleExpr.getFields().get(2).getType();
         List<CifType> fieldTypes = list(fieldType0, fieldType1, fieldType2);
-        CifType tupleType = CifTypeUtils.makeTupleType(deepclone(fieldTypes));
+        CifType tupleType = CifTypeUtils.makeTupleType(deepclone(fieldTypes), null);
         tupleExpr.setType(tupleType);
 
         // Return the index.

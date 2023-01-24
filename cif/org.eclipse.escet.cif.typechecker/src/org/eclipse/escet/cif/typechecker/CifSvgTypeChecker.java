@@ -318,6 +318,7 @@ public class CifSvgTypeChecker {
      */
     private SvgInEvent checkSvgInEvent(ASvgInEventSingle astSingle, SymbolScope<?> scope) {
         SvgInEventSingle single = newSvgInEventSingle();
+        single.setPosition(astSingle.createPosition());
         Expression eventRef = CifEventRefTypeChecker.checkEventRef(astSingle.name, scope, tchecker);
         single.setEvent(eventRef);
         return single;
@@ -332,12 +333,14 @@ public class CifSvgTypeChecker {
      */
     private SvgInEvent checkSvgInEvent(ASvgInEventIf astIf, SymbolScope<?> scope) {
         SvgInEventIf mmIf = newSvgInEventIf();
+        mmIf.setPosition(astIf.createPosition());
         List<SvgInEventIfEntry> entries = mmIf.getEntries();
         for (ASvgInEventIfEntry astEntry: astIf.entries) {
             SvgInEventIfEntry entry;
             try {
                 // Create metamodel representation of the entry.
                 entry = newSvgInEventIfEntry();
+                entry.setPosition(astEntry.createPosition());
 
                 // Check guard/source predicate, if not 'else'.
                 if (astEntry.guard != null) {

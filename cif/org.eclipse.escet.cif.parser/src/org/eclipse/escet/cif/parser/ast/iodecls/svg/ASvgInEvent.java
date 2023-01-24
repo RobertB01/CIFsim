@@ -14,11 +14,16 @@
 package org.eclipse.escet.cif.parser.ast.iodecls.svg;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** The event to choose for a CIF/SVG {@link ASvgIn input mapping}. */
 public abstract class ASvgInEvent extends ACifObject {
-    /** Constructor for the {@link ASvgInEvent} class. */
-    public ASvgInEvent() {
-        super(null);
+    /**
+     * Constructor for the {@link ASvgInEvent} class.
+     *
+     * @param position Position information.
+     */
+    public ASvgInEvent(TextPosition position) {
+        super(position);
     }
 }

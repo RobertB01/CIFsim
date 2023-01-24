@@ -245,6 +245,7 @@ public class AutScope extends ParentScope<Automaton> {
 
                 astAlpha = ((AAlphabetDecl)decl);
                 Alphabet alpha = newAlphabet();
+                alpha.setPosition(astAlpha.createPosition());
                 mmAut.setAlphabet(alpha);
 
                 for (AName event1: events) {

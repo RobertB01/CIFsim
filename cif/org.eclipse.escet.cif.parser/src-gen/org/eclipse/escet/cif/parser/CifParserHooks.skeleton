@@ -1389,13 +1389,13 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // SvgInEvent : IFKW Expression COLONTK Name OptSvgInEventElifs ELSEKW Name ENDKW;
-    public ASvgInEvent parseSvgInEvent2(AExpression a2, AName a4, List<ASvgInEventIfEntry> l5, AName a7) {
+    @Override // SvgInEvent : @IFKW Expression @COLONTK Name OptSvgInEventElifs @ELSEKW Name ENDKW;
+    public ASvgInEvent parseSvgInEvent2(Token t1, AExpression a2, Token t3, AName a4, List<ASvgInEventIfEntry> l5, Token t6, AName a7) {
         // return null;
     }
 
-    @Override // SvgInEvent : IFKW Expression COLONTK Name SvgInEventElifs ENDKW;
-    public ASvgInEvent parseSvgInEvent3(AExpression a2, AName a4, List<ASvgInEventIfEntry> l5) {
+    @Override // SvgInEvent : @IFKW Expression @COLONTK Name SvgInEventElifs ENDKW;
+    public ASvgInEvent parseSvgInEvent3(Token t1, AExpression a2, Token t3, AName a4, List<ASvgInEventIfEntry> l5) {
         // return null;
     }
 
@@ -1409,13 +1409,13 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // SvgInEventElifs : ELIFKW Expression COLONTK Name;
-    public List<ASvgInEventIfEntry> parseSvgInEventElifs1(AExpression a2, AName a4) {
+    @Override // SvgInEventElifs : @ELIFKW Expression COLONTK Name;
+    public List<ASvgInEventIfEntry> parseSvgInEventElifs1(Token t1, AExpression a2, AName a4) {
         // return null;
     }
 
-    @Override // SvgInEventElifs : SvgInEventElifs ELIFKW Expression COLONTK Name;
-    public List<ASvgInEventIfEntry> parseSvgInEventElifs2(List<ASvgInEventIfEntry> l1, AExpression a3, AName a5) {
+    @Override // SvgInEventElifs : SvgInEventElifs @ELIFKW Expression COLONTK Name;
+    public List<ASvgInEventIfEntry> parseSvgInEventElifs2(List<ASvgInEventIfEntry> l1, Token t2, AExpression a3, AName a5) {
         // return null;
     }
 

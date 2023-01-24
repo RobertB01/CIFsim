@@ -696,8 +696,8 @@ SvgIn : @SVGINKW IDKW Expression EVENTKW SvgInEvent OptSvgFile @SEMICOLTK
 
 {svg.ASvgInEvent}
 SvgInEvent : Name
-           | IFKW Expression COLONTK Name OptSvgInEventElifs ELSEKW Name ENDKW
-           | IFKW Expression COLONTK Name SvgInEventElifs ENDKW
+           | @IFKW Expression @COLONTK Name OptSvgInEventElifs @ELSEKW Name ENDKW
+           | @IFKW Expression @COLONTK Name SvgInEventElifs ENDKW
            ;
 
 {List<svg.ASvgInEventIfEntry>}
@@ -706,8 +706,8 @@ OptSvgInEventElifs : /* empty */
                    ;
 
 {List<svg.ASvgInEventIfEntry>}
-SvgInEventElifs : ELIFKW Expression COLONTK Name
-                | SvgInEventElifs ELIFKW Expression COLONTK Name
+SvgInEventElifs : @ELIFKW Expression COLONTK Name
+                | SvgInEventElifs @ELIFKW Expression COLONTK Name
                 ;
 
 {print.APrintFile}

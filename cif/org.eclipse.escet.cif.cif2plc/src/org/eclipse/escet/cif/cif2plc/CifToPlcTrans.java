@@ -888,7 +888,7 @@ public class CifToPlcTrans {
 
         // Add function.
         String name = getPlcName(func);
-        CifType rtype = makeTupleType(deepclone(func.getReturnTypes()));
+        CifType rtype = makeTupleType(deepclone(func.getReturnTypes()), null);
         pou = new PlcPou(name, PlcPouType.FUNCTION, transType(rtype));
         project.pous.add(pou);
 
@@ -1045,7 +1045,7 @@ public class CifToPlcTrans {
             ReturnFuncStatement rstat = (ReturnFuncStatement)stat;
             String name = getPlcName(func);
             List<Expression> values = rstat.getValues();
-            Expression value = makeTuple(values);
+            Expression value = makeTuple(values, null);
             CodeBox c = pou.body;
             c.add("%s := %s;", name, transExpr(value, null, false));
             c.add("RETURN;");

@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.parser.ast.iodecls.svg;
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
+import org.eclipse.escet.common.java.TextPosition;
 
 /** An entry of a {@link ASvgInEventIf}. */
 public class ASvgInEventIfEntry extends ACifObject {
@@ -30,9 +31,10 @@ public class ASvgInEventIfEntry extends ACifObject {
      *
      * @param guard The guard value, or {@code null} for 'else'.
      * @param name The textual reference to the event.
+     * @param position Position information.
      */
-    public ASvgInEventIfEntry(AExpression guard, AName name) {
-        super(null);
+    public ASvgInEventIfEntry(AExpression guard, AName name, TextPosition position) {
+        super(position);
         this.guard = guard;
         this.name = name;
     }

@@ -246,7 +246,7 @@ public class AlgVariableDeclWrap extends DeclWrap<AlgVariable> {
                 if (type == null) {
                     type = vtype;
                 } else {
-                    type = CifTypeUtils.mergeTypes(type, vtype);
+                    type = CifTypeUtils.mergeTypes(type, vtype, mmDecl.getPosition());
                 }
             }
         }
