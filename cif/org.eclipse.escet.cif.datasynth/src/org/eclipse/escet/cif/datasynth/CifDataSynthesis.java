@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth;
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
+import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Sets.setc;
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
@@ -33,6 +36,8 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
+import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
+import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -103,6 +108,20 @@ public class CifDataSynthesis {
                 applyStatePlantInvs(aut, dbgEnabled);
             }
 
+            // Initialize controlled behavior.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+
+            aut.ctrlBeh = aut.factory.one();
+            aut.initialCtrl = aut.initialPlantInv.id();
+
+            if (dbgEnabled) {
+                dbg();
+                dbg("Initialized controlled-behavior predicate: %s.", bddToStr(aut.ctrlBeh, aut));
+                dbg("Initialized controlled-initialization predicate: %s.", bddToStr(aut.initialCtrl, aut));
+            }
+
             // Apply requirements.
             if (aut.env.isTerminationRequested()) {
                 return;
@@ -119,9 +138,8 @@ public class CifDataSynthesis {
             }
             applyStateEvtExclReqs(aut, dbgEnabled);
 
-            // Re-initialize applying edges after applying the state plant invariants and state/event exclusion
-            // requirement invariants. The state requirement invariants are added to the controlled behavior rather than
-            // to the edge guards, so for them it is not needed to re-initialize the application of edges.
+            // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
+            // (depending on options), and state/event exclusion requirement invariants.
             for (SynthesisEdge edge: aut.edges) {
                 if (aut.env.isTerminationRequested()) {
                     return;
@@ -196,11 +214,17 @@ public class CifDataSynthesis {
                 dbg(aut.toString(1));
             }
 
-            // Check whether initial state present.
+            // Determine controlled system initialization predicate.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            boolean emptySup = !checkInitStatePresent(aut, doForward, dbgEnabled);
+            determineCtrlSysInit(aut);
+
+            // Check whether an initial state is present, or the supervisor is empty.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            boolean emptySup = !checkInitStatePresent(aut);
 
             // Debug output: number of states in controlled system.
             if (aut.env.isTerminationRequested()) {
@@ -247,10 +271,6 @@ public class CifDataSynthesis {
             if (doTiming) {
                 timing.postSynth.stop();
             }
-        }
-
-        if (aut.env.isTerminationRequested()) {
-            return;
         }
     }
 
@@ -570,11 +590,13 @@ public class CifDataSynthesis {
         aut.plantInvComps.free();
         aut.plantInvLocs.free();
 
-        for (BDD bdd: aut.reqInvsComps) {
-            bdd.free();
-        }
-        for (BDD bdd: aut.reqInvsLocs) {
-            bdd.free();
+        if (StateReqInvEnforceOption.getMode() == StateReqInvEnforceMode.ALL_CTRL_BEH) {
+            for (BDD bdd: aut.reqInvsComps) {
+                bdd.free();
+            }
+            for (BDD bdd: aut.reqInvsLocs) {
+                bdd.free();
+            }
         }
         aut.reqInvComps.free();
         aut.reqInvLocs.free();
@@ -623,9 +645,11 @@ public class CifDataSynthesis {
         aut.plantInvsLocs = null;
         aut.plantInvLocs = null;
 
-        aut.reqInvsComps = null;
+        if (StateReqInvEnforceOption.getMode() == StateReqInvEnforceMode.ALL_CTRL_BEH) {
+            aut.reqInvsComps = null;
+            aut.reqInvsLocs = null;
+        }
         aut.reqInvComps = null;
-        aut.reqInvsLocs = null;
         aut.reqInvLocs = null;
 
         aut.initialsVars = null;
@@ -676,13 +700,13 @@ public class CifDataSynthesis {
 
             // Enforce the additional condition by restricting the guard.
             BDD newGuard = edge.guard.and(plant);
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
 
             if (edge.guard.equals(newGuard)) {
                 newGuard.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
                 if (dbgEnabled) {
                     if (firstDbg) {
                         firstDbg = false;
@@ -714,9 +738,6 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void applyStatePlantInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Restricting uncontrolled behavior using state plant invariants.");
@@ -761,13 +782,13 @@ public class CifDataSynthesis {
 
             // Store.
             BDD newGuard = edge.guard.id().andWith(updPred);
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
 
             if (edge.guard.equals(newGuard)) {
                 newGuard.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
                 if (dbgEnabled) {
                     if (!guardUpdated) {
                         dbg();
@@ -783,24 +804,115 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Initializes the controlled-behavior predicate, to the invariants, as preprocessing step for synthesis. The idea
-     * is that a state is only in the controlled system if the state requirement invariant holds.
+     * Applies the state requirement invariants, as preprocessing step for synthesis.
      *
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void applyStateReqInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
-        aut.ctrlBeh = aut.reqInv.id();
-
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
+        // Apply the state requirement invariants.
         if (dbgEnabled) {
             dbg();
-            dbg("Initialized controlled-behavior predicate using invariants: %s.", bddToStr(aut.ctrlBeh, aut));
+            dbg("Restricting behavior using state requirements.");
+        }
+
+        StateReqInvEnforceMode enforceMode = StateReqInvEnforceOption.getMode();
+        switch (enforceMode) {
+            case ALL_CTRL_BEH: {
+                // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
+                // controlled system if the state requirement invariants hold.
+                BDD newCtrlBeh = aut.ctrlBeh.and(aut.reqInv);
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+
+                if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                    newCtrlBeh.free();
+                } else {
+                    if (dbgEnabled) {
+                        dbg("Controlled behavior: %s -> %s [state requirements: %s].", bddToStr(aut.ctrlBeh, aut),
+                                bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
+                    }
+                    aut.ctrlBeh.free();
+                    aut.ctrlBeh = newCtrlBeh;
+                }
+                break;
+            }
+            case PER_EDGE: {
+                // Apply state requirement invariants, per edge.
+                List<BDD> reqInvs = concat(aut.reqInvsComps, aut.reqInvsLocs);
+                Function<SynthesisEdge, Stream<BDD>> reqsPerEdge = edge -> reqInvs.stream().map(reqInv -> {
+                    // Apply the requirement invariant backwards through the edge, to obtain a requirement condition
+                    // that must hold for the edge to be taken. This condition further restricts the edge to prevent
+                    // transitioning to a state that violates the requirement invariant.
+                    BDD updPred = reqInv.id();
+                    edge.preApply(false, null);
+                    updPred = edge.apply(updPred, // pred
+                            false, // bad
+                            false, // forward
+                            null, // restriction
+                            false); // don't apply error. The supervisor should restrict that.
+                    edge.postApply(false);
+
+                    // If trivial, we have the final predicate.
+                    if (updPred.isOne()) {
+                        return updPred;
+                    }
+
+                    // If termination is requested, we won't do any extra work on the predicate, as it won't be used.
+                    if (aut.env.isTerminationRequested()) {
+                        return updPred;
+                    }
+
+                    // Simplify under the assumption that that 'reqInv' already holds in the source state of the edge.
+                    // This should be the case, as we enforce the requirement, to prevent reaching states where it
+                    // doesn't hold. The simplification ensures that for an edge with update 'y := y + 1' and state
+                    // requirement invariant 'x != 3' that the edge won't get an extra guard 'x != 3'. Simplifying is
+                    // best effort, it may be possible to simplify the guard further.
+                    BDD updPredSimplified = updPred.simplify(reqInv);
+                    if (updPred.equals(updPredSimplified)) {
+                        updPredSimplified.free();
+                    } else {
+                        updPred.free();
+                        updPred = updPredSimplified;
+                    }
+                    return updPred;
+                });
+                applyReqsPerEdge(aut, reqsPerEdge, true, dbgEnabled, "state");
+
+                // Restrict the initialization predicate of the controlled system, allowing only states that satisfy
+                // the state requirement invariants.
+                BDD newInitialCtrl = aut.initialCtrl.and(aut.reqInv);
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+
+                if (aut.initialCtrl.equals(newInitialCtrl)) {
+                    newInitialCtrl.free();
+                } else {
+                    if (dbgEnabled) {
+                        dbg("Controlled initialization: %s -> %s [state requirements: %s].",
+                                bddToStr(aut.initialCtrl, aut), bddToStr(newInitialCtrl, aut),
+                                bddToStr(aut.reqInv, aut));
+                    }
+                    aut.initialCtrl.free();
+                    aut.initialCtrl = newInitialCtrl;
+                }
+
+                // Cleanup.
+                for (BDD bdd: aut.reqInvsComps) {
+                    bdd.free();
+                }
+                for (BDD bdd: aut.reqInvsLocs) {
+                    bdd.free();
+                }
+                aut.reqInvsComps = null;
+                aut.reqInvsLocs = null;
+
+                break;
+            }
+            default:
+                throw new RuntimeException("Unknown mode: " + enforceMode);
         }
     }
 
@@ -821,9 +933,6 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void applyVarRanges(SynthesisAutomaton aut, boolean dbgEnabled) {
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Extending controlled-behavior predicate using variable ranges.");
@@ -838,11 +947,11 @@ public class CifDataSynthesis {
 
             // Compute out of range predicate.
             BDD range = BddUtils.getVarDomain(var, false, aut.factory);
-
-            // Update controlled-behavior predicate.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
+
+            // Update controlled-behavior predicate.
             BDD newCtrlBeh = aut.ctrlBeh.and(range);
             if (aut.env.isTerminationRequested()) {
                 return;
@@ -852,9 +961,6 @@ public class CifDataSynthesis {
                 newCtrlBeh.free();
                 range.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
                 if (dbgEnabled) {
                     if (firstDbg) {
                         firstDbg = false;
@@ -888,88 +994,124 @@ public class CifDataSynthesis {
     private static void applyStateEvtExclReqs(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Update guards and controlled-behavior predicate, to ensure that transitions not allowed by the state/event
         // exclusion requirement invariants, are blocked.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Restricting behavior using state/event exclusion requirements.");
         }
 
+        // Apply state/event exclusion requirement invariants, per edge.
+        Function<SynthesisEdge, Stream<BDD>> reqsPerEdge = edge -> {
+            BDD req = aut.stateEvtExclReqs.get(edge.event);
+            return (req == null) ? Stream.empty() : Stream.of(req);
+        };
+        applyReqsPerEdge(aut, reqsPerEdge, false, dbgEnabled, "state/event exclusion");
+
+        // Free no longer needed predicates.
+        for (BDD bdd: aut.stateEvtExclReqs.values()) {
+            bdd.free();
+        }
+        aut.stateEvtExclReqs = null;
+    }
+
+    /**
+     * Apply requirements, per edge.
+     *
+     * @param aut The automaton on which to perform synthesis. Is modified in-place.
+     * @param reqsPerEdge Function that gives per edge a stream of requirements to apply.
+     * @param freeReqs Whether to free the requirements after they are applied ({@code true}) or not ({@code false}).
+     * @param dbgEnabled Whether debug output is enabled.
+     * @param dbgDescription Description of the kind of requirements that are applied.
+     */
+    private static void applyReqsPerEdge(SynthesisAutomaton aut, Function<SynthesisEdge, Stream<BDD>> reqsPerEdge,
+            boolean freeReqs, boolean dbgEnabled, String dbgDescription)
+    {
         boolean firstDbg = true;
         boolean changed = false;
         boolean guardChanged = false;
         for (SynthesisEdge edge: aut.edges) {
-            // Get additional condition for the edge. Skip for internal events that are not in the original
-            // specification and for trivially true conditions.
+            // Get requirements for the edge.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            BDD req = aut.stateEvtExclReqs.get(edge.event);
-            if (req == null || req.isOne()) {
-                continue;
-            }
+            Stream<BDD> reqsStream = reqsPerEdge.apply(edge);
+            Iterable<BDD> reqsIterable = () -> reqsStream.iterator();
 
-            // Enforce the additional condition.
-            if (edge.event.getControllable()) {
-                // For controllable events, we can simply restrict the guard.
-                BDD newGuard = edge.guard.and(req);
-
-                if (edge.guard.equals(newGuard)) {
-                    newGuard.free();
-                } else {
-                    if (aut.env.isTerminationRequested()) {
-                        return;
-                    }
-                    if (dbgEnabled) {
-                        if (firstDbg) {
-                            firstDbg = false;
-                            dbg();
-                        }
-                        dbg("Edge %s: guard: %s -> %s [requirement: %s].", edge.toString(0, ""),
-                                bddToStr(edge.guard, aut), bddToStr(newGuard, aut), bddToStr(req, aut));
-                    }
-                    edge.guard.free();
-                    edge.guard = newGuard;
-                    changed = true;
-                    guardChanged = true;
-                }
-            } else {
-                // For uncontrollable events, update the controlled-behavior predicate. If the guard of the edge holds
-                // (event enabled in the plant), and the requirement condition doesn't hold (event disabled by the
-                // requirements), the edge may not be taken.
-                //
-                // reqBad = guard && !req
-                // reqGood = !(guard && !req) = !guard || req = guard => req
-                //
-                // Only good states in controlled behavior. So restrict controlled behavior with 'reqGood'.
-                BDD reqGood = edge.guard.imp(req);
+            // Process each requirement.
+            for (BDD req: reqsIterable) {
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
 
-                BDD newCtrlBeh = aut.ctrlBeh.id().andWith(reqGood);
-                if (aut.env.isTerminationRequested()) {
-                    return;
+                // Skip trivially true requirements.
+                if (req.isOne()) {
+                    continue;
                 }
 
-                if (aut.ctrlBeh.equals(newCtrlBeh)) {
-                    newCtrlBeh.free();
-                } else {
+                // Enforce the additional condition.
+                if (edge.event.getControllable()) {
+                    // For controllable events, we can simply restrict the guard.
+                    BDD newGuard = edge.guard.and(req);
                     if (aut.env.isTerminationRequested()) {
                         return;
                     }
-                    if (dbgEnabled) {
-                        if (firstDbg) {
-                            firstDbg = false;
-                            dbg();
+
+                    if (edge.guard.equals(newGuard)) {
+                        newGuard.free();
+                    } else {
+                        if (dbgEnabled) {
+                            if (firstDbg) {
+                                firstDbg = false;
+                                dbg();
+                            }
+                            dbg("Edge %s: guard: %s -> %s [%s requirement: %s].", edge.toString(0, ""),
+                                    bddToStr(edge.guard, aut), bddToStr(newGuard, aut), dbgDescription,
+                                    bddToStr(req, aut));
                         }
-                        dbg("Controlled behavior: %s -> %s [requirement: %s, edge: %s].", bddToStr(aut.ctrlBeh, aut),
-                                bddToStr(newCtrlBeh, aut), bddToStr(req, aut), edge.toString(0, ""));
+                        edge.guard.free();
+                        edge.guard = newGuard;
+                        changed = true;
+                        guardChanged = true;
                     }
-                    aut.ctrlBeh.free();
-                    aut.ctrlBeh = newCtrlBeh;
-                    changed = true;
+                } else {
+                    // For uncontrollable events, update the controlled-behavior predicate. If the guard of the edge
+                    // holds (event enabled in the plant), and the requirement condition doesn't hold (event disabled
+                    // by the requirement), the edge may not be taken.
+                    //
+                    // reqBad = guard && !req
+                    // reqGood = !(guard && !req) = !guard || req = guard => req
+                    //
+                    // Only good states in controlled behavior. So restrict controlled behavior with 'reqGood'.
+                    BDD reqGood = edge.guard.imp(req);
+                    if (aut.env.isTerminationRequested()) {
+                        return;
+                    }
+
+                    BDD newCtrlBeh = aut.ctrlBeh.id().andWith(reqGood);
+                    if (aut.env.isTerminationRequested()) {
+                        return;
+                    }
+
+                    if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                        newCtrlBeh.free();
+                    } else {
+                        if (dbgEnabled) {
+                            if (firstDbg) {
+                                firstDbg = false;
+                                dbg();
+                            }
+                            dbg("Controlled behavior: %s -> %s [%s requirement: %s, edge: %s].",
+                                    bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut), dbgDescription,
+                                    bddToStr(req, aut), edge.toString(0, ""));
+                        }
+                        aut.ctrlBeh.free();
+                        aut.ctrlBeh = newCtrlBeh;
+                        changed = true;
+                    }
+                }
+
+                // Free requirement predicate, if requested.
+                if (freeReqs) {
+                    req.free();
                 }
             }
         }
@@ -979,15 +1121,9 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled && changed) {
             dbg();
-            dbg("Restricted behavior using state/event exclusion requirements:");
+            dbg("Restricted behavior using %s requirements:", dbgDescription);
             dbg(aut.toString(1, guardChanged));
         }
-
-        // Free no longer needed predicates.
-        for (BDD bdd: aut.stateEvtExclReqs.values()) {
-            bdd.free();
-        }
-        aut.stateEvtExclReqs = null;
     }
 
     /**
@@ -1041,22 +1177,25 @@ public class CifDataSynthesis {
                 continue;
             }
 
-            // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
-            // plant invariants are all 'false'. State plant invariants are included in 'edge.guard'. There might be
-            // multiple edges for an event.
-            if (aut.eventEdges.get(event).stream().filter(edge -> !edge.guard.isZero()).count() == 0) {
-                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards, "
-                        + "state/event exclusion invariants, and state plant invariants.",
-                        CifTextUtils.getAbsName(event));
-                aut.disabledEvents.add(event);
-                continue;
-            }
-
-            // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
-            // invariants are all 'false'. State plant invariants are included in 'edge.guard'. There might be multiple
-            // edges for an event.
+            // Check whether the guards on edges of automata combined with invariants are all 'false'. There might be
+            // multiple edges for an event. State plant invariants are included in edge guards. Depending on options,
+            // state requirement invariants may always be in the controlled behavior, or they may also be included in
+            // edge guards. State requirement invariants will however only be in the edge guards for controllable
+            // events, and are simplified under the assumption that the requirement already holds in the source state
+            // of the edge. The full restriction may thus not be in the edge guard. For uncontrollable events, the
+            // state requirement invariants will always be in the controlled behavior, regardless of the options.
+            //
+            // If all state requirement invariants are encoded into the controlled behavior, we could check edge guards,
+            // state/event exclusion invariants, and state plant invariants only. And then check them again while also
+            // considering state requirement invariants. If state requirement invariants are encoded into edge guards
+            // or the controlled behavior, only the second option remains. To simplify the implementation and make it
+            // more consistent regardless of the options, we only perform the second check.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
                 if (!enabledExpression.isZero()) {
                     enabledExpression.free();
@@ -1190,7 +1329,7 @@ public class CifDataSynthesis {
                 break;
             }
             if (unchanged == 0) {
-                BDD init = aut.initialPlantInv.and(aut.ctrlBeh);
+                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                 boolean noInit = init.isZero();
                 init.free();
                 if (noInit) {
@@ -1271,7 +1410,7 @@ public class CifDataSynthesis {
                     break;
                 }
                 if (unchanged == 0) {
-                    BDD init = aut.initialPlantInv.and(aut.ctrlBeh);
+                    BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                     boolean noInit = init.isZero();
                     init.free();
                     if (noInit) {
@@ -1286,12 +1425,13 @@ public class CifDataSynthesis {
                     return;
                 }
 
-                // Compute controlled-behavior predicate from initialization of the uncontrolled system (fixed point).
+                // Compute controlled-behavior predicate from initialization of the controlled system as determined so
+                // far (fixed point).
                 if (doTiming) {
                     timing.mainFwInit.start();
                 }
                 try {
-                    newCtrlBeh = reachability(aut.initialPlantInv.id(), false, // bad
+                    newCtrlBeh = reachability(aut.initialCtrl.id(), false, // bad
                             true, // forward
                             true, // ctrl
                             true, // unctrl
@@ -1340,7 +1480,7 @@ public class CifDataSynthesis {
                 break;
             }
             if (!doForward && unchanged == 0) {
-                BDD init = aut.initialPlantInv.and(aut.ctrlBeh);
+                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                 boolean noInit = init.isZero();
                 init.free();
                 if (noInit) {
@@ -1408,9 +1548,6 @@ public class CifDataSynthesis {
             if (pred.equals(restrictedPred)) {
                 restrictedPred.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
                 if (dbgEnabled) {
                     Assert.notNull(restrictionName);
                     dbg("%s: %s -> %s [restricted to %s predicate: %s]", Strings.makeInitialUppercase(predName),
@@ -1426,6 +1563,9 @@ public class CifDataSynthesis {
         // Prepare edges for being applied.
         for (SynthesisEdge edge: aut.edges) {
             edge.preApply(forward, restriction);
+        }
+        if (aut.env.isTerminationRequested()) {
+            return null;
         }
 
         // Apply edges until we get a fixed point.
@@ -1476,9 +1616,6 @@ public class CifDataSynthesis {
                     }
                 } else {
                     // Change.
-                    if (aut.env.isTerminationRequested()) {
-                        return null;
-                    }
                     if (dbgEnabled) {
                         String restrTxt;
                         if (restriction == null) {
@@ -1523,9 +1660,6 @@ public class CifDataSynthesis {
      */
     private static void determineCtrlSysGuards(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Compute guards of edges with controllable events.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Computing controlled system guards.");
@@ -1557,9 +1691,6 @@ public class CifDataSynthesis {
             if (edge.guard.equals(newGuard)) {
                 newGuard.free();
             } else {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
                 if (dbgEnabled) {
                     if (!guardUpdated) {
                         dbg();
@@ -1575,26 +1706,28 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Checks the synthesis result, to see whether an initial state is still present. Also determines the initialization
-     * predicate of the controlled system ({@link SynthesisAutomaton#initialCtrl}).
+     * Determine the initialization predicate of the controlled system, updating the initialization predicate of the
+     * controlled system as computed so far ({@link SynthesisAutomaton#initialCtrl}) with the controlled behavior.
      *
      * @param aut The synthesis result.
-     * @param doForward Whether to do forward reachability during synthesis.
-     * @param dbgEnabled Whether debug output is enabled.
-     * @return Whether an initial state exists in the controlled system ({@code true}) or the supervisor is empty
-     *     ({@code false}).
      */
-    private static boolean checkInitStatePresent(SynthesisAutomaton aut, boolean doForward, boolean dbgEnabled) {
-        // Get initialization predicate for controlled system.
-        aut.initialCtrl = aut.initialPlantInv.and(aut.ctrlBeh);
-        if (aut.env.isTerminationRequested()) {
-            return true;
-        }
+    private static void determineCtrlSysInit(SynthesisAutomaton aut) {
+        // Update initialization predicate for controlled system with the controlled behavior.
+        aut.initialCtrl = aut.initialCtrl.andWith(aut.ctrlBeh.id());
 
         // Free no longer needed predicates.
         aut.initialPlantInv.free();
         aut.initialPlantInv = null;
+    }
 
+    /**
+     * Check the synthesis result, to see whether an initial state is still present.
+     *
+     * @param aut The synthesis result.
+     * @return Whether an initial state exists in the controlled system ({@code true}) or the supervisor is empty
+     *     ({@code false}).
+     */
+    private static boolean checkInitStatePresent(SynthesisAutomaton aut) {
         // Check for empty supervisor (no initial state).
         boolean emptySup = aut.initialCtrl.isZero();
         return !emptySup;
@@ -1643,44 +1776,39 @@ public class CifDataSynthesis {
      */
     private static void determineOutputInitial(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Print some debug output.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         if (dbgEnabled) {
             dbg();
             dbg("Initial (synthesis result):            %s", bddToStr(aut.ctrlBeh, aut));
             dbg("Initial (uncontrolled system):         %s", bddToStr(aut.initialUnctrl, aut));
             dbg("Initial (controlled system):           %s", bddToStr(aut.initialCtrl, aut));
         }
-
-        // What initialization was allowed in the uncontrolled system, but is no longer allowed in the controlled
-        // system, as thus has been removed as allowed initialization? The inverse of that is what the supervisor adds
-        // as additional initialization restriction on top of the uncontrolled system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
 
+        // What initialization was allowed in the uncontrolled system, but is no longer allowed in the controlled
+        // system, as thus has been removed as allowed initialization? The inverse of that is what the supervisor adds
+        // as additional initialization restriction on top of the uncontrolled system.
         BDD initialRemoved = aut.initialUnctrl.id().andWith(aut.initialCtrl.not());
         if (aut.env.isTerminationRequested()) {
             return;
         }
 
         BDD initialAdded = initialRemoved.not();
-
         if (aut.env.isTerminationRequested()) {
             return;
         }
+
         if (dbgEnabled) {
             dbg("Initial (removed by supervisor):       %s", bddToStr(initialRemoved, aut));
             dbg("Initial (added by supervisor):         %s", bddToStr(initialAdded, aut));
         }
-
-        // Determine initialization predicate. The initialization predicate of the controlled system is used, if it is
-        // at all restricted with respect to the uncontrolled system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
 
+        // Determine initialization predicate. The initialization predicate of the controlled system is used, if it is
+        // at all restricted with respect to the uncontrolled system.
         EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
         List<String> assumptionTxts = list();
 
@@ -1881,9 +2009,6 @@ public class CifDataSynthesis {
      */
     private static void determineOutputGuards(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards, boolean dbgEnabled) {
         // Get simplifications to perform.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
         EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
         List<String> assumptionTxts = list();
 

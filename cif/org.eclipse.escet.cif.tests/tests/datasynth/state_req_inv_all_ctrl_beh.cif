@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable u_e;
+controllable c_e;
+
+plant p:
+  disc bool b = false;
+  disc int[0..10] x in any; // Initialization restricted to x <= 4.
+  disc int[0..10] y in any;
+  disc int[0..10] z in any; // Initialization restricted to z <= 6.
+
+  requirement x <= 6;
+  requirement y <= 6;
+  requirement z <= 6;
+
+  location:
+    initial;
+    marked;
+    edge u_e when not b do x := x + 2, b := true;
+    edge c_e            do y := y + 2;            // Edge guard restricted to y <= 4.
+end

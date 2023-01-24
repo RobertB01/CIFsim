@@ -70,7 +70,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: not io.sensor and (p.test and not p.b) or io.sensor and (p.test and p.b).
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 

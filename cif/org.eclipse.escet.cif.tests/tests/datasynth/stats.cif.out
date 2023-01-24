@@ -52,7 +52,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: a.x = 1.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -62,7 +65,7 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
+Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)
@@ -165,7 +168,7 @@ BDD cache statistics:
   Node creation chain accesses: 2
   Node creation cache hits:     310
   Node creation cache misses:   407
-  Operation count:              2708
+  Operation count:              2709
   Operation cache hits:         535
   Operation cache misses:       996
 Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".

@@ -90,13 +90,17 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: r1.inactive or r3.inactive.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: q.l1 and r1.inactive and (r2.inactive and r3.inactive).
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> r1.inactive or r3.inactive [state requirements: r1.inactive or r3.inactive].
 
 Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: add) (guard: true) (assignments: p.c := p.c + x): guard: true -> q.l1 [requirement: q.l1].
+Edge (event: add) (guard: true) (assignments: p.c := p.c + x): guard: true -> q.l1 [state/event exclusion requirement: q.l1].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: r1.inactive or r3.inactive)

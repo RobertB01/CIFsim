@@ -1,0 +1,186 @@
+Reading CIF file "datasynth/traffic_lights_req_aut.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   LightA  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   LightB  1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   R       2      2 * 2     3 * 2       4 * 2       75%
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                  3      8         14          16          ~88%
+
+Applying variable ordering:
+  Applying model variable order.
+
+  Number of hyper-edges: 4
+  Number of graph edges: 2
+
+  Applying 2 algorithms, sequentially:
+    Applying FORCE algorithm.
+    Maximum number of iterations: 20
+    Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
+    Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 1]
+    Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 2]
+    Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+
+    Applying sliding window algorithm.
+    Window length: 3
+    Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+    Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   LightA  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   R       1      2 * 2     3 * 2       4 * 2       75%
+  3      location pointer  n/a   LightB  2      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                  3      8         14          16          ~88%
+
+Starting data-based synthesis.
+
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         LightA.Red
+Initial   (aut/locs init predicate):         LightB.Red
+Initial   (aut/locs init predicate):         R.RR
+Initial   (auts/locs init predicate):        LightA.Red and (R.RR and LightB.Red)
+Initial   (uncontrolled system):             LightA.Red and (R.RR and LightB.Red)
+Initial   (system, combined init/plant inv): LightA.Red and (R.RR and LightB.Red)
+Initial   (system, combined init/state inv): LightA.Red and (R.RR and LightB.Red)
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       LightA.Red
+Marked    (aut/locs marker predicate):       LightB.Red
+Marked    (aut/locs marker predicate):       R.RR
+Marked    (auts/locs marker predicate):      LightA.Red and (R.RR and LightB.Red)
+Marked    (uncontrolled system):             LightA.Red and (R.RR and LightB.Red)
+Marked    (system, combined mark/plant inv): LightA.Red and (R.RR and LightB.Red)
+Marked    (system, combined mark/state inv): LightA.Red and (R.RR and LightB.Red)
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  Event "green_A" needs:
+    R.RR
+  Event "red_A" needs:
+    R.GR
+  Event "green_B" needs:
+    R.RR
+  Event "red_B" needs:
+    R.RG
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR)
+    Edge: (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red) (assignments: LightA := LightA.Green)
+    Edge: (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR)
+    Edge: (event: red_A) (guard: LightA.Green and not R.GR) (assignments: LightA := LightA.Red)
+    Edge: (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG)
+    Edge: (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red) (assignments: LightB := LightB.Green)
+    Edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR)
+    Edge: (event: red_B) (guard: not R.RG and LightB.Green) (assignments: LightB := LightB.Red)
+
+Restricting behavior using state/event exclusion plants.
+
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: LightA.Red and (R.RR and LightB.Red).
+
+Restricting behavior using state requirements.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: location pointer for automaton "R" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red) (assignments: LightA := LightA.Green): guard: (LightA.Green or not R.RR) and LightA.Red -> false [state/event exclusion requirement: R.RR].
+Edge (event: red_A) (guard: LightA.Green and not R.GR) (assignments: LightA := LightA.Red): guard: LightA.Green and not R.GR -> false [state/event exclusion requirement: R.GR].
+Edge (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red) (assignments: LightB := LightB.Green): guard: R.RG and LightB.Red or R.GR and LightB.Red -> false [state/event exclusion requirement: R.RR].
+Edge (event: red_B) (guard: not R.RG and LightB.Green) (assignments: LightB := LightB.Red): guard: not R.RG and LightB.Green -> false [state/event exclusion requirement: R.RG].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: true)
+    Edge: (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR)
+    Edge: (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red -> false) (assignments: LightA := LightA.Green)
+    Edge: (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR)
+    Edge: (event: red_A) (guard: LightA.Green and not R.GR -> false) (assignments: LightA := LightA.Red)
+    Edge: (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG)
+    Edge: (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red -> false) (assignments: LightB := LightB.Green)
+    Edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR)
+    Edge: (event: red_B) (guard: not R.RG and LightB.Green -> false) (assignments: LightB := LightB.Red)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) -> LightA.Red and (R.RR and LightB.Red) or LightA.Green and (R.GR and LightB.Red) [backward reach with edge: (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or LightA.Green and (R.GR and LightB.Red) -> LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [backward reach with edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [fixed point].
+Controlled behavior: true -> LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)).
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (LightA.Green or (not R.RR or LightB.Green)) and ((LightA.Green or (not R.RG or LightB.Red)) and (LightA.Red or (not R.GR or LightB.Green))) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) -> LightA.Red and (R.RR and LightB.Red) or LightA.Green and (R.GR and LightB.Red) [forward reach with edge: (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR), restricted to current/previous controlled-behavior predicate: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red))]
+Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or LightA.Green and (R.GR and LightB.Red) -> LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [forward reach with edge: (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG), restricted to current/previous controlled-behavior predicate: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red))]
+Forward reachability: iteration 2.
+Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR): guard: LightA.Red and R.RR -> LightA.Red and (R.RR and LightB.Red).
+Edge (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR): guard: LightA.Green and R.GR -> LightA.Green and (R.GR and LightB.Red).
+Edge (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG): guard: R.RR and LightB.Red -> LightA.Red and (R.RR and LightB.Red).
+Edge (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR): guard: R.RG and LightB.Green -> LightA.Red and (R.RG and LightB.Green).
+
+Final synthesis result:
+  State: (controlled-behavior: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)))
+    Edge: (event: green_A) (guard: LightA.Red and R.RR -> LightA.Red and (R.RR and LightB.Red)) (assignments: LightA := LightA.Green, R := R.GR)
+    Edge: (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red -> false) (assignments: LightA := LightA.Green)
+    Edge: (event: red_A) (guard: LightA.Green and R.GR -> LightA.Green and (R.GR and LightB.Red)) (assignments: LightA := LightA.Red, R := R.RR)
+    Edge: (event: red_A) (guard: LightA.Green and not R.GR -> false) (assignments: LightA := LightA.Red)
+    Edge: (event: green_B) (guard: R.RR and LightB.Red -> LightA.Red and (R.RR and LightB.Red)) (assignments: LightB := LightB.Green, R := R.RG)
+    Edge: (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red -> false) (assignments: LightB := LightB.Green)
+    Edge: (event: red_B) (guard: R.RG and LightB.Green -> LightA.Red and (R.RG and LightB.Green)) (assignments: LightB := LightB.Red, R := R.RR)
+    Edge: (event: red_B) (guard: not R.RG and LightB.Green -> false) (assignments: LightB := LightB.Red)
+
+Controlled system:                     exactly 3 states.
+
+Initial (synthesis result):            LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red))
+Initial (uncontrolled system):         LightA.Red and (R.RR and LightB.Red)
+Initial (controlled system):           LightA.Red and (R.RR and LightB.Red)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event green_A: guard: LightA.Red and (R.RR and LightB.Red) -> R.RR and LightB.Red [assume LightA.Red].
+  Event red_A: guard: LightA.Green and (R.GR and LightB.Red) -> R.GR and LightB.Red [assume LightA.Green].
+  Event green_B: guard: LightA.Red and (R.RR and LightB.Red) -> LightA.Red and R.RR [assume (R.GR or LightB.Red) and (not R.GR or LightB.Red)].
+  Event red_B: guard: LightA.Red and (R.RG and LightB.Green) -> LightA.Red and R.RG [assume (R.GR or LightB.Green) and (not R.GR or LightB.Green)].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/traffic_lights_req_aut.ctrlsys.real.cif".

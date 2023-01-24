@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Source: Sander Thuijsman, Michel Reniers and Dennis Hendriks, "Efficiently enforcing mutual state exclusion
+// requirements in symbolic supervisor synthesis", In: 2021 IEEE 17th International Conference on Automation Science
+// and Engineering (CASE), pages 777-783, 2021, doi:10.1109/CASE49439.2021.9551593.
+
+controllable green_A, red_A;
+controllable green_B, red_B;
+
+plant LightA:
+  location Red:
+    initial;
+    marked;
+    edge green_A goto Green;
+
+  location Green:
+    edge red_A goto Red;
+end
+
+plant LightB:
+  location Red:
+    initial;
+    marked;
+    edge green_B goto Green;
+
+  location Green:
+    edge red_B goto Red;
+end
+
+requirement green_A needs LightB.Red;
+requirement green_B needs LightA.Red;

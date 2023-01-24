@@ -74,7 +74,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: p.l0 and p.x = 0.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -85,9 +88,9 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Controlled behavior: true -> not p.l1 or p.x != 5 [requirement: p.x != 5, edge: (event: u) (guard: p.l1) (assignments: p.x := 2, p := p.l2)].
-Controlled behavior: not p.l1 or p.x != 5 -> (not p.l1 or p.x != 5) and (not p.l3 or p.x != 5) [requirement: p.x != 5, edge: (event: u) (guard: p.l3) (assignments: p.x := 4, p := p.l4)].
-Controlled behavior: (not p.l1 or p.x != 5) and (not p.l3 or p.x != 5) -> (not p.l1 and not p.l5 or p.x != 5) and (not p.l3 or p.x != 5) [requirement: p.x != 5, edge: (event: u) (guard: p.l5) (assignments: p.x := 6, p := p.l6)].
+Controlled behavior: true -> not p.l1 or p.x != 5 [state/event exclusion requirement: p.x != 5, edge: (event: u) (guard: p.l1) (assignments: p.x := 2, p := p.l2)].
+Controlled behavior: not p.l1 or p.x != 5 -> (not p.l1 or p.x != 5) and (not p.l3 or p.x != 5) [state/event exclusion requirement: p.x != 5, edge: (event: u) (guard: p.l3) (assignments: p.x := 4, p := p.l4)].
+Controlled behavior: (not p.l1 or p.x != 5) and (not p.l3 or p.x != 5) -> (not p.l1 and not p.l5 or p.x != 5) and (not p.l3 or p.x != 5) [state/event exclusion requirement: p.x != 5, edge: (event: u) (guard: p.l5) (assignments: p.x := 6, p := p.l6)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: (not p.l1 and not p.l5 or p.x != 5) and (not p.l3 or p.x != 5))

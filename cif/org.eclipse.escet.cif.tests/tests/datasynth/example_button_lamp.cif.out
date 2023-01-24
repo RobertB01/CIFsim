@@ -96,16 +96,19 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off).
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Controlled behavior: true -> Button1.Pushed or LampOnWhileButtonPushed.Released [requirement: LampOnWhileButtonPushed.Released, edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)].
-Controlled behavior: Button1.Pushed or LampOnWhileButtonPushed.Released -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [requirement: LampOnWhileButtonPushed.Pushed, edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)].
-Edge (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off) (assignments: Lamp1 := Lamp1.On): guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false [requirement: LampOnWhileButtonPushed.Pushed].
-Edge (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off): guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false [requirement: LampOnWhileButtonPushed.Released].
+Controlled behavior: true -> Button1.Pushed or LampOnWhileButtonPushed.Released [state/event exclusion requirement: LampOnWhileButtonPushed.Released, edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)].
+Controlled behavior: Button1.Pushed or LampOnWhileButtonPushed.Released -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [state/event exclusion requirement: LampOnWhileButtonPushed.Pushed, edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)].
+Edge (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off) (assignments: Lamp1 := Lamp1.On): guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false [state/event exclusion requirement: LampOnWhileButtonPushed.Pushed].
+Edge (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off): guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false [state/event exclusion requirement: LampOnWhileButtonPushed.Released].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed))

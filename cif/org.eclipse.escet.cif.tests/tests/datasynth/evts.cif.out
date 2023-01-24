@@ -60,14 +60,17 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: true.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: cea) (guard: true): guard: true -> false [requirement: false].
-Controlled behavior: true -> false [requirement: false, edge: (event: uea) (guard: true)].
+Edge (event: cea) (guard: true): guard: true -> false [state/event exclusion requirement: false].
+Controlled behavior: true -> false [state/event exclusion requirement: false, edge: (event: uea) (guard: true)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: false)

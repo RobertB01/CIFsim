@@ -177,7 +177,11 @@ Edge (event: p.c7) (guard: p.w = 5 and p.l1): guard: p.w = 5 and p.l1 -> false.
 Edge (event: p.c10) (guard: p.l1 and p.z = 1) (assignments: p.z := p.z + 1): guard: p.l1 and p.z = 1 -> false.
 Edge (event: q.u4) (guard: p.w = 5): guard: p.w = 5 -> false.
 
-Initialized controlled-behavior predicate using invariants: p.y != 5.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: p.w = 0 and (p.x = 0 and p.l1) and (p.y = 0 and p.z = 1 and (a.l1 and b.l1)).
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> p.y != 5 [state requirements: p.y != 5].
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -190,9 +194,9 @@ Extended controlled-behavior predicate using variable ranges: <bdd 15n 200p>.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: p.c1) (guard: p.l1): guard: p.l1 -> false [requirement: false].
-Edge (event: p.c3) (guard: (p.x = 0 or p.x = 4) and p.l1 or (p.x = 2 and p.l1 or (p.x = 1 or p.x = 3) and p.l1)): guard: (p.x = 0 or p.x = 4) and p.l1 or (p.x = 2 and p.l1 or (p.x = 1 or p.x = 3) and p.l1) -> false [requirement: not(p.x = 0 or p.x = 4) and (p.x != 2 and not(p.x = 1 or p.x = 3))].
-Edge (event: p.c5) (guard: p.l1 -> (p.x = 8 or p.x = 9) and p.l1 or (p.x = 10 and p.l1 or (p.x = 6 or p.x = 7) and p.l1)): guard: (p.x = 8 or p.x = 9) and p.l1 or (p.x = 10 and p.l1 or (p.x = 6 or p.x = 7) and p.l1) -> false [requirement: p.x = 0 or (p.x = 1 or p.x = 4) or (p.x = 5 or (p.x = 2 or p.x = 3))].
+Edge (event: p.c1) (guard: p.l1): guard: p.l1 -> false [state/event exclusion requirement: false].
+Edge (event: p.c3) (guard: (p.x = 0 or p.x = 4) and p.l1 or (p.x = 2 and p.l1 or (p.x = 1 or p.x = 3) and p.l1)): guard: (p.x = 0 or p.x = 4) and p.l1 or (p.x = 2 and p.l1 or (p.x = 1 or p.x = 3) and p.l1) -> false [state/event exclusion requirement: not(p.x = 0 or p.x = 4) and (p.x != 2 and not(p.x = 1 or p.x = 3))].
+Edge (event: p.c5) (guard: p.l1 -> (p.x = 8 or p.x = 9) and p.l1 or (p.x = 10 and p.l1 or (p.x = 6 or p.x = 7) and p.l1)): guard: (p.x = 8 or p.x = 9) and p.l1 or (p.x = 10 and p.l1 or (p.x = 6 or p.x = 7) and p.l1) -> false [state/event exclusion requirement: p.x = 0 or (p.x = 1 or p.x = 4) or (p.x = 5 or (p.x = 2 or p.x = 3))].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: <bdd 15n 200p>)

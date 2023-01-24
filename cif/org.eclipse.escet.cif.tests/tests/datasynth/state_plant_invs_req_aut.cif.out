@@ -64,7 +64,10 @@ Edge (event: A.c) (guard: not A.l1): guard: not A.l1 -> A.l2.
 Edge (event: A.u1) (guard: A.l2) (assignments: A := A.l3): guard: A.l2 -> false.
 Edge (event: A.u1) (guard: A.l3): guard: A.l3 -> false.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: A.l1.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -74,7 +77,7 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: A.c) (guard: not A.l1 -> A.l2): guard: A.l2 -> false [requirement: A.l1].
+Edge (event: A.c) (guard: not A.l1 -> A.l2): guard: A.l2 -> false [state/event exclusion requirement: A.l1].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)

@@ -1,0 +1,41 @@
+controllable green_A;
+controllable red_A;
+controllable green_B;
+controllable red_B;
+plant automaton LightA:
+  location Red:
+    initial;
+    marked;
+    edge green_A goto Green;
+  location Green:
+    edge red_A goto Red;
+end
+plant automaton LightB:
+  location Red:
+    initial;
+    marked;
+    edge green_B goto Green;
+  location Green:
+    edge red_B goto Red;
+end
+supervisor automaton R:
+  location RR:
+    initial;
+    marked;
+    edge green_A goto GR;
+    edge green_B goto RG;
+  location GR:
+    edge red_A goto RR;
+  location RG:
+    edge red_B goto RR;
+end
+supervisor automaton sup:
+  alphabet green_A, red_A, green_B, red_B;
+  location:
+    initial;
+    marked;
+    edge green_A when R.RR and LightB.Red;
+    edge green_B when LightA.Red and R.RR;
+    edge red_A when R.GR and LightB.Red;
+    edge red_B when LightA.Red and R.RG;
+end

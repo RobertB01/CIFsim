@@ -131,13 +131,14 @@ public class SynthesisEdge {
     }
 
     /**
-     * Global edge reinitialization. Edges must be reinitialized when the guards have been updated due to the state
-     * plant invariants and state/event exclusion requirement invariants. Must be invoked only once per edge. Must be
-     * invoked after an invocation of {@link #initApply}.
+     * Global edge re-initialization. Edges must be reinitialized when the guards have been updated due to applying the
+     * state plant invariants, state requirement invariants (depending on options), and state/event exclusion
+     * requirement invariants. Must be invoked only once per edge. Must be invoked after an invocation of
+     * {@link #initApply}.
      *
      * <p>
      * Since {@link CifDataSynthesis#applyStatePlantInvs} applies edges, it requires edges to be initialized. Hence,
-     * initialization cannot be done later and reinitialization is necessary.
+     * initialization cannot be done later and re-initialization is necessary.
      * </p>
      *
      * @param doForward Whether to do forward reachability during synthesis.

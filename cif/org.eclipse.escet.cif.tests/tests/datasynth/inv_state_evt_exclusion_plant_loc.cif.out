@@ -136,7 +136,10 @@ Uncontrolled system:
     Edge: (event: l) (guard: a.l2 -> a.l2 and (a.x = 12 or a.x = 13))
     Edge: (event: c) (guard: a.l1 and a.x = 5) (assignments: a := a.l2)
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: a.l1 and a.x = 1.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 

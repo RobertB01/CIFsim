@@ -74,14 +74,18 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)).
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: g.p.l0.
+
+Restricting behavior using state requirements.
+Controlled behavior: true -> g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)) [state requirements: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))].
 
 Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: c) (guard: g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1): guard: g.p.l0 -> g.p.l0 and (g.p.x = 0 or g.p.x = 4) or (g.p.l0 and g.p.x = 2 or g.p.l0 and (g.p.x = 1 or g.p.x = 3)) [requirement: g.p.x = 0 or g.p.x = 4 or (g.p.x = 2 or (g.p.x = 1 or g.p.x = 3))].
-Controlled behavior: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)) -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7)) [requirement: 4 <= g.p.x and g.p.x <= 10, edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)].
+Edge (event: c) (guard: g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1): guard: g.p.l0 -> g.p.l0 and (g.p.x = 0 or g.p.x = 4) or (g.p.l0 and g.p.x = 2 or g.p.l0 and (g.p.x = 1 or g.p.x = 3)) [state/event exclusion requirement: g.p.x = 0 or g.p.x = 4 or (g.p.x = 2 or (g.p.x = 1 or g.p.x = 3))].
+Controlled behavior: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)) -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7)) [state/event exclusion requirement: 4 <= g.p.x and g.p.x <= 10, edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7)))

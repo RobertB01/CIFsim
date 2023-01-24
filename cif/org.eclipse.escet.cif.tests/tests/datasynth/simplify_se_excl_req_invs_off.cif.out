@@ -57,7 +57,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: true.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -67,7 +70,7 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3)): guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5 [requirement: p.x = 4 or p.x = 5].
+Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3)): guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5 [state/event exclusion requirement: p.x = 4 or p.x = 5].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)

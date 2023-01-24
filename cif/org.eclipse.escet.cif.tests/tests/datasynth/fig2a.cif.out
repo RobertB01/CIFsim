@@ -72,7 +72,10 @@ Uncontrolled system:
 
 Restricting behavior using state/event exclusion plants.
 
-Initialized controlled-behavior predicate using invariants: true.
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: p.L0 and p.x = 2.
+
+Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -82,8 +85,8 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: e1) (guard: p.L0 and (0 <= p.x and p.x <= 7)) (assignments: p.x := p.x + 2, p := p.L1): guard: p.L0 and (0 <= p.x and p.x <= 7) -> (p.L1 or p.x != 8) and (p.L1 or p.x != 9) and ((p.L1 or p.x != 7) and p.L0) [requirement: p.x != 8 and (p.x != 9 and p.x != 7)].
-Controlled behavior: true -> (p.L0 or p.x != 8) and ((p.L0 or p.x != 6) and (p.L0 or p.x != 7)) [requirement: 0 <= p.x and (p.x <= 7 and not(p.x = 6 or p.x = 7)), edge: (event: e2) (guard: p.L1 and (p.L0 or p.x != 9)) (assignments: p.x := p.x + 1, p := p.L0)].
+Edge (event: e1) (guard: p.L0 and (0 <= p.x and p.x <= 7)) (assignments: p.x := p.x + 2, p := p.L1): guard: p.L0 and (0 <= p.x and p.x <= 7) -> (p.L1 or p.x != 8) and (p.L1 or p.x != 9) and ((p.L1 or p.x != 7) and p.L0) [state/event exclusion requirement: p.x != 8 and (p.x != 9 and p.x != 7)].
+Controlled behavior: true -> (p.L0 or p.x != 8) and ((p.L0 or p.x != 6) and (p.L0 or p.x != 7)) [state/event exclusion requirement: 0 <= p.x and (p.x <= 7 and not(p.x = 6 or p.x = 7)), edge: (event: e2) (guard: p.L1 and (p.L0 or p.x != 9)) (assignments: p.x := p.x + 1, p := p.L0)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: (p.L0 or p.x != 8) and ((p.L0 or p.x != 6) and (p.L0 or p.x != 7)))

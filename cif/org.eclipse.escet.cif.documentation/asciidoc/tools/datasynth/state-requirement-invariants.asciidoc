@@ -1,0 +1,58 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+[[tools-datasynth-state-req-invs]]
+== State requirement invariants
+
+Before synthesis, the entire CIF specification is converted to Binary Decision Diagrams (BDDs), a representation of predicates that allows for efficient synthesis.
+The state requirement invariants of the specification thus also need to be part of the BDD representation of the specification.
+These requirements can be enforced by applying them to the BDDs in multiple ways:
+
+. _Controlled behavior_:
++
+All state requirement invariants are enforced via the 'controlled behavior' BDD.
+This BDD represents all states of the controlled system.
+Since the controlled system has to adhere to the state requirement invariants, these invariants can be put directly into the controlled behavior BDD.
+
+. _Edge guard or controlled behavior_:
++
+The decision how to enforce state requirement invariants is made per per edge.
+For each edge with a controllable events, the invariants are enforced via the guards of the edge, by strengthened the existing guards with sufficient extra conditions that ensure that after taking the edge the state requirement invariants hold.
+The initialization predicate of the controlled system is restricted as well, to ensure the state requirement invariants also hold in initial states.
+As synthesis may not restrict the guards of edges with uncontrollable events, for those edges the extra restrictions are put into the controlled behavior BDD instead.
+
+By default, all state requirement invariants are enforced via the controlled behavior.
+This can be changed by using the _State requirement invariant enforcement_ option (see the <<tools-datasynth-options,options section>>).
+
+The effect of the different approaches on the computational effort of synthesis can be quite complex:
+
+* _Upfront effort_:
+Using approach 2, the edge guard restrictions need to be computed for each edge and each state requirement invariant, which potentially requires significant computational effort.
+Using approach 1, each state requirement invariant is considered only once, when putting it into the controlled behavior, which may require less computational effort.
+
+* _Size of controlled behavior_:
+Reachability computations rely heavily on the controlled behavior predicate.
+Using approach 1, putting state requirement invariants into the controlled behavior, may restrict the controlled behavior, potentially leading to a smaller predicate and reduced computational effort.
+However, putting state requirement invariants into the controlled behavior may also lead to a controlled behavior predicate with more BDD nodes to express the additional restrictions, potentially increasing the computational effort.
+
+* _Reachability fixed point_:
+Using approach 1, with a more restricted controlled behavior predicate, may lead to more quickly reaching a fixed point in reachability computations, potentially reducing computational effort.
+
+* _Post-synthesis effort_:
+Using approach 1, the state requirement invariants are put into the controlled behavior, but they still need to be put into the edge guards after synthesis, which requires computational effort.
+Using approach 2, putting the state requirement invariants into the edge guards at the start of synthesis, means that the restrictions do not need to be applied at the end of synthesis, potentially reducing computational effort.
+
+Both approaches have potential benefits and drawbacks, making for a trade-off between their various effects.
+Which approach is most efficient depends on the model.
+
+For more information, see the scientific publication by <<thuijsman21>>, where the two approaches are compared.
