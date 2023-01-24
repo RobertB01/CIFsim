@@ -1,0 +1,181 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "ALG_VAR_REFS.a" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 31, column 12): uses boolean literal "true".
+ - Unsupported "BINARY_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 55, columns 7 .. 18): uses binary expression "1 = 1".
+ - Unsupported "BINARY_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 55, columns 7 .. 18): uses integer number literal "1".
+ - Unsupported "BOOL_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 60, columns 7 .. 15): uses boolean literal "true".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 87, columns 7 .. 36): uses binary expression ""A" = <string>X".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 87, columns 7 .. 36): uses cast expression "<string>X".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 87, columns 7 .. 36): uses component reference "X".
+ - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 87, columns 7 .. 36): uses string literal ""A"".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 75, columns 7 .. 34): uses binary expression ""true" = <string>true".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 75, columns 7 .. 34): uses boolean literal "true".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 75, columns 7 .. 34): uses cast expression "<string>true".
+ - Unsupported "CAST_EXPRS_BOOLEAN_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 75, columns 7 .. 34): uses string literal ""true"".
+ - Unsupported "CAST_EXPRS_EQUAL_TYPE" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 107, columns 7 .. 27): uses boolean literal "true".
+ - Unsupported "CAST_EXPRS_EQUAL_TYPE" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 107, columns 7 .. 27): uses cast expression "<bool>true".
+ - Unsupported "CAST_EXPRS_INT_TO_REAL" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 112, columns 7 .. 28): uses binary expression "<real>1 = 1.0".
+ - Unsupported "CAST_EXPRS_INT_TO_REAL" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 112, columns 7 .. 28): uses cast expression "<real>1".
+ - Unsupported "CAST_EXPRS_INT_TO_REAL" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 112, columns 7 .. 28): uses integer number literal "1".
+ - Unsupported "CAST_EXPRS_INT_TO_REAL" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 112, columns 7 .. 28): uses real number literal "1.0".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 65, columns 7 .. 30): uses binary expression ""1" = <string>1".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 65, columns 7 .. 30): uses cast expression "<string>1".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 65, columns 7 .. 30): uses integer number literal "1".
+ - Unsupported "CAST_EXPRS_INT_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 65, columns 7 .. 30): uses string literal ""1"".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 70, columns 7 .. 31): uses binary expression ""1.1" = <string>1.1".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 70, columns 7 .. 31): uses cast expression "<string>1.1".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 70, columns 7 .. 31): uses real number literal "1.1".
+ - Unsupported "CAST_EXPRS_REAL_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 70, columns 7 .. 31): uses string literal ""1.1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 102, columns 7 .. 34): uses cast expression "<bool>"false"".
+ - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 102, columns 7 .. 34): uses string literal ""false"".
+ - Unsupported "CAST_EXPRS_STRING_TO_BOOLEAN" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 102, columns 7 .. 34): uses unary expression "not <bool>"false"".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 92, columns 7 .. 30): uses binary expression "1 = <int>"1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 92, columns 7 .. 30): uses cast expression "<int>"1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 92, columns 7 .. 30): uses integer number literal "1".
+ - Unsupported "CAST_EXPRS_STRING_TO_INT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 92, columns 7 .. 30): uses string literal ""1"".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 97, columns 7 .. 31): uses binary expression "1.0 = <real>"1.0"".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 97, columns 7 .. 31): uses cast expression "<real>"1.0"".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 97, columns 7 .. 31): uses real number literal "1.0".
+ - Unsupported "CAST_EXPRS_STRING_TO_REAL" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 97, columns 7 .. 31): uses string literal ""1.0"".
+ - Unsupported "COMP_REFS_EXPLICIT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 117, columns 11 .. 28): uses boolean literal "true".
+ - Unsupported "COMP_REFS_EXPLICIT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 117, columns 11 .. 28): uses component reference "COMP_REFS_EXPLICIT".
+ - Unsupported "COMP_REFS_EXPLICIT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 117, columns 11 .. 28): uses switch expression "switch COMP_REFS_EXPLICIT: else true end".
+ - Unsupported "COMP_REFS_SELF" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 124, columns 11 .. 24): uses boolean literal "true".
+ - Unsupported "COMP_REFS_SELF" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 124, columns 11 .. 24): uses component reference "self".
+ - Unsupported "COMP_REFS_SELF" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 124, columns 11 .. 24): uses switch expression "switch self: else true end".
+ - Unsupported "CONST_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 136, columns 7 .. 16): uses constant reference "CONST_REFS.c".
+ - Unsupported "CONST_REFS.c" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 137, column 14): uses boolean literal "true".
+ - Unsupported "CONT_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 142, columns 7 .. 19): uses binary expression "CONT_VAR_REFS.c = 1.0".
+ - Unsupported "CONT_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 142, columns 7 .. 19): uses real number literal "1.0".
+ - Unsupported "CONT_VAR_REFS.c" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 143, column 8): uses real number literal "1.0".
+ - Unsupported "CONT_VAR_REFS_DER" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 148, columns 7 .. 23): uses binary expression "CONT_VAR_REFS_DER.c' = 1.0".
+ - Unsupported "CONT_VAR_REFS_DER" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 148, columns 7 .. 23): uses real number literal "1.0".
+ - Unsupported "CONT_VAR_REFS_DER.c" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 149, column 8): uses real number literal "1.0".
+ - Unsupported "DICT_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 154, columns 7 .. 15): uses boolean literal "false".
+ - Unsupported "DICT_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 154, columns 7 .. 15): uses boolean literal "true".
+ - Unsupported "DICT_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 154, columns 7 .. 15): uses dictionary literal "{true: false}".
+ - Unsupported "DICT_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 154, columns 7 .. 15): uses projection expression "{true: false}[true]".
+ - Unsupported "DISC_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 159, columns 11 .. 23): uses boolean literal "true".
+ - Unsupported "ENUM_LIT_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 182, columns 7 .. 19): uses binary expression "ENUM_LIT_REFS.e1 = ENUM_LIT_REFS.e2".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses binary expression "abs(1) = 1".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses boolean literal "true".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses external user-defined function reference "FUNC_CALLS.extF".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses function call "abs(1)".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses function call "FUNC_CALLS.extF(true)".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses function call "FUNC_CALLS.intF(true)".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses integer number literal "1".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses internal user-defined function reference "FUNC_CALLS.intF".
+ - Unsupported "FUNC_CALLS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 212, columns 7 .. 16): uses standard library function reference "abs".
+ - Unsupported "FUNC_REFS_STD_LIB" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 50, columns 7 .. 23): uses binary expression "abs(1) = 1".
+ - Unsupported "FUNC_REFS_STD_LIB" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 50, columns 7 .. 23): uses function call "abs(1)".
+ - Unsupported "FUNC_REFS_STD_LIB" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 50, columns 7 .. 23): uses integer number literal "1".
+ - Unsupported "FUNC_REFS_STD_LIB" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 50, columns 7 .. 23): uses standard library function reference "abs".
+ - Unsupported "FUNC_REFS_USER_DEF_EXT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 44, columns 7 .. 28): uses binary expression "FUNC_REFS_USER_DEF_EXT.f() = "a"".
+ - Unsupported "FUNC_REFS_USER_DEF_EXT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 44, columns 7 .. 28): uses external user-defined function reference "FUNC_REFS_USER_DEF_EXT.f".
+ - Unsupported "FUNC_REFS_USER_DEF_EXT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 44, columns 7 .. 28): uses function call "FUNC_REFS_USER_DEF_EXT.f()".
+ - Unsupported "FUNC_REFS_USER_DEF_EXT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 44, columns 7 .. 28): uses string literal ""a"".
+ - Unsupported "FUNC_REFS_USER_DEF_INT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 36, columns 7 .. 28): uses function call "FUNC_REFS_USER_DEF_INT.f()".
+ - Unsupported "FUNC_REFS_USER_DEF_INT" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 36, columns 7 .. 28): uses internal user-defined function reference "FUNC_REFS_USER_DEF_INT.f".
+ - Unsupported "FUNC_REFS_USER_DEF_INT.f" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 37, column 13): uses boolean literal "true".
+ - Unsupported "grp" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 18, columns 7 .. 9): uses boolean literal "true".
+ - Unsupported "IF_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 224, columns 7 .. 14): uses boolean literal "false".
+ - Unsupported "IF_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 224, columns 7 .. 14): uses boolean literal "true".
+ - Unsupported "IF_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 224, columns 7 .. 14): uses conditional expression "if true: true else false end".
+ - Unsupported "INT_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 235, columns 7 .. 14): uses binary expression "1 = 1".
+ - Unsupported "INT_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 235, columns 7 .. 14): uses integer number literal "1".
+ - Unsupported "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f.v" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 176, column 10): uses boolean literal "true".
+ - Unsupported "LIST_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 240, columns 7 .. 15): uses binary expression "[1] = [1]".
+ - Unsupported "LIST_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 240, columns 7 .. 15): uses integer number literal "1".
+ - Unsupported "LIST_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 240, columns 7 .. 15): uses list literal "[1]".
+ - Unsupported "LOC_REFS.loc" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 246, columns 12 .. 14): uses boolean literal "true".
+ - Unsupported "LOC_REFS.loc" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 246, columns 12 .. 14): uses location reference "LOC_REFS.loc".
+ - Unsupported "nested_grp.nested_grp" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 24, columns 9 .. 18): uses boolean literal "true".
+ - Unsupported "PROJECTION_EXPRS_DICTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 265, columns 7 .. 28): uses boolean literal "false".
+ - Unsupported "PROJECTION_EXPRS_DICTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 265, columns 7 .. 28): uses boolean literal "true".
+ - Unsupported "PROJECTION_EXPRS_DICTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 265, columns 7 .. 28): uses dictionary literal "{true: false}".
+ - Unsupported "PROJECTION_EXPRS_DICTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 265, columns 7 .. 28): uses projection expression "{true: false}[true]".
+ - Unsupported "PROJECTION_EXPRS_LISTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 260, columns 7 .. 28): uses boolean literal "false".
+ - Unsupported "PROJECTION_EXPRS_LISTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 260, columns 7 .. 28): uses boolean literal "true".
+ - Unsupported "PROJECTION_EXPRS_LISTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 260, columns 7 .. 28): uses integer number literal "0".
+ - Unsupported "PROJECTION_EXPRS_LISTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 260, columns 7 .. 28): uses list literal "[true, false]".
+ - Unsupported "PROJECTION_EXPRS_LISTS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 260, columns 7 .. 28): uses projection expression "[true, false][0]".
+ - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 252, columns 11 .. 42): uses boolean literal "true".
+ - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 252, columns 11 .. 42): uses integer number literal "0".
+ - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 252, columns 11 .. 42): uses projection expression "PROJECTION_EXPRS_LISTS_NON_ARRAY.d[0]".
+ - Unsupported "PROJECTION_EXPRS_STRINGS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 270, columns 7 .. 30): uses binary expression ""abc"[0] = "a"".
+ - Unsupported "PROJECTION_EXPRS_STRINGS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 270, columns 7 .. 30): uses integer number literal "0".
+ - Unsupported "PROJECTION_EXPRS_STRINGS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 270, columns 7 .. 30): uses projection expression ""abc"[0]".
+ - Unsupported "PROJECTION_EXPRS_STRINGS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 270, columns 7 .. 30): uses string literal ""a"".
+ - Unsupported "PROJECTION_EXPRS_STRINGS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 270, columns 7 .. 30): uses string literal ""abc"".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 281, columns 11 .. 39): uses boolean literal "true".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 281, columns 11 .. 39): uses projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[a]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 281, columns 11 .. 39): uses projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[b]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 275, columns 7 .. 35): uses boolean literal "false".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 275, columns 7 .. 35): uses boolean literal "true".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 275, columns 7 .. 35): uses integer number literal "0".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 275, columns 7 .. 35): uses projection expression "((true, false), false)[0]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 275, columns 7 .. 35): uses projection expression "((true, false), false)[0][0]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 275, columns 7 .. 35): uses projection expression "(true, false)[0]".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 275, columns 7 .. 35): uses tuple literal "((true, false), false)".
+ - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 275, columns 7 .. 35): uses tuple literal "(true, false)".
+ - Unsupported "REAL_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 289, columns 7 .. 15): uses binary expression "1.0 = 1.0".
+ - Unsupported "REAL_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 289, columns 7 .. 15): uses real number literal "1.0".
+ - Unsupported "RECEIVE_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 294, columns 11 .. 23): uses boolean literal "true".
+ - Unsupported "RECEIVE_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 294, columns 11 .. 23): uses received value expression "?".
+ - Unsupported "SET_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 303, columns 7 .. 14): uses binary expression "true in {true, false}".
+ - Unsupported "SET_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 303, columns 7 .. 14): uses boolean literal "false".
+ - Unsupported "SET_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 303, columns 7 .. 14): uses boolean literal "true".
+ - Unsupported "SET_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 303, columns 7 .. 14): uses set literal "{true, false}".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 309, columns 13 .. 28): uses boolean literal "false".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 309, columns 13 .. 28): uses boolean literal "true".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 309, columns 13 .. 28): uses integer number literal "0".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 309, columns 13 .. 28): uses integer number literal "1".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 309, columns 13 .. 28): uses list literal "[true, false]".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 309, columns 13 .. 28): uses projection expression "[true, false][:-1][0]".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 309, columns 13 .. 28): uses slice expression "[true, false][:-1]".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 309, columns 13 .. 28): uses unary expression "-1".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 310, columns 13 .. 30): uses binary expression ""ab"[:-1][0] = "a"".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 310, columns 13 .. 30): uses integer number literal "0".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 310, columns 13 .. 30): uses integer number literal "1".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 310, columns 13 .. 30): uses projection expression ""ab"[:-1][0]".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 310, columns 13 .. 30): uses slice expression ""ab"[:-1]".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 310, columns 13 .. 30): uses string literal ""a"".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 310, columns 13 .. 30): uses string literal ""ab"".
+ - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 310, columns 13 .. 30): uses unary expression "-1".
+ - Unsupported "STRING_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 314, columns 7 .. 17): uses binary expression ""a" = "a"".
+ - Unsupported "STRING_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 314, columns 7 .. 17): uses string literal ""a"".
+ - Unsupported "SWITCH_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 319, columns 7 .. 18): uses boolean literal "false".
+ - Unsupported "SWITCH_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 319, columns 7 .. 18): uses boolean literal "true".
+ - Unsupported "SWITCH_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 319, columns 7 .. 18): uses integer number literal "5".
+ - Unsupported "SWITCH_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 319, columns 7 .. 18): uses switch expression "switch 5: case 5: true else false end".
+ - Unsupported "TIME_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 324, columns 7 .. 19): uses binary expression "time > 0".
+ - Unsupported "TIME_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 324, columns 7 .. 19): uses integer number literal "0".
+ - Unsupported "TUPLE_FIELD_REFS_NAMED" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 193, columns 7 .. 28): uses constant reference "TUPLE_FIELD_REFS_NAMED.c".
+ - Unsupported "TUPLE_FIELD_REFS_NAMED" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 193, columns 7 .. 28): uses projection expression "TUPLE_FIELD_REFS_NAMED.c[a]".
+ - Unsupported "TUPLE_FIELD_REFS_NAMED.c" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 194, column 26): uses boolean literal "false".
+ - Unsupported "TUPLE_FIELD_REFS_NAMED.c" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 194, column 26): uses boolean literal "true".
+ - Unsupported "TUPLE_FIELD_REFS_NAMED.c" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 194, column 26): uses tuple literal "(true, false)".
+ - Unsupported "TUPLE_FIELD_REFS_NAMELESS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 188, columns 7 .. 31): uses boolean literal "false".
+ - Unsupported "TUPLE_FIELD_REFS_NAMELESS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 188, columns 7 .. 31): uses boolean literal "true".
+ - Unsupported "TUPLE_FIELD_REFS_NAMELESS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 188, columns 7 .. 31): uses integer number literal "0".
+ - Unsupported "TUPLE_FIELD_REFS_NAMELESS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 188, columns 7 .. 31): uses projection expression "(true, false)[0]".
+ - Unsupported "TUPLE_FIELD_REFS_NAMELESS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 188, columns 7 .. 31): uses tuple literal "(true, false)".
+ - Unsupported "TUPLE_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 329, columns 7 .. 16): uses boolean literal "false".
+ - Unsupported "TUPLE_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 329, columns 7 .. 16): uses boolean literal "true".
+ - Unsupported "TUPLE_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 329, columns 7 .. 16): uses integer number literal "0".
+ - Unsupported "TUPLE_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 329, columns 7 .. 16): uses projection expression "(true, false)[0]".
+ - Unsupported "TUPLE_LITS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 329, columns 7 .. 16): uses tuple literal "(true, false)".
+ - Unsupported "UNARY_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 334, columns 7 .. 17): uses boolean literal "true".
+ - Unsupported "UNARY_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 334, columns 7 .. 17): uses unary expression "not true".
+ - Unsupported "USER_DEF_FUNC_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 198, columns 7 .. 24): uses external user-defined function reference "USER_DEF_FUNC_REFS.extF".
+ - Unsupported "USER_DEF_FUNC_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 198, columns 7 .. 24): uses function call "USER_DEF_FUNC_REFS.g(USER_DEF_FUNC_REFS.extF)".
+ - Unsupported "USER_DEF_FUNC_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 198, columns 7 .. 24): uses function call "USER_DEF_FUNC_REFS.g(USER_DEF_FUNC_REFS.intF)".
+ - Unsupported "USER_DEF_FUNC_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 198, columns 7 .. 24): uses internal user-defined function reference "USER_DEF_FUNC_REFS.g".
+ - Unsupported "USER_DEF_FUNC_REFS" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 198, columns 7 .. 24): uses internal user-defined function reference "USER_DEF_FUNC_REFS.intF".
+ - Unsupported "USER_DEF_FUNC_REFS.g" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 203, column 13): uses boolean literal "true".
+ - Unsupported "USER_DEF_FUNC_REFS.g" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 203, column 13): uses function call "USER_DEF_FUNC_REFS.g.f(true)".
+ - Unsupported "X.A" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 81, column 12): uses binary expression ""A" = <string>self".
+ - Unsupported "X.A" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 81, column 12): uses boolean literal "true".
+ - Unsupported "X.A" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 81, column 12): uses cast expression "<string>self".
+ - Unsupported "X.A" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 81, column 12): uses component reference "self".
+ - Unsupported "X.A" (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 81, column 12): uses string literal ""A"".
+ - Unsupported specification (File "checks/ExprNoSpecificExprsCheckLevel1.cif": line 1, column 1): uses boolean literal "true".

@@ -24,10 +24,10 @@ public class CifTest extends ToolDefBasedPluginUnitTest {
         test("tests/test_tchecker.tooldef");
     }
 
-    /** Common checks tests. */
+    /** CIF checks tests. */
     @Test
-    public void testCommonChecks() {
-        test("tests/test_common_checks.tooldef");
+    public void testChecks() {
+        test("tests/test_checks.tooldef");
     }
 
     /** Pretty print and elimination of component definition/instantiation tests. */

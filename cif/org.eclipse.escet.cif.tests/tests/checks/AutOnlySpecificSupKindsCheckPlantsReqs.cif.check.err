@@ -1,0 +1,9 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a1" (File "checks/AutOnlySpecificSupKindsCheckPlantsReqs.cif": line 14, columns 11 .. 12): automaton is a kindless automaton, not a plant or requirement automaton.
+ - Unsupported "A1" (File "checks/AutOnlySpecificSupKindsCheckPlantsReqs.cif": line 34, columns 15 .. 16): automaton definition is a kindless automaton, not a plant or requirement automaton.
+ - Unsupported "g.a1" (File "checks/AutOnlySpecificSupKindsCheckPlantsReqs.cif": line 55, columns 13 .. 14): automaton is a kindless automaton, not a plant or requirement automaton.
+ - Unsupported "g.A1" (File "checks/AutOnlySpecificSupKindsCheckPlantsReqs.cif": line 75, columns 17 .. 18): automaton definition is a kindless automaton, not a plant or requirement automaton.
+ - Unsupported "g.s1" (File "checks/AutOnlySpecificSupKindsCheckPlantsReqs.cif": line 70, columns 14 .. 15): automaton is a supervisor automaton, not a plant or requirement automaton.
+ - Unsupported "g.S1" (File "checks/AutOnlySpecificSupKindsCheckPlantsReqs.cif": line 90, columns 18 .. 19): automaton definition is a supervisor automaton, not a plant or requirement automaton.
+ - Unsupported "s1" (File "checks/AutOnlySpecificSupKindsCheckPlantsReqs.cif": line 29, columns 12 .. 13): automaton is a supervisor automaton, not a plant or requirement automaton.
+ - Unsupported "S1" (File "checks/AutOnlySpecificSupKindsCheckPlantsReqs.cif": line 49, columns 16 .. 17): automaton definition is a supervisor automaton, not a plant or requirement automaton.

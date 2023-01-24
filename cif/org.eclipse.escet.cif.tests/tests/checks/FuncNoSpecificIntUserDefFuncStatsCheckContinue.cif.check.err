@@ -1,0 +1,3 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "f" (File "checks/FuncNoSpecificIntUserDefFuncStatsCheckContinue.cif": line 14, column 10): user-defined function has a 'continue' statement.
+ - Unsupported "g.f" (File "checks/FuncNoSpecificIntUserDefFuncStatsCheckContinue.cif": line 30, column 12): user-defined function has a 'continue' statement.

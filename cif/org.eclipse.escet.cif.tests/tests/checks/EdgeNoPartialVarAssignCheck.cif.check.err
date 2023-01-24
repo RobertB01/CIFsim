@@ -1,0 +1,5 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a.l4" (File "checks/EdgeNoPartialVarAssignCheck.cif": line 27, columns 12 .. 13): location has an edge with a partial variable assignment.
+ - Unsupported "all" (File "checks/EdgeNoPartialVarAssignCheck.cif": line 76, columns 11 .. 13): automaton has an edge with a partial variable assignment.
+ - Unsupported "g.A.l4" (File "checks/EdgeNoPartialVarAssignCheck.cif": line 69, columns 14 .. 15): location has an edge with a partial variable assignment.
+ - Unsupported "partial_asgn" (File "checks/EdgeNoPartialVarAssignCheck.cif": line 41, columns 11 .. 22): automaton has an edge with a partial variable assignment.

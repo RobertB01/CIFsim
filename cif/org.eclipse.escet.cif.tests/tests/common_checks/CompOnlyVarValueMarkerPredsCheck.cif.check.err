@@ -1,9 +1,0 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "double_marker_grp.double_marker_in_aut_and_grp.v" (File "common_checks/CompOnlyVarValueMarkerPredsCheck.cif": line 31, column 15): discrete variable has multiple predicates that specify its marked values.
- - Unsupported "double_marker_in_aut.v" (File "common_checks/CompOnlyVarValueMarkerPredsCheck.cif": line 22, column 13): discrete variable has multiple predicates that specify its marked values.
- - Unsupported "double_marker_in_aut_and_spec.v" (File "common_checks/CompOnlyVarValueMarkerPredsCheck.cif": line 40, column 13): discrete variable has multiple predicates that specify its marked values.
- - Unsupported "marker_not_binexpr" (File "common_checks/CompOnlyVarValueMarkerPredsCheck.cif": line 61, columns 11 .. 28): automaton has a marker predicate that is not of the form "discrete_variable = marked_value".
- - Unsupported "marker_not_equal_binexpr" (File "common_checks/CompOnlyVarValueMarkerPredsCheck.cif": line 68, columns 11 .. 34): automaton has a marker predicate that is not of the form "discrete_variable = marked_value".
- - Unsupported "marker_var_not_on_the_left" (File "common_checks/CompOnlyVarValueMarkerPredsCheck.cif": line 75, columns 11 .. 36): automaton has a marker predicate that is not of the form "discrete_variable = marked_value".
- - Unsupported "six_marker.six_marker.v" (File "common_checks/CompOnlyVarValueMarkerPredsCheck.cif": line 49, column 15): discrete variable has multiple predicates that specify its marked values.
- - Unsupported specification (File "common_checks/CompOnlyVarValueMarkerPredsCheck.cif": line 1, column 1): the top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".

@@ -1,0 +1,5 @@
+WARNING: File "checks/LocOnlyStaticEvalMarkerPredsCheck.cif": Semantic warning at line 45, column 34: Location parameter "loc_param.l" is not used anywhere in the specification.
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "a.loc5" (File "checks/LocOnlyStaticEvalMarkerPredsCheck.cif": line 30, columns 12 .. 15): location has a marker predicate that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
+ - Unsupported "a.loc6" (File "checks/LocOnlyStaticEvalMarkerPredsCheck.cif": line 33, columns 12 .. 15): location has a marker predicate that cannot be evaluated statically.
+ - Unsupported "nameless_loc" (File "checks/LocOnlyStaticEvalMarkerPredsCheck.cif": line 38, columns 11 .. 22): automaton has a location with a marker predicate that cannot be evaluated statically, as the evaluation resulted in an evaluation error.

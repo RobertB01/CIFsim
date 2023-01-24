@@ -1,0 +1,5 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "g_nontrivial" (File "checks/CompNoInitPredsCheckNonTrivialInitPreds.cif": line 38, columns 7 .. 18): group contains an initialization predicate.
+ - Unsupported "g_nontrivial.a" (File "checks/CompNoInitPredsCheckNonTrivialInitPreds.cif": line 41, column 13): automaton contains an initialization predicate.
+ - Unsupported "g_nontrivial.A" (File "checks/CompNoInitPredsCheckNonTrivialInitPreds.cif": line 47, column 17): automaton definition contains an initialization predicate.
+ - Unsupported "g_nontrivial.G" (File "checks/CompNoInitPredsCheckNonTrivialInitPreds.cif": line 53, column 13): group definition contains an initialization predicate.

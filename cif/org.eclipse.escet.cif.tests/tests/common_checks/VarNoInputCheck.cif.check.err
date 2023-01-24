@@ -1,8 +1,0 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "g.a.i" (File "common_checks/VarNoInputCheck.cif": line 21, column 16): variable is an input variable.
- - Unsupported "g.a.j" (File "common_checks/VarNoInputCheck.cif": line 22, column 16): variable is an input variable.
- - Unsupported "g.i" (File "common_checks/VarNoInputCheck.cif": line 17, column 14): variable is an input variable.
- - Unsupported "G.i" (File "common_checks/VarNoInputCheck.cif": line 30, column 14): variable is an input variable.
- - Unsupported "g.j" (File "common_checks/VarNoInputCheck.cif": line 18, column 14): variable is an input variable.
- - Unsupported "G.j" (File "common_checks/VarNoInputCheck.cif": line 31, column 14): variable is an input variable.
- - Unsupported "i" (File "common_checks/VarNoInputCheck.cif": line 14, column 12): variable is an input variable.

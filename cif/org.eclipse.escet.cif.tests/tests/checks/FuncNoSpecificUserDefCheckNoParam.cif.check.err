@@ -1,0 +1,5 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+ - Unsupported "EXT_NO_PARAM_f" (File "checks/FuncNoSpecificUserDefCheckNoParam.cif": line 22, columns 11 .. 24): has no parameters.
+ - Unsupported "g.EXT_NO_PARAM_f" (File "checks/FuncNoSpecificUserDefCheckNoParam.cif": line 34, columns 13 .. 26): has no parameters.
+ - Unsupported "g.INT_NO_PARAM_fifteen" (File "checks/FuncNoSpecificUserDefCheckNoParam.cif": line 30, columns 12 .. 31): has no parameters.
+ - Unsupported "INT_NO_PARAM_fifteen" (File "checks/FuncNoSpecificUserDefCheckNoParam.cif": line 18, columns 10 .. 29): has no parameters.

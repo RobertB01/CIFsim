@@ -1,9 +1,0 @@
-ERROR: CIF common checks tester failed due to unsatisfied preconditions:
- - Unsupported "different_locs.loc3" (File "common_checks/InvNoSpecificInvsCheckSubsets.cif": line 54, columns 12 .. 15): has a plant 'needs' state/event exclusion invariant.
- - Unsupported "different_locs.loc4" (File "common_checks/InvNoSpecificInvsCheckSubsets.cif": line 57, columns 12 .. 15): has a requirement state invariant in a location.
- - Unsupported "g.p" (File "common_checks/InvNoSpecificInvsCheckSubsets.cif": line 32, column 9): has a plant 'needs' state/event exclusion invariant.
- - Unsupported "named_invs.I3" (File "common_checks/InvNoSpecificInvsCheckSubsets.cif": line 81, columns 11 .. 12): is a plant 'needs' state/event exclusion invariant.
- - Unsupported "named_invs.I5" (File "common_checks/InvNoSpecificInvsCheckSubsets.cif": line 83, columns 17 .. 18): is a requirement state invariant in a location.
- - Unsupported "nameless_loc" (File "common_checks/InvNoSpecificInvsCheckSubsets.cif": line 65, columns 11 .. 22): has a plant 'needs' state/event exclusion invariant.
- - Unsupported "nameless_loc" (File "common_checks/InvNoSpecificInvsCheckSubsets.cif": line 65, columns 11 .. 22): has a requirement state invariant in a location.
- - Unsupported specification (File "common_checks/InvNoSpecificInvsCheckSubsets.cif": line 1, column 1): has a plant 'needs' state/event exclusion invariant.

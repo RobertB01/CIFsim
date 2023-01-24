@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.cif2supremica;
 
-import org.eclipse.escet.cif.common.CifPreconditionChecker;
+import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
