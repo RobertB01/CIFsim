@@ -864,18 +864,21 @@ public class CifDataSynthesis {
                         return updPred;
                     }
 
-                    // Simplify under the assumption that that 'reqInv' already holds in the source state of the edge.
-                    // This should be the case, as we enforce the requirement, to prevent reaching states where it
-                    // doesn't hold. The simplification ensures that for an edge with update 'y := y + 1' and state
-                    // requirement invariant 'x != 3' that the edge won't get an extra guard 'x != 3'. Simplifying is
-                    // best effort, it may be possible to simplify the guard further.
-                    BDD updPredSimplified = updPred.simplify(reqInv);
-                    if (updPred.equals(updPredSimplified)) {
-                        updPredSimplified.free();
-                    } else {
+                    // Compute 'guard and reqInv => updPred'. If the backwards applied state requirement invariant is
+                    // already implied by the current guard and state requirement invariant in the source state, we
+                    // don't need to strengthen the guard. In that case, replace the predicate by 'true', to ensure it
+                    // gets ignored when it is applied.
+                    BDD guardAndReqInv = edge.guard.and(reqInv);
+                    BDD implication = guardAndReqInv.imp(updPred);
+                    boolean skip = implication.isOne();
+                    guardAndReqInv.free();
+                    implication.free();
+                    if (skip) {
                         updPred.free();
-                        updPred = updPredSimplified;
+                        updPred = aut.factory.one();
                     }
+
+                    // Return the predicate to apply per edge.
                     return updPred;
                 });
                 applyReqsPerEdge(aut, reqsPerEdge, true, dbgEnabled, "state");
