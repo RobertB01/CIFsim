@@ -51,7 +51,7 @@ To use this feature, follow these steps:
 
 * Make sure your workspace is automatically rebuilt, by enabling the menu:Build Automatically[] option in the menu:Project[] menu.
 
-* Start a sub-Eclipse application, by clicking menu:Run[Run Configurations...] or menu:Run[Debug Configratuions], and selecting _product-escet_ and clicking btn:[Run].
+* Start a sub-Eclipse application, by clicking menu:Run[Run Configurations...] or menu:Run[Debug Configurations], and selecting _escet-product_ and clicking btn:[Run].
 
 * In the sub-Eclipse that opens, make sure the CIF specification (the `.cif` file) that you like to simulate is available in the workspace.
 
