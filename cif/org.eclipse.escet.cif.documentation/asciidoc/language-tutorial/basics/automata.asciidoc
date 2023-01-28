@@ -80,6 +80,8 @@ indexterm:[edge goto]
 In each location, an automaton can have different behavior, specified using _edges_.
 An edge indicates how an automaton can change its state, by going from one location to another.
 Edges can be associated with events, that indicate what happened, and thus what caused the state change.
+In each location, only the behavior specified by its edges is possible, for that automaton.
+No other behavior is possible.
 
 The `lamp` automaton has an edge with the `turn_off` event, in its `on` location, going to the `off` location.
 Whenever the lamp is on, the `lamp` automaton is in its `on` location.
