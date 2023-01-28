@@ -134,7 +134,7 @@ Provides an overview of the available values, and divides them into categories.
 Explains integer types, values, and commonly used expressions.
 
 <<lang-tut-values-chapter-ranged-integers>>::
-Explains ranged integer types.
+Explains ranged integers.
 
 <<lang-tut-values-chapter-reals>>::
 Explains real types, values, and commonly used expressions.
