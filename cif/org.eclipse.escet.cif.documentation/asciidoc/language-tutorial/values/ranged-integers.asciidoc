@@ -13,8 +13,8 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[lang-tut-values-chapter-integer-ranges]]
-== Integer ranges
+[[lang-tut-values-chapter-ranged-integers]]
+== Ranged integers
 
 indexterm:[integer,limits]
 indexterm:[integer,overflow]

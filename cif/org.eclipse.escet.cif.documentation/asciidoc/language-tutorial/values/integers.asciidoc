@@ -59,4 +59,6 @@ x >= y      // larger than or equal to
 x > y       // larger than
 ----
 
+The next lesson explains how to define <<lang-tut-values-chapter-ranged-integers,ranged integers>>.
+
 // TODO: link to future ref manual

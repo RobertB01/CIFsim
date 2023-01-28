@@ -194,7 +194,7 @@ include::language-tutorial/values/overview.asciidoc[]
 
 include::language-tutorial/values/integers.asciidoc[]
 
-include::language-tutorial/values/integer-ranges.asciidoc[]
+include::language-tutorial/values/ranged-integers.asciidoc[]
 
 include::language-tutorial/values/reals.asciidoc[]
 
