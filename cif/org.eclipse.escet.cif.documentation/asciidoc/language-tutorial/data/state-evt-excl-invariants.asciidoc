@@ -203,4 +203,4 @@ invariant controller: motor.turn_on needs door.closed and emergency_button.relea
 ----
 
 Invariant names must be unique.
-It is therefore not possible to give a name to a combined invariant that applies to multiple events.
+It is not supported to give a name to a combined invariant that applies to multiple events.
