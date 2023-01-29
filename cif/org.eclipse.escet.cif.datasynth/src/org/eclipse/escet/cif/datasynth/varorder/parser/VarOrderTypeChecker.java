@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth.varorder.parser;
 
 import static org.eclipse.escet.common.java.Lists.first;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.slice;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -23,11 +24,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
+import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
+import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
+import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.graph.algos.GeorgeLiuPseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.WesMetric;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.ChoiceVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.DcshVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.ForceVarOrderer;
@@ -53,6 +61,7 @@ import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererNumb
 import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererOrderArg;
 import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererSingleInstance;
 import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererStringArg;
+import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.typechecker.SemanticException;
@@ -108,6 +117,29 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         VarOrderOrOrdererSingleInstance astOrder = (VarOrderOrOrdererSingleInstance)astInstance;
         String name = astOrder.name.text;
         switch (name) {
+            // Default variable order.
+            case "default": {
+                VarOrder initialVarOrder = getDefaultInitialOrder();
+                List<VarOrderer> orderers = list();
+                if (BddDcshVarOrderOption.isEnabled()) {
+                    orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
+                            RelationsKind.CONFIGURED));
+                }
+                if (BddForceVarOrderOption.isEnabled()) {
+                    orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
+                }
+                if (BddSlidingWindowVarOrderOption.isEnabled()) {
+                    int maxLen = BddSlidingWindowSizeOption.getMaxLen();
+                    orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
+                }
+                VarOrder varOrder = initialVarOrder;
+                if (!orderers.isEmpty()) {
+                    varOrder = new OrdererVarOrder(varOrder,
+                            (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
+                }
+                return varOrder;
+            }
+
             // Basic variable orders.
             case "model":
                 if (!astOrder.arguments.isEmpty()) {
@@ -483,6 +515,46 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                 addError(fmt("Unknown variable orderer \"%s\".", name), astOrderer.name.position);
                 throw new SemanticException();
         }
+    }
+
+    /**
+     * Get the default initial variable order.
+     *
+     * @return The default initial variable order.
+     */
+    private VarOrder getDefaultInitialOrder() {
+        String orderTxt = BddVariableOrderOption.getOrder();
+        VarOrder initialVarOrder;
+        if (orderTxt.toLowerCase(Locale.US).equals("model")) {
+            initialVarOrder = new ModelVarOrder();
+        } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
+            initialVarOrder = new ReverseVarOrder(new ModelVarOrder());
+        } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
+            initialVarOrder = new SortedVarOrder();
+        } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
+            initialVarOrder = new ReverseVarOrder(new SortedVarOrder());
+        } else if (orderTxt.toLowerCase(Locale.US).equals("random")) {
+            initialVarOrder = new RandomVarOrder(null);
+        } else if (orderTxt.toLowerCase(Locale.US).startsWith("random:")) {
+            int idx = orderTxt.indexOf(":");
+            String seedTxt = orderTxt.substring(idx + 1);
+            long seed;
+            try {
+                seed = Long.parseUnsignedLong(seedTxt);
+            } catch (NumberFormatException ex) {
+                String msg = fmt("Invalid BDD variable random order seed number: \"%s\".", orderTxt);
+                throw new InvalidOptionException(msg, ex);
+            }
+            initialVarOrder = new RandomVarOrder(seed);
+        } else {
+            Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = CustomVarOrderParser
+                    .parse(orderTxt, variables);
+            if (customVarOrderOrError.right != null) {
+                throw new InvalidOptionException("Invalid BDD variable order: " + customVarOrderOrError.right);
+            }
+            initialVarOrder = new CustomVarOrder(customVarOrderOrError.left);
+        }
+        return initialVarOrder;
     }
 
     /**
