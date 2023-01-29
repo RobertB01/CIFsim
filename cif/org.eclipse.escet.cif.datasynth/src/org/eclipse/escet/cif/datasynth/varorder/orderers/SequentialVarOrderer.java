@@ -38,8 +38,8 @@ public class SequentialVarOrderer implements VarOrderer {
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
-            boolean dbgEnabled, int dbgLevel)
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
+            int dbgLevel)
     {
         // Debug output before applying the algorithms.
         if (dbgEnabled) {

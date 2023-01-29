@@ -34,6 +34,6 @@ public interface VarOrderer {
      * @param dbgLevel The debug indentation level.
      * @return The new variable order, as produced by the algorithm.
      */
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
-            boolean dbgEnabled, int dbgLevel);
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
+            int dbgLevel);
 }
