@@ -117,6 +117,7 @@ import org.eclipse.escet.cif.datasynth.varorder.orders.RandomVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.ReverseVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.SortedVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.parser.CustomVarOrderParser;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -691,83 +692,12 @@ public class CifToSynthesisConverter {
             }
             initialVarOrder = new RandomVarOrder(seed);
         } else {
-            // Parse option value to custom order.
-            List<Pair<SynthesisVariable, Integer>> customVarOrder = list();
-            int group = 0;
-            for (String groupTxt: StringUtils.split(orderTxt, ";")) {
-                // Skip empty.
-                groupTxt = groupTxt.trim();
-                if (groupTxt.isEmpty()) {
-                    continue;
-                }
-
-                // Process elements.
-                boolean anyVar = false;
-                for (String elemTxt: StringUtils.split(groupTxt, ",")) {
-                    // Skip empty.
-                    elemTxt = elemTxt.trim();
-                    if (elemTxt.isEmpty()) {
-                        continue;
-                    }
-
-                    // Create regular expression from filter.
-                    String regEx = elemTxt.replace(".", "\\.");
-                    regEx = regEx.replace("*", ".*");
-                    Pattern pattern = Pattern.compile("^" + regEx + "$");
-
-                    // Found actual element. Look up matching synthesis variables.
-                    List<SynthesisVariable> matches = Arrays.stream(synthAut.variables)
-                            .filter(v -> pattern.matcher(v.rawName).matches()).collect(Collectors.toList());
-
-                    // Need a least one match.
-                    if (matches.isEmpty()) {
-                        String msg = fmt(
-                                "Invalid BDD variable order: can't find a match for \"%s\". There is no supported "
-                                        + "variable or automaton (with two or more locations) in the specification "
-                                        + "that matches the given name pattern.",
-                                elemTxt);
-                        throw new InvalidOptionException(msg);
-                    }
-
-                    // Sort matches.
-                    Collections.sort(matches, (v, w) -> Strings.SORTER.compare(v.rawName, w.rawName));
-
-                    // Add the matched variables to the custom variable order.
-                    for (SynthesisVariable var: matches) {
-                        customVarOrder.add(pair(var, group));
-                        anyVar = true;
-                    }
-                }
-
-                // Proceed with next group of interleaved variables.
-                if (anyVar) {
-                    group++;
-                }
+            Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = CustomVarOrderParser
+                    .parse(orderTxt, Arrays.asList(synthAut.variables));
+            if (customVarOrderOrError.right != null) {
+                throw new InvalidOptionException("Invalid BDD variable order: " + customVarOrderOrError.right);
             }
-
-            // Check for duplicates.
-            Set<SynthesisVariable> varsInOrder = setc(customVarOrder.size());
-            for (Pair<SynthesisVariable, Integer> elem: customVarOrder) {
-                SynthesisVariable var = elem.left;
-                boolean added = varsInOrder.add(var);
-                if (!added) {
-                    String msg = fmt("Invalid BDD variable order: \"%s\" is included more than once.", var.name);
-                    throw new InvalidOptionException(msg);
-                }
-            }
-
-            // Check completeness.
-            Set<SynthesisVariable> missingVars = difference(list2set(Arrays.asList(synthAut.variables)), varsInOrder);
-            if (!missingVars.isEmpty()) {
-                String names = missingVars.stream().map(v -> "\"" + v.name + "\"").sorted(Strings.SORTER)
-                        .collect(Collectors.joining(", "));
-                String msg = fmt("Invalid BDD variable order: the following are missing from the specified order: %s.",
-                        names);
-                throw new InvalidOptionException(msg);
-            }
-
-            // Construct custom variable order.
-            initialVarOrder = new CustomVarOrder(customVarOrder);
+            initialVarOrder = new CustomVarOrder(customVarOrderOrError.left);
         }
 
         // Collect and configure variable ordering algorithms to apply.
