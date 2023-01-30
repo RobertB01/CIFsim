@@ -118,27 +118,8 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         String name = astOrder.name.text;
         switch (name) {
             // Default variable order.
-            case "default": {
-                VarOrder initialVarOrder = getDefaultInitialOrder();
-                List<VarOrderer> orderers = list();
-                if (BddDcshVarOrderOption.isEnabled()) {
-                    orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
-                            RelationsKind.CONFIGURED));
-                }
-                if (BddForceVarOrderOption.isEnabled()) {
-                    orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
-                }
-                if (BddSlidingWindowVarOrderOption.isEnabled()) {
-                    int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-                    orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
-                }
-                VarOrder varOrder = initialVarOrder;
-                if (!orderers.isEmpty()) {
-                    varOrder = new OrdererVarOrder(varOrder,
-                            (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
-                }
-                return varOrder;
-            }
+            case "default":
+                return getSimpleConfiguredOrder();
 
             // Basic variable orders.
             case "model":
@@ -518,11 +499,38 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     }
 
     /**
-     * Get the default initial variable order.
+     * Get the variable order configured via the simple (non-advanced) options.
      *
-     * @return The default initial variable order.
+     * @return The variable order.
      */
-    private VarOrder getDefaultInitialOrder() {
+    private VarOrder getSimpleConfiguredOrder() {
+        VarOrder initialVarOrder = getSimpleConfiguredInitialOrder();
+        List<VarOrderer> orderers = list();
+        if (BddDcshVarOrderOption.isEnabled()) {
+            orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
+                    RelationsKind.CONFIGURED));
+        }
+        if (BddForceVarOrderOption.isEnabled()) {
+            orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
+        }
+        if (BddSlidingWindowVarOrderOption.isEnabled()) {
+            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
+            orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
+        }
+        VarOrder varOrder = initialVarOrder;
+        if (!orderers.isEmpty()) {
+            varOrder = new OrdererVarOrder(varOrder,
+                    (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
+        }
+        return varOrder;
+    }
+
+    /**
+     * Get the initial variable order configured via the simple (non-advanced) option.
+     *
+     * @return The initial variable order.
+     */
+    private VarOrder getSimpleConfiguredInitialOrder() {
         String orderTxt = BddVariableOrderOption.getOrder();
         VarOrder initialVarOrder;
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
