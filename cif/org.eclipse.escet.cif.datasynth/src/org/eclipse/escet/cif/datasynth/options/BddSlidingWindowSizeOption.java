@@ -18,6 +18,9 @@ import org.eclipse.escet.common.app.framework.options.Options;
 
 /** BDD sliding window size option. */
 public class BddSlidingWindowSizeOption extends IntegerOption {
+    /** The default value of the {@link BddSlidingWindowSizeOption} option. */
+    public static final int DEFAULT = 4;
+
     /** Constructor for the {@link BddSlidingWindowSizeOption} class. */
     public BddSlidingWindowSizeOption() {
         super(
@@ -38,7 +41,7 @@ public class BddSlidingWindowSizeOption extends IntegerOption {
                 "SIZE",
 
                 // defaultValue
-                4,
+                DEFAULT,
 
                 // minimumValue
                 1,

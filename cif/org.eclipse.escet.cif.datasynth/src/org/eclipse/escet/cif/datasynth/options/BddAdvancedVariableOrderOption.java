@@ -18,6 +18,9 @@ import org.eclipse.escet.common.app.framework.options.StringOption;
 
 /** BDD advanced variable order and domain interleaving option. */
 public class BddAdvancedVariableOrderOption extends StringOption {
+    /** The default value of the {@link BddAdvancedVariableOrderOption} option. */
+    public static final String DEFAULT = "default";
+
     /** Constructor for the {@link BddAdvancedVariableOrderOption} class. */
     public BddAdvancedVariableOrderOption() {
         super(
@@ -38,7 +41,7 @@ public class BddAdvancedVariableOrderOption extends StringOption {
                 "ORDER",
 
                 // defaultValue
-                "default",
+                DEFAULT,
 
                 // emptyAsNull
                 false,

@@ -18,6 +18,9 @@ import org.eclipse.escet.common.app.framework.options.Options;
 
 /** BDD DCSH variable ordering option. */
 public class BddDcshVarOrderOption extends BooleanOption {
+    /** The default value of the {@link BddDcshVarOrderOption} option. */
+    public static final boolean DEFAULT = false;
+
     /** Constructor for the {@link BddDcshVarOrderOption} class. */
     public BddDcshVarOrderOption() {
         super(
@@ -38,7 +41,7 @@ public class BddDcshVarOrderOption extends BooleanOption {
                 "BOOL",
 
                 // defaultValue
-                false,
+                DEFAULT,
 
                 // showInDialog
                 true,

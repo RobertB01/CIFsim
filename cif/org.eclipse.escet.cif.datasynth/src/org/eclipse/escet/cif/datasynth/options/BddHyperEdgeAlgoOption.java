@@ -19,6 +19,9 @@ import org.eclipse.escet.common.app.framework.options.Options;
 
 /** BDD hyper-edge creation algorithm option. */
 public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
+    /** The default value of the {@link BddHyperEdgeAlgoOption} option. */
+    public static final BddHyperEdgeAlgo DEFAULT = BddHyperEdgeAlgo.LEGACY;
+
     /** Constructor for the {@link BddHyperEdgeAlgoOption} class. */
     public BddHyperEdgeAlgoOption() {
         super(
@@ -40,7 +43,7 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
                 "ALGO",
 
                 // defaultValue
-                BddHyperEdgeAlgo.LEGACY,
+                DEFAULT,
 
                 // showInDialog
                 true,
