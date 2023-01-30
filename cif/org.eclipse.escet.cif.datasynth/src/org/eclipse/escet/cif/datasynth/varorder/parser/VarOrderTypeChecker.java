@@ -24,8 +24,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
+import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
@@ -84,6 +86,10 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
 
     @Override
     protected VarOrder transRoot(List<VarOrderOrOrdererInstance> astInstances) {
+        // Make sure simple and advanced options are not mixed.
+        checkSimpleAndAdvancedOptionsMix();
+
+        // Process the advanced option.
         Assert.check(!astInstances.isEmpty());
         VarOrder order = checkVarOrder(first(astInstances));
         if (astInstances.size() == 1) {
@@ -495,6 +501,32 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
             default:
                 addError(fmt("Unknown variable orderer \"%s\".", name), astOrderer.name.position);
                 throw new SemanticException();
+        }
+    }
+
+    /**
+     * Check whether simple options and advanced options for configuring the BDD variable order are mixed.
+     *
+     * @throws InvalidOptionException If the options are mixed.
+     */
+    private void checkSimpleAndAdvancedOptionsMix() {
+        boolean simpleInitialOrderDefault = BddVariableOrderOption.getOrder().equals(BddVariableOrderOption.DEFAULT);
+        boolean simpleDcshDefault = BddDcshVarOrderOption.isEnabled() == BddDcshVarOrderOption.DEFAULT;
+        boolean simpleForceDefault = BddForceVarOrderOption.isEnabled() == BddForceVarOrderOption.DEFAULT;
+        boolean simpleSlidWinDefault = BddSlidingWindowVarOrderOption
+                .isEnabled() == BddSlidingWindowVarOrderOption.DEFAULT;
+        boolean simpleSlidWinSizeDefault = BddSlidingWindowSizeOption.getMaxLen() == BddSlidingWindowSizeOption.DEFAULT;
+        boolean simpleRelationsKindDefault = BddHyperEdgeAlgoOption.getAlgo() == BddHyperEdgeAlgoOption.DEFAULT;
+        boolean simpleDefault = simpleInitialOrderDefault && simpleDcshDefault && simpleForceDefault
+                && simpleSlidWinDefault && simpleSlidWinSizeDefault && simpleRelationsKindDefault;
+
+        boolean advancedDefault = BddAdvancedVariableOrderOption.getOrder()
+                .equals(BddAdvancedVariableOrderOption.DEFAULT);
+
+        if (!simpleDefault && !advancedDefault) {
+            throw new InvalidOptionException(
+                    "The BDD variable order is configured through simple and advanced options, "
+                            + "which is not supported. Use only simple or only advanced options.");
         }
     }
 
