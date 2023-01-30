@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
 import org.eclipse.escet.common.java.PermuteUtils;
 
 /** Sliding window algorithm variable ordering heuristic. */
@@ -29,22 +30,22 @@ public class SlidingWindowVarOrderer implements VarOrderer {
     /** The maximum length of the window. */
     private final int maxLen;
 
-    /** The metric to use to pick the best order. */
-    private final VarOrderMetric metric;
+    /** The kind of metric to use to pick the best order. */
+    private final VarOrderMetricKind metricKind;
 
-    /** The relations to use to compute metric values. */
+    /** The kind of relations to use to compute metric values. */
     private final RelationsKind relationsKind;
 
     /**
      * Constructor for the {@link SlidingWindowVarOrderer} class.
      *
      * @param maxLen The maximum length of the window.
-     * @param metric The metric to use to pick the best order.
-     * @param relationsKind The relations to use to compute metric values.
+     * @param metricKind The kind of metric to use to pick the best order.
+     * @param relationsKind The kind of relations to use to compute metric values.
      */
-    public SlidingWindowVarOrderer(int maxLen, VarOrderMetric metric, RelationsKind relationsKind) {
+    public SlidingWindowVarOrderer(int maxLen, VarOrderMetricKind metricKind, RelationsKind relationsKind) {
         this.maxLen = maxLen;
-        this.metric = metric;
+        this.metricKind = metricKind;
         this.relationsKind = relationsKind;
     }
 
@@ -67,6 +68,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
         }
 
         // Initialize current indices and metric value.
+        VarOrderMetric metric = metricKind.create();
         List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
         int[] curIndices = helper.getNewIndicesForVarOrder(inputOrder);
         double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);

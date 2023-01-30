@@ -25,14 +25,14 @@ public class ReverseVarOrderer implements VarOrderer {
     /** The algorithm to apply. */
     private final VarOrderer algorithm;
 
-    /** The relations to use to compute metric values. */
+    /** The kind of relations to use to compute metric values. */
     private final RelationsKind relationsKind;
 
     /**
      * Constructor for the {@link ReverseVarOrderer} class.
      *
      * @param algorithm The algorithm to apply.
-     * @param relationsKind The relations to use to compute metric values.
+     * @param relationsKind The kind of relations to use to compute metric values.
      */
     public ReverseVarOrderer(VarOrderer algorithm, RelationsKind relationsKind) {
         this.algorithm = algorithm;

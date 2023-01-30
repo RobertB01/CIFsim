@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
 import org.eclipse.escet.common.java.BitSets;
 
 /**
@@ -37,20 +38,20 @@ import org.eclipse.escet.common.java.BitSets;
  * </p>
  */
 public class ForceVarOrderer implements VarOrderer {
-    /** The metric to use to pick the best order. */
-    private final VarOrderMetric metric;
+    /** The kind of metric to use to pick the best order. */
+    private final VarOrderMetricKind metricKind;
 
-    /** The relations to use to compute metric values. */
+    /** The kind of relations to use to compute metric values. */
     private final RelationsKind relationsKind;
 
     /**
      * Constructor for the {@link ForceVarOrderer} class.
      *
-     * @param metric The metric to use to pick the best order.
-     * @param relationsKind The relations to use to compute metric values.
+     * @param metricKind The kind of metric to use to pick the best order.
+     * @param relationsKind The kind of relations to use to compute metric values.
      */
-    public ForceVarOrderer(VarOrderMetric metric, RelationsKind relationsKind) {
-        this.metric = metric;
+    public ForceVarOrderer(VarOrderMetricKind metricKind, RelationsKind relationsKind) {
+        this.metricKind = metricKind;
         this.relationsKind = relationsKind;
     }
 
@@ -102,6 +103,7 @@ public class ForceVarOrderer implements VarOrderer {
         }
 
         // Initialize metric values.
+        VarOrderMetric metric = metricKind.create();
         double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
         double bestMetricValue = curMetricValue;
         if (dbgEnabled) {

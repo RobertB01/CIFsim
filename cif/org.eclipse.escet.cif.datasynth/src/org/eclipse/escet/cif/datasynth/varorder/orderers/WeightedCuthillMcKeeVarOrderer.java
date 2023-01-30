@@ -19,6 +19,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinder;
+import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.WeightedCuthillMcKeeNodeOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
@@ -29,20 +30,20 @@ import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
  * @see WeightedCuthillMcKeeNodeOrderer
  */
 public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
-    /** The pseudo-peripheral node finder to use. */
-    private final PseudoPeripheralNodeFinder nodeFinder;
+    /** The kind of pseudo-peripheral node finder to use. */
+    private final PseudoPeripheralNodeFinderKind nodeFinderKind;
 
-    /** The relations to use to obtain the graph and to compute metric values. */
+    /** The kind of relations to use to obtain the graph and to compute metric values. */
     private final RelationsKind relationsKind;
 
     /**
      * Constructor for the {@link WeightedCuthillMcKeeVarOrderer} class.
      *
-     * @param nodeFinder The pseudo-peripheral node finder to use.
-     * @param relationsKind The relations to use to obtain the graph and to compute metric values.
+     * @param nodeFinderKind The kind of pseudo-peripheral node finder to use.
+     * @param relationsKind The kind of relations to use to obtain the graph and to compute metric values.
      */
-    public WeightedCuthillMcKeeVarOrderer(PseudoPeripheralNodeFinder nodeFinder, RelationsKind relationsKind) {
-        this.nodeFinder = nodeFinder;
+    public WeightedCuthillMcKeeVarOrderer(PseudoPeripheralNodeFinderKind nodeFinderKind, RelationsKind relationsKind) {
+        this.nodeFinderKind = nodeFinderKind;
         this.relationsKind = relationsKind;
     }
 
@@ -60,6 +61,7 @@ public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
         }
 
         // Apply algorithm.
+        PseudoPeripheralNodeFinder nodeFinder = nodeFinderKind.create();
         List<Node> order = new WeightedCuthillMcKeeNodeOrderer(nodeFinder).orderNodes(graph);
 
         // Debug output after applying the algorithm.

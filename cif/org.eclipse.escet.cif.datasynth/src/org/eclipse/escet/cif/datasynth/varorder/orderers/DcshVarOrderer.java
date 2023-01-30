@@ -15,9 +15,9 @@ package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinder;
+import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
 
 /**
  * DSM-based Cuthill-McKee/Sloan variable ordering Heuristic (DCSH).
@@ -32,21 +32,23 @@ public class DcshVarOrderer extends ChoiceVarOrderer {
     /**
      * Constructor for the {@link DcshVarOrderer} class.
      *
-     * @param nodeFinder The pseudo-peripheral node finder to use.
-     * @param metric The metric to use to pick the best order.
-     * @param relationsKind The relations to use to compute metric values.
+     * @param nodeFinderKind The kind of pseudo-peripheral node finder to use.
+     * @param metricKind The kind of metric to use to pick the best order.
+     * @param relationsKind The kind of relations to use to compute metric values.
      */
-    public DcshVarOrderer(PseudoPeripheralNodeFinder nodeFinder, VarOrderMetric metric, RelationsKind relationsKind) {
+    public DcshVarOrderer(PseudoPeripheralNodeFinderKind nodeFinderKind, VarOrderMetricKind metricKind,
+            RelationsKind relationsKind)
+    {
         super("DCSH", list(
                 // First algorithm.
-                new WeightedCuthillMcKeeVarOrderer(nodeFinder, relationsKind),
+                new WeightedCuthillMcKeeVarOrderer(nodeFinderKind, relationsKind),
                 // Second algorithm.
                 new SloanVarOrderer(relationsKind),
                 // Reverse first algorithm.
-                new ReverseVarOrderer(new WeightedCuthillMcKeeVarOrderer(nodeFinder, relationsKind), relationsKind),
+                new ReverseVarOrderer(new WeightedCuthillMcKeeVarOrderer(nodeFinderKind, relationsKind), relationsKind),
                 // Reverse second algorithm.
                 new ReverseVarOrderer(new SloanVarOrderer(relationsKind), relationsKind)),
                 // Other settings.
-                metric, relationsKind);
+                metricKind, relationsKind);
     }
 }

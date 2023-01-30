@@ -34,7 +34,7 @@ public class SloanVarOrderer implements VarOrderer {
     /**
      * Constructor for the {@link SloanVarOrderer} class.
      *
-     * @param relationsKind The relations to use to obtain the graph and to compute metric values.
+     * @param relationsKind The kind of relations to use to obtain the graph and to compute metric values.
      */
     public SloanVarOrderer(RelationsKind relationsKind) {
         this.relationsKind = relationsKind;

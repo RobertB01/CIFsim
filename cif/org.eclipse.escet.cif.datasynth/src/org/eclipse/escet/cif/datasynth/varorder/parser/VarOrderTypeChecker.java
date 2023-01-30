@@ -32,12 +32,9 @@ import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.GeorgeLiuPseudoPeripheralNodeFinder;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.WesMetric;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.ChoiceVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.DcshVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.ForceVarOrderer;
@@ -296,7 +293,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                 if (relations == null) {
                     relations = RelationsKind.CONFIGURED;
                 }
-                return new DcshVarOrderer(nodeFinder.create(), metric.create(), relations);
+                return new DcshVarOrderer(nodeFinder, metric, relations);
             }
 
             case "force": {
@@ -325,7 +322,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                 if (relations == null) {
                     relations = RelationsKind.CONFIGURED;
                 }
-                return new ForceVarOrderer(metric.create(), relations);
+                return new ForceVarOrderer(metric, relations);
             }
 
             case "slidwin": {
@@ -362,7 +359,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                 if (relations == null) {
                     relations = RelationsKind.CONFIGURED;
                 }
-                return new SlidingWindowVarOrderer(size, metric.create(), relations);
+                return new SlidingWindowVarOrderer(size, metric, relations);
             }
 
             case "sloan": {
@@ -411,7 +408,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                 if (relations == null) {
                     relations = RelationsKind.CONFIGURED;
                 }
-                return new WeightedCuthillMcKeeVarOrderer(nodeFinder.create(), relations);
+                return new WeightedCuthillMcKeeVarOrderer(nodeFinder, relations);
             }
 
             // Composite variable orderers.
@@ -460,7 +457,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                 if (relations == null) {
                     relations = RelationsKind.CONFIGURED;
                 }
-                return new ChoiceVarOrderer(orderers, metric.create(), relations);
+                return new ChoiceVarOrderer(orderers, metric, relations);
             }
 
             case "reverse": {
@@ -539,15 +536,15 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         VarOrder initialVarOrder = getSimpleConfiguredInitialOrder();
         List<VarOrderer> orderers = list();
         if (BddDcshVarOrderOption.isEnabled()) {
-            orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
+            orderers.add(new DcshVarOrderer(PseudoPeripheralNodeFinderKind.GEORGE_LIU, VarOrderMetricKind.WES,
                     RelationsKind.CONFIGURED));
         }
         if (BddForceVarOrderOption.isEnabled()) {
-            orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
+            orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED));
         }
         if (BddSlidingWindowVarOrderOption.isEnabled()) {
             int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
+            orderers.add(new SlidingWindowVarOrderer(maxLen, VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED));
         }
         VarOrder varOrder = initialVarOrder;
         if (!orderers.isEmpty()) {
