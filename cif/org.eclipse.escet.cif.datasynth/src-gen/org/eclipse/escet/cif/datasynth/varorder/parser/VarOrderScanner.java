@@ -57,7 +57,7 @@ public final class VarOrderScanner extends Scanner {
         "PAROPENTK=\"\\(\"", // 4
         "SQOPENTK=\"\\[\"", // 5
         "SQCLOSETK=\"\\]\"", // 6
-        "IDENTIFIERTK=\"[a-zA-Z][a-zA-Z\\-]*[a-zA-Z]\"", // 7
+        "IDENTIFIERTK=\"[a-zA-Z]([a-zA-Z\\-]*[a-zA-Z])?\"", // 7
         "NUMBERTK=\"\\-?(0|[1-9][0-9]*)\"", // 8
         "STRINGTK=\"\\\"([^\\\\\"\\n]|\\[nt\\\\\"])*\\\"\"", // 9
         "\"[ \\t\\r\\n]+\"", // 10
@@ -312,6 +312,10 @@ public final class VarOrderScanner extends Scanner {
             case 'x':
             case 'y':
             case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 7;
                 state = 8;
                 break;
             case '0':
@@ -409,8 +413,6 @@ public final class VarOrderScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken8(int codePoint) {
         switch (codePoint) {
-            case '-':
-                break;
             case 'A':
             case 'B':
             case 'C':
@@ -467,6 +469,8 @@ public final class VarOrderScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 7;
+                break;
+            case '-':
                 state = 16;
                 break;
             default:
@@ -695,9 +699,6 @@ public final class VarOrderScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken16(int codePoint) {
         switch (codePoint) {
-            case '-':
-                state = 8;
-                break;
             case 'A':
             case 'B':
             case 'C':
@@ -754,6 +755,9 @@ public final class VarOrderScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 7;
+                state = 8;
+                break;
+            case '-':
                 break;
             default:
                 return acceptOrError();

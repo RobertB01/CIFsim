@@ -24,7 +24,7 @@
   SQCLOSETK  = "\]";
 
   // Literals.
-  IDENTIFIERTK     = "[a-zA-Z][a-zA-Z\-]*[a-zA-Z]"
+  IDENTIFIERTK     = "[a-zA-Z]([a-zA-Z\-]*[a-zA-Z])?"
                      [an identifier];
   NUMBERTK         = "\-?(0|[1-9][0-9]*)"
                      [an integer literal];
