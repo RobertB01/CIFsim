@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orders;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,5 +92,10 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
 
         // Return non-interleaved variable order.
         return getNonInterleavedOrder(orderedVariables);
+    }
+
+    @Override
+    public String toString() {
+        return fmt("%s -> %s", initialOrder, orderer);
     }
 }

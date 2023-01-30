@@ -207,4 +207,10 @@ public class ForceVarOrderer implements VarOrderer {
             return fmt("(%s, %s)", idx, location);
         }
     }
+
+    @Override
+    public String toString() {
+        return fmt("force(metric=%s, relations=%s)", VarOrderer.enumValueToParserArg(metricKind),
+                VarOrderer.enumValueToParserArg(relationsKind));
+    }
 }

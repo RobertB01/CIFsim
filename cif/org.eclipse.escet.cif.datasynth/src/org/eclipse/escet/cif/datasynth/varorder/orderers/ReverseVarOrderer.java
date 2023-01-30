@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -62,5 +64,11 @@ public class ReverseVarOrderer implements VarOrderer {
 
         // Return the resulting variable order.
         return order;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("reverse(relations=%s, orderer=%s)", VarOrderer.enumValueToParserArg(relationsKind),
+                algorithm.toString());
     }
 }

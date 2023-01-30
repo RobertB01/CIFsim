@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.datasynth.varorder.orders;
 
 import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Pair.pair;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,5 +53,10 @@ public class ReverseVarOrder extends NonInterleavedVarOrder {
         List<Pair<SynthesisVariable, Integer>> reverseOrder = reverse(orderToReverse).stream()
                 .map(p -> pair(p.left, maxGroupNr - p.right)).collect(Collectors.toList());
         return reverseOrder;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("reverse(order=%s)", order);
     }
 }

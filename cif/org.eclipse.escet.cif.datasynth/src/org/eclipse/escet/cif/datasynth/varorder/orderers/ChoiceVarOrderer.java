@@ -13,8 +13,11 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.BitSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
@@ -111,5 +114,12 @@ public class ChoiceVarOrderer implements VarOrderer {
         // Return the best variable order.
         Assert.notNull(bestOrder);
         return bestOrder;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("or(metric=%s, relations=%s, choices=[%s])", VarOrderer.enumValueToParserArg(metricKind),
+                VarOrderer.enumValueToParserArg(relationsKind),
+                algorithms.stream().map(VarOrderer::toString).collect(Collectors.joining(", ")));
     }
 }

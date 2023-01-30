@@ -44,4 +44,22 @@ public class CustomVarOrder extends NonInterleavedVarOrder {
         // Return the custom variable order.
         return order;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder txt = new StringBuilder();
+        txt.append("custom(order=\"");
+        boolean first = true;
+        int cur = 0;
+        for (Pair<SynthesisVariable, Integer> var: order) {
+            if (!first) {
+                txt.append((cur == var.right) ? "," : ";");
+            }
+            first = false;
+            txt.append(var.left.rawName);
+            cur = var.right;
+        }
+        txt.append("\")");
+        return txt.toString();
+    }
 }

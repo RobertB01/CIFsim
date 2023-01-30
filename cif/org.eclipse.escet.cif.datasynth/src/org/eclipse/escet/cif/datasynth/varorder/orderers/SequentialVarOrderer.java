@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
@@ -63,5 +64,10 @@ public class SequentialVarOrderer implements VarOrderer {
 
         // Return the resulting variable order.
         return order;
+    }
+
+    @Override
+    public String toString() {
+        return algorithms.stream().map(VarOrderer::toString).collect(Collectors.joining(" -> "));
     }
 }

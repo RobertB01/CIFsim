@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
@@ -63,5 +65,10 @@ public class SloanVarOrderer implements VarOrderer {
 
         // Return the resulting order.
         return helper.reorderForNodeOrder(order);
+    }
+
+    @Override
+    public String toString() {
+        return fmt("sloan(relations=%s)", VarOrderer.enumValueToParserArg(relationsKind));
     }
 }

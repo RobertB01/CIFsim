@@ -120,4 +120,10 @@ public class SlidingWindowVarOrderer implements VarOrderer {
         // Return the resulting order.
         return helper.reorderForNewIndices(curIndices);
     }
+
+    @Override
+    public String toString() {
+        return fmt("slidwin(size=%d, metric=%s, relations=%s)", maxLen, VarOrderer.enumValueToParserArg(metricKind),
+                VarOrderer.enumValueToParserArg(relationsKind));
+    }
 }

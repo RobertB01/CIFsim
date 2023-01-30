@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
@@ -71,5 +73,11 @@ public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
 
         // Return the resulting order.
         return helper.reorderForNodeOrder(order);
+    }
+
+    @Override
+    public String toString() {
+        return fmt("weighted-cm(node-finder=%s, relations=%s)", VarOrderer.enumValueToParserArg(nodeFinderKind),
+                VarOrderer.enumValueToParserArg(relationsKind));
     }
 }

@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
@@ -29,6 +30,15 @@ import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
  * </p>
  */
 public class DcshVarOrderer extends ChoiceVarOrderer {
+    /** The kind of pseudo-peripheral node finder to use. */
+    private final PseudoPeripheralNodeFinderKind nodeFinderKind;
+
+    /** The kind of metric to use to pick the best order. */
+    private final VarOrderMetricKind metricKind;
+
+    /** The kind of relations to use to compute metric values. */
+    private final RelationsKind relationsKind;
+
     /**
      * Constructor for the {@link DcshVarOrderer} class.
      *
@@ -50,5 +60,15 @@ public class DcshVarOrderer extends ChoiceVarOrderer {
                 new ReverseVarOrderer(new SloanVarOrderer(relationsKind), relationsKind)),
                 // Other settings.
                 metricKind, relationsKind);
+
+        this.nodeFinderKind = nodeFinderKind;
+        this.metricKind = metricKind;
+        this.relationsKind = relationsKind;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("dcsh(node-finder=%s, metric=%s, relations=%s)", VarOrderer.enumValueToParserArg(nodeFinderKind),
+                VarOrderer.enumValueToParserArg(metricKind), VarOrderer.enumValueToParserArg(relationsKind));
     }
 }
