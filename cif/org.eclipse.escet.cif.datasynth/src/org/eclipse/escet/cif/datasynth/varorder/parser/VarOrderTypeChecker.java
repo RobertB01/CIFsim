@@ -337,6 +337,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                             if (size < 1 || size > 12) {
                                 reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
                                         "the value must be in the range [1..12].");
+                                throw new SemanticException();
                             }
                             break;
                         case "metric":
@@ -517,9 +518,9 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         boolean simpleSlidWinDefault = BddSlidingWindowVarOrderOption
                 .isEnabled() == BddSlidingWindowVarOrderOption.DEFAULT;
         boolean simpleSlidWinSizeDefault = BddSlidingWindowSizeOption.getMaxLen() == BddSlidingWindowSizeOption.DEFAULT;
-        boolean simpleRelationsKindDefault = BddHyperEdgeAlgoOption.getAlgo() == BddHyperEdgeAlgoOption.DEFAULT;
+        boolean simpleHyperEdgeAlgoDefault = BddHyperEdgeAlgoOption.getAlgo() == BddHyperEdgeAlgoOption.DEFAULT;
         boolean simpleDefault = simpleInitialOrderDefault && simpleDcshDefault && simpleForceDefault
-                && simpleSlidWinDefault && simpleSlidWinSizeDefault && simpleRelationsKindDefault;
+                && simpleSlidWinDefault && simpleSlidWinSizeDefault && simpleHyperEdgeAlgoDefault;
 
         boolean advancedDefault = BddAdvancedVariableOrderOption.getOrder()
                 .equals(BddAdvancedVariableOrderOption.DEFAULT);
@@ -749,7 +750,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param missingArgName The name of the missing argument.
      */
     private void reportMissingArgument(Token name, VarOrderOrOrdererKind kind, String missingArgName) {
-        addError(fmt("The \"%s\" %s is missing its mandatory \"%s\" argument.", name,
+        addError(fmt("The \"%s\" %s is missing its mandatory \"%s\" argument.", name.text,
                 kind.toString().toLowerCase(Locale.US), missingArgName), name.position);
     }
 
