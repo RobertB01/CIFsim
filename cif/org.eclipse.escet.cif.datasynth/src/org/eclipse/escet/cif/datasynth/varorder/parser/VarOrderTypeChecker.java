@@ -87,6 +87,16 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         checkSimpleAndAdvancedOptionsMix();
 
         // Process the advanced option.
+        return checkVarOrder(astInstances);
+    }
+
+    /**
+     * Type check a variable order.
+     *
+     * @param astInstances The variable order instance AST objects.
+     * @return The variable order.
+     */
+    private VarOrder checkVarOrder(List<VarOrderOrOrdererInstance> astInstances) {
         Assert.check(!astInstances.isEmpty());
         VarOrder order = checkVarOrder(first(astInstances));
         if (astInstances.size() == 1) {
@@ -110,8 +120,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
             if (multiInstance.instances.size() == 1) {
                 return checkVarOrder(first(multiInstance.instances));
             } else {
-                addError("Expected a single variable order.", astInstance.position);
-                throw new SemanticException();
+                return checkVarOrder(multiInstance.instances);
             }
         }
 
