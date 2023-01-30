@@ -334,6 +334,10 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                         case "size":
                             checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, size);
                             size = checkIntArg(name, VarOrderOrOrdererKind.ORDERER, arg);
+                            if (size < 1 || size > 12) {
+                                reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
+                                        "the value must be in the range [1..12].");
+                            }
                             break;
                         case "metric":
                             checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);

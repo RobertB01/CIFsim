@@ -23,11 +23,12 @@ import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PermuteUtils;
 
 /** Sliding window algorithm variable ordering heuristic. */
 public class SlidingWindowVarOrderer implements VarOrderer {
-    /** The maximum length of the window. */
+    /** The maximum length of the window. Is in the range [1..12]. */
     private final int maxLen;
 
     /** The kind of metric to use to pick the best order. */
@@ -39,7 +40,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
     /**
      * Constructor for the {@link SlidingWindowVarOrderer} class.
      *
-     * @param maxLen The maximum length of the window.
+     * @param maxLen The maximum length of the window. Must be in the range [1..12].
      * @param metricKind The kind of metric to use to pick the best order.
      * @param relationsKind The kind of relations to use to compute metric values.
      */
@@ -47,6 +48,8 @@ public class SlidingWindowVarOrderer implements VarOrderer {
         this.maxLen = maxLen;
         this.metricKind = metricKind;
         this.relationsKind = relationsKind;
+        Assert.check(maxLen >= 1);
+        Assert.check(maxLen <= 12);
     }
 
     @Override
