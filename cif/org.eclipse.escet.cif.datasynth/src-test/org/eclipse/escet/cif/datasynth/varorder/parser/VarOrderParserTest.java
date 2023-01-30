@@ -76,6 +76,26 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testWhitespace() {
+        testValid("  model \t \n ( ) ", "model");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testDefault() {
+        testValid("default", "sorted -> force(metric=total-span, relations=configured) -> "
+                + "slidwin(size=4, metric=total-span, relations=configured)");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testModelValid() {
+        testValid("model", "model");
+        testValid("model()", "model");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testModelInvalid() {
         testInvalid("model(a=1)",
                 "Semantic error at line 1, column 7: The \"model\" order does not support the \"a\" argument.");
@@ -83,9 +103,26 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testSortedValid() {
+        testValid("sorted", "sorted");
+        testValid("sorted()", "sorted");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testSortedInvalid() {
         testInvalid("sorted(a=1)",
                 "Semantic error at line 1, column 8: The \"sorted\" order does not support the \"a\" argument.");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testRandomValid() {
+        testValid("random", "random");
+        testValid("random()", "random");
+        testValid("random(seed=5)", "random(seed=5)");
+        testValid("random(seed=0)", "random(seed=0)");
+        testValid("random(seed=-1)", "random(seed=-1)");
     }
 
     @Test
@@ -104,6 +141,30 @@ public class VarOrderParserTest {
                 "Semantic error at line 1, column 16: The \"random\" order has a duplicate \"seed\" argument.");
         testInvalid("random(a=1)",
                 "Semantic error at line 1, column 8: The \"random\" order does not support the \"a\" argument.");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testCustomValid() {
+        Specification spec = newSpecification();
+        InputVariable va = newInputVariable("a", null, newIntType(0, null, 1));
+        InputVariable vb = newInputVariable("b", null, newIntType(0, null, 1));
+        InputVariable vc = newInputVariable("c", null, newIntType(0, null, 1));
+        spec.getDeclarations().add(va);
+        spec.getDeclarations().add(vb);
+        spec.getDeclarations().add(vc);
+        SynthesisVariable a = new SynthesisInputVariable(va, newIntType(0, null, 1), 2, 0, 1);
+        SynthesisVariable b = new SynthesisInputVariable(vb, newIntType(0, null, 1), 2, 0, 1);
+        SynthesisVariable c = new SynthesisInputVariable(vc, newIntType(0, null, 1), 2, 0, 1);
+        List<SynthesisVariable> vars = list(a, b, c);
+
+        testValid("custom(order=\"a,b,c\")", vars, "custom(order=\"a,b,c\")");
+        testValid("custom(order=\"c,a,b\")", vars, "custom(order=\"c,a,b\")");
+        testValid("custom(order=\"c,b,a\")", vars, "custom(order=\"c,b,a\")");
+
+        testValid("custom(order=\"a;b,c\")", vars, "custom(order=\"a;b,c\")");
+        testValid("custom(order=\"c,a;b\")", vars, "custom(order=\"c,a;b\")");
+        testValid("custom(order=\"c;b;a\")", vars, "custom(order=\"c;b;a\")");
     }
 
     @Test
@@ -143,6 +204,14 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testReverseOrderValid() {
+        testValid("reverse(order=model)", "reverse(order=model)");
+        testValid("reverse(order=sorted)", "reverse(order=sorted)");
+        testValid("reverse(order=(model -> sloan))", "reverse(order=model -> sloan(relations=configured))");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testReverseOrderInvalid() {
         testInvalid("reverse", "Semantic error at line 1, column 1: "
                 + "The \"reverse\" order is missing its mandatory \"order\" argument.");
@@ -176,6 +245,12 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testEnumValid() {
+        testValid("model -> sloan(relations=linearized)", "model -> sloan(relations=linearized)");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testEnumsInvalid() {
         testInvalid("model -> dcsh(node-finder=1)", "Semantic error at line 1, column 15: The \"dcsh\" orderer has "
                 + "an unsupported value for the \"node-finder\" argument: the value must be a node finder algorithm.");
@@ -189,6 +264,29 @@ public class VarOrderParserTest {
         testInvalid("model -> dcsh(node-finder=(model -> dcsh))", "Semantic error at line 1, column 15: "
                 + "The \"dcsh\" orderer has an unsupported value for the \"node-finder\" argument: the value must be a "
                 + "node finder algorithm.");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testDcshValid() {
+        testValid("model -> dcsh", "model -> dcsh(node-finder=george-liu, metric=wes, relations=configured)");
+        testValid("model -> dcsh()", "model -> dcsh(node-finder=george-liu, metric=wes, relations=configured)");
+        testValid("model -> dcsh(node-finder=george-liu)",
+                "model -> dcsh(node-finder=george-liu, metric=wes, relations=configured)");
+        testValid("model -> dcsh(node-finder=sloan)",
+                "model -> dcsh(node-finder=sloan, metric=wes, relations=configured)");
+        testValid("model -> dcsh(metric=total-span)",
+                "model -> dcsh(node-finder=george-liu, metric=total-span, relations=configured)");
+        testValid("model -> dcsh(metric=wes)",
+                "model -> dcsh(node-finder=george-liu, metric=wes, relations=configured)");
+        testValid("model -> dcsh(relations=legacy)",
+                "model -> dcsh(node-finder=george-liu, metric=wes, relations=legacy)");
+        testValid("model -> dcsh(relations=linearized)",
+                "model -> dcsh(node-finder=george-liu, metric=wes, relations=linearized)");
+        testValid("model -> dcsh(relations=configured)",
+                "model -> dcsh(node-finder=george-liu, metric=wes, relations=configured)");
+        testValid("model -> dcsh(node-finder=sloan, metric=total-span, relations=linearized)",
+                "model -> dcsh(node-finder=sloan, metric=total-span, relations=linearized)");
     }
 
     @Test
@@ -218,6 +316,20 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testForceValid() {
+        testValid("model -> force", "model -> force(metric=total-span, relations=configured)");
+        testValid("model -> force()", "model -> force(metric=total-span, relations=configured)");
+        testValid("model -> force(metric=total-span)", "model -> force(metric=total-span, relations=configured)");
+        testValid("model -> force(metric=wes)", "model -> force(metric=wes, relations=configured)");
+        testValid("model -> force(relations=legacy)", "model -> force(metric=total-span, relations=legacy)");
+        testValid("model -> force(relations=linearized)", "model -> force(metric=total-span, relations=linearized)");
+        testValid("model -> force(relations=configured)", "model -> force(metric=total-span, relations=configured)");
+        testValid("model -> force(metric=wes, relations=linearized)",
+                "model -> force(metric=wes, relations=linearized)");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testForceInvalid() {
         testInvalid("model -> force(metric=total-span, metric=wes)",
                 "Semantic error at line 1, column 35: The \"force\" orderer has a duplicate \"metric\" argument.");
@@ -233,6 +345,26 @@ public class VarOrderParserTest {
                         + "the value must be a kind of relations.");
         testInvalid("model -> force(a=1)",
                 "Semantic error at line 1, column 16: The \"force\" orderer does not support the \"a\" argument.");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testSlidWinValid() {
+        testValid("model -> slidwin", "model -> slidwin(size=4, metric=total-span, relations=configured)");
+        testValid("model -> slidwin()", "model -> slidwin(size=4, metric=total-span, relations=configured)");
+        testValid("model -> slidwin(size=1)", "model -> slidwin(size=1, metric=total-span, relations=configured)");
+        testValid("model -> slidwin(size=12)", "model -> slidwin(size=12, metric=total-span, relations=configured)");
+        testValid("model -> slidwin(metric=total-span)",
+                "model -> slidwin(size=4, metric=total-span, relations=configured)");
+        testValid("model -> slidwin(metric=wes)", "model -> slidwin(size=4, metric=wes, relations=configured)");
+        testValid("model -> slidwin(relations=legacy)",
+                "model -> slidwin(size=4, metric=total-span, relations=legacy)");
+        testValid("model -> slidwin(relations=linearized)",
+                "model -> slidwin(size=4, metric=total-span, relations=linearized)");
+        testValid("model -> slidwin(relations=configured)",
+                "model -> slidwin(size=4, metric=total-span, relations=configured)");
+        testValid("model -> slidwin(size=5, metric=wes, relations=linearized)",
+                "model -> slidwin(size=5, metric=wes, relations=linearized)");
     }
 
     @Test
@@ -282,6 +414,16 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testSloanValid() {
+        testValid("model -> sloan", "model -> sloan(relations=configured)");
+        testValid("model -> sloan()", "model -> sloan(relations=configured)");
+        testValid("model -> sloan(relations=legacy)", "model -> sloan(relations=legacy)");
+        testValid("model -> sloan(relations=linearized)", "model -> sloan(relations=linearized)");
+        testValid("model -> sloan(relations=configured)", "model -> sloan(relations=configured)");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testSloanInvalid() {
         testInvalid("model -> sloan(relations=legacy, relations=linearized)",
                 "Semantic error at line 1, column 34: The \"sloan\" orderer has a duplicate \"relations\" argument.");
@@ -291,6 +433,25 @@ public class VarOrderParserTest {
                         + "the value must be a kind of relations.");
         testInvalid("model -> sloan(a=1)",
                 "Semantic error at line 1, column 16: The \"sloan\" orderer does not support the \"a\" argument.");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testWeightedCmValid() {
+        testValid("model -> weighted-cm", "model -> weighted-cm(node-finder=george-liu, relations=configured)");
+        testValid("model -> weighted-cm()", "model -> weighted-cm(node-finder=george-liu, relations=configured)");
+        testValid("model -> weighted-cm(node-finder=george-liu)",
+                "model -> weighted-cm(node-finder=george-liu, relations=configured)");
+        testValid("model -> weighted-cm(node-finder=sloan)",
+                "model -> weighted-cm(node-finder=sloan, relations=configured)");
+        testValid("model -> weighted-cm(relations=legacy)",
+                "model -> weighted-cm(node-finder=george-liu, relations=legacy)");
+        testValid("model -> weighted-cm(relations=linearized)",
+                "model -> weighted-cm(node-finder=george-liu, relations=linearized)");
+        testValid("model -> weighted-cm(relations=configured)",
+                "model -> weighted-cm(node-finder=george-liu, relations=configured)");
+        testValid("model -> weighted-cm(node-finder=sloan, relations=linearized)",
+                "model -> weighted-cm(node-finder=sloan, relations=linearized)");
     }
 
     @Test
@@ -312,6 +473,38 @@ public class VarOrderParserTest {
                         + "the value must be a kind of relations.");
         testInvalid("model -> weighted-cm(a=1)", "Semantic error at line 1, column 22: "
                 + "The \"weighted-cm\" orderer does not support the \"a\" argument.");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testChoiceOrdererValid() {
+        testValid("model -> or(choices=[force, dcsh])",
+                "model -> or(metric=wes, relations=configured, "
+                        + "choices=[force(metric=total-span, relations=configured), "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured)])");
+        testValid("model -> or(choices=[(force -> dcsh), (dcsh -> force)])",
+                "model -> or(metric=wes, relations=configured, "
+                        + "choices=[force(metric=total-span, relations=configured) -> "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured), "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured) -> "
+                        + "force(metric=total-span, relations=configured)])");
+        testValid("model -> or(choices=[sloan, sloan], metric=total-span)",
+                "model -> or(metric=total-span, relations=configured, "
+                        + "choices=[sloan(relations=configured), sloan(relations=configured)])");
+        testValid("model -> or(choices=[sloan, sloan], metric=wes)", "model -> or(metric=wes, relations=configured, "
+                + "choices=[sloan(relations=configured), sloan(relations=configured)])");
+        testValid("model -> or(choices=[sloan, sloan], relations=legacy)", "model -> or(metric=wes, relations=legacy, "
+                + "choices=[sloan(relations=configured), sloan(relations=configured)])");
+        testValid("model -> or(choices=[sloan, sloan], relations=linearized)",
+                "model -> or(metric=wes, relations=linearized, "
+                        + "choices=[sloan(relations=configured), sloan(relations=configured)])");
+        testValid("model -> or(choices=[sloan, sloan], relations=configured)",
+                "model -> or(metric=wes, relations=configured, "
+                        + "choices=[sloan(relations=configured), sloan(relations=configured)])");
+        testValid("model -> or(choices=[force, dcsh], metric=total-span, relations=linearized)",
+                "model -> or(metric=total-span, relations=linearized, "
+                        + "choices=[force(metric=total-span, relations=configured), "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured)])");
     }
 
     @Test
@@ -349,6 +542,21 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testReverseOrdererValid() {
+        testValid("model -> reverse(orderer=sloan)",
+                "model -> reverse(relations=configured, orderer=sloan(relations=configured))");
+        testValid("model -> reverse(orderer=(sloan -> sloan))", "model -> reverse(relations=configured, "
+                + "orderer=sloan(relations=configured) -> sloan(relations=configured))");
+        testValid("model -> reverse(orderer=sloan, relations=legacy)",
+                "model -> reverse(relations=legacy, orderer=sloan(relations=configured))");
+        testValid("model -> reverse(orderer=sloan, relations=linearized)",
+                "model -> reverse(relations=linearized, orderer=sloan(relations=configured))");
+        testValid("model -> reverse(orderer=sloan, relations=configured)",
+                "model -> reverse(relations=configured, orderer=sloan(relations=configured))");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testReverseOrdererInvalid() {
         testInvalid("model -> reverse", "Semantic error at line 1, column 10: "
                 + "The \"reverse\" orderer is missing its mandatory \"orderer\" argument.");
@@ -372,6 +580,33 @@ public class VarOrderParserTest {
                         + "the value must be a kind of relations.");
         testInvalid("model -> reverse(a=1)",
                 "Semantic error at line 1, column 18: The \"reverse\" orderer does not support the \"a\" argument.");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testExtraComma() {
+        testValid("random(seed=5,)", "random(seed=5)");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testParentheses() {
+        testValid("sorted -> dcsh -> force -> slidwin",
+                "sorted -> dcsh(node-finder=george-liu, metric=wes, relations=configured) -> "
+                        + "force(metric=total-span, relations=configured) -> "
+                        + "slidwin(size=4, metric=total-span, relations=configured)");
+        testValid("(sorted -> dcsh -> force -> slidwin)",
+                "sorted -> dcsh(node-finder=george-liu, metric=wes, relations=configured) -> "
+                        + "force(metric=total-span, relations=configured) -> "
+                        + "slidwin(size=4, metric=total-span, relations=configured)");
+        testValid("sorted -> (dcsh -> force) -> slidwin",
+                "sorted -> dcsh(node-finder=george-liu, metric=wes, relations=configured) -> "
+                        + "force(metric=total-span, relations=configured) -> "
+                        + "slidwin(size=4, metric=total-span, relations=configured)");
+        testValid("(sorted) -> (dcsh) -> (force) -> (slidwin)",
+                "sorted -> dcsh(node-finder=george-liu, metric=wes, relations=configured) -> "
+                        + "force(metric=total-span, relations=configured) -> "
+                        + "slidwin(size=4, metric=total-span, relations=configured)");
     }
 
     @Test
@@ -436,6 +671,40 @@ public class VarOrderParserTest {
         Options.set(BddAdvancedVariableOrderOption.class, "random");
         testInvalid("random", "The BDD variable order is configured through simple and advanced options, "
                 + "which is not supported. Use only simple or only advanced options.");
+    }
+
+    /**
+     * Test a valid order, without variables given to the type checker.
+     *
+     * @param orderTxt The order to test.
+     * @param expectedOrder The expected textual representation of the order.
+     */
+    private void testValid(String orderTxt, String expectedOrder) {
+        testValid(orderTxt, Collections.emptyList(), expectedOrder);
+    }
+
+    /**
+     * Test a valid order.
+     *
+     * @param orderTxt The order to test.
+     * @param variables The synthesis variables.
+     * @param expectedOrder The expected textual representation of the order.
+     */
+    private void testValid(String orderTxt, List<SynthesisVariable> variables, String expectedOrder) {
+        // Parse.
+        VarOrderParser parser = new VarOrderParser();
+        List<VarOrderOrOrdererInstance> parseResult = parser.parseString(orderTxt, "/dummy", null, DebugMode.NONE);
+
+        // Type check.
+        VarOrderTypeChecker tchecker = new VarOrderTypeChecker(variables);
+        VarOrder order = tchecker.typeCheck(parseResult);
+        assertFalse("Type check warnings found.", tchecker.hasWarning());
+        if (tchecker.hasError()) {
+            assertEquals("Expected one type check problem.", tchecker.getProblems().size(), 1);
+            assertTrue(tchecker.getProblems().get(0).toString(), false);
+        }
+        assertTrue("Type checker produced no result.", order != null);
+        assertEquals(expectedOrder, order.toString());
     }
 
     /**
