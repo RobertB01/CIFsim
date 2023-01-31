@@ -40,12 +40,18 @@ public class ReverseVarOrder extends NonInterleavedVarOrder {
 
     @Override
     public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
+        // Debug output before obtaining the variable order.
+        if (dbgEnabled) {
+            helper.dbg(dbgLevel, "Applying variable order, and reversing its result:");
+        }
+
         // Get variable order to reverse.
-        List<Pair<SynthesisVariable, Integer>> orderToReverse = order.order(helper, dbgEnabled, dbgLevel);
+        List<Pair<SynthesisVariable, Integer>> orderToReverse = order.order(helper, dbgEnabled, dbgLevel + 1);
 
         // Debug output.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Reversing the variable order.");
+            helper.dbg();
+            helper.dbg(dbgLevel + 1, "Reversing the variable order.");
         }
 
         // Reverse the order.

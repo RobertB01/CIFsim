@@ -61,13 +61,17 @@ public class SlidingWindowVarOrderer implements VarOrderer {
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying sliding window algorithm.");
+            helper.dbg(dbgLevel, "Applying sliding window algorithm:");
+            helper.dbg(dbgLevel + 1, "Size: %d", maxLen);
+            helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
+            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
         }
 
         // Determine window length.
         int length = Math.min(maxLen, varCnt);
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Window length: %,d", length);
+            helper.dbg(dbgLevel + 1, "Window length: %,d", length);
+            helper.dbg();
         }
 
         // Initialize current indices and metric value.
@@ -76,7 +80,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
         int[] curIndices = helper.getNewIndicesForVarOrder(inputOrder);
         double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "before", relationsKind);
+            helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, "before", relationsKind);
         }
 
         // Process all windows.
@@ -106,7 +110,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
                 System.arraycopy(windowPerms[bestIdx], 0, curIndices, offset, length);
 
                 if (dbgEnabled) {
-                    helper.dbgMetricsForNewIndices(dbgLevel, curIndices,
+                    helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices,
                             fmt("window %d..%d", offset, offset + length - 1), relationsKind);
                 }
             }
@@ -114,7 +118,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "after", relationsKind);
+            helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, "after", relationsKind);
         }
 
         // Return the resulting order.

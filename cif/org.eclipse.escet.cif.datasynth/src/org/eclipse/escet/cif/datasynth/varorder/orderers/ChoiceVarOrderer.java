@@ -80,6 +80,9 @@ public class ChoiceVarOrderer implements VarOrderer {
             } else {
                 helper.dbg(dbgLevel, "Applying %s algorithm:", name);
             }
+            helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
+            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
+            helper.dbg();
         }
 
         // Initialize best order (the lower the metric value the better).
@@ -106,6 +109,7 @@ public class ChoiceVarOrderer implements VarOrderer {
                 bestMetric = algoMetric;
 
                 if (dbgEnabled) {
+                    helper.dbg();
                     helper.dbg(dbgLevel + 1, "Found new best variable order.");
                 }
             }

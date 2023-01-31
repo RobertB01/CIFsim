@@ -48,6 +48,8 @@ public class ReverseVarOrderer implements VarOrderer {
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Applying algorithm, and reversing its result:");
+            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
+            helper.dbg();
         }
 
         // Apply the algorithm.
@@ -58,8 +60,9 @@ public class ReverseVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Reversed the variable order.");
-            helper.dbgMetricsForVarOrder(dbgLevel, order, "reversed", relationsKind);
+            helper.dbg();
+            helper.dbg(dbgLevel + 1, "Reversed the variable order.");
+            helper.dbgMetricsForVarOrder(dbgLevel + 1, order, "reversed", relationsKind);
         }
 
         // Return the resulting variable order.

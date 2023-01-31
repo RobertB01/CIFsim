@@ -65,7 +65,9 @@ public class ForceVarOrderer implements VarOrderer {
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying FORCE algorithm.");
+            helper.dbg(dbgLevel, "Applying FORCE algorithm:");
+            helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
+            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
         }
 
         // Create 'locations' storage: per variable/vertex (in their original order), its location, i.e. l[v] in the
@@ -99,7 +101,8 @@ public class ForceVarOrderer implements VarOrderer {
         int maxIter = (int)Math.ceil(Math.log(varCnt));
         maxIter *= 10;
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Maximum number of iterations: %,d", maxIter);
+            helper.dbg(dbgLevel + 1, "Maximum number of iterations: %,d", maxIter);
+            helper.dbg();
         }
 
         // Initialize metric values.
@@ -107,7 +110,7 @@ public class ForceVarOrderer implements VarOrderer {
         double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
         double bestMetricValue = curMetricValue;
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "before", relationsKind);
+            helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, "before", relationsKind);
         }
 
         // Perform iterations of the algorithm.
@@ -148,7 +151,8 @@ public class ForceVarOrderer implements VarOrderer {
             // Get new metric value.
             double newMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
             if (dbgEnabled) {
-                helper.dbgMetricsForNewIndices(dbgLevel, curIndices, fmt("iteration %,d", curIter + 1), relationsKind);
+                helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, fmt("iteration %,d", curIter + 1),
+                        relationsKind);
             }
 
             // Stop when metric value stops changing. We could stop as soon as it stops decreasing. However, we may end
@@ -172,7 +176,7 @@ public class ForceVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, bestIndices, "after", relationsKind);
+            helper.dbgMetricsForNewIndices(dbgLevel + 1, bestIndices, "after", relationsKind);
         }
 
         // Return the best order.
