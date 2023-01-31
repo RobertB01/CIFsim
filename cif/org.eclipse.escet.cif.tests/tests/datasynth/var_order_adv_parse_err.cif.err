@@ -1,0 +1,2 @@
+ERROR: Invalid BDD variable order.
+CAUSE: Parsing failed at line 1, column 8, most likely due to premature end of input (found end-of-file, expected "(" or an identifier).
