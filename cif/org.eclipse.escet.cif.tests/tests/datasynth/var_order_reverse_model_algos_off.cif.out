@@ -15,8 +15,10 @@ CIF variables and location pointers:
   Total                                               6      18        36          36          100%
 
 Applying variable ordering:
-  Applying model variable order.
-  Reversing the variable order.
+  Applying variable order, and reversing its result:
+    Applying model variable order.
+
+    Reversing the variable order.
 
 Variable order changed.
 

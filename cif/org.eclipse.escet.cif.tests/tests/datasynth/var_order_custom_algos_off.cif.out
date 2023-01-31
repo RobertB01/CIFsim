@@ -15,7 +15,8 @@ CIF variables and location pointers:
   Total                                               6      18        36          36          100%
 
 Applying variable ordering:
-  Applying a custom variable order.
+  Applying a custom variable order:
+    Order: buffer1.count,buffer2.count,buffer3.count;buffer3,buffer1;buffer2
 
 Variable order changed.
 

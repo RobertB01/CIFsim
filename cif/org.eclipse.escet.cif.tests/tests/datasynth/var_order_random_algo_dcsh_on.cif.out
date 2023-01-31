@@ -21,29 +21,51 @@ Applying variable ordering:
   Number of graph edges: 6
 
   Applying DCSH algorithm:
-    Applying Weighted Cuthill-McKee algorithm.
-    Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
-    Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
-    Found new best variable order.
+    Metric: wes
+    Relations: configured
 
-    Applying Sloan algorithm.
-    Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
-    Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
-    Found new best variable order.
+    Applying Weighted Cuthill-McKee algorithm:
+      Node finder: george-liu
+      Relations: configured
 
-    Applying algorithm, and reversing its result:
-      Applying Weighted Cuthill-McKee algorithm.
       Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
       Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
-    Reversed the variable order.
-    Total span:   17 (total)   0.77 (avg/edge) / WES:   0.310606 (total)   0.014118 (avg/edge) [reversed]
 
-    Applying algorithm, and reversing its result:
-      Applying Sloan algorithm.
+    Found new best variable order.
+
+    Applying Sloan algorithm:
+      Relations: configured
+
       Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
       Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
-    Reversed the variable order.
-    Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [reversed]
+
+    Found new best variable order.
+
+    Applying algorithm, and reversing its result:
+      Relations: configured
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: configured
+
+        Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
+        Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
+
+      Reversed the variable order.
+      Total span:   17 (total)   0.77 (avg/edge) / WES:   0.310606 (total)   0.014118 (avg/edge) [reversed]
+
+    Applying algorithm, and reversing its result:
+      Relations: configured
+
+      Applying Sloan algorithm:
+        Relations: configured
+
+        Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
+        Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
+
+      Reversed the variable order.
+      Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [reversed]
+
     Found new best variable order.
 
 Variable order changed.

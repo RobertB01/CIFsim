@@ -17,16 +17,23 @@ Applying variable ordering:
   Number of graph edges: 1
 
   Applying 2 algorithms, sequentially:
-    Applying FORCE algorithm.
-    Maximum number of iterations: 10
-    Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [before]
-    Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [iteration 1]
-    Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [after]
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: configured
+      Maximum number of iterations: 10
 
-    Applying sliding window algorithm.
-    Window length: 2
-    Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [before]
-    Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [after]
+      Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [before]
+      Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [iteration 1]
+      Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: configured
+      Window length: 2
+
+      Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [before]
+      Total span:   2 (total)   0.22 (avg/edge) / WES:   0.611111 (total)   0.067901 (avg/edge) [after]
 
 Variable order unchanged.
 
