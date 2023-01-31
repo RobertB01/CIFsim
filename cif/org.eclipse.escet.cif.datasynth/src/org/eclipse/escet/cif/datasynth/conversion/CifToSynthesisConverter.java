@@ -160,7 +160,6 @@ import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
-import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
@@ -667,11 +666,9 @@ public class CifToSynthesisConverter {
         Assert.check(!typeChecker.hasWarning());
         if (varOrder == null) {
             Assert.check(typeChecker.hasError());
-            InvalidOptionException ex = new InvalidOptionException("Invalid BDD variable order.");
-            for (SemanticProblem problem: typeChecker.getProblems()) {
-                ex.addSuppressed(new InvalidOptionException(problem.toString()));
-            }
-            throw ex;
+            Assert.check(typeChecker.getProblems().size() == 1);
+            InvalidOptionException ex = new InvalidOptionException(typeChecker.getProblems().get(0).toString());
+            throw new InvalidOptionException("Invalid BDD variable order.", ex);
         }
 
         // Skip ordering, including debug output printing, if no variables are present.
