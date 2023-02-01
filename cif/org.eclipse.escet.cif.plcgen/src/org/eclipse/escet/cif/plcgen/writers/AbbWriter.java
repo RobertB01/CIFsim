@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen;
+package org.eclipse.escet.cif.plcgen.writers;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;

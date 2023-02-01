@@ -11,23 +11,23 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen;
+package org.eclipse.escet.cif.plcgen.options;
 
 import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Option for defining the floating point type to use in the PLC. */
-public class PlcFloatTypeSizeOption extends EnumOption<PlcNumberBits> {
-    /** Constructor for the {@link PlcFloatTypeSizeOption} class. */
-    public PlcFloatTypeSizeOption() {
-        super("PLC floating point type size",
-                "BITS is the number of bits to use by the PLC for representing floating point values. Specifiy "
-                        + "\"auto\" to automatically determine the size, \"32\" for 32-bits floating point values, or "
-                        + "\"64\" for 64-bits floating point values. [DEFAULT=auto]",
-                null, "float-size", "BITS", PlcNumberBits.AUTO, true,
-                "The size to use by the PLC for representing floating point values.");
+/** Option for defining the integer type to use in the PLC. */
+public class PlcIntTypeSizeOption extends EnumOption<PlcNumberBits> {
+    /** Constructor for the {@link PlcIntTypeSizeOption} class. */
+    public PlcIntTypeSizeOption() {
+        super("PLC integer type size",
+                "BITS is the number of bits to use by the PLC for representing integer values. Specifiy "
+                        + "\"auto\" to automatically determine the size, \"32\" for 32-bits integer values, or "
+                        + "\"64\" for 64-bits integer values. [DEFAULT=auto]",
+                null, "int-size", "BITS", PlcNumberBits.AUTO, true,
+                "The size to use by the PLC for representing integer values.");
     }
 
     @Override
@@ -52,11 +52,11 @@ public class PlcFloatTypeSizeOption extends EnumOption<PlcNumberBits> {
     }
 
     /**
-     * Returns the number of bits to use by the PLC for representing floating point values.
+     * Returns the number of bits to use by the PLC for representing integer values.
      *
-     * @return The number of bits to use by the PLC for representing floating point values.
+     * @return The number of bits to use by the PLC for representing integer values.
      */
     public static PlcNumberBits getNumberBits() {
-        return Options.get(PlcFloatTypeSizeOption.class);
+        return Options.get(PlcIntTypeSizeOption.class);
     }
 }

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen;
+package org.eclipse.escet.cif.plcgen.options;
 
 import java.util.Locale;
 
