@@ -11,17 +11,16 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.cif2plc.writers;
+package org.eclipse.escet.cif.plcgen.writers;
 
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1200;
-import static org.eclipse.escet.cif.cif2plc.options.PlcOutputType.S7_1500;
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.PROGRAM;
+import static org.eclipse.escet.cif.plcgen.targets.PlcTargetType.S7_1200;
+import static org.eclipse.escet.cif.plcgen.targets.PlcTargetType.S7_1500;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
 import java.util.List;
 
-import org.eclipse.escet.cif.cif2plc.options.PlcOutputType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcGlobalVarList;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
@@ -31,6 +30,8 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcResource;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
@@ -41,15 +42,15 @@ import org.eclipse.escet.common.java.Assert;
 /** S7 writer for S7-1500, S7-1200, S7-400 and S7-300 SIMATIC controllers. */
 public class S7Writer extends OutputTypeWriter {
     /** Targeted S7 PLC output type. */
-    private final PlcOutputType outputType;
+    private final PlcTargetType targetType;
 
     /**
      * Constructor for the {@link S7Writer} class.
      *
-     * @param outputType Targeted S7 PLC type.
+     * @param targetType Targeted S7 PLC type.
      */
-    public S7Writer(PlcOutputType outputType) {
-        this.outputType = outputType;
+    public S7Writer(PlcTargetType targetType) {
+        this.targetType = targetType;
     }
 
     @Override
@@ -64,18 +65,20 @@ public class S7Writer extends OutputTypeWriter {
         Assert.areEqual(config.resources.size(), 1);
         PlcResource resource = config.resources.get(0);
 
-        // Write the PLC inputs tag table and PLC constants tag table.
+        // Write tag tables for the global variables, treating the TIMERS table as a special case.
+        boolean sawTimers = false;
         for (PlcGlobalVarList globalVarList: resource.globalVarLists) {
-            if (globalVarList.name.equals("INPUTS")) {
-                write(globalVarList, outPath);
-            } else if (globalVarList.name.equals("CONSTS")) {
-                write(globalVarList, outPath);
-            } else {
+            if (globalVarList.name.equals("TIMERS")) {
                 // Write the timers. S7 timers are imported via a database file.
                 Assert.areEqual(globalVarList.name, "TIMERS");
+                sawTimers = true;
                 writeTimers(outPath);
+            } else {
+                // TODO Likely more needs to be done to ensure all global tables are recognized at the target.
+                write(globalVarList, outPath);
             }
         }
+        Assert.check(sawTimers);
 
         // Resource task and POU instances are not written as they cannot be imported in S7.
 
@@ -161,7 +164,7 @@ public class S7Writer extends OutputTypeWriter {
      * @return Whether IEC timers are supported for the current output type.
      */
     private boolean hasIecTimers() {
-        return EnumSet.of(S7_1200, S7_1500).contains(outputType);
+        return EnumSet.of(S7_1200, S7_1500).contains(targetType);
     }
 
     /**
@@ -246,7 +249,7 @@ public class S7Writer extends OutputTypeWriter {
      * @return Whether optimized block access is supported for the current output type.
      */
     private boolean hasOptimizedBlockAccess() {
-        return EnumSet.of(S7_1200, S7_1500).contains(outputType);
+        return EnumSet.of(S7_1200, S7_1500).contains(targetType);
     }
 
     @Override
