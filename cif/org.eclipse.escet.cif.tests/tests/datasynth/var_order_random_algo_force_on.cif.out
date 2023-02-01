@@ -17,12 +17,10 @@ CIF variables and location pointers:
 Applying variable ordering:
   Applying a random variable order using seed 88.
 
-  Number of hyper-edges: 22
-  Number of graph edges: 6
-
   Applying FORCE algorithm:
     Metric: total-span
     Relations: configured
+    Number of hyper-edges: 22
     Maximum number of iterations: 20
 
     Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]

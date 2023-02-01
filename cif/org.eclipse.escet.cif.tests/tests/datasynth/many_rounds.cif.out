@@ -13,13 +13,11 @@ CIF variables and location pointers:
 Applying variable ordering:
   Applying model variable order.
 
-  Number of hyper-edges: 19
-  Number of graph edges: 1
-
   Applying 2 algorithms, sequentially:
     Applying FORCE algorithm:
       Metric: total-span
       Relations: configured
+      Number of hyper-edges: 19
       Maximum number of iterations: 10
 
       Total span:   7 (total)   0.37 (avg/edge) / WES:   0.684211 (total)   0.036011 (avg/edge) [before]
@@ -30,6 +28,7 @@ Applying variable ordering:
       Size: 4
       Metric: total-span
       Relations: configured
+      Number of hyper-edges: 19
       Window length: 2
 
       Total span:   7 (total)   0.37 (avg/edge) / WES:   0.684211 (total)   0.036011 (avg/edge) [before]

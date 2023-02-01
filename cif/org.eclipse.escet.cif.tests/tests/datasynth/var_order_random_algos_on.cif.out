@@ -17,17 +17,16 @@ CIF variables and location pointers:
 Applying variable ordering:
   Applying a random variable order using seed 88.
 
-  Number of hyper-edges: 22
-  Number of graph edges: 6
-
   Applying 3 algorithms, sequentially:
     Applying DCSH algorithm:
       Metric: wes
       Relations: configured
+      Number of hyper-edges: 22
 
       Applying Weighted Cuthill-McKee algorithm:
         Node finder: george-liu
         Relations: configured
+        Number of graph edges: 6
 
         Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
         Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
@@ -36,6 +35,7 @@ Applying variable ordering:
 
       Applying Sloan algorithm:
         Relations: configured
+        Number of graph edges: 6
 
         Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
         Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
@@ -48,6 +48,7 @@ Applying variable ordering:
         Applying Weighted Cuthill-McKee algorithm:
           Node finder: george-liu
           Relations: configured
+          Number of graph edges: 6
 
           Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
           Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
@@ -60,6 +61,7 @@ Applying variable ordering:
 
         Applying Sloan algorithm:
           Relations: configured
+          Number of graph edges: 6
 
           Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
           Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
@@ -72,6 +74,7 @@ Applying variable ordering:
     Applying FORCE algorithm:
       Metric: total-span
       Relations: configured
+      Number of hyper-edges: 22
       Maximum number of iterations: 20
 
       Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [before]
@@ -82,6 +85,7 @@ Applying variable ordering:
       Size: 4
       Metric: total-span
       Relations: configured
+      Number of hyper-edges: 22
       Window length: 4
 
       Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [before]
