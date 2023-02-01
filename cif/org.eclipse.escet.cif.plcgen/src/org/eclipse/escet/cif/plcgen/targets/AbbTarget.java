@@ -20,6 +20,7 @@ import org.eclipse.escet.cif.plcgen.AbbWriter;
 public class AbbTarget extends PlcTarget {
     /** Constructor of the {@link AbbTarget} class. */
     public AbbTarget() {
+        // TODO Verify settings of the ABB target.
         super(PlcTargetType.ABB);
     }
 
@@ -29,7 +30,17 @@ public class AbbTarget extends PlcTarget {
     }
 
     @Override
+    public boolean supportsArrays() {
+        return true;
+    }
+
+    @Override
     public boolean supportsConstants() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsEnumerations() {
         return false;
     }
 

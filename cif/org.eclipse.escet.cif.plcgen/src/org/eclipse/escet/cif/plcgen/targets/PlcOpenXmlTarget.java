@@ -29,7 +29,17 @@ public class PlcOpenXmlTarget extends PlcTarget {
     }
 
     @Override
+    public boolean supportsArrays() {
+        return true;
+    }
+
+    @Override
     public boolean supportsConstants() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsEnumerations() {
         return true;
     }
 

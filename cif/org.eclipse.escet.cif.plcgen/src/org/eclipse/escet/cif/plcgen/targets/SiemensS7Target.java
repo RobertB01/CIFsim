@@ -70,8 +70,20 @@ public class SiemensS7Target extends PlcTarget {
     }
 
     @Override
+    public boolean supportsArrays() {
+        // S7 transformation doesn't support list types. That is because S7 doesn't support functions
+        // returning arrays and doesn't support arrays of arrays.
+        return false;
+    }
+
+    @Override
     public boolean supportsConstants() {
         return true;
+    }
+
+    @Override
+    public boolean supportsEnumerations() {
+        return false;
     }
 
     @Override

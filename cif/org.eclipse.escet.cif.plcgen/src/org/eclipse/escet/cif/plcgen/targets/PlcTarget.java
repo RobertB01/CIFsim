@@ -19,7 +19,9 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
+import org.eclipse.escet.cif.plcgen.generators.NameSanitizer;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcTarget {
@@ -30,7 +32,7 @@ public abstract class PlcTarget {
     private static final int CIF_FLOAT_SIZE = 64;
 
     /** PLC target type for code generation. */
-    protected final PlcTargetType targetType;
+    public final PlcTargetType targetType;
 
     /** User-defined integer type size to use by the PLC. */
     private PlcNumberBits intTypeSize;
@@ -56,11 +58,14 @@ public abstract class PlcTarget {
         intTypeSize = settings.intTypeSize;
         floatTypeSize = settings.floatTypeSize;
 
-        CifProcessor cifProcessor = new CifProcessor();
+        // Construct the generators.
+        NameSanitizer nameSanitizer = new NameSanitizer(settings);
         PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
+        TypeGenerator typeGen = new TypeGenerator(this, settings, nameSanitizer, codeStorage);
+        CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameSanitizer);
 
         // Perform the conversion.
-        cifProcessor.process(settings);
+        cifProcessor.process();
         if (settings.shouldTerminate.get()) {
             return;
         }
@@ -79,6 +84,13 @@ public abstract class PlcTarget {
      * @return The requested PLC code writer.
      */
     public abstract OutputTypeWriter getPlcCodeWriter();
+
+    /**
+     * Returns whether the target supports arrays.
+     *
+     * @return Whether arrays are supported.
+     */
+    public abstract boolean supportsArrays();
 
     /**
      * Returns whether or not the PLC target type supports named constants.
