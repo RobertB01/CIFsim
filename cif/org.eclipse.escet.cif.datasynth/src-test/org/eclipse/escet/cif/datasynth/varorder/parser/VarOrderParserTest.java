@@ -82,8 +82,8 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testDefault() {
-        testValid("default", "sorted -> force(metric=total-span, relations=configured) -> "
+    public void testSimple() {
+        testValid("simple", "sorted -> force(metric=total-span, relations=configured) -> "
                 + "slidwin(size=4, metric=total-span, relations=configured)");
     }
 

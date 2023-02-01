@@ -129,8 +129,8 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         VarOrderOrOrdererSingleInstance astOrder = (VarOrderOrOrdererSingleInstance)astInstance;
         String name = astOrder.name.text;
         switch (name) {
-            // Default variable order.
-            case "default":
+            // Use simple variable order options.
+            case "simple":
                 return getSimpleConfiguredOrder();
 
             // Basic variable orders.
