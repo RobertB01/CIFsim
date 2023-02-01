@@ -260,6 +260,25 @@ public class VarOrderHelper {
     }
 
     /**
+     * Print debug output about a certain representation of the synthesis variable relations from the CIF specification.
+     *
+     * @param dbgLevel The debug indentation level.
+     * @param representationKind The representation kind to use.
+     * @param relationsKind The relations kind to use.
+     */
+    public void dbgRepresentation(int dbgLevel, RepresentationKind representationKind, RelationsKind relationsKind) {
+        switch (representationKind) {
+            case GRAPH:
+                dbg(dbgLevel, "Number of graph edges: %,d", getGraph(relationsKind).edgeCount());
+                return;
+            case HYPER_EDGES:
+                dbg(dbgLevel, "Number of hyper-edges: %,d", getHyperEdges(relationsKind).size());
+                return;
+        }
+        throw new RuntimeException("Unknown representation: " + representationKind);
+    }
+
+    /**
      * Print various metrics as debug output, for the given variable order.
      *
      * @param dbgLevel The debug indentation level.

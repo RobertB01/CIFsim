@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.SloanNodeOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
 /**
@@ -53,6 +54,7 @@ public class SloanVarOrderer implements VarOrderer {
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Applying Sloan algorithm:");
             helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
+            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.GRAPH, relationsKind);
             helper.dbg();
             helper.dbgMetricsForVarOrder(dbgLevel + 1, inputOrder, "before", relationsKind);
         }

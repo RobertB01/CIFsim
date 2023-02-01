@@ -62,10 +62,9 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
         Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
         long hyperEdgeCount = hyperEdges.size();
         long graphEdgeCount = graph.edgeCount();
+
+        // Separate debug output of order and orderer.
         if (dbgEnabled) {
-            helper.dbg();
-            helper.dbg(dbgLevel, "Number of hyper-edges: %,d", hyperEdgeCount);
-            helper.dbg(dbgLevel, "Number of graph edges: %,d", graphEdgeCount);
             helper.dbg();
         }
 

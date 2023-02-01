@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNode
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.WeightedCuthillMcKeeNodeOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
 /**
@@ -61,6 +62,7 @@ public class WeightedCuthillMcKeeVarOrderer implements VarOrderer {
             helper.dbg(dbgLevel, "Applying Weighted Cuthill-McKee algorithm:");
             helper.dbg(dbgLevel + 1, "Node finder: %s", VarOrderer.enumValueToParserArg(nodeFinderKind));
             helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
+            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.GRAPH, relationsKind);
             helper.dbg();
             helper.dbgMetricsForVarOrder(dbgLevel + 1, inputOrder, "before", relationsKind);
         }
