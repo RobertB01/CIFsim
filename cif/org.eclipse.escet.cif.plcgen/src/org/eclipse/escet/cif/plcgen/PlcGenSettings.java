@@ -47,6 +47,12 @@ public class PlcGenSettings {
     /** Callback that indicates whether execution should be terminated on user request. */
     public final Supplier<Boolean> shouldTerminate;
 
+    /** Whether to warn the user when renaming CIF identifiers. */
+    public final boolean warnOnRename;
+
+    /** Callback to send warnings to the user. */
+    public final WarnOutput warnOutput;
+
     /**
      * Constructor of the {@link PlcGenSettings} class.
      *
@@ -61,10 +67,12 @@ public class PlcGenSettings {
      * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
      * @param outputPath Absolute base path to which to write the generated code.
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param warnOnRename Whether to warn the user when renaming CIF identifiers.
+     * @param warnOutput Callback to send warnings to the user.
      */
     PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
-            Supplier<Boolean> shouldTerminate)
+            Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
         this.configurationName = configurationName;
@@ -76,5 +84,7 @@ public class PlcGenSettings {
         this.absInputPath = absInputPath;
         this.outputPath = outputPath;
         this.shouldTerminate = shouldTerminate;
+        this.warnOnRename = warnOnRename;
+        this.warnOutput = warnOutput;
     }
 }

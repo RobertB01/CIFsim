@@ -150,8 +150,11 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         // Required invariant: Once it returns true, it must return true on subsequent calls.
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
 
+        boolean warnOnRename = RenameWarningsOption.isEnabled();
+        WarnOutput warnOutput = message -> OutputProvider.warn(message);
+
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, Paths.resolve(inputPath), outputPath, shouldTerminate);
+                inputPath, Paths.resolve(inputPath), outputPath, shouldTerminate, warnOnRename, warnOutput);
     }
 
     @Override
@@ -174,6 +177,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(PlcTaskCycleTimeOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskNameOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskPriorityOption.class));
+        applicationOpts.add(Options.getInstance(RenameWarningsOption.class));
 
         applicationOpts.add(Options.getInstance(PlcNumberBitsOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(PlcMaxIterOption.class)); // TODO Use its value.
@@ -181,7 +185,6 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeFuncOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(ConvertEnumsOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(SimplifyValuesOption.class)); // TODO Use its value.
-        applicationOpts.add(Options.getInstance(RenameWarningsOption.class)); // TODO Use its value.
 
         List<OptionCategory> generatorSubCats = list();
         OptionCategory generatorCat = new OptionCategory("Generator", "Generator options.", generatorSubCats,
