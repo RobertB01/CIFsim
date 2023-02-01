@@ -1,0 +1,3 @@
+TYPE g_E:
+    (g_LIT1, g_LIT2);
+END_TYPE

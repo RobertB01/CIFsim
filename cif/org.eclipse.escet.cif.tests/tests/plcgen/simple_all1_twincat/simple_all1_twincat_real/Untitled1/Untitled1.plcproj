@@ -4,6 +4,18 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\g_E.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TupleStruct.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TupleStruct1.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TupleStruct2.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\STATE.TcGVL">
       <SubType>Code</SubType>
     </Compile>

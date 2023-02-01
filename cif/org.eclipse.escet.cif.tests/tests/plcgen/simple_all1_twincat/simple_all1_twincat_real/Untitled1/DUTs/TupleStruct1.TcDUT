@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <DUT Name="TupleStruct1">
+    <Declaration><![CDATA[TYPE TupleStruct1:
+    STRUCT
+        field1: TupleStruct;
+        field2: LREAL;
+    END_STRUCT
+END_TYPE]]></Declaration>
+    <ObjectProperties/>
+  </DUT>
+</TcPlcObject>
