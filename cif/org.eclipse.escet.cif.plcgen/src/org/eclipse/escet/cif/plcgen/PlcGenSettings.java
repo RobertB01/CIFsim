@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen;
 
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
 import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
 
 /** PLC code generator configuration. */
@@ -52,6 +53,12 @@ public class PlcGenSettings {
     /** User-defined floating point type size to used by the PLC. */
     public final PlcNumberBits floatTypeSize;
 
+    /** Whether to simplify values during pre-processing. */
+    public boolean simplifyValues;
+
+    /** How to treat enumerations. */
+    public final ConvertEnums enumConversion;
+
     /** Callback that indicates whether execution should be terminated on user request. */
     public final Supplier<Boolean> shouldTerminate;
 
@@ -76,13 +83,15 @@ public class PlcGenSettings {
      * @param outputPath Absolute base path to which to write the generated code.
      * @param intTypeSize User-defined integer type size to use by the PLC.
      * @param floatTypeSize User-defined floating point type size to used by the PLC.
+     * @param simplifyValues Whether to simplify values during pre-processing.
+     * @param enumConversion How to treat enumerations.
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @param warnOnRename Whether to warn the user when renaming CIF identifiers.
      * @param warnOutput Callback to send warnings to the user.
      */
     PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
-            PlcNumberBits intTypeSize, PlcNumberBits floatTypeSize,
+            PlcNumberBits intTypeSize, PlcNumberBits floatTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
             Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
@@ -96,6 +105,8 @@ public class PlcGenSettings {
         this.outputPath = outputPath;
         this.intTypeSize = intTypeSize;
         this.floatTypeSize = floatTypeSize;
+        this.simplifyValues = simplifyValues;
+        this.enumConversion = enumConversion;
         this.shouldTerminate = shouldTerminate;
         this.warnOnRename = warnOnRename;
         this.warnOutput = warnOutput;

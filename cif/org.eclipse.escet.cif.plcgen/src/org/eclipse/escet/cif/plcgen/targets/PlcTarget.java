@@ -88,11 +88,11 @@ public abstract class PlcTarget {
     public abstract boolean supportsConstants();
 
     /**
-     * Get replacement string for the CIF input file extension including dot, used to derive an output path.
+     * Return whether the target support enumeration types.
      *
-     * @return The replacement string.
+     * @return Whether enumeration types are supported.
      */
-    public abstract String getPathSuffixReplacement();
+    public abstract boolean supportsEnumerations();
 
     /**
      * Get the size of the largest supported integer type.
@@ -132,4 +132,10 @@ public abstract class PlcTarget {
         return PlcElementaryType.getFloatTypeBySize(userSpecifiedFloatSize);
     }
 
+    /**
+     * Get replacement string for the CIF input file extension including dot, used to derive an output path.
+     *
+     * @return The replacement string.
+     */
+    public abstract String getPathSuffixReplacement();
 }

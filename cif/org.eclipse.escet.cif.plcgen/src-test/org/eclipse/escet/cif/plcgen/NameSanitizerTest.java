@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen;
 
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.generators.NameSanitizer;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,8 @@ public class NameSanitizerTest {
     @SuppressWarnings("javadoc")
     @Before
     public void setup() {
-        PlcGenSettings settings = new PlcGenSettings(null, null, null, null, 0, 0, null, null, null, null, null, null, false, null);
+        PlcGenSettings settings = new PlcGenSettings(null, null, null, null, 0, 0, null, null, null, PlcNumberBits.AUTO,
+                PlcNumberBits.AUTO, false, null, null, false, null);
         nameSanitizer = new NameSanitizer(settings);
     }
 
