@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.plcgen;
 
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
+
 /** PLC code generator configuration. */
 public class PlcGenSettings {
     /** Name of the PLC project. */
@@ -44,6 +46,12 @@ public class PlcGenSettings {
     /** Absolute base path to which to write the generated code. */
     public final String outputPath;
 
+    /** User-defined integer type size to use by the PLC. */
+    public final PlcNumberBits intTypeSize;
+
+    /** User-defined floating point type size to used by the PLC. */
+    public final PlcNumberBits floatTypeSize;
+
     /** Callback that indicates whether execution should be terminated on user request. */
     public final Supplier<Boolean> shouldTerminate;
 
@@ -66,12 +74,15 @@ public class PlcGenSettings {
      * @param inputPath User-specified path to the CIF specification for which to generate PLC code.
      * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
      * @param outputPath Absolute base path to which to write the generated code.
+     * @param intTypeSize User-defined integer type size to use by the PLC.
+     * @param floatTypeSize User-defined floating point type size to used by the PLC.
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @param warnOnRename Whether to warn the user when renaming CIF identifiers.
      * @param warnOutput Callback to send warnings to the user.
      */
     PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
+            PlcNumberBits intTypeSize, PlcNumberBits floatTypeSize,
             Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
@@ -83,6 +94,8 @@ public class PlcGenSettings {
         this.inputPath = inputPath;
         this.absInputPath = absInputPath;
         this.outputPath = outputPath;
+        this.intTypeSize = intTypeSize;
+        this.floatTypeSize = floatTypeSize;
         this.shouldTerminate = shouldTerminate;
         this.warnOnRename = warnOnRename;
         this.warnOutput = warnOutput;

@@ -34,6 +34,16 @@ public class Iec611313Target extends PlcTarget {
     }
 
     @Override
+    protected int getMaxIntegerTypeSize() {
+        return 64;
+    }
+
+    @Override
+    protected int getMaxFloatTypeSize() {
+        return 64;
+    }
+
+    @Override
     public String getPathSuffixReplacement() {
         return "_plc";
     }

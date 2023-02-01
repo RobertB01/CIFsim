@@ -23,7 +23,7 @@ import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeArgOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeFuncOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcMaxIterOption;
-import org.eclipse.escet.cif.cif2plc.options.PlcNumberBitsOption;
+import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
 import org.eclipse.escet.cif.cif2plc.options.PlcProjectNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcResourceNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskCycleTimeOption;
@@ -31,6 +31,8 @@ import org.eclipse.escet.cif.cif2plc.options.PlcTaskNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskPriorityOption;
 import org.eclipse.escet.cif.cif2plc.options.RenameWarningsOption;
 import org.eclipse.escet.cif.cif2plc.options.SimplifyValuesOption;
+import org.eclipse.escet.cif.plcgen.PlcFloatTypeSizeOption;
+import org.eclipse.escet.cif.plcgen.PlcIntTypeSizeOption;
 import org.eclipse.escet.cif.plcgen.targets.AbbTarget;
 import org.eclipse.escet.cif.plcgen.targets.Iec611313Target;
 import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
@@ -120,7 +122,6 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         // TODO Use these options, see also getAllOptions()
         //
-        // PlcNumberBitsOption
         // PlcMaxIterOption
         // PlcFormalFuncInvokeArgOption
         // PlcFormalFuncInvokeFuncOption
@@ -147,6 +148,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String inputPath = InputFileOption.getPath();
         String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
 
+        PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
+        PlcNumberBits floatSize = PlcFloatTypeSizeOption.getNumberBits();
+
         // Required invariant: Once it returns true, it must return true on subsequent calls.
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
 
@@ -154,7 +158,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         WarnOutput warnOutput = message -> OutputProvider.warn(message);
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, Paths.resolve(inputPath), outputPath, shouldTerminate, warnOnRename, warnOutput);
+                inputPath, Paths.resolve(inputPath), outputPath, intSize, floatSize,
+                shouldTerminate, warnOnRename, warnOutput);
     }
 
     @Override
@@ -177,9 +182,10 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(PlcTaskCycleTimeOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskNameOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskPriorityOption.class));
+        applicationOpts.add(Options.getInstance(PlcIntTypeSizeOption.class));
+        applicationOpts.add(Options.getInstance(PlcFloatTypeSizeOption.class));
         applicationOpts.add(Options.getInstance(RenameWarningsOption.class));
 
-        applicationOpts.add(Options.getInstance(PlcNumberBitsOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(PlcMaxIterOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeArgOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeFuncOption.class)); // TODO Use its value.

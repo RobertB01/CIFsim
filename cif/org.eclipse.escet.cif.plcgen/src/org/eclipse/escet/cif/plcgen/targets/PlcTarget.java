@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
@@ -21,8 +23,20 @@ import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcTarget {
+    /** Size of an integer value in a CIF specification. */
+    private static final int CIF_INTEGER_SIZE = 32;
+
+    /** Size of a floating point value in a CIF specification. */
+    private static final int CIF_FLOAT_SIZE = 64;
+
     /** PLC target type for code generation. */
     protected final PlcTargetType targetType;
+
+    /** User-defined integer type size to use by the PLC. */
+    private PlcNumberBits intTypeSize;
+
+    /** User-defined floating point type size to use by the PLC. */
+    private PlcNumberBits floatTypeSize;
 
     /**
      * Constructor of the {@link PlcTarget} class.
@@ -39,9 +53,13 @@ public abstract class PlcTarget {
      * @param settings Configuration to use.
      */
     public void generate(PlcGenSettings settings) {
+        intTypeSize = settings.intTypeSize;
+        floatTypeSize = settings.floatTypeSize;
+
         CifProcessor cifProcessor = new CifProcessor();
         PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
 
+        // Perform the conversion.
         cifProcessor.process(settings);
         if (settings.shouldTerminate.get()) {
             return;
@@ -75,4 +93,43 @@ public abstract class PlcTarget {
      * @return The replacement string.
      */
     public abstract String getPathSuffixReplacement();
+
+    /**
+     * Get the size of the largest supported integer type.
+     *
+     * @return Number of bits used for storing the largest supported integer type.
+     */
+    protected abstract int getMaxIntegerTypeSize();
+
+    /**
+     * Get the type of a normal integer value in the PLC. Is large enough to represent all integer values of a CIF
+     * specification.
+     *
+     * @return The type of a normal integer value in the PLC.
+     */
+    public PlcElementaryType getIntegerType() {
+        int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
+        int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
+        return PlcElementaryType.getIntTypeBySize(userSpecifiedIntSize);
+    }
+
+    /**
+     * Get the size of the largest supported floating point type. Is large enough to represent all floating point values
+     * of a CIF specification.
+     *
+     * @return Number of bits used for storing the largest supported floating point type.
+     */
+    protected abstract int getMaxFloatTypeSize();
+
+    /**
+     * Get the type of a normal integer value in the PLC.
+     *
+     * @return The type of a normal integer value in the PLC.
+     */
+    public PlcElementaryType getFloatType() {
+        int generatorBestFloatSize = Math.min(CIF_FLOAT_SIZE, getMaxFloatTypeSize());
+        int userSpecifiedFloatSize = floatTypeSize.getTypeSize(generatorBestFloatSize);
+        return PlcElementaryType.getFloatTypeBySize(userSpecifiedFloatSize);
+    }
+
 }

@@ -27,7 +27,7 @@ public class NameSanitizerTest {
     @SuppressWarnings("javadoc")
     @Before
     public void setup() {
-        PlcGenSettings settings = new PlcGenSettings(null, null, null, null, 0, 0, null, null, null, null, false, null);
+        PlcGenSettings settings = new PlcGenSettings(null, null, null, null, 0, 0, null, null, null, null, null, null, false, null);
         nameSanitizer = new NameSanitizer(settings);
     }
 

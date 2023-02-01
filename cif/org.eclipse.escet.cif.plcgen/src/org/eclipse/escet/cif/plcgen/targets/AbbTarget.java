@@ -34,6 +34,16 @@ public class AbbTarget extends PlcTarget {
     }
 
     @Override
+    protected int getMaxIntegerTypeSize() {
+        return 32;
+    }
+
+    @Override
+    protected int getMaxFloatTypeSize() {
+        return 32;
+    }
+
+    @Override
     public String getPathSuffixReplacement() {
         return "_abb";
     }
