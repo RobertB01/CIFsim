@@ -13,7 +13,26 @@ CIF variables and location pointers:
 Applying variable ordering:
   Applying model variable order.
 
-  Skipping variable ordering algorithm(s): no graph edges.
+  Applying 2 algorithms, sequentially:
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: configured
+      Number of hyper-edges: 1
+      Maximum number of iterations: 10
+
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [iteration 1]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: configured
+      Number of hyper-edges: 1
+      Window length: 2
+
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [after]
 
 Variable order unchanged.
 

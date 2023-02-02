@@ -42,6 +42,9 @@ Applying variable ordering:
 
       Applying algorithm, and reversing its result:
         Relations: linearized
+        Number of hyper-edges: 12
+
+        Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
 
         Applying Weighted Cuthill-McKee algorithm:
           Node finder: george-liu
@@ -51,13 +54,16 @@ Applying variable ordering:
           Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
           Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
 
-        Reversed the variable order.
+        Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
         Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [reversed]
 
       Found new best variable order.
 
       Applying algorithm, and reversing its result:
         Relations: linearized
+        Number of hyper-edges: 12
+
+        Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
 
         Applying Sloan algorithm:
           Relations: linearized
@@ -66,7 +72,7 @@ Applying variable ordering:
           Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
           Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
 
-        Reversed the variable order.
+        Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
         Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [reversed]
 
     Applying FORCE algorithm:
