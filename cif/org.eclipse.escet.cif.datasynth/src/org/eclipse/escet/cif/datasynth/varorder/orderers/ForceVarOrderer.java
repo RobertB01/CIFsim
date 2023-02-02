@@ -64,12 +64,18 @@ public class ForceVarOrderer implements VarOrderer {
         int varCnt = inputOrder.size();
         List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
 
+        // Determine maximum number of iterations.
+        int maxIter = (int)Math.ceil(Math.log(varCnt));
+        maxIter *= 10;
+
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Applying FORCE algorithm:");
             helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
             helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
             helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
+            helper.dbg(dbgLevel + 1, "Maximum number of iterations: %,d", maxIter);
+            helper.dbg();
         }
 
         // Create 'locations' storage: per variable/vertex (in their original order), its location, i.e. l[v] in the
@@ -98,14 +104,6 @@ public class ForceVarOrderer implements VarOrderer {
         int[] bestIndices; // Best indices computed by the algorithm.
         curIndices = helper.getNewIndicesForVarOrder(inputOrder);
         bestIndices = curIndices.clone();
-
-        // Determine maximum number of iterations.
-        int maxIter = (int)Math.ceil(Math.log(varCnt));
-        maxIter *= 10;
-        if (dbgEnabled) {
-            helper.dbg(dbgLevel + 1, "Maximum number of iterations: %,d", maxIter);
-            helper.dbg();
-        }
 
         // Initialize metric values.
         VarOrderMetric metric = metricKind.create();
