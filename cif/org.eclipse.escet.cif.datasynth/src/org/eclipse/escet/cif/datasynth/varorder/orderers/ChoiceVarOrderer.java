@@ -87,6 +87,15 @@ public class ChoiceVarOrderer implements VarOrderer {
             helper.dbg();
         }
 
+        // Skip algorithm if no hyper-edges.
+        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
+        if (hyperEdges.isEmpty()) {
+            if (dbgEnabled) {
+                helper.dbg(dbgLevel + 1, "Skipping algorithm%s: no hyper-edges.", (name == null) ? "s" : "");
+            }
+            return inputOrder;
+        }
+
         // Initialize best order (the lower the metric value the better).
         List<SynthesisVariable> bestOrder = null;
         double bestMetric = Double.POSITIVE_INFINITY;
@@ -104,7 +113,6 @@ public class ChoiceVarOrderer implements VarOrderer {
             List<SynthesisVariable> algoOrder = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
 
             // Update best order (with lowest metric value).
-            List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
             double algoMetric = metric.computeForVarOrder(helper, algoOrder, hyperEdges);
             if (algoMetric < bestMetric) {
                 bestOrder = algoOrder;

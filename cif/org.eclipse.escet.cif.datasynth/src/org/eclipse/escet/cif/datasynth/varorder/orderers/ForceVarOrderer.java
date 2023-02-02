@@ -78,6 +78,14 @@ public class ForceVarOrderer implements VarOrderer {
             helper.dbg();
         }
 
+        // Skip algorithm if no hyper-edges.
+        if (hyperEdges.isEmpty()) {
+            if (dbgEnabled) {
+                helper.dbg(dbgLevel + 1, "Skipping algorithm: no hyper-edges.");
+            }
+            return inputOrder;
+        }
+
         // Create 'locations' storage: per variable/vertex (in their original order), its location, i.e. l[v] in the
         // paper.
         double[] locations = new double[varCnt];

@@ -56,6 +56,18 @@ public class SloanVarOrderer implements VarOrderer {
             helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
             helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.GRAPH, relationsKind);
             helper.dbg();
+        }
+
+        // Skip algorithm if no graph edges.
+        if (graph.edgeCount() == 0) {
+            if (dbgEnabled) {
+                helper.dbg(dbgLevel + 1, "Skipping algorithm: no graph edges.");
+            }
+            return inputOrder;
+        }
+
+        // More debug output before applying the algorithm.
+        if (dbgEnabled) {
             helper.dbgMetricsForVarOrder(dbgLevel + 1, inputOrder, "before", relationsKind);
         }
 

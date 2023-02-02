@@ -74,9 +74,17 @@ public class SlidingWindowVarOrderer implements VarOrderer {
             helper.dbg();
         }
 
+        // Skip algorithm if no hyper-edges.
+        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
+        if (hyperEdges.isEmpty()) {
+            if (dbgEnabled) {
+                helper.dbg(dbgLevel + 1, "Skipping algorithm: no hyper-edges.");
+            }
+            return inputOrder;
+        }
+
         // Initialize current indices and metric value.
         VarOrderMetric metric = metricKind.create();
-        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
         int[] curIndices = helper.getNewIndicesForVarOrder(inputOrder);
         double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
         if (dbgEnabled) {

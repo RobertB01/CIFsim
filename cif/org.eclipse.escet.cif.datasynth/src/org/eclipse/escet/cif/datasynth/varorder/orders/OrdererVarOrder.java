@@ -15,13 +15,10 @@ package org.eclipse.escet.cif.datasynth.varorder.orders;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
-import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
 import org.eclipse.escet.common.java.Pair;
@@ -56,38 +53,13 @@ public class OrdererVarOrder extends NonInterleavedVarOrder {
         // Create new variable order helper, based on the initial variable order, rather than on model order.
         helper = new VarOrderHelper(helper, initialVariables);
 
-        // Print debug output about the helper's representations of the synthesis variable relations from the CIF
-        // specification.
-        List<BitSet> hyperEdges = helper.getHyperEdges(RelationsKind.CONFIGURED);
-        Graph graph = helper.getGraph(RelationsKind.CONFIGURED);
-        long hyperEdgeCount = hyperEdges.size();
-        long graphEdgeCount = graph.edgeCount();
-
         // Separate debug output of order and orderer.
         if (dbgEnabled) {
             helper.dbg();
         }
 
-        // Determine whether to apply variable ordering algorithm(s), or skip them. They are only applied if all of the
-        // helper's representations are non-empty. This ensures that variable relations exist for improving the variable
-        // order with variable ordering algorithms. It also avoids division by zero issues.
-        boolean skipAlgorithms = false;
-        if (hyperEdgeCount == 0) {
-            skipAlgorithms = true;
-            if (dbgEnabled) {
-                helper.dbg(dbgLevel, "Skipping variable ordering algorithm(s): no hyper-edges.");
-            }
-        }
-        if (graphEdgeCount == 0) {
-            skipAlgorithms = true;
-            if (dbgEnabled) {
-                helper.dbg(dbgLevel, "Skipping variable ordering algorithm(s): no graph edges.");
-            }
-        }
-
-        // Apply variable ordering algorithm(s), if not skipped.
-        List<SynthesisVariable> orderedVariables = skipAlgorithms ? initialVariables
-                : orderer.order(helper, initialVariables, dbgEnabled, dbgLevel);
+        // Apply variable ordering algorithm(s).
+        List<SynthesisVariable> orderedVariables = orderer.order(helper, initialVariables, dbgEnabled, dbgLevel);
 
         // Return non-interleaved variable order.
         return getNonInterleavedOrder(orderedVariables);
