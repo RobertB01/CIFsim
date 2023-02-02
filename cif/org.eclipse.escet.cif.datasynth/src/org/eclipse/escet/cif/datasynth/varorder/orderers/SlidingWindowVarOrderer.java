@@ -60,6 +60,9 @@ public class SlidingWindowVarOrderer implements VarOrderer {
         // Get variable count.
         int varCnt = inputOrder.size();
 
+        // Determine window length.
+        int length = Math.min(maxLen, varCnt);
+
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
             helper.dbg(dbgLevel, "Applying sliding window algorithm:");
@@ -67,11 +70,6 @@ public class SlidingWindowVarOrderer implements VarOrderer {
             helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
             helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
             helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
-        }
-
-        // Determine window length.
-        int length = Math.min(maxLen, varCnt);
-        if (dbgEnabled) {
             helper.dbg(dbgLevel + 1, "Window length: %,d", length);
             helper.dbg();
         }
