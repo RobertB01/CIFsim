@@ -39,6 +39,8 @@ The old synthesis variable is also always before the new synthesis variable.
 
 For more information on ordering and its influence on performance, see Chapter 3 of <<minato96>>.
 
+=== Initial variable order
+
 The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see the <<tools-datasynth-options,options section>>).
 Several predefined orders exist, and it is also possible to define a custom order.
 By default, the sorted order is used.
@@ -150,6 +152,8 @@ This results in the following initial boolean/BDD variable ordering, with bits w
 `a#1`
 `a+#1`
 
+=== Automatic variable ordering
+
 The default orders are often not optimal performance-wise.
 Manually specifying a custom order often requires specialist knowledge and can take quite some time.
 Luckily, there are algorithms that can automatically compute a decent variable order.
@@ -168,6 +172,8 @@ If an automatic variable ordering algorithm changes the initial order, no synthe
 The automatic variable ordering algorithms are not applied if the CIF model has less than two synthesis variables, as with zero variables there is nothing to order, and with one variable there is only one possible order.
 They are also not applied if the model has no guards, updates, or other predicates from which to derive relations between the variables.
 Without such relations, the algorithms lack the required input to search for improved variable orders.
+
+==== Variable relations
 
 The variable relations serve as input for the algorithms.
 Different algorithms may use different representations of the variable relations.
@@ -194,7 +200,9 @@ All hyper-edge creators take variables that occur indirectly via algebraic varia
 
 More detailed information about the various representations of variable relations may be obtained during synthesis by enabling <<tools-datasynth-dbg-output,debug output>>.
 
-The following variable ordering algorithms are available:
+==== Variable orderers
+
+The following variable ordering algorithms, or variable orderers, are available:
 
 * _DCSH_
 +
