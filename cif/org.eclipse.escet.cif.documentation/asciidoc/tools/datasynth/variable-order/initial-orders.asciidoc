@@ -20,6 +20,7 @@ For simple configuration, the initial order of the boolean/BDD variables can be 
 By default, the sorted order is used as initial variable order.
 The following predefined initial orders can be used:
 
+[[tools-datasynth-var-order-initial-orders-model]]
 * _model ordering without interleaving_ (option value `model`)
 +
 The initial order of the synthesis variables is as they occur in the model.
@@ -35,6 +36,7 @@ A location pointer, for an automaton with two or more locations, is put after th
 No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 The old variables are still before the new variables; this is not reversed.
 
+[[tools-datasynth-var-order-initial-orders-sorted]]
 * _sorted ordering without interleaving_ (option value `sorted`)
 +
 The initial order of the synthesis variables is based on the names of the variables and automata.
@@ -50,6 +52,7 @@ They are sorted alphabetically in descending order, based on their absolute name
 No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 The old variables are still before the new variables; this is not reversed.
 
+[[tools-datasynth-var-order-initial-orders-random]]
 * _random ordering without interleaving_ (option value `random` or `random:SEED`)
 +
 The variables and automata are initially ordered randomly.
