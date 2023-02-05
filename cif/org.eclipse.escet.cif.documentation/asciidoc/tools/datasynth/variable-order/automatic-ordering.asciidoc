@@ -33,7 +33,7 @@ The automatic variable ordering algorithms are not applied if the CIF model has 
 They are also not applied if the model has no guards, updates, or other predicates from which to derive relations between the variables.
 Without such relations, the algorithms lack the required input to search for improved variable orders.
 
-[[tools-datasynth-var-order-auto-var-relations]]
+[[tools-datasynth-var-order-auto-var-ordering-relations]]
 === Variable relations
 
 The variable relations serve as input for the algorithms.
@@ -44,7 +44,7 @@ For simple configuration, the variable relations that are used to construct the 
 By default, the legacy variable relations are used.
 The following variable relations can be used:
 
-[[tools-datasynth-var-order-auto-var-relations-legacy]]
+[[tools-datasynth-var-order-auto-var-ordering-relations-legacy]]
 * _Legacy_
 +
 The legacy hyper-edge creator creates the following hyper-edges:
@@ -53,8 +53,8 @@ The legacy hyper-edge creator creates the following hyper-edges:
 ** Per edge in an automaton, per guard, per comparison binary expression, a hyper-edge for the variables that occur in the binary expression.
 ** Per assignment, a hyper-edge for the variables that occur in the addressable and value of the assignment.
 ** Per event, a hyper-edge for the variables that occur in the guards and updates of all edges for that event in the entire specification.
-+
-[[tools-datasynth-var-order-auto-var-relations-linearized]]
+
+[[tools-datasynth-var-order-auto-var-ordering-relations-linearized]]
 * _Linearized_
 +
 The linearized hyper-edge creator creates the following hyper-edges:
@@ -72,7 +72,7 @@ For advanced configuration, see the separate section on <<tools-datasynth-var-or
 
 The following variable ordering algorithms, or variable orderers, are available:
 
-[[tools-datasynth-var-order-auto-var-orderers-dcsh]]
+[[tools-datasynth-var-order-auto-var-ordering-orderers-dcsh]]
 * _DCSH_
 +
 The DSM-based Cuthill-McKee-Sloan variable ordering Heuristic, or DCSH algorithm, of <<lousberg20>> aims to find good global variable orders.
@@ -83,7 +83,7 @@ It then chooses the best order out of the orders produced by these two algorithm
 The DCSH algorithm is disabled by default.
 For simple configuration, it can be enabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 
-[[tools-datasynth-var-order-auto-var-orderers-force]]
+[[tools-datasynth-var-order-auto-var-ordering-orderers-force]]
 * _FORCE_
 +
 The FORCE algorithm of <<aloul03>> aims to optimize an existing variable order, but may get stuck in a local optimum.
@@ -96,7 +96,7 @@ The iterative algorithm stops once a fixed point has been reached, or after at m
 The FORCE algorithm is enabled by default.
 For simple configuration, it can be disabled using the _BDD FORCE variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 
-[[tools-datasynth-var-order-auto-var-orderers-sliding-window]]
+[[tools-datasynth-var-order-auto-var-ordering-orderers-sliding-window]]
 * _Sliding window_
 +
 The sliding window algorithm aims to locally optimize an existing variable order for each window.

@@ -145,7 +145,7 @@ The following orderers can be specified:
 
 * _DCSH_
 +
-Applies the <<tools-datasynth-var-order-auto-var-orderers-dcsh,DCSH algorithm>>.
+Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-dcsh,DCSH algorithm>>.
 +
 ** Name: `dcsh`
 ** Arguments:
@@ -171,7 +171,7 @@ Applies the <<tools-datasynth-var-order-auto-var-orderers-dcsh,DCSH algorithm>>.
 
 * _FORCE_
 +
-Applies the <<tools-datasynth-var-order-auto-var-orderers-force,FORCE algorithm>>.
+Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-force,FORCE algorithm>>.
 +
 ** Name: `force`
 ** Arguments:
@@ -191,7 +191,7 @@ Applies the <<tools-datasynth-var-order-auto-var-orderers-force,FORCE algorithm>
 
 * _Sliding window_
 +
-Applies the <<tools-datasynth-var-order-auto-var-orderers-sliding-window,sliding window algorithm>>.
+Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-sliding-window,sliding window algorithm>>.
 +
 ** Name: `slidwin`
 ** Arguments:
@@ -217,7 +217,7 @@ Applies the <<tools-datasynth-var-order-auto-var-orderers-sliding-window,sliding
 
 * _Sloan_
 +
-Applies the <<tools-datasynth-var-order-auto-var-orderers-dcsh,Sloan profile/wavefront-reducing algorithm>>.
+Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-dcsh,Sloan profile/wavefront-reducing algorithm>>.
 +
 ** Name: `sloan`
 ** Arguments:
@@ -231,7 +231,7 @@ Applies the <<tools-datasynth-var-order-auto-var-orderers-dcsh,Sloan profile/wav
 
 * _Weighted Cuthill-McKee_
 +
-Applies the <<tools-datasynth-var-order-auto-var-orderers-dcsh,Weighted Cuthill-McKee bandwidth-reducing algorithm>>.
+Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-dcsh,Weighted Cuthill-McKee bandwidth-reducing algorithm>>.
 +
 ** Name: `weighted-cm`
 ** Arguments:
@@ -339,13 +339,13 @@ Multiple metrics can be used:
 
 * _Legacy_
 +
-Use the <<tools-datasynth-var-order-auto-var-relations-legacy,legacy>> relations.
+Use the <<tools-datasynth-var-order-auto-var-ordering-relations-legacy,legacy>> relations.
 +
 Name: `legacy`
 
 * _Linearized_
 +
-Use the <<tools-datasynth-var-order-auto-var-relations-linearized,linearized>> relations.
+Use the <<tools-datasynth-var-order-auto-var-ordering-relations-linearized,linearized>> relations.
 +
 Name: `linearized`
 
