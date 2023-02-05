@@ -33,11 +33,11 @@ For the initial variable ordering, it is possible to order the BDD variables per
 This can significantly influences the performance of synthesis.
 Generally, strongly related synthesis variables should be interleaved.
 
-For more information on ordering and its influence on performance, see Chapter 3 of <<minato96>>.
-
 For each CIF variable and location pointer, two synthesis variables are created, one storing the old/current value (before a transition), and one storing the new value (after a transition).
 For a single CIF variable or location pointer, the old and new synthesis variables are always kept together, and interleaved.
 The old synthesis variable is also always before the new synthesis variable.
+
+For more information on ordering and its influence on performance, see Chapter 3 of <<minato96>>.
 
 The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see the <<tools-datasynth-options,options section>>).
 Several predefined orders exist, and it is also possible to define a custom order.
