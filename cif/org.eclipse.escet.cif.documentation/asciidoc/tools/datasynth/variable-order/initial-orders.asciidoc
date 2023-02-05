@@ -14,10 +14,11 @@
 [[tools-datasynth-var-order-initial-orders]]
 == Initial variable order
 
-The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see the <<tools-datasynth-options,options section>>).
-Several predefined orders exist, and it is also possible to define a custom order.
-By default, the sorted order is used.
-The following predefined orders exist:
+The CIF data-based synthesis algorithm features several predefined initial BDD <<tools-datasynth-var-order,variable orders>>, and it is also possible to define a custom order.
+
+For simple configuration, the initial order of the boolean/BDD variables can be configured using the _BDD variable order_ option (see the <<tools-datasynth-options,options section>>).
+By default, the sorted order is used as initial variable order.
+The following predefined initial orders can be used:
 
 * _model ordering without interleaving_ (option value `model`)
 +
@@ -60,6 +61,7 @@ For instance, use `random:123` as option value to get a random order that can be
 +
 No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 
+[[tools-datasynth-var-order-initial-orders-custom]]
 * _custom ordering_
 +
 Custom orders consist of absolute names of variables and automata.
@@ -124,3 +126,5 @@ This results in the following initial boolean/BDD variable ordering, with bits w
 `a.x2+#1`
 `a#1`
 `a+#1`
+
+For advanced configuration, see the separate section on <<tools-datasynth-var-order-adv-config,advanced variable ordering configuration>>.

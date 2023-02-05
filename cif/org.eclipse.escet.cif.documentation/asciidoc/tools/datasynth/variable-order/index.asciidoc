@@ -37,6 +37,12 @@ For each CIF variable and location pointer, two synthesis variables are created,
 For a single CIF variable or location pointer, the old and new synthesis variables are always kept together, and interleaved.
 The old synthesis variable is also always before the new synthesis variable.
 
+Using options, the initial variable order can be set to one of several predefined orders, or to a custom variable order.
+Manually specifying a custom order often requires specialist knowledge and can take quite some time.
+Luckily, there are algorithms that can automatically compute a decent variable order from an initial variable order.
+The algorithms to apply, and their settings, can be set using options as well.
+There are simple options that allow for basic configuration, as well as advanced options that allow more freedom.
+
 For more information on ordering and its influence on performance, see Chapter 3 of <<minato96>>.
 
 The following additional information is available on variable ordering:
