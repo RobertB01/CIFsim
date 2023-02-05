@@ -85,22 +85,23 @@ For instance, use `random:123` as option value to get a random order that can be
 +
 No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 
-Furthermore, a custom initial order can be defined.
+* _custom ordering_
++
 Custom orders consist of absolute names of variables and automata.
 That is, for an automaton `a`, with a discrete variable `x`, the absolute name of the variable is `a.x`.
 The `+*+` character can be used as wildcard in those names, and indicates zero or more characters.
 In case of multiple matches, the matches are sorted increasingly on their absolute names, and interleaved.
-
++
 Multiple names can be separated with `;` characters.
 The synthesis variables matching the name pattern before the `;` are ordered before the synthesis variables matching the name pattern after the `;`.
 The `;` separator does not introduce interleaving.
 The `,` separator can be used instead of the `;` separator to introduce order but also introduce interleaving.
-
++
 Each name pattern in the order must match at least one variable or automaton.
 A variable or automaton may not be included more than once in the order.
 Every variable and automaton (with two or more locations) needs to be included in the order.
 It is not possible to specify new variables, as they are always directly after their corresponding old variables, and they are always interleaved.
-
++
 For instance, consider two automata: `a` and `b`, each with three variables of type `int[0..3]`: `x1`, `x2`, and `x3`.
 The automata have three locations each, so location pointers are created for them.
 We thus have six discrete variables: `a.x1`, `a.x2`, `a.x3`, `b.x1`, `b.x2`, and `b.x3`, and two location pointer variables: `a` and `b`.
@@ -110,7 +111,7 @@ They are ordered in increasing alphabetic order, and are interleaved.
 Variables `a.x3` and `a.x1` are also interleaved, with `a.x3` before `a.x1`.
 Finally, variable `a.x2` is ordered before the location pointer for automaton `a`, and they are interleaved as well.
 This results in the following initial boolean/BDD variable ordering, with bits whose name ends with `pass:c[+]` representing bits of new variables rather than current/old variables, and `x#0` representing bit zero of variable `x`:
-
++
 [%hardbreaks]
 `b#0`
 `b+#0`
@@ -128,7 +129,7 @@ This results in the following initial boolean/BDD variable ordering, with bits w
 `b.x2+#1`
 `b.x3#1`
 `b.x3+#1`
-
++
 [%hardbreaks]
 `a.x3#0`
 `a.x3+#0`
@@ -138,7 +139,7 @@ This results in the following initial boolean/BDD variable ordering, with bits w
 `a.x3+#1`
 `a.x1#1`
 `a.x1+#1`
-
++
 [%hardbreaks]
 `a.x2#0`
 `a.x2+#0`
