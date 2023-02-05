@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 [[tools-datasynth-var-order-initial-orders]]
-== Initial variable order
+== Initial variable orders
 
 The CIF data-based synthesis algorithm features several predefined initial BDD <<tools-datasynth-var-order,variable orders>>, and it is also possible to define a custom order.
 

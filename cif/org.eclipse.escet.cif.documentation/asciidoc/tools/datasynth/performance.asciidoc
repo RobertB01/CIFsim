@@ -46,39 +46,45 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 
 | Order
 | BDD variable order
-| <<tools-datasynth-var-order>>
+| <<tools-datasynth-var-order-initial-orders>>
 | Better order for smaller BDD representations
 | Choose the best order, depends on the model, (reversed) model/sorted usually good choices, custom order allows for best performance
 
 | Order
 | BDD hyper-edge creation algorithm
-| <<tools-datasynth-var-order>>
+| <<tools-datasynth-var-order-auto-var-ordering>>
 | Better order for smaller BDD representations
 | Choose the algorithms that produces the best order, depends on the model
 
 | Order
 | BDD DCSH variable ordering algorithm
-| <<tools-datasynth-var-order>>
+| <<tools-datasynth-var-order-auto-var-ordering>>
 | Better order for smaller BDD representations
 | Enable for automatic ordering
 
 | Order
 | BDD FORCE variable ordering algorithm
-| <<tools-datasynth-var-order>>
+| <<tools-datasynth-var-order-auto-var-ordering>>
 | Better order for smaller BDD representations
 | Enable for automatic ordering
 
 | Order
 | BDD sliding window variable ordering algorithm
-| <<tools-datasynth-var-order>>
+| <<tools-datasynth-var-order-auto-var-ordering>>
 | Better order for smaller BDD representations
 | Enable for automatic ordering
 
 | Order
 | BDD sliding window size
-| <<tools-datasynth-var-order>>
+| <<tools-datasynth-var-order-auto-var-ordering>>
 | Better order for smaller BDD representations
 | Larger windows might allow for more optimization, but take more time
+
+| Order
+| BDD advanced variable order
+| <<tools-datasynth-var-order-adv-config>>
+| Better order for smaller BDD representations
+| Choose the best initial order and algorithms, depends on the model
 
 | Order
 | Edge order for backward reachability
