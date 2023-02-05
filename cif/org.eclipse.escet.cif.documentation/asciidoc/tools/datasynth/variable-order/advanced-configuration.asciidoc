@@ -13,3 +13,345 @@
 
 [[tools-datasynth-var-order-adv-config]]
 == Advanced variable ordering configuration
+
+The CIF data-based synthesis performs depends greatly on the <<tools-datasynth-var-order,variable ordering>>.
+First, an <<tools-datasynth-var-order-initial-orders,initial order>> is applied, which can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>>.
+Simple configuration <<tools-datasynth-options,options>> allow to configure the initial order, as well as the algorithms (variable orderers):
+
+* _BDD variable order_
+* _BDD hyper-edge creation algorithm_
+* _BDD DCSH variable ordering algorithm_
+* _BDD FORCE variable ordering algorithm_
+* _BDD sliding window variable ordering algorithm_
+* _BDD sliding window size_
+
+However, these options offer only basic configuration.
+For the most flexibility, variable ordering can be configured using the _BDD advanced variable order_ option (see the <<tools-datasynth-options,options section>>).
+
+By default, the advanced variable configuration uses the simple configuration.
+To avoid confusion, variable ordering must be configured either through the simple configuration options or through the advanced configuration option, but never through both.
+
+=== Examples
+
+The <<tools-datasynth-var-order-initial-orders,predefined>> initial variable orders can be expressed using the advanced syntax as follows:
+
+[cols="1,1"]
+|===
+| Predefined initial order | Advanced syntax
+
+| `model` | `model`
+| `reverse-model` | `reverse(order=model)`
+| `sorted` | `sorted`
+| `reverse-sorted` | `reverse(order=sorted)`
+| `random` | `random`
+| `random:SEED` | `random(seed=SEED)`
+| `<custom-order>` | `custom(order="<custom-order>")`
+|===
+
+Some other examples of advanced variable orders:
+
+* `+model -> dcsh -> force -> slidwin+`: Start with model order as initial order, and then apply the DCSH, FORCE and sliding window algorithms with their default settings.
+* `+sorted -> dcsh(relations=linearized)+`: Start with sorted order as initial order, and then apply the DCSH algorithm with linearized variable relations.
+* `+random -> or(choices=[dcsh,force])+`: Start with a random order as initial order, and then apply the DCSH and FORCE algorithms, choosing the best order from the ones produced by the two algorithms.
+
+=== Syntax
+
+The syntax to specify advanced variable ordering generally works as follows:
+
+* Orders and orderers are specified by their name.
+* Arguments to configure orders and orderers can be given after the order(er)'s name between parentheses: `+(...)+`.
+* For orders and orderers without arguments, it is allowed to provide parentheses as well, e.g., `model()` is equivalent to specifying `model`.
+* Each argument is given by a name and a value: `name=value`.
+* To specify multiple arguments, separate them with a comma.
+After the last argument, optionally a comma may be specified as well.
+* To apply to an initial order a variable orderer, separate them with an arrow (`+->+`).
+* To apply multiple algorithms in sequence, separate them with an arrow (`+->+`).
+* If needed, a sequence consisting of an order and one or more algorithms, or a sequence of algorithms, may be enclosed in parentheses: `+(... -> ... -> ...)+`.
+* Spaces, tabs, and newline characters are generally ignored, but can be used to improve readability.
+
+=== Orders
+
+The following orders can be specified:
+
+* _Simple order_
++
+Uses the configuration as configured by the simple variable ordering options.
++
+** Name: `simple`
+** Arguments: n/a
+** Example: `simple`
+
+* _Model order_
++
+Uses the predefined <<tools-datasynth-var-order-initial-orders-model,model order>>.
++
+** Name: `model`
+** Arguments: n/a
+** Example: `model`
+
+* _Sorted order_
++
+Uses the predefined <<tools-datasynth-var-order-initial-orders-sorted,sorted order>>.
++
+** Name: `sorted`
+** Arguments: n/a
+** Example: `sorted`
+
+* _Random order_
++
+Uses the predefined <<tools-datasynth-var-order-initial-orders-random,random order>>.
++
+** Name: `random`
+** Arguments:
+*** `seed`
+**** Description: a seed for the random order
+**** Mandatory: no
+**** Default: use a random seed
+**** Type: number
+**** Constraints: seed must be in the range [0 .. 2^64^ - 1]
+** Examples: `random`, `random(seed=123)`
+
+* _Custom order_
++
+Uses a <<tools-datasynth-var-order-initial-orders-custom,custom order>>.
++
+** Name: `custom`
+** Arguments:
+*** `order`
+**** Description: the custom order, with the <<tools-datasynth-var-order-initial-orders-custom,same syntax>> as for the simple configuration option
+**** Mandatory: yes
+**** Default: n/a
+**** Type: string
+**** Constraints: the order must be complete in that it contains all variables, and must not contain any duplicate variables
+** Example: `custom(order="a,b;c,d")`
+
+* _Reverse order_
++
+Reverses a variable order.
++
+** Name: `reverse`
+** Arguments:
+*** `order`
+**** Description: the order to reverse
+**** Mandatory: yes
+**** Default: n/a
+**** Type: variable order
+**** Constraints: none
+** Examples: `reverse(order=model)`, `reverse(order=sorted)`, `reverse(order=random(seed=123))`
+
+=== Orderers
+
+The following orderers can be specified:
+
+* _DCSH_
++
+Applies the <<tools-datasynth-var-order-auto-var-orderers-dcsh,DCSH algorithm>>.
++
+** Name: `dcsh`
+** Arguments:
+*** `node-finder`
+**** Description: the <<tools-datasynth-var-order-adv-config-node-finders,node finder algorithm>> to use for the Weighted-Cuthill-McKee orderer
+**** Mandatory: no
+**** Default: `george-liu`
+**** Type: enum (`george-liu` or `sloan`)
+**** Constraints: none
+*** `metric`
+**** Description: the <<tools-datasynth-var-order-adv-config-metrics,metric>> to use to compare orders
+**** Mandatory: no
+**** Default: `wes`
+**** Type: enum (`total-span` or `wes`)
+**** Constraints: none
+*** `relations`
+**** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
+**** Mandatory: no
+**** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
+**** Type: enum (`configured`, `legacy` or `linearized`)
+**** Constraints: none
+** Examples: `dcsh`, `dcsh(metric=wes)`, `dcsh(node-finder=george-liu, metric=wes, relations=configured)`
+
+* _FORCE_
++
+Applies the <<tools-datasynth-var-order-auto-var-orderers-force,FORCE algorithm>>.
++
+** Name: `force`
+** Arguments:
+*** `metric`
+**** Description: the <<tools-datasynth-var-order-adv-config-metrics,metric>> to use to compare orders
+**** Mandatory: no
+**** Default: `total-span`
+**** Type: enum (`total-span` or `wes`)
+**** Constraints: none
+*** `relations`
+**** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
+**** Mandatory: no
+**** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
+**** Type: enum (`configured`, `legacy` or `linearized`)
+**** Constraints: none
+** Examples: `force`, `force(metric=total-span)`, `force(metric=total-span, relations=configured)`
+
+* _Sliding window_
++
+Applies the <<tools-datasynth-var-order-auto-var-orderers-sliding-window,sliding window algorithm>>.
++
+** Name: `slidwin`
+** Arguments:
+*** `size`
+**** Description: the maximum size of the window
+**** Mandatory: no
+**** Default: 4 (as configured by the _BDD sliding window size_ <<tools-datasynth-options,option>>)
+**** Type: number
+**** Constraints: size must be in the range [1 .. 12]
+*** `metric`
+**** Description: the <<tools-datasynth-var-order-adv-config-metrics,metric>> to use to compare orders
+**** Mandatory: no
+**** Default: `total-span`
+**** Type: enum (`total-span` or `wes`)
+**** Constraints: none
+*** `relations`
+**** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
+**** Mandatory: no
+**** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
+**** Type: enum (`configured`, `legacy` or `linearized`)
+**** Constraints: none
+** Examples: `slidwin`, `slidwin(size=5)`, `slidwin(size=5, metric=total-span, relations=configured)`
+
+* _Sloan_
++
+Applies the <<tools-datasynth-var-order-auto-var-orderers-dcsh,Sloan profile/wavefront-reducing algorithm>>.
++
+** Name: `sloan`
+** Arguments:
+*** `relations`
+**** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
+**** Mandatory: no
+**** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
+**** Type: enum (`configured`, `legacy` or `linearized`)
+**** Constraints: none
+** Examples: `sloan`, `sloan(relations=configured)`
+
+* _Weighted Cuthill-McKee_
++
+Applies the <<tools-datasynth-var-order-auto-var-orderers-dcsh,Weighted Cuthill-McKee bandwidth-reducing algorithm>>.
++
+** Name: `weighted-cm`
+** Arguments:
+*** `node-finder`
+**** Description: the <<tools-datasynth-var-order-adv-config-node-finders,node finder algorithm>> to use
+**** Mandatory: no
+**** Default: `george-liu`
+**** Type: enum (`george-liu` or `sloan`)
+**** Constraints: none
+*** `relations`
+**** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
+**** Mandatory: no
+**** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
+**** Type: enum (`configured`, `legacy` or `linearized`)
+**** Constraints: none
+** Examples: `weighted-cm`, `weighted-cm(relations=configured)`, `weighted-cm(node-finder=george-liu, relations=configured)`
+
+* _Choice_
++
+Applies multiple algorithms to the same variable order and chooses the best resulting order.
++
+** Name: `or`
+** Arguments:
+*** `choices`
+**** Description: the orderers to apply
+**** Mandatory: yes
+**** Default: n/a
+**** Type: list of orderers
+**** Constraints: at least two orderers must be specified
+*** `metric`
+**** Description: the <<tools-datasynth-var-order-adv-config-metrics,metric>> to use to compare orders
+**** Mandatory: no
+**** Default: `wes`
+**** Type: enum (`total-span` or `wes`)
+**** Constraints: none
+*** `relations`
+**** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
+**** Mandatory: no
+**** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
+**** Type: enum (`configured`, `legacy` or `linearized`)
+**** Constraints: none
+** Examples: `or(choices=[dcsh,force])`, `+or(choices=[(force -> dcsh), (dcsh -> force)], metric=wes, relations=configured)+`
+
+* _Choice_
++
+Reverses the variable order produced by another variable orderer.
++
+** Name: `reverse`
+** Arguments:
+*** `orderer`
+**** Description: the orderer to apply
+**** Mandatory: yes
+**** Default: n/a
+**** Type: orderer
+**** Constraints: none
+*** `relations`
+**** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
+**** Mandatory: no
+**** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
+**** Type: enum (`configured`, `legacy` or `linearized`)
+**** Constraints: none
+** Examples: `reverse(orderer=force)`, `+reverse(orderer=(dcsh -> force -> slidwin))+`, `reverse(orderer=force, relations=configured)`
+
+[[tools-datasynth-var-order-adv-config-node-finders]]
+=== Node finders
+
+Orderers that work on graphs may use a pseudo-peripheral node finder algorithm while computing a variable order.
+Multiple such node finders can be used:
+
+* _George-Liu_
++
+Use the <<george79,algorithm by George and Liu>>.
++
+Name: `george-liu`
+
+* _Sloan_
++
+Use the <<sloan89,algorithm by Sloan>>.
++
+Name: `sloan`
+
+[[tools-datasynth-var-order-adv-config-metrics]]
+=== Metrics
+
+To compare different orders, and choose the best one, metric values are used.
+Multiple metrics can be used:
+
+* _Total span_
++
+Use the <<aloul03,total span metric>>.
++
+Name: `total-span`
+
+* _WES_
++
+Use the <<lousberg20,Weighted Event Span (WES) metric>>.
++
+Name: `wes`
+
+[[tools-datasynth-var-order-adv-config-relations]]
+=== Relations
+
+Metric value can be computed using different variable relations derived from the CIF specification.
+Multiple metrics can be used:
+
+* _Legacy_
++
+Use the <<tools-datasynth-var-order-auto-var-relations-legacy,legacy>> relations.
++
+Name: `legacy`
+
+* _Linearized_
++
+Use the <<tools-datasynth-var-order-auto-var-relations-linearized,linearized>> relations.
++
+Name: `linearized`
+
+* _Configured_
++
+Use the relations as configured using the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>.
++
+Name: `configured`
+
