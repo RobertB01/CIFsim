@@ -43,3 +43,5 @@ The following additional information is available on variable ordering:
 
 * <<tools-datasynth-var-order-initial-orders>>
 * <<tools-datasynth-var-order-auto-var-ordering>>
+* <<tools-datasynth-var-order-auto-simple-config>>
+* <<tools-datasynth-var-order-auto-adv-config>>

@@ -386,6 +386,8 @@ include::tools/datasynth/variable-order/initial-orders.asciidoc[]
 
 include::tools/datasynth/variable-order/automatic-ordering.asciidoc[]
 
+include::tools/datasynth/variable-order/advanced-configuration.asciidoc[]
+
 :leveloffset: -1
 
 include::tools/datasynth/operation-cache.asciidoc[]
