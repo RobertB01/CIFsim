@@ -1,0 +1,106 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+[[tools-datasynth-var-order-auto-var-ordering]]
+== Automatic variable ordering
+
+The default orders are often not optimal performance-wise.
+Manually specifying a custom order often requires specialist knowledge and can take quite some time.
+Luckily, there are algorithms that can automatically compute a decent variable order.
+
+The algorithms all take an initial variable ordering, and try to improve it using a fast heuristic.
+Some algorithms search for a local optimum.
+A better initial variable ordering may then result in a better final variable ordering (a better local optimum), and may also speed up the automatic variable ordering algorithm itself (reaching an optimum faster).
+Other algorithms search for a global optimum.
+However, the algorithms are all based on heuristics.
+The guarantees that they provide differ, but none of them guarantees that synthesis will actually be quicker.
+In practice however, they typically do improve synthesis performance, especially for larger and more complex models.
+
+For the initial variable ordering, the CIF variables and location pointers may be arbitrarily interleaved.
+If an automatic variable ordering algorithm changes the initial order, no synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+
+The automatic variable ordering algorithms are not applied if the CIF model has less than two synthesis variables, as with zero variables there is nothing to order, and with one variable there is only one possible order.
+They are also not applied if the model has no guards, updates, or other predicates from which to derive relations between the variables.
+Without such relations, the algorithms lack the required input to search for improved variable orders.
+
+=== Variable relations
+
+The variable relations serve as input for the algorithms.
+Different algorithms may use different representations of the variable relations.
+One such representation is _hyper-edges_, and another is _graph edges_, which are derived from the hyper-edges.
+The variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see the <<tools-datasynth-options,options section>>):
+
+* _Legacy_ (default)
++
+The legacy hyper-edge creator creates the following hyper-edges:
++
+** Per invariant, a hyper-edge for the variables that occur in the invariant.
+** Per edge in an automaton, per guard, per comparison binary expression, a hyper-edge for the variables that occur in the binary expression.
+** Per assignment, a hyper-edge for the variables that occur in the addressable and value of the assignment.
+** Per event, a hyper-edge for the variables that occur in the guards and updates of all edges for that event in the entire specification.
++
+* _Linearized_
++
+The linearized hyper-edge creator creates the following hyper-edges:
++
+** Per <<tools-cif2cif-chapter-linearize-product,linearized>> edge, a hyper-edge for the variables that occur in the guards and updates of that linearized edge.
+State/event exclusion invariants are taken into account, by first <<tools-cif2cif-chapter-elim-state-event-excl-invs,converting them to automata>>.
+
+All hyper-edge creators take variables that occur indirectly via algebraic variables into account.
+
+More detailed information about the various representations of variable relations may be obtained during synthesis by enabling <<tools-datasynth-dbg-output,debug output>>.
+
+=== Variable orderers
+
+The following variable ordering algorithms, or variable orderers, are available:
+
+* _DCSH_
++
+The DCSH algorithm of <<lousberg20>> aims to find good global variable orders.
++
+DCSH applies two algorithms, the Weighted Cuthill-McKee bandwidth-reducing algorithm and the Sloan profile/wavefront-reducing algorithm.
+It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the Weighted Event Span (WES) metric.
++
+The DCSH algorithm is currently considered experimental.
+It is therefore disabled by default, but can be enabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+
+* _FORCE_
++
+The FORCE algorithm of <<aloul03>> aims to optimize an existing variable order, but may get stuck in a local optimum.
++
+FORCE iteratively computes new variable orders by considering relations between the variables.
+Conceptually, highly related variables 'pull' each other closer with more force than less related variables do.
+Each new order is promoted as the new best order, if it is better than the current best order, based on the total span metric.
+The iterative algorithm stops once a fixed point has been reached, or after at most 10 * ceil(log~e~(n)) iterations of the algorithm have been performed, with `n` the number of synthesis variables.
++
+The FORCE algorithm is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+
+* _Sliding window_
++
+The sliding window algorithm aims to locally optimize an existing variable order for each window.
++
+The sliding window algorithm 'slides' over the variable order, from left to right, one variable at a time, using a fixed-length _window_.
+A window is a part of the entire order.
+For instance, for a variable order `a;b;c;d;e` and windows length 3, the window at index 0 would be `a;b;c`, at index 1 it would be `b;c;d`, and at index 2 it would be `c;d;e`.
+For each window, it computes all possible variable permutations, and selects the best one based on the total span metric.
+It then replaces the window by the best permutation of that window, before moving on to the next window.
++
+The sliding window algorithm is enabled by default, but can be disabled using the _BDD sliding window variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
++
+The default maximum length of the window that is used is 4.
+The actual window may be smaller, if less than 4 variables and/or location pointers are present in the model.
+The maximum length of the window can be configured using the _BDD sliding window size_ option (see the <<tools-datasynth-options,options section>>).
+The option to set the maximum length only has effect if the sliding window variable ordering algorithm is enabled.
+The size must be an integer number in the range [1 .. 12].
+
+If enabled, the algorithms are applied in the order they are listed above.

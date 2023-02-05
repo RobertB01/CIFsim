@@ -1,0 +1,126 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+[[tools-datasynth-var-order-initial-orders]]
+== Initial variable order
+
+The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see the <<tools-datasynth-options,options section>>).
+Several predefined orders exist, and it is also possible to define a custom order.
+By default, the sorted order is used.
+The following predefined orders exist:
+
+* _model ordering without interleaving_ (option value `model`)
++
+The initial order of the synthesis variables is as they occur in the model.
+A location pointer, for an automaton with two or more locations, is put before the variables declared in that automaton.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+
+* _reverse model ordering without interleaving_ (option value `reverse-model`)
++
+The initial order of the synthesis variables is as they occur in the model, but reversed.
+A location pointer, for an automaton with two or more locations, is put after the variables declared in that automaton, in this reverse order.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+The old variables are still before the new variables; this is not reversed.
+
+* _sorted ordering without interleaving_ (option value `sorted`)
++
+The initial order of the synthesis variables is based on the names of the variables and automata.
+They are sorted alphabetically in ascending order, based on their absolute names.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+
+* _reverse sorted ordering without interleaving_ (option value `reverse-sorted`)
++
+The initial order of the synthesis variables is based on the names of the variables and automata.
+They are sorted alphabetically in descending order, based on their absolute names.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+The old variables are still before the new variables; this is not reversed.
+
+* _random ordering without interleaving_ (option value `random` or `random:SEED`)
++
+The variables and automata are initially ordered randomly.
+If no seed is specified, a random seed is used, resulting in a random random order.
+If a seed is specified, a fixed random order is used.
+That is, using the same seed again, results in the same random order.
+The `SEED` must be an integer number in the range [0 .. 2^64^ - 1].
+For instance, use `random:123` as option value to get a random order that can be repeated on a subsequent synthesis for the same model.
++
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+
+* _custom ordering_
++
+Custom orders consist of absolute names of variables and automata.
+That is, for an automaton `a`, with a discrete variable `x`, the absolute name of the variable is `a.x`.
+The `+*+` character can be used as wildcard in those names, and indicates zero or more characters.
+In case of multiple matches, the matches are sorted increasingly on their absolute names, and interleaved.
++
+Multiple names can be separated with `;` characters.
+The synthesis variables matching the name pattern before the `;` are ordered before the synthesis variables matching the name pattern after the `;`.
+The `;` separator does not introduce interleaving.
+The `,` separator can be used instead of the `;` separator to introduce order but also introduce interleaving.
++
+Each name pattern in the order must match at least one variable or automaton.
+A variable or automaton may not be included more than once in the order.
+Every variable and automaton (with two or more locations) needs to be included in the order.
+It is not possible to specify new variables, as they are always directly after their corresponding old variables, and they are always interleaved.
++
+For instance, consider two automata: `a` and `b`, each with three variables of type `int[0..3]`: `x1`, `x2`, and `x3`.
+The automata have three locations each, so location pointers are created for them.
+We thus have six discrete variables: `a.x1`, `a.x2`, `a.x3`, `b.x1`, `b.x2`, and `b.x3`, and two location pointer variables: `a` and `b`.
+Consider the following custom order: `+b*;a.x3,a.x1;a.x2,a+`.
+Pattern `+b*+` matches location pointer variable `b` as well as the three discrete variables of automaton `b` (`b.x1`, `b.x2`, and `b.x3`).
+They are ordered in increasing alphabetic order, and are interleaved.
+Variables `a.x3` and `a.x1` are also interleaved, with `a.x3` before `a.x1`.
+Finally, variable `a.x2` is ordered before the location pointer for automaton `a`, and they are interleaved as well.
+This results in the following initial boolean/BDD variable ordering, with bits whose name ends with `pass:c[+]` representing bits of new variables rather than current/old variables, and `x#0` representing bit zero of variable `x`:
++
+[%hardbreaks]
+`b#0`
+`b+#0`
+`b.x1#0`
+`b.x1+#0`
+`b.x2#0`
+`b.x2+#0`
+`b.x3#0`
+`b.x3+#0`
+`b#1`
+`b+#1`
+`b.x1#1`
+`b.x1+#1`
+`b.x2#1`
+`b.x2+#1`
+`b.x3#1`
+`b.x3+#1`
++
+[%hardbreaks]
+`a.x3#0`
+`a.x3+#0`
+`a.x1#0`
+`a.x1+#0`
+`a.x3#1`
+`a.x3+#1`
+`a.x1#1`
+`a.x1+#1`
++
+[%hardbreaks]
+`a.x2#0`
+`a.x2+#0`
+`a#0`
+`a+#0`
+`a.x2#1`
+`a.x2+#1`
+`a#1`
+`a+#1`

@@ -378,7 +378,15 @@ include::tools/datasynth/performance.asciidoc[]
 
 include::tools/datasynth/edge-order.asciidoc[]
 
-include::tools/datasynth/variable-order.asciidoc[]
+:leveloffset: +1
+
+include::tools/datasynth/variable-order/index.asciidoc[]
+
+include::tools/datasynth/variable-order/initial-orders.asciidoc[]
+
+include::tools/datasynth/variable-order/automatic-ordering.asciidoc[]
+
+:leveloffset: -1
 
 include::tools/datasynth/operation-cache.asciidoc[]
 
