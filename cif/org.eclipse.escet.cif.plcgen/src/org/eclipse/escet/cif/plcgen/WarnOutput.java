@@ -20,14 +20,14 @@ public interface WarnOutput {
     /**
      * Produce a line with a message in the warnings output.
      *
-     * @param message Message to send.
+     * @param message Message to output.
      */
     public void warn(String message);
 
     /**
      * Produce a line with a message in the warnings output.
      *
-     * @param message Message to send.
+     * @param message Message to output.
      * @param params Message parameters.
      */
     public default void warn(String message, Object... params) {

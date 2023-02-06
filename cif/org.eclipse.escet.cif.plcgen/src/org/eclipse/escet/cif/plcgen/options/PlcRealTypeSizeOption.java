@@ -18,16 +18,16 @@ import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Option for defining the floating point type to use in the PLC. */
-public class PlcFloatTypeSizeOption extends EnumOption<PlcNumberBits> {
-    /** Constructor for the {@link PlcFloatTypeSizeOption} class. */
-    public PlcFloatTypeSizeOption() {
-        super("PLC floating point type size",
-                "BITS is the number of bits to use by the PLC for representing floating point values. Specifiy "
-                        + "\"auto\" to automatically determine the size, \"32\" for 32-bits floating point values, or "
-                        + "\"64\" for 64-bits floating point values. [DEFAULT=auto]",
-                null, "float-size", "BITS", PlcNumberBits.AUTO, true,
-                "The size to use by the PLC for representing floating point values.");
+/** Option for defining the real type size in the PLC. */
+public class PlcRealTypeSizeOption extends EnumOption<PlcNumberBits> {
+    /** Constructor for the {@link PlcRealTypeSizeOption} class. */
+    public PlcRealTypeSizeOption() {
+        super("PLC real type size",
+                "BITS is the number of bits for a real value in the PLC. Specifiy "
+                        + "\"auto\" to automatically determine the size, \"32\" for 32-bits real values, or "
+                        + "\"64\" for 64-bits real values. [DEFAULT=auto]",
+                null, "real-size", "BITS", PlcNumberBits.AUTO, true,
+                "The size of a real value in the PLC.");
     }
 
     @Override
@@ -52,11 +52,11 @@ public class PlcFloatTypeSizeOption extends EnumOption<PlcNumberBits> {
     }
 
     /**
-     * Returns the number of bits to use by the PLC for representing floating point values.
+     * Returns the number of bits in a real value in the PLC.
      *
-     * @return The number of bits to use by the PLC for representing floating point values.
+     * @return The number of bits in a real value in the PLC.
      */
     public static PlcNumberBits getNumberBits() {
-        return Options.get(PlcFloatTypeSizeOption.class);
+        return Options.get(PlcRealTypeSizeOption.class);
     }
 }

@@ -28,7 +28,7 @@ public class SiemensS7Target extends PlcTarget {
     private static final Map<PlcTargetType, Integer> MAX_INTEGER_SIZES;
 
     /** Maximum supported stored floating type size for each target. */
-    private static final Map<PlcTargetType, Integer> MAX_FLOAT_SIZES;
+    private static final Map<PlcTargetType, Integer> MAX_REAL_SIZES;
 
     static {
         OUT_SUFFIX_REPLACEMENTS = Map.of( //
@@ -39,7 +39,7 @@ public class SiemensS7Target extends PlcTarget {
                 PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32, //
                 PlcTargetType.S7_1200, 32, PlcTargetType.S7_1500, 64);
 
-        MAX_FLOAT_SIZES = Map.of( //
+        MAX_REAL_SIZES = Map.of( //
                 PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32, //
                 PlcTargetType.S7_1200, 64, PlcTargetType.S7_1500, 64);
     }
@@ -79,13 +79,13 @@ public class SiemensS7Target extends PlcTarget {
     }
 
     @Override
-    protected int getMaxIntegerTypeSize() {
+    public int getMaxIntegerTypeSize() {
         return MAX_INTEGER_SIZES.get(targetType);
     }
 
     @Override
-    protected int getMaxFloatTypeSize() {
-        return MAX_FLOAT_SIZES.get(targetType);
+    public int getMaxRealTypeSize() {
+        return MAX_REAL_SIZES.get(targetType);
     }
 
     @Override

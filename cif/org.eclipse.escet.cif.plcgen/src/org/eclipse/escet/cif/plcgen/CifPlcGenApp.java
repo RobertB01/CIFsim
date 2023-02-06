@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
@@ -32,8 +33,8 @@ import org.eclipse.escet.cif.cif2plc.options.PlcTaskNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskPriorityOption;
 import org.eclipse.escet.cif.cif2plc.options.RenameWarningsOption;
 import org.eclipse.escet.cif.cif2plc.options.SimplifyValuesOption;
-import org.eclipse.escet.cif.plcgen.options.PlcFloatTypeSizeOption;
 import org.eclipse.escet.cif.plcgen.options.PlcIntTypeSizeOption;
+import org.eclipse.escet.cif.plcgen.options.PlcRealTypeSizeOption;
 import org.eclipse.escet.cif.plcgen.options.PlcTargetTypeOption;
 import org.eclipse.escet.cif.plcgen.targets.AbbTarget;
 import org.eclipse.escet.cif.plcgen.targets.Iec611313Target;
@@ -119,6 +120,24 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         }
         PlcGenSettings settings = makePlcGenSettings(target);
 
+        // Warn the user about getting a possibly too small integer type size.
+        if (settings.intTypeSize.getTypeSize(PlcTarget.CIF_INTEGER_SIZE) < PlcTarget.CIF_INTEGER_SIZE) {
+            warn("Configured integer type size is less than the CIF integer type size, some values in the program "
+                    + "may be truncated.");
+        } else if (target.getMaxIntegerTypeSize() < PlcTarget.CIF_INTEGER_SIZE) {
+            warn("Maximum integer type size supported by the PLC is less than the CIF integer type size, some "
+                    + "values in the program may be truncated.");
+        }
+
+        // Warn the user about getting a possibly too small real type size.
+        if (settings.realTypeSize.getTypeSize(PlcTarget.CIF_REAL_SIZE) < PlcTarget.CIF_REAL_SIZE) {
+            warn("Configured real type size is less than the CIF real type size, some values in the program "
+                    + "may be truncated.");
+        } else if (target.getMaxRealTypeSize() < PlcTarget.CIF_REAL_SIZE) {
+            warn("Maximum real type size supported by the PLC is less than the CIF real type size, some "
+                    + "values in the program may be truncated.");
+        }
+
         // Generate PLC code and write it to the file system.
         target.generate(settings);
 
@@ -148,7 +167,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
 
         PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
-        PlcNumberBits floatSize = PlcFloatTypeSizeOption.getNumberBits();
+        PlcNumberBits realSize = PlcRealTypeSizeOption.getNumberBits();
         boolean simplifyValues = SimplifyValuesOption.simplifyValues();
         ConvertEnums enumConversion = ConvertEnumsOption.getValue();
 
@@ -159,7 +178,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         WarnOutput warnOutput = message -> OutputProvider.warn(message);
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, Paths.resolve(inputPath), outputPath, intSize, floatSize, simplifyValues, enumConversion,
+                inputPath, Paths.resolve(inputPath), outputPath, intSize, realSize, simplifyValues, enumConversion,
                 shouldTerminate, warnOnRename, warnOutput);
     }
 
@@ -184,7 +203,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(PlcTaskNameOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskPriorityOption.class));
         applicationOpts.add(Options.getInstance(PlcIntTypeSizeOption.class));
-        applicationOpts.add(Options.getInstance(PlcFloatTypeSizeOption.class));
+        applicationOpts.add(Options.getInstance(PlcRealTypeSizeOption.class));
         applicationOpts.add(Options.getInstance(SimplifyValuesOption.class));
         applicationOpts.add(Options.getInstance(ConvertEnumsOption.class));
         applicationOpts.add(Options.getInstance(RenameWarningsOption.class));

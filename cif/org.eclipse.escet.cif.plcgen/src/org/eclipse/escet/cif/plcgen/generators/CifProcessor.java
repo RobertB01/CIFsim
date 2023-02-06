@@ -90,16 +90,16 @@ public class CifProcessor {
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
 
-    /** Class for handling types. */
+    /** Type generator. */
     private final TypeGenerator typeGen;
 
-    /** Class that stores and writes generated PLC code. */
+    /** PLC code storage and writer. */
     private final PlcCodeStorage codeStorage;
 
     /** Generator for obtaining clash-free names in the generated code. */
-    private final NameSanitizer nameSanitizer;
+    private final NameGenerator nameGenerator;
 
-    /** Names of converted variables. */
+    /** Names of converted declarations. */
     private final Map<Declaration, String> variableNames = map();
 
     /**
@@ -109,10 +109,10 @@ public class CifProcessor {
      * @param settings Configuration to use.
      * @param typeGen Class for handling types.
      * @param codeStorage Class that stores and writes generated PLC code.
-     * @param nameSanitizer Generator for obtaining clash-free names in the generated code.
+     * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
     public CifProcessor(PlcTarget target, PlcGenSettings settings, TypeGenerator typeGen, PlcCodeStorage codeStorage,
-            NameSanitizer nameSanitizer)
+            NameGenerator nameGenerator)
     {
         this.target = target;
         inputPath = settings.inputPath;
@@ -122,7 +122,7 @@ public class CifProcessor {
         warnOutput = settings.warnOutput;
         this.typeGen = typeGen;
         this.codeStorage = codeStorage;
-        this.nameSanitizer = nameSanitizer;
+        this.nameGenerator = nameGenerator;
     }
 
     /** Process the input CIF specification, extracting the relevant information for PLC code generation. */
@@ -133,7 +133,7 @@ public class CifProcessor {
         preCheckSpec(spec);
         normalizeSpec(spec);
 
-        // Convert the discrete and input variables throughout the specification.
+        // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
             if (decl instanceof DiscVariable discVar) {
                 convertVariable(decl, discVar.getType());
@@ -145,19 +145,19 @@ public class CifProcessor {
 
             // TODO Constants.
             // TODO Initial value -> precheckers restrict to constant initial value.
-            // TODO Extend allowed inital values by computing at runtime.
+            // TODO Extend allowed initial values by computing at runtime.
         }
     }
 
     /**
      * Convert a CIF variable and add it to the global variable table in the PLC.
      *
-     * @param decl Variable declaration to convert.
+     * @param decl Discrete variable or input variable to convert.
      * @param type Type of the variable.
      */
     private void convertVariable(Declaration decl, CifType type) {
         PlcType varType = typeGen.convertType(type);
-        String varName = nameSanitizer.sanitizeName(decl);
+        String varName = nameGenerator.generateName(decl);
         variableNames.put(decl, varName);
 
         codeStorage.addStateVariable(new PlcVariable(varName, varType));
@@ -169,20 +169,16 @@ public class CifProcessor {
      * @param spec Specification to widen.
      */
     private void widenSpec(Specification spec) {
-        // Eliminate component definition/instantiation, to avoid having to
-        // handle them.
+        // Eliminate component definition/instantiation, to avoid having to handle them.
         new ElimComponentDefInst().transform(spec);
 
-        // Eliminate state/event exclusion invariants, to avoid having to
-        // handle them.
+        // Eliminate state/event exclusion invariants, to avoid having to handle them.
         new ElimStateEvtExclInvs().transform(spec); // TODO Is this a good idea wrt finding the original name again?
 
-        // Simplify the specification, to increase the supported subset. Since
-        // simplification of values fills in all constants, we can also remove
-        // the constants. However, this may lead to large amounts of
-        // duplication for constants with large literal values. Therefore, it
-        // is an option. We could always use less expensive variants of value
-        // simplification, in the future.
+        // Simplify the specification, to increase the supported subset. Since simplification of values fills in all
+        // constants, we can also remove the constants. However, this may lead to large amounts of duplication for
+        // constants with large literal values. Therefore, it is an option. We could always use less expensive variants
+        // of value simplification, in the future.
         if (simplifyValues) {
             new SimplifyValues().transform(spec);
             new ElimConsts().transform(spec);

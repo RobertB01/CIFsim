@@ -16,10 +16,8 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
@@ -32,6 +30,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.cif.common.CifEnumUtils.EnumDeclEqHashWrap;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.TypeEqHashWrap;
@@ -55,8 +54,8 @@ public class TypeGenerator {
     /** Standard integer type. */
     private final PlcElementaryType standardIntType;
 
-    /** Standard floating point type. */
-    private final PlcElementaryType standardFloatType;
+    /** Standard real type. */
+    private final PlcElementaryType standardRealType;
 
     /** How to convert enumeration declarations to the PLC. */
     private final ConvertEnums enumConversion;
@@ -65,55 +64,40 @@ public class TypeGenerator {
     private int nextEnumLiteralValue = 1;
 
     /** Generator for obtaining clash-free names in the generated code. */
-    private final NameSanitizer nameSanitizer;
+    private final NameGenerator nameGenerator;
 
     /** Generator that stores and writes generated PLC code. */
     private final PlcCodeStorage plcCodeStorage;
 
-    /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances, to Structured Text structure names. */
+    /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances, to PLC names. */
     private final Map<TypeEqHashWrap, String> structNames = map();
 
     /**
-     * Mapping from CIF enumerations to Structured Text enumeration type and value information.
+     * Mapping from CIF enumerations to PLC enumeration type and value information.
      *
      * <p>
      * The map combines compatible enumerations (as defined by {@link CifTypeUtils#areEnumsCompatible}) to one
-     * information instance in order to reduce the number of cloned enumerations.
+     * information instance.
      * </p>
      */
-    private final Map<EnumDecl, EnumDeclData> enumDeclNames = new TreeMap<>(new Comparator<>() {
-        @Override
-        public int compare(EnumDecl arg0, EnumDecl arg1) {
-            int size0 = arg0.getLiterals().size();
-            int size1 = arg1.getLiterals().size();
-            if (size0 != size1) {
-                return (size0 < size1) ? -1 : 1;
-            } else {
-                int order = 0;
-                for (int i = 0; order == 0 && i < size0; i++) {
-                    order = arg0.getLiterals().get(i).getName().compareTo(arg1.getLiterals().get(i).getName());
-                }
-                return order;
-            }
-        }
-    });
+    private final Map<EnumDeclEqHashWrap, EnumDeclData> enumDeclNames = map();
 
     /**
      * Constructor of the {@link TypeGenerator} class.
      *
      * @param target PLC target.
      * @param settings Configuration to use.
-     * @param nameSanitizer Generator for obtaining clash-free names in the generated code.
+     * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      * @param plcCodeStorage Generator that stores and writes generated PLC code.
      */
-    public TypeGenerator(PlcTarget target, PlcGenSettings settings, NameSanitizer nameSanitizer,
+    public TypeGenerator(PlcTarget target, PlcGenSettings settings, NameGenerator nameGenerator,
             PlcCodeStorage plcCodeStorage)
     {
         standardIntType = target.getIntegerType();
-        standardFloatType = target.getFloatType();
+        standardRealType = target.getRealType();
         enumConversion = settings.enumConversion;
 
-        this.nameSanitizer = nameSanitizer;
+        this.nameGenerator = nameGenerator;
         this.plcCodeStorage = plcCodeStorage;
     }
 
@@ -129,7 +113,7 @@ public class TypeGenerator {
         } else if (type instanceof IntType) {
             return standardIntType;
         } else if (type instanceof RealType) {
-            return standardFloatType;
+            return standardRealType;
         } else if (type instanceof TypeRef typeRef) {
             return convertType(typeRef.getType().getType());
         } else if (type instanceof TupleType tupleType) {
@@ -158,7 +142,7 @@ public class TypeGenerator {
         String sname = structNames.get(typeWrap);
         if (sname == null) {
             // Generate PLC struct for tuple.
-            sname = nameSanitizer.sanitizeName("TupleStruct", false);
+            sname = nameGenerator.generateName("TupleStruct", false);
             structNames.put(typeWrap, sname);
 
             PlcStructType structType = new PlcStructType();
@@ -183,10 +167,11 @@ public class TypeGenerator {
      * @return The PLC type generated for the enumeration.
      */
     public PlcType convertEnumDecl(EnumDecl enumDecl) {
-        EnumDeclData declData = enumDeclNames.get(enumDecl);
+        EnumDeclEqHashWrap wrappedEnumDecl = new EnumDeclEqHashWrap(enumDecl);
+        EnumDeclData declData = enumDeclNames.get(wrappedEnumDecl);
         if (declData == null) {
             declData = makeEnumDeclData(enumDecl);
-            enumDeclNames.put(enumDecl, declData);
+            enumDeclNames.put(wrappedEnumDecl, declData);
         }
         return declData.enumDeclType;
     }
@@ -202,8 +187,8 @@ public class TypeGenerator {
         /**
          * Constructor of the {@link EnumDeclData} class.
          *
-         * @param enumDeclType Type of enumeration values in the PLC.
-         * @param values Values of the enumeration declaration.
+         * @param enumDeclType The enumeration data type in the PLC.
+         * @param values Values of the converted enumeration literals.
          */
         public EnumDeclData(PlcType enumDeclType, PlcValue[] values) {
             this.enumDeclType = enumDeclType;
@@ -240,14 +225,14 @@ public class TypeGenerator {
             PlcValue[] literals = new PlcValue[cifLiterals.size()];
             int litIndex = 0;
             for (EnumLiteral lit: cifLiterals) {
-                String litName = nameSanitizer.sanitizeName(CifTextUtils.getAbsName(lit, false), true);
+                String litName = nameGenerator.generateName(CifTextUtils.getAbsName(lit, false), true);
                 literals[litIndex] = new PlcValue(litName);
 
                 litIndex++;
             }
 
-            // Construct the type and add it to the global type declarations.1
-            String declName = nameSanitizer.sanitizeName(CifTextUtils.getAbsName(enumDecl, false), true);
+            // Construct the type and add it to the global type declarations.
+            String declName = nameGenerator.generateName(CifTextUtils.getAbsName(enumDecl, false), true);
             PlcType declType = new PlcDerivedType(declName);
             PlcEnumType plcEnumType = new PlcEnumType(
                     Arrays.stream(literals).map(v -> v.value).collect(Collectors.toList()));
@@ -261,7 +246,7 @@ public class TypeGenerator {
 
             int litIndex = 0;
             for (EnumLiteral lit: cifLiterals) {
-                String litConstName = nameSanitizer.sanitizeName(CifTextUtils.getAbsName(lit, false), true);
+                String litConstName = nameGenerator.generateName(CifTextUtils.getAbsName(lit, false), true);
                 // TODO Have grouping in the constant values of a declaration (eg always start at multiple of 10).
                 PlcValue litVal = new PlcValue(String.valueOf(nextEnumLiteralValue));
                 plcCodeStorage.addConstant(new PlcVariable(litConstName, declType, null, litVal));

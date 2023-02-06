@@ -45,12 +45,12 @@ public class AbbTarget extends PlcTarget {
     }
 
     @Override
-    protected int getMaxIntegerTypeSize() {
+    public int getMaxIntegerTypeSize() {
         return 32;
     }
 
     @Override
-    protected int getMaxFloatTypeSize() {
+    public int getMaxRealTypeSize() {
         return 32;
     }
 

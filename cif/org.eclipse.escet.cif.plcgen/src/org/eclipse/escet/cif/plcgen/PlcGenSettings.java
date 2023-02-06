@@ -50,8 +50,8 @@ public class PlcGenSettings {
     /** User-defined integer type size to use by the PLC. */
     public final PlcNumberBits intTypeSize;
 
-    /** User-defined floating point type size to used by the PLC. */
-    public final PlcNumberBits floatTypeSize;
+    /** User-defined real type size to used by the PLC. */
+    public final PlcNumberBits realTypeSize;
 
     /** Whether to simplify values during pre-processing. */
     public boolean simplifyValues;
@@ -82,7 +82,7 @@ public class PlcGenSettings {
      * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
      * @param outputPath Absolute base path to which to write the generated code.
      * @param intTypeSize User-defined integer type size to use by the PLC.
-     * @param floatTypeSize User-defined floating point type size to used by the PLC.
+     * @param realTypeSize User-defined real type size to used by the PLC.
      * @param simplifyValues Whether to simplify values during pre-processing.
      * @param enumConversion How to treat enumerations.
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
@@ -91,7 +91,7 @@ public class PlcGenSettings {
      */
     PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
-            PlcNumberBits intTypeSize, PlcNumberBits floatTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
+            PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
             Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
@@ -104,7 +104,7 @@ public class PlcGenSettings {
         this.absInputPath = absInputPath;
         this.outputPath = outputPath;
         this.intTypeSize = intTypeSize;
-        this.floatTypeSize = floatTypeSize;
+        this.realTypeSize = realTypeSize;
         this.simplifyValues = simplifyValues;
         this.enumConversion = enumConversion;
         this.shouldTerminate = shouldTerminate;

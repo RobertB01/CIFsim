@@ -28,15 +28,15 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Generator for obtaining clash-free names in the generated code. */
-public class NameSanitizer {
+public class NameGenerator {
     /**
-     * All names in the standard PLC language to avoid as an unmodifiable set.
+     * All names in the PLC language standard, as an unmodifiable set. These are to be avoided for generated names.
      *
      * <p>
-     * The keywords in the PLC language are case insensitive. This set only contains the names in lowercase ASCII.
+     * The keywords in the PLC language are case insensitive. This set only contains the names in lower-case ASCII.
      * </p>
      */
-    private static final Set<String> PLCLANGUAGEKEYWORDS;
+    private static final Set<String> PLC_LANGUAGE_KEYWORDS;
 
     /** Iff set, warn the user about renaming names. */
     private final boolean warnOnRename;
@@ -45,44 +45,44 @@ public class NameSanitizer {
     private final WarnOutput warnOutput;
 
     /** Numeric suffix value already given out to a caller, ordered by the name prefix. */
-    private Map<String, Integer> maxSuffices;
+    private Map<String, Integer> maxSuffixes;
 
     /**
-     * Constructor of the {@link NameSanitizer} class.
+     * Constructor of the {@link NameGenerator} class.
      *
      * @param settings Configuration to use.
      */
-    public NameSanitizer(PlcGenSettings settings) {
+    public NameGenerator(PlcGenSettings settings) {
         warnOnRename = settings.warnOnRename;
         warnOutput = settings.warnOutput;
 
-        maxSuffices = map();
-        for (String name: PLCLANGUAGEKEYWORDS) {
-            maxSuffices.put(name, 0);
+        maxSuffixes = map();
+        for (String name: PLC_LANGUAGE_KEYWORDS) {
+            maxSuffixes.put(name, 0);
         }
     }
 
     /**
-     * Convert the given object to something that does not clash with the PLC language or with previous converted names.
+     * Convert the given object to something that does not clash with the PLC language or with previously generated names.
      *
-     * @param posObject Object with the name, used for reporting rename warnings.
-     * @return A safe name that does not clash with either the PLC language keywords or names converted earlier.
+     * @param posObject Named CIF object.
+     * @return A safe name that does not clash with either the PLC language keywords or names generated earlier.
      */
-    public String sanitizeName(PositionObject posObject) {
+    public String generateName(PositionObject posObject) {
         Assert.check(CifTextUtils.hasName(posObject),
-                fmt("Missng name for \"%s\".", (posObject == null) ? "null" : posObject.toString()));
-        return sanitizeName(CifTextUtils.getAbsName(posObject, false), true);
+                fmt("Missing name for \"%s\".", (posObject == null) ? "null" : posObject.toString()));
+        return generateName(CifTextUtils.getAbsName(posObject, false), true);
     }
 
     /**
-     * Convert the given name to something that does not clash with the PLC language or with previous converted names.
+     * Convert the given name to something that does not clash with the PLC language or with previously generated names.
      *
-     * @param initialName Suggestion to to use.
-     * @param allowRenameWarning Whether to allow producing warnings on a rename. For objects that have no name in CIF,
-     *     producing such a warning is meaningless.
-     * @return A safe name that does not clash with PLC language keywords or names converted earlier.
+     * @param initialName Suggested name to to use.
+     * @param initialIsCifName Whether the initial name is known by the CIF user. For objects that have no name in CIF,
+     *     producing rename warnings is meaningless.
+     * @return A safe name that does not clash with PLC language keywords or previously generated names.
      */
-    public String sanitizeName(String initialName, boolean allowRenameWarning) {
+    public String generateName(String initialName, boolean initialIsCifName) {
         // Construct all parts of an identifier from the input text and extract the found values.
         NameCleaner nameCleaner = new NameCleaner(initialName);
         String baseName = nameCleaner.getNamePrefix();
@@ -91,43 +91,43 @@ public class NameSanitizer {
 
         // Make the identifier unique by finding an unused numeric suffix, and attach it.
         Assert.check(currentSuffix >= 0); // Protects for using -1 below.
-        int maxUsedNumber = maxSuffices.getOrDefault(lowerBaseName, -1);
+        int maxUsedNumber = maxSuffixes.getOrDefault(lowerBaseName, -1);
         if (maxUsedNumber < 0 && !nameCleaner.hasSuffix()) {
             // First use of a name without numeric suffix -> use as-is.
             //
             // Store it as 0 suffix, next use will get at least value 1 appended.
-            maxSuffices.put(lowerBaseName, 0);
+            maxSuffixes.put(lowerBaseName, 0);
             return baseName;
         } else if (maxUsedNumber >= currentSuffix) {
             // Handed out a higher number already -> use the next free higher number.
-            maxSuffices.put(lowerBaseName, maxUsedNumber + 1);
+            maxSuffixes.put(lowerBaseName, maxUsedNumber + 1);
             String newName = baseName + String.valueOf(maxUsedNumber + 1);
 
-            if (allowRenameWarning && warnOnRename) {
-                warnOutput.warn("Renaming %s to %s.", initialName, newName);
+            if (initialIsCifName && warnOnRename) {
+                warnOutput.warn("Renaming \"%s\" to \"%s\".", initialName, newName);
             }
             return newName;
         } else {
-            // The initialName uses a higher number suffix -> use it.
-            maxSuffices.put(lowerBaseName, currentSuffix);
+            // The initial name uses a higher number suffix -> use it.
+            maxSuffixes.put(lowerBaseName, currentSuffix);
             return baseName + String.valueOf(currentSuffix);
         }
     }
 
     /**
      * Class to clean an arbitrary sequence of characters to an ASCII identifier. The class is tailored towards the
-     * needs of the {@link NameSanitizer} class.
+     * needs of the {@link NameGenerator} class.
      *
      * <p>
      * Everything other than upper-case ASCII letters, lower-case ASCII letters and ASCII decimal digits are considered
      * garbage and replaced by an underscore character. Sequences of underscore characters as well as a leading or
-     * trailing underscore character does not happen in the result. To meet the requirements of an identifier, an
+     * trailing underscore character does not occur in the result. To meet the requirements of an identifier, an
      * initial letter may be added.
      * </p>
      *
      * <p>
-     * The result of the cleaning process is a {@link #getNamePrefix() name prefix} and a {@link #getNumericSuffix()
-     * numeric suffix}. It always returns a numeric suffix although you can {@link #hasSuffix() query its existence} in
+     * The result of the cleaning process is a {@link #getNamePrefix name prefix} and a {@link #getNumericSuffix
+     * numeric suffix}. It always returns a numeric suffix although you can {@link #hasSuffix query its existence} in
      * the input. For uniqueness checking the class also provides a lower-case variant of the prefix that can be queried
      * with the {@link #getLowerCaseNamePrefix} method.
      * </p>
@@ -137,9 +137,9 @@ public class NameSanitizer {
      * {@code getNamePrefix() + String.valueOf(getNumericSuffix())}.
      * </p>
      */
-    public static class NameCleaner {
+    static class NameCleaner {
         /** Default single lower-case letter name to use if no prefix can be constructed. */
-        public static final char DEFAULT_CHAR = 'x';
+        static final char DEFAULT_CHAR = 'x';
 
         /**
          * Cleaned name as a sequence of letters, digits, and underscore characters. Array is valid until
@@ -173,7 +173,7 @@ public class NameSanitizer {
          *
          * @param initialName Name to clean.
          */
-        public NameCleaner(String initialName) {
+        NameCleaner(String initialName) {
             // Allocate enough space to store the entire initial name.
             // Make it one longer as it might insert a default letter at the start.
             int cleanedSize = 1 + Math.max(1, initialName.length());
@@ -216,7 +216,7 @@ public class NameSanitizer {
                 }
             }
 
-            // Fallback in case
+            // Fallback in case the input has no valid characters at all.
             if (cleanedLength == 0) {
                 cleaned[0] = DEFAULT_CHAR;
                 cleanedLower[0] = toLowerCaseAscii(DEFAULT_CHAR);
@@ -247,9 +247,9 @@ public class NameSanitizer {
         /**
          * Retrieve the cleaned name with preserved case without the last digit sequence at the end.
          *
-         * @return The name prefix of the cleaned name with preserved case without the last digit sequence at the end
+         * @return The name prefix of the cleaned name with preserved case without the last digit sequence at the end.
          */
-        public String getNamePrefix() {
+        String getNamePrefix() {
             return new String(cleaned, 0, digitsStartIndex);
         }
 
@@ -257,9 +257,9 @@ public class NameSanitizer {
          * Retrieve the cleaned name converted to lower case ASCII without the last digit sequence at the end.
          *
          * @return The name prefix of the cleaned name converted to lower case without the last digit sequence at the
-         *     end
+         *     end.
          */
-        public String getLowerCaseNamePrefix() {
+        String getLowerCaseNamePrefix() {
             return new String(cleanedLower, 0, digitsStartIndex);
         }
 
@@ -274,7 +274,7 @@ public class NameSanitizer {
          * @return A safe numeric value of the digit sequence at the end of the cleaned name, or {@code 0} if there is
          *     no numeric suffix.
          */
-        public int getNumericSuffix() {
+        int getNumericSuffix() {
             long value = 0;
             int index = digitsStartIndex;
             while (index < cleanedLength && index - digitsStartIndex < 6) {
@@ -289,54 +289,53 @@ public class NameSanitizer {
          *
          * @return Whether a numeric suffix exists.
          */
-        public boolean hasSuffix() {
+        boolean hasSuffix() {
             return digitsStartIndex < cleanedLength;
         }
 
         /**
-         * Test whether the given character is an ASCII letter.
+         * Test whether the given character is an upper-case ASCII letter.
          *
-         * @param k Character to test.
-         * @return Whether the given character is an ASCII letter.
+         * @param c Character to test.
+         * @return Whether the given character is an upper-case ASCII letter.
          */
-        private static boolean isUpperCaseAsciiLetter(char k) {
-            return k >= 'A' && k <= 'Z';
+        static boolean isUpperCaseAsciiLetter(char c) {
+            return c >= 'A' && c <= 'Z';
         }
 
         /**
-         * Test whether the given character is an ASCII letter.
+         * Test whether the given character is a lower-case ASCII letter.
          *
-         * @param k Character to test.
-         * @return Whether the given character is an ASCII letter.
+         * @param c Character to test.
+         * @return Whether the given character is a lower-case ASCII letter.
          */
-        private static boolean isLowerCaseAsciiLetter(char k) {
-            return k >= 'a' && k <= 'z';
+        static boolean isLowerCaseAsciiLetter(char c) {
+            return c >= 'a' && c <= 'z';
         }
 
         /**
          * Convert upper-case ASCII letters to lower-case letters.
          *
-         * @param k Character to convert.
+         * @param c Character to convert.
          * @return Lower-case equivalent if the input was an upper-case ASCII letter, else unchanged.
          */
-        private static char toLowerCaseAscii(char k) {
-            return isUpperCaseAsciiLetter(k) ? (char)(k + 'a' - 'A') : k;
+        static char toLowerCaseAscii(char c) {
+            return isUpperCaseAsciiLetter(c) ? (char)(c + 'a' - 'A') : c;
         }
 
         /**
          * Test whether the given character is an ASCII digit.
          *
-         * @param k Character to test.
+         * @param c Character to test.
          * @return Whether the given character is an ASCII digit.
          */
-        private static boolean isAsciiDigit(char k) {
-            return k >= '0' && k <= '9';
+        private static boolean isAsciiDigit(char c) {
+            return c >= '0' && c <= '9';
         }
     }
 
     static {
-        // Keywords of the language, note that "en" and "eno" special parameter names
-        // have been left out.
+        // Keywords of the language, note that "en" and "eno" special parameter names have been left out.
         String[] languageKeywords = new String[] {"action", "end_action", "array", "of", "at", "case", "of", "else",
                 "end_case", "configuration", "end_configuration", "constant", "exit", "false", "f_edge", "for", "to",
                 "by", "do", "end_for", "function", "end_function", "function_block", "end_function_block", "if", "then",
@@ -378,11 +377,11 @@ public class NameSanitizer {
         // TODO: Add standard library function names.
         // TODO: Add standard function block names.
 
-        PLCLANGUAGEKEYWORDS = Collections.unmodifiableSet(keywords);
+        PLC_LANGUAGE_KEYWORDS = Collections.unmodifiableSet(keywords);
     }
 
     /**
-     * Add all values into dest.
+     * Add all values into {@code dest}.
      *
      * @param dest Destination of all values. Modified in-place.
      * @param values New values to add.

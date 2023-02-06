@@ -19,17 +19,17 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
-import org.eclipse.escet.cif.plcgen.generators.NameSanitizer;
+import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcTarget {
     /** Size of an integer value in a CIF specification. */
-    private static final int CIF_INTEGER_SIZE = 32;
+    public static final int CIF_INTEGER_SIZE = 32;
 
-    /** Size of a floating point value in a CIF specification. */
-    private static final int CIF_FLOAT_SIZE = 64;
+    /** Size of a real value in a CIF specification. */
+    public static final int CIF_REAL_SIZE = 64;
 
     /** PLC target type for code generation. */
     public final PlcTargetType targetType;
@@ -37,8 +37,8 @@ public abstract class PlcTarget {
     /** User-defined integer type size to use by the PLC. */
     private PlcNumberBits intTypeSize;
 
-    /** User-defined floating point type size to use by the PLC. */
-    private PlcNumberBits floatTypeSize;
+    /** User-defined real type size to use by the PLC. */
+    private PlcNumberBits realTypeSize;
 
     /**
      * Constructor of the {@link PlcTarget} class.
@@ -56,13 +56,13 @@ public abstract class PlcTarget {
      */
     public void generate(PlcGenSettings settings) {
         intTypeSize = settings.intTypeSize;
-        floatTypeSize = settings.floatTypeSize;
+        realTypeSize = settings.realTypeSize;
 
         // Construct the generators.
-        NameSanitizer nameSanitizer = new NameSanitizer(settings);
+        NameGenerator nameGenerator = new NameGenerator(settings);
         PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
-        TypeGenerator typeGen = new TypeGenerator(this, settings, nameSanitizer, codeStorage);
-        CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameSanitizer);
+        TypeGenerator typeGen = new TypeGenerator(this, settings, nameGenerator, codeStorage);
+        CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameGenerator);
 
         // Perform the conversion.
         cifProcessor.process();
@@ -100,7 +100,7 @@ public abstract class PlcTarget {
     public abstract boolean supportsConstants();
 
     /**
-     * Return whether the target support enumeration types.
+     * Return whether the target supports enumeration types.
      *
      * @return Whether enumeration types are supported.
      */
@@ -111,11 +111,10 @@ public abstract class PlcTarget {
      *
      * @return Number of bits used for storing the largest supported integer type.
      */
-    protected abstract int getMaxIntegerTypeSize();
+    public abstract int getMaxIntegerTypeSize();
 
     /**
-     * Get the type of a normal integer value in the PLC. Is large enough to represent all integer values of a CIF
-     * specification.
+     * Get the type of a normal integer value in the PLC.
      *
      * @return The type of a normal integer value in the PLC.
      */
@@ -126,22 +125,21 @@ public abstract class PlcTarget {
     }
 
     /**
-     * Get the size of the largest supported floating point type. Is large enough to represent all floating point values
-     * of a CIF specification.
+     * Get the size of the largest supported real type.
      *
-     * @return Number of bits used for storing the largest supported floating point type.
+     * @return Number of bits used for storing the largest supported real type.
      */
-    protected abstract int getMaxFloatTypeSize();
+    public abstract int getMaxRealTypeSize();
 
     /**
-     * Get the type of a normal integer value in the PLC.
+     * Get the type of a normal real value in the PLC.
      *
-     * @return The type of a normal integer value in the PLC.
+     * @return The type of a normal real value in the PLC.
      */
-    public PlcElementaryType getFloatType() {
-        int generatorBestFloatSize = Math.min(CIF_FLOAT_SIZE, getMaxFloatTypeSize());
-        int userSpecifiedFloatSize = floatTypeSize.getTypeSize(generatorBestFloatSize);
-        return PlcElementaryType.getFloatTypeBySize(userSpecifiedFloatSize);
+    public PlcElementaryType getRealType() {
+        int generatorBestRealSize = Math.min(CIF_REAL_SIZE, getMaxRealTypeSize());
+        int userSpecifiedRealSize = realTypeSize.getTypeSize(generatorBestRealSize);
+        return PlcElementaryType.getRealTypeBySize(userSpecifiedRealSize);
     }
 
     /**

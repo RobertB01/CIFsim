@@ -11,13 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen;
+package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
 
-import org.eclipse.escet.cif.plcgen.generators.NameSanitizer.NameCleaner;
+import org.eclipse.escet.cif.plcgen.generators.NameGenerator.NameCleaner;
 import org.junit.Test;
 
 /** Tests for the {@link NameCleaner} class. */

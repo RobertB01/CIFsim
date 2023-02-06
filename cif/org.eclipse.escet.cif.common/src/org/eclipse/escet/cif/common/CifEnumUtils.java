@@ -62,7 +62,7 @@ public class CifEnumUtils {
     }
 
     /** Wrapper around enumeration declarations for equality and hashing. */
-    private static class EnumDeclEqHashWrap {
+    public static class EnumDeclEqHashWrap {
         /** The enumeration declaration. */
         public final EnumDecl enumDecl;
 

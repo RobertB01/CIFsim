@@ -18,16 +18,16 @@ import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Option for defining the integer type to use in the PLC. */
+/** Option for defining the integer type size in the PLC. */
 public class PlcIntTypeSizeOption extends EnumOption<PlcNumberBits> {
     /** Constructor for the {@link PlcIntTypeSizeOption} class. */
     public PlcIntTypeSizeOption() {
         super("PLC integer type size",
-                "BITS is the number of bits to use by the PLC for representing integer values. Specifiy "
+                "BITS is the number of bits for an integer value in the PLC. Specifiy "
                         + "\"auto\" to automatically determine the size, \"32\" for 32-bits integer values, or "
                         + "\"64\" for 64-bits integer values. [DEFAULT=auto]",
                 null, "int-size", "BITS", PlcNumberBits.AUTO, true,
-                "The size to use by the PLC for representing integer values.");
+                "The size of an integer value in PLC.");
     }
 
     @Override
@@ -52,9 +52,9 @@ public class PlcIntTypeSizeOption extends EnumOption<PlcNumberBits> {
     }
 
     /**
-     * Returns the number of bits to use by the PLC for representing integer values.
+     * Returns the number of bits in an integer value in the PLC.
      *
-     * @return The number of bits to use by the PLC for representing integer values.
+     * @return The number of bits in an integer value in the PLC.
      */
     public static PlcNumberBits getNumberBits() {
         return Options.get(PlcIntTypeSizeOption.class);

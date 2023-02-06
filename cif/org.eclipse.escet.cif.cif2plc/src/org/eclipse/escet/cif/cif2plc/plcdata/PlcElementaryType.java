@@ -62,8 +62,8 @@ public class PlcElementaryType extends PlcType {
                 return DINT_TYPE;
             case 64:
                 return LINT_TYPE;
-                default:
-                    throw new AssertionError("Unexpected integer size " + String.valueOf(numBits) + " found.");
+            default:
+                throw new AssertionError("Unexpected integer size " + String.valueOf(numBits) + " found.");
         }
     }
 
@@ -73,14 +73,14 @@ public class PlcElementaryType extends PlcType {
      * @param numBits Wanted length of floating point values in bits.
      * @return The PLC floating point type with exactly the requested number of bits.
      */
-    public static PlcElementaryType getFloatTypeBySize(int numBits) {
+    public static PlcElementaryType getRealTypeBySize(int numBits) {
         switch (numBits) {
             case 32:
                 return REAL_TYPE;
             case 64:
                 return LREAL_TYPE;
-                default:
-                    throw new AssertionError("Unexpected floating point size " + String.valueOf(numBits) + " found.");
+            default:
+                throw new AssertionError("Unexpected floating point size " + String.valueOf(numBits) + " found.");
         }
     }
 }

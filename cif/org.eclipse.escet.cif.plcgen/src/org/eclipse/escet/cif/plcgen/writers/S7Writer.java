@@ -41,7 +41,7 @@ import org.eclipse.escet.common.java.Assert;
 
 /** S7 writer for S7-1500, S7-1200, S7-400 and S7-300 SIMATIC controllers. */
 public class S7Writer extends OutputTypeWriter {
-    /** Targeted S7 PLC output type. */
+    /** Targeted S7 PLC target type. */
     private final PlcTargetType targetType;
 
     /**
@@ -159,9 +159,9 @@ public class S7Writer extends OutputTypeWriter {
     }
 
     /**
-     * Whether the targeted PLC output type supports IEC timers.
+     * Whether the PLC target type supports IEC timers.
      *
-     * @return Whether IEC timers are supported for the current output type.
+     * @return Whether IEC timers are supported for the current target type.
      */
     private boolean hasIecTimers() {
         return EnumSet.of(S7_1200, S7_1500).contains(targetType);
@@ -240,13 +240,13 @@ public class S7Writer extends OutputTypeWriter {
     }
 
     /**
-     * Whether the targeted PLC output type supports optimized block access.
+     * Whether the PLC target type supports optimized block access.
      *
      * <p>
      * If {@code true}, it optimizes data storage and performance.
      * </p>
      *
-     * @return Whether optimized block access is supported for the current output type.
+     * @return Whether optimized block access is supported for the current target type.
      */
     private boolean hasOptimizedBlockAccess() {
         return EnumSet.of(S7_1200, S7_1500).contains(targetType);

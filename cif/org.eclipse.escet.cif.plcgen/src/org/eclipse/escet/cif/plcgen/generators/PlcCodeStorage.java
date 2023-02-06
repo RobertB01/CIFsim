@@ -87,7 +87,7 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global constants table.
      *
-     * @param var Variable to add.
+     * @param var Variable to add. Name is assumed to be unique.
      */
     public void addConstant(PlcVariable var) {
         Assert.check(target.supportsConstants());
@@ -101,7 +101,7 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global input variable table.
      *
-     * @param var Variable to add.
+     * @param var Variable to add. Name is assumed to be unique.
      */
     public void addInputVariable(PlcVariable var) {
         if (globalInputs == null) {
@@ -113,7 +113,7 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global output variable table.
      *
-     * @param var Variable to add.
+     * @param var Variable to add. Name is assumed to be unique.
      */
     public void addOutputVariable(PlcVariable var) {
         if (globalOutputs == null) {
@@ -125,7 +125,7 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global state variable table.
      *
-     * @param var Variable to add.
+     * @param var Variable to add. Name is assumed to be unique.
      */
     public void addStateVariable(PlcVariable var) {
         if (globalStateVars == null) {
