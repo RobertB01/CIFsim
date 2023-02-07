@@ -54,6 +54,7 @@ import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
 import org.eclipse.escet.cif.cif2cif.RemovePrintDecls;
 import org.eclipse.escet.cif.cif2cif.RemoveRequirements;
 import org.eclipse.escet.cif.cif2cif.RemoveUnusedAlgVariables;
+import org.eclipse.escet.cif.cif2cif.RemoveUnusedEvents;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesNoRefs;
@@ -129,6 +130,7 @@ public class CifToCifTransOption extends Option<String> {
         TRANSFORMATIONS.put("remove-pos-info", RemovePositionInfo.class);
         TRANSFORMATIONS.put("remove-reqs", RemoveRequirements.class);
         TRANSFORMATIONS.put("remove-unused-alg-vars", RemoveUnusedAlgVariables.class);
+        TRANSFORMATIONS.put("remove-unused-events", RemoveUnusedEvents.class);
         TRANSFORMATIONS.put("simplify-others", SimplifyOthers.class);
         TRANSFORMATIONS.put("simplify-values", SimplifyValues.class);
         TRANSFORMATIONS.put("simplify-values-optimized", SimplifyValuesOptimized.class);

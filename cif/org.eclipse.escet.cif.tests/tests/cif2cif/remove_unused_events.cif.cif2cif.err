@@ -1,0 +1,2 @@
+WARNING: File "cif2cif/remove_unused_events.cif": Semantic warning at line 14, column 7: Event "e" is not used anywhere in the specification.
+WARNING: File "cif2cif/remove_unused_events.cif": Semantic warning at line 27, column 18: Event "B.b" is not used anywhere in the specification.
