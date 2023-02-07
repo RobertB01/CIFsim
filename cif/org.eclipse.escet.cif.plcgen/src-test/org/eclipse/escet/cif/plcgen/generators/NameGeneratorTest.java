@@ -45,10 +45,10 @@ public class NameGeneratorTest {
     @SuppressWarnings("javadoc")
     @Test
     public void keywordAvoidanceTest() {
-        String dintName = nameGenerator.generateName("dint", false);
-        assertEquals("dint1", dintName);
+        String dintName = nameGenerator.generateName("sint", false); // PLC keyword.
+        assertEquals("sint__1", dintName);
         String sintName = nameGenerator.generateName("SInt", false); // Partial upper case.
-        assertEquals("SInt1", sintName);
+        assertEquals("SInt__2", sintName);
     }
 
     @SuppressWarnings("javadoc")
@@ -57,27 +57,18 @@ public class NameGeneratorTest {
         String sName = nameGenerator.generateName("s", false);
         assertEquals("s", sName);
         String sName1 = nameGenerator.generateName("s", false);
-        assertEquals("s1", sName1);
+        assertEquals("s__1", sName1);
         String sName2 = nameGenerator.generateName("s", false);
-        assertEquals("s2", sName2);
+        assertEquals("s__2", sName2);
     }
 
     @SuppressWarnings("javadoc")
     @Test
-    public void useHigherSuffixTest() {
+    public void useNumberSuffixTest() {
         String sName = nameGenerator.generateName("s", false);
         assertEquals("s", sName);
-        String sName1 = nameGenerator.generateName("s1", false); // Unused suffix.
+        String sName1 = nameGenerator.generateName("s1", false); // Different name, no suffix appended.
         assertEquals("s1", sName1);
-    }
-
-    @SuppressWarnings("javadoc")
-    @Test
-    public void useLowerSuffixTest() {
-        String sName1 = nameGenerator.generateName("s3", false);
-        assertEquals("s3", sName1);
-        String sName2 = nameGenerator.generateName("s1", false); // Use next higher suffix suffix.
-        assertEquals("s4", sName2);
     }
 
     @SuppressWarnings("javadoc")
@@ -86,6 +77,6 @@ public class NameGeneratorTest {
         String sName1 = nameGenerator.generateName("s1", false); // Unused suffix.
         assertEquals("s1", sName1);
         String sName2 = nameGenerator.generateName("s1", false); // Duplicate, use next higher suffix.
-        assertEquals("s2", sName2);
+        assertEquals("s1__1", sName2);
     }
 }
