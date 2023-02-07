@@ -23,11 +23,11 @@ public class PlcRealTypeSizeOption extends EnumOption<PlcNumberBits> {
     /** Constructor for the {@link PlcRealTypeSizeOption} class. */
     public PlcRealTypeSizeOption() {
         super("PLC real type size",
-                "BITS is the number of bits for a real value in the PLC. Specifiy "
+                "BITS is the number of bits for a real value in the PLC. Specify "
                         + "\"auto\" to automatically determine the size, \"32\" for 32-bits real values, or "
                         + "\"64\" for 64-bits real values. [DEFAULT=auto]",
                 null, "real-size", "BITS", PlcNumberBits.AUTO, true,
-                "The size of a real value in the PLC.");
+                "The number of bits of a real value in the PLC.");
     }
 
     @Override

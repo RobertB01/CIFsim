@@ -27,7 +27,7 @@ public class PlcIntTypeSizeOption extends EnumOption<PlcNumberBits> {
                         + "\"auto\" to automatically determine the size, \"32\" for 32-bits integer values, or "
                         + "\"64\" for 64-bits integer values. [DEFAULT=auto]",
                 null, "int-size", "BITS", PlcNumberBits.AUTO, true,
-                "The size of an integer value in PLC.");
+                "The number of bits of an integer value in PLC.");
     }
 
     @Override

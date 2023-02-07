@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
@@ -119,24 +118,6 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
                 throw new RuntimeException("Unknown output type: " + targetType);
         }
         PlcGenSettings settings = makePlcGenSettings(target);
-
-        // Warn the user about getting a possibly too small integer type size.
-        if (settings.intTypeSize.getTypeSize(PlcTarget.CIF_INTEGER_SIZE) < PlcTarget.CIF_INTEGER_SIZE) {
-            warn("Configured integer type size is less than the CIF integer type size. Some values in the program "
-                    + "may be truncated.");
-        } else if (target.getMaxIntegerTypeSize() < PlcTarget.CIF_INTEGER_SIZE) {
-            warn("Maximum integer type size supported by the PLC is less than the CIF integer type size. Some "
-                    + "values in the program may be truncated.");
-        }
-
-        // Warn the user about getting a possibly too small real type size.
-        if (settings.realTypeSize.getTypeSize(PlcTarget.CIF_REAL_SIZE) < PlcTarget.CIF_REAL_SIZE) {
-            warn("Configured real type size is less than the CIF real type size. Some values in the program "
-                    + "may be truncated.");
-        } else if (target.getMaxRealTypeSize() < PlcTarget.CIF_REAL_SIZE) {
-            warn("Maximum real type size supported by the PLC is less than the CIF real type size. Some "
-                    + "values in the program may be truncated.");
-        }
 
         // Generate PLC code and write it to the file system.
         target.generate(settings);

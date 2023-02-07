@@ -22,7 +22,7 @@ public class PlcNumberBitsOption extends EnumOption<PlcNumberBits> {
     /** Constructor for the {@link PlcNumberBitsOption} class. */
     public PlcNumberBitsOption() {
         super("PLC number bits",
-                "BITS is the maximum number of bits supported by the PLC for representing numeric values. Specifiy "
+                "BITS is the maximum number of bits supported by the PLC for representing numeric values. Specify "
                         + "\"auto\" to automatically determine the maximum number of bits, \"32\" for 32-bits, or "
                         + "\"64\" for 64-bits. [DEFAULT=auto]",
                 'b', "number-bits", "BITS", PlcNumberBits.AUTO, true,

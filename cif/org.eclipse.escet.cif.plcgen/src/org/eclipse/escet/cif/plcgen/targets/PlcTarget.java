@@ -64,6 +64,28 @@ public abstract class PlcTarget {
         TypeGenerator typeGen = new TypeGenerator(this, settings, nameGenerator, codeStorage);
         CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameGenerator);
 
+        // Warn the user about getting a possibly too small integer type size.
+        if (settings.intTypeSize.getTypeSize(PlcTarget.CIF_INTEGER_SIZE) < PlcTarget.CIF_INTEGER_SIZE) {
+            settings.warnOutput.warn(
+                    "Configured integer type size is less than the CIF integer type size. Some values in the program "
+                    + "may be truncated.");
+        } else if (getMaxIntegerTypeSize() < PlcTarget.CIF_INTEGER_SIZE) {
+            settings.warnOutput
+                    .warn("Maximum integer type size supported by the PLC is less than the CIF integer type size. Some "
+                            + "values in the program may be truncated.");
+        }
+
+        // Warn the user about getting a possibly too small real type size.
+        if (settings.realTypeSize.getTypeSize(PlcTarget.CIF_REAL_SIZE) < PlcTarget.CIF_REAL_SIZE) {
+            settings.warnOutput
+                    .warn("Configured real type size is less than the CIF real type size. Some values in the program "
+                            + "may be truncated.");
+        } else if (getMaxRealTypeSize() < PlcTarget.CIF_REAL_SIZE) {
+            settings.warnOutput
+                    .warn("Maximum real type size supported by the PLC is less than the CIF real type size. Some "
+                            + "values in the program may be truncated.");
+        }
+
         // Perform the conversion.
         cifProcessor.process();
         if (settings.shouldTerminate.get()) {
@@ -111,12 +133,12 @@ public abstract class PlcTarget {
      *
      * @return Number of bits used for storing the largest supported integer type.
      */
-    public abstract int getMaxIntegerTypeSize();
+    protected abstract int getMaxIntegerTypeSize();
 
     /**
-     * Get the type of a normal integer value in the PLC.
+     * Get the type of a standard integer value in the PLC.
      *
-     * @return The type of a normal integer value in the PLC.
+     * @return The type of a standard integer value in the PLC.
      */
     public PlcElementaryType getIntegerType() {
         int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
@@ -129,12 +151,12 @@ public abstract class PlcTarget {
      *
      * @return Number of bits used for storing the largest supported real type.
      */
-    public abstract int getMaxRealTypeSize();
+    protected abstract int getMaxRealTypeSize();
 
     /**
-     * Get the type of a normal real value in the PLC.
+     * Get the type of a standard real value in the PLC.
      *
-     * @return The type of a normal real value in the PLC.
+     * @return The type of a standard real value in the PLC.
      */
     public PlcElementaryType getRealType() {
         int generatorBestRealSize = Math.min(CIF_REAL_SIZE, getMaxRealTypeSize());

@@ -89,7 +89,7 @@ public class PlcGenSettings {
      * @param warnOnRename Whether to warn the user when renaming CIF identifiers.
      * @param warnOutput Callback to send warnings to the user.
      */
-    PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
+    public PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
             PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
             Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)

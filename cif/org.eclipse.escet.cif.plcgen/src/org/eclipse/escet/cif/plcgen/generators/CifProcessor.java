@@ -173,7 +173,9 @@ public class CifProcessor {
         new ElimComponentDefInst().transform(spec);
 
         // Eliminate state/event exclusion invariants, to avoid having to handle them.
-        new ElimStateEvtExclInvs().transform(spec); // TODO Is this a good idea wrt finding the original name again?
+        // TODO For tracability, it might be better to keep this, and convert it to an additional test in the event
+        // function labeled with the invariant.
+        new ElimStateEvtExclInvs().transform(spec);
 
         // Simplify the specification, to increase the supported subset. Since simplification of values fills in all
         // constants, we can also remove the constants. However, this may lead to large amounts of duplication for

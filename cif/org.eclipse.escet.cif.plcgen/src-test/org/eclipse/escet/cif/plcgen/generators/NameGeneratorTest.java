@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen;
+package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
-import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
+import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.junit.Before;
 import org.junit.Test;
 

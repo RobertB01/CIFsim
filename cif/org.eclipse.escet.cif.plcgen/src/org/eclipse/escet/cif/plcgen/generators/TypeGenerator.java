@@ -60,9 +60,6 @@ public class TypeGenerator {
     /** How to convert enumeration declarations to the PLC. */
     private final ConvertEnums enumConversion;
 
-    /** Next value to use for an enumeration literal in case of conversion to numbers or constants. */
-    private int nextEnumLiteralValue = 1;
-
     /** Generator for obtaining clash-free names in the generated code. */
     private final NameGenerator nameGenerator;
 
@@ -216,60 +213,26 @@ public class TypeGenerator {
      * @return The created equivalent PLC type and value information.
      */
     public EnumDeclData makeEnumDeclData(EnumDecl enumDecl) {
+        Assert.check(enumConversion.equals(ConvertEnums.NO)); // Other conversions have been eliminated already.
+
+        // Convert the enumeration literals.
         List<EnumLiteral> cifLiterals = enumDecl.getLiterals();
+        PlcValue[] literals = new PlcValue[cifLiterals.size()];
+        int litIndex = 0;
+        for (EnumLiteral lit: cifLiterals) {
+            String litName = nameGenerator.generateName(CifTextUtils.getAbsName(lit, false), true);
+            literals[litIndex] = new PlcValue(litName);
 
-        if (enumConversion.equals(ConvertEnums.NO)) {
-            // Convert the declaration to an enumeration in the PLC.
-
-            // Convert the enumeration literals.
-            PlcValue[] literals = new PlcValue[cifLiterals.size()];
-            int litIndex = 0;
-            for (EnumLiteral lit: cifLiterals) {
-                String litName = nameGenerator.generateName(CifTextUtils.getAbsName(lit, false), true);
-                literals[litIndex] = new PlcValue(litName);
-
-                litIndex++;
-            }
-
-            // Construct the type and add it to the global type declarations.
-            String declName = nameGenerator.generateName(CifTextUtils.getAbsName(enumDecl, false), true);
-            PlcType declType = new PlcDerivedType(declName);
-            PlcEnumType plcEnumType = new PlcEnumType(
-                    Arrays.stream(literals).map(v -> v.value).collect(Collectors.toList()));
-            plcCodeStorage.addTypeDecl(new PlcTypeDecl(declName, plcEnumType));
-
-            return new EnumDeclData(declType, literals);
-        } else if (enumConversion.equals(ConvertEnums.CONSTS)) {
-            // Convert the declaration to constants with unique integer values.
-            PlcType declType = standardIntType;
-            PlcValue[] literals = new PlcValue[cifLiterals.size()];
-
-            int litIndex = 0;
-            for (EnumLiteral lit: cifLiterals) {
-                String litConstName = nameGenerator.generateName(CifTextUtils.getAbsName(lit, false), true);
-                // TODO Have grouping in the constant values of a declaration (eg always start at multiple of 10).
-                PlcValue litVal = new PlcValue(String.valueOf(nextEnumLiteralValue));
-                plcCodeStorage.addConstant(new PlcVariable(litConstName, declType, null, litVal));
-                literals[litIndex] = litVal;
-
-                nextEnumLiteralValue++;
-                litIndex++;
-            }
-            return new EnumDeclData(declType, literals);
-        } else if (enumConversion.equals(ConvertEnums.INTS)) {
-            // Convert the declaration to fixed unique integer values.
-            PlcType declType = standardIntType;
-            PlcValue[] literals = new PlcValue[cifLiterals.size()];
-
-            for (int litIndex = 0; litIndex < cifLiterals.size(); litIndex++) {
-                // TODO Have grouping in the constant values of a declaration (eg always start at multiple of 10).
-                literals[litIndex] = new PlcValue(String.valueOf(nextEnumLiteralValue));
-
-                nextEnumLiteralValue++;
-            }
-            return new EnumDeclData(declType, literals);
-        } else {
-            throw new AssertionError("Unknown enum literal conversion found: \"" + enumConversion + "\".");
+            litIndex++;
         }
+
+        // Construct the type and add it to the global type declarations.
+        String declName = nameGenerator.generateName(CifTextUtils.getAbsName(enumDecl, false), true);
+        PlcType declType = new PlcDerivedType(declName);
+        PlcEnumType plcEnumType = new PlcEnumType(
+                Arrays.stream(literals).map(v -> v.value).collect(Collectors.toList()));
+        plcCodeStorage.addTypeDecl(new PlcTypeDecl(declName, plcEnumType));
+
+        return new EnumDeclData(declType, literals);
     }
 }
