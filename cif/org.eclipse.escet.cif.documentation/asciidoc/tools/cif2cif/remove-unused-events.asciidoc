@@ -1,0 +1,111 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+indexterm:[CIF to CIF transformer,remove unused events]
+indexterm:[remove unused events]
+indexterm:[events,remove unused]
+
+[[tools-cif2cif-chapter-remove-unused-events]]
+== Remove unused events
+
+This CIF to CIF transformation removes unused events from the specification.
+As these removed events are defined but not used, removing them does not alter the behavior modeled by the CIF specification.
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+=== Implementation details
+
+An event is considered to be _unused_ in a CIF specification if it only occurs as an event declaration.
+
+[source, cif]
+----
+event a;
+event b;
+
+automaton A:
+  location:
+    initial;
+    edge a;
+end
+----
+
+As event `b` is defined but not mentioned elsewhere in the specification it is removed.
+Event `a` is mentioned on an edge.
+It is therefore considered _used_ and preserved as you can see in the resulting specification:
+
+[source, cif]
+----
+event a;
+
+automaton A:
+  location:
+    initial;
+    edge a;
+end
+----
+
+Take note that the implicit alphabet of an automaton is defined by the events on the edges and not by the declared events, see the lesson on <<lang-tut-basics-chapter-alphabet,the alphabet>>.
+For instance, consider the following specification:
+
+[source, cif]
+----
+automaton A:
+  event a;
+  event b;
+  location:
+    initial;
+    edge a;
+end
+----
+
+Event `b` is only defined but not mentioned elsewhere.
+Therefore, it is not part of the implicit alphabet of automaton `A`.
+It is thus considered _unused_ and removed.
+
+The result is therefore:
+
+[source, cif]
+----
+automaton A:
+  event a;
+  location:
+    initial;
+    edge a;
+end
+----
+
+=== Renaming
+
+n/a
+
+=== Size considerations
+
+Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
+
+=== Optimality
+
+n/a
