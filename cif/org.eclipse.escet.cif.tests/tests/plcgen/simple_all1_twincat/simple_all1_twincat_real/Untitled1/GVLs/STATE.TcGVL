@@ -9,8 +9,8 @@
     p_ve: g_E;
     p_v1: DINT;
     p_v2: TupleStruct;
-    p_v3: TupleStruct1;
-    p_tv: TupleStruct2;
+    p_v3: TupleStruct__1;
+    p_tv: TupleStruct__2;
     p_j: DINT;
     p_r: LREAL;
 END_VAR]]></Declaration>

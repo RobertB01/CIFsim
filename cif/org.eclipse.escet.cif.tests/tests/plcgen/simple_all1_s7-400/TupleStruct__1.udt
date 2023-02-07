@@ -1,6 +1,6 @@
-TYPE TupleStruct1:
+TYPE TupleStruct__1:
     STRUCT
         field1: TupleStruct;
-        field2: LREAL;
+        field2: REAL;
     END_STRUCT;
 END_TYPE

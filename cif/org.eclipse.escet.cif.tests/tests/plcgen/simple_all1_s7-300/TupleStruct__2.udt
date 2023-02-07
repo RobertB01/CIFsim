@@ -1,4 +1,4 @@
-TYPE TupleStruct2:
+TYPE TupleStruct__2:
     STRUCT
         field1: DINT;
         field2: DINT;

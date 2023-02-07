@@ -41,7 +41,7 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct1">
+      <dataType name="TupleStruct__1">
         <baseType>
           <struct>
             <variable name="field1">
@@ -57,7 +57,7 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct2">
+      <dataType name="TupleStruct__2">
         <baseType>
           <struct>
             <variable name="field1">
@@ -134,12 +134,12 @@
             </variable>
             <variable name="p_v3">
               <type>
-                <derived name="TupleStruct1"/>
+                <derived name="TupleStruct__1"/>
               </type>
             </variable>
             <variable name="p_tv">
               <type>
-                <derived name="TupleStruct2"/>
+                <derived name="TupleStruct__2"/>
               </type>
             </variable>
             <variable name="p_j">

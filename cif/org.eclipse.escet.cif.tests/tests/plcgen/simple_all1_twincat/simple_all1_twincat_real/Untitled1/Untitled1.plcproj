@@ -10,10 +10,10 @@
     <Compile Include="DUTs\TupleStruct.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TupleStruct1.TcDUT">
+    <Compile Include="DUTs\TupleStruct__1.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TupleStruct2.TcDUT">
+    <Compile Include="DUTs\TupleStruct__2.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GVLs\STATE.TcGVL">

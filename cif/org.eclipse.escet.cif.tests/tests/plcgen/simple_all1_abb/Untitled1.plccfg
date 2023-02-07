@@ -7,8 +7,8 @@ CONFIGURATION Untitled1
         p_ve: DINT;
         p_v1: DINT;
         p_v2: TupleStruct;
-        p_v3: TupleStruct1;
-        p_tv: TupleStruct2;
+        p_v3: TupleStruct__1;
+        p_tv: TupleStruct__2;
         p_j: DINT;
         p_r: REAL;
     END_VAR

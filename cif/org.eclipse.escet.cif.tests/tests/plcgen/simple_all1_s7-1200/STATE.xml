@@ -7,8 +7,8 @@
     <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_ve</Tag>
     <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_v1</Tag>
     <Tag type='TupleStruct' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_v2</Tag>
-    <Tag type='TupleStruct1' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_v3</Tag>
-    <Tag type='TupleStruct2' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_tv</Tag>
+    <Tag type='TupleStruct__1' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_v3</Tag>
+    <Tag type='TupleStruct__2' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_tv</Tag>
     <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_j</Tag>
     <Tag type='LREAL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_r</Tag>
 </Tagtable>
