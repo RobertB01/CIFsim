@@ -107,8 +107,8 @@ public class CifProcessor {
      *
      * @param target PLC target to generate code for.
      * @param settings Configuration to use.
-     * @param typeGen Class for handling types.
-     * @param codeStorage Class that stores and writes generated PLC code.
+     * @param typeGen Type generator.
+     * @param codeStorage PLC code storage and writer.
      * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
     public CifProcessor(PlcTarget target, PlcGenSettings settings, TypeGenerator typeGen, PlcCodeStorage codeStorage,

@@ -27,7 +27,7 @@ public class SiemensS7Target extends PlcTarget {
     /** Maximum supported stored integer type size for each target. */
     private static final Map<PlcTargetType, Integer> MAX_INTEGER_SIZES;
 
-    /** Maximum supported stored floating type size for each target. */
+    /** Maximum supported stored real size for each target. */
     private static final Map<PlcTargetType, Integer> MAX_REAL_SIZES;
 
     static {

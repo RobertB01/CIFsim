@@ -68,10 +68,10 @@ public class PlcElementaryType extends PlcType {
     }
 
     /**
-     * Retrieve the floating point type that uses the given number of bits in PLC memory.
+     * Retrieve the real type that uses the given number of bits in PLC memory.
      *
-     * @param numBits Wanted length of floating point values in bits.
-     * @return The PLC floating point type with exactly the requested number of bits.
+     * @param numBits Wanted length of real values in bits.
+     * @return The PLC real type with exactly the requested number of bits.
      */
     public static PlcElementaryType getRealTypeBySize(int numBits) {
         switch (numBits) {
@@ -80,7 +80,7 @@ public class PlcElementaryType extends PlcType {
             case 64:
                 return LREAL_TYPE;
             default:
-                throw new AssertionError("Unexpected floating point size " + String.valueOf(numBits) + " found.");
+                throw new AssertionError("Unexpected real size " + String.valueOf(numBits) + " found.");
         }
     }
 }
