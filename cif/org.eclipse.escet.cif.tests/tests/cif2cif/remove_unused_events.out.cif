@@ -1,4 +1,5 @@
 uncontrollable f;
+controllable g;
 plant automaton A:
   controllable a;
   location:
@@ -12,4 +13,4 @@ plant automaton B:
     marked;
     edge f;
 end
-requirement invariant A.a needs B.l1;
+requirement invariant g needs B.l1;

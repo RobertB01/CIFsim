@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,6 +13,7 @@
 
 event e; // Unused.
 uncontrollable f; // Used.
+controllable g; // Used.
 
 plant A:
   controllable a; // Used.
@@ -21,7 +22,7 @@ plant A:
     edge a;
 end
 
-requirement A.a needs B.l1;
+requirement g needs B.l1;
 
 plant B:
   uncontrollable b; // Unused.

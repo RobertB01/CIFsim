@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -53,7 +53,7 @@ public class RemoveUnusedEvents extends CifWalker implements CifToCifTransformat
         // Walk the specification.
         walkSpecification(spec);
 
-        // Identify and remove unused algebraic variables.
+        // Identify and remove unused events.
         Set<Event> unusedEvents = difference(allEvents, allUsedEvents);
         for (Event ue: unusedEvents) {
             EMFHelper.removeFromParentContainment(ue);
