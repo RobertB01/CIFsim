@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.setc;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,7 +42,7 @@ public class NameGenerator {
      */
     private static final Set<String> PLC_LANGUAGE_KEYWORDS;
 
-    /** Iff set, warn the user about renaming names. */
+    /** If the value holds the user should be warned about changing the name, else the user should not be warned. */
     private final boolean warnOnRename;
 
     /** Callback to send warnings to the user. */
@@ -74,8 +73,7 @@ public class NameGenerator {
      * @return A safe name that does not clash with either the PLC language keywords or names generated earlier.
      */
     public String generateName(PositionObject posObject) {
-        Assert.check(CifTextUtils.hasName(posObject),
-                fmt("Missing name for \"%s\".", (posObject == null) ? "null" : posObject.toString()));
+        Assert.check(CifTextUtils.hasName(posObject), "Missing name for \"" + String.valueOf(posObject) + "\".");
         return generateName(CifTextUtils.getAbsName(posObject, false), true);
     }
 
