@@ -764,6 +764,8 @@ include::tools/cif2cif/remove-reqs.asciidoc[]
 
 include::tools/cif2cif/remove-unused-alg-vars.asciidoc[]
 
+include::tools/cif2cif/remove-unused-events.asciidoc[]
+
 include::tools/cif2cif/simplify-others.asciidoc[]
 
 include::tools/cif2cif/simplify-values.asciidoc[]
