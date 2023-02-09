@@ -135,101 +135,153 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
 
             // Basic variable orders.
             case "model":
-                if (!astOrder.arguments.isEmpty()) {
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, astOrder.arguments.get(0));
-                    throw new SemanticException();
-                }
-                return new ModelVarOrder();
+                return checkModelOrder(astOrder);
 
             case "sorted":
-                if (!astOrder.arguments.isEmpty()) {
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, astOrder.arguments.get(0));
-                    throw new SemanticException();
-                }
-                return new SortedVarOrder();
+                return checkSortedOrder(astOrder);
 
-            case "random": {
-                Long seed = null;
-                for (VarOrderOrOrdererArg arg: astOrder.arguments) {
-                    switch (arg.name.text) {
-                        case "seed":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, seed);
-                            seed = checkLongArg(name, VarOrderOrOrdererKind.ORDER, arg);
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                return new RandomVarOrder(seed);
-            }
+            case "random":
+                return checkRandomOrder(astOrder);
 
-            case "custom": {
-                List<Pair<SynthesisVariable, Integer>> order = null;
-                for (VarOrderOrOrdererArg arg: astOrder.arguments) {
-                    switch (arg.name.text) {
-                        case "order":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, order);
-
-                            if (!(arg instanceof VarOrderOrOrdererStringArg)) {
-                                reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
-                                        "the value must be a string.");
-                                throw new SemanticException();
-                            }
-
-                            Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = //
-                                    CustomVarOrderParser.parse(((VarOrderOrOrdererStringArg)arg).text, variables);
-                            if (customVarOrderOrError.right != null) {
-                                reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
-                                        customVarOrderOrError.right);
-                                throw new SemanticException();
-                            }
-
-                            order = customVarOrderOrError.left;
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (order == null) {
-                    reportMissingArgument(astOrder.name, VarOrderOrOrdererKind.ORDER, "order");
-                    throw new SemanticException();
-                }
-                return new CustomVarOrder(order);
-            }
+            case "custom":
+                return checkCustomOrder(astOrder);
 
             // Composite variable orders.
-            case "reverse": {
-                VarOrder order = null;
-                for (VarOrderOrOrdererArg arg: astOrder.arguments) {
-                    switch (arg.name.text) {
-                        case "order":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, order);
-                            if (!(arg instanceof VarOrderOrOrdererOrderArg)) {
-                                reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
-                                        "the value must be a variable order.");
-                                throw new SemanticException();
-                            }
-                            order = checkVarOrder(((VarOrderOrOrdererOrderArg)arg).value);
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (order == null) {
-                    reportMissingArgument(astOrder.name, VarOrderOrOrdererKind.ORDER, "order");
-                    throw new SemanticException();
-                }
-                return new ReverseVarOrder(order);
-            }
+            case "reverse":
+                return checkReverseOrder(astOrder);
 
             // Unknown.
             default:
                 addError(fmt("Unknown variable order \"%s\".", name), astOrder.name.position);
                 throw new SemanticException();
         }
+    }
+
+    /**
+     * Type check a model variable order.
+     *
+     * @param astOrder The variable order instance AST object.
+     * @return The variable order.
+     */
+    private VarOrder checkModelOrder(VarOrderOrOrdererSingleInstance astOrder) {
+        String name = astOrder.name.text;
+        if (!astOrder.arguments.isEmpty()) {
+            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, astOrder.arguments.get(0));
+            throw new SemanticException();
+        }
+        return new ModelVarOrder();
+    }
+
+    /**
+     * Type check a sorted variable order.
+     *
+     * @param astOrder The variable order instance AST object.
+     * @return The variable order.
+     */
+    private VarOrder checkSortedOrder(VarOrderOrOrdererSingleInstance astOrder) {
+        String name = astOrder.name.text;
+        if (!astOrder.arguments.isEmpty()) {
+            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, astOrder.arguments.get(0));
+            throw new SemanticException();
+        }
+        return new SortedVarOrder();
+    }
+
+    /**
+     * Type check a random variable order.
+     *
+     * @param astOrder The variable order instance AST object.
+     * @return The variable order.
+     */
+    private VarOrder checkRandomOrder(VarOrderOrOrdererSingleInstance astOrder) {
+        String name = astOrder.name.text;
+        Long seed = null;
+        for (VarOrderOrOrdererArg arg: astOrder.arguments) {
+            switch (arg.name.text) {
+                case "seed":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, seed);
+                    seed = checkLongArg(name, VarOrderOrOrdererKind.ORDER, arg);
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
+                    throw new SemanticException();
+            }
+        }
+        return new RandomVarOrder(seed);
+    }
+
+    /**
+     * Type check a custom variable order.
+     *
+     * @param astOrder The variable order instance AST object.
+     * @return The variable order.
+     */
+    private VarOrder checkCustomOrder(VarOrderOrOrdererSingleInstance astOrder) {
+        String name = astOrder.name.text;
+        List<Pair<SynthesisVariable, Integer>> order = null;
+        for (VarOrderOrOrdererArg arg: astOrder.arguments) {
+            switch (arg.name.text) {
+                case "order":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, order);
+
+                    if (!(arg instanceof VarOrderOrOrdererStringArg)) {
+                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
+                                "the value must be a string.");
+                        throw new SemanticException();
+                    }
+
+                    Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = //
+                            CustomVarOrderParser.parse(((VarOrderOrOrdererStringArg)arg).text, variables);
+                    if (customVarOrderOrError.right != null) {
+                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
+                                customVarOrderOrError.right);
+                        throw new SemanticException();
+                    }
+
+                    order = customVarOrderOrError.left;
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (order == null) {
+            reportMissingArgument(astOrder.name, VarOrderOrOrdererKind.ORDER, "order");
+            throw new SemanticException();
+        }
+        return new CustomVarOrder(order);
+    }
+
+    /**
+     * Type check a reverse variable order.
+     *
+     * @param astOrder The variable order instance AST object.
+     * @return The variable order.
+     */
+    private VarOrder checkReverseOrder(VarOrderOrOrdererSingleInstance astOrder) {
+        String name = astOrder.name.text;
+        VarOrder order = null;
+        for (VarOrderOrOrdererArg arg: astOrder.arguments) {
+            switch (arg.name.text) {
+                case "order":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, order);
+                    if (!(arg instanceof VarOrderOrOrdererOrderArg)) {
+                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
+                                "the value must be a variable order.");
+                        throw new SemanticException();
+                    }
+                    order = checkVarOrder(((VarOrderOrOrdererOrderArg)arg).value);
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (order == null) {
+            reportMissingArgument(astOrder.name, VarOrderOrOrdererKind.ORDER, "order");
+            throw new SemanticException();
+        }
+        return new ReverseVarOrder(order);
     }
 
     /**
