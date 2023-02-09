@@ -45,9 +45,9 @@ public class NameGeneratorTest {
     @SuppressWarnings("javadoc")
     @Test
     public void keywordAvoidanceTest() {
-        String dintName = nameGenerator.generateName("sint", false); // PLC keyword.
-        assertEquals("sint__1", dintName);
-        String sintName = nameGenerator.generateName("SInt", false); // Partial upper case.
+        String sintName = nameGenerator.generateName("sint", false); // PLC keyword.
+        assertEquals("sint__1", sintName);
+        sintName = nameGenerator.generateName("SInt", false); // Partial upper case.
         assertEquals("SInt__2", sintName);
     }
 

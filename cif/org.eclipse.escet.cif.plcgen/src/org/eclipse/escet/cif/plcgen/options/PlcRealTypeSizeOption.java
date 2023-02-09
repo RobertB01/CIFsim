@@ -27,7 +27,7 @@ public class PlcRealTypeSizeOption extends EnumOption<PlcNumberBits> {
                         + "\"auto\" to automatically determine the size, \"32\" for 32-bits real values, or "
                         + "\"64\" for 64-bits real values. [DEFAULT=auto]",
                 null, "real-size", "BITS", PlcNumberBits.AUTO, true,
-                "The number of bits of a real value in the PLC.");
+                "The number of bits for a real value in the PLC.");
     }
 
     @Override
@@ -52,9 +52,9 @@ public class PlcRealTypeSizeOption extends EnumOption<PlcNumberBits> {
     }
 
     /**
-     * Returns the number of bits in a real value in the PLC.
+     * Returns the number of bits for a real value in the PLC.
      *
-     * @return The number of bits in a real value in the PLC.
+     * @return The number of bits for a real value in the PLC.
      */
     public static PlcNumberBits getNumberBits() {
         return Options.get(PlcRealTypeSizeOption.class);
