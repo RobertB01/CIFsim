@@ -19,7 +19,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 /** BDD sliding window variable ordering option. */
 public class BddSlidingWindowVarOrderOption extends BooleanOption {
     /** The default value of the {@link BddSlidingWindowVarOrderOption} option. */
-    public static final boolean DEFAULT = true;
+    private static final boolean DEFAULT = true;
 
     /** Constructor for the {@link BddSlidingWindowVarOrderOption} class. */
     public BddSlidingWindowVarOrderOption() {
@@ -61,5 +61,14 @@ public class BddSlidingWindowVarOrderOption extends BooleanOption {
      */
     public static boolean isEnabled() {
         return Options.get(BddSlidingWindowVarOrderOption.class);
+    }
+
+    /**
+     * Returns whether the {@link BddSlidingWindowVarOrderOption} option is configured with its default value.
+     *
+     * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
+     */
+    public static boolean isDefault() {
+        return isEnabled() == DEFAULT;
     }
 }

@@ -19,7 +19,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 /** BDD sliding window size option. */
 public class BddSlidingWindowSizeOption extends IntegerOption {
     /** The default value of the {@link BddSlidingWindowSizeOption} option. */
-    public static final int DEFAULT = 4;
+    private static final int DEFAULT = 4;
 
     /** Constructor for the {@link BddSlidingWindowSizeOption} class. */
     public BddSlidingWindowSizeOption() {
@@ -69,5 +69,14 @@ public class BddSlidingWindowSizeOption extends IntegerOption {
      */
     public static int getMaxLen() {
         return Options.get(BddSlidingWindowSizeOption.class);
+    }
+
+    /**
+     * Returns whether the {@link BddSlidingWindowSizeOption} option is configured with its default value.
+     *
+     * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
+     */
+    public static boolean isDefault() {
+        return getMaxLen() == DEFAULT;
     }
 }

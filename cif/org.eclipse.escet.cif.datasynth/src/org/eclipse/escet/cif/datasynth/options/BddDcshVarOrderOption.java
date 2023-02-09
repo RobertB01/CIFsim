@@ -19,7 +19,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 /** BDD DCSH variable ordering option. */
 public class BddDcshVarOrderOption extends BooleanOption {
     /** The default value of the {@link BddDcshVarOrderOption} option. */
-    public static final boolean DEFAULT = false;
+    private static final boolean DEFAULT = false;
 
     /** Constructor for the {@link BddDcshVarOrderOption} class. */
     public BddDcshVarOrderOption() {
@@ -60,5 +60,14 @@ public class BddDcshVarOrderOption extends BooleanOption {
      */
     public static boolean isEnabled() {
         return Options.get(BddDcshVarOrderOption.class);
+    }
+
+    /**
+     * Returns whether the {@link BddDcshVarOrderOption} option is configured with its default value.
+     *
+     * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
+     */
+    public static boolean isDefault() {
+        return isEnabled() == DEFAULT;
     }
 }

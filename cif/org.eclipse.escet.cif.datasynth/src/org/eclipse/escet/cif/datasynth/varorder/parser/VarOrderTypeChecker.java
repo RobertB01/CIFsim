@@ -643,18 +643,14 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @throws InvalidOptionException If the options are mixed.
      */
     private void checkSimpleAndAdvancedOptionsMix() {
-        boolean simpleInitialOrderDefault = BddVariableOrderOption.getOrder().equals(BddVariableOrderOption.DEFAULT);
-        boolean simpleDcshDefault = BddDcshVarOrderOption.isEnabled() == BddDcshVarOrderOption.DEFAULT;
-        boolean simpleForceDefault = BddForceVarOrderOption.isEnabled() == BddForceVarOrderOption.DEFAULT;
-        boolean simpleSlidWinDefault = BddSlidingWindowVarOrderOption
-                .isEnabled() == BddSlidingWindowVarOrderOption.DEFAULT;
-        boolean simpleSlidWinSizeDefault = BddSlidingWindowSizeOption.getMaxLen() == BddSlidingWindowSizeOption.DEFAULT;
-        boolean simpleHyperEdgeAlgoDefault = BddHyperEdgeAlgoOption.getAlgo() == BddHyperEdgeAlgoOption.DEFAULT;
-        boolean simpleDefault = simpleInitialOrderDefault && simpleDcshDefault && simpleForceDefault
-                && simpleSlidWinDefault && simpleSlidWinSizeDefault && simpleHyperEdgeAlgoDefault;
-
-        boolean advancedDefault = BddAdvancedVariableOrderOption.getOrder()
-                .equals(BddAdvancedVariableOrderOption.DEFAULT);
+        boolean simpleDefault = //
+                BddVariableOrderOption.isDefault() && //
+                        BddDcshVarOrderOption.isDefault() && //
+                        BddForceVarOrderOption.isDefault() && // \
+                        BddSlidingWindowVarOrderOption.isDefault() && //
+                        BddSlidingWindowSizeOption.isDefault() && //
+                        BddHyperEdgeAlgoOption.isDefault();
+        boolean advancedDefault = BddAdvancedVariableOrderOption.isDefault();
 
         if (!simpleDefault && !advancedDefault) {
             throw new InvalidOptionException(

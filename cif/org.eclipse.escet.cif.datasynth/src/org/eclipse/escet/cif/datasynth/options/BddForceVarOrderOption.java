@@ -19,7 +19,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 /** BDD FORCE variable ordering option. */
 public class BddForceVarOrderOption extends BooleanOption {
     /** The default value of the {@link BddForceVarOrderOption} option. */
-    public static final boolean DEFAULT = true;
+    private static final boolean DEFAULT = true;
 
     /** Constructor for the {@link BddForceVarOrderOption} class. */
     public BddForceVarOrderOption() {
@@ -60,5 +60,14 @@ public class BddForceVarOrderOption extends BooleanOption {
      */
     public static boolean isEnabled() {
         return Options.get(BddForceVarOrderOption.class);
+    }
+
+    /**
+     * Returns whether the {@link BddForceVarOrderOption} option is configured with its default value.
+     *
+     * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
+     */
+    public static boolean isDefault() {
+        return isEnabled() == DEFAULT;
     }
 }
