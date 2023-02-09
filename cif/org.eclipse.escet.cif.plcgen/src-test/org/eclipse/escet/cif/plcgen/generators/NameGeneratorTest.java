@@ -77,7 +77,7 @@ public class NameGeneratorTest {
         assertEquals("x__1", nameGenerator.generateName(".", false)); // Garbage input.
         assertEquals("x__2", nameGenerator.generateName("_", false)); // Another garbage input produces a new name.
 
-        // Leading garbage
+        // Leading garbage.
         assertEquals("t5", nameGenerator.generateName(".t5", false)); // Skip garbage before identifier.
         assertEquals("x55", nameGenerator.generateName(".55", false)); // Insert letter to make it an identifier.
 
