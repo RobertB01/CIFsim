@@ -693,18 +693,19 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      */
     private VarOrder getSimpleConfiguredInitialOrder() {
         String orderTxt = BddVariableOrderOption.getOrder();
+        String orderTxtLower = orderTxt.toLowerCase(Locale.US);
         VarOrder initialVarOrder;
-        if (orderTxt.toLowerCase(Locale.US).equals("model")) {
+        if (orderTxtLower.equals("model")) {
             initialVarOrder = new ModelVarOrder();
-        } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
+        } else if (orderTxtLower.equals("reverse-model")) {
             initialVarOrder = new ReverseVarOrder(new ModelVarOrder());
-        } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
+        } else if (orderTxtLower.equals("sorted")) {
             initialVarOrder = new SortedVarOrder();
-        } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
+        } else if (orderTxtLower.equals("reverse-sorted")) {
             initialVarOrder = new ReverseVarOrder(new SortedVarOrder());
-        } else if (orderTxt.toLowerCase(Locale.US).equals("random")) {
+        } else if (orderTxtLower.equals("random")) {
             initialVarOrder = new RandomVarOrder(null);
-        } else if (orderTxt.toLowerCase(Locale.US).startsWith("random:")) {
+        } else if (orderTxtLower.startsWith("random:")) {
             int idx = orderTxt.indexOf(":");
             String seedTxt = orderTxt.substring(idx + 1);
             long seed;
