@@ -694,17 +694,16 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     private VarOrder getSimpleConfiguredInitialOrder() {
         String orderTxt = BddVariableOrderOption.getOrder();
         String orderTxtLower = orderTxt.toLowerCase(Locale.US);
-        VarOrder initialVarOrder;
         if (orderTxtLower.equals("model")) {
-            initialVarOrder = new ModelVarOrder();
+            return new ModelVarOrder();
         } else if (orderTxtLower.equals("reverse-model")) {
-            initialVarOrder = new ReverseVarOrder(new ModelVarOrder());
+            return new ReverseVarOrder(new ModelVarOrder());
         } else if (orderTxtLower.equals("sorted")) {
-            initialVarOrder = new SortedVarOrder();
+            return new SortedVarOrder();
         } else if (orderTxtLower.equals("reverse-sorted")) {
-            initialVarOrder = new ReverseVarOrder(new SortedVarOrder());
+            return new ReverseVarOrder(new SortedVarOrder());
         } else if (orderTxtLower.equals("random")) {
-            initialVarOrder = new RandomVarOrder(null);
+            return new RandomVarOrder(null);
         } else if (orderTxtLower.startsWith("random:")) {
             int idx = orderTxt.indexOf(":");
             String seedTxt = orderTxt.substring(idx + 1);
@@ -715,16 +714,15 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                 String msg = fmt("Invalid BDD variable random order seed number: \"%s\".", orderTxt);
                 throw new InvalidOptionException(msg, ex);
             }
-            initialVarOrder = new RandomVarOrder(seed);
+            return new RandomVarOrder(seed);
         } else {
             Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = CustomVarOrderParser
                     .parse(orderTxt, variables);
             if (customVarOrderOrError.right != null) {
                 throw new InvalidOptionException("Invalid BDD variable order: " + customVarOrderOrError.right);
             }
-            initialVarOrder = new CustomVarOrder(customVarOrderOrError.left);
+            return new CustomVarOrder(customVarOrderOrError.left);
         }
-        return initialVarOrder;
     }
 
     /**
