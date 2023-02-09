@@ -36,47 +36,58 @@ public class NameGeneratorTest {
     @SuppressWarnings("javadoc")
     @Test
     public void nonDuplicateNamesTest() {
-        String sName = nameGenerator.generateName("s", false);
-        assertEquals("s", sName);
-        String saniName = nameGenerator.generateName("sani", false);
-        assertEquals("sani", saniName);
+        assertEquals("s", nameGenerator.generateName("s", false));
+        assertEquals("sani", nameGenerator.generateName("sani", false));
     }
 
     @SuppressWarnings("javadoc")
     @Test
     public void keywordAvoidanceTest() {
-        String sintName = nameGenerator.generateName("sint", false); // PLC keyword.
-        assertEquals("sint__1", sintName);
-        sintName = nameGenerator.generateName("SInt", false); // Partial upper case.
-        assertEquals("SInt__2", sintName);
+        assertEquals("sint__1", nameGenerator.generateName("sint", false)); // PLC keyword.
+        assertEquals("SInt__2", nameGenerator.generateName("SInt", false)); // Partial upper case.
     }
 
     @SuppressWarnings("javadoc")
     @Test
     public void duplicateNameTest() {
-        String sName = nameGenerator.generateName("s", false);
-        assertEquals("s", sName);
-        String sName1 = nameGenerator.generateName("s", false);
-        assertEquals("s__1", sName1);
-        String sName2 = nameGenerator.generateName("s", false);
-        assertEquals("s__2", sName2);
+        assertEquals("s", nameGenerator.generateName("s", false));
+        assertEquals("s__1", nameGenerator.generateName("s", false));
+        assertEquals("s__2", nameGenerator.generateName("s", false));
     }
 
     @SuppressWarnings("javadoc")
     @Test
     public void useNumberSuffixTest() {
-        String sName = nameGenerator.generateName("s", false);
-        assertEquals("s", sName);
-        String sName1 = nameGenerator.generateName("s1", false); // Different name, no suffix appended.
-        assertEquals("s1", sName1);
+        assertEquals("s", nameGenerator.generateName("s", false));
+        assertEquals("s1", nameGenerator.generateName("s1", false)); // Different name, no suffix appended.
     }
 
     @SuppressWarnings("javadoc")
     @Test
     public void clashingSuffixTest() {
-        String sName1 = nameGenerator.generateName("s1", false); // Unused suffix.
-        assertEquals("s1", sName1);
-        String sName2 = nameGenerator.generateName("s1", false); // Duplicate, use next higher suffix.
-        assertEquals("s1__1", sName2);
+        assertEquals("s1", nameGenerator.generateName("s1", false)); // Unused suffix.
+        assertEquals("s1__1", nameGenerator.generateName("s1", false)); // Duplicate, use next higher suffix.
+    }
+
+    @SuppressWarnings("javadoc")
+    @Test
+    public void garbageTest() {
+        // Completely garbage.
+        assertEquals("x", nameGenerator.generateName("", false)); // Empty input.
+        assertEquals("x__1", nameGenerator.generateName(".", false)); // Garbage input.
+        assertEquals("x__2", nameGenerator.generateName("_", false)); // Another garbage input produces a new name.
+
+        // Leading garbage
+        assertEquals("t5", nameGenerator.generateName(".t5", false)); // Skip garbage before identifier.
+        assertEquals("x55", nameGenerator.generateName(".55", false)); // Insert letter to make it an identifier.
+
+        assertEquals("x55__1", nameGenerator.generateName("x55", false)); // x55 was already generated.
+
+        // Trailing garbage does not change output.
+        assertEquals("t4", nameGenerator.generateName("t4.", false));
+        assertEquals("x44", nameGenerator.generateName("44.", false));
+
+        // Internal garbage is compressed to a single underscore.
+        assertEquals("x4_4", nameGenerator.generateName("4._4", false));
     }
 }

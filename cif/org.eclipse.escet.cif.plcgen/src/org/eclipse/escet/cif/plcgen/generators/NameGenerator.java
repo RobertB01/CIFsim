@@ -67,7 +67,8 @@ public class NameGenerator {
     }
 
     /**
-     * Convert the given object to something that does not clash with the PLC language or with previously generated names.
+     * Convert the given object to something that does not clash with the PLC language or with previously generated
+     * names.
      *
      * @param posObject Named CIF object.
      * @return A safe name that does not clash with either the PLC language keywords or names generated earlier.
@@ -99,12 +100,17 @@ public class NameGenerator {
             } else if (c >= '0' && c <= '9') {
                 if (cleanedName.isEmpty()) {
                     cleanedName.append(DEFAULT_CHAR);
+                } else if (needsUnderscore) {
+                    cleanedName.append('_');
                 }
                 cleanedName.append(c);
                 needsUnderscore = false;
             } else {
-                needsUnderscore = true;
+                needsUnderscore = !cleanedName.isEmpty();
             }
+        }
+        if (cleanedName.isEmpty()) {
+            cleanedName.append(DEFAULT_CHAR);
         }
 
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
@@ -115,7 +121,6 @@ public class NameGenerator {
             // Store it as 0 suffix, next use will get "__1" appended.
             maxSuffixes.put(lowerCleanedName, 0);
             return cleanedName.toString();
-
         } else {
             // Identifier already used, append a new suffix.
             maxUsedNumber++;
