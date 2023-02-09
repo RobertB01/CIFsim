@@ -68,7 +68,7 @@ public abstract class PlcTarget {
         if (settings.intTypeSize.getTypeSize(PlcTarget.CIF_INTEGER_SIZE) < PlcTarget.CIF_INTEGER_SIZE) {
             settings.warnOutput.warn(
                     "Configured integer type size is less than the CIF integer type size. Some values in the program "
-                    + "may be truncated.");
+                            + "may be truncated.");
         } else if (getMaxIntegerTypeSize() < PlcTarget.CIF_INTEGER_SIZE) {
             settings.warnOutput
                     .warn("Maximum integer type size supported by the PLC is less than the CIF integer type size. Some "
