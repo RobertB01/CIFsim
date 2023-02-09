@@ -16,7 +16,7 @@
 
 The CIF data-based synthesis performance depends greatly on the <<tools-datasynth-var-order,variable ordering>>.
 First, an <<tools-datasynth-var-order-initial-orders,initial order>> is applied, which can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>>.
-Simple configuration <<tools-datasynth-options,options>> allow to configure the initial order, as well as the algorithms (variable orderers):
+Basic configuration <<tools-datasynth-options,options>> allow to configure the initial order, as well as the algorithms (variable orderers):
 
 * _BDD variable order_
 * _BDD hyper-edge creation algorithm_
@@ -28,8 +28,8 @@ Simple configuration <<tools-datasynth-options,options>> allow to configure the 
 However, these options offer only basic configuration.
 For the most flexibility, variable ordering can be configured using the _BDD advanced variable order_ option (see the <<tools-datasynth-options,options section>>).
 
-By default, the advanced variable configuration uses the simple configuration.
-To avoid confusion, variable ordering must be configured either through the simple configuration options or through the advanced configuration option, but never through both.
+By default, the advanced variable configuration uses the basic configuration.
+To avoid confusion, variable ordering must be configured either through the basic configuration options or through the advanced configuration option, but never through both.
 
 === Examples
 
@@ -73,13 +73,13 @@ After the last argument, optionally a comma may be specified as well.
 
 The following orders can be specified:
 
-* _Simple order_
+* _Basic order_
 +
-Uses the configuration as configured by the simple variable ordering options.
+Uses the configuration as configured by the basic variable ordering options.
 +
-** Name: `simple`
+** Name: `basic`
 ** Arguments: n/a
-** Example: `simple`
+** Example: `basic`
 
 * _Model order_
 +
@@ -118,7 +118,7 @@ Uses a <<tools-datasynth-var-order-initial-orders-custom,custom order>>.
 ** Name: `custom`
 ** Arguments:
 *** `order`
-**** Description: the custom order, with the <<tools-datasynth-var-order-initial-orders-custom,same syntax>> as for the simple configuration option
+**** Description: the custom order, with the <<tools-datasynth-var-order-initial-orders-custom,same syntax>> as for the basic configuration option
 **** Mandatory: yes
 **** Default: n/a
 **** Type: string

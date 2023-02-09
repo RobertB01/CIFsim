@@ -83,8 +83,8 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
 
     @Override
     protected VarOrder transRoot(List<VarOrderOrOrdererInstance> astInstances) {
-        // Make sure simple and advanced options are not mixed.
-        checkSimpleAndAdvancedOptionsMix();
+        // Make sure basic and advanced options are not mixed.
+        checkBasicAndAdvancedOptionsMix();
 
         // Process the advanced option.
         return checkVarOrder(astInstances);
@@ -129,9 +129,9 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         VarOrderOrOrdererSingleInstance astOrder = (VarOrderOrOrdererSingleInstance)astInstance;
         String name = astOrder.name.text;
         switch (name) {
-            // Use simple variable order options.
-            case "simple":
-                return getSimpleConfiguredOrder();
+            // Use basic variable order options.
+            case "basic":
+                return getBasicConfiguredOrder();
 
             // Basic variable orders.
             case "model":
@@ -638,12 +638,12 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     }
 
     /**
-     * Check whether simple options and advanced options for configuring the BDD variable order are mixed.
+     * Check whether basic options and advanced options for configuring the BDD variable order are mixed.
      *
      * @throws InvalidOptionException If the options are mixed.
      */
-    private void checkSimpleAndAdvancedOptionsMix() {
-        boolean simpleDefault = //
+    private void checkBasicAndAdvancedOptionsMix() {
+        boolean basicDefault = //
                 BddVariableOrderOption.isDefault() && //
                         BddDcshVarOrderOption.isDefault() && //
                         BddForceVarOrderOption.isDefault() && // \
@@ -652,20 +652,19 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
                         BddHyperEdgeAlgoOption.isDefault();
         boolean advancedDefault = BddAdvancedVariableOrderOption.isDefault();
 
-        if (!simpleDefault && !advancedDefault) {
-            throw new InvalidOptionException(
-                    "The BDD variable order is configured through simple and advanced options, "
-                            + "which is not supported. Use only simple or only advanced options.");
+        if (!basicDefault && !advancedDefault) {
+            throw new InvalidOptionException("The BDD variable order is configured through basic and advanced options, "
+                    + "which is not supported. Use only basic or only advanced options.");
         }
     }
 
     /**
-     * Get the variable order configured via the simple (non-advanced) options.
+     * Get the variable order configured via the basic (non-advanced) options.
      *
      * @return The variable order.
      */
-    private VarOrder getSimpleConfiguredOrder() {
-        VarOrder initialVarOrder = getSimpleConfiguredInitialOrder();
+    private VarOrder getBasicConfiguredOrder() {
+        VarOrder initialVarOrder = getBasicConfiguredInitialOrder();
         List<VarOrderer> orderers = list();
         if (BddDcshVarOrderOption.isEnabled()) {
             orderers.add(new DcshVarOrderer(PseudoPeripheralNodeFinderKind.GEORGE_LIU, VarOrderMetricKind.WES,
@@ -687,11 +686,11 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     }
 
     /**
-     * Get the initial variable order configured via the simple (non-advanced) option.
+     * Get the initial variable order configured via the basic (non-advanced) option.
      *
      * @return The initial variable order.
      */
-    private VarOrder getSimpleConfiguredInitialOrder() {
+    private VarOrder getBasicConfiguredInitialOrder() {
         String orderTxt = BddVariableOrderOption.getOrder().trim();
         String orderTxtLower = orderTxt.toLowerCase(Locale.US);
         if (orderTxtLower.equals("model")) {

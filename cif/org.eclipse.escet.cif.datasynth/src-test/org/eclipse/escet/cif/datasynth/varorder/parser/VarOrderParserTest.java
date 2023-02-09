@@ -82,8 +82,8 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testSimple() {
-        testValid("simple", "sorted -> force(metric=total-span, relations=configured) -> "
+    public void testBasic() {
+        testValid("basic", "sorted -> force(metric=total-span, relations=configured) -> "
                 + "slidwin(size=4, metric=total-span, relations=configured)");
     }
 
@@ -611,66 +611,66 @@ public class VarOrderParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMixSimpleAdvancedOptionsInitialOrder() {
+    public void testMixBasicAdvancedOptionsInitialOrder() {
         Options.set(BddVariableOrderOption.class, "random");
         Options.set(BddAdvancedVariableOrderOption.class, "random");
-        testInvalid("random", "The BDD variable order is configured through simple and advanced options, "
-                + "which is not supported. Use only simple or only advanced options.");
+        testInvalid("random", "The BDD variable order is configured through basic and advanced options, "
+                + "which is not supported. Use only basic or only advanced options.");
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMixSimpleAdvancedOptionsDcsh() {
+    public void testMixBasicAdvancedOptionsDcsh() {
         Options.set(BddDcshVarOrderOption.class, true);
         Options.set(BddAdvancedVariableOrderOption.class, "random");
-        testInvalid("random", "The BDD variable order is configured through simple and advanced options, "
-                + "which is not supported. Use only simple or only advanced options.");
+        testInvalid("random", "The BDD variable order is configured through basic and advanced options, "
+                + "which is not supported. Use only basic or only advanced options.");
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMixSimpleAdvancedOptionsForce() {
+    public void testMixBasicAdvancedOptionsForce() {
         Options.set(BddForceVarOrderOption.class, false);
         Options.set(BddAdvancedVariableOrderOption.class, "random");
-        testInvalid("random", "The BDD variable order is configured through simple and advanced options, "
-                + "which is not supported. Use only simple or only advanced options.");
+        testInvalid("random", "The BDD variable order is configured through basic and advanced options, "
+                + "which is not supported. Use only basic or only advanced options.");
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMixSimpleAdvancedOptionsSlidWin() {
+    public void testMixBasicAdvancedOptionsSlidWin() {
         Options.set(BddSlidingWindowVarOrderOption.class, false);
         Options.set(BddAdvancedVariableOrderOption.class, "random");
-        testInvalid("random", "The BDD variable order is configured through simple and advanced options, "
-                + "which is not supported. Use only simple or only advanced options.");
+        testInvalid("random", "The BDD variable order is configured through basic and advanced options, "
+                + "which is not supported. Use only basic or only advanced options.");
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMixSimpleAdvancedOptionsSlidWinSize() {
+    public void testMixBasicAdvancedOptionsSlidWinSize() {
         Options.set(BddSlidingWindowSizeOption.class, 2);
         Options.set(BddAdvancedVariableOrderOption.class, "random");
-        testInvalid("random", "The BDD variable order is configured through simple and advanced options, "
-                + "which is not supported. Use only simple or only advanced options.");
+        testInvalid("random", "The BDD variable order is configured through basic and advanced options, "
+                + "which is not supported. Use only basic or only advanced options.");
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMixSimpleAdvancedOptionsRelations() {
+    public void testMixBasicAdvancedOptionsRelations() {
         Options.set(BddHyperEdgeAlgoOption.class, BddHyperEdgeAlgo.LINEARIZED);
         Options.set(BddAdvancedVariableOrderOption.class, "random");
-        testInvalid("random", "The BDD variable order is configured through simple and advanced options, "
-                + "which is not supported. Use only simple or only advanced options.");
+        testInvalid("random", "The BDD variable order is configured through basic and advanced options, "
+                + "which is not supported. Use only basic or only advanced options.");
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testMixSimpleAdvancedOptionsMultiple() {
+    public void testMixBasicAdvancedOptionsMultiple() {
         Options.set(BddSlidingWindowSizeOption.class, 2);
         Options.set(BddHyperEdgeAlgoOption.class, BddHyperEdgeAlgo.LINEARIZED);
         Options.set(BddAdvancedVariableOrderOption.class, "random");
-        testInvalid("random", "The BDD variable order is configured through simple and advanced options, "
-                + "which is not supported. Use only simple or only advanced options.");
+        testInvalid("random", "The BDD variable order is configured through basic and advanced options, "
+                + "which is not supported. Use only basic or only advanced options.");
     }
 
     /**

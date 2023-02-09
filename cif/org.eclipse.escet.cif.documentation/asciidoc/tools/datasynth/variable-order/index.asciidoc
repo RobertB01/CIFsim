@@ -41,7 +41,7 @@ Using options, the initial variable order can be set to one of several predefine
 Manually specifying a custom order often requires specialist knowledge and can take quite some time.
 Luckily, there are algorithms that can automatically compute a decent variable order from an initial variable order.
 The algorithms to apply, and their settings, can be set using options as well.
-There are simple options that allow for basic configuration, as well as advanced options that allow more freedom.
+There are basic options that allow for basic configuration, as well as advanced options that allow more freedom.
 
 For more information on ordering and its influence on performance, see Chapter 3 of <<minato96>>.
 

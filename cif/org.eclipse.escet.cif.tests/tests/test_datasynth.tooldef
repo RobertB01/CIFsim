@@ -98,7 +98,7 @@ map(string:list string) test_options = {
     "datasynth/supname_invalid.cif":                           ["-s b@"],
     "datasynth/var_order_adv_dcsh_from_paper.cif":             ["--adv-var-order=sorted->dcsh(metric=wes,relations=linearized)->force(metric=total-span,relations=legacy)->slidwin(metric=total-span,relations=legacy) " + var_order_default],
     "datasynth/var_order_adv_parse_err.cif":                   ["--adv-var-order=model-> " + var_order_default],
-    "datasynth/var_order_adv_simple_mix.cif":                  ["--adv-var-order=random(seed=1)"],
+    "datasynth/var_order_adv_basic_mix.cif":                   ["--adv-var-order=random(seed=1)"],
     "datasynth/var_order_adv_tcheck_err.cif":                  ["--adv-var-order=model(a=1) " + var_order_default],
     "datasynth/var_order_custom_algos_off.cif":                ["-r *c*;*3,*1;*2 " + opt_algos_off + " " + opt_simplify_all],
     "datasynth/var_order_custom_algos_on.cif":                 ["-r *c*;*3,*1;*2 " + opt_algos_on + " " + opt_simplify_all],

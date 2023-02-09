@@ -40,7 +40,7 @@ The variable relations serve as input for the algorithms.
 Different algorithms may use different representations of the variable relations.
 One such representation is _hyper-edges_, and another is _graph edges_, which are derived from the hyper-edges.
 
-For simple configuration, the variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see the <<tools-datasynth-options,options section>>).
+For basic configuration, the variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see the <<tools-datasynth-options,options section>>).
 By default, the legacy variable relations are used.
 The following variable relations can be used:
 
@@ -81,7 +81,7 @@ DCSH applies two algorithms, the Weighted Cuthill-McKee bandwidth-reducing algor
 It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the Weighted Event Span (WES) metric.
 +
 The DCSH algorithm is disabled by default.
-For simple configuration, it can be enabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+For basic configuration, it can be enabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 
 [[tools-datasynth-var-order-auto-var-ordering-orderers-force]]
 * _FORCE_
@@ -94,7 +94,7 @@ Each new order is promoted as the new best order, if it is better than the curre
 The iterative algorithm stops once a fixed point has been reached, or after at most 10 * ceil(log~e~(n)) iterations of the algorithm have been performed, with `n` the number of synthesis variables.
 +
 The FORCE algorithm is enabled by default.
-For simple configuration, it can be disabled using the _BDD FORCE variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+For basic configuration, it can be disabled using the _BDD FORCE variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 
 [[tools-datasynth-var-order-auto-var-ordering-orderers-sliding-window]]
 * _Sliding window_
@@ -108,13 +108,13 @@ For each window, it computes all possible variable permutations, and selects the
 It then replaces the window by the best permutation of that window, before moving on to the next window.
 +
 The sliding window algorithm is enabled by default.
-For simple configuration, it can be disabled using the _BDD sliding window variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+For basic configuration, it can be disabled using the _BDD sliding window variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 +
 The default maximum length of the window that is used is 4.
 The actual window may be smaller, if less than 4 variables and/or location pointers are present in the model.
-For simple configuration, the maximum length of the window can be configured using the _BDD sliding window size_ option (see the <<tools-datasynth-options,options section>>).
+For basic configuration, the maximum length of the window can be configured using the _BDD sliding window size_ option (see the <<tools-datasynth-options,options section>>).
 The option to set the maximum length only has effect if the sliding window variable ordering algorithm is enabled.
 The size must be an integer number in the range [1 .. 12].
 
-If enabled using simple configuration, the algorithms are applied in the order they are listed above.
+If enabled using basic configuration, the algorithms are applied in the order they are listed above.
 For advanced configuration, see the separate section on <<tools-datasynth-var-order-adv-config,advanced variable ordering configuration>>.
