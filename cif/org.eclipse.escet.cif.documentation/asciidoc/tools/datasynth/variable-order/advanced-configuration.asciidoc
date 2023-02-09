@@ -14,7 +14,7 @@
 [[tools-datasynth-var-order-adv-config]]
 == Advanced variable ordering configuration
 
-The CIF data-based synthesis performs depends greatly on the <<tools-datasynth-var-order,variable ordering>>.
+The CIF data-based synthesis performance depends greatly on the <<tools-datasynth-var-order,variable ordering>>.
 First, an <<tools-datasynth-var-order-initial-orders,initial order>> is applied, which can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>>.
 Simple configuration <<tools-datasynth-options,options>> allow to configure the initial order, as well as the algorithms (variable orderers):
 
@@ -64,7 +64,7 @@ The syntax to specify advanced variable ordering generally works as follows:
 * Each argument is given by a name and a value: `name=value`.
 * To specify multiple arguments, separate them with a comma.
 After the last argument, optionally a comma may be specified as well.
-* To apply to an initial order a variable orderer, separate them with an arrow (`+->+`).
+* To first apply an initial order, and then apply a variable orderer, separate them with an arrow (`+->+`).
 * To apply multiple algorithms in sequence, separate them with an arrow (`+->+`).
 * If needed, a sequence consisting of an order and one or more algorithms, or a sequence of algorithms, may be enclosed in parentheses: `+(... -> ... -> ...)+`.
 * Spaces, tabs, and newline characters are generally ignored, but can be used to improve readability.
