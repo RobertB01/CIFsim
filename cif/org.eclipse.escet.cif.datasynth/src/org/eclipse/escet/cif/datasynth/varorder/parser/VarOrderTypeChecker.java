@@ -692,7 +692,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @return The initial variable order.
      */
     private VarOrder getSimpleConfiguredInitialOrder() {
-        String orderTxt = BddVariableOrderOption.getOrder();
+        String orderTxt = BddVariableOrderOption.getOrder().trim();
         String orderTxtLower = orderTxt.toLowerCase(Locale.US);
         if (orderTxtLower.equals("model")) {
             return new ModelVarOrder();
@@ -706,7 +706,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
             return new RandomVarOrder(null);
         } else if (orderTxtLower.startsWith("random:")) {
             int idx = orderTxt.indexOf(":");
-            String seedTxt = orderTxt.substring(idx + 1);
+            String seedTxt = orderTxt.substring(idx + 1).trim();
             long seed;
             try {
                 seed = Long.parseUnsignedLong(seedTxt);
