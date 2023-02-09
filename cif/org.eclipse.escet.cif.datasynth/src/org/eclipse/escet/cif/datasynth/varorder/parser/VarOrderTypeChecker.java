@@ -319,252 +319,322 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         String name = astOrderer.name.text;
         switch (name) {
             // Variable orderer algorithms.
-            case "dcsh": {
-                PseudoPeripheralNodeFinderKind nodeFinder = null;
-                VarOrderMetricKind metric = null;
-                RelationsKind relations = null;
-                for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
-                    switch (arg.name.text) {
-                        case "node-finder":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, nodeFinder);
-                            nodeFinder = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                    PseudoPeripheralNodeFinderKind.class, "a node finder algorithm");
-                            break;
-                        case "metric":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
-                            metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
-                                    "a metric");
-                            break;
-                        case "relations":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                            relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                                    "a kind of relations");
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (nodeFinder == null) {
-                    nodeFinder = PseudoPeripheralNodeFinderKind.GEORGE_LIU;
-                }
-                if (metric == null) {
-                    metric = VarOrderMetricKind.WES;
-                }
-                if (relations == null) {
-                    relations = RelationsKind.CONFIGURED;
-                }
-                return new DcshVarOrderer(nodeFinder, metric, relations);
-            }
+            case "dcsh":
+                return checkDcshVarOrderer(astOrderer);
 
-            case "force": {
-                VarOrderMetricKind metric = null;
-                RelationsKind relations = null;
-                for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
-                    switch (arg.name.text) {
-                        case "metric":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
-                            metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
-                                    "a metric");
-                            break;
-                        case "relations":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                            relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                                    "a kind of relations");
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (metric == null) {
-                    metric = VarOrderMetricKind.TOTAL_SPAN;
-                }
-                if (relations == null) {
-                    relations = RelationsKind.CONFIGURED;
-                }
-                return new ForceVarOrderer(metric, relations);
-            }
+            case "force":
+                return checkForceVarOrderer(astOrderer);
 
-            case "slidwin": {
-                Integer size = null;
-                VarOrderMetricKind metric = null;
-                RelationsKind relations = null;
-                for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
-                    switch (arg.name.text) {
-                        case "size":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, size);
-                            size = checkIntArg(name, VarOrderOrOrdererKind.ORDERER, arg);
-                            if (size < 1 || size > 12) {
-                                reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                        "the value must be in the range [1..12].");
-                                throw new SemanticException();
-                            }
-                            break;
-                        case "metric":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
-                            metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
-                                    "a metric");
-                            break;
-                        case "relations":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                            relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                                    "a kind of relations");
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (size == null) {
-                    size = BddSlidingWindowSizeOption.getMaxLen();
-                }
-                if (metric == null) {
-                    metric = VarOrderMetricKind.TOTAL_SPAN;
-                }
-                if (relations == null) {
-                    relations = RelationsKind.CONFIGURED;
-                }
-                return new SlidingWindowVarOrderer(size, metric, relations);
-            }
+            case "slidwin":
+                return checkSlidWinVarOrderer(astOrderer);
 
-            case "sloan": {
-                RelationsKind relations = null;
-                for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
-                    switch (arg.name.text) {
-                        case "relations":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                            relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                                    "a kind of relations");
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (relations == null) {
-                    relations = RelationsKind.CONFIGURED;
-                }
-                return new SloanVarOrderer(relations);
-            }
+            case "sloan":
+                return checkSloanVarOrderer(astOrderer);
 
-            case "weighted-cm": {
-                PseudoPeripheralNodeFinderKind nodeFinder = null;
-                RelationsKind relations = null;
-                for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
-                    switch (arg.name.text) {
-                        case "node-finder":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, nodeFinder);
-                            nodeFinder = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                    PseudoPeripheralNodeFinderKind.class, "a node finder algorithm");
-                            break;
-                        case "relations":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                            relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                                    "a kind of relations");
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (nodeFinder == null) {
-                    nodeFinder = PseudoPeripheralNodeFinderKind.GEORGE_LIU;
-                }
-                if (relations == null) {
-                    relations = RelationsKind.CONFIGURED;
-                }
-                return new WeightedCuthillMcKeeVarOrderer(nodeFinder, relations);
-            }
+            case "weighted-cm":
+                return checkWeightedCmVarOrderer(astOrderer);
 
             // Composite variable orderers.
-            case "or": {
-                List<VarOrderer> orderers = null;
-                VarOrderMetricKind metric = null;
-                RelationsKind relations = null;
-                for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
-                    switch (arg.name.text) {
-                        case "choices":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, orderers);
-                            if (!(arg instanceof VarOrderOrOrdererListOrdersArg)) {
-                                reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                        "the value must be a list of variable orderers.");
-                                throw new SemanticException();
-                            }
-                            orderers = checkVarOrderers(((VarOrderOrOrdererListOrdersArg)arg).value);
-                            if (orderers.size() < 2) {
-                                reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                        "the value must be a list with at least two variable orderers.");
-                                throw new SemanticException();
-                            }
-                            break;
-                        case "metric":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
-                            metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
-                                    "a metric");
-                            break;
-                        case "relations":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                            relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                                    "a kind of relations");
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (orderers == null) {
-                    reportMissingArgument(astOrderer.name, VarOrderOrOrdererKind.ORDERER, "orderers");
-                    throw new SemanticException();
-                }
-                if (metric == null) {
-                    metric = VarOrderMetricKind.WES;
-                }
-                if (relations == null) {
-                    relations = RelationsKind.CONFIGURED;
-                }
-                return new ChoiceVarOrderer(orderers, metric, relations);
-            }
+            case "or":
+                return checkChoiceVarOrderer(astOrderer);
 
-            case "reverse": {
-                VarOrderer orderer = null;
-                RelationsKind relations = null;
-                for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
-                    switch (arg.name.text) {
-                        case "orderer":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, orderer);
-                            if (!(arg instanceof VarOrderOrOrdererOrderArg)) {
-                                reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                        "the value must be a variable orderer.");
-                                throw new SemanticException();
-                            }
-                            orderer = checkVarOrderer(((VarOrderOrOrdererOrderArg)arg).value);
-                            break;
-                        case "relations":
-                            checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                            relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                                    "a kind of relations");
-                            break;
-                        default:
-                            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
-                            throw new SemanticException();
-                    }
-                }
-                if (orderer == null) {
-                    reportMissingArgument(astOrderer.name, VarOrderOrOrdererKind.ORDERER, "orderer");
-                    throw new SemanticException();
-                }
-                if (relations == null) {
-                    relations = RelationsKind.CONFIGURED;
-                }
-                return new ReverseVarOrderer(orderer, relations);
-            }
+            case "reverse":
+                return checkReverseVarOrderer(astOrderer);
 
             // Unknown.
             default:
                 addError(fmt("Unknown variable orderer \"%s\".", name), astOrderer.name.position);
                 throw new SemanticException();
         }
+    }
+
+    /**
+     * Type check a DCSH variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkDcshVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        PseudoPeripheralNodeFinderKind nodeFinder = null;
+        VarOrderMetricKind metric = null;
+        RelationsKind relations = null;
+        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "node-finder":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, nodeFinder);
+                    nodeFinder = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg,
+                            PseudoPeripheralNodeFinderKind.class, "a node finder algorithm");
+                    break;
+                case "metric":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
+                    metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
+                            "a metric");
+                    break;
+                case "relations":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
+                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
+                            "a kind of relations");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (nodeFinder == null) {
+            nodeFinder = PseudoPeripheralNodeFinderKind.GEORGE_LIU;
+        }
+        if (metric == null) {
+            metric = VarOrderMetricKind.WES;
+        }
+        if (relations == null) {
+            relations = RelationsKind.CONFIGURED;
+        }
+        return new DcshVarOrderer(nodeFinder, metric, relations);
+    }
+
+    /**
+     * Type check a FORCE variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkForceVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        VarOrderMetricKind metric = null;
+        RelationsKind relations = null;
+        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "metric":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
+                    metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
+                            "a metric");
+                    break;
+                case "relations":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
+                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
+                            "a kind of relations");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (metric == null) {
+            metric = VarOrderMetricKind.TOTAL_SPAN;
+        }
+        if (relations == null) {
+            relations = RelationsKind.CONFIGURED;
+        }
+        return new ForceVarOrderer(metric, relations);
+    }
+
+    /**
+     * Type check a sliding window variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkSlidWinVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        Integer size = null;
+        VarOrderMetricKind metric = null;
+        RelationsKind relations = null;
+        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "size":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, size);
+                    size = checkIntArg(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    if (size < 1 || size > 12) {
+                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
+                                "the value must be in the range [1..12].");
+                        throw new SemanticException();
+                    }
+                    break;
+                case "metric":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
+                    metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
+                            "a metric");
+                    break;
+                case "relations":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
+                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
+                            "a kind of relations");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (size == null) {
+            size = BddSlidingWindowSizeOption.getMaxLen();
+        }
+        if (metric == null) {
+            metric = VarOrderMetricKind.TOTAL_SPAN;
+        }
+        if (relations == null) {
+            relations = RelationsKind.CONFIGURED;
+        }
+        return new SlidingWindowVarOrderer(size, metric, relations);
+    }
+
+    /**
+     * Type check a Sloan variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkSloanVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        RelationsKind relations = null;
+        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "relations":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
+                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
+                            "a kind of relations");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (relations == null) {
+            relations = RelationsKind.CONFIGURED;
+        }
+        return new SloanVarOrderer(relations);
+    }
+
+    /**
+     * Type check a Weighted Cuthill-McKee variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkWeightedCmVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        PseudoPeripheralNodeFinderKind nodeFinder = null;
+        RelationsKind relations = null;
+        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "node-finder":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, nodeFinder);
+                    nodeFinder = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg,
+                            PseudoPeripheralNodeFinderKind.class, "a node finder algorithm");
+                    break;
+                case "relations":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
+                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
+                            "a kind of relations");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (nodeFinder == null) {
+            nodeFinder = PseudoPeripheralNodeFinderKind.GEORGE_LIU;
+        }
+        if (relations == null) {
+            relations = RelationsKind.CONFIGURED;
+        }
+        return new WeightedCuthillMcKeeVarOrderer(nodeFinder, relations);
+    }
+
+    /**
+     * Type check a choice variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkChoiceVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        List<VarOrderer> orderers = null;
+        VarOrderMetricKind metric = null;
+        RelationsKind relations = null;
+        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "choices":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, orderers);
+                    if (!(arg instanceof VarOrderOrOrdererListOrdersArg)) {
+                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
+                                "the value must be a list of variable orderers.");
+                        throw new SemanticException();
+                    }
+                    orderers = checkVarOrderers(((VarOrderOrOrdererListOrdersArg)arg).value);
+                    if (orderers.size() < 2) {
+                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
+                                "the value must be a list with at least two variable orderers.");
+                        throw new SemanticException();
+                    }
+                    break;
+                case "metric":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
+                    metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
+                            "a metric");
+                    break;
+                case "relations":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
+                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
+                            "a kind of relations");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (orderers == null) {
+            reportMissingArgument(astOrderer.name, VarOrderOrOrdererKind.ORDERER, "orderers");
+            throw new SemanticException();
+        }
+        if (metric == null) {
+            metric = VarOrderMetricKind.WES;
+        }
+        if (relations == null) {
+            relations = RelationsKind.CONFIGURED;
+        }
+        return new ChoiceVarOrderer(orderers, metric, relations);
+    }
+
+    /**
+     * Type check a reverse variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkReverseVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        VarOrderer orderer = null;
+        RelationsKind relations = null;
+        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "orderer":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, orderer);
+                    if (!(arg instanceof VarOrderOrOrdererOrderArg)) {
+                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
+                                "the value must be a variable orderer.");
+                        throw new SemanticException();
+                    }
+                    orderer = checkVarOrderer(((VarOrderOrOrdererOrderArg)arg).value);
+                    break;
+                case "relations":
+                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
+                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
+                            "a kind of relations");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (orderer == null) {
+            reportMissingArgument(astOrderer.name, VarOrderOrOrdererKind.ORDERER, "orderer");
+            throw new SemanticException();
+        }
+        if (relations == null) {
+            relations = RelationsKind.CONFIGURED;
+        }
+        return new ReverseVarOrderer(orderer, relations);
     }
 
     /**
