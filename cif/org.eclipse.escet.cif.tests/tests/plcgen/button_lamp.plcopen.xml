@@ -37,6 +37,18 @@
               </documentation>
             </pouInstance>
           </task>
+          <globalVars constant="false" name="STATE">
+            <variable name="hw_button_bit">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="hw_lamp_bit">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </globalVars>
           <globalVars constant="false" name="TIMERS">
             <variable name="timer0">
               <type>

@@ -1,0 +1,6 @@
+TYPE TupleStruct:
+    STRUCT
+        field1: LREAL;
+        field2: LREAL;
+    END_STRUCT;
+END_TYPE

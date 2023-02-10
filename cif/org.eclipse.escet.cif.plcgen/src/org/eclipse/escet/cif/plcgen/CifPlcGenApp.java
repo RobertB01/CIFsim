@@ -18,12 +18,13 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
 import org.eclipse.escet.cif.cif2plc.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeArgOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeFuncOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcMaxIterOption;
-import org.eclipse.escet.cif.cif2plc.options.PlcNumberBitsOption;
+import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
 import org.eclipse.escet.cif.cif2plc.options.PlcProjectNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcResourceNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskCycleTimeOption;
@@ -31,6 +32,9 @@ import org.eclipse.escet.cif.cif2plc.options.PlcTaskNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcTaskPriorityOption;
 import org.eclipse.escet.cif.cif2plc.options.RenameWarningsOption;
 import org.eclipse.escet.cif.cif2plc.options.SimplifyValuesOption;
+import org.eclipse.escet.cif.plcgen.options.PlcIntTypeSizeOption;
+import org.eclipse.escet.cif.plcgen.options.PlcRealTypeSizeOption;
+import org.eclipse.escet.cif.plcgen.options.PlcTargetTypeOption;
 import org.eclipse.escet.cif.plcgen.targets.AbbTarget;
 import org.eclipse.escet.cif.plcgen.targets.Iec611313Target;
 import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
@@ -120,13 +124,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         // TODO Use these options, see also getAllOptions()
         //
-        // PlcNumberBitsOption
         // PlcMaxIterOption
         // PlcFormalFuncInvokeArgOption
         // PlcFormalFuncInvokeFuncOption
-        // ConvertEnumsOption
-        // SimplifyValuesOption
-        // RenameWarningsOption
         return 0;
     }
 
@@ -147,11 +147,20 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String inputPath = InputFileOption.getPath();
         String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
 
+        PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
+        PlcNumberBits realSize = PlcRealTypeSizeOption.getNumberBits();
+        boolean simplifyValues = SimplifyValuesOption.simplifyValues();
+        ConvertEnums enumConversion = ConvertEnumsOption.getValue();
+
         // Required invariant: Once it returns true, it must return true on subsequent calls.
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
 
+        boolean warnOnRename = RenameWarningsOption.isEnabled();
+        WarnOutput warnOutput = message -> OutputProvider.warn(message);
+
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, Paths.resolve(inputPath), outputPath, shouldTerminate);
+                inputPath, Paths.resolve(inputPath), outputPath, intSize, realSize, simplifyValues, enumConversion,
+                shouldTerminate, warnOnRename, warnOutput);
     }
 
     @Override
@@ -174,14 +183,15 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(PlcTaskCycleTimeOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskNameOption.class));
         applicationOpts.add(Options.getInstance(PlcTaskPriorityOption.class));
+        applicationOpts.add(Options.getInstance(PlcIntTypeSizeOption.class));
+        applicationOpts.add(Options.getInstance(PlcRealTypeSizeOption.class));
+        applicationOpts.add(Options.getInstance(SimplifyValuesOption.class));
+        applicationOpts.add(Options.getInstance(ConvertEnumsOption.class));
+        applicationOpts.add(Options.getInstance(RenameWarningsOption.class));
 
-        applicationOpts.add(Options.getInstance(PlcNumberBitsOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(PlcMaxIterOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeArgOption.class)); // TODO Use its value.
         applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeFuncOption.class)); // TODO Use its value.
-        applicationOpts.add(Options.getInstance(ConvertEnumsOption.class)); // TODO Use its value.
-        applicationOpts.add(Options.getInstance(SimplifyValuesOption.class)); // TODO Use its value.
-        applicationOpts.add(Options.getInstance(RenameWarningsOption.class)); // TODO Use its value.
 
         List<OptionCategory> generatorSubCats = list();
         OptionCategory generatorCat = new OptionCategory("Generator", "Generator options.", generatorSubCats,

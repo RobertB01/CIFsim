@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='STATE'>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>g_inp</Tag>
+    <Tag type='BOOL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_b</Tag>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_x</Tag>
+    <Tag type='REAL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_y</Tag>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_ve</Tag>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_v1</Tag>
+    <Tag type='TupleStruct' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_v2</Tag>
+    <Tag type='TupleStruct__1' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_v3</Tag>
+    <Tag type='TupleStruct__2' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_tv</Tag>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_j</Tag>
+    <Tag type='REAL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_r</Tag>
+</Tagtable>

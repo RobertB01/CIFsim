@@ -14,12 +14,13 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
-import org.eclipse.escet.cif.plcgen.AbbWriter;
+import org.eclipse.escet.cif.plcgen.writers.AbbWriter;
 
 /** Code generator for the ABB PLC type. */
 public class AbbTarget extends PlcTarget {
     /** Constructor of the {@link AbbTarget} class. */
     public AbbTarget() {
+        // TODO Verify settings of the ABB target.
         super(PlcTargetType.ABB);
     }
 
@@ -29,8 +30,28 @@ public class AbbTarget extends PlcTarget {
     }
 
     @Override
+    public boolean supportsArrays() {
+        return true;
+    }
+
+    @Override
     public boolean supportsConstants() {
         return false;
+    }
+
+    @Override
+    public boolean supportsEnumerations() {
+        return false;
+    }
+
+    @Override
+    public int getMaxIntegerTypeSize() {
+        return 32;
+    }
+
+    @Override
+    public int getMaxRealTypeSize() {
+        return 32;
     }
 
     @Override

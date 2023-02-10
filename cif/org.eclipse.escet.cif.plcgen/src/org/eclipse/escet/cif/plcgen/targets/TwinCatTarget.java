@@ -29,8 +29,28 @@ public class TwinCatTarget extends PlcTarget {
     }
 
     @Override
+    public boolean supportsArrays() {
+        return true;
+    }
+
+    @Override
     public boolean supportsConstants() {
         return true;
+    }
+
+    @Override
+    public boolean supportsEnumerations() {
+        return true;
+    }
+
+    @Override
+    public int getMaxIntegerTypeSize() {
+        return 64;
+    }
+
+    @Override
+    public int getMaxRealTypeSize() {
+        return 64;
     }
 
     @Override

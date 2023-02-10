@@ -47,4 +47,40 @@ public class PlcElementaryType extends PlcType {
     public PlcElementaryType(String name) {
         this.name = name;
     }
+
+    /**
+     * Retrieve the integer type that uses the given number of bits in PLC memory.
+     *
+     * @param numBits Wanted length of integer values in bits.
+     * @return The PLC integer type with exactly the requested number of bits.
+     */
+    public static PlcElementaryType getIntTypeBySize(int numBits) {
+        switch (numBits) {
+            case 16:
+                return INT_TYPE;
+            case 32:
+                return DINT_TYPE;
+            case 64:
+                return LINT_TYPE;
+            default:
+                throw new AssertionError("Unexpected integer size " + String.valueOf(numBits) + " found.");
+        }
+    }
+
+    /**
+     * Retrieve the real type that uses the given number of bits in PLC memory.
+     *
+     * @param numBits Wanted length of real values in bits.
+     * @return The PLC real type with exactly the requested number of bits.
+     */
+    public static PlcElementaryType getRealTypeBySize(int numBits) {
+        switch (numBits) {
+            case 32:
+                return REAL_TYPE;
+            case 64:
+                return LREAL_TYPE;
+            default:
+                throw new AssertionError("Unexpected real size " + String.valueOf(numBits) + " found.");
+        }
+    }
 }

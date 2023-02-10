@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcResource;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTask;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
@@ -32,7 +33,7 @@ import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 
-/** Stores and writes generated PLC code. */
+/** Class that stores and writes generated PLC code. */
 public class PlcCodeStorage {
     /** PLC target to generate code for. */
     private final PlcTarget target;
@@ -86,7 +87,7 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global constants table.
      *
-     * @param var Variable to add.
+     * @param var Variable to add. Name is assumed to be unique.
      */
     public void addConstant(PlcVariable var) {
         Assert.check(target.supportsConstants());
@@ -100,7 +101,7 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global input variable table.
      *
-     * @param var Variable to add.
+     * @param var Variable to add. Name is assumed to be unique.
      */
     public void addInputVariable(PlcVariable var) {
         if (globalInputs == null) {
@@ -112,7 +113,7 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global output variable table.
      *
-     * @param var Variable to add.
+     * @param var Variable to add. Name is assumed to be unique.
      */
     public void addOutputVariable(PlcVariable var) {
         if (globalOutputs == null) {
@@ -124,13 +125,22 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global state variable table.
      *
-     * @param var Variable to add.
+     * @param var Variable to add. Name is assumed to be unique.
      */
     public void addStateVariable(PlcVariable var) {
         if (globalStateVars == null) {
             globalStateVars = new PlcGlobalVarList("STATE", false);
         }
         globalStateVars.variables.add(var);
+    }
+
+    /**
+     * Add a type declaration to the global type declarations list.
+     *
+     * @param decl Declaration to add. Name is assumed to be unique.
+     */
+    public void addTypeDecl(PlcTypeDecl decl) {
+        project.typeDecls.add(decl);
     }
 
     /** Perform any additional processing to make the generated PLC program ready. */

@@ -4,6 +4,9 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GVLs\STATE.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\TIMERS.TcGVL">
       <SubType>Code</SubType>
     </Compile>
