@@ -15,21 +15,12 @@
 == Advanced variable ordering configuration
 
 The CIF data-based synthesis performance depends greatly on the <<tools-datasynth-var-order,variable ordering>>.
-First, an <<tools-datasynth-var-order-initial-orders,initial order>> is applied, which can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>>.
-Basic configuration <<tools-datasynth-options,options>> allow to configure the initial order, as well as the algorithms (variable orderers):
-
-* _BDD variable order_
-* _BDD hyper-edge creation algorithm_
-* _BDD DCSH variable ordering algorithm_
-* _BDD FORCE variable ordering algorithm_
-* _BDD sliding window variable ordering algorithm_
-* _BDD sliding window size_
-
-However, these options offer only basic configuration.
+After selecting an <<tools-datasynth-var-order-initial-orders,initial order>>, it can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>> (orderers).
+This may be configured using <<tools-datasynth-var-order-options,basic options>>, but they offer only limited flexibility.
 For the most flexibility, variable ordering can be configured using the _BDD advanced variable order_ option (see the <<tools-datasynth-options,options section>>).
 
-By default, the advanced variable configuration uses the basic configuration.
-To avoid confusion, variable ordering must be configured either through the basic configuration options or through the advanced configuration option, but never through both.
+Variable ordering may be configured using either the basic options or using the advanced option.
+It is not supported to configure variable ordering using both basic and advanced configuration at the same time.
 
 === Examples
 
@@ -64,7 +55,7 @@ The syntax to specify advanced variable ordering generally works as follows:
 * Each argument is given by a name and a value: `name=value`.
 * To specify multiple arguments, separate them with a comma.
 After the last argument, optionally a comma may be specified as well.
-* To first apply an initial order, and then apply a variable orderer, separate them with an arrow (`+->+`).
+* To start with an initial order, and then apply a variable orderer, separate them with an arrow (`+->+`).
 * To apply multiple algorithms in sequence, separate them with an arrow (`+->+`).
 * If needed, a sequence consisting of an order and one or more algorithms, or a sequence of algorithms, may be enclosed in parentheses: `+(... -> ... -> ...)+`.
 * Spaces, tabs, and newline characters are generally ignored, but can be used to improve readability.
