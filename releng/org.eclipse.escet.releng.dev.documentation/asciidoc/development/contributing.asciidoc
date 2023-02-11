@@ -50,6 +50,22 @@ The easiest way to contribute the actual contribution, is to use GitLab:
 ** Once back at https://gitlab.eclipse.org/eclipse/escet/escet, click the _Fork_ button at the top-right of the page.
 This creates a fork of the official repository under your own account.
 
+*** For the _Project name_ and _Project slug_, use `escet`.
+
+** Ensure the Eclipse ESCET bot has permissions to your fork.
+This ensures that the build server can link:https://docs.gitlab.com/ee/user/project/merge_requests/allow_collaboration.html#pipeline-status-unavailable-from-mr-page-of-forked-project[communicate the build status] of your merge requests to your forked repository.
+It also ensures that your merge requests can be merged into the official Eclipse ESCET GitLab repository:
+
+*** Navigate to `+https://gitlab.eclipse.org/<username>/escet/-/project_members+`, with `<username>` replaced by your Eclipse Foundation account username.
+
+*** Click _Invite members_.
+
+*** For _Username or email address_ type `escet-bot`, and select the _escet bot user_ from the list.
+
+*** For _Select a role_ select _Developer_.
+
+*** Click _Invite_ to finish adding the bot.
+
 * Set up a development environment to work on your contribution:
 
 ** You can find your fork at `+https://gitlab.eclipse.org/<username>/escet+`, with `<username>` replaced by your Eclipse Foundation account username.
