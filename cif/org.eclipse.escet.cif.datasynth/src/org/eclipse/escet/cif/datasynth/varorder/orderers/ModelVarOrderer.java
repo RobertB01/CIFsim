@@ -11,32 +11,43 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orders;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
-import java.util.List;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
-import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
 
-/** Model variable order. Variables are ordered as in the model, without interleaving. */
-public class ModelVarOrder extends NonInterleavedVarOrder {
+/** Variable orderer that orders the variables as in the model, without interleaving. */
+public class ModelVarOrderer extends VarOrderer {
+    /** The effect of applying the variable orderer. */
+    private final VarOrdererEffect effect;
+
+    /**
+     * Constructor for the {@link ModelVarOrderer} class.
+     *
+     * @param effect The effect of applying the variable orderer.
+     */
+    public ModelVarOrderer(VarOrdererEffect effect) {
+        this.effect = effect;
+    }
+
     @Override
-    public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
+    public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
         // Debug output.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying model variable order.");
+            inputData.helper.dbg(dbgLevel, "Applying model variable order:");
+            inputData.helper.dbg(dbgLevel + 1, "Effect: %s", enumValueToParserArg(effect));
         }
 
-        // Get variables in model order.
-        List<SynthesisVariable> modelOrder = helper.getVariables();
-
-        // Return a non-interleaved variable order.
-        return getNonInterleavedOrder(modelOrder);
+        // Return new variable order.
+        VarOrder modelOrder = VarOrder.createFromOrderedVars(inputData.varsInModelOrder);
+        return new VarOrdererData(inputData, modelOrder, effect);
     }
 
     @Override
     public String toString() {
-        return "model";
+        return fmt("model(effect=%s)", enumValueToParserArg(effect));
     }
 }

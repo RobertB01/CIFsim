@@ -11,39 +11,45 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orders;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
-import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
 
-/** Custom variable order. Variables are ordered and interleaved as configured. */
-public class CustomVarOrder extends NonInterleavedVarOrder {
+/** Variable orderer that orders the variables to a user-specified custom order and interleaving. */
+public class CustomVarOrderer extends VarOrderer {
     /** The variable order. */
-    private final List<Pair<SynthesisVariable, Integer>> order;
+    private final VarOrder order;
+
+    /** The effect of applying the variable orderer. */
+    private final VarOrdererEffect effect;
 
     /**
-     * Constructor for the {@link CustomVarOrder} class.
+     * Constructor for the {@link CustomVarOrderer} class.
      *
      * @param order The variable order.
+     * @param effect The effect of applying the variable orderer.
      */
-    public CustomVarOrder(List<Pair<SynthesisVariable, Integer>> order) {
-        this.order = Collections.unmodifiableList(order);
+    public CustomVarOrderer(VarOrder order, VarOrdererEffect effect) {
+        this.order = order;
+        this.effect = effect;
     }
 
     @Override
-    public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
+    public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
         // Debug output.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying a custom variable order:");
-            helper.dbg(dbgLevel + 1, "Order: %s", getOrderText());
+            inputData.helper.dbg(dbgLevel, "Applying a custom variable order:");
+            inputData.helper.dbg(dbgLevel + 1, "Order: %s", getOrderText());
+            inputData.helper.dbg(dbgLevel + 1, "Effect: %s", enumValueToParserArg(effect));
         }
 
-        // Return the custom variable order.
-        return order;
+        // Return new variable order.
+        return new VarOrdererData(inputData, order, effect);
     }
 
     /**
@@ -53,15 +59,19 @@ public class CustomVarOrder extends NonInterleavedVarOrder {
      */
     private String getOrderText() {
         StringBuilder txt = new StringBuilder();
-        boolean first = true;
-        int cur = 0;
-        for (Pair<SynthesisVariable, Integer> var: order) {
-            if (!first) {
-                txt.append((cur == var.right) ? "," : ";");
+        List<List<SynthesisVariable>> groups = order.getVarOrder();
+        for (int i = 0; i < groups.size(); i++) {
+            List<SynthesisVariable> group = groups.get(i);
+            if (i > 0) {
+                txt.append(";");
             }
-            first = false;
-            txt.append(var.left.rawName);
-            cur = var.right;
+            for (int j = 0; j < group.size(); j++) {
+                if (j > 0) {
+                    txt.append(",");
+                }
+                SynthesisVariable var = group.get(j);
+                txt.append(var.rawName);
+            }
         }
         return txt.toString();
     }
@@ -69,7 +79,9 @@ public class CustomVarOrder extends NonInterleavedVarOrder {
     @Override
     public String toString() {
         StringBuilder txt = new StringBuilder();
-        txt.append("custom(order=\"");
+        txt.append("custom(effect=");
+        txt.append(enumValueToParserArg(effect));
+        txt.append(", order=\"");
         txt.append(getOrderText());
         txt.append("\")");
         return txt.toString();
