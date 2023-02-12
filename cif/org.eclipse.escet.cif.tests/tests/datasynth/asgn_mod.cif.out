@@ -15,12 +15,14 @@ CIF variables and location pointers:
   Total                                      6      32        54          84          ~64%
 
 Applying variable ordering:
-  Applying model variable order.
+  Applying 3 orderers, sequentially:
+    Applying model variable order:
+      Effect: both
 
-  Applying 2 algorithms, sequentially:
     Applying FORCE algorithm:
       Metric: total-span
       Relations: configured
+      Effect: var-order
       Number of hyper-edges: 10
       Maximum number of iterations: 20
 
@@ -34,6 +36,7 @@ Applying variable ordering:
       Size: 4
       Metric: total-span
       Relations: configured
+      Effect: var-order
       Number of hyper-edges: 10
       Window length: 4
 

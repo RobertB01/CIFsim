@@ -1,1 +1,1 @@
-ERROR: Invalid BDD variable order: the following are missing from the specified order: "p", "p.x".
+ERROR: Invalid BDD variable random order: the following are missing from the specified order: "p", "p.x".

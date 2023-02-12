@@ -1,1 +1,1 @@
-ERROR: Invalid BDD variable order: can't find a match for "*3". There is no supported variable or automaton (with two or more locations) in the specification that matches the given name pattern.
+ERROR: Invalid BDD variable random order: can't find a match for "*3". There is no supported variable or automaton (with two or more locations) in the specification that matches the given name pattern.
