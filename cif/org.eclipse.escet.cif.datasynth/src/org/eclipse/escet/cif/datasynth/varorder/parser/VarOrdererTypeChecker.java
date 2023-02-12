@@ -93,24 +93,6 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     /**
      * Type check a variable order.
      *
-     * @param astInstances The variable order instance AST objects.
-     * @return The variable order.
-     */
-    private VarOrder checkVarOrder(List<VarOrderOrOrdererInstance> astInstances) {
-        Assert.check(!astInstances.isEmpty());
-        VarOrder order = checkVarOrder(first(astInstances));
-        if (astInstances.size() == 1) {
-            return order;
-        } else {
-            List<VarOrderer> orderers = checkVarOrderers(slice(astInstances, 1, null));
-            VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
-            return new OrdererVarOrder(order, orderer);
-        }
-    }
-
-    /**
-     * Type check a variable order.
-     *
      * @param astInstance The variable order instance AST object.
      * @return The variable order.
      */
@@ -250,38 +232,6 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
             throw new SemanticException();
         }
         return new CustomVarOrder(order);
-    }
-
-    /**
-     * Type check a reverse variable order.
-     *
-     * @param astOrder The variable order instance AST object.
-     * @return The variable order.
-     */
-    private VarOrder checkReverseOrder(VarOrderOrOrdererSingleInstance astOrder) {
-        String name = astOrder.name.text;
-        VarOrder order = null;
-        for (VarOrderOrOrdererArg arg: astOrder.arguments) {
-            switch (arg.name.text) {
-                case "order":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, order);
-                    if (!(arg instanceof VarOrderOrOrdererOrderArg)) {
-                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
-                                "the value must be a variable order.");
-                        throw new SemanticException();
-                    }
-                    order = checkVarOrder(((VarOrderOrOrdererOrderArg)arg).value);
-                    break;
-                default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
-                    throw new SemanticException();
-            }
-        }
-        if (order == null) {
-            reportMissingArgument(astOrder.name, VarOrderOrOrdererKind.ORDER, "order");
-            throw new SemanticException();
-        }
-        return new ReverseVarOrder(order);
     }
 
     /**
