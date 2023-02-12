@@ -13,30 +13,26 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
-import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
 
-/** Variable ordering algorithm. */
-public interface VarOrderer {
+/** Variable orderer. May produce a fixed variable order, apply an algorithm, etc. */
+public abstract class VarOrderer {
     /**
-     * Apply the variable ordering algorithm, to order the variables.
+     * Order synthesis variables.
      *
      * <p>
      * In general, there are no guarantees that the new order is always a 'better' order, though some algorithms may
      * offer such guarantees. Some heuristic algorithms may in certain cases even produce 'worse' orders.
      * </p>
      *
-     * @param helper Helper for variable ordering.
-     * @param inputOrder The input variable order (to attempt) to improve. Must not be changed in-place.
+     * @param inputData The variable order data to be used as input for the orderer.
      * @param dbgEnabled Whether debug output is enabled.
      * @param dbgLevel The debug indentation level.
-     * @return The new variable order, as produced by the algorithm.
+     * @return The variable order data produced as output by the orderer.
      */
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
-            int dbgLevel);
+    public abstract VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel);
 
     /**
      * Returns the textual option syntax for the given enumeration constant value.
@@ -45,7 +41,7 @@ public interface VarOrderer {
      * @param value The enumeration constant value.
      * @return The textual option syntax.
      */
-    public static <T extends Enum<T>> String enumValueToParserArg(T value) {
+    protected <T extends Enum<T>> String enumValueToParserArg(T value) {
         return value.name().toLowerCase(Locale.US).replace("_", "-");
     }
 }
