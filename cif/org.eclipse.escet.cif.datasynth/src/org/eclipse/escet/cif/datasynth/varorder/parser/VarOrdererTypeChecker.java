@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.datasynth.varorder.parser;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Lists.slice;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
@@ -34,32 +33,30 @@ import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.ChoiceVarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.orderers.CustomVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.DcshVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.ForceVarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.orderers.ModelVarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.orderers.RandomVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.ReverseVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.SequentialVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.SlidingWindowVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.SloanVarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.orderers.SortedVarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.WeightedCuthillMcKeeVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.orders.CustomVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.ModelVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.OrdererVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.RandomVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.ReverseVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.SortedVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.VarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererInstance;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererKind;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererListOrdersArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererMultiInstance;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererNumberArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererOrderArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererSingleInstance;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererStringArg;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererArg;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererInstance;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererListOrderersArg;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererMultiInstance;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererNumberArg;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererOrdererArg;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererSingleInstance;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererStringArg;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
@@ -67,27 +64,29 @@ import org.eclipse.escet.common.typechecker.SemanticException;
 import org.eclipse.escet.common.typechecker.TypeChecker;
 import org.eclipse.escet.setext.runtime.Token;
 
-/** Variable order type checker. */
-public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInstance>, VarOrder> {
+/** Variable orderer type checker. */
+public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>, VarOrderer> {
     /** The synthesis variables to order. */
     private final List<SynthesisVariable> variables;
 
     /**
-     * Constructor for the {@link VarOrderTypeChecker} class.
+     * Constructor for the {@link VarOrdererTypeChecker} class.
      *
      * @param variables The synthesis variables to order.
      */
-    public VarOrderTypeChecker(List<SynthesisVariable> variables) {
+    public VarOrdererTypeChecker(List<SynthesisVariable> variables) {
         this.variables = variables;
     }
 
     @Override
-    protected VarOrder transRoot(List<VarOrderOrOrdererInstance> astInstances) {
+    protected VarOrderer transRoot(List<VarOrdererInstance> astInstances) {
         // Make sure basic and advanced options are not mixed.
         checkBasicAndAdvancedOptionsMix();
 
         // Process the advanced option.
-        return checkVarOrder(astInstances);
+        List<VarOrderer> orderers = checkVarOrderers(astInstances);
+        VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
+        return orderer;
     }
 
     /**
@@ -96,10 +95,10 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astInstances The variable orderer instance AST objects.
      * @return The variable orderers (at least one).
      */
-    private List<VarOrderer> checkVarOrderers(List<VarOrderOrOrdererInstance> astInstances) {
+    private List<VarOrderer> checkVarOrderers(List<VarOrdererInstance> astInstances) {
         Assert.check(!astInstances.isEmpty());
         List<VarOrderer> orderers = listc(astInstances.size());
-        for (VarOrderOrOrdererInstance astOrderer: astInstances) {
+        for (VarOrdererInstance astOrderer: astInstances) {
             orderers.add(checkVarOrderer(astOrderer));
         }
         return orderers;
@@ -111,17 +110,17 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astInstance The variable orderer instance AST object.
      * @return The variable orderer.
      */
-    private VarOrderer checkVarOrderer(VarOrderOrOrdererInstance astInstance) {
+    private VarOrderer checkVarOrderer(VarOrdererInstance astInstance) {
         // Handle multiple instances.
-        if (astInstance instanceof VarOrderOrOrdererMultiInstance multiInstance) {
+        if (astInstance instanceof VarOrdererMultiInstance multiInstance) {
             List<VarOrderer> orderers = checkVarOrderers(multiInstance.instances);
             VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
             return orderer;
         }
 
         // Handle single instance.
-        Assert.check(astInstance instanceof VarOrderOrOrdererSingleInstance);
-        VarOrderOrOrdererSingleInstance astOrderer = (VarOrderOrOrdererSingleInstance)astInstance;
+        Assert.check(astInstance instanceof VarOrdererSingleInstance);
+        VarOrdererSingleInstance astOrderer = (VarOrdererSingleInstance)astInstance;
         String name = astOrderer.name.text;
         switch (name) {
             // Use basic variable ordering options.
@@ -172,7 +171,7 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     }
 
     /**
-     * Check whether basic options and advanced options for configuring the BDD variable order are mixed.
+     * Check whether basic options and advanced options for configuring BDD variable ordering are mixed.
      *
      * @throws InvalidOptionException If the options are mixed.
      */
@@ -187,56 +186,56 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         boolean advancedDefault = BddAdvancedVariableOrderOption.isDefault();
 
         if (!basicDefault && !advancedDefault) {
-            throw new InvalidOptionException("The BDD variable order is configured through basic and advanced options, "
-                    + "which is not supported. Use only basic or only advanced options.");
+            throw new InvalidOptionException(
+                    "The BDD variable ordering is configured through basic and advanced options, "
+                            + "which is not supported. Use only basic or only advanced options.");
         }
     }
 
     /**
-     * Get the variable order configured via the basic (non-advanced) options.
+     * Get the variable orderer configured via the basic (non-advanced) options.
      *
-     * @return The variable order.
+     * @return The variable orderer.
      */
-    private VarOrder getBasicConfiguredOrder() {
-        VarOrder initialVarOrder = getBasicConfiguredInitialOrder();
-        List<VarOrderer> orderers = list();
+    private VarOrderer getBasicConfiguredOrderer() {
+        VarOrderer initialOrderer = getBasicConfiguredInitialOrderer();
+        List<VarOrderer> orderers = list(initialOrderer);
         if (BddDcshVarOrderOption.isEnabled()) {
             orderers.add(new DcshVarOrderer(PseudoPeripheralNodeFinderKind.GEORGE_LIU, VarOrderMetricKind.WES,
-                    RelationsKind.CONFIGURED));
+                    RelationsKind.CONFIGURED, VarOrdererEffect.VAR_ORDER));
         }
         if (BddForceVarOrderOption.isEnabled()) {
-            orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED));
+            orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED,
+                    VarOrdererEffect.VAR_ORDER));
         }
         if (BddSlidingWindowVarOrderOption.isEnabled()) {
             int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen, VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED));
+            orderers.add(new SlidingWindowVarOrderer(maxLen, VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED,
+                    VarOrdererEffect.VAR_ORDER));
         }
-        VarOrder varOrder = initialVarOrder;
-        if (!orderers.isEmpty()) {
-            varOrder = new OrdererVarOrder(varOrder,
-                    (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
-        }
-        return varOrder;
+        return (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
     }
 
     /**
-     * Get the initial variable order configured via the basic (non-advanced) option.
+     * Get the initial variable orderer configured via the basic (non-advanced) option.
      *
-     * @return The initial variable order.
+     * @return The initial variable orderer.
      */
-    private VarOrder getBasicConfiguredInitialOrder() {
+    private VarOrderer getBasicConfiguredInitialOrderer() {
         String orderTxt = BddVariableOrderOption.getOrder().trim();
         String orderTxtLower = orderTxt.toLowerCase(Locale.US);
         if (orderTxtLower.equals("model")) {
-            return new ModelVarOrder();
+            return new ModelVarOrderer(VarOrdererEffect.BOTH);
         } else if (orderTxtLower.equals("reverse-model")) {
-            return new ReverseVarOrder(new ModelVarOrder());
+            return new SequentialVarOrderer(list(new ModelVarOrderer(VarOrdererEffect.VAR_ORDER),
+                    new ReverseVarOrderer(RelationsKind.CONFIGURED, VarOrdererEffect.BOTH)));
         } else if (orderTxtLower.equals("sorted")) {
-            return new SortedVarOrder();
+            return new SortedVarOrderer(VarOrdererEffect.BOTH);
         } else if (orderTxtLower.equals("reverse-sorted")) {
-            return new ReverseVarOrder(new SortedVarOrder());
+            return new SequentialVarOrderer(list(new SortedVarOrderer(VarOrdererEffect.VAR_ORDER),
+                    new ReverseVarOrderer(RelationsKind.CONFIGURED, VarOrdererEffect.BOTH)));
         } else if (orderTxtLower.equals("random")) {
-            return new RandomVarOrder(null);
+            return new RandomVarOrderer(null, VarOrdererEffect.BOTH);
         } else if (orderTxtLower.startsWith("random:")) {
             int idx = orderTxt.indexOf(":");
             String seedTxt = orderTxt.substring(idx + 1).trim();
@@ -244,113 +243,148 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
             try {
                 seed = Long.parseUnsignedLong(seedTxt);
             } catch (NumberFormatException ex) {
-                String msg = fmt("Invalid BDD variable random order seed number: \"%s\".", orderTxt);
+                String msg = fmt("Invalid BDD random variable order seed number: \"%s\".", orderTxt);
                 throw new InvalidOptionException(msg, ex);
             }
-            return new RandomVarOrder(seed);
+            return new RandomVarOrderer(seed, VarOrdererEffect.BOTH);
         } else {
-            Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = CustomVarOrderParser
-                    .parse(orderTxt, variables);
+            Pair<VarOrder, String> customVarOrderOrError = CustomVarOrderParser.parse(orderTxt, variables);
             if (customVarOrderOrError.right != null) {
-                throw new InvalidOptionException("Invalid BDD variable order: " + customVarOrderOrError.right);
+                throw new InvalidOptionException("Invalid BDD variable random order: " + customVarOrderOrError.right);
             }
-            return new CustomVarOrder(customVarOrderOrError.left);
+            return new CustomVarOrderer(customVarOrderOrError.left, VarOrdererEffect.BOTH);
         }
     }
 
     /**
-     * Type check a model variable order.
+     * Type check a model-order variable orderer.
      *
-     * @param astOrder The variable order instance AST object.
-     * @return The variable order.
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
      */
-    private VarOrder checkModelOrder(VarOrderOrOrdererSingleInstance astOrder) {
-        String name = astOrder.name.text;
-        if (!astOrder.arguments.isEmpty()) {
-            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, astOrder.arguments.get(0));
-            throw new SemanticException();
-        }
-        return new ModelVarOrder();
-    }
-
-    /**
-     * Type check a sorted variable order.
-     *
-     * @param astOrder The variable order instance AST object.
-     * @return The variable order.
-     */
-    private VarOrder checkSortedOrder(VarOrderOrOrdererSingleInstance astOrder) {
-        String name = astOrder.name.text;
-        if (!astOrder.arguments.isEmpty()) {
-            reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, astOrder.arguments.get(0));
-            throw new SemanticException();
-        }
-        return new SortedVarOrder();
-    }
-
-    /**
-     * Type check a random variable order.
-     *
-     * @param astOrder The variable order instance AST object.
-     * @return The variable order.
-     */
-    private VarOrder checkRandomOrder(VarOrderOrOrdererSingleInstance astOrder) {
-        String name = astOrder.name.text;
-        Long seed = null;
-        for (VarOrderOrOrdererArg arg: astOrder.arguments) {
+    private VarOrderer checkModelOrderer(VarOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
-                case "seed":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, seed);
-                    seed = checkLongArg(name, VarOrderOrOrdererKind.ORDER, arg);
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
                     break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
         }
-        return new RandomVarOrder(seed);
+        if (effect == null) {
+            effect = VarOrdererEffect.BOTH;
+        }
+        return new ModelVarOrderer(effect);
     }
 
     /**
-     * Type check a custom variable order.
+     * Type check a sorted-order variable orderer.
      *
-     * @param astOrder The variable order instance AST object.
-     * @return The variable order.
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
      */
-    private VarOrder checkCustomOrder(VarOrderOrOrdererSingleInstance astOrder) {
-        String name = astOrder.name.text;
-        List<Pair<SynthesisVariable, Integer>> order = null;
-        for (VarOrderOrOrdererArg arg: astOrder.arguments) {
+    private VarOrderer checkSortedOrderer(VarOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (effect == null) {
+            effect = VarOrdererEffect.BOTH;
+        }
+        return new SortedVarOrderer(effect);
+    }
+
+    /**
+     * Type check a random-order variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkRandomOrderer(VarOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        Long seed = null;
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
+            switch (arg.name.text) {
+                case "seed":
+                    checkDuplicateArg(name, arg, seed);
+                    seed = checkLongArg(name, arg);
+                    break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
+                    break;
+                default:
+                    reportUnsupportedArgumentName(name, arg);
+                    throw new SemanticException();
+            }
+        }
+        if (effect == null) {
+            effect = VarOrdererEffect.BOTH;
+        }
+        return new RandomVarOrderer(seed, effect);
+    }
+
+    /**
+     * Type check a custom-order variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkCustomOrderer(VarOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        VarOrder order = null;
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
                 case "order":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDER, arg, order);
+                    checkDuplicateArg(name, arg, order);
 
-                    if (!(arg instanceof VarOrderOrOrdererStringArg)) {
-                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
-                                "the value must be a string.");
+                    if (!(arg instanceof VarOrdererStringArg)) {
+                        reportUnsupportedArgumentValue(name, arg, "the value must be a string.");
                         throw new SemanticException();
                     }
 
-                    Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = //
-                            CustomVarOrderParser.parse(((VarOrderOrOrdererStringArg)arg).text, variables);
+                    Pair<VarOrder, String> customVarOrderOrError = CustomVarOrderParser
+                            .parse(((VarOrdererStringArg)arg).text, variables);
                     if (customVarOrderOrError.right != null) {
-                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg,
-                                customVarOrderOrError.right);
+                        reportUnsupportedArgumentValue(name, arg, customVarOrderOrError.right);
                         throw new SemanticException();
                     }
 
                     order = customVarOrderOrError.left;
                     break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
+                    break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
         }
         if (order == null) {
-            reportMissingArgument(astOrder.name, VarOrderOrOrdererKind.ORDER, "order");
+            reportMissingArgument(astOrderer.name, "order");
             throw new SemanticException();
         }
-        return new CustomVarOrder(order);
+        if (effect == null) {
+            effect = VarOrdererEffect.BOTH;
+        }
+        return new CustomVarOrderer(order, effect);
     }
 
     /**
@@ -359,30 +393,33 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astOrderer The variable orderer instance AST object.
      * @return The variable orderer.
      */
-    private VarOrderer checkDcshVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+    private VarOrderer checkDcshVarOrderer(VarOrdererSingleInstance astOrderer) {
         String name = astOrderer.name.text;
         PseudoPeripheralNodeFinderKind nodeFinder = null;
         VarOrderMetricKind metric = null;
         RelationsKind relations = null;
-        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
                 case "node-finder":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, nodeFinder);
-                    nodeFinder = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg,
-                            PseudoPeripheralNodeFinderKind.class, "a node finder algorithm");
+                    checkDuplicateArg(name, arg, nodeFinder);
+                    nodeFinder = checkEnumArg(name, arg, PseudoPeripheralNodeFinderKind.class,
+                            "a node finder algorithm");
                     break;
                 case "metric":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
-                    metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
-                            "a metric");
+                    checkDuplicateArg(name, arg, metric);
+                    metric = checkEnumArg(name, arg, VarOrderMetricKind.class, "a metric");
                     break;
                 case "relations":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                            "a kind of relations");
+                    checkDuplicateArg(name, arg, relations);
+                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
                     break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
         }
@@ -395,7 +432,10 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         if (relations == null) {
             relations = RelationsKind.CONFIGURED;
         }
-        return new DcshVarOrderer(nodeFinder, metric, relations);
+        if (effect == null) {
+            effect = VarOrdererEffect.VAR_ORDER;
+        }
+        return new DcshVarOrderer(nodeFinder, metric, relations, effect);
     }
 
     /**
@@ -404,24 +444,27 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astOrderer The variable orderer instance AST object.
      * @return The variable orderer.
      */
-    private VarOrderer checkForceVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+    private VarOrderer checkForceVarOrderer(VarOrdererSingleInstance astOrderer) {
         String name = astOrderer.name.text;
         VarOrderMetricKind metric = null;
         RelationsKind relations = null;
-        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
                 case "metric":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
-                    metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
-                            "a metric");
+                    checkDuplicateArg(name, arg, metric);
+                    metric = checkEnumArg(name, arg, VarOrderMetricKind.class, "a metric");
                     break;
                 case "relations":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                            "a kind of relations");
+                    checkDuplicateArg(name, arg, relations);
+                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
                     break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
         }
@@ -431,7 +474,10 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         if (relations == null) {
             relations = RelationsKind.CONFIGURED;
         }
-        return new ForceVarOrderer(metric, relations);
+        if (effect == null) {
+            effect = VarOrdererEffect.VAR_ORDER;
+        }
+        return new ForceVarOrderer(metric, relations, effect);
     }
 
     /**
@@ -440,34 +486,36 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astOrderer The variable orderer instance AST object.
      * @return The variable orderer.
      */
-    private VarOrderer checkSlidWinVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+    private VarOrderer checkSlidWinVarOrderer(VarOrdererSingleInstance astOrderer) {
         String name = astOrderer.name.text;
         Integer size = null;
         VarOrderMetricKind metric = null;
         RelationsKind relations = null;
-        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
                 case "size":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, size);
-                    size = checkIntArg(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    checkDuplicateArg(name, arg, size);
+                    size = checkIntArg(name, arg);
                     if (size < 1 || size > 12) {
-                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                "the value must be in the range [1..12].");
+                        reportUnsupportedArgumentValue(name, arg, "the value must be in the range [1..12].");
                         throw new SemanticException();
                     }
                     break;
                 case "metric":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
-                    metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
-                            "a metric");
+                    checkDuplicateArg(name, arg, metric);
+                    metric = checkEnumArg(name, arg, VarOrderMetricKind.class, "a metric");
                     break;
                 case "relations":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                            "a kind of relations");
+                    checkDuplicateArg(name, arg, relations);
+                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
                     break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
         }
@@ -480,7 +528,10 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         if (relations == null) {
             relations = RelationsKind.CONFIGURED;
         }
-        return new SlidingWindowVarOrderer(size, metric, relations);
+        if (effect == null) {
+            effect = VarOrdererEffect.VAR_ORDER;
+        }
+        return new SlidingWindowVarOrderer(size, metric, relations, effect);
     }
 
     /**
@@ -489,25 +540,32 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astOrderer The variable orderer instance AST object.
      * @return The variable orderer.
      */
-    private VarOrderer checkSloanVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+    private VarOrderer checkSloanVarOrderer(VarOrdererSingleInstance astOrderer) {
         String name = astOrderer.name.text;
         RelationsKind relations = null;
-        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
                 case "relations":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                            "a kind of relations");
+                    checkDuplicateArg(name, arg, relations);
+                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
                     break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
         }
         if (relations == null) {
             relations = RelationsKind.CONFIGURED;
         }
-        return new SloanVarOrderer(relations);
+        if (effect == null) {
+            effect = VarOrdererEffect.VAR_ORDER;
+        }
+        return new SloanVarOrderer(relations, effect);
     }
 
     /**
@@ -516,24 +574,28 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astOrderer The variable orderer instance AST object.
      * @return The variable orderer.
      */
-    private VarOrderer checkWeightedCmVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+    private VarOrderer checkWeightedCmVarOrderer(VarOrdererSingleInstance astOrderer) {
         String name = astOrderer.name.text;
         PseudoPeripheralNodeFinderKind nodeFinder = null;
         RelationsKind relations = null;
-        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
                 case "node-finder":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, nodeFinder);
-                    nodeFinder = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg,
-                            PseudoPeripheralNodeFinderKind.class, "a node finder algorithm");
+                    checkDuplicateArg(name, arg, nodeFinder);
+                    nodeFinder = checkEnumArg(name, arg, PseudoPeripheralNodeFinderKind.class,
+                            "a node finder algorithm");
                     break;
                 case "relations":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                            "a kind of relations");
+                    checkDuplicateArg(name, arg, relations);
+                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
                     break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
         }
@@ -543,7 +605,10 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         if (relations == null) {
             relations = RelationsKind.CONFIGURED;
         }
-        return new WeightedCuthillMcKeeVarOrderer(nodeFinder, relations);
+        if (effect == null) {
+            effect = VarOrdererEffect.VAR_ORDER;
+        }
+        return new WeightedCuthillMcKeeVarOrderer(nodeFinder, relations, effect);
     }
 
     /**
@@ -552,44 +617,46 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astOrderer The variable orderer instance AST object.
      * @return The variable orderer.
      */
-    private VarOrderer checkChoiceVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+    private VarOrderer checkChoiceVarOrderer(VarOrdererSingleInstance astOrderer) {
         String name = astOrderer.name.text;
-        List<VarOrderer> orderers = null;
+        List<VarOrderer> choices = null;
         VarOrderMetricKind metric = null;
         RelationsKind relations = null;
-        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
                 case "choices":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, orderers);
-                    if (!(arg instanceof VarOrderOrOrdererListOrdersArg)) {
-                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                "the value must be a list of variable orderers.");
+                    checkDuplicateArg(name, arg, choices);
+                    if (!(arg instanceof VarOrdererListOrderersArg)) {
+                        reportUnsupportedArgumentValue(name, arg, "the value must be a list of variable orderers.");
                         throw new SemanticException();
                     }
-                    orderers = checkVarOrderers(((VarOrderOrOrdererListOrdersArg)arg).value);
-                    if (orderers.size() < 2) {
-                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
+                    choices = checkVarOrderers(((VarOrdererListOrderersArg)arg).value);
+                    if (choices.size() < 2) {
+                        reportUnsupportedArgumentValue(name, arg,
                                 "the value must be a list with at least two variable orderers.");
                         throw new SemanticException();
                     }
                     break;
                 case "metric":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, metric);
-                    metric = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, VarOrderMetricKind.class,
-                            "a metric");
+                    checkDuplicateArg(name, arg, metric);
+                    metric = checkEnumArg(name, arg, VarOrderMetricKind.class, "a metric");
                     break;
                 case "relations":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                            "a kind of relations");
+                    checkDuplicateArg(name, arg, relations);
+                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
                     break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
         }
-        if (orderers == null) {
-            reportMissingArgument(astOrderer.name, VarOrderOrOrdererKind.ORDERER, "orderers");
+        if (choices == null) {
+            reportMissingArgument(astOrderer.name, "orderers");
             throw new SemanticException();
         }
         if (metric == null) {
@@ -598,7 +665,10 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         if (relations == null) {
             relations = RelationsKind.CONFIGURED;
         }
-        return new ChoiceVarOrderer(orderers, metric, relations);
+        if (effect == null) {
+            effect = VarOrdererEffect.VAR_ORDER;
+        }
+        return new ChoiceVarOrderer(choices, metric, relations, effect);
     }
 
     /**
@@ -607,52 +677,44 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * @param astOrderer The variable orderer instance AST object.
      * @return The variable orderer.
      */
-    private VarOrderer checkReverseVarOrderer(VarOrderOrOrdererSingleInstance astOrderer) {
+    private VarOrderer checkReverseVarOrderer(VarOrdererSingleInstance astOrderer) {
         String name = astOrderer.name.text;
-        VarOrderer orderer = null;
         RelationsKind relations = null;
-        for (VarOrderOrOrdererArg arg: astOrderer.arguments) {
+        VarOrdererEffect effect = null;
+        for (VarOrdererArg arg: astOrderer.arguments) {
             switch (arg.name.text) {
-                case "orderer":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, orderer);
-                    if (!(arg instanceof VarOrderOrOrdererOrderArg)) {
-                        reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDERER, arg,
-                                "the value must be a variable orderer.");
-                        throw new SemanticException();
-                    }
-                    orderer = checkVarOrderer(((VarOrderOrOrdererOrderArg)arg).value);
-                    break;
                 case "relations":
-                    checkDuplicateArg(name, VarOrderOrOrdererKind.ORDERER, arg, relations);
-                    relations = checkEnumArg(name, VarOrderOrOrdererKind.ORDERER, arg, RelationsKind.class,
-                            "a kind of relations");
+                    checkDuplicateArg(name, arg, relations);
+                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    break;
+                case "effect":
+                    checkDuplicateArg(name, arg, effect);
+                    effect = checkEnumArg(name, arg, VarOrdererEffect.class, "a variable orderer effect");
                     break;
                 default:
-                    reportUnsupportedArgumentName(name, VarOrderOrOrdererKind.ORDERER, arg);
+                    reportUnsupportedArgumentName(name, arg);
                     throw new SemanticException();
             }
-        }
-        if (orderer == null) {
-            reportMissingArgument(astOrderer.name, VarOrderOrOrdererKind.ORDERER, "orderer");
-            throw new SemanticException();
         }
         if (relations == null) {
             relations = RelationsKind.CONFIGURED;
         }
-        return new ReverseVarOrderer(orderer, relations);
+        if (effect == null) {
+            effect = VarOrdererEffect.VAR_ORDER;
+        }
+        return new ReverseVarOrderer(relations, effect);
     }
 
     /**
      * Check a value of an argument for being a duplicate.
      *
-     * @param name The name of the variable order(er).
-     * @param kind The variable order(er) kind.
+     * @param name The name of the variable orderer.
      * @param arg The argument.
      * @param curValue The current value of the argument. If not {@code null}, this argument provides a second value.
      */
-    private void checkDuplicateArg(String name, VarOrderOrOrdererKind kind, VarOrderOrOrdererArg arg, Object curValue) {
+    private void checkDuplicateArg(String name, VarOrdererArg arg, Object curValue) {
         if (curValue != null) {
-            reportDuplicateArgument(name, kind, arg);
+            reportDuplicateArgument(name, arg);
             throw new SemanticException();
         }
     }
@@ -660,24 +722,23 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     /**
      * Check a value of an int-typed argument.
      *
-     * @param name The name of the variable order(er).
-     * @param kind The variable order(er) kind.
+     * @param name The name of the variable orderer.
      * @param arg The argument.
      * @return The value of the argument.
      */
-    private int checkIntArg(String name, VarOrderOrOrdererKind kind, VarOrderOrOrdererArg arg) {
+    private int checkIntArg(String name, VarOrdererArg arg) {
         // Check for right kind of value.
-        if (!(arg instanceof VarOrderOrOrdererNumberArg)) {
-            reportUnsupportedArgumentValue(name, kind, arg, "the value must be a number.");
+        if (!(arg instanceof VarOrdererNumberArg)) {
+            reportUnsupportedArgumentValue(name, arg, "the value must be a number.");
             throw new SemanticException();
         }
 
         // Parse the value.
         int value;
         try {
-            value = Integer.parseInt(((VarOrderOrOrdererNumberArg)arg).value.text);
+            value = Integer.parseInt(((VarOrdererNumberArg)arg).value.text);
         } catch (NumberFormatException e) {
-            reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg, "the value is out of range.");
+            reportUnsupportedArgumentValue(name, arg, "the value is out of range.");
             throw new SemanticException();
         }
 
@@ -688,24 +749,23 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     /**
      * Check a value of a long-typed argument.
      *
-     * @param name The name of the variable order(er).
-     * @param kind The variable order(er) kind.
+     * @param name The name of the variable orderer.
      * @param arg The argument.
      * @return The value of the argument.
      */
-    private long checkLongArg(String name, VarOrderOrOrdererKind kind, VarOrderOrOrdererArg arg) {
+    private long checkLongArg(String name, VarOrdererArg arg) {
         // Check for right kind of value.
-        if (!(arg instanceof VarOrderOrOrdererNumberArg)) {
-            reportUnsupportedArgumentValue(name, kind, arg, "the value must be a number.");
+        if (!(arg instanceof VarOrdererNumberArg)) {
+            reportUnsupportedArgumentValue(name, arg, "the value must be a number.");
             throw new SemanticException();
         }
 
         // Parse the value.
         long value;
         try {
-            value = Long.parseLong(((VarOrderOrOrdererNumberArg)arg).value.text);
+            value = Long.parseLong(((VarOrdererNumberArg)arg).value.text);
         } catch (NumberFormatException e) {
-            reportUnsupportedArgumentValue(name, VarOrderOrOrdererKind.ORDER, arg, "the value is out of range.");
+            reportUnsupportedArgumentValue(name, arg, "the value is out of range.");
             throw new SemanticException();
         }
 
@@ -717,33 +777,32 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
      * Check a value of a enum-typed argument.
      *
      * @param <T> The enum type.
-     * @param name The name of the variable order(er).
-     * @param kind The variable order(er) kind.
+     * @param name The name of the variable orderer.
      * @param arg The argument.
      * @param enumClass The class of the enum.
      * @param valueDescription A description of the value.
      * @return The value of the argument.
      */
-    private <T extends Enum<T>> T checkEnumArg(String name, VarOrderOrOrdererKind kind, VarOrderOrOrdererArg arg,
-            Class<T> enumClass, String valueDescription)
+    private <T extends Enum<T>> T checkEnumArg(String name, VarOrdererArg arg, Class<T> enumClass,
+            String valueDescription)
     {
         // Check for right kind of value.
-        if (!(arg instanceof VarOrderOrOrdererOrderArg)) {
-            reportUnsupportedArgumentValue(name, kind, arg, fmt("the value must be %s.", valueDescription));
+        if (!(arg instanceof VarOrdererOrdererArg)) {
+            reportUnsupportedArgumentValue(name, arg, fmt("the value must be %s.", valueDescription));
             throw new SemanticException();
         }
-        VarOrderOrOrdererInstance order = ((VarOrderOrOrdererOrderArg)arg).value;
+        VarOrdererInstance orderer = ((VarOrdererOrdererArg)arg).value;
 
         // Check for single.
-        if (order instanceof VarOrderOrOrdererMultiInstance) {
-            reportUnsupportedArgumentValue(name, kind, arg, fmt("the value must be %s.", valueDescription));
+        if (orderer instanceof VarOrdererMultiInstance) {
+            reportUnsupportedArgumentValue(name, arg, fmt("the value must be %s.", valueDescription));
             throw new SemanticException();
         }
-        VarOrderOrOrdererSingleInstance single = (VarOrderOrOrdererSingleInstance)order;
+        VarOrdererSingleInstance single = (VarOrdererSingleInstance)orderer;
 
         // Check for no arguments.
         if (single.hasArgs) {
-            reportUnsupportedArgumentValue(name, kind, arg, fmt("the value must be %s.", valueDescription));
+            reportUnsupportedArgumentValue(name, arg, fmt("the value must be %s.", valueDescription));
             throw new SemanticException();
         }
 
@@ -757,58 +816,51 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         }
 
         // No matching enum constant found.
-        reportUnsupportedArgumentValue(name, kind, arg, fmt("the value must be %s.", valueDescription));
+        reportUnsupportedArgumentValue(name, arg, fmt("the value must be %s.", valueDescription));
         throw new SemanticException();
     }
 
     /**
-     * Report an unsupported name of an variable order(er) argument.
+     * Report an unsupported name of an variable orderer argument.
      *
-     * @param name The name of the variable order(er).
-     * @param kind The variable order(er) kind.
+     * @param name The name of the variable orderer.
      * @param arg The unsupported argument.
      */
-    private void reportUnsupportedArgumentName(String name, VarOrderOrOrdererKind kind, VarOrderOrOrdererArg arg) {
-        addError(fmt("The \"%s\" %s does not support the \"%s\" argument.", name,
-                kind.toString().toLowerCase(Locale.US), arg.name.text), arg.name.position);
+    private void reportUnsupportedArgumentName(String name, VarOrdererArg arg) {
+        addError(fmt("The \"%s\" orderer does not support the \"%s\" argument.", name, arg.name.text),
+                arg.name.position);
     }
 
     /**
-     * Report a duplicate variable order(er) argument.
+     * Report a duplicate variable orderer argument.
      *
-     * @param name The name of the variable order(er).
-     * @param kind The variable order(er) kind.
+     * @param name The name of the variable orderer.
      * @param arg The duplicate argument.
      */
-    private void reportDuplicateArgument(String name, VarOrderOrOrdererKind kind, VarOrderOrOrdererArg arg) {
-        addError(fmt("The \"%s\" %s has a duplicate \"%s\" argument.", name, kind.toString().toLowerCase(Locale.US),
-                arg.name.text), arg.name.position);
+    private void reportDuplicateArgument(String name, VarOrdererArg arg) {
+        addError(fmt("The \"%s\" orderer has a duplicate \"%s\" argument.", name, arg.name.text), arg.name.position);
     }
 
     /**
-     * Report a missing mandatory variable order(er) argument.
+     * Report a missing mandatory variable orderer argument.
      *
-     * @param name The name of the variable order(er).
-     * @param kind The variable order(er) kind.
+     * @param name The name of the variable orderer.
      * @param missingArgName The name of the missing argument.
      */
-    private void reportMissingArgument(Token name, VarOrderOrOrdererKind kind, String missingArgName) {
-        addError(fmt("The \"%s\" %s is missing its mandatory \"%s\" argument.", name.text,
-                kind.toString().toLowerCase(Locale.US), missingArgName), name.position);
+    private void reportMissingArgument(Token name, String missingArgName) {
+        addError(fmt("The \"%s\" orderer is missing its mandatory \"%s\" argument.", name.text, missingArgName),
+                name.position);
     }
 
     /**
-     * Report an unsupported value of an variable order(er) argument.
+     * Report an unsupported value of an variable orderer argument.
      *
-     * @param name The name of the variable order(er).
-     * @param kind The variable order(er) kind.
+     * @param name The name of the variable orderer.
      * @param arg The unsupported argument.
      * @param details A detail message describing why the value is not supported. Must end with a period.
      */
-    private void reportUnsupportedArgumentValue(String name, VarOrderOrOrdererKind kind, VarOrderOrOrdererArg arg,
-            String details)
-    {
-        addError(fmt("The \"%s\" %s has an unsupported value for the \"%s\" argument: %s", name,
-                kind.toString().toLowerCase(Locale.US), arg.name.text, details), arg.name.position);
+    private void reportUnsupportedArgumentValue(String name, VarOrdererArg arg, String details) {
+        addError(fmt("The \"%s\" orderer has an unsupported value for the \"%s\" argument: %s", name, arg.name.text,
+                details), arg.name.position);
     }
 }
