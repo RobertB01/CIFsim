@@ -20,7 +20,7 @@ SCRIPT=`readlink -f $0`
 SCRIPTPATH=`dirname $SCRIPT`
 cd $SCRIPTPATH
 
-HOOKS_BASE=VarOrderParserHooks
+HOOKS_BASE=VarOrdererParserHooks
 HOOKS_SKELETON_PATH=../../../../../../../../src-gen/org/eclipse/escet/cif/datasynth/varorder/parser
 
 grep -Pzo "(\n    public [^{]+{|\n    @Override( // [^;]+;)?)" $HOOKS_BASE.java \
