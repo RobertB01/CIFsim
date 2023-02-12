@@ -61,8 +61,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
@@ -96,11 +94,13 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
-import org.eclipse.escet.cif.datasynth.varorder.orders.VarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrderParser;
-import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrderTypeChecker;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererInstance;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
+import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrdererParser;
+import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrdererTypeChecker;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererInstance;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -652,23 +652,23 @@ public class CifToSynthesisConverter {
             return;
         }
 
-        // Configure variable order.
+        // Configure variable orderer.
         String varOrderTxt = BddAdvancedVariableOrderOption.getOrder();
-        List<VarOrderOrOrdererInstance> parseResult;
+        List<VarOrdererInstance> parseResult;
         try {
-            parseResult = new VarOrderParser().parseString(varOrderTxt, "/in-memory.varorder", null, DebugMode.NONE);
+            parseResult = new VarOrdererParser().parseString(varOrderTxt, "/in-memory.varorder", null, DebugMode.NONE);
         } catch (SyntaxException ex) {
-            throw new InvalidOptionException("Invalid BDD variable order.", ex);
+            throw new InvalidOptionException("Invalid BDD variable ordering configuration.", ex);
         }
 
-        VarOrderTypeChecker typeChecker = new VarOrderTypeChecker(Arrays.asList(synthAut.variables));
-        VarOrder varOrder = typeChecker.typeCheck(parseResult);
+        VarOrdererTypeChecker typeChecker = new VarOrdererTypeChecker(Arrays.asList(synthAut.variables));
+        VarOrderer varOrderer = typeChecker.typeCheck(parseResult);
         Assert.check(!typeChecker.hasWarning());
-        if (varOrder == null) {
+        if (varOrderer == null) {
             Assert.check(typeChecker.hasError());
             Assert.check(typeChecker.getProblems().size() == 1);
             InvalidOptionException ex = new InvalidOptionException(typeChecker.getProblems().get(0).toString());
-            throw new InvalidOptionException("Invalid BDD variable order.", ex);
+            throw new InvalidOptionException("Invalid BDD variable ordering configuration.", ex);
         }
 
         // Skip ordering, including debug output printing, if no variables are present.
@@ -698,41 +698,40 @@ public class CifToSynthesisConverter {
         }
 
         // Create variable order helper, based on model order.
-        List<SynthesisVariable> modelOrder = Collections.unmodifiableList(Arrays.asList(synthAut.variables));
-        VarOrderHelper helper = new VarOrderHelper(spec, modelOrder);
+        List<SynthesisVariable> varsInModelOrder = Collections.unmodifiableList(Arrays.asList(synthAut.variables));
+        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder);
 
-        // Get current variable order.
-        List<SynthesisVariable> varsInCurOrder = modelOrder;
-        List<Pair<SynthesisVariable, Integer>> curOrder = IntStream.range(0, varsInCurOrder.size())
-                .mapToObj(i -> pair(varsInCurOrder.get(i), i)).collect(Collectors.toList());
+        // Get current variable order, which is model order.
+        VarOrder curOrder = VarOrder.createFromOrderedVars(varsInModelOrder);
+        List<SynthesisVariable> varsInCurOrder = curOrder.getOrderedVars();
+
+        // Create variable order data for input to first orderer.
+        VarOrdererData data = new VarOrdererData(varsInModelOrder, curOrder, helper);
 
         // Get new variable order.
         if (dbgEnabled) {
             dbg();
             dbg("Applying variable ordering:");
         }
-        List<Pair<SynthesisVariable, Integer>> newOrder = varOrder.order(helper, dbgEnabled, 1);
-        List<SynthesisVariable> varsInNewOrder = newOrder.stream().map(p -> p.left).collect(Collectors.toList());
+        VarOrdererData orderingResult = varOrderer.order(data, dbgEnabled, 1);
+        VarOrder newOrder = orderingResult.varOrder;
+        List<SynthesisVariable> varsInNewOrder = newOrder.getOrderedVars();
 
         // Check sanity of current and new variable orders.
-        Assert.areEqual(curOrder.size(), newOrder.size()); // Same length.
+        Assert.check(curOrder.getVarOrder().stream().allMatch(grp -> !grp.isEmpty())); // No empty groups.
+        Assert.check(newOrder.getVarOrder().stream().allMatch(grp -> !grp.isEmpty())); // No empty groups.
+        Assert.areEqual(varsInCurOrder.size(), list2set(varsInCurOrder).size()); // No duplicates.
+        Assert.areEqual(varsInNewOrder.size(), list2set(varsInNewOrder).size()); // No duplicates.
+        Assert.areEqual(varsInCurOrder.size(), varsInNewOrder.size()); // Same number of variables.
         Assert.areEqual(list2set(varsInCurOrder), list2set(varsInNewOrder)); // Same variables.
-        Assert.areEqual(curOrder.get(0).right, 0); // First variable is in first group.
-        Assert.areEqual(newOrder.get(0).right, 0); // First variable is in first group.
-        for (int i = 1; i < curOrder.size(); i++) { // Variable groups are consecutively numbered.
-            int curOrderPrevGrp = curOrder.get(i - 1).right;
-            int curOrderCurGrp = curOrder.get(i).right;
-            Assert.check(curOrderPrevGrp == curOrderCurGrp || curOrderPrevGrp + 1 == curOrderCurGrp);
-
-            int newOrderPrevGrp = newOrder.get(i - 1).right;
-            int newOrderCurGrp = newOrder.get(i).right;
-            Assert.check(newOrderPrevGrp == newOrderCurGrp || newOrderPrevGrp + 1 == newOrderCurGrp);
-        }
 
         // Update the variable order of the synthesis automaton.
         synthAut.variables = varsInNewOrder.toArray(n -> new SynthesisVariable[n]);
-        for (Pair<SynthesisVariable, Integer> elem: newOrder) {
-            elem.left.group = elem.right;
+        for (int i = 0; i < newOrder.getVarOrder().size(); i++) {
+            List<SynthesisVariable> group = newOrder.getVarOrder().get(i);
+            for (SynthesisVariable var: group) {
+                var.group = i;
+            }
         }
 
         // If the new order differs from the current order, print updated variable debugging information.
