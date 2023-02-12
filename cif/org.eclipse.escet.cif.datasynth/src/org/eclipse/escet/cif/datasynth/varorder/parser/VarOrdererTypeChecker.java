@@ -172,6 +172,93 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     }
 
     /**
+     * Check whether basic options and advanced options for configuring the BDD variable order are mixed.
+     *
+     * @throws InvalidOptionException If the options are mixed.
+     */
+    private void checkBasicAndAdvancedOptionsMix() {
+        boolean basicDefault = //
+                BddVariableOrderOption.isDefault() && //
+                        BddDcshVarOrderOption.isDefault() && //
+                        BddForceVarOrderOption.isDefault() && // \
+                        BddSlidingWindowVarOrderOption.isDefault() && //
+                        BddSlidingWindowSizeOption.isDefault() && //
+                        BddHyperEdgeAlgoOption.isDefault();
+        boolean advancedDefault = BddAdvancedVariableOrderOption.isDefault();
+
+        if (!basicDefault && !advancedDefault) {
+            throw new InvalidOptionException("The BDD variable order is configured through basic and advanced options, "
+                    + "which is not supported. Use only basic or only advanced options.");
+        }
+    }
+
+    /**
+     * Get the variable order configured via the basic (non-advanced) options.
+     *
+     * @return The variable order.
+     */
+    private VarOrder getBasicConfiguredOrder() {
+        VarOrder initialVarOrder = getBasicConfiguredInitialOrder();
+        List<VarOrderer> orderers = list();
+        if (BddDcshVarOrderOption.isEnabled()) {
+            orderers.add(new DcshVarOrderer(PseudoPeripheralNodeFinderKind.GEORGE_LIU, VarOrderMetricKind.WES,
+                    RelationsKind.CONFIGURED));
+        }
+        if (BddForceVarOrderOption.isEnabled()) {
+            orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED));
+        }
+        if (BddSlidingWindowVarOrderOption.isEnabled()) {
+            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
+            orderers.add(new SlidingWindowVarOrderer(maxLen, VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED));
+        }
+        VarOrder varOrder = initialVarOrder;
+        if (!orderers.isEmpty()) {
+            varOrder = new OrdererVarOrder(varOrder,
+                    (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
+        }
+        return varOrder;
+    }
+
+    /**
+     * Get the initial variable order configured via the basic (non-advanced) option.
+     *
+     * @return The initial variable order.
+     */
+    private VarOrder getBasicConfiguredInitialOrder() {
+        String orderTxt = BddVariableOrderOption.getOrder().trim();
+        String orderTxtLower = orderTxt.toLowerCase(Locale.US);
+        if (orderTxtLower.equals("model")) {
+            return new ModelVarOrder();
+        } else if (orderTxtLower.equals("reverse-model")) {
+            return new ReverseVarOrder(new ModelVarOrder());
+        } else if (orderTxtLower.equals("sorted")) {
+            return new SortedVarOrder();
+        } else if (orderTxtLower.equals("reverse-sorted")) {
+            return new ReverseVarOrder(new SortedVarOrder());
+        } else if (orderTxtLower.equals("random")) {
+            return new RandomVarOrder(null);
+        } else if (orderTxtLower.startsWith("random:")) {
+            int idx = orderTxt.indexOf(":");
+            String seedTxt = orderTxt.substring(idx + 1).trim();
+            long seed;
+            try {
+                seed = Long.parseUnsignedLong(seedTxt);
+            } catch (NumberFormatException ex) {
+                String msg = fmt("Invalid BDD variable random order seed number: \"%s\".", orderTxt);
+                throw new InvalidOptionException(msg, ex);
+            }
+            return new RandomVarOrder(seed);
+        } else {
+            Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = CustomVarOrderParser
+                    .parse(orderTxt, variables);
+            if (customVarOrderOrError.right != null) {
+                throw new InvalidOptionException("Invalid BDD variable order: " + customVarOrderOrError.right);
+            }
+            return new CustomVarOrder(customVarOrderOrError.left);
+        }
+    }
+
+    /**
      * Type check a model variable order.
      *
      * @param astOrder The variable order instance AST object.
@@ -553,93 +640,6 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
             relations = RelationsKind.CONFIGURED;
         }
         return new ReverseVarOrderer(orderer, relations);
-    }
-
-    /**
-     * Check whether basic options and advanced options for configuring the BDD variable order are mixed.
-     *
-     * @throws InvalidOptionException If the options are mixed.
-     */
-    private void checkBasicAndAdvancedOptionsMix() {
-        boolean basicDefault = //
-                BddVariableOrderOption.isDefault() && //
-                        BddDcshVarOrderOption.isDefault() && //
-                        BddForceVarOrderOption.isDefault() && // \
-                        BddSlidingWindowVarOrderOption.isDefault() && //
-                        BddSlidingWindowSizeOption.isDefault() && //
-                        BddHyperEdgeAlgoOption.isDefault();
-        boolean advancedDefault = BddAdvancedVariableOrderOption.isDefault();
-
-        if (!basicDefault && !advancedDefault) {
-            throw new InvalidOptionException("The BDD variable order is configured through basic and advanced options, "
-                    + "which is not supported. Use only basic or only advanced options.");
-        }
-    }
-
-    /**
-     * Get the variable order configured via the basic (non-advanced) options.
-     *
-     * @return The variable order.
-     */
-    private VarOrder getBasicConfiguredOrder() {
-        VarOrder initialVarOrder = getBasicConfiguredInitialOrder();
-        List<VarOrderer> orderers = list();
-        if (BddDcshVarOrderOption.isEnabled()) {
-            orderers.add(new DcshVarOrderer(PseudoPeripheralNodeFinderKind.GEORGE_LIU, VarOrderMetricKind.WES,
-                    RelationsKind.CONFIGURED));
-        }
-        if (BddForceVarOrderOption.isEnabled()) {
-            orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED));
-        }
-        if (BddSlidingWindowVarOrderOption.isEnabled()) {
-            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen, VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED));
-        }
-        VarOrder varOrder = initialVarOrder;
-        if (!orderers.isEmpty()) {
-            varOrder = new OrdererVarOrder(varOrder,
-                    (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
-        }
-        return varOrder;
-    }
-
-    /**
-     * Get the initial variable order configured via the basic (non-advanced) option.
-     *
-     * @return The initial variable order.
-     */
-    private VarOrder getBasicConfiguredInitialOrder() {
-        String orderTxt = BddVariableOrderOption.getOrder().trim();
-        String orderTxtLower = orderTxt.toLowerCase(Locale.US);
-        if (orderTxtLower.equals("model")) {
-            return new ModelVarOrder();
-        } else if (orderTxtLower.equals("reverse-model")) {
-            return new ReverseVarOrder(new ModelVarOrder());
-        } else if (orderTxtLower.equals("sorted")) {
-            return new SortedVarOrder();
-        } else if (orderTxtLower.equals("reverse-sorted")) {
-            return new ReverseVarOrder(new SortedVarOrder());
-        } else if (orderTxtLower.equals("random")) {
-            return new RandomVarOrder(null);
-        } else if (orderTxtLower.startsWith("random:")) {
-            int idx = orderTxt.indexOf(":");
-            String seedTxt = orderTxt.substring(idx + 1).trim();
-            long seed;
-            try {
-                seed = Long.parseUnsignedLong(seedTxt);
-            } catch (NumberFormatException ex) {
-                String msg = fmt("Invalid BDD variable random order seed number: \"%s\".", orderTxt);
-                throw new InvalidOptionException(msg, ex);
-            }
-            return new RandomVarOrder(seed);
-        } else {
-            Pair<List<Pair<SynthesisVariable, Integer>>, String> customVarOrderOrError = CustomVarOrderParser
-                    .parse(orderTxt, variables);
-            if (customVarOrderOrError.right != null) {
-                throw new InvalidOptionException("Invalid BDD variable order: " + customVarOrderOrError.right);
-            }
-            return new CustomVarOrder(customVarOrderOrError.left);
-        }
     }
 
     /**
