@@ -91,55 +91,6 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     }
 
     /**
-     * Type check a variable order.
-     *
-     * @param astInstance The variable order instance AST object.
-     * @return The variable order.
-     */
-    private VarOrder checkVarOrder(VarOrderOrOrdererInstance astInstance) {
-        // Handle multiple instances.
-        if (astInstance instanceof VarOrderOrOrdererMultiInstance multiInstance) {
-            if (multiInstance.instances.size() == 1) {
-                return checkVarOrder(first(multiInstance.instances));
-            } else {
-                return checkVarOrder(multiInstance.instances);
-            }
-        }
-
-        // Handle single instance.
-        Assert.check(astInstance instanceof VarOrderOrOrdererSingleInstance);
-        VarOrderOrOrdererSingleInstance astOrder = (VarOrderOrOrdererSingleInstance)astInstance;
-        String name = astOrder.name.text;
-        switch (name) {
-            // Use basic variable order options.
-            case "basic":
-                return getBasicConfiguredOrder();
-
-            // Basic variable orders.
-            case "model":
-                return checkModelOrder(astOrder);
-
-            case "sorted":
-                return checkSortedOrder(astOrder);
-
-            case "random":
-                return checkRandomOrder(astOrder);
-
-            case "custom":
-                return checkCustomOrder(astOrder);
-
-            // Composite variable orders.
-            case "reverse":
-                return checkReverseOrder(astOrder);
-
-            // Unknown.
-            default:
-                addError(fmt("Unknown variable order \"%s\".", name), astOrder.name.position);
-                throw new SemanticException();
-        }
-    }
-
-    /**
      * Type check a model variable order.
      *
      * @param astOrder The variable order instance AST object.
@@ -268,6 +219,23 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
         VarOrderOrOrdererSingleInstance astOrderer = (VarOrderOrOrdererSingleInstance)astInstance;
         String name = astOrderer.name.text;
         switch (name) {
+            // Use basic variable ordering options.
+            case "basic":
+                return getBasicConfiguredOrderer();
+
+            // Basic orderers.
+            case "model":
+                return checkModelOrderer(astOrderer);
+
+            case "sorted":
+                return checkSortedOrderer(astOrderer);
+
+            case "random":
+                return checkRandomOrderer(astOrderer);
+
+            case "custom":
+                return checkCustomOrderer(astOrderer);
+
             // Variable orderer algorithms.
             case "dcsh":
                 return checkDcshVarOrderer(astOrderer);
