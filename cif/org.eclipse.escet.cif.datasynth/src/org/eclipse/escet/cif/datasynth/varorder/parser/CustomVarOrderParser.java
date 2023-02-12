@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
 
@@ -46,11 +47,8 @@ public class CustomVarOrderParser {
      * @return The custom variable order, and an error message indicating why the given order is invalid. If the order
      *     is valid, the error message is {@code null}. If the order is invalid, the order is {@code null}.
      */
-    public static Pair<List<Pair<SynthesisVariable, Integer>>, String> parse(String orderTxt,
-            List<SynthesisVariable> variables)
-    {
-        List<Pair<SynthesisVariable, Integer>> customVarOrder = list();
-        int group = 0;
+    public static Pair<VarOrder, String> parse(String orderTxt, List<SynthesisVariable> variables) {
+        List<List<SynthesisVariable>> customVarOrder = list();
         for (String groupTxt: StringUtils.split(orderTxt, ";")) {
             // Skip empty.
             groupTxt = groupTxt.trim();
@@ -59,7 +57,7 @@ public class CustomVarOrderParser {
             }
 
             // Process elements.
-            boolean anyVar = false;
+            List<SynthesisVariable> group = list();
             for (String elemTxt: StringUtils.split(groupTxt, ",")) {
                 // Skip empty.
                 elemTxt = elemTxt.trim();
@@ -87,27 +85,23 @@ public class CustomVarOrderParser {
                 // Sort matches.
                 Collections.sort(matches, (v, w) -> Strings.SORTER.compare(v.rawName, w.rawName));
 
-                // Add the matched variables to the custom variable order.
-                for (SynthesisVariable var: matches) {
-                    customVarOrder.add(pair(var, group));
-                    anyVar = true;
-                }
+                // Add the matched variables to the group.
+                group.addAll(matches);
             }
 
-            // Proceed with next group of interleaved variables.
-            if (anyVar) {
-                group++;
-            }
+            // Add the group to the custom variable order.
+            customVarOrder.add(group);
         }
 
         // Check for duplicates.
         Set<SynthesisVariable> varsInOrder = setc(customVarOrder.size());
-        for (Pair<SynthesisVariable, Integer> elem: customVarOrder) {
-            SynthesisVariable var = elem.left;
-            boolean added = varsInOrder.add(var);
-            if (!added) {
-                String msg = fmt("\"%s\" is included more than once.", var.name);
-                return pair(null, msg);
+        for (List<SynthesisVariable> group: customVarOrder) {
+            for (SynthesisVariable var: group) {
+                boolean added = varsInOrder.add(var);
+                if (!added) {
+                    String msg = fmt("\"%s\" is included more than once.", var.name);
+                    return pair(null, msg);
+                }
             }
         }
 
@@ -121,6 +115,6 @@ public class CustomVarOrderParser {
         }
 
         // Return the custom order.
-        return pair(customVarOrder, null);
+        return pair(new VarOrder(customVarOrder), null);
     }
 }
