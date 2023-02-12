@@ -25,10 +25,10 @@ public class BddVariableOrderOption extends StringOption {
     public BddVariableOrderOption() {
         super(
                 // name
-                "BDD variable order",
+                "BDD initial variable ordering",
 
                 // description
-                "The BDD variable ordering and domain interleaving. Specify " +
+                "The BDD initial variable ordering and domain interleaving. Specify " +
 
                         "\"model\" for model ordering without interleaving, " +
 
@@ -66,7 +66,7 @@ public class BddVariableOrderOption extends StringOption {
                 true,
 
                 // optDialogDescr
-                "The BDD variable ordering and domain interleaving. Specify " +
+                "The BDD initial variable ordering and domain interleaving. Specify " +
 
                         "\"model\" for model ordering without interleaving, " +
 
@@ -86,7 +86,7 @@ public class BddVariableOrderOption extends StringOption {
                         + "characters. Separate names with \",\" for interleaving or with \";\" for non-interleaving.",
 
                 // optDialogLabelText
-                "Order:");
+                "Initial order:");
     }
 
     /**
