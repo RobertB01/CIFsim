@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-[[tools-datasynth-var-order-initial-orders]]
+[[tools-datasynth-var-order-initial-ordering]]
 == Initial variable orders
 
 The CIF data-based synthesis algorithm features several predefined initial BDD <<tools-datasynth-var-order,variable orders>>, and it is also possible to define a custom order.
@@ -20,7 +20,7 @@ For basic configuration, the initial order of the boolean/BDD variables can be c
 By default, the sorted order is used as initial variable ordering.
 The following predefined initial orderings can be used:
 
-[[tools-datasynth-var-order-initial-orders-model]]
+[[tools-datasynth-var-order-initial-ordering-model]]
 * _model ordering without interleaving_ (option value `model`)
 +
 The order of the synthesis variables is as they occur in the model.
@@ -36,7 +36,7 @@ A location pointer, for an automaton with two or more locations, is put after th
 No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 The old variables are still before the new variables; this is not reversed.
 
-[[tools-datasynth-var-order-initial-orders-sorted]]
+[[tools-datasynth-var-order-initial-ordering-sorted]]
 * _sorted ordering without interleaving_ (option value `sorted`)
 +
 The order of the synthesis variables is based on the names of the variables and automata.
@@ -52,7 +52,7 @@ They are sorted alphabetically in descending order, based on their absolute name
 No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 The old variables are still before the new variables; this is not reversed.
 
-[[tools-datasynth-var-order-initial-orders-random]]
+[[tools-datasynth-var-order-initial-ordering-random]]
 * _random ordering without interleaving_ (option value `random` or `random:SEED`)
 +
 The variables and automata are ordered randomly.
@@ -64,7 +64,7 @@ For instance, use `random:123` as option value to get a random order that can be
 +
 No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 
-[[tools-datasynth-var-order-initial-orders-custom]]
+[[tools-datasynth-var-order-initial-ordering-custom]]
 * _custom ordering_
 +
 Custom orders consist of absolute names of variables and automata.

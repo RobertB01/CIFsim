@@ -44,7 +44,7 @@ The following additional information is available on variable ordering configura
 * <<tools-datasynth-var-order-options>>
 
 * Basic
-** <<tools-datasynth-var-order-initial-orders>>
+** <<tools-datasynth-var-order-initial-ordering>>
 ** <<tools-datasynth-var-order-auto-var-ordering>>
 
 * Advanced

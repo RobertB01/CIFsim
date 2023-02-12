@@ -14,8 +14,8 @@
 [[tools-datasynth-var-order-auto-var-ordering]]
 == Automatic variable ordering
 
-The CIF data-based synthesis tool's <<tools-datasynth-var-order-initial-orders,predefined initial>> <<tools-datasynth-var-order,variable orders>> are often not optimal performance-wise.
-<<tools-datasynth-var-order-initial-orders-custom,Manually specifying>> a custom order often requires specialist knowledge and can take quite some time.
+The CIF data-based synthesis tool's <<tools-datasynth-var-order-initial-ordering,predefined initial>> <<tools-datasynth-var-order,variable orders>> are often not optimal performance-wise.
+<<tools-datasynth-var-order-initial-ordering-custom,Manually specifying>> a custom order often requires specialist knowledge and can take quite some time.
 Luckily, there are algorithms that can automatically compute a decent variable order.
 
 The algorithms all take an existing variable order as input, and try to improve it using a fast heuristic.

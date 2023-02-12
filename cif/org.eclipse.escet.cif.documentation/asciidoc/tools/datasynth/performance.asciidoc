@@ -46,7 +46,7 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 
 | Order
 | BDD initial variable ordering
-| <<tools-datasynth-var-order-initial-orders>>
+| <<tools-datasynth-var-order-initial-ordering>>
 | Better order for smaller BDD representations
 | Choose the best ordering, depends on the model, (reversed) model/sorted usually good choices, custom order allows for best performance
 

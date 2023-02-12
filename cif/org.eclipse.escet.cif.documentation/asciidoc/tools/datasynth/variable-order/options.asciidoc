@@ -36,7 +36,7 @@ The following basic options are available for basic configuration of variable or
 
 For more information on the use of these basic options, see:
 
-* <<tools-datasynth-var-order-initial-orders>>
+* <<tools-datasynth-var-order-initial-ordering>>
 * <<tools-datasynth-var-order-auto-var-ordering>>
 
 For more flexibility, variable ordering can instead be configured using an advanced option:

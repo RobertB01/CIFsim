@@ -15,7 +15,7 @@
 == Advanced variable ordering configuration
 
 The CIF data-based synthesis performance depends greatly on the <<tools-datasynth-var-order,variable ordering>>.
-After selecting an <<tools-datasynth-var-order-initial-orders,initial ordering>>, it can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>>.
+After selecting an <<tools-datasynth-var-order-initial-ordering,initial ordering>>, it can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>>.
 This may be configured using <<tools-datasynth-var-order-options,basic options>>, but they offer only limited flexibility.
 For the most flexibility, variable ordering can be configured using the _BDD advanced variable ordering_ option (see the <<tools-datasynth-options,options section>>).
 Advanced ordering allows configuring which orderers, such as predefined orders and ordering algorithms, to use.
@@ -26,7 +26,7 @@ It is not supported to configure variable ordering using both basic and advanced
 
 === Examples
 
-The <<tools-datasynth-var-order-initial-orders,predefined>> initial variable orderings can be expressed using the advanced syntax as follows:
+The <<tools-datasynth-var-order-initial-ordering,predefined>> initial variable orderings can be expressed using the advanced syntax as follows:
 
 [cols="1,1"]
 |===
@@ -76,7 +76,7 @@ Uses the configuration as configured by the basic variable ordering options.
 
 * _Model order_
 +
-Uses the predefined <<tools-datasynth-var-order-initial-orders-model,model order>>.
+Uses the predefined <<tools-datasynth-var-order-initial-ordering-model,model order>>.
 +
 ** Name: `model`
 ** Arguments:
@@ -90,7 +90,7 @@ Uses the predefined <<tools-datasynth-var-order-initial-orders-model,model order
 
 * _Sorted order_
 +
-Uses the predefined <<tools-datasynth-var-order-initial-orders-sorted,sorted order>>.
+Uses the predefined <<tools-datasynth-var-order-initial-ordering-sorted,sorted order>>.
 +
 ** Name: `sorted`
 ** Arguments:
@@ -104,7 +104,7 @@ Uses the predefined <<tools-datasynth-var-order-initial-orders-sorted,sorted ord
 
 * _Random order_
 +
-Uses the predefined <<tools-datasynth-var-order-initial-orders-random,random order>>.
+Uses the predefined <<tools-datasynth-var-order-initial-ordering-random,random order>>.
 +
 ** Name: `random`
 ** Arguments:
@@ -124,12 +124,12 @@ Uses the predefined <<tools-datasynth-var-order-initial-orders-random,random ord
 
 * _Custom order_
 +
-Uses a <<tools-datasynth-var-order-initial-orders-custom,custom order>>.
+Uses a <<tools-datasynth-var-order-initial-ordering-custom,custom order>>.
 +
 ** Name: `custom`
 ** Arguments:
 *** `order`
-**** Description: the custom order, with the <<tools-datasynth-var-order-initial-orders-custom,same syntax>> as for the basic configuration option
+**** Description: the custom order, with the <<tools-datasynth-var-order-initial-ordering-custom,same syntax>> as for the basic configuration option
 **** Mandatory: yes
 **** Default: n/a
 **** Type: string
