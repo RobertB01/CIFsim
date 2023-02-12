@@ -17,58 +17,64 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.SloanNodeOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
 
 /**
  * Sloan profile/wavefront-reducing variable ordering heuristic.
  *
  * @see SloanNodeOrderer
  */
-public class SloanVarOrderer implements VarOrderer {
+public class SloanVarOrderer extends VarOrderer {
     /** The relations to use to obtain the graph and to compute metric values. */
     private final RelationsKind relationsKind;
+
+    /** The effect of applying the variable orderer. */
+    private final VarOrdererEffect effect;
 
     /**
      * Constructor for the {@link SloanVarOrderer} class.
      *
      * @param relationsKind The kind of relations to use to obtain the graph and to compute metric values.
+     * @param effect The effect of applying the variable orderer.
      */
-    public SloanVarOrderer(RelationsKind relationsKind) {
+    public SloanVarOrderer(RelationsKind relationsKind, VarOrdererEffect effect) {
         this.relationsKind = relationsKind;
+        this.effect = effect;
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
-            int dbgLevel)
-    {
+    public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
         // Get graph.
-        Graph graph = helper.getGraph(relationsKind);
+        Graph graph = inputData.helper.getGraph(relationsKind);
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying Sloan algorithm:");
-            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
-            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.GRAPH, relationsKind);
-            helper.dbg();
+            inputData.helper.dbg(dbgLevel, "Applying Sloan algorithm:");
+            inputData.helper.dbg(dbgLevel + 1, "Relations: %s", enumValueToParserArg(relationsKind));
+            inputData.helper.dbg(dbgLevel + 1, "Effect: %s", enumValueToParserArg(effect));
+            inputData.helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.GRAPH, relationsKind);
+            inputData.helper.dbg();
         }
 
         // Skip algorithm if no graph edges.
         if (graph.edgeCount() == 0) {
             if (dbgEnabled) {
-                helper.dbg(dbgLevel + 1, "Skipping algorithm: no graph edges.");
+                inputData.helper.dbg(dbgLevel + 1, "Skipping algorithm: no graph edges.");
             }
-            return inputOrder;
+            return inputData;
         }
 
         // More debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForVarOrder(dbgLevel + 1, inputOrder, "before", relationsKind);
+            inputData.helper.dbgMetricsForVarOrder(dbgLevel + 1, inputData.varOrder.getOrderedVars(), "before",
+                    relationsKind);
         }
 
         // Apply algorithm.
@@ -76,15 +82,16 @@ public class SloanVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNodeOrder(dbgLevel + 1, order, "after", relationsKind);
+            inputData.helper.dbgMetricsForNodeOrder(dbgLevel + 1, order, "after", relationsKind);
         }
 
         // Return the resulting order.
-        return helper.reorderForNodeOrder(order);
+        return new VarOrdererData(inputData,
+                VarOrder.createFromOrderedVars(inputData.helper.reorderForNodeOrder(order)), effect);
     }
 
     @Override
     public String toString() {
-        return fmt("sloan(relations=%s)", VarOrderer.enumValueToParserArg(relationsKind));
+        return fmt("sloan(relations=%s, effect=%s)", enumValueToParserArg(relationsKind), enumValueToParserArg(effect));
     }
 }
