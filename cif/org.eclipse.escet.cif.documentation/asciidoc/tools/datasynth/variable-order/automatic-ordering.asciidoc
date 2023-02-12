@@ -18,9 +18,9 @@ The CIF data-based synthesis tool's <<tools-datasynth-var-order-initial-orders,p
 <<tools-datasynth-var-order-initial-orders-custom,Manually specifying>> a custom order often requires specialist knowledge and can take quite some time.
 Luckily, there are algorithms that can automatically compute a decent variable order.
 
-The algorithms all take an initial variable ordering, and try to improve it using a fast heuristic.
+The algorithms all take an existing variable order as input, and try to improve it using a fast heuristic.
 Some algorithms search for a local optimum.
-A better initial variable ordering may then result in a better final variable ordering (a better local optimum), and may also speed up the automatic variable ordering algorithm itself (reaching an optimum faster).
+A better input variable order may then result in a better final variable order (a better local optimum), and may also speed up the automatic variable ordering algorithm itself (reaching an optimum faster).
 Other algorithms search for a global optimum.
 However, the algorithms are all based on heuristics.
 The guarantees that they provide differ, but none of them guarantees that synthesis will actually be quicker.
@@ -62,7 +62,7 @@ The linearized hyper-edge creator creates the following hyper-edges:
 ** Per <<tools-cif2cif-chapter-linearize-product,linearized>> edge, a hyper-edge for the variables that occur in the guards and updates of that linearized edge.
 State/event exclusion invariants are taken into account, by first <<tools-cif2cif-chapter-elim-state-event-excl-invs,converting them to automata>>.
 
-All hyper-edge creators take variables that occur indirectly via algebraic variables into account.
+All hyper-edge creators take into account variables that occur indirectly via algebraic variables.
 
 More detailed information about the various representations of variable relations may be obtained during synthesis by enabling <<tools-datasynth-dbg-output,debug output>>.
 

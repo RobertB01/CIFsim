@@ -29,8 +29,8 @@ Synthesis variables that have a higher influence on the result of predicates (si
 Furthermore, in general, strongly related synthesis variables (e.g. by comparison, integer computation, or assignment) should be kept closely together in the order.
 For two synthesis variables `x` and `y`, examples of predicates that introduce relations are `x = y` (by comparison) and `5 < x + y` (by integer computation), and examples of assignments that introduce relations are `x := y` and `x := y + 1` (both by assignment).
 
-For the initial variable ordering, it is possible to order the BDD variables per synthesis variable, or to interleave the BDD/boolean variables of some synthesis variables.
-This can significantly influences the performance of synthesis.
+In certain cases, it is not only possible to order the BDD variables per synthesis variable, but also to interleave the BDD/boolean variables of some synthesis variables.
+This can significantly influence the performance of synthesis.
 Generally, strongly related synthesis variables should be interleaved.
 
 For each CIF variable and location pointer, two synthesis variables are created, one storing the old/current value (before a transition), and one storing the new value (after a transition).

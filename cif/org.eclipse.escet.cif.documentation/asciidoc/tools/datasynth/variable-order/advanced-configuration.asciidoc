@@ -15,56 +15,58 @@
 == Advanced variable ordering configuration
 
 The CIF data-based synthesis performance depends greatly on the <<tools-datasynth-var-order,variable ordering>>.
-After selecting an <<tools-datasynth-var-order-initial-orders,initial order>>, it can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>> (orderers).
+After selecting an <<tools-datasynth-var-order-initial-orders,initial ordering>>, it can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>>.
 This may be configured using <<tools-datasynth-var-order-options,basic options>>, but they offer only limited flexibility.
-For the most flexibility, variable ordering can be configured using the _BDD advanced variable order_ option (see the <<tools-datasynth-options,options section>>).
+For the most flexibility, variable ordering can be configured using the _BDD advanced variable ordering_ option (see the <<tools-datasynth-options,options section>>).
+Advanced ordering allows configuring which orderers, such as predefined orders and ordering algorithms, to use.
+It also allows configuring the order in which the various orderers are applied, as well as the settings to use for each orderer.
 
 Variable ordering may be configured using either the basic options or using the advanced option.
 It is not supported to configure variable ordering using both basic and advanced configuration at the same time.
 
 === Examples
 
-The <<tools-datasynth-var-order-initial-orders,predefined>> initial variable orders can be expressed using the advanced syntax as follows:
+The <<tools-datasynth-var-order-initial-orders,predefined>> initial variable orderings can be expressed using the advanced syntax as follows:
 
 [cols="1,1"]
 |===
-| Predefined initial order | Advanced syntax
+| Predefined initial ordering | Advanced syntax
 
 | `model` | `model`
-| `reverse-model` | `reverse(order=model)`
+| `reverse-model` | `model(effect=var-order) -> reverse(effect=both)`
 | `sorted` | `sorted`
-| `reverse-sorted` | `reverse(order=sorted)`
+| `reverse-sorted` | `sorted(effect=var-order) -> reverse(effect=both)`
 | `random` | `random`
 | `random:SEED` | `random(seed=SEED)`
 | `<custom-order>` | `custom(order="<custom-order>")`
 |===
 
-Some other examples of advanced variable orders:
+Some other examples of advanced variable orderings:
 
 * `+model -> dcsh -> force -> slidwin+`: Start with model order as initial order, and then apply the DCSH, FORCE and sliding window algorithms with their default settings.
 * `+sorted -> dcsh(relations=linearized)+`: Start with sorted order as initial order, and then apply the DCSH algorithm with linearized variable relations.
 * `+random -> or(choices=[dcsh,force])+`: Start with a random order as initial order, and then apply the DCSH and FORCE algorithms, choosing the best order from the ones produced by the two algorithms.
+* `+force -> reverse+`: Start with the default initial model order, then apply the FORCE algorithm, and finally reverse the variable order.
 
 === Syntax
 
 The syntax to specify advanced variable ordering generally works as follows:
 
-* Orders and orderers are specified by their name.
-* Arguments to configure orders and orderers can be given after the order(er)'s name between parentheses: `+(...)+`.
-* For orders and orderers without arguments, it is allowed to provide parentheses as well, e.g., `model()` is equivalent to specifying `model`.
+* Orderers are specified by their name.
+* Arguments to configure orderers may optionally be given after the name of the orderer between parentheses: `+(...)+`.
+* It is allowed to provide empty parentheses, e.g., `model()` is equivalent to specifying `model`.
 * Each argument is given by a name and a value: `name=value`.
 * To specify multiple arguments, separate them with a comma.
 After the last argument, optionally a comma may be specified as well.
-* To start with an initial order, and then apply a variable orderer, separate them with an arrow (`+->+`).
 * To apply multiple algorithms in sequence, separate them with an arrow (`+->+`).
-* If needed, a sequence consisting of an order and one or more algorithms, or a sequence of algorithms, may be enclosed in parentheses: `+(... -> ... -> ...)+`.
+* If needed, a sequence of orderers may be enclosed in parentheses: `+(... -> ... -> ...)+`.
 * Spaces, tabs, and newline characters are generally ignored, but can be used to improve readability.
 
-=== Orders
+=== Orderers
 
-The following orders can be specified:
+The following orderers can be specified:
 
-* _Basic order_
+* _Basic ordering_
 +
 Uses the configuration as configured by the basic variable ordering options.
 +
@@ -115,24 +117,6 @@ Uses a <<tools-datasynth-var-order-initial-orders-custom,custom order>>.
 **** Type: string
 **** Constraints: the order must be complete in that it contains all variables, and must not contain any duplicate variables
 ** Example: `custom(order="a,b;c,d")`
-
-* _Reverse order_
-+
-Reverses a variable order.
-+
-** Name: `reverse`
-** Arguments:
-*** `order`
-**** Description: the order to reverse
-**** Mandatory: yes
-**** Default: n/a
-**** Type: variable order
-**** Constraints: none
-** Examples: `reverse(order=model)`, `reverse(order=sorted)`, `reverse(order=random(seed=123))`
-
-=== Orderers
-
-The following orderers can be specified:
 
 * _DCSH_
 +
@@ -266,25 +250,19 @@ Applies multiple algorithms to the same variable order and chooses the best resu
 **** Constraints: none
 ** Examples: `or(choices=[dcsh,force])`, `+or(choices=[(force -> dcsh), (dcsh -> force)], metric=wes, relations=configured)+`
 
-* _Choice_
+* _Reverse_
 +
-Reverses the variable order produced by another variable orderer.
+Reverses the variable order.
 +
 ** Name: `reverse`
 ** Arguments:
-*** `orderer`
-**** Description: the orderer to apply
-**** Mandatory: yes
-**** Default: n/a
-**** Type: orderer
-**** Constraints: none
 *** `relations`
 **** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
 **** Mandatory: no
 **** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
 **** Type: enum (`configured`, `legacy` or `linearized`)
 **** Constraints: none
-** Examples: `reverse(orderer=force)`, `+reverse(orderer=(dcsh -> force -> slidwin))+`, `reverse(orderer=force, relations=configured)`
+** Examples: `reverse`, `+reverse(relations=configured)`
 
 [[tools-datasynth-var-order-adv-config-node-finders]]
 === Node finders
@@ -345,4 +323,3 @@ Name: `linearized`
 Use the relations as configured using the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>.
 +
 Name: `configured`
-

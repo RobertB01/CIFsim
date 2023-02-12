@@ -87,12 +87,12 @@ Only has an effect if the _BDD output mode_ option is set to represent the inter
 The default prefix is `bdd`.
 For more information, see the <<tools-datasynth-supervisor-bdd,section about BDD representations>> of the resulting supervisor.
 
-* _BDD variable order_: CIF variables and automata are represented using one or more boolean variables.
+* _BDD initial variable ordering_: CIF variables and automata are represented using one or more boolean variables.
 The initial order of the boolean variables is determined by this option.
-For more information, see the <<tools-datasynth-var-order,section about BDD variable orders>> and in particular the <<tools-datasynth-var-order-initial-orders,section about initial variable orders>>.
+For more information, see the <<tools-datasynth-var-order,section about BDD variable orders>> and in particular the <<tools-datasynth-var-order-initial-orders,section about initial variable ordering>>.
 
 * _BDD hyper-edge creation algorithm_: CIF variables and automata are represented using one or more boolean variables.
-The variable order can be improved and optimized by various variable ordering algorithms.
+The initial order can be improved and optimized by various variable ordering algorithms.
 This option controls how hyper-edges are created, which are used by the variable ordering algorithms.
 For more information, see the <<tools-datasynth-var-order,section about BDD variable orders>> and in particular the <<tools-datasynth-var-order-auto-var-ordering,section about automatic variable ordering>>.
 
@@ -114,8 +114,8 @@ The size must be an integer number in the range [1 .. 12].
 The default size is 4.
 For more information, see the <<tools-datasynth-var-order,section about BDD variable orders>> and in particular the <<tools-datasynth-var-order-auto-var-ordering,section about automatic variable ordering>>.
 
-* _BDD advanced variable order_: CIF variables and automata are represented using one or more boolean variables.
-The initial order of the boolean variables, as well as algorithms to improve the initial variable order, can be configured most flexibly using this option.
+* _BDD advanced variable ordering_: CIF variables and automata are represented using one or more boolean variables.
+The variable ordering can be configured most flexibly using this option.
 For more information, see the <<tools-datasynth-var-order,section about BDD variable orders>> and in particular the <<tools-datasynth-var-order-adv-config,section about advanced variable ordering configuration>>.
 
 * _BDD predicate simplify_: Several BDD predicates may be simplified under the assumption of other predicates, resulting in smaller/simpler output.
