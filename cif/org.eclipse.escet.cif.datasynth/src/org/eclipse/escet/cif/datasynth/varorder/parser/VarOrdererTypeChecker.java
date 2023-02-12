@@ -125,7 +125,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
         switch (name) {
             // Use basic variable ordering options.
             case "basic":
-                return getBasicConfiguredOrderer();
+                return checkBasicOrderer(astOrderer);
 
             // Basic orderers.
             case "model":
@@ -168,6 +168,21 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                 addError(fmt("Unknown variable orderer \"%s\".", name), astOrderer.name.position);
                 throw new SemanticException();
         }
+    }
+
+    /**
+     * Type check a basic-ordering variable orderer.
+     *
+     * @param astOrderer The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkBasicOrderer(VarOrdererSingleInstance astOrderer) {
+        String name = astOrderer.name.text;
+        if (!astOrderer.arguments.isEmpty()) {
+            reportUnsupportedArgumentName(name, first(astOrderer.arguments));
+            throw new SemanticException();
+        }
+        return getBasicConfiguredOrderer();
     }
 
     /**

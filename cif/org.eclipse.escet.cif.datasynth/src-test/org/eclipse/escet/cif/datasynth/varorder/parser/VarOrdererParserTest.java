@@ -82,9 +82,16 @@ public class VarOrdererParserTest {
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testBasic() {
+    public void testBasicValid() {
         testValid("basic", "sorted(effect=both) -> force(metric=total-span, relations=configured, effect=var-order) -> "
                 + "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testBasicInvalid() {
+        testInvalid("basic(a=1)",
+                "Semantic error at line 1, column 7: The \"basic\" orderer does not support the \"a\" argument.");
     }
 
     @Test
