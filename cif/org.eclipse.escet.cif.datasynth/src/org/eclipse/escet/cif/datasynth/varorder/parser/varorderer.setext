@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-@scanner org.eclipse.escet.cif.datasynth.varorder.parser.VarOrderScanner;
+@scanner org.eclipse.escet.cif.datasynth.varorder.parser.VarOrdererScanner;
 
 @terminals:
   // Symbols.
@@ -41,38 +41,38 @@ end
 @import org.eclipse.escet.cif.datasynth.varorder.parser.ast;
 @import org.eclipse.escet.setext.runtime.Token;
 
-@main VarOrderOrOrdererSeq: parser.VarOrderParser;
+@main VarOrdererSeq: parser.VarOrdererParser;
 
-@hooks parser.VarOrderParserHooks;
+@hooks parser.VarOrdererParserHooks;
 
-{List<ast.VarOrderOrOrdererInstance>}
-VarOrderOrOrdererSeq : VarOrderOrOrderer
-                     | VarOrderOrOrdererSeq ARROWTK VarOrderOrOrderer
-                     ;
+{List<ast.VarOrdererInstance>}
+VarOrdererSeq : VarOrderer
+              | VarOrdererSeq ARROWTK VarOrderer
+              ;
 
-{List<ast.VarOrderOrOrdererInstance>}
-VarOrderOrOrdererList : VarOrderOrOrderer
-                      | VarOrderOrOrdererList COMMATK VarOrderOrOrderer
-                      ;
+{List<ast.VarOrdererInstance>}
+VarOrdererList : VarOrderer
+               | VarOrdererList COMMATK VarOrderer
+               ;
 
-{ast.VarOrderOrOrdererInstance}
-VarOrderOrOrderer : @IDENTIFIERTK
-                  | @IDENTIFIERTK PAROPENTK                                PARCLOSETK
-                  | @IDENTIFIERTK PAROPENTK VarOrderOrOrdererArgs OptComma PARCLOSETK
-                  | @PAROPENTK VarOrderOrOrdererSeq PARCLOSETK
-                  ;
+{ast.VarOrdererInstance}
+VarOrderer : @IDENTIFIERTK
+           | @IDENTIFIERTK PAROPENTK                         PARCLOSETK
+           | @IDENTIFIERTK PAROPENTK VarOrdererArgs OptComma PARCLOSETK
+           | @PAROPENTK VarOrdererSeq PARCLOSETK
+           ;
 
-{List<ast.VarOrderOrOrdererArg>}
-VarOrderOrOrdererArgs : VarOrderOrOrdererArg
-                      | VarOrderOrOrdererArgs COMMATK VarOrderOrOrdererArg
-                      ;
+{List<ast.VarOrdererArg>}
+VarOrdererArgs : VarOrdererArg
+               | VarOrdererArgs COMMATK VarOrdererArg
+               ;
 
-{ast.VarOrderOrOrdererArg}
-VarOrderOrOrdererArg : @IDENTIFIERTK EQUALTK @NUMBERTK
-                     | @IDENTIFIERTK EQUALTK @STRINGTK
-                     | @IDENTIFIERTK EQUALTK VarOrderOrOrderer // If no arguments, includes a single identifier.
-                     | @IDENTIFIERTK EQUALTK SQOPENTK VarOrderOrOrdererList SQCLOSETK
-                     ;
+{ast.VarOrdererArg}
+VarOrdererArg : @IDENTIFIERTK EQUALTK @NUMBERTK
+              | @IDENTIFIERTK EQUALTK @STRINGTK
+              | @IDENTIFIERTK EQUALTK VarOrderer // If no arguments, includes a single identifier.
+              | @IDENTIFIERTK EQUALTK SQOPENTK VarOrdererList SQCLOSETK
+              ;
 
 {Token}
 OptComma : /* empty */
