@@ -61,10 +61,15 @@ public class VarOrderHelper {
     /** The CIF specification. Is only used to create new variable order helpers from this one. */
     private final Specification spec;
 
-    /** The synthesis variables, in their original order, before applying any algorithm on it. */
+    /**
+     * The synthesis variables, in the order they were used to create the various representations of the relations
+     * between the synthesis variables.
+     */
     private final List<SynthesisVariable> variables;
 
-    /** For each synthesis variable in the original variable order, its 0-based index within that order. */
+    /**
+     * For each synthesis variable in the given {@link #variables variable order}, its 0-based index within that order.
+     */
     private final Map<SynthesisVariable, Integer> origIndices;
 
     /**
@@ -108,7 +113,8 @@ public class VarOrderHelper {
      * Constructor for the {@link VarOrderHelper} class.
      *
      * @param spec The CIF specification.
-     * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
+     * @param variables The synthesis variables, in the order they are to be used to create the various representations
+     *     of the relations between the synthesis variables.
      */
     public VarOrderHelper(Specification spec, List<SynthesisVariable> variables) {
         // Store the arguments.
@@ -154,19 +160,20 @@ public class VarOrderHelper {
      * Constructor for the {@link VarOrderHelper} class.
      *
      * @param helper The existing variable order helper from which to inherit the CIF specification.
-     * @param variables The synthesis variables, in their original order, before applying any algorithm on it.
+     * @param variables The synthesis variables, in the order they are to be used to create the various representations
+     *     of the relations between the synthesis variables.
      */
     public VarOrderHelper(VarOrderHelper helper, List<SynthesisVariable> variables) {
         this(helper.spec, variables);
     }
 
     /**
-     * Returns the synthesis variables, in their original order, before applying any algorithm on it.
+     * Returns the number of synthesis variables.
      *
-     * @return The synthesis variables.
+     * @return The number of synthesis variables.
      */
-    public List<SynthesisVariable> getVariables() {
-        return variables;
+    public int size() {
+        return variables.size();
     }
 
     /**
