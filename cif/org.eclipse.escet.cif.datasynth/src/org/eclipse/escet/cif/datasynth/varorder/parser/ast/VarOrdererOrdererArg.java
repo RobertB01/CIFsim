@@ -15,18 +15,18 @@ package org.eclipse.escet.cif.datasynth.varorder.parser.ast;
 
 import org.eclipse.escet.setext.runtime.Token;
 
-/** Argument of a variable order(er) that has as value a variable order(er). */
-public class VarOrderOrOrdererOrderArg extends VarOrderOrOrdererArg {
+/** Argument of a variable orderer that has as value one or more variable orderer instances. */
+public class VarOrdererOrdererArg extends VarOrdererArg {
     /** The value of the argument. */
-    public final VarOrderOrOrdererInstance value;
+    public final VarOrdererInstance value;
 
     /**
-     * Constructor for the {@link VarOrderOrOrdererOrderArg} class.
+     * Constructor for the {@link VarOrdererOrdererArg} class.
      *
      * @param name The name of the argument.
      * @param value The value of the argument.
      */
-    public VarOrderOrOrdererOrderArg(Token name, VarOrderOrOrdererInstance value) {
+    public VarOrdererOrdererArg(Token name, VarOrdererInstance value) {
         super(name);
         this.value = value;
     }

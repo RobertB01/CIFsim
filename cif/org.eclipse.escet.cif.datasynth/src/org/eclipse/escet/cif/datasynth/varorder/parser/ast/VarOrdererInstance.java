@@ -15,17 +15,17 @@ package org.eclipse.escet.cif.datasynth.varorder.parser.ast;
 
 import org.eclipse.escet.common.java.TextPosition;
 
-/** Variable order(s) or variable orderer(s). */
-public abstract class VarOrderOrOrdererInstance {
-    /** The position of the Variable order(s) or variable orderer(s). */
+/** One or more variable orderer instances. */
+public abstract class VarOrdererInstance {
+    /** The position of the variable orderer instance(s). */
     public final TextPosition position;
 
     /**
-     * Constructor for the {@link VarOrderOrOrdererInstance} class.
+     * Constructor for the {@link VarOrdererInstance} class.
      *
-     * @param position The position of the variable order(s) or variable orderer(s).
+     * @param position The position of the variable orderer instance(s).
      */
-    public VarOrderOrOrdererInstance(TextPosition position) {
+    public VarOrdererInstance(TextPosition position) {
         this.position = position;
     }
 }

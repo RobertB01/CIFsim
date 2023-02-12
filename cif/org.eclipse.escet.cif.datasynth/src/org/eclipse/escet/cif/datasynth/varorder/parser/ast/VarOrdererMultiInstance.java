@@ -15,21 +15,23 @@ package org.eclipse.escet.cif.datasynth.varorder.parser.ast;
 
 import java.util.List;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.TextPosition;
 
-/** Variable orders or variable orderers. */
-public class VarOrderOrOrdererMultiInstance extends VarOrderOrOrdererInstance {
-    /** The variable orders or variable orderers. */
-    public final List<VarOrderOrOrdererInstance> instances;
+/** Multiple variable orderer instances. */
+public class VarOrdererMultiInstance extends VarOrdererInstance {
+    /** The variable orderer instances. At least one. */
+    public final List<VarOrdererInstance> instances;
 
     /**
-     * Constructor for the {@link VarOrderOrOrdererMultiInstance} class.
+     * Constructor for the {@link VarOrdererMultiInstance} class.
      *
-     * @param position The position of the variable order(s) or variable orderer(s).
-     * @param instances The variable orders or variable orderers.
+     * @param position The position of the variable orderer instance(s).
+     * @param instances The variable orderer instances. At least one.
      */
-    public VarOrderOrOrdererMultiInstance(TextPosition position, List<VarOrderOrOrdererInstance> instances) {
+    public VarOrdererMultiInstance(TextPosition position, List<VarOrdererInstance> instances) {
         super(position);
         this.instances = instances;
+        Assert.check(!instances.isEmpty());
     }
 }

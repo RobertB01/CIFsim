@@ -17,25 +17,25 @@ import java.util.List;
 
 import org.eclipse.escet.setext.runtime.Token;
 
-/** Variable order or variable orderer. */
-public class VarOrderOrOrdererSingleInstance extends VarOrderOrOrdererInstance {
-    /** The name of the variable order(er). */
+/** Single variable orderer instance. */
+public class VarOrdererSingleInstance extends VarOrdererInstance {
+    /** The name of the variable orderer. */
     public final Token name;
 
-    /** The arguments of the variable order(er). */
-    public final List<VarOrderOrOrdererArg> arguments;
+    /** The arguments of the variable orderer. */
+    public final List<VarOrdererArg> arguments;
 
     /** Whether argument parentheses were given ({@code true}) or just an identifier ({@code false}). */
     public final boolean hasArgs;
 
     /**
-     * Constructor for the {@link VarOrderOrOrdererSingleInstance} class.
+     * Constructor for the {@link VarOrdererSingleInstance} class.
      *
-     * @param name The name of the variable order(er).
-     * @param arguments The arguments of the variable order(er).
+     * @param name The name of the variable orderer.
+     * @param arguments The arguments of the variable orderer.
      * @param hasArgs Whether argument parentheses were given ({@code true}) or just an identifier ({@code false}).
      */
-    public VarOrderOrOrdererSingleInstance(Token name, List<VarOrderOrOrdererArg> arguments, boolean hasArgs) {
+    public VarOrdererSingleInstance(Token name, List<VarOrdererArg> arguments, boolean hasArgs) {
         super(name.position);
         this.name = name;
         this.arguments = arguments;
