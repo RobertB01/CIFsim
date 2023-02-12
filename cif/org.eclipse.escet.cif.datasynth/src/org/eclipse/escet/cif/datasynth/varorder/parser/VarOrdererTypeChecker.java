@@ -656,7 +656,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             }
         }
         if (choices == null) {
-            reportMissingArgument(astOrderer.name, "orderers");
+            reportMissingArgument(astOrderer.name, "choices");
             throw new SemanticException();
         }
         if (metric == null) {
