@@ -91,6 +91,87 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
     }
 
     /**
+     * Type check variable orderers.
+     *
+     * @param astInstances The variable orderer instance AST objects.
+     * @return The variable orderers (at least one).
+     */
+    private List<VarOrderer> checkVarOrderers(List<VarOrderOrOrdererInstance> astInstances) {
+        Assert.check(!astInstances.isEmpty());
+        List<VarOrderer> orderers = listc(astInstances.size());
+        for (VarOrderOrOrdererInstance astOrderer: astInstances) {
+            orderers.add(checkVarOrderer(astOrderer));
+        }
+        return orderers;
+    }
+
+    /**
+     * Type check variable orderer.
+     *
+     * @param astInstance The variable orderer instance AST object.
+     * @return The variable orderer.
+     */
+    private VarOrderer checkVarOrderer(VarOrderOrOrdererInstance astInstance) {
+        // Handle multiple instances.
+        if (astInstance instanceof VarOrderOrOrdererMultiInstance multiInstance) {
+            List<VarOrderer> orderers = checkVarOrderers(multiInstance.instances);
+            VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
+            return orderer;
+        }
+
+        // Handle single instance.
+        Assert.check(astInstance instanceof VarOrderOrOrdererSingleInstance);
+        VarOrderOrOrdererSingleInstance astOrderer = (VarOrderOrOrdererSingleInstance)astInstance;
+        String name = astOrderer.name.text;
+        switch (name) {
+            // Use basic variable ordering options.
+            case "basic":
+                return getBasicConfiguredOrderer();
+
+            // Basic orderers.
+            case "model":
+                return checkModelOrderer(astOrderer);
+
+            case "sorted":
+                return checkSortedOrderer(astOrderer);
+
+            case "random":
+                return checkRandomOrderer(astOrderer);
+
+            case "custom":
+                return checkCustomOrderer(astOrderer);
+
+            // Variable orderer algorithms.
+            case "dcsh":
+                return checkDcshVarOrderer(astOrderer);
+
+            case "force":
+                return checkForceVarOrderer(astOrderer);
+
+            case "slidwin":
+                return checkSlidWinVarOrderer(astOrderer);
+
+            case "sloan":
+                return checkSloanVarOrderer(astOrderer);
+
+            case "weighted-cm":
+                return checkWeightedCmVarOrderer(astOrderer);
+
+            // Composite variable orderers.
+            case "or":
+                return checkChoiceVarOrderer(astOrderer);
+
+            case "reverse":
+                return checkReverseVarOrderer(astOrderer);
+
+            // Unknown.
+            default:
+                addError(fmt("Unknown variable orderer \"%s\".", name), astOrderer.name.position);
+                throw new SemanticException();
+        }
+    }
+
+    /**
      * Type check a model variable order.
      *
      * @param astOrder The variable order instance AST object.
@@ -183,87 +264,6 @@ public class VarOrderTypeChecker extends TypeChecker<List<VarOrderOrOrdererInsta
             throw new SemanticException();
         }
         return new CustomVarOrder(order);
-    }
-
-    /**
-     * Type check variable orderers.
-     *
-     * @param astInstances The variable orderer instance AST objects.
-     * @return The variable orderers (at least one).
-     */
-    private List<VarOrderer> checkVarOrderers(List<VarOrderOrOrdererInstance> astInstances) {
-        Assert.check(!astInstances.isEmpty());
-        List<VarOrderer> orderers = listc(astInstances.size());
-        for (VarOrderOrOrdererInstance astOrderer: astInstances) {
-            orderers.add(checkVarOrderer(astOrderer));
-        }
-        return orderers;
-    }
-
-    /**
-     * Type check variable orderer.
-     *
-     * @param astInstance The variable orderer instance AST object.
-     * @return The variable orderer.
-     */
-    private VarOrderer checkVarOrderer(VarOrderOrOrdererInstance astInstance) {
-        // Handle multiple instances.
-        if (astInstance instanceof VarOrderOrOrdererMultiInstance multiInstance) {
-            List<VarOrderer> orderers = checkVarOrderers(multiInstance.instances);
-            VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
-            return orderer;
-        }
-
-        // Handle single instance.
-        Assert.check(astInstance instanceof VarOrderOrOrdererSingleInstance);
-        VarOrderOrOrdererSingleInstance astOrderer = (VarOrderOrOrdererSingleInstance)astInstance;
-        String name = astOrderer.name.text;
-        switch (name) {
-            // Use basic variable ordering options.
-            case "basic":
-                return getBasicConfiguredOrderer();
-
-            // Basic orderers.
-            case "model":
-                return checkModelOrderer(astOrderer);
-
-            case "sorted":
-                return checkSortedOrderer(astOrderer);
-
-            case "random":
-                return checkRandomOrderer(astOrderer);
-
-            case "custom":
-                return checkCustomOrderer(astOrderer);
-
-            // Variable orderer algorithms.
-            case "dcsh":
-                return checkDcshVarOrderer(astOrderer);
-
-            case "force":
-                return checkForceVarOrderer(astOrderer);
-
-            case "slidwin":
-                return checkSlidWinVarOrderer(astOrderer);
-
-            case "sloan":
-                return checkSloanVarOrderer(astOrderer);
-
-            case "weighted-cm":
-                return checkWeightedCmVarOrderer(astOrderer);
-
-            // Composite variable orderers.
-            case "or":
-                return checkChoiceVarOrderer(astOrderer);
-
-            case "reverse":
-                return checkReverseVarOrderer(astOrderer);
-
-            // Unknown.
-            default:
-                addError(fmt("Unknown variable orderer \"%s\".", name), astOrderer.name.position);
-                throw new SemanticException();
-        }
     }
 
     /**
