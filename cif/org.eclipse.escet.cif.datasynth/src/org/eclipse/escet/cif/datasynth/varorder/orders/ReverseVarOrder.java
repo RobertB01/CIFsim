@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.datasynth.varorder.orders;
 
 import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Pair.pair;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,12 +40,18 @@ public class ReverseVarOrder extends NonInterleavedVarOrder {
 
     @Override
     public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
+        // Debug output before obtaining the variable order.
+        if (dbgEnabled) {
+            helper.dbg(dbgLevel, "Applying variable order, and reversing its result:");
+        }
+
         // Get variable order to reverse.
-        List<Pair<SynthesisVariable, Integer>> orderToReverse = order.order(helper, dbgEnabled, dbgLevel);
+        List<Pair<SynthesisVariable, Integer>> orderToReverse = order.order(helper, dbgEnabled, dbgLevel + 1);
 
         // Debug output.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Reversing the variable order.");
+            helper.dbg();
+            helper.dbg(dbgLevel + 1, "Reversing the variable order.");
         }
 
         // Reverse the order.
@@ -52,5 +59,10 @@ public class ReverseVarOrder extends NonInterleavedVarOrder {
         List<Pair<SynthesisVariable, Integer>> reverseOrder = reverse(orderToReverse).stream()
                 .map(p -> pair(p.left, maxGroupNr - p.right)).collect(Collectors.toList());
         return reverseOrder;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("reverse(order=%s)", order);
     }
 }

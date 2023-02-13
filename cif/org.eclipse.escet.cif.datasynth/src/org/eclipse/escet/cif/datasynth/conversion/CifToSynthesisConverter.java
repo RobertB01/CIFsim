@@ -82,13 +82,9 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
-import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
+import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
-import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
-import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
@@ -100,23 +96,11 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.GeorgeLiuPseudoPeripheralNodeFinder;
-import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.WesMetric;
-import org.eclipse.escet.cif.datasynth.varorder.orderers.DcshVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.orderers.ForceVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.orderers.SequentialVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.orderers.SlidingWindowVarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.orders.CustomVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.ModelVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.OrdererVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.RandomVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.ReverseVarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.orders.SortedVarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.orders.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrderParser;
+import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrderTypeChecker;
+import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrderOrOrdererInstance;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -176,6 +160,8 @@ import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
+import org.eclipse.escet.setext.runtime.DebugMode;
+import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
@@ -666,129 +652,23 @@ public class CifToSynthesisConverter {
             return;
         }
 
-        // Configure initial variable order.
-        String orderTxt = BddVariableOrderOption.getOrder();
-        VarOrder initialVarOrder;
-        if (orderTxt.toLowerCase(Locale.US).equals("model")) {
-            initialVarOrder = new ModelVarOrder();
-        } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
-            initialVarOrder = new ReverseVarOrder(new ModelVarOrder());
-        } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
-            initialVarOrder = new SortedVarOrder();
-        } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
-            initialVarOrder = new ReverseVarOrder(new SortedVarOrder());
-        } else if (orderTxt.toLowerCase(Locale.US).equals("random")) {
-            initialVarOrder = new RandomVarOrder(null);
-        } else if (orderTxt.toLowerCase(Locale.US).startsWith("random:")) {
-            int idx = orderTxt.indexOf(":");
-            String seedTxt = orderTxt.substring(idx + 1);
-            long seed;
-            try {
-                seed = Long.parseUnsignedLong(seedTxt);
-            } catch (NumberFormatException ex) {
-                String msg = fmt("Invalid BDD variable random order seed number: \"%s\".", orderTxt);
-                throw new InvalidOptionException(msg, ex);
-            }
-            initialVarOrder = new RandomVarOrder(seed);
-        } else {
-            // Parse option value to custom order.
-            List<Pair<SynthesisVariable, Integer>> customVarOrder = list();
-            int group = 0;
-            for (String groupTxt: StringUtils.split(orderTxt, ";")) {
-                // Skip empty.
-                groupTxt = groupTxt.trim();
-                if (groupTxt.isEmpty()) {
-                    continue;
-                }
-
-                // Process elements.
-                boolean anyVar = false;
-                for (String elemTxt: StringUtils.split(groupTxt, ",")) {
-                    // Skip empty.
-                    elemTxt = elemTxt.trim();
-                    if (elemTxt.isEmpty()) {
-                        continue;
-                    }
-
-                    // Create regular expression from filter.
-                    String regEx = elemTxt.replace(".", "\\.");
-                    regEx = regEx.replace("*", ".*");
-                    Pattern pattern = Pattern.compile("^" + regEx + "$");
-
-                    // Found actual element. Look up matching synthesis variables.
-                    List<SynthesisVariable> matches = Arrays.stream(synthAut.variables)
-                            .filter(v -> pattern.matcher(v.rawName).matches()).collect(Collectors.toList());
-
-                    // Need a least one match.
-                    if (matches.isEmpty()) {
-                        String msg = fmt(
-                                "Invalid BDD variable order: can't find a match for \"%s\". There is no supported "
-                                        + "variable or automaton (with two or more locations) in the specification "
-                                        + "that matches the given name pattern.",
-                                elemTxt);
-                        throw new InvalidOptionException(msg);
-                    }
-
-                    // Sort matches.
-                    Collections.sort(matches, (v, w) -> Strings.SORTER.compare(v.rawName, w.rawName));
-
-                    // Add the matched variables to the custom variable order.
-                    for (SynthesisVariable var: matches) {
-                        customVarOrder.add(pair(var, group));
-                        anyVar = true;
-                    }
-                }
-
-                // Proceed with next group of interleaved variables.
-                if (anyVar) {
-                    group++;
-                }
-            }
-
-            // Check for duplicates.
-            Set<SynthesisVariable> varsInOrder = setc(customVarOrder.size());
-            for (Pair<SynthesisVariable, Integer> elem: customVarOrder) {
-                SynthesisVariable var = elem.left;
-                boolean added = varsInOrder.add(var);
-                if (!added) {
-                    String msg = fmt("Invalid BDD variable order: \"%s\" is included more than once.", var.name);
-                    throw new InvalidOptionException(msg);
-                }
-            }
-
-            // Check completeness.
-            Set<SynthesisVariable> missingVars = difference(list2set(Arrays.asList(synthAut.variables)), varsInOrder);
-            if (!missingVars.isEmpty()) {
-                String names = missingVars.stream().map(v -> "\"" + v.name + "\"").sorted(Strings.SORTER)
-                        .collect(Collectors.joining(", "));
-                String msg = fmt("Invalid BDD variable order: the following are missing from the specified order: %s.",
-                        names);
-                throw new InvalidOptionException(msg);
-            }
-
-            // Construct custom variable order.
-            initialVarOrder = new CustomVarOrder(customVarOrder);
+        // Configure variable order.
+        String varOrderTxt = BddAdvancedVariableOrderOption.getOrder();
+        List<VarOrderOrOrdererInstance> parseResult;
+        try {
+            parseResult = new VarOrderParser().parseString(varOrderTxt, "/in-memory.varorder", null, DebugMode.NONE);
+        } catch (SyntaxException ex) {
+            throw new InvalidOptionException("Invalid BDD variable order.", ex);
         }
 
-        // Collect and configure variable ordering algorithms to apply.
-        List<VarOrderer> orderers = list();
-        if (BddDcshVarOrderOption.isEnabled()) {
-            orderers.add(new DcshVarOrderer(new GeorgeLiuPseudoPeripheralNodeFinder(), new WesMetric(),
-                    RelationsKind.CONFIGURED));
-        }
-        if (BddForceVarOrderOption.isEnabled()) {
-            orderers.add(new ForceVarOrderer(new TotalSpanMetric(), RelationsKind.CONFIGURED));
-        }
-        if (BddSlidingWindowVarOrderOption.isEnabled()) {
-            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen, new TotalSpanMetric(), RelationsKind.CONFIGURED));
-        }
-
-        // Configure final variable order.
-        VarOrder varOrder = initialVarOrder;
-        if (!orderers.isEmpty()) {
-            varOrder = new OrdererVarOrder(initialVarOrder,
-                    (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers));
+        VarOrderTypeChecker typeChecker = new VarOrderTypeChecker(Arrays.asList(synthAut.variables));
+        VarOrder varOrder = typeChecker.typeCheck(parseResult);
+        Assert.check(!typeChecker.hasWarning());
+        if (varOrder == null) {
+            Assert.check(typeChecker.hasError());
+            Assert.check(typeChecker.getProblems().size() == 1);
+            InvalidOptionException ex = new InvalidOptionException(typeChecker.getProblems().get(0).toString());
+            throw new InvalidOptionException("Invalid BDD variable order.", ex);
         }
 
         // Skip ordering, including debug output printing, if no variables are present.

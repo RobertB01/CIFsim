@@ -34,4 +34,9 @@ public class ModelVarOrder extends NonInterleavedVarOrder {
         // Return a non-interleaved variable order.
         return getNonInterleavedOrder(modelOrder);
     }
+
+    @Override
+    public String toString() {
+        return "model";
+    }
 }

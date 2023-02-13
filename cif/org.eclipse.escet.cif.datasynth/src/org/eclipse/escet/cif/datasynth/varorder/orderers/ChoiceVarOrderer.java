@@ -13,13 +13,18 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.BitSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
 import org.eclipse.escet.common.java.Assert;
 
 /** Variable ordering algorithm that applies multiple other algorithms, and picks the best order. */
@@ -30,21 +35,21 @@ public class ChoiceVarOrderer implements VarOrderer {
     /** The algorithms to apply. At least two algorithms. */
     private final List<VarOrderer> algorithms;
 
-    /** The metric to use to pick the best order. */
-    private final VarOrderMetric metric;
+    /** The kind of metric to use to pick the best order. */
+    private final VarOrderMetricKind metricKind;
 
-    /** The relations to use to compute metric values. */
+    /** The kind of relations to use to compute metric values. */
     private final RelationsKind relationsKind;
 
     /**
      * Constructor for the {@link ChoiceVarOrderer} class. Does not name the choice-based algorithm.
      *
      * @param algorithms The sequence of algorithms to apply. Must be at least two algorithms.
-     * @param metric The metric to use to pick the best order.
-     * @param relationsKind The relations to use to compute metric values.
+     * @param metricKind The kind of metric to use to pick the best order.
+     * @param relationsKind The kind of relations to use to compute metric values.
      */
-    public ChoiceVarOrderer(List<VarOrderer> algorithms, VarOrderMetric metric, RelationsKind relationsKind) {
-        this(null, algorithms, metric, relationsKind);
+    public ChoiceVarOrderer(List<VarOrderer> algorithms, VarOrderMetricKind metricKind, RelationsKind relationsKind) {
+        this(null, algorithms, metricKind, relationsKind);
     }
 
     /**
@@ -52,22 +57,22 @@ public class ChoiceVarOrderer implements VarOrderer {
      *
      * @param name The name of the choice-based algorithm.
      * @param algorithms The sequence of algorithms to apply. Must be at least two algorithms.
-     * @param metric The metric to use to pick the best order.
-     * @param relationsKind The relations to use to compute metric values.
+     * @param metricKind The kind of metric to use to pick the best order.
+     * @param relationsKind The kind of relations to use to compute metric values.
      */
-    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms, VarOrderMetric metric,
+    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms, VarOrderMetricKind metricKind,
             RelationsKind relationsKind)
     {
         this.name = name;
         this.algorithms = algorithms;
-        this.metric = metric;
+        this.metricKind = metricKind;
         this.relationsKind = relationsKind;
         Assert.check(algorithms.size() >= 2);
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
-            boolean dbgEnabled, int dbgLevel)
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
+            int dbgLevel)
     {
         // Debug output before applying the algorithms.
         if (dbgEnabled) {
@@ -76,6 +81,19 @@ public class ChoiceVarOrderer implements VarOrderer {
             } else {
                 helper.dbg(dbgLevel, "Applying %s algorithm:", name);
             }
+            helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
+            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
+            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
+            helper.dbg();
+        }
+
+        // Skip algorithm if no hyper-edges.
+        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
+        if (hyperEdges.isEmpty()) {
+            if (dbgEnabled) {
+                helper.dbg(dbgLevel + 1, "Skipping algorithm%s: no hyper-edges.", (name == null) ? "s" : "");
+            }
+            return inputOrder;
         }
 
         // Initialize best order (the lower the metric value the better).
@@ -83,6 +101,7 @@ public class ChoiceVarOrderer implements VarOrderer {
         double bestMetric = Double.POSITIVE_INFINITY;
 
         // Apply each algorithm.
+        VarOrderMetric metric = metricKind.create();
         for (int i = 0; i < algorithms.size(); i++) {
             // Separate debug output of this algorithm from that of the previous one.
             if (i > 0 && dbgEnabled) {
@@ -94,13 +113,13 @@ public class ChoiceVarOrderer implements VarOrderer {
             List<SynthesisVariable> algoOrder = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
 
             // Update best order (with lowest metric value).
-            List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
             double algoMetric = metric.computeForVarOrder(helper, algoOrder, hyperEdges);
             if (algoMetric < bestMetric) {
                 bestOrder = algoOrder;
                 bestMetric = algoMetric;
 
                 if (dbgEnabled) {
+                    helper.dbg();
                     helper.dbg(dbgLevel + 1, "Found new best variable order.");
                 }
             }
@@ -109,5 +128,12 @@ public class ChoiceVarOrderer implements VarOrderer {
         // Return the best variable order.
         Assert.notNull(bestOrder);
         return bestOrder;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("or(metric=%s, relations=%s, choices=[%s])", VarOrderer.enumValueToParserArg(metricKind),
+                VarOrderer.enumValueToParserArg(relationsKind),
+                algorithms.stream().map(VarOrderer::toString).collect(Collectors.joining(", ")));
     }
 }

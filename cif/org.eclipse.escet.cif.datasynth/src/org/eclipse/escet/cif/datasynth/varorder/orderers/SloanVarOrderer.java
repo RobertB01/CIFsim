@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
@@ -20,6 +22,7 @@ import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.SloanNodeOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
 /**
@@ -34,23 +37,38 @@ public class SloanVarOrderer implements VarOrderer {
     /**
      * Constructor for the {@link SloanVarOrderer} class.
      *
-     * @param relationsKind The relations to use to obtain the graph and to compute metric values.
+     * @param relationsKind The kind of relations to use to obtain the graph and to compute metric values.
      */
     public SloanVarOrderer(RelationsKind relationsKind) {
         this.relationsKind = relationsKind;
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
-            boolean dbgEnabled, int dbgLevel)
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
+            int dbgLevel)
     {
         // Get graph.
         Graph graph = helper.getGraph(relationsKind);
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying Sloan algorithm.");
-            helper.dbgMetricsForVarOrder(dbgLevel, inputOrder, "before", relationsKind);
+            helper.dbg(dbgLevel, "Applying Sloan algorithm:");
+            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
+            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.GRAPH, relationsKind);
+            helper.dbg();
+        }
+
+        // Skip algorithm if no graph edges.
+        if (graph.edgeCount() == 0) {
+            if (dbgEnabled) {
+                helper.dbg(dbgLevel + 1, "Skipping algorithm: no graph edges.");
+            }
+            return inputOrder;
+        }
+
+        // More debug output before applying the algorithm.
+        if (dbgEnabled) {
+            helper.dbgMetricsForVarOrder(dbgLevel + 1, inputOrder, "before", relationsKind);
         }
 
         // Apply algorithm.
@@ -58,10 +76,15 @@ public class SloanVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNodeOrder(dbgLevel, order, "after", relationsKind);
+            helper.dbgMetricsForNodeOrder(dbgLevel + 1, order, "after", relationsKind);
         }
 
         // Return the resulting order.
         return helper.reorderForNodeOrder(order);
+    }
+
+    @Override
+    public String toString() {
+        return fmt("sloan(relations=%s)", VarOrderer.enumValueToParserArg(relationsKind));
     }
 }

@@ -1,0 +1,2 @@
+ERROR: Invalid BDD variable order.
+CAUSE: Semantic error at line 1, column 7: The "model" order does not support the "a" argument.

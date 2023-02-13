@@ -20,58 +20,75 @@ import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
+import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PermuteUtils;
 
 /** Sliding window algorithm variable ordering heuristic. */
 public class SlidingWindowVarOrderer implements VarOrderer {
-    /** The maximum length of the window. */
+    /** The maximum length of the window. Is in the range [1..12]. */
     private final int maxLen;
 
-    /** The metric to use to pick the best order. */
-    private final VarOrderMetric metric;
+    /** The kind of metric to use to pick the best order. */
+    private final VarOrderMetricKind metricKind;
 
-    /** The relations to use to compute metric values. */
+    /** The kind of relations to use to compute metric values. */
     private final RelationsKind relationsKind;
 
     /**
      * Constructor for the {@link SlidingWindowVarOrderer} class.
      *
-     * @param maxLen The maximum length of the window.
-     * @param metric The metric to use to pick the best order.
-     * @param relationsKind The relations to use to compute metric values.
+     * @param maxLen The maximum length of the window. Must be in the range [1..12].
+     * @param metricKind The kind of metric to use to pick the best order.
+     * @param relationsKind The kind of relations to use to compute metric values.
      */
-    public SlidingWindowVarOrderer(int maxLen, VarOrderMetric metric, RelationsKind relationsKind) {
+    public SlidingWindowVarOrderer(int maxLen, VarOrderMetricKind metricKind, RelationsKind relationsKind) {
         this.maxLen = maxLen;
-        this.metric = metric;
+        this.metricKind = metricKind;
         this.relationsKind = relationsKind;
+        Assert.check(maxLen >= 1);
+        Assert.check(maxLen <= 12);
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
-            boolean dbgEnabled, int dbgLevel)
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
+            int dbgLevel)
     {
         // Get variable count.
         int varCnt = inputOrder.size();
 
-        // Debug output before applying the algorithm.
-        if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying sliding window algorithm.");
-        }
-
         // Determine window length.
         int length = Math.min(maxLen, varCnt);
+
+        // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Window length: %,d", length);
+            helper.dbg(dbgLevel, "Applying sliding window algorithm:");
+            helper.dbg(dbgLevel + 1, "Size: %d", maxLen);
+            helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
+            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
+            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
+            helper.dbg(dbgLevel + 1, "Window length: %,d", length);
+            helper.dbg();
+        }
+
+        // Skip algorithm if no hyper-edges.
+        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
+        if (hyperEdges.isEmpty()) {
+            if (dbgEnabled) {
+                helper.dbg(dbgLevel + 1, "Skipping algorithm: no hyper-edges.");
+            }
+            return inputOrder;
         }
 
         // Initialize current indices and metric value.
-        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
+        VarOrderMetric metric = metricKind.create();
         int[] curIndices = helper.getNewIndicesForVarOrder(inputOrder);
         double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "before", relationsKind);
+            helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, "before", relationsKind);
         }
 
         // Process all windows.
@@ -101,7 +118,7 @@ public class SlidingWindowVarOrderer implements VarOrderer {
                 System.arraycopy(windowPerms[bestIdx], 0, curIndices, offset, length);
 
                 if (dbgEnabled) {
-                    helper.dbgMetricsForNewIndices(dbgLevel, curIndices,
+                    helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices,
                             fmt("window %d..%d", offset, offset + length - 1), relationsKind);
                 }
             }
@@ -109,10 +126,16 @@ public class SlidingWindowVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel, curIndices, "after", relationsKind);
+            helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, "after", relationsKind);
         }
 
         // Return the resulting order.
         return helper.reorderForNewIndices(curIndices);
+    }
+
+    @Override
+    public String toString() {
+        return fmt("slidwin(size=%d, metric=%s, relations=%s)", maxLen, VarOrderer.enumValueToParserArg(metricKind),
+                VarOrderer.enumValueToParserArg(relationsKind));
     }
 }

@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,variable order]
+
+[[tools-datasynth-var-order]]
+== BDD variable order
+
+Internally, data-based synthesis represents predicates using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+CIF variables and automata are represented using one or more boolean variables (also called BDD variables or bits).
+For instance, a boolean CIF variable is represented using a single boolean/BDD variable, and a CIF variable of type `int[0..8]` is represented using four boolean/BDD variables (9 possible values, log~2~(9) ≈ 3.17).
+For each automaton with two or more locations, a location pointer variable is created, that represents the current or active location of that automaton.
+For instance, an automaton with three locations is represented using two boolean/BDD variables.
+Two boolean/BDD variables can represent 2^2^ = 4 values, so one value is not used.
+
+The CIF variables and location pointer variables for the automata (together called synthesis variables) can be ordered.
+This ordering can significantly influence the performance of synthesis.
+Synthesis variables that have a higher influence on the result of predicates (simply put, occur more frequently in predicates) should generally be put earlier in the ordering.
+Furthermore, in general, strongly related synthesis variables (e.g. by comparison, integer computation, or assignment) should be kept closely together in the order.
+For two synthesis variables `x` and `y`, examples of predicates that introduce relations are `x = y` (by comparison) and `5 < x + y` (by integer computation), and examples of assignments that introduce relations are `x := y` and `x := y + 1` (both by assignment).
+
+For the initial variable ordering, it is possible to order the BDD variables per synthesis variable, or to interleave the BDD/boolean variables of some synthesis variables.
+This can significantly influences the performance of synthesis.
+Generally, strongly related synthesis variables should be interleaved.
+
+For each CIF variable and location pointer, two synthesis variables are created, one storing the old/current value (before a transition), and one storing the new value (after a transition).
+For a single CIF variable or location pointer, the old and new synthesis variables are always kept together, and interleaved.
+The old synthesis variable is also always before the new synthesis variable.
+
+For more information on variable ordering and its influence on performance, see Chapter 3 of <<minato96>>.
+
+The following additional information is available on variable ordering configuration through options:
+
+* <<tools-datasynth-var-order-options>>
+
+* Basic
+** <<tools-datasynth-var-order-initial-orders>>
+** <<tools-datasynth-var-order-auto-var-ordering>>
+
+* Advanced
+** <<tools-datasynth-var-order-adv-config>>

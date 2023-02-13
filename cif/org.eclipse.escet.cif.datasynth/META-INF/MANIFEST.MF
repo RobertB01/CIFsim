@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="0.9.0",
  org.eclipse.escet.common.emf;bundle-version="0.9.0",
  org.eclipse.escet.cif.cif2cif;bundle-version="0.9.0",
  org.eclipse.escet.common.box;bundle-version="0.9.0",
- com.github.javabdd;bundle-version="3.0.0"
+ com.github.javabdd;bundle-version="3.0.0",
+ org.eclipse.jface.text;bundle-version="3.20.100"
 Export-Package: org.eclipse.escet.cif.datasynth,
  org.eclipse.escet.cif.datasynth.bdd,
  org.eclipse.escet.cif.datasynth.conversion,
@@ -34,5 +35,7 @@ Export-Package: org.eclipse.escet.cif.datasynth,
  org.eclipse.escet.cif.datasynth.varorder.hyperedges,
  org.eclipse.escet.cif.datasynth.varorder.metrics,
  org.eclipse.escet.cif.datasynth.varorder.orderers,
- org.eclipse.escet.cif.datasynth.varorder.orders
+ org.eclipse.escet.cif.datasynth.varorder.orders,
+ org.eclipse.escet.cif.datasynth.varorder.parser,
+ org.eclipse.escet.cif.datasynth.varorder.parser.ast
 Automatic-Module-Name: org.eclipse.escet.cif.datasynth

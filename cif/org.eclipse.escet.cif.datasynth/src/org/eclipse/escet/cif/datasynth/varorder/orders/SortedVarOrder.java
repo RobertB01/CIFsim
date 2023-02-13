@@ -40,4 +40,9 @@ public class SortedVarOrder extends NonInterleavedVarOrder {
         // Return a non-interleaved variable order.
         return getNonInterleavedOrder(sortedOrder);
     }
+
+    @Override
+    public String toString() {
+        return "sorted";
+    }
 }

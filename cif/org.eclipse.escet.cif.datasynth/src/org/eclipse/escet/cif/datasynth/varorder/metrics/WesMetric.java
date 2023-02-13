@@ -47,8 +47,13 @@ public class WesMetric implements VarOrderMetric {
         // to the leafs) in the BDDs. Therefore, we use for each hyper-edge: the highest index of a variable with an
         // enabled bit in that hyper-edge as 'x_b', and the lowest index of a variable with an enabled bit in that
         // hyper-edge as 'x_t'.
+
         double nx = newIndices.length;
         double nE = hyperEdges.size();
+        if (nx == 0 || nE == 0) {
+            return 0;
+        }
+
         double wes = 0;
         for (BitSet edge: hyperEdges) {
             // Compute 'x_t' and 'x_b' for this edge.

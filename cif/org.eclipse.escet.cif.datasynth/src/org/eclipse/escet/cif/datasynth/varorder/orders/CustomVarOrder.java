@@ -38,10 +38,40 @@ public class CustomVarOrder extends NonInterleavedVarOrder {
     public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
         // Debug output.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying a custom variable order.");
+            helper.dbg(dbgLevel, "Applying a custom variable order:");
+            helper.dbg(dbgLevel + 1, "Order: %s", getOrderText());
         }
 
         // Return the custom variable order.
         return order;
+    }
+
+    /**
+     * Returns the custom order, in option syntax.
+     *
+     * @return The custom order text.
+     */
+    private String getOrderText() {
+        StringBuilder txt = new StringBuilder();
+        boolean first = true;
+        int cur = 0;
+        for (Pair<SynthesisVariable, Integer> var: order) {
+            if (!first) {
+                txt.append((cur == var.right) ? "," : ";");
+            }
+            first = false;
+            txt.append(var.left.rawName);
+            cur = var.right;
+        }
+        return txt.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder txt = new StringBuilder();
+        txt.append("custom(order=\"");
+        txt.append(getOrderText());
+        txt.append("\")");
+        return txt.toString();
     }
 }

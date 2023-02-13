@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
@@ -34,6 +35,17 @@ public interface VarOrderer {
      * @param dbgLevel The debug indentation level.
      * @return The new variable order, as produced by the algorithm.
      */
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder,
-            boolean dbgEnabled, int dbgLevel);
+    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
+            int dbgLevel);
+
+    /**
+     * Returns the textual option syntax for the given enumeration constant value.
+     *
+     * @param <T> The type of the enumeration.
+     * @param value The enumeration constant value.
+     * @return The textual option syntax.
+     */
+    public static <T extends Enum<T>> String enumValueToParserArg(T value) {
+        return value.name().toLowerCase(Locale.US).replace("_", "-");
+    }
 }

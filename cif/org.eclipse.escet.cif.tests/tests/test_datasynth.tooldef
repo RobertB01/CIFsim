@@ -26,9 +26,10 @@ list string default_options = [
     "--forward-reach=on",
 ];
 
-string opt_algos_on     = "--dcsh-order=on  --force-order=on  --sliding-window-order=on";
-string opt_algos_off    = "--dcsh-order=off --force-order=off --sliding-window-order=off";
-string opt_simplify_all = "--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-plant-invs,guards-se-excl-req-invs,guards-state-plant-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl,initial-state-plant-invs";
+string opt_algos_on      = "--dcsh-order=on  --force-order=on  --sliding-window-order=on";
+string opt_algos_off     = "--dcsh-order=off --force-order=off --sliding-window-order=off";
+string var_order_default = "--dcsh-order=off --force-order=on  --sliding-window-order=on  --var-order=sorted";
+string opt_simplify_all  = "--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-plant-invs,guards-se-excl-req-invs,guards-state-plant-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl,initial-state-plant-invs";
 
 map(string:list string) test_options = {
     "datasynth/bdd_dbg_maxnodes.cif":                          ["--bdd-dbg-maxnodes=2"],
@@ -95,15 +96,19 @@ map(string:list string) test_options = {
     "datasynth/traffic_lights_req_state_inv_per_edge.cif":     ["--state-req-invs=per-edge"],
     "datasynth/supname_custom.cif":                            ["-s g"],
     "datasynth/supname_invalid.cif":                           ["-s b@"],
+    "datasynth/var_order_adv_dcsh_from_paper.cif":             ["--adv-var-order=sorted->dcsh(metric=wes,relations=linearized)->force(metric=total-span,relations=legacy)->slidwin(metric=total-span,relations=legacy) " + var_order_default],
+    "datasynth/var_order_adv_parse_err.cif":                   ["--adv-var-order=model-> " + var_order_default],
+    "datasynth/var_order_adv_basic_mix.cif":                   ["--adv-var-order=random(seed=1)"],
+    "datasynth/var_order_adv_tcheck_err.cif":                  ["--adv-var-order=model(a=1) " + var_order_default],
     "datasynth/var_order_custom_algos_off.cif":                ["-r *c*;*3,*1;*2 " + opt_algos_off + " " + opt_simplify_all],
     "datasynth/var_order_custom_algos_on.cif":                 ["-r *c*;*3,*1;*2 " + opt_algos_on + " " + opt_simplify_all],
-    "datasynth/var_order_dupl_match.cif":                      ["-r p.x;*"],
+    "datasynth/var_order_custom_dupl_match.cif":               ["-r p.x;*"],
+    "datasynth/var_order_custom_missing.cif":                  ["-r q"],
+    "datasynth/var_order_custom_no_match.cif":                 ["-r *3"],
     "datasynth/var_order_hyper_edge_legacy.cif":               ["--hyper-edge-algo=legacy"],
     "datasynth/var_order_hyper_edge_linearized.cif":           ["--hyper-edge-algo=linearized"],
-    "datasynth/var_order_missing.cif":                         ["-r q"],
     "datasynth/var_order_model_algos_off.cif":                 ["-r model " + opt_algos_off + " " + opt_simplify_all],
     "datasynth/var_order_model_algos_on.cif":                  ["-r model " + opt_algos_on + " " + opt_simplify_all],
-    "datasynth/var_order_no_match.cif":                        ["-r *3"],
     "datasynth/var_order_random_algo_dcsh_on.cif":             ["-r random:88 " + opt_algos_off + " --dcsh-order=on " + opt_simplify_all],
     "datasynth/var_order_random_algo_force_on.cif":            ["-r random:88 " + opt_algos_off + " --force-order=on " + opt_simplify_all],
     "datasynth/var_order_random_algo_slidwin_on.cif":          ["-r random:88 " + opt_algos_off + " --sliding-window-order=on " + opt_simplify_all],

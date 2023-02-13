@@ -60,4 +60,9 @@ public class RandomVarOrder extends NonInterleavedVarOrder {
         // Return non-interleaved variable order.
         return getNonInterleavedOrder(randomOrder);
     }
+
+    @Override
+    public String toString() {
+        return (seed == null) ? "random" : fmt("random(seed=%d)", seed);
+    }
 }

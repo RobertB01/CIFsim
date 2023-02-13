@@ -1,0 +1,47 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+[[tools-datasynth-var-order-options]]
+== Variable ordering options
+
+The <<tools-datasynth-var-order,variable ordering>> used by the CIF data-based synthesis tool can be configured through <<tools-datasynth-options,options>>.
+There are two ways to configure variable ordering:
+
+** Basic configuration using basic options.
+** Advanced configuration using an advanced option.
+
+These options allow configuring the initial variable order to one of several predefined orders, or to a custom variable order.
+Manually specifying a custom order often requires specialist knowledge and can take quite some time.
+Luckily, there are algorithms that can automatically compute a decent variable order from an initial variable order.
+The algorithms to apply, and their settings, can be set using options as well.
+
+The following basic options are available for basic configuration of variable ordering:
+
+* _BDD variable order_
+* _BDD hyper-edge creation algorithm_
+* _BDD DCSH variable ordering algorithm_
+* _BDD FORCE variable ordering algorithm_
+* _BDD sliding window variable ordering algorithm_
+* _BDD sliding window size_
+
+For more information on the use of these basic options, see:
+
+* <<tools-datasynth-var-order-initial-orders>>
+* <<tools-datasynth-var-order-auto-var-ordering>>
+
+For more flexibility, variable ordering can instead be configured using an advanced option:
+
+* <<tools-datasynth-var-order-adv-config>>
+
+Variable ordering may be configured using either the basic options or using the advanced option.
+It is not supported to configure variable ordering using both basic and advanced configuration at the same time.

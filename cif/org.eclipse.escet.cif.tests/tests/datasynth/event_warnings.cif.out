@@ -18,21 +18,27 @@ CIF variables and location pointers:
 Applying variable ordering:
   Applying model variable order.
 
-  Number of hyper-edges: 40
-  Number of graph edges: 5
-
   Applying 2 algorithms, sequentially:
-    Applying FORCE algorithm.
-    Maximum number of iterations: 20
-    Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
-    Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [iteration 1]
-    Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [after]
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: configured
+      Number of hyper-edges: 40
+      Maximum number of iterations: 20
 
-    Applying sliding window algorithm.
-    Window length: 4
-    Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
-    Total span:   11 (total)   0.28 (avg/edge) / WES:   0.131633 (total)   0.003291 (avg/edge) [window 0..3]
-    Total span:   11 (total)   0.28 (avg/edge) / WES:   0.131633 (total)   0.003291 (avg/edge) [after]
+      Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
+      Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [iteration 1]
+      Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: configured
+      Number of hyper-edges: 40
+      Window length: 4
+
+      Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
+      Total span:   11 (total)   0.28 (avg/edge) / WES:   0.131633 (total)   0.003291 (avg/edge) [window 0..3]
+      Total span:   11 (total)   0.28 (avg/edge) / WES:   0.131633 (total)   0.003291 (avg/edge) [after]
 
 Variable order changed.
 
