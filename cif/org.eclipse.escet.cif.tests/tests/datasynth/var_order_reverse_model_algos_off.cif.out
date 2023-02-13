@@ -15,10 +15,17 @@ CIF variables and location pointers:
   Total                                               6      18        36          36          100%
 
 Applying variable ordering:
-  Applying variable order, and reversing its result:
-    Applying model variable order.
+  Applying 2 orderers, sequentially:
+    Applying model variable order:
+      Effect: var-order
 
-    Reversing the variable order.
+    Reversing the variable order:
+      Relations: configured
+      Effect: both
+      Number of hyper-edges: 22
+
+      Total span:   13 (total)   0.59 (avg/edge) / WES:   0.290404 (total)   0.013200 (avg/edge) [before]
+      Total span:   13 (total)   0.59 (avg/edge) / WES:   0.290404 (total)   0.013200 (avg/edge) [reversed]
 
 Variable order changed.
 

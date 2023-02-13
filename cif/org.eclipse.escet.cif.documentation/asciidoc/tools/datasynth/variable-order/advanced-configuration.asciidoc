@@ -15,56 +15,58 @@
 == Advanced variable ordering configuration
 
 The CIF data-based synthesis performance depends greatly on the <<tools-datasynth-var-order,variable ordering>>.
-After selecting an <<tools-datasynth-var-order-initial-orders,initial order>>, it can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>> (orderers).
+After selecting an <<tools-datasynth-var-order-initial-ordering,initial ordering>>, it can subsequently be improved by algorithms for <<tools-datasynth-var-order-auto-var-ordering,automatic variable ordering>>.
 This may be configured using <<tools-datasynth-var-order-options,basic options>>, but they offer only limited flexibility.
-For the most flexibility, variable ordering can be configured using the _BDD advanced variable order_ option (see the <<tools-datasynth-options,options section>>).
+For the most flexibility, variable ordering can be configured using the _BDD advanced variable ordering_ option (see the <<tools-datasynth-options,options section>>).
+Advanced ordering allows configuring which orderers, such as predefined orders and ordering algorithms, to use.
+It also allows configuring the order in which the various orderers are applied, as well as the settings to use for each orderer.
 
 Variable ordering may be configured using either the basic options or using the advanced option.
 It is not supported to configure variable ordering using both basic and advanced configuration at the same time.
 
 === Examples
 
-The <<tools-datasynth-var-order-initial-orders,predefined>> initial variable orders can be expressed using the advanced syntax as follows:
+The <<tools-datasynth-var-order-initial-ordering,predefined>> initial variable orderings can be expressed using the advanced syntax as follows:
 
 [cols="1,1"]
 |===
-| Predefined initial order | Advanced syntax
+| Predefined initial ordering | Advanced syntax
 
 | `model` | `model`
-| `reverse-model` | `reverse(order=model)`
+| `reverse-model` | `model(effect=var-order) -> reverse(effect=both)`
 | `sorted` | `sorted`
-| `reverse-sorted` | `reverse(order=sorted)`
+| `reverse-sorted` | `sorted(effect=var-order) -> reverse(effect=both)`
 | `random` | `random`
 | `random:SEED` | `random(seed=SEED)`
 | `<custom-order>` | `custom(order="<custom-order>")`
 |===
 
-Some other examples of advanced variable orders:
+Some other examples of advanced variable orderings:
 
 * `+model -> dcsh -> force -> slidwin+`: Start with model order as initial order, and then apply the DCSH, FORCE and sliding window algorithms with their default settings.
 * `+sorted -> dcsh(relations=linearized)+`: Start with sorted order as initial order, and then apply the DCSH algorithm with linearized variable relations.
 * `+random -> or(choices=[dcsh,force])+`: Start with a random order as initial order, and then apply the DCSH and FORCE algorithms, choosing the best order from the ones produced by the two algorithms.
+* `+force -> reverse+`: Start with the default initial model order, then apply the FORCE algorithm, and finally reverse the variable order.
 
 === Syntax
 
 The syntax to specify advanced variable ordering generally works as follows:
 
-* Orders and orderers are specified by their name.
-* Arguments to configure orders and orderers can be given after the order(er)'s name between parentheses: `+(...)+`.
-* For orders and orderers without arguments, it is allowed to provide parentheses as well, e.g., `model()` is equivalent to specifying `model`.
+* Orderers are specified by their name.
+* Arguments to configure orderers may optionally be given after the name of the orderer between parentheses: `+(...)+`.
+* It is allowed to provide empty parentheses, e.g., `model()` is equivalent to specifying `model`.
 * Each argument is given by a name and a value: `name=value`.
 * To specify multiple arguments, separate them with a comma.
 After the last argument, optionally a comma may be specified as well.
-* To start with an initial order, and then apply a variable orderer, separate them with an arrow (`+->+`).
 * To apply multiple algorithms in sequence, separate them with an arrow (`+->+`).
-* If needed, a sequence consisting of an order and one or more algorithms, or a sequence of algorithms, may be enclosed in parentheses: `+(... -> ... -> ...)+`.
+* If needed, a sequence of orderers may be enclosed in parentheses: `+(... -> ... -> ...)+`.
 * Spaces, tabs, and newline characters are generally ignored, but can be used to improve readability.
 
-=== Orders
+=== Orderers
 
-The following orders can be specified:
+The following orderers can be specified:
 
-* _Basic order_
+* _Basic ordering_
 +
 Uses the configuration as configured by the basic variable ordering options.
 +
@@ -74,23 +76,35 @@ Uses the configuration as configured by the basic variable ordering options.
 
 * _Model order_
 +
-Uses the predefined <<tools-datasynth-var-order-initial-orders-model,model order>>.
+Uses the predefined <<tools-datasynth-var-order-initial-ordering-model,model order>>.
 +
 ** Name: `model`
-** Arguments: n/a
-** Example: `model`
+** Arguments:
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `both`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `model`, `model(effect=var-order)`
 
 * _Sorted order_
 +
-Uses the predefined <<tools-datasynth-var-order-initial-orders-sorted,sorted order>>.
+Uses the predefined <<tools-datasynth-var-order-initial-ordering-sorted,sorted order>>.
 +
 ** Name: `sorted`
-** Arguments: n/a
-** Example: `sorted`
+** Arguments:
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `both`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `sorted`, `sorted(effect=var-order)`
 
 * _Random order_
 +
-Uses the predefined <<tools-datasynth-var-order-initial-orders-random,random order>>.
+Uses the predefined <<tools-datasynth-var-order-initial-ordering-random,random order>>.
 +
 ** Name: `random`
 ** Arguments:
@@ -100,39 +114,33 @@ Uses the predefined <<tools-datasynth-var-order-initial-orders-random,random ord
 **** Default: use a random seed
 **** Type: number
 **** Constraints: seed must be in the range [0 .. 2^64^ - 1]
-** Examples: `random`, `random(seed=123)`
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `both`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `random`, `random(seed=123)`, `random(seed=123, effect=var-order)`
 
 * _Custom order_
 +
-Uses a <<tools-datasynth-var-order-initial-orders-custom,custom order>>.
+Uses a <<tools-datasynth-var-order-initial-ordering-custom,custom order>>.
 +
 ** Name: `custom`
 ** Arguments:
 *** `order`
-**** Description: the custom order, with the <<tools-datasynth-var-order-initial-orders-custom,same syntax>> as for the basic configuration option
+**** Description: the custom order, with the <<tools-datasynth-var-order-initial-ordering-custom,same syntax>> as for the basic configuration option
 **** Mandatory: yes
 **** Default: n/a
 **** Type: string
 **** Constraints: the order must be complete in that it contains all variables, and must not contain any duplicate variables
-** Example: `custom(order="a,b;c,d")`
-
-* _Reverse order_
-+
-Reverses a variable order.
-+
-** Name: `reverse`
-** Arguments:
-*** `order`
-**** Description: the order to reverse
-**** Mandatory: yes
-**** Default: n/a
-**** Type: variable order
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `both`
+**** Type: enum (`var-order`, `representations` or `both`)
 **** Constraints: none
-** Examples: `reverse(order=model)`, `reverse(order=sorted)`, `reverse(order=random(seed=123))`
-
-=== Orderers
-
-The following orderers can be specified:
+** Examples: `custom(order="a,b;c,d")`, `custom(order="a,b;c,d", effect=var-order)`
 
 * _DCSH_
 +
@@ -158,7 +166,13 @@ Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-dcsh,DCSH alg
 **** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
 **** Type: enum (`configured`, `legacy` or `linearized`)
 **** Constraints: none
-** Examples: `dcsh`, `dcsh(metric=wes)`, `dcsh(node-finder=george-liu, metric=wes, relations=configured)`
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `var-order`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `dcsh`, `dcsh(metric=wes)`, `dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=both)`
 
 * _FORCE_
 +
@@ -178,7 +192,13 @@ Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-force,FORCE a
 **** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
 **** Type: enum (`configured`, `legacy` or `linearized`)
 **** Constraints: none
-** Examples: `force`, `force(metric=total-span)`, `force(metric=total-span, relations=configured)`
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `var-order`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `force`, `force(metric=total-span)`, `force(metric=total-span, relations=configured, effect=both)`
 
 * _Sliding window_
 +
@@ -204,7 +224,13 @@ Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-sliding-windo
 **** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
 **** Type: enum (`configured`, `legacy` or `linearized`)
 **** Constraints: none
-** Examples: `slidwin`, `slidwin(size=5)`, `slidwin(size=5, metric=total-span, relations=configured)`
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `var-order`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `slidwin`, `slidwin(size=5)`, `slidwin(size=5, metric=total-span, relations=configured, effect=both)`
 
 * _Sloan_
 +
@@ -218,7 +244,13 @@ Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-dcsh,Sloan pr
 **** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
 **** Type: enum (`configured`, `legacy` or `linearized`)
 **** Constraints: none
-** Examples: `sloan`, `sloan(relations=configured)`
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `var-order`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `sloan`, `sloan(relations=configured, effect=both)`
 
 * _Weighted Cuthill-McKee_
 +
@@ -238,7 +270,13 @@ Applies the <<tools-datasynth-var-order-auto-var-ordering-orderers-dcsh,Weighted
 **** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
 **** Type: enum (`configured`, `legacy` or `linearized`)
 **** Constraints: none
-** Examples: `weighted-cm`, `weighted-cm(relations=configured)`, `weighted-cm(node-finder=george-liu, relations=configured)`
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `var-order`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `weighted-cm`, `weighted-cm(relations=configured)`, `weighted-cm(node-finder=george-liu, relations=configured, effect=both)`
 
 * _Choice_
 +
@@ -264,27 +302,33 @@ Applies multiple algorithms to the same variable order and chooses the best resu
 **** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
 **** Type: enum (`configured`, `legacy` or `linearized`)
 **** Constraints: none
-** Examples: `or(choices=[dcsh,force])`, `+or(choices=[(force -> dcsh), (dcsh -> force)], metric=wes, relations=configured)+`
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `var-order`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `or(choices=[dcsh,force])`, `+or(choices=[(force -> dcsh), (dcsh -> force)], metric=wes, relations=configured, effect=both)+`
 
-* _Choice_
+* _Reverse_
 +
-Reverses the variable order produced by another variable orderer.
+Reverses the variable order.
 +
 ** Name: `reverse`
 ** Arguments:
-*** `orderer`
-**** Description: the orderer to apply
-**** Mandatory: yes
-**** Default: n/a
-**** Type: orderer
-**** Constraints: none
 *** `relations`
 **** Description: the <<tools-datasynth-var-order-adv-config-relations,kind of relations>> to use when computing metric values
 **** Mandatory: no
 **** Default: `configured` (per the _BDD hyper-edge creation algorithm_ <<tools-datasynth-options,option>>)
 **** Type: enum (`configured`, `legacy` or `linearized`)
 **** Constraints: none
-** Examples: `reverse(orderer=force)`, `+reverse(orderer=(dcsh -> force -> slidwin))+`, `reverse(orderer=force, relations=configured)`
+*** `effect`
+**** Description: the <<tools-datasynth-var-order-adv-config-effects,effect>> of the variable orderer
+**** Mandatory: no
+**** Default: `var-order`
+**** Type: enum (`var-order`, `representations` or `both`)
+**** Constraints: none
+** Examples: `reverse`, `+reverse(relations=configured, effect=both)`
 
 [[tools-datasynth-var-order-adv-config-node-finders]]
 === Node finders
@@ -346,3 +390,38 @@ Use the relations as configured using the _BDD hyper-edge creation algorithm_ <<
 +
 Name: `configured`
 
+[[tools-datasynth-var-order-adv-config-effects]]
+=== Effects
+
+A variable orderer produces a variable order.
+The _effect_ of a variable orderer determines what happens with the produced order:
+
+* It may be used as the new variable order.
+The produced variable order then becomes the variable order to be used as input to the next orderer, or the final order in case it is the effect of the last orderer.
+If the produced variable order is not used as the new variable order, the variable order remains unchanged by the orderer.
+
+* It may be used to compute new <<tools-datasynth-var-order-auto-var-ordering-relations,representations>> of the variable relations.
+Subsequent orderers will then use these new representations as input to algorithms and for computing <<tools-datasynth-var-order-adv-config-metrics,metrics>>.
+If the produced variable order is not used to create new representations, the representations remain unchanged by the orderer.
+
+The following effects can be configured:
+
+* _Variable order_
++
+Uses the produced variable order as the new variable order.
+Does not update the representations.
++
+Name: `var-order`
+
+* _Representations_
++
+Updates the representations.
+Does not use the produced variable order as the new variable order.
++
+Name: `representations`
+
+* _Both_
++
+Uses the produced variable order as the new variable order, and updates the representations.
++
+Name: `both`

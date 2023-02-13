@@ -13,21 +13,26 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.parser.ast;
 
+import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.setext.runtime.Token;
 
-/** Number argument of a variable order(er). */
-public class VarOrderOrOrdererNumberArg extends VarOrderOrOrdererArg {
+/** Argument of a variable orderer that has as value a string. */
+public class VarOrdererStringArg extends VarOrdererArg {
     /** The value of the argument. */
     public final Token value;
 
+    /** String text, excluding the surrounding quotes, and with escape sequences replaced by their actual characters. */
+    public final String text;
+
     /**
-     * Constructor for the {@link VarOrderOrOrdererNumberArg} class.
+     * Constructor for the {@link VarOrdererStringArg} class.
      *
      * @param name The name of the argument.
      * @param value The value of the argument.
      */
-    public VarOrderOrOrdererNumberArg(Token name, Token value) {
+    public VarOrdererStringArg(Token name, Token value) {
         super(name);
         this.value = value;
+        this.text = Strings.unescape(Strings.slice(value.text, 1, -1));
     }
 }

@@ -15,20 +15,24 @@ CIF variables and location pointers:
   Total                                               6      18        36          36          100%
 
 Applying variable ordering:
-  Applying a random variable order using seed 88.
+  Applying 2 orderers, sequentially:
+    Applying a random variable order:
+      Seed: 88
+      Effect: both
 
-  Applying FORCE algorithm:
-    Metric: total-span
-    Relations: configured
-    Number of hyper-edges: 22
-    Maximum number of iterations: 20
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: configured
+      Effect: var-order
+      Number of hyper-edges: 22
+      Maximum number of iterations: 20
 
-    Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
-    Total span:   20 (total)   0.91 (avg/edge) / WES:   0.366162 (total)   0.016644 (avg/edge) [iteration 1]
-    Total span:   14 (total)   0.64 (avg/edge) / WES:   0.282828 (total)   0.012856 (avg/edge) [iteration 2]
-    Total span:   13 (total)   0.59 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [iteration 3]
-    Total span:   13 (total)   0.59 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [iteration 4]
-    Total span:   13 (total)   0.59 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [after]
+      Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
+      Total span:   20 (total)   0.91 (avg/edge) / WES:   0.366162 (total)   0.016644 (avg/edge) [iteration 1]
+      Total span:   14 (total)   0.64 (avg/edge) / WES:   0.282828 (total)   0.012856 (avg/edge) [iteration 2]
+      Total span:   13 (total)   0.59 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [iteration 3]
+      Total span:   13 (total)   0.59 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [iteration 4]
+      Total span:   13 (total)   0.59 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [after]
 
 Variable order changed.
 

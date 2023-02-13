@@ -25,7 +25,7 @@ public class BddAdvancedVariableOrderOption extends StringOption {
     public BddAdvancedVariableOrderOption() {
         super(
                 // name
-                "BDD advanced variable order",
+                "BDD advanced variable ordering",
 
                 // description
                 "Specify the BDD variable ordering and domain interleaving. "

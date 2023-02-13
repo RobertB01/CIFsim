@@ -13,87 +13,67 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
+import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.BitSet;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
 
-/** Variable ordering algorithm that returns the reverse order of another algorithm. */
-public class ReverseVarOrderer implements VarOrderer {
-    /** The algorithm to apply. */
-    private final VarOrderer algorithm;
-
+/** Variable orderer that reverses the input variable order, preserving its interleaving. */
+public class ReverseVarOrderer extends VarOrderer {
     /** The kind of relations to use to compute metric values. */
     private final RelationsKind relationsKind;
+
+    /** The effect of applying the variable orderer. */
+    private final VarOrdererEffect effect;
 
     /**
      * Constructor for the {@link ReverseVarOrderer} class.
      *
-     * @param algorithm The algorithm to apply.
      * @param relationsKind The kind of relations to use to compute metric values.
+     * @param effect The effect of applying the variable orderer.
      */
-    public ReverseVarOrderer(VarOrderer algorithm, RelationsKind relationsKind) {
-        this.algorithm = algorithm;
+    public ReverseVarOrderer(RelationsKind relationsKind, VarOrdererEffect effect) {
         this.relationsKind = relationsKind;
+        this.effect = effect;
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
-            int dbgLevel)
-    {
-        // Debug output before applying the algorithm.
+    public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
+        // Debug output before reversing the variable order.
+        List<SynthesisVariable> orderedVars = inputData.varOrder.getOrderedVars();
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying algorithm, and reversing its result:");
-            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
-            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
-            helper.dbg();
-        }
-
-        // Skip algorithm if no hyper-edges.
-        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
-        if (hyperEdges.isEmpty()) {
-            if (dbgEnabled) {
-                helper.dbg(dbgLevel + 1, "Skipping algorithm: no hyper-edges.");
-            }
-            return inputOrder;
-        }
-
-        // More output before applying the algorithm.
-        if (dbgEnabled) {
-            helper.dbgMetricsForVarOrder(dbgLevel + 1, inputOrder, "before", relationsKind);
-            helper.dbg();
-        }
-
-        // Apply the algorithm.
-        List<SynthesisVariable> order = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
-
-        // Debug output after applying the algorithm.
-        if (dbgEnabled) {
-            helper.dbg();
-            helper.dbgMetricsForVarOrder(dbgLevel + 1, order, "after", relationsKind);
+            inputData.helper.dbg(dbgLevel, "Reversing the variable order:");
+            inputData.helper.dbg(dbgLevel + 1, "Relations: %s", enumValueToParserArg(relationsKind));
+            inputData.helper.dbg(dbgLevel + 1, "Effect: %s", enumValueToParserArg(effect));
+            inputData.helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
+            inputData.helper.dbg();
+            inputData.helper.dbgMetricsForVarOrder(dbgLevel + 1, orderedVars, "before", relationsKind);
         }
 
         // Reverse the order.
-        Collections.reverse(order);
+        List<List<SynthesisVariable>> varOrder = inputData.varOrder.getVarOrder();
+        varOrder = varOrder.stream().map(grp -> reverse(grp)).toList(); // Reverse inner lists (groups).
+        varOrder = reverse(varOrder); // Reverse outer list (groups).
 
         // Debug output after reversing the variable order.
         if (dbgEnabled) {
-            helper.dbgMetricsForVarOrder(dbgLevel + 1, order, "reversed", relationsKind);
+            inputData.helper.dbgMetricsForVarOrder(dbgLevel + 1, orderedVars, "reversed", relationsKind);
         }
 
-        // Return the resulting variable order.
-        return order;
+        // Return new variable order.
+        return new VarOrdererData(inputData, new VarOrder(varOrder), effect);
     }
 
     @Override
     public String toString() {
-        return fmt("reverse(relations=%s, orderer=%s)", VarOrderer.enumValueToParserArg(relationsKind),
-                algorithm.toString());
+        return fmt("reverse(relations=%s, effect=%s)", enumValueToParserArg(relationsKind),
+                enumValueToParserArg(effect));
     }
 }

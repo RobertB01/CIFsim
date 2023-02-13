@@ -21,10 +21,11 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
 import org.eclipse.escet.common.java.BitSets;
@@ -38,31 +39,34 @@ import org.eclipse.escet.common.java.BitSets;
  * 2003, doi:<a href="https://doi.org/10.1145/764808.764839">10.1145/764808.764839</a>.
  * </p>
  */
-public class ForceVarOrderer implements VarOrderer {
+public class ForceVarOrderer extends VarOrderer {
     /** The kind of metric to use to pick the best order. */
     private final VarOrderMetricKind metricKind;
 
     /** The kind of relations to use to compute metric values. */
     private final RelationsKind relationsKind;
 
+    /** The effect of applying the variable orderer. */
+    private final VarOrdererEffect effect;
+
     /**
      * Constructor for the {@link ForceVarOrderer} class.
      *
      * @param metricKind The kind of metric to use to pick the best order.
      * @param relationsKind The kind of relations to use to compute metric values.
+     * @param effect The effect of applying the variable orderer.
      */
-    public ForceVarOrderer(VarOrderMetricKind metricKind, RelationsKind relationsKind) {
+    public ForceVarOrderer(VarOrderMetricKind metricKind, RelationsKind relationsKind, VarOrdererEffect effect) {
         this.metricKind = metricKind;
         this.relationsKind = relationsKind;
+        this.effect = effect;
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
-            int dbgLevel)
-    {
+    public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
         // Get variable count and hyper-edges.
-        int varCnt = inputOrder.size();
-        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
+        int varCnt = inputData.helper.size();
+        List<BitSet> hyperEdges = inputData.helper.getHyperEdges(relationsKind);
 
         // Determine maximum number of iterations.
         int maxIter = (int)Math.ceil(Math.log(varCnt));
@@ -70,20 +74,21 @@ public class ForceVarOrderer implements VarOrderer {
 
         // Debug output before applying the algorithm.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying FORCE algorithm:");
-            helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
-            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
-            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
-            helper.dbg(dbgLevel + 1, "Maximum number of iterations: %,d", maxIter);
-            helper.dbg();
+            inputData.helper.dbg(dbgLevel, "Applying FORCE algorithm:");
+            inputData.helper.dbg(dbgLevel + 1, "Metric: %s", enumValueToParserArg(metricKind));
+            inputData.helper.dbg(dbgLevel + 1, "Relations: %s", enumValueToParserArg(relationsKind));
+            inputData.helper.dbg(dbgLevel + 1, "Effect: %s", enumValueToParserArg(effect));
+            inputData.helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
+            inputData.helper.dbg(dbgLevel + 1, "Maximum number of iterations: %,d", maxIter);
+            inputData.helper.dbg();
         }
 
         // Skip algorithm if no hyper-edges.
         if (hyperEdges.isEmpty()) {
             if (dbgEnabled) {
-                helper.dbg(dbgLevel + 1, "Skipping algorithm: no hyper-edges.");
+                inputData.helper.dbg(dbgLevel + 1, "Skipping algorithm: no hyper-edges.");
             }
-            return inputOrder;
+            return inputData;
         }
 
         // Create 'locations' storage: per variable/vertex (in their original order), its location, i.e. l[v] in the
@@ -110,7 +115,7 @@ public class ForceVarOrderer implements VarOrderer {
         // Initialize variable indices: for each variable (in their original order), its new 0-based index.
         int[] curIndices; // Current indices computed by the algorithm.
         int[] bestIndices; // Best indices computed by the algorithm.
-        curIndices = helper.getNewIndicesForVarOrder(inputOrder);
+        curIndices = inputData.helper.getNewIndicesForVarOrder(inputData.varOrder.getOrderedVars());
         bestIndices = curIndices.clone();
 
         // Initialize metric values.
@@ -118,7 +123,7 @@ public class ForceVarOrderer implements VarOrderer {
         double curMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
         double bestMetricValue = curMetricValue;
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, "before", relationsKind);
+            inputData.helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, "before", relationsKind);
         }
 
         // Perform iterations of the algorithm.
@@ -159,7 +164,7 @@ public class ForceVarOrderer implements VarOrderer {
             // Get new metric value.
             double newMetricValue = metric.computeForNewIndices(curIndices, hyperEdges);
             if (dbgEnabled) {
-                helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, fmt("iteration %,d", curIter + 1),
+                inputData.helper.dbgMetricsForNewIndices(dbgLevel + 1, curIndices, fmt("iteration %,d", curIter + 1),
                         relationsKind);
             }
 
@@ -184,11 +189,12 @@ public class ForceVarOrderer implements VarOrderer {
 
         // Debug output after applying the algorithm.
         if (dbgEnabled) {
-            helper.dbgMetricsForNewIndices(dbgLevel + 1, bestIndices, "after", relationsKind);
+            inputData.helper.dbgMetricsForNewIndices(dbgLevel + 1, bestIndices, "after", relationsKind);
         }
 
         // Return the best order.
-        return helper.reorderForNewIndices(bestIndices);
+        return new VarOrdererData(inputData,
+                VarOrder.createFromOrderedVars(inputData.helper.reorderForNewIndices(bestIndices)), effect);
     }
 
     /**
@@ -222,7 +228,7 @@ public class ForceVarOrderer implements VarOrderer {
 
     @Override
     public String toString() {
-        return fmt("force(metric=%s, relations=%s)", VarOrderer.enumValueToParserArg(metricKind),
-                VarOrderer.enumValueToParserArg(relationsKind));
+        return fmt("force(metric=%s, relations=%s, effect=%s)", enumValueToParserArg(metricKind),
+                enumValueToParserArg(relationsKind), enumValueToParserArg(effect));
     }
 }

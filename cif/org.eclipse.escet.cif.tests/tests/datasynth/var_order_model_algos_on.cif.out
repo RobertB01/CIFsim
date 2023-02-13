@@ -15,17 +15,20 @@ CIF variables and location pointers:
   Total                                               6      18        36          36          100%
 
 Applying variable ordering:
-  Applying model variable order.
+  Applying 4 orderers, sequentially:
+    Applying model variable order:
+      Effect: both
 
-  Applying 3 algorithms, sequentially:
     Applying DCSH algorithm:
       Metric: wes
       Relations: configured
+      Effect: var-order
       Number of hyper-edges: 22
 
       Applying Weighted Cuthill-McKee algorithm:
         Node finder: george-liu
         Relations: configured
+        Effect: var-order
         Number of graph edges: 6
 
         Total span:   13 (total)   0.59 (avg/edge) / WES:   0.290404 (total)   0.013200 (avg/edge) [before]
@@ -35,6 +38,7 @@ Applying variable ordering:
 
       Applying Sloan algorithm:
         Relations: configured
+        Effect: var-order
         Number of graph edges: 6
 
         Total span:   13 (total)   0.59 (avg/edge) / WES:   0.290404 (total)   0.013200 (avg/edge) [before]
@@ -42,44 +46,47 @@ Applying variable ordering:
 
       Found new best variable order.
 
-      Applying algorithm, and reversing its result:
-        Relations: configured
-        Number of hyper-edges: 22
-
-        Total span:   13 (total)   0.59 (avg/edge) / WES:   0.290404 (total)   0.013200 (avg/edge) [before]
-
+      Applying 2 orderers, sequentially:
         Applying Weighted Cuthill-McKee algorithm:
           Node finder: george-liu
           Relations: configured
+          Effect: var-order
           Number of graph edges: 6
 
           Total span:   13 (total)   0.59 (avg/edge) / WES:   0.290404 (total)   0.013200 (avg/edge) [before]
           Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
 
-        Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
-        Total span:   17 (total)   0.77 (avg/edge) / WES:   0.310606 (total)   0.014118 (avg/edge) [reversed]
+        Reversing the variable order:
+          Relations: configured
+          Effect: var-order
+          Number of hyper-edges: 22
 
-      Applying algorithm, and reversing its result:
-        Relations: configured
-        Number of hyper-edges: 22
+          Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [before]
+          Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [reversed]
 
-        Total span:   13 (total)   0.59 (avg/edge) / WES:   0.290404 (total)   0.013200 (avg/edge) [before]
-
+      Applying 2 orderers, sequentially:
         Applying Sloan algorithm:
           Relations: configured
+          Effect: var-order
           Number of graph edges: 6
 
           Total span:   13 (total)   0.59 (avg/edge) / WES:   0.290404 (total)   0.013200 (avg/edge) [before]
           Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
 
-        Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
-        Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [reversed]
+        Reversing the variable order:
+          Relations: configured
+          Effect: var-order
+          Number of hyper-edges: 22
+
+          Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [before]
+          Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [reversed]
 
       Found new best variable order.
 
     Applying FORCE algorithm:
       Metric: total-span
       Relations: configured
+      Effect: var-order
       Number of hyper-edges: 22
       Maximum number of iterations: 20
 
@@ -91,6 +98,7 @@ Applying variable ordering:
       Size: 4
       Metric: total-span
       Relations: configured
+      Effect: var-order
       Number of hyper-edges: 22
       Window length: 4
 

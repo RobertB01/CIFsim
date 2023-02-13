@@ -15,7 +15,9 @@ CIF variables and location pointers:
   Total                                               6      18        36          36          100%
 
 Applying variable ordering:
-  Applying a random variable order using seed 88.
+  Applying a random variable order:
+    Seed: 88
+    Effect: both
 
 Variable order changed.
 

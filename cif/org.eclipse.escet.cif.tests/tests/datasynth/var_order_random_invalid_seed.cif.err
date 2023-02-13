@@ -1,2 +1,2 @@
-ERROR: Invalid BDD variable random order seed number: "random:x".
+ERROR: Invalid BDD random variable order seed number: "random:x".
 CAUSE: (NumberFormatException) For input string: "x"

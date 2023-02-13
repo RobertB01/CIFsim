@@ -15,7 +15,8 @@ CIF variables and location pointers:
   Total                                               6      18        36          36          100%
 
 Applying variable ordering:
-  Applying sorted variable order.
+  Applying sorted variable order:
+    Effect: both
 
 Variable order changed.
 

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orders;
+package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -21,33 +21,40 @@ import java.util.List;
 import java.util.Random;
 
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
-import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
 
-/** Random variable order. Variables are randomly ordered. No interleaving is used. */
-public class RandomVarOrder extends NonInterleavedVarOrder {
+/** Variable orderer that orders the variables in a random order, without interleaving. */
+public class RandomVarOrderer extends VarOrderer {
     /** The random order seed number in case a fixed seed is to be used, or {@code null} otherwise. */
     private final Long seed;
 
+    /** The effect of applying the variable orderer. */
+    private final VarOrdererEffect effect;
+
     /**
-     * Constructor for the {@link RandomVarOrder} class.
+     * Constructor for the {@link RandomVarOrderer} class.
      *
      * @param seed The random order seed number in case a fixed seed is to be used, or {@code null} otherwise.
+     * @param effect The effect of applying the variable orderer.
      */
-    public RandomVarOrder(Long seed) {
+    public RandomVarOrderer(Long seed, VarOrdererEffect effect) {
         this.seed = seed;
+        this.effect = effect;
     }
 
     @Override
-    public List<Pair<SynthesisVariable, Integer>> order(VarOrderHelper helper, boolean dbgEnabled, int dbgLevel) {
+    public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
         // Debug output.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying a random variable order%s.",
-                    (seed == null) ? "" : fmt(" using seed %d", seed));
+            inputData.helper.dbg(dbgLevel, "Applying a random variable order:");
+            inputData.helper.dbg(dbgLevel + 1, "Seed: %s", (seed == null) ? "random" : seed);
+            inputData.helper.dbg(dbgLevel + 1, "Effect: %s", enumValueToParserArg(effect));
         }
 
         // Get variables in model order.
-        List<SynthesisVariable> modelOrder = helper.getVariables();
+        List<SynthesisVariable> modelOrder = inputData.varsInModelOrder;
 
         // Shuffle to random order.
         List<SynthesisVariable> randomOrder = copy(modelOrder);
@@ -57,12 +64,12 @@ public class RandomVarOrder extends NonInterleavedVarOrder {
             Collections.shuffle(randomOrder, new Random(seed));
         }
 
-        // Return non-interleaved variable order.
-        return getNonInterleavedOrder(randomOrder);
+        // Return new variable order.
+        return new VarOrdererData(inputData, VarOrder.createFromOrderedVars(randomOrder), effect);
     }
 
     @Override
     public String toString() {
-        return (seed == null) ? "random" : fmt("random(seed=%d)", seed);
+        return fmt("random(%seffect=%s)", (seed == null) ? "" : fmt("seed=%d, ", seed), enumValueToParserArg(effect));
     }
 }

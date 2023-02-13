@@ -16,58 +16,52 @@ package org.eclipse.escet.cif.datasynth.varorder.orderers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
 import org.eclipse.escet.common.java.Assert;
 
-/**
- * Variable ordering algorithm that applies multiple other algorithms sequentially, each to the result of the previous
- * algorithm.
- */
-public class SequentialVarOrderer implements VarOrderer {
-    /** The sequence of algorithms to apply, in order. */
-    private final List<VarOrderer> algorithms;
+/** Variable orderer that applies multiple other orderers sequentially, each to the result of the previous orderer. */
+public class SequentialVarOrderer extends VarOrderer {
+    /** The sequence of orderers to apply, in order. */
+    private final List<VarOrderer> orderers;
 
     /**
      * Constructor for the {@link SequentialVarOrderer} class.
      *
-     * @param algorithms The sequence of algorithms to apply, in order. Must be at least two algorithms.
+     * @param orderers The sequence of orderers to apply, in order. Must be at least two orderers.
      */
-    public SequentialVarOrderer(List<VarOrderer> algorithms) {
-        this.algorithms = algorithms;
-        Assert.check(algorithms.size() >= 2);
+    public SequentialVarOrderer(List<VarOrderer> orderers) {
+        this.orderers = orderers;
+        Assert.check(orderers.size() >= 2);
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
-            int dbgLevel)
-    {
-        // Debug output before applying the algorithms.
+    public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
+        // Debug output before applying the orderers.
         if (dbgEnabled) {
-            helper.dbg(dbgLevel, "Applying %d algorithms, sequentially:", algorithms.size());
+            inputData.helper.dbg(dbgLevel, "Applying %d orderers, sequentially:", orderers.size());
         }
 
-        // Initialize variable order to the input variable order.
-        List<SynthesisVariable> order = inputOrder;
+        // Initialize result to the input data.
+        VarOrdererData resultData = inputData;
 
-        // Apply each algorithm, in order, to the result of the previous algorithm.
-        for (int i = 0; i < algorithms.size(); i++) {
-            // Separate debug output of this algorithm from that of the previous one.
+        // Apply each orderer, in order, to the result of the previous orderer.
+        for (int i = 0; i < orderers.size(); i++) {
+            // Separate debug output of this orderer from that of the previous one.
             if (i > 0 && dbgEnabled) {
-                helper.dbg();
+                inputData.helper.dbg();
             }
 
-            // Apply algorithm and update the current order.
-            VarOrderer algorithm = algorithms.get(i);
-            order = algorithm.order(helper, order, dbgEnabled, dbgLevel + 1);
+            // Apply orderer and update the current result.
+            VarOrderer orderer = orderers.get(i);
+            resultData = orderer.order(resultData, dbgEnabled, dbgLevel + 1);
         }
 
-        // Return the resulting variable order.
-        return order;
+        // Return the result.
+        return resultData;
     }
 
     @Override
     public String toString() {
-        return algorithms.stream().map(VarOrderer::toString).collect(Collectors.joining(" -> "));
+        return orderers.stream().map(VarOrderer::toString).collect(Collectors.joining(" -> "));
     }
 }

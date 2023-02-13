@@ -29,7 +29,7 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
                 "BDD hyper-edge creation algorithm",
 
                 // description
-                "The algorithm to use to create hyper-edges for BDD variable ordering algorithms. "
+                "The algorithm to use to create hyper-edges for BDD variable ordering. "
                         + "Specify \"legacy\" (default) to use the legacy hyper-edge creation algorithm, "
                         + "or \"linearized\" to use the linearized hyper-edge creation algorithm.",
 
@@ -49,7 +49,7 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
                 true,
 
                 // optDialogDescr
-                "The algorithm to use to create hyper-edges for BDD variable ordering algorithms.");
+                "The algorithm to use to create hyper-edges for BDD variable ordering.");
     }
 
     @Override

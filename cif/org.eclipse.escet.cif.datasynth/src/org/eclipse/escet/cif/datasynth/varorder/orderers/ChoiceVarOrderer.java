@@ -19,21 +19,21 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetric;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
 import org.eclipse.escet.common.java.Assert;
 
-/** Variable ordering algorithm that applies multiple other algorithms, and picks the best order. */
-public class ChoiceVarOrderer implements VarOrderer {
-    /** The name of the choice-based algorithm, or {@code null} if no name is given. */
+/** Variable orderer that applies multiple other orderers, and picks the best order. */
+public class ChoiceVarOrderer extends VarOrderer {
+    /** The name of the choice-based orderer, or {@code null} if no name is given. */
     private final String name;
 
-    /** The algorithms to apply. At least two algorithms. */
-    private final List<VarOrderer> algorithms;
+    /** The orderers to apply. At least two orderers. */
+    private final List<VarOrderer> choices;
 
     /** The kind of metric to use to pick the best order. */
     private final VarOrderMetricKind metricKind;
@@ -41,99 +41,109 @@ public class ChoiceVarOrderer implements VarOrderer {
     /** The kind of relations to use to compute metric values. */
     private final RelationsKind relationsKind;
 
+    /** The effect of applying the variable orderer. */
+    private final VarOrdererEffect effect;
+
     /**
-     * Constructor for the {@link ChoiceVarOrderer} class. Does not name the choice-based algorithm.
+     * Constructor for the {@link ChoiceVarOrderer} class. Does not name the choice-based orderer.
      *
-     * @param algorithms The sequence of algorithms to apply. Must be at least two algorithms.
+     * @param choices The orderers to apply. Must be at least two orderers.
      * @param metricKind The kind of metric to use to pick the best order.
      * @param relationsKind The kind of relations to use to compute metric values.
+     * @param effect The effect of applying the variable orderer.
      */
-    public ChoiceVarOrderer(List<VarOrderer> algorithms, VarOrderMetricKind metricKind, RelationsKind relationsKind) {
-        this(null, algorithms, metricKind, relationsKind);
+    public ChoiceVarOrderer(List<VarOrderer> choices, VarOrderMetricKind metricKind, RelationsKind relationsKind,
+            VarOrdererEffect effect)
+    {
+        this(null, choices, metricKind, relationsKind, effect);
     }
 
     /**
      * Constructor for the {@link ChoiceVarOrderer} class.
      *
-     * @param name The name of the choice-based algorithm.
-     * @param algorithms The sequence of algorithms to apply. Must be at least two algorithms.
+     * @param name The name of the choice-based orderer.
+     * @param choices The orderers to apply. Must be at least two orderers.
      * @param metricKind The kind of metric to use to pick the best order.
      * @param relationsKind The kind of relations to use to compute metric values.
+     * @param effect The effect of applying the variable orderer.
      */
-    public ChoiceVarOrderer(String name, List<VarOrderer> algorithms, VarOrderMetricKind metricKind,
-            RelationsKind relationsKind)
+    public ChoiceVarOrderer(String name, List<VarOrderer> choices, VarOrderMetricKind metricKind,
+            RelationsKind relationsKind, VarOrdererEffect effect)
     {
         this.name = name;
-        this.algorithms = algorithms;
+        this.choices = choices;
         this.metricKind = metricKind;
         this.relationsKind = relationsKind;
-        Assert.check(algorithms.size() >= 2);
+        this.effect = effect;
+        Assert.check(choices.size() >= 2);
     }
 
     @Override
-    public List<SynthesisVariable> order(VarOrderHelper helper, List<SynthesisVariable> inputOrder, boolean dbgEnabled,
-            int dbgLevel)
-    {
-        // Debug output before applying the algorithms.
+    public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
+        // Debug output before applying the orderer.
         if (dbgEnabled) {
             if (name == null) {
-                helper.dbg(dbgLevel, "Applying multiple algorithms, and choosing the best result:");
+                inputData.helper.dbg(dbgLevel, "Applying multiple orderers, and choosing the best result:");
             } else {
-                helper.dbg(dbgLevel, "Applying %s algorithm:", name);
+                inputData.helper.dbg(dbgLevel, "Applying %s:", name);
             }
-            helper.dbg(dbgLevel + 1, "Metric: %s", VarOrderer.enumValueToParserArg(metricKind));
-            helper.dbg(dbgLevel + 1, "Relations: %s", VarOrderer.enumValueToParserArg(relationsKind));
-            helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
-            helper.dbg();
+            inputData.helper.dbg(dbgLevel + 1, "Metric: %s", enumValueToParserArg(metricKind));
+            inputData.helper.dbg(dbgLevel + 1, "Relations: %s", enumValueToParserArg(relationsKind));
+            inputData.helper.dbg(dbgLevel + 1, "Effect: %s", enumValueToParserArg(effect));
+            inputData.helper.dbgRepresentation(dbgLevel + 1, RepresentationKind.HYPER_EDGES, relationsKind);
+            inputData.helper.dbg();
         }
 
-        // Skip algorithm if no hyper-edges.
-        List<BitSet> hyperEdges = helper.getHyperEdges(relationsKind);
+        // Skip orderer if no hyper-edges.
+        List<BitSet> hyperEdges = inputData.helper.getHyperEdges(relationsKind);
         if (hyperEdges.isEmpty()) {
             if (dbgEnabled) {
-                helper.dbg(dbgLevel + 1, "Skipping algorithm%s: no hyper-edges.", (name == null) ? "s" : "");
+                inputData.helper.dbg(dbgLevel + 1, "Skipping orderer%s: no hyper-edges.", (name == null) ? "s" : "");
             }
-            return inputOrder;
+            return inputData;
         }
 
-        // Initialize best order (the lower the metric value the better).
-        List<SynthesisVariable> bestOrder = null;
+        // Initialize best result (the lower the metric value the better).
+        VarOrdererData bestData = null;
         double bestMetric = Double.POSITIVE_INFINITY;
 
-        // Apply each algorithm.
+        // Apply each orderers.
         VarOrderMetric metric = metricKind.create();
-        for (int i = 0; i < algorithms.size(); i++) {
-            // Separate debug output of this algorithm from that of the previous one.
+        for (int i = 0; i < choices.size(); i++) {
+            // Separate debug output of this orderer from that of the previous one.
             if (i > 0 && dbgEnabled) {
-                helper.dbg();
+                inputData.helper.dbg();
             }
 
-            // Apply algorithm. Each algorithm is independently applied to the input variable order.
-            VarOrderer algorithm = algorithms.get(i);
-            List<SynthesisVariable> algoOrder = algorithm.order(helper, inputOrder, dbgEnabled, dbgLevel + 1);
+            // Apply orderers. Each orderer is independently applied to the input variable order.
+            VarOrderer choice = choices.get(i);
+            VarOrdererData choiceData = choice.order(inputData, dbgEnabled, dbgLevel + 1);
 
-            // Update best order (with lowest metric value).
-            double algoMetric = metric.computeForVarOrder(helper, algoOrder, hyperEdges);
-            if (algoMetric < bestMetric) {
-                bestOrder = algoOrder;
-                bestMetric = algoMetric;
+            // Update best result (with lowest metric value).
+            double choiceMetric = metric.computeForVarOrder(inputData.helper, choiceData.varOrder.getOrderedVars(),
+                    hyperEdges);
+            if (choiceMetric < bestMetric) {
+                bestData = choiceData;
+                bestMetric = choiceMetric;
 
                 if (dbgEnabled) {
-                    helper.dbg();
-                    helper.dbg(dbgLevel + 1, "Found new best variable order.");
+                    inputData.helper.dbg();
+                    inputData.helper.dbg(dbgLevel + 1, "Found new best variable order.");
                 }
             }
         }
 
-        // Return the best variable order.
-        Assert.notNull(bestOrder);
-        return bestOrder;
+        // Use the best result.
+        if (bestData == null) {
+            throw new AssertionError();
+        }
+        return new VarOrdererData(inputData, bestData.varOrder, effect);
     }
 
     @Override
     public String toString() {
-        return fmt("or(metric=%s, relations=%s, choices=[%s])", VarOrderer.enumValueToParserArg(metricKind),
-                VarOrderer.enumValueToParserArg(relationsKind),
-                algorithms.stream().map(VarOrderer::toString).collect(Collectors.joining(", ")));
+        return fmt("or(metric=%s, relations=%s, effect=%s, choices=[%s])", enumValueToParserArg(metricKind),
+                enumValueToParserArg(relationsKind), enumValueToParserArg(effect),
+                choices.stream().map(VarOrderer::toString).collect(Collectors.joining(", ")));
     }
 }

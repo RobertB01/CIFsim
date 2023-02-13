@@ -20,9 +20,9 @@ There are two ways to configure variable ordering:
 ** Basic configuration using basic options.
 ** Advanced configuration using an advanced option.
 
-These options allow configuring the initial variable order to one of several predefined orders, or to a custom variable order.
+These options allow configuring the variable order to one of several predefined orders, or to a custom variable order.
 Manually specifying a custom order often requires specialist knowledge and can take quite some time.
-Luckily, there are algorithms that can automatically compute a decent variable order from an initial variable order.
+Luckily, there are algorithms that can automatically compute a decent variable order by improving an existing variable order.
 The algorithms to apply, and their settings, can be set using options as well.
 
 The following basic options are available for basic configuration of variable ordering:
@@ -36,7 +36,7 @@ The following basic options are available for basic configuration of variable or
 
 For more information on the use of these basic options, see:
 
-* <<tools-datasynth-var-order-initial-orders>>
+* <<tools-datasynth-var-order-initial-ordering>>
 * <<tools-datasynth-var-order-auto-var-ordering>>
 
 For more flexibility, variable ordering can instead be configured using an advanced option:
