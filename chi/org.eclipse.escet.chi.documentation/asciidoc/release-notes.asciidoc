@@ -26,6 +26,10 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version
 
 TBD
 
+Improvements and fixes:
+
+* The Chi documentation features railroad diagrams, which are now generated using a new and improved railroad diagram generator (issues {escet-issue}112[#112] and {escet-issue}505[#505]).
+
 === Version 0.8 (2022-12-21)
 
 Improvements and fixes:

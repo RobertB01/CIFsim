@@ -30,6 +30,14 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+Improvements and fixes:
+
+* The ESCET download page information for macOS has been updated to describe macOS Ventura (issue {escet-issue}483[#483]).
+* Eclipse ESCET is now released for the both the x86_64 and aarch64 architectures of macOS (issue {escet-issue}484[#484]).
+* Version-specific versions of the Eclipse ESCET website are no longer indexed by search engines.
+Only the current version of the website is now indexed.
+It may take some time for all search engines to catch up (issue {escet-issue}488[#488]).
+
 === Version 0.8 (2022-12-21)
 
 Improvements and fixes:
