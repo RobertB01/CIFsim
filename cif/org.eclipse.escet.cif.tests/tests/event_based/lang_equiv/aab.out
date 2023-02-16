@@ -1,2 +1,4 @@
 Automata have a different language!
 From location "x2" of automaton "X", event "a" can be performed, but from the equivalent location "y2" of automaton "Y", the event cannot be performed.
+This state pair can be reached with the following path from the initial locations:
+1. "a"
