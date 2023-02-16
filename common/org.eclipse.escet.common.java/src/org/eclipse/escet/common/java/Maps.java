@@ -13,8 +13,13 @@
 
 package org.eclipse.escet.common.java;
 
+import static org.eclipse.escet.common.java.Sets.set;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
 
 /** {@link Map}s helper methods. */
 public class Maps {
@@ -75,5 +80,42 @@ public class Maps {
      */
     public static <KR, KI extends KR, VR, VI extends VR> LinkedHashMap<KR, VR> copy(Map<KI, VI> m) {
         return new LinkedHashMap<>(m);
+    }
+
+    /**
+     * Returns the first key whose value matches the provided one.
+     *
+     * @param <K> The type of the keys of the map.
+     * @param <V> The type of the values of the map.
+     * @param map The map to search through.
+     * @param value The value to match.
+     * @return The first matched key, or {@code null} when there is no match.
+     */
+    public static <K, V> K getKeyByValue(Map<K, V> map, V value) {
+        for (Entry<K, V> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns all keys whose value matches the provided one.
+     *
+     * @param <K> The type of the keys of the map.
+     * @param <V> The type of the values of the map.
+     * @param map The map to search through.
+     * @param value The value to match.
+     * @return The set of matched keys.
+     */
+    public static <K, V> Set<K> getKeysByValue(Map<K, V> map, V value) {
+        Set<K> keys = set();
+        for (Entry<K, V> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                keys.add(entry.getKey());
+            }
+        }
+        return keys;
     }
 }
