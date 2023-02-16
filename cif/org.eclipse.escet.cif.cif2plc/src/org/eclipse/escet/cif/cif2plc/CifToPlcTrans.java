@@ -1332,6 +1332,9 @@ public class CifToPlcTrans {
                 idx = rslt.indexOf('e');
                 if (idx == -1) {
                     idx = rslt.indexOf('E');
+                    if (idx == -1) {
+                        idx = rslt.length();
+                    }
                 }
                 rslt = rslt.substring(0, idx) + ".0" + rslt.substring(idx);
             }
