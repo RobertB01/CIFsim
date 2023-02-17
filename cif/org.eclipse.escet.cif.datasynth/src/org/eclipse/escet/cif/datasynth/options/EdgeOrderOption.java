@@ -49,13 +49,13 @@ public class EdgeOrderOption extends StringOption {
                 false,
 
                 // showInDialog
-                true,
+                false,
 
                 // optDialogDescr
-                "The edge ordering. " + UNSUPPORTED_MESSAGE,
+                null,
 
                 // optDialogLabelText
-                "Edge order:");
+                null);
     }
 
     @Override
