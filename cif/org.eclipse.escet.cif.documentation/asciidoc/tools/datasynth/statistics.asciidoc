@@ -54,6 +54,8 @@ For more information, see the <<tools-datasynth-op-cache, section about BDD oper
 The information is printed to the console, after execution, just before termination of the tool.
 The table below shows all metrics printed and their meaning.
 +
+Note that collecting these metrics makes synthesis take longer than without collecting it.
++
 [cols="20,50",options="header"]
 |===
 | Metric
@@ -138,8 +140,45 @@ For some parts of the tool, timing is also collected for sub-parts.
 Timing information is printed to the console, after execution, just before termination of the tool.
 Durations are all printed in milliseconds, to make it easier to compare timing for various parts.
 +
-When measuring performance, always perform multiple measurements, and take the average.
+When measuring timing performance, always perform multiple measurements, and take the average.
 Also, use a warm-up phase, to avoid skewed results.
+
+* _Maximum used memory_ [`max-memory`]
++
+Prints the maximum memory used during synthesis.
++
+Measuring the memory usage may be useful, for instance to see how close you are to memory limits.
+It may especially be useful if you want to subsequently extend your model, making it more complex and potentially requiring more memory for synthesis.
++
+This metric is printed to the console, after execution, just before termination of the tool.
+It prints the maximum amount of memory used during synthesis, in number of bytes and in a more readable representation such as link:https://en.wikipedia.org/wiki/Byte#Multiple-byte_units[mebibytes or gibibytes].
++
+Note that collecting this metric may make synthesis take longer than without collecting it.
++
+The CIF data-based synthesis tool is written in Java, a link:https://www.eclipse.org/escet/{escet-website-version}/performance/tweak-perf-settings.html#managed-memory-and-garbage-collection[managed language with a garbage collector].
+Hence, the measured memory usage is a best-effort approximation, and may not be correct.
++
+When measuring memory usage, always perform multiple measurements, and take the average.
++
+If memory usage is measured using the Eclipse ESCET IDE, make sure not to perform multiple syntheses in parallel, and make sure the Eclipse ESCET IDE is not performing any other operations.
+However, when measuring the memory usage in the Eclipse ESCET IDE, the IDE itself, as well as editor content, console content, and so on, are also included in the memory usage.
+It is therefore highly recommended to use the Eclipse ESCET command line scripts rather than the Eclipse ESCET IDE to perform memory usage measurements.
++
+To ensure the best result, let Java link:https://www.eclipse.org/escet/{escet-website-version}/performance/tweak-perf-settings.html#monitoring-eclipse-heap-status[perform a garbage collection] before starting the data-based synthesis tool.
+This ensures that synthesis starts with 'clean' memory.
+This is particularly relevant if multiple syntheses are performed one after the other, to ensure that any previous syntheses do not affect subsequent measurements.
+Both synthesis and garbage collection may conveniently be executed via a <<tools-scripting-chapter-intro,ToolDef script>>.
+For example, using a ToolDef script like this:
++
+```tooldef
+from "lib:cif" import *;
+import java.lang.System.gc;
+gc();
+cifdatasynth(...);
+```
++
+The maximum used memory statistics obtained in this way are an easy way to get an approximation of the memory used during synthesis.
+For a more comprehensive way to measure memory usage, use a tool like link:https://www.eclipse.org/escet/{escet-website-version}/performance/tweak-perf-settings.html#monitoring-with-visualvm[VisualVM].
 
 In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 

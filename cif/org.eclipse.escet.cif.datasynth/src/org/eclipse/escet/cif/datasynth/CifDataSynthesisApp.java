@@ -77,6 +77,7 @@ import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.FileSizes;
 
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.BDDFactory.CacheStats;
@@ -244,11 +245,15 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         boolean doCacheStats = stats.contains(SynthesisStatistics.BDD_PERF_CACHE);
         boolean doMaxBddNodesStats = stats.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = stats.contains(SynthesisStatistics.MAX_MEMORY);
         if (doCacheStats || doContinuousPerformanceStats) {
             factory.getCacheStats().enableMeasurements();
         }
         if (doMaxBddNodesStats) {
             factory.getMaxUsedBddNodesStats().enableMeasurements();
+        }
+        if (doMaxMemoryStats) {
+            factory.getMaxMemoryStats().enableMeasurements();
         }
 
         // Perform synthesis.
@@ -316,6 +321,11 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
+            }
+            if (doMaxMemoryStats) {
+                long maxMemoryBytes = factory.getMaxMemoryStats().getMaxMemoryBytes();
+                out(fmt("Maximum used memory: %d bytes = %s.", maxMemoryBytes,
+                        FileSizes.formatFileSize(maxMemoryBytes, false)));
             }
 
             if (isTerminationRequested()) {

@@ -31,5 +31,8 @@ public enum SynthesisStatistics {
     BDD_PERF_MAX_NODES,
 
     /** Timing. */
-    TIMING;
+    TIMING,
+
+    /** Maximum used memory. */
+    MAX_MEMORY,
 }
