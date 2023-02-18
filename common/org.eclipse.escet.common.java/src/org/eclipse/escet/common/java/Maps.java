@@ -118,4 +118,25 @@ public class Maps {
         }
         return keys;
     }
+
+    /**
+     * Inverts a map such that a key-value pair becomes a value-key pair.
+     *
+     * <p>
+     * If the values in the map are unique (i.e. a one-to-one mapping or a bijection), no pairs are lost. But if the
+     * values are not unique, only one of the associated key-value pairs will be in the result.
+     * </p>
+     *
+     * @param <V> The type of the values of the map.
+     * @param <K> The type of the keys of the map.
+     * @param map The map to invert.
+     * @return The inverted map.
+     */
+    public static <V, K> Map<V, K> invert(Map<K, V> map) {
+        Map<V, K> inv = map();
+        for (Entry<K, V> entry: map.entrySet()) {
+            inv.put(entry.getValue(), entry.getKey());
+        }
+        return inv;
+    }
 }

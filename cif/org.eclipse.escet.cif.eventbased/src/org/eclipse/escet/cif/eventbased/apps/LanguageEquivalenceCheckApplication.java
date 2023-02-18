@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.eventbased.apps;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Maps.getKeyByValue;
+import static org.eclipse.escet.common.java.Maps.invert;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
 
@@ -141,6 +141,7 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
                 org.eclipse.escet.cif.metamodel.cif.automata.Location loc0, loc1;
                 loc0 = ((CifOrigin)err.locs[0].origin).cifLoc;
                 loc1 = ((CifOrigin)err.locs[1].origin).cifLoc;
+                Map<Event, org.eclipse.escet.cif.metamodel.cif.declarations.Event> eventsToCifEventsMap = invert(cte.events);
 
                 if (err.event == null) { // Markers of the locations are different.
                     if (!isMarked(loc0)) {
@@ -152,14 +153,14 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
                     OutputProvider.out("Automata have a different language!");
                     OutputProvider.out(fmt("The %s is marked, but the equivalent %s is not marked.",
                             CifTextUtils.getLocationText1(loc0), CifTextUtils.getLocationText1(loc1)));
-                    printPath(err.path, cte.events);
+                    printPath(err.path, eventsToCifEventsMap);
 
                     return 1;
                 }
 
                 // Event can be performed at only one of the locations.
 
-                org.eclipse.escet.cif.metamodel.cif.declarations.Event origEvent = getKeyByValue(cte.events, err.event);
+                org.eclipse.escet.cif.metamodel.cif.declarations.Event origEvent = eventsToCifEventsMap.get(err.event);
                 Assert.notNull(origEvent);
 
                 if (CifLocationUtils.getEdges(loc0, origEvent).isEmpty()) {
@@ -174,7 +175,7 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
                                 + "the event cannot be performed.",
                         CifTextUtils.getLocationText1(loc0), CifTextUtils.getAbsName(origEvent),
                         CifTextUtils.getLocationText1(loc1)));
-                printPath(err.path, cte.events);
+                printPath(err.path, eventsToCifEventsMap);
 
                 return 1;
             }
@@ -209,9 +210,9 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
      * Prints the path of the counter example.
      *
      * @param path The counter example path.
-     * @param events The Mapping from CIF events to their event-based toolset representation.
+     * @param events Mapping from CIF events to their event-based toolset representation.
      */
-    private static void printPath(List<Event> path, Map<org.eclipse.escet.cif.metamodel.cif.declarations.Event, Event> events) {
+    private static void printPath(List<Event> path, Map<Event, org.eclipse.escet.cif.metamodel.cif.declarations.Event> events) {
         if (path == null || path.isEmpty()) {
             // Nothing to print.
             return;
@@ -220,7 +221,7 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
         OutputProvider.out("This state pair can be reached with the following sequence of events from the initial state:");
         int step = 1;
         for (Event pathEvent: path) {
-            org.eclipse.escet.cif.metamodel.cif.declarations.Event origPathEvent = getKeyByValue(events, pathEvent);
+            org.eclipse.escet.cif.metamodel.cif.declarations.Event origPathEvent = events.get(pathEvent);
             OutputProvider.out(fmt("%d. \"%s\"", step, CifTextUtils.getAbsName(origPathEvent)));
             step += 1;
         }
