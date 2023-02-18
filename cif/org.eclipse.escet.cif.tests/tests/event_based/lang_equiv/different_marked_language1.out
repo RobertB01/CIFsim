@@ -1,4 +1,4 @@
 Automata have a different language!
 The location "L2" of automaton "B" is marked, but the equivalent location "L2" of automaton "A" is not marked.
-This state pair can be reached with the following path from the initial locations:
+This state pair can be reached with the following sequence of events from the initial state:
 1. "a"

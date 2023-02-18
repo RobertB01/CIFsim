@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -210,7 +209,7 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
      * Prints the path of the counter example.
      *
      * @param path The counter example path.
-     * @param events The converted events.
+     * @param events The Mapping from CIF events to their event-based toolset representation.
      */
     private static void printPath(List<Event> path, Map<org.eclipse.escet.cif.metamodel.cif.declarations.Event, Event> events) {
         if (path == null || path.isEmpty()) {
@@ -218,9 +217,9 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
             return;
         }
 
-        OutputProvider.out("This state pair can be reached with the following path from the initial locations:");
+        OutputProvider.out("This state pair can be reached with the following sequence of events from the initial state:");
         int step = 1;
-        for (Event pathEvent : path) {
+        for (Event pathEvent: path) {
             org.eclipse.escet.cif.metamodel.cif.declarations.Event origPathEvent = getKeyByValue(events, pathEvent);
             OutputProvider.out(fmt("%d. \"%s\"", step, CifTextUtils.getAbsName(origPathEvent)));
             step += 1;

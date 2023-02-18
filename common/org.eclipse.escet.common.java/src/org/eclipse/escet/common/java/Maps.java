@@ -92,7 +92,7 @@ public class Maps {
      * @return The first matched key, or {@code null} when there is no match.
      */
     public static <K, V> K getKeyByValue(Map<K, V> map, V value) {
-        for (Entry<K, V> entry : map.entrySet()) {
+        for (Entry<K, V> entry: map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 return entry.getKey();
             }
@@ -111,7 +111,7 @@ public class Maps {
      */
     public static <K, V> Set<K> getKeysByValue(Map<K, V> map, V value) {
         Set<K> keys = set();
-        for (Entry<K, V> entry : map.entrySet()) {
+        for (Entry<K, V> entry: map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 keys.add(entry.getKey());
             }
