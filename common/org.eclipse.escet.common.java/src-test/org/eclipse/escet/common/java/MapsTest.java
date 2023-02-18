@@ -14,8 +14,6 @@
 package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Maps.copy;
-import static org.eclipse.escet.common.java.Maps.getKeyByValue;
-import static org.eclipse.escet.common.java.Maps.getKeysByValue;
 import static org.eclipse.escet.common.java.Maps.invert;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -23,7 +21,6 @@ import static org.eclipse.escet.common.java.Maps.put;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -148,54 +145,6 @@ public class MapsTest {
         assertTrue(exs4.containsKey(e1));
         assertTrue(exs4.containsValue(e2));
         assertSame(e2, exs4.get(e1));
-    }
-
-    @Test
-    @SuppressWarnings("javadoc")
-    public void testGetKeyByValue() {
-        NullPointerException npe1 = new NullPointerException();
-        NullPointerException npe2 = new NullPointerException();
-        IllegalArgumentException iae1 = new IllegalArgumentException();
-        IllegalArgumentException iae2 = new IllegalArgumentException();
-
-        Map<RuntimeException, IllegalArgumentException> exs = map();
-        exs.put(npe1, iae1);
-        exs.put(npe2, iae2);
-
-        assertEquals(2, exs.size());
-        assertTrue(exs.containsKey(npe1));
-        assertTrue(exs.containsKey(npe2));
-        assertTrue(exs.containsValue(iae1));
-        assertTrue(exs.containsValue(iae2));
-        assertSame(iae1, exs.get(npe1));
-        assertSame(iae2, exs.get(npe2));
-
-        assertSame(npe1, getKeyByValue(exs, iae1));
-        assertSame(npe2, getKeyByValue(exs, iae2));
-        assertNull(getKeyByValue(exs, new IllegalArgumentException()));
-    }
-
-    @Test
-    @SuppressWarnings("javadoc")
-    public void testGetKeysByValue() {
-        NullPointerException npe1 = new NullPointerException();
-        NullPointerException npe2 = new NullPointerException();
-        IllegalArgumentException iae1 = new IllegalArgumentException();
-
-        Map<RuntimeException, IllegalArgumentException> exs = map();
-        exs.put(npe1, iae1);
-        exs.put(npe2, iae1);
-
-        assertEquals(2, exs.size());
-        assertTrue(exs.containsKey(npe1));
-        assertTrue(exs.containsKey(npe2));
-        assertTrue(exs.containsValue(iae1));
-        assertSame(iae1, exs.get(npe1));
-        assertSame(iae1, exs.get(npe2));
-
-        assertTrue(getKeysByValue(exs, iae1).contains(npe1));
-        assertTrue(getKeysByValue(exs, iae1).contains(npe2));
-        assertEquals(0, getKeysByValue(exs, new IllegalArgumentException()).size());
     }
 
     @Test
