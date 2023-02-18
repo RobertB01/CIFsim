@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 Model source: Ferdie Reijnen, Martijn Goorden, Joanna van de Mortel-Fronczak and Jacobus Rooda, "Supervisory Control
-Synthesis for a Waterway Lock" In: Proceedings of the IEEE Conference on Control Technology and Applications, pages 
+Synthesis for a Waterway Lock" In: Proceedings of the IEEE Conference on Control Technology and Applications, pages
 1562-1568, 2017, doi: https://doi.org/10.1109/CCTA.2017.8062679.
 
 Model repository: https://github.com/ffhreijnen/LockCCTA.
