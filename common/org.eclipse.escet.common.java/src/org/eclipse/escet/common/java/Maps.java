@@ -123,8 +123,8 @@ public class Maps {
      * Inverts a map such that a key-value pair becomes a value-key pair.
      *
      * <p>
-     * If the values in the map are unique (i.e. a one-to-one mapping or a bijection), no pairs are lost. But if the
-     * values are not unique, only one of the associated key-value pairs will be in the result.
+     * It only supports inverting maps where the values in the map are unique (i.e. a one-to-one mapping or a bijection),
+     * so no pairs are lost.
      * </p>
      *
      * @param <V> The type of the values of the map.
@@ -133,9 +133,19 @@ public class Maps {
      * @return The inverted map.
      */
     public static <V, K> Map<V, K> invert(Map<K, V> map) {
-        Map<V, K> inv = map();
+        Map<V, K> inv = mapc(map.size());
         for (Entry<K, V> entry: map.entrySet()) {
-            inv.put(entry.getValue(), entry.getKey());
+            // Assert that the key van value are not null, otherwise the return value of put is ambiguous.
+            Assert.notNull(entry.getKey());
+            Assert.notNull(entry.getValue());
+
+            K prevValue = inv.put(entry.getValue(), entry.getKey());
+
+            // For a one-to-one mapping, the previous value returned by put should always be null.
+            if (prevValue != null) {
+                String msg = "Cannot invert a non-'one-to-one' map.";
+                throw new IllegalArgumentException(msg);
+            }
         }
         return inv;
     }

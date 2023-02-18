@@ -210,7 +210,7 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
      * Prints the path of the counter example.
      *
      * @param path The counter example path.
-     * @param events Mapping from CIF events to their event-based toolset representation.
+     * @param events Mapping from event-based toolset events to CIF events.
      */
     private static void printPath(List<Event> path, Map<Event, org.eclipse.escet.cif.metamodel.cif.declarations.Event> events) {
         if (path == null || path.isEmpty()) {
