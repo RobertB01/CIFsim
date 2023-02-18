@@ -1,0 +1,1080 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant automaton generic_component_1:
+  controllable c_start_init_Idle;
+  uncontrollable u_finish_init_Idle;
+  controllable c_start_term_Idle;
+  uncontrollable u_finish_term_Idle;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Idle;
+
+  location Terminated:
+    edge c_start_init_Idle goto Initializing_Idle;
+
+  location Idle:
+    marked;
+    edge c_start_term_Idle goto Terminating_Idle;
+
+  location Initializing_Idle:
+    edge u_finish_init_Idle goto Idle;
+
+  location Terminating_Idle:
+    edge u_finish_term_Idle goto Terminated;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Idle goto Idle;
+end
+
+plant automaton generic_component_2:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    marked;
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+end
+
+plant automaton generic_component_3:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_start_init_Phase_3;
+  uncontrollable u_finish_init_Phase_3;
+  controllable c_start_term_Phase_3;
+  uncontrollable u_finish_term_Phase_3;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+  uncontrollable u_status_is_Phase_3;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    marked;
+    edge c_start_term_Phase_3 goto Terminating_Phase_3;
+
+  location Initializing_Phase_3:
+    edge u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge u_finish_term_Phase_3 goto Phase_2;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+    edge u_status_is_Phase_3 goto Phase_3;
+end
+
+plant automaton generic_component_4:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_start_init_Phase_3;
+  uncontrollable u_finish_init_Phase_3;
+  controllable c_start_term_Phase_3;
+  uncontrollable u_finish_term_Phase_3;
+  controllable c_start_init_Phase_4;
+  uncontrollable u_finish_init_Phase_4;
+  controllable c_start_term_Phase_4;
+  uncontrollable u_finish_term_Phase_4;
+  controllable c_start_init_Phase_5;
+  uncontrollable u_finish_init_Phase_5;
+  controllable c_start_term_Phase_5;
+  uncontrollable u_finish_term_Phase_5;
+  controllable c_start_init_Phase_6;
+  uncontrollable u_finish_init_Phase_6;
+  controllable c_start_term_Phase_6;
+  uncontrollable u_finish_term_Phase_6;
+  controllable c_start_init_Phase_7;
+  uncontrollable u_finish_init_Phase_7;
+  controllable c_start_term_Phase_7;
+  uncontrollable u_finish_term_Phase_7;
+  controllable c_start_init_Phase_8;
+  uncontrollable u_finish_init_Phase_8;
+  controllable c_start_term_Phase_8;
+  uncontrollable u_finish_term_Phase_8;
+  controllable c_start_init_Phase_9;
+  uncontrollable u_finish_init_Phase_9;
+  controllable c_start_term_Phase_9;
+  uncontrollable u_finish_term_Phase_9;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+  uncontrollable u_status_is_Phase_3;
+  uncontrollable u_status_is_Phase_4;
+  uncontrollable u_status_is_Phase_5;
+  uncontrollable u_status_is_Phase_6;
+  uncontrollable u_status_is_Phase_7;
+  uncontrollable u_status_is_Phase_8;
+  uncontrollable u_status_is_Phase_9;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    edge c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    edge c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    edge c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    edge c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge c_start_init_Phase_7 goto Initializing_Phase_7;
+
+  location Initializing_Phase_6:
+    edge u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge u_finish_term_Phase_6 goto Phase_5;
+
+  location Phase_7:
+    edge c_start_term_Phase_7 goto Terminating_Phase_7;
+    edge c_start_init_Phase_8 goto Initializing_Phase_8;
+
+  location Initializing_Phase_7:
+    edge u_finish_init_Phase_7 goto Phase_7;
+
+  location Terminating_Phase_7:
+    edge u_finish_term_Phase_7 goto Phase_6;
+
+  location Phase_8:
+    edge c_start_term_Phase_8 goto Terminating_Phase_8;
+    edge c_start_init_Phase_9 goto Initializing_Phase_9;
+
+  location Initializing_Phase_8:
+    edge u_finish_init_Phase_8 goto Phase_8;
+
+  location Terminating_Phase_8:
+    edge u_finish_term_Phase_8 goto Phase_7;
+
+  location Phase_9:
+    marked;
+    edge c_start_term_Phase_9 goto Terminating_Phase_9;
+
+  location Initializing_Phase_9:
+    edge u_finish_init_Phase_9 goto Phase_9;
+
+  location Terminating_Phase_9:
+    edge u_finish_term_Phase_9 goto Phase_8;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+    edge u_status_is_Phase_3 goto Phase_3;
+    edge u_status_is_Phase_4 goto Phase_4;
+    edge u_status_is_Phase_5 goto Phase_5;
+    edge u_status_is_Phase_6 goto Phase_6;
+    edge u_status_is_Phase_7 goto Phase_7;
+    edge u_status_is_Phase_8 goto Phase_8;
+    edge u_status_is_Phase_9 goto Phase_9;
+end
+
+plant automaton generic_component_5:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_start_init_Phase_3;
+  uncontrollable u_finish_init_Phase_3;
+  controllable c_start_term_Phase_3;
+  uncontrollable u_finish_term_Phase_3;
+  controllable c_start_init_Phase_4;
+  uncontrollable u_finish_init_Phase_4;
+  controllable c_start_term_Phase_4;
+  uncontrollable u_finish_term_Phase_4;
+  controllable c_start_init_Phase_5;
+  uncontrollable u_finish_init_Phase_5;
+  controllable c_start_term_Phase_5;
+  uncontrollable u_finish_term_Phase_5;
+  controllable c_start_init_Phase_6;
+  uncontrollable u_finish_init_Phase_6;
+  controllable c_start_term_Phase_6;
+  uncontrollable u_finish_term_Phase_6;
+  controllable c_start_init_Phase_7;
+  uncontrollable u_finish_init_Phase_7;
+  controllable c_start_term_Phase_7;
+  uncontrollable u_finish_term_Phase_7;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+  uncontrollable u_status_is_Phase_3;
+  uncontrollable u_status_is_Phase_4;
+  uncontrollable u_status_is_Phase_5;
+  uncontrollable u_status_is_Phase_6;
+  uncontrollable u_status_is_Phase_7;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    edge c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    edge c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    edge c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    edge c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge c_start_init_Phase_7 goto Initializing_Phase_7;
+
+  location Initializing_Phase_6:
+    edge u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge u_finish_term_Phase_6 goto Phase_5;
+
+  location Phase_7:
+    marked;
+    edge c_start_term_Phase_7 goto Terminating_Phase_7;
+
+  location Initializing_Phase_7:
+    edge u_finish_init_Phase_7 goto Phase_7;
+
+  location Terminating_Phase_7:
+    edge u_finish_term_Phase_7 goto Phase_6;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+    edge u_status_is_Phase_3 goto Phase_3;
+    edge u_status_is_Phase_4 goto Phase_4;
+    edge u_status_is_Phase_5 goto Phase_5;
+    edge u_status_is_Phase_6 goto Phase_6;
+    edge u_status_is_Phase_7 goto Phase_7;
+end
+
+plant automaton generic_component_6:
+  controllable c_start_init_Idle;
+  uncontrollable u_finish_init_Idle;
+  controllable c_start_term_Idle;
+  uncontrollable u_finish_term_Idle;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Idle;
+
+  location Terminated:
+    edge c_start_init_Idle goto Initializing_Idle;
+
+  location Idle:
+    marked;
+    edge c_start_term_Idle goto Terminating_Idle;
+
+  location Initializing_Idle:
+    edge u_finish_init_Idle goto Idle;
+
+  location Terminating_Idle:
+    edge u_finish_term_Idle goto Terminated;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Idle goto Idle;
+end
+
+plant automaton generic_component_7:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    marked;
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+end
+
+plant automaton generic_component_8:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_start_init_Phase_3;
+  uncontrollable u_finish_init_Phase_3;
+  controllable c_start_term_Phase_3;
+  uncontrollable u_finish_term_Phase_3;
+  controllable c_start_init_Phase_4;
+  uncontrollable u_finish_init_Phase_4;
+  controllable c_start_term_Phase_4;
+  uncontrollable u_finish_term_Phase_4;
+  controllable c_start_init_Phase_5;
+  uncontrollable u_finish_init_Phase_5;
+  controllable c_start_term_Phase_5;
+  uncontrollable u_finish_term_Phase_5;
+  controllable c_start_init_Phase_6;
+  uncontrollable u_finish_init_Phase_6;
+  controllable c_start_term_Phase_6;
+  uncontrollable u_finish_term_Phase_6;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+  uncontrollable u_status_is_Phase_3;
+  uncontrollable u_status_is_Phase_4;
+  uncontrollable u_status_is_Phase_5;
+  uncontrollable u_status_is_Phase_6;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    edge c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    edge c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    edge c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    marked;
+    edge c_start_term_Phase_6 goto Terminating_Phase_6;
+
+  location Initializing_Phase_6:
+    edge u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge u_finish_term_Phase_6 goto Phase_5;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+    edge u_status_is_Phase_3 goto Phase_3;
+    edge u_status_is_Phase_4 goto Phase_4;
+    edge u_status_is_Phase_5 goto Phase_5;
+    edge u_status_is_Phase_6 goto Phase_6;
+end
+
+plant automaton generic_component_1_subsystem_view:
+  location Terminated:
+    initial;
+    edge generic_component_1.u_status_is_Terminated;
+    edge generic_component_1.c_start_init_Idle goto Initializing_Idle;
+
+  location Idle:
+    initial;
+    marked;
+    edge generic_component_1.c_start_term_Idle goto Terminating_Idle;
+    edge generic_component_1.u_status_is_Idle;
+
+  location Initializing_Idle:
+    edge generic_component_1.u_finish_init_Idle goto Idle;
+
+  location Terminating_Idle:
+    edge generic_component_1.u_finish_term_Idle goto Terminated;
+end
+
+plant automaton generic_component_2_subsystem_view:
+  location Terminated:
+    initial;
+    edge generic_component_2.u_status_is_Terminated;
+    edge generic_component_2.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    marked;
+    edge generic_component_2.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge generic_component_2.u_status_is_Phase_1;
+
+  location Initializing_Phase_1:
+    edge generic_component_2.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge generic_component_2.u_finish_term_Phase_1 goto Terminated;
+end
+
+plant automaton generic_component_3_subsystem_view:
+  location Terminated:
+    initial;
+    edge generic_component_3.u_status_is_Terminated;
+    edge generic_component_3.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge generic_component_3.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge generic_component_3.u_status_is_Phase_1;
+    edge generic_component_3.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge generic_component_3.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge generic_component_3.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    edge generic_component_3.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge generic_component_3.u_status_is_Phase_2;
+    edge generic_component_3.c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge generic_component_3.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge generic_component_3.u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    initial;
+    marked;
+    edge generic_component_3.c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge generic_component_3.u_status_is_Phase_3;
+
+  location Initializing_Phase_3:
+    edge generic_component_3.u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge generic_component_3.u_finish_term_Phase_3 goto Phase_2;
+end
+
+plant automaton generic_component_4_subsystem_view:
+  location Terminated:
+    initial;
+    edge generic_component_4.u_status_is_Terminated;
+    edge generic_component_4.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge generic_component_4.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge generic_component_4.u_status_is_Phase_1;
+    edge generic_component_4.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge generic_component_4.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge generic_component_4.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    edge generic_component_4.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge generic_component_4.u_status_is_Phase_2;
+    edge generic_component_4.c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge generic_component_4.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge generic_component_4.u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    initial;
+    edge generic_component_4.c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge generic_component_4.u_status_is_Phase_3;
+    edge generic_component_4.c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge generic_component_4.u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge generic_component_4.u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    initial;
+    edge generic_component_4.c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge generic_component_4.u_status_is_Phase_4;
+    edge generic_component_4.c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge generic_component_4.u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge generic_component_4.u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    initial;
+    edge generic_component_4.c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge generic_component_4.u_status_is_Phase_5;
+    edge generic_component_4.c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge generic_component_4.u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge generic_component_4.u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    initial;
+    edge generic_component_4.c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge generic_component_4.u_status_is_Phase_6;
+    edge generic_component_4.c_start_init_Phase_7 goto Initializing_Phase_7;
+
+  location Initializing_Phase_6:
+    edge generic_component_4.u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge generic_component_4.u_finish_term_Phase_6 goto Phase_5;
+
+  location Phase_7:
+    initial;
+    edge generic_component_4.c_start_term_Phase_7 goto Terminating_Phase_7;
+    edge generic_component_4.u_status_is_Phase_7;
+    edge generic_component_4.c_start_init_Phase_8 goto Initializing_Phase_8;
+
+  location Initializing_Phase_7:
+    edge generic_component_4.u_finish_init_Phase_7 goto Phase_7;
+
+  location Terminating_Phase_7:
+    edge generic_component_4.u_finish_term_Phase_7 goto Phase_6;
+
+  location Phase_8:
+    initial;
+    edge generic_component_4.c_start_term_Phase_8 goto Terminating_Phase_8;
+    edge generic_component_4.u_status_is_Phase_8;
+    edge generic_component_4.c_start_init_Phase_9 goto Initializing_Phase_9;
+
+  location Initializing_Phase_8:
+    edge generic_component_4.u_finish_init_Phase_8 goto Phase_8;
+
+  location Terminating_Phase_8:
+    edge generic_component_4.u_finish_term_Phase_8 goto Phase_7;
+
+  location Phase_9:
+    initial;
+    marked;
+    edge generic_component_4.c_start_term_Phase_9 goto Terminating_Phase_9;
+    edge generic_component_4.u_status_is_Phase_9;
+
+  location Initializing_Phase_9:
+    edge generic_component_4.u_finish_init_Phase_9 goto Phase_9;
+
+  location Terminating_Phase_9:
+    edge generic_component_4.u_finish_term_Phase_9 goto Phase_8;
+end
+
+plant automaton generic_component_5_subsystem_view:
+  location Terminated:
+    initial;
+    edge generic_component_5.u_status_is_Terminated;
+    edge generic_component_5.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge generic_component_5.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge generic_component_5.u_status_is_Phase_1;
+    edge generic_component_5.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge generic_component_5.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge generic_component_5.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    edge generic_component_5.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge generic_component_5.u_status_is_Phase_2;
+    edge generic_component_5.c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge generic_component_5.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge generic_component_5.u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    initial;
+    edge generic_component_5.c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge generic_component_5.u_status_is_Phase_3;
+    edge generic_component_5.c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge generic_component_5.u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge generic_component_5.u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    initial;
+    edge generic_component_5.c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge generic_component_5.u_status_is_Phase_4;
+    edge generic_component_5.c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge generic_component_5.u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge generic_component_5.u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    initial;
+    edge generic_component_5.c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge generic_component_5.u_status_is_Phase_5;
+    edge generic_component_5.c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge generic_component_5.u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge generic_component_5.u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    initial;
+    edge generic_component_5.c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge generic_component_5.u_status_is_Phase_6;
+    edge generic_component_5.c_start_init_Phase_7 goto Initializing_Phase_7;
+
+  location Initializing_Phase_6:
+    edge generic_component_5.u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge generic_component_5.u_finish_term_Phase_6 goto Phase_5;
+
+  location Phase_7:
+    initial;
+    marked;
+    edge generic_component_5.c_start_term_Phase_7 goto Terminating_Phase_7;
+    edge generic_component_5.u_status_is_Phase_7;
+
+  location Initializing_Phase_7:
+    edge generic_component_5.u_finish_init_Phase_7 goto Phase_7;
+
+  location Terminating_Phase_7:
+    edge generic_component_5.u_finish_term_Phase_7 goto Phase_6;
+end
+
+plant automaton generic_component_6_subsystem_view:
+  location Terminated:
+    initial;
+    edge generic_component_6.u_status_is_Terminated;
+    edge generic_component_6.c_start_init_Idle goto Initializing_Idle;
+
+  location Idle:
+    initial;
+    marked;
+    edge generic_component_6.c_start_term_Idle goto Terminating_Idle;
+    edge generic_component_6.u_status_is_Idle;
+
+  location Initializing_Idle:
+    edge generic_component_6.u_finish_init_Idle goto Idle;
+
+  location Terminating_Idle:
+    edge generic_component_6.u_finish_term_Idle goto Terminated;
+end
+
+plant automaton generic_component_7_subsystem_view:
+  location Terminated:
+    initial;
+    edge generic_component_7.u_status_is_Terminated;
+    edge generic_component_7.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge generic_component_7.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge generic_component_7.u_status_is_Phase_1;
+    edge generic_component_7.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge generic_component_7.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge generic_component_7.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    marked;
+    edge generic_component_7.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge generic_component_7.u_status_is_Phase_2;
+
+  location Initializing_Phase_2:
+    edge generic_component_7.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge generic_component_7.u_finish_term_Phase_2 goto Phase_1;
+end
+
+plant automaton generic_component_8_subsystem_view:
+  location Terminated:
+    initial;
+    edge generic_component_8.u_status_is_Terminated;
+    edge generic_component_8.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge generic_component_8.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge generic_component_8.u_status_is_Phase_1;
+    edge generic_component_8.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge generic_component_8.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge generic_component_8.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    edge generic_component_8.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge generic_component_8.u_status_is_Phase_2;
+    edge generic_component_8.c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge generic_component_8.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge generic_component_8.u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    initial;
+    edge generic_component_8.c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge generic_component_8.u_status_is_Phase_3;
+    edge generic_component_8.c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge generic_component_8.u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge generic_component_8.u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    initial;
+    edge generic_component_8.c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge generic_component_8.u_status_is_Phase_4;
+    edge generic_component_8.c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge generic_component_8.u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge generic_component_8.u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    initial;
+    edge generic_component_8.c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge generic_component_8.u_status_is_Phase_5;
+    edge generic_component_8.c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge generic_component_8.u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge generic_component_8.u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    initial;
+    marked;
+    edge generic_component_8.c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge generic_component_8.u_status_is_Phase_6;
+
+  location Initializing_Phase_6:
+    edge generic_component_8.u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge generic_component_8.u_finish_term_Phase_6 goto Phase_5;
+end
+
+requirement generic_component_2.Initializing_Phase_1 => generic_component_3.Phase_1 or generic_component_3.Phase_2 or generic_component_3.Phase_3 or generic_component_3.Terminating_Phase_2 or generic_component_3.Terminating_Phase_3 or generic_component_3.Initializing_Phase_2 or generic_component_3.Initializing_Phase_3;
+requirement generic_component_1.Initializing_Idle => generic_component_3.Phase_1 or generic_component_3.Phase_2 or generic_component_3.Phase_3 or generic_component_3.Terminating_Phase_2 or generic_component_3.Terminating_Phase_3 or generic_component_3.Initializing_Phase_2 or generic_component_3.Initializing_Phase_3;
+requirement generic_component_5.Initializing_Phase_4 => generic_component_6.Idle;
+requirement generic_component_5.Initializing_Phase_1 => generic_component_7.Phase_2;
+requirement generic_component_6.Initializing_Idle => generic_component_5.Phase_1 or generic_component_5.Phase_2 or generic_component_5.Phase_3 or generic_component_5.Phase_4 or generic_component_5.Phase_5 or generic_component_5.Phase_6 or generic_component_5.Phase_7 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_4 or generic_component_5.Terminating_Phase_5 or generic_component_5.Terminating_Phase_6 or generic_component_5.Terminating_Phase_7 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_4 or generic_component_5.Initializing_Phase_5 or generic_component_5.Initializing_Phase_6 or generic_component_5.Initializing_Phase_7;
+requirement generic_component_8.Initializing_Phase_1 => generic_component_1.Idle;
+requirement generic_component_8.Initializing_Phase_5 => generic_component_2.Phase_1;
+requirement generic_component_8.Initializing_Phase_5 => generic_component_4.Phase_9;
+requirement generic_component_8.Initializing_Phase_3 => generic_component_4.Phase_2 or generic_component_4.Phase_3 or generic_component_4.Phase_4 or generic_component_4.Phase_5 or generic_component_4.Phase_6 or generic_component_4.Phase_7 or generic_component_4.Phase_8 or generic_component_4.Phase_9 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_9 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_9;
+requirement generic_component_4.Initializing_Phase_3 => generic_component_8.Phase_3 or generic_component_8.Phase_4 or generic_component_8.Phase_5 or generic_component_8.Phase_6 or generic_component_8.Terminating_Phase_4 or generic_component_8.Terminating_Phase_5 or generic_component_8.Terminating_Phase_6 or generic_component_8.Initializing_Phase_4 or generic_component_8.Initializing_Phase_5 or generic_component_8.Initializing_Phase_6;
+requirement generic_component_4.Initializing_Phase_1 => generic_component_2.Phase_1;
+requirement generic_component_4.Initializing_Phase_9 => generic_component_3.Phase_3;
+requirement generic_component_5.Initializing_Phase_1 => generic_component_4.Phase_1 or generic_component_4.Phase_2 or generic_component_4.Phase_3 or generic_component_4.Phase_4 or generic_component_4.Phase_5 or generic_component_4.Phase_6 or generic_component_4.Phase_7 or generic_component_4.Phase_8 or generic_component_4.Phase_9 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_9 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_9;
+requirement generic_component_5.Initializing_Phase_2 => generic_component_4.Phase_3 or generic_component_4.Phase_4 or generic_component_4.Phase_5 or generic_component_4.Phase_6 or generic_component_4.Phase_7 or generic_component_4.Phase_8 or generic_component_4.Phase_9 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_9 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_9;
+requirement generic_component_5.Initializing_Phase_3 => generic_component_4.Phase_4 or generic_component_4.Phase_5 or generic_component_4.Phase_6 or generic_component_4.Phase_7 or generic_component_4.Phase_8 or generic_component_4.Phase_9 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_9 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_9;
+requirement generic_component_5.Initializing_Phase_4 => generic_component_7.Phase_2;
+requirement generic_component_5.Initializing_Phase_4 => generic_component_4.Phase_5 or generic_component_4.Phase_6 or generic_component_4.Phase_7 or generic_component_4.Phase_8 or generic_component_4.Phase_9 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_9 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_9;
+requirement generic_component_5.Initializing_Phase_6 => generic_component_4.Phase_7 or generic_component_4.Phase_8 or generic_component_4.Phase_9 or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_9 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_9;
+requirement generic_component_5.Initializing_Phase_7 => generic_component_4.Phase_9;
+requirement generic_component_4.Initializing_Phase_4 => generic_component_5.Phase_1 or generic_component_5.Phase_2 or generic_component_5.Phase_3 or generic_component_5.Phase_4 or generic_component_5.Phase_5 or generic_component_5.Phase_6 or generic_component_5.Phase_7 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_4 or generic_component_5.Terminating_Phase_5 or generic_component_5.Terminating_Phase_6 or generic_component_5.Terminating_Phase_7 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_4 or generic_component_5.Initializing_Phase_5 or generic_component_5.Initializing_Phase_6 or generic_component_5.Initializing_Phase_7;
+requirement generic_component_4.Initializing_Phase_5 => generic_component_5.Phase_2 or generic_component_5.Phase_3 or generic_component_5.Phase_4 or generic_component_5.Phase_5 or generic_component_5.Phase_6 or generic_component_5.Phase_7 or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_4 or generic_component_5.Terminating_Phase_5 or generic_component_5.Terminating_Phase_6 or generic_component_5.Terminating_Phase_7 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_4 or generic_component_5.Initializing_Phase_5 or generic_component_5.Initializing_Phase_6 or generic_component_5.Initializing_Phase_7;
+requirement generic_component_4.Initializing_Phase_6 => generic_component_5.Phase_4 or generic_component_5.Phase_5 or generic_component_5.Phase_6 or generic_component_5.Phase_7 or generic_component_5.Terminating_Phase_5 or generic_component_5.Terminating_Phase_6 or generic_component_5.Terminating_Phase_7 or generic_component_5.Initializing_Phase_5 or generic_component_5.Initializing_Phase_6 or generic_component_5.Initializing_Phase_7;
+requirement generic_component_4.Initializing_Phase_7 => generic_component_5.Phase_5 or generic_component_5.Phase_6 or generic_component_5.Phase_7 or generic_component_5.Terminating_Phase_6 or generic_component_5.Terminating_Phase_7 or generic_component_5.Initializing_Phase_6 or generic_component_5.Initializing_Phase_7;
+requirement generic_component_4.Initializing_Phase_9 => generic_component_5.Phase_6 or generic_component_5.Phase_7 or generic_component_5.Terminating_Phase_7 or generic_component_5.Initializing_Phase_7;
+requirement generic_component_4.Initializing_Phase_9 => generic_component_3.Phase_3;
+requirement generic_component_4.Initializing_Phase_1 => generic_component_5.Terminated;
+requirement generic_component_4.Initializing_Phase_3 => generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_4.Initializing_Phase_4 => generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_7.Initializing_Phase_2 => generic_component_5.Phase_3 or generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_4.Initializing_Phase_5 => generic_component_5.Phase_3 or generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_4.Initializing_Phase_7 => generic_component_5.Phase_5 or generic_component_5.Phase_4 or generic_component_5.Phase_3 or generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_5 or generic_component_5.Terminating_Phase_4 or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_5 or generic_component_5.Initializing_Phase_4 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_4.Initializing_Phase_9 => generic_component_5.Phase_6 or generic_component_5.Phase_5 or generic_component_5.Phase_4 or generic_component_5.Phase_3 or generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_6 or generic_component_5.Terminating_Phase_5 or generic_component_5.Terminating_Phase_4 or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_6 or generic_component_5.Initializing_Phase_5 or generic_component_5.Initializing_Phase_4 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_5.Initializing_Phase_1 => generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_5.Initializing_Phase_2 => generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_5.Initializing_Phase_4 => generic_component_4.Phase_5 or generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_5.Initializing_Phase_5 => generic_component_4.Phase_6 or generic_component_4.Phase_5 or generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_5.Initializing_Phase_6 => generic_component_4.Phase_8 or generic_component_4.Phase_7 or generic_component_4.Phase_6 or generic_component_4.Phase_5 or generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_3.Initializing_Phase_3 => generic_component_4.Phase_8 or generic_component_4.Phase_7 or generic_component_4.Phase_6 or generic_component_4.Phase_5 or generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_4.Terminating_Phase_1 => generic_component_5.Terminated;
+requirement generic_component_4.Terminating_Phase_3 => generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_4.Terminating_Phase_4 => generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_7.Terminating_Phase_2 => generic_component_5.Phase_3 or generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_4.Terminating_Phase_5 => generic_component_5.Phase_3 or generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_4.Terminating_Phase_7 => generic_component_5.Phase_5 or generic_component_5.Phase_4 or generic_component_5.Phase_3 or generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_5 or generic_component_5.Terminating_Phase_4 or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_5 or generic_component_5.Initializing_Phase_4 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_4.Terminating_Phase_9 => generic_component_5.Phase_6 or generic_component_5.Phase_5 or generic_component_5.Phase_4 or generic_component_5.Phase_3 or generic_component_5.Phase_2 or generic_component_5.Phase_1 or generic_component_5.Terminated or generic_component_5.Terminating_Phase_6 or generic_component_5.Terminating_Phase_5 or generic_component_5.Terminating_Phase_4 or generic_component_5.Terminating_Phase_3 or generic_component_5.Terminating_Phase_2 or generic_component_5.Terminating_Phase_1 or generic_component_5.Initializing_Phase_6 or generic_component_5.Initializing_Phase_5 or generic_component_5.Initializing_Phase_4 or generic_component_5.Initializing_Phase_3 or generic_component_5.Initializing_Phase_2 or generic_component_5.Initializing_Phase_1;
+requirement generic_component_5.Terminating_Phase_1 => generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_5.Terminating_Phase_2 => generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_5.Terminating_Phase_4 => generic_component_4.Phase_5 or generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_5.Terminating_Phase_5 => generic_component_4.Phase_6 or generic_component_4.Phase_5 or generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_5.Terminating_Phase_6 => generic_component_4.Phase_8 or generic_component_4.Phase_7 or generic_component_4.Phase_6 or generic_component_4.Phase_5 or generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
+requirement generic_component_3.Terminating_Phase_3 => generic_component_4.Phase_8 or generic_component_4.Phase_7 or generic_component_4.Phase_6 or generic_component_4.Phase_5 or generic_component_4.Phase_4 or generic_component_4.Phase_3 or generic_component_4.Phase_2 or generic_component_4.Phase_1 or generic_component_4.Terminated or generic_component_4.Terminating_Phase_8 or generic_component_4.Terminating_Phase_7 or generic_component_4.Terminating_Phase_6 or generic_component_4.Terminating_Phase_5 or generic_component_4.Terminating_Phase_4 or generic_component_4.Terminating_Phase_3 or generic_component_4.Terminating_Phase_2 or generic_component_4.Terminating_Phase_1 or generic_component_4.Initializing_Phase_8 or generic_component_4.Initializing_Phase_7 or generic_component_4.Initializing_Phase_6 or generic_component_4.Initializing_Phase_5 or generic_component_4.Initializing_Phase_4 or generic_component_4.Initializing_Phase_3 or generic_component_4.Initializing_Phase_2 or generic_component_4.Initializing_Phase_1;
