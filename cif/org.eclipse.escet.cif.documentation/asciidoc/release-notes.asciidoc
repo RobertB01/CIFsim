@@ -26,6 +26,48 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/{escet-website-version
 
 TBD
 
+New features:
+
+* The CIF transformer has a new additional CIF to CIF transformation, to remove unused events (issue {escet-issue}525[#525]).
+* The CIF data-based synthesis tool variable ordering configuration has been generalized and extended.
+This includes the addition of a new _BDD advanced variable ordering_ option.
+It offers much more flexibility in configuring variable ordering, including configuration of the order in which to apply various algorithms, and configuration of the settings to use per algorithm.
+As a result of the changes, the debug output has been changed considerably.
+The default configuration for variable ordering has not been changed.
+See the documentation of the new option for more information (issues {escet-issue}378[#378] and {escet-issue}530[#530]).
+* The CIF data-based synthesis tool _Edge order_ option has been replaced by two separate _Edge order for backward reachability_ and _Edge order for forward reachability_ options.
+This allows to specify the orders separately for forward and backward reachability computations, which may improve synthesis performance.
+The defaults have not been changed (issue {escet-issue}492[#492]).
+* The CIF data-based synthesis tool has a new _Edge order duplicate events_ option to allow duplicate events in custom event orders (issue {escet-issue}426[#426]).
+* The CIF data-based synthesis tool statistics option has been extended to allow measuring the maximum amount of memory used during synthesis.
+See the documentation for more information on how to best use this new feature (issue {escet-issue}531[#531]).
+
+Improvements and fixes:
+
+* The CIF simulator state visualizer performance has been greatly improved (issue {escet-issue}485[#485]).
+* The CIF simulator error message for unsupported specifications with time-dependent state invariants has been improved (issue {escet-issue}513[#513]).
+* The CIF data-based synthesis tool now detects reachability fixed points sooner, reducing fixed point computations by at most one iteration.
+The effect on synthesis performance greatly depends on the model (issue {escet-issue}493[#493]).
+* The CIF data-based synthesis tool now has a _State requirement invariant enforcement_ option, adding an alternative second approach to apply state requirement invariants during synthesis.
+Both approaches have potential benefits and drawbacks, making for a trade-off between their various effects.
+Which approach is most efficient depends on the model.
+The default has not been changed.
+As a result of the changes, the debug output of the tool has changed as well (issue {escet-issue}198[#198]).
+* The CIF data-based synthesis tool no longer skips variable ordering if representations of relations between variables are empty, but unused (issue {escet-issue}378[#378]).
+* The CIF data-based synthesis tool DCSH variable ordering algorithm is no longer considered experimental.
+It is still disabled by default (issue {escet-issue}378[#378]).
+* The CIF data-based synthesis tool documentation has various small improvements (issues {escet-issue}426[#426], {escet-issue}492[#492] and {escet-issue}531[#531]).
+* The CIF data-based synthesis tool documentation related to variable ordering has been split into multiple pages, and has been extended and improved (issues {escet-issue}378[#378] and {escet-issue}530[#530]).
+* The CIF data-based synthesis tool error messages for invalid custom event orders have been improved (issues {escet-issue}426[#426] and {escet-issue}492[#492]).
+* The CIF data-based synthesis tool _BDD variable order_ option has been renamed to _BDD initial variable ordering_.
+The command line name of the option has not been changed (issue {escet-issue}530[#530]).
+* The CIF data-based synthesis tool _BDD initial variable ordering_ option now supports leading and trailing whitespace (issue {escet-issue}378[#378]).
+* The CIF data-based synthesis tool termination request detection has been improved, by reducing the number of times it is unnecessarily checked (issue {escet-issue}198[#198]).
+* The CIF code generator has small improvements to the Java code that it generates (issue {escet-issue}450[#450]).
+* The CIF PLC code generator option description for the _PLC number bits_ option has been fixed (issue {escet-issue}418[#418]).
+* The CIF tutorial has various small fixes and other improvements (issues {escet-issue}501[#501], {escet-issue}502[#502], {escet-issue}503[#503], {escet-issue}504[#504], {escet-issue}506[#506], {escet-issue}509[#509], {escet-issue}510[#510] and {escet-issue}512[#512]).
+* The CIF documentation has some improvements related to 'file separator' terminology (issue {escet-issue}450[#450]).
+
 === Version 0.8 (2022-12-21)
 
 Language changes:
