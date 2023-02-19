@@ -13,10 +13,15 @@
 
 // Generator for Cat and Mouse Tower models.
 
+// v = 1 for original version, 2 for modified version
 // n = number of levels
 // k = number of cats and mice (k cats and k mice)
-tool generate(int n, int k):
+tool generate(int v, int n, int k):
     // Sanity checking.
+    if not contains({1, 2}, v):
+        errln("ERROR: Invalid version: %d.", v);
+        exit 1;
+    end
     if n < 1:
         errln("ERROR: Invalid number of levels: %d.", n);
         exit 1;
@@ -49,6 +54,17 @@ tool generate(int n, int k):
         ];
     end
 
+    // Version 2: add events for cats/mice entering/leaving.
+    if v == 2:
+        lines = lines + [
+            "",
+            "uncontrollable enter_cat;",
+            "uncontrollable enter_mouse;",
+            "uncontrollable leave_cat;",
+            "uncontrollable leave_mouse;",
+        ];
+    end
+
     // Add cat in room automata.
     for i in range(1, n):
         for j in range(1, 5):
@@ -58,9 +74,12 @@ tool generate(int n, int k):
                 // Location for counting the number of cats present.
                 lines = lines + [fmt("  location l%d:", l)];
 
-                // Initially, first room on first floor contains all the cats, and all other rooms are empty.
-                if  i == 1 and j == 1  and l == k:: lines = lines + ["    initial; marked;"];
-                if (i != 1 or  j != 1) and l == 0:: lines = lines + ["    initial; marked;"];
+                // For version 1, initially, first room on first floor contains all cats, and all other rooms are empty.
+                // For version 2, initially, all rooms are empty.
+                bool initial = (v == 1 and  i == 1 and j == 1  and l == k) or
+                               (v == 1 and (i != 1 or  j != 1) and l == 0) or
+                               (v == 2 and                         l == 0);
+                if initial:: lines = lines + ["    initial; marked;"];
 
                 // Edges for entering the room, for moves on the same level.
                 if l < k and j == 1:: lines = lines + [fmt("    edge c%1$d2_%1$d1 goto l%2$d;", i, l + 1)];
@@ -78,6 +97,9 @@ tool generate(int n, int k):
                 if l < k and i < n and j == j_above:: lines = lines + [fmt("    edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i + 1, i, j, l + 1)];
                 if l < k and i > 1 and j == j_below:: lines = lines + [fmt("    edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i - 1, i, j, l + 1)];
 
+                // Version 2: edges for entering the tower.
+                if v == 2 and l < k and i == 1 and j == 1:: lines = lines + [fmt("    edge enter_cat goto l%d;", l + 1)];
+
                 // Edges for leaving the room, for moves on the same level.
                 if l > 0 and j == 1:: lines = lines + [fmt("    edge c%1$d1_%1$d3 goto l%2$d;", i, l - 1)];
                 if l > 0 and j == 2:: lines = lines + [fmt("    edge c%1$d2_%1$d1 goto l%2$d;", i, l - 1)];
@@ -91,6 +113,9 @@ tool generate(int n, int k):
                 // Edges for leaving the room, for moves between levels.
                 if l > 0 and i < n and j == j_above:: lines = lines + [fmt("    edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i, i + 1, j, l - 1)];
                 if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("    edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i, i - 1, j, l - 1)];
+
+                // Version 2: edges for leaving the tower.
+                if v == 2 and l > 0 and i == 1 and j == 1:: lines = lines + [fmt("    edge leave_cat goto l%d;", l - 1)];
             end
             lines = lines + ["end"];
         end
@@ -105,9 +130,12 @@ tool generate(int n, int k):
                 // Location for counting the number of mice present.
                 lines = lines + [fmt("  location l%d:", l)];
 
-                // Initially, 5th room on n-th floor contains all the mice, and all other rooms are empty.
-                if  i == n and j == 5  and l == k:: lines = lines + ["    initial; marked;"];
-                if (i != n or  j != 5) and l == 0:: lines = lines + ["    initial; marked;"];
+                // For version 1, initially, 5th room on n-th floor contains all mice, and all other rooms are empty.
+                // For version 2, initially, all rooms are empty.
+                bool initial = (v == 1 and  i == n and j == 5  and l == k) or
+                               (v == 1 and (i != n or  j != 5) and l == 0) or
+                               (v == 2 and                         l == 0);
+                if initial:: lines = lines + ["    initial; marked;"];
 
                 // Edges for entering the room, for moves on the same level.
                 if l < k and j == 1:: lines = lines + [fmt("    edge m%1$d3_%1$d1 goto l%2$d;", i, l + 1)];
@@ -123,6 +151,9 @@ tool generate(int n, int k):
                 if l < k and i < n and j == j_above:: lines = lines + [fmt("    edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i + 1, i, j, l + 1)];
                 if l < k and i > 1 and j == j_below:: lines = lines + [fmt("    edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i - 1, i, j, l + 1)];
 
+                // Version 2: edges for entering the tower.
+                if v == 2 and l < k and i == n and j == 5:: lines = lines + [fmt("    edge enter_mouse goto l%d;", l + 1)];
+
                 // Edges for leaving the room, for moves on the same level.
                 if l > 0 and j == 1:: lines = lines + [fmt("    edge m%1$d1_%1$d2 goto l%2$d;", i, l - 1)];
                 if l > 0 and j == 2:: lines = lines + [fmt("    edge m%1$d2_%1$d3 goto l%2$d;", i, l - 1)];
@@ -134,12 +165,15 @@ tool generate(int n, int k):
                 // Edges for leaving the room, for moves between levels.
                 if l > 0 and i < n and j == j_above:: lines = lines + [fmt("edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i + 1, j, l - 1)];
                 if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i - 1, j, l - 1)];
+
+                // Version 2: edges for leaving the tower.
+                if v == 2 and l > 0 and i == n and j == 5:: lines = lines + [fmt("    edge leave_mouse goto l%d;", l - 1)];
             end
             lines = lines + ["end"];
         end
     end
 
-    // Add requirements. A cat and a mouse can never be in the same room at the same time.
+    // Add requirements: a cat and a mouse can never be in the same room at the same time.
     lines = lines + [""];
     for i in range(1, n):
         for j in range(1, 5):
@@ -148,6 +182,6 @@ tool generate(int n, int k):
     end
 
     // Write generated model to file.
-    string filename = fmt("CMT_n%d_k%d.cif", n, k);
+    string filename = fmt("CMT_v%d_n%d_k%d.cif", v, n, k);
     writefile(filename, lines);
 end
