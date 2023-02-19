@@ -1,0 +1,21 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Model source: Sander Thuijsman, Michel Reniers and Dennis Hendriks, "Efficiently enforcing mutual state exclusion
+requirements in symbolic supervisor synthesis", In: Proceedings of the 2021 IEEE 17th International Conference on
+Automation Science and Engineering, pages 777-783, 2021, doi: https://doi.org/10.1109/CASE49439.2021.9551593.
+
+Model source: Chuan Ma and W. M. Wonham, "STSLib and its application to two benchmarks", In: Proceedings of the 2008 9th
+International Workshop on Discrete Event Systems, pages 119-124, 2008, doi: https://doi.org/10.1109/WODES.2008.4605932.
+
+Model repository: https://github.com/sbthuijsman/CASE21_enforce_requirements.

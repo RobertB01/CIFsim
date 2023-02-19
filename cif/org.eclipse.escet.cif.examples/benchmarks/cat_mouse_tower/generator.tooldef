@@ -1,0 +1,153 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Generator for Cat and Mouse Tower models.
+
+// n = number of levels
+// k = number of cats and mice
+tool generate(int n, int k):
+    // Sanity checking.
+    if n < 1:
+        errln("ERROR: Invalid number of levels: %d.", n);
+        exit 1;
+    end
+    if k < 1:
+        errln("ERROR: Invalid number of cats and mice: %d.", k);
+        exit 1;
+    end
+
+    // Initialize lines.
+    list string lines;
+
+    // Add events for connections on each level.
+    for i in range(1, n):
+        lines = lines + [
+            // xiA_iB = connection, with: x is 'c' or 'm', level i, source room number A and target room number B.
+            // c = cat, m = mouse.
+            fmt("controllable c%1$d1_%1$d3, c%1$d2_%1$d1, c%1$d3_%1$d2, c%1$d3_%1$d4, c%1$d4_%1$d5, c%1$d5_%1$d3;", i),
+            fmt("uncontrollable c%1$d2_%1$d4, c%1$d4_%1$d2;", i),
+            fmt("controllable m%1$d1_%1$d2, m%1$d2_%1$d3, m%1$d3_%1$d1, m%1$d3_%1$d5, m%1$d4_%1$d3, m%1$d5_%1$d4;", i),
+        ];
+    end
+
+    // Add events for connections between levels.
+    for i in range(1, n - 1):
+        int j = ((i - 1) mod 5) + 1;
+        lines = lines + [
+            fmt("controllable c%1$d%3$d_%2$d%3$d, c%2$d%3$d_%1$d%3$d, m%1$d%3$d_%2$d%3$d, m%2$d%3$d_%1$d%3$d;",
+            i, i + 1, j)
+        ];
+    end
+
+    // Add cat in room automata.
+    for i in range(1, n):
+        for j in range(1, 5):
+            // RijC, for on level i a room j for cats.
+            lines = lines + ["", fmt("plant automaton R%d%dC:", i, j)];
+            for l in range(0, k):
+                // Location for counting the number of cats present.
+                lines = lines + [fmt("location l%d:", l)];
+
+                // Initially, first room on first floor contains all the cats, and all other rooms are empty.
+                if  i == 1 and j == 1  and l == k:: lines = lines + ["initial; marked;"];
+                if (i != 1 or  j != 1) and l == 0:: lines = lines + ["initial; marked;"];
+
+                // Edges for entering the room, for connections on the same level.
+                if l < k and j == 1:: lines = lines + [fmt("edge c%1$d2_%1$d1 goto l%2$d;", i, l + 1)];
+                if l < k and j == 2:: lines = lines + [fmt("edge c%1$d4_%1$d2 goto l%2$d;", i, l + 1)];
+                if l < k and j == 2:: lines = lines + [fmt("edge c%1$d3_%1$d2 goto l%2$d;", i, l + 1)];
+                if l < k and j == 3:: lines = lines + [fmt("edge c%1$d1_%1$d3 goto l%2$d;", i, l + 1)];
+                if l < k and j == 3:: lines = lines + [fmt("edge c%1$d5_%1$d3 goto l%2$d;", i, l + 1)];
+                if l < k and j == 4:: lines = lines + [fmt("edge c%1$d2_%1$d4 goto l%2$d;", i, l + 1)];
+                if l < k and j == 4:: lines = lines + [fmt("edge c%1$d3_%1$d4 goto l%2$d;", i, l + 1)];
+                if l < k and j == 5:: lines = lines + [fmt("edge c%1$d4_%1$d5 goto l%2$d;", i, l + 1)];
+
+                // Edges for entering the room, for connections between levels.
+                int j_above = ((i - 1) mod 5) + 1;
+                int j_below = ((i - 2) mod 5) + 1;
+                if l < k and i < n and j == j_above:: lines = lines + [fmt("edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i + 1, i, j, l + 1)];
+                if l < k and i > 1 and j == j_below:: lines = lines + [fmt("edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i - 1, i, j, l + 1)];
+
+                // Edges for leaving the room, for connections on the same level.
+                if l > 0 and j == 1:: lines = lines + [fmt("edge c%1$d1_%1$d3 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 2:: lines = lines + [fmt("edge c%1$d2_%1$d1 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 2:: lines = lines + [fmt("edge c%1$d2_%1$d4 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 3:: lines = lines + [fmt("edge c%1$d3_%1$d2 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 3:: lines = lines + [fmt("edge c%1$d3_%1$d4 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 4:: lines = lines + [fmt("edge c%1$d4_%1$d2 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 4:: lines = lines + [fmt("edge c%1$d4_%1$d5 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 5:: lines = lines + [fmt("edge c%1$d5_%1$d3 goto l%2$d;", i, l - 1)];
+
+                // Edges for leaving the room, for connections between levels.
+                if l > 0 and i < n and j == j_above:: lines = lines + [fmt("edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i, i + 1, j, l - 1)];
+                if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i, i - 1, j, l - 1)];
+            end
+            lines = lines + ["end"];
+        end
+    end
+
+    // Add mouse in room automata.
+    for i in range(1, n):
+        for j in range(1, 5):
+            // RijM, for on level i a room j for mice.
+            lines = lines + ["", fmt("plant automaton R%d%dM:", i, j)];
+            for l in range(0, k):
+                // Location for counting the number of mice present.
+                lines = lines + [fmt("location l%d:", l)];
+
+                // Initially, 5th room on n-th floor contains all the mice, and all other rooms are empty.
+                if  i == n and j == 5  and l == k:: lines = lines + ["initial; marked;"];
+                if (i != n or  j != 5) and l == 0:: lines = lines + ["initial; marked;"];
+
+                // Edges for entering the room, for connections on the same level.
+                if l < k and j == 1:: lines = lines + [fmt("edge m%1$d3_%1$d1 goto l%2$d;", i, l + 1)];
+                if l < k and j == 2:: lines = lines + [fmt("edge m%1$d1_%1$d2 goto l%2$d;", i, l + 1)];
+                if l < k and j == 3:: lines = lines + [fmt("edge m%1$d2_%1$d3 goto l%2$d;", i, l + 1)];
+                if l < k and j == 3:: lines = lines + [fmt("edge m%1$d4_%1$d3 goto l%2$d;", i, l + 1)];
+                if l < k and j == 4:: lines = lines + [fmt("edge m%1$d5_%1$d4 goto l%2$d;", i, l + 1)];
+                if l < k and j == 5:: lines = lines + [fmt("edge m%1$d3_%1$d5 goto l%2$d;", i, l + 1)];
+
+                // Edges for entering the room, for connections between levels.
+                int j_above = ((i - 1) mod 5) + 1;
+                int j_below = ((i - 2) mod 5) + 1;
+                if l < k and i < n and j == j_above:: lines = lines + [fmt("edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i + 1, i, j, l + 1)];
+                if l < k and i > 1 and j == j_below:: lines = lines + [fmt("edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i - 1, i, j, l + 1)];
+
+                // Edges for leaving the room, for connections on the same level.
+                if l > 0 and j == 1:: lines = lines + [fmt("edge m%1$d1_%1$d2 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 2:: lines = lines + [fmt("edge m%1$d2_%1$d3 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 3:: lines = lines + [fmt("edge m%1$d3_%1$d1 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 3:: lines = lines + [fmt("edge m%1$d3_%1$d5 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 4:: lines = lines + [fmt("edge m%1$d4_%1$d3 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 5:: lines = lines + [fmt("edge m%1$d5_%1$d4 goto l%2$d;", i, l - 1)];
+
+                // Edges for leaving the room, for connections between levels.
+                if l > 0 and i < n and j == j_above:: lines = lines + [fmt("edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i + 1, j, l - 1)];
+                if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i - 1, j, l - 1)];
+            end
+            lines = lines + ["end"];
+        end
+    end
+
+    // Add requirements. A cat and a mouse can never be in the same room at the same time.
+    lines = lines + [""];
+    for i in range(1, n):
+        for j in range(1, 5):
+            lines = lines + [fmt("requirement invariant R%1$d%2$dC.l0 or R%1$d%2$dM.l0;", i, j)];
+        end
+    end
+
+    // Write generated model to file.
+    string filename = fmt("CMT_n%d_k%d.cif", n, k);
+    writefile(filename, lines);
+end
