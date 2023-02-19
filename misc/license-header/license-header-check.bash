@@ -181,6 +181,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./chi/org.eclipse.escet.chi.metamod
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./chi/org.eclipse.escet.chi.metamodel/model/autofix.py:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/asciidoc/documentation.asciidoc:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/asciidoc/documentation-legal.asciidoc:2$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.examples/benchmarks/cat_mouse_tower/generator.tooldef:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.metamodel/docs/cif_ecore_doc.tex:3$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.metamodel/model/autofix.py:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.app.framework/src/org/eclipse/escet/common/app/framework/options/HelpOption.java:2$"
