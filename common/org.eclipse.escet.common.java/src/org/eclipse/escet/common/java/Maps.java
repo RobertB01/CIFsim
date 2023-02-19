@@ -83,7 +83,7 @@ public class Maps {
      *
      * <p>
      * It only supports inverting maps where the values in the map are unique (i.e. a one-to-one mapping or a bijection),
-     * so no pairs are lost.
+     * so no pairs are lost. Furthermore, all keys and values of the map must be non-`null`.
      * </p>
      *
      * @param <V> The type of the values of the map.
@@ -94,17 +94,14 @@ public class Maps {
     public static <V, K> Map<V, K> invert(Map<K, V> map) {
         Map<V, K> inv = mapc(map.size());
         for (Entry<K, V> entry: map.entrySet()) {
-            // Assert that the key van value are not null, otherwise the return value of put is ambiguous.
+            // Assert that the key and value are not 'null', otherwise the return value of 'put' is ambiguous.
             Assert.notNull(entry.getKey());
             Assert.notNull(entry.getValue());
 
             K prevValue = inv.put(entry.getValue(), entry.getKey());
 
-            // For a one-to-one mapping, the previous value returned by put should always be null.
-            if (prevValue != null) {
-                String msg = "Cannot invert a non-'one-to-one' map.";
-                throw new IllegalArgumentException(msg);
-            }
+            // For a one-to-one mapping, the previous value returned by 'put' should always be 'null'.
+            Assert.check(prevValue == null, "Cannot invert the map, as it is not a one-to-one map.");
         }
         return inv;
     }
