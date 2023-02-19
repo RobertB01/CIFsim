@@ -131,11 +131,11 @@ The absolute or relative local file system path to modify.
 May contain both `\` and `/` as file separators.
 
 `oldext`::
-The old extension that can be removed (case insensitive, no . at the start).
+The old extension that can be removed (case insensitive, no `.` at the start).
 Use `null` to not remove an old extension.
 
 `newext`::
-The new extension to use (case sensitive, no . at the start).
+The new extension to use (case sensitive, no `.` at the start).
 Use `null` to not add a new extension.
 
 _Returns_
