@@ -39,955 +39,955 @@ controllable c83_93, c93_83, m83_93, m93_83;
 controllable c94_104, c104_94, m94_104, m104_94;
 
 plant automaton R11C:
-location l0:
-edge c12_11 goto l1;
-edge c21_11 goto l1;
-location l1:
-initial; marked;
-edge c11_13 goto l0;
-edge c11_21 goto l0;
+  location l0:
+    edge c12_11 goto l1;
+    edge c21_11 goto l1;
+  location l1:
+    initial; marked;
+    edge c11_13 goto l0;
+    edge c11_21 goto l0;
 end
 
 plant automaton R12C:
-location l0:
-initial; marked;
-edge c14_12 goto l1;
-edge c13_12 goto l1;
-location l1:
-edge c12_11 goto l0;
-edge c12_14 goto l0;
+  location l0:
+    initial; marked;
+    edge c13_12 goto l1;
+    edge c14_12 goto l1;
+  location l1:
+    edge c12_11 goto l0;
+    edge c12_14 goto l0;
 end
 
 plant automaton R13C:
-location l0:
-initial; marked;
-edge c11_13 goto l1;
-edge c15_13 goto l1;
-location l1:
-edge c13_12 goto l0;
-edge c13_14 goto l0;
+  location l0:
+    initial; marked;
+    edge c11_13 goto l1;
+    edge c15_13 goto l1;
+  location l1:
+    edge c13_12 goto l0;
+    edge c13_14 goto l0;
 end
 
 plant automaton R14C:
-location l0:
-initial; marked;
-edge c12_14 goto l1;
-edge c13_14 goto l1;
-location l1:
-edge c14_12 goto l0;
-edge c14_15 goto l0;
+  location l0:
+    initial; marked;
+    edge c12_14 goto l1;
+    edge c13_14 goto l1;
+  location l1:
+    edge c14_12 goto l0;
+    edge c14_15 goto l0;
 end
 
 plant automaton R15C:
-location l0:
-initial; marked;
-edge c14_15 goto l1;
-location l1:
-edge c15_13 goto l0;
+  location l0:
+    initial; marked;
+    edge c14_15 goto l1;
+  location l1:
+    edge c15_13 goto l0;
 end
 
 plant automaton R21C:
-location l0:
-initial; marked;
-edge c22_21 goto l1;
-edge c11_21 goto l1;
-location l1:
-edge c21_23 goto l0;
-edge c21_11 goto l0;
+  location l0:
+    initial; marked;
+    edge c22_21 goto l1;
+    edge c11_21 goto l1;
+  location l1:
+    edge c21_23 goto l0;
+    edge c21_11 goto l0;
 end
 
 plant automaton R22C:
-location l0:
-initial; marked;
-edge c24_22 goto l1;
-edge c23_22 goto l1;
-edge c32_22 goto l1;
-location l1:
-edge c22_21 goto l0;
-edge c22_24 goto l0;
-edge c22_32 goto l0;
+  location l0:
+    initial; marked;
+    edge c23_22 goto l1;
+    edge c24_22 goto l1;
+    edge c32_22 goto l1;
+  location l1:
+    edge c22_21 goto l0;
+    edge c22_24 goto l0;
+    edge c22_32 goto l0;
 end
 
 plant automaton R23C:
-location l0:
-initial; marked;
-edge c21_23 goto l1;
-edge c25_23 goto l1;
-location l1:
-edge c23_22 goto l0;
-edge c23_24 goto l0;
+  location l0:
+    initial; marked;
+    edge c21_23 goto l1;
+    edge c25_23 goto l1;
+  location l1:
+    edge c23_22 goto l0;
+    edge c23_24 goto l0;
 end
 
 plant automaton R24C:
-location l0:
-initial; marked;
-edge c22_24 goto l1;
-edge c23_24 goto l1;
-location l1:
-edge c24_22 goto l0;
-edge c24_25 goto l0;
+  location l0:
+    initial; marked;
+    edge c22_24 goto l1;
+    edge c23_24 goto l1;
+  location l1:
+    edge c24_22 goto l0;
+    edge c24_25 goto l0;
 end
 
 plant automaton R25C:
-location l0:
-initial; marked;
-edge c24_25 goto l1;
-location l1:
-edge c25_23 goto l0;
+  location l0:
+    initial; marked;
+    edge c24_25 goto l1;
+  location l1:
+    edge c25_23 goto l0;
 end
 
 plant automaton R31C:
-location l0:
-initial; marked;
-edge c32_31 goto l1;
-location l1:
-edge c31_33 goto l0;
+  location l0:
+    initial; marked;
+    edge c32_31 goto l1;
+  location l1:
+    edge c31_33 goto l0;
 end
 
 plant automaton R32C:
-location l0:
-initial; marked;
-edge c34_32 goto l1;
-edge c33_32 goto l1;
-edge c22_32 goto l1;
-location l1:
-edge c32_31 goto l0;
-edge c32_34 goto l0;
-edge c32_22 goto l0;
+  location l0:
+    initial; marked;
+    edge c33_32 goto l1;
+    edge c34_32 goto l1;
+    edge c22_32 goto l1;
+  location l1:
+    edge c32_31 goto l0;
+    edge c32_34 goto l0;
+    edge c32_22 goto l0;
 end
 
 plant automaton R33C:
-location l0:
-initial; marked;
-edge c31_33 goto l1;
-edge c35_33 goto l1;
-edge c43_33 goto l1;
-location l1:
-edge c33_32 goto l0;
-edge c33_34 goto l0;
-edge c33_43 goto l0;
+  location l0:
+    initial; marked;
+    edge c31_33 goto l1;
+    edge c35_33 goto l1;
+    edge c43_33 goto l1;
+  location l1:
+    edge c33_32 goto l0;
+    edge c33_34 goto l0;
+    edge c33_43 goto l0;
 end
 
 plant automaton R34C:
-location l0:
-initial; marked;
-edge c32_34 goto l1;
-edge c33_34 goto l1;
-location l1:
-edge c34_32 goto l0;
-edge c34_35 goto l0;
+  location l0:
+    initial; marked;
+    edge c32_34 goto l1;
+    edge c33_34 goto l1;
+  location l1:
+    edge c34_32 goto l0;
+    edge c34_35 goto l0;
 end
 
 plant automaton R35C:
-location l0:
-initial; marked;
-edge c34_35 goto l1;
-location l1:
-edge c35_33 goto l0;
+  location l0:
+    initial; marked;
+    edge c34_35 goto l1;
+  location l1:
+    edge c35_33 goto l0;
 end
 
 plant automaton R41C:
-location l0:
-initial; marked;
-edge c42_41 goto l1;
-location l1:
-edge c41_43 goto l0;
+  location l0:
+    initial; marked;
+    edge c42_41 goto l1;
+  location l1:
+    edge c41_43 goto l0;
 end
 
 plant automaton R42C:
-location l0:
-initial; marked;
-edge c44_42 goto l1;
-edge c43_42 goto l1;
-location l1:
-edge c42_41 goto l0;
-edge c42_44 goto l0;
+  location l0:
+    initial; marked;
+    edge c43_42 goto l1;
+    edge c44_42 goto l1;
+  location l1:
+    edge c42_41 goto l0;
+    edge c42_44 goto l0;
 end
 
 plant automaton R43C:
-location l0:
-initial; marked;
-edge c41_43 goto l1;
-edge c45_43 goto l1;
-edge c33_43 goto l1;
-location l1:
-edge c43_42 goto l0;
-edge c43_44 goto l0;
-edge c43_33 goto l0;
+  location l0:
+    initial; marked;
+    edge c41_43 goto l1;
+    edge c45_43 goto l1;
+    edge c33_43 goto l1;
+  location l1:
+    edge c43_42 goto l0;
+    edge c43_44 goto l0;
+    edge c43_33 goto l0;
 end
 
 plant automaton R44C:
-location l0:
-initial; marked;
-edge c42_44 goto l1;
-edge c43_44 goto l1;
-edge c54_44 goto l1;
-location l1:
-edge c44_42 goto l0;
-edge c44_45 goto l0;
-edge c44_54 goto l0;
+  location l0:
+    initial; marked;
+    edge c42_44 goto l1;
+    edge c43_44 goto l1;
+    edge c54_44 goto l1;
+  location l1:
+    edge c44_42 goto l0;
+    edge c44_45 goto l0;
+    edge c44_54 goto l0;
 end
 
 plant automaton R45C:
-location l0:
-initial; marked;
-edge c44_45 goto l1;
-location l1:
-edge c45_43 goto l0;
+  location l0:
+    initial; marked;
+    edge c44_45 goto l1;
+  location l1:
+    edge c45_43 goto l0;
 end
 
 plant automaton R51C:
-location l0:
-initial; marked;
-edge c52_51 goto l1;
-location l1:
-edge c51_53 goto l0;
+  location l0:
+    initial; marked;
+    edge c52_51 goto l1;
+  location l1:
+    edge c51_53 goto l0;
 end
 
 plant automaton R52C:
-location l0:
-initial; marked;
-edge c54_52 goto l1;
-edge c53_52 goto l1;
-location l1:
-edge c52_51 goto l0;
-edge c52_54 goto l0;
+  location l0:
+    initial; marked;
+    edge c53_52 goto l1;
+    edge c54_52 goto l1;
+  location l1:
+    edge c52_51 goto l0;
+    edge c52_54 goto l0;
 end
 
 plant automaton R53C:
-location l0:
-initial; marked;
-edge c51_53 goto l1;
-edge c55_53 goto l1;
-location l1:
-edge c53_52 goto l0;
-edge c53_54 goto l0;
+  location l0:
+    initial; marked;
+    edge c51_53 goto l1;
+    edge c55_53 goto l1;
+  location l1:
+    edge c53_52 goto l0;
+    edge c53_54 goto l0;
 end
 
 plant automaton R54C:
-location l0:
-initial; marked;
-edge c52_54 goto l1;
-edge c53_54 goto l1;
-edge c44_54 goto l1;
-location l1:
-edge c54_52 goto l0;
-edge c54_55 goto l0;
-edge c54_44 goto l0;
+  location l0:
+    initial; marked;
+    edge c52_54 goto l1;
+    edge c53_54 goto l1;
+    edge c44_54 goto l1;
+  location l1:
+    edge c54_52 goto l0;
+    edge c54_55 goto l0;
+    edge c54_44 goto l0;
 end
 
 plant automaton R55C:
-location l0:
-initial; marked;
-edge c54_55 goto l1;
-edge c65_55 goto l1;
-location l1:
-edge c55_53 goto l0;
-edge c55_65 goto l0;
+  location l0:
+    initial; marked;
+    edge c54_55 goto l1;
+    edge c65_55 goto l1;
+  location l1:
+    edge c55_53 goto l0;
+    edge c55_65 goto l0;
 end
 
 plant automaton R61C:
-location l0:
-initial; marked;
-edge c62_61 goto l1;
-edge c71_61 goto l1;
-location l1:
-edge c61_63 goto l0;
-edge c61_71 goto l0;
+  location l0:
+    initial; marked;
+    edge c62_61 goto l1;
+    edge c71_61 goto l1;
+  location l1:
+    edge c61_63 goto l0;
+    edge c61_71 goto l0;
 end
 
 plant automaton R62C:
-location l0:
-initial; marked;
-edge c64_62 goto l1;
-edge c63_62 goto l1;
-location l1:
-edge c62_61 goto l0;
-edge c62_64 goto l0;
+  location l0:
+    initial; marked;
+    edge c63_62 goto l1;
+    edge c64_62 goto l1;
+  location l1:
+    edge c62_61 goto l0;
+    edge c62_64 goto l0;
 end
 
 plant automaton R63C:
-location l0:
-initial; marked;
-edge c61_63 goto l1;
-edge c65_63 goto l1;
-location l1:
-edge c63_62 goto l0;
-edge c63_64 goto l0;
+  location l0:
+    initial; marked;
+    edge c61_63 goto l1;
+    edge c65_63 goto l1;
+  location l1:
+    edge c63_62 goto l0;
+    edge c63_64 goto l0;
 end
 
 plant automaton R64C:
-location l0:
-initial; marked;
-edge c62_64 goto l1;
-edge c63_64 goto l1;
-location l1:
-edge c64_62 goto l0;
-edge c64_65 goto l0;
+  location l0:
+    initial; marked;
+    edge c62_64 goto l1;
+    edge c63_64 goto l1;
+  location l1:
+    edge c64_62 goto l0;
+    edge c64_65 goto l0;
 end
 
 plant automaton R65C:
-location l0:
-initial; marked;
-edge c64_65 goto l1;
-edge c55_65 goto l1;
-location l1:
-edge c65_63 goto l0;
-edge c65_55 goto l0;
+  location l0:
+    initial; marked;
+    edge c64_65 goto l1;
+    edge c55_65 goto l1;
+  location l1:
+    edge c65_63 goto l0;
+    edge c65_55 goto l0;
 end
 
 plant automaton R71C:
-location l0:
-initial; marked;
-edge c72_71 goto l1;
-edge c61_71 goto l1;
-location l1:
-edge c71_73 goto l0;
-edge c71_61 goto l0;
+  location l0:
+    initial; marked;
+    edge c72_71 goto l1;
+    edge c61_71 goto l1;
+  location l1:
+    edge c71_73 goto l0;
+    edge c71_61 goto l0;
 end
 
 plant automaton R72C:
-location l0:
-initial; marked;
-edge c74_72 goto l1;
-edge c73_72 goto l1;
-edge c82_72 goto l1;
-location l1:
-edge c72_71 goto l0;
-edge c72_74 goto l0;
-edge c72_82 goto l0;
+  location l0:
+    initial; marked;
+    edge c73_72 goto l1;
+    edge c74_72 goto l1;
+    edge c82_72 goto l1;
+  location l1:
+    edge c72_71 goto l0;
+    edge c72_74 goto l0;
+    edge c72_82 goto l0;
 end
 
 plant automaton R73C:
-location l0:
-initial; marked;
-edge c71_73 goto l1;
-edge c75_73 goto l1;
-location l1:
-edge c73_72 goto l0;
-edge c73_74 goto l0;
+  location l0:
+    initial; marked;
+    edge c71_73 goto l1;
+    edge c75_73 goto l1;
+  location l1:
+    edge c73_72 goto l0;
+    edge c73_74 goto l0;
 end
 
 plant automaton R74C:
-location l0:
-initial; marked;
-edge c72_74 goto l1;
-edge c73_74 goto l1;
-location l1:
-edge c74_72 goto l0;
-edge c74_75 goto l0;
+  location l0:
+    initial; marked;
+    edge c72_74 goto l1;
+    edge c73_74 goto l1;
+  location l1:
+    edge c74_72 goto l0;
+    edge c74_75 goto l0;
 end
 
 plant automaton R75C:
-location l0:
-initial; marked;
-edge c74_75 goto l1;
-location l1:
-edge c75_73 goto l0;
+  location l0:
+    initial; marked;
+    edge c74_75 goto l1;
+  location l1:
+    edge c75_73 goto l0;
 end
 
 plant automaton R81C:
-location l0:
-initial; marked;
-edge c82_81 goto l1;
-location l1:
-edge c81_83 goto l0;
+  location l0:
+    initial; marked;
+    edge c82_81 goto l1;
+  location l1:
+    edge c81_83 goto l0;
 end
 
 plant automaton R82C:
-location l0:
-initial; marked;
-edge c84_82 goto l1;
-edge c83_82 goto l1;
-edge c72_82 goto l1;
-location l1:
-edge c82_81 goto l0;
-edge c82_84 goto l0;
-edge c82_72 goto l0;
+  location l0:
+    initial; marked;
+    edge c83_82 goto l1;
+    edge c84_82 goto l1;
+    edge c72_82 goto l1;
+  location l1:
+    edge c82_81 goto l0;
+    edge c82_84 goto l0;
+    edge c82_72 goto l0;
 end
 
 plant automaton R83C:
-location l0:
-initial; marked;
-edge c81_83 goto l1;
-edge c85_83 goto l1;
-edge c93_83 goto l1;
-location l1:
-edge c83_82 goto l0;
-edge c83_84 goto l0;
-edge c83_93 goto l0;
+  location l0:
+    initial; marked;
+    edge c81_83 goto l1;
+    edge c85_83 goto l1;
+    edge c93_83 goto l1;
+  location l1:
+    edge c83_82 goto l0;
+    edge c83_84 goto l0;
+    edge c83_93 goto l0;
 end
 
 plant automaton R84C:
-location l0:
-initial; marked;
-edge c82_84 goto l1;
-edge c83_84 goto l1;
-location l1:
-edge c84_82 goto l0;
-edge c84_85 goto l0;
+  location l0:
+    initial; marked;
+    edge c82_84 goto l1;
+    edge c83_84 goto l1;
+  location l1:
+    edge c84_82 goto l0;
+    edge c84_85 goto l0;
 end
 
 plant automaton R85C:
-location l0:
-initial; marked;
-edge c84_85 goto l1;
-location l1:
-edge c85_83 goto l0;
+  location l0:
+    initial; marked;
+    edge c84_85 goto l1;
+  location l1:
+    edge c85_83 goto l0;
 end
 
 plant automaton R91C:
-location l0:
-initial; marked;
-edge c92_91 goto l1;
-location l1:
-edge c91_93 goto l0;
+  location l0:
+    initial; marked;
+    edge c92_91 goto l1;
+  location l1:
+    edge c91_93 goto l0;
 end
 
 plant automaton R92C:
-location l0:
-initial; marked;
-edge c94_92 goto l1;
-edge c93_92 goto l1;
-location l1:
-edge c92_91 goto l0;
-edge c92_94 goto l0;
+  location l0:
+    initial; marked;
+    edge c93_92 goto l1;
+    edge c94_92 goto l1;
+  location l1:
+    edge c92_91 goto l0;
+    edge c92_94 goto l0;
 end
 
 plant automaton R93C:
-location l0:
-initial; marked;
-edge c91_93 goto l1;
-edge c95_93 goto l1;
-edge c83_93 goto l1;
-location l1:
-edge c93_92 goto l0;
-edge c93_94 goto l0;
-edge c93_83 goto l0;
+  location l0:
+    initial; marked;
+    edge c91_93 goto l1;
+    edge c95_93 goto l1;
+    edge c83_93 goto l1;
+  location l1:
+    edge c93_92 goto l0;
+    edge c93_94 goto l0;
+    edge c93_83 goto l0;
 end
 
 plant automaton R94C:
-location l0:
-initial; marked;
-edge c92_94 goto l1;
-edge c93_94 goto l1;
-edge c104_94 goto l1;
-location l1:
-edge c94_92 goto l0;
-edge c94_95 goto l0;
-edge c94_104 goto l0;
+  location l0:
+    initial; marked;
+    edge c92_94 goto l1;
+    edge c93_94 goto l1;
+    edge c104_94 goto l1;
+  location l1:
+    edge c94_92 goto l0;
+    edge c94_95 goto l0;
+    edge c94_104 goto l0;
 end
 
 plant automaton R95C:
-location l0:
-initial; marked;
-edge c94_95 goto l1;
-location l1:
-edge c95_93 goto l0;
+  location l0:
+    initial; marked;
+    edge c94_95 goto l1;
+  location l1:
+    edge c95_93 goto l0;
 end
 
 plant automaton R101C:
-location l0:
-initial; marked;
-edge c102_101 goto l1;
-location l1:
-edge c101_103 goto l0;
+  location l0:
+    initial; marked;
+    edge c102_101 goto l1;
+  location l1:
+    edge c101_103 goto l0;
 end
 
 plant automaton R102C:
-location l0:
-initial; marked;
-edge c104_102 goto l1;
-edge c103_102 goto l1;
-location l1:
-edge c102_101 goto l0;
-edge c102_104 goto l0;
+  location l0:
+    initial; marked;
+    edge c103_102 goto l1;
+    edge c104_102 goto l1;
+  location l1:
+    edge c102_101 goto l0;
+    edge c102_104 goto l0;
 end
 
 plant automaton R103C:
-location l0:
-initial; marked;
-edge c101_103 goto l1;
-edge c105_103 goto l1;
-location l1:
-edge c103_102 goto l0;
-edge c103_104 goto l0;
+  location l0:
+    initial; marked;
+    edge c101_103 goto l1;
+    edge c105_103 goto l1;
+  location l1:
+    edge c103_102 goto l0;
+    edge c103_104 goto l0;
 end
 
 plant automaton R104C:
-location l0:
-initial; marked;
-edge c102_104 goto l1;
-edge c103_104 goto l1;
-edge c94_104 goto l1;
-location l1:
-edge c104_102 goto l0;
-edge c104_105 goto l0;
-edge c104_94 goto l0;
+  location l0:
+    initial; marked;
+    edge c102_104 goto l1;
+    edge c103_104 goto l1;
+    edge c94_104 goto l1;
+  location l1:
+    edge c104_102 goto l0;
+    edge c104_105 goto l0;
+    edge c104_94 goto l0;
 end
 
 plant automaton R105C:
-location l0:
-initial; marked;
-edge c104_105 goto l1;
-location l1:
-edge c105_103 goto l0;
+  location l0:
+    initial; marked;
+    edge c104_105 goto l1;
+  location l1:
+    edge c105_103 goto l0;
 end
 
 plant automaton R11M:
-location l0:
-initial; marked;
-edge m13_11 goto l1;
-edge m21_11 goto l1;
-location l1:
-edge m11_12 goto l0;
+  location l0:
+    initial; marked;
+    edge m13_11 goto l1;
+    edge m21_11 goto l1;
+  location l1:
+    edge m11_12 goto l0;
 edge m11_21 goto l0;
 end
 
 plant automaton R12M:
-location l0:
-initial; marked;
-edge m11_12 goto l1;
-location l1:
-edge m12_13 goto l0;
+  location l0:
+    initial; marked;
+    edge m11_12 goto l1;
+  location l1:
+    edge m12_13 goto l0;
 end
 
 plant automaton R13M:
-location l0:
-initial; marked;
-edge m12_13 goto l1;
-edge m14_13 goto l1;
-location l1:
-edge m13_11 goto l0;
-edge m13_15 goto l0;
+  location l0:
+    initial; marked;
+    edge m12_13 goto l1;
+    edge m14_13 goto l1;
+  location l1:
+    edge m13_11 goto l0;
+    edge m13_15 goto l0;
 end
 
 plant automaton R14M:
-location l0:
-initial; marked;
-edge m15_14 goto l1;
-location l1:
-edge m14_13 goto l0;
+  location l0:
+    initial; marked;
+    edge m15_14 goto l1;
+  location l1:
+    edge m14_13 goto l0;
 end
 
 plant automaton R15M:
-location l0:
-initial; marked;
-edge m13_15 goto l1;
-location l1:
-edge m15_14 goto l0;
+  location l0:
+    initial; marked;
+    edge m13_15 goto l1;
+  location l1:
+    edge m15_14 goto l0;
 end
 
 plant automaton R21M:
-location l0:
-initial; marked;
-edge m23_21 goto l1;
-edge m11_21 goto l1;
-location l1:
-edge m21_22 goto l0;
+  location l0:
+    initial; marked;
+    edge m23_21 goto l1;
+    edge m11_21 goto l1;
+  location l1:
+    edge m21_22 goto l0;
 edge m21_11 goto l0;
 end
 
 plant automaton R22M:
-location l0:
-initial; marked;
-edge m21_22 goto l1;
-edge m32_22 goto l1;
-location l1:
-edge m22_23 goto l0;
+  location l0:
+    initial; marked;
+    edge m21_22 goto l1;
+    edge m32_22 goto l1;
+  location l1:
+    edge m22_23 goto l0;
 edge m22_32 goto l0;
 end
 
 plant automaton R23M:
-location l0:
-initial; marked;
-edge m22_23 goto l1;
-edge m24_23 goto l1;
-location l1:
-edge m23_21 goto l0;
-edge m23_25 goto l0;
+  location l0:
+    initial; marked;
+    edge m22_23 goto l1;
+    edge m24_23 goto l1;
+  location l1:
+    edge m23_21 goto l0;
+    edge m23_25 goto l0;
 end
 
 plant automaton R24M:
-location l0:
-initial; marked;
-edge m25_24 goto l1;
-location l1:
-edge m24_23 goto l0;
+  location l0:
+    initial; marked;
+    edge m25_24 goto l1;
+  location l1:
+    edge m24_23 goto l0;
 end
 
 plant automaton R25M:
-location l0:
-initial; marked;
-edge m23_25 goto l1;
-location l1:
-edge m25_24 goto l0;
+  location l0:
+    initial; marked;
+    edge m23_25 goto l1;
+  location l1:
+    edge m25_24 goto l0;
 end
 
 plant automaton R31M:
-location l0:
-initial; marked;
-edge m33_31 goto l1;
-location l1:
-edge m31_32 goto l0;
+  location l0:
+    initial; marked;
+    edge m33_31 goto l1;
+  location l1:
+    edge m31_32 goto l0;
 end
 
 plant automaton R32M:
-location l0:
-initial; marked;
-edge m31_32 goto l1;
-edge m22_32 goto l1;
-location l1:
-edge m32_33 goto l0;
+  location l0:
+    initial; marked;
+    edge m31_32 goto l1;
+    edge m22_32 goto l1;
+  location l1:
+    edge m32_33 goto l0;
 edge m32_22 goto l0;
 end
 
 plant automaton R33M:
-location l0:
-initial; marked;
-edge m32_33 goto l1;
-edge m34_33 goto l1;
-edge m43_33 goto l1;
-location l1:
-edge m33_31 goto l0;
-edge m33_35 goto l0;
+  location l0:
+    initial; marked;
+    edge m32_33 goto l1;
+    edge m34_33 goto l1;
+    edge m43_33 goto l1;
+  location l1:
+    edge m33_31 goto l0;
+    edge m33_35 goto l0;
 edge m33_43 goto l0;
 end
 
 plant automaton R34M:
-location l0:
-initial; marked;
-edge m35_34 goto l1;
-location l1:
-edge m34_33 goto l0;
+  location l0:
+    initial; marked;
+    edge m35_34 goto l1;
+  location l1:
+    edge m34_33 goto l0;
 end
 
 plant automaton R35M:
-location l0:
-initial; marked;
-edge m33_35 goto l1;
-location l1:
-edge m35_34 goto l0;
+  location l0:
+    initial; marked;
+    edge m33_35 goto l1;
+  location l1:
+    edge m35_34 goto l0;
 end
 
 plant automaton R41M:
-location l0:
-initial; marked;
-edge m43_41 goto l1;
-location l1:
-edge m41_42 goto l0;
+  location l0:
+    initial; marked;
+    edge m43_41 goto l1;
+  location l1:
+    edge m41_42 goto l0;
 end
 
 plant automaton R42M:
-location l0:
-initial; marked;
-edge m41_42 goto l1;
-location l1:
-edge m42_43 goto l0;
+  location l0:
+    initial; marked;
+    edge m41_42 goto l1;
+  location l1:
+    edge m42_43 goto l0;
 end
 
 plant automaton R43M:
-location l0:
-initial; marked;
-edge m42_43 goto l1;
-edge m44_43 goto l1;
-edge m33_43 goto l1;
-location l1:
-edge m43_41 goto l0;
-edge m43_45 goto l0;
+  location l0:
+    initial; marked;
+    edge m42_43 goto l1;
+    edge m44_43 goto l1;
+    edge m33_43 goto l1;
+  location l1:
+    edge m43_41 goto l0;
+    edge m43_45 goto l0;
 edge m43_33 goto l0;
 end
 
 plant automaton R44M:
-location l0:
-initial; marked;
-edge m45_44 goto l1;
-edge m54_44 goto l1;
-location l1:
-edge m44_43 goto l0;
+  location l0:
+    initial; marked;
+    edge m45_44 goto l1;
+    edge m54_44 goto l1;
+  location l1:
+    edge m44_43 goto l0;
 edge m44_54 goto l0;
 end
 
 plant automaton R45M:
-location l0:
-initial; marked;
-edge m43_45 goto l1;
-location l1:
-edge m45_44 goto l0;
+  location l0:
+    initial; marked;
+    edge m43_45 goto l1;
+  location l1:
+    edge m45_44 goto l0;
 end
 
 plant automaton R51M:
-location l0:
-initial; marked;
-edge m53_51 goto l1;
-location l1:
-edge m51_52 goto l0;
+  location l0:
+    initial; marked;
+    edge m53_51 goto l1;
+  location l1:
+    edge m51_52 goto l0;
 end
 
 plant automaton R52M:
-location l0:
-initial; marked;
-edge m51_52 goto l1;
-location l1:
-edge m52_53 goto l0;
+  location l0:
+    initial; marked;
+    edge m51_52 goto l1;
+  location l1:
+    edge m52_53 goto l0;
 end
 
 plant automaton R53M:
-location l0:
-initial; marked;
-edge m52_53 goto l1;
-edge m54_53 goto l1;
-location l1:
-edge m53_51 goto l0;
-edge m53_55 goto l0;
+  location l0:
+    initial; marked;
+    edge m52_53 goto l1;
+    edge m54_53 goto l1;
+  location l1:
+    edge m53_51 goto l0;
+    edge m53_55 goto l0;
 end
 
 plant automaton R54M:
-location l0:
-initial; marked;
-edge m55_54 goto l1;
-edge m44_54 goto l1;
-location l1:
-edge m54_53 goto l0;
+  location l0:
+    initial; marked;
+    edge m55_54 goto l1;
+    edge m44_54 goto l1;
+  location l1:
+    edge m54_53 goto l0;
 edge m54_44 goto l0;
 end
 
 plant automaton R55M:
-location l0:
-initial; marked;
-edge m53_55 goto l1;
-edge m65_55 goto l1;
-location l1:
-edge m55_54 goto l0;
+  location l0:
+    initial; marked;
+    edge m53_55 goto l1;
+    edge m65_55 goto l1;
+  location l1:
+    edge m55_54 goto l0;
 edge m55_65 goto l0;
 end
 
 plant automaton R61M:
-location l0:
-initial; marked;
-edge m63_61 goto l1;
-edge m71_61 goto l1;
-location l1:
-edge m61_62 goto l0;
+  location l0:
+    initial; marked;
+    edge m63_61 goto l1;
+    edge m71_61 goto l1;
+  location l1:
+    edge m61_62 goto l0;
 edge m61_71 goto l0;
 end
 
 plant automaton R62M:
-location l0:
-initial; marked;
-edge m61_62 goto l1;
-location l1:
-edge m62_63 goto l0;
+  location l0:
+    initial; marked;
+    edge m61_62 goto l1;
+  location l1:
+    edge m62_63 goto l0;
 end
 
 plant automaton R63M:
-location l0:
-initial; marked;
-edge m62_63 goto l1;
-edge m64_63 goto l1;
-location l1:
-edge m63_61 goto l0;
-edge m63_65 goto l0;
+  location l0:
+    initial; marked;
+    edge m62_63 goto l1;
+    edge m64_63 goto l1;
+  location l1:
+    edge m63_61 goto l0;
+    edge m63_65 goto l0;
 end
 
 plant automaton R64M:
-location l0:
-initial; marked;
-edge m65_64 goto l1;
-location l1:
-edge m64_63 goto l0;
+  location l0:
+    initial; marked;
+    edge m65_64 goto l1;
+  location l1:
+    edge m64_63 goto l0;
 end
 
 plant automaton R65M:
-location l0:
-initial; marked;
-edge m63_65 goto l1;
-edge m55_65 goto l1;
-location l1:
-edge m65_64 goto l0;
+  location l0:
+    initial; marked;
+    edge m63_65 goto l1;
+    edge m55_65 goto l1;
+  location l1:
+    edge m65_64 goto l0;
 edge m65_55 goto l0;
 end
 
 plant automaton R71M:
-location l0:
-initial; marked;
-edge m73_71 goto l1;
-edge m61_71 goto l1;
-location l1:
-edge m71_72 goto l0;
+  location l0:
+    initial; marked;
+    edge m73_71 goto l1;
+    edge m61_71 goto l1;
+  location l1:
+    edge m71_72 goto l0;
 edge m71_61 goto l0;
 end
 
 plant automaton R72M:
-location l0:
-initial; marked;
-edge m71_72 goto l1;
-edge m82_72 goto l1;
-location l1:
-edge m72_73 goto l0;
+  location l0:
+    initial; marked;
+    edge m71_72 goto l1;
+    edge m82_72 goto l1;
+  location l1:
+    edge m72_73 goto l0;
 edge m72_82 goto l0;
 end
 
 plant automaton R73M:
-location l0:
-initial; marked;
-edge m72_73 goto l1;
-edge m74_73 goto l1;
-location l1:
-edge m73_71 goto l0;
-edge m73_75 goto l0;
+  location l0:
+    initial; marked;
+    edge m72_73 goto l1;
+    edge m74_73 goto l1;
+  location l1:
+    edge m73_71 goto l0;
+    edge m73_75 goto l0;
 end
 
 plant automaton R74M:
-location l0:
-initial; marked;
-edge m75_74 goto l1;
-location l1:
-edge m74_73 goto l0;
+  location l0:
+    initial; marked;
+    edge m75_74 goto l1;
+  location l1:
+    edge m74_73 goto l0;
 end
 
 plant automaton R75M:
-location l0:
-initial; marked;
-edge m73_75 goto l1;
-location l1:
-edge m75_74 goto l0;
+  location l0:
+    initial; marked;
+    edge m73_75 goto l1;
+  location l1:
+    edge m75_74 goto l0;
 end
 
 plant automaton R81M:
-location l0:
-initial; marked;
-edge m83_81 goto l1;
-location l1:
-edge m81_82 goto l0;
+  location l0:
+    initial; marked;
+    edge m83_81 goto l1;
+  location l1:
+    edge m81_82 goto l0;
 end
 
 plant automaton R82M:
-location l0:
-initial; marked;
-edge m81_82 goto l1;
-edge m72_82 goto l1;
-location l1:
-edge m82_83 goto l0;
+  location l0:
+    initial; marked;
+    edge m81_82 goto l1;
+    edge m72_82 goto l1;
+  location l1:
+    edge m82_83 goto l0;
 edge m82_72 goto l0;
 end
 
 plant automaton R83M:
-location l0:
-initial; marked;
-edge m82_83 goto l1;
-edge m84_83 goto l1;
-edge m93_83 goto l1;
-location l1:
-edge m83_81 goto l0;
-edge m83_85 goto l0;
+  location l0:
+    initial; marked;
+    edge m82_83 goto l1;
+    edge m84_83 goto l1;
+    edge m93_83 goto l1;
+  location l1:
+    edge m83_81 goto l0;
+    edge m83_85 goto l0;
 edge m83_93 goto l0;
 end
 
 plant automaton R84M:
-location l0:
-initial; marked;
-edge m85_84 goto l1;
-location l1:
-edge m84_83 goto l0;
+  location l0:
+    initial; marked;
+    edge m85_84 goto l1;
+  location l1:
+    edge m84_83 goto l0;
 end
 
 plant automaton R85M:
-location l0:
-initial; marked;
-edge m83_85 goto l1;
-location l1:
-edge m85_84 goto l0;
+  location l0:
+    initial; marked;
+    edge m83_85 goto l1;
+  location l1:
+    edge m85_84 goto l0;
 end
 
 plant automaton R91M:
-location l0:
-initial; marked;
-edge m93_91 goto l1;
-location l1:
-edge m91_92 goto l0;
+  location l0:
+    initial; marked;
+    edge m93_91 goto l1;
+  location l1:
+    edge m91_92 goto l0;
 end
 
 plant automaton R92M:
-location l0:
-initial; marked;
-edge m91_92 goto l1;
-location l1:
-edge m92_93 goto l0;
+  location l0:
+    initial; marked;
+    edge m91_92 goto l1;
+  location l1:
+    edge m92_93 goto l0;
 end
 
 plant automaton R93M:
-location l0:
-initial; marked;
-edge m92_93 goto l1;
-edge m94_93 goto l1;
-edge m83_93 goto l1;
-location l1:
-edge m93_91 goto l0;
-edge m93_95 goto l0;
+  location l0:
+    initial; marked;
+    edge m92_93 goto l1;
+    edge m94_93 goto l1;
+    edge m83_93 goto l1;
+  location l1:
+    edge m93_91 goto l0;
+    edge m93_95 goto l0;
 edge m93_83 goto l0;
 end
 
 plant automaton R94M:
-location l0:
-initial; marked;
-edge m95_94 goto l1;
-edge m104_94 goto l1;
-location l1:
-edge m94_93 goto l0;
+  location l0:
+    initial; marked;
+    edge m95_94 goto l1;
+    edge m104_94 goto l1;
+  location l1:
+    edge m94_93 goto l0;
 edge m94_104 goto l0;
 end
 
 plant automaton R95M:
-location l0:
-initial; marked;
-edge m93_95 goto l1;
-location l1:
-edge m95_94 goto l0;
+  location l0:
+    initial; marked;
+    edge m93_95 goto l1;
+  location l1:
+    edge m95_94 goto l0;
 end
 
 plant automaton R101M:
-location l0:
-initial; marked;
-edge m103_101 goto l1;
-location l1:
-edge m101_102 goto l0;
+  location l0:
+    initial; marked;
+    edge m103_101 goto l1;
+  location l1:
+    edge m101_102 goto l0;
 end
 
 plant automaton R102M:
-location l0:
-initial; marked;
-edge m101_102 goto l1;
-location l1:
-edge m102_103 goto l0;
+  location l0:
+    initial; marked;
+    edge m101_102 goto l1;
+  location l1:
+    edge m102_103 goto l0;
 end
 
 plant automaton R103M:
-location l0:
-initial; marked;
-edge m102_103 goto l1;
-edge m104_103 goto l1;
-location l1:
-edge m103_101 goto l0;
-edge m103_105 goto l0;
+  location l0:
+    initial; marked;
+    edge m102_103 goto l1;
+    edge m104_103 goto l1;
+  location l1:
+    edge m103_101 goto l0;
+    edge m103_105 goto l0;
 end
 
 plant automaton R104M:
-location l0:
-initial; marked;
-edge m105_104 goto l1;
-edge m94_104 goto l1;
-location l1:
-edge m104_103 goto l0;
+  location l0:
+    initial; marked;
+    edge m105_104 goto l1;
+    edge m94_104 goto l1;
+  location l1:
+    edge m104_103 goto l0;
 edge m104_94 goto l0;
 end
 
 plant automaton R105M:
-location l0:
-edge m103_105 goto l1;
-location l1:
-initial; marked;
-edge m105_104 goto l0;
+  location l0:
+    edge m103_105 goto l1;
+  location l1:
+    initial; marked;
+    edge m105_104 goto l0;
 end
 
 requirement invariant R11C.l0 or R11M.l0;
