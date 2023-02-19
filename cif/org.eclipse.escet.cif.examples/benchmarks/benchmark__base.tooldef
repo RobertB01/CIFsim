@@ -25,7 +25,7 @@ tool string fmt_nr(int nr, int max_nr):
 end
 
 // Executes a benchmark for a given model in a given folder.
-tool benchmark(string folder, string model_file_name):
+tool benchmark(string benchmark_name, string folder, string model_file_name):
     // Logging.
     outln("=============================================");
     outln("=== CIF data-based synthesis benchmarking ===");
@@ -33,7 +33,7 @@ tool benchmark(string folder, string model_file_name):
     outln();
     outln("NOTE: synthesis takes longer when benchmarking due to the collection of platform-independent performance metrics.");
     outln();
-    outln("Benchmarking %s/%s:", folder, model_file_name);
+    outln("Benchmarking %s (%s/%s):", benchmark_name, folder, model_file_name);
 
     // Get settings to use for each of the executions of data-based synthesis.
     list string executions_settings = get_benchmark_executions_settings();
@@ -62,17 +62,17 @@ tool benchmark(string folder, string model_file_name):
         outln("  %s/%d: %s", formatted_nr, executions_count, settings_txt);
 
         // Determine file names.
-        string settings_file = fmt("%s/%s.%s.settings",    output_folder, folder, formatted_nr);
-        string output_file   = fmt("%s/%s.%s.ctrlsys.cif", output_folder, folder, formatted_nr);
-        string stdout_file   = fmt("%s/%s.%s.out",         output_folder, folder, formatted_nr);
-        string stderr_file   = fmt("%s/%s.%s.err",         output_folder, folder, formatted_nr);
+        string settings_file = fmt("%s/%s.%s.settings",    output_folder, benchmark_name, formatted_nr);
+        string output_file   = fmt("%s/%s.%s.ctrlsys.cif", output_folder, benchmark_name, formatted_nr);
+        string stdout_file   = fmt("%s/%s.%s.out",         output_folder, benchmark_name, formatted_nr);
+        string stderr_file   = fmt("%s/%s.%s.err",         output_folder, benchmark_name, formatted_nr);
 
         // Write used settings to a file.
         writefile(settings_file, execution_settings);
 
         // Perform synthesis, measuring the performance.
         times_millis = times_millis + [currentTimeMillis()];
-        cifdatasynth(fmt("%s/%s", folder, model_file_name), "-m debug", "-o " + output_file,
+        cifdatasynth(fmt("%s/%s", folder, model_file_name), "-m debug", "--event-warn=no", "-o " + output_file,
                      "--stats=bdd-perf-max-nodes,bdd-perf-cache -t nodes", execution_settings,
                      stdout=stdout_file, stderr=stderr_file, ignoreNonZeroExitCode=true);
         times_millis = times_millis + [currentTimeMillis()];
@@ -92,7 +92,7 @@ tool benchmark(string folder, string model_file_name):
         // Read stdout lines.
         int nr = i + 1;
         string formatted_nr = fmt_nr(nr, executions_count);
-        string stdout_file = fmt("%s/%s.%s.out", output_folder, folder, formatted_nr);
+        string stdout_file = fmt("%s/%s.%s.out", output_folder, benchmark_name, formatted_nr);
         list string lines = [];
         if isfile(stdout_file):: lines = readlines(stdout_file);
 
@@ -122,7 +122,7 @@ tool benchmark(string folder, string model_file_name):
     end
 
     // Write metrics CSV file.
-    writefile(fmt("%s/%s.metrics.csv", output_folder, folder), metrics_csv_lines);
+    writefile(fmt("%s/%s.metrics.csv", output_folder, benchmark_name), metrics_csv_lines);
 
     // Print metrics CSV to stdout.
     outln();
@@ -152,7 +152,7 @@ tool benchmark(string folder, string model_file_name):
     end
 
     // Write times CSV file.
-    writefile(output_folder + "/" + folder + ".times.csv", times_csv_lines);
+    writefile(fmt("%s/%s.times.csv", output_folder, benchmark_name), times_csv_lines);
 
     // Print times CSV to stdout.
     outln();
