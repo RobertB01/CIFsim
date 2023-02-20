@@ -33,8 +33,16 @@ If they are not, a counter example is produced.
 The tool takes a `.cif` file containing exactly two automata, that must be deterministic, have the same alphabet, and have an initial location.
 In addition, the general event-based restrictions listed at <<tools-eventbased-supported-specifications>> apply as well.
 
-The language equivalence check tool produces output stating `Automata have the same language`, or it produces a counter example where an event can be performed in a location in one automaton, while from the equivalent location in the other automaton the same event cannot be performed.
-The equivalent location is derived by walking from the initial location to the location of interest in both automata, using the same sequence of events.
+The language equivalence check tool can produce three different results:
+
+* The output stating `Automata have the same language` when the two automata are language equivalent.
+
+* The output stating `Automata have a different language` when an event can be performed in a location in one automaton, while from the equivalent location in the other automaton the same event cannot be performed.
+
+* The output stating `Automata have a different language` when a location in one automaton is marked, while the equivalent location in the other automaton is not marked.
+
+In the last two cases, the equivalent location is derived by walking from the initial location to the location of interest in both automata using the same sequence of events.
+When two automata are not language equivalent, a counter example is produced that show the problem including the sequence of events to reach the equivalent locations.
 
 indexterm:[event-based language equivalence check,start]
 

@@ -83,7 +83,7 @@ public class Maps {
      *
      * <p>
      * It only supports inverting maps where the values in the map are unique (i.e. a one-to-one mapping or a bijection),
-     * so no pairs are lost. Furthermore, all keys and values of the map must be non-`null`.
+     * so no pairs are lost. Furthermore, all keys and values of the map must be non-{@code null}.
      * </p>
      *
      * @param <V> The type of the values of the map.
