@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.multilevel.ciftodmm;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -38,9 +37,8 @@ public class SpecHasRequirementCheck extends CifCheck {
     @Override
     protected void postprocessSpecification(Specification spec, CifCheckViolations violations) {
         if (numReqs < 1) {
-            violations.add(null,
-                    new LiteralMessage("specification has neither a requirement automaton nor a state/event exclusion "
-                            + "requirement invariant"));
+            violations.add(spec, "Specification has neither a requirement automaton nor a state/event exclusion "
+                    + "requirement invariant");
         }
     }
 

@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.multilevel.ciftodmm;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -36,8 +35,7 @@ public class SpecHasPlantCheck extends CifCheck {
     @Override
     protected void postprocessSpecification(Specification spec, CifCheckViolations violations) {
         if (numPlants < 1) {
-            violations.add(null,
-                    new LiteralMessage("specification has neither a plant automaton nor an input variable"));
+            violations.add(spec, "Specification has neither a plant automaton nor an input variable");
         }
     }
 
