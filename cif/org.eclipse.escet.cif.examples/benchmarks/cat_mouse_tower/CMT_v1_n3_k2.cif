@@ -24,477 +24,477 @@
 //  - Requirements ensure that a cat and a mouse are never in the same room at the same time.
 
 // Events for moves between rooms on level 1.
-controllable c11_13, c12_11, c13_12, c13_14, c14_15, c15_13;
-uncontrollable c12_14, c14_12;
-controllable m11_12, m12_13, m13_11, m13_15, m14_13, m15_14;
+controllable cat_L1R1_to_L1R3, cat_L1R2_to_L1R1, cat_L1R3_to_L1R2, cat_L1R3_to_L1R4, cat_L1R4_to_L1R5, cat_L1R5_to_L1R3;
+uncontrollable cat_L1R2_to_L1R4, cat_L1R4_to_L1R2;
+controllable mouse_L1R1_to_L1R2, mouse_L1R2_to_L1R3, mouse_L1R3_to_L1R1, mouse_L1R3_to_L1R5, mouse_L1R4_to_L1R3, mouse_L1R5_to_L1R4;
 
 // Events for moves between rooms on level 2.
-controllable c21_23, c22_21, c23_22, c23_24, c24_25, c25_23;
-uncontrollable c22_24, c24_22;
-controllable m21_22, m22_23, m23_21, m23_25, m24_23, m25_24;
+controllable cat_L2R1_to_L2R3, cat_L2R2_to_L2R1, cat_L2R3_to_L2R2, cat_L2R3_to_L2R4, cat_L2R4_to_L2R5, cat_L2R5_to_L2R3;
+uncontrollable cat_L2R2_to_L2R4, cat_L2R4_to_L2R2;
+controllable mouse_L2R1_to_L2R2, mouse_L2R2_to_L2R3, mouse_L2R3_to_L2R1, mouse_L2R3_to_L2R5, mouse_L2R4_to_L2R3, mouse_L2R5_to_L2R4;
 
 // Events for moves between rooms on level 3.
-controllable c31_33, c32_31, c33_32, c33_34, c34_35, c35_33;
-uncontrollable c32_34, c34_32;
-controllable m31_32, m32_33, m33_31, m33_35, m34_33, m35_34;
+controllable cat_L3R1_to_L3R3, cat_L3R2_to_L3R1, cat_L3R3_to_L3R2, cat_L3R3_to_L3R4, cat_L3R4_to_L3R5, cat_L3R5_to_L3R3;
+uncontrollable cat_L3R2_to_L3R4, cat_L3R4_to_L3R2;
+controllable mouse_L3R1_to_L3R2, mouse_L3R2_to_L3R3, mouse_L3R3_to_L3R1, mouse_L3R3_to_L3R5, mouse_L3R4_to_L3R3, mouse_L3R5_to_L3R4;
 
 // Events for moves between levels.
-controllable c11_21, c21_11, m11_21, m21_11;
-controllable c22_32, c32_22, m22_32, m32_22;
+controllable cat_L1R1_to_L2R1, cat_L2R1_to_L1R1, mouse_L1R1_to_L2R1, mouse_L2R1_to_L1R1;
+controllable cat_L2R2_to_L3R2, cat_L3R2_to_L2R2, mouse_L2R2_to_L3R2, mouse_L3R2_to_L2R2;
 
 // Cats on level 1, in room 1.
-plant automaton R11C:
-  location l0:
-    edge c12_11 goto l1;
-    edge c21_11 goto l1;
-  location l1:
-    edge c12_11 goto l2;
-    edge c21_11 goto l2;
-    edge c11_13 goto l0;
-    edge c11_21 goto l0;
-  location l2:
+plant automaton Level1_Room1_Cats:
+  location cnt_0:
+    edge cat_L1R2_to_L1R1 goto cnt_1;
+    edge cat_L2R1_to_L1R1 goto cnt_1;
+  location cnt_1:
+    edge cat_L1R2_to_L1R1 goto cnt_2;
+    edge cat_L2R1_to_L1R1 goto cnt_2;
+    edge cat_L1R1_to_L1R3 goto cnt_0;
+    edge cat_L1R1_to_L2R1 goto cnt_0;
+  location cnt_2:
     initial; marked;
-    edge c11_13 goto l1;
-    edge c11_21 goto l1;
+    edge cat_L1R1_to_L1R3 goto cnt_1;
+    edge cat_L1R1_to_L2R1 goto cnt_1;
 end
 
 // Cats on level 1, in room 2.
-plant automaton R12C:
-  location l0:
+plant automaton Level1_Room2_Cats:
+  location cnt_0:
     initial; marked;
-    edge c13_12 goto l1;
-    edge c14_12 goto l1;
-  location l1:
-    edge c13_12 goto l2;
-    edge c14_12 goto l2;
-    edge c12_11 goto l0;
-    edge c12_14 goto l0;
-  location l2:
-    edge c12_11 goto l1;
-    edge c12_14 goto l1;
+    edge cat_L1R3_to_L1R2 goto cnt_1;
+    edge cat_L1R4_to_L1R2 goto cnt_1;
+  location cnt_1:
+    edge cat_L1R3_to_L1R2 goto cnt_2;
+    edge cat_L1R4_to_L1R2 goto cnt_2;
+    edge cat_L1R2_to_L1R1 goto cnt_0;
+    edge cat_L1R2_to_L1R4 goto cnt_0;
+  location cnt_2:
+    edge cat_L1R2_to_L1R1 goto cnt_1;
+    edge cat_L1R2_to_L1R4 goto cnt_1;
 end
 
 // Cats on level 1, in room 3.
-plant automaton R13C:
-  location l0:
+plant automaton Level1_Room3_Cats:
+  location cnt_0:
     initial; marked;
-    edge c11_13 goto l1;
-    edge c15_13 goto l1;
-  location l1:
-    edge c11_13 goto l2;
-    edge c15_13 goto l2;
-    edge c13_12 goto l0;
-    edge c13_14 goto l0;
-  location l2:
-    edge c13_12 goto l1;
-    edge c13_14 goto l1;
+    edge cat_L1R1_to_L1R3 goto cnt_1;
+    edge cat_L1R5_to_L1R3 goto cnt_1;
+  location cnt_1:
+    edge cat_L1R1_to_L1R3 goto cnt_2;
+    edge cat_L1R5_to_L1R3 goto cnt_2;
+    edge cat_L1R3_to_L1R2 goto cnt_0;
+    edge cat_L1R3_to_L1R4 goto cnt_0;
+  location cnt_2:
+    edge cat_L1R3_to_L1R2 goto cnt_1;
+    edge cat_L1R3_to_L1R4 goto cnt_1;
 end
 
 // Cats on level 1, in room 4.
-plant automaton R14C:
-  location l0:
+plant automaton Level1_Room4_Cats:
+  location cnt_0:
     initial; marked;
-    edge c12_14 goto l1;
-    edge c13_14 goto l1;
-  location l1:
-    edge c12_14 goto l2;
-    edge c13_14 goto l2;
-    edge c14_12 goto l0;
-    edge c14_15 goto l0;
-  location l2:
-    edge c14_12 goto l1;
-    edge c14_15 goto l1;
+    edge cat_L1R2_to_L1R4 goto cnt_1;
+    edge cat_L1R3_to_L1R4 goto cnt_1;
+  location cnt_1:
+    edge cat_L1R2_to_L1R4 goto cnt_2;
+    edge cat_L1R3_to_L1R4 goto cnt_2;
+    edge cat_L1R4_to_L1R2 goto cnt_0;
+    edge cat_L1R4_to_L1R5 goto cnt_0;
+  location cnt_2:
+    edge cat_L1R4_to_L1R2 goto cnt_1;
+    edge cat_L1R4_to_L1R5 goto cnt_1;
 end
 
 // Cats on level 1, in room 5.
-plant automaton R15C:
-  location l0:
+plant automaton Level1_Room5_Cats:
+  location cnt_0:
     initial; marked;
-    edge c14_15 goto l1;
-  location l1:
-    edge c14_15 goto l2;
-    edge c15_13 goto l0;
-  location l2:
-    edge c15_13 goto l1;
+    edge cat_L1R4_to_L1R5 goto cnt_1;
+  location cnt_1:
+    edge cat_L1R4_to_L1R5 goto cnt_2;
+    edge cat_L1R5_to_L1R3 goto cnt_0;
+  location cnt_2:
+    edge cat_L1R5_to_L1R3 goto cnt_1;
 end
 
 // Cats on level 2, in room 1.
-plant automaton R21C:
-  location l0:
+plant automaton Level2_Room1_Cats:
+  location cnt_0:
     initial; marked;
-    edge c22_21 goto l1;
-    edge c11_21 goto l1;
-  location l1:
-    edge c22_21 goto l2;
-    edge c11_21 goto l2;
-    edge c21_23 goto l0;
-    edge c21_11 goto l0;
-  location l2:
-    edge c21_23 goto l1;
-    edge c21_11 goto l1;
+    edge cat_L2R2_to_L2R1 goto cnt_1;
+    edge cat_L1R1_to_L2R1 goto cnt_1;
+  location cnt_1:
+    edge cat_L2R2_to_L2R1 goto cnt_2;
+    edge cat_L1R1_to_L2R1 goto cnt_2;
+    edge cat_L2R1_to_L2R3 goto cnt_0;
+    edge cat_L2R1_to_L1R1 goto cnt_0;
+  location cnt_2:
+    edge cat_L2R1_to_L2R3 goto cnt_1;
+    edge cat_L2R1_to_L1R1 goto cnt_1;
 end
 
 // Cats on level 2, in room 2.
-plant automaton R22C:
-  location l0:
+plant automaton Level2_Room2_Cats:
+  location cnt_0:
     initial; marked;
-    edge c23_22 goto l1;
-    edge c24_22 goto l1;
-    edge c32_22 goto l1;
-  location l1:
-    edge c23_22 goto l2;
-    edge c24_22 goto l2;
-    edge c32_22 goto l2;
-    edge c22_21 goto l0;
-    edge c22_24 goto l0;
-    edge c22_32 goto l0;
-  location l2:
-    edge c22_21 goto l1;
-    edge c22_24 goto l1;
-    edge c22_32 goto l1;
+    edge cat_L2R3_to_L2R2 goto cnt_1;
+    edge cat_L2R4_to_L2R2 goto cnt_1;
+    edge cat_L3R2_to_L2R2 goto cnt_1;
+  location cnt_1:
+    edge cat_L2R3_to_L2R2 goto cnt_2;
+    edge cat_L2R4_to_L2R2 goto cnt_2;
+    edge cat_L3R2_to_L2R2 goto cnt_2;
+    edge cat_L2R2_to_L2R1 goto cnt_0;
+    edge cat_L2R2_to_L2R4 goto cnt_0;
+    edge cat_L2R2_to_L3R2 goto cnt_0;
+  location cnt_2:
+    edge cat_L2R2_to_L2R1 goto cnt_1;
+    edge cat_L2R2_to_L2R4 goto cnt_1;
+    edge cat_L2R2_to_L3R2 goto cnt_1;
 end
 
 // Cats on level 2, in room 3.
-plant automaton R23C:
-  location l0:
+plant automaton Level2_Room3_Cats:
+  location cnt_0:
     initial; marked;
-    edge c21_23 goto l1;
-    edge c25_23 goto l1;
-  location l1:
-    edge c21_23 goto l2;
-    edge c25_23 goto l2;
-    edge c23_22 goto l0;
-    edge c23_24 goto l0;
-  location l2:
-    edge c23_22 goto l1;
-    edge c23_24 goto l1;
+    edge cat_L2R1_to_L2R3 goto cnt_1;
+    edge cat_L2R5_to_L2R3 goto cnt_1;
+  location cnt_1:
+    edge cat_L2R1_to_L2R3 goto cnt_2;
+    edge cat_L2R5_to_L2R3 goto cnt_2;
+    edge cat_L2R3_to_L2R2 goto cnt_0;
+    edge cat_L2R3_to_L2R4 goto cnt_0;
+  location cnt_2:
+    edge cat_L2R3_to_L2R2 goto cnt_1;
+    edge cat_L2R3_to_L2R4 goto cnt_1;
 end
 
 // Cats on level 2, in room 4.
-plant automaton R24C:
-  location l0:
+plant automaton Level2_Room4_Cats:
+  location cnt_0:
     initial; marked;
-    edge c22_24 goto l1;
-    edge c23_24 goto l1;
-  location l1:
-    edge c22_24 goto l2;
-    edge c23_24 goto l2;
-    edge c24_22 goto l0;
-    edge c24_25 goto l0;
-  location l2:
-    edge c24_22 goto l1;
-    edge c24_25 goto l1;
+    edge cat_L2R2_to_L2R4 goto cnt_1;
+    edge cat_L2R3_to_L2R4 goto cnt_1;
+  location cnt_1:
+    edge cat_L2R2_to_L2R4 goto cnt_2;
+    edge cat_L2R3_to_L2R4 goto cnt_2;
+    edge cat_L2R4_to_L2R2 goto cnt_0;
+    edge cat_L2R4_to_L2R5 goto cnt_0;
+  location cnt_2:
+    edge cat_L2R4_to_L2R2 goto cnt_1;
+    edge cat_L2R4_to_L2R5 goto cnt_1;
 end
 
 // Cats on level 2, in room 5.
-plant automaton R25C:
-  location l0:
+plant automaton Level2_Room5_Cats:
+  location cnt_0:
     initial; marked;
-    edge c24_25 goto l1;
-  location l1:
-    edge c24_25 goto l2;
-    edge c25_23 goto l0;
-  location l2:
-    edge c25_23 goto l1;
+    edge cat_L2R4_to_L2R5 goto cnt_1;
+  location cnt_1:
+    edge cat_L2R4_to_L2R5 goto cnt_2;
+    edge cat_L2R5_to_L2R3 goto cnt_0;
+  location cnt_2:
+    edge cat_L2R5_to_L2R3 goto cnt_1;
 end
 
 // Cats on level 3, in room 1.
-plant automaton R31C:
-  location l0:
+plant automaton Level3_Room1_Cats:
+  location cnt_0:
     initial; marked;
-    edge c32_31 goto l1;
-  location l1:
-    edge c32_31 goto l2;
-    edge c31_33 goto l0;
-  location l2:
-    edge c31_33 goto l1;
+    edge cat_L3R2_to_L3R1 goto cnt_1;
+  location cnt_1:
+    edge cat_L3R2_to_L3R1 goto cnt_2;
+    edge cat_L3R1_to_L3R3 goto cnt_0;
+  location cnt_2:
+    edge cat_L3R1_to_L3R3 goto cnt_1;
 end
 
 // Cats on level 3, in room 2.
-plant automaton R32C:
-  location l0:
+plant automaton Level3_Room2_Cats:
+  location cnt_0:
     initial; marked;
-    edge c33_32 goto l1;
-    edge c34_32 goto l1;
-    edge c22_32 goto l1;
-  location l1:
-    edge c33_32 goto l2;
-    edge c34_32 goto l2;
-    edge c22_32 goto l2;
-    edge c32_31 goto l0;
-    edge c32_34 goto l0;
-    edge c32_22 goto l0;
-  location l2:
-    edge c32_31 goto l1;
-    edge c32_34 goto l1;
-    edge c32_22 goto l1;
+    edge cat_L3R3_to_L3R2 goto cnt_1;
+    edge cat_L3R4_to_L3R2 goto cnt_1;
+    edge cat_L2R2_to_L3R2 goto cnt_1;
+  location cnt_1:
+    edge cat_L3R3_to_L3R2 goto cnt_2;
+    edge cat_L3R4_to_L3R2 goto cnt_2;
+    edge cat_L2R2_to_L3R2 goto cnt_2;
+    edge cat_L3R2_to_L3R1 goto cnt_0;
+    edge cat_L3R2_to_L3R4 goto cnt_0;
+    edge cat_L3R2_to_L2R2 goto cnt_0;
+  location cnt_2:
+    edge cat_L3R2_to_L3R1 goto cnt_1;
+    edge cat_L3R2_to_L3R4 goto cnt_1;
+    edge cat_L3R2_to_L2R2 goto cnt_1;
 end
 
 // Cats on level 3, in room 3.
-plant automaton R33C:
-  location l0:
+plant automaton Level3_Room3_Cats:
+  location cnt_0:
     initial; marked;
-    edge c31_33 goto l1;
-    edge c35_33 goto l1;
-  location l1:
-    edge c31_33 goto l2;
-    edge c35_33 goto l2;
-    edge c33_32 goto l0;
-    edge c33_34 goto l0;
-  location l2:
-    edge c33_32 goto l1;
-    edge c33_34 goto l1;
+    edge cat_L3R1_to_L3R3 goto cnt_1;
+    edge cat_L3R5_to_L3R3 goto cnt_1;
+  location cnt_1:
+    edge cat_L3R1_to_L3R3 goto cnt_2;
+    edge cat_L3R5_to_L3R3 goto cnt_2;
+    edge cat_L3R3_to_L3R2 goto cnt_0;
+    edge cat_L3R3_to_L3R4 goto cnt_0;
+  location cnt_2:
+    edge cat_L3R3_to_L3R2 goto cnt_1;
+    edge cat_L3R3_to_L3R4 goto cnt_1;
 end
 
 // Cats on level 3, in room 4.
-plant automaton R34C:
-  location l0:
+plant automaton Level3_Room4_Cats:
+  location cnt_0:
     initial; marked;
-    edge c32_34 goto l1;
-    edge c33_34 goto l1;
-  location l1:
-    edge c32_34 goto l2;
-    edge c33_34 goto l2;
-    edge c34_32 goto l0;
-    edge c34_35 goto l0;
-  location l2:
-    edge c34_32 goto l1;
-    edge c34_35 goto l1;
+    edge cat_L3R2_to_L3R4 goto cnt_1;
+    edge cat_L3R3_to_L3R4 goto cnt_1;
+  location cnt_1:
+    edge cat_L3R2_to_L3R4 goto cnt_2;
+    edge cat_L3R3_to_L3R4 goto cnt_2;
+    edge cat_L3R4_to_L3R2 goto cnt_0;
+    edge cat_L3R4_to_L3R5 goto cnt_0;
+  location cnt_2:
+    edge cat_L3R4_to_L3R2 goto cnt_1;
+    edge cat_L3R4_to_L3R5 goto cnt_1;
 end
 
 // Cats on level 3, in room 5.
-plant automaton R35C:
-  location l0:
+plant automaton Level3_Room5_Cats:
+  location cnt_0:
     initial; marked;
-    edge c34_35 goto l1;
-  location l1:
-    edge c34_35 goto l2;
-    edge c35_33 goto l0;
-  location l2:
-    edge c35_33 goto l1;
+    edge cat_L3R4_to_L3R5 goto cnt_1;
+  location cnt_1:
+    edge cat_L3R4_to_L3R5 goto cnt_2;
+    edge cat_L3R5_to_L3R3 goto cnt_0;
+  location cnt_2:
+    edge cat_L3R5_to_L3R3 goto cnt_1;
 end
 
 // Mice on level 1, in room 1.
-plant automaton R11M:
-  location l0:
+plant automaton Level1_Room1_Mice:
+  location cnt_0:
     initial; marked;
-    edge m13_11 goto l1;
-    edge m21_11 goto l1;
-  location l1:
-    edge m13_11 goto l2;
-    edge m21_11 goto l2;
-    edge m11_12 goto l0;
-    edge m11_21 goto l0;
-  location l2:
-    edge m11_12 goto l1;
-    edge m11_21 goto l1;
+    edge mouse_L1R3_to_L1R1 goto cnt_1;
+    edge mouse_L2R1_to_L1R1 goto cnt_1;
+  location cnt_1:
+    edge mouse_L1R3_to_L1R1 goto cnt_2;
+    edge mouse_L2R1_to_L1R1 goto cnt_2;
+    edge mouse_L1R1_to_L1R2 goto cnt_0;
+    edge mouse_L1R1_to_L2R1 goto cnt_0;
+  location cnt_2:
+    edge mouse_L1R1_to_L1R2 goto cnt_1;
+    edge mouse_L1R1_to_L2R1 goto cnt_1;
 end
 
 // Mice on level 1, in room 2.
-plant automaton R12M:
-  location l0:
+plant automaton Level1_Room2_Mice:
+  location cnt_0:
     initial; marked;
-    edge m11_12 goto l1;
-  location l1:
-    edge m11_12 goto l2;
-    edge m12_13 goto l0;
-  location l2:
-    edge m12_13 goto l1;
+    edge mouse_L1R1_to_L1R2 goto cnt_1;
+  location cnt_1:
+    edge mouse_L1R1_to_L1R2 goto cnt_2;
+    edge mouse_L1R2_to_L1R3 goto cnt_0;
+  location cnt_2:
+    edge mouse_L1R2_to_L1R3 goto cnt_1;
 end
 
 // Mice on level 1, in room 3.
-plant automaton R13M:
-  location l0:
+plant automaton Level1_Room3_Mice:
+  location cnt_0:
     initial; marked;
-    edge m12_13 goto l1;
-    edge m14_13 goto l1;
-  location l1:
-    edge m12_13 goto l2;
-    edge m14_13 goto l2;
-    edge m13_11 goto l0;
-    edge m13_15 goto l0;
-  location l2:
-    edge m13_11 goto l1;
-    edge m13_15 goto l1;
+    edge mouse_L1R2_to_L1R3 goto cnt_1;
+    edge mouse_L1R4_to_L1R3 goto cnt_1;
+  location cnt_1:
+    edge mouse_L1R2_to_L1R3 goto cnt_2;
+    edge mouse_L1R4_to_L1R3 goto cnt_2;
+    edge mouse_L1R3_to_L1R1 goto cnt_0;
+    edge mouse_L1R3_to_L1R5 goto cnt_0;
+  location cnt_2:
+    edge mouse_L1R3_to_L1R1 goto cnt_1;
+    edge mouse_L1R3_to_L1R5 goto cnt_1;
 end
 
 // Mice on level 1, in room 4.
-plant automaton R14M:
-  location l0:
+plant automaton Level1_Room4_Mice:
+  location cnt_0:
     initial; marked;
-    edge m15_14 goto l1;
-  location l1:
-    edge m15_14 goto l2;
-    edge m14_13 goto l0;
-  location l2:
-    edge m14_13 goto l1;
+    edge mouse_L1R5_to_L1R4 goto cnt_1;
+  location cnt_1:
+    edge mouse_L1R5_to_L1R4 goto cnt_2;
+    edge mouse_L1R4_to_L1R3 goto cnt_0;
+  location cnt_2:
+    edge mouse_L1R4_to_L1R3 goto cnt_1;
 end
 
 // Mice on level 1, in room 5.
-plant automaton R15M:
-  location l0:
+plant automaton Level1_Room5_Mice:
+  location cnt_0:
     initial; marked;
-    edge m13_15 goto l1;
-  location l1:
-    edge m13_15 goto l2;
-    edge m15_14 goto l0;
-  location l2:
-    edge m15_14 goto l1;
+    edge mouse_L1R3_to_L1R5 goto cnt_1;
+  location cnt_1:
+    edge mouse_L1R3_to_L1R5 goto cnt_2;
+    edge mouse_L1R5_to_L1R4 goto cnt_0;
+  location cnt_2:
+    edge mouse_L1R5_to_L1R4 goto cnt_1;
 end
 
 // Mice on level 2, in room 1.
-plant automaton R21M:
-  location l0:
+plant automaton Level2_Room1_Mice:
+  location cnt_0:
     initial; marked;
-    edge m23_21 goto l1;
-    edge m11_21 goto l1;
-  location l1:
-    edge m23_21 goto l2;
-    edge m11_21 goto l2;
-    edge m21_22 goto l0;
-    edge m21_11 goto l0;
-  location l2:
-    edge m21_22 goto l1;
-    edge m21_11 goto l1;
+    edge mouse_L2R3_to_L2R1 goto cnt_1;
+    edge mouse_L1R1_to_L2R1 goto cnt_1;
+  location cnt_1:
+    edge mouse_L2R3_to_L2R1 goto cnt_2;
+    edge mouse_L1R1_to_L2R1 goto cnt_2;
+    edge mouse_L2R1_to_L2R2 goto cnt_0;
+    edge mouse_L2R1_to_L1R1 goto cnt_0;
+  location cnt_2:
+    edge mouse_L2R1_to_L2R2 goto cnt_1;
+    edge mouse_L2R1_to_L1R1 goto cnt_1;
 end
 
 // Mice on level 2, in room 2.
-plant automaton R22M:
-  location l0:
+plant automaton Level2_Room2_Mice:
+  location cnt_0:
     initial; marked;
-    edge m21_22 goto l1;
-    edge m32_22 goto l1;
-  location l1:
-    edge m21_22 goto l2;
-    edge m32_22 goto l2;
-    edge m22_23 goto l0;
-    edge m22_32 goto l0;
-  location l2:
-    edge m22_23 goto l1;
-    edge m22_32 goto l1;
+    edge mouse_L2R1_to_L2R2 goto cnt_1;
+    edge mouse_L3R2_to_L2R2 goto cnt_1;
+  location cnt_1:
+    edge mouse_L2R1_to_L2R2 goto cnt_2;
+    edge mouse_L3R2_to_L2R2 goto cnt_2;
+    edge mouse_L2R2_to_L2R3 goto cnt_0;
+    edge mouse_L2R2_to_L3R2 goto cnt_0;
+  location cnt_2:
+    edge mouse_L2R2_to_L2R3 goto cnt_1;
+    edge mouse_L2R2_to_L3R2 goto cnt_1;
 end
 
 // Mice on level 2, in room 3.
-plant automaton R23M:
-  location l0:
+plant automaton Level2_Room3_Mice:
+  location cnt_0:
     initial; marked;
-    edge m22_23 goto l1;
-    edge m24_23 goto l1;
-  location l1:
-    edge m22_23 goto l2;
-    edge m24_23 goto l2;
-    edge m23_21 goto l0;
-    edge m23_25 goto l0;
-  location l2:
-    edge m23_21 goto l1;
-    edge m23_25 goto l1;
+    edge mouse_L2R2_to_L2R3 goto cnt_1;
+    edge mouse_L2R4_to_L2R3 goto cnt_1;
+  location cnt_1:
+    edge mouse_L2R2_to_L2R3 goto cnt_2;
+    edge mouse_L2R4_to_L2R3 goto cnt_2;
+    edge mouse_L2R3_to_L2R1 goto cnt_0;
+    edge mouse_L2R3_to_L2R5 goto cnt_0;
+  location cnt_2:
+    edge mouse_L2R3_to_L2R1 goto cnt_1;
+    edge mouse_L2R3_to_L2R5 goto cnt_1;
 end
 
 // Mice on level 2, in room 4.
-plant automaton R24M:
-  location l0:
+plant automaton Level2_Room4_Mice:
+  location cnt_0:
     initial; marked;
-    edge m25_24 goto l1;
-  location l1:
-    edge m25_24 goto l2;
-    edge m24_23 goto l0;
-  location l2:
-    edge m24_23 goto l1;
+    edge mouse_L2R5_to_L2R4 goto cnt_1;
+  location cnt_1:
+    edge mouse_L2R5_to_L2R4 goto cnt_2;
+    edge mouse_L2R4_to_L2R3 goto cnt_0;
+  location cnt_2:
+    edge mouse_L2R4_to_L2R3 goto cnt_1;
 end
 
 // Mice on level 2, in room 5.
-plant automaton R25M:
-  location l0:
+plant automaton Level2_Room5_Mice:
+  location cnt_0:
     initial; marked;
-    edge m23_25 goto l1;
-  location l1:
-    edge m23_25 goto l2;
-    edge m25_24 goto l0;
-  location l2:
-    edge m25_24 goto l1;
+    edge mouse_L2R3_to_L2R5 goto cnt_1;
+  location cnt_1:
+    edge mouse_L2R3_to_L2R5 goto cnt_2;
+    edge mouse_L2R5_to_L2R4 goto cnt_0;
+  location cnt_2:
+    edge mouse_L2R5_to_L2R4 goto cnt_1;
 end
 
 // Mice on level 3, in room 1.
-plant automaton R31M:
-  location l0:
+plant automaton Level3_Room1_Mice:
+  location cnt_0:
     initial; marked;
-    edge m33_31 goto l1;
-  location l1:
-    edge m33_31 goto l2;
-    edge m31_32 goto l0;
-  location l2:
-    edge m31_32 goto l1;
+    edge mouse_L3R3_to_L3R1 goto cnt_1;
+  location cnt_1:
+    edge mouse_L3R3_to_L3R1 goto cnt_2;
+    edge mouse_L3R1_to_L3R2 goto cnt_0;
+  location cnt_2:
+    edge mouse_L3R1_to_L3R2 goto cnt_1;
 end
 
 // Mice on level 3, in room 2.
-plant automaton R32M:
-  location l0:
+plant automaton Level3_Room2_Mice:
+  location cnt_0:
     initial; marked;
-    edge m31_32 goto l1;
-    edge m22_32 goto l1;
-  location l1:
-    edge m31_32 goto l2;
-    edge m22_32 goto l2;
-    edge m32_33 goto l0;
-    edge m32_22 goto l0;
-  location l2:
-    edge m32_33 goto l1;
-    edge m32_22 goto l1;
+    edge mouse_L3R1_to_L3R2 goto cnt_1;
+    edge mouse_L2R2_to_L3R2 goto cnt_1;
+  location cnt_1:
+    edge mouse_L3R1_to_L3R2 goto cnt_2;
+    edge mouse_L2R2_to_L3R2 goto cnt_2;
+    edge mouse_L3R2_to_L3R3 goto cnt_0;
+    edge mouse_L3R2_to_L2R2 goto cnt_0;
+  location cnt_2:
+    edge mouse_L3R2_to_L3R3 goto cnt_1;
+    edge mouse_L3R2_to_L2R2 goto cnt_1;
 end
 
 // Mice on level 3, in room 3.
-plant automaton R33M:
-  location l0:
+plant automaton Level3_Room3_Mice:
+  location cnt_0:
     initial; marked;
-    edge m32_33 goto l1;
-    edge m34_33 goto l1;
-  location l1:
-    edge m32_33 goto l2;
-    edge m34_33 goto l2;
-    edge m33_31 goto l0;
-    edge m33_35 goto l0;
-  location l2:
-    edge m33_31 goto l1;
-    edge m33_35 goto l1;
+    edge mouse_L3R2_to_L3R3 goto cnt_1;
+    edge mouse_L3R4_to_L3R3 goto cnt_1;
+  location cnt_1:
+    edge mouse_L3R2_to_L3R3 goto cnt_2;
+    edge mouse_L3R4_to_L3R3 goto cnt_2;
+    edge mouse_L3R3_to_L3R1 goto cnt_0;
+    edge mouse_L3R3_to_L3R5 goto cnt_0;
+  location cnt_2:
+    edge mouse_L3R3_to_L3R1 goto cnt_1;
+    edge mouse_L3R3_to_L3R5 goto cnt_1;
 end
 
 // Mice on level 3, in room 4.
-plant automaton R34M:
-  location l0:
+plant automaton Level3_Room4_Mice:
+  location cnt_0:
     initial; marked;
-    edge m35_34 goto l1;
-  location l1:
-    edge m35_34 goto l2;
-    edge m34_33 goto l0;
-  location l2:
-    edge m34_33 goto l1;
+    edge mouse_L3R5_to_L3R4 goto cnt_1;
+  location cnt_1:
+    edge mouse_L3R5_to_L3R4 goto cnt_2;
+    edge mouse_L3R4_to_L3R3 goto cnt_0;
+  location cnt_2:
+    edge mouse_L3R4_to_L3R3 goto cnt_1;
 end
 
 // Mice on level 3, in room 5.
-plant automaton R35M:
-  location l0:
-    edge m33_35 goto l1;
-  location l1:
-    edge m33_35 goto l2;
-    edge m35_34 goto l0;
-  location l2:
+plant automaton Level3_Room5_Mice:
+  location cnt_0:
+    edge mouse_L3R3_to_L3R5 goto cnt_1;
+  location cnt_1:
+    edge mouse_L3R3_to_L3R5 goto cnt_2;
+    edge mouse_L3R5_to_L3R4 goto cnt_0;
+  location cnt_2:
     initial; marked;
-    edge m35_34 goto l1;
+    edge mouse_L3R5_to_L3R4 goto cnt_1;
 end
 
 // Requirements: a cat and a mouse must never be in the same room at the same time.
-requirement invariant R11C.l0 or R11M.l0;
-requirement invariant R12C.l0 or R12M.l0;
-requirement invariant R13C.l0 or R13M.l0;
-requirement invariant R14C.l0 or R14M.l0;
-requirement invariant R15C.l0 or R15M.l0;
-requirement invariant R21C.l0 or R21M.l0;
-requirement invariant R22C.l0 or R22M.l0;
-requirement invariant R23C.l0 or R23M.l0;
-requirement invariant R24C.l0 or R24M.l0;
-requirement invariant R25C.l0 or R25M.l0;
-requirement invariant R31C.l0 or R31M.l0;
-requirement invariant R32C.l0 or R32M.l0;
-requirement invariant R33C.l0 or R33M.l0;
-requirement invariant R34C.l0 or R34M.l0;
-requirement invariant R35C.l0 or R35M.l0;
+requirement invariant Level1_Room1_Cats.cnt_0 or Level1_Room1_Mice.cnt_0;
+requirement invariant Level1_Room2_Cats.cnt_0 or Level1_Room2_Mice.cnt_0;
+requirement invariant Level1_Room3_Cats.cnt_0 or Level1_Room3_Mice.cnt_0;
+requirement invariant Level1_Room4_Cats.cnt_0 or Level1_Room4_Mice.cnt_0;
+requirement invariant Level1_Room5_Cats.cnt_0 or Level1_Room5_Mice.cnt_0;
+requirement invariant Level2_Room1_Cats.cnt_0 or Level2_Room1_Mice.cnt_0;
+requirement invariant Level2_Room2_Cats.cnt_0 or Level2_Room2_Mice.cnt_0;
+requirement invariant Level2_Room3_Cats.cnt_0 or Level2_Room3_Mice.cnt_0;
+requirement invariant Level2_Room4_Cats.cnt_0 or Level2_Room4_Mice.cnt_0;
+requirement invariant Level2_Room5_Cats.cnt_0 or Level2_Room5_Mice.cnt_0;
+requirement invariant Level3_Room1_Cats.cnt_0 or Level3_Room1_Mice.cnt_0;
+requirement invariant Level3_Room2_Cats.cnt_0 or Level3_Room2_Mice.cnt_0;
+requirement invariant Level3_Room3_Cats.cnt_0 or Level3_Room3_Mice.cnt_0;
+requirement invariant Level3_Room4_Cats.cnt_0 or Level3_Room4_Mice.cnt_0;
+requirement invariant Level3_Room5_Cats.cnt_0 or Level3_Room5_Mice.cnt_0;

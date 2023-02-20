@@ -87,9 +87,9 @@ tool generate(int v, int n, int k):
             // xiA_iB = move, with: x is 'c' or 'm', level i, source room number A and target room number B.
             // c = cat, m = mouse.
             fmt("// Events for moves between rooms on level %d.", i),
-            fmt("controllable c%1$d1_%1$d3, c%1$d2_%1$d1, c%1$d3_%1$d2, c%1$d3_%1$d4, c%1$d4_%1$d5, c%1$d5_%1$d3;", i),
-            fmt("uncontrollable c%1$d2_%1$d4, c%1$d4_%1$d2;", i),
-            fmt("controllable m%1$d1_%1$d2, m%1$d2_%1$d3, m%1$d3_%1$d1, m%1$d3_%1$d5, m%1$d4_%1$d3, m%1$d5_%1$d4;", i),
+            fmt("controllable cat_L%1$dR1_to_L%1$dR3, cat_L%1$dR2_to_L%1$dR1, cat_L%1$dR3_to_L%1$dR2, cat_L%1$dR3_to_L%1$dR4, cat_L%1$dR4_to_L%1$dR5, cat_L%1$dR5_to_L%1$dR3;", i),
+            fmt("uncontrollable cat_L%1$dR2_to_L%1$dR4, cat_L%1$dR4_to_L%1$dR2;", i),
+            fmt("controllable mouse_L%1$dR1_to_L%1$dR2, mouse_L%1$dR2_to_L%1$dR3, mouse_L%1$dR3_to_L%1$dR1, mouse_L%1$dR3_to_L%1$dR5, mouse_L%1$dR4_to_L%1$dR3, mouse_L%1$dR5_to_L%1$dR4;", i),
             "",
         ];
     end
@@ -99,8 +99,7 @@ tool generate(int v, int n, int k):
     for i in range(1, n - 1):
         int j = ((i - 1) mod 5) + 1;
         lines = lines + [
-            fmt("controllable c%1$d%3$d_%2$d%3$d, c%2$d%3$d_%1$d%3$d, m%1$d%3$d_%2$d%3$d, m%2$d%3$d_%1$d%3$d;",
-                i, i + 1, j),
+            fmt("controllable cat_L%1$dR%3$d_to_L%2$dR%3$d, cat_L%2$dR%3$d_to_L%1$dR%3$d, mouse_L%1$dR%3$d_to_L%2$dR%3$d, mouse_L%2$dR%3$d_to_L%1$dR%3$d;", i, i + 1, j),
         ];
     end
 
@@ -109,10 +108,10 @@ tool generate(int v, int n, int k):
         lines = lines + [
             "",
             "// Events for entering and leaving the tower.",
-            "uncontrollable enter_cat;",
-            "uncontrollable enter_mouse;",
-            "uncontrollable leave_cat;",
-            "uncontrollable leave_mouse;",
+            "uncontrollable cat_enter;",
+            "uncontrollable cat_leave;",
+            "uncontrollable mouse_enter;",
+            "uncontrollable mouse_leave;",
         ];
     end
 
@@ -123,11 +122,11 @@ tool generate(int v, int n, int k):
             lines = lines + [
                 "",
                 fmt("// Cats on level %d, in room %d.", i, j),
-                fmt("plant automaton R%d%dC:", i, j),
+                fmt("plant automaton Level%d_Room%d_Cats:", i, j),
             ];
             for l in range(0, k):
                 // Location for counting the number of cats present.
-                lines = lines + [fmt("  location l%d:", l)];
+                lines = lines + [fmt("  location cnt_%d:", l)];
 
                 // For version 1, initially, first room on first floor contains all cats, and all other rooms are empty.
                 // For version 2, initially, all rooms are empty.
@@ -137,40 +136,40 @@ tool generate(int v, int n, int k):
                 if initial:: lines = lines + ["    initial; marked;"];
 
                 // Edges for entering the room, for moves on the same level.
-                if l < k and j == 1:: lines = lines + [fmt("    edge c%1$d2_%1$d1 goto l%2$d;", i, l + 1)];
-                if l < k and j == 2:: lines = lines + [fmt("    edge c%1$d3_%1$d2 goto l%2$d;", i, l + 1)];
-                if l < k and j == 2:: lines = lines + [fmt("    edge c%1$d4_%1$d2 goto l%2$d;", i, l + 1)];
-                if l < k and j == 3:: lines = lines + [fmt("    edge c%1$d1_%1$d3 goto l%2$d;", i, l + 1)];
-                if l < k and j == 3:: lines = lines + [fmt("    edge c%1$d5_%1$d3 goto l%2$d;", i, l + 1)];
-                if l < k and j == 4:: lines = lines + [fmt("    edge c%1$d2_%1$d4 goto l%2$d;", i, l + 1)];
-                if l < k and j == 4:: lines = lines + [fmt("    edge c%1$d3_%1$d4 goto l%2$d;", i, l + 1)];
-                if l < k and j == 5:: lines = lines + [fmt("    edge c%1$d4_%1$d5 goto l%2$d;", i, l + 1)];
+                if l < k and j == 1:: lines = lines + [fmt("    edge cat_L%1$dR2_to_L%1$dR1 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 2:: lines = lines + [fmt("    edge cat_L%1$dR3_to_L%1$dR2 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 2:: lines = lines + [fmt("    edge cat_L%1$dR4_to_L%1$dR2 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 3:: lines = lines + [fmt("    edge cat_L%1$dR1_to_L%1$dR3 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 3:: lines = lines + [fmt("    edge cat_L%1$dR5_to_L%1$dR3 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 4:: lines = lines + [fmt("    edge cat_L%1$dR2_to_L%1$dR4 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 4:: lines = lines + [fmt("    edge cat_L%1$dR3_to_L%1$dR4 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 5:: lines = lines + [fmt("    edge cat_L%1$dR4_to_L%1$dR5 goto cnt_%2$d;", i, l + 1)];
 
                 // Edges for entering the room, for moves between levels.
                 int j_above = ((i - 1) mod 5) + 1;
                 int j_below = ((i - 2) mod 5) + 1;
-                if l < k and i < n and j == j_above:: lines = lines + [fmt("    edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i + 1, i, j, l + 1)];
-                if l < k and i > 1 and j == j_below:: lines = lines + [fmt("    edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i - 1, i, j, l + 1)];
+                if l < k and i < n and j == j_above:: lines = lines + [fmt("    edge cat_L%1$dR%3$d_to_L%2$dR%3$d goto cnt_%4$d;", i + 1, i, j, l + 1)];
+                if l < k and i > 1 and j == j_below:: lines = lines + [fmt("    edge cat_L%1$dR%3$d_to_L%2$dR%3$d goto cnt_%4$d;", i - 1, i, j, l + 1)];
 
                 // Version 2: edges for entering the tower.
-                if v == 2 and l < k and i == 1 and j == 1:: lines = lines + [fmt("    edge enter_cat goto l%d;", l + 1)];
+                if v == 2 and l < k and i == 1 and j == 1:: lines = lines + [fmt("    edge cat_enter goto cnt_%d;", l + 1)];
 
                 // Edges for leaving the room, for moves on the same level.
-                if l > 0 and j == 1:: lines = lines + [fmt("    edge c%1$d1_%1$d3 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 2:: lines = lines + [fmt("    edge c%1$d2_%1$d1 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 2:: lines = lines + [fmt("    edge c%1$d2_%1$d4 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 3:: lines = lines + [fmt("    edge c%1$d3_%1$d2 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 3:: lines = lines + [fmt("    edge c%1$d3_%1$d4 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 4:: lines = lines + [fmt("    edge c%1$d4_%1$d2 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 4:: lines = lines + [fmt("    edge c%1$d4_%1$d5 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 5:: lines = lines + [fmt("    edge c%1$d5_%1$d3 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 1:: lines = lines + [fmt("    edge cat_L%1$dR1_to_L%1$dR3 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 2:: lines = lines + [fmt("    edge cat_L%1$dR2_to_L%1$dR1 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 2:: lines = lines + [fmt("    edge cat_L%1$dR2_to_L%1$dR4 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 3:: lines = lines + [fmt("    edge cat_L%1$dR3_to_L%1$dR2 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 3:: lines = lines + [fmt("    edge cat_L%1$dR3_to_L%1$dR4 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 4:: lines = lines + [fmt("    edge cat_L%1$dR4_to_L%1$dR2 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 4:: lines = lines + [fmt("    edge cat_L%1$dR4_to_L%1$dR5 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 5:: lines = lines + [fmt("    edge cat_L%1$dR5_to_L%1$dR3 goto cnt_%2$d;", i, l - 1)];
 
                 // Edges for leaving the room, for moves between levels.
-                if l > 0 and i < n and j == j_above:: lines = lines + [fmt("    edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i, i + 1, j, l - 1)];
-                if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("    edge c%1$d%3$d_%2$d%3$d goto l%4$d;", i, i - 1, j, l - 1)];
+                if l > 0 and i < n and j == j_above:: lines = lines + [fmt("    edge cat_L%1$dR%3$d_to_L%2$dR%3$d goto cnt_%4$d;", i, i + 1, j, l - 1)];
+                if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("    edge cat_L%1$dR%3$d_to_L%2$dR%3$d goto cnt_%4$d;", i, i - 1, j, l - 1)];
 
                 // Version 2: edges for leaving the tower.
-                if v == 2 and l > 0 and i == 1 and j == 1:: lines = lines + [fmt("    edge leave_cat goto l%d;", l - 1)];
+                if v == 2 and l > 0 and i == 1 and j == 1:: lines = lines + [fmt("    edge cat_leave goto cnt_%d;", l - 1)];
             end
             lines = lines + ["end"];
         end
@@ -183,11 +182,11 @@ tool generate(int v, int n, int k):
             lines = lines + [
                 "",
                 fmt("// Mice on level %d, in room %d.", i, j),
-                fmt("plant automaton R%d%dM:", i, j),
+                fmt("plant automaton Level%d_Room%d_Mice:", i, j),
             ];
             for l in range(0, k):
                 // Location for counting the number of mice present.
-                lines = lines + [fmt("  location l%d:", l)];
+                lines = lines + [fmt("  location cnt_%d:", l)];
 
                 // For version 1, initially, 5th room on n-th floor contains all mice, and all other rooms are empty.
                 // For version 2, initially, all rooms are empty.
@@ -197,36 +196,36 @@ tool generate(int v, int n, int k):
                 if initial:: lines = lines + ["    initial; marked;"];
 
                 // Edges for entering the room, for moves on the same level.
-                if l < k and j == 1:: lines = lines + [fmt("    edge m%1$d3_%1$d1 goto l%2$d;", i, l + 1)];
-                if l < k and j == 2:: lines = lines + [fmt("    edge m%1$d1_%1$d2 goto l%2$d;", i, l + 1)];
-                if l < k and j == 3:: lines = lines + [fmt("    edge m%1$d2_%1$d3 goto l%2$d;", i, l + 1)];
-                if l < k and j == 3:: lines = lines + [fmt("    edge m%1$d4_%1$d3 goto l%2$d;", i, l + 1)];
-                if l < k and j == 4:: lines = lines + [fmt("    edge m%1$d5_%1$d4 goto l%2$d;", i, l + 1)];
-                if l < k and j == 5:: lines = lines + [fmt("    edge m%1$d3_%1$d5 goto l%2$d;", i, l + 1)];
+                if l < k and j == 1:: lines = lines + [fmt("    edge mouse_L%1$dR3_to_L%1$dR1 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 2:: lines = lines + [fmt("    edge mouse_L%1$dR1_to_L%1$dR2 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 3:: lines = lines + [fmt("    edge mouse_L%1$dR2_to_L%1$dR3 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 3:: lines = lines + [fmt("    edge mouse_L%1$dR4_to_L%1$dR3 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 4:: lines = lines + [fmt("    edge mouse_L%1$dR5_to_L%1$dR4 goto cnt_%2$d;", i, l + 1)];
+                if l < k and j == 5:: lines = lines + [fmt("    edge mouse_L%1$dR3_to_L%1$dR5 goto cnt_%2$d;", i, l + 1)];
 
                 // Edges for entering the room, for moves between levels.
                 int j_above = ((i - 1) mod 5) + 1;
                 int j_below = ((i - 2) mod 5) + 1;
-                if l < k and i < n and j == j_above:: lines = lines + [fmt("    edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i + 1, i, j, l + 1)];
-                if l < k and i > 1 and j == j_below:: lines = lines + [fmt("    edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i - 1, i, j, l + 1)];
+                if l < k and i < n and j == j_above:: lines = lines + [fmt("    edge mouse_L%1$dR%3$d_to_L%2$dR%3$d goto cnt_%4$d;", i + 1, i, j, l + 1)];
+                if l < k and i > 1 and j == j_below:: lines = lines + [fmt("    edge mouse_L%1$dR%3$d_to_L%2$dR%3$d goto cnt_%4$d;", i - 1, i, j, l + 1)];
 
                 // Version 2: edges for entering the tower.
-                if v == 2 and l < k and i == n and j == 5:: lines = lines + [fmt("    edge enter_mouse goto l%d;", l + 1)];
+                if v == 2 and l < k and i == n and j == 5:: lines = lines + [fmt("    edge mouse_enter goto cnt_%d;", l + 1)];
 
                 // Edges for leaving the room, for moves on the same level.
-                if l > 0 and j == 1:: lines = lines + [fmt("    edge m%1$d1_%1$d2 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 2:: lines = lines + [fmt("    edge m%1$d2_%1$d3 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 3:: lines = lines + [fmt("    edge m%1$d3_%1$d1 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 3:: lines = lines + [fmt("    edge m%1$d3_%1$d5 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 4:: lines = lines + [fmt("    edge m%1$d4_%1$d3 goto l%2$d;", i, l - 1)];
-                if l > 0 and j == 5:: lines = lines + [fmt("    edge m%1$d5_%1$d4 goto l%2$d;", i, l - 1)];
+                if l > 0 and j == 1:: lines = lines + [fmt("    edge mouse_L%1$dR1_to_L%1$dR2 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 2:: lines = lines + [fmt("    edge mouse_L%1$dR2_to_L%1$dR3 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 3:: lines = lines + [fmt("    edge mouse_L%1$dR3_to_L%1$dR1 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 3:: lines = lines + [fmt("    edge mouse_L%1$dR3_to_L%1$dR5 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 4:: lines = lines + [fmt("    edge mouse_L%1$dR4_to_L%1$dR3 goto cnt_%2$d;", i, l - 1)];
+                if l > 0 and j == 5:: lines = lines + [fmt("    edge mouse_L%1$dR5_to_L%1$dR4 goto cnt_%2$d;", i, l - 1)];
 
                 // Edges for leaving the room, for moves between levels.
-                if l > 0 and i < n and j == j_above:: lines = lines + [fmt("    edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i + 1, j, l - 1)];
-                if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("    edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i - 1, j, l - 1)];
+                if l > 0 and i < n and j == j_above:: lines = lines + [fmt("    edge mouse_L%1$dR%3$d_to_L%2$dR%3$d goto cnt_%4$d;", i, i + 1, j, l - 1)];
+                if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("    edge mouse_L%1$dR%3$d_to_L%2$dR%3$d goto cnt_%4$d;", i, i - 1, j, l - 1)];
 
                 // Version 2: edges for leaving the tower.
-                if v == 2 and l > 0 and i == n and j == 5:: lines = lines + [fmt("    edge leave_mouse goto l%d;", l - 1)];
+                if v == 2 and l > 0 and i == n and j == 5:: lines = lines + [fmt("    edge mouse_leave goto cnt_%d;", l - 1)];
             end
             lines = lines + ["end"];
         end
@@ -239,7 +238,7 @@ tool generate(int v, int n, int k):
     ];
     for i in range(1, n):
         for j in range(1, 5):
-            lines = lines + [fmt("requirement invariant R%1$d%2$dC.l0 or R%1$d%2$dM.l0;", i, j)];
+            lines = lines + [fmt("requirement invariant Level%1$d_Room%2$d_Cats.cnt_0 or Level%1$d_Room%2$d_Mice.cnt_0;", i, j)];
         end
     end
 
