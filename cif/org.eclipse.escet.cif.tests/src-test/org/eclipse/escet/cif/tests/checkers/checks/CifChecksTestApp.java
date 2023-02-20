@@ -19,6 +19,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.escet.cif.cif2cif.CifToCifTransformation;
+import org.eclipse.escet.cif.cif2cif.app.CifToCifTransOption;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.io.CifReader;
@@ -51,7 +53,7 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
 
     @Override
     public String getAppDescription() {
-        return "Tests checks on CIF specification.";
+        return "Tests CIF checks on CIF specifications.";
     }
 
     @Override
@@ -67,7 +69,7 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
         List<CifCheck> checks = list();
         String simpleCheckClassName = CifCheckClassNameToTestOption.getCheckClassNameToTest();
         String[] packageNames = { //
-                CifCheck.class.getPackageName() + ".checks", // Common checks package.
+                CifCheck.class.getPackageName() + ".checks", // Checks package.
                 getClass().getPackageName() // Test checks package.
         };
         for (String packageName: packageNames) {
@@ -95,6 +97,12 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
         Assert.check(!checks.isEmpty(),
                 fmt("Class \"%s\" not found in packages: %s", simpleCheckClassName, Arrays.toString(packageNames)));
 
+        // Perform preprocessing.
+        List<CifToCifTransformation> transformations = CifToCifTransOption.getTransformations();
+        for (CifToCifTransformation transformation: transformations) {
+            transformation.transform(spec);
+        }
+
         // Perform check.
         new CifPreconditionChecker(checks).reportPreconditionViolations(spec, "CIF checks tester");
 
@@ -111,8 +119,10 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
     protected OptionCategory getAllOptions() {
         OptionCategory generalOpts = getGeneralOptionCategory();
 
-        OptionCategory transOpts = new OptionCategory("Checks", "Check options.", list(), list(
-                Options.getInstance(InputFileOption.class), Options.getInstance(CifCheckClassNameToTestOption.class)));
+        OptionCategory transOpts = new OptionCategory("Checks", "Check options.", list(),
+                list(Options.getInstance(InputFileOption.class),
+                        Options.getInstance(CifCheckClassNameToTestOption.class),
+                        Options.getInstance(CifToCifTransOption.class)));
 
         OptionCategory options = new OptionCategory("CIF Checks Tester Options",
                 "All options for the CIF checks tester.", list(generalOpts, transOpts), list());

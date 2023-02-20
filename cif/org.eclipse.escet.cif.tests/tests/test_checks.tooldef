@@ -23,7 +23,9 @@ end
 string test_path = "checks";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1"];
-map(string:list string) test_options = {};
+map(string:list string) test_options = {
+   "checks/NoPositionInfoTestCheck.cif": ["-t elim-locs-in-exprs"],
+};
 set string test_skip = {};
 
 // Initialize counts.
