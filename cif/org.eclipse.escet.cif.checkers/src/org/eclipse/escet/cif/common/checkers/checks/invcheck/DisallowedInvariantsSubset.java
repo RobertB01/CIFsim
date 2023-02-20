@@ -13,10 +13,13 @@
 
 package org.eclipse.escet.cif.common.checkers.checks.invcheck;
 
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
-import org.eclipse.escet.cif.common.checkers.messages.IfReportOnSelfMessage;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
@@ -68,15 +71,23 @@ public class DisallowedInvariantsSubset {
      */
     public void addViolation(Invariant inv, CifCheckViolations violations) {
         // Example: "plant state invariant in a location".
-        // Some aspects may not have text.
-        String text = null;
-        text = addAspectText(text, noSupKind);
-        text = addAspectText(text, noInvKind);
-        text = (text == null) ? "an invariant" : text + " invariant";
-        text = addAspectText(text, noPlaceKind);
-
-        violations.add(inv, new IfReportOnAncestorMessage("has"), new IfReportOnSelfMessage("is"),
-                new LiteralMessage(text));
+        List<String> texts = list();
+        if (noSupKind.getReportText() != null) {
+            texts.add(noSupKind.getReportText());
+        }
+        if (noInvKind.getReportText() != null) {
+            texts.add(noInvKind.getReportText());
+        }
+        texts.add("invariant");
+        if (noPlaceKind.getReportText() != null) {
+            texts.add(noPlaceKind.getReportText());
+        }
+        if (texts.size() == 1) { // Invariants are disallowed altogether.
+            violations.add(inv, "An invariant is used");
+        } else { // Only specific invariants are disallowed.
+            String article = (noSupKind.getReportText() == null && noInvKind.getReportText() == null) ? "an" : "a";
+            violations.add(inv, fmt("Invariant is %s %s", article, texts.stream().collect(Collectors.joining(" "))));
+        }
     }
 
     /**
@@ -92,29 +103,5 @@ public class DisallowedInvariantsSubset {
         return SubSetRelation.getRelation(
                 noSupKindRelation.leftLarger || noInvKindRelation.leftLarger || noPlaceKindRelation.leftLarger,
                 noSupKindRelation.rightLarger || noInvKindRelation.rightLarger || noPlaceKindRelation.rightLarger);
-    }
-
-    /**
-     * Append the report of an aspect to the report string. Also prepends a matching article the first time.
-     *
-     * @param reportText Collected report text so far, is {@code null} if no text has been added so far.
-     * @param noKind Aspect to query for report and possibly article text.
-     * @return The updated report text.
-     */
-    private static String addAspectText(String reportText, NoKindInterface<?> noKind) {
-        String aspectReportText = noKind.getReportText();
-
-        // Aspect has nothing to say.
-        if (aspectReportText == null) {
-            return reportText;
-        }
-
-        // First aspect with text.
-        if (reportText == null) {
-            return noKind.getArticleText() + " " + aspectReportText;
-        }
-
-        // Append the aspect text.
-        return reportText + " " + aspectReportText;
     }
 }
