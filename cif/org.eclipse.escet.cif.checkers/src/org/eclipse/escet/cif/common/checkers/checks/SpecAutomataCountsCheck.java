@@ -13,9 +13,10 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import org.eclipse.escet.cif.common.checkers.CifCheckNoCompDefInst;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.common.java.Assert;
@@ -226,65 +227,65 @@ public class SpecAutomataCountsCheck extends CifCheckNoCompDefInst {
     @Override
     protected void postprocessSpecification(Specification spec, CifCheckViolations violations) {
         // Verify found counts against allowed counts and report any violation.
-        checkAndReport(numAnyAuts, minAnyAuts, maxAnyAuts, "", violations);
-        checkAndReport(numKindlessAuts, minKindlessAuts, maxKindlessAuts, "kindless ", violations);
-        checkAndReport(numRequirementAuts, minRequirementAuts, maxRequirementAuts, "requirement ", violations);
-        checkAndReport(numPlantAuts, minPlantAuts, maxPlantAuts, "plant ", violations);
-        checkAndReport(numSupervisorAuts, minSupervisorAuts, maxSupervisorAuts, "supervisor ", violations);
+        checkAndReport(spec, numAnyAuts, minAnyAuts, maxAnyAuts, "", violations);
+        checkAndReport(spec, numKindlessAuts, minKindlessAuts, maxKindlessAuts, "kindless ", violations);
+        checkAndReport(spec, numRequirementAuts, minRequirementAuts, maxRequirementAuts, "requirement ", violations);
+        checkAndReport(spec, numPlantAuts, minPlantAuts, maxPlantAuts, "plant ", violations);
+        checkAndReport(spec, numSupervisorAuts, minSupervisorAuts, maxSupervisorAuts, "supervisor ", violations);
     }
 
     /**
      * Check the actual number of automata against the minimum and maximum boundaries, and report any violations.
      *
+     * @param spec The specification to check.
      * @param numAuts Found number of automata.
      * @param minAuts Minimum required number of automata.
      * @param maxAuts Maximum allowed number of automata.
      * @param kindText Automaton prefix to express the kind in a violation report.
      * @param violations Storage of reported violations, may be extended in-place.
      */
-    private void checkAndReport(int numAuts, int minAuts, int maxAuts, String kindText, CifCheckViolations violations) {
+    private void checkAndReport(Specification spec, int numAuts, int minAuts, int maxAuts, String kindText,
+            CifCheckViolations violations)
+    {
         if (minAuts == 0 && maxAuts == Integer.MAX_VALUE) {
             return; // [0, inf) range never fails.
         }
 
         // Construct the requirement explanatory text.
-        LiteralMessage requiredMesg;
+        String requiredMesg;
         if (minAuts == maxAuts) { // One specific count only.
             if (minAuts == 0) {
-                requiredMesg = new LiteralMessage("specification does not have exactly 0 %sautomata", kindText);
+                requiredMesg = fmt("Specification does not have exactly 0 %sautomata", kindText);
             } else if (minAuts == 1) {
-                requiredMesg = new LiteralMessage("specification does not have exactly 1 %sautomaton", kindText);
+                requiredMesg = fmt("Specification does not have exactly 1 %sautomaton", kindText);
             } else {
-                requiredMesg = new LiteralMessage("specification does not have exactly %d %sautomata", minAuts,
-                        kindText);
+                requiredMesg = fmt("Specification does not have exactly %d %sautomata", minAuts, kindText);
             }
         } else if (maxAuts == Integer.MAX_VALUE) { // Unbounded upper limit.
             if (minAuts == 1) {
-                requiredMesg = new LiteralMessage("specification does not have at least 1 %sautomaton", kindText);
+                requiredMesg = fmt("Specification does not have at least 1 %sautomaton", kindText);
             } else {
-                requiredMesg = new LiteralMessage("specification does not have at least %d %sautomata", minAuts,
-                        kindText);
+                requiredMesg = fmt("Specification does not have at least %d %sautomata", minAuts, kindText);
             }
         } else { // Some finite different lower and upper limits.
             if (maxAuts == 1) { // Implies minAuts == 0
-                requiredMesg = new LiteralMessage("specification does not have at most 1 %sautomaton", kindText);
+                requiredMesg = fmt("Specification does not have at most 1 %sautomaton", kindText);
             } else if (minAuts == 0) {
-                requiredMesg = new LiteralMessage("specification does not have at most %d %sautomata", maxAuts,
-                        kindText);
+                requiredMesg = fmt("Specification does not have at most %d %sautomata", maxAuts, kindText);
             } else {
-                requiredMesg = new LiteralMessage("specification does not have at least %d and at most %d %sautomata",
-                        minAuts, maxAuts, kindText);
+                requiredMesg = fmt("Specification does not have at least %d and at most %d %sautomata", minAuts,
+                        maxAuts, kindText);
             }
         }
 
         // Check lower bound.
         if (numAuts < minAuts) {
             if (numAuts == 0) {
-                violations.add(null, new LiteralMessage("no %sautomaton found,", kindText), requiredMesg);
+                violations.add(spec, "%s (no %sautomaton found)", requiredMesg, kindText);
             } else if (numAuts == 1) {
-                violations.add(null, new LiteralMessage("1 %sautomaton found,", kindText), requiredMesg);
+                violations.add(spec, "%s (1 %sautomaton found)", requiredMesg, kindText);
             } else {
-                violations.add(null, new LiteralMessage("%d %sautomata found,", numAuts, kindText), requiredMesg);
+                violations.add(spec, "%s (%d %sautomata found)", requiredMesg, numAuts, kindText);
             }
             return;
         }
@@ -292,9 +293,9 @@ public class SpecAutomataCountsCheck extends CifCheckNoCompDefInst {
         // Check upper bound.
         if (numAuts > maxAuts) {
             if (numAuts == 1) {
-                violations.add(null, new LiteralMessage("1 %sautomaton found,", kindText), requiredMesg);
+                violations.add(spec, "%s (1 %sautomaton found)", requiredMesg, kindText);
             } else {
-                violations.add(null, new LiteralMessage("%d %sautomata found,", numAuts, kindText), requiredMesg);
+                violations.add(spec, "%s (%d %sautomata found)", requiredMesg, numAuts, kindText);
             }
         }
     }
