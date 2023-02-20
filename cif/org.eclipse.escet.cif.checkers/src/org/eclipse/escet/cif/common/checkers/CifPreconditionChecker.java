@@ -13,14 +13,12 @@
 
 package org.eclipse.escet.cif.common.checkers;
 
+import static org.eclipse.escet.common.java.Lists.list;
+
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
-import org.eclipse.escet.common.java.Sets;
-import org.eclipse.escet.common.java.Strings;
 
 /**
  * CIF precondition checker. Checks whether a given CIF specification satisfies certain {@link CifCheck preconditions}.
@@ -50,21 +48,20 @@ public class CifPreconditionChecker extends CifChecker {
      * unsupported.
      *
      * @param spec The CIF specification to check.
+     * @param absSpecPath The absolute local file system path to the CIF file to check.
      * @param toolName The human-readable name of the tool.
      * @throws UnsupportedException If there are any precondition violations.
      */
-    public void reportPreconditionViolations(Specification spec, String toolName) {
+    public void reportPreconditionViolations(Specification spec, String absSpecPath, String toolName) {
         // Check specification.
-        CifCheckViolations violations = check(spec);
+        CifCheckViolations violations = check(spec, absSpecPath);
 
         // Report unsupported specification, if there are any precondition violations.
         if (violations.hasViolations()) {
-            Set<String> messages = violations.getViolations().map(v -> "Unsupported " + v.toString())
-                    .collect(Collectors.toSet());
-            List<String> sortedMessages = Sets.sortedgeneric(messages, Strings.SORTER);
-            String msg = toolName + " failed due to unsatisfied preconditions:\n - "
-                    + String.join("\n - ", sortedMessages);
-            throw new UnsupportedException(msg);
+            List<String> lines = list();
+            lines.add(toolName + " failed due to unsatisfied preconditions:");
+            lines.addAll(violations.createReport());
+            throw new UnsupportedException(String.join("\n", lines));
         }
     }
 }
