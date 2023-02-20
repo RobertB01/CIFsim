@@ -22,7 +22,6 @@ import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
 public class SpecAutomataCountsCheck1 extends SpecAutomataCountsCheck {
     /** Constructor of the {@link SpecAutomataCountsCheck1} class. */
     public SpecAutomataCountsCheck1() {
-        super();
         setMinMaxAuts(2, 3);
         setMinMaxKindlessAuts(NO_CHANGE, 0);
         setMinMaxPlantAuts(1, NO_CHANGE);

@@ -22,8 +22,6 @@ import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 public class InvNoSpecificInvsCheckAllowNeverBlocking extends InvNoSpecificInvsCheck {
     /** Constructor of the {@link InvNoSpecificInvsCheckAllowNeverBlocking} class. */
     public InvNoSpecificInvsCheckAllowNeverBlocking() {
-        super();
-
         disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, NoInvariantPlaceKind.ALL_PLACES);
         ignoreNeverBlockingInvariants();
     }
