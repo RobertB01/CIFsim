@@ -42,7 +42,7 @@ The language equivalence check tool can produce three different results:
 * The output stating `Automata have a different language` when a location in one automaton is marked, while the equivalent location in the other automaton is not marked.
 
 In the last two cases, the equivalent location is derived by walking from the initial location to the location of interest in both automata using the same sequence of events.
-When two automata are not language equivalent, a counter example is produced that show the problem including the sequence of events to reach the equivalent locations.
+When two automata are not language equivalent, a counter example is produced that shows the sequence of events to reach the equivalent locations.
 
 indexterm:[event-based language equivalence check,start]
 
