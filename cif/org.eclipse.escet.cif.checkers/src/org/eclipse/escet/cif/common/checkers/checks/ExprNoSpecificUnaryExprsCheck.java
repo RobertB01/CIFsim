@@ -13,9 +13,7 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -23,7 +21,6 @@ import java.util.EnumSet;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -69,22 +66,22 @@ public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
                 } else {
                     if (disalloweds.contains(NoSpecificUnaryOp.NEGATE_INTS)) {
                         if (ctype instanceof IntType) {
-                            addExprViolationOperand(unExpr, violations);
+                            addExprViolationOperand(unExpr, "an integer typed", violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificUnaryOp.NEGATE_INTS_RANGED) && ctype instanceof IntType
                                 && !CifTypeUtils.isRangeless((IntType)ctype))
                         {
-                            addExprViolationOperand(unExpr, violations);
+                            addExprViolationOperand(unExpr, "a ranged integer typed", violations);
                         }
                         if (disalloweds.contains(NoSpecificUnaryOp.NEGATE_INTS_RANGELESS) && ctype instanceof IntType
                                 && CifTypeUtils.isRangeless((IntType)ctype))
                         {
-                            addExprViolationOperand(unExpr, violations);
+                            addExprViolationOperand(unExpr, "a rangeless integer typed", violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificUnaryOp.NEGATE_REALS) && ctype instanceof RealType) {
-                        addExprViolationOperand(unExpr, violations);
+                        addExprViolationOperand(unExpr, "a real typed", violations);
                     }
                 }
                 break;
@@ -94,22 +91,22 @@ public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
                 } else {
                     if (disalloweds.contains(NoSpecificUnaryOp.PLUS_INTS)) {
                         if (ctype instanceof IntType) {
-                            addExprViolationOperand(unExpr, violations);
+                            addExprViolationOperand(unExpr, "an integer typed", violations);
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificUnaryOp.PLUS_INTS_RANGED) && ctype instanceof IntType
                                 && !CifTypeUtils.isRangeless((IntType)ctype))
                         {
-                            addExprViolationOperand(unExpr, violations);
+                            addExprViolationOperand(unExpr, "a ranged integer typed", violations);
                         }
                         if (disalloweds.contains(NoSpecificUnaryOp.PLUS_INTS_RANGELESS) && ctype instanceof IntType
                                 && CifTypeUtils.isRangeless((IntType)ctype))
                         {
-                            addExprViolationOperand(unExpr, violations);
+                            addExprViolationOperand(unExpr, "a rangeless integer typed", violations);
                         }
                     }
                     if (disalloweds.contains(NoSpecificUnaryOp.PLUS_REALS) && ctype instanceof RealType) {
-                        addExprViolationOperand(unExpr, violations);
+                        addExprViolationOperand(unExpr, "a real typed", violations);
                     }
                 }
                 break;
@@ -130,21 +127,19 @@ public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
      * @param violations The violations collected so far. Is modified in-place.
      */
     private void addExprViolationOperator(UnaryExpression unExpr, CifCheckViolations violations) {
-        violations.add(unExpr, new LiteralMessage("uses unary operator \"%s\" in unary expression \"%s\"",
-                operatorToStr(unExpr.getOperator()), exprToStr(unExpr)));
+        violations.add(unExpr, "Unary operator \"%s\" is used", operatorToStr(unExpr.getOperator()));
     }
 
     /**
-     * Add a violation for an operand of the the given unary expression.
+     * Add a violation for an operand of the given unary expression.
      *
      * @param unExpr The unary expression.
+     * @param operandTxt A text describing the kind of operand that is a violation.
      * @param violations The violations collected so far. Is modified in-place.
      */
-    private void addExprViolationOperand(UnaryExpression unExpr, CifCheckViolations violations) {
-        CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
-        violations.add(unExpr,
-                new LiteralMessage("uses unary operator \"%s\" on an operand of type \"%s\" in unary expression \"%s\"",
-                        operatorToStr(unExpr.getOperator()), typeToStr(ctype), exprToStr(unExpr)));
+    private void addExprViolationOperand(UnaryExpression unExpr, String operandTxt, CifCheckViolations violations) {
+        violations.add(unExpr, "Unary operator \"%s\" is used on %s operand", operatorToStr(unExpr.getOperator()),
+                operandTxt);
     }
 
     /** The unary operator, or unary operator operating on certain operand types, to disallow. */
