@@ -17,4 +17,4 @@ from "lib:cif" import *;
 
 mkdir("generated", force=true);
 
-cifdatasynth("lithography_init.cif -mdebug -o generated/lithography_init.synthesized.cif");
+cifdatasynth("lithography_init.cif -t nodes -m debug -o generated/lithography_init.synthesized.cif");
