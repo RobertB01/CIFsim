@@ -56,23 +56,51 @@ tool generate(int v, int n, int k):
         "",
     ];
 
+    // Add model explanation.
+    if v == 1:
+        lines = lines + [
+            "// Cat and mouse tower (original version):",
+            "//  - A tower has a 'n' levels, with 5 rooms on each level.",
+            "//  - 'k' cats start in room 1 on level 1, and 'k' mice in room 5 of level 'n'.",
+            "//  - Cats and mice may move between connected rooms, on the same level, or to the level above or below.",
+            "//  - Most moves can be prevented by the supervisor, but not all of them.",
+            "//  - Requirements ensure that a cat and a mouse are never in the same room at the same time.",
+            "",
+        ];
+    elif v == 2:
+        lines = lines + [
+            "// Cat and mouse tower (modified version):",
+            "//  - A tower has a 'n' levels, with 5 rooms on each level.",
+            "//  - Initially all rooms are empty.",
+            "//  - Cats and mice may enter and leave the tower, cats via room 1 on level 1, and mice via room 5 on level 'n'.",
+            "//  - At most 'k' cats may be in each room, and similarly at most 'k' mice may be in each room.",
+            "//  - Cats and mice may move between connected rooms, on the same level, or to the level above or below.",
+            "//  - Most moves can be prevented by the supervisor, but not all of them.",
+            "//  - Requirements ensure that a cat and a mouse are never in the same room at the same time.",
+            "",
+        ];
+    end
+
     // Add events for moves on each level.
     for i in range(1, n):
         lines = lines + [
             // xiA_iB = move, with: x is 'c' or 'm', level i, source room number A and target room number B.
             // c = cat, m = mouse.
+            fmt("// Events for moves between rooms on level %d.", i),
             fmt("controllable c%1$d1_%1$d3, c%1$d2_%1$d1, c%1$d3_%1$d2, c%1$d3_%1$d4, c%1$d4_%1$d5, c%1$d5_%1$d3;", i),
             fmt("uncontrollable c%1$d2_%1$d4, c%1$d4_%1$d2;", i),
             fmt("controllable m%1$d1_%1$d2, m%1$d2_%1$d3, m%1$d3_%1$d1, m%1$d3_%1$d5, m%1$d4_%1$d3, m%1$d5_%1$d4;", i),
+            "",
         ];
     end
 
     // Add events for moves between levels.
+    lines = lines + ["// Events for moves between levels."];
     for i in range(1, n - 1):
         int j = ((i - 1) mod 5) + 1;
         lines = lines + [
             fmt("controllable c%1$d%3$d_%2$d%3$d, c%2$d%3$d_%1$d%3$d, m%1$d%3$d_%2$d%3$d, m%2$d%3$d_%1$d%3$d;",
-            i, i + 1, j)
+                i, i + 1, j),
         ];
     end
 
@@ -80,6 +108,7 @@ tool generate(int v, int n, int k):
     if v == 2:
         lines = lines + [
             "",
+            "// Events for entering and leaving the tower.",
             "uncontrollable enter_cat;",
             "uncontrollable enter_mouse;",
             "uncontrollable leave_cat;",
@@ -91,7 +120,11 @@ tool generate(int v, int n, int k):
     for i in range(1, n):
         for j in range(1, 5):
             // RijC, for on level i a room j for cats.
-            lines = lines + ["", fmt("plant automaton R%d%dC:", i, j)];
+            lines = lines + [
+                "",
+                fmt("// Cats on level %d, in room %d.", i, j),
+                fmt("plant automaton R%d%dC:", i, j),
+            ];
             for l in range(0, k):
                 // Location for counting the number of cats present.
                 lines = lines + [fmt("  location l%d:", l)];
@@ -147,7 +180,11 @@ tool generate(int v, int n, int k):
     for i in range(1, n):
         for j in range(1, 5):
             // RijM, for on level i a room j for mice.
-            lines = lines + ["", fmt("plant automaton R%d%dM:", i, j)];
+            lines = lines + [
+                "",
+                fmt("// Mice on level %d, in room %d.", i, j),
+                fmt("plant automaton R%d%dM:", i, j),
+            ];
             for l in range(0, k):
                 // Location for counting the number of mice present.
                 lines = lines + [fmt("  location l%d:", l)];
@@ -185,8 +222,8 @@ tool generate(int v, int n, int k):
                 if l > 0 and j == 5:: lines = lines + [fmt("    edge m%1$d5_%1$d4 goto l%2$d;", i, l - 1)];
 
                 // Edges for leaving the room, for moves between levels.
-                if l > 0 and i < n and j == j_above:: lines = lines + [fmt("edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i + 1, j, l - 1)];
-                if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i - 1, j, l - 1)];
+                if l > 0 and i < n and j == j_above:: lines = lines + [fmt("    edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i + 1, j, l - 1)];
+                if l > 0 and i > 1 and j == j_below:: lines = lines + [fmt("    edge m%1$d%3$d_%2$d%3$d goto l%4$d;", i, i - 1, j, l - 1)];
 
                 // Version 2: edges for leaving the tower.
                 if v == 2 and l > 0 and i == n and j == 5:: lines = lines + [fmt("    edge leave_mouse goto l%d;", l - 1)];
@@ -195,8 +232,11 @@ tool generate(int v, int n, int k):
         end
     end
 
-    // Add requirements: a cat and a mouse can never be in the same room at the same time.
-    lines = lines + [""];
+    // Add requirements: a cat and a mouse must never be in the same room at the same time.
+    lines = lines + [
+        "",
+        "// Requirements: a cat and a mouse must never be in the same room at the same time.",
+    ];
     for i in range(1, n):
         for j in range(1, 5):
             lines = lines + [fmt("requirement invariant R%1$d%2$dC.l0 or R%1$d%2$dM.l0;", i, j)];

@@ -16,26 +16,45 @@
 //  - Number of levels:        n = 5
 //  - Number of cats and mice: k = 1
 
+// Cat and mouse tower (original version):
+//  - A tower has a 'n' levels, with 5 rooms on each level.
+//  - 'k' cats start in room 1 on level 1, and 'k' mice in room 5 of level 'n'.
+//  - Cats and mice may move between connected rooms, on the same level, or to the level above or below.
+//  - Most moves can be prevented by the supervisor, but not all of them.
+//  - Requirements ensure that a cat and a mouse are never in the same room at the same time.
+
+// Events for moves between rooms on level 1.
 controllable c11_13, c12_11, c13_12, c13_14, c14_15, c15_13;
 uncontrollable c12_14, c14_12;
 controllable m11_12, m12_13, m13_11, m13_15, m14_13, m15_14;
+
+// Events for moves between rooms on level 2.
 controllable c21_23, c22_21, c23_22, c23_24, c24_25, c25_23;
 uncontrollable c22_24, c24_22;
 controllable m21_22, m22_23, m23_21, m23_25, m24_23, m25_24;
+
+// Events for moves between rooms on level 3.
 controllable c31_33, c32_31, c33_32, c33_34, c34_35, c35_33;
 uncontrollable c32_34, c34_32;
 controllable m31_32, m32_33, m33_31, m33_35, m34_33, m35_34;
+
+// Events for moves between rooms on level 4.
 controllable c41_43, c42_41, c43_42, c43_44, c44_45, c45_43;
 uncontrollable c42_44, c44_42;
 controllable m41_42, m42_43, m43_41, m43_45, m44_43, m45_44;
+
+// Events for moves between rooms on level 5.
 controllable c51_53, c52_51, c53_52, c53_54, c54_55, c55_53;
 uncontrollable c52_54, c54_52;
 controllable m51_52, m52_53, m53_51, m53_55, m54_53, m55_54;
+
+// Events for moves between levels.
 controllable c11_21, c21_11, m11_21, m21_11;
 controllable c22_32, c32_22, m22_32, m32_22;
 controllable c33_43, c43_33, m33_43, m43_33;
 controllable c44_54, c54_44, m44_54, m54_44;
 
+// Cats on level 1, in room 1.
 plant automaton R11C:
   location l0:
     edge c12_11 goto l1;
@@ -46,6 +65,7 @@ plant automaton R11C:
     edge c11_21 goto l0;
 end
 
+// Cats on level 1, in room 2.
 plant automaton R12C:
   location l0:
     initial; marked;
@@ -56,6 +76,7 @@ plant automaton R12C:
     edge c12_14 goto l0;
 end
 
+// Cats on level 1, in room 3.
 plant automaton R13C:
   location l0:
     initial; marked;
@@ -66,6 +87,7 @@ plant automaton R13C:
     edge c13_14 goto l0;
 end
 
+// Cats on level 1, in room 4.
 plant automaton R14C:
   location l0:
     initial; marked;
@@ -76,6 +98,7 @@ plant automaton R14C:
     edge c14_15 goto l0;
 end
 
+// Cats on level 1, in room 5.
 plant automaton R15C:
   location l0:
     initial; marked;
@@ -84,6 +107,7 @@ plant automaton R15C:
     edge c15_13 goto l0;
 end
 
+// Cats on level 2, in room 1.
 plant automaton R21C:
   location l0:
     initial; marked;
@@ -94,6 +118,7 @@ plant automaton R21C:
     edge c21_11 goto l0;
 end
 
+// Cats on level 2, in room 2.
 plant automaton R22C:
   location l0:
     initial; marked;
@@ -106,6 +131,7 @@ plant automaton R22C:
     edge c22_32 goto l0;
 end
 
+// Cats on level 2, in room 3.
 plant automaton R23C:
   location l0:
     initial; marked;
@@ -116,6 +142,7 @@ plant automaton R23C:
     edge c23_24 goto l0;
 end
 
+// Cats on level 2, in room 4.
 plant automaton R24C:
   location l0:
     initial; marked;
@@ -126,6 +153,7 @@ plant automaton R24C:
     edge c24_25 goto l0;
 end
 
+// Cats on level 2, in room 5.
 plant automaton R25C:
   location l0:
     initial; marked;
@@ -134,6 +162,7 @@ plant automaton R25C:
     edge c25_23 goto l0;
 end
 
+// Cats on level 3, in room 1.
 plant automaton R31C:
   location l0:
     initial; marked;
@@ -142,6 +171,7 @@ plant automaton R31C:
     edge c31_33 goto l0;
 end
 
+// Cats on level 3, in room 2.
 plant automaton R32C:
   location l0:
     initial; marked;
@@ -154,6 +184,7 @@ plant automaton R32C:
     edge c32_22 goto l0;
 end
 
+// Cats on level 3, in room 3.
 plant automaton R33C:
   location l0:
     initial; marked;
@@ -166,6 +197,7 @@ plant automaton R33C:
     edge c33_43 goto l0;
 end
 
+// Cats on level 3, in room 4.
 plant automaton R34C:
   location l0:
     initial; marked;
@@ -176,6 +208,7 @@ plant automaton R34C:
     edge c34_35 goto l0;
 end
 
+// Cats on level 3, in room 5.
 plant automaton R35C:
   location l0:
     initial; marked;
@@ -184,6 +217,7 @@ plant automaton R35C:
     edge c35_33 goto l0;
 end
 
+// Cats on level 4, in room 1.
 plant automaton R41C:
   location l0:
     initial; marked;
@@ -192,6 +226,7 @@ plant automaton R41C:
     edge c41_43 goto l0;
 end
 
+// Cats on level 4, in room 2.
 plant automaton R42C:
   location l0:
     initial; marked;
@@ -202,6 +237,7 @@ plant automaton R42C:
     edge c42_44 goto l0;
 end
 
+// Cats on level 4, in room 3.
 plant automaton R43C:
   location l0:
     initial; marked;
@@ -214,6 +250,7 @@ plant automaton R43C:
     edge c43_33 goto l0;
 end
 
+// Cats on level 4, in room 4.
 plant automaton R44C:
   location l0:
     initial; marked;
@@ -226,6 +263,7 @@ plant automaton R44C:
     edge c44_54 goto l0;
 end
 
+// Cats on level 4, in room 5.
 plant automaton R45C:
   location l0:
     initial; marked;
@@ -234,6 +272,7 @@ plant automaton R45C:
     edge c45_43 goto l0;
 end
 
+// Cats on level 5, in room 1.
 plant automaton R51C:
   location l0:
     initial; marked;
@@ -242,6 +281,7 @@ plant automaton R51C:
     edge c51_53 goto l0;
 end
 
+// Cats on level 5, in room 2.
 plant automaton R52C:
   location l0:
     initial; marked;
@@ -252,6 +292,7 @@ plant automaton R52C:
     edge c52_54 goto l0;
 end
 
+// Cats on level 5, in room 3.
 plant automaton R53C:
   location l0:
     initial; marked;
@@ -262,6 +303,7 @@ plant automaton R53C:
     edge c53_54 goto l0;
 end
 
+// Cats on level 5, in room 4.
 plant automaton R54C:
   location l0:
     initial; marked;
@@ -274,6 +316,7 @@ plant automaton R54C:
     edge c54_44 goto l0;
 end
 
+// Cats on level 5, in room 5.
 plant automaton R55C:
   location l0:
     initial; marked;
@@ -282,6 +325,7 @@ plant automaton R55C:
     edge c55_53 goto l0;
 end
 
+// Mice on level 1, in room 1.
 plant automaton R11M:
   location l0:
     initial; marked;
@@ -289,9 +333,10 @@ plant automaton R11M:
     edge m21_11 goto l1;
   location l1:
     edge m11_12 goto l0;
-edge m11_21 goto l0;
+    edge m11_21 goto l0;
 end
 
+// Mice on level 1, in room 2.
 plant automaton R12M:
   location l0:
     initial; marked;
@@ -300,6 +345,7 @@ plant automaton R12M:
     edge m12_13 goto l0;
 end
 
+// Mice on level 1, in room 3.
 plant automaton R13M:
   location l0:
     initial; marked;
@@ -310,6 +356,7 @@ plant automaton R13M:
     edge m13_15 goto l0;
 end
 
+// Mice on level 1, in room 4.
 plant automaton R14M:
   location l0:
     initial; marked;
@@ -318,6 +365,7 @@ plant automaton R14M:
     edge m14_13 goto l0;
 end
 
+// Mice on level 1, in room 5.
 plant automaton R15M:
   location l0:
     initial; marked;
@@ -326,6 +374,7 @@ plant automaton R15M:
     edge m15_14 goto l0;
 end
 
+// Mice on level 2, in room 1.
 plant automaton R21M:
   location l0:
     initial; marked;
@@ -333,9 +382,10 @@ plant automaton R21M:
     edge m11_21 goto l1;
   location l1:
     edge m21_22 goto l0;
-edge m21_11 goto l0;
+    edge m21_11 goto l0;
 end
 
+// Mice on level 2, in room 2.
 plant automaton R22M:
   location l0:
     initial; marked;
@@ -343,9 +393,10 @@ plant automaton R22M:
     edge m32_22 goto l1;
   location l1:
     edge m22_23 goto l0;
-edge m22_32 goto l0;
+    edge m22_32 goto l0;
 end
 
+// Mice on level 2, in room 3.
 plant automaton R23M:
   location l0:
     initial; marked;
@@ -356,6 +407,7 @@ plant automaton R23M:
     edge m23_25 goto l0;
 end
 
+// Mice on level 2, in room 4.
 plant automaton R24M:
   location l0:
     initial; marked;
@@ -364,6 +416,7 @@ plant automaton R24M:
     edge m24_23 goto l0;
 end
 
+// Mice on level 2, in room 5.
 plant automaton R25M:
   location l0:
     initial; marked;
@@ -372,6 +425,7 @@ plant automaton R25M:
     edge m25_24 goto l0;
 end
 
+// Mice on level 3, in room 1.
 plant automaton R31M:
   location l0:
     initial; marked;
@@ -380,6 +434,7 @@ plant automaton R31M:
     edge m31_32 goto l0;
 end
 
+// Mice on level 3, in room 2.
 plant automaton R32M:
   location l0:
     initial; marked;
@@ -387,9 +442,10 @@ plant automaton R32M:
     edge m22_32 goto l1;
   location l1:
     edge m32_33 goto l0;
-edge m32_22 goto l0;
+    edge m32_22 goto l0;
 end
 
+// Mice on level 3, in room 3.
 plant automaton R33M:
   location l0:
     initial; marked;
@@ -399,9 +455,10 @@ plant automaton R33M:
   location l1:
     edge m33_31 goto l0;
     edge m33_35 goto l0;
-edge m33_43 goto l0;
+    edge m33_43 goto l0;
 end
 
+// Mice on level 3, in room 4.
 plant automaton R34M:
   location l0:
     initial; marked;
@@ -410,6 +467,7 @@ plant automaton R34M:
     edge m34_33 goto l0;
 end
 
+// Mice on level 3, in room 5.
 plant automaton R35M:
   location l0:
     initial; marked;
@@ -418,6 +476,7 @@ plant automaton R35M:
     edge m35_34 goto l0;
 end
 
+// Mice on level 4, in room 1.
 plant automaton R41M:
   location l0:
     initial; marked;
@@ -426,6 +485,7 @@ plant automaton R41M:
     edge m41_42 goto l0;
 end
 
+// Mice on level 4, in room 2.
 plant automaton R42M:
   location l0:
     initial; marked;
@@ -434,6 +494,7 @@ plant automaton R42M:
     edge m42_43 goto l0;
 end
 
+// Mice on level 4, in room 3.
 plant automaton R43M:
   location l0:
     initial; marked;
@@ -443,9 +504,10 @@ plant automaton R43M:
   location l1:
     edge m43_41 goto l0;
     edge m43_45 goto l0;
-edge m43_33 goto l0;
+    edge m43_33 goto l0;
 end
 
+// Mice on level 4, in room 4.
 plant automaton R44M:
   location l0:
     initial; marked;
@@ -453,9 +515,10 @@ plant automaton R44M:
     edge m54_44 goto l1;
   location l1:
     edge m44_43 goto l0;
-edge m44_54 goto l0;
+    edge m44_54 goto l0;
 end
 
+// Mice on level 4, in room 5.
 plant automaton R45M:
   location l0:
     initial; marked;
@@ -464,6 +527,7 @@ plant automaton R45M:
     edge m45_44 goto l0;
 end
 
+// Mice on level 5, in room 1.
 plant automaton R51M:
   location l0:
     initial; marked;
@@ -472,6 +536,7 @@ plant automaton R51M:
     edge m51_52 goto l0;
 end
 
+// Mice on level 5, in room 2.
 plant automaton R52M:
   location l0:
     initial; marked;
@@ -480,6 +545,7 @@ plant automaton R52M:
     edge m52_53 goto l0;
 end
 
+// Mice on level 5, in room 3.
 plant automaton R53M:
   location l0:
     initial; marked;
@@ -490,6 +556,7 @@ plant automaton R53M:
     edge m53_55 goto l0;
 end
 
+// Mice on level 5, in room 4.
 plant automaton R54M:
   location l0:
     initial; marked;
@@ -497,9 +564,10 @@ plant automaton R54M:
     edge m44_54 goto l1;
   location l1:
     edge m54_53 goto l0;
-edge m54_44 goto l0;
+    edge m54_44 goto l0;
 end
 
+// Mice on level 5, in room 5.
 plant automaton R55M:
   location l0:
     edge m53_55 goto l1;
@@ -508,6 +576,7 @@ plant automaton R55M:
     edge m55_54 goto l0;
 end
 
+// Requirements: a cat and a mouse must never be in the same room at the same time.
 requirement invariant R11C.l0 or R11M.l0;
 requirement invariant R12C.l0 or R12M.l0;
 requirement invariant R13C.l0 or R13M.l0;
