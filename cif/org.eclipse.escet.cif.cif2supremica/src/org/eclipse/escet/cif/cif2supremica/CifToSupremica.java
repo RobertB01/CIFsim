@@ -127,11 +127,12 @@ public class CifToSupremica {
      * Transform a CIF specification into a Supremica XML document.
      *
      * @param spec The CIF specification. The specification is modified in-place during preprocessing.
+     * @param absSpecPath The absolute local file system path to the CIF file.
      * @param moduleName The name of the Supremica module to generate.
      * @param elimEnums Should enumerations be eliminated?
      * @return The Supremica XML document.
      */
-    public static Document transform(Specification spec, String moduleName, boolean elimEnums) {
+    public static Document transform(Specification spec, String absSpecPath, String moduleName, boolean elimEnums) {
         // Remove/ignore I/O declarations, to increase the supported subset.
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
         removeIoDecls.transform(spec);
@@ -141,7 +142,7 @@ public class CifToSupremica {
 
         // Check preconditions.
         CifToSupremicaPreChecker checker = new CifToSupremicaPreChecker();
-        checker.reportPreconditionViolations(spec, "CIF to Supremica transformation");
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF to Supremica transformation");
 
         // Perform further preprocessing.
         preprocess(spec, elimEnums);

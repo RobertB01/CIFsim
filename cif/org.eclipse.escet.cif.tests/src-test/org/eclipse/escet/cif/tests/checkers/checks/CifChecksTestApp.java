@@ -26,6 +26,7 @@ import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
@@ -61,6 +62,7 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
         // Read CIF specification.
         CifReader cifReader = new CifReader().init();
         Specification spec = cifReader.read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -104,7 +106,7 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
         }
 
         // Perform check.
-        new CifPreconditionChecker(checks).reportPreconditionViolations(spec, "CIF checks tester");
+        new CifPreconditionChecker(checks).reportPreconditionViolations(spec, absSpecPath, "CIF checks tester");
 
         // All done.
         return 0;

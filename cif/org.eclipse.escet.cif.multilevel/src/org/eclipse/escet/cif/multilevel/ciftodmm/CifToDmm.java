@@ -62,10 +62,11 @@ public class CifToDmm {
      * Perform checking on the specification to decide if it appropriate for the DMM construction.
      *
      * @param spec Specification to check.
+     * @param absSpecPath The absolute local file system path to the CIF file to check.
      */
-    public static void checkSpec(Specification spec) {
+    public static void checkSpec(Specification spec, String absSpecPath) {
         CifPreconditionChecker checker = new CifToDmmPreChecker();
-        checker.reportPreconditionViolations(spec, "CIF to DMM transformation");
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF to DMM transformation");
     }
 
     /** CIF checker class to check pre-conditions of the CIF to DMM transformation. */

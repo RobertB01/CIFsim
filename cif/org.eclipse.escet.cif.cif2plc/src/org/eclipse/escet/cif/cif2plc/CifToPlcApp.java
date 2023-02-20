@@ -94,6 +94,7 @@ public class CifToPlcApp extends Application<IOutputComponent> {
     protected int runInternal() {
         // Read CIF specification.
         Specification spec = new CifReader().init().read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -109,7 +110,7 @@ public class CifToPlcApp extends Application<IOutputComponent> {
         // Generate PLC code.
         PlcProject project;
         try {
-            project = CifToPlcTrans.transform(spec);
+            project = CifToPlcTrans.transform(spec, absSpecPath);
             if (isTerminationRequested()) {
                 return 0;
             }

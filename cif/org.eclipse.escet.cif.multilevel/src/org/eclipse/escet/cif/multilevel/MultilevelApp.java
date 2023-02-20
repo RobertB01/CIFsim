@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifToDmm;
 import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -69,6 +70,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Load the provided CIF specification.
         CifReader cifReader = new CifReader().init();
         Specification spec = cifReader.read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -92,7 +94,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Verify pre-conditions.
         // TODO: CifToDmm prechecker only verifies conditions needed for the CIF to DMM transformation, other parts of
         // TODO: the multilevel application need more or other checks.
-        CifToDmm.checkSpec(spec);
+        CifToDmm.checkSpec(spec, absSpecPath);
         if (isTerminationRequested()) {
             return 0;
         }

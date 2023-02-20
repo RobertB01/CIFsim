@@ -74,6 +74,7 @@ public class CifToSupremicaApp extends Application<IOutputComponent> {
     protected int runInternal() {
         // Read CIF specification.
         Specification spec = new CifReader().init().read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -96,7 +97,7 @@ public class CifToSupremicaApp extends Application<IOutputComponent> {
         boolean elimEnums = ElimEnumsOption.elimEnums();
 
         // Perform transformation to Supremica.
-        Document doc = CifToSupremica.transform(spec, moduleName, elimEnums);
+        Document doc = CifToSupremica.transform(spec, absSpecPath, moduleName, elimEnums);
         if (isTerminationRequested()) {
             return 0;
         }
