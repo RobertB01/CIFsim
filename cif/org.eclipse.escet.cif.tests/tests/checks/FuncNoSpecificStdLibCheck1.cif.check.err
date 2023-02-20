@@ -1,5 +1,17 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "X.d" (File "checks/FuncNoSpecificStdLibCheck1.cif": line 15, column 17): discrete variable uses standard library function "asin".
- - Unsupported "X.d" (File "checks/FuncNoSpecificStdLibCheck1.cif": line 15, column 17): discrete variable uses standard library function "sin".
- - Unsupported "X.n" (File "checks/FuncNoSpecificStdLibCheck1.cif": line 16, column 12): discrete variable uses standard library function "abs".
- - Unsupported "X.n" (File "checks/FuncNoSpecificStdLibCheck1.cif": line 16, column 12): discrete variable uses standard library function "cos".
+ - Standard library function "abs" is used:
+   - In discrete variable "X.n":
+     - disc int n = round(max(abs(cos(12.0) * 20.0), 7.0) + (sample d)[0]);
+                              ^
+ - Standard library function "asin" is used:
+   - In discrete variable "X.d":
+     - disc dist int d = binomial(asin(sin(0.5)), 2);
+                                  ^
+ - Standard library function "cos" is used:
+   - In discrete variable "X.n":
+     - disc int n = round(max(abs(cos(12.0) * 20.0), 7.0) + (sample d)[0]);
+                                  ^
+ - Standard library function "sin" is used:
+   - In discrete variable "X.d":
+     - disc dist int d = binomial(asin(sin(0.5)), 2);
+                                       ^

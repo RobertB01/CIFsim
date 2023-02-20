@@ -1,8 +1,20 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "g.a.i" (File "checks/VarNoInputCheck.cif": line 21, column 16): variable is an input variable.
- - Unsupported "g.a.j" (File "checks/VarNoInputCheck.cif": line 22, column 16): variable is an input variable.
- - Unsupported "g.i" (File "checks/VarNoInputCheck.cif": line 17, column 14): variable is an input variable.
- - Unsupported "G.i" (File "checks/VarNoInputCheck.cif": line 30, column 14): variable is an input variable.
- - Unsupported "g.j" (File "checks/VarNoInputCheck.cif": line 18, column 14): variable is an input variable.
- - Unsupported "G.j" (File "checks/VarNoInputCheck.cif": line 31, column 14): variable is an input variable.
- - Unsupported "i" (File "checks/VarNoInputCheck.cif": line 14, column 12): variable is an input variable.
+ - Variable is an input variable:
+   - In the top-level scope of the specification:
+     - input bool i;
+                  ^
+   - In group definition "G":
+     - input bool i;
+                  ^
+     - input bool j;
+                  ^
+   - In group "g":
+     - input bool i;
+                  ^
+     - input bool j;
+                  ^
+   - In automaton "g.a":
+     - input bool i;
+                  ^
+     - input bool j;
+                  ^

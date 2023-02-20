@@ -1,5 +1,16 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "a.l5" (File "checks/EdgeNoIfUpdatesCheck.cif": line 29, columns 12 .. 13): location has an edge with an 'if' update.
- - Unsupported "all" (File "checks/EdgeNoIfUpdatesCheck.cif": line 76, columns 11 .. 13): automaton has an edge with an 'if' update.
- - Unsupported "g.A.l5" (File "checks/EdgeNoIfUpdatesCheck.cif": line 71, columns 14 .. 15): location has an edge with an 'if' update.
- - Unsupported "if_upd" (File "checks/EdgeNoIfUpdatesCheck.cif": line 49, columns 11 .. 16): automaton has an edge with an 'if' update.
+ - Edge has an 'if' update:
+   - In location "a.l5":
+     - edge e do if true: va := 1 end goto l1;
+                 ^
+   - In automaton "all":
+     - edge e do if true: va := 1 end;
+                 ^
+     - edge e do if true: va := 1 end;
+                 ^
+   - In location "g.A.l5":
+     - edge e do if true: va := 1 end goto l1;
+                 ^
+   - In automaton "if_upd":
+     - edge e do if true: v := 1 end;
+                 ^

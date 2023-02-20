@@ -1,3 +1,9 @@
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
- - Unsupported "p" (File "cif2supremica/invalid3.cif": line 14, column 7): failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
- - Unsupported "p.b" (File "cif2supremica/invalid3.cif": line 15, column 13): discrete variable has multiple potential initial values (any value in its domain).
+ - Discrete variable has multiple potential initial values (any value in its domain):
+   - In automaton "p":
+     - disc bool b in any;
+                 ^
+ - Failed to determine whether a location is an initial location, as one of its initialization predicates cannot be statically evaluated:
+   - In automaton "p":
+     - initial b;
+               ^

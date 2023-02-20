@@ -1,5 +1,17 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "NEGATE_INTS_RANGED" (File "checks/ExprNoSpecificUnaryExprsCheckLevel2.cif": line 43, columns 7 .. 24): uses unary operator "-" on an operand of type "int[1..1]" in unary expression "-1".
- - Unsupported "NEGATE_INTS_RANGELESS" (File "checks/ExprNoSpecificUnaryExprsCheckLevel2.cif": line 48, columns 11 .. 31): uses unary operator "-" on an operand of type "int" in unary expression "-NEGATE_INTS_RANGELESS.v".
- - Unsupported "PLUS_INTS_RANGED" (File "checks/ExprNoSpecificUnaryExprsCheckLevel2.cif": line 61, columns 7 .. 22): uses unary operator "+" on an operand of type "int[1..1]" in unary expression "+1".
- - Unsupported "PLUS_INTS_RANGELESS" (File "checks/ExprNoSpecificUnaryExprsCheckLevel2.cif": line 66, columns 11 .. 29): uses unary operator "+" on an operand of type "int" in unary expression "+PLUS_INTS_RANGELESS.v".
+ - Unary operator "+" is used on a ranged integer typed operand:
+   - In group "PLUS_INTS_RANGED":
+     - invariant 1 = +1;
+                     ^
+ - Unary operator "+" is used on a rangeless integer typed operand:
+   - In automaton "PLUS_INTS_RANGELESS":
+     - invariant v = +v;
+                     ^
+ - Unary operator "-" is used on a ranged integer typed operand:
+   - In group "NEGATE_INTS_RANGED":
+     - invariant 1 = -1;
+                     ^
+ - Unary operator "-" is used on a rangeless integer typed operand:
+   - In automaton "NEGATE_INTS_RANGELESS":
+     - invariant v = -v;
+                     ^

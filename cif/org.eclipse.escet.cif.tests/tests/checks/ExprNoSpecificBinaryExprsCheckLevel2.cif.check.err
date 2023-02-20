@@ -1,78 +1,332 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "ADDITION_NUMBERS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 39, columns 13 .. 14): uses binary operator "+" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 + 1".
- - Unsupported "ADDITION_NUMBERS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 39, columns 13 .. 14): uses binary operator ">" on operands of types "int[2..2]" and "int[0..0]" in binary expression "1 + 1 > 0".
- - Unsupported "ADDITION_NUMBERS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 41, columns 13 .. 14): uses binary operator "+" on operands of types "int[1..1]" and "int" in binary expression "1 + ADDITION_NUMBERS.i".
- - Unsupported "ADDITION_NUMBERS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 41, columns 13 .. 14): uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "1 + ADDITION_NUMBERS.i > 0".
- - Unsupported "ADDITION_NUMBERS.GR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 43, columns 13 .. 14): uses binary operator "+" on operands of types "int[1..1]" and "real" in binary expression "1 + 1.0".
- - Unsupported "ADDITION_NUMBERS.GR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 43, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1 + 1.0 > 0".
- - Unsupported "ADDITION_NUMBERS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 40, columns 13 .. 14): uses binary operator "+" on operands of types "int" and "int[1..1]" in binary expression "ADDITION_NUMBERS.i + 1".
- - Unsupported "ADDITION_NUMBERS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 40, columns 13 .. 14): uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "ADDITION_NUMBERS.i + 1 > 0".
- - Unsupported "ADDITION_NUMBERS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 42, columns 13 .. 14): uses binary operator "+" on operands of types "int" and "int" in binary expression "ADDITION_NUMBERS.i + ADDITION_NUMBERS.i".
- - Unsupported "ADDITION_NUMBERS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 42, columns 13 .. 14): uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "ADDITION_NUMBERS.i + ADDITION_NUMBERS.i > 0".
- - Unsupported "ADDITION_NUMBERS.RG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 44, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1.0 + 1.0 > 0".
- - Unsupported "ADDITION_NUMBERS.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 45, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1.0 + 1.0 > 0".
- - Unsupported "ELEMENT_OF_DICTS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 99, columns 7 .. 22): uses binary operator "in" on operands of types "int[1..1]" and "dict(int[1..1]:int[2..2])" in binary expression "1 in {1: 2}".
- - Unsupported "ELEMENT_OF_LISTS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 89, columns 7 .. 22): uses binary operator "in" on operands of types "int[1..1]" and "list[1] int[1..1]" in binary expression "1 in [1]".
- - Unsupported "ELEMENT_OF_SETS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 94, columns 7 .. 21): uses binary operator "in" on operands of types "int[1..1]" and "set int[1..1]" in binary expression "1 in {1}".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 104, columns 7 .. 11): uses binary operator "=" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 = 1".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 104, columns 7 .. 11): uses binary operator "=" on operands of types "list[3] int[1..3]" and "list[3] int[1..3]" in binary expression "[1, 2, 3] = [1, 2, 3]".
- - Unsupported "GREATER_EQUAL.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 120, columns 13 .. 14): uses binary operator ">=" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 >= 1".
- - Unsupported "GREATER_EQUAL.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 121, columns 13 .. 14): uses binary operator ">=" on operands of types "int" and "int" in binary expression "GREATER_EQUAL.i >= GREATER_EQUAL.i".
- - Unsupported "GREATER_EQUAL.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 122, columns 13 .. 14): uses binary operator ">=" on operands of types "int[1..1]" and "real" in binary expression "1 >= 1.0".
- - Unsupported "GREATER_EQUAL.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 123, columns 13 .. 14): uses binary operator ">=" on operands of types "real" and "int[1..1]" in binary expression "1.0 >= 1".
- - Unsupported "GREATER_EQUAL.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 124, columns 13 .. 14): uses binary operator ">=" on operands of types "real" and "real" in binary expression "1.0 >= 1.0".
- - Unsupported "GREATER_THAN.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 130, columns 13 .. 14): uses binary operator ">" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 > 1".
- - Unsupported "GREATER_THAN.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 131, columns 13 .. 14): uses binary operator ">" on operands of types "int" and "int" in binary expression "GREATER_THAN.i > GREATER_THAN.i".
- - Unsupported "GREATER_THAN.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 132, columns 13 .. 14): uses binary operator ">" on operands of types "int[1..1]" and "real" in binary expression "1 > 1.0".
- - Unsupported "GREATER_THAN.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 133, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "int[1..1]" in binary expression "1.0 > 1".
- - Unsupported "GREATER_THAN.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 134, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "real" in binary expression "1.0 > 1.0".
- - Unsupported "grp" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 18, columns 7 .. 9): uses binary operator "<" on operands of types "int[1..1]" and "int[2..2]" in binary expression "1 < 2".
- - Unsupported "INTEGER_DIVISION.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 145, columns 13 .. 14): uses binary operator "=" on operands of types "int[1..1]" and "int[0..0]" in binary expression "1 div 1 = 0".
- - Unsupported "INTEGER_DIVISION.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 145, columns 13 .. 14): uses binary operator "div" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 div 1".
- - Unsupported "INTEGER_DIVISION.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 146, columns 13 .. 14): uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "1 div INTEGER_DIVISION.i = 0".
- - Unsupported "INTEGER_DIVISION.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 146, columns 13 .. 14): uses binary operator "div" on operands of types "int[1..1]" and "int" in binary expression "1 div INTEGER_DIVISION.i".
- - Unsupported "INTEGER_DIVISION.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 147, columns 13 .. 14): uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "INTEGER_DIVISION.i div 1 = 0".
- - Unsupported "INTEGER_DIVISION.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 147, columns 13 .. 14): uses binary operator "div" on operands of types "int" and "int[1..1]" in binary expression "INTEGER_DIVISION.i div 1".
- - Unsupported "INTEGER_DIVISION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 148, columns 13 .. 14): uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "INTEGER_DIVISION.i div INTEGER_DIVISION.i = 0".
- - Unsupported "INTEGER_DIVISION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 148, columns 13 .. 14): uses binary operator "div" on operands of types "int" and "int" in binary expression "INTEGER_DIVISION.i div INTEGER_DIVISION.i".
- - Unsupported "LESS_EQUAL.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 154, columns 13 .. 14): uses binary operator "<=" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 <= 1".
- - Unsupported "LESS_EQUAL.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 155, columns 13 .. 14): uses binary operator "<=" on operands of types "int" and "int" in binary expression "LESS_EQUAL.i <= LESS_EQUAL.i".
- - Unsupported "LESS_EQUAL.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 156, columns 13 .. 14): uses binary operator "<=" on operands of types "int[1..1]" and "real" in binary expression "1 <= 1.0".
- - Unsupported "LESS_EQUAL.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 157, columns 13 .. 14): uses binary operator "<=" on operands of types "real" and "int[1..1]" in binary expression "1.0 <= 1".
- - Unsupported "LESS_EQUAL.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 158, columns 13 .. 14): uses binary operator "<=" on operands of types "real" and "real" in binary expression "1.0 <= 1.0".
- - Unsupported "LESS_THAN.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 164, columns 13 .. 14): uses binary operator "<" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 < 1".
- - Unsupported "LESS_THAN.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 165, columns 13 .. 14): uses binary operator "<" on operands of types "int" and "int" in binary expression "LESS_THAN.i < LESS_THAN.i".
- - Unsupported "LESS_THAN.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 166, columns 13 .. 14): uses binary operator "<" on operands of types "int[1..1]" and "real" in binary expression "1 < 1.0".
- - Unsupported "LESS_THAN.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 167, columns 13 .. 14): uses binary operator "<" on operands of types "real" and "int[1..1]" in binary expression "1.0 < 1".
- - Unsupported "LESS_THAN.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 168, columns 13 .. 14): uses binary operator "<" on operands of types "real" and "real" in binary expression "1.0 < 1.0".
- - Unsupported "MODULUS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 174, columns 13 .. 14): uses binary operator "=" on operands of types "int[0..0]" and "int[0..0]" in binary expression "1 mod 1 = 0".
- - Unsupported "MODULUS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 174, columns 13 .. 14): uses binary operator "mod" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 mod 1".
- - Unsupported "MODULUS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 175, columns 13 .. 14): uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "1 mod MODULUS.i = 0".
- - Unsupported "MODULUS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 175, columns 13 .. 14): uses binary operator "mod" on operands of types "int[1..1]" and "int" in binary expression "1 mod MODULUS.i".
- - Unsupported "MODULUS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 176, columns 13 .. 14): uses binary operator "=" on operands of types "int[0..0]" and "int[0..0]" in binary expression "1 mod 1 = 0".
- - Unsupported "MODULUS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 176, columns 13 .. 14): uses binary operator "mod" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 mod 1".
- - Unsupported "MODULUS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 177, columns 13 .. 14): uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "MODULUS.i mod MODULUS.i = 0".
- - Unsupported "MODULUS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 177, columns 13 .. 14): uses binary operator "mod" on operands of types "int" and "int" in binary expression "MODULUS.i mod MODULUS.i".
- - Unsupported "MULTIPLICATION.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 183, columns 13 .. 14): uses binary operator "*" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 * 1".
- - Unsupported "MULTIPLICATION.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 183, columns 13 .. 14): uses binary operator "=" on operands of types "int[1..1]" and "int[0..0]" in binary expression "1 * 1 = 0".
- - Unsupported "MULTIPLICATION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 184, columns 13 .. 14): uses binary operator "*" on operands of types "int" and "int" in binary expression "MULTIPLICATION.i * MULTIPLICATION.i".
- - Unsupported "MULTIPLICATION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 184, columns 13 .. 14): uses binary operator "=" on operands of types "int" and "int[0..0]" in binary expression "MULTIPLICATION.i * MULTIPLICATION.i = 0".
- - Unsupported "MULTIPLICATION.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 185, columns 13 .. 14): uses binary operator "*" on operands of types "int[1..1]" and "real" in binary expression "1 * 1.0".
- - Unsupported "MULTIPLICATION.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 186, columns 13 .. 14): uses binary operator "*" on operands of types "real" and "int[1..1]" in binary expression "1.0 * 1".
- - Unsupported "nested_grp.nested_grp" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 24, columns 9 .. 18): uses binary operator "<" on operands of types "int[1..1]" and "int[2..2]" in binary expression "1 < 2".
- - Unsupported "SUBTRACTION_NUMBERS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 198, columns 13 .. 14): uses binary operator "-" on operands of types "int[1..1]" and "int[1..1]" in binary expression "1 - 1".
- - Unsupported "SUBTRACTION_NUMBERS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 198, columns 13 .. 14): uses binary operator ">" on operands of types "int[0..0]" and "int[0..0]" in binary expression "1 - 1 > 0".
- - Unsupported "SUBTRACTION_NUMBERS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 200, columns 13 .. 14): uses binary operator "-" on operands of types "int[1..1]" and "int" in binary expression "1 - SUBTRACTION_NUMBERS.i".
- - Unsupported "SUBTRACTION_NUMBERS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 200, columns 13 .. 14): uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "1 - SUBTRACTION_NUMBERS.i > 0".
- - Unsupported "SUBTRACTION_NUMBERS.GR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 202, columns 13 .. 14): uses binary operator "-" on operands of types "int[1..1]" and "real" in binary expression "1 - 1.0".
- - Unsupported "SUBTRACTION_NUMBERS.GR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 202, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1 - 1.0 > 0".
- - Unsupported "SUBTRACTION_NUMBERS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 199, columns 13 .. 14): uses binary operator "-" on operands of types "int" and "int[1..1]" in binary expression "SUBTRACTION_NUMBERS.i - 1".
- - Unsupported "SUBTRACTION_NUMBERS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 199, columns 13 .. 14): uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "SUBTRACTION_NUMBERS.i - 1 > 0".
- - Unsupported "SUBTRACTION_NUMBERS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 201, columns 13 .. 14): uses binary operator "-" on operands of types "int" and "int" in binary expression "SUBTRACTION_NUMBERS.i - SUBTRACTION_NUMBERS.i".
- - Unsupported "SUBTRACTION_NUMBERS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 201, columns 13 .. 14): uses binary operator ">" on operands of types "int" and "int[0..0]" in binary expression "SUBTRACTION_NUMBERS.i - SUBTRACTION_NUMBERS.i > 0".
- - Unsupported "SUBTRACTION_NUMBERS.RG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 203, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1.0 - 1.0 > 0".
- - Unsupported "SUBTRACTION_NUMBERS.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 204, columns 13 .. 14): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "1.0 - 1.0 > 0".
- - Unsupported "type_decl" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 30, columns 7 .. 15): uses binary operator "<" on operands of types "int[1..1]" and "int[1..1]" in binary expression "type_decl.a < type_decl.a".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 218, columns 7 .. 13): uses binary operator "!=" on operands of types "int[1..1]" and "int[2..2]" in binary expression "1 != 2".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 218, columns 7 .. 13): uses binary operator "!=" on operands of types "list[3] int[1..4]" and "list[3] int[1..3]" in binary expression "[1, 2, 4] != [1, 2, 3]".
- - Unsupported specification (File "checks/ExprNoSpecificBinaryExprsCheckLevel2.cif": line 1, column 1): uses binary operator "<" on operands of types "int[1..1]" and "int[2..2]" in binary expression "1 < 2".
+ - Binary operator "!=" is used on a ranged integer typed operand:
+   - In group "UNEQUAL":
+     - invariant 1 != 2;
+                   ^
+ - Binary operator "!=" is used on an array list typed operand:
+   - In group "UNEQUAL":
+     - invariant [1, 2, 4] != [1, 2, 3];
+                           ^
+ - Binary operator "*" is used on a ranged integer typed operand:
+   - In invariant "MULTIPLICATION.GG":
+     - invariant GG: 1 * 1 = 0;
+                       ^
+   - In invariant "MULTIPLICATION.IR":
+     - invariant IR: 1 * 1.0 = 0.0;
+                       ^
+   - In invariant "MULTIPLICATION.RI":
+     - invariant RI: 1.0 * 1 = 0.0;
+                         ^
+ - Binary operator "*" is used on a rangeless integer typed operand:
+   - In invariant "MULTIPLICATION.II":
+     - invariant II: i * i = 0;
+                       ^
+ - Binary operator "+" is used on a ranged integer typed operand:
+   - In invariant "ADDITION_NUMBERS.GG":
+     - invariant GG: 1 + 1 > 0;
+                       ^
+   - In invariant "ADDITION_NUMBERS.GI":
+     - invariant GI: 1 + i > 0;
+                       ^
+   - In invariant "ADDITION_NUMBERS.GR":
+     - invariant GR: 1 + 1.0 > 0;
+                       ^
+   - In invariant "ADDITION_NUMBERS.IG":
+     - invariant IG: i + 1 > 0;
+                       ^
+ - Binary operator "+" is used on a rangeless integer typed operand:
+   - In invariant "ADDITION_NUMBERS.GI":
+     - invariant GI: 1 + i > 0;
+                       ^
+   - In invariant "ADDITION_NUMBERS.IG":
+     - invariant IG: i + 1 > 0;
+                       ^
+   - In invariant "ADDITION_NUMBERS.II":
+     - invariant II: i + i > 0;
+                       ^
+ - Binary operator "-" is used on a ranged integer typed operand:
+   - In invariant "SUBTRACTION_NUMBERS.GG":
+     - invariant GG: 1 - 1 > 0;
+                       ^
+   - In invariant "SUBTRACTION_NUMBERS.GI":
+     - invariant GI: 1 - i > 0;
+                       ^
+   - In invariant "SUBTRACTION_NUMBERS.GR":
+     - invariant GR: 1 - 1.0 > 0;
+                       ^
+   - In invariant "SUBTRACTION_NUMBERS.IG":
+     - invariant IG: i - 1 > 0;
+                       ^
+ - Binary operator "-" is used on a rangeless integer typed operand:
+   - In invariant "SUBTRACTION_NUMBERS.GI":
+     - invariant GI: 1 - i > 0;
+                       ^
+   - In invariant "SUBTRACTION_NUMBERS.IG":
+     - invariant IG: i - 1 > 0;
+                       ^
+   - In invariant "SUBTRACTION_NUMBERS.II":
+     - invariant II: i - i > 0;
+                       ^
+ - Binary operator "<" is used on a real typed operand:
+   - In invariant "LESS_THAN.IR":
+     - invariant IR: 1 < 1.0;
+                       ^
+   - In invariant "LESS_THAN.RI":
+     - invariant RI: 1.0 < 1;
+                         ^
+   - In invariant "LESS_THAN.RR":
+     - invariant RR: 1.0 < 1.0;
+                         ^
+ - Binary operator "<" is used on an integer typed operand:
+   - In the top-level scope of the specification:
+     - invariant 1 < 2;
+                   ^
+   - In invariant "LESS_THAN.GG":
+     - invariant GG: 1 < 1;
+                       ^
+   - In invariant "LESS_THAN.II":
+     - invariant II: i < i;
+                       ^
+   - In invariant "LESS_THAN.IR":
+     - invariant IR: 1 < 1.0;
+                       ^
+   - In invariant "LESS_THAN.RI":
+     - invariant RI: 1.0 < 1;
+                         ^
+   - In group "grp":
+     - invariant 1 < 2;
+                   ^
+   - In group "nested_grp.nested_grp":
+     - invariant 1 < 2;
+                   ^
+   - In group "type_decl":
+     - invariant a < a;
+                   ^
+ - Binary operator "<=" is used on a real typed operand:
+   - In invariant "LESS_EQUAL.IR":
+     - invariant IR: 1 <= 1.0;
+                       ^
+   - In invariant "LESS_EQUAL.RI":
+     - invariant RI: 1.0 <= 1;
+                         ^
+   - In invariant "LESS_EQUAL.RR":
+     - invariant RR: 1.0 <= 1.0;
+                         ^
+ - Binary operator "<=" is used on an integer typed operand:
+   - In invariant "LESS_EQUAL.GG":
+     - invariant GG: 1 <= 1;
+                       ^
+   - In invariant "LESS_EQUAL.II":
+     - invariant II: i <= i;
+                       ^
+   - In invariant "LESS_EQUAL.IR":
+     - invariant IR: 1 <= 1.0;
+                       ^
+   - In invariant "LESS_EQUAL.RI":
+     - invariant RI: 1.0 <= 1;
+                         ^
+ - Binary operator "=" is used on a ranged integer typed operand:
+   - In group "EQUAL":
+     - invariant 1 = 1;
+                   ^
+   - In invariant "INTEGER_DIVISION.GG":
+     - invariant GG: 1 div 1 = 0;
+                             ^
+   - In invariant "INTEGER_DIVISION.GI":
+     - invariant GI: 1 div i = 0;
+                             ^
+   - In invariant "INTEGER_DIVISION.IG":
+     - invariant IG: i div 1 = 0;
+                             ^
+   - In invariant "INTEGER_DIVISION.II":
+     - invariant II: i div i = 0;
+                             ^
+   - In invariant "MODULUS.GG":
+     - invariant GG: 1 mod 1 = 0;
+                             ^
+   - In invariant "MODULUS.GI":
+     - invariant GI: 1 mod i = 0;
+                             ^
+   - In invariant "MODULUS.IG":
+     - invariant IG: 1 mod 1 = 0;
+                             ^
+   - In invariant "MODULUS.II":
+     - invariant II: i mod i = 0;
+                             ^
+   - In invariant "MULTIPLICATION.GG":
+     - invariant GG: 1 * 1 = 0;
+                           ^
+   - In invariant "MULTIPLICATION.II":
+     - invariant II: i * i = 0;
+                           ^
+ - Binary operator "=" is used on a rangeless integer typed operand:
+   - In invariant "INTEGER_DIVISION.GI":
+     - invariant GI: 1 div i = 0;
+                             ^
+   - In invariant "INTEGER_DIVISION.IG":
+     - invariant IG: i div 1 = 0;
+                             ^
+   - In invariant "INTEGER_DIVISION.II":
+     - invariant II: i div i = 0;
+                             ^
+   - In invariant "MODULUS.GI":
+     - invariant GI: 1 mod i = 0;
+                             ^
+   - In invariant "MODULUS.II":
+     - invariant II: i mod i = 0;
+                             ^
+   - In invariant "MULTIPLICATION.II":
+     - invariant II: i * i = 0;
+                           ^
+ - Binary operator "=" is used on an array list typed operand:
+   - In group "EQUAL":
+     - invariant [1, 2, 3] = [1, 2, 3];
+                           ^
+ - Binary operator ">" is used on a real typed operand:
+   - In invariant "ADDITION_NUMBERS.GR":
+     - invariant GR: 1 + 1.0 > 0;
+                             ^
+   - In invariant "ADDITION_NUMBERS.RG":
+     - invariant RG: 1.0 + 1.0 > 0;
+                               ^
+   - In invariant "ADDITION_NUMBERS.RR":
+     - invariant RR: 1.0 + 1.0 > 0;
+                               ^
+   - In invariant "GREATER_THAN.IR":
+     - invariant IR: 1 > 1.0;
+                       ^
+   - In invariant "GREATER_THAN.RI":
+     - invariant RI: 1.0 > 1;
+                         ^
+   - In invariant "GREATER_THAN.RR":
+     - invariant RR: 1.0 > 1.0;
+                         ^
+   - In invariant "SUBTRACTION_NUMBERS.GR":
+     - invariant GR: 1 - 1.0 > 0;
+                             ^
+   - In invariant "SUBTRACTION_NUMBERS.RG":
+     - invariant RG: 1.0 - 1.0 > 0;
+                               ^
+   - In invariant "SUBTRACTION_NUMBERS.RR":
+     - invariant RR: 1.0 - 1.0 > 0;
+                               ^
+ - Binary operator ">" is used on an integer typed operand:
+   - In invariant "ADDITION_NUMBERS.GG":
+     - invariant GG: 1 + 1 > 0;
+                           ^
+   - In invariant "ADDITION_NUMBERS.GI":
+     - invariant GI: 1 + i > 0;
+                           ^
+   - In invariant "ADDITION_NUMBERS.GR":
+     - invariant GR: 1 + 1.0 > 0;
+                             ^
+   - In invariant "ADDITION_NUMBERS.IG":
+     - invariant IG: i + 1 > 0;
+                           ^
+   - In invariant "ADDITION_NUMBERS.II":
+     - invariant II: i + i > 0;
+                           ^
+   - In invariant "ADDITION_NUMBERS.RG":
+     - invariant RG: 1.0 + 1.0 > 0;
+                               ^
+   - In invariant "ADDITION_NUMBERS.RR":
+     - invariant RR: 1.0 + 1.0 > 0;
+                               ^
+   - In invariant "GREATER_THAN.GG":
+     - invariant GG: 1 > 1;
+                       ^
+   - In invariant "GREATER_THAN.II":
+     - invariant II: i > i;
+                       ^
+   - In invariant "GREATER_THAN.IR":
+     - invariant IR: 1 > 1.0;
+                       ^
+   - In invariant "GREATER_THAN.RI":
+     - invariant RI: 1.0 > 1;
+                         ^
+   - In invariant "SUBTRACTION_NUMBERS.GG":
+     - invariant GG: 1 - 1 > 0;
+                           ^
+   - In invariant "SUBTRACTION_NUMBERS.GI":
+     - invariant GI: 1 - i > 0;
+                           ^
+   - In invariant "SUBTRACTION_NUMBERS.GR":
+     - invariant GR: 1 - 1.0 > 0;
+                             ^
+   - In invariant "SUBTRACTION_NUMBERS.IG":
+     - invariant IG: i - 1 > 0;
+                           ^
+   - In invariant "SUBTRACTION_NUMBERS.II":
+     - invariant II: i - i > 0;
+                           ^
+   - In invariant "SUBTRACTION_NUMBERS.RG":
+     - invariant RG: 1.0 - 1.0 > 0;
+                               ^
+   - In invariant "SUBTRACTION_NUMBERS.RR":
+     - invariant RR: 1.0 - 1.0 > 0;
+                               ^
+ - Binary operator ">=" is used on a real typed operand:
+   - In invariant "GREATER_EQUAL.IR":
+     - invariant IR: 1 >= 1.0;
+                       ^
+   - In invariant "GREATER_EQUAL.RI":
+     - invariant RI: 1.0 >= 1;
+                         ^
+   - In invariant "GREATER_EQUAL.RR":
+     - invariant RR: 1.0 >= 1.0;
+                         ^
+ - Binary operator ">=" is used on an integer typed operand:
+   - In invariant "GREATER_EQUAL.GG":
+     - invariant GG: 1 >= 1;
+                       ^
+   - In invariant "GREATER_EQUAL.II":
+     - invariant II: i >= i;
+                       ^
+   - In invariant "GREATER_EQUAL.IR":
+     - invariant IR: 1 >= 1.0;
+                       ^
+   - In invariant "GREATER_EQUAL.RI":
+     - invariant RI: 1.0 >= 1;
+                         ^
+ - Binary operator "div" is used on an integer typed operand:
+   - In invariant "INTEGER_DIVISION.GG":
+     - invariant GG: 1 div 1 = 0;
+                       ^
+   - In invariant "INTEGER_DIVISION.GI":
+     - invariant GI: 1 div i = 0;
+                       ^
+   - In invariant "INTEGER_DIVISION.IG":
+     - invariant IG: i div 1 = 0;
+                       ^
+   - In invariant "INTEGER_DIVISION.II":
+     - invariant II: i div i = 0;
+                       ^
+ - Binary operator "in" is used on a dictionary typed operand:
+   - In group "ELEMENT_OF_DICTS":
+     - invariant 1 in {1: 2};
+                   ^
+ - Binary operator "in" is used on a list typed operand:
+   - In group "ELEMENT_OF_LISTS":
+     - invariant 1 in [1];
+                   ^
+ - Binary operator "in" is used on a set typed operand:
+   - In group "ELEMENT_OF_SETS":
+     - invariant 1 in {1};
+                   ^
+ - Binary operator "mod" is used on a ranged integer typed operand:
+   - In invariant "MODULUS.GG":
+     - invariant GG: 1 mod 1 = 0;
+                       ^
+   - In invariant "MODULUS.GI":
+     - invariant GI: 1 mod i = 0;
+                       ^
+   - In invariant "MODULUS.IG":
+     - invariant IG: 1 mod 1 = 0;
+                       ^
+ - Binary operator "mod" is used on a rangeless integer typed operand:
+   - In invariant "MODULUS.GI":
+     - invariant GI: 1 mod i = 0;
+                       ^
+   - In invariant "MODULUS.II":
+     - invariant II: i mod i = 0;
+                       ^

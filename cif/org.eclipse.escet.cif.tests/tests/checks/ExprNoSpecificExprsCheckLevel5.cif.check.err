@@ -1,4 +1,19 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f" (File "checks/ExprNoSpecificExprsCheckLevel5.cif": line 175, column 13): uses internal user-defined function local variable reference "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f.v".
- - Unsupported "USER_DEF_FUNC_REFS" (File "checks/ExprNoSpecificExprsCheckLevel5.cif": line 198, columns 7 .. 24): uses external user-defined function reference "USER_DEF_FUNC_REFS.extF" as data value.
- - Unsupported "USER_DEF_FUNC_REFS" (File "checks/ExprNoSpecificExprsCheckLevel5.cif": line 198, columns 7 .. 24): uses internal user-defined function reference "USER_DEF_FUNC_REFS.intF" as data value.
+ - A user-defined function reference is used as a data value:
+   - In group "USER_DEF_FUNC_REFS":
+     - invariant g(intF);
+                   ^
+     - invariant g(extF);
+                   ^
+ - An external user-defined function reference is used as a data value:
+   - In group "USER_DEF_FUNC_REFS":
+     - invariant g(extF);
+                   ^
+ - An internal user-defined function local variable reference is used:
+   - In user-defined function "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f":
+     - return v;
+              ^
+ - An internal user-defined function reference is used as a data value:
+   - In group "USER_DEF_FUNC_REFS":
+     - invariant g(intF);
+                   ^

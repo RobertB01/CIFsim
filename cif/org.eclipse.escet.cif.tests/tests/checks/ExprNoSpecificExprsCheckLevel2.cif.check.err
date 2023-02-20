@@ -1,35 +1,103 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "ALG_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 30, columns 7 .. 18): uses algebraic variable reference "ALG_VAR_REFS.a".
- - Unsupported "CAST_EXPRS_AUTOMATON_TO_STRING" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 87, columns 7 .. 36): uses component reference "X".
- - Unsupported "COMP_PARAM_REFS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 131, columns 11 .. 25): uses algebraic variable reference "COMP_PARAM_REFS.p".
- - Unsupported "COMP_REFS_EXPLICIT" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 117, columns 11 .. 28): uses component reference "COMP_REFS_EXPLICIT".
- - Unsupported "COMP_REFS_SELF" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 124, columns 11 .. 24): uses component reference "self".
- - Unsupported "CONT_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 142, columns 7 .. 19): uses continuous variable reference "CONT_VAR_REFS.c".
- - Unsupported "CONT_VAR_REFS_DER" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 148, columns 7 .. 23): uses continuous variable reference "CONT_VAR_REFS_DER.c'".
- - Unsupported "DICT_LITS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 154, columns 7 .. 15): uses dictionary projection expression "{true: false}[true]".
- - Unsupported "DISC_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 159, columns 11 .. 23): uses discrete variable reference "DISC_VAR_REFS.v".
- - Unsupported "ENUM_LIT_REFS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 182, columns 7 .. 19): uses enumeration literal reference "ENUM_LIT_REFS.e1".
- - Unsupported "ENUM_LIT_REFS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 182, columns 7 .. 19): uses enumeration literal reference "ENUM_LIT_REFS.e2".
- - Unsupported "INPUT_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 229, columns 7 .. 20): uses input variable reference "INPUT_VAR_REFS.i".
- - Unsupported "PROJECTION_EXPRS_DICTS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 265, columns 7 .. 28): uses dictionary projection expression "{true: false}[true]".
- - Unsupported "PROJECTION_EXPRS_LISTS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 260, columns 7 .. 28): uses list projection expression "[true, false][0]".
- - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 252, columns 11 .. 42): uses discrete variable reference "PROJECTION_EXPRS_LISTS_NON_ARRAY.d".
- - Unsupported "PROJECTION_EXPRS_LISTS_NON_ARRAY" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 252, columns 11 .. 42): uses list projection expression "PROJECTION_EXPRS_LISTS_NON_ARRAY.d[0]".
- - Unsupported "PROJECTION_EXPRS_STRINGS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 270, columns 7 .. 30): uses string projection expression ""abc"[0]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 281, columns 11 .. 39): uses discrete variable reference "PROJECTION_EXPRS_TUPLES_FIELD.v".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 281, columns 11 .. 39): uses tuple field reference "a".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 281, columns 11 .. 39): uses tuple field reference "b".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 281, columns 11 .. 39): uses tuple projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[a]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_FIELD" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 281, columns 11 .. 39): uses tuple projection expression "PROJECTION_EXPRS_TUPLES_FIELD.v[b]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 275, columns 7 .. 35): uses tuple projection expression "((true, false), false)[0]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 275, columns 7 .. 35): uses tuple projection expression "((true, false), false)[0][0]".
- - Unsupported "PROJECTION_EXPRS_TUPLES_INDEX" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 275, columns 7 .. 35): uses tuple projection expression "(true, false)[0]".
- - Unsupported "RECEIVE_EXPRS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 294, columns 11 .. 23): uses discrete variable reference "RECEIVE_EXPRS.v".
- - Unsupported "SLICE_EXPRS.SLICE_EXPRS_LIST" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 309, columns 13 .. 28): uses list projection expression "[true, false][:-1][0]".
- - Unsupported "SLICE_EXPRS.SLICE_EXPRS_STRING" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 310, columns 13 .. 30): uses string projection expression ""ab"[:-1][0]".
- - Unsupported "TIME_VAR_REFS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 324, columns 7 .. 19): uses time variable reference "time".
- - Unsupported "TUPLE_FIELD_REFS_NAMED" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 193, columns 7 .. 28): uses tuple field reference "a".
- - Unsupported "TUPLE_FIELD_REFS_NAMED" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 193, columns 7 .. 28): uses tuple projection expression "TUPLE_FIELD_REFS_NAMED.c[a]".
- - Unsupported "TUPLE_FIELD_REFS_NAMELESS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 188, columns 7 .. 31): uses tuple projection expression "(true, false)[0]".
- - Unsupported "TUPLE_LITS" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 329, columns 7 .. 16): uses tuple projection expression "(true, false)[0]".
- - Unsupported "X.A" (File "checks/ExprNoSpecificExprsCheckLevel2.cif": line 81, column 12): uses component reference "self".
+ - A 'time' variable reference is used:
+   - In group "TIME_VAR_REFS":
+     - invariant time > 0;
+                 ^
+ - A component 'self' reference is used:
+   - In automaton "COMP_REFS_SELF":
+     - invariant switch self: else true end;
+                        ^
+   - In location "X.A":
+     - invariant "A" = <string>self;
+                               ^
+ - A continuous variable reference is used:
+   - In group "CONT_VAR_REFS":
+     - invariant c = 1.0;
+                 ^
+   - In group "CONT_VAR_REFS_DER":
+     - invariant c' = 1.0;
+                 ^
+ - A dictionary projection expression is used:
+   - In group "DICT_LITS":
+     - invariant {true: false}[true];
+                              ^
+   - In group "PROJECTION_EXPRS_DICTS":
+     - invariant {true: false}[true];
+                              ^
+ - A discrete variable reference is used:
+   - In automaton "DISC_VAR_REFS":
+     - invariant v;
+                 ^
+   - In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
+     - invariant d[0];
+                 ^
+   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+     - edge tau do v[a] := v[b];
+                   ^       ^
+   - In automaton "RECEIVE_EXPRS":
+     - edge e? do v := ?;
+                  ^
+ - A list projection expression is used:
+   - In group "PROJECTION_EXPRS_LISTS":
+     - invariant [true, false][0];
+                              ^
+   - In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
+     - invariant d[0];
+                  ^
+   - In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
+     - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
+                                                     ^
+ - A string projection expression is used:
+   - In group "PROJECTION_EXPRS_STRINGS":
+     - invariant "abc"[0] = "a";
+                      ^
+   - In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
+     - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
+                                              ^
+ - A tuple field reference is used:
+   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+     - edge tau do v[a] := v[b];
+                     ^       ^
+   - In group "TUPLE_FIELD_REFS_NAMED":
+     - invariant c[a];
+                   ^
+ - A tuple projection expression is used:
+   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+     - edge tau do v[a] := v[b];
+                    ^       ^
+   - In group "PROJECTION_EXPRS_TUPLES_INDEX":
+     - invariant (true, false)[0];
+                              ^
+     - invariant ((true, false), false)[0][0];
+                                       ^  ^
+   - In group "TUPLE_FIELD_REFS_NAMED":
+     - invariant c[a];
+                  ^
+   - In group "TUPLE_FIELD_REFS_NAMELESS":
+     - invariant (true, false)[0];
+                              ^
+   - In group "TUPLE_LITS":
+     - invariant (true, false)[0];
+                              ^
+ - An algebraic variable reference is used:
+   - In group "ALG_VAR_REFS":
+     - invariant a;
+                 ^
+   - In group definition "COMP_PARAM_REFS":
+     - invariant p;
+                 ^
+ - An enumeration literal reference is used:
+   - In group "ENUM_LIT_REFS":
+     - invariant e1 = e2;
+                 ^    ^
+ - An explicit component reference is used:
+   - In group "CAST_EXPRS_AUTOMATON_TO_STRING":
+     - invariant "A" = <string>X;
+                               ^
+   - In automaton "COMP_REFS_EXPLICIT":
+     - invariant switch COMP_REFS_EXPLICIT: else true end;
+                        ^
+ - An input variable reference is used:
+   - In group "INPUT_VAR_REFS":
+     - invariant i;
+                 ^

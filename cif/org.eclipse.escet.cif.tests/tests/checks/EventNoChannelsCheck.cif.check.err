@@ -11,11 +11,22 @@ WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, co
 WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 33: Event parameter "G.c1" is not used anywhere in the specification.
 WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 47: Event parameter "G.c2" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "c1" (File "checks/EventNoChannelsCheck.cif": line 15, columns 12 .. 13): event is a channel (has a data type).
- - Unsupported "c2" (File "checks/EventNoChannelsCheck.cif": line 16, columns 11 .. 12): event is a channel (has a data type).
- - Unsupported "g.a.c1" (File "checks/EventNoChannelsCheck.cif": line 25, columns 23 .. 24): event is a channel (has a data type).
- - Unsupported "g.a.c2" (File "checks/EventNoChannelsCheck.cif": line 26, columns 24 .. 25): event is a channel (has a data type).
- - Unsupported "g.c1" (File "checks/EventNoChannelsCheck.cif": line 20, columns 14 .. 15): event is a channel (has a data type).
- - Unsupported "G.c1" (File "checks/EventNoChannelsCheck.cif": line 33, columns 33 .. 34): event parameter is a channel (has a data type).
- - Unsupported "g.c2" (File "checks/EventNoChannelsCheck.cif": line 21, columns 13 .. 14): event is a channel (has a data type).
- - Unsupported "G.c2" (File "checks/EventNoChannelsCheck.cif": line 33, columns 47 .. 48): event parameter is a channel (has a data type).
+ - Event is a channel:
+   - In the top-level scope of the specification:
+     - event void c1;
+                  ^
+     - event int c2;
+                 ^
+   - In group definition "G":
+     - group def G(event e; event void c1; event int c2):
+                                       ^             ^
+   - In group "g":
+     - event void c1;
+                  ^
+     - event int c2;
+                 ^
+   - In automaton "g.a":
+     - controllable void c1;
+                         ^
+     - uncontrollable int c2;
+                          ^

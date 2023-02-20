@@ -1,6 +1,21 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/asgn_var_parts.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported "a" (File "cif2plc/asgn_var_parts.cif": line 16, column 11): uses list type "list[5] int".
- - Unsupported "a.li" (File "cif2plc/asgn_var_parts.cif": line 17, columns 20 .. 21): uses list type "list[5] int".
- - Unsupported "f" (File "cif2plc/asgn_var_parts.cif": line 25, column 10): uses list type "list[5] int".
- - Unsupported "f.p" (File "cif2plc/asgn_var_parts.cif": line 25, column 24): uses list type "list[5] int".
+ - A list type is used:
+   - In automaton "a":
+     - edge when f(li) = 9 do li[0] := 5, li[1] := 6;
+                 ^ ^          ^           ^
+     - edge when f(li) = 10 do (li[2], li[3]) := (7, 8);
+                 ^ ^            ^      ^
+   - In discrete variable "a.li":
+     - disc list[5] int li;
+            ^
+   - In user-defined function "f":
+     - p[0] := 5;
+       ^
+     - p[1] := 6;
+       ^
+     - return p[0] + p[1] + p[2] + p[3] + p[4];
+              ^      ^      ^      ^      ^
+   - In function parameter "f.p":
+     - func int f(list[5] int p):
+                  ^

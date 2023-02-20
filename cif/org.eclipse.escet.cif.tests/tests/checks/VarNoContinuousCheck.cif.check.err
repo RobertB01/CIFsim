@@ -1,4 +1,11 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "a.c" (File "checks/VarNoContinuousCheck.cif": line 22, column 8): variable is a continuous variable.
- - Unsupported "c" (File "checks/VarNoContinuousCheck.cif": line 14, column 6): variable is a continuous variable.
- - Unsupported "g.c" (File "checks/VarNoContinuousCheck.cif": line 17, column 8): variable is a continuous variable.
+ - Variable is a continuous variable:
+   - In the top-level scope of the specification:
+     - cont c der 1.0;
+            ^
+   - In automaton "a":
+     - cont c der 1.0;
+            ^
+   - In group "g":
+     - cont c;
+            ^

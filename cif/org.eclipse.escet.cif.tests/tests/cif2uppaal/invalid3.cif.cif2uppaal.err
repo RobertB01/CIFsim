@@ -1,53 +1,199 @@
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
- - Unsupported "f" (File "cif2uppaal/invalid3.cif": line 65, column 11): is a user-defined function.
- - Unsupported "p.db" (File "cif2uppaal/invalid3.cif": line 28, columns 18 .. 19): discrete variable's initial value cannot be evaluated statically.
- - Unsupported "p.db" (File "cif2uppaal/invalid3.cif": line 28, columns 18 .. 19): uses distribution type "dist bool".
- - Unsupported "p.db" (File "cif2uppaal/invalid3.cif": line 28, columns 18 .. 19): uses function call "constant(true)".
- - Unsupported "p.db" (File "cif2uppaal/invalid3.cif": line 28, columns 18 .. 19): uses function type "func dist bool(bool)".
- - Unsupported "p.dbb" (File "cif2uppaal/invalid3.cif": line 27, columns 24 .. 26): uses dictionary literal "{true: false}".
- - Unsupported "p.dbb" (File "cif2uppaal/invalid3.cif": line 27, columns 24 .. 26): uses dictionary type "dict(bool:bool)".
- - Unsupported "p.fbb" (File "cif2uppaal/invalid3.cif": line 29, columns 24 .. 26): uses function type "func bool(bool)".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): location has an edge with a multi-assignment.
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): location has an edge with a partial variable assignment.
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses binary operator "*" on operands of types "real" and "real" in binary expression "p.r * p.r".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses binary operator "+" on operands of types "real" and "real" in binary expression "p.r + p.r".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses binary operator "-" on operands of types "real" and "real" in binary expression "p.r - p.r".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses binary operator "/" in binary expression "p.r / p.r".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses binary operator "and" on operands of types "set bool" and "set bool" in binary expression "{true} and {false}".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses binary operator "in" in binary expression "true in p.sb".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses binary operator "or" on operands of types "set bool" and "set bool" in binary expression "{true} or {false}".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses binary operator "sub" in binary expression "p.sb sub p.sb".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses dictionary literal "{true: true}".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses dictionary type "dict(bool:bool)".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses distribution type "dist bool".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses function type "func bool(bool)".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses list type "list bool".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses projection expression "p.tbb[a]".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses real number literal "1.0".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses real type "real".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses set literal "{false}".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses set literal "{true}".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses set type "set bool".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses slice expression "p.lb[:]".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses string literal ""a"".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses string type "string".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses switch expression "switch 1: else 2 end".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses switch expression "switch p: case l: 3 end".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses time variable reference "time".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses tuple literal "(p.b, p.db)".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses tuple type "tuple(bool a; bool b)".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses tuple type "tuple(bool; dist bool)".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses type-changing cast expression "<real>1".
- - Unsupported "p.l" (File "cif2uppaal/invalid3.cif": line 31, column 12): uses unary operator "sample" in unary expression "sample p.db".
- - Unsupported "p.lb" (File "cif2uppaal/invalid3.cif": line 23, columns 18 .. 19): uses list literal "[true]".
- - Unsupported "p.lb" (File "cif2uppaal/invalid3.cif": line 23, columns 18 .. 19): uses list type "list bool".
- - Unsupported "p.lb" (File "cif2uppaal/invalid3.cif": line 23, columns 18 .. 19): uses list type "list[1] bool".
- - Unsupported "p.r" (File "cif2uppaal/invalid3.cif": line 22, column 13): uses real number literal "1.2".
- - Unsupported "p.r" (File "cif2uppaal/invalid3.cif": line 22, column 13): uses real type "real".
- - Unsupported "p.sb" (File "cif2uppaal/invalid3.cif": line 24, columns 17 .. 18): uses set literal "{true}".
- - Unsupported "p.sb" (File "cif2uppaal/invalid3.cif": line 24, columns 17 .. 18): uses set type "set bool".
- - Unsupported "p.str" (File "cif2uppaal/invalid3.cif": line 25, columns 15 .. 17): uses string literal ""a"".
- - Unsupported "p.str" (File "cif2uppaal/invalid3.cif": line 25, columns 15 .. 17): uses string type "string".
- - Unsupported "p.tbb" (File "cif2uppaal/invalid3.cif": line 26, columns 24 .. 26): uses tuple literal "(true, false)".
- - Unsupported "p.tbb" (File "cif2uppaal/invalid3.cif": line 26, columns 24 .. 26): uses tuple type "tuple(bool a; bool b)".
- - Unsupported "p.tbb" (File "cif2uppaal/invalid3.cif": line 26, columns 24 .. 26): uses tuple type "tuple(bool; bool)".
+ - A 'time' variable reference is used:
+   - In location "p.l":
+     - edge u do r := time;
+                      ^
+ - A dictionary literal is used:
+   - In discrete variable "p.dbb":
+     - disc dict(bool:bool) dbb = {true: false};
+                                  ^
+   - In location "p.l":
+     - edge u do dbb := {true: true};
+                        ^
+ - A dictionary type is used:
+   - In discrete variable "p.dbb":
+     - disc dict(bool:bool) dbb = {true: false};
+            ^                     ^
+   - In location "p.l":
+     - edge u do dbb := {true: true};
+                 ^      ^
+ - A distribution type is used:
+   - In discrete variable "p.db":
+     - disc dist bool db = constant(true);
+            ^              ^       ^
+   - In location "p.l":
+     - edge u do (b, db) := sample db;
+                 ^   ^      ^      ^
+ - A function call is used:
+   - In discrete variable "p.db":
+     - disc dist bool db = constant(true);
+                                   ^
+ - A function type is used:
+   - In discrete variable "p.db":
+     - disc dist bool db = constant(true);
+                           ^
+   - In discrete variable "p.fbb":
+     - disc func bool(bool) fbb = f;
+            ^                     ^
+   - In location "p.l":
+     - edge u do fbb := f;
+                 ^      ^
+ - A list literal is used:
+   - In discrete variable "p.lb":
+     - disc list bool lb = [true];
+                           ^
+ - A list type is used:
+   - In location "p.l":
+     - edge u do lb := lb[:];
+                 ^     ^ ^
+   - In discrete variable "p.lb":
+     - disc list bool lb = [true];
+            ^              ^
+ - A projection expression is used:
+   - In location "p.l":
+     - edge u do tbb[a] := true;
+                    ^
+ - A real number literal is used:
+   - In location "p.l":
+     - edge u do r := <real>1.0;
+                            ^
+   - In discrete variable "p.r":
+     - disc real r = 1.2;
+                     ^
+ - A real type is used:
+   - In location "p.l":
+     - edge u do r := <real>1;
+                 ^     ^
+     - edge u do r := <real>1.0;
+                 ^     ^    ^
+     - edge u do r := time;
+                 ^    ^
+     - edge u do r := r + r;
+                 ^    ^ ^ ^
+     - edge u do r := r - r;
+                 ^    ^ ^ ^
+     - edge u do r := r * r;
+                 ^    ^ ^ ^
+     - edge u do r := r / r;
+                 ^    ^ ^ ^
+   - In discrete variable "p.r":
+     - disc real r = 1.2;
+            ^        ^
+ - A set literal is used:
+   - In location "p.l":
+     - edge u do sb := {true} or {false};
+                       ^         ^
+     - edge u do sb := {true} and {false};
+                       ^          ^
+   - In discrete variable "p.sb":
+     - disc set bool sb = {true};
+                          ^
+ - A set type is used:
+   - In location "p.l":
+     - edge u do sb := {true} or {false};
+                 ^     ^      ^  ^
+     - edge u do sb := {true} and {false};
+                 ^     ^      ^   ^
+     - edge u do b := true in sb;
+                              ^
+     - edge u do b := sb sub sb;
+                      ^      ^
+   - In discrete variable "p.sb":
+     - disc set bool sb = {true};
+            ^             ^
+ - A slice expression is used:
+   - In location "p.l":
+     - edge u do lb := lb[:];
+                         ^
+ - A string literal is used:
+   - In location "p.l":
+     - edge u do str := "a";
+                        ^
+   - In discrete variable "p.str":
+     - disc string str = "a";
+                         ^
+ - A string type is used:
+   - In location "p.l":
+     - edge u do str := "a";
+                 ^      ^
+   - In discrete variable "p.str":
+     - disc string str = "a";
+            ^            ^
+ - A switch expression is used:
+   - In location "p.l":
+     - edge u do i := switch 1: else 2 end;
+                      ^
+     - edge u do i := switch p: case l: 3 end;
+                      ^
+ - A tuple literal is used:
+   - In location "p.l":
+     - edge u do (b, db) := sample db;
+                 ^
+   - In discrete variable "p.tbb":
+     - disc tuple(bool a; bool b) tbb = (true, false);
+                                        ^
+ - A tuple type is used:
+   - In location "p.l":
+     - edge u do tbb[a] := true;
+                 ^
+     - edge u do (b, db) := sample db;
+                 ^          ^
+   - In discrete variable "p.tbb":
+     - disc tuple(bool a; bool b) tbb = (true, false);
+            ^                           ^
+ - A type-changing cast expression is used:
+   - In location "p.l":
+     - edge u do r := <real>1;
+                      ^
+ - Binary operator "*" is used on a real typed operand:
+   - In location "p.l":
+     - edge u do r := r * r;
+                        ^
+ - Binary operator "+" is used on a real typed operand:
+   - In location "p.l":
+     - edge u do r := r + r;
+                        ^
+ - Binary operator "-" is used on a real typed operand:
+   - In location "p.l":
+     - edge u do r := r - r;
+                        ^
+ - Binary operator "/" is used:
+   - In location "p.l":
+     - edge u do r := r / r;
+                        ^
+ - Binary operator "and" is used on a set typed operand:
+   - In location "p.l":
+     - edge u do sb := {true} and {false};
+                              ^
+ - Binary operator "in" is used:
+   - In location "p.l":
+     - edge u do b := true in sb;
+                           ^
+ - Binary operator "or" is used on a set typed operand:
+   - In location "p.l":
+     - edge u do sb := {true} or {false};
+                              ^
+ - Binary operator "sub" is used:
+   - In location "p.l":
+     - edge u do b := sb sub sb;
+                         ^
+ - Discrete variable has an initial value that cannot be evaluated statically:
+   - In discrete variable "p.db":
+     - disc dist bool db = constant(true);
+                                   ^
+ - Edge has a multi-assignment:
+   - In location "p.l":
+     - edge u do (b, db) := sample db;
+                         ^
+ - Edge has a partial variable assignment:
+   - In location "p.l":
+     - edge u do tbb[a] := true;
+                        ^
+ - Function is a user-defined function:
+   - In the top-level scope of the specification:
+     - func bool f(bool p):
+                 ^
+ - Unary operator "sample" is used:
+   - In location "p.l":
+     - edge u do (b, db) := sample db;
+                            ^
