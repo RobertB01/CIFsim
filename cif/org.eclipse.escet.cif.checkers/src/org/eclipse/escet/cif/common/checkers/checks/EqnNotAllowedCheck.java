@@ -15,14 +15,12 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 
 /** CIF check not allowing equations. */
 public class EqnNotAllowedCheck extends CifCheck {
     @Override
     protected void preprocessEquation(Equation equation, CifCheckViolations violations) {
-        violations.add(equation, new ReportObjectTypeDescrMessage(), new LiteralMessage("has an equation"));
+        violations.add(equation, "An equation is used");
     }
 }
