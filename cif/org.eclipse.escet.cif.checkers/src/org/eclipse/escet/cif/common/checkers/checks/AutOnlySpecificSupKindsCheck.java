@@ -20,8 +20,6 @@ import java.util.EnumSet;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 
@@ -63,9 +61,9 @@ public class AutOnlySpecificSupKindsCheck extends CifCheck {
     @Override
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (!allowedKinds.contains(aut.getKind())) {
-            violations.add(aut, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("is a %s automaton, not a %s automaton", CifTextUtils.kindToStr(aut.getKind()),
-                            makeElementsChoiceText(allowedKinds, CifTextUtils::kindToStr)));
+            violations.add(aut, "Automaton is a %s automaton rather than a %s automaton",
+                    CifTextUtils.kindToStr(aut.getKind()),
+                    makeElementsChoiceText(allowedKinds, CifTextUtils::kindToStr));
         }
     }
 }

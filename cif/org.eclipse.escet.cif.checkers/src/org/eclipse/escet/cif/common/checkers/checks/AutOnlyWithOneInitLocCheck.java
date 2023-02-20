@@ -13,18 +13,16 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
+import static org.eclipse.escet.cif.common.CifEvalUtils.evalPred;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.IfReportOnAncestorMessage;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 
 /**
@@ -48,10 +46,9 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
     protected void postprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         // There must be exactly one initial location.
         if (initLocCount == 0) {
-            violations.add(aut, new ReportObjectTypeDescrMessage(), new LiteralMessage("has no initial location"));
+            violations.add(aut, "Automaton has no initial location");
         } else if (initLocCount > 1) {
-            violations.add(aut, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("has multiple (%,d) initial locations", initLocCount));
+            violations.add(aut, "Automaton has multiple initial locations");
         } // Skip if check is disabled (negative value).
     }
 
@@ -65,25 +62,29 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
 
         // Determine whether location is an initial location by statically evaluating the location's initialization
         // predicates.
-        boolean initial = false;
-        String errMsg = null;
-        try {
-            initial = loc.getInitials().isEmpty() ? false : evalPreds(loc.getInitials(), true, true);
-        } catch (UnsupportedException e) {
-            // Can only fail if there is at least one predicate.
-            errMsg = "as one of its initialization predicates cannot be statically evaluated";
-        } catch (CifEvalException e) {
-            // Can only fail if there is at least one predicate.
-            errMsg = "as evaluating one of its initialization predicates resulted in an evaluation error";
-        }
-        if (errMsg != null) {
-            // Report violation on the location, or on its automaton in case the location has no name.
-            violations.add(loc, new LiteralMessage("failed to determine whether the"),
-                    new IfReportOnAncestorMessage("automaton's"),
-                    new LiteralMessage("location is an initial location,"), new LiteralMessage(errMsg));
+        boolean initial = !loc.getInitials().isEmpty();
+        for (Expression initPred: loc.getInitials()) {
+            String errMsg = null;
+            Expression errExpr = initPred;
+            try {
+                initial &= evalPred(initPred, true, true);
+            } catch (UnsupportedException e) {
+                // Can only fail if there is at least one predicate.
+                errMsg = "as one of its initialization predicates cannot be statically evaluated";
+            } catch (CifEvalException e) {
+                if (e.expr != null) {
+                    errExpr = e.expr;
+                }
+                // Can only fail if there is at least one predicate.
+                errMsg = "as evaluating one of its initialization predicates results in an evaluation error";
+            }
+            if (errMsg != null) {
+                // Report violation.
+                violations.add(errExpr, "Failed to determine whether a location is an initial location, " + errMsg);
 
-            // Disable initial location count checking.
-            initLocCount = -1;
+                // Disable initial location count checking.
+                initLocCount = -1;
+            }
         }
 
         // Update number of initial locations, if not disabled for this automaton.
