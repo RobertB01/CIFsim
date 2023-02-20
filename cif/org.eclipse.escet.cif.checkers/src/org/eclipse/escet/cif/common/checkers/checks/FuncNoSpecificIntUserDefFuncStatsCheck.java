@@ -21,8 +21,6 @@ import org.eclipse.escet.cif.common.CifAddressableUtils;
 import org.eclipse.escet.cif.common.CifAddressableUtils.DuplVarAsgnException;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.AssignmentFuncStatement;
 import org.eclipse.escet.cif.metamodel.cif.functions.BreakFuncStatement;
@@ -60,8 +58,8 @@ public class FuncNoSpecificIntUserDefFuncStatsCheck extends CifCheck {
             try {
                 CifAddressableUtils.getRefs(addr);
             } catch (DuplVarAsgnException ex) {
-                violations.add(asgStat, new ReportObjectTypeDescrMessage(), new LiteralMessage(
-                        "has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable"));
+                violations.add(asgStat, "Internal user-defined function has a multi-assignment "
+                        + "that assigns multiple (non-overlapping) parts of a single variable");
             }
         }
     }
@@ -69,24 +67,21 @@ public class FuncNoSpecificIntUserDefFuncStatsCheck extends CifCheck {
     @Override
     protected void preprocessBreakFuncStatement(BreakFuncStatement breakStat, CifCheckViolations violations) {
         if (disAlloweds.contains(NoSpecificStatement.BREAK)) {
-            violations.add(breakStat, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("has a 'break' statement"));
+            violations.add(breakStat, "Internal user-defined function has a 'break' statement");
         }
     }
 
     @Override
     protected void preprocessContinueFuncStatement(ContinueFuncStatement continueStat, CifCheckViolations violations) {
         if (disAlloweds.contains(NoSpecificStatement.CONTINUE)) {
-            violations.add(continueStat, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("has a 'continue' statement"));
+            violations.add(continueStat, "Internal user-defined function has a 'continue' statement");
         }
     }
 
     @Override
     protected void preprocessWhileFuncStatement(WhileFuncStatement whileStat, CifCheckViolations violations) {
         if (disAlloweds.contains(NoSpecificStatement.WHILE)) {
-            violations.add(whileStat, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("has a 'while' statement"));
+            violations.add(whileStat, "Internal user-defined function has a 'while' statement");
         }
     }
 

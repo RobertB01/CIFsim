@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunctionExpression;
 import org.eclipse.escet.common.java.Assert;
@@ -72,8 +70,7 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         EnumSet<NoSpecificStdLib> funcValues = FUNCTION_VALUES.get(func);
         Assert.notNull(funcValues);
         if (!isEmptyIntersection(disalloweds, funcValues)) {
-            violations.add(stdLibRef, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("uses standard library function \"%s\"", functionToStr(func)));
+            violations.add(stdLibRef, "Standard library function \"%s\" is used", functionToStr(func));
         }
     }
 
