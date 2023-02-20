@@ -1456,6 +1456,51 @@ public class CifTextUtils {
     }
 
     /**
+     * Returns the closest named ancestor of the given object if one exists, or {@code null} if it has no named
+     * ancestor.
+     *
+     * <p>
+     * This method properly handles a given object being the body of another object, where both object are
+     * {@link #hasName named objects} that conceptually name the same object. That is:
+     * <ul>
+     * <li>If the given object is a body of a component definition, that component definition is not returned.</li>
+     * <li>If the given object is a event of an event parameter, that event parameter is not returned.</li>
+     * <li>If the given object is a location of a location parameter, that location parameter is not returned.</li>
+     * <li>If the given object is a algebraic variable of an algebraic parameter, that algebraic parameter is not
+     * returned.</li>
+     * <li>If the given object is a discrete variable of a function parameter, that function parameter is not
+     * returned.</li>
+     * </ul>
+     * </p>
+     *
+     * @param obj The given object.
+     * @return The closest named ancestor of the given object (if any), or {@code null} (otherwise).
+     */
+    public static PositionObject getNamedAncestor(PositionObject obj) {
+        Assert.notNull(obj);
+        PositionObject cur = obj;
+        do {
+            PositionObject parent = (PositionObject)cur.eContainer();
+
+            // Skip parents that are actually the same object, conceptually.
+            if (parent != null) {
+                boolean skip = false;
+                skip |= parent instanceof ComponentDef && cur instanceof Component;
+                skip |= parent instanceof EventParameter && cur instanceof Event;
+                skip |= parent instanceof LocationParameter && cur instanceof Location;
+                skip |= parent instanceof AlgParameter && cur instanceof AlgVariable;
+                skip |= parent instanceof FunctionParameter && cur instanceof DiscVariable;
+                if (skip) {
+                    parent = (PositionObject)parent.eContainer();
+                }
+            }
+
+            cur = parent;
+        } while (cur != null && !hasName(cur));
+        return cur;
+    }
+
+    /**
      * Returns the object itself if it is itself a named object, the closest named ancestor of the given object if one
      * exists, or {@code null} if the given object is itself not a named object, and also has no named ancestor.
      *
@@ -1463,6 +1508,7 @@ public class CifTextUtils {
      * @return The given object itself (if named), its closest named ancestor (if any), or {@code null} (otherwise).
      */
     public static PositionObject getNamedSelfOrAncestor(PositionObject obj) {
+        Assert.notNull(obj);
         PositionObject cur = obj;
         while (cur != null && !hasName(cur)) {
             cur = (PositionObject)cur.eContainer();
