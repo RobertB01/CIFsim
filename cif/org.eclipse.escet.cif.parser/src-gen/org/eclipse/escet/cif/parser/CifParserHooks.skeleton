@@ -1829,13 +1829,13 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // FuncExpression : StdLibFunction PAROPENTK PARCLOSETK;
-    public AExpression parseFuncExpression6(Token t1) {
+    @Override // FuncExpression : StdLibFunction @PAROPENTK PARCLOSETK;
+    public AExpression parseFuncExpression6(Token t1, Token t2) {
         // return null;
     }
 
-    @Override // FuncExpression : StdLibFunction PAROPENTK Expressions PARCLOSETK;
-    public AExpression parseFuncExpression7(Token t1, List<AExpression> l3) {
+    @Override // FuncExpression : StdLibFunction @PAROPENTK Expressions PARCLOSETK;
+    public AExpression parseFuncExpression7(Token t1, Token t2, List<AExpression> l3) {
         // return null;
     }
 
