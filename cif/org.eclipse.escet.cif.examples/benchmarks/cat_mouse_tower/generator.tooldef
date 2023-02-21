@@ -81,7 +81,7 @@ tool generate(int v, int n, int k):
         ];
     end
 
-    // Add events for moves on each level.
+    // Add events for moves at each level.
     for i in range(1, n):
         lines = lines + [
             // xiA_iB = move, with: x is 'c' or 'm', level i, source room number A and target room number B.
@@ -118,7 +118,7 @@ tool generate(int v, int n, int k):
     // Add cat in room automata.
     for i in range(1, n):
         for j in range(1, 5):
-            // RijC, for at level i a room j for cats.
+            // Cats at level i in room j.
             lines = lines + [
                 "",
                 fmt("// Cats at level %d, in room %d.", i, j),
@@ -128,7 +128,7 @@ tool generate(int v, int n, int k):
                 // Location for counting the number of cats present.
                 lines = lines + [fmt("  location cnt_%d:", l)];
 
-                // For version 1, initially, first room on first floor contains all cats, and all other rooms are empty.
+                // For version 1, initially, first room at first level contains all cats, and all other rooms are empty.
                 // For version 2, initially, all rooms are empty.
                 bool initial = (v == 1 and  i == 1 and j == 1  and l == k) or
                                (v == 1 and (i != 1 or  j != 1) and l == 0) or
@@ -178,7 +178,7 @@ tool generate(int v, int n, int k):
     // Add mouse in room automata.
     for i in range(1, n):
         for j in range(1, 5):
-            // RijM, for at level i a room j for mice.
+            // Mice at level i in room j.
             lines = lines + [
                 "",
                 fmt("// Mice at level %d, in room %d.", i, j),
@@ -188,14 +188,14 @@ tool generate(int v, int n, int k):
                 // Location for counting the number of mice present.
                 lines = lines + [fmt("  location cnt_%d:", l)];
 
-                // For version 1, initially, 5th room on n-th floor contains all mice, and all other rooms are empty.
+                // For version 1, initially, 5th room at n-th level contains all mice, and all other rooms are empty.
                 // For version 2, initially, all rooms are empty.
                 bool initial = (v == 1 and  i == n and j == 5  and l == k) or
                                (v == 1 and (i != n or  j != 5) and l == 0) or
                                (v == 2 and                         l == 0);
                 if initial:: lines = lines + ["    initial; marked;"];
 
-                // Edges for entering the room, for moves on the same level.
+                // Edges for entering the room, for moves at the same level.
                 if l < k and j == 1:: lines = lines + [fmt("    edge mouse_L%1$dR3_to_L%1$dR1 goto cnt_%2$d;", i, l + 1)];
                 if l < k and j == 2:: lines = lines + [fmt("    edge mouse_L%1$dR1_to_L%1$dR2 goto cnt_%2$d;", i, l + 1)];
                 if l < k and j == 3:: lines = lines + [fmt("    edge mouse_L%1$dR2_to_L%1$dR3 goto cnt_%2$d;", i, l + 1)];
@@ -212,7 +212,7 @@ tool generate(int v, int n, int k):
                 // Version 2: edges for entering the tower.
                 if v == 2 and l < k and i == n and j == 5:: lines = lines + [fmt("    edge mouse_enter goto cnt_%d;", l + 1)];
 
-                // Edges for leaving the room, for moves on the same level.
+                // Edges for leaving the room, for moves at the same level.
                 if l > 0 and j == 1:: lines = lines + [fmt("    edge mouse_L%1$dR1_to_L%1$dR2 goto cnt_%2$d;", i, l - 1)];
                 if l > 0 and j == 2:: lines = lines + [fmt("    edge mouse_L%1$dR2_to_L%1$dR3 goto cnt_%2$d;", i, l - 1)];
                 if l > 0 and j == 3:: lines = lines + [fmt("    edge mouse_L%1$dR3_to_L%1$dR1 goto cnt_%2$d;", i, l - 1)];
