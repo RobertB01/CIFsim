@@ -16,4 +16,4 @@
 
 from "benchmark__base.tooldef" import *;
 
-benchmark("cmt_v1_n3_k2", "cat_mouse_tower", "CMT_v1_n3_k2.cif");
+benchmark("cmt_v1_n3_k2", "cat_mouse_tower", "cat_mouse_tower_v1_n3_k2.cif");

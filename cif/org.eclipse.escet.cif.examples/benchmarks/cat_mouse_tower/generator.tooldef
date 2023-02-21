@@ -243,6 +243,6 @@ tool generate(int v, int n, int k):
     end
 
     // Write generated model to file.
-    string filename = fmt("CMT_v%d_n%d_k%d.cif", v, n, k);
+    string filename = fmt("cat_mouse_tower_v%d_n%d_k%d.cif", v, n, k);
     writefile(filename, lines);
 end
