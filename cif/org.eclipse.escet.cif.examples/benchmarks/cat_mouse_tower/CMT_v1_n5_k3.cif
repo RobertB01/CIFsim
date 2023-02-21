@@ -17,33 +17,33 @@
 //  - Number of cats and mice: k = 3
 
 // Cat and mouse tower (original version):
-//  - A tower has a 'n' levels, with 5 rooms on each level.
-//  - 'k' cats start in room 1 on level 1, and 'k' mice in room 5 of level 'n'.
-//  - Cats and mice may move between connected rooms, on the same level, or to the level above or below.
-//  - Most moves can be prevented by the supervisor, but not all of them.
+//  - A tower has a 'n' levels, with 5 rooms at each level.
+//  - 'k' cats start in room 1 at level 1, and 'k' mice in room 5 of level 'n'.
+//  - Cats and mice may move between connected rooms, either at the same level or to the level above or below.
 //  - Requirements ensure that a cat and a mouse are never in the same room at the same time.
+//  - Most moves can be prevented by the supervisor, but not all of them.
 
-// Events for moves between rooms on level 1.
+// Events for moves between rooms at level 1.
 controllable cat_L1R1_to_L1R3, cat_L1R2_to_L1R1, cat_L1R3_to_L1R2, cat_L1R3_to_L1R4, cat_L1R4_to_L1R5, cat_L1R5_to_L1R3;
 uncontrollable cat_L1R2_to_L1R4, cat_L1R4_to_L1R2;
 controllable mouse_L1R1_to_L1R2, mouse_L1R2_to_L1R3, mouse_L1R3_to_L1R1, mouse_L1R3_to_L1R5, mouse_L1R4_to_L1R3, mouse_L1R5_to_L1R4;
 
-// Events for moves between rooms on level 2.
+// Events for moves between rooms at level 2.
 controllable cat_L2R1_to_L2R3, cat_L2R2_to_L2R1, cat_L2R3_to_L2R2, cat_L2R3_to_L2R4, cat_L2R4_to_L2R5, cat_L2R5_to_L2R3;
 uncontrollable cat_L2R2_to_L2R4, cat_L2R4_to_L2R2;
 controllable mouse_L2R1_to_L2R2, mouse_L2R2_to_L2R3, mouse_L2R3_to_L2R1, mouse_L2R3_to_L2R5, mouse_L2R4_to_L2R3, mouse_L2R5_to_L2R4;
 
-// Events for moves between rooms on level 3.
+// Events for moves between rooms at level 3.
 controllable cat_L3R1_to_L3R3, cat_L3R2_to_L3R1, cat_L3R3_to_L3R2, cat_L3R3_to_L3R4, cat_L3R4_to_L3R5, cat_L3R5_to_L3R3;
 uncontrollable cat_L3R2_to_L3R4, cat_L3R4_to_L3R2;
 controllable mouse_L3R1_to_L3R2, mouse_L3R2_to_L3R3, mouse_L3R3_to_L3R1, mouse_L3R3_to_L3R5, mouse_L3R4_to_L3R3, mouse_L3R5_to_L3R4;
 
-// Events for moves between rooms on level 4.
+// Events for moves between rooms at level 4.
 controllable cat_L4R1_to_L4R3, cat_L4R2_to_L4R1, cat_L4R3_to_L4R2, cat_L4R3_to_L4R4, cat_L4R4_to_L4R5, cat_L4R5_to_L4R3;
 uncontrollable cat_L4R2_to_L4R4, cat_L4R4_to_L4R2;
 controllable mouse_L4R1_to_L4R2, mouse_L4R2_to_L4R3, mouse_L4R3_to_L4R1, mouse_L4R3_to_L4R5, mouse_L4R4_to_L4R3, mouse_L4R5_to_L4R4;
 
-// Events for moves between rooms on level 5.
+// Events for moves between rooms at level 5.
 controllable cat_L5R1_to_L5R3, cat_L5R2_to_L5R1, cat_L5R3_to_L5R2, cat_L5R3_to_L5R4, cat_L5R4_to_L5R5, cat_L5R5_to_L5R3;
 uncontrollable cat_L5R2_to_L5R4, cat_L5R4_to_L5R2;
 controllable mouse_L5R1_to_L5R2, mouse_L5R2_to_L5R3, mouse_L5R3_to_L5R1, mouse_L5R3_to_L5R5, mouse_L5R4_to_L5R3, mouse_L5R5_to_L5R4;
@@ -54,7 +54,7 @@ controllable cat_L2R2_to_L3R2, cat_L3R2_to_L2R2, mouse_L2R2_to_L3R2, mouse_L3R2_
 controllable cat_L3R3_to_L4R3, cat_L4R3_to_L3R3, mouse_L3R3_to_L4R3, mouse_L4R3_to_L3R3;
 controllable cat_L4R4_to_L5R4, cat_L5R4_to_L4R4, mouse_L4R4_to_L5R4, mouse_L5R4_to_L4R4;
 
-// Cats on level 1, in room 1.
+// Cats at level 1, in room 1.
 plant automaton Level1_Room1_Cats:
   location cnt_0:
     edge cat_L1R2_to_L1R1 goto cnt_1;
@@ -75,7 +75,7 @@ plant automaton Level1_Room1_Cats:
     edge cat_L1R1_to_L2R1 goto cnt_2;
 end
 
-// Cats on level 1, in room 2.
+// Cats at level 1, in room 2.
 plant automaton Level1_Room2_Cats:
   location cnt_0:
     initial; marked;
@@ -96,7 +96,7 @@ plant automaton Level1_Room2_Cats:
     edge cat_L1R2_to_L1R4 goto cnt_2;
 end
 
-// Cats on level 1, in room 3.
+// Cats at level 1, in room 3.
 plant automaton Level1_Room3_Cats:
   location cnt_0:
     initial; marked;
@@ -117,7 +117,7 @@ plant automaton Level1_Room3_Cats:
     edge cat_L1R3_to_L1R4 goto cnt_2;
 end
 
-// Cats on level 1, in room 4.
+// Cats at level 1, in room 4.
 plant automaton Level1_Room4_Cats:
   location cnt_0:
     initial; marked;
@@ -138,7 +138,7 @@ plant automaton Level1_Room4_Cats:
     edge cat_L1R4_to_L1R5 goto cnt_2;
 end
 
-// Cats on level 1, in room 5.
+// Cats at level 1, in room 5.
 plant automaton Level1_Room5_Cats:
   location cnt_0:
     initial; marked;
@@ -153,7 +153,7 @@ plant automaton Level1_Room5_Cats:
     edge cat_L1R5_to_L1R3 goto cnt_2;
 end
 
-// Cats on level 2, in room 1.
+// Cats at level 2, in room 1.
 plant automaton Level2_Room1_Cats:
   location cnt_0:
     initial; marked;
@@ -174,7 +174,7 @@ plant automaton Level2_Room1_Cats:
     edge cat_L2R1_to_L1R1 goto cnt_2;
 end
 
-// Cats on level 2, in room 2.
+// Cats at level 2, in room 2.
 plant automaton Level2_Room2_Cats:
   location cnt_0:
     initial; marked;
@@ -201,7 +201,7 @@ plant automaton Level2_Room2_Cats:
     edge cat_L2R2_to_L3R2 goto cnt_2;
 end
 
-// Cats on level 2, in room 3.
+// Cats at level 2, in room 3.
 plant automaton Level2_Room3_Cats:
   location cnt_0:
     initial; marked;
@@ -222,7 +222,7 @@ plant automaton Level2_Room3_Cats:
     edge cat_L2R3_to_L2R4 goto cnt_2;
 end
 
-// Cats on level 2, in room 4.
+// Cats at level 2, in room 4.
 plant automaton Level2_Room4_Cats:
   location cnt_0:
     initial; marked;
@@ -243,7 +243,7 @@ plant automaton Level2_Room4_Cats:
     edge cat_L2R4_to_L2R5 goto cnt_2;
 end
 
-// Cats on level 2, in room 5.
+// Cats at level 2, in room 5.
 plant automaton Level2_Room5_Cats:
   location cnt_0:
     initial; marked;
@@ -258,7 +258,7 @@ plant automaton Level2_Room5_Cats:
     edge cat_L2R5_to_L2R3 goto cnt_2;
 end
 
-// Cats on level 3, in room 1.
+// Cats at level 3, in room 1.
 plant automaton Level3_Room1_Cats:
   location cnt_0:
     initial; marked;
@@ -273,7 +273,7 @@ plant automaton Level3_Room1_Cats:
     edge cat_L3R1_to_L3R3 goto cnt_2;
 end
 
-// Cats on level 3, in room 2.
+// Cats at level 3, in room 2.
 plant automaton Level3_Room2_Cats:
   location cnt_0:
     initial; marked;
@@ -300,7 +300,7 @@ plant automaton Level3_Room2_Cats:
     edge cat_L3R2_to_L2R2 goto cnt_2;
 end
 
-// Cats on level 3, in room 3.
+// Cats at level 3, in room 3.
 plant automaton Level3_Room3_Cats:
   location cnt_0:
     initial; marked;
@@ -327,7 +327,7 @@ plant automaton Level3_Room3_Cats:
     edge cat_L3R3_to_L4R3 goto cnt_2;
 end
 
-// Cats on level 3, in room 4.
+// Cats at level 3, in room 4.
 plant automaton Level3_Room4_Cats:
   location cnt_0:
     initial; marked;
@@ -348,7 +348,7 @@ plant automaton Level3_Room4_Cats:
     edge cat_L3R4_to_L3R5 goto cnt_2;
 end
 
-// Cats on level 3, in room 5.
+// Cats at level 3, in room 5.
 plant automaton Level3_Room5_Cats:
   location cnt_0:
     initial; marked;
@@ -363,7 +363,7 @@ plant automaton Level3_Room5_Cats:
     edge cat_L3R5_to_L3R3 goto cnt_2;
 end
 
-// Cats on level 4, in room 1.
+// Cats at level 4, in room 1.
 plant automaton Level4_Room1_Cats:
   location cnt_0:
     initial; marked;
@@ -378,7 +378,7 @@ plant automaton Level4_Room1_Cats:
     edge cat_L4R1_to_L4R3 goto cnt_2;
 end
 
-// Cats on level 4, in room 2.
+// Cats at level 4, in room 2.
 plant automaton Level4_Room2_Cats:
   location cnt_0:
     initial; marked;
@@ -399,7 +399,7 @@ plant automaton Level4_Room2_Cats:
     edge cat_L4R2_to_L4R4 goto cnt_2;
 end
 
-// Cats on level 4, in room 3.
+// Cats at level 4, in room 3.
 plant automaton Level4_Room3_Cats:
   location cnt_0:
     initial; marked;
@@ -426,7 +426,7 @@ plant automaton Level4_Room3_Cats:
     edge cat_L4R3_to_L3R3 goto cnt_2;
 end
 
-// Cats on level 4, in room 4.
+// Cats at level 4, in room 4.
 plant automaton Level4_Room4_Cats:
   location cnt_0:
     initial; marked;
@@ -453,7 +453,7 @@ plant automaton Level4_Room4_Cats:
     edge cat_L4R4_to_L5R4 goto cnt_2;
 end
 
-// Cats on level 4, in room 5.
+// Cats at level 4, in room 5.
 plant automaton Level4_Room5_Cats:
   location cnt_0:
     initial; marked;
@@ -468,7 +468,7 @@ plant automaton Level4_Room5_Cats:
     edge cat_L4R5_to_L4R3 goto cnt_2;
 end
 
-// Cats on level 5, in room 1.
+// Cats at level 5, in room 1.
 plant automaton Level5_Room1_Cats:
   location cnt_0:
     initial; marked;
@@ -483,7 +483,7 @@ plant automaton Level5_Room1_Cats:
     edge cat_L5R1_to_L5R3 goto cnt_2;
 end
 
-// Cats on level 5, in room 2.
+// Cats at level 5, in room 2.
 plant automaton Level5_Room2_Cats:
   location cnt_0:
     initial; marked;
@@ -504,7 +504,7 @@ plant automaton Level5_Room2_Cats:
     edge cat_L5R2_to_L5R4 goto cnt_2;
 end
 
-// Cats on level 5, in room 3.
+// Cats at level 5, in room 3.
 plant automaton Level5_Room3_Cats:
   location cnt_0:
     initial; marked;
@@ -525,7 +525,7 @@ plant automaton Level5_Room3_Cats:
     edge cat_L5R3_to_L5R4 goto cnt_2;
 end
 
-// Cats on level 5, in room 4.
+// Cats at level 5, in room 4.
 plant automaton Level5_Room4_Cats:
   location cnt_0:
     initial; marked;
@@ -552,7 +552,7 @@ plant automaton Level5_Room4_Cats:
     edge cat_L5R4_to_L4R4 goto cnt_2;
 end
 
-// Cats on level 5, in room 5.
+// Cats at level 5, in room 5.
 plant automaton Level5_Room5_Cats:
   location cnt_0:
     initial; marked;
@@ -567,7 +567,7 @@ plant automaton Level5_Room5_Cats:
     edge cat_L5R5_to_L5R3 goto cnt_2;
 end
 
-// Mice on level 1, in room 1.
+// Mice at level 1, in room 1.
 plant automaton Level1_Room1_Mice:
   location cnt_0:
     initial; marked;
@@ -588,7 +588,7 @@ plant automaton Level1_Room1_Mice:
     edge mouse_L1R1_to_L2R1 goto cnt_2;
 end
 
-// Mice on level 1, in room 2.
+// Mice at level 1, in room 2.
 plant automaton Level1_Room2_Mice:
   location cnt_0:
     initial; marked;
@@ -603,7 +603,7 @@ plant automaton Level1_Room2_Mice:
     edge mouse_L1R2_to_L1R3 goto cnt_2;
 end
 
-// Mice on level 1, in room 3.
+// Mice at level 1, in room 3.
 plant automaton Level1_Room3_Mice:
   location cnt_0:
     initial; marked;
@@ -624,7 +624,7 @@ plant automaton Level1_Room3_Mice:
     edge mouse_L1R3_to_L1R5 goto cnt_2;
 end
 
-// Mice on level 1, in room 4.
+// Mice at level 1, in room 4.
 plant automaton Level1_Room4_Mice:
   location cnt_0:
     initial; marked;
@@ -639,7 +639,7 @@ plant automaton Level1_Room4_Mice:
     edge mouse_L1R4_to_L1R3 goto cnt_2;
 end
 
-// Mice on level 1, in room 5.
+// Mice at level 1, in room 5.
 plant automaton Level1_Room5_Mice:
   location cnt_0:
     initial; marked;
@@ -654,7 +654,7 @@ plant automaton Level1_Room5_Mice:
     edge mouse_L1R5_to_L1R4 goto cnt_2;
 end
 
-// Mice on level 2, in room 1.
+// Mice at level 2, in room 1.
 plant automaton Level2_Room1_Mice:
   location cnt_0:
     initial; marked;
@@ -675,7 +675,7 @@ plant automaton Level2_Room1_Mice:
     edge mouse_L2R1_to_L1R1 goto cnt_2;
 end
 
-// Mice on level 2, in room 2.
+// Mice at level 2, in room 2.
 plant automaton Level2_Room2_Mice:
   location cnt_0:
     initial; marked;
@@ -696,7 +696,7 @@ plant automaton Level2_Room2_Mice:
     edge mouse_L2R2_to_L3R2 goto cnt_2;
 end
 
-// Mice on level 2, in room 3.
+// Mice at level 2, in room 3.
 plant automaton Level2_Room3_Mice:
   location cnt_0:
     initial; marked;
@@ -717,7 +717,7 @@ plant automaton Level2_Room3_Mice:
     edge mouse_L2R3_to_L2R5 goto cnt_2;
 end
 
-// Mice on level 2, in room 4.
+// Mice at level 2, in room 4.
 plant automaton Level2_Room4_Mice:
   location cnt_0:
     initial; marked;
@@ -732,7 +732,7 @@ plant automaton Level2_Room4_Mice:
     edge mouse_L2R4_to_L2R3 goto cnt_2;
 end
 
-// Mice on level 2, in room 5.
+// Mice at level 2, in room 5.
 plant automaton Level2_Room5_Mice:
   location cnt_0:
     initial; marked;
@@ -747,7 +747,7 @@ plant automaton Level2_Room5_Mice:
     edge mouse_L2R5_to_L2R4 goto cnt_2;
 end
 
-// Mice on level 3, in room 1.
+// Mice at level 3, in room 1.
 plant automaton Level3_Room1_Mice:
   location cnt_0:
     initial; marked;
@@ -762,7 +762,7 @@ plant automaton Level3_Room1_Mice:
     edge mouse_L3R1_to_L3R2 goto cnt_2;
 end
 
-// Mice on level 3, in room 2.
+// Mice at level 3, in room 2.
 plant automaton Level3_Room2_Mice:
   location cnt_0:
     initial; marked;
@@ -783,7 +783,7 @@ plant automaton Level3_Room2_Mice:
     edge mouse_L3R2_to_L2R2 goto cnt_2;
 end
 
-// Mice on level 3, in room 3.
+// Mice at level 3, in room 3.
 plant automaton Level3_Room3_Mice:
   location cnt_0:
     initial; marked;
@@ -810,7 +810,7 @@ plant automaton Level3_Room3_Mice:
     edge mouse_L3R3_to_L4R3 goto cnt_2;
 end
 
-// Mice on level 3, in room 4.
+// Mice at level 3, in room 4.
 plant automaton Level3_Room4_Mice:
   location cnt_0:
     initial; marked;
@@ -825,7 +825,7 @@ plant automaton Level3_Room4_Mice:
     edge mouse_L3R4_to_L3R3 goto cnt_2;
 end
 
-// Mice on level 3, in room 5.
+// Mice at level 3, in room 5.
 plant automaton Level3_Room5_Mice:
   location cnt_0:
     initial; marked;
@@ -840,7 +840,7 @@ plant automaton Level3_Room5_Mice:
     edge mouse_L3R5_to_L3R4 goto cnt_2;
 end
 
-// Mice on level 4, in room 1.
+// Mice at level 4, in room 1.
 plant automaton Level4_Room1_Mice:
   location cnt_0:
     initial; marked;
@@ -855,7 +855,7 @@ plant automaton Level4_Room1_Mice:
     edge mouse_L4R1_to_L4R2 goto cnt_2;
 end
 
-// Mice on level 4, in room 2.
+// Mice at level 4, in room 2.
 plant automaton Level4_Room2_Mice:
   location cnt_0:
     initial; marked;
@@ -870,7 +870,7 @@ plant automaton Level4_Room2_Mice:
     edge mouse_L4R2_to_L4R3 goto cnt_2;
 end
 
-// Mice on level 4, in room 3.
+// Mice at level 4, in room 3.
 plant automaton Level4_Room3_Mice:
   location cnt_0:
     initial; marked;
@@ -897,7 +897,7 @@ plant automaton Level4_Room3_Mice:
     edge mouse_L4R3_to_L3R3 goto cnt_2;
 end
 
-// Mice on level 4, in room 4.
+// Mice at level 4, in room 4.
 plant automaton Level4_Room4_Mice:
   location cnt_0:
     initial; marked;
@@ -918,7 +918,7 @@ plant automaton Level4_Room4_Mice:
     edge mouse_L4R4_to_L5R4 goto cnt_2;
 end
 
-// Mice on level 4, in room 5.
+// Mice at level 4, in room 5.
 plant automaton Level4_Room5_Mice:
   location cnt_0:
     initial; marked;
@@ -933,7 +933,7 @@ plant automaton Level4_Room5_Mice:
     edge mouse_L4R5_to_L4R4 goto cnt_2;
 end
 
-// Mice on level 5, in room 1.
+// Mice at level 5, in room 1.
 plant automaton Level5_Room1_Mice:
   location cnt_0:
     initial; marked;
@@ -948,7 +948,7 @@ plant automaton Level5_Room1_Mice:
     edge mouse_L5R1_to_L5R2 goto cnt_2;
 end
 
-// Mice on level 5, in room 2.
+// Mice at level 5, in room 2.
 plant automaton Level5_Room2_Mice:
   location cnt_0:
     initial; marked;
@@ -963,7 +963,7 @@ plant automaton Level5_Room2_Mice:
     edge mouse_L5R2_to_L5R3 goto cnt_2;
 end
 
-// Mice on level 5, in room 3.
+// Mice at level 5, in room 3.
 plant automaton Level5_Room3_Mice:
   location cnt_0:
     initial; marked;
@@ -984,7 +984,7 @@ plant automaton Level5_Room3_Mice:
     edge mouse_L5R3_to_L5R5 goto cnt_2;
 end
 
-// Mice on level 5, in room 4.
+// Mice at level 5, in room 4.
 plant automaton Level5_Room4_Mice:
   location cnt_0:
     initial; marked;
@@ -1005,7 +1005,7 @@ plant automaton Level5_Room4_Mice:
     edge mouse_L5R4_to_L4R4 goto cnt_2;
 end
 
-// Mice on level 5, in room 5.
+// Mice at level 5, in room 5.
 plant automaton Level5_Room5_Mice:
   location cnt_0:
     edge mouse_L5R3_to_L5R5 goto cnt_1;
