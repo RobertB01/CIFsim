@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.typechecker.scopes;
 
 import static org.eclipse.escet.cif.common.CifScopeUtils.isParamRefExpr;
 import static org.eclipse.escet.cif.common.CifTextUtils.escapeIdentifier;
+import static org.eclipse.escet.cif.common.CifTypeUtils.changePositions;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlgVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompInstWrapExpression;
@@ -598,7 +599,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             AlgVariableExpression rslt = newAlgVariableExpression();
             rslt.setPosition(toPosition(position));
             rslt.setVariable(a);
-            rslt.setType(EMFHelper.deepclone(a.getType()));
+            rslt.setType(changePositions(EMFHelper.deepclone(a.getType()), rslt.getPosition()));
 
             return rslt;
         } else if (entry instanceof ConstDeclWrap) {
@@ -607,7 +608,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             ConstantExpression rslt = newConstantExpression();
             rslt.setPosition(toPosition(position));
             rslt.setConstant(c);
-            rslt.setType(EMFHelper.deepclone(c.getType()));
+            rslt.setType(changePositions(EMFHelper.deepclone(c.getType()), rslt.getPosition()));
 
             return rslt;
         } else if (entry instanceof ContVariableDeclWrap) {
@@ -630,7 +631,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             DiscVariableExpression rslt = newDiscVariableExpression();
             rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
-            rslt.setType(EMFHelper.deepclone(v.getType()));
+            rslt.setType(changePositions(EMFHelper.deepclone(v.getType()), rslt.getPosition()));
 
             return rslt;
         } else if (entry instanceof EnumDeclWrap) {
@@ -667,7 +668,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             AlgVariableExpression rslt = newAlgVariableExpression();
             rslt.setPosition(toPosition(position));
             rslt.setVariable(a);
-            rslt.setType(EMFHelper.deepclone(a.getType()));
+            rslt.setType(changePositions(EMFHelper.deepclone(a.getType()), rslt.getPosition()));
 
             return rslt;
         } else if (entry instanceof FormalEventDeclWrap) {
@@ -700,7 +701,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             DiscVariableExpression rslt = newDiscVariableExpression();
             rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
-            rslt.setType(EMFHelper.deepclone(v.getType()));
+            rslt.setType(changePositions(EMFHelper.deepclone(v.getType()), rslt.getPosition()));
 
             return rslt;
         } else if (entry instanceof FuncVariableDeclWrap) {
@@ -709,7 +710,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             DiscVariableExpression rslt = newDiscVariableExpression();
             rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
-            rslt.setType(EMFHelper.deepclone(v.getType()));
+            rslt.setType(changePositions(EMFHelper.deepclone(v.getType()), rslt.getPosition()));
 
             return rslt;
         } else if (entry instanceof InputVariableDeclWrap) {
@@ -718,7 +719,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             InputVariableExpression rslt = newInputVariableExpression();
             rslt.setPosition(toPosition(position));
             rslt.setVariable(v);
-            rslt.setType(EMFHelper.deepclone(v.getType()));
+            rslt.setType(changePositions(EMFHelper.deepclone(v.getType()), rslt.getPosition()));
 
             return rslt;
         } else if (entry instanceof LocationDeclWrap) {
@@ -781,13 +782,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
         } else if (entry instanceof CompParamScope) {
             ComponentParameter p = ((CompParamScope)entry).getObject();
 
-            CifType t = EMFHelper.deepclone(p.getType());
-            t.setPosition(toPosition(position));
-
             CompParamExpression rslt = newCompParamExpression();
             rslt.setPosition(toPosition(position));
             rslt.setParameter(p);
-            rslt.setType(t);
+            rslt.setType(changePositions(EMFHelper.deepclone(p.getType()), rslt.getPosition()));
 
             return rslt;
         } else if (entry instanceof FunctionScope) {
@@ -795,17 +793,17 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             CifType returnType = ((FunctionScope)entry).getReturnType();
 
-            FuncType t = newFuncType();
-            t.setReturnType(EMFHelper.deepclone(returnType));
-            t.setPosition(toPosition(position));
-            for (FunctionParameter param: f.getParameters()) {
-                CifType paramType = param.getParameter().getType();
-                t.getParamTypes().add(EMFHelper.deepclone(paramType));
-            }
-
             FunctionExpression rslt = newFunctionExpression();
             rslt.setPosition(toPosition(position));
             rslt.setFunction(f);
+
+            FuncType t = newFuncType();
+            t.setReturnType(changePositions(EMFHelper.deepclone(returnType), rslt.getPosition()));
+            t.setPosition(toPosition(position));
+            for (FunctionParameter param: f.getParameters()) {
+                CifType paramType = param.getParameter().getType();
+                t.getParamTypes().add(changePositions(EMFHelper.deepclone(paramType), rslt.getPosition()));
+            }
             rslt.setType(t);
 
             return rslt;

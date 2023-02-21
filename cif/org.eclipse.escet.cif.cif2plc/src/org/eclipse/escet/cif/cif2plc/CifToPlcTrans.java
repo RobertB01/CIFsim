@@ -34,7 +34,6 @@ import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.common.CifValueUtils.makeTuple;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
-import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -889,7 +888,7 @@ public class CifToPlcTrans {
 
         // Add function.
         String name = getPlcName(func);
-        CifType rtype = makeTupleType(deepclone(func.getReturnTypes()), null);
+        CifType rtype = makeTupleType(func.getReturnTypes(), null);
         pou = new PlcPou(name, PlcPouType.FUNCTION, transType(rtype));
         project.pous.add(pou);
 

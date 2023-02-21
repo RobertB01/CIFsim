@@ -19,7 +19,6 @@ import static org.eclipse.escet.cif.codegen.c89.C89DataValue.makeLiteral;
 import static org.eclipse.escet.cif.codegen.c89.C89DataValue.makeValue;
 import static org.eclipse.escet.cif.codegen.c89.typeinfos.C89TypeInfoHelper.typeUsesValues;
 import static org.eclipse.escet.cif.common.CifTypeUtils.makeTupleType;
-import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
@@ -213,7 +212,7 @@ public class C89ExprCodeGen extends ExprCodeGen {
         }
         callText.append(')');
 
-        CifType retType = makeTupleType(deepclone(func.getReturnTypes()), null);
+        CifType retType = makeTupleType(func.getReturnTypes(), null);
         TypeInfo retTi = ctxt.typeToTarget(retType);
 
         // Result type is always a value!

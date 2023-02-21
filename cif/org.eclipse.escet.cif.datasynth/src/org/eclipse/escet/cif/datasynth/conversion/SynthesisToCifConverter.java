@@ -652,7 +652,7 @@ public class SynthesisToCifConverter {
         CifType fieldType1 = tupleExpr.getFields().get(1).getType();
         CifType fieldType2 = tupleExpr.getFields().get(2).getType();
         List<CifType> fieldTypes = list(fieldType0, fieldType1, fieldType2);
-        CifType tupleType = CifTypeUtils.makeTupleType(deepclone(fieldTypes), null);
+        CifType tupleType = CifTypeUtils.makeTupleType(fieldTypes, null);
         tupleExpr.setType(tupleType);
 
         // Return the index.
