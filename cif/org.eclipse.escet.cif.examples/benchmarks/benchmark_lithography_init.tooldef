@@ -16,4 +16,4 @@
 
 from "benchmark__base.tooldef" import *;
 
-benchmark("lithography_init", "lithography_init.cif");
+benchmark("lithography_init", "lithography_init", "lithography_init.cif");
