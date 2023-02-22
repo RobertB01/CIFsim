@@ -1,0 +1,1091 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Lithography machine initialization model:
+// - There are multiple sub-systems that each need to be initialized.
+// - Each sub-system is modelled by two automata, representing its orchestrator and the sub-system itself.
+// - The orchestrator initializes the sub-system, from its unknown starting state to its initialized state.
+// - The sub-system can be initialized via one or more phases, by transitioning from a phase to a previous or next one.
+// - The requirements represent dependencies between sub-systems, constraining the initialization order.
+// - Synthesis will restrict the behavior to only valid initialization sequences.
+// - If the synthesized supervisor is not empty, a successful initialization sequence exists.
+//
+// This model concerns an anonymized partial version of the original model.
+
+plant automaton orchestrator_1:
+  controllable c_start_init_Idle;
+  uncontrollable u_finish_init_Idle;
+  controllable c_start_term_Idle;
+  uncontrollable u_finish_term_Idle;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Idle;
+
+  location Terminated:
+    edge c_start_init_Idle goto Initializing_Idle;
+
+  location Idle:
+    marked;
+    edge c_start_term_Idle goto Terminating_Idle;
+
+  location Initializing_Idle:
+    edge u_finish_init_Idle goto Idle;
+
+  location Terminating_Idle:
+    edge u_finish_term_Idle goto Terminated;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Idle goto Idle;
+end
+
+plant automaton orchestrator_2:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    marked;
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+end
+
+plant automaton orchestrator_3:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_start_init_Phase_3;
+  uncontrollable u_finish_init_Phase_3;
+  controllable c_start_term_Phase_3;
+  uncontrollable u_finish_term_Phase_3;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+  uncontrollable u_status_is_Phase_3;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    marked;
+    edge c_start_term_Phase_3 goto Terminating_Phase_3;
+
+  location Initializing_Phase_3:
+    edge u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge u_finish_term_Phase_3 goto Phase_2;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+    edge u_status_is_Phase_3 goto Phase_3;
+end
+
+plant automaton orchestrator_4:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_start_init_Phase_3;
+  uncontrollable u_finish_init_Phase_3;
+  controllable c_start_term_Phase_3;
+  uncontrollable u_finish_term_Phase_3;
+  controllable c_start_init_Phase_4;
+  uncontrollable u_finish_init_Phase_4;
+  controllable c_start_term_Phase_4;
+  uncontrollable u_finish_term_Phase_4;
+  controllable c_start_init_Phase_5;
+  uncontrollable u_finish_init_Phase_5;
+  controllable c_start_term_Phase_5;
+  uncontrollable u_finish_term_Phase_5;
+  controllable c_start_init_Phase_6;
+  uncontrollable u_finish_init_Phase_6;
+  controllable c_start_term_Phase_6;
+  uncontrollable u_finish_term_Phase_6;
+  controllable c_start_init_Phase_7;
+  uncontrollable u_finish_init_Phase_7;
+  controllable c_start_term_Phase_7;
+  uncontrollable u_finish_term_Phase_7;
+  controllable c_start_init_Phase_8;
+  uncontrollable u_finish_init_Phase_8;
+  controllable c_start_term_Phase_8;
+  uncontrollable u_finish_term_Phase_8;
+  controllable c_start_init_Phase_9;
+  uncontrollable u_finish_init_Phase_9;
+  controllable c_start_term_Phase_9;
+  uncontrollable u_finish_term_Phase_9;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+  uncontrollable u_status_is_Phase_3;
+  uncontrollable u_status_is_Phase_4;
+  uncontrollable u_status_is_Phase_5;
+  uncontrollable u_status_is_Phase_6;
+  uncontrollable u_status_is_Phase_7;
+  uncontrollable u_status_is_Phase_8;
+  uncontrollable u_status_is_Phase_9;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    edge c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    edge c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    edge c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    edge c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge c_start_init_Phase_7 goto Initializing_Phase_7;
+
+  location Initializing_Phase_6:
+    edge u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge u_finish_term_Phase_6 goto Phase_5;
+
+  location Phase_7:
+    edge c_start_term_Phase_7 goto Terminating_Phase_7;
+    edge c_start_init_Phase_8 goto Initializing_Phase_8;
+
+  location Initializing_Phase_7:
+    edge u_finish_init_Phase_7 goto Phase_7;
+
+  location Terminating_Phase_7:
+    edge u_finish_term_Phase_7 goto Phase_6;
+
+  location Phase_8:
+    edge c_start_term_Phase_8 goto Terminating_Phase_8;
+    edge c_start_init_Phase_9 goto Initializing_Phase_9;
+
+  location Initializing_Phase_8:
+    edge u_finish_init_Phase_8 goto Phase_8;
+
+  location Terminating_Phase_8:
+    edge u_finish_term_Phase_8 goto Phase_7;
+
+  location Phase_9:
+    marked;
+    edge c_start_term_Phase_9 goto Terminating_Phase_9;
+
+  location Initializing_Phase_9:
+    edge u_finish_init_Phase_9 goto Phase_9;
+
+  location Terminating_Phase_9:
+    edge u_finish_term_Phase_9 goto Phase_8;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+    edge u_status_is_Phase_3 goto Phase_3;
+    edge u_status_is_Phase_4 goto Phase_4;
+    edge u_status_is_Phase_5 goto Phase_5;
+    edge u_status_is_Phase_6 goto Phase_6;
+    edge u_status_is_Phase_7 goto Phase_7;
+    edge u_status_is_Phase_8 goto Phase_8;
+    edge u_status_is_Phase_9 goto Phase_9;
+end
+
+plant automaton orchestrator_5:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_start_init_Phase_3;
+  uncontrollable u_finish_init_Phase_3;
+  controllable c_start_term_Phase_3;
+  uncontrollable u_finish_term_Phase_3;
+  controllable c_start_init_Phase_4;
+  uncontrollable u_finish_init_Phase_4;
+  controllable c_start_term_Phase_4;
+  uncontrollable u_finish_term_Phase_4;
+  controllable c_start_init_Phase_5;
+  uncontrollable u_finish_init_Phase_5;
+  controllable c_start_term_Phase_5;
+  uncontrollable u_finish_term_Phase_5;
+  controllable c_start_init_Phase_6;
+  uncontrollable u_finish_init_Phase_6;
+  controllable c_start_term_Phase_6;
+  uncontrollable u_finish_term_Phase_6;
+  controllable c_start_init_Phase_7;
+  uncontrollable u_finish_init_Phase_7;
+  controllable c_start_term_Phase_7;
+  uncontrollable u_finish_term_Phase_7;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+  uncontrollable u_status_is_Phase_3;
+  uncontrollable u_status_is_Phase_4;
+  uncontrollable u_status_is_Phase_5;
+  uncontrollable u_status_is_Phase_6;
+  uncontrollable u_status_is_Phase_7;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    edge c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    edge c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    edge c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    edge c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge c_start_init_Phase_7 goto Initializing_Phase_7;
+
+  location Initializing_Phase_6:
+    edge u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge u_finish_term_Phase_6 goto Phase_5;
+
+  location Phase_7:
+    marked;
+    edge c_start_term_Phase_7 goto Terminating_Phase_7;
+
+  location Initializing_Phase_7:
+    edge u_finish_init_Phase_7 goto Phase_7;
+
+  location Terminating_Phase_7:
+    edge u_finish_term_Phase_7 goto Phase_6;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+    edge u_status_is_Phase_3 goto Phase_3;
+    edge u_status_is_Phase_4 goto Phase_4;
+    edge u_status_is_Phase_5 goto Phase_5;
+    edge u_status_is_Phase_6 goto Phase_6;
+    edge u_status_is_Phase_7 goto Phase_7;
+end
+
+plant automaton orchestrator_6:
+  controllable c_start_init_Idle;
+  uncontrollable u_finish_init_Idle;
+  controllable c_start_term_Idle;
+  uncontrollable u_finish_term_Idle;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Idle;
+
+  location Terminated:
+    edge c_start_init_Idle goto Initializing_Idle;
+
+  location Idle:
+    marked;
+    edge c_start_term_Idle goto Terminating_Idle;
+
+  location Initializing_Idle:
+    edge u_finish_init_Idle goto Idle;
+
+  location Terminating_Idle:
+    edge u_finish_term_Idle goto Terminated;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Idle goto Idle;
+end
+
+plant automaton orchestrator_7:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    marked;
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+end
+
+plant automaton orchestrator_8:
+  controllable c_start_init_Phase_1;
+  uncontrollable u_finish_init_Phase_1;
+  controllable c_start_term_Phase_1;
+  uncontrollable u_finish_term_Phase_1;
+  controllable c_start_init_Phase_2;
+  uncontrollable u_finish_init_Phase_2;
+  controllable c_start_term_Phase_2;
+  uncontrollable u_finish_term_Phase_2;
+  controllable c_start_init_Phase_3;
+  uncontrollable u_finish_init_Phase_3;
+  controllable c_start_term_Phase_3;
+  uncontrollable u_finish_term_Phase_3;
+  controllable c_start_init_Phase_4;
+  uncontrollable u_finish_init_Phase_4;
+  controllable c_start_term_Phase_4;
+  uncontrollable u_finish_term_Phase_4;
+  controllable c_start_init_Phase_5;
+  uncontrollable u_finish_init_Phase_5;
+  controllable c_start_term_Phase_5;
+  uncontrollable u_finish_term_Phase_5;
+  controllable c_start_init_Phase_6;
+  uncontrollable u_finish_init_Phase_6;
+  controllable c_start_term_Phase_6;
+  uncontrollable u_finish_term_Phase_6;
+  controllable c_get_status;
+  uncontrollable u_status_is_Terminated;
+  uncontrollable u_status_is_Phase_1;
+  uncontrollable u_status_is_Phase_2;
+  uncontrollable u_status_is_Phase_3;
+  uncontrollable u_status_is_Phase_4;
+  uncontrollable u_status_is_Phase_5;
+  uncontrollable u_status_is_Phase_6;
+
+  location Terminated:
+    edge c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    edge c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    edge c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    edge c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    edge c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    edge c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    marked;
+    edge c_start_term_Phase_6 goto Terminating_Phase_6;
+
+  location Initializing_Phase_6:
+    edge u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge u_finish_term_Phase_6 goto Phase_5;
+
+  location Unknown:
+    initial;
+    edge c_get_status goto Getting_status;
+
+  location Getting_status:
+    edge u_status_is_Terminated goto Terminated;
+    edge u_status_is_Phase_1 goto Phase_1;
+    edge u_status_is_Phase_2 goto Phase_2;
+    edge u_status_is_Phase_3 goto Phase_3;
+    edge u_status_is_Phase_4 goto Phase_4;
+    edge u_status_is_Phase_5 goto Phase_5;
+    edge u_status_is_Phase_6 goto Phase_6;
+end
+
+plant automaton sub_system_1:
+  location Terminated:
+    initial;
+    edge orchestrator_1.u_status_is_Terminated;
+    edge orchestrator_1.c_start_init_Idle goto Initializing_Idle;
+
+  location Idle:
+    initial;
+    marked;
+    edge orchestrator_1.c_start_term_Idle goto Terminating_Idle;
+    edge orchestrator_1.u_status_is_Idle;
+
+  location Initializing_Idle:
+    edge orchestrator_1.u_finish_init_Idle goto Idle;
+
+  location Terminating_Idle:
+    edge orchestrator_1.u_finish_term_Idle goto Terminated;
+end
+
+plant automaton sub_system_2:
+  location Terminated:
+    initial;
+    edge orchestrator_2.u_status_is_Terminated;
+    edge orchestrator_2.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    marked;
+    edge orchestrator_2.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge orchestrator_2.u_status_is_Phase_1;
+
+  location Initializing_Phase_1:
+    edge orchestrator_2.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge orchestrator_2.u_finish_term_Phase_1 goto Terminated;
+end
+
+plant automaton sub_system_3:
+  location Terminated:
+    initial;
+    edge orchestrator_3.u_status_is_Terminated;
+    edge orchestrator_3.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge orchestrator_3.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge orchestrator_3.u_status_is_Phase_1;
+    edge orchestrator_3.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge orchestrator_3.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge orchestrator_3.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    edge orchestrator_3.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge orchestrator_3.u_status_is_Phase_2;
+    edge orchestrator_3.c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge orchestrator_3.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge orchestrator_3.u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    initial;
+    marked;
+    edge orchestrator_3.c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge orchestrator_3.u_status_is_Phase_3;
+
+  location Initializing_Phase_3:
+    edge orchestrator_3.u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge orchestrator_3.u_finish_term_Phase_3 goto Phase_2;
+end
+
+plant automaton sub_system_4:
+  location Terminated:
+    initial;
+    edge orchestrator_4.u_status_is_Terminated;
+    edge orchestrator_4.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge orchestrator_4.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge orchestrator_4.u_status_is_Phase_1;
+    edge orchestrator_4.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge orchestrator_4.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge orchestrator_4.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    edge orchestrator_4.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge orchestrator_4.u_status_is_Phase_2;
+    edge orchestrator_4.c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge orchestrator_4.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge orchestrator_4.u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    initial;
+    edge orchestrator_4.c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge orchestrator_4.u_status_is_Phase_3;
+    edge orchestrator_4.c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge orchestrator_4.u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge orchestrator_4.u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    initial;
+    edge orchestrator_4.c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge orchestrator_4.u_status_is_Phase_4;
+    edge orchestrator_4.c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge orchestrator_4.u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge orchestrator_4.u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    initial;
+    edge orchestrator_4.c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge orchestrator_4.u_status_is_Phase_5;
+    edge orchestrator_4.c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge orchestrator_4.u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge orchestrator_4.u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    initial;
+    edge orchestrator_4.c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge orchestrator_4.u_status_is_Phase_6;
+    edge orchestrator_4.c_start_init_Phase_7 goto Initializing_Phase_7;
+
+  location Initializing_Phase_6:
+    edge orchestrator_4.u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge orchestrator_4.u_finish_term_Phase_6 goto Phase_5;
+
+  location Phase_7:
+    initial;
+    edge orchestrator_4.c_start_term_Phase_7 goto Terminating_Phase_7;
+    edge orchestrator_4.u_status_is_Phase_7;
+    edge orchestrator_4.c_start_init_Phase_8 goto Initializing_Phase_8;
+
+  location Initializing_Phase_7:
+    edge orchestrator_4.u_finish_init_Phase_7 goto Phase_7;
+
+  location Terminating_Phase_7:
+    edge orchestrator_4.u_finish_term_Phase_7 goto Phase_6;
+
+  location Phase_8:
+    initial;
+    edge orchestrator_4.c_start_term_Phase_8 goto Terminating_Phase_8;
+    edge orchestrator_4.u_status_is_Phase_8;
+    edge orchestrator_4.c_start_init_Phase_9 goto Initializing_Phase_9;
+
+  location Initializing_Phase_8:
+    edge orchestrator_4.u_finish_init_Phase_8 goto Phase_8;
+
+  location Terminating_Phase_8:
+    edge orchestrator_4.u_finish_term_Phase_8 goto Phase_7;
+
+  location Phase_9:
+    initial;
+    marked;
+    edge orchestrator_4.c_start_term_Phase_9 goto Terminating_Phase_9;
+    edge orchestrator_4.u_status_is_Phase_9;
+
+  location Initializing_Phase_9:
+    edge orchestrator_4.u_finish_init_Phase_9 goto Phase_9;
+
+  location Terminating_Phase_9:
+    edge orchestrator_4.u_finish_term_Phase_9 goto Phase_8;
+end
+
+plant automaton sub_system_5:
+  location Terminated:
+    initial;
+    edge orchestrator_5.u_status_is_Terminated;
+    edge orchestrator_5.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge orchestrator_5.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge orchestrator_5.u_status_is_Phase_1;
+    edge orchestrator_5.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge orchestrator_5.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge orchestrator_5.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    edge orchestrator_5.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge orchestrator_5.u_status_is_Phase_2;
+    edge orchestrator_5.c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge orchestrator_5.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge orchestrator_5.u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    initial;
+    edge orchestrator_5.c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge orchestrator_5.u_status_is_Phase_3;
+    edge orchestrator_5.c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge orchestrator_5.u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge orchestrator_5.u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    initial;
+    edge orchestrator_5.c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge orchestrator_5.u_status_is_Phase_4;
+    edge orchestrator_5.c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge orchestrator_5.u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge orchestrator_5.u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    initial;
+    edge orchestrator_5.c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge orchestrator_5.u_status_is_Phase_5;
+    edge orchestrator_5.c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge orchestrator_5.u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge orchestrator_5.u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    initial;
+    edge orchestrator_5.c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge orchestrator_5.u_status_is_Phase_6;
+    edge orchestrator_5.c_start_init_Phase_7 goto Initializing_Phase_7;
+
+  location Initializing_Phase_6:
+    edge orchestrator_5.u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge orchestrator_5.u_finish_term_Phase_6 goto Phase_5;
+
+  location Phase_7:
+    initial;
+    marked;
+    edge orchestrator_5.c_start_term_Phase_7 goto Terminating_Phase_7;
+    edge orchestrator_5.u_status_is_Phase_7;
+
+  location Initializing_Phase_7:
+    edge orchestrator_5.u_finish_init_Phase_7 goto Phase_7;
+
+  location Terminating_Phase_7:
+    edge orchestrator_5.u_finish_term_Phase_7 goto Phase_6;
+end
+
+plant automaton sub_system_6:
+  location Terminated:
+    initial;
+    edge orchestrator_6.u_status_is_Terminated;
+    edge orchestrator_6.c_start_init_Idle goto Initializing_Idle;
+
+  location Idle:
+    initial;
+    marked;
+    edge orchestrator_6.c_start_term_Idle goto Terminating_Idle;
+    edge orchestrator_6.u_status_is_Idle;
+
+  location Initializing_Idle:
+    edge orchestrator_6.u_finish_init_Idle goto Idle;
+
+  location Terminating_Idle:
+    edge orchestrator_6.u_finish_term_Idle goto Terminated;
+end
+
+plant automaton sub_system_7:
+  location Terminated:
+    initial;
+    edge orchestrator_7.u_status_is_Terminated;
+    edge orchestrator_7.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge orchestrator_7.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge orchestrator_7.u_status_is_Phase_1;
+    edge orchestrator_7.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge orchestrator_7.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge orchestrator_7.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    marked;
+    edge orchestrator_7.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge orchestrator_7.u_status_is_Phase_2;
+
+  location Initializing_Phase_2:
+    edge orchestrator_7.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge orchestrator_7.u_finish_term_Phase_2 goto Phase_1;
+end
+
+plant automaton sub_system_8:
+  location Terminated:
+    initial;
+    edge orchestrator_8.u_status_is_Terminated;
+    edge orchestrator_8.c_start_init_Phase_1 goto Initializing_Phase_1;
+
+  location Phase_1:
+    initial;
+    edge orchestrator_8.c_start_term_Phase_1 goto Terminating_Phase_1;
+    edge orchestrator_8.u_status_is_Phase_1;
+    edge orchestrator_8.c_start_init_Phase_2 goto Initializing_Phase_2;
+
+  location Initializing_Phase_1:
+    edge orchestrator_8.u_finish_init_Phase_1 goto Phase_1;
+
+  location Terminating_Phase_1:
+    edge orchestrator_8.u_finish_term_Phase_1 goto Terminated;
+
+  location Phase_2:
+    initial;
+    edge orchestrator_8.c_start_term_Phase_2 goto Terminating_Phase_2;
+    edge orchestrator_8.u_status_is_Phase_2;
+    edge orchestrator_8.c_start_init_Phase_3 goto Initializing_Phase_3;
+
+  location Initializing_Phase_2:
+    edge orchestrator_8.u_finish_init_Phase_2 goto Phase_2;
+
+  location Terminating_Phase_2:
+    edge orchestrator_8.u_finish_term_Phase_2 goto Phase_1;
+
+  location Phase_3:
+    initial;
+    edge orchestrator_8.c_start_term_Phase_3 goto Terminating_Phase_3;
+    edge orchestrator_8.u_status_is_Phase_3;
+    edge orchestrator_8.c_start_init_Phase_4 goto Initializing_Phase_4;
+
+  location Initializing_Phase_3:
+    edge orchestrator_8.u_finish_init_Phase_3 goto Phase_3;
+
+  location Terminating_Phase_3:
+    edge orchestrator_8.u_finish_term_Phase_3 goto Phase_2;
+
+  location Phase_4:
+    initial;
+    edge orchestrator_8.c_start_term_Phase_4 goto Terminating_Phase_4;
+    edge orchestrator_8.u_status_is_Phase_4;
+    edge orchestrator_8.c_start_init_Phase_5 goto Initializing_Phase_5;
+
+  location Initializing_Phase_4:
+    edge orchestrator_8.u_finish_init_Phase_4 goto Phase_4;
+
+  location Terminating_Phase_4:
+    edge orchestrator_8.u_finish_term_Phase_4 goto Phase_3;
+
+  location Phase_5:
+    initial;
+    edge orchestrator_8.c_start_term_Phase_5 goto Terminating_Phase_5;
+    edge orchestrator_8.u_status_is_Phase_5;
+    edge orchestrator_8.c_start_init_Phase_6 goto Initializing_Phase_6;
+
+  location Initializing_Phase_5:
+    edge orchestrator_8.u_finish_init_Phase_5 goto Phase_5;
+
+  location Terminating_Phase_5:
+    edge orchestrator_8.u_finish_term_Phase_5 goto Phase_4;
+
+  location Phase_6:
+    initial;
+    marked;
+    edge orchestrator_8.c_start_term_Phase_6 goto Terminating_Phase_6;
+    edge orchestrator_8.u_status_is_Phase_6;
+
+  location Initializing_Phase_6:
+    edge orchestrator_8.u_finish_init_Phase_6 goto Phase_6;
+
+  location Terminating_Phase_6:
+    edge orchestrator_8.u_finish_term_Phase_6 goto Phase_5;
+end
+
+requirement orchestrator_2.Initializing_Phase_1 => orchestrator_3.Phase_1 or orchestrator_3.Phase_2 or orchestrator_3.Phase_3 or orchestrator_3.Terminating_Phase_2 or orchestrator_3.Terminating_Phase_3 or orchestrator_3.Initializing_Phase_2 or orchestrator_3.Initializing_Phase_3;
+requirement orchestrator_1.Initializing_Idle => orchestrator_3.Phase_1 or orchestrator_3.Phase_2 or orchestrator_3.Phase_3 or orchestrator_3.Terminating_Phase_2 or orchestrator_3.Terminating_Phase_3 or orchestrator_3.Initializing_Phase_2 or orchestrator_3.Initializing_Phase_3;
+requirement orchestrator_5.Initializing_Phase_4 => orchestrator_6.Idle;
+requirement orchestrator_5.Initializing_Phase_1 => orchestrator_7.Phase_2;
+requirement orchestrator_6.Initializing_Idle => orchestrator_5.Phase_1 or orchestrator_5.Phase_2 or orchestrator_5.Phase_3 or orchestrator_5.Phase_4 or orchestrator_5.Phase_5 or orchestrator_5.Phase_6 or orchestrator_5.Phase_7 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_4 or orchestrator_5.Terminating_Phase_5 or orchestrator_5.Terminating_Phase_6 or orchestrator_5.Terminating_Phase_7 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_4 or orchestrator_5.Initializing_Phase_5 or orchestrator_5.Initializing_Phase_6 or orchestrator_5.Initializing_Phase_7;
+requirement orchestrator_8.Initializing_Phase_1 => orchestrator_1.Idle;
+requirement orchestrator_8.Initializing_Phase_5 => orchestrator_2.Phase_1;
+requirement orchestrator_8.Initializing_Phase_5 => orchestrator_4.Phase_9;
+requirement orchestrator_8.Initializing_Phase_3 => orchestrator_4.Phase_2 or orchestrator_4.Phase_3 or orchestrator_4.Phase_4 or orchestrator_4.Phase_5 or orchestrator_4.Phase_6 or orchestrator_4.Phase_7 or orchestrator_4.Phase_8 or orchestrator_4.Phase_9 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_9 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_9;
+requirement orchestrator_4.Initializing_Phase_3 => orchestrator_8.Phase_3 or orchestrator_8.Phase_4 or orchestrator_8.Phase_5 or orchestrator_8.Phase_6 or orchestrator_8.Terminating_Phase_4 or orchestrator_8.Terminating_Phase_5 or orchestrator_8.Terminating_Phase_6 or orchestrator_8.Initializing_Phase_4 or orchestrator_8.Initializing_Phase_5 or orchestrator_8.Initializing_Phase_6;
+requirement orchestrator_4.Initializing_Phase_1 => orchestrator_2.Phase_1;
+requirement orchestrator_4.Initializing_Phase_9 => orchestrator_3.Phase_3;
+requirement orchestrator_5.Initializing_Phase_1 => orchestrator_4.Phase_1 or orchestrator_4.Phase_2 or orchestrator_4.Phase_3 or orchestrator_4.Phase_4 or orchestrator_4.Phase_5 or orchestrator_4.Phase_6 or orchestrator_4.Phase_7 or orchestrator_4.Phase_8 or orchestrator_4.Phase_9 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_9 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_9;
+requirement orchestrator_5.Initializing_Phase_2 => orchestrator_4.Phase_3 or orchestrator_4.Phase_4 or orchestrator_4.Phase_5 or orchestrator_4.Phase_6 or orchestrator_4.Phase_7 or orchestrator_4.Phase_8 or orchestrator_4.Phase_9 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_9 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_9;
+requirement orchestrator_5.Initializing_Phase_3 => orchestrator_4.Phase_4 or orchestrator_4.Phase_5 or orchestrator_4.Phase_6 or orchestrator_4.Phase_7 or orchestrator_4.Phase_8 or orchestrator_4.Phase_9 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_9 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_9;
+requirement orchestrator_5.Initializing_Phase_4 => orchestrator_7.Phase_2;
+requirement orchestrator_5.Initializing_Phase_4 => orchestrator_4.Phase_5 or orchestrator_4.Phase_6 or orchestrator_4.Phase_7 or orchestrator_4.Phase_8 or orchestrator_4.Phase_9 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_9 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_9;
+requirement orchestrator_5.Initializing_Phase_6 => orchestrator_4.Phase_7 or orchestrator_4.Phase_8 or orchestrator_4.Phase_9 or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_9 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_9;
+requirement orchestrator_5.Initializing_Phase_7 => orchestrator_4.Phase_9;
+requirement orchestrator_4.Initializing_Phase_4 => orchestrator_5.Phase_1 or orchestrator_5.Phase_2 or orchestrator_5.Phase_3 or orchestrator_5.Phase_4 or orchestrator_5.Phase_5 or orchestrator_5.Phase_6 or orchestrator_5.Phase_7 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_4 or orchestrator_5.Terminating_Phase_5 or orchestrator_5.Terminating_Phase_6 or orchestrator_5.Terminating_Phase_7 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_4 or orchestrator_5.Initializing_Phase_5 or orchestrator_5.Initializing_Phase_6 or orchestrator_5.Initializing_Phase_7;
+requirement orchestrator_4.Initializing_Phase_5 => orchestrator_5.Phase_2 or orchestrator_5.Phase_3 or orchestrator_5.Phase_4 or orchestrator_5.Phase_5 or orchestrator_5.Phase_6 or orchestrator_5.Phase_7 or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_4 or orchestrator_5.Terminating_Phase_5 or orchestrator_5.Terminating_Phase_6 or orchestrator_5.Terminating_Phase_7 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_4 or orchestrator_5.Initializing_Phase_5 or orchestrator_5.Initializing_Phase_6 or orchestrator_5.Initializing_Phase_7;
+requirement orchestrator_4.Initializing_Phase_6 => orchestrator_5.Phase_4 or orchestrator_5.Phase_5 or orchestrator_5.Phase_6 or orchestrator_5.Phase_7 or orchestrator_5.Terminating_Phase_5 or orchestrator_5.Terminating_Phase_6 or orchestrator_5.Terminating_Phase_7 or orchestrator_5.Initializing_Phase_5 or orchestrator_5.Initializing_Phase_6 or orchestrator_5.Initializing_Phase_7;
+requirement orchestrator_4.Initializing_Phase_7 => orchestrator_5.Phase_5 or orchestrator_5.Phase_6 or orchestrator_5.Phase_7 or orchestrator_5.Terminating_Phase_6 or orchestrator_5.Terminating_Phase_7 or orchestrator_5.Initializing_Phase_6 or orchestrator_5.Initializing_Phase_7;
+requirement orchestrator_4.Initializing_Phase_9 => orchestrator_5.Phase_6 or orchestrator_5.Phase_7 or orchestrator_5.Terminating_Phase_7 or orchestrator_5.Initializing_Phase_7;
+requirement orchestrator_4.Initializing_Phase_9 => orchestrator_3.Phase_3;
+requirement orchestrator_4.Initializing_Phase_1 => orchestrator_5.Terminated;
+requirement orchestrator_4.Initializing_Phase_3 => orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_4.Initializing_Phase_4 => orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_7.Initializing_Phase_2 => orchestrator_5.Phase_3 or orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_4.Initializing_Phase_5 => orchestrator_5.Phase_3 or orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_4.Initializing_Phase_7 => orchestrator_5.Phase_5 or orchestrator_5.Phase_4 or orchestrator_5.Phase_3 or orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_5 or orchestrator_5.Terminating_Phase_4 or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_5 or orchestrator_5.Initializing_Phase_4 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_4.Initializing_Phase_9 => orchestrator_5.Phase_6 or orchestrator_5.Phase_5 or orchestrator_5.Phase_4 or orchestrator_5.Phase_3 or orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_6 or orchestrator_5.Terminating_Phase_5 or orchestrator_5.Terminating_Phase_4 or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_6 or orchestrator_5.Initializing_Phase_5 or orchestrator_5.Initializing_Phase_4 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_5.Initializing_Phase_1 => orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_5.Initializing_Phase_2 => orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_5.Initializing_Phase_4 => orchestrator_4.Phase_5 or orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_5.Initializing_Phase_5 => orchestrator_4.Phase_6 or orchestrator_4.Phase_5 or orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_5.Initializing_Phase_6 => orchestrator_4.Phase_8 or orchestrator_4.Phase_7 or orchestrator_4.Phase_6 or orchestrator_4.Phase_5 or orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_3.Initializing_Phase_3 => orchestrator_4.Phase_8 or orchestrator_4.Phase_7 or orchestrator_4.Phase_6 or orchestrator_4.Phase_5 or orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_4.Terminating_Phase_1 => orchestrator_5.Terminated;
+requirement orchestrator_4.Terminating_Phase_3 => orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_4.Terminating_Phase_4 => orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_7.Terminating_Phase_2 => orchestrator_5.Phase_3 or orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_4.Terminating_Phase_5 => orchestrator_5.Phase_3 or orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_4.Terminating_Phase_7 => orchestrator_5.Phase_5 or orchestrator_5.Phase_4 or orchestrator_5.Phase_3 or orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_5 or orchestrator_5.Terminating_Phase_4 or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_5 or orchestrator_5.Initializing_Phase_4 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_4.Terminating_Phase_9 => orchestrator_5.Phase_6 or orchestrator_5.Phase_5 or orchestrator_5.Phase_4 or orchestrator_5.Phase_3 or orchestrator_5.Phase_2 or orchestrator_5.Phase_1 or orchestrator_5.Terminated or orchestrator_5.Terminating_Phase_6 or orchestrator_5.Terminating_Phase_5 or orchestrator_5.Terminating_Phase_4 or orchestrator_5.Terminating_Phase_3 or orchestrator_5.Terminating_Phase_2 or orchestrator_5.Terminating_Phase_1 or orchestrator_5.Initializing_Phase_6 or orchestrator_5.Initializing_Phase_5 or orchestrator_5.Initializing_Phase_4 or orchestrator_5.Initializing_Phase_3 or orchestrator_5.Initializing_Phase_2 or orchestrator_5.Initializing_Phase_1;
+requirement orchestrator_5.Terminating_Phase_1 => orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_5.Terminating_Phase_2 => orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_5.Terminating_Phase_4 => orchestrator_4.Phase_5 or orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_5.Terminating_Phase_5 => orchestrator_4.Phase_6 or orchestrator_4.Phase_5 or orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_5.Terminating_Phase_6 => orchestrator_4.Phase_8 or orchestrator_4.Phase_7 or orchestrator_4.Phase_6 or orchestrator_4.Phase_5 or orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;
+requirement orchestrator_3.Terminating_Phase_3 => orchestrator_4.Phase_8 or orchestrator_4.Phase_7 or orchestrator_4.Phase_6 or orchestrator_4.Phase_5 or orchestrator_4.Phase_4 or orchestrator_4.Phase_3 or orchestrator_4.Phase_2 or orchestrator_4.Phase_1 or orchestrator_4.Terminated or orchestrator_4.Terminating_Phase_8 or orchestrator_4.Terminating_Phase_7 or orchestrator_4.Terminating_Phase_6 or orchestrator_4.Terminating_Phase_5 or orchestrator_4.Terminating_Phase_4 or orchestrator_4.Terminating_Phase_3 or orchestrator_4.Terminating_Phase_2 or orchestrator_4.Terminating_Phase_1 or orchestrator_4.Initializing_Phase_8 or orchestrator_4.Initializing_Phase_7 or orchestrator_4.Initializing_Phase_6 or orchestrator_4.Initializing_Phase_5 or orchestrator_4.Initializing_Phase_4 or orchestrator_4.Initializing_Phase_3 or orchestrator_4.Initializing_Phase_2 or orchestrator_4.Initializing_Phase_1;

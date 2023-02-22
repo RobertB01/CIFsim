@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2018, 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,8 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-Model source: Ferdie Reijnen, Martijn Goorden, Joanna van de Mortel-Fronczak and Jacobus Rooda, "Supervisory Control
-Synthesis for a Waterway Lock" In: Proceedings of the IEEE Conference on Control Technology and Applications, pages
-1562-1568, 2017, doi: https://doi.org/10.1109/CCTA.2017.8062679.
+// Synthesize the supervisor.
 
-Model repository: https://github.com/ffhreijnen/LockCCTA.
+from "lib:cif" import *;
+
+mkdir("generated", force=true);
+
+cifdatasynth("lithography_init.cif -t nodes -m debug -o generated/lithography_init.synthesized.cif");
