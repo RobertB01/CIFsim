@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Model for a Body Comfort System (BCS) product line:
+//  - This BCS model is a frequently used benchmark in Product Line Engineering (PLE).
+//  - The product line originating from the automotive industry.
+//  - This is a static version of the model, which does not allow the system to be reconfigured during execution.
+//  - Synthesis will ensure that all safety requirements are satisfied, regardless of the feature configuration.
+
+// Include the features and constraints.
+import "bcs_shared_features.cif";
+
+// Include the component behavior.
+import "bcs_shared_behavior.cif";
+
+// Use static features.
+plant def Feature():
+  disc bool present in any;
+  location:
+    initial;
+    marked;
+end

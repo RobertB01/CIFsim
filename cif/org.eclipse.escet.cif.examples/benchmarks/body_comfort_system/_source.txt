@@ -1,0 +1,20 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Model source: Sander Thuijsman and Michel Reniers, "Supervisory Control for Dynamic Feature Configuration in Product
+Lines", ACM Transactions on Embedded Computing Systems, 2023, doi: https://doi.org/10.1145/3579644.
+
+Model source: Mark Tuitert, "Supervisory controller synthesis for Dynamic Software Product Lines", MSc thesis, Eindhoven
+University of Technology, 2017.
+
+Model repository: https://github.com/sbthuijsman/TECS_PLE.
