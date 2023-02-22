@@ -1,2 +1,10 @@
 Automata have a different language!
 From location "loc30" of automaton "statespace2", event "start" can be performed, but from the equivalent location "loc30" of automaton "statespace1", the event cannot be performed.
+This state pair can be reached with the following sequence of events from the initial state:
+1. "enter"
+2. "start"
+3. "do2"
+4. "enter"
+5. "start"
+6. "enter"
+7. "do1"

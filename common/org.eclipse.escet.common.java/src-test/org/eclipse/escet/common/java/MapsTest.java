@@ -14,12 +14,14 @@
 package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Maps.copy;
+import static org.eclipse.escet.common.java.Maps.invert;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Maps.put;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
@@ -143,5 +145,59 @@ public class MapsTest {
         assertTrue(exs4.containsKey(e1));
         assertTrue(exs4.containsValue(e2));
         assertSame(e2, exs4.get(e1));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testInvert() {
+        NullPointerException npe1 = new NullPointerException();
+        NullPointerException npe2 = new NullPointerException();
+        IllegalArgumentException iae1 = new IllegalArgumentException();
+        IllegalArgumentException iae2 = new IllegalArgumentException();
+
+        Map<NullPointerException, IllegalArgumentException> exs = map();
+        exs.put(npe1, iae1);
+        exs.put(npe2, iae2);
+
+        assertEquals(2, exs.size());
+        assertTrue(exs.containsKey(npe1));
+        assertTrue(exs.containsKey(npe2));
+        assertTrue(exs.containsValue(iae1));
+        assertTrue(exs.containsValue(iae2));
+        assertSame(iae1, exs.get(npe1));
+        assertSame(iae2, exs.get(npe2));
+
+        // Invert one-to-one mapping.
+        Map<IllegalArgumentException, NullPointerException> invExs = invert(exs);
+        assertTrue(invExs.containsKey(iae1));
+        assertTrue(invExs.containsKey(iae2));
+        assertTrue(invExs.containsValue(npe1));
+        assertTrue(invExs.containsValue(npe2));
+        assertSame(npe1, invExs.get(iae1));
+        assertSame(npe2, invExs.get(iae2));
+
+        // Try to invert many-to-one mapping.
+        NullPointerException npe3 = new NullPointerException();
+        exs.put(npe3, iae2);
+        assertEquals(3, exs.size());
+        assertTrue(exs.containsKey(npe3));
+        assertSame(iae2, exs.get(npe3));
+
+        assertThrows(AssertionError.class, () -> invert(exs));
+
+        // Try to invert map with null.
+        Map<NullPointerException, IllegalArgumentException> exsNull1 = map();
+        Map<NullPointerException, IllegalArgumentException> exsNull2 = map();
+        exsNull1.put(npe1, null);
+        exsNull2.put(null, iae1);
+        assertTrue(exsNull1.containsKey(npe1));
+        assertTrue(exsNull2.containsKey(null));
+        assertTrue(exsNull1.containsValue(null));
+        assertTrue(exsNull2.containsValue(iae1));
+        assertSame(null, exsNull1.get(npe1));
+        assertSame(iae1, exsNull2.get(null));
+
+        assertThrows(AssertionError.class, () -> invert(exsNull1));
+        assertThrows(AssertionError.class, () -> invert(exsNull2));
     }
 }

@@ -228,8 +228,8 @@ public class SynthesisEdge {
      * Applies the assignments of the edge, to a given predicate. The assignments can be applied forward (normally) or
      * backward (reversed).
      *
-     * @param pred The predicate to which to apply the assignment in reverse. This predicate is {@link BDD#free freed}
-     *     by this method.
+     * @param pred The predicate to which to apply the assignment. This predicate is {@link BDD#free freed} by this
+     *     method.
      * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}). If
      *     applying forward, bad states are currently not supported.
      * @param forward Whether to apply forward ({@code true}) or backward ({@code false}).
