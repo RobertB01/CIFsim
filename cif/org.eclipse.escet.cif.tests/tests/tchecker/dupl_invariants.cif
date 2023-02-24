@@ -1,0 +1,345 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Duplicated invariants in root.
+event e1, e2;
+invariant {e1, e2, e1, e1} needs true;
+invariant true disables {e2, e1, e2, e2};
+
+// Duplicated invariants in group.
+event e3, e4;
+group g1:
+  invariant {e3, e3} needs true;
+  invariant true disables {e4, e4};
+end
+
+// Duplicated invariants in automaton and location.
+event e5, e6, e7, e8;
+automaton a1:
+  invariant {e5, e5} needs true;
+  invariant true disables {e6, e6};
+  location:
+    initial;
+    invariant {e7, e7} needs true;
+    invariant true disables {e8, e8};
+end
+
+// No duplication when one is 'e needs pred' and the other is 'pred disables e'.
+event e9;
+invariant e9 needs true;
+invariant true disables e9;
+
+automaton a2:
+  invariant e9 needs false;
+  invariant false disables e9;
+  location:
+    initial;
+    invariant e9 needs false and true;
+    invariant false and true disables e9;
+end
+
+// Check duplications in groups and automata, but not in locations.
+event e10, e11;
+invariant e10 needs true;
+invariant true disables e11;
+group g:
+  invariant e10 needs true;
+  invariant true disables e11;
+end
+
+event e12, e13;
+invariant e12 needs true;
+invariant true disables e13;
+automaton a:
+  invariant e12 needs true;
+  invariant true disables e13;
+  location:
+    initial;
+    invariant e12 needs true;
+    invariant true disables e13;
+end
+
+// Duplicated invariant in group definitions after instantiation.
+event e14, e15;
+group def D1(event e1, e2):
+  invariant {e1, e1} needs true;
+  invariant true disables {e2, e2};
+end
+
+group def D2(event e1, e2):
+  invariant {e1, e2} needs true;
+end
+
+d1: D1(e14, e15);
+d2: D2(e14, e14);
+
+// Boolean expression.
+event e16;
+invariant e16 needs true;
+invariant e16 needs true;
+invariant e16 needs false;
+
+// Int expression.
+event e17;
+invariant e17 needs 3 = 3;
+invariant e17 needs 3 = 3;
+invariant e17 needs 4 = 4;
+
+// Real expression.
+event e18;
+invariant e18 needs 3.0 = 3.0;
+invariant e18 needs 3.0 = 3.0;
+invariant e18 needs 4.0 = 4.0;
+
+// String expression.
+event e19;
+invariant e19 needs "a" = "a";
+invariant e19 needs "a" = "a";
+invariant e19 needs "b" = "b";
+
+// Time expression.
+event e20;
+invariant e20 needs time > 0.0;
+invariant e20 needs time > 0.0;
+
+// Cast expression.
+event e21;
+invariant e21 needs <real>3      < 3.0;
+invariant e21 needs <real>3      < 3.0;
+invariant e21 needs <int[3..3]>3 < 3.0; // Different cast type.
+
+// Binary expression.
+event e22;
+invariant e22 needs 3.0 >= 1.0;
+invariant e22 needs 3.0 >= 1.0;
+invariant e22 needs 4.0 >= 1.0; // Different left.
+invariant e22 needs 3.0 >= 2.0; // Different right.
+invariant e22 needs 3.0 <= 1.0; // Different operator.
+
+// Unary expression.
+event e23;
+invariant e23 needs -3 < 3.0;
+invariant e23 needs -3 < 3.0;
+invariant e23 needs -4 < 3.0; // Different child.
+invariant e23 needs +3 < 3.0; // Different operator.
+
+// If expression.
+event e24;
+invariant e24 needs if true,  true:  true  elif false, false: false else true  end; // Original.
+invariant e24 needs if true,  true:  true  elif false, false: false else true  end; // Original.
+invariant e24 needs if false, true:  true  elif false, false: false else true  end; // Different guard 1.
+invariant e24 needs if true,  false: true  elif false, false: false else true  end; // Different guard 2.
+invariant e24 needs if true,  true:  false elif false, false: false else true  end; // Different then.
+invariant e24 needs if true,  true:  true  elif true,  false: false else true  end; // Different elif1 guard 1.
+invariant e24 needs if true,  true:  true  elif false, true:  false else true  end; // Different elif1 guard 2.
+invariant e24 needs if true,  true:  true  elif false, false: true  else true  end; // Different elif1 then.
+invariant e24 needs if true,  true:  true  elif false, false: false else false end; // Different else.
+
+// Switch expression.
+event e25;
+invariant e25 needs switch(true):  case true:  true  case false: false else true  end; // Original.
+invariant e25 needs switch(true):  case true:  true  case false: false else true  end; // Original.
+invariant e25 needs switch(false): case true:  true  case false: false else true  end; // Different switch.
+invariant e25 needs switch(true):  case false: true  case false: false else true  end; // Different key 1.
+invariant e25 needs switch(true):  case true:  false case false: false else true  end; // Different value 1.
+invariant e25 needs switch(true):  case true:  true  case true:  false else true  end; // Different key 2.
+invariant e25 needs switch(true):  case true:  true  case false: true  else true  end; // Different value 2.
+invariant e25 needs switch(true):  case true:  true  case false: true  else false end; // Different else.
+
+// Projection expression.
+event e26;
+const tuple(int a; real b) t1 = (1, 2.0);
+const tuple(int a; real b) t2 = (1, 2.0);
+
+invariant e26 needs t1[0] > 0.0; // With index.
+invariant e26 needs t1[0] > 0.0;
+invariant e26 needs t1[1] > 0.0; // Different index.
+invariant e26 needs t2[0] > 0.0; // Different child.
+
+invariant e26 needs t1[a] > 0.0; // With field name.
+invariant e26 needs t1[a] > 0.0;
+invariant e26 needs t1[b] > 0.0; // Different field name.
+invariant e26 needs t2[a] > 0.0; // Different child.
+
+// Slice expression.
+event e27;
+const list int l1 = [1, 2, 3];
+const list int l2 = [1, 2, 3];
+invariant e27 needs l1[1 : 2] = l1[1 : 2];
+invariant e27 needs l1[1 : 2] = l1[1 : 2];
+invariant e27 needs l1[0 : 2] = l1[0 : 2]; // Different start.
+invariant e27 needs l1[1 : 1] = l1[1 : 1]; // Different end.
+invariant e27 needs l2[1 : 2] = l2[1 : 2]; // Different child.
+
+// Function call expression.
+event e28;
+invariant e28 needs F1(2); // Function expression.
+invariant e28 needs F1(2);
+invariant e28 needs F1(3); // Different argument.
+invariant e28 needs F2(3); // Different function.
+
+invariant e28 needs sin(2) < 1; // Standard library function expression.
+invariant e28 needs sin(2) < 1;
+invariant e28 needs sin(3) < 1; // Different argument.
+invariant e28 needs cos(3) < 1; // Different function.
+
+func bool F1(int i):
+  if i > 0:
+    return true;
+  else
+    return false;
+  end
+end
+
+func bool F2(int i):
+  if i > 0:
+    return true;
+  else
+    return false;
+  end
+end
+
+// List expression.
+event e29;
+invariant e29 needs 3 in [1, 2, 3];
+invariant e29 needs 3 in [1, 2, 3];
+invariant e29 needs 3 in [1, 2];    // Smaller list.
+invariant e29 needs 3 in [1, 3, 2]; // Different list order.
+
+// Set expression.
+event e30;
+invariant e30 needs 3 in {1, 2, 3};
+invariant e30 needs 3 in {1, 2, 3};
+invariant e30 needs 3 in {1, 2};    // Smaller set.
+invariant e30 needs 3 in {1, 3, 2}; // Different set order.
+
+// Tuple expression.
+event e31;
+invariant e31 needs t1 = (1, 2.0);
+invariant e31 needs t1 = (1, 2.0);
+invariant e31 needs t1 = (2, 2.0); // Different tuple.
+
+// Dictionary expression.
+event e32;
+invariant e32 needs {"eve": 32, "john": 34, "adam": 25}["eve"]  = 32;
+invariant e32 needs {"eve": 32, "john": 34, "adam": 25}["eve"]  = 32;
+invariant e32 needs {"eve": 32, "john": 34, "adam": 25}["adam"] = 32; // Different key.
+invariant e32 needs {"eve": 31, "john": 34, "adam": 25}["eve"]  = 32; // Different dictionary.
+
+// Constant expression.
+event e33;
+const int C1 = 0;
+const int C2 = 0;
+invariant e33 needs C1 > 0;
+invariant e33 needs C1 > 0;
+invariant e33 needs C2 > 0; // Different constant.
+
+// Discrete variable expression.
+event e34;
+automaton A3:
+  disc bool D1, D2;
+  location:
+    initial;
+end
+
+invariant e34 needs A3.D1;
+invariant e34 needs A3.D1;
+invariant e34 needs A3.D2; // Different discrete variable.
+
+// Algebraic variable expression.
+event e35;
+alg bool X1 = true, X2 = true;
+invariant e35 needs X1;
+invariant e35 needs X1;
+invariant e35 needs X2; // Different algebraic variable.
+
+// Continuous variable expression.
+event e36;
+cont Z1 = 0.0 der 1;
+cont Z2 = 0.0 der 1;
+invariant e36 needs Z1 > 0;
+invariant e36 needs Z1 > 0;
+invariant e36 needs Z2 > 0; // Different continuous variable.
+
+// Tau expression.
+// Not applicable.
+
+// Location expression.
+event e37;
+automaton A4:
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+
+invariant e37 needs A4.l1;
+invariant e37 needs A4.l1;
+invariant e37 needs A4.l2; // Different location.
+
+// Enum literal expression.
+event e38;
+enum E = lit1, lit2;
+alg E enum1 = lit1;
+invariant e38 needs enum1 = lit1;
+invariant e38 needs enum1 = lit1;
+invariant e38 needs enum1 = lit2; // Different enumeration literal.
+
+// Event expression.
+// Not applicable.
+
+// Field expression.
+// Covered by Projection expression.
+
+// Standard library function expression.
+// Covered by function call expression.
+
+// Function expression.
+// Covered by function call expression.
+
+// Input variable expression.
+event e39;
+input bool I1, I2;
+invariant e39 needs I1;
+invariant e39 needs I1;
+invariant e39 needs I2; // Different input variable.
+
+// Component expression.
+// Not applicable.
+
+// Component parameter expression.
+// Not applicable.
+
+// Component instantiation wrap expression.
+// Not applicable.
+
+// Component parameter wrap expression.
+// Not applicable.
+
+// Received expression.
+// Not applicable.
+
+// Self expression.
+event e40;
+automaton A5:
+  invariant e40 needs <string>self = "l1";
+  invariant e40 needs <string>self = "l1";
+  location l1:
+    initial;
+end
+
+automaton A6:
+  invariant e40 needs <string>self = "l1"; // Different scope.
+  location l1:
+    initial;
+end
