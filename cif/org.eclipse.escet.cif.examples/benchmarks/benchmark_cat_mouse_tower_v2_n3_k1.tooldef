@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Executes a benchmark for the 'bridge' model.
+// Executes a benchmark for the 'cat_mouse_tower' model, for v=2, n=3 and k=1.
 // Configure the settings to benchmark in 'benchmark__settings.tooldef'.
 
 from "benchmark__base.tooldef" import *;
 
-benchmark("bridge", "bridge", "requirements.cif");
+benchmark("cmt_v2_n3_k1", "cat_mouse_tower", "cat_mouse_tower_v2_n3_k1.cif");

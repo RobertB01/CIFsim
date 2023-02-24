@@ -16,4 +16,4 @@
 
 from "benchmark__base.tooldef" import *;
 
-benchmark("dining_philosophers", "dining_philosophers.cif");
+benchmark("dining_philosophers", "dining_philosophers", "dining_philosophers.cif");

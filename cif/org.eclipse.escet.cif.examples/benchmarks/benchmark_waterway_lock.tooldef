@@ -16,4 +16,4 @@
 
 from "benchmark__base.tooldef" import *;
 
-benchmark("waterway_lock", "waterway_lock.cif");
+benchmark("waterway_lock", "waterway_lock", "waterway_lock.cif");

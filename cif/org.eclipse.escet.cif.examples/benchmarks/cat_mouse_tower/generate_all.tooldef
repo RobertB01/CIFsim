@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,9 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Executes a benchmark for the 'bridge' model.
-// Configure the settings to benchmark in 'benchmark__settings.tooldef'.
+from "generator.tooldef" import *;
 
-from "benchmark__base.tooldef" import *;
-
-benchmark("bridge", "bridge", "requirements.cif");
+generate(1, 3, 2);
+generate(1, 5, 1);
+generate(1, 5, 3);
+generate(1, 10, 1);
+generate(1, 10, 2);
+generate(2, 3, 1);
