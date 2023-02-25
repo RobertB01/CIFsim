@@ -228,9 +228,22 @@ list string html_lines = [
     "        padding-left: 0;",
     "      }",
     "    </style>",
+    "    <script>",
+    "      function applyOptions(opt) {",
+    "        const elements = document.querySelectorAll('[data-' + opt + ']');",
+    "        for (let i = 0; i < elements.length; i++) {",
+    "          elements[i].innerHTML = elements[i].getAttribute('data-' + opt);",
+    "        }",
+    "      }",
+    "    </script>",
     "  </head>",
     "  <body>",
     "    <h2>CIF data-based synthesis benchmark results overview</h2>",
+    "    <div class='section'>Options:</div>",
+    "    <input type='radio' id='metric-value-opt-abs' name='metric-value-opt' value='abs' onclick=\"applyOptions('abs')\" checked>",
+    "    <label for='metric-value-opt-abs'>Absolute metric values</label><br>",
+    "    <input type='radio' id='metric-value-opt-rel' name='metric-value-opt' value='rel' onclick=\"applyOptions('rel')\">",
+    "    <label for='metric-value-opt-rel'>Relative metric values (relative to best value)</label><br>",
     "    <div class='section'>Legend (per metric, per model/column):</div>",
     "    <table class='legend'>",
     "      <tr>",
@@ -320,22 +333,26 @@ for idx, config in enumerate(configs):
     for idx2, name in enumerate(names):
         long value_nodes = metrics_nodes[name][idx + 1];
         long value_ops   = metrics_ops  [name][idx + 1];
-        string text_nodes;
+        string text_nodes_abs, text_nodes_rel;
         if value_nodes == -1:
-            text_nodes = "?";
+            text_nodes_abs = "?";
+            text_nodes_rel = "?";
         else
-            text_nodes = <string>escape(fmt("%,d", value_nodes));
+            text_nodes_abs = <string>escape(fmt("%,d", value_nodes));
+            text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes / best_values_nodes[idx2]));
         end
-        string text_ops;
+        string text_ops_abs, text_ops_rel;
         if value_ops == -1:
-            text_ops = "?";
+            text_ops_abs = "?";
+            text_ops_rel = "?";
         else
-            text_ops = <string>escape(fmt("%,d", value_ops));
+            text_ops_abs = <string>escape(fmt("%,d", value_ops));
+            text_ops_rel = <string>escape(fmt("%,.3f", value_ops / best_values_ops[idx2]));
         end
         tuple(string, string) cs_nodes = get_classes_and_style(value_nodes, best_values_nodes[idx2], worst_values_nodes[idx2]);
         tuple(string, string) cs_ops   = get_classes_and_style(value_ops  , best_values_ops  [idx2], worst_values_ops  [idx2]);
-        lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes)];
-        lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops  )];
+        lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes_abs, text_nodes_rel, text_nodes_abs)];
+        lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops_abs,   text_ops_rel,   text_ops_abs)];
     end
     lines_nodes = lines_nodes + ["      </tr>"];
     lines_ops   = lines_ops   + ["      </tr>"];
