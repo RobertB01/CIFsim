@@ -19,7 +19,7 @@
 
 // HMI LED Exterior Mirror.
 
-plant automaton LED_EM_top:
+plant LED_EM_top:
   controllable c_on, c_off;
 
   location Off:
@@ -30,7 +30,7 @@ plant automaton LED_EM_top:
     edge c_off goto Off;
 end
 
-plant automaton LED_EM_left:
+plant LED_EM_left:
   controllable c_on, c_off;
 
   location Off:
@@ -41,7 +41,7 @@ plant automaton LED_EM_left:
     edge c_off goto Off;
 end
 
-plant automaton LED_EM_bottom:
+plant LED_EM_bottom:
   controllable c_on, c_off;
 
   location Off:
@@ -52,7 +52,7 @@ plant automaton LED_EM_bottom:
     edge c_off goto Off;
 end
 
-plant automaton LED_EM_right:
+plant LED_EM_right:
   controllable c_on, c_off;
 
   location Off:
@@ -63,18 +63,14 @@ plant automaton LED_EM_right:
     edge c_off goto Off;
 end
 
-plant automaton PRESENCE_CHECK_HMI_LED_EM:
-  location:
-    initial; marked;
-    edge LED_EM_top.c_off when FLEDMir.present;
-    edge LED_EM_top.c_on when FLEDMir.present;
-    edge LED_EM_left.c_off when FLEDMir.present;
-    edge LED_EM_left.c_on when FLEDMir.present;
-    edge LED_EM_bottom.c_off when FLEDMir.present;
-    edge LED_EM_bottom.c_on when FLEDMir.present;
-    edge LED_EM_right.c_off when FLEDMir.present;
-    edge LED_EM_right.c_on when FLEDMir.present;
-end
+plant LED_EM_top.c_off needs FLEDMir.present;
+plant LED_EM_top.c_on needs FLEDMir.present;
+plant LED_EM_left.c_off needs FLEDMir.present;
+plant LED_EM_left.c_on needs FLEDMir.present;
+plant LED_EM_bottom.c_off needs FLEDMir.present;
+plant LED_EM_bottom.c_on needs FLEDMir.present;
+plant LED_EM_right.c_off needs FLEDMir.present;
+plant LED_EM_right.c_on needs FLEDMir.present;
 
 requirement LED_EM_top.c_on needs positionEM.EM_top or positionEM.EM_top_left or positionEM.EM_top_right;
 requirement LED_EM_top.c_off needs positionEM.EM_hor_pending or positionEM.EM_hor_left or positionEM.EM_hor_right;
@@ -90,7 +86,7 @@ requirement LED_EM_right.c_off needs positionEM.EM_hor_pending or positionEM.EM_
 
 // LED Finger Protection.
 
-plant automaton LED_PW_FP:
+plant LED_PW_FP:
   controllable c_on, c_off;
 
   location Off:
@@ -101,19 +97,15 @@ plant automaton LED_PW_FP:
     edge c_off goto Off;
 end
 
-plant automaton PRESENCE_CONTROLLED_LED_FP:
-  location:
-    initial; marked;
-    edge LED_PW_FP.c_on when FLEDFP.present;
-    edge LED_PW_FP.c_off when FLEDFP.present;
-end
+plant LED_PW_FP.c_on needs FLEDFP.present;
+plant LED_PW_FP.c_off needs FLEDFP.present;
 
 requirement LED_PW_up.c_on needs fingerPW.On;
 requirement LED_PW_up.c_off needs fingerPW.Off;
 
 // LED Power Window.
 
-plant automaton LED_PW_up:
+plant LED_PW_up:
   controllable c_on, c_off;
 
   location Off:
@@ -124,7 +116,7 @@ plant automaton LED_PW_up:
     edge c_off goto Off;
 end
 
-plant automaton LED_PW_dn:
+plant LED_PW_dn:
   controllable c_on, c_off;
 
   location Off:
@@ -135,14 +127,10 @@ plant automaton LED_PW_dn:
     edge c_off goto Off;
 end
 
-plant automaton PRESENCE_CONTROLLED_PW_DN_UP:
-  location:
-    initial; marked;
-    edge LED_PW_up.c_on when FLEDPW.present;
-    edge LED_PW_up.c_off when FLEDPW.present;
-    edge LED_PW_dn.c_on when FLEDPW.present;
-    edge LED_PW_dn.c_off when FLEDPW.present;
-end
+plant LED_PW_up.c_on needs FLEDPW.present;
+plant LED_PW_up.c_off needs FLEDPW.present;
+plant LED_PW_dn.c_on needs FLEDPW.present;
+plant LED_PW_dn.c_off needs FLEDPW.present;
 
 requirement LED_PW_up.c_on needs motorPW.Up;
 requirement LED_PW_up.c_off needs motorPW.Idle;
@@ -151,7 +139,7 @@ requirement LED_PW_dn.c_off needs motorPW.Idle;
 
 // LED Exterior Mirror Heating.
 
-plant automaton LED_EM_heating:
+plant LED_EM_heating:
   controllable c_on, c_off;
 
   location Off:
@@ -162,19 +150,15 @@ plant automaton LED_EM_heating:
     edge c_off goto Off;
 end
 
-plant automaton PRESENCE_CONTROLLED_EM_HEAT:
-  location:
-    initial; marked;
-    edge LED_EM_heating.c_on when FLEDHeat.present;
-    edge LED_EM_heating.c_off when FLEDHeat.present;
-end
+plant LED_EM_heating.c_on needs FLEDHeat.present;
+plant LED_EM_heating.c_off needs FLEDHeat.present;
 
 requirement LED_EM_heating.c_on needs EM_heating.On;
 requirement LED_EM_heating.c_off needs EM_heating.Off;
 
 // LED Central Locking.
 
-plant automaton LED_CLS:
+plant LED_CLS:
   controllable c_on, c_off;
 
   location Off:
@@ -185,19 +169,15 @@ plant automaton LED_CLS:
     edge c_off goto Off;
 end
 
-plant automaton PRESENCE_CONTROLLED_LED_CLS:
-  location:
-    initial; marked;
-    edge LED_CLS.c_on when FLEDCLS.present;
-    edge LED_CLS.c_off when FLEDCLS.present;
-end
+plant LED_CLS.c_on needs FLEDCLS.present;
+plant LED_CLS.c_off needs FLEDCLS.present;
 
 requirement LED_CLS.c_on needs CLS.Locked;
 requirement LED_CLS.c_off needs CLS.Unlocked;
 
 // LED Alarm System.
 
-plant automaton LED_AS_active:
+plant LED_AS_active:
   controllable c_on, c_off;
 
   location Off:
@@ -208,7 +188,7 @@ plant automaton LED_AS_active:
     edge c_off goto Off;
 end
 
-plant automaton LED_AS_alarm:
+plant LED_AS_alarm:
   controllable c_on, c_off;
 
   location Off:
@@ -219,7 +199,7 @@ plant automaton LED_AS_alarm:
     edge c_off goto Off;
 end
 
-plant automaton LED_AS_alarm_det:
+plant LED_AS_alarm_det:
   controllable c_on, c_off;
 
   location Off:
@@ -230,7 +210,7 @@ plant automaton LED_AS_alarm_det:
     edge c_off goto Off;
 end
 
-plant automaton LED_AS_IM:
+plant LED_AS_IM:
   controllable c_on, c_off;
 
   location Off:
@@ -241,18 +221,14 @@ plant automaton LED_AS_IM:
     edge c_off goto Off;
 end
 
-plant automaton PRESENCE_CONTROLLED_LED_AS:
-  location:
-    initial; marked;
-    edge LED_AS_active.c_on when FLEDAlarm.present;
-    edge LED_AS_active.c_off when FLEDAlarm.present;
-    edge LED_AS_alarm.c_on when FLEDAlarm.present;
-    edge LED_AS_alarm.c_off when FLEDAlarm.present;
-    edge LED_AS_alarm_det.c_on when FLEDAlarm.present;
-    edge LED_AS_alarm_det.c_off when FLEDAlarm.present;
-    edge LED_AS_IM.c_on when FLEDAlarm.present;
-    edge LED_AS_IM.c_off when FLEDAlarm.present;
-end
+plant LED_AS_active.c_on needs FLEDAlarm.present;
+plant LED_AS_active.c_off needs FLEDAlarm.present;
+plant LED_AS_alarm.c_on needs FLEDAlarm.present;
+plant LED_AS_alarm.c_off needs FLEDAlarm.present;
+plant LED_AS_alarm_det.c_on needs FLEDAlarm.present;
+plant LED_AS_alarm_det.c_off needs FLEDAlarm.present;
+plant LED_AS_IM.c_on needs FLEDAlarm.present;
+plant LED_AS_IM.c_off needs FLEDAlarm.present;
 
 requirement LED_AS_active.c_on needs AlarmSystem.Activated;
 requirement LED_AS_active.c_off needs AlarmSystem.Deactivated;
@@ -270,7 +246,7 @@ requirement LED_AS_IM.c_off needs InteriorMonitoring.Off;
 
 // Power Window.
 
-plant automaton buttonPW:
+plant buttonPW:
   uncontrollable u_up, u_down, u_released;
 
   location Idle:
@@ -287,7 +263,7 @@ plant automaton buttonPW:
     edge u_down goto Down;
 end
 
-plant automaton sensorPW:
+plant sensorPW:
   uncontrollable u_up, u_down, u_inBetween;
 
   location InBetween:
@@ -302,7 +278,7 @@ plant automaton sensorPW:
     edge u_inBetween goto InBetween;
 end
 
-plant automaton fingerPW:
+plant fingerPW:
   uncontrollable u_fingerDetected;
   controllable c_fingerReleased;
 
@@ -314,7 +290,7 @@ plant automaton fingerPW:
     edge c_fingerReleased goto Off;
 end
 
-plant automaton motorPW:
+plant motorPW:
   controllable c_up, c_down, c_off_dn, c_off_up;
 
   location Idle:
@@ -339,27 +315,19 @@ plant automaton motorPW:
     edge CLS.c_unlock goto Down;
 end
 
-plant automaton PRESENCE_UNCONTROLLED_PW:
-  location:
-    initial; marked;
-    edge buttonPW.u_up when FPowerW.present;
-    edge buttonPW.u_down when FPowerW.present;
-    edge buttonPW.u_released when FPowerW.present;
-    edge sensorPW.u_up when FPowerW.present;
-    edge sensorPW.u_down when FPowerW.present;
-    edge sensorPW.u_inBetween when FPowerW.present;
-    edge fingerPW.u_fingerDetected when FFingerP.present;
-end
+plant buttonPW.u_up needs FPowerW.present;
+plant buttonPW.u_down needs FPowerW.present;
+plant buttonPW.u_released needs FPowerW.present;
+plant sensorPW.u_up needs FPowerW.present;
+plant sensorPW.u_down needs FPowerW.present;
+plant sensorPW.u_inBetween needs FPowerW.present;
+plant fingerPW.u_fingerDetected needs FFingerP.present;
 
-plant automaton PRESENCE_CONTROLLED_PW:
-  location:
-    initial; marked;
-    edge fingerPW.c_fingerReleased when FFingerP.present;
-    edge motorPW.c_up when FPowerW.present;
-    edge motorPW.c_down when FPowerW.present;
-    edge motorPW.c_off_dn when FPowerW.present;
-    edge motorPW.c_off_up when FPowerW.present;
-end
+plant fingerPW.c_fingerReleased needs FFingerP.present;
+plant motorPW.c_up needs FPowerW.present;
+plant motorPW.c_down needs FPowerW.present;
+plant motorPW.c_off_dn needs FPowerW.present;
+plant motorPW.c_off_up needs FPowerW.present;
 
 requirement motorPW.c_up needs buttonPW.Up or RCK_PW.Up;
 requirement motorPW.c_up needs fingerPW.Off;
@@ -377,7 +345,7 @@ requirement fingerPW.c_fingerReleased needs buttonPW.Down;
 
 // Exterior Mirror.
 
-plant automaton buttonEM:
+plant buttonEM:
   uncontrollable u_up, u_down, u_left, u_right, u_released;
 
   location Idle:
@@ -400,7 +368,7 @@ plant automaton buttonEM:
     edge u_released goto Idle;
 end
 
-plant automaton positionEM:
+plant positionEM:
   uncontrollable u_pos_top, u_pos_down, u_pos_left, u_pos_right;
   uncontrollable u_rel_top, u_rel_down, u_rel_left, u_rel_right;
 
@@ -444,7 +412,7 @@ plant automaton positionEM:
     edge u_rel_right goto EM_hor_pending;
 end
 
-plant automaton motorEM:
+plant motorEM:
   controllable c_left, c_right, c_up, c_down, c_off;
 
   location Idle:
@@ -467,32 +435,24 @@ plant automaton motorEM:
     edge c_off goto Idle;
 end
 
-plant automaton PRESENCE_UNCONTROLLED_EM:
-  location:
-    initial; marked;
-    edge buttonEM.u_up when FMir.present;
-    edge buttonEM.u_down when FMir.present;
-    edge buttonEM.u_left when FMir.present;
-    edge buttonEM.u_right when FMir.present;
-    edge positionEM.u_pos_top when FMir.present;
-    edge positionEM.u_pos_down when FMir.present;
-    edge positionEM.u_pos_left when FMir.present;
-    edge positionEM.u_pos_right when FMir.present;
-    edge positionEM.u_rel_top when FMir.present;
-    edge positionEM.u_rel_down when FMir.present;
-    edge positionEM.u_rel_left when FMir.present;
-    edge positionEM.u_rel_right when FMir.present;
-end
+plant buttonEM.u_up needs FMir.present;
+plant buttonEM.u_down needs FMir.present;
+plant buttonEM.u_left needs FMir.present;
+plant buttonEM.u_right needs FMir.present;
+plant positionEM.u_pos_top needs FMir.present;
+plant positionEM.u_pos_down needs FMir.present;
+plant positionEM.u_pos_left needs FMir.present;
+plant positionEM.u_pos_right needs FMir.present;
+plant positionEM.u_rel_top needs FMir.present;
+plant positionEM.u_rel_down needs FMir.present;
+plant positionEM.u_rel_left needs FMir.present;
+plant positionEM.u_rel_right needs FMir.present;
 
-plant automaton PRESENCE_CONTROLLED_EM:
-  location:
-    initial; marked;
-    edge motorEM.c_up when FMir.present;
-    edge motorEM.c_down when FMir.present;
-    edge motorEM.c_left when FMir.present;
-    edge motorEM.c_right when FMir.present;
-    edge motorEM.c_off when FMir.present;
-end
+plant motorEM.c_up needs FMir.present;
+plant motorEM.c_down needs FMir.present;
+plant motorEM.c_left needs FMir.present;
+plant motorEM.c_right needs FMir.present;
+plant motorEM.c_off needs FMir.present;
 
 requirement motorEM.c_left needs not(positionEM.EM_hor_left or positionEM.EM_top_left or positionEM.EM_bottom_left);
 requirement motorEM.c_right needs not(positionEM.EM_hor_right or positionEM.EM_top_right or positionEM.EM_bottom_right);
@@ -507,7 +467,7 @@ requirement motorEM.c_off needs buttonEM.Idle or RCK_EM.Idle;
 
 // Electric Mirror Heating.
 
-plant automaton EM_temp_time:
+plant EM_temp_time:
   uncontrollable u_lowtemp, u_done;
 
   location Heating_off:
@@ -518,7 +478,7 @@ plant automaton EM_temp_time:
     edge u_done goto Heating_off; // Time elapsed.
 end
 
-plant automaton EM_heating:
+plant EM_heating:
   controllable c_on, c_off;
 
   location Off:
@@ -529,26 +489,18 @@ plant automaton EM_heating:
     edge c_off goto Off;
 end
 
-plant automaton PRESENCE_UNCONTROLLED_MIRHEAT:
-  location:
-    initial; marked;
-    edge EM_temp_time.u_lowtemp when FMirHeat.present;
-    edge EM_temp_time.u_done when FMirHeat.present;
-end
+plant EM_temp_time.u_lowtemp needs FMirHeat.present;
+plant EM_temp_time.u_done needs FMirHeat.present;
 
-plant automaton PRESENCE_CONTROLLED_MIRHEAT:
-  location:
-    initial; marked;
-    edge EM_heating.c_on when FMirHeat.present;
-    edge EM_heating.c_off when FMirHeat.present;
-end
+plant EM_heating.c_on needs FMirHeat.present;
+plant EM_heating.c_off needs FMirHeat.present;
 
 requirement EM_heating.c_on needs EM_temp_time.Heating_on;
 requirement EM_heating.c_off needs EM_temp_time.Heating_off;
 
 // ECU Alarm System.
 
-plant automaton AlarmSystem:
+plant AlarmSystem:
   controllable c_on, c_off,c_deactivated, c_activated, c_IM_detected;
   uncontrollable u_detected, u_time_elapsed;
 
@@ -570,7 +522,7 @@ plant automaton AlarmSystem:
     edge u_time_elapsed goto On;
 end
 
-plant automaton InteriorMonitoring:
+plant InteriorMonitoring:
   uncontrollable u_detected, u_clear;
   controllable c_on, c_off;
 
@@ -587,25 +539,17 @@ plant automaton InteriorMonitoring:
     edge c_off goto Off;
 end
 
-plant automaton PRESENCE_UNCONTROLLED_AS:
-  location:
-    initial; marked;
-    edge AlarmSystem.u_detected when FAlarm.present;
-    edge AlarmSystem.u_time_elapsed when FAlarm.present;
-    edge InteriorMonitoring.u_detected when FInterMon.present;
-    edge InteriorMonitoring.u_clear when FInterMon.present;
-end
+plant AlarmSystem.u_detected needs FAlarm.present;
+plant AlarmSystem.u_time_elapsed needs FAlarm.present;
+plant InteriorMonitoring.u_detected needs FInterMon.present;
+plant InteriorMonitoring.u_clear needs FInterMon.present;
 
-plant automaton PRESENCE_CONTROLLED_AS:
-  location:
-    initial; marked;
-    edge AlarmSystem.c_on when FAlarm.present;
-    edge AlarmSystem.c_off when FAlarm.present;
-    edge AlarmSystem.c_deactivated when FAlarm.present;
-    edge AlarmSystem.c_IM_detected when FInterMon.present;
-    edge InteriorMonitoring.c_on when FInterMon.present;
-    edge InteriorMonitoring.c_off when FInterMon.present;
-end
+plant AlarmSystem.c_on needs FAlarm.present;
+plant AlarmSystem.c_off needs FAlarm.present;
+plant AlarmSystem.c_deactivated needs FAlarm.present;
+plant AlarmSystem.c_IM_detected needs FInterMon.present;
+plant InteriorMonitoring.c_on needs FInterMon.present;
+plant InteriorMonitoring.c_off needs FInterMon.present;
 
 requirement AlarmSystem.c_on needs Key_lock.Locked or RCK_CLS.Locked;
 requirement AlarmSystem.c_off needs Key_lock.Unlocked or RCK_CLS.Unlocked;
@@ -616,7 +560,7 @@ requirement InteriorMonitoring.c_off needs Key_lock.Unlocked or RCK_CLS.Unlocked
 
 // ECU Central Locking System (CLS).
 
-plant automaton Key_lock:
+plant Key_lock:
   uncontrollable u_lock, u_unlock;
 
   location Unlocked:
@@ -627,7 +571,7 @@ plant automaton Key_lock:
     edge u_unlock goto Unlocked;
 end
 
-plant automaton CLS:
+plant CLS:
   controllable c_lock, c_unlock;
 
   location Unlocked:
@@ -639,7 +583,7 @@ plant automaton CLS:
     edge c_unlock goto Unlocked;
 end
 
-plant automaton Auto_lock:
+plant Auto_lock:
   uncontrollable u_drive_lock, u_door_open_unlock;
 
   location Unlocked:
@@ -651,28 +595,20 @@ plant automaton Auto_lock:
     edge u_door_open_unlock goto Unlocked;
 end
 
-plant automaton PRESENCE_UNCONTROLLED_CLS:
-  location:
-    initial; marked;
-    edge Key_lock.u_lock when FCLS.present;
-    edge Key_lock.u_unlock when FCLS.present;
-    edge Auto_lock.u_drive_lock when FAutoL.present;
-    edge Auto_lock.u_door_open_unlock when FAutoL.present;
-end
+plant Key_lock.u_lock needs FCLS.present;
+plant Key_lock.u_unlock needs FCLS.present;
+plant Auto_lock.u_drive_lock needs FAutoL.present;
+plant Auto_lock.u_door_open_unlock needs FAutoL.present;
 
-plant automaton PRESENCE_CONTROLLED_CLS:
-  location:
-    initial; marked;
-    edge CLS.c_lock when FCLS.present;
-    edge CLS.c_unlock when FCLS.present;
-end
+plant CLS.c_lock needs FCLS.present;
+plant CLS.c_unlock needs FCLS.present;
 
 requirement CLS.c_lock needs Key_lock.Locked or RCK_CLS.Locked or Auto_lock.Locked;
 requirement CLS.c_unlock needs Key_lock.Unlocked or RCK_CLS.Unlocked;
 
 // *** RCK ***
 
-plant automaton RCK_CLS:
+plant RCK_CLS:
   uncontrollable u_lock, u_unlock;
 
   location Unlocked:
@@ -684,7 +620,7 @@ plant automaton RCK_CLS:
     edge u_unlock goto Unlocked;
 end
 
-plant automaton Safety_fcn:
+plant Safety_fcn:
   uncontrollable u_time_elapsed_lock, u_door_open;
   controllable c_locked, c_unlock;
 
@@ -701,7 +637,7 @@ plant automaton Safety_fcn:
     edge CLS.c_lock goto Idle;
 end
 
-plant automaton RCK_PW:
+plant RCK_PW:
   uncontrollable u_up, u_down, u_released;
 
   location Idle:
@@ -716,7 +652,7 @@ plant automaton RCK_PW:
     edge u_released goto Idle;
 end
 
-plant automaton RCK_EM:
+plant RCK_EM:
   uncontrollable u_up, u_down, u_left, u_right, u_released;
 
   location Idle:
@@ -739,28 +675,20 @@ plant automaton RCK_EM:
     edge u_released goto Idle;
 end
 
-plant automaton PRESENCE_UNCONTROLLED_SAFETY_RCK:
-  location:
-    initial; marked;
-    edge Safety_fcn.u_time_elapsed_lock when FSafe.present;
-    edge Safety_fcn.u_door_open when FSafe.present;
-    edge RCK_CLS.u_lock when FCLS.present;
-    edge RCK_CLS.u_unlock when FCLS.present;
-    edge RCK_PW.u_up when FCtrAutoPW.present;
-    edge RCK_PW.u_down when FCtrAutoPW.present;
-    edge RCK_PW.u_released when FCtrAutoPW.present;
-    edge RCK_EM.u_up when FAdjMir.present;
-    edge RCK_EM.u_down when FAdjMir.present;
-    edge RCK_EM.u_left when FAdjMir.present;
-    edge RCK_EM.u_right when FAdjMir.present;
-    edge RCK_EM.u_released when FAdjMir.present;
-end
+plant Safety_fcn.u_time_elapsed_lock needs FSafe.present;
+plant Safety_fcn.u_door_open needs FSafe.present;
+plant RCK_CLS.u_lock needs FCLS.present;
+plant RCK_CLS.u_unlock needs FCLS.present;
+plant RCK_PW.u_up needs FCtrAutoPW.present;
+plant RCK_PW.u_down needs FCtrAutoPW.present;
+plant RCK_PW.u_released needs FCtrAutoPW.present;
+plant RCK_EM.u_up needs FAdjMir.present;
+plant RCK_EM.u_down needs FAdjMir.present;
+plant RCK_EM.u_left needs FAdjMir.present;
+plant RCK_EM.u_right needs FAdjMir.present;
+plant RCK_EM.u_released needs FAdjMir.present;
 
-plant automaton PRESENCE_CONTROLLED_SAFETY_RCK:
-  location:
-    initial; marked;
-    edge Safety_fcn.c_unlock when FSafe.present;
-    edge Safety_fcn.c_locked when FSafe.present;
-end
+plant Safety_fcn.c_unlock needs FSafe.present;
+plant Safety_fcn.c_locked needs FSafe.present;
 
 requirement Safety_fcn.c_unlock needs RCK_CLS.Unlocked;
