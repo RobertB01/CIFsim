@@ -96,6 +96,9 @@ list string html_lines = [
     "    <title>Benchmark results overview</title>",
     "    <meta charset='utf-8'>",
     "    <style>",
+    "      html {",
+    "        font-family: 'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans','Liberation Sans',sans-serif;",
+    "      }",
     "      h2 {",
     "        margin: 0;",
     "      }",
@@ -154,6 +157,13 @@ list string html_lines = [
     "      }",
     "      table.main th.name {",
     "        text-align: center;",
+    "      }",
+    "      table.main td.config {",
+    "        font-family: monospace;",
+    "        white-space: pre-wrap;",
+    "      }",
+    "      table.main td.config.config-default {",
+    "        color: #888;",
     "      }",
     "      table.main td.metric {",
     "        text-align: right;",
@@ -267,7 +277,11 @@ tool tuple(string, string) get_classes_and_style(long value, long best_value, lo
 end
 
 for idx, config in enumerate(configs):
-    if empty(trim(config)):: config = "(default)";
+    string config_extra_classes;
+    if empty(trim(config)):
+        config = "(default)";
+        config_extra_classes = " config-default";
+    end
     bool last_config = idx == size(configs) - 1;
     string close_extra_classes;
     if last_config:: close_extra_classes = close_extra_classes + " class='last-row'";
@@ -275,8 +289,8 @@ for idx, config in enumerate(configs):
     lines_ops   = lines_ops   + [fmt("      <tr%s>", close_extra_classes)];
     lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", idx + 1, size(configs))];
     lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", idx + 1, size(configs))];
-    lines_nodes = lines_nodes + [fmt("        <td class='config'>%s</td>", escape(config))];
-    lines_ops   = lines_ops   + [fmt("        <td class='config'>%s</td>", escape(config))];
+    lines_nodes = lines_nodes + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
+    lines_ops   = lines_ops   + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
     for idx2, name in enumerate(names):
         long value_nodes = metrics_nodes[name][idx + 1];
         long value_ops   = metrics_ops  [name][idx + 1];
