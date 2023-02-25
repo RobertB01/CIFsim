@@ -50,8 +50,18 @@ for f in file_names:
     for line in lines:
         list string parts = split(line, ",");
         int config_nr = <int>valueOf(trim(parts[0]));
-        long nodes_cnt = <long>valueOf(trim(parts[2]));
-        long ops_cnt   = <long>valueOf(trim(parts[3]));
+        long nodes_cnt;
+        if trim(parts[2]) == "?":
+            nodes_cnt = -1;
+        else
+            nodes_cnt = <long>valueOf(trim(parts[2]));
+        end
+        long ops_cnt;
+        if trim(parts[3]) == "?":
+            ops_cnt = -1;
+        else
+            ops_cnt = <long>valueOf(trim(parts[3]));
+        end
         metrics_nodes[name][config_nr] = nodes_cnt;
         metrics_ops  [name][config_nr] = ops_cnt;
         if first_file:
@@ -78,10 +88,10 @@ for name in names:
     long best_value_ops    = max_long;
     long worst_value_nodes = -1;
     long worst_value_ops   = -1;
-    for value in values(metrics_nodes[name]):: best_value_nodes  = min(best_value_nodes , value);
-    for value in values(metrics_ops  [name]):: best_value_ops    = min(best_value_ops   , value);
-    for value in values(metrics_nodes[name]):: worst_value_nodes = max(worst_value_nodes, value);
-    for value in values(metrics_ops  [name]):: worst_value_ops   = max(worst_value_ops  , value);
+    for value in values(metrics_nodes[name]):: if value != -1:: best_value_nodes  = min(best_value_nodes , value);
+    for value in values(metrics_ops  [name]):: if value != -1:: best_value_ops    = min(best_value_ops   , value);
+    for value in values(metrics_nodes[name]):: if value != -1:: worst_value_nodes = max(worst_value_nodes, value);
+    for value in values(metrics_ops  [name]):: if value != -1:: worst_value_ops   = max(worst_value_ops  , value);
     best_values_nodes  = best_values_nodes  + [best_value_nodes];
     best_values_ops    = best_values_ops    + [best_value_ops  ];
     worst_values_nodes = worst_values_nodes + [worst_value_nodes];
@@ -168,6 +178,13 @@ list string html_lines = [
     "      table.main td.metric {",
     "        text-align: right;",
     "      }",
+    "      table.legend td.metric.unknown {",
+    "        background: #cccccc;",
+    "      }",
+    "      table.main td.metric.unknown {",
+    "        background: #ccc;",
+    "        color: #222;",
+    "      }",
     "      table.legend td.metric.best {",
     "        background: #80ff00;",
     "      }",
@@ -222,6 +239,8 @@ list string html_lines = [
     "        <td class='text' colspan='2'>A bit worse</td>",
     "        <td class='sep'</td>",
     "        <td class='text' colspan='2'>Even worse</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text'>Unknown (error, out of memory, ...)</td>",
     "      </tr>",
     "      <tr>",
     "        <td class='metric best'>&nbsp;</td>",
@@ -229,6 +248,8 @@ list string html_lines = [
     "        <td class='metric worse1-gradient' colspan='2'>&nbsp;</td>",
     "        <td class='sep'</td>",
     "        <td class='metric worse2-gradient' colspan='2'>&nbsp;</td>",
+    "        <td class='sep'</td>",
+    "        <td class='metric unknown'>&nbsp;</td>",
     "      </tr>",
     "      <tr>",
     "        <td></td> <!-- Best -->",
@@ -238,6 +259,8 @@ list string html_lines = [
     "        <td class='sep'</td>",
     "        <td class='text left'>&times;2</td>",
     "        <td class='text right'>worst</td>",
+    "        <td class='sep'</td>",
+    "        <td></td> <!-- Unknown -->",
     "      </tr>",
     "    </table>",
     "    <table class='main section'>",
@@ -260,6 +283,9 @@ lines_nodes = lines_nodes + ["      </tr>"];
 lines_ops   = lines_ops   + ["      </tr>"];
 
 tool tuple(string, string) get_classes_and_style(long value, long best_value, long worst_value):
+    // Handle unknown value (synthesis resulted in an error, ran out of memory, crashed, etc).
+    if value == -1:: return " unknown", "";
+
     // Handle best value.
     if value == best_value:: return " best", "";
 
@@ -294,8 +320,18 @@ for idx, config in enumerate(configs):
     for idx2, name in enumerate(names):
         long value_nodes = metrics_nodes[name][idx + 1];
         long value_ops   = metrics_ops  [name][idx + 1];
-        string text_nodes = <string>escape(fmt("%,d", value_nodes));
-        string text_ops   = <string>escape(fmt("%,d", value_ops));
+        string text_nodes;
+        if value_nodes == -1:
+            text_nodes = "?";
+        else
+            text_nodes = <string>escape(fmt("%,d", value_nodes));
+        end
+        string text_ops;
+        if value_ops == -1:
+            text_ops = "?";
+        else
+            text_ops = <string>escape(fmt("%,d", value_ops));
+        end
         tuple(string, string) cs_nodes = get_classes_and_style(value_nodes, best_values_nodes[idx2], worst_values_nodes[idx2]);
         tuple(string, string) cs_ops   = get_classes_and_style(value_ops  , best_values_ops  [idx2], worst_values_ops  [idx2]);
         lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes)];
