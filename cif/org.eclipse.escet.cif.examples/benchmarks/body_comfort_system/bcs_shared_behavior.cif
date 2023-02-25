@@ -544,7 +544,7 @@ plant automaton PRESENCE_CONTROLLED_MIRHEAT:
 end
 
 requirement EM_heating.c_on needs EM_temp_time.Heating_on;
-requirement EM_heating.c_on needs EM_temp_time.Heating_off;
+requirement EM_heating.c_off needs EM_temp_time.Heating_off;
 
 // ECU Alarm System.
 
