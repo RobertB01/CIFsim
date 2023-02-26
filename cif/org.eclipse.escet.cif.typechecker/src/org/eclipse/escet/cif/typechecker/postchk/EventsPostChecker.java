@@ -15,12 +15,12 @@ package org.eclipse.escet.cif.typechecker.postchk;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Sets.set;
+import static org.eclipse.escet.common.java.Pair.pair;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -64,19 +64,19 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  */
 public class EventsPostChecker {
     /** Constructor for the {@link EventsPostChecker} class. */
-    private EventsPostChecker() {
-        // Static class.
+    public EventsPostChecker() {
+        // Nothing to do.
     }
 
     /**
      * The set of state/event exclusion invariants (needs variant) per event. Is filled during checking.
      */
-    private static Map<Event, Set<Pair<EventExpression, Expression>>> eventPredicatesNeeds = map();
+    private Map<Event, List<Pair<EventExpression, Expression>>> eventPredicatesNeeds = map();
 
     /**
      * The set of state/event exclusion invariants (disables variant) per event. Is filled during checking.
      */
-    private static Map<Event, Set<Pair<EventExpression, Expression>>> eventPredicatesDisables = map();
+    private Map<Event, List<Pair<EventExpression, Expression>>> eventPredicatesDisables = map();
 
     /**
      * Checks the specification for various constraints and dubious situations (see {@link EventsPostChecker}).
@@ -90,24 +90,18 @@ public class EventsPostChecker {
      *     definitions/instantiations.
      * @param env The post check environment to use.
      */
-    public static void check(ComplexComponent comp, CifPostCheckEnv env) {
-        // Recursively check for groups.
+    public void check(ComplexComponent comp, CifPostCheckEnv env) {
+        // Check invariants.
+        check(comp.getInvariants(), true, env);
+
         if (comp instanceof Group) {
+            // Check child components.
             for (Component child: ((Group)comp).getComponents()) {
                 check((ComplexComponent)child, env);
             }
-
-            // Check invariants.
-            check(comp.getInvariants(), true, env);
         } else if (comp instanceof Automaton) {
             // Check for automaton.
             check((Automaton)comp, env);
-
-            // Check invariants in component and locations.
-            check(comp.getInvariants(), true, env);
-            for (Location loc: ((Automaton)comp).getLocations()) {
-                check(loc.getInvariants(), false, env);
-            }
         }
     }
 
@@ -117,7 +111,12 @@ public class EventsPostChecker {
      * @param aut The automaton to check.
      * @param env The post check environment to use.
      */
-    private static void check(Automaton aut, CifPostCheckEnv env) {
+    private void check(Automaton aut, CifPostCheckEnv env) {
+        // Check invariants in locations.
+        for (Location loc: aut.getLocations()) {
+            check(loc.getInvariants(), false, env);
+        }
+
         // Check whether there is an explicit alphabet declaration. If there is, collect the events in a set and check
         // if there are duplicated events in there.
         EventRefSet explicitAlphabetSet = null;
@@ -258,13 +257,13 @@ public class EventsPostChecker {
      *     only in the provided list {@code false}.
      * @param env The post check environment to use.
      */
-    private static void check(List<Invariant> invariants, boolean checkGlobalDuplication, CifPostCheckEnv env) {
+    private void check(List<Invariant> invariants, boolean checkGlobalDuplication, CifPostCheckEnv env) {
         // Initialize mapping from an event to all its predicates.
-        Map<Event, Set<Pair<EventExpression, Expression>>> eventPredicates = map();
-        Map<Event, Set<Pair<EventExpression, Expression>>> localEventPredicatesDisables = map();
-        Map<Event, Set<Pair<EventExpression, Expression>>> localEventPredicatesNeeds = map();
+        Map<Event, List<Pair<EventExpression, Expression>>> localEventPredicatesDisables = map();
+        Map<Event, List<Pair<EventExpression, Expression>>> localEventPredicatesNeeds = map();
 
         for (Invariant invariant: invariants) {
+            Map<Event, List<Pair<EventExpression, Expression>>> eventPredicates;
             // For components look for global duplications, for locations don't do that, as the invariant is only
             // 'active' in that location.
             switch (invariant.getInvKind()) {
@@ -277,27 +276,27 @@ public class EventsPostChecker {
                 case STATE:
                     continue;
                 default:
-                    throw new RuntimeException();
+                    throw new RuntimeException("Unknown invariant kind: " + invariant.getInvKind());
             }
 
             // Get all predicates collected so far for this event.
             EventExpression eventExpresion = (EventExpression)invariant.getEvent();
             Event event = eventExpresion.getEvent();
-            Set<Pair<EventExpression, Expression>> previousPredicates = eventPredicates.getOrDefault(event, set());
+            List<Pair<EventExpression, Expression>> previousPredicates = eventPredicates.getOrDefault(event, list());
 
             // Loop over previously encountered predicates and warn for duplicates.
             for (Pair<EventExpression, Expression> previousPredicate: previousPredicates) {
                 if (CifValueUtils.areStructurallySameExpression(invariant.getPredicate(), previousPredicate.right)) {
                     // Add warning to this invariant.
-                    env.addProblem(ErrMsg.INV_DUPL_EVENT, eventExpresion.getPosition(), event.getName());
+                    env.addProblem(ErrMsg.INV_DUPL_EVENT, eventExpresion.getPosition(), getAbsName(event));
 
                     // Add warning to previously encountered invariant.
-                    env.addProblem(ErrMsg.INV_DUPL_EVENT, previousPredicate.left.getPosition(), event.getName());
+                    env.addProblem(ErrMsg.INV_DUPL_EVENT, previousPredicate.left.getPosition(), getAbsName(event));
                 }
             }
 
             // Save predicates.
-            Pair<EventExpression, Expression> currentPredicate = new Pair<>(eventExpresion, invariant.getPredicate());
+            Pair<EventExpression, Expression> currentPredicate = pair(eventExpresion, invariant.getPredicate());
             previousPredicates.add(currentPredicate);
             eventPredicates.put(event, previousPredicates);
         }

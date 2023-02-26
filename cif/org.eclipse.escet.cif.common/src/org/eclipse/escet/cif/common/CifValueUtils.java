@@ -1640,8 +1640,14 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof CastExpression cexpr1 && expr2 instanceof CastExpression cexpr2) {
-            return areStructurallySameExpression(cexpr1.getChild(), cexpr2.getChild())
-                    && cexpr1.getType().getClass().equals(cexpr2.getType().getClass());
+            if (!areStructurallySameExpression(cexpr1.getChild(), cexpr2.getChild())) {
+                return false;
+            }
+            if (!cexpr1.getType().getClass().equals(cexpr2.getType().getClass())) {
+                return false;
+            }
+
+            return true;
         }
 
         if (expr1 instanceof UnaryExpression uexpr1 && expr2 instanceof UnaryExpression uexpr2) {
@@ -1699,11 +1705,11 @@ public class CifValueUtils {
                 if (!areStructurallySameExpression(elif1.getThen(), elif2.getThen())) {
                     return false;
                 }
+            }
 
-                // Check same else
-                if (!areStructurallySameExpression(iexpr1.getElse(), iexpr2.getElse())) {
-                    return false;
-                }
+            // Check same else.
+            if (!areStructurallySameExpression(iexpr1.getElse(), iexpr2.getElse())) {
+                return false;
             }
 
             return true;
@@ -1724,7 +1730,13 @@ public class CifValueUtils {
             for (int i = 0; i < sexpr1.getCases().size(); i++) {
                 SwitchCase switchCase1 = sexpr1.getCases().get(i);
                 SwitchCase switchCase2 = sexpr2.getCases().get(i);
-                if (!(switchCase1.getKey() == null && switchCase2.getKey() == null)
+                if ((switchCase1.getKey() == null && switchCase2.getKey() != null)
+                        || (switchCase1.getKey() != null && switchCase2.getKey() == null))
+                {
+                    return false;
+                }
+
+                if (switchCase1.getKey() != null && switchCase2.getKey() != null
                         && !areStructurallySameExpression(switchCase1.getKey(), switchCase2.getKey()))
                 {
                     return false;
@@ -1744,9 +1756,29 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof SliceExpression sexpr1 && expr2 instanceof SliceExpression sexpr2) {
-            return areStructurallySameExpression(sexpr1.getBegin(), sexpr2.getBegin())
-                    && areStructurallySameExpression(sexpr1.getEnd(), sexpr2.getEnd())
-                    && areStructurallySameExpression(sexpr1.getChild(), sexpr2.getChild());
+            if (sexpr1.getBegin() != null && sexpr2.getBegin() != null
+                    && !areStructurallySameExpression(sexpr1.getChild(), sexpr2.getChild()))
+            {
+                return false;
+            }
+            if ((sexpr1.getBegin() == null && sexpr2.getBegin() != null)
+                    || (sexpr1.getBegin() != null && sexpr2.getBegin() == null))
+            {
+                return false;
+            }
+
+            if (sexpr1.getEnd() != null && sexpr2.getEnd() != null
+                    && !areStructurallySameExpression(sexpr1.getChild(), sexpr2.getChild()))
+            {
+                return false;
+            }
+            if ((sexpr1.getEnd() == null && sexpr2.getEnd() != null)
+                    || (sexpr1.getEnd() != null && sexpr2.getEnd() == null))
+            {
+                return false;
+            }
+
+            return areStructurallySameExpression(sexpr1.getChild(), sexpr2.getChild());
         }
 
         if (expr1 instanceof FunctionCallExpression fcexpr1 && expr2 instanceof FunctionCallExpression fcexpr2) {
@@ -1836,7 +1868,7 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof ContVariableExpression cexpr1 && expr2 instanceof ContVariableExpression cexpr2) {
-            return cexpr1.getVariable().equals(cexpr2.getVariable());
+            return cexpr1.getVariable().equals(cexpr2.getVariable()) && cexpr1.isDerivative() == cexpr2.isDerivative();
         }
 
         if (expr1 instanceof TauExpression && expr2 instanceof TauExpression) {
@@ -1897,7 +1929,7 @@ public class CifValueUtils {
             return CifScopeUtils.getScope(expr1).equals(CifScopeUtils.getScope(expr2));
         }
 
-        throw new RuntimeException("Unexpected expression: " + expr1);
+        throw new RuntimeException("Unexpected expressions: " + expr1 + ", " + expr2);
     }
 
     /**

@@ -243,7 +243,8 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
             // - Event in explicit alphabet not on edge.
             // - Monitored event not on edge.
             // - Monitoring an empty alphabet.
-            EventsPostChecker.check(specNoCompDef, env);
+            EventsPostChecker epc = new EventsPostChecker();
+            epc.check(specNoCompDef, env);
         }
 
         // Check specification to ensure all objects have position information.
