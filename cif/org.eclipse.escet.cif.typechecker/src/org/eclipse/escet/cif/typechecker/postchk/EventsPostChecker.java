@@ -54,6 +54,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * <li>'Edge.uniqueEvents' constraint.</li>
  * <li>'Automaton.validAlphabet' constraint.</li>
  * <li>'Automaton.monitorsSubsetAlphabet' constraint.</li>
+ * <li>'Invariant.unique' constant.</li>
  * </ul>
  * Also warns about the following dubious situations:
  * <ul>
@@ -63,19 +64,10 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </ul>
  */
 public class EventsPostChecker {
-    /** Constructor for the {@link EventsPostChecker} class. */
-    public EventsPostChecker() {
-        // Nothing to do.
-    }
-
-    /**
-     * The set of state/event exclusion invariants (needs variant) per event. Is filled during checking.
-     */
+    /** The set of state/event exclusion invariants (needs variant) per event. Is filled during checking. */
     private Map<Event, List<Pair<EventExpression, Expression>>> eventPredicatesNeeds = map();
 
-    /**
-     * The set of state/event exclusion invariants (disables variant) per event. Is filled during checking.
-     */
+    /** The set of state/event exclusion invariants (disables variant) per event. Is filled during checking. */
     private Map<Event, List<Pair<EventExpression, Expression>>> eventPredicatesDisables = map();
 
     /**
@@ -263,9 +255,9 @@ public class EventsPostChecker {
         Map<Event, List<Pair<EventExpression, Expression>>> localEventPredicatesNeeds = map();
 
         for (Invariant invariant: invariants) {
-            Map<Event, List<Pair<EventExpression, Expression>>> eventPredicates;
             // For components look for global duplications, for locations don't do that, as the invariant is only
             // 'active' in that location.
+            Map<Event, List<Pair<EventExpression, Expression>>> eventPredicates;
             switch (invariant.getInvKind()) {
                 case EVENT_DISABLES:
                     eventPredicates = checkGlobalDuplication ? eventPredicatesDisables : localEventPredicatesDisables;

@@ -288,7 +288,7 @@ public enum ErrMsg {
     // AST related constraint.
     INV_REF_IN_EXPR("Cannot use \"%s\" as a value, as it is an invariant.", 1, ERROR),
 
-    // AST related constraint.
+    // Invariant.unique.
     INV_DUPL_EVENT("Duplicate invariant for event \"%s\".", 1, WARNING),
 
     // UnaryExpression.type

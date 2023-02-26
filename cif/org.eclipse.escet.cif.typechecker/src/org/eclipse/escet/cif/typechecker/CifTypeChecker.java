@@ -233,18 +233,8 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
             // Check 'Automaton.uniqueUsagePerEvent' constraint.
             SingleEventUsePerAutPostChecker.check(specNoCompDef, env);
 
-            // Checks the following:
-            // - 'Alphabet.uniqueEvents' constraint.
-            // - 'Automaton.monitorsUniqueEvents' constraint.
-            // - 'Edge.uniqueEvents' constraint.
-            // - 'Automaton.validAlphabet' constraint.
-            // - 'Automaton.monitorsSubsetAlphabet' constraint.
-            // Also warns about the following dubious situations:
-            // - Event in explicit alphabet not on edge.
-            // - Monitored event not on edge.
-            // - Monitoring an empty alphabet.
-            EventsPostChecker epc = new EventsPostChecker();
-            epc.check(specNoCompDef, env);
+            // Checks various constraints related to duplications and implicit versus explicit alphabet.
+            new EventsPostChecker().check(specNoCompDef, env);
         }
 
         // Check specification to ensure all objects have position information.

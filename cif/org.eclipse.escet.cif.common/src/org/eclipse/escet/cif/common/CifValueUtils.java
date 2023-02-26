@@ -1730,9 +1730,7 @@ public class CifValueUtils {
             for (int i = 0; i < sexpr1.getCases().size(); i++) {
                 SwitchCase switchCase1 = sexpr1.getCases().get(i);
                 SwitchCase switchCase2 = sexpr2.getCases().get(i);
-                if ((switchCase1.getKey() == null && switchCase2.getKey() != null)
-                        || (switchCase1.getKey() != null && switchCase2.getKey() == null))
-                {
+                if ((switchCase1.getKey() == null) != (switchCase2.getKey() == null)) {
                     return false;
                 }
 
@@ -1761,9 +1759,7 @@ public class CifValueUtils {
             {
                 return false;
             }
-            if ((sexpr1.getBegin() == null && sexpr2.getBegin() != null)
-                    || (sexpr1.getBegin() != null && sexpr2.getBegin() == null))
-            {
+            if ((sexpr1.getBegin() == null) != (sexpr2.getBegin() == null)) {
                 return false;
             }
 
@@ -1772,9 +1768,7 @@ public class CifValueUtils {
             {
                 return false;
             }
-            if ((sexpr1.getEnd() == null && sexpr2.getEnd() != null)
-                    || (sexpr1.getEnd() != null && sexpr2.getEnd() == null))
-            {
+            if ((sexpr1.getEnd() == null) != (sexpr2.getEnd() == null)) {
                 return false;
             }
 
@@ -1786,6 +1780,8 @@ public class CifValueUtils {
                 return false;
             }
 
+            // Since only valid expressions are checked, and these are the same functions, they must have the same
+            // number of arguments.
             for (int i = 0; i < fcexpr1.getParams().size(); i++) {
                 if (!areStructurallySameExpression(fcexpr1.getParams().get(i), fcexpr2.getParams().get(i))) {
                     return false;
