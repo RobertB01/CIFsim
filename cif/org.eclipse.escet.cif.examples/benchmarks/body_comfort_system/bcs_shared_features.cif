@@ -1,0 +1,106 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Model for a Body Comfort System (BCS) product line:
+//  - The product line has various standard and optional features, such as interface LEDs, manual or automatic windows,
+//    security options, etc.
+//  - This file models the features and feature constraints.
+//  - It supports either static or dynamic feature configuration, once combined with a 'Feature' definition, in
+//    `BCS_static.cif' or 'BCS_dynamic.cif'.
+
+// ***
+// Feature declarations, by level of the feature model.
+// ***
+
+// Level 1.
+FBCS: Feature();
+
+// Level 2.
+FHMI: Feature(); FDoor: Feature(); FSecu: Feature();
+
+// Level 3.
+FPowerW: Feature(); FMir: Feature(); FAlarm: Feature(); FRCKey: Feature(); FCLS: Feature();
+
+// Level 4.
+FLED: Feature(); FFingerP: Feature(); FAutoPW: Feature(); FManPW: Feature(); FMirE: Feature(); FMirHeat: Feature();
+FInterMon: Feature(); FCtrAlarm: Feature(); FCtrAutoPW: Feature(); FSafe: Feature(); FAdjMir: Feature();
+FAutoL: Feature();
+
+// Level 5.
+FLEDMir: Feature(); FLEDFP: Feature(); FLEDPW: Feature(); FLEDCLS: Feature(); FLEDAlarm: Feature(); FLEDHeat: Feature();
+
+// ***
+// Feature relations, locally by level of the feature model, and separately for cross-tree constraints.
+// ***
+
+// Level 1.
+alg bool r11 = FBCS.present; // Root feature present.
+
+// Level 2.
+alg bool r21 = FBCS.present <=> FHMI.present; // HMI mandatory.
+alg bool r22 = FBCS.present <=> FDoor.present; // Door mandatory.
+alg bool r23 = FSecu.present => FBCS.present; // Security optional.
+
+// Level 3.
+alg bool r31 = FDoor.present <=> FPowerW.present; // PW mandatory.
+alg bool r32 = FDoor.present <=> FMir.present; //EM mandatory.
+alg bool r33 = FAlarm.present => FSecu.present; // AS optional.
+alg bool r34 = FCLS.present => FSecu.present; // CLS optional.
+alg bool r35 = FRCKey.present => FSecu.present; // RCK optional.
+
+// Level 4.
+alg bool r41 = FLED.present => FHMI.present; // LED optional.
+alg bool r42 = (FManPW.present <=> (not FAutoPW.present and FPowerW.present)) and
+                      (FAutoPW.present <=> (not FManPW.present and FPowerW.present)); // Manual or automatic PW.
+alg bool r43 = FPowerW.present <=> (FFingerP.present); // Finger Protection mandatory.
+alg bool r44 = FMir.present <=> (FMirE.present); // Electric exterior mirror mandatory.
+alg bool r45 = FMirHeat.present => FMir.present; // Mirror heating optional.
+alg bool r46 = FInterMon.present => FAlarm.present; // Interior monitoring optional.
+alg bool r47 = FCtrAlarm.present => FRCKey.present; // Control alarm optional.
+alg bool r48 = FCtrAutoPW.present => FRCKey.present; // Control automatic power window optional.
+alg bool r49 = FSafe.present => FRCKey.present; // Safety optional.
+alg bool r410 = FAdjMir.present => FRCKey.present; // Adjust exterior mirror optional.
+alg bool r411 = FAutoL.present => FCLS.present; // Automatic locking optional.
+
+// Level 5.
+alg bool r51 = FLED.present <=> (FLEDAlarm.present or FLEDFP.present or FLEDCLS.present or FLEDPW.present or
+                                 FLEDMir.present or FLEDHeat.present);
+
+// Cross tree constraints.
+alg bool rx1 = FLEDAlarm.present => FAlarm.present; // LED alarm requires Alarm.
+alg bool rx2 = FLEDCLS.present => FCLS.present; // LED central requires central locking.
+alg bool rx3 = FLEDHeat.present => FMirHeat.present; // LED heat mirror requires heated mirror.
+alg bool rx4 = not(FManPW.present and FCtrAutoPW.present); // Manual power windows excludes control auto PW.
+alg bool rx5 = FCtrAlarm.present => FAlarm.present; // Control alarm requires Alarm system.
+alg bool rx6 = FRCKey.present => FCLS.present; // Remote control key requires central locking system.
+
+// ***
+// System is in a valid configuration if all feature constraints are satisfied.
+// ***
+
+alg bool sys_valid = r11 and r21 and r22 and r23 and r31 and r32 and r33 and r34 and r35 and r41 and r42 and r43 and
+                     r44 and r45 and r46 and r47 and r48 and r49 and r410 and r411 and r51 and rx1 and rx2 and rx3 and
+                     rx4 and rx5 and rx6;
+
+// ***
+// The system starts in a valid configuration.
+// ***
+
+initial sys_valid;
+
+// ***
+// For dynamic reconfiguration, the system is allowed to temporarily be in an invalid configuration.
+// To prevent this, and ensure that the system is always in a valid configuration, enable the following requirement.
+// ***
+
+// requirement sys_valid;
