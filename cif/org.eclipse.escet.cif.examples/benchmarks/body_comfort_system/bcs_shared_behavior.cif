@@ -622,7 +622,7 @@ end
 
 plant Safety_fcn:
   uncontrollable u_time_elapsed_lock, u_door_open;
-  controllable c_locked, c_unlock;
+  controllable c_unlock;
 
   location Idle:
     initial; marked;
@@ -689,6 +689,5 @@ plant RCK_EM.u_right needs FAdjMir.present;
 plant RCK_EM.u_released needs FAdjMir.present;
 
 plant Safety_fcn.c_unlock needs FSafe.present;
-plant Safety_fcn.c_locked needs FSafe.present;
 
 requirement Safety_fcn.c_unlock needs RCK_CLS.Unlocked;
