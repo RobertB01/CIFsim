@@ -504,6 +504,11 @@ The component definitions of the group component.
 \newcommand{\clsdocuInvariant}{
 An invariant, with optional name and supervisory kind. Can either represent a
 state (exclusion) invariant, or a state/event exclusion invariant.
+
+\begin{constraints}
+\citemnf{Invariant.unique}
+  Invariants must be unique.
+\end{constraints}
 }
 
 \newcommand{\featdocuInvariantevent}{
@@ -520,8 +525,6 @@ expressions to be used. See also Section~\ref{sec:scoping}.
   The event reference expression, if set, must refer to an event.
 \citem{Invariant.eventInScope}
   The event reference, if set, must satisfy the scoping rules.
-\citem{Invariant.unique}
-  Invariants must be unique.
 \end{constraints}
 }
 

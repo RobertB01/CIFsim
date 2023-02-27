@@ -50,10 +50,10 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * Events type checker which is used for the 'post' type checking phase. It checks the following:
  * <ul>
  * <li>'Alphabet.uniqueEvents' constraint.</li>
- * <li>'Automaton.monitorsUniqueEvents' constraint.</li>
- * <li>'Edge.uniqueEvents' constraint.</li>
- * <li>'Automaton.validAlphabet' constraint.</li>
  * <li>'Automaton.monitorsSubsetAlphabet' constraint.</li>
+ * <li>'Automaton.monitorsUniqueEvents' constraint.</li>
+ * <li>'Automaton.validAlphabet' constraint.</li>
+ * <li>'Edge.uniqueEvents' constraint.</li>
  * <li>'Invariant.unique' constant.</li>
  * </ul>
  * Also warns about the following dubious situations:

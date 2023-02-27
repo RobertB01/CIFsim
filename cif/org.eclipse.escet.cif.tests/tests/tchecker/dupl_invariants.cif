@@ -148,7 +148,7 @@ invariant e24 needs if true,  true:  false elif false, false: false else true  e
 invariant e24 needs if true,  true:  true  elif true,  false: false else true  end; // Different elif1 guard 1.
 invariant e24 needs if true,  true:  true  elif false, true:  false else true  end; // Different elif1 guard 2.
 invariant e24 needs if true,  true:  true  elif false:        false else true  end; // Different number of elif1 guards.
-invariant e24 needs if true,  true:  true  elif false, false: false elif true: true else true end; // Different number of elifs
+invariant e24 needs if true,  true:  true  elif false, false: false elif true: true else true end; // Different number of elifs.
 invariant e24 needs if true,  true:  true  elif false, false: true  else true  end; // Different elif1 then.
 invariant e24 needs if true,  true:  true  elif false, false: false else false end; // Different else.
 
