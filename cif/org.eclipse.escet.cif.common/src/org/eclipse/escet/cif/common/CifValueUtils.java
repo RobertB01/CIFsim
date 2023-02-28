@@ -1643,11 +1643,8 @@ public class CifValueUtils {
             if (!areStructurallySameExpression(cexpr1.getChild(), cexpr2.getChild())) {
                 return false;
             }
-            if (!cexpr1.getType().getClass().equals(cexpr2.getType().getClass())) {
-                return false;
-            }
 
-            return true;
+            return CifTypeUtils.areStructurallySameType(cexpr1.getType(), cexpr2.getType());
         }
 
         if (expr1 instanceof UnaryExpression uexpr1 && expr2 instanceof UnaryExpression uexpr2) {

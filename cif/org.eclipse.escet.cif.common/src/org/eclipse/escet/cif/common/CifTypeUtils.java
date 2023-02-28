@@ -1634,6 +1634,147 @@ public class CifTypeUtils {
     }
 
     /**
+     * Are the two types structurally the same?
+     *
+     * @param type1 The first type to check.
+     * @param type2 The second type to check.
+     * @return {@code true} if the two types are structurally the same, {@code false} otherwise.
+     */
+    public static Boolean areStructurallySameType(CifType type1, CifType type2) {
+        if (!type1.getClass().equals(type2.getClass())) {
+            return false;
+        }
+
+        if (type1 instanceof BoolType && type2 instanceof BoolType) {
+            return true;
+        }
+
+        if (type1 instanceof IntType itype1 && type2 instanceof IntType itype2) {
+            if ((itype1.getLower() == null) != (itype2.getLower() == null)) {
+                return false;
+            }
+            if (itype1.getLower() != null && !itype1.getLower().equals(itype2.getLower())) {
+                return false;
+            }
+
+            if ((itype1.getUpper() == null) != (itype2.getUpper() == null)) {
+                return false;
+            }
+            if (itype1.getUpper() != null && !itype1.getUpper().equals(itype2.getUpper())) {
+                return false;
+            }
+
+            return true;
+        }
+
+        if (type1 instanceof TypeRef typeRef1 && type2 instanceof TypeRef typeRef2) {
+            return typeRef1.getType().equals(typeRef2.getType());
+        }
+
+        if (type1 instanceof EnumType etype1 && type2 instanceof EnumType etype2) {
+            return etype1.getEnum().equals(etype2.getEnum());
+        }
+
+        if (type1 instanceof ListType ltype1 && type2 instanceof ListType ltype2) {
+            if ((ltype1.getLower() == null) != (ltype2.getLower() == null)) {
+                return false;
+            }
+            if (ltype1.getLower() != null && !ltype1.getLower().equals(ltype2.getLower())) {
+                return false;
+            }
+
+            if ((ltype1.getUpper() == null) != (ltype2.getUpper() == null)) {
+                return false;
+            }
+            if (ltype1.getUpper() != null && !ltype1.getUpper().equals(ltype2.getUpper())) {
+                return false;
+            }
+
+            return areStructurallySameType(ltype1.getElementType(), ltype2.getElementType());
+        }
+
+        if (type1 instanceof StringType && type2 instanceof StringType) {
+            return true;
+        }
+
+        if (type1 instanceof RealType && type2 instanceof RealType) {
+            return true;
+        }
+
+        if (type1 instanceof SetType stype1 && type2 instanceof SetType stype2) {
+            return areStructurallySameType(stype1.getElementType(), stype2.getElementType());
+        }
+
+        if (type1 instanceof FuncType ftype1 && type2 instanceof FuncType ftype2) {
+            if (ftype1.getParamTypes().size() != ftype1.getParamTypes().size()) {
+                return false;
+            }
+
+            // Check parameter types.
+            for (int i = 0; i < ftype1.getParamTypes().size(); i++) {
+                if (!areStructurallySameType(ftype1.getParamTypes().get(i), ftype2.getParamTypes().get(i))) {
+                    return false;
+                }
+            }
+
+            // Check return type.
+            return areStructurallySameType(ftype1.getReturnType(), ftype2.getReturnType());
+        }
+
+        if (type1 instanceof VoidType && type2 instanceof VoidType) {
+            return true;
+        }
+
+        if (type1 instanceof DictType dtype1 && type2 instanceof DictType dtype2) {
+            return areStructurallySameType(dtype1.getKeyType(), dtype2.getKeyType())
+                    && areStructurallySameType(dtype1.getValueType(), dtype2.getValueType());
+        }
+
+        if (type1 instanceof TupleType ttype1 && type2 instanceof TupleType ttype2) {
+            if (ttype1.getFields().size() != ttype2.getFields().size()) {
+                return false;
+            }
+
+            // Check fields.
+            for (int i = 0; i < ttype1.getFields().size(); i++) {
+                Field field1 = ttype1.getFields().get(i);
+                Field field2 = ttype2.getFields().get(i);
+                if (!field1.getName().equals(field2.getName())) {
+                    return false;
+                }
+
+                if (!areStructurallySameType(field1.getType(), field2.getType())) {
+                    return false;
+                }
+            }
+        }
+
+        if (type1 instanceof DistType dtype1 && type2 instanceof DistType dtype2) {
+            return areStructurallySameType(dtype1.getSampleType(), dtype2.getSampleType());
+        }
+
+        if (type1 instanceof ComponentDefType cdtype1 && type2 instanceof ComponentDefType cdtype2) {
+            return cdtype1.getDefinition().equals(cdtype2.getDefinition());
+        }
+
+        if (type1 instanceof ComponentType ctype1 && type2 instanceof ComponentType ctype2) {
+            return ctype1.getComponent().equals(ctype2.getComponent());
+        }
+
+        if (type1 instanceof CompInstWrapType ciwtype1 && type2 instanceof CompInstWrapType ciwtype2) {
+            return ciwtype1.getInstantiation().equals(ciwtype2.getInstantiation())
+                    && areStructurallySameType(ciwtype1.getReference(), ciwtype2.getReference());
+        }
+
+        if (type1 instanceof CompParamWrapType cpwType1 && type2 instanceof CompParamWrapType cpwType2) {
+            return cpwType1.getParameter().equals(cpwType2.getParameter())
+                    && areStructurallySameType(cpwType1.getReference(), cpwType2.getReference());
+        }
+
+        throw new RuntimeException("Unexpected types: " + type1 + ", " + type2);
+    }
+
+    /**
      * Creates a tuple type for the given field types, if needed.
      *
      * <p>
