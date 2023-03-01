@@ -58,8 +58,6 @@ WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 180, colu
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 181, column 11: Duplicate invariant for event "e26".
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 189, column 11: Duplicate invariant for event "e27".
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 190, column 11: Duplicate invariant for event "e27".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 191, column 11: Duplicate invariant for event "e27".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 192, column 11: Duplicate invariant for event "e27".
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 199, column 11: Duplicate invariant for event "e28".
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 200, column 11: Duplicate invariant for event "e28".
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 204, column 11: Duplicate invariant for event "e28".

@@ -51,6 +51,7 @@ import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -1731,7 +1732,7 @@ public class CifValueUtils {
                     return false;
                 }
 
-                if (switchCase1.getKey() != null && switchCase2.getKey() != null
+                if (switchCase1.getKey() != null
                         && !areStructurallySameExpression(switchCase1.getKey(), switchCase2.getKey()))
                 {
                     return false;
@@ -1751,21 +1752,17 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof SliceExpression sexpr1 && expr2 instanceof SliceExpression sexpr2) {
-            if (sexpr1.getBegin() != null && sexpr2.getBegin() != null
-                    && !areStructurallySameExpression(sexpr1.getChild(), sexpr2.getChild()))
-            {
-                return false;
-            }
             if ((sexpr1.getBegin() == null) != (sexpr2.getBegin() == null)) {
                 return false;
             }
-
-            if (sexpr1.getEnd() != null && sexpr2.getEnd() != null
-                    && !areStructurallySameExpression(sexpr1.getChild(), sexpr2.getChild()))
-            {
+            if (sexpr1.getBegin() != null && !areStructurallySameExpression(sexpr1.getBegin(), sexpr2.getBegin())) {
                 return false;
             }
+
             if ((sexpr1.getEnd() == null) != (sexpr2.getEnd() == null)) {
+                return false;
+            }
+            if (sexpr1.getEnd() != null && !areStructurallySameExpression(sexpr1.getEnd(), sexpr2.getEnd())) {
                 return false;
             }
 
