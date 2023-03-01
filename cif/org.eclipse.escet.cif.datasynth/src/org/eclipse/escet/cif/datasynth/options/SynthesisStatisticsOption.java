@@ -35,7 +35,7 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                         + "\"bdd-perf-cont\" for continuous BDD performance statistics, "
                         + "\"bdd-perf-max-nodes\" for maximum used BDD nodes statistics, "
                         + "\"timing\" for timing statistics, and/or "
-                        + "\"memory\" for maximum used memory statistics. "
+                        + "\"max-memory\" for maximum used memory statistics. "
 
                         + "By default, no statistics are printed. "
                         + "Prefix a name with \"+\" to add it on top of the defaults, "
