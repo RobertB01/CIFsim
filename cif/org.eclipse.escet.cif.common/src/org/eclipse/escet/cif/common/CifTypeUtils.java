@@ -1653,14 +1653,14 @@ public class CifTypeUtils {
             if ((itype1.getLower() == null) != (itype2.getLower() == null)) {
                 return false;
             }
-            if (itype1.getLower() != null && !itype1.getLower().equals(itype2.getLower())) {
+            if (itype1.getLower() != null && (itype1.getLower().intValue() != itype2.getLower().intValue())) {
                 return false;
             }
 
             if ((itype1.getUpper() == null) != (itype2.getUpper() == null)) {
                 return false;
             }
-            if (itype1.getUpper() != null && !itype1.getUpper().equals(itype2.getUpper())) {
+            if (itype1.getUpper() != null && (itype1.getUpper().intValue() != itype2.getUpper().intValue())) {
                 return false;
             }
 
@@ -1679,14 +1679,14 @@ public class CifTypeUtils {
             if ((ltype1.getLower() == null) != (ltype2.getLower() == null)) {
                 return false;
             }
-            if (ltype1.getLower() != null && !ltype1.getLower().equals(ltype2.getLower())) {
+            if (ltype1.getLower() != null && (ltype1.getLower().intValue() != ltype2.getLower().intValue())) {
                 return false;
             }
 
             if ((ltype1.getUpper() == null) != (ltype2.getUpper() == null)) {
                 return false;
             }
-            if (ltype1.getUpper() != null && !ltype1.getUpper().equals(ltype2.getUpper())) {
+            if (ltype1.getUpper() != null && (ltype1.getUpper().intValue() != ltype2.getUpper().intValue())) {
                 return false;
             }
 
@@ -1739,7 +1739,7 @@ public class CifTypeUtils {
             for (int i = 0; i < ttype1.getFields().size(); i++) {
                 Field field1 = ttype1.getFields().get(i);
                 Field field2 = ttype2.getFields().get(i);
-                if (!field1.getName().equals(field2.getName())) {
+                if (field1.getName() != field2.getName()) {
                     return false;
                 }
 
