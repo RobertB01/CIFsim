@@ -16,10 +16,10 @@ package org.eclipse.escet.cif.plcgen.model.statements;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 
 /**
- * Statement to optionally return a value to the caller, and end execution its the code block.
+ * Statement to optionally return a value to the caller while ending execution in the POU.
  *
  * <p>
- * In the PLC this functionality are two separate statements, they are merged as they occur together frequently.
+ * In the PLC this functionality is two separate statements. Here they are merged as they frequently occur together.
  * </p>
  */
 public class PlcReturnStatement extends PlcStatement {

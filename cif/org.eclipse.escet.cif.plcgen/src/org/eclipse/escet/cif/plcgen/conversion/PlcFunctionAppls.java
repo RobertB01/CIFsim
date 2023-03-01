@@ -92,8 +92,7 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.MULTIPLY_OP, "MUL",
                 makeParamList(inN.length), "*", ExprBinding.MUL_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i]))
-                .collect(Collectors.toList());
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
         return new PlcFuncAppl(func, arguments);
     }
 
@@ -134,8 +133,7 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.ADD_OP, "ADD",
                 makeParamList(inN.length), "+", ExprBinding.ADD_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i]))
-                .collect(Collectors.toList());
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
         return new PlcFuncAppl(func, arguments);
     }
 
@@ -246,8 +244,7 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.AND_OP, "AND",
                 makeParamList(inN.length), "AND", ExprBinding.CONJUNCT_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i]))
-                .collect(Collectors.toList());
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
         return new PlcFuncAppl(func, arguments);
     }
 
@@ -262,8 +259,7 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.XOR_OP, "XOR",
                 makeParamList(inN.length), "XOR", ExprBinding.EXCL_DISJUNCT_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i]))
-                .collect(Collectors.toList());
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
         return new PlcFuncAppl(func, arguments);
     }
 
@@ -278,8 +274,7 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.OR_OP, "OR",
                 makeParamList(inN.length), "OR", ExprBinding.DISJUNCT_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i]))
-                .collect(Collectors.toList());
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
         return new PlcFuncAppl(func, arguments);
     }
 
@@ -325,20 +320,20 @@ public class PlcFunctionAppls {
                 new PlcParameterDescription("IN0", PlcParamDirection.INPUT_ONLY),
                 new PlcParameterDescription("IN1", PlcParamDirection.INPUT_ONLY)};
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.SEL_OP, "SEL", params);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("G", g), new PlcNamedValue("IN0", in0),
-                new PlcNamedValue("IN1", in1)));
+        return new PlcFuncAppl(func,
+                List.of(new PlcNamedValue("G", g), new PlcNamedValue("IN0", in0), new PlcNamedValue("IN1", in1)));
     }
 
     /**
      * Construct a function application to normalize an index expression into an array.
      *
      * @param indexExpr Index expression to normalize.
-     * @param araySize Length of the array.
+     * @param arraySize Length of the array.
      * @return The constructed function application.
      */
-    public PlcFuncAppl normalizeArrayIndex(PlcExpression indexExpr, int araySize) {
+    public PlcFuncAppl normalizeArrayIndex(PlcExpression indexExpr, int arraySize) {
         PlcExpression g = greaterEqualFuncAppl(indexExpr, new PlcIntLiteral(0));
-        PlcExpression in0 = addFuncAppl(indexExpr, new PlcIntLiteral(araySize));
+        PlcExpression in0 = addFuncAppl(indexExpr, new PlcIntLiteral(arraySize));
         PlcExpression in1 = indexExpr;
         return selFuncAppl(g, in0, in1);
     }

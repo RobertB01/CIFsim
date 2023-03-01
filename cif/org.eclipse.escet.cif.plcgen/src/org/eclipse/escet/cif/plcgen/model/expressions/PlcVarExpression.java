@@ -36,7 +36,7 @@ public class PlcVarExpression extends PlcExpression {
      * @param variable Referenced variable.
      * @param projections Projections to select a part of the variable.
      */
-    public PlcVarExpression(PlcVariable variable, PlcProjection...projections) {
+    public PlcVarExpression(PlcVariable variable, PlcProjection... projections) {
         this.variable = variable;
         this.projections = Arrays.asList(projections);
     }
@@ -56,6 +56,7 @@ public class PlcVarExpression extends PlcExpression {
     public PlcVarExpression copy() {
         List<PlcProjection> clonedProjs = listc(projections.size());
         projections.stream().map(p -> p.copy()).collect(Collectors.toCollection(() -> clonedProjs));
+
         return new PlcVarExpression(variable, clonedProjs);
     }
 

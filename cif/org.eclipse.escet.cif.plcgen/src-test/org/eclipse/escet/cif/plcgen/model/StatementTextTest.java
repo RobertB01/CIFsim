@@ -109,7 +109,8 @@ public class StatementTextTest {
     @Test
     @SuppressWarnings("javadoc")
     public void funcApplTest() {
-        PlcFuncApplStatement funcApplStat = new PlcFuncApplStatement(funcAppls.exptFuncAppl(new PlcRealLiteral("1.0"), new PlcRealLiteral("3.0")));
+        PlcFuncApplStatement funcApplStat = new PlcFuncApplStatement(
+                funcAppls.exptFuncAppl(new PlcRealLiteral("1.0"), new PlcRealLiteral("3.0")));
         assertEquals("EXPT(IN1 := 1.0, IN2 := 3.0);", toStr(funcApplStat));
     }
 
@@ -129,8 +130,8 @@ public class StatementTextTest {
                 List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0)),
                         new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
         assertEquals("""
-                     v := 0;
-                     v := 1;""", toStr(selStat));
+                v := 0;
+                v := 1;""", toStr(selStat));
     }
 
     @Test
@@ -142,10 +143,10 @@ public class StatementTextTest {
                         new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
         PlcStatement selStat = new PlcSelectionStatement(List.of(ifChoice), List.of());
         assertEquals("""
-                     IF FALSE THEN
-                         v := 0;
-                         v := 1;
-                     END_IF;""", toStr(selStat));
+                IF FALSE THEN
+                    v := 0;
+                    v := 1;
+                END_IF;""", toStr(selStat));
     }
 
     @Test
@@ -159,13 +160,13 @@ public class StatementTextTest {
         PlcStatement selStat = new PlcSelectionStatement(List.of(ifChoice, elifChoice),
                 List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(2))));
         assertEquals("""
-                     IF FALSE THEN
-                         v := 0;
-                     ELSIF TRUE THEN
-                         v := 1;
-                     ELSE
-                         v := 2;
-                     END_IF;""", toStr(selStat));
+                IF FALSE THEN
+                    v := 0;
+                ELSIF TRUE THEN
+                    v := 1;
+                ELSE
+                    v := 2;
+                END_IF;""", toStr(selStat));
     }
 
     @Test
@@ -178,12 +179,12 @@ public class StatementTextTest {
         PlcStatement selStat = new PlcSelectionStatement(List.of(ifChoice, elifChoice),
                 List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
         assertEquals("""
-                     IF FALSE THEN
-                         v := 0;
-                     ELSIF TRUE THEN
-                         (* Nothing to do. *) ;
-                     ELSE
-                         v := 1;
-                     END_IF;""", toStr(selStat));
+                IF FALSE THEN
+                    v := 0;
+                ELSIF TRUE THEN
+                    (* Nothing to do. *) ;
+                ELSE
+                    v := 1;
+                END_IF;""", toStr(selStat));
     }
 }

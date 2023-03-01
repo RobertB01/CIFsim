@@ -74,12 +74,12 @@ public class ExpressionTextTest {
 
         // Variables.
         PlcVariable aVar = new PlcVariable("a", null);
-        PlcArrayProjection arayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(7)));
+        PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(7)));
         PlcStructProjection structProj = new PlcStructProjection("abc");
 
         assertEquals("a", toStr(new PlcVarExpression(aVar)));
         assertEquals("a[7].abc",
-                toStr(new PlcVarExpression(new PlcVariable("a", null), List.of(arayProj, structProj))));
+                toStr(new PlcVarExpression(new PlcVariable("a", null), List.of(arrayProj, structProj))));
 
         // Function application is tested in conversions.FuncApplsTest.
     }

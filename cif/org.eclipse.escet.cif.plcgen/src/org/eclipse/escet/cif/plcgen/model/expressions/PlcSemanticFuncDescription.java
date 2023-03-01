@@ -23,12 +23,12 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      *
      * @param operation The semantic operation performed by the function application.
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Names of the function parameters (input, output, in-out) in prefix notation.
+     * @param prefixParameters Prefix notation properties of the function parameters.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist. For
      *     single parameter functions the infix name is assumed to be a prefix directly attached to the parameter,
      *     otherwise the infix name is assumed to be between arguments surrounded by spaces.
-     * @param infixPriority Priority of the function application in infix notation. Use
-     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
+     * @param infixPriority Priority of the function application in infix notation. Use {@link ExprBinding#NO_PRIORITY}
+     *     for functions that have no infix notation.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
             PlcParameterDescription[] prefixParameters, String infixFuncName, ExprBinding infixPriority)
@@ -41,7 +41,7 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      * Constructor of the {@link PlcSemanticFuncDescription} class for a function without infix notation.
      *
      * @param operation The semantic operation performed by the function application.
-     * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
+     * @param prefixFuncName Prefix notation properties of the function parameters.
      * @param prefixParameters Names of the function parameters (input, output, in-out) in prefix notation.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,

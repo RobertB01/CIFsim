@@ -23,7 +23,7 @@ public class PlcFuncApplStatement extends PlcStatement {
     /**
      * Constructor of the {@link PlcFuncApplStatement} class.
      *
-     * @param funcApplExpr Function to apply in the statement.
+     * @param funcApplExpr Function application to use as statement.
      */
     public PlcFuncApplStatement(PlcFuncAppl funcApplExpr) {
         this.funcApplExpr = funcApplExpr;

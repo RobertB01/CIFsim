@@ -17,10 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 
-/**
- * Generic code selection statement. May take various forms in PLC code, such as a sequence of IF checks or a SWITCH
- * statement.
- */
+/** Generic code selection statement. */
 public class PlcSelectionStatement extends PlcStatement {
     /** Conditional choices to consider in the code selection. */
     public List<PlcSelectChoice> condChoices;

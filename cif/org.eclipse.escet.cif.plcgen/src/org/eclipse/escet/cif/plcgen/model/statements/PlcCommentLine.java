@@ -13,13 +13,14 @@
 
 package org.eclipse.escet.cif.plcgen.model.statements;
 
+import org.eclipse.escet.common.java.Assert;
+
 /**
  * A comment line in PLC code.
  *
  * <p>
- * A pure comment line is not a statement. A code block with just comment lines is thus not correct PLC code.
- * A proper statement should generally be added to such a block. Alternatively, a comment line may be set as an empty
- * statement.
+ * A pure comment line is not a statement. A code block with just comment lines is thus not correct PLC code. A proper
+ * statement should generally be added to such a block. Alternatively, a comment line may be set as an empty statement.
  * </p>
  */
 public class PlcCommentLine extends PlcStatement {
@@ -50,8 +51,11 @@ public class PlcCommentLine extends PlcStatement {
      * @param isEmptyStatement Whether the comment line is also an empty statement.
      */
     public PlcCommentLine(String commentText, boolean isEmptyStatement) {
+        // Nesting of comments is not allowed.
+        Assert.check(!commentText.contains("(*"));
+        Assert.check(!commentText.contains("*)"));
+
         this.commentText = commentText;
         this.isEmptyStatement = isEmptyStatement;
     }
-
 }

@@ -29,7 +29,7 @@ public abstract class PlcBasicFuncDescription {
     /** Name of the function in prefix notation, or {@code null} if the prefix form does not exist. */
     public final String prefixFuncName;
 
-    /** Properties of the function parameters in prefix notation (names, direction), ordered by name. */
+    /** Mapping of names of the function parameters to their prefix notation properties. */
     public final Map<String, PlcParameterDescription> prefixParameters;
 
     /** Name of the function in infix notation, {@code null} if infix form does not exist. */
@@ -42,7 +42,7 @@ public abstract class PlcBasicFuncDescription {
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Names of the function parameters (input, output, and/or in-out) in prefix notation.
+     * @param prefixParameters Prefix notation properties of the function parameters.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
      * @param infixPriority Priority of the function application in infix notation. Use {@link ExprBinding#NO_PRIORITY}
      *     for functions that have no infix notation.
@@ -57,7 +57,7 @@ public abstract class PlcBasicFuncDescription {
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Names of the function parameters (input, output, and/or in-out) in prefix notation.
+     * @param prefixParameters Prefix notation properties of the function parameters.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
      * @param infixPriority Priority of the function application in infix notation. Use {@link ExprBinding#NO_PRIORITY}
      *     for functions that have no infix notation.
@@ -153,7 +153,6 @@ public abstract class PlcBasicFuncDescription {
         public boolean needsParentheses(ExprBinding parentBinding) {
             return needsParentheses(parentBinding, false, false);
         }
-
     }
 
     /** Associativity of an expression, used to decide when priority values are equal. */

@@ -33,6 +33,5 @@ public class PlcAssignmentStatement extends PlcStatement {
     public PlcAssignmentStatement(PlcVarExpression lhs, PlcExpression value) {
         this.lhs = lhs;
         this.value = value;
-
     }
 }

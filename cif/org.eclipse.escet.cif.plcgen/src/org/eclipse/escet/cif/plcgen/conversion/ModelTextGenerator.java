@@ -410,10 +410,6 @@ public class ModelTextGenerator {
      * @param pouName Name of the surrounding POU.
      */
     private void toText(PlcCommentLine cmtLine, CodeBox boxBuilder, String pouName) {
-        // Nesting of comments is not allowed.
-        Assert.check(!cmtLine.commentText.contains("(*"));
-        Assert.check(!cmtLine.commentText.contains("*)"));
-
         String emptyStat = cmtLine.isEmptyStatement ? " ;" : "";
         boxBuilder.add("(* %s *)%s", cmtLine.commentText, emptyStat);
     }
