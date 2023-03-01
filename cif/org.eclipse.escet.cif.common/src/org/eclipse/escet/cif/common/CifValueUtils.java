@@ -1654,7 +1654,7 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof BinaryExpression bexpr1 && expr2 instanceof BinaryExpression bexpr2) {
-            return bexpr1.getOperator().equals(bexpr2.getOperator())
+            return bexpr1.getOperator() == bexpr2.getOperator()
                     && areStructurallySameExpression(bexpr1.getLeft(), bexpr2.getLeft())
                     && areStructurallySameExpression(bexpr1.getRight(), bexpr2.getRight());
         }
@@ -1846,19 +1846,19 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof ConstantExpression cexpr1 && expr2 instanceof ConstantExpression cexpr2) {
-            return cexpr1.getConstant().equals(cexpr2.getConstant());
+            return cexpr1.getConstant() == cexpr2.getConstant();
         }
 
         if (expr1 instanceof DiscVariableExpression dexpr1 && expr2 instanceof DiscVariableExpression dexpr2) {
-            return dexpr1.getVariable().equals(dexpr2.getVariable());
+            return dexpr1.getVariable() == dexpr2.getVariable();
         }
 
         if (expr1 instanceof AlgVariableExpression aexpr1 && expr2 instanceof AlgVariableExpression aexpr2) {
-            return aexpr1.getVariable().equals(aexpr2.getVariable());
+            return aexpr1.getVariable() == aexpr2.getVariable();
         }
 
         if (expr1 instanceof ContVariableExpression cexpr1 && expr2 instanceof ContVariableExpression cexpr2) {
-            return cexpr1.getVariable().equals(cexpr2.getVariable()) && cexpr1.isDerivative() == cexpr2.isDerivative();
+            return cexpr1.getVariable() == cexpr2.getVariable() && cexpr1.isDerivative() == cexpr2.isDerivative();
         }
 
         if (expr1 instanceof TauExpression && expr2 instanceof TauExpression) {
@@ -1866,15 +1866,15 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof LocationExpression lexpr1 && expr2 instanceof LocationExpression lexpr2) {
-            return lexpr1.getLocation().equals(lexpr2.getLocation());
+            return lexpr1.getLocation() == lexpr2.getLocation();
         }
 
         if (expr1 instanceof EnumLiteralExpression elexpr1 && expr2 instanceof EnumLiteralExpression elexpr2) {
-            return elexpr1.getLiteral().equals(elexpr2.getLiteral());
+            return elexpr1.getLiteral() == elexpr2.getLiteral();
         }
 
         if (expr1 instanceof EventExpression eexpr1 && expr2 instanceof EventExpression eexpr2) {
-            return eexpr1.getEvent().equals(eexpr2.getEvent());
+            return eexpr1.getEvent() == eexpr2.getEvent();
         }
 
         if (expr1 instanceof FieldExpression fexpr1 && expr2 instanceof FieldExpression fexpr2) {
@@ -1882,32 +1882,32 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof StdLibFunctionExpression slfexpr1 && expr2 instanceof StdLibFunctionExpression slfexpr2) {
-            return slfexpr1.getFunction().equals(slfexpr2.getFunction());
+            return slfexpr1.getFunction() == slfexpr2.getFunction();
         }
 
         if (expr1 instanceof FunctionExpression fexpr1 && expr2 instanceof FunctionExpression fexpr2) {
-            return fexpr1.getFunction().equals(fexpr2.getFunction());
+            return fexpr1.getFunction() == fexpr2.getFunction();
         }
 
         if (expr1 instanceof InputVariableExpression ivexpr1 && expr2 instanceof InputVariableExpression ivexpr2) {
-            return ivexpr1.getVariable().equals(ivexpr2.getVariable());
+            return ivexpr1.getVariable() == ivexpr2.getVariable();
         }
 
         if (expr1 instanceof ComponentExpression cexpr1 && expr2 instanceof ComponentExpression cexpr2) {
-            return cexpr1.getComponent().equals(cexpr2.getComponent());
+            return cexpr1.getComponent() == cexpr2.getComponent();
         }
 
         if (expr1 instanceof CompParamExpression cexpr1 && expr2 instanceof CompParamExpression cexpr2) {
-            return cexpr1.getParameter().equals(cexpr2.getParameter());
+            return cexpr1.getParameter() == cexpr2.getParameter();
         }
 
         if (expr1 instanceof CompInstWrapExpression ciwexpr1 && expr2 instanceof CompInstWrapExpression ciwexpr2) {
-            return ciwexpr1.getInstantiation().equals(ciwexpr2.getInstantiation())
+            return ciwexpr1.getInstantiation() == ciwexpr2.getInstantiation()
                     && areStructurallySameExpression(ciwexpr1.getReference(), ciwexpr2.getReference());
         }
 
         if (expr1 instanceof CompParamWrapExpression cpwexpr1 && expr2 instanceof CompParamWrapExpression cpwexpr2) {
-            return cpwexpr1.getParameter().equals(cpwexpr2.getParameter())
+            return cpwexpr1.getParameter() == cpwexpr2.getParameter()
                     && areStructurallySameExpression(cpwexpr1.getReference(), cpwexpr2.getReference());
         }
 

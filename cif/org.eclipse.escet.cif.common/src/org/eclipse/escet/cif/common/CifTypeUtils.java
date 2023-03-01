@@ -1656,11 +1656,11 @@ public class CifTypeUtils {
         }
 
         if (type1 instanceof TypeRef typeRef1 && type2 instanceof TypeRef typeRef2) {
-            return typeRef1.getType().equals(typeRef2.getType());
+            return typeRef1.getType() == typeRef2.getType();
         }
 
         if (type1 instanceof EnumType etype1 && type2 instanceof EnumType etype2) {
-            return etype1.getEnum().equals(etype2.getEnum());
+            return etype1.getEnum() == etype2.getEnum();
         }
 
         if (type1 instanceof ListType ltype1 && type2 instanceof ListType ltype2) {
@@ -1731,20 +1731,20 @@ public class CifTypeUtils {
         }
 
         if (type1 instanceof ComponentDefType cdtype1 && type2 instanceof ComponentDefType cdtype2) {
-            return cdtype1.getDefinition().equals(cdtype2.getDefinition());
+            return cdtype1.getDefinition() == cdtype2.getDefinition();
         }
 
         if (type1 instanceof ComponentType ctype1 && type2 instanceof ComponentType ctype2) {
-            return ctype1.getComponent().equals(ctype2.getComponent());
+            return ctype1.getComponent() == ctype2.getComponent();
         }
 
         if (type1 instanceof CompInstWrapType ciwtype1 && type2 instanceof CompInstWrapType ciwtype2) {
-            return ciwtype1.getInstantiation().equals(ciwtype2.getInstantiation())
+            return ciwtype1.getInstantiation() == ciwtype2.getInstantiation()
                     && areStructurallySameType(ciwtype1.getReference(), ciwtype2.getReference());
         }
 
         if (type1 instanceof CompParamWrapType cpwType1 && type2 instanceof CompParamWrapType cpwType2) {
-            return cpwType1.getParameter().equals(cpwType2.getParameter())
+            return cpwType1.getParameter() == cpwType2.getParameter()
                     && areStructurallySameType(cpwType1.getReference(), cpwType2.getReference());
         }
 
