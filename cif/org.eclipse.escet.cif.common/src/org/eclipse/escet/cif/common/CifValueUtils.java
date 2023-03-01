@@ -1881,7 +1881,7 @@ public class CifValueUtils {
         }
 
         if (expr1 instanceof FieldExpression fexpr1 && expr2 instanceof FieldExpression fexpr2) {
-            return fexpr1.getField().getName() == fexpr2.getField().getName();
+            return Objects.equals(fexpr1.getField().getName(), fexpr2.getField().getName());
         }
 
         if (expr1 instanceof StdLibFunctionExpression slfexpr1 && expr2 instanceof StdLibFunctionExpression slfexpr2) {

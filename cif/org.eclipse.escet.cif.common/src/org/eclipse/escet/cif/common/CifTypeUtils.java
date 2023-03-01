@@ -31,6 +31,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
@@ -1650,21 +1651,8 @@ public class CifTypeUtils {
         }
 
         if (type1 instanceof IntType itype1 && type2 instanceof IntType itype2) {
-            if ((itype1.getLower() == null) != (itype2.getLower() == null)) {
-                return false;
-            }
-            if (itype1.getLower() != null && (itype1.getLower().intValue() != itype2.getLower().intValue())) {
-                return false;
-            }
-
-            if ((itype1.getUpper() == null) != (itype2.getUpper() == null)) {
-                return false;
-            }
-            if (itype1.getUpper() != null && (itype1.getUpper().intValue() != itype2.getUpper().intValue())) {
-                return false;
-            }
-
-            return true;
+            return Objects.equals(itype1.getLower(), itype2.getLower())
+                    && Objects.equals(itype1.getUpper(), itype2.getUpper());
         }
 
         if (type1 instanceof TypeRef typeRef1 && type2 instanceof TypeRef typeRef2) {
@@ -1676,21 +1664,9 @@ public class CifTypeUtils {
         }
 
         if (type1 instanceof ListType ltype1 && type2 instanceof ListType ltype2) {
-            if ((ltype1.getLower() == null) != (ltype2.getLower() == null)) {
-                return false;
-            }
-            if (ltype1.getLower() != null && (ltype1.getLower().intValue() != ltype2.getLower().intValue())) {
-                return false;
-            }
-
-            if ((ltype1.getUpper() == null) != (ltype2.getUpper() == null)) {
-                return false;
-            }
-            if (ltype1.getUpper() != null && (ltype1.getUpper().intValue() != ltype2.getUpper().intValue())) {
-                return false;
-            }
-
-            return areStructurallySameType(ltype1.getElementType(), ltype2.getElementType());
+            return Objects.equals(ltype1.getLower(), ltype2.getLower())
+                    && Objects.equals(ltype1.getUpper(), ltype2.getUpper())
+                    && areStructurallySameType(ltype1.getElementType(), ltype2.getElementType());
         }
 
         if (type1 instanceof StringType && type2 instanceof StringType) {
@@ -1739,7 +1715,8 @@ public class CifTypeUtils {
             for (int i = 0; i < ttype1.getFields().size(); i++) {
                 Field field1 = ttype1.getFields().get(i);
                 Field field2 = ttype2.getFields().get(i);
-                if (field1.getName() != field2.getName()) {
+
+                if (!Objects.equals(field1.getName(), field2.getName())) {
                     return false;
                 }
 
