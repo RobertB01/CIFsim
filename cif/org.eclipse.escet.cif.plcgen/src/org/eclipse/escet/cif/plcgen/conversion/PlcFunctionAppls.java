@@ -31,7 +31,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcSemanticFuncDescription;
 import org.eclipse.escet.common.java.Assert;
 
-/** Elementary Function application construction methods for a target. */
+/** Elementary function application construction methods for a target. */
 public class PlcFunctionAppls {
     /** Parameters for functions that take one input parameters. */
     private static final PlcParameterDescription[] ONE_INPUT_PARAMETER = new PlcParameterDescription[] {
@@ -69,7 +69,7 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Construct a function application for a exponentiation.
+     * Construct a function application for an exponentiation.
      *
      * @param in1 Base value argument of the function.
      * @param in2 Exponent argument of the function.
@@ -301,9 +301,9 @@ public class PlcFunctionAppls {
     /**
      * Construct a function application for casting.
      *
-     * @param in The input arguments of the function.
+     * @param in The input argument of the function.
      * @param inType The type of the input value.
-     * @param outType The type of the output value/
+     * @param outType The type of the output value.
      * @return The constructed function application.
      */
     public PlcFuncAppl castFunctionAppl(PlcExpression in, PlcElementaryType inType, PlcElementaryType outType) {

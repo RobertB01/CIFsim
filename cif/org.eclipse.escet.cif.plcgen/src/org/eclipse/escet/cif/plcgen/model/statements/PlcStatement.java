@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.statements;
 
-/** Statement in the PLC. */
+/** Statement in PLC code. */
 public abstract class PlcStatement {
     // Nothing to do.
 }

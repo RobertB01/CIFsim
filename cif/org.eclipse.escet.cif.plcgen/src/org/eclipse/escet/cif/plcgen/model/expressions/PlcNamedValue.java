@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
-/** An value with a name. */
+/** A value with a name. */
 public class PlcNamedValue {
     /** Name of the value. */
     public final String name;
@@ -33,9 +33,9 @@ public class PlcNamedValue {
     }
 
     /**
-     * Make an independent copy of this.
+     * Make an independent copy of this named value.
      *
-     * @return The copied this.
+     * @return The copied named value.
      */
     public PlcNamedValue copy() {
         return new PlcNamedValue(name, value.copy());

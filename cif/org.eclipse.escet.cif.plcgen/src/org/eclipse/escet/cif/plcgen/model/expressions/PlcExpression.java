@@ -16,9 +16,9 @@ package org.eclipse.escet.cif.plcgen.model.expressions;
 /** Base class for expressions. */
 public abstract class PlcExpression {
     /**
-     * Make an independent copy of this.
+     * Make an independent copy of this expression.
      *
-     * @return The new this.
+     * @return The copied expression.
      */
     public abstract PlcExpression copy();
 }

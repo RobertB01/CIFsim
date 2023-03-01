@@ -36,13 +36,13 @@ public enum PlcFuncOperation {
     /** Subtract operation. */
     SUBTRACT_OP,
 
-    /** Less then compare operation. */
+    /** Less than compare operation. */
     LESS_THAN_OP,
 
     /** Less or equal compare operation. */
     LESS_EQUAL_OP,
 
-    /** Greater then compare operation. */
+    /** Greater than compare operation. */
     GREATER_THAN_OP,
 
     /** Greater or equal compare operation. */
@@ -63,7 +63,7 @@ public enum PlcFuncOperation {
     /** Exclusive-disjunction operation. */
     XOR_OP,
 
-    /** disjunction operation. */
+    /** Disjunction operation. */
     OR_OP,
 
     /** Convert type operation. */

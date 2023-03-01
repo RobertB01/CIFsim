@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.plcgen.model.statements;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 
-/** Assignment statement to (part of) a variable. */
+/** Assignment statement to assign (part of) a variable. */
 public class PlcAssignmentStatement extends PlcStatement {
     /** Variable (part) to assign to. */
     public PlcVarExpression lhs;

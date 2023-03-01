@@ -98,16 +98,16 @@ public class ModelTextGenerator {
             boolean atParentRight, FuncApplPreference funcApplPreference)
     {
         // Dispatch to the right sub-class.
-        if (expr instanceof PlcBoolLiteral boolLil) {
-            toText(boolLil, textBuilder);
-        } else if (expr instanceof PlcIntLiteral intLil) {
-            toText(intLil, textBuilder);
-        } else if (expr instanceof PlcRealLiteral realLil) {
-            toText(realLil, textBuilder);
-        } else if (expr instanceof PlcArrayLiteral arrayLil) {
-            toText(arrayLil, textBuilder, funcApplPreference);
-        } else if (expr instanceof PlcStructLiteral structLil) {
-            toText(structLil, textBuilder, funcApplPreference);
+        if (expr instanceof PlcBoolLiteral boolLit) {
+            toText(boolLit, textBuilder);
+        } else if (expr instanceof PlcIntLiteral intLit) {
+            toText(intLit, textBuilder);
+        } else if (expr instanceof PlcRealLiteral realLit) {
+            toText(realLit, textBuilder);
+        } else if (expr instanceof PlcArrayLiteral arrayLit) {
+            toText(arrayLit, textBuilder, funcApplPreference);
+        } else if (expr instanceof PlcStructLiteral structLit) {
+            toText(structLit, textBuilder, funcApplPreference);
         } else if (expr instanceof PlcFuncAppl funcAppl) {
             toText(funcAppl, textBuilder, parentBinding, atParentLeft, atParentRight, funcApplPreference);
         } else if (expr instanceof PlcVarExpression varExpr) {
@@ -301,10 +301,10 @@ public class ModelTextGenerator {
     }
 
     /**
-     * Convert a sequence of PLC statementS to text. Without {@code fixCodeBlock} an sequence without proper statement
+     * Convert a sequence of PLC statements to text. Without {@code fixCodeBlock} an sequence without proper statement
      * will crash the application.
      *
-     * @param plcStats StatementS to convert.
+     * @param plcStats Statements to convert.
      * @param pouName Name of the surrounding POU.
      * @param fixCodeBlcok If set, make sequences without proper statement correct by adding an empty statement.
      * @return The generated output.
@@ -316,7 +316,7 @@ public class ModelTextGenerator {
     }
 
     /**
-     * Convert a sequence of PLC statementS to text. Without {@code fixCodeBlock} an sequence without proper statement
+     * Convert a sequence of PLC statements to text. Without {@code fixCodeBlock} an sequence without proper statement
      * will crash the application.
      *
      * @param plcStats StatementS to convert.

@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
 
 /** Perform a function application as statement, discarding the return value. */
 public class PlcFuncApplStatement extends PlcStatement {
-    /** Function to call. */
+    /** Function application to use as statement. */
     public PlcFuncAppl funcApplExpr;
 
     /**

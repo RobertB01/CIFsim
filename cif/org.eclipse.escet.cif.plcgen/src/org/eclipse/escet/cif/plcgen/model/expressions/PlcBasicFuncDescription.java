@@ -210,7 +210,7 @@ public abstract class PlcBasicFuncDescription {
         /** Parameter can be both read and written. */
         INPUT_OUTPUT,
 
-        /** Parameter can be read only for the callee. */
+        /** Parameter is read only for the callee. */
         INPUT_ONLY;
     }
 }

@@ -25,11 +25,10 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
      * @param prefixParameters Names of the function parameters (input, output, in-out) in prefix notation.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist. For
-     *     single parameter functions the infix name is assumed to be a prefix directly attached to the the parameter,
+     *     single parameter functions the infix name is assumed to be a prefix directly attached to the parameter,
      *     otherwise the infix name is assumed to be between arguments surrounded by spaces.
      * @param infixPriority Priority of the function application in infix notation. Use
-     *     {@link org.eclipse.escet.cif.plcgen.model.expressions.PlcBasicFuncDescription.ExprBinding#NO_PRIORITY} for
-     *     functions that have no infix notation.
+     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
             PlcParameterDescription[] prefixParameters, String infixFuncName, ExprBinding infixPriority)

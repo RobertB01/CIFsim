@@ -27,14 +27,14 @@ public class PlcVarExpression extends PlcExpression {
     /** Referenced variable. */
     public final PlcVariable variable;
 
-    /** Selected part of the variable. */
+    /** Projections to select a part of the variable. */
     public final List<PlcProjection> projections;
 
     /**
      * Constructor of the {@link PlcVarExpression} class.
      *
      * @param variable Referenced variable.
-     * @param projections Selected part of the variable.
+     * @param projections Projections to select a part of the variable.
      */
     public PlcVarExpression(PlcVariable variable, PlcProjection...projections) {
         this.variable = variable;
@@ -45,7 +45,7 @@ public class PlcVarExpression extends PlcExpression {
      * Constructor of the {@link PlcVarExpression} class.
      *
      * @param variable Referenced variable.
-     * @param projections Selected part of the variable.
+     * @param projections Projections to select a part of the variable.
      */
     public PlcVarExpression(PlcVariable variable, List<PlcProjection> projections) {
         this.variable = variable;
@@ -59,17 +59,17 @@ public class PlcVarExpression extends PlcExpression {
         return new PlcVarExpression(variable, clonedProjs);
     }
 
-    /** Projection in the value of the references variable. */
+    /** Projection in the value of the referenced variable. */
     public abstract static class PlcProjection {
         /**
-         * Make an independent copy of this.
+         * Make an independent copy of this projection.
          *
-         * @return The copy of this.
+         * @return The copy of the projection.
          */
         public abstract PlcProjection copy();
     }
 
-    /** Projection in a structure of the value of the references variable. */
+    /** Projection in a structure of the value of the referenced variable. */
     public static class PlcStructProjection extends PlcProjection {
         /** Name of the field in the structure to select. */
         public final String fieldName;
@@ -89,7 +89,7 @@ public class PlcVarExpression extends PlcExpression {
         }
     }
 
-    /** Projection in an array of the value of the references variable. */
+    /** Projection in an array of the value of the referenced variable. */
     public static class PlcArrayProjection extends PlcProjection {
         /** Element indices in the array to select, must always select one element in the array. */
         public final List<PlcExpression> indexExpressions;
