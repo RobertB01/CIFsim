@@ -1,67 +1,77 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - A non-array list projection expression is used:
-   - In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
+  -----------------------------------------------------
+  (1/5) A non-array list projection expression is used.
+  -----------------------------------------------------
+   * In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
      - invariant d[0];
                   ^
- - A type-changing cast expression is used:
-   - In group "CAST_EXPRS_AUTOMATON_TO_STRING":
+  ----------------------------------------------
+  (2/5) A type-changing cast expression is used.
+  ----------------------------------------------
+   * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
                        ^
-   - In group "CAST_EXPRS_BOOLEAN_TO_STRING":
+   * In group "CAST_EXPRS_BOOLEAN_TO_STRING":
      - invariant "true" = <string>true;
                           ^
-   - In group "CAST_EXPRS_INT_TO_REAL":
+   * In group "CAST_EXPRS_INT_TO_REAL":
      - invariant <real>1 = 1.0;
                  ^
-   - In group "CAST_EXPRS_INT_TO_STRING":
+   * In group "CAST_EXPRS_INT_TO_STRING":
      - invariant "1" = <string>1;
                        ^
-   - In group "CAST_EXPRS_REAL_TO_STRING":
+   * In group "CAST_EXPRS_REAL_TO_STRING":
      - invariant "1.1" = <string>1.1;
                          ^
-   - In group "CAST_EXPRS_STRING_TO_BOOLEAN":
+   * In group "CAST_EXPRS_STRING_TO_BOOLEAN":
      - invariant not <bool>"false";
                      ^
-   - In group "CAST_EXPRS_STRING_TO_INT":
+   * In group "CAST_EXPRS_STRING_TO_INT":
      - invariant 1 = <int>"1";
                      ^
-   - In group "CAST_EXPRS_STRING_TO_REAL":
+   * In group "CAST_EXPRS_STRING_TO_REAL":
      - invariant 1.0 = <real>"1.0";
                        ^
-   - In location "X.A":
+   * In location "X.A":
      - invariant "A" = <string>self;
                        ^
- - A user-defined function parameter reference is used:
-   - In user-defined function "FUNC_CALLS.intF":
+  ----------------------------------------------------------
+  (3/5) A user-defined function parameter reference is used.
+  ----------------------------------------------------------
+   * In user-defined function "FUNC_CALLS.intF":
      - return x;
               ^
-   - In user-defined function "USER_DEF_FUNC_PARAM_REFS.f":
+   * In user-defined function "USER_DEF_FUNC_PARAM_REFS.f":
      - return p;
               ^
-   - In user-defined function "USER_DEF_FUNC_REFS.g":
+   * In user-defined function "USER_DEF_FUNC_REFS.g":
      - return f(true);
               ^
-   - In user-defined function "USER_DEF_FUNC_REFS.intF":
+   * In user-defined function "USER_DEF_FUNC_REFS.intF":
      - return x;
               ^
- - An external user-defined function reference is used:
-   - In group "FUNC_CALLS":
+  ----------------------------------------------------------
+  (4/5) An external user-defined function reference is used.
+  ----------------------------------------------------------
+   * In group "FUNC_CALLS":
      - invariant extF(true);
                  ^
-   - In group "FUNC_REFS_USER_DEF_EXT":
+   * In group "FUNC_REFS_USER_DEF_EXT":
      - invariant f() = "a";
                  ^
-   - In group "USER_DEF_FUNC_REFS":
+   * In group "USER_DEF_FUNC_REFS":
      - invariant g(extF);
                    ^
- - An internal user-defined function reference is used:
-   - In group "FUNC_CALLS":
+  ----------------------------------------------------------
+  (5/5) An internal user-defined function reference is used.
+  ----------------------------------------------------------
+   * In group "FUNC_CALLS":
      - invariant intF(true);
                  ^
-   - In group "FUNC_REFS_USER_DEF_INT":
+   * In group "FUNC_REFS_USER_DEF_INT":
      - invariant f();
                  ^
-   - In group "USER_DEF_FUNC_REFS":
+   * In group "USER_DEF_FUNC_REFS":
      - invariant g(intF);
                  ^ ^
      - invariant g(extF);

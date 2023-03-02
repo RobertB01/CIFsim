@@ -1,14 +1,16 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Component has an initialization predicate:
-   - In group "g_nontrivial":
+  ------------------------------------------------
+  (1/1) Component has an initialization predicate.
+  ------------------------------------------------
+   * In group "g_nontrivial":
      - initial b;
                ^
-   - In automaton definition "g_nontrivial.A":
+   * In automaton definition "g_nontrivial.A":
      - initial b;
                ^
-   - In group definition "g_nontrivial.G":
+   * In group definition "g_nontrivial.G":
      - initial b;
                ^
-   - In automaton "g_nontrivial.a":
+   * In automaton "g_nontrivial.a":
      - initial b;
                ^

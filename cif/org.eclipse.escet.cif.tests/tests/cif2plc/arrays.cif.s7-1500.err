@@ -1,59 +1,61 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/arrays.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - A list type is used:
-   - In discrete variable "aut.empty_arr":
+  --------------------------
+  (1/1) A list type is used.
+  --------------------------
+   * In discrete variable "aut.empty_arr":
      - disc list[0] int empty_arr;
             ^
-   - In discrete variable "aut.l":
+   * In discrete variable "aut.l":
      - disc list[5] int l = [1, 2, 3, 4, 5];
             ^               ^
-   - In location "aut.l1":
+   * In location "aut.l1":
      - edge do i := l[0], j := l[-1] goto l2;
                     ^          ^
-   - In location "aut.l2":
+   * In location "aut.l2":
      - edge do l[0] := 7, l[-1] := 8 goto l3;
                ^          ^
-   - In location "aut.l3":
+   * In location "aut.l3":
      - edge do ll[-2] := lf([11, 22, 33, 44, 55], -1) goto l4;
                ^ ^       ^ ^^
-   - In location "aut.l4":
+   * In location "aut.l4":
      - edge do ll := llf(-1, 9) goto l5;
                ^     ^  ^
-   - In location "aut.l5":
+   * In location "aut.l5":
      - edge do ll[0] := llf(3, 123)[0] goto l6;
                ^ ^      ^  ^       ^
-   - In location "aut.l6":
+   * In location "aut.l6":
      - edge do i := ll[1][2] goto l7;
                     ^ ^
-   - In location "aut.l7":
+   * In location "aut.l7":
      - edge do empty_arr := <list[0] int>[] goto l8;
                ^             ^           ^
-   - In discrete variable "aut.ll":
+   * In discrete variable "aut.ll":
      - disc list[2] list[5] int[0..99] ll = [[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]];
             ^       ^                       ^^                ^
-   - In user-defined function "lf":
+   * In user-defined function "lf":
      - func list[5] int lf(list[5] int l; int x):
             ^
      - r[x] := 6;
        ^
      - return r;
               ^
-   - In function parameter "lf.l":
+   * In function parameter "lf.l":
      - func list[5] int lf(list[5] int l; int x):
                            ^
-   - In function variable "lf.r":
+   * In function variable "lf.r":
      - list[5] int r = l;
        ^               ^
-   - In user-defined function "llf":
+   * In user-defined function "llf":
      - func list[2] list[5] int llf(int x; int y):
             ^       ^
      - r[0][x] := y;
        ^^
      - return r;
               ^
-   - In function variable "llf.r":
+   * In function variable "llf.r":
      - list[2] list[5] int r = [[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]];
        ^       ^               ^^                ^
-   - In user-defined function "pf":
+   * In user-defined function "pf":
      - return [1, 2, 3, 4, 5][x];
               ^

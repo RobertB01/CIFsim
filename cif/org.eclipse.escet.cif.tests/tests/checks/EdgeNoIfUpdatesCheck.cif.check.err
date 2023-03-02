@@ -1,16 +1,18 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Edge has an 'if' update:
-   - In location "a.l5":
+  ------------------------------
+  (1/1) Edge has an 'if' update.
+  ------------------------------
+   * In location "a.l5":
      - edge e do if true: va := 1 end goto l1;
                  ^
-   - In automaton "all":
+   * In automaton "all":
      - edge e do if true: va := 1 end;
                  ^
      - edge e do if true: va := 1 end;
                  ^
-   - In location "g.A.l5":
+   * In location "g.A.l5":
      - edge e do if true: va := 1 end goto l1;
                  ^
-   - In automaton "if_upd":
+   * In automaton "if_upd":
      - edge e do if true: v := 1 end;
                  ^

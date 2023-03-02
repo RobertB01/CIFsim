@@ -1,14 +1,16 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Edge is urgent:
-   - In location "a.l2":
+  ---------------------
+  (1/1) Edge is urgent.
+  ---------------------
+   * In location "a.l2":
      - edge e now goto l3;
        ^
-   - In location "a.l4":
+   * In location "a.l4":
      - edge e now goto l1;
        ^
-   - In location "g.A.l2":
+   * In location "g.A.l2":
      - edge e now goto l3;
        ^
-   - In location "g.A.l4":
+   * In location "g.A.l4":
      - edge e now goto l1;
        ^

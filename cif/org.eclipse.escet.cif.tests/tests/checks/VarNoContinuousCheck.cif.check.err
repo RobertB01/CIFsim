@@ -1,11 +1,13 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Variable is a continuous variable:
-   - In the top-level scope of the specification:
+  ----------------------------------------
+  (1/1) Variable is a continuous variable.
+  ----------------------------------------
+   * In the top-level scope of the specification:
      - cont c der 1.0;
             ^
-   - In automaton "a":
+   * In automaton "a":
      - cont c der 1.0;
             ^
-   - In group "g":
+   * In group "g":
      - cont c;
             ^

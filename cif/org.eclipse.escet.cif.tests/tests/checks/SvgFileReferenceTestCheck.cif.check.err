@@ -1,5 +1,7 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - A boolean literal is used:
-   - In constant "x":
+  --------------------------------
+  (1/1) A boolean literal is used.
+  --------------------------------
+   * In constant "x":
      - const bool x = true;
                       ^

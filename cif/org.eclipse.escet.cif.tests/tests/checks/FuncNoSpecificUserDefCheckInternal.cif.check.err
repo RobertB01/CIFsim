@@ -1,11 +1,13 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Function is an internal user-defined function:
-   - In the top-level scope of the specification:
+  ----------------------------------------------------
+  (1/1) Function is an internal user-defined function.
+  ----------------------------------------------------
+   * In the top-level scope of the specification:
      - func int INT_PARAM_inc(int x):
                 ^
      - func int INT_NO_PARAM_fifteen():
                 ^
-   - In group "g":
+   * In group "g":
      - func int INT_PARAM_inc(int x):
                 ^
      - func int INT_NO_PARAM_fifteen():

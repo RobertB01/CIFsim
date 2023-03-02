@@ -2,45 +2,59 @@ WARNING: File "cif2plc/invalid.cif": Semantic warning at line 49, column 7: Auto
 WARNING: File "cif2plc/invalid.cif": Semantic warning at line 73, column 17: Discrete variable "q.v9" is not used anywhere in the specification.
 ERROR: PLC code generation failed for CIF file "cif2plc/invalid.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - A cast expression from string is used:
-   - In the top-level scope of the specification:
+  ---------------------------------------------
+  (1/52) A cast expression from string is used.
+  ---------------------------------------------
+   * In the top-level scope of the specification:
      - invariant <int>q.v1 > 0;
                  ^
- - A dictionary literal is used:
-   - In discrete variable "q.v2":
+  ------------------------------------
+  (2/52) A dictionary literal is used.
+  ------------------------------------
+   * In discrete variable "q.v2":
      - disc dict(int:bool) v2 = {1: true};
                                 ^
- - A dictionary type is used:
-   - In the top-level scope of the specification:
+  ---------------------------------
+  (3/52) A dictionary type is used.
+  ---------------------------------
+   * In the top-level scope of the specification:
      - invariant size(q.v1) + size(q.v2) > 0;
                               ^    ^
-   - In discrete variable "q.v2":
+   * In discrete variable "q.v2":
      - disc dict(int:bool) v2 = {1: true};
             ^                   ^
- - A distribution type is used:
-   - In the top-level scope of the specification:
+  -----------------------------------
+  (4/52) A distribution type is used.
+  -----------------------------------
+   * In the top-level scope of the specification:
      - invariant (sample q.v3)[0];
                   ^      ^
-   - In discrete variable "q.v3":
+   * In discrete variable "q.v3":
      - disc dist bool v3 = constant(true);
             ^              ^       ^
- - A function type is used to store functions or use functions as data values:
-   - In the top-level scope of the specification:
+  ----------------------------------------------------------------------------------
+  (5/52) A function type is used to store functions or use functions as data values.
+  ----------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant q.v4(1) > 0;
                  ^
      - invariant [f2][q.i]() > 0;
                  ^^  ^
-   - In discrete variable "q.v4":
+   * In discrete variable "q.v4":
      - disc func int(int) v4 = f1;
             ^                  ^
- - A non-array list projection expression is used:
-   - In the top-level scope of the specification:
+  ------------------------------------------------------
+  (6/52) A non-array list projection expression is used.
+  ------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant q.v5[0] > 0;
                      ^
      - invariant q.v5[:][0] > 0;
                         ^
- - A non-array list type is used:
-   - In the top-level scope of the specification:
+  -------------------------------------
+  (7/52) A non-array list type is used.
+  -------------------------------------
+   * In the top-level scope of the specification:
      - invariant size(q.v5) + size(q.v6) > 0;
                  ^    ^
      - invariant q.v5 = q.v5;
@@ -55,26 +69,30 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
                  ^    ^  ^^
      - invariant pop(q.v5)[0] > 0;
                  ^  ^^
-   - In discrete variable "q.v5":
+   * In discrete variable "q.v5":
      - disc list int v5 = [1];
             ^
-   - In discrete variable "q.v8":
+   * In discrete variable "q.v8":
      - disc list int v8 = if true: v7 else v7 end;
             ^
-   - In discrete variable "q.v9":
+   * In discrete variable "q.v9":
      - disc list int v9 = switch "a": case "a": v7 else v8 end;
             ^             ^                             ^
- - A set literal is used:
-   - In the top-level scope of the specification:
+  -----------------------------
+  (8/52) A set literal is used.
+  -----------------------------
+   * In the top-level scope of the specification:
      - invariant empty(q.v6 - {1});
                               ^
      - invariant {1} sub q.v6;
                  ^
-   - In discrete variable "q.v6":
+   * In discrete variable "q.v6":
      - disc set int v6 = {1};
                          ^
- - A set type is used:
-   - In the top-level scope of the specification:
+  --------------------------
+  (9/52) A set type is used.
+  --------------------------
+   * In the top-level scope of the specification:
      - invariant size(q.v5) + size(q.v6) > 0;
                               ^    ^
      - invariant empty(q.v6 or q.v6);
@@ -89,131 +107,179 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
                       ^
      - invariant {1} sub q.v6;
                  ^       ^
-   - In discrete variable "q.v6":
+   * In discrete variable "q.v6":
      - disc set int v6 = {1};
             ^            ^
- - A slice expression is used:
-   - In the top-level scope of the specification:
+  -----------------------------------
+  (10/52) A slice expression is used.
+  -----------------------------------
+   * In the top-level scope of the specification:
      - invariant q.v5[:][0] > 0;
                      ^
- - A string literal is used:
-   - In the top-level scope of the specification:
+  ---------------------------------
+  (11/52) A string literal is used.
+  ---------------------------------
+   * In the top-level scope of the specification:
      - invariant fmt("%s", q.v1) != "";
                      ^              ^
-   - In discrete variable "q.v1":
+   * In discrete variable "q.v1":
      - disc string v1 = "a";
                         ^
-   - In discrete variable "q.v9":
+   * In discrete variable "q.v9":
      - disc list int v9 = switch "a": case "a": v7 else v8 end;
                                  ^         ^
- - A string type is used:
-   - In the top-level scope of the specification:
+  ------------------------------
+  (12/52) A string type is used.
+  ------------------------------
+   * In the top-level scope of the specification:
      - invariant size(q.v1) + size(q.v2) > 0;
                  ^    ^
      - invariant <int>q.v1 > 0;
                       ^
      - invariant fmt("%s", q.v1) != "";
                  ^  ^^     ^        ^
-   - In discrete variable "q.v1":
+   * In discrete variable "q.v1":
      - disc string v1 = "a";
             ^           ^
-   - In discrete variable "q.v9":
+   * In discrete variable "q.v9":
      - disc list int v9 = switch "a": case "a": v7 else v8 end;
                                  ^         ^
- - A user-defined function reference is used as a data value:
-   - In the top-level scope of the specification:
+  ------------------------------------------------------------------
+  (13/52) A user-defined function reference is used as a data value.
+  ------------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant [f2][q.i]() > 0;
                   ^
-   - In discrete variable "q.v4":
+   * In discrete variable "q.v4":
      - disc func int(int) v4 = f1;
                                ^
- - Automaton has multiple initial locations:
-   - In the top-level scope of the specification:
+  -------------------------------------------------
+  (14/52) Automaton has multiple initial locations.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
      - plant automaton p3:
                        ^
- - Automaton has no initial location:
-   - In the top-level scope of the specification:
+  ------------------------------------------
+  (15/52) Automaton has no initial location.
+  ------------------------------------------
+   * In the top-level scope of the specification:
      - plant automaton p2:
                        ^
- - Binary operator "!=" is used on a set typed operand:
-   - In the top-level scope of the specification:
+  ------------------------------------------------------------
+  (16/52) Binary operator "!=" is used on a set typed operand.
+  ------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant q.v6 != q.v6;
                       ^
- - Binary operator "!=" is used on a string typed operand:
-   - In the top-level scope of the specification:
+  ---------------------------------------------------------------
+  (17/52) Binary operator "!=" is used on a string typed operand.
+  ---------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant fmt("%s", q.v1) != "";
                                  ^
- - Binary operator "+" is used on a list typed operand:
-   - In the top-level scope of the specification:
+  ------------------------------------------------------------
+  (18/52) Binary operator "+" is used on a list typed operand.
+  ------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant empty(q.v5 + [1]);
                             ^
- - Binary operator "-" is used on a set typed operand:
-   - In the top-level scope of the specification:
+  -----------------------------------------------------------
+  (19/52) Binary operator "-" is used on a set typed operand.
+  -----------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant empty(q.v6 - {1});
                             ^
- - Binary operator "=" is used on a list typed operand:
-   - In the top-level scope of the specification:
+  ------------------------------------------------------------
+  (20/52) Binary operator "=" is used on a list typed operand.
+  ------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant q.v5 = q.v5;
                       ^
- - Binary operator "and" is used on a set typed operand:
-   - In the top-level scope of the specification:
+  -------------------------------------------------------------
+  (21/52) Binary operator "and" is used on a set typed operand.
+  -------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant empty(q.v6 and q.v6);
                             ^
- - Binary operator "in" is used:
-   - In the top-level scope of the specification:
+  -------------------------------------
+  (22/52) Binary operator "in" is used.
+  -------------------------------------
+   * In the top-level scope of the specification:
      - invariant 1 in q.v6;
                    ^
- - Binary operator "or" is used on a set typed operand:
-   - In the top-level scope of the specification:
+  ------------------------------------------------------------
+  (23/52) Binary operator "or" is used on a set typed operand.
+  ------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant empty(q.v6 or q.v6);
                             ^
- - Binary operator "sub" is used:
-   - In the top-level scope of the specification:
+  --------------------------------------
+  (24/52) Binary operator "sub" is used.
+  --------------------------------------
+   * In the top-level scope of the specification:
      - invariant {1} sub q.v6;
                      ^
- - Component has an initialization predicate:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (25/52) Component has an initialization predicate.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - initial p.x > 0;
                    ^
-   - In group "g":
+   * In group "g":
      - initial p.x > 1;
                    ^
-   - In automaton "p":
+   * In automaton "p":
      - initial x > 2;
                  ^
- - Discrete variable has multiple potential initial values:
-   - In automaton "p":
+  ----------------------------------------------------------------
+  (26/52) Discrete variable has multiple potential initial values.
+  ----------------------------------------------------------------
+   * In automaton "p":
      - disc int y in {1, 2};
                 ^
- - Discrete variable has multiple potential initial values (any value in its domain):
-   - In automaton "p":
+  ------------------------------------------------------------------------------------------
+  (27/52) Discrete variable has multiple potential initial values (any value in its domain).
+  ------------------------------------------------------------------------------------------
+   * In automaton "p":
      - disc int x in any;
                 ^
-   - In automaton "q":
+   * In automaton "q":
      - disc list[2] int v7 in any;
                         ^
- - Edge is urgent:
-   - In location "p.b":
+  -----------------------
+  (28/52) Edge is urgent.
+  -----------------------
+   * In location "p.b":
      - edge now;
        ^
- - Function is a user-defined function without parameters:
-   - In the top-level scope of the specification:
+  ---------------------------------------------------------------
+  (29/52) Function is a user-defined function without parameters.
+  ---------------------------------------------------------------
+   * In the top-level scope of the specification:
      - func int f2():
                 ^
- - Function is an external user-defined function:
-   - In the top-level scope of the specification:
+  ------------------------------------------------------
+  (30/52) Function is an external user-defined function.
+  ------------------------------------------------------
+   * In the top-level scope of the specification:
      - func int f1(int b): "java:A.b";
                 ^
- - Internal user-defined function has a 'continue' statement:
-   - In user-defined function "f2":
+  ------------------------------------------------------------------
+  (31/52) Internal user-defined function has a 'continue' statement.
+  ------------------------------------------------------------------
+   * In user-defined function "f2":
      - continue;
        ^
- - Internal user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable:
-   - In user-defined function "f":
+  ---------------------------------------------------------------------------------------------------------------------------------
+  (32/52) Internal user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
+  ---------------------------------------------------------------------------------------------------------------------------------
+   * In user-defined function "f":
      - p[0], p[1] := 2, 3;
                   ^
- - Invariant is a state invariant:
-   - In the top-level scope of the specification:
+  ---------------------------------------
+  (33/52) Invariant is a state invariant.
+  ---------------------------------------
+   * In the top-level scope of the specification:
      - invariant p.y > 0;
                      ^
      - invariant f2() > 0;
@@ -280,49 +346,67 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
                            ^
      - invariant [f2][q.i]() > 0;
                              ^
-   - In group "g":
+   * In group "g":
      - invariant p.y > 1;
                      ^
-   - In automaton "p":
+   * In automaton "p":
      - plant invariant y > 2;
                          ^
-   - In location "p.a":
+   * In location "p.a":
      - plant invariant x > 3;
                          ^
- - Location is urgent:
-   - In automaton "p":
+  ---------------------------
+  (34/52) Location is urgent.
+  ---------------------------
+   * In automaton "p":
      - location a:
                 ^
- - Standard library function "acosh" is used:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (35/52) Standard library function "acosh" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant acosh(q.r) > 0;
                  ^
- - Standard library function "asinh" is used:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (36/52) Standard library function "asinh" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant asinh(q.r) > 0;
                  ^
- - Standard library function "atanh" is used:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (37/52) Standard library function "atanh" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant atanh(q.r) > 0;
                  ^
- - Standard library function "ceil" is used:
-   - In the top-level scope of the specification:
+  -------------------------------------------------
+  (38/52) Standard library function "ceil" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant ceil(q.r) > 0;
                  ^
- - Standard library function "constant" is used:
-   - In discrete variable "q.v3":
+  -----------------------------------------------------
+  (39/52) Standard library function "constant" is used.
+  -----------------------------------------------------
+   * In discrete variable "q.v3":
      - disc dist bool v3 = constant(true);
                            ^
- - Standard library function "cosh" is used:
-   - In the top-level scope of the specification:
+  -------------------------------------------------
+  (40/52) Standard library function "cosh" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant cosh(q.r) > 0;
                  ^
- - Standard library function "del" is used:
-   - In the top-level scope of the specification:
+  ------------------------------------------------
+  (41/52) Standard library function "del" is used.
+  ------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant size(del(q.v5, 0)) > 0;
                       ^
- - Standard library function "empty" is used:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (42/52) Standard library function "empty" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant empty(q.v6 or q.v6);
                  ^
      - invariant empty(q.v6 and q.v6);
@@ -331,36 +415,52 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
                  ^
      - invariant empty(q.v6 - {1});
                  ^
- - Standard library function "floor" is used:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (43/52) Standard library function "floor" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant floor(q.r) > 0;
                  ^
- - Standard library function "fmt" is used:
-   - In the top-level scope of the specification:
+  ------------------------------------------------
+  (44/52) Standard library function "fmt" is used.
+  ------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant fmt("%s", q.v1) != "";
                  ^
- - Standard library function "pop" is used:
-   - In the top-level scope of the specification:
+  ------------------------------------------------
+  (45/52) Standard library function "pop" is used.
+  ------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant pop(q.v5)[0] > 0;
                  ^
- - Standard library function "round" is used:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (46/52) Standard library function "round" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant round(q.r) > 0;
                  ^
- - Standard library function "scale" is used:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (47/52) Standard library function "scale" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant scale(q.r, 2, 3, 4, 5) > 0;
                  ^
- - Standard library function "sign" is used:
-   - In the top-level scope of the specification:
+  -------------------------------------------------
+  (48/52) Standard library function "sign" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant sign(q.r) > 0;
                  ^
- - Standard library function "sinh" is used:
-   - In the top-level scope of the specification:
+  -------------------------------------------------
+  (49/52) Standard library function "sinh" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant sinh(q.r) > 0;
                  ^
- - Standard library function "size" is used:
-   - In the top-level scope of the specification:
+  -------------------------------------------------
+  (50/52) Standard library function "size" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant size(q.v1) + size(q.v2) > 0;
                  ^            ^
      - invariant size(q.v5) + size(q.v6) > 0;
@@ -369,11 +469,15 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
                  ^
      - invariant size(del(q.v5, 0)) > 0;
                  ^
- - Standard library function "tanh" is used:
-   - In the top-level scope of the specification:
+  -------------------------------------------------
+  (51/52) Standard library function "tanh" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant tanh(q.r) > 0;
                  ^
- - Unary operator "sample" is used:
-   - In the top-level scope of the specification:
+  ----------------------------------------
+  (52/52) Unary operator "sample" is used.
+  ----------------------------------------
+   * In the top-level scope of the specification:
      - invariant (sample q.v3)[0];
                   ^

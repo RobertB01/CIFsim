@@ -1,11 +1,13 @@
 WARNING: File "checks/LocNoUrgentCheck.cif": Semantic warning at line 33, column 34: Location parameter "loc_param.loc" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Location is urgent:
-   - In automaton "a":
+  -------------------------
+  (1/1) Location is urgent.
+  -------------------------
+   * In automaton "a":
      - location loc1:
                 ^
      - location loc3:
                 ^
-   - In automaton "nameless_loc":
+   * In automaton "nameless_loc":
      - location:
        ^

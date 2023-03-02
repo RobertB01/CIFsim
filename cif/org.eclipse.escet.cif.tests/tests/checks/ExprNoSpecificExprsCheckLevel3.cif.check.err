@@ -1,75 +1,87 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - A cast expression from string is used:
-   - In group "CAST_EXPRS_STRING_TO_BOOLEAN":
+  --------------------------------------------
+  (1/6) A cast expression from string is used.
+  --------------------------------------------
+   * In group "CAST_EXPRS_STRING_TO_BOOLEAN":
      - invariant not <bool>"false";
                      ^
-   - In group "CAST_EXPRS_STRING_TO_INT":
+   * In group "CAST_EXPRS_STRING_TO_INT":
      - invariant 1 = <int>"1";
                      ^
-   - In group "CAST_EXPRS_STRING_TO_REAL":
+   * In group "CAST_EXPRS_STRING_TO_REAL":
      - invariant 1.0 = <real>"1.0";
                        ^
- - A cast expression to string is used:
-   - In group "CAST_EXPRS_AUTOMATON_TO_STRING":
+  ------------------------------------------
+  (2/6) A cast expression to string is used.
+  ------------------------------------------
+   * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
                        ^
-   - In group "CAST_EXPRS_BOOLEAN_TO_STRING":
+   * In group "CAST_EXPRS_BOOLEAN_TO_STRING":
      - invariant "true" = <string>true;
                           ^
-   - In group "CAST_EXPRS_INT_TO_STRING":
+   * In group "CAST_EXPRS_INT_TO_STRING":
      - invariant "1" = <string>1;
                        ^
-   - In group "CAST_EXPRS_REAL_TO_STRING":
+   * In group "CAST_EXPRS_REAL_TO_STRING":
      - invariant "1.1" = <string>1.1;
                          ^
-   - In location "X.A":
+   * In location "X.A":
      - invariant "A" = <string>self;
                        ^
- - A standard library function reference is used:
-   - In group "FUNC_CALLS":
+  ----------------------------------------------------
+  (3/6) A standard library function reference is used.
+  ----------------------------------------------------
+   * In group "FUNC_CALLS":
      - invariant abs(1) = 1;
                  ^
-   - In group "FUNC_REFS_STD_LIB":
+   * In group "FUNC_REFS_STD_LIB":
      - invariant abs(1) = 1;
                  ^
- - A tuple field-projection expression is used:
-   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+  --------------------------------------------------
+  (4/6) A tuple field-projection expression is used.
+  --------------------------------------------------
+   * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                     ^       ^
-   - In group "TUPLE_FIELD_REFS_NAMED":
+   * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                   ^
- - A tuple index-projection expression is used:
-   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+  --------------------------------------------------
+  (5/6) A tuple index-projection expression is used.
+  --------------------------------------------------
+   * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                     ^       ^
-   - In group "PROJECTION_EXPRS_TUPLES_INDEX":
+   * In group "PROJECTION_EXPRS_TUPLES_INDEX":
      - invariant (true, false)[0];
                               ^
      - invariant ((true, false), false)[0][0];
                                        ^  ^
-   - In group "TUPLE_FIELD_REFS_NAMED":
+   * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                   ^
-   - In group "TUPLE_FIELD_REFS_NAMELESS":
+   * In group "TUPLE_FIELD_REFS_NAMELESS":
      - invariant (true, false)[0];
                               ^
-   - In group "TUPLE_LITS":
+   * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                               ^
- - A user-defined function reference is used:
-   - In group "FUNC_CALLS":
+  ------------------------------------------------
+  (6/6) A user-defined function reference is used.
+  ------------------------------------------------
+   * In group "FUNC_CALLS":
      - invariant intF(true);
                  ^
      - invariant extF(true);
                  ^
-   - In group "FUNC_REFS_USER_DEF_EXT":
+   * In group "FUNC_REFS_USER_DEF_EXT":
      - invariant f() = "a";
                  ^
-   - In group "FUNC_REFS_USER_DEF_INT":
+   * In group "FUNC_REFS_USER_DEF_INT":
      - invariant f();
                  ^
-   - In group "USER_DEF_FUNC_REFS":
+   * In group "USER_DEF_FUNC_REFS":
      - invariant g(intF);
                  ^ ^
      - invariant g(extF);

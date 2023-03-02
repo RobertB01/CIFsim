@@ -1,23 +1,27 @@
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 119, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - A function type is used to store functions or use functions as data values:
-   - In automaton "FUNC_TYPES_AS_DATA":
+  ---------------------------------------------------------------------------------
+  (1/2) A function type is used to store functions or use functions as data values.
+  ---------------------------------------------------------------------------------
+   * In automaton "FUNC_TYPES_AS_DATA":
      - edge when not lfn[0]();
                      ^  ^
-   - In discrete variable "FUNC_TYPES_AS_DATA.lfn":
+   * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
      - disc list func bool() lfn = [f];
                  ^                 ^^
- - A non-array list type is used:
-   - In automaton "FUNC_TYPES_AS_DATA":
+  ------------------------------------
+  (2/2) A non-array list type is used.
+  ------------------------------------
+   * In automaton "FUNC_TYPES_AS_DATA":
      - edge when not lfn[0]();
                      ^
-   - In discrete variable "FUNC_TYPES_AS_DATA.lfn":
+   * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
      - disc list func bool() lfn = [f];
             ^
-   - In location "LIST_TYPES_NON_ARRAY.loc":
+   * In location "LIST_TYPES_NON_ARRAY.loc":
      - edge tau do v := v;
                    ^    ^
-   - In discrete variable "LIST_TYPES_NON_ARRAY.v":
+   * In discrete variable "LIST_TYPES_NON_ARRAY.v":
      - disc list bool v;
             ^

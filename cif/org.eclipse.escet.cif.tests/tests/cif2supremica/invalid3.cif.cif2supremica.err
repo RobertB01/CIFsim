@@ -1,9 +1,13 @@
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
- - Discrete variable has multiple potential initial values (any value in its domain):
-   - In automaton "p":
+  ----------------------------------------------------------------------------------------
+  (1/2) Discrete variable has multiple potential initial values (any value in its domain).
+  ----------------------------------------------------------------------------------------
+   * In automaton "p":
      - disc bool b in any;
                  ^
- - Failed to determine whether a location is an initial location, as one of its initialization predicates cannot be statically evaluated:
-   - In automaton "p":
+  --------------------------------------------------------------------------------------------------------------------------------------------
+  (2/2) Failed to determine whether a location is an initial location, as one of its initialization predicates cannot be statically evaluated.
+  --------------------------------------------------------------------------------------------------------------------------------------------
+   * In automaton "p":
      - initial b;
                ^

@@ -1,510 +1,552 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - A binary expression is used:
-   - In group "BINARY_EXPRS":
+  -----------------------------------
+  (1/21) A binary expression is used.
+  -----------------------------------
+   * In group "BINARY_EXPRS":
      - invariant 1 = 1;
                    ^
-   - In group "CAST_EXPRS_AUTOMATON_TO_STRING":
+   * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
                      ^
-   - In group "CAST_EXPRS_BOOLEAN_TO_STRING":
+   * In group "CAST_EXPRS_BOOLEAN_TO_STRING":
      - invariant "true" = <string>true;
                         ^
-   - In group "CAST_EXPRS_INT_TO_REAL":
+   * In group "CAST_EXPRS_INT_TO_REAL":
      - invariant <real>1 = 1.0;
                          ^
-   - In group "CAST_EXPRS_INT_TO_STRING":
+   * In group "CAST_EXPRS_INT_TO_STRING":
      - invariant "1" = <string>1;
                      ^
-   - In group "CAST_EXPRS_REAL_TO_STRING":
+   * In group "CAST_EXPRS_REAL_TO_STRING":
      - invariant "1.1" = <string>1.1;
                        ^
-   - In group "CAST_EXPRS_STRING_TO_INT":
+   * In group "CAST_EXPRS_STRING_TO_INT":
      - invariant 1 = <int>"1";
                    ^
-   - In group "CAST_EXPRS_STRING_TO_REAL":
+   * In group "CAST_EXPRS_STRING_TO_REAL":
      - invariant 1.0 = <real>"1.0";
                      ^
-   - In group "CONT_VAR_REFS":
+   * In group "CONT_VAR_REFS":
      - invariant c = 1.0;
                    ^
-   - In group "CONT_VAR_REFS_DER":
+   * In group "CONT_VAR_REFS_DER":
      - invariant c' = 1.0;
                     ^
-   - In group "ENUM_LIT_REFS":
+   * In group "ENUM_LIT_REFS":
      - invariant e1 = e2;
                     ^
-   - In group "FUNC_CALLS":
+   * In group "FUNC_CALLS":
      - invariant abs(1) = 1;
                         ^
-   - In group "FUNC_REFS_STD_LIB":
+   * In group "FUNC_REFS_STD_LIB":
      - invariant abs(1) = 1;
                         ^
-   - In group "FUNC_REFS_USER_DEF_EXT":
+   * In group "FUNC_REFS_USER_DEF_EXT":
      - invariant f() = "a";
                      ^
-   - In group "INT_LITS":
+   * In group "INT_LITS":
      - invariant 1 = 1;
                    ^
-   - In group "LIST_LITS":
+   * In group "LIST_LITS":
      - invariant [1] = [1];
                      ^
-   - In group "PROJECTION_EXPRS_STRINGS":
+   * In group "PROJECTION_EXPRS_STRINGS":
      - invariant "abc"[0] = "a";
                           ^
-   - In group "REAL_LITS":
+   * In group "REAL_LITS":
      - invariant 1.0 = 1.0;
                      ^
-   - In group "SET_LITS":
+   * In group "SET_LITS":
      - invariant true in {true, false};
                       ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                                   ^
-   - In group "STRING_LITS":
+   * In group "STRING_LITS":
      - invariant "a" = "a";
                      ^
-   - In group "TIME_VAR_REFS":
+   * In group "TIME_VAR_REFS":
      - invariant time > 0;
                       ^
-   - In location "X.A":
+   * In location "X.A":
      - invariant "A" = <string>self;
                      ^
- - A boolean literal is used:
-   - In the top-level scope of the specification:
+  ---------------------------------
+  (2/21) A boolean literal is used.
+  ---------------------------------
+   * In the top-level scope of the specification:
      - invariant true;
                  ^
-   - In algebraic variable "ALG_VAR_REFS.a":
+   * In algebraic variable "ALG_VAR_REFS.a":
      - alg bool a = true;
                     ^
-   - In group "BOOL_LITS":
+   * In group "BOOL_LITS":
      - invariant true;
                  ^
-   - In group "CAST_EXPRS_BOOLEAN_TO_STRING":
+   * In group "CAST_EXPRS_BOOLEAN_TO_STRING":
      - invariant "true" = <string>true;
                                   ^
-   - In group "CAST_EXPRS_EQUAL_TYPE":
+   * In group "CAST_EXPRS_EQUAL_TYPE":
      - invariant <bool>true;
                        ^
-   - In automaton "COMP_REFS_EXPLICIT":
+   * In automaton "COMP_REFS_EXPLICIT":
      - initial;
        ^
      - invariant switch COMP_REFS_EXPLICIT: else true end;
                                                  ^
-   - In automaton "COMP_REFS_SELF":
+   * In automaton "COMP_REFS_SELF":
      - initial;
        ^
      - invariant switch self: else true end;
                                    ^
-   - In constant "CONST_REFS.c":
+   * In constant "CONST_REFS.c":
      - const bool c = true;
                       ^
-   - In group "DICT_LITS":
+   * In group "DICT_LITS":
      - invariant {true: false}[true];
                   ^     ^      ^
-   - In automaton "DISC_VAR_REFS":
+   * In automaton "DISC_VAR_REFS":
      - initial;
        ^
-   - In group "FUNC_CALLS":
+   * In group "FUNC_CALLS":
      - invariant intF(true);
                       ^
      - invariant extF(true);
                       ^
-   - In user-defined function "FUNC_REFS_USER_DEF_INT.f":
+   * In user-defined function "FUNC_REFS_USER_DEF_INT.f":
      - return true;
               ^
-   - In group "IF_EXPRS":
+   * In group "IF_EXPRS":
      - invariant if true: true else false end;
                     ^     ^         ^
-   - In function variable "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f.v":
+   * In function variable "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f.v":
      - bool v = true;
                 ^
-   - In location "LOC_REFS.loc":
+   * In location "LOC_REFS.loc":
      - initial;
        ^
-   - In group "PROJECTION_EXPRS_DICTS":
+   * In group "PROJECTION_EXPRS_DICTS":
      - invariant {true: false}[true];
                   ^     ^      ^
-   - In group "PROJECTION_EXPRS_LISTS":
+   * In group "PROJECTION_EXPRS_LISTS":
      - invariant [true, false][0];
                   ^     ^
-   - In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
+   * In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
      - initial;
        ^
-   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+   * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - initial;
        ^
-   - In group "PROJECTION_EXPRS_TUPLES_INDEX":
+   * In group "PROJECTION_EXPRS_TUPLES_INDEX":
      - invariant (true, false)[0];
                   ^     ^
      - invariant ((true, false), false)[0][0];
                    ^     ^       ^
-   - In automaton "RECEIVE_EXPRS":
+   * In automaton "RECEIVE_EXPRS":
      - initial;
        ^
-   - In group "SET_LITS":
+   * In group "SET_LITS":
      - invariant true in {true, false};
                  ^        ^     ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                     ^     ^
-   - In group "SWITCH_EXPRS":
+   * In group "SWITCH_EXPRS":
      - invariant switch 5: case 5: true else false end;
                                    ^         ^
-   - In constant "TUPLE_FIELD_REFS_NAMED.c":
+   * In constant "TUPLE_FIELD_REFS_NAMED.c":
      - const tuple(bool a; bool b) c = (true, false);
                                         ^     ^
-   - In group "TUPLE_FIELD_REFS_NAMELESS":
+   * In group "TUPLE_FIELD_REFS_NAMELESS":
      - invariant (true, false)[0];
                   ^     ^
-   - In group "TUPLE_LITS":
+   * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                   ^     ^
-   - In group "UNARY_EXPRS":
+   * In group "UNARY_EXPRS":
      - invariant not true;
                      ^
-   - In user-defined function "USER_DEF_FUNC_REFS.g":
+   * In user-defined function "USER_DEF_FUNC_REFS.g":
      - return f(true);
                 ^
-   - In location "X.A":
+   * In location "X.A":
      - initial;
        ^
-   - In group "grp":
+   * In group "grp":
      - invariant true;
                  ^
-   - In group "nested_grp.nested_grp":
+   * In group "nested_grp.nested_grp":
      - invariant true;
                  ^
- - A cast expression is used:
-   - In group "CAST_EXPRS_AUTOMATON_TO_STRING":
+  ---------------------------------
+  (3/21) A cast expression is used.
+  ---------------------------------
+   * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
                        ^
-   - In group "CAST_EXPRS_BOOLEAN_TO_STRING":
+   * In group "CAST_EXPRS_BOOLEAN_TO_STRING":
      - invariant "true" = <string>true;
                           ^
-   - In group "CAST_EXPRS_EQUAL_TYPE":
+   * In group "CAST_EXPRS_EQUAL_TYPE":
      - invariant <bool>true;
                  ^
-   - In group "CAST_EXPRS_INT_TO_REAL":
+   * In group "CAST_EXPRS_INT_TO_REAL":
      - invariant <real>1 = 1.0;
                  ^
-   - In group "CAST_EXPRS_INT_TO_STRING":
+   * In group "CAST_EXPRS_INT_TO_STRING":
      - invariant "1" = <string>1;
                        ^
-   - In group "CAST_EXPRS_REAL_TO_STRING":
+   * In group "CAST_EXPRS_REAL_TO_STRING":
      - invariant "1.1" = <string>1.1;
                          ^
-   - In group "CAST_EXPRS_STRING_TO_BOOLEAN":
+   * In group "CAST_EXPRS_STRING_TO_BOOLEAN":
      - invariant not <bool>"false";
                      ^
-   - In group "CAST_EXPRS_STRING_TO_INT":
+   * In group "CAST_EXPRS_STRING_TO_INT":
      - invariant 1 = <int>"1";
                      ^
-   - In group "CAST_EXPRS_STRING_TO_REAL":
+   * In group "CAST_EXPRS_STRING_TO_REAL":
      - invariant 1.0 = <real>"1.0";
                        ^
-   - In location "X.A":
+   * In location "X.A":
      - invariant "A" = <string>self;
                        ^
- - A component reference is used:
-   - In group "CAST_EXPRS_AUTOMATON_TO_STRING":
+  -------------------------------------
+  (4/21) A component reference is used.
+  -------------------------------------
+   * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
                                ^
-   - In automaton "COMP_REFS_EXPLICIT":
+   * In automaton "COMP_REFS_EXPLICIT":
      - invariant switch COMP_REFS_EXPLICIT: else true end;
                         ^
-   - In automaton "COMP_REFS_SELF":
+   * In automaton "COMP_REFS_SELF":
      - invariant switch self: else true end;
                         ^
-   - In location "X.A":
+   * In location "X.A":
      - invariant "A" = <string>self;
                                ^
- - A constant reference is used:
-   - In group "CONST_REFS":
+  ------------------------------------
+  (5/21) A constant reference is used.
+  ------------------------------------
+   * In group "CONST_REFS":
      - invariant c;
                  ^
-   - In group "TUPLE_FIELD_REFS_NAMED":
+   * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                  ^
- - A dictionary literal is used:
-   - In group "DICT_LITS":
+  ------------------------------------
+  (6/21) A dictionary literal is used.
+  ------------------------------------
+   * In group "DICT_LITS":
      - invariant {true: false}[true];
                  ^
-   - In group "PROJECTION_EXPRS_DICTS":
+   * In group "PROJECTION_EXPRS_DICTS":
      - invariant {true: false}[true];
                  ^
- - A function call is used:
-   - In group "FUNC_CALLS":
+  -------------------------------
+  (7/21) A function call is used.
+  -------------------------------
+   * In group "FUNC_CALLS":
      - invariant abs(1) = 1;
                     ^
      - invariant intF(true);
                      ^
      - invariant extF(true);
                      ^
-   - In group "FUNC_REFS_STD_LIB":
+   * In group "FUNC_REFS_STD_LIB":
      - invariant abs(1) = 1;
                     ^
-   - In group "FUNC_REFS_USER_DEF_EXT":
+   * In group "FUNC_REFS_USER_DEF_EXT":
      - invariant f() = "a";
                   ^
-   - In group "FUNC_REFS_USER_DEF_INT":
+   * In group "FUNC_REFS_USER_DEF_INT":
      - invariant f();
                   ^
-   - In group "USER_DEF_FUNC_REFS":
+   * In group "USER_DEF_FUNC_REFS":
      - invariant g(intF);
                   ^
      - invariant g(extF);
                   ^
-   - In user-defined function "USER_DEF_FUNC_REFS.g":
+   * In user-defined function "USER_DEF_FUNC_REFS.g":
      - return f(true);
                ^
- - A function reference is used:
-   - In group "FUNC_CALLS":
+  ------------------------------------
+  (8/21) A function reference is used.
+  ------------------------------------
+   * In group "FUNC_CALLS":
      - invariant abs(1) = 1;
                  ^
      - invariant intF(true);
                  ^
      - invariant extF(true);
                  ^
-   - In group "FUNC_REFS_STD_LIB":
+   * In group "FUNC_REFS_STD_LIB":
      - invariant abs(1) = 1;
                  ^
-   - In group "FUNC_REFS_USER_DEF_EXT":
+   * In group "FUNC_REFS_USER_DEF_EXT":
      - invariant f() = "a";
                  ^
-   - In group "FUNC_REFS_USER_DEF_INT":
+   * In group "FUNC_REFS_USER_DEF_INT":
      - invariant f();
                  ^
-   - In group "USER_DEF_FUNC_REFS":
+   * In group "USER_DEF_FUNC_REFS":
      - invariant g(intF);
                  ^ ^
      - invariant g(extF);
                  ^ ^
- - A list literal is used:
-   - In group "LIST_LITS":
+  ------------------------------
+  (9/21) A list literal is used.
+  ------------------------------
+   * In group "LIST_LITS":
      - invariant [1] = [1];
                  ^     ^
-   - In group "PROJECTION_EXPRS_LISTS":
+   * In group "PROJECTION_EXPRS_LISTS":
      - invariant [true, false][0];
                  ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                    ^
- - A location reference is used:
-   - In location "LOC_REFS.loc":
+  -------------------------------------
+  (10/21) A location reference is used.
+  -------------------------------------
+   * In location "LOC_REFS.loc":
      - invariant loc;
                  ^
- - A projection expression is used:
-   - In group "DICT_LITS":
+  ----------------------------------------
+  (11/21) A projection expression is used.
+  ----------------------------------------
+   * In group "DICT_LITS":
      - invariant {true: false}[true];
                               ^
-   - In group "PROJECTION_EXPRS_DICTS":
+   * In group "PROJECTION_EXPRS_DICTS":
      - invariant {true: false}[true];
                               ^
-   - In group "PROJECTION_EXPRS_LISTS":
+   * In group "PROJECTION_EXPRS_LISTS":
      - invariant [true, false][0];
                               ^
-   - In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
+   * In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
      - invariant d[0];
                   ^
-   - In group "PROJECTION_EXPRS_STRINGS":
+   * In group "PROJECTION_EXPRS_STRINGS":
      - invariant "abc"[0] = "a";
                       ^
-   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+   * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                     ^       ^
-   - In group "PROJECTION_EXPRS_TUPLES_INDEX":
+   * In group "PROJECTION_EXPRS_TUPLES_INDEX":
      - invariant (true, false)[0];
                               ^
      - invariant ((true, false), false)[0][0];
                                        ^  ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                                      ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                               ^
-   - In group "TUPLE_FIELD_REFS_NAMED":
+   * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                   ^
-   - In group "TUPLE_FIELD_REFS_NAMELESS":
+   * In group "TUPLE_FIELD_REFS_NAMELESS":
      - invariant (true, false)[0];
                               ^
-   - In group "TUPLE_LITS":
+   * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                               ^
- - A real number literal is used:
-   - In group "CAST_EXPRS_INT_TO_REAL":
+  --------------------------------------
+  (12/21) A real number literal is used.
+  --------------------------------------
+   * In group "CAST_EXPRS_INT_TO_REAL":
      - invariant <real>1 = 1.0;
                            ^
-   - In group "CAST_EXPRS_REAL_TO_STRING":
+   * In group "CAST_EXPRS_REAL_TO_STRING":
      - invariant "1.1" = <string>1.1;
                                  ^
-   - In group "CAST_EXPRS_STRING_TO_REAL":
+   * In group "CAST_EXPRS_STRING_TO_REAL":
      - invariant 1.0 = <real>"1.0";
                  ^
-   - In group "CONT_VAR_REFS":
+   * In group "CONT_VAR_REFS":
      - invariant c = 1.0;
                      ^
-   - In continuous variable "CONT_VAR_REFS.c":
+   * In continuous variable "CONT_VAR_REFS.c":
      - cont c der 1.0;
                   ^
-   - In group "CONT_VAR_REFS_DER":
+   * In group "CONT_VAR_REFS_DER":
      - invariant c' = 1.0;
                       ^
-   - In continuous variable "CONT_VAR_REFS_DER.c":
+   * In continuous variable "CONT_VAR_REFS_DER.c":
      - cont c der 1.0;
                   ^
-   - In group "REAL_LITS":
+   * In group "REAL_LITS":
      - invariant 1.0 = 1.0;
                  ^     ^
- - A received value expression is used:
-   - In automaton "RECEIVE_EXPRS":
+  --------------------------------------------
+  (13/21) A received value expression is used.
+  --------------------------------------------
+   * In automaton "RECEIVE_EXPRS":
      - edge e? do v := ?;
                        ^
- - A set literal is used:
-   - In group "SET_LITS":
+  ------------------------------
+  (14/21) A set literal is used.
+  ------------------------------
+   * In group "SET_LITS":
      - invariant true in {true, false};
                          ^
- - A slice expression is used:
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
+  -----------------------------------
+  (15/21) A slice expression is used.
+  -----------------------------------
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                                 ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                          ^
- - A string literal is used:
-   - In group "CAST_EXPRS_AUTOMATON_TO_STRING":
+  ---------------------------------
+  (16/21) A string literal is used.
+  ---------------------------------
+   * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
                  ^
-   - In group "CAST_EXPRS_BOOLEAN_TO_STRING":
+   * In group "CAST_EXPRS_BOOLEAN_TO_STRING":
      - invariant "true" = <string>true;
                  ^
-   - In group "CAST_EXPRS_INT_TO_STRING":
+   * In group "CAST_EXPRS_INT_TO_STRING":
      - invariant "1" = <string>1;
                  ^
-   - In group "CAST_EXPRS_REAL_TO_STRING":
+   * In group "CAST_EXPRS_REAL_TO_STRING":
      - invariant "1.1" = <string>1.1;
                  ^
-   - In group "CAST_EXPRS_STRING_TO_BOOLEAN":
+   * In group "CAST_EXPRS_STRING_TO_BOOLEAN":
      - invariant not <bool>"false";
                            ^
-   - In group "CAST_EXPRS_STRING_TO_INT":
+   * In group "CAST_EXPRS_STRING_TO_INT":
      - invariant 1 = <int>"1";
                           ^
-   - In group "CAST_EXPRS_STRING_TO_REAL":
+   * In group "CAST_EXPRS_STRING_TO_REAL":
      - invariant 1.0 = <real>"1.0";
                              ^
-   - In group "FUNC_REFS_USER_DEF_EXT":
+   * In group "FUNC_REFS_USER_DEF_EXT":
      - invariant f() = "a";
                        ^
-   - In group "PROJECTION_EXPRS_STRINGS":
+   * In group "PROJECTION_EXPRS_STRINGS":
      - invariant "abc"[0] = "a";
                  ^          ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                      ^              ^
-   - In group "STRING_LITS":
+   * In group "STRING_LITS":
      - invariant "a" = "a";
                  ^     ^
-   - In location "X.A":
+   * In location "X.A":
      - invariant "A" = <string>self;
                  ^
- - A switch expression is used:
-   - In automaton "COMP_REFS_EXPLICIT":
+  ------------------------------------
+  (17/21) A switch expression is used.
+  ------------------------------------
+   * In automaton "COMP_REFS_EXPLICIT":
      - invariant switch COMP_REFS_EXPLICIT: else true end;
                  ^
-   - In automaton "COMP_REFS_SELF":
+   * In automaton "COMP_REFS_SELF":
      - invariant switch self: else true end;
                  ^
-   - In group "SWITCH_EXPRS":
+   * In group "SWITCH_EXPRS":
      - invariant switch 5: case 5: true else false end;
                  ^
- - A tuple literal is used:
-   - In group "PROJECTION_EXPRS_TUPLES_INDEX":
+  --------------------------------
+  (18/21) A tuple literal is used.
+  --------------------------------
+   * In group "PROJECTION_EXPRS_TUPLES_INDEX":
      - invariant (true, false)[0];
                  ^
      - invariant ((true, false), false)[0][0];
                  ^^
-   - In constant "TUPLE_FIELD_REFS_NAMED.c":
+   * In constant "TUPLE_FIELD_REFS_NAMED.c":
      - const tuple(bool a; bool b) c = (true, false);
                                        ^
-   - In group "TUPLE_FIELD_REFS_NAMELESS":
+   * In group "TUPLE_FIELD_REFS_NAMELESS":
      - invariant (true, false)[0];
                  ^
-   - In group "TUPLE_LITS":
+   * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                  ^
- - A unary expression is used:
-   - In group "CAST_EXPRS_STRING_TO_BOOLEAN":
+  -----------------------------------
+  (19/21) A unary expression is used.
+  -----------------------------------
+   * In group "CAST_EXPRS_STRING_TO_BOOLEAN":
      - invariant not <bool>"false";
                  ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                                   ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                            ^
-   - In group "UNARY_EXPRS":
+   * In group "UNARY_EXPRS":
      - invariant not true;
                  ^
- - An 'if' expression is used:
-   - In group "IF_EXPRS":
+  -----------------------------------
+  (20/21) An 'if' expression is used.
+  -----------------------------------
+   * In group "IF_EXPRS":
      - invariant if true: true else false end;
                  ^
- - An integer number literal is used:
-   - In group "BINARY_EXPRS":
+  ------------------------------------------
+  (21/21) An integer number literal is used.
+  ------------------------------------------
+   * In group "BINARY_EXPRS":
      - invariant 1 = 1;
                  ^   ^
-   - In group "CAST_EXPRS_INT_TO_REAL":
+   * In group "CAST_EXPRS_INT_TO_REAL":
      - invariant <real>1 = 1.0;
                        ^
-   - In group "CAST_EXPRS_INT_TO_STRING":
+   * In group "CAST_EXPRS_INT_TO_STRING":
      - invariant "1" = <string>1;
                                ^
-   - In group "CAST_EXPRS_STRING_TO_INT":
+   * In group "CAST_EXPRS_STRING_TO_INT":
      - invariant 1 = <int>"1";
                  ^
-   - In group "FUNC_CALLS":
+   * In group "FUNC_CALLS":
      - invariant abs(1) = 1;
                      ^    ^
-   - In group "FUNC_REFS_STD_LIB":
+   * In group "FUNC_REFS_STD_LIB":
      - invariant abs(1) = 1;
                      ^    ^
-   - In group "INT_LITS":
+   * In group "INT_LITS":
      - invariant 1 = 1;
                  ^   ^
-   - In group "LIST_LITS":
+   * In group "LIST_LITS":
      - invariant [1] = [1];
                   ^     ^
-   - In group "PROJECTION_EXPRS_LISTS":
+   * In group "PROJECTION_EXPRS_LISTS":
      - invariant [true, false][0];
                                ^
-   - In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
+   * In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
      - invariant d[0];
                    ^
-   - In group "PROJECTION_EXPRS_STRINGS":
+   * In group "PROJECTION_EXPRS_STRINGS":
      - invariant "abc"[0] = "a";
                        ^
-   - In group "PROJECTION_EXPRS_TUPLES_INDEX":
+   * In group "PROJECTION_EXPRS_TUPLES_INDEX":
      - invariant (true, false)[0];
                                ^
      - invariant ((true, false), false)[0][0];
                                         ^  ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                                    ^  ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                             ^  ^
-   - In group "SWITCH_EXPRS":
+   * In group "SWITCH_EXPRS":
      - invariant switch 5: case 5: true else false end;
                         ^       ^
-   - In group "TIME_VAR_REFS":
+   * In group "TIME_VAR_REFS":
      - invariant time > 0;
                         ^
-   - In group "TUPLE_FIELD_REFS_NAMELESS":
+   * In group "TUPLE_FIELD_REFS_NAMELESS":
      - invariant (true, false)[0];
                                ^
-   - In group "TUPLE_LITS":
+   * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                                ^

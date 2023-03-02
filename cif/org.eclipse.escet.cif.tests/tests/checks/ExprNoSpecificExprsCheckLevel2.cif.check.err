@@ -1,103 +1,129 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - A 'time' variable reference is used:
-   - In group "TIME_VAR_REFS":
+  -------------------------------------------
+  (1/13) A 'time' variable reference is used.
+  -------------------------------------------
+   * In group "TIME_VAR_REFS":
      - invariant time > 0;
                  ^
- - A component 'self' reference is used:
-   - In automaton "COMP_REFS_SELF":
+  --------------------------------------------
+  (2/13) A component 'self' reference is used.
+  --------------------------------------------
+   * In automaton "COMP_REFS_SELF":
      - invariant switch self: else true end;
                         ^
-   - In location "X.A":
+   * In location "X.A":
      - invariant "A" = <string>self;
                                ^
- - A continuous variable reference is used:
-   - In group "CONT_VAR_REFS":
+  -----------------------------------------------
+  (3/13) A continuous variable reference is used.
+  -----------------------------------------------
+   * In group "CONT_VAR_REFS":
      - invariant c = 1.0;
                  ^
-   - In group "CONT_VAR_REFS_DER":
+   * In group "CONT_VAR_REFS_DER":
      - invariant c' = 1.0;
                  ^
- - A dictionary projection expression is used:
-   - In group "DICT_LITS":
+  --------------------------------------------------
+  (4/13) A dictionary projection expression is used.
+  --------------------------------------------------
+   * In group "DICT_LITS":
      - invariant {true: false}[true];
                               ^
-   - In group "PROJECTION_EXPRS_DICTS":
+   * In group "PROJECTION_EXPRS_DICTS":
      - invariant {true: false}[true];
                               ^
- - A discrete variable reference is used:
-   - In automaton "DISC_VAR_REFS":
+  ---------------------------------------------
+  (5/13) A discrete variable reference is used.
+  ---------------------------------------------
+   * In automaton "DISC_VAR_REFS":
      - invariant v;
                  ^
-   - In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
+   * In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
      - invariant d[0];
                  ^
-   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+   * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                    ^       ^
-   - In automaton "RECEIVE_EXPRS":
+   * In automaton "RECEIVE_EXPRS":
      - edge e? do v := ?;
                   ^
- - A list projection expression is used:
-   - In group "PROJECTION_EXPRS_LISTS":
+  --------------------------------------------
+  (6/13) A list projection expression is used.
+  --------------------------------------------
+   * In group "PROJECTION_EXPRS_LISTS":
      - invariant [true, false][0];
                               ^
-   - In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
+   * In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
      - invariant d[0];
                   ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                                      ^
- - A string projection expression is used:
-   - In group "PROJECTION_EXPRS_STRINGS":
+  ----------------------------------------------
+  (7/13) A string projection expression is used.
+  ----------------------------------------------
+   * In group "PROJECTION_EXPRS_STRINGS":
      - invariant "abc"[0] = "a";
                       ^
-   - In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
+   * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                               ^
- - A tuple field reference is used:
-   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+  ---------------------------------------
+  (8/13) A tuple field reference is used.
+  ---------------------------------------
+   * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                      ^       ^
-   - In group "TUPLE_FIELD_REFS_NAMED":
+   * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                    ^
- - A tuple projection expression is used:
-   - In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
+  ---------------------------------------------
+  (9/13) A tuple projection expression is used.
+  ---------------------------------------------
+   * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                     ^       ^
-   - In group "PROJECTION_EXPRS_TUPLES_INDEX":
+   * In group "PROJECTION_EXPRS_TUPLES_INDEX":
      - invariant (true, false)[0];
                               ^
      - invariant ((true, false), false)[0][0];
                                        ^  ^
-   - In group "TUPLE_FIELD_REFS_NAMED":
+   * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                   ^
-   - In group "TUPLE_FIELD_REFS_NAMELESS":
+   * In group "TUPLE_FIELD_REFS_NAMELESS":
      - invariant (true, false)[0];
                               ^
-   - In group "TUPLE_LITS":
+   * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                               ^
- - An algebraic variable reference is used:
-   - In group "ALG_VAR_REFS":
+  ------------------------------------------------
+  (10/13) An algebraic variable reference is used.
+  ------------------------------------------------
+   * In group "ALG_VAR_REFS":
      - invariant a;
                  ^
-   - In group definition "COMP_PARAM_REFS":
+   * In group definition "COMP_PARAM_REFS":
      - invariant p;
                  ^
- - An enumeration literal reference is used:
-   - In group "ENUM_LIT_REFS":
+  -------------------------------------------------
+  (11/13) An enumeration literal reference is used.
+  -------------------------------------------------
+   * In group "ENUM_LIT_REFS":
      - invariant e1 = e2;
                  ^    ^
- - An explicit component reference is used:
-   - In group "CAST_EXPRS_AUTOMATON_TO_STRING":
+  ------------------------------------------------
+  (12/13) An explicit component reference is used.
+  ------------------------------------------------
+   * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
                                ^
-   - In automaton "COMP_REFS_EXPLICIT":
+   * In automaton "COMP_REFS_EXPLICIT":
      - invariant switch COMP_REFS_EXPLICIT: else true end;
                         ^
- - An input variable reference is used:
-   - In group "INPUT_VAR_REFS":
+  --------------------------------------------
+  (13/13) An input variable reference is used.
+  --------------------------------------------
+   * In group "INPUT_VAR_REFS":
      - invariant i;
                  ^

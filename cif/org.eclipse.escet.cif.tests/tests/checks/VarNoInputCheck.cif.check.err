@@ -1,19 +1,21 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Variable is an input variable:
-   - In the top-level scope of the specification:
+  ------------------------------------
+  (1/1) Variable is an input variable.
+  ------------------------------------
+   * In the top-level scope of the specification:
      - input bool i;
                   ^
-   - In group definition "G":
-     - input bool i;
-                  ^
-     - input bool j;
-                  ^
-   - In group "g":
+   * In group definition "G":
      - input bool i;
                   ^
      - input bool j;
                   ^
-   - In automaton "g.a":
+   * In group "g":
+     - input bool i;
+                  ^
+     - input bool j;
+                  ^
+   * In automaton "g.a":
      - input bool i;
                   ^
      - input bool j;

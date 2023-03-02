@@ -1,407 +1,487 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Binary operator "!=" is used on a boolean typed operand:
-   - In group "UNEQUAL":
+  ---------------------------------------------------------------
+  (1/40) Binary operator "!=" is used on a boolean typed operand.
+  ---------------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant true != false;
                       ^
- - Binary operator "!=" is used on a dictionary typed operand:
-   - In group "UNEQUAL":
+  ------------------------------------------------------------------
+  (2/40) Binary operator "!=" is used on a dictionary typed operand.
+  ------------------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant {1: 10, 5: 20} != {1: 10, 2: 20};
                                 ^
- - Binary operator "!=" is used on a list typed operand:
-   - In group "UNEQUAL":
+  ------------------------------------------------------------
+  (3/40) Binary operator "!=" is used on a list typed operand.
+  ------------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant [1, 2, 4] != [1, 2, 3];
                            ^
- - Binary operator "!=" is used on a real typed operand:
-   - In group "UNEQUAL":
+  ------------------------------------------------------------
+  (4/40) Binary operator "!=" is used on a real typed operand.
+  ------------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant 1.2 != 1.5;
                      ^
- - Binary operator "!=" is used on a set typed operand:
-   - In group "UNEQUAL":
+  -----------------------------------------------------------
+  (5/40) Binary operator "!=" is used on a set typed operand.
+  -----------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant {1, 2, 4} != {1, 2, 3};
                            ^
- - Binary operator "!=" is used on a string typed operand:
-   - In group "UNEQUAL":
+  --------------------------------------------------------------
+  (6/40) Binary operator "!=" is used on a string typed operand.
+  --------------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant "abc" != "def";
                        ^
- - Binary operator "!=" is used on a tuple typed operand:
-   - In group "UNEQUAL":
+  -------------------------------------------------------------
+  (7/40) Binary operator "!=" is used on a tuple typed operand.
+  -------------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant (1, 2, 4) != (1, 2, 3);
                            ^
- - Binary operator "!=" is used on an enumeration typed operand:
-   - In group "UNEQUAL":
+  --------------------------------------------------------------------
+  (8/40) Binary operator "!=" is used on an enumeration typed operand.
+  --------------------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant A != B;
                    ^
- - Binary operator "!=" is used on an integer typed operand:
-   - In group "UNEQUAL":
+  ----------------------------------------------------------------
+  (9/40) Binary operator "!=" is used on an integer typed operand.
+  ----------------------------------------------------------------
+   * In group "UNEQUAL":
      - invariant 1 != 2;
                    ^
- - Binary operator "*" is used on a real typed operand:
-   - In invariant "MULTIPLICATION.IR":
+  ------------------------------------------------------------
+  (10/40) Binary operator "*" is used on a real typed operand.
+  ------------------------------------------------------------
+   * In invariant "MULTIPLICATION.IR":
      - invariant IR: 1 * 1.0 = 0.0;
                        ^
-   - In invariant "MULTIPLICATION.RI":
+   * In invariant "MULTIPLICATION.RI":
      - invariant RI: 1.0 * 1 = 0.0;
                          ^
-   - In invariant "MULTIPLICATION.RR":
+   * In invariant "MULTIPLICATION.RR":
      - invariant RR: 1.0 * 1.0 = 0.0;
                          ^
- - Binary operator "*" is used on an integer typed operand:
-   - In invariant "MULTIPLICATION.GG":
+  ----------------------------------------------------------------
+  (11/40) Binary operator "*" is used on an integer typed operand.
+  ----------------------------------------------------------------
+   * In invariant "MULTIPLICATION.GG":
      - invariant GG: 1 * 1 = 0;
                        ^
-   - In invariant "MULTIPLICATION.II":
+   * In invariant "MULTIPLICATION.II":
      - invariant II: i * i = 0;
                        ^
-   - In invariant "MULTIPLICATION.IR":
+   * In invariant "MULTIPLICATION.IR":
      - invariant IR: 1 * 1.0 = 0.0;
                        ^
-   - In invariant "MULTIPLICATION.RI":
+   * In invariant "MULTIPLICATION.RI":
      - invariant RI: 1.0 * 1 = 0.0;
                          ^
- - Binary operator "+" is used on a dictionary typed operand:
-   - In group "ADDITION_DICTS":
+  ------------------------------------------------------------------
+  (12/40) Binary operator "+" is used on a dictionary typed operand.
+  ------------------------------------------------------------------
+   * In group "ADDITION_DICTS":
      - invariant empty({true: false} + {false: true});
                                      ^
- - Binary operator "+" is used on a list typed operand:
-   - In group "ADDITION_LISTS":
+  ------------------------------------------------------------
+  (13/40) Binary operator "+" is used on a list typed operand.
+  ------------------------------------------------------------
+   * In group "ADDITION_LISTS":
      - invariant empty([1] + [1]);
                            ^
- - Binary operator "+" is used on a real typed operand:
-   - In invariant "ADDITION_NUMBERS.GR":
+  ------------------------------------------------------------
+  (14/40) Binary operator "+" is used on a real typed operand.
+  ------------------------------------------------------------
+   * In invariant "ADDITION_NUMBERS.GR":
      - invariant GR: 1 + 1.0 > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.RG":
+   * In invariant "ADDITION_NUMBERS.RG":
      - invariant RG: 1.0 + 1.0 > 0;
                          ^
-   - In invariant "ADDITION_NUMBERS.RR":
+   * In invariant "ADDITION_NUMBERS.RR":
      - invariant RR: 1.0 + 1.0 > 0;
                          ^
- - Binary operator "+" is used on a string typed operand:
-   - In group "ADDITION_STRINGS":
+  --------------------------------------------------------------
+  (15/40) Binary operator "+" is used on a string typed operand.
+  --------------------------------------------------------------
+   * In group "ADDITION_STRINGS":
      - invariant "a" + "a" = "aa";
                      ^
- - Binary operator "+" is used on an integer typed operand:
-   - In invariant "ADDITION_NUMBERS.GG":
+  ----------------------------------------------------------------
+  (16/40) Binary operator "+" is used on an integer typed operand.
+  ----------------------------------------------------------------
+   * In invariant "ADDITION_NUMBERS.GG":
      - invariant GG: 1 + 1 > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.GI":
+   * In invariant "ADDITION_NUMBERS.GI":
      - invariant GI: 1 + i > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.GR":
+   * In invariant "ADDITION_NUMBERS.GR":
      - invariant GR: 1 + 1.0 > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.IG":
+   * In invariant "ADDITION_NUMBERS.IG":
      - invariant IG: i + 1 > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.II":
+   * In invariant "ADDITION_NUMBERS.II":
      - invariant II: i + i > 0;
                        ^
- - Binary operator "-" is used on a dictionary typed operand:
-   - In invariant "SUBTRACTION_CONTAINERS.DD":
+  ------------------------------------------------------------------
+  (17/40) Binary operator "-" is used on a dictionary typed operand.
+  ------------------------------------------------------------------
+   * In invariant "SUBTRACTION_CONTAINERS.DD":
      - invariant DD: empty({1: 2} - {1: 2});
                                   ^
-   - In invariant "SUBTRACTION_CONTAINERS.DLG":
+   * In invariant "SUBTRACTION_CONTAINERS.DLG":
      - invariant DLG: empty({1: 2} - [1]);
                                    ^
-   - In invariant "SUBTRACTION_CONTAINERS.DLI":
+   * In invariant "SUBTRACTION_CONTAINERS.DLI":
      - invariant DLI: empty({1: 2} - [i]);
                                    ^
-   - In invariant "SUBTRACTION_CONTAINERS.DS":
+   * In invariant "SUBTRACTION_CONTAINERS.DS":
      - invariant DS: empty({1: 2} - {1});
                                   ^
- - Binary operator "-" is used on a list typed operand:
-   - In invariant "SUBTRACTION_CONTAINERS.DLG":
+  ------------------------------------------------------------
+  (18/40) Binary operator "-" is used on a list typed operand.
+  ------------------------------------------------------------
+   * In invariant "SUBTRACTION_CONTAINERS.DLG":
      - invariant DLG: empty({1: 2} - [1]);
                                    ^
-   - In invariant "SUBTRACTION_CONTAINERS.DLI":
+   * In invariant "SUBTRACTION_CONTAINERS.DLI":
      - invariant DLI: empty({1: 2} - [i]);
                                    ^
- - Binary operator "-" is used on a real typed operand:
-   - In invariant "SUBTRACTION_NUMBERS.GR":
+  ------------------------------------------------------------
+  (19/40) Binary operator "-" is used on a real typed operand.
+  ------------------------------------------------------------
+   * In invariant "SUBTRACTION_NUMBERS.GR":
      - invariant GR: 1 - 1.0 > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.RG":
+   * In invariant "SUBTRACTION_NUMBERS.RG":
      - invariant RG: 1.0 - 1.0 > 0;
                          ^
-   - In invariant "SUBTRACTION_NUMBERS.RR":
+   * In invariant "SUBTRACTION_NUMBERS.RR":
      - invariant RR: 1.0 - 1.0 > 0;
                          ^
- - Binary operator "-" is used on a set typed operand:
-   - In invariant "SUBTRACTION_CONTAINERS.DS":
+  -----------------------------------------------------------
+  (20/40) Binary operator "-" is used on a set typed operand.
+  -----------------------------------------------------------
+   * In invariant "SUBTRACTION_CONTAINERS.DS":
      - invariant DS: empty({1: 2} - {1});
                                   ^
-   - In invariant "SUBTRACTION_CONTAINERS.SS":
+   * In invariant "SUBTRACTION_CONTAINERS.SS":
      - invariant SS: empty({true} - {false});
                                   ^
- - Binary operator "-" is used on an integer typed operand:
-   - In invariant "SUBTRACTION_NUMBERS.GG":
+  ----------------------------------------------------------------
+  (21/40) Binary operator "-" is used on an integer typed operand.
+  ----------------------------------------------------------------
+   * In invariant "SUBTRACTION_NUMBERS.GG":
      - invariant GG: 1 - 1 > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.GI":
+   * In invariant "SUBTRACTION_NUMBERS.GI":
      - invariant GI: 1 - i > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.GR":
+   * In invariant "SUBTRACTION_NUMBERS.GR":
      - invariant GR: 1 - 1.0 > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.IG":
+   * In invariant "SUBTRACTION_NUMBERS.IG":
      - invariant IG: i - 1 > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.II":
+   * In invariant "SUBTRACTION_NUMBERS.II":
      - invariant II: i - i > 0;
                        ^
- - Binary operator "<" is used:
-   - In the top-level scope of the specification:
+  ------------------------------------
+  (22/40) Binary operator "<" is used.
+  ------------------------------------
+   * In the top-level scope of the specification:
      - invariant 1 < 2;
                    ^
-   - In invariant "LESS_THAN.GG":
+   * In invariant "LESS_THAN.GG":
      - invariant GG: 1 < 1;
                        ^
-   - In invariant "LESS_THAN.II":
+   * In invariant "LESS_THAN.II":
      - invariant II: i < i;
                        ^
-   - In invariant "LESS_THAN.IR":
+   * In invariant "LESS_THAN.IR":
      - invariant IR: 1 < 1.0;
                        ^
-   - In invariant "LESS_THAN.RI":
+   * In invariant "LESS_THAN.RI":
      - invariant RI: 1.0 < 1;
                          ^
-   - In invariant "LESS_THAN.RR":
+   * In invariant "LESS_THAN.RR":
      - invariant RR: 1.0 < 1.0;
                          ^
-   - In group "grp":
+   * In group "grp":
      - invariant 1 < 2;
                    ^
-   - In group "nested_grp.nested_grp":
+   * In group "nested_grp.nested_grp":
      - invariant 1 < 2;
                    ^
-   - In group "type_decl":
+   * In group "type_decl":
      - invariant a < a;
                    ^
- - Binary operator "<=" is used:
-   - In invariant "LESS_EQUAL.GG":
+  -------------------------------------
+  (23/40) Binary operator "<=" is used.
+  -------------------------------------
+   * In invariant "LESS_EQUAL.GG":
      - invariant GG: 1 <= 1;
                        ^
-   - In invariant "LESS_EQUAL.II":
+   * In invariant "LESS_EQUAL.II":
      - invariant II: i <= i;
                        ^
-   - In invariant "LESS_EQUAL.IR":
+   * In invariant "LESS_EQUAL.IR":
      - invariant IR: 1 <= 1.0;
                        ^
-   - In invariant "LESS_EQUAL.RI":
+   * In invariant "LESS_EQUAL.RI":
      - invariant RI: 1.0 <= 1;
                          ^
-   - In invariant "LESS_EQUAL.RR":
+   * In invariant "LESS_EQUAL.RR":
      - invariant RR: 1.0 <= 1.0;
                          ^
- - Binary operator "<=>" is used:
-   - In group "BI_CONDITIONAL":
+  --------------------------------------
+  (24/40) Binary operator "<=>" is used.
+  --------------------------------------
+   * In group "BI_CONDITIONAL":
      - invariant true <=> false;
                       ^
- - Binary operator "=" is used on a boolean typed operand:
-   - In group "EQUAL":
+  ---------------------------------------------------------------
+  (25/40) Binary operator "=" is used on a boolean typed operand.
+  ---------------------------------------------------------------
+   * In group "EQUAL":
      - invariant true = true;
                       ^
- - Binary operator "=" is used on a dictionary typed operand:
-   - In group "EQUAL":
+  ------------------------------------------------------------------
+  (26/40) Binary operator "=" is used on a dictionary typed operand.
+  ------------------------------------------------------------------
+   * In group "EQUAL":
      - invariant {1: 10, 2: 20} = {1: 10, 2: 20};
                                 ^
- - Binary operator "=" is used on a list typed operand:
-   - In group "EQUAL":
+  ------------------------------------------------------------
+  (27/40) Binary operator "=" is used on a list typed operand.
+  ------------------------------------------------------------
+   * In group "EQUAL":
      - invariant [1, 2, 3] = [1, 2, 3];
                            ^
- - Binary operator "=" is used on a real typed operand:
-   - In invariant "DIVISION.II":
+  ------------------------------------------------------------
+  (28/40) Binary operator "=" is used on a real typed operand.
+  ------------------------------------------------------------
+   * In invariant "DIVISION.II":
      - invariant II: 1 / 1 = 0.0;
                            ^
-   - In invariant "DIVISION.IR":
+   * In invariant "DIVISION.IR":
      - invariant IR: 1 / 1.0 = 0.0;
                              ^
-   - In invariant "DIVISION.RI":
+   * In invariant "DIVISION.RI":
      - invariant RI: 1.0 / 1 = 0.0;
                              ^
-   - In invariant "DIVISION.RR":
+   * In invariant "DIVISION.RR":
      - invariant RR: 1.0 / 1.0 = 0.0;
                                ^
-   - In group "EQUAL":
+   * In group "EQUAL":
      - invariant 1.2 = 1.2;
                      ^
-   - In invariant "MULTIPLICATION.IR":
+   * In invariant "MULTIPLICATION.IR":
      - invariant IR: 1 * 1.0 = 0.0;
                              ^
-   - In invariant "MULTIPLICATION.RI":
+   * In invariant "MULTIPLICATION.RI":
      - invariant RI: 1.0 * 1 = 0.0;
                              ^
-   - In invariant "MULTIPLICATION.RR":
+   * In invariant "MULTIPLICATION.RR":
      - invariant RR: 1.0 * 1.0 = 0.0;
                                ^
- - Binary operator "=" is used on a set typed operand:
-   - In group "EQUAL":
+  -----------------------------------------------------------
+  (29/40) Binary operator "=" is used on a set typed operand.
+  -----------------------------------------------------------
+   * In group "EQUAL":
      - invariant {1, 2, 3} = {1, 2, 3};
                            ^
- - Binary operator "=" is used on a string typed operand:
-   - In group "ADDITION_STRINGS":
+  --------------------------------------------------------------
+  (30/40) Binary operator "=" is used on a string typed operand.
+  --------------------------------------------------------------
+   * In group "ADDITION_STRINGS":
      - invariant "a" + "a" = "aa";
                            ^
-   - In group "EQUAL":
+   * In group "EQUAL":
      - invariant "abc" = "abc";
                        ^
- - Binary operator "=" is used on a tuple typed operand:
-   - In group "EQUAL":
+  -------------------------------------------------------------
+  (31/40) Binary operator "=" is used on a tuple typed operand.
+  -------------------------------------------------------------
+   * In group "EQUAL":
      - invariant (1, 2, 3) = (1, 2, 3);
                            ^
- - Binary operator "=" is used on an enumeration typed operand:
-   - In group "EQUAL":
+  --------------------------------------------------------------------
+  (32/40) Binary operator "=" is used on an enumeration typed operand.
+  --------------------------------------------------------------------
+   * In group "EQUAL":
      - invariant A = A;
                    ^
- - Binary operator "=" is used on an integer typed operand:
-   - In group "EQUAL":
+  ----------------------------------------------------------------
+  (33/40) Binary operator "=" is used on an integer typed operand.
+  ----------------------------------------------------------------
+   * In group "EQUAL":
      - invariant 1 = 1;
                    ^
-   - In invariant "INTEGER_DIVISION.GG":
+   * In invariant "INTEGER_DIVISION.GG":
      - invariant GG: 1 div 1 = 0;
                              ^
-   - In invariant "INTEGER_DIVISION.GI":
+   * In invariant "INTEGER_DIVISION.GI":
      - invariant GI: 1 div i = 0;
                              ^
-   - In invariant "INTEGER_DIVISION.IG":
+   * In invariant "INTEGER_DIVISION.IG":
      - invariant IG: i div 1 = 0;
                              ^
-   - In invariant "INTEGER_DIVISION.II":
+   * In invariant "INTEGER_DIVISION.II":
      - invariant II: i div i = 0;
                              ^
-   - In invariant "MODULUS.GG":
+   * In invariant "MODULUS.GG":
      - invariant GG: 1 mod 1 = 0;
                              ^
-   - In invariant "MODULUS.GI":
+   * In invariant "MODULUS.GI":
      - invariant GI: 1 mod i = 0;
                              ^
-   - In invariant "MODULUS.IG":
+   * In invariant "MODULUS.IG":
      - invariant IG: 1 mod 1 = 0;
                              ^
-   - In invariant "MODULUS.II":
+   * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
                              ^
-   - In invariant "MULTIPLICATION.GG":
+   * In invariant "MULTIPLICATION.GG":
      - invariant GG: 1 * 1 = 0;
                            ^
-   - In invariant "MULTIPLICATION.II":
+   * In invariant "MULTIPLICATION.II":
      - invariant II: i * i = 0;
                            ^
- - Binary operator ">" is used:
-   - In invariant "ADDITION_NUMBERS.GG":
+  ------------------------------------
+  (34/40) Binary operator ">" is used.
+  ------------------------------------
+   * In invariant "ADDITION_NUMBERS.GG":
      - invariant GG: 1 + 1 > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.GI":
+   * In invariant "ADDITION_NUMBERS.GI":
      - invariant GI: 1 + i > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.GR":
+   * In invariant "ADDITION_NUMBERS.GR":
      - invariant GR: 1 + 1.0 > 0;
                              ^
-   - In invariant "ADDITION_NUMBERS.IG":
+   * In invariant "ADDITION_NUMBERS.IG":
      - invariant IG: i + 1 > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.II":
+   * In invariant "ADDITION_NUMBERS.II":
      - invariant II: i + i > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.RG":
+   * In invariant "ADDITION_NUMBERS.RG":
      - invariant RG: 1.0 + 1.0 > 0;
                                ^
-   - In invariant "ADDITION_NUMBERS.RR":
+   * In invariant "ADDITION_NUMBERS.RR":
      - invariant RR: 1.0 + 1.0 > 0;
                                ^
-   - In invariant "GREATER_THAN.GG":
+   * In invariant "GREATER_THAN.GG":
      - invariant GG: 1 > 1;
                        ^
-   - In invariant "GREATER_THAN.II":
+   * In invariant "GREATER_THAN.II":
      - invariant II: i > i;
                        ^
-   - In invariant "GREATER_THAN.IR":
+   * In invariant "GREATER_THAN.IR":
      - invariant IR: 1 > 1.0;
                        ^
-   - In invariant "GREATER_THAN.RI":
+   * In invariant "GREATER_THAN.RI":
      - invariant RI: 1.0 > 1;
                          ^
-   - In invariant "GREATER_THAN.RR":
+   * In invariant "GREATER_THAN.RR":
      - invariant RR: 1.0 > 1.0;
                          ^
-   - In invariant "SUBTRACTION_NUMBERS.GG":
+   * In invariant "SUBTRACTION_NUMBERS.GG":
      - invariant GG: 1 - 1 > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.GI":
+   * In invariant "SUBTRACTION_NUMBERS.GI":
      - invariant GI: 1 - i > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.GR":
+   * In invariant "SUBTRACTION_NUMBERS.GR":
      - invariant GR: 1 - 1.0 > 0;
                              ^
-   - In invariant "SUBTRACTION_NUMBERS.IG":
+   * In invariant "SUBTRACTION_NUMBERS.IG":
      - invariant IG: i - 1 > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.II":
+   * In invariant "SUBTRACTION_NUMBERS.II":
      - invariant II: i - i > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.RG":
+   * In invariant "SUBTRACTION_NUMBERS.RG":
      - invariant RG: 1.0 - 1.0 > 0;
                                ^
-   - In invariant "SUBTRACTION_NUMBERS.RR":
+   * In invariant "SUBTRACTION_NUMBERS.RR":
      - invariant RR: 1.0 - 1.0 > 0;
                                ^
- - Binary operator ">=" is used:
-   - In invariant "GREATER_EQUAL.GG":
+  -------------------------------------
+  (35/40) Binary operator ">=" is used.
+  -------------------------------------
+   * In invariant "GREATER_EQUAL.GG":
      - invariant GG: 1 >= 1;
                        ^
-   - In invariant "GREATER_EQUAL.II":
+   * In invariant "GREATER_EQUAL.II":
      - invariant II: i >= i;
                        ^
-   - In invariant "GREATER_EQUAL.IR":
+   * In invariant "GREATER_EQUAL.IR":
      - invariant IR: 1 >= 1.0;
                        ^
-   - In invariant "GREATER_EQUAL.RI":
+   * In invariant "GREATER_EQUAL.RI":
      - invariant RI: 1.0 >= 1;
                          ^
-   - In invariant "GREATER_EQUAL.RR":
+   * In invariant "GREATER_EQUAL.RR":
      - invariant RR: 1.0 >= 1.0;
                          ^
- - Binary operator "and" is used on a set typed operand:
-   - In invariant "CONJUNCTION.SS":
+  -------------------------------------------------------------
+  (36/40) Binary operator "and" is used on a set typed operand.
+  -------------------------------------------------------------
+   * In invariant "CONJUNCTION.SS":
      - invariant SS: empty({true} and {false});
                                   ^
- - Binary operator "div" is used:
-   - In invariant "INTEGER_DIVISION.GG":
+  --------------------------------------
+  (37/40) Binary operator "div" is used.
+  --------------------------------------
+   * In invariant "INTEGER_DIVISION.GG":
      - invariant GG: 1 div 1 = 0;
                        ^
-   - In invariant "INTEGER_DIVISION.GI":
+   * In invariant "INTEGER_DIVISION.GI":
      - invariant GI: 1 div i = 0;
                        ^
-   - In invariant "INTEGER_DIVISION.IG":
+   * In invariant "INTEGER_DIVISION.IG":
      - invariant IG: i div 1 = 0;
                        ^
-   - In invariant "INTEGER_DIVISION.II":
+   * In invariant "INTEGER_DIVISION.II":
      - invariant II: i div i = 0;
                        ^
- - Binary operator "in" is used:
-   - In group "ELEMENT_OF_DICTS":
+  -------------------------------------
+  (38/40) Binary operator "in" is used.
+  -------------------------------------
+   * In group "ELEMENT_OF_DICTS":
      - invariant 1 in {1: 2};
                    ^
-   - In group "ELEMENT_OF_LISTS":
+   * In group "ELEMENT_OF_LISTS":
      - invariant 1 in [1];
                    ^
-   - In group "ELEMENT_OF_SETS":
+   * In group "ELEMENT_OF_SETS":
      - invariant 1 in {1};
                    ^
- - Binary operator "mod" is used on an integer typed operand:
-   - In invariant "MODULUS.GG":
+  ------------------------------------------------------------------
+  (39/40) Binary operator "mod" is used on an integer typed operand.
+  ------------------------------------------------------------------
+   * In invariant "MODULUS.GG":
      - invariant GG: 1 mod 1 = 0;
                        ^
-   - In invariant "MODULUS.GI":
+   * In invariant "MODULUS.GI":
      - invariant GI: 1 mod i = 0;
                        ^
-   - In invariant "MODULUS.IG":
+   * In invariant "MODULUS.IG":
      - invariant IG: 1 mod 1 = 0;
                        ^
-   - In invariant "MODULUS.II":
+   * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
                        ^
- - Binary operator "or" is used on a set typed operand:
-   - In invariant "DISJUNCTION.SS":
+  ------------------------------------------------------------
+  (40/40) Binary operator "or" is used on a set typed operand.
+  ------------------------------------------------------------
+   * In invariant "DISJUNCTION.SS":
      - invariant SS: empty({true} or {false});
                                   ^

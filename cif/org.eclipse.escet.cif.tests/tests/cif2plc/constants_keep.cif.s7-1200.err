@@ -1,14 +1,16 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/constants_keep.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - A list type is used:
-   - In the top-level scope of the specification:
+  --------------------------
+  (1/1) A list type is used.
+  --------------------------
+   * In the top-level scope of the specification:
      - initial a + b + c + d + cl[0] + x = 10.0;
                                ^
      - invariant a + b + c + d + cl[0] + x = 10.0;
                                  ^
-   - In automaton "aut":
+   * In automaton "aut":
      - invariant a + b + c + d + cl[0] + x = 10.0;
                                  ^
-   - In constant "cl":
+   * In constant "cl":
      - const list[3] real cl = [1.0, 1.0, 2.0];
              ^                 ^

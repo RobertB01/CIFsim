@@ -1,29 +1,33 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Component has a marker predicate that is not of the form 'discrete_variable = marked_value':
-   - In the top-level scope of the specification:
+  --------------------------------------------------------------------------------------------------
+  (1/2) Component has a marker predicate that is not of the form 'discrete_variable = marked_value'.
+  --------------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
      - inst1.v = 2,
                ^
      - inst2.v = 3;
                ^
-   - In automaton "marker_not_binexpr":
+   * In automaton "marker_not_binexpr":
      - marked v;
               ^
-   - In automaton "marker_not_equal_binexpr":
+   * In automaton "marker_not_equal_binexpr":
      - marked v and v;
                 ^
-   - In automaton "marker_var_not_on_the_left":
+   * In automaton "marker_var_not_on_the_left":
      - marked true = v;
                    ^
- - Discrete variable has multiple predicates that specify its marked value(s):
-   - In automaton "double_marker_grp.double_marker_in_aut_and_grp":
+  ---------------------------------------------------------------------------------
+  (2/2) Discrete variable has multiple predicates that specify its marked value(s).
+  ---------------------------------------------------------------------------------
+   * In automaton "double_marker_grp.double_marker_in_aut_and_grp":
      - disc bool v in any;
                  ^
-   - In automaton "double_marker_in_aut":
+   * In automaton "double_marker_in_aut":
      - disc bool v in any;
                  ^
-   - In automaton "double_marker_in_aut_and_spec":
+   * In automaton "double_marker_in_aut_and_spec":
      - disc bool v in any;
                  ^
-   - In automaton "six_marker.six_marker":
+   * In automaton "six_marker.six_marker":
      - disc bool v in any;
                  ^

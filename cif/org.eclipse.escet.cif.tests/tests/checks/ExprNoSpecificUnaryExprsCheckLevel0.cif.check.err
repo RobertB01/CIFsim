@@ -1,43 +1,51 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unary operator "+" is used:
-   - In group "PLUS_INTS_RANGED":
+  ---------------------------------
+  (1/4) Unary operator "+" is used.
+  ---------------------------------
+   * In group "PLUS_INTS_RANGED":
      - invariant 1 = +1;
                      ^
-   - In automaton "PLUS_INTS_RANGELESS":
+   * In automaton "PLUS_INTS_RANGELESS":
      - invariant v = +v;
                      ^
-   - In group "PLUS_REALS":
+   * In group "PLUS_REALS":
      - invariant 1.0 = +1.0;
                        ^
- - Unary operator "-" is used:
-   - In group "NEGATE_INTS_RANGED":
+  ---------------------------------
+  (2/4) Unary operator "-" is used.
+  ---------------------------------
+   * In group "NEGATE_INTS_RANGED":
      - invariant 1 = -1;
                      ^
-   - In automaton "NEGATE_INTS_RANGELESS":
+   * In automaton "NEGATE_INTS_RANGELESS":
      - invariant v = -v;
                      ^
-   - In group "NEGATE_INTS_REALS":
+   * In group "NEGATE_INTS_REALS":
      - invariant 1.0 = -1.0;
                        ^
- - Unary operator "not" is used:
-   - In the top-level scope of the specification:
+  -----------------------------------
+  (3/4) Unary operator "not" is used.
+  -----------------------------------
+   * In the top-level scope of the specification:
      - invariant not true;
                  ^
-   - In group "INVERSE":
+   * In group "INVERSE":
      - invariant not true;
                  ^
      - invariant not not false;
                  ^   ^
-   - In group "grp":
+   * In group "grp":
      - invariant not true;
                  ^
-   - In group "nested_grp.nested_grp":
+   * In group "nested_grp.nested_grp":
      - invariant not true;
                  ^
-   - In group "type_decl":
+   * In group "type_decl":
      - invariant not a;
                  ^
- - Unary operator "sample" is used:
-   - In automaton "SAMPLE":
+  --------------------------------------
+  (4/4) Unary operator "sample" is used.
+  --------------------------------------
+   * In automaton "SAMPLE":
      - invariant (sample d)[0] > 0;
                   ^

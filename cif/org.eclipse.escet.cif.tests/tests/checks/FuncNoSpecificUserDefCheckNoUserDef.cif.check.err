@@ -1,6 +1,8 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Function is a user-defined function:
-   - In the top-level scope of the specification:
+  ------------------------------------------
+  (1/1) Function is a user-defined function.
+  ------------------------------------------
+   * In the top-level scope of the specification:
      - func int INT_PARAM_inc(int x):
                 ^
      - func int INT_NO_PARAM_fifteen():
@@ -9,7 +11,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^
      - func bool EXT_PARAM_h(int v): "java:somepkg.SomeClass.someMethod2|.";
                  ^
-   - In group "g":
+   * In group "g":
      - func int INT_PARAM_inc(int x):
                 ^
      - func int INT_NO_PARAM_fifteen():

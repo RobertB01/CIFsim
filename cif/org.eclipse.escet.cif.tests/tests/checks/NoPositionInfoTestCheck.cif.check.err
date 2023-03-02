@@ -1,11 +1,13 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - An enumeration literal reference is used:
-   - In discrete variable "a.LP":
+  -----------------------------------------------
+  (1/1) An enumeration literal reference is used.
+  -----------------------------------------------
+   * In discrete variable "a.LP":
      - disc LPE LP = LOC_loc1;
                      ^
-   - In location "a.loc1":
+   * In location "a.loc1":
      - edge e when LP = LOC_loc1 do LP := LOC_loc2 goto loc2;
                         ^                 ^
-   - In location "a.loc2":
+   * In location "a.loc2":
      - edge e do LP := LOC_loc1 goto loc1;
                        ^

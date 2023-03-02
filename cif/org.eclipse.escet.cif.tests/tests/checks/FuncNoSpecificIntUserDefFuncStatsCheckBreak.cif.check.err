@@ -1,8 +1,10 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Internal user-defined function has a 'break' statement:
-   - In user-defined function "f":
+  -------------------------------------------------------------
+  (1/1) Internal user-defined function has a 'break' statement.
+  -------------------------------------------------------------
+   * In user-defined function "f":
      - break;
        ^
-   - In user-defined function "g.f":
+   * In user-defined function "g.f":
      - break;
        ^

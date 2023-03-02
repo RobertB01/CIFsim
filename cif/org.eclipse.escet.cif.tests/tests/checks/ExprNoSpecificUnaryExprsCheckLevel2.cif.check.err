@@ -1,17 +1,25 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unary operator "+" is used on a ranged integer typed operand:
-   - In group "PLUS_INTS_RANGED":
+  -------------------------------------------------------------------
+  (1/4) Unary operator "+" is used on a ranged integer typed operand.
+  -------------------------------------------------------------------
+   * In group "PLUS_INTS_RANGED":
      - invariant 1 = +1;
                      ^
- - Unary operator "+" is used on a rangeless integer typed operand:
-   - In automaton "PLUS_INTS_RANGELESS":
+  ----------------------------------------------------------------------
+  (2/4) Unary operator "+" is used on a rangeless integer typed operand.
+  ----------------------------------------------------------------------
+   * In automaton "PLUS_INTS_RANGELESS":
      - invariant v = +v;
                      ^
- - Unary operator "-" is used on a ranged integer typed operand:
-   - In group "NEGATE_INTS_RANGED":
+  -------------------------------------------------------------------
+  (3/4) Unary operator "-" is used on a ranged integer typed operand.
+  -------------------------------------------------------------------
+   * In group "NEGATE_INTS_RANGED":
      - invariant 1 = -1;
                      ^
- - Unary operator "-" is used on a rangeless integer typed operand:
-   - In automaton "NEGATE_INTS_RANGELESS":
+  ----------------------------------------------------------------------
+  (4/4) Unary operator "-" is used on a rangeless integer typed operand.
+  ----------------------------------------------------------------------
+   * In automaton "NEGATE_INTS_RANGELESS":
      - invariant v = -v;
                      ^

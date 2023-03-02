@@ -1,22 +1,24 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - An equation is used:
-   - In the top-level scope of the specification:
+  --------------------------
+  (1/1) An equation is used.
+  --------------------------
+   * In the top-level scope of the specification:
      - equation q' = q_der;
                    ^
-   - In group "g":
+   * In group "g":
      - equation x' = 2.0;
                    ^
-   - In automaton definition "g.A":
+   * In automaton definition "g.A":
      - equation z1' = 4.0;
                     ^
      - equation z2' = 5.0;
                     ^
-   - In group definition "g.G":
+   * In group definition "g.G":
      - equation e' = x';
                    ^
-   - In automaton "g.a":
+   * In automaton "g.a":
      - equation y' = 3.0;
                    ^
-   - In location "g.a.U":
+   * In location "g.a.U":
      - equation y2' = 4.0;
                     ^

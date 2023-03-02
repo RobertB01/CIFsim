@@ -1,6 +1,8 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Binary operator "!=" is used:
-   - In group "UNEQUAL":
+  ------------------------------------
+  (1/11) Binary operator "!=" is used.
+  ------------------------------------
+   * In group "UNEQUAL":
      - invariant 1 != 2;
                    ^
      - invariant true != false;
@@ -19,120 +21,130 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                            ^
      - invariant "abc" != "def";
                        ^
- - Binary operator "*" is used:
-   - In invariant "MULTIPLICATION.GG":
+  -----------------------------------
+  (2/11) Binary operator "*" is used.
+  -----------------------------------
+   * In invariant "MULTIPLICATION.GG":
      - invariant GG: 1 * 1 = 0;
                        ^
-   - In invariant "MULTIPLICATION.II":
+   * In invariant "MULTIPLICATION.II":
      - invariant II: i * i = 0;
                        ^
-   - In invariant "MULTIPLICATION.IR":
+   * In invariant "MULTIPLICATION.IR":
      - invariant IR: 1 * 1.0 = 0.0;
                        ^
-   - In invariant "MULTIPLICATION.RI":
+   * In invariant "MULTIPLICATION.RI":
      - invariant RI: 1.0 * 1 = 0.0;
                          ^
-   - In invariant "MULTIPLICATION.RR":
+   * In invariant "MULTIPLICATION.RR":
      - invariant RR: 1.0 * 1.0 = 0.0;
                          ^
- - Binary operator "+" is used:
-   - In group "ADDITION_DICTS":
+  -----------------------------------
+  (3/11) Binary operator "+" is used.
+  -----------------------------------
+   * In group "ADDITION_DICTS":
      - invariant empty({true: false} + {false: true});
                                      ^
-   - In group "ADDITION_LISTS":
+   * In group "ADDITION_LISTS":
      - invariant empty([1] + [1]);
                            ^
-   - In invariant "ADDITION_NUMBERS.GG":
+   * In invariant "ADDITION_NUMBERS.GG":
      - invariant GG: 1 + 1 > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.GI":
+   * In invariant "ADDITION_NUMBERS.GI":
      - invariant GI: 1 + i > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.GR":
+   * In invariant "ADDITION_NUMBERS.GR":
      - invariant GR: 1 + 1.0 > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.IG":
+   * In invariant "ADDITION_NUMBERS.IG":
      - invariant IG: i + 1 > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.II":
+   * In invariant "ADDITION_NUMBERS.II":
      - invariant II: i + i > 0;
                        ^
-   - In invariant "ADDITION_NUMBERS.RG":
+   * In invariant "ADDITION_NUMBERS.RG":
      - invariant RG: 1.0 + 1.0 > 0;
                          ^
-   - In invariant "ADDITION_NUMBERS.RR":
+   * In invariant "ADDITION_NUMBERS.RR":
      - invariant RR: 1.0 + 1.0 > 0;
                          ^
-   - In group "ADDITION_STRINGS":
+   * In group "ADDITION_STRINGS":
      - invariant "a" + "a" = "aa";
                      ^
- - Binary operator "-" is used:
-   - In invariant "SUBTRACTION_CONTAINERS.DD":
+  -----------------------------------
+  (4/11) Binary operator "-" is used.
+  -----------------------------------
+   * In invariant "SUBTRACTION_CONTAINERS.DD":
      - invariant DD: empty({1: 2} - {1: 2});
                                   ^
-   - In invariant "SUBTRACTION_CONTAINERS.DLG":
+   * In invariant "SUBTRACTION_CONTAINERS.DLG":
      - invariant DLG: empty({1: 2} - [1]);
                                    ^
-   - In invariant "SUBTRACTION_CONTAINERS.DLI":
+   * In invariant "SUBTRACTION_CONTAINERS.DLI":
      - invariant DLI: empty({1: 2} - [i]);
                                    ^
-   - In invariant "SUBTRACTION_CONTAINERS.DS":
+   * In invariant "SUBTRACTION_CONTAINERS.DS":
      - invariant DS: empty({1: 2} - {1});
                                   ^
-   - In invariant "SUBTRACTION_CONTAINERS.SS":
+   * In invariant "SUBTRACTION_CONTAINERS.SS":
      - invariant SS: empty({true} - {false});
                                   ^
-   - In invariant "SUBTRACTION_NUMBERS.GG":
+   * In invariant "SUBTRACTION_NUMBERS.GG":
      - invariant GG: 1 - 1 > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.GI":
+   * In invariant "SUBTRACTION_NUMBERS.GI":
      - invariant GI: 1 - i > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.GR":
+   * In invariant "SUBTRACTION_NUMBERS.GR":
      - invariant GR: 1 - 1.0 > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.IG":
+   * In invariant "SUBTRACTION_NUMBERS.IG":
      - invariant IG: i - 1 > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.II":
+   * In invariant "SUBTRACTION_NUMBERS.II":
      - invariant II: i - i > 0;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.RG":
+   * In invariant "SUBTRACTION_NUMBERS.RG":
      - invariant RG: 1.0 - 1.0 > 0;
                          ^
-   - In invariant "SUBTRACTION_NUMBERS.RR":
+   * In invariant "SUBTRACTION_NUMBERS.RR":
      - invariant RR: 1.0 - 1.0 > 0;
                          ^
- - Binary operator "/" is used:
-   - In invariant "DIVISION.II":
+  -----------------------------------
+  (5/11) Binary operator "/" is used.
+  -----------------------------------
+   * In invariant "DIVISION.II":
      - invariant II: 1 / 1 = 0.0;
                        ^
-   - In invariant "DIVISION.IR":
+   * In invariant "DIVISION.IR":
      - invariant IR: 1 / 1.0 = 0.0;
                        ^
-   - In invariant "DIVISION.RI":
+   * In invariant "DIVISION.RI":
      - invariant RI: 1.0 / 1 = 0.0;
                          ^
-   - In invariant "DIVISION.RR":
+   * In invariant "DIVISION.RR":
      - invariant RR: 1.0 / 1.0 = 0.0;
                          ^
- - Binary operator "=" is used:
-   - In group "ADDITION_STRINGS":
+  -----------------------------------
+  (6/11) Binary operator "=" is used.
+  -----------------------------------
+   * In group "ADDITION_STRINGS":
      - invariant "a" + "a" = "aa";
                            ^
-   - In invariant "DIVISION.II":
+   * In invariant "DIVISION.II":
      - invariant II: 1 / 1 = 0.0;
                            ^
-   - In invariant "DIVISION.IR":
+   * In invariant "DIVISION.IR":
      - invariant IR: 1 / 1.0 = 0.0;
                              ^
-   - In invariant "DIVISION.RI":
+   * In invariant "DIVISION.RI":
      - invariant RI: 1.0 / 1 = 0.0;
                              ^
-   - In invariant "DIVISION.RR":
+   * In invariant "DIVISION.RR":
      - invariant RR: 1.0 / 1.0 = 0.0;
                                ^
-   - In group "EQUAL":
+   * In group "EQUAL":
      - invariant 1 = 1;
                    ^
      - invariant true = true;
@@ -151,77 +163,87 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                            ^
      - invariant "abc" = "abc";
                        ^
-   - In invariant "INTEGER_DIVISION.GG":
+   * In invariant "INTEGER_DIVISION.GG":
      - invariant GG: 1 div 1 = 0;
                              ^
-   - In invariant "INTEGER_DIVISION.GI":
+   * In invariant "INTEGER_DIVISION.GI":
      - invariant GI: 1 div i = 0;
                              ^
-   - In invariant "INTEGER_DIVISION.IG":
+   * In invariant "INTEGER_DIVISION.IG":
      - invariant IG: i div 1 = 0;
                              ^
-   - In invariant "INTEGER_DIVISION.II":
+   * In invariant "INTEGER_DIVISION.II":
      - invariant II: i div i = 0;
                              ^
-   - In invariant "MODULUS.GG":
+   * In invariant "MODULUS.GG":
      - invariant GG: 1 mod 1 = 0;
                              ^
-   - In invariant "MODULUS.GI":
+   * In invariant "MODULUS.GI":
      - invariant GI: 1 mod i = 0;
                              ^
-   - In invariant "MODULUS.IG":
+   * In invariant "MODULUS.IG":
      - invariant IG: 1 mod 1 = 0;
                              ^
-   - In invariant "MODULUS.II":
+   * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
                              ^
-   - In invariant "MULTIPLICATION.GG":
+   * In invariant "MULTIPLICATION.GG":
      - invariant GG: 1 * 1 = 0;
                            ^
-   - In invariant "MULTIPLICATION.II":
+   * In invariant "MULTIPLICATION.II":
      - invariant II: i * i = 0;
                            ^
-   - In invariant "MULTIPLICATION.IR":
+   * In invariant "MULTIPLICATION.IR":
      - invariant IR: 1 * 1.0 = 0.0;
                              ^
-   - In invariant "MULTIPLICATION.RI":
+   * In invariant "MULTIPLICATION.RI":
      - invariant RI: 1.0 * 1 = 0.0;
                              ^
-   - In invariant "MULTIPLICATION.RR":
+   * In invariant "MULTIPLICATION.RR":
      - invariant RR: 1.0 * 1.0 = 0.0;
                                ^
- - Binary operator "=>" is used:
-   - In group "IMPLICATION":
+  ------------------------------------
+  (7/11) Binary operator "=>" is used.
+  ------------------------------------
+   * In group "IMPLICATION":
      - invariant true => false;
                       ^
- - Binary operator "and" is used:
-   - In invariant "CONJUNCTION.BB":
+  -------------------------------------
+  (8/11) Binary operator "and" is used.
+  -------------------------------------
+   * In invariant "CONJUNCTION.BB":
      - invariant BB: true and false;
                           ^
-   - In invariant "CONJUNCTION.SS":
+   * In invariant "CONJUNCTION.SS":
      - invariant SS: empty({true} and {false});
                                   ^
- - Binary operator "mod" is used:
-   - In invariant "MODULUS.GG":
+  -------------------------------------
+  (9/11) Binary operator "mod" is used.
+  -------------------------------------
+   * In invariant "MODULUS.GG":
      - invariant GG: 1 mod 1 = 0;
                        ^
-   - In invariant "MODULUS.GI":
+   * In invariant "MODULUS.GI":
      - invariant GI: 1 mod i = 0;
                        ^
-   - In invariant "MODULUS.IG":
+   * In invariant "MODULUS.IG":
      - invariant IG: 1 mod 1 = 0;
                        ^
-   - In invariant "MODULUS.II":
+   * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
                        ^
- - Binary operator "or" is used:
-   - In invariant "DISJUNCTION.BB":
+  -------------------------------------
+  (10/11) Binary operator "or" is used.
+  -------------------------------------
+   * In invariant "DISJUNCTION.BB":
      - invariant BB: true or false;
                           ^
-   - In invariant "DISJUNCTION.SS":
+   * In invariant "DISJUNCTION.SS":
      - invariant SS: empty({true} or {false});
                                   ^
- - Binary operator "sub" is used:
-   - In group "SUBSET":
+  --------------------------------------
+  (11/11) Binary operator "sub" is used.
+  --------------------------------------
+   * In group "SUBSET":
      - invariant {true} sub {false};
                         ^

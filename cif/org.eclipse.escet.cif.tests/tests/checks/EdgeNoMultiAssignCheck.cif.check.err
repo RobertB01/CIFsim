@@ -1,16 +1,18 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Edge has a multi-assignment:
-   - In location "a.l3":
+  ----------------------------------
+  (1/1) Edge has a multi-assignment.
+  ----------------------------------
+   * In location "a.l3":
      - edge e do (va, vb) := (1, 2) goto l4;
                           ^
-   - In automaton "all":
+   * In automaton "all":
      - edge e do (va, vb) := (1, 2);
                           ^
      - edge e do (vb, va) := (3, 4);
                           ^
-   - In location "g.A.l3":
+   * In location "g.A.l3":
      - edge e do (va, vb) := (1, 2) goto l4;
                           ^
-   - In automaton "multi_asgn":
+   * In automaton "multi_asgn":
      - edge e do (va, vb) := (1, 2);
                           ^

@@ -1,17 +1,25 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Standard library function "abs" is used:
-   - In discrete variable "X.n":
+  ----------------------------------------------
+  (1/4) Standard library function "abs" is used.
+  ----------------------------------------------
+   * In discrete variable "X.n":
      - disc int n = round(max(abs(cos(12.0) * 20.0), 7.0) + (sample d)[0]);
                               ^
- - Standard library function "asin" is used:
-   - In discrete variable "X.d":
+  -----------------------------------------------
+  (2/4) Standard library function "asin" is used.
+  -----------------------------------------------
+   * In discrete variable "X.d":
      - disc dist int d = binomial(asin(sin(0.5)), 2);
                                   ^
- - Standard library function "cos" is used:
-   - In discrete variable "X.n":
+  ----------------------------------------------
+  (3/4) Standard library function "cos" is used.
+  ----------------------------------------------
+   * In discrete variable "X.n":
      - disc int n = round(max(abs(cos(12.0) * 20.0), 7.0) + (sample d)[0]);
                                   ^
- - Standard library function "sin" is used:
-   - In discrete variable "X.d":
+  ----------------------------------------------
+  (4/4) Standard library function "sin" is used.
+  ----------------------------------------------
+   * In discrete variable "X.d":
      - disc dist int d = binomial(asin(sin(0.5)), 2);
                                        ^

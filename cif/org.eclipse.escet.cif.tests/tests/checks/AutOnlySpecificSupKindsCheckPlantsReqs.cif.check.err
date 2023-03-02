@@ -1,22 +1,26 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Automaton is a kindless automaton rather than a plant or requirement automaton:
-   - In the top-level scope of the specification:
+  -------------------------------------------------------------------------------------
+  (1/2) Automaton is a kindless automaton rather than a plant or requirement automaton.
+  -------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
      - automaton def A1():
                      ^
      - automaton a1:
                  ^
-   - In group "g":
+   * In group "g":
      - automaton def A1():
                      ^
      - automaton a1:
                  ^
- - Automaton is a supervisor automaton rather than a plant or requirement automaton:
-   - In the top-level scope of the specification:
+  ---------------------------------------------------------------------------------------
+  (2/2) Automaton is a supervisor automaton rather than a plant or requirement automaton.
+  ---------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
      - supervisor automaton def S1():
                                 ^
      - supervisor automaton s1:
                             ^
-   - In group "g":
+   * In group "g":
      - supervisor automaton def S1():
                                 ^
      - supervisor automaton s1:

@@ -11,21 +11,23 @@ WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, co
 WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 33: Event parameter "G.c1" is not used anywhere in the specification.
 WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 47: Event parameter "G.c2" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Event is a channel:
-   - In the top-level scope of the specification:
+  -------------------------
+  (1/1) Event is a channel.
+  -------------------------
+   * In the top-level scope of the specification:
      - event void c1;
                   ^
      - event int c2;
                  ^
-   - In group definition "G":
+   * In group definition "G":
      - group def G(event e; event void c1; event int c2):
                                        ^             ^
-   - In group "g":
+   * In group "g":
      - event void c1;
                   ^
      - event int c2;
                  ^
-   - In automaton "g.a":
+   * In automaton "g.a":
      - controllable void c1;
                          ^
      - uncontrollable int c2;

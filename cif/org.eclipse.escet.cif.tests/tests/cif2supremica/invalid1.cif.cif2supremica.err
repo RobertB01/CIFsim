@@ -1,103 +1,131 @@
 WARNING: File "cif2supremica/invalid1.cif": Semantic warning at line 31, column 9: Automaton "g.p0" has no initial location.
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
- - A function call is used:
-   - In automaton "g.p1":
+  -------------------------------
+  (1/38) A function call is used.
+  -------------------------------
+   * In automaton "g.p1":
      - initial sqrt(-1.0) > 0;
                    ^
      - marked sqrt(-2.0) > 0;
                   ^
- - A function type is used:
-   - In automaton "g.p1":
+  -------------------------------
+  (2/38) A function type is used.
+  -------------------------------
+   * In automaton "g.p1":
      - initial sqrt(-1.0) > 0;
                ^
      - marked sqrt(-2.0) > 0;
               ^
- - A list literal is used:
-   - In group "g":
+  ------------------------------
+  (3/38) A list literal is used.
+  ------------------------------
+   * In group "g":
      - p0.lb = [true],
                ^
      - p0.lb = [false],
                ^
      - p0.lb = [false, true];
                ^
-   - In discrete variable "g.p0.lb":
+   * In discrete variable "g.p0.lb":
      - disc list bool lb = [true];
                            ^
- - A list type is used:
-   - In group "g":
+  ---------------------------
+  (4/38) A list type is used.
+  ---------------------------
+   * In group "g":
      - p0.lb = [true],
        ^       ^
      - p0.lb = [false],
        ^       ^
      - p0.lb = [false, true];
        ^       ^
-   - In automaton "g.p0":
+   * In automaton "g.p0":
      - edge e1 do lb[0] := true;
                   ^
-   - In discrete variable "g.p0.lb":
+   * In discrete variable "g.p0.lb":
      - disc list bool lb = [true];
             ^              ^
- - A projection expression is used:
-   - In automaton "g.p0":
+  ---------------------------------------
+  (5/38) A projection expression is used.
+  ---------------------------------------
+   * In automaton "g.p0":
      - edge e1 do lb[0] := true;
                     ^
- - A real number literal is used:
-   - In group "g":
+  -------------------------------------
+  (6/38) A real number literal is used.
+  -------------------------------------
+   * In group "g":
      - p0.cnt = 1.2,
                 ^
-   - In continuous variable "g.p0.cnt":
+   * In continuous variable "g.p0.cnt":
      - cont cnt der 1.0;
                     ^
-   - In automaton "g.p1":
+   * In automaton "g.p1":
      - initial sqrt(-1.0) > 0;
                      ^
      - marked sqrt(-2.0) > 0;
                     ^
- - A real type is used:
-   - In group "g":
+  ---------------------------
+  (7/38) A real type is used.
+  ---------------------------
+   * In group "g":
      - p0.cnt = 1.2,
        ^        ^
-   - In continuous variable "g.p0.cnt":
+   * In continuous variable "g.p0.cnt":
      - cont cnt der 1.0;
                     ^
-   - In automaton "g.p1":
+   * In automaton "g.p1":
      - initial sqrt(-1.0) > 0;
                ^   ^^^
      - marked sqrt(-2.0) > 0;
               ^   ^^^
- - A tuple literal is used:
-   - In automaton "g.p0":
+  -------------------------------
+  (8/38) A tuple literal is used.
+  -------------------------------
+   * In automaton "g.p0":
      - edge e1 do (x1, x2) := (1, 2);
                   ^           ^
- - A tuple type is used:
-   - In automaton "g.p0":
+  ----------------------------
+  (9/38) A tuple type is used.
+  ----------------------------
+   * In automaton "g.p0":
      - edge e1 do (x1, x2) := (1, 2);
                   ^           ^
- - Automaton has multiple initial locations:
-   - In group "g":
+  -------------------------------------------------
+  (10/38) Automaton has multiple initial locations.
+  -------------------------------------------------
+   * In group "g":
      - plant automaton p2:
                        ^
- - Automaton has no initial location:
-   - In group "g":
+  ------------------------------------------
+  (11/38) Automaton has no initial location.
+  ------------------------------------------
+   * In group "g":
      - plant automaton p0:
                        ^
- - Automaton is a kindless automaton rather than a plant, requirement or supervisor automaton:
-   - In group "g":
+  ---------------------------------------------------------------------------------------------------
+  (12/38) Automaton is a kindless automaton rather than a plant, requirement or supervisor automaton.
+  ---------------------------------------------------------------------------------------------------
+   * In group "g":
      - automaton a:
                  ^
- - Binary operator ">" is used on a real typed operand:
-   - In automaton "g.p1":
+  ------------------------------------------------------------
+  (13/38) Binary operator ">" is used on a real typed operand.
+  ------------------------------------------------------------
+   * In automaton "g.p1":
      - initial sqrt(-1.0) > 0;
                           ^
      - marked sqrt(-2.0) > 0;
                          ^
- - Component has a marker predicate that is not of the form 'discrete_variable = marked_value':
-   - In the top-level scope of the specification:
+  ----------------------------------------------------------------------------------------------------
+  (14/38) Component has a marker predicate that is not of the form 'discrete_variable = marked_value'.
+  ----------------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
      - marked 3 > 4,
                 ^
      - true;
        ^
-   - In group "g":
+   * In group "g":
      - marked not false,
               ^
      - 1 > 2,
@@ -106,114 +134,162 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
          ^
      - p0.cnt = 1.2,
               ^
- - Component has an initialization predicate:
-   - In the top-level scope of the specification:
+  --------------------------------------------------
+  (15/38) Component has an initialization predicate.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
      - initial 2 = 2;
                  ^
-   - In group "g":
+   * In group "g":
      - initial 1 = 1;
                  ^
- - Discrete variable has multiple potential initial values:
-   - In automaton "g.p0":
+  ----------------------------------------------------------------
+  (16/38) Discrete variable has multiple potential initial values.
+  ----------------------------------------------------------------
+   * In automaton "g.p0":
      - disc int[1..2] x1 in {1, 2};
                       ^
- - Discrete variable has multiple potential initial values (any value in its domain):
-   - In automaton "g.p0":
+  ------------------------------------------------------------------------------------------
+  (17/38) Discrete variable has multiple potential initial values (any value in its domain).
+  ------------------------------------------------------------------------------------------
+   * In automaton "g.p0":
      - disc int[1..2] x2 in any;
                       ^
- - Discrete variable has multiple predicates that specify its marked value(s):
-   - In automaton "g.p0":
+  -----------------------------------------------------------------------------------
+  (18/38) Discrete variable has multiple predicates that specify its marked value(s).
+  -----------------------------------------------------------------------------------
+   * In automaton "g.p0":
      - disc int[1..2] x1 in {1, 2};
                       ^
      - disc list bool lb = [true];
                       ^
- - Edge has a multi-assignment:
-   - In automaton "g.p0":
+  ------------------------------------
+  (19/38) Edge has a multi-assignment.
+  ------------------------------------
+   * In automaton "g.p0":
      - edge e1 do (x1, x2) := (1, 2);
                            ^
- - Edge has a partial variable assignment:
-   - In automaton "g.p0":
+  -----------------------------------------------
+  (20/38) Edge has a partial variable assignment.
+  -----------------------------------------------
+   * In automaton "g.p0":
      - edge e1 do lb[0] := true;
                         ^
- - Edge has an 'if' update:
-   - In automaton "g.p0":
+  --------------------------------
+  (21/38) Edge has an 'if' update.
+  --------------------------------
+   * In automaton "g.p0":
      - edge e1 do if true: x1 := 2 end;
                   ^
- - Edge has an explicit 'tau' event, which is not controllable or uncontrollable:
-   - In automaton "g.a":
+  --------------------------------------------------------------------------------------
+  (22/38) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
+  --------------------------------------------------------------------------------------
+   * In automaton "g.a":
      - edge e1, e2, tau;
                     ^
- - Edge has an implicit 'tau' event, which is not controllable or uncontrollable:
-   - In automaton "g.a":
+  --------------------------------------------------------------------------------------
+  (23/38) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
+  --------------------------------------------------------------------------------------
+   * In automaton "g.a":
      - edge when true;
        ^
- - Edge is urgent:
-   - In automaton "g.snd":
+  -----------------------
+  (24/38) Edge is urgent.
+  -----------------------
+   * In automaton "g.snd":
      - edge e2!5 now;
        ^
- - Event is a channel:
-   - In group "g":
+  ---------------------------
+  (25/38) Event is a channel.
+  ---------------------------
+   * In group "g":
      - controllable int[0..5] e2;
                               ^
- - Event is not declared as controllable or uncontrollable:
-   - In group "g":
+  ----------------------------------------------------------------
+  (26/38) Event is not declared as controllable or uncontrollable.
+  ----------------------------------------------------------------
+   * In group "g":
      - event e1;
              ^
- - Failed to determine whether a location is an initial location, as evaluating one of its initialization predicates results in an evaluation error:
-   - In automaton "g.p1":
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+  (27/38) Failed to determine whether a location is an initial location, as evaluating one of its initialization predicates results in an evaluation error.
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+   * In automaton "g.p1":
      - initial sqrt(-1.0) > 0;
                    ^
- - Function is a user-defined function:
-   - In group "g":
+  --------------------------------------------
+  (28/38) Function is a user-defined function.
+  --------------------------------------------
+   * In group "g":
      - func bool f(bool p):
                  ^
- - Invariant is a kindless state invariant in a component:
-   - In the top-level scope of the specification:
+  ---------------------------------------------------------------
+  (29/38) Invariant is a kindless state invariant in a component.
+  ---------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant 11 = 11;
                     ^
-   - In group "g":
+   * In group "g":
      - invariant 8 = 8;
                    ^
- - Invariant is a kindless state/event exclusion invariant:
-   - In the top-level scope of the specification:
+  ----------------------------------------------------------------
+  (30/38) Invariant is a kindless state/event exclusion invariant.
+  ----------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant g.e1 needs 3 = 3;
                       ^
-   - In group "g":
+   * In group "g":
      - invariant e1 needs p0.x1 > 0;
                     ^
      - invariant p0.x1 > 0 disables e1;
                            ^
- - Invariant is a plant state invariant in a component:
-   - In group "g":
+  ------------------------------------------------------------
+  (31/38) Invariant is a plant state invariant in a component.
+  ------------------------------------------------------------
+   * In group "g":
      - plant invariant 9 = 9;
                          ^
- - Invariant is a state invariant in a location:
-   - In automaton "g.p1":
+  -----------------------------------------------------
+  (32/38) Invariant is a state invariant in a location.
+  -----------------------------------------------------
+   * In automaton "g.p1":
      - plant invariant 7 = 7;
                          ^
- - Invariant is a supervisor state invariant in a component:
-   - In group "g":
+  -----------------------------------------------------------------
+  (33/38) Invariant is a supervisor state invariant in a component.
+  -----------------------------------------------------------------
+   * In group "g":
      - supervisor invariant 10 = 10;
                                ^
- - Location has a marker predicate that cannot be evaluated statically, as evaluating it results in an evaluation error:
-   - In automaton "g.p1":
+  -----------------------------------------------------------------------------------------------------------------------------
+  (34/38) Location has a marker predicate that cannot be evaluated statically, as evaluating it results in an evaluation error.
+  -----------------------------------------------------------------------------------------------------------------------------
+   * In automaton "g.p1":
      - marked sqrt(-2.0) > 0;
                   ^
- - Location is urgent:
-   - In automaton "g.p0":
+  ---------------------------
+  (35/38) Location is urgent.
+  ---------------------------
+   * In automaton "g.p0":
      - location:
        ^
- - Unary operator "-" is used on a real typed operand:
-   - In automaton "g.p1":
+  -----------------------------------------------------------
+  (36/38) Unary operator "-" is used on a real typed operand.
+  -----------------------------------------------------------
+   * In automaton "g.p1":
      - initial sqrt(-1.0) > 0;
                     ^
      - marked sqrt(-2.0) > 0;
                    ^
- - Variable is a continuous variable:
-   - In automaton "g.p0":
+  ------------------------------------------
+  (37/38) Variable is a continuous variable.
+  ------------------------------------------
+   * In automaton "g.p0":
      - cont cnt der 1.0;
             ^
- - Variable is an input variable:
-   - In automaton "g.p0":
+  --------------------------------------
+  (38/38) Variable is an input variable.
+  --------------------------------------
+   * In automaton "g.p0":
      - input bool inp;
                   ^

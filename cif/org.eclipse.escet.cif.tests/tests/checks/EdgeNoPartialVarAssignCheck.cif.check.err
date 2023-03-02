@@ -1,16 +1,18 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Edge has a partial variable assignment:
-   - In location "a.l4":
+  ---------------------------------------------
+  (1/1) Edge has a partial variable assignment.
+  ---------------------------------------------
+   * In location "a.l4":
      - edge e do li[0] := 1 goto l5;
                        ^
-   - In automaton "all":
+   * In automaton "all":
      - edge e do li[0] := 1;
                        ^
      - edge e do li[1] := 2;
                        ^
-   - In location "g.A.l4":
+   * In location "g.A.l4":
      - edge e do li[0] := 1 goto l5;
                        ^
-   - In automaton "partial_asgn":
+   * In automaton "partial_asgn":
      - edge e do li[0] := 1;
                        ^

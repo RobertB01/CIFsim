@@ -1,101 +1,125 @@
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 119, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - A component type is used:
-   - In automaton "COMP_TYPES":
+  --------------------------------
+  (1/12) A component type is used.
+  --------------------------------
+   * In automaton "COMP_TYPES":
      - invariant switch self: else true end;
                         ^
      - invariant switch COMP_TYPES: else true end;
                         ^
- - A dictionary type is used:
-   - In invariant "DICT_TYPES":
+  ---------------------------------
+  (2/12) A dictionary type is used.
+  ---------------------------------
+   * In invariant "DICT_TYPES":
      - invariant DICT_TYPES: {true: false} = {true: false};
                              ^               ^
- - A distribution type is used:
-   - In automaton "DIST_TYPES":
+  -----------------------------------
+  (3/12) A distribution type is used.
+  -----------------------------------
+   * In automaton "DIST_TYPES":
      - edge tau do d := d;
                    ^    ^
-   - In discrete variable "DIST_TYPES.d":
+   * In discrete variable "DIST_TYPES.d":
      - disc dist bool d = constant(true);
             ^             ^       ^
- - A function type is used:
-   - In discrete variable "DIST_TYPES.d":
+  -------------------------------
+  (4/12) A function type is used.
+  -------------------------------
+   * In discrete variable "DIST_TYPES.d":
      - disc dist bool d = constant(true);
                           ^
-   - In invariant "FUNC_TYPES":
+   * In invariant "FUNC_TYPES":
      - invariant FUNC_TYPES: f() = true;
                              ^
-   - In automaton "FUNC_TYPES_AS_DATA":
+   * In automaton "FUNC_TYPES_AS_DATA":
      - edge when not lfn[0]();
                      ^  ^
-   - In discrete variable "FUNC_TYPES_AS_DATA.lfn":
+   * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
      - disc list func bool() lfn = [f];
                  ^                 ^^
- - A list type is used:
-   - In automaton "FUNC_TYPES_AS_DATA":
+  ---------------------------
+  (5/12) A list type is used.
+  ---------------------------
+   * In automaton "FUNC_TYPES_AS_DATA":
      - edge when not lfn[0]();
                      ^
-   - In discrete variable "FUNC_TYPES_AS_DATA.lfn":
+   * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
      - disc list func bool() lfn = [f];
             ^                      ^
-   - In invariant "LIST_TYPES_ARRAY":
+   * In invariant "LIST_TYPES_ARRAY":
      - invariant LIST_TYPES_ARRAY: [true, false] = [true, false];
                                    ^               ^
-   - In location "LIST_TYPES_NON_ARRAY.loc":
+   * In location "LIST_TYPES_NON_ARRAY.loc":
      - edge tau do v := v;
                    ^    ^
-   - In discrete variable "LIST_TYPES_NON_ARRAY.v":
+   * In discrete variable "LIST_TYPES_NON_ARRAY.v":
      - disc list bool v;
             ^
- - A real type is used:
-   - In invariant "REAL_TYPES":
+  ---------------------------
+  (6/12) A real type is used.
+  ---------------------------
+   * In invariant "REAL_TYPES":
      - invariant REAL_TYPES: 1.0 = 1.0;
                              ^     ^
- - A set type is used:
-   - In invariant "SET_TYPES":
+  --------------------------
+  (7/12) A set type is used.
+  --------------------------
+   * In invariant "SET_TYPES":
      - invariant SET_TYPES: {true} = {true};
                             ^        ^
- - A string type is used:
-   - In invariant "STRING_TYPES":
+  -----------------------------
+  (8/12) A string type is used.
+  -----------------------------
+   * In invariant "STRING_TYPES":
      - invariant STRING_TYPES: "a" = "a";
                                ^     ^
- - A tuple type is used:
-   - In invariant "TUPLE_TYPES":
+  ----------------------------
+  (9/12) A tuple type is used.
+  ----------------------------
+   * In invariant "TUPLE_TYPES":
      - invariant TUPLE_TYPES: (true, false) = (true, false);
                               ^               ^
-   - In automaton "TUPLE_TYPES_MULTI_ASGN":
+   * In automaton "TUPLE_TYPES_MULTI_ASGN":
      - edge do (a, b) := (true, false);
                ^         ^
- - A void type is used:
-   - In event "VOID_TYPES":
+  ----------------------------
+  (10/12) A void type is used.
+  ----------------------------
+   * In event "VOID_TYPES":
      - event void VOID_TYPES;
              ^
- - An enumeration type is used:
-   - In invariant "ENUM_TYPES":
+  ------------------------------------
+  (11/12) An enumeration type is used.
+  ------------------------------------
+   * In invariant "ENUM_TYPES":
      - invariant ENUM_TYPES: e1 = e2;
                              ^    ^
- - An integer type is used:
-   - In automaton "FUNC_TYPES_AS_DATA":
+  --------------------------------
+  (12/12) An integer type is used.
+  --------------------------------
+   * In automaton "FUNC_TYPES_AS_DATA":
      - edge when not lfn[0]();
                          ^
-   - In invariant "INT_TYPES_RANGED":
+   * In invariant "INT_TYPES_RANGED":
      - invariant INT_TYPES_RANGED: 1 = 1;
                                    ^   ^
-   - In location "INT_TYPES_RANGELESS.loc":
+   * In location "INT_TYPES_RANGELESS.loc":
      - edge tau do v := v;
                    ^    ^
-   - In discrete variable "INT_TYPES_RANGELESS.v":
+   * In discrete variable "INT_TYPES_RANGELESS.v":
      - disc int v;
             ^
-   - In type declaration "grp.t":
+   * In type declaration "grp.t":
      - type t = int;
                 ^
-   - In type declaration "nested_grp.nested_grp.t":
+   * In type declaration "nested_grp.nested_grp.t":
      - type t = int;
                 ^
-   - In type declaration "t":
+   * In type declaration "t":
      - type t = int;
                 ^
-   - In type declaration "type_decl.t":
+   * In type declaration "type_decl.t":
      - type t = int;
                 ^

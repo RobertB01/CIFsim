@@ -1,6 +1,12 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Specification does not have at least 1 plant automaton (no plant automaton found).
- - Specification does not have at least 2 and at most 3 automata (6 automata found).
- - Specification does not have at most 1 supervisor automaton (3 supervisor automata found).
- - Specification does not have exactly 0 kindless automata (1 kindless automaton found).
- - Specification does not have exactly 1 requirement automaton (2 requirement automata found).
+  ----------------------------------------------------------------------------------------
+  (1/5) Specification does not have at least 1 plant automaton (no plant automaton found).
+  ----------------------------------------------------------------------------------------
+  (2/5) Specification does not have at least 2 and at most 3 automata (6 automata found).
+  ---------------------------------------------------------------------------------------
+  (3/5) Specification does not have at most 1 supervisor automaton (3 supervisor automata found).
+  -----------------------------------------------------------------------------------------------
+  (4/5) Specification does not have exactly 0 kindless automata (1 kindless automaton found).
+  -------------------------------------------------------------------------------------------
+  (5/5) Specification does not have exactly 1 requirement automaton (2 requirement automata found).
+  -------------------------------------------------------------------------------------------------

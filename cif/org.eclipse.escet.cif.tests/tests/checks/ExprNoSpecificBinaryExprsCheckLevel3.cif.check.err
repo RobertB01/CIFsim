@@ -1,149 +1,169 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Binary operator "<" is used on a ranged integer typed operand:
-   - In the top-level scope of the specification:
+  ---------------------------------------------------------------------
+  (1/10) Binary operator "<" is used on a ranged integer typed operand.
+  ---------------------------------------------------------------------
+   * In the top-level scope of the specification:
      - invariant 1 < 2;
                    ^
-   - In invariant "LESS_THAN.GG":
+   * In invariant "LESS_THAN.GG":
      - invariant GG: 1 < 1;
                        ^
-   - In invariant "LESS_THAN.IR":
+   * In invariant "LESS_THAN.IR":
      - invariant IR: 1 < 1.0;
                        ^
-   - In invariant "LESS_THAN.RI":
+   * In invariant "LESS_THAN.RI":
      - invariant RI: 1.0 < 1;
                          ^
-   - In group "grp":
+   * In group "grp":
      - invariant 1 < 2;
                    ^
-   - In group "nested_grp.nested_grp":
+   * In group "nested_grp.nested_grp":
      - invariant 1 < 2;
                    ^
-   - In group "type_decl":
+   * In group "type_decl":
      - invariant a < a;
                    ^
- - Binary operator "<" is used on a rangeless integer typed operand:
-   - In invariant "LESS_THAN.II":
+  ------------------------------------------------------------------------
+  (2/10) Binary operator "<" is used on a rangeless integer typed operand.
+  ------------------------------------------------------------------------
+   * In invariant "LESS_THAN.II":
      - invariant II: i < i;
                        ^
- - Binary operator "<=" is used on a ranged integer typed operand:
-   - In invariant "LESS_EQUAL.GG":
+  ----------------------------------------------------------------------
+  (3/10) Binary operator "<=" is used on a ranged integer typed operand.
+  ----------------------------------------------------------------------
+   * In invariant "LESS_EQUAL.GG":
      - invariant GG: 1 <= 1;
                        ^
-   - In invariant "LESS_EQUAL.IR":
+   * In invariant "LESS_EQUAL.IR":
      - invariant IR: 1 <= 1.0;
                        ^
-   - In invariant "LESS_EQUAL.RI":
+   * In invariant "LESS_EQUAL.RI":
      - invariant RI: 1.0 <= 1;
                          ^
- - Binary operator "<=" is used on a rangeless integer typed operand:
-   - In invariant "LESS_EQUAL.II":
+  -------------------------------------------------------------------------
+  (4/10) Binary operator "<=" is used on a rangeless integer typed operand.
+  -------------------------------------------------------------------------
+   * In invariant "LESS_EQUAL.II":
      - invariant II: i <= i;
                        ^
- - Binary operator ">" is used on a ranged integer typed operand:
-   - In invariant "ADDITION_NUMBERS.GG":
+  ---------------------------------------------------------------------
+  (5/10) Binary operator ">" is used on a ranged integer typed operand.
+  ---------------------------------------------------------------------
+   * In invariant "ADDITION_NUMBERS.GG":
      - invariant GG: 1 + 1 > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.GI":
+   * In invariant "ADDITION_NUMBERS.GI":
      - invariant GI: 1 + i > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.GR":
+   * In invariant "ADDITION_NUMBERS.GR":
      - invariant GR: 1 + 1.0 > 0;
                              ^
-   - In invariant "ADDITION_NUMBERS.IG":
+   * In invariant "ADDITION_NUMBERS.IG":
      - invariant IG: i + 1 > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.II":
+   * In invariant "ADDITION_NUMBERS.II":
      - invariant II: i + i > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.RG":
+   * In invariant "ADDITION_NUMBERS.RG":
      - invariant RG: 1.0 + 1.0 > 0;
                                ^
-   - In invariant "ADDITION_NUMBERS.RR":
+   * In invariant "ADDITION_NUMBERS.RR":
      - invariant RR: 1.0 + 1.0 > 0;
                                ^
-   - In invariant "GREATER_THAN.GG":
+   * In invariant "GREATER_THAN.GG":
      - invariant GG: 1 > 1;
                        ^
-   - In invariant "GREATER_THAN.IR":
+   * In invariant "GREATER_THAN.IR":
      - invariant IR: 1 > 1.0;
                        ^
-   - In invariant "GREATER_THAN.RI":
+   * In invariant "GREATER_THAN.RI":
      - invariant RI: 1.0 > 1;
                          ^
-   - In invariant "SUBTRACTION_NUMBERS.GG":
+   * In invariant "SUBTRACTION_NUMBERS.GG":
      - invariant GG: 1 - 1 > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.GI":
+   * In invariant "SUBTRACTION_NUMBERS.GI":
      - invariant GI: 1 - i > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.GR":
+   * In invariant "SUBTRACTION_NUMBERS.GR":
      - invariant GR: 1 - 1.0 > 0;
                              ^
-   - In invariant "SUBTRACTION_NUMBERS.IG":
+   * In invariant "SUBTRACTION_NUMBERS.IG":
      - invariant IG: i - 1 > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.II":
+   * In invariant "SUBTRACTION_NUMBERS.II":
      - invariant II: i - i > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.RG":
+   * In invariant "SUBTRACTION_NUMBERS.RG":
      - invariant RG: 1.0 - 1.0 > 0;
                                ^
-   - In invariant "SUBTRACTION_NUMBERS.RR":
+   * In invariant "SUBTRACTION_NUMBERS.RR":
      - invariant RR: 1.0 - 1.0 > 0;
                                ^
- - Binary operator ">" is used on a rangeless integer typed operand:
-   - In invariant "ADDITION_NUMBERS.GI":
+  ------------------------------------------------------------------------
+  (6/10) Binary operator ">" is used on a rangeless integer typed operand.
+  ------------------------------------------------------------------------
+   * In invariant "ADDITION_NUMBERS.GI":
      - invariant GI: 1 + i > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.IG":
+   * In invariant "ADDITION_NUMBERS.IG":
      - invariant IG: i + 1 > 0;
                            ^
-   - In invariant "ADDITION_NUMBERS.II":
+   * In invariant "ADDITION_NUMBERS.II":
      - invariant II: i + i > 0;
                            ^
-   - In invariant "GREATER_THAN.II":
+   * In invariant "GREATER_THAN.II":
      - invariant II: i > i;
                        ^
-   - In invariant "SUBTRACTION_NUMBERS.GI":
+   * In invariant "SUBTRACTION_NUMBERS.GI":
      - invariant GI: 1 - i > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.IG":
+   * In invariant "SUBTRACTION_NUMBERS.IG":
      - invariant IG: i - 1 > 0;
                            ^
-   - In invariant "SUBTRACTION_NUMBERS.II":
+   * In invariant "SUBTRACTION_NUMBERS.II":
      - invariant II: i - i > 0;
                            ^
- - Binary operator ">=" is used on a ranged integer typed operand:
-   - In invariant "GREATER_EQUAL.GG":
+  ----------------------------------------------------------------------
+  (7/10) Binary operator ">=" is used on a ranged integer typed operand.
+  ----------------------------------------------------------------------
+   * In invariant "GREATER_EQUAL.GG":
      - invariant GG: 1 >= 1;
                        ^
-   - In invariant "GREATER_EQUAL.IR":
+   * In invariant "GREATER_EQUAL.IR":
      - invariant IR: 1 >= 1.0;
                        ^
-   - In invariant "GREATER_EQUAL.RI":
+   * In invariant "GREATER_EQUAL.RI":
      - invariant RI: 1.0 >= 1;
                          ^
- - Binary operator ">=" is used on a rangeless integer typed operand:
-   - In invariant "GREATER_EQUAL.II":
+  -------------------------------------------------------------------------
+  (8/10) Binary operator ">=" is used on a rangeless integer typed operand.
+  -------------------------------------------------------------------------
+   * In invariant "GREATER_EQUAL.II":
      - invariant II: i >= i;
                        ^
- - Binary operator "div" is used on a ranged integer typed operand:
-   - In invariant "INTEGER_DIVISION.GG":
+  -----------------------------------------------------------------------
+  (9/10) Binary operator "div" is used on a ranged integer typed operand.
+  -----------------------------------------------------------------------
+   * In invariant "INTEGER_DIVISION.GG":
      - invariant GG: 1 div 1 = 0;
                        ^
-   - In invariant "INTEGER_DIVISION.GI":
+   * In invariant "INTEGER_DIVISION.GI":
      - invariant GI: 1 div i = 0;
                        ^
-   - In invariant "INTEGER_DIVISION.IG":
+   * In invariant "INTEGER_DIVISION.IG":
      - invariant IG: i div 1 = 0;
                        ^
- - Binary operator "div" is used on a rangeless integer typed operand:
-   - In invariant "INTEGER_DIVISION.GI":
+  ---------------------------------------------------------------------------
+  (10/10) Binary operator "div" is used on a rangeless integer typed operand.
+  ---------------------------------------------------------------------------
+   * In invariant "INTEGER_DIVISION.GI":
      - invariant GI: 1 div i = 0;
                        ^
-   - In invariant "INTEGER_DIVISION.IG":
+   * In invariant "INTEGER_DIVISION.IG":
      - invariant IG: i div 1 = 0;
                        ^
-   - In invariant "INTEGER_DIVISION.II":
+   * In invariant "INTEGER_DIVISION.II":
      - invariant II: i div i = 0;
                        ^

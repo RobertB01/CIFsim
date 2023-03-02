@@ -1,21 +1,23 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/array_tuple_mix.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - A list type is used:
-   - In location "aut.l1":
+  --------------------------
+  (1/1) A list type is used.
+  --------------------------
+   * In location "aut.l1":
      - edge do i := ltii[0][1], j := tlili[1][-1] goto l2;
                     ^                ^    ^
-   - In location "aut.l2":
+   * In location "aut.l2":
      - edge do ltii[-1][0] := 13, tlili[0][-1] := 14 goto l3;
                ^                  ^    ^
-   - In location "aut.l3":
+   * In location "aut.l3":
      - edge do ltii[0] := tii goto l4;
                ^
-   - In location "aut.l4":
+   * In location "aut.l4":
      - edge do tii := ltii[1] goto l5;
                       ^
-   - In discrete variable "aut.ltii":
+   * In discrete variable "aut.ltii":
      - disc list[2] tuple(int a; int b) ltii = [(3, 4), (5, 6)];
             ^                                  ^
-   - In discrete variable "aut.tlili":
+   * In discrete variable "aut.tlili":
      - disc tuple(list[2] int c; list[2] int d) tlili = ([7, 8], [9, 10]);
                   ^              ^                      ^^       ^

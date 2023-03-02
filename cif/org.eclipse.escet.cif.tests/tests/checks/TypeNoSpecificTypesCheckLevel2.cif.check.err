@@ -1,26 +1,30 @@
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 119, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - A component definition type is used:
-   - In component parameter "COMP_DEF_TYPES2.p":
+  ------------------------------------------
+  (1/2) A component definition type is used.
+  ------------------------------------------
+   * In component parameter "COMP_DEF_TYPES2.p":
      - group def COMP_DEF_TYPES2(COMP_DEF_TYPES1 p):
                                  ^
- - A rangeless integer type is used:
-   - In location "INT_TYPES_RANGELESS.loc":
+  ---------------------------------------
+  (2/2) A rangeless integer type is used.
+  ---------------------------------------
+   * In location "INT_TYPES_RANGELESS.loc":
      - edge tau do v := v;
                    ^    ^
-   - In discrete variable "INT_TYPES_RANGELESS.v":
+   * In discrete variable "INT_TYPES_RANGELESS.v":
      - disc int v;
             ^
-   - In type declaration "grp.t":
+   * In type declaration "grp.t":
      - type t = int;
                 ^
-   - In type declaration "nested_grp.nested_grp.t":
+   * In type declaration "nested_grp.nested_grp.t":
      - type t = int;
                 ^
-   - In type declaration "t":
+   * In type declaration "t":
      - type t = int;
                 ^
-   - In type declaration "type_decl.t":
+   * In type declaration "type_decl.t":
      - type t = int;
                 ^

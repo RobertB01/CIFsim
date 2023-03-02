@@ -1,8 +1,10 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Internal user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable:
-   - In user-defined function "f":
+  -------------------------------------------------------------------------------------------------------------------------------
+  (1/1) Internal user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
+  -------------------------------------------------------------------------------------------------------------------------------
+   * In user-defined function "f":
      - d[0], d[1] := 4, 7;
                   ^
-   - In user-defined function "g.f":
+   * In user-defined function "g.f":
      - d[0], d[1] := 4, 7;
                   ^

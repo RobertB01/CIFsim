@@ -15,29 +15,33 @@ WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at li
 WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at line 84, column 20: Duplicate invariant for event "e".
 WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at line 93, column 27: Duplicate invariant for event "e".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Invariant is a plant 'needs' state/event exclusion invariant:
-   - In the top-level scope of the specification:
+  -------------------------------------------------------------------
+  (1/2) Invariant is a plant 'needs' state/event exclusion invariant.
+  -------------------------------------------------------------------
+   * In the top-level scope of the specification:
      - plant invariant e needs true;
                          ^
-   - In location "different_locs.loc3":
+   * In location "different_locs.loc3":
      - plant invariant e needs true;
                          ^
-   - In group "g.p":
+   * In group "g.p":
      - plant invariant e needs true;
                          ^
-   - In automaton "named_invs":
+   * In automaton "named_invs":
      - plant invariant I3: e needs true;
                        ^
-   - In automaton "nameless_loc":
+   * In automaton "nameless_loc":
      - plant invariant e needs true;
                          ^
- - Invariant is a requirement state invariant in a location:
-   - In location "different_locs.loc4":
+  ---------------------------------------------------------------
+  (2/2) Invariant is a requirement state invariant in a location.
+  ---------------------------------------------------------------
+   * In location "different_locs.loc4":
      - requirement invariant true;
                              ^
-   - In automaton "named_invs":
+   * In automaton "named_invs":
      - requirement invariant I5: true;
                              ^
-   - In automaton "nameless_loc":
+   * In automaton "nameless_loc":
      - requirement invariant true;
                              ^
