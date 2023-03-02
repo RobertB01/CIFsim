@@ -1751,7 +1751,7 @@ public class CifTypeUtils {
     }
 
     /**
-     * Creates a CIF type (possibly a tuple type) type for the given field types.
+     * Creates a CIF type (possibly a tuple type) for the given field types.
      *
      * <p>
      * The field types are deep cloned, so that their containment does not change as a result of using this method.
