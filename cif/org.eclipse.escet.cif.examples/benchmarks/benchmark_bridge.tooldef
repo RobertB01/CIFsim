@@ -16,4 +16,4 @@
 
 from "benchmark__base.tooldef" import *;
 
-benchmark("bridge", "requirements.cif");
+benchmark("bridge", "bridge", "requirements.cif");

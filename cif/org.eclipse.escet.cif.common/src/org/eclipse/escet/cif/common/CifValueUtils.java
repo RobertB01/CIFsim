@@ -51,6 +51,7 @@ import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -1605,6 +1606,320 @@ public class CifValueUtils {
         }
 
         throw new RuntimeException("Unknown expr: " + expr);
+    }
+
+    /**
+     * Are the two expression structurally the same?
+     *
+     * @param expr1 The first expression to check.
+     * @param expr2 The second expression to check.
+     * @return {@code true} if the two expressions are structurally the same, {@code false} otherwise.
+     */
+    public static Boolean areStructurallySameExpression(Expression expr1, Expression expr2) {
+        if (!expr1.getClass().equals(expr2.getClass())) {
+            return false;
+        }
+
+        if (expr1 instanceof BoolExpression bexpr1 && expr2 instanceof BoolExpression bexpr2) {
+            return bexpr1.isValue() == bexpr2.isValue();
+        }
+
+        if (expr1 instanceof IntExpression iexpr1 && expr2 instanceof IntExpression iexpr2) {
+            return iexpr1.getValue() == iexpr2.getValue();
+        }
+
+        if (expr1 instanceof RealExpression rExpr1 && expr2 instanceof RealExpression rexpr2) {
+            return rExpr1.getValue().equals(rexpr2.getValue());
+        }
+
+        if (expr1 instanceof StringExpression sexpr1 && expr2 instanceof StringExpression sexpr2) {
+            return sexpr1.getValue().equals(sexpr2.getValue());
+        }
+
+        if (expr1 instanceof TimeExpression && expr2 instanceof TimeExpression) {
+            return true;
+        }
+
+        if (expr1 instanceof CastExpression cexpr1 && expr2 instanceof CastExpression cexpr2) {
+            if (!areStructurallySameExpression(cexpr1.getChild(), cexpr2.getChild())) {
+                return false;
+            }
+
+            return CifTypeUtils.areStructurallySameType(cexpr1.getType(), cexpr2.getType());
+        }
+
+        if (expr1 instanceof UnaryExpression uexpr1 && expr2 instanceof UnaryExpression uexpr2) {
+            return uexpr1.getOperator() == uexpr2.getOperator()
+                    && areStructurallySameExpression(uexpr1.getChild(), uexpr2.getChild());
+        }
+
+        if (expr1 instanceof BinaryExpression bexpr1 && expr2 instanceof BinaryExpression bexpr2) {
+            return bexpr1.getOperator() == bexpr2.getOperator()
+                    && areStructurallySameExpression(bexpr1.getLeft(), bexpr2.getLeft())
+                    && areStructurallySameExpression(bexpr1.getRight(), bexpr2.getRight());
+        }
+
+        if (expr1 instanceof IfExpression iexpr1 && expr2 instanceof IfExpression iexpr2) {
+            // Check same number of guards.
+            if (iexpr1.getGuards().size() != iexpr2.getGuards().size()) {
+                return false;
+            }
+
+            // Check same guards.
+            for (int i = 0; i < iexpr1.getGuards().size(); i++) {
+                if (!areStructurallySameExpression(iexpr1.getGuards().get(i), iexpr2.getGuards().get(i))) {
+                    return false;
+                }
+            }
+
+            // Check same then.
+            if (!areStructurallySameExpression(iexpr1.getThen(), iexpr2.getThen())) {
+                return false;
+            }
+
+            // Check same number of elifs.
+            if (iexpr1.getElifs().size() != iexpr2.getElifs().size()) {
+                return false;
+            }
+
+            // Check same elifs.
+            for (int i = 0; i < iexpr1.getElifs().size(); i++) {
+                ElifExpression elif1 = iexpr1.getElifs().get(i);
+                ElifExpression elif2 = iexpr2.getElifs().get(i);
+
+                // Check same number of guards.
+                if (elif1.getGuards().size() != elif2.getGuards().size()) {
+                    return false;
+                }
+
+                // Check same guards.
+                for (int j = 0; j < elif1.getGuards().size(); j++) {
+                    if (!areStructurallySameExpression(elif1.getGuards().get(j), elif2.getGuards().get(j))) {
+                        return false;
+                    }
+                }
+
+                // Check same then.
+                if (!areStructurallySameExpression(elif1.getThen(), elif2.getThen())) {
+                    return false;
+                }
+            }
+
+            // Check same else.
+            if (!areStructurallySameExpression(iexpr1.getElse(), iexpr2.getElse())) {
+                return false;
+            }
+
+            return true;
+        }
+
+        if (expr1 instanceof SwitchExpression sexpr1 && expr2 instanceof SwitchExpression sexpr2) {
+            // Check value.
+            if (!areStructurallySameExpression(sexpr1.getValue(), sexpr2.getValue())) {
+                return false;
+            }
+
+            // Check same number of cases.
+            if (sexpr1.getCases().size() != sexpr2.getCases().size()) {
+                return false;
+            }
+
+            // Check cases and values.
+            for (int i = 0; i < sexpr1.getCases().size(); i++) {
+                SwitchCase switchCase1 = sexpr1.getCases().get(i);
+                SwitchCase switchCase2 = sexpr2.getCases().get(i);
+                if ((switchCase1.getKey() == null) != (switchCase2.getKey() == null)) {
+                    return false;
+                }
+
+                if (switchCase1.getKey() != null
+                        && !areStructurallySameExpression(switchCase1.getKey(), switchCase2.getKey()))
+                {
+                    return false;
+                }
+
+                if (!areStructurallySameExpression(switchCase1.getValue(), switchCase2.getValue())) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (expr1 instanceof ProjectionExpression pexpr1 && expr2 instanceof ProjectionExpression pexpr2) {
+            return areStructurallySameExpression(pexpr1.getChild(), pexpr2.getChild())
+                    && areStructurallySameExpression(pexpr1.getIndex(), pexpr2.getIndex());
+        }
+
+        if (expr1 instanceof SliceExpression sexpr1 && expr2 instanceof SliceExpression sexpr2) {
+            if ((sexpr1.getBegin() == null) != (sexpr2.getBegin() == null)) {
+                return false;
+            }
+            if (sexpr1.getBegin() != null && !areStructurallySameExpression(sexpr1.getBegin(), sexpr2.getBegin())) {
+                return false;
+            }
+
+            if ((sexpr1.getEnd() == null) != (sexpr2.getEnd() == null)) {
+                return false;
+            }
+            if (sexpr1.getEnd() != null && !areStructurallySameExpression(sexpr1.getEnd(), sexpr2.getEnd())) {
+                return false;
+            }
+
+            return areStructurallySameExpression(sexpr1.getChild(), sexpr2.getChild());
+        }
+
+        if (expr1 instanceof FunctionCallExpression fcexpr1 && expr2 instanceof FunctionCallExpression fcexpr2) {
+            if (!areStructurallySameExpression(fcexpr1.getFunction(), fcexpr2.getFunction())) {
+                return false;
+            }
+
+            // Since only valid expressions are checked, and these are the same functions, they must have the same
+            // number of arguments.
+            for (int i = 0; i < fcexpr1.getParams().size(); i++) {
+                if (!areStructurallySameExpression(fcexpr1.getParams().get(i), fcexpr2.getParams().get(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (expr1 instanceof ListExpression lexpr1 && expr2 instanceof ListExpression lexpr2) {
+            if (lexpr1.getElements().size() != lexpr2.getElements().size()) {
+                return false;
+            }
+
+            for (int i = 0; i < lexpr1.getElements().size(); i++) {
+                if (!areStructurallySameExpression(lexpr1.getElements().get(i), lexpr2.getElements().get(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (expr1 instanceof SetExpression sexpr1 && expr2 instanceof SetExpression sexpr2) {
+            if (sexpr1.getElements().size() != sexpr2.getElements().size()) {
+                return false;
+            }
+
+            for (int i = 0; i < sexpr1.getElements().size(); i++) {
+                if (!areStructurallySameExpression(sexpr1.getElements().get(i), sexpr2.getElements().get(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (expr1 instanceof TupleExpression texpr1 && expr2 instanceof TupleExpression texpr2) {
+            if (texpr1.getFields().size() != texpr2.getFields().size()) {
+                return false;
+            }
+
+            for (int i = 0; i < texpr1.getFields().size(); i++) {
+                if (!areStructurallySameExpression(texpr1.getFields().get(i), texpr2.getFields().get(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (expr1 instanceof DictExpression dexpr1 && expr2 instanceof DictExpression dexpr2) {
+            if (dexpr1.getPairs().size() != dexpr2.getPairs().size()) {
+                return false;
+            }
+
+            for (int i = 0; i < dexpr1.getPairs().size(); i++) {
+                DictPair dictPair1 = dexpr1.getPairs().get(i);
+                DictPair dictPair2 = dexpr2.getPairs().get(i);
+                if (!areStructurallySameExpression(dictPair1.getKey(), dictPair2.getKey())
+                        || !areStructurallySameExpression(dictPair1.getValue(), dictPair2.getValue()))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (expr1 instanceof ConstantExpression cexpr1 && expr2 instanceof ConstantExpression cexpr2) {
+            return cexpr1.getConstant() == cexpr2.getConstant();
+        }
+
+        if (expr1 instanceof DiscVariableExpression dexpr1 && expr2 instanceof DiscVariableExpression dexpr2) {
+            return dexpr1.getVariable() == dexpr2.getVariable();
+        }
+
+        if (expr1 instanceof AlgVariableExpression aexpr1 && expr2 instanceof AlgVariableExpression aexpr2) {
+            return aexpr1.getVariable() == aexpr2.getVariable();
+        }
+
+        if (expr1 instanceof ContVariableExpression cexpr1 && expr2 instanceof ContVariableExpression cexpr2) {
+            return cexpr1.getVariable() == cexpr2.getVariable() && cexpr1.isDerivative() == cexpr2.isDerivative();
+        }
+
+        if (expr1 instanceof TauExpression && expr2 instanceof TauExpression) {
+            return true;
+        }
+
+        if (expr1 instanceof LocationExpression lexpr1 && expr2 instanceof LocationExpression lexpr2) {
+            return lexpr1.getLocation() == lexpr2.getLocation();
+        }
+
+        if (expr1 instanceof EnumLiteralExpression elexpr1 && expr2 instanceof EnumLiteralExpression elexpr2) {
+            return elexpr1.getLiteral() == elexpr2.getLiteral();
+        }
+
+        if (expr1 instanceof EventExpression eexpr1 && expr2 instanceof EventExpression eexpr2) {
+            return eexpr1.getEvent() == eexpr2.getEvent();
+        }
+
+        if (expr1 instanceof FieldExpression fexpr1 && expr2 instanceof FieldExpression fexpr2) {
+            return Objects.equals(fexpr1.getField().getName(), fexpr2.getField().getName());
+        }
+
+        if (expr1 instanceof StdLibFunctionExpression slfexpr1 && expr2 instanceof StdLibFunctionExpression slfexpr2) {
+            return slfexpr1.getFunction() == slfexpr2.getFunction();
+        }
+
+        if (expr1 instanceof FunctionExpression fexpr1 && expr2 instanceof FunctionExpression fexpr2) {
+            return fexpr1.getFunction() == fexpr2.getFunction();
+        }
+
+        if (expr1 instanceof InputVariableExpression ivexpr1 && expr2 instanceof InputVariableExpression ivexpr2) {
+            return ivexpr1.getVariable() == ivexpr2.getVariable();
+        }
+
+        if (expr1 instanceof ComponentExpression cexpr1 && expr2 instanceof ComponentExpression cexpr2) {
+            return cexpr1.getComponent() == cexpr2.getComponent();
+        }
+
+        if (expr1 instanceof CompParamExpression cexpr1 && expr2 instanceof CompParamExpression cexpr2) {
+            return cexpr1.getParameter() == cexpr2.getParameter();
+        }
+
+        if (expr1 instanceof CompInstWrapExpression ciwexpr1 && expr2 instanceof CompInstWrapExpression ciwexpr2) {
+            return ciwexpr1.getInstantiation() == ciwexpr2.getInstantiation()
+                    && areStructurallySameExpression(ciwexpr1.getReference(), ciwexpr2.getReference());
+        }
+
+        if (expr1 instanceof CompParamWrapExpression cpwexpr1 && expr2 instanceof CompParamWrapExpression cpwexpr2) {
+            return cpwexpr1.getParameter() == cpwexpr2.getParameter()
+                    && areStructurallySameExpression(cpwexpr1.getReference(), cpwexpr2.getReference());
+        }
+
+        if (expr1 instanceof ReceivedExpression && expr2 instanceof ReceivedExpression) {
+            return true;
+        }
+
+        if (expr1 instanceof SelfExpression && expr2 instanceof SelfExpression) {
+            return CifScopeUtils.getScope(expr1).equals(CifScopeUtils.getScope(expr2));
+        }
+
+        throw new RuntimeException("Unexpected expressions: " + expr1 + ", " + expr2);
     }
 
     /**

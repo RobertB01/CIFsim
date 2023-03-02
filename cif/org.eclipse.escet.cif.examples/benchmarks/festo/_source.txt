@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-Model source: Ferdie Reijnen, Martijn Goorden, Joanna van de Mortel-Fronczak, Michel Reniers and Jacobus Rooda, 
+Model source: Ferdie Reijnen, Martijn Goorden, Joanna van de Mortel-Fronczak, Michel Reniers and Jacobus Rooda,
 "Application of Dependency Structure Matrices and Multilevel Synthesis to a Production Line" In: Proceedings of the IEEE
 Conference on Control Technology and Applications, pages 458-464, 2018, doi: https://doi.org/10.1109/CCTA.2018.8511449.
 

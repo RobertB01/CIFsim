@@ -1,3 +1,16 @@
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 16, column 7: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 20, column 15: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 28, column 11: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 32, column 17: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 36, column 16: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 61, column 15: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 63, column 11: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 64, column 17: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 65, column 16: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 71, column 19: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 73, column 15: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 74, column 21: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 75, column 20: Duplicate invariant for event "e".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
  - An invariant is used:
    - In location "different_locs.loc2":

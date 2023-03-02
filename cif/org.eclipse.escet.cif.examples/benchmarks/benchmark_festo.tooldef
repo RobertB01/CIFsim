@@ -16,4 +16,4 @@
 
 from "benchmark__base.tooldef" import *;
 
-benchmark("festo", "all_stations.cif");
+benchmark("festo", "festo", "all_stations.cif");

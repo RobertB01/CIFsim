@@ -16,4 +16,4 @@
 
 from "benchmark__base.tooldef" import *;
 
-benchmark("sudoku", "sudoku.cif");
+benchmark("sudoku", "sudoku", "sudoku.cif");
