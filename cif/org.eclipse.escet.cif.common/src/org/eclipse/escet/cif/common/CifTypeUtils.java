@@ -1634,9 +1634,6 @@ public class CifTypeUtils {
     }
 
     /**
-<<<<<<< HEAD
-     * Creates a CIF type (possibly a tuple type) type for the given field types.
-=======
      * Are the two types structurally the same?
      *
      * @param type1 The first type to check.
@@ -1754,8 +1751,7 @@ public class CifTypeUtils {
     }
 
     /**
-     * Creates a tuple type for the given field types, if needed.
->>>>>>> refs/remotes/origin/develop
+     * Creates a CIF type (possibly a tuple type) type for the given field types.
      *
      * <p>
      * The field types are deep cloned, so that their containment does not change as a result of using this method.
