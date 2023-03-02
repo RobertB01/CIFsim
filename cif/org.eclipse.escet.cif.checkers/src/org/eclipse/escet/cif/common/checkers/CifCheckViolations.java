@@ -112,6 +112,8 @@ public class CifCheckViolations {
         List<String> lines = list();
 
         // Add violations per message.
+        int msgNr = 0;
+        boolean lastEntireSpec = false;
         Map<String, List<CifCheckViolation>> violationsPerMessage = violations.stream()
                 .collect(Collectors.groupingBy(v -> v.getMessage()));
         for (String violationMessage: sortedstrings(violationsPerMessage.keySet())) {
@@ -122,9 +124,16 @@ public class CifCheckViolations {
             Assert.areEqual(entireSpecs.size(), 1); // Don't mix entire-spec violations with non-entire-spec violations.
             boolean entireSpec = entireSpecs.iterator().next();
 
-            // Add violation message.
-            char postChar = entireSpec ? '.' : ':';
-            lines.add(fmt(" - %s%s", violationMessage, postChar));
+            // Add violation message and separator.
+            msgNr++;
+            String violationMsg = fmt("(%d/%d) %s.", msgNr, violationsPerMessage.size(), violationMessage);
+            String violationMsgHeader = Strings.duplicate("-", violationMsg.length());
+            if (!lastEntireSpec) {
+                lines.add("  " + violationMsgHeader);
+            }
+            lines.add("  " + violationMsg);
+            lines.add("  " + violationMsgHeader);
+            lastEntireSpec = entireSpec;
 
             // Add violations per context.
             Map<CifCheckViolationContext, List<CifCheckViolation>> violationsPerContext = violationsForMessage.stream()
@@ -137,7 +146,7 @@ public class CifCheckViolations {
                 }
 
                 // Add context.
-                lines.add(fmt("   - In %s:", context.toString()));
+                lines.add(fmt("   * In %s:", context.toString()));
 
                 // Add violations per line.
                 List<CifCheckViolation> violationsForContext = violationsPerContext.get(context);
