@@ -1,0 +1,6 @@
+WARNING: File "codegen/state_event_exclusion_invariants.cif": Semantic warning at line 17, column 11: Duplicate invariant for event "e".
+WARNING: File "codegen/state_event_exclusion_invariants.cif": Semantic warning at line 18, column 26: Duplicate invariant for event "e".
+WARNING: File "codegen/state_event_exclusion_invariants.cif": Semantic warning at line 21, column 13: Duplicate invariant for event "e".
+WARNING: File "codegen/state_event_exclusion_invariants.cif": Semantic warning at line 22, column 28: Duplicate invariant for event "e".
+WARNING: File "codegen/state_event_exclusion_invariants.cif": Semantic warning at line 25, column 15: Duplicate invariant for event "e".
+WARNING: File "codegen/state_event_exclusion_invariants.cif": Semantic warning at line 26, column 30: Duplicate invariant for event "e".
