@@ -57,18 +57,6 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Construct a function application for a complement.
-     *
-     * @param in The input argument of the function.
-     * @return The constructed function application.
-     */
-    public PlcFuncAppl complementFuncAppl(PlcExpression in) {
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.COMPLEMENT_OP, "NOT",
-                ONE_INPUT_PARAMETER, null, ExprBinding.UNARY_EXPR);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
-    }
-
-    /**
      * Construct a function application for an exponentiation.
      *
      * @param in1 Base value argument of the function.
@@ -234,6 +222,18 @@ public class PlcFunctionAppls {
     }
 
     /**
+     * Construct a function application for a complement.
+     *
+     * @param in The input argument of the function.
+     * @return The constructed function application.
+     */
+    public PlcFuncAppl complementFuncAppl(PlcExpression in) {
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.COMPLEMENT_OP, "NOT",
+                ONE_INPUT_PARAMETER, null, ExprBinding.UNARY_EXPR);
+        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+    }
+
+    /**
      * Construct a function application for a conjunction.
      *
      * @param inN Input arguments of the function, must have at least two arguments.
@@ -332,6 +332,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl normalizeArrayIndex(PlcExpression indexExpr, int arraySize) {
+        // TODO Decide if it is better to create a named function that links back to the CIF element that needs this.
         PlcExpression g = greaterEqualFuncAppl(indexExpr, new PlcIntLiteral(0));
         PlcExpression in0 = addFuncAppl(indexExpr, new PlcIntLiteral(arraySize));
         PlcExpression in1 = indexExpr;

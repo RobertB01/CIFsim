@@ -392,17 +392,6 @@ public class ModelTextGenerator {
     }
 
     /**
-     * Convert a PLC function application statement to text.
-     *
-     * @param funcApplStat Function application statement to convert.
-     * @param boxBuilder Storage of produced text, extended in-place.
-     * @param pouName Name of the surrounding POU.
-     */
-    private void toText(PlcFuncApplStatement funcApplStat, CodeBox boxBuilder, String pouName) {
-        boxBuilder.add("%s;", toString(funcApplStat.funcApplExpr, FuncApplPreference.OUTER_PREFIX));
-    }
-
-    /**
      * Convert a PLC comment to text.
      *
      * @param cmtLine Comment line to convert.
@@ -412,6 +401,17 @@ public class ModelTextGenerator {
     private void toText(PlcCommentLine cmtLine, CodeBox boxBuilder, String pouName) {
         String emptyStat = cmtLine.isEmptyStatement ? " ;" : "";
         boxBuilder.add("(* %s *)%s", cmtLine.commentText, emptyStat);
+    }
+
+    /**
+     * Convert a PLC function application statement to text.
+     *
+     * @param funcApplStat Function application statement to convert.
+     * @param boxBuilder Storage of produced text, extended in-place.
+     * @param pouName Name of the surrounding POU.
+     */
+    private void toText(PlcFuncApplStatement funcApplStat, CodeBox boxBuilder, String pouName) {
+        boxBuilder.add("%s;", toString(funcApplStat.funcApplExpr, FuncApplPreference.OUTER_PREFIX));
     }
 
     /**
