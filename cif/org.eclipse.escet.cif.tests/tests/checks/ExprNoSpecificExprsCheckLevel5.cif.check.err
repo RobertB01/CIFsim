@@ -1,4 +1,5 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ----------------------------------------------------------------
   (1/4) A user-defined function reference is used as a data value.
   ----------------------------------------------------------------
@@ -7,18 +8,21 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                    ^
      - invariant g(extF);
                    ^
+
   --------------------------------------------------------------------------
   (2/4) An external user-defined function reference is used as a data value.
   --------------------------------------------------------------------------
    * In group "USER_DEF_FUNC_REFS":
      - invariant g(extF);
                    ^
+
   -------------------------------------------------------------------------
   (3/4) An internal user-defined function local variable reference is used.
   -------------------------------------------------------------------------
    * In user-defined function "INT_USER_DEF_FUNC_LOCAL_VAR_REFS.f":
      - return v;
               ^
+
   --------------------------------------------------------------------------
   (4/4) An internal user-defined function reference is used as a data value.
   --------------------------------------------------------------------------

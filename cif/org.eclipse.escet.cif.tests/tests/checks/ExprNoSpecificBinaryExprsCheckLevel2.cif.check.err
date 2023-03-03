@@ -1,16 +1,19 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ----------------------------------------------------------------------
   (1/25) Binary operator "!=" is used on a ranged integer typed operand.
   ----------------------------------------------------------------------
    * In group "UNEQUAL":
      - invariant 1 != 2;
                    ^
+
   -------------------------------------------------------------------
   (2/25) Binary operator "!=" is used on an array list typed operand.
   -------------------------------------------------------------------
    * In group "UNEQUAL":
      - invariant [1, 2, 4] != [1, 2, 3];
                            ^
+
   ---------------------------------------------------------------------
   (3/25) Binary operator "*" is used on a ranged integer typed operand.
   ---------------------------------------------------------------------
@@ -23,12 +26,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MULTIPLICATION.RI":
      - invariant RI: 1.0 * 1 = 0.0;
                          ^
+
   ------------------------------------------------------------------------
   (4/25) Binary operator "*" is used on a rangeless integer typed operand.
   ------------------------------------------------------------------------
    * In invariant "MULTIPLICATION.II":
      - invariant II: i * i = 0;
                        ^
+
   ---------------------------------------------------------------------
   (5/25) Binary operator "+" is used on a ranged integer typed operand.
   ---------------------------------------------------------------------
@@ -44,6 +49,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "ADDITION_NUMBERS.IG":
      - invariant IG: i + 1 > 0;
                        ^
+
   ------------------------------------------------------------------------
   (6/25) Binary operator "+" is used on a rangeless integer typed operand.
   ------------------------------------------------------------------------
@@ -56,6 +62,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "ADDITION_NUMBERS.II":
      - invariant II: i + i > 0;
                        ^
+
   ---------------------------------------------------------------------
   (7/25) Binary operator "-" is used on a ranged integer typed operand.
   ---------------------------------------------------------------------
@@ -71,6 +78,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SUBTRACTION_NUMBERS.IG":
      - invariant IG: i - 1 > 0;
                        ^
+
   ------------------------------------------------------------------------
   (8/25) Binary operator "-" is used on a rangeless integer typed operand.
   ------------------------------------------------------------------------
@@ -83,6 +91,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SUBTRACTION_NUMBERS.II":
      - invariant II: i - i > 0;
                        ^
+
   -----------------------------------------------------------
   (9/25) Binary operator "<" is used on a real typed operand.
   -----------------------------------------------------------
@@ -95,6 +104,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "LESS_THAN.RR":
      - invariant RR: 1.0 < 1.0;
                          ^
+
   ----------------------------------------------------------------
   (10/25) Binary operator "<" is used on an integer typed operand.
   ----------------------------------------------------------------
@@ -122,6 +132,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "type_decl":
      - invariant a < a;
                    ^
+
   -------------------------------------------------------------
   (11/25) Binary operator "<=" is used on a real typed operand.
   -------------------------------------------------------------
@@ -134,6 +145,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "LESS_EQUAL.RR":
      - invariant RR: 1.0 <= 1.0;
                          ^
+
   -----------------------------------------------------------------
   (12/25) Binary operator "<=" is used on an integer typed operand.
   -----------------------------------------------------------------
@@ -149,6 +161,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "LESS_EQUAL.RI":
      - invariant RI: 1.0 <= 1;
                          ^
+
   ----------------------------------------------------------------------
   (13/25) Binary operator "=" is used on a ranged integer typed operand.
   ----------------------------------------------------------------------
@@ -185,6 +198,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MULTIPLICATION.II":
      - invariant II: i * i = 0;
                            ^
+
   -------------------------------------------------------------------------
   (14/25) Binary operator "=" is used on a rangeless integer typed operand.
   -------------------------------------------------------------------------
@@ -206,12 +220,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MULTIPLICATION.II":
      - invariant II: i * i = 0;
                            ^
+
   -------------------------------------------------------------------
   (15/25) Binary operator "=" is used on an array list typed operand.
   -------------------------------------------------------------------
    * In group "EQUAL":
      - invariant [1, 2, 3] = [1, 2, 3];
                            ^
+
   ------------------------------------------------------------
   (16/25) Binary operator ">" is used on a real typed operand.
   ------------------------------------------------------------
@@ -242,6 +258,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SUBTRACTION_NUMBERS.RR":
      - invariant RR: 1.0 - 1.0 > 0;
                                ^
+
   ----------------------------------------------------------------
   (17/25) Binary operator ">" is used on an integer typed operand.
   ----------------------------------------------------------------
@@ -299,6 +316,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SUBTRACTION_NUMBERS.RR":
      - invariant RR: 1.0 - 1.0 > 0;
                                ^
+
   -------------------------------------------------------------
   (18/25) Binary operator ">=" is used on a real typed operand.
   -------------------------------------------------------------
@@ -311,6 +329,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "GREATER_EQUAL.RR":
      - invariant RR: 1.0 >= 1.0;
                          ^
+
   -----------------------------------------------------------------
   (19/25) Binary operator ">=" is used on an integer typed operand.
   -----------------------------------------------------------------
@@ -326,6 +345,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "GREATER_EQUAL.RI":
      - invariant RI: 1.0 >= 1;
                          ^
+
   ------------------------------------------------------------------
   (20/25) Binary operator "div" is used on an integer typed operand.
   ------------------------------------------------------------------
@@ -341,24 +361,28 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "INTEGER_DIVISION.II":
      - invariant II: i div i = 0;
                        ^
+
   -------------------------------------------------------------------
   (21/25) Binary operator "in" is used on a dictionary typed operand.
   -------------------------------------------------------------------
    * In group "ELEMENT_OF_DICTS":
      - invariant 1 in {1: 2};
                    ^
+
   -------------------------------------------------------------
   (22/25) Binary operator "in" is used on a list typed operand.
   -------------------------------------------------------------
    * In group "ELEMENT_OF_LISTS":
      - invariant 1 in [1];
                    ^
+
   ------------------------------------------------------------
   (23/25) Binary operator "in" is used on a set typed operand.
   ------------------------------------------------------------
    * In group "ELEMENT_OF_SETS":
      - invariant 1 in {1};
                    ^
+
   ------------------------------------------------------------------------
   (24/25) Binary operator "mod" is used on a ranged integer typed operand.
   ------------------------------------------------------------------------
@@ -371,6 +395,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MODULUS.IG":
      - invariant IG: 1 mod 1 = 0;
                        ^
+
   ---------------------------------------------------------------------------
   (25/25) Binary operator "mod" is used on a rangeless integer typed operand.
   ---------------------------------------------------------------------------

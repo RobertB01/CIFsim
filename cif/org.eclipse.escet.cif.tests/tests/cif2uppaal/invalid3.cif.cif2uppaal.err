@@ -1,10 +1,12 @@
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
+
   -------------------------------------------
   (1/33) A 'time' variable reference is used.
   -------------------------------------------
    * In location "p.l":
      - edge u do r := time;
                       ^
+
   ------------------------------------
   (2/33) A dictionary literal is used.
   ------------------------------------
@@ -14,6 +16,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In location "p.l":
      - edge u do dbb := {true: true};
                         ^
+
   ---------------------------------
   (3/33) A dictionary type is used.
   ---------------------------------
@@ -23,6 +26,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In location "p.l":
      - edge u do dbb := {true: true};
                  ^      ^
+
   -----------------------------------
   (4/33) A distribution type is used.
   -----------------------------------
@@ -32,12 +36,14 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In location "p.l":
      - edge u do (b, db) := sample db;
                  ^   ^      ^      ^
+
   -------------------------------
   (5/33) A function call is used.
   -------------------------------
    * In discrete variable "p.db":
      - disc dist bool db = constant(true);
                                    ^
+
   -------------------------------
   (6/33) A function type is used.
   -------------------------------
@@ -50,12 +56,14 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In location "p.l":
      - edge u do fbb := f;
                  ^      ^
+
   ------------------------------
   (7/33) A list literal is used.
   ------------------------------
    * In discrete variable "p.lb":
      - disc list bool lb = [true];
                            ^
+
   ---------------------------
   (8/33) A list type is used.
   ---------------------------
@@ -65,12 +73,14 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.lb":
      - disc list bool lb = [true];
             ^              ^
+
   ---------------------------------------
   (9/33) A projection expression is used.
   ---------------------------------------
    * In location "p.l":
      - edge u do tbb[a] := true;
                     ^
+
   --------------------------------------
   (10/33) A real number literal is used.
   --------------------------------------
@@ -80,6 +90,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.r":
      - disc real r = 1.2;
                      ^
+
   ----------------------------
   (11/33) A real type is used.
   ----------------------------
@@ -101,6 +112,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.r":
      - disc real r = 1.2;
             ^        ^
+
   ------------------------------
   (12/33) A set literal is used.
   ------------------------------
@@ -112,6 +124,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.sb":
      - disc set bool sb = {true};
                           ^
+
   ---------------------------
   (13/33) A set type is used.
   ---------------------------
@@ -127,12 +140,14 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.sb":
      - disc set bool sb = {true};
             ^             ^
+
   -----------------------------------
   (14/33) A slice expression is used.
   -----------------------------------
    * In location "p.l":
      - edge u do lb := lb[:];
                          ^
+
   ---------------------------------
   (15/33) A string literal is used.
   ---------------------------------
@@ -142,6 +157,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.str":
      - disc string str = "a";
                          ^
+
   ------------------------------
   (16/33) A string type is used.
   ------------------------------
@@ -151,6 +167,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.str":
      - disc string str = "a";
             ^            ^
+
   ------------------------------------
   (17/33) A switch expression is used.
   ------------------------------------
@@ -159,6 +176,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
                       ^
      - edge u do i := switch p: case l: 3 end;
                       ^
+
   --------------------------------
   (18/33) A tuple literal is used.
   --------------------------------
@@ -168,6 +186,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.tbb":
      - disc tuple(bool a; bool b) tbb = (true, false);
                                         ^
+
   -----------------------------
   (19/33) A tuple type is used.
   -----------------------------
@@ -179,84 +198,98 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "p.tbb":
      - disc tuple(bool a; bool b) tbb = (true, false);
             ^                           ^
+
   ------------------------------------------------
   (20/33) A type-changing cast expression is used.
   ------------------------------------------------
    * In location "p.l":
      - edge u do r := <real>1;
                       ^
+
   ------------------------------------------------------------
   (21/33) Binary operator "*" is used on a real typed operand.
   ------------------------------------------------------------
    * In location "p.l":
      - edge u do r := r * r;
                         ^
+
   ------------------------------------------------------------
   (22/33) Binary operator "+" is used on a real typed operand.
   ------------------------------------------------------------
    * In location "p.l":
      - edge u do r := r + r;
                         ^
+
   ------------------------------------------------------------
   (23/33) Binary operator "-" is used on a real typed operand.
   ------------------------------------------------------------
    * In location "p.l":
      - edge u do r := r - r;
                         ^
+
   ------------------------------------
   (24/33) Binary operator "/" is used.
   ------------------------------------
    * In location "p.l":
      - edge u do r := r / r;
                         ^
+
   -------------------------------------------------------------
   (25/33) Binary operator "and" is used on a set typed operand.
   -------------------------------------------------------------
    * In location "p.l":
      - edge u do sb := {true} and {false};
                               ^
+
   -------------------------------------
   (26/33) Binary operator "in" is used.
   -------------------------------------
    * In location "p.l":
      - edge u do b := true in sb;
                            ^
+
   ------------------------------------------------------------
   (27/33) Binary operator "or" is used on a set typed operand.
   ------------------------------------------------------------
    * In location "p.l":
      - edge u do sb := {true} or {false};
                               ^
+
   --------------------------------------
   (28/33) Binary operator "sub" is used.
   --------------------------------------
    * In location "p.l":
      - edge u do b := sb sub sb;
                          ^
+
   -----------------------------------------------------------------------------------
   (29/33) Discrete variable has an initial value that cannot be evaluated statically.
   -----------------------------------------------------------------------------------
    * In discrete variable "p.db":
      - disc dist bool db = constant(true);
                                    ^
+
   ------------------------------------
   (30/33) Edge has a multi-assignment.
   ------------------------------------
    * In location "p.l":
      - edge u do (b, db) := sample db;
                          ^
+
   -----------------------------------------------
   (31/33) Edge has a partial variable assignment.
   -----------------------------------------------
    * In location "p.l":
      - edge u do tbb[a] := true;
                         ^
+
   --------------------------------------------
   (32/33) Function is a user-defined function.
   --------------------------------------------
    * In the top-level scope of the specification:
      - func bool f(bool p):
                  ^
+
   ----------------------------------------
   (33/33) Unary operator "sample" is used.
   ----------------------------------------

@@ -11,6 +11,7 @@ WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, co
 WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 33: Event parameter "G.c1" is not used anywhere in the specification.
 WARNING: File "checks/EventNoChannelsCheck.cif": Semantic warning at line 33, column 47: Event parameter "G.c2" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   -------------------------
   (1/1) Event is a channel.
   -------------------------

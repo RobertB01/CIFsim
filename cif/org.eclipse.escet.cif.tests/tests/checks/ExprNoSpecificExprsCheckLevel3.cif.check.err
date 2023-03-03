@@ -1,4 +1,5 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   --------------------------------------------
   (1/6) A cast expression from string is used.
   --------------------------------------------
@@ -11,6 +12,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "CAST_EXPRS_STRING_TO_REAL":
      - invariant 1.0 = <real>"1.0";
                        ^
+
   ------------------------------------------
   (2/6) A cast expression to string is used.
   ------------------------------------------
@@ -29,6 +31,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "X.A":
      - invariant "A" = <string>self;
                        ^
+
   ----------------------------------------------------
   (3/6) A standard library function reference is used.
   ----------------------------------------------------
@@ -38,6 +41,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "FUNC_REFS_STD_LIB":
      - invariant abs(1) = 1;
                  ^
+
   --------------------------------------------------
   (4/6) A tuple field-projection expression is used.
   --------------------------------------------------
@@ -47,6 +51,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                   ^
+
   --------------------------------------------------
   (5/6) A tuple index-projection expression is used.
   --------------------------------------------------
@@ -67,6 +72,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                               ^
+
   ------------------------------------------------
   (6/6) A user-defined function reference is used.
   ------------------------------------------------

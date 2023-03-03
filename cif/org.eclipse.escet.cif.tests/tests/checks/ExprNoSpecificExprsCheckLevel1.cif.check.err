@@ -1,4 +1,5 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   -----------------------------------
   (1/21) A binary expression is used.
   -----------------------------------
@@ -71,6 +72,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "X.A":
      - invariant "A" = <string>self;
                      ^
+
   ---------------------------------
   (2/21) A boolean literal is used.
   ---------------------------------
@@ -178,6 +180,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "nested_grp.nested_grp":
      - invariant true;
                  ^
+
   ---------------------------------
   (3/21) A cast expression is used.
   ---------------------------------
@@ -211,6 +214,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "X.A":
      - invariant "A" = <string>self;
                        ^
+
   -------------------------------------
   (4/21) A component reference is used.
   -------------------------------------
@@ -226,6 +230,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "X.A":
      - invariant "A" = <string>self;
                                ^
+
   ------------------------------------
   (5/21) A constant reference is used.
   ------------------------------------
@@ -235,6 +240,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                  ^
+
   ------------------------------------
   (6/21) A dictionary literal is used.
   ------------------------------------
@@ -244,6 +250,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "PROJECTION_EXPRS_DICTS":
      - invariant {true: false}[true];
                  ^
+
   -------------------------------
   (7/21) A function call is used.
   -------------------------------
@@ -271,6 +278,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In user-defined function "USER_DEF_FUNC_REFS.g":
      - return f(true);
                ^
+
   ------------------------------------
   (8/21) A function reference is used.
   ------------------------------------
@@ -295,6 +303,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^ ^
      - invariant g(extF);
                  ^ ^
+
   ------------------------------
   (9/21) A list literal is used.
   ------------------------------
@@ -307,12 +316,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                    ^
+
   -------------------------------------
   (10/21) A location reference is used.
   -------------------------------------
    * In location "LOC_REFS.loc":
      - invariant loc;
                  ^
+
   ----------------------------------------
   (11/21) A projection expression is used.
   ----------------------------------------
@@ -354,6 +365,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                               ^
+
   --------------------------------------
   (12/21) A real number literal is used.
   --------------------------------------
@@ -381,18 +393,21 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "REAL_LITS":
      - invariant 1.0 = 1.0;
                  ^     ^
+
   --------------------------------------------
   (13/21) A received value expression is used.
   --------------------------------------------
    * In automaton "RECEIVE_EXPRS":
      - edge e? do v := ?;
                        ^
+
   ------------------------------
   (14/21) A set literal is used.
   ------------------------------
    * In group "SET_LITS":
      - invariant true in {true, false};
                          ^
+
   -----------------------------------
   (15/21) A slice expression is used.
   -----------------------------------
@@ -402,6 +417,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                          ^
+
   ---------------------------------
   (16/21) A string literal is used.
   ---------------------------------
@@ -441,6 +457,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "X.A":
      - invariant "A" = <string>self;
                  ^
+
   ------------------------------------
   (17/21) A switch expression is used.
   ------------------------------------
@@ -453,6 +470,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "SWITCH_EXPRS":
      - invariant switch 5: case 5: true else false end;
                  ^
+
   --------------------------------
   (18/21) A tuple literal is used.
   --------------------------------
@@ -470,6 +488,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                  ^
+
   -----------------------------------
   (19/21) A unary expression is used.
   -----------------------------------
@@ -485,12 +504,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "UNARY_EXPRS":
      - invariant not true;
                  ^
+
   -----------------------------------
   (20/21) An 'if' expression is used.
   -----------------------------------
    * In group "IF_EXPRS":
      - invariant if true: true else false end;
                  ^
+
   ------------------------------------------
   (21/21) An integer number literal is used.
   ------------------------------------------

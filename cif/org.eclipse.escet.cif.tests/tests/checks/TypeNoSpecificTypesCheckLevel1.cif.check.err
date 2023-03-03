@@ -1,6 +1,7 @@
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 119, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   --------------------------------
   (1/12) A component type is used.
   --------------------------------
@@ -9,12 +10,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                         ^
      - invariant switch COMP_TYPES: else true end;
                         ^
+
   ---------------------------------
   (2/12) A dictionary type is used.
   ---------------------------------
    * In invariant "DICT_TYPES":
      - invariant DICT_TYPES: {true: false} = {true: false};
                              ^               ^
+
   -----------------------------------
   (3/12) A distribution type is used.
   -----------------------------------
@@ -24,6 +27,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In discrete variable "DIST_TYPES.d":
      - disc dist bool d = constant(true);
             ^             ^       ^
+
   -------------------------------
   (4/12) A function type is used.
   -------------------------------
@@ -39,6 +43,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
      - disc list func bool() lfn = [f];
                  ^                 ^^
+
   ---------------------------
   (5/12) A list type is used.
   ---------------------------
@@ -57,24 +62,28 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In discrete variable "LIST_TYPES_NON_ARRAY.v":
      - disc list bool v;
             ^
+
   ---------------------------
   (6/12) A real type is used.
   ---------------------------
    * In invariant "REAL_TYPES":
      - invariant REAL_TYPES: 1.0 = 1.0;
                              ^     ^
+
   --------------------------
   (7/12) A set type is used.
   --------------------------
    * In invariant "SET_TYPES":
      - invariant SET_TYPES: {true} = {true};
                             ^        ^
+
   -----------------------------
   (8/12) A string type is used.
   -----------------------------
    * In invariant "STRING_TYPES":
      - invariant STRING_TYPES: "a" = "a";
                                ^     ^
+
   ----------------------------
   (9/12) A tuple type is used.
   ----------------------------
@@ -84,18 +93,21 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "TUPLE_TYPES_MULTI_ASGN":
      - edge do (a, b) := (true, false);
                ^         ^
+
   ----------------------------
   (10/12) A void type is used.
   ----------------------------
    * In event "VOID_TYPES":
      - event void VOID_TYPES;
              ^
+
   ------------------------------------
   (11/12) An enumeration type is used.
   ------------------------------------
    * In invariant "ENUM_TYPES":
      - invariant ENUM_TYPES: e1 = e2;
                              ^    ^
+
   --------------------------------
   (12/12) An integer type is used.
   --------------------------------

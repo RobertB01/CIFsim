@@ -2,18 +2,21 @@ WARNING: File "cif2plc/invalid.cif": Semantic warning at line 49, column 7: Auto
 WARNING: File "cif2plc/invalid.cif": Semantic warning at line 73, column 17: Discrete variable "q.v9" is not used anywhere in the specification.
 ERROR: PLC code generation failed for CIF file "cif2plc/invalid.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
+
   ---------------------------------------------
   (1/52) A cast expression from string is used.
   ---------------------------------------------
    * In the top-level scope of the specification:
      - invariant <int>q.v1 > 0;
                  ^
+
   ------------------------------------
   (2/52) A dictionary literal is used.
   ------------------------------------
    * In discrete variable "q.v2":
      - disc dict(int:bool) v2 = {1: true};
                                 ^
+
   ---------------------------------
   (3/52) A dictionary type is used.
   ---------------------------------
@@ -23,6 +26,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v2":
      - disc dict(int:bool) v2 = {1: true};
             ^                   ^
+
   -----------------------------------
   (4/52) A distribution type is used.
   -----------------------------------
@@ -32,6 +36,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v3":
      - disc dist bool v3 = constant(true);
             ^              ^       ^
+
   ----------------------------------------------------------------------------------
   (5/52) A function type is used to store functions or use functions as data values.
   ----------------------------------------------------------------------------------
@@ -43,6 +48,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v4":
      - disc func int(int) v4 = f1;
             ^                  ^
+
   ------------------------------------------------------
   (6/52) A non-array list projection expression is used.
   ------------------------------------------------------
@@ -51,6 +57,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
                      ^
      - invariant q.v5[:][0] > 0;
                         ^
+
   -------------------------------------
   (7/52) A non-array list type is used.
   -------------------------------------
@@ -78,6 +85,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v9":
      - disc list int v9 = switch "a": case "a": v7 else v8 end;
             ^             ^                             ^
+
   -----------------------------
   (8/52) A set literal is used.
   -----------------------------
@@ -89,6 +97,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v6":
      - disc set int v6 = {1};
                          ^
+
   --------------------------
   (9/52) A set type is used.
   --------------------------
@@ -110,12 +119,14 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v6":
      - disc set int v6 = {1};
             ^            ^
+
   -----------------------------------
   (10/52) A slice expression is used.
   -----------------------------------
    * In the top-level scope of the specification:
      - invariant q.v5[:][0] > 0;
                      ^
+
   ---------------------------------
   (11/52) A string literal is used.
   ---------------------------------
@@ -128,6 +139,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v9":
      - disc list int v9 = switch "a": case "a": v7 else v8 end;
                                  ^         ^
+
   ------------------------------
   (12/52) A string type is used.
   ------------------------------
@@ -144,6 +156,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v9":
      - disc list int v9 = switch "a": case "a": v7 else v8 end;
                                  ^         ^
+
   ------------------------------------------------------------------
   (13/52) A user-defined function reference is used as a data value.
   ------------------------------------------------------------------
@@ -153,72 +166,84 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In discrete variable "q.v4":
      - disc func int(int) v4 = f1;
                                ^
+
   -------------------------------------------------
   (14/52) Automaton has multiple initial locations.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - plant automaton p3:
                        ^
+
   ------------------------------------------
   (15/52) Automaton has no initial location.
   ------------------------------------------
    * In the top-level scope of the specification:
      - plant automaton p2:
                        ^
+
   ------------------------------------------------------------
   (16/52) Binary operator "!=" is used on a set typed operand.
   ------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant q.v6 != q.v6;
                       ^
+
   ---------------------------------------------------------------
   (17/52) Binary operator "!=" is used on a string typed operand.
   ---------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant fmt("%s", q.v1) != "";
                                  ^
+
   ------------------------------------------------------------
   (18/52) Binary operator "+" is used on a list typed operand.
   ------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v5 + [1]);
                             ^
+
   -----------------------------------------------------------
   (19/52) Binary operator "-" is used on a set typed operand.
   -----------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v6 - {1});
                             ^
+
   ------------------------------------------------------------
   (20/52) Binary operator "=" is used on a list typed operand.
   ------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant q.v5 = q.v5;
                       ^
+
   -------------------------------------------------------------
   (21/52) Binary operator "and" is used on a set typed operand.
   -------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v6 and q.v6);
                             ^
+
   -------------------------------------
   (22/52) Binary operator "in" is used.
   -------------------------------------
    * In the top-level scope of the specification:
      - invariant 1 in q.v6;
                    ^
+
   ------------------------------------------------------------
   (23/52) Binary operator "or" is used on a set typed operand.
   ------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v6 or q.v6);
                             ^
+
   --------------------------------------
   (24/52) Binary operator "sub" is used.
   --------------------------------------
    * In the top-level scope of the specification:
      - invariant {1} sub q.v6;
                      ^
+
   --------------------------------------------------
   (25/52) Component has an initialization predicate.
   --------------------------------------------------
@@ -231,12 +256,14 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In automaton "p":
      - initial x > 2;
                  ^
+
   ----------------------------------------------------------------
   (26/52) Discrete variable has multiple potential initial values.
   ----------------------------------------------------------------
    * In automaton "p":
      - disc int y in {1, 2};
                 ^
+
   ------------------------------------------------------------------------------------------
   (27/52) Discrete variable has multiple potential initial values (any value in its domain).
   ------------------------------------------------------------------------------------------
@@ -246,36 +273,42 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In automaton "q":
      - disc list[2] int v7 in any;
                         ^
+
   -----------------------
   (28/52) Edge is urgent.
   -----------------------
    * In location "p.b":
      - edge now;
        ^
+
   ---------------------------------------------------------------
   (29/52) Function is a user-defined function without parameters.
   ---------------------------------------------------------------
    * In the top-level scope of the specification:
      - func int f2():
                 ^
+
   ------------------------------------------------------
   (30/52) Function is an external user-defined function.
   ------------------------------------------------------
    * In the top-level scope of the specification:
      - func int f1(int b): "java:A.b";
                 ^
+
   ------------------------------------------------------------------
   (31/52) Internal user-defined function has a 'continue' statement.
   ------------------------------------------------------------------
    * In user-defined function "f2":
      - continue;
        ^
+
   ---------------------------------------------------------------------------------------------------------------------------------
   (32/52) Internal user-defined function has a multi-assignment that assigns multiple (non-overlapping) parts of a single variable.
   ---------------------------------------------------------------------------------------------------------------------------------
    * In user-defined function "f":
      - p[0], p[1] := 2, 3;
                   ^
+
   ---------------------------------------
   (33/52) Invariant is a state invariant.
   ---------------------------------------
@@ -355,54 +388,63 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
    * In location "p.a":
      - plant invariant x > 3;
                          ^
+
   ---------------------------
   (34/52) Location is urgent.
   ---------------------------
    * In automaton "p":
      - location a:
                 ^
+
   --------------------------------------------------
   (35/52) Standard library function "acosh" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant acosh(q.r) > 0;
                  ^
+
   --------------------------------------------------
   (36/52) Standard library function "asinh" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant asinh(q.r) > 0;
                  ^
+
   --------------------------------------------------
   (37/52) Standard library function "atanh" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant atanh(q.r) > 0;
                  ^
+
   -------------------------------------------------
   (38/52) Standard library function "ceil" is used.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - invariant ceil(q.r) > 0;
                  ^
+
   -----------------------------------------------------
   (39/52) Standard library function "constant" is used.
   -----------------------------------------------------
    * In discrete variable "q.v3":
      - disc dist bool v3 = constant(true);
                            ^
+
   -------------------------------------------------
   (40/52) Standard library function "cosh" is used.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - invariant cosh(q.r) > 0;
                  ^
+
   ------------------------------------------------
   (41/52) Standard library function "del" is used.
   ------------------------------------------------
    * In the top-level scope of the specification:
      - invariant size(del(q.v5, 0)) > 0;
                       ^
+
   --------------------------------------------------
   (42/52) Standard library function "empty" is used.
   --------------------------------------------------
@@ -415,48 +457,56 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
                  ^
      - invariant empty(q.v6 - {1});
                  ^
+
   --------------------------------------------------
   (43/52) Standard library function "floor" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant floor(q.r) > 0;
                  ^
+
   ------------------------------------------------
   (44/52) Standard library function "fmt" is used.
   ------------------------------------------------
    * In the top-level scope of the specification:
      - invariant fmt("%s", q.v1) != "";
                  ^
+
   ------------------------------------------------
   (45/52) Standard library function "pop" is used.
   ------------------------------------------------
    * In the top-level scope of the specification:
      - invariant pop(q.v5)[0] > 0;
                  ^
+
   --------------------------------------------------
   (46/52) Standard library function "round" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant round(q.r) > 0;
                  ^
+
   --------------------------------------------------
   (47/52) Standard library function "scale" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant scale(q.r, 2, 3, 4, 5) > 0;
                  ^
+
   -------------------------------------------------
   (48/52) Standard library function "sign" is used.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - invariant sign(q.r) > 0;
                  ^
+
   -------------------------------------------------
   (49/52) Standard library function "sinh" is used.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - invariant sinh(q.r) > 0;
                  ^
+
   -------------------------------------------------
   (50/52) Standard library function "size" is used.
   -------------------------------------------------
@@ -469,12 +519,14 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
                  ^
      - invariant size(del(q.v5, 0)) > 0;
                  ^
+
   -------------------------------------------------
   (51/52) Standard library function "tanh" is used.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - invariant tanh(q.r) > 0;
                  ^
+
   ----------------------------------------
   (52/52) Unary operator "sample" is used.
   ----------------------------------------

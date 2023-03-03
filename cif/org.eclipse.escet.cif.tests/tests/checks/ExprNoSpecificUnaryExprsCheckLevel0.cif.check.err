@@ -1,4 +1,5 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ---------------------------------
   (1/4) Unary operator "+" is used.
   ---------------------------------
@@ -11,6 +12,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "PLUS_REALS":
      - invariant 1.0 = +1.0;
                        ^
+
   ---------------------------------
   (2/4) Unary operator "-" is used.
   ---------------------------------
@@ -23,6 +25,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "NEGATE_INTS_REALS":
      - invariant 1.0 = -1.0;
                        ^
+
   -----------------------------------
   (3/4) Unary operator "not" is used.
   -----------------------------------
@@ -43,6 +46,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "type_decl":
      - invariant not a;
                  ^
+
   --------------------------------------
   (4/4) Unary operator "sample" is used.
   --------------------------------------

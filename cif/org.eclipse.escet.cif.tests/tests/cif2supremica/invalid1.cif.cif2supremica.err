@@ -1,5 +1,6 @@
 WARNING: File "cif2supremica/invalid1.cif": Semantic warning at line 31, column 9: Automaton "g.p0" has no initial location.
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
+
   -------------------------------
   (1/38) A function call is used.
   -------------------------------
@@ -8,6 +9,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
                    ^
      - marked sqrt(-2.0) > 0;
                   ^
+
   -------------------------------
   (2/38) A function type is used.
   -------------------------------
@@ -16,6 +18,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
                ^
      - marked sqrt(-2.0) > 0;
               ^
+
   ------------------------------
   (3/38) A list literal is used.
   ------------------------------
@@ -29,6 +32,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
    * In discrete variable "g.p0.lb":
      - disc list bool lb = [true];
                            ^
+
   ---------------------------
   (4/38) A list type is used.
   ---------------------------
@@ -45,12 +49,14 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
    * In discrete variable "g.p0.lb":
      - disc list bool lb = [true];
             ^              ^
+
   ---------------------------------------
   (5/38) A projection expression is used.
   ---------------------------------------
    * In automaton "g.p0":
      - edge e1 do lb[0] := true;
                     ^
+
   -------------------------------------
   (6/38) A real number literal is used.
   -------------------------------------
@@ -65,6 +71,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
                      ^
      - marked sqrt(-2.0) > 0;
                     ^
+
   ---------------------------
   (7/38) A real type is used.
   ---------------------------
@@ -79,36 +86,42 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
                ^   ^^^
      - marked sqrt(-2.0) > 0;
               ^   ^^^
+
   -------------------------------
   (8/38) A tuple literal is used.
   -------------------------------
    * In automaton "g.p0":
      - edge e1 do (x1, x2) := (1, 2);
                   ^           ^
+
   ----------------------------
   (9/38) A tuple type is used.
   ----------------------------
    * In automaton "g.p0":
      - edge e1 do (x1, x2) := (1, 2);
                   ^           ^
+
   -------------------------------------------------
   (10/38) Automaton has multiple initial locations.
   -------------------------------------------------
    * In group "g":
      - plant automaton p2:
                        ^
+
   ------------------------------------------
   (11/38) Automaton has no initial location.
   ------------------------------------------
    * In group "g":
      - plant automaton p0:
                        ^
+
   ---------------------------------------------------------------------------------------------------
   (12/38) Automaton is a kindless automaton rather than a plant, requirement or supervisor automaton.
   ---------------------------------------------------------------------------------------------------
    * In group "g":
      - automaton a:
                  ^
+
   ------------------------------------------------------------
   (13/38) Binary operator ">" is used on a real typed operand.
   ------------------------------------------------------------
@@ -117,6 +130,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
                           ^
      - marked sqrt(-2.0) > 0;
                          ^
+
   ----------------------------------------------------------------------------------------------------
   (14/38) Component has a marker predicate that is not of the form 'discrete_variable = marked_value'.
   ----------------------------------------------------------------------------------------------------
@@ -134,6 +148,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
          ^
      - p0.cnt = 1.2,
               ^
+
   --------------------------------------------------
   (15/38) Component has an initialization predicate.
   --------------------------------------------------
@@ -143,18 +158,21 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
    * In group "g":
      - initial 1 = 1;
                  ^
+
   ----------------------------------------------------------------
   (16/38) Discrete variable has multiple potential initial values.
   ----------------------------------------------------------------
    * In automaton "g.p0":
      - disc int[1..2] x1 in {1, 2};
                       ^
+
   ------------------------------------------------------------------------------------------
   (17/38) Discrete variable has multiple potential initial values (any value in its domain).
   ------------------------------------------------------------------------------------------
    * In automaton "g.p0":
      - disc int[1..2] x2 in any;
                       ^
+
   -----------------------------------------------------------------------------------
   (18/38) Discrete variable has multiple predicates that specify its marked value(s).
   -----------------------------------------------------------------------------------
@@ -163,66 +181,77 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
                       ^
      - disc list bool lb = [true];
                       ^
+
   ------------------------------------
   (19/38) Edge has a multi-assignment.
   ------------------------------------
    * In automaton "g.p0":
      - edge e1 do (x1, x2) := (1, 2);
                            ^
+
   -----------------------------------------------
   (20/38) Edge has a partial variable assignment.
   -----------------------------------------------
    * In automaton "g.p0":
      - edge e1 do lb[0] := true;
                         ^
+
   --------------------------------
   (21/38) Edge has an 'if' update.
   --------------------------------
    * In automaton "g.p0":
      - edge e1 do if true: x1 := 2 end;
                   ^
+
   --------------------------------------------------------------------------------------
   (22/38) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
   --------------------------------------------------------------------------------------
    * In automaton "g.a":
      - edge e1, e2, tau;
                     ^
+
   --------------------------------------------------------------------------------------
   (23/38) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
   --------------------------------------------------------------------------------------
    * In automaton "g.a":
      - edge when true;
        ^
+
   -----------------------
   (24/38) Edge is urgent.
   -----------------------
    * In automaton "g.snd":
      - edge e2!5 now;
        ^
+
   ---------------------------
   (25/38) Event is a channel.
   ---------------------------
    * In group "g":
      - controllable int[0..5] e2;
                               ^
+
   ----------------------------------------------------------------
   (26/38) Event is not declared as controllable or uncontrollable.
   ----------------------------------------------------------------
    * In group "g":
      - event e1;
              ^
+
   ---------------------------------------------------------------------------------------------------------------------------------------------------------
   (27/38) Failed to determine whether a location is an initial location, as evaluating one of its initialization predicates results in an evaluation error.
   ---------------------------------------------------------------------------------------------------------------------------------------------------------
    * In automaton "g.p1":
      - initial sqrt(-1.0) > 0;
                    ^
+
   --------------------------------------------
   (28/38) Function is a user-defined function.
   --------------------------------------------
    * In group "g":
      - func bool f(bool p):
                  ^
+
   ---------------------------------------------------------------
   (29/38) Invariant is a kindless state invariant in a component.
   ---------------------------------------------------------------
@@ -232,6 +261,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
    * In group "g":
      - invariant 8 = 8;
                    ^
+
   ----------------------------------------------------------------
   (30/38) Invariant is a kindless state/event exclusion invariant.
   ----------------------------------------------------------------
@@ -243,36 +273,42 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
                     ^
      - invariant p0.x1 > 0 disables e1;
                            ^
+
   ------------------------------------------------------------
   (31/38) Invariant is a plant state invariant in a component.
   ------------------------------------------------------------
    * In group "g":
      - plant invariant 9 = 9;
                          ^
+
   -----------------------------------------------------
   (32/38) Invariant is a state invariant in a location.
   -----------------------------------------------------
    * In automaton "g.p1":
      - plant invariant 7 = 7;
                          ^
+
   -----------------------------------------------------------------
   (33/38) Invariant is a supervisor state invariant in a component.
   -----------------------------------------------------------------
    * In group "g":
      - supervisor invariant 10 = 10;
                                ^
+
   -----------------------------------------------------------------------------------------------------------------------------
   (34/38) Location has a marker predicate that cannot be evaluated statically, as evaluating it results in an evaluation error.
   -----------------------------------------------------------------------------------------------------------------------------
    * In automaton "g.p1":
      - marked sqrt(-2.0) > 0;
                   ^
+
   ---------------------------
   (35/38) Location is urgent.
   ---------------------------
    * In automaton "g.p0":
      - location:
        ^
+
   -----------------------------------------------------------
   (36/38) Unary operator "-" is used on a real typed operand.
   -----------------------------------------------------------
@@ -281,12 +317,14 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
                     ^
      - marked sqrt(-2.0) > 0;
                    ^
+
   ------------------------------------------
   (37/38) Variable is a continuous variable.
   ------------------------------------------
    * In automaton "g.p0":
      - cont cnt der 1.0;
             ^
+
   --------------------------------------
   (38/38) Variable is an input variable.
   --------------------------------------

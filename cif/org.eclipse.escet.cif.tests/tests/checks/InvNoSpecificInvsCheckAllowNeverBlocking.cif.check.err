@@ -12,6 +12,7 @@ WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic wa
 WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 74, column 21: Duplicate invariant for event "e".
 WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 75, column 20: Duplicate invariant for event "e".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ---------------------------
   (1/1) An invariant is used.
   ---------------------------

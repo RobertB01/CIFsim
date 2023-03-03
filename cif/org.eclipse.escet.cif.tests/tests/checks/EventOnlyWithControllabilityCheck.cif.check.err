@@ -1,6 +1,7 @@
 WARNING: File "checks/EventOnlyWithControllabilityCheck.cif": Semantic warning at line 30, column 10: Duplicate event "tau" on a single edge in automaton "tau_a2".
 WARNING: File "checks/EventOnlyWithControllabilityCheck.cif": Semantic warning at line 30, column 15: Duplicate event "tau" on a single edge in automaton "tau_a2".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ------------------------------------------------------------------------------------
   (1/3) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
   ------------------------------------------------------------------------------------
@@ -16,6 +17,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "tau_a2.l4":
      - edge e, tau goto l5;
                ^
+
   ------------------------------------------------------------------------------------
   (2/3) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
   ------------------------------------------------------------------------------------
@@ -25,6 +27,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "tau_a2.l1":
      - edge when true goto l2;
        ^
+
   --------------------------------------------------------------
   (3/3) Event is not declared as controllable or uncontrollable.
   --------------------------------------------------------------

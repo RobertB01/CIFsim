@@ -1,6 +1,7 @@
 WARNING: File "checks/EventNoTauCheck.cif": Semantic warning at line 30, column 10: Duplicate event "tau" on a single edge in automaton "a2".
 WARNING: File "checks/EventNoTauCheck.cif": Semantic warning at line 30, column 15: Duplicate event "tau" on a single edge in automaton "a2".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ---------------------------------------
   (1/2) Edge has an explicit 'tau' event.
   ---------------------------------------
@@ -16,6 +17,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "a2.l4":
      - edge e, tau goto l5;
                ^
+
   ---------------------------------------
   (2/2) Edge has an implicit 'tau' event.
   ---------------------------------------

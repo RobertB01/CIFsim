@@ -1,6 +1,7 @@
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 119, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ---------------------------------------------------------------------------------
   (1/2) A function type is used to store functions or use functions as data values.
   ---------------------------------------------------------------------------------
@@ -10,6 +11,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
      - disc list func bool() lfn = [f];
                  ^                 ^^
+
   ------------------------------------
   (2/2) A non-array list type is used.
   ------------------------------------

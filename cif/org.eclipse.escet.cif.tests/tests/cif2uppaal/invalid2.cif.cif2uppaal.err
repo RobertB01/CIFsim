@@ -1,5 +1,6 @@
 WARNING: File "cif2uppaal/invalid2.cif": Semantic warning at line 20, column 13: Automaton "g.a1" has no initial location.
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
+
   -------------------------------
   (1/27) A function call is used.
   -------------------------------
@@ -9,6 +10,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In automaton "g.a4":
      - initial sqrt(-1.0) > 0;
                    ^
+
   -------------------------------
   (2/27) A function type is used.
   -------------------------------
@@ -18,6 +20,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In automaton "g.a4":
      - initial sqrt(-1.0) > 0;
                ^
+
   ---------------------------
   (3/27) A list type is used.
   ---------------------------
@@ -27,6 +30,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In discrete variable "g.a5.li":
      - disc list int[0..5] li;
             ^
+
   ---------------------------------------
   (4/27) A projection expression is used.
   ---------------------------------------
@@ -36,6 +40,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In automaton "g.a5":
      - edge tau_ do li[0] := 3;
                       ^
+
   -------------------------------------
   (5/27) A real number literal is used.
   -------------------------------------
@@ -48,6 +53,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In continuous variable "g.c":
      - cont c der 1.0;
                   ^
+
   ---------------------------
   (6/27) A real type is used.
   ---------------------------
@@ -60,6 +66,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In continuous variable "g.c":
      - cont c der 1.0;
                   ^
+
   -------------------------------
   (7/27) A tuple literal is used.
   -------------------------------
@@ -69,6 +76,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In automaton "g.a5":
      - edge tau_ do (x, y) := (1, 2);
                     ^         ^
+
   ----------------------------
   (8/27) A tuple type is used.
   ----------------------------
@@ -78,24 +86,28 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In automaton "g.a5":
      - edge tau_ do (x, y) := (1, 2);
                     ^         ^
+
   ------------------------------------------------
   (9/27) Automaton has multiple initial locations.
   ------------------------------------------------
    * In group "g":
      - automaton a2:
                  ^
+
   ------------------------------------------
   (10/27) Automaton has no initial location.
   ------------------------------------------
    * In group "g":
      - automaton a1:
                  ^
+
   ------------------------------------------------------------
   (11/27) Binary operator ">" is used on a real typed operand.
   ------------------------------------------------------------
    * In automaton "g.a4":
      - initial sqrt(-1.0) > 0;
                           ^
+
   --------------------------------------------------
   (12/27) Component has an initialization predicate.
   --------------------------------------------------
@@ -108,78 +120,91 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In automaton "g.a1":
      - initial 5 = 5;
                  ^
+
   -----------------------------------------------------------------------------------
   (13/27) Discrete variable has an initial value that cannot be evaluated statically.
   -----------------------------------------------------------------------------------
    * In discrete variable "g.a3.x3":
      - disc int[0..3] x3 = x2;
                            ^
+
   ------------------------------------------------------------------------------------------------------------------------------------
   (14/27) Discrete variable has an initial value that cannot be evaluated statically, as evaluating it results in an evaluation error.
   ------------------------------------------------------------------------------------------------------------------------------------
    * In discrete variable "g.a3.x4":
      - disc int[0..3] x4 = (3, sqrt(-1.0))[0];
                                    ^
+
   ----------------------------------------------------------------
   (15/27) Discrete variable has multiple potential initial values.
   ----------------------------------------------------------------
    * In automaton "g.a3":
      - disc int[0..3] x1 in {1, 2};
                       ^
+
   ------------------------------------------------------------------------------------------
   (16/27) Discrete variable has multiple potential initial values (any value in its domain).
   ------------------------------------------------------------------------------------------
    * In automaton "g.a3":
      - disc int[0..3] x2 in any;
                       ^
+
   ------------------------------------
   (17/27) Edge has a multi-assignment.
   ------------------------------------
    * In automaton "g.a5":
      - edge tau_ do (x, y) := (1, 2);
                            ^
+
   -----------------------------------------------
   (18/27) Edge has a partial variable assignment.
   -----------------------------------------------
    * In automaton "g.a5":
      - edge tau_ do li[0] := 3;
                           ^
+
   --------------------------------
   (19/27) Edge has an 'if' update.
   --------------------------------
    * In automaton "g.a5":
      - edge tau_ do if true: x := 1 end;
                     ^
+
   -----------------------
   (20/27) Edge is urgent.
   -----------------------
    * In automaton "g.a5":
      - edge evt now;
        ^
+
   ---------------------------
   (21/27) Event is a channel.
   ---------------------------
    * In the top-level scope of the specification:
      - event int[0..5] chan;
                        ^
+
   ---------------------------------------------------------------------------------------------------------------------------------------------------------
   (22/27) Failed to determine whether a location is an initial location, as evaluating one of its initialization predicates results in an evaluation error.
   ---------------------------------------------------------------------------------------------------------------------------------------------------------
    * In automaton "g.a4":
      - initial sqrt(-1.0) > 0;
                    ^
+
   ----------------------------------------------------------------------------------------------------------------------------------------------
   (23/27) Failed to determine whether a location is an initial location, as one of its initialization predicates cannot be statically evaluated.
   ----------------------------------------------------------------------------------------------------------------------------------------------
    * In automaton "g.a3":
      - initial x1 + x2 + x3 + x4 = 1;
                                  ^
+
   --------------------------------------------
   (24/27) Function is a user-defined function.
   --------------------------------------------
    * In group "g":
      - func bool f(bool p):
                  ^
+
   -----------------------------------------------------------
   (25/27) Unary operator "-" is used on a real typed operand.
   -----------------------------------------------------------
@@ -189,12 +214,14 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
    * In automaton "g.a4":
      - initial sqrt(-1.0) > 0;
                     ^
+
   ------------------------------------------
   (26/27) Variable is a continuous variable.
   ------------------------------------------
    * In group "g":
      - cont c der 1.0;
             ^
+
   --------------------------------------
   (27/27) Variable is an input variable.
   --------------------------------------

@@ -1,4 +1,5 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ------------------------------------
   (1/11) Binary operator "!=" is used.
   ------------------------------------
@@ -21,6 +22,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                            ^
      - invariant "abc" != "def";
                        ^
+
   -----------------------------------
   (2/11) Binary operator "*" is used.
   -----------------------------------
@@ -39,6 +41,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MULTIPLICATION.RR":
      - invariant RR: 1.0 * 1.0 = 0.0;
                          ^
+
   -----------------------------------
   (3/11) Binary operator "+" is used.
   -----------------------------------
@@ -72,6 +75,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "ADDITION_STRINGS":
      - invariant "a" + "a" = "aa";
                      ^
+
   -----------------------------------
   (4/11) Binary operator "-" is used.
   -----------------------------------
@@ -111,6 +115,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SUBTRACTION_NUMBERS.RR":
      - invariant RR: 1.0 - 1.0 > 0;
                          ^
+
   -----------------------------------
   (5/11) Binary operator "/" is used.
   -----------------------------------
@@ -126,6 +131,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "DIVISION.RR":
      - invariant RR: 1.0 / 1.0 = 0.0;
                          ^
+
   -----------------------------------
   (6/11) Binary operator "=" is used.
   -----------------------------------
@@ -202,12 +208,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MULTIPLICATION.RR":
      - invariant RR: 1.0 * 1.0 = 0.0;
                                ^
+
   ------------------------------------
   (7/11) Binary operator "=>" is used.
   ------------------------------------
    * In group "IMPLICATION":
      - invariant true => false;
                       ^
+
   -------------------------------------
   (8/11) Binary operator "and" is used.
   -------------------------------------
@@ -217,6 +225,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "CONJUNCTION.SS":
      - invariant SS: empty({true} and {false});
                                   ^
+
   -------------------------------------
   (9/11) Binary operator "mod" is used.
   -------------------------------------
@@ -232,6 +241,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
                        ^
+
   -------------------------------------
   (10/11) Binary operator "or" is used.
   -------------------------------------
@@ -241,6 +251,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "DISJUNCTION.SS":
      - invariant SS: empty({true} or {false});
                                   ^
+
   --------------------------------------
   (11/11) Binary operator "sub" is used.
   --------------------------------------

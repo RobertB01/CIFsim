@@ -1,10 +1,12 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   -----------------------------------------------------
   (1/5) A non-array list projection expression is used.
   -----------------------------------------------------
    * In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
      - invariant d[0];
                   ^
+
   ----------------------------------------------
   (2/5) A type-changing cast expression is used.
   ----------------------------------------------
@@ -35,6 +37,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "X.A":
      - invariant "A" = <string>self;
                        ^
+
   ----------------------------------------------------------
   (3/5) A user-defined function parameter reference is used.
   ----------------------------------------------------------
@@ -50,6 +53,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In user-defined function "USER_DEF_FUNC_REFS.intF":
      - return x;
               ^
+
   ----------------------------------------------------------
   (4/5) An external user-defined function reference is used.
   ----------------------------------------------------------
@@ -62,6 +66,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "USER_DEF_FUNC_REFS":
      - invariant g(extF);
                    ^
+
   ----------------------------------------------------------
   (5/5) An internal user-defined function reference is used.
   ----------------------------------------------------------

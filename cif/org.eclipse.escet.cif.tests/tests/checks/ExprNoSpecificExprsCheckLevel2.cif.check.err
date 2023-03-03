@@ -1,10 +1,12 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   -------------------------------------------
   (1/13) A 'time' variable reference is used.
   -------------------------------------------
    * In group "TIME_VAR_REFS":
      - invariant time > 0;
                  ^
+
   --------------------------------------------
   (2/13) A component 'self' reference is used.
   --------------------------------------------
@@ -14,6 +16,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "X.A":
      - invariant "A" = <string>self;
                                ^
+
   -----------------------------------------------
   (3/13) A continuous variable reference is used.
   -----------------------------------------------
@@ -23,6 +26,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "CONT_VAR_REFS_DER":
      - invariant c' = 1.0;
                  ^
+
   --------------------------------------------------
   (4/13) A dictionary projection expression is used.
   --------------------------------------------------
@@ -32,6 +36,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "PROJECTION_EXPRS_DICTS":
      - invariant {true: false}[true];
                               ^
+
   ---------------------------------------------
   (5/13) A discrete variable reference is used.
   ---------------------------------------------
@@ -47,6 +52,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "RECEIVE_EXPRS":
      - edge e? do v := ?;
                   ^
+
   --------------------------------------------
   (6/13) A list projection expression is used.
   --------------------------------------------
@@ -59,6 +65,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                                      ^
+
   ----------------------------------------------
   (7/13) A string projection expression is used.
   ----------------------------------------------
@@ -68,6 +75,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                               ^
+
   ---------------------------------------
   (8/13) A tuple field reference is used.
   ---------------------------------------
@@ -77,6 +85,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "TUPLE_FIELD_REFS_NAMED":
      - invariant c[a];
                    ^
+
   ---------------------------------------------
   (9/13) A tuple projection expression is used.
   ---------------------------------------------
@@ -97,6 +106,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "TUPLE_LITS":
      - invariant (true, false)[0];
                               ^
+
   ------------------------------------------------
   (10/13) An algebraic variable reference is used.
   ------------------------------------------------
@@ -106,12 +116,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group definition "COMP_PARAM_REFS":
      - invariant p;
                  ^
+
   -------------------------------------------------
   (11/13) An enumeration literal reference is used.
   -------------------------------------------------
    * In group "ENUM_LIT_REFS":
      - invariant e1 = e2;
                  ^    ^
+
   ------------------------------------------------
   (12/13) An explicit component reference is used.
   ------------------------------------------------
@@ -121,6 +133,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "COMP_REFS_EXPLICIT":
      - invariant switch COMP_REFS_EXPLICIT: else true end;
                         ^
+
   --------------------------------------------
   (13/13) An input variable reference is used.
   --------------------------------------------

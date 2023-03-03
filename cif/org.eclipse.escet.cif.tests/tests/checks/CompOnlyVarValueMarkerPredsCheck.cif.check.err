@@ -1,4 +1,5 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   --------------------------------------------------------------------------------------------------
   (1/2) Component has a marker predicate that is not of the form 'discrete_variable = marked_value'.
   --------------------------------------------------------------------------------------------------
@@ -16,6 +17,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "marker_var_not_on_the_left":
      - marked true = v;
                    ^
+
   ---------------------------------------------------------------------------------
   (2/2) Discrete variable has multiple predicates that specify its marked value(s).
   ---------------------------------------------------------------------------------

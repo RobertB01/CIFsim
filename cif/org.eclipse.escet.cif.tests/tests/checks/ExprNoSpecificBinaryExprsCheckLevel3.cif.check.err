@@ -1,4 +1,5 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ---------------------------------------------------------------------
   (1/10) Binary operator "<" is used on a ranged integer typed operand.
   ---------------------------------------------------------------------
@@ -23,12 +24,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "type_decl":
      - invariant a < a;
                    ^
+
   ------------------------------------------------------------------------
   (2/10) Binary operator "<" is used on a rangeless integer typed operand.
   ------------------------------------------------------------------------
    * In invariant "LESS_THAN.II":
      - invariant II: i < i;
                        ^
+
   ----------------------------------------------------------------------
   (3/10) Binary operator "<=" is used on a ranged integer typed operand.
   ----------------------------------------------------------------------
@@ -41,12 +44,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "LESS_EQUAL.RI":
      - invariant RI: 1.0 <= 1;
                          ^
+
   -------------------------------------------------------------------------
   (4/10) Binary operator "<=" is used on a rangeless integer typed operand.
   -------------------------------------------------------------------------
    * In invariant "LESS_EQUAL.II":
      - invariant II: i <= i;
                        ^
+
   ---------------------------------------------------------------------
   (5/10) Binary operator ">" is used on a ranged integer typed operand.
   ---------------------------------------------------------------------
@@ -101,6 +106,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SUBTRACTION_NUMBERS.RR":
      - invariant RR: 1.0 - 1.0 > 0;
                                ^
+
   ------------------------------------------------------------------------
   (6/10) Binary operator ">" is used on a rangeless integer typed operand.
   ------------------------------------------------------------------------
@@ -125,6 +131,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SUBTRACTION_NUMBERS.II":
      - invariant II: i - i > 0;
                            ^
+
   ----------------------------------------------------------------------
   (7/10) Binary operator ">=" is used on a ranged integer typed operand.
   ----------------------------------------------------------------------
@@ -137,12 +144,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "GREATER_EQUAL.RI":
      - invariant RI: 1.0 >= 1;
                          ^
+
   -------------------------------------------------------------------------
   (8/10) Binary operator ">=" is used on a rangeless integer typed operand.
   -------------------------------------------------------------------------
    * In invariant "GREATER_EQUAL.II":
      - invariant II: i >= i;
                        ^
+
   -----------------------------------------------------------------------
   (9/10) Binary operator "div" is used on a ranged integer typed operand.
   -----------------------------------------------------------------------
@@ -155,6 +164,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "INTEGER_DIVISION.IG":
      - invariant IG: i div 1 = 0;
                        ^
+
   ---------------------------------------------------------------------------
   (10/10) Binary operator "div" is used on a rangeless integer typed operand.
   ---------------------------------------------------------------------------

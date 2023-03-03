@@ -1,10 +1,12 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ---------------------------------------------------------
   (1/4) Unary operator "+" is used on a real typed operand.
   ---------------------------------------------------------
    * In group "PLUS_REALS":
      - invariant 1.0 = +1.0;
                        ^
+
   -------------------------------------------------------------
   (2/4) Unary operator "+" is used on an integer typed operand.
   -------------------------------------------------------------
@@ -14,12 +16,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "PLUS_INTS_RANGELESS":
      - invariant v = +v;
                      ^
+
   ---------------------------------------------------------
   (3/4) Unary operator "-" is used on a real typed operand.
   ---------------------------------------------------------
    * In group "NEGATE_INTS_REALS":
      - invariant 1.0 = -1.0;
                        ^
+
   -------------------------------------------------------------
   (4/4) Unary operator "-" is used on an integer typed operand.
   -------------------------------------------------------------

@@ -1,5 +1,6 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/asgn_var_parts.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
+
   --------------------------
   (1/1) A list type is used.
   --------------------------

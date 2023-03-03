@@ -15,6 +15,7 @@ WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at li
 WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at line 84, column 20: Duplicate invariant for event "e".
 WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at line 93, column 27: Duplicate invariant for event "e".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   -------------------------------------------------------------------
   (1/2) Invariant is a plant 'needs' state/event exclusion invariant.
   -------------------------------------------------------------------
@@ -33,6 +34,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "nameless_loc":
      - plant invariant e needs true;
                          ^
+
   ---------------------------------------------------------------
   (2/2) Invariant is a requirement state invariant in a location.
   ---------------------------------------------------------------

@@ -1,4 +1,5 @@
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
+
   ----------------------------------------------------------------------------
   (1/1) Specification does not have at least 1 automaton (no automaton found).
   ----------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   ----------------------------------
   (1/3) Edge has a multi-assignment.
   ----------------------------------
@@ -16,6 +17,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "multi_asgn":
      - edge e do (va, vb) := (1, 2);
                           ^
+
   ---------------------------------------------
   (2/3) Edge has a partial variable assignment.
   ---------------------------------------------
@@ -33,6 +35,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "partial_asgn":
      - edge e do li[0] := 1;
                        ^
+
   ------------------------------
   (3/3) Edge has an 'if' update.
   ------------------------------

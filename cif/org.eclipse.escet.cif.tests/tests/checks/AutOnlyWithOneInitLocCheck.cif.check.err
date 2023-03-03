@@ -12,6 +12,7 @@ WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 
 WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 149, column 46: Location parameter "loc_params_no_initial.a" is not used anywhere in the specification.
 WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 149, column 49: Location parameter "loc_params_no_initial.b" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
   -----------------------------------------------
   (1/4) Automaton has multiple initial locations.
   -----------------------------------------------
@@ -25,6 +26,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^
      - automaton three_init_loc:
                  ^
+
   ----------------------------------------
   (2/4) Automaton has no initial location.
   ----------------------------------------
@@ -37,6 +39,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "auts":
      - automaton no_init_loc:
                  ^
+
   -------------------------------------------------------------------------------------------------------------------------------------------------------
   (3/4) Failed to determine whether a location is an initial location, as evaluating one of its initialization predicates results in an evaluation error.
   -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -52,6 +55,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "auts.init_pred_eval_error_nameless_loc":
      - initial 1 / 0 = 0.0;
                  ^
+
   --------------------------------------------------------------------------------------------------------------------------------------------
   (4/4) Failed to determine whether a location is an initial location, as one of its initialization predicates cannot be statically evaluated.
   --------------------------------------------------------------------------------------------------------------------------------------------
