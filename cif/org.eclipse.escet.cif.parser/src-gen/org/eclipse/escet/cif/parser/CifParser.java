@@ -16723,10 +16723,10 @@ public final class CifParser extends Parser<ASpecification> {
                 // Reduce FuncExpression : StdLibFunction PAROPENTK PARCLOSETK;
                 doReduce1(token, 104);
                 doReduce2();
-                doReduce2();
+                Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                AExpression o = hooks.parseFuncExpression6((Token)o1);
+                AExpression o = hooks.parseFuncExpression6((Token)o1, (Token)o2);
 
                 reduce = true;
                 reduceNonTerminal = 104;
@@ -17560,10 +17560,10 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce1(token, 104);
                 doReduce2();
                 Object o3 = doReduce2();
-                doReduce2();
+                Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                AExpression o = hooks.parseFuncExpression7((Token)o1, (List<AExpression>)o3);
+                AExpression o = hooks.parseFuncExpression7((Token)o1, (Token)o2, (List<AExpression>)o3);
 
                 reduce = true;
                 reduceNonTerminal = 104;
@@ -106181,23 +106181,25 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FuncExpression : StdLibFunction PAROPENTK PARCLOSETK;}</p>
+         * <p>{@code FuncExpression : StdLibFunction @PAROPENTK PARCLOSETK;}</p>
          *
          * @param t1 {@code StdLibFunction}.
+         * @param t2 {@code PAROPENTK}.
          * @return The parser call back hook result.
          */
-        public AExpression parseFuncExpression6(Token t1);
+        public AExpression parseFuncExpression6(Token t1, Token t2);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FuncExpression : StdLibFunction PAROPENTK Expressions PARCLOSETK;}</p>
+         * <p>{@code FuncExpression : StdLibFunction @PAROPENTK Expressions PARCLOSETK;}</p>
          *
          * @param t1 {@code StdLibFunction}.
+         * @param t2 {@code PAROPENTK}.
          * @param l3 {@code Expressions}.
          * @return The parser call back hook result.
          */
-        public AExpression parseFuncExpression7(Token t1, List<AExpression> l3);
+        public AExpression parseFuncExpression7(Token t1, Token t2, List<AExpression> l3);
 
         /**
          * Parser call back hook for rule/production:

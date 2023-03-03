@@ -126,9 +126,10 @@ public class CifToUppaal {
      * Transform a CIF specification into a UPPAAL XML document.
      *
      * @param spec The CIF specification. The specification is modified in-place.
+     * @param absSpecPath The absolute local file system path to the CIF file.
      * @return The UPPAAL XML document.
      */
-    public Document transform(Specification spec) {
+    public Document transform(Specification spec, String absSpecPath) {
         // This transformation from CIF to UPPAAL 4 is partially based on the
         // following paper: D.E. Nadales Agut, M.A. Reniers, R.R.H.
         // Schiffelers, K.Y. Jørgensen, D.A. van Beek, A Semantic-Preserving
@@ -156,7 +157,7 @@ public class CifToUppaal {
 
         // Check preconditions.
         CifToUppaalPreChecker checker = new CifToUppaalPreChecker();
-        checker.reportPreconditionViolations(spec, "CIF to UPPAAL transformation");
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF to UPPAAL transformation");
 
         // Collect various things from the CIF specification.
         List<Event> events = list();

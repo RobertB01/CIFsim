@@ -15,11 +15,35 @@ WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at li
 WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at line 84, column 20: Duplicate invariant for event "e".
 WARNING: File "checks/InvNoSpecificInvsCheckSubsets.cif": Semantic warning at line 93, column 27: Duplicate invariant for event "e".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "different_locs.loc3" (File "checks/InvNoSpecificInvsCheckSubsets.cif": line 54, columns 12 .. 15): has a plant 'needs' state/event exclusion invariant.
- - Unsupported "different_locs.loc4" (File "checks/InvNoSpecificInvsCheckSubsets.cif": line 57, columns 12 .. 15): has a requirement state invariant in a location.
- - Unsupported "g.p" (File "checks/InvNoSpecificInvsCheckSubsets.cif": line 32, column 9): has a plant 'needs' state/event exclusion invariant.
- - Unsupported "named_invs.I3" (File "checks/InvNoSpecificInvsCheckSubsets.cif": line 81, columns 11 .. 12): is a plant 'needs' state/event exclusion invariant.
- - Unsupported "named_invs.I5" (File "checks/InvNoSpecificInvsCheckSubsets.cif": line 83, columns 17 .. 18): is a requirement state invariant in a location.
- - Unsupported "nameless_loc" (File "checks/InvNoSpecificInvsCheckSubsets.cif": line 65, columns 11 .. 22): has a plant 'needs' state/event exclusion invariant.
- - Unsupported "nameless_loc" (File "checks/InvNoSpecificInvsCheckSubsets.cif": line 65, columns 11 .. 22): has a requirement state invariant in a location.
- - Unsupported specification (File "checks/InvNoSpecificInvsCheckSubsets.cif": line 1, column 1): has a plant 'needs' state/event exclusion invariant.
+
+  -------------------------------------------------------------------
+  (1/2) Invariant is a plant 'needs' state/event exclusion invariant.
+  -------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - plant invariant e needs true;
+                         ^
+   * In location "different_locs.loc3":
+     - plant invariant e needs true;
+                         ^
+   * In group "g.p":
+     - plant invariant e needs true;
+                         ^
+   * In automaton "named_invs":
+     - plant invariant I3: e needs true;
+                       ^
+   * In automaton "nameless_loc":
+     - plant invariant e needs true;
+                         ^
+
+  ---------------------------------------------------------------
+  (2/2) Invariant is a requirement state invariant in a location.
+  ---------------------------------------------------------------
+   * In location "different_locs.loc4":
+     - requirement invariant true;
+                             ^
+   * In automaton "named_invs":
+     - requirement invariant I5: true;
+                             ^
+   * In automaton "nameless_loc":
+     - requirement invariant true;
+                             ^

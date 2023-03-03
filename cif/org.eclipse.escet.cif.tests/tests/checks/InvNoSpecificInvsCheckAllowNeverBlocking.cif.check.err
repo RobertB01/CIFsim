@@ -12,8 +12,22 @@ WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic wa
 WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 74, column 21: Duplicate invariant for event "e".
 WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 75, column 20: Duplicate invariant for event "e".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "different_locs.loc2" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 44, columns 12 .. 15): has an invariant.
- - Unsupported "different_locs.loc5" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 53, columns 12 .. 15): has an invariant.
- - Unsupported "named_invs.I2" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 72, columns 15 .. 16): is an invariant.
- - Unsupported "nameless_loc" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 58, columns 11 .. 22): has an invariant.
- - Unsupported "state_invs" (File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": line 78, columns 7 .. 16): has an invariant.
+
+  ---------------------------
+  (1/1) An invariant is used.
+  ---------------------------
+   * In location "different_locs.loc2":
+     - invariant true disables e;
+                      ^
+   * In location "different_locs.loc5":
+     - supervisor invariant e needs false;
+                              ^
+   * In automaton "named_invs":
+     - invariant I2: true disables e;
+                 ^
+   * In automaton "nameless_loc":
+     - invariant true disables e;
+                      ^
+   * In group "state_invs":
+     - invariant false;
+                 ^

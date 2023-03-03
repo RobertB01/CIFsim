@@ -22,7 +22,7 @@ ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 66, column
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 66, column 13: Variable "a.z", or a part of it, may have been assigned twice on a single edge, for assignments to "a.z" and "a.z[1]".
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 66, column 26: Variable "a.z", or a part of it, may have been assigned twice on a single edge, for assignments to "a.z[0]" and "a.z".
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 66, column 37: Variable "a.z", or a part of it, may have been assigned twice on a single edge, for assignments to "a.z[1]" and "a.z".
-ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 75, column 23: Evaluation failure: Invalid operation: sqrt(-1.0).
+ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 75, column 27: Evaluation failure: Invalid operation: sqrt(-1.0).
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 85, column 13: Variable "c.x", or a part of it, may have been assigned twice on a single edge, for assignments to "c.x[0]" and "c.x[0]".
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 85, column 24: Variable "c.y", or a part of it, may have been assigned twice on a single edge, for assignments to "c.y[0]" and "c.y".
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 85, column 24: Variable "c.y", or a part of it, may have been assigned twice on a single edge, for assignments to "c.y[0]" and "c.y[0]".

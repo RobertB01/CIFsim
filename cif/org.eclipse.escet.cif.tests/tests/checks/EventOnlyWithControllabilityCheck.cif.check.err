@@ -1,12 +1,42 @@
 WARNING: File "checks/EventOnlyWithControllabilityCheck.cif": Semantic warning at line 30, column 10: Duplicate event "tau" on a single edge in automaton "tau_a2".
 WARNING: File "checks/EventOnlyWithControllabilityCheck.cif": Semantic warning at line 30, column 15: Duplicate event "tau" on a single edge in automaton "tau_a2".
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "e" (File "checks/EventOnlyWithControllabilityCheck.cif": line 21, column 7): event is not declared as controllable or uncontrollable.
- - Unsupported "g.A.e2" (File "checks/EventOnlyWithControllabilityCheck.cif": line 42, columns 25 .. 26): event parameter is not declared as controllable or uncontrollable.
- - Unsupported "g.e" (File "checks/EventOnlyWithControllabilityCheck.cif": line 38, column 9): event is not declared as controllable or uncontrollable.
- - Unsupported "tau_a1" (File "checks/EventOnlyWithControllabilityCheck.cif": line 14, columns 11 .. 16): automaton has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a1" (File "checks/EventOnlyWithControllabilityCheck.cif": line 14, columns 11 .. 16): automaton has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l1" (File "checks/EventOnlyWithControllabilityCheck.cif": line 24, columns 12 .. 13): location has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l2" (File "checks/EventOnlyWithControllabilityCheck.cif": line 27, columns 12 .. 13): location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l3" (File "checks/EventOnlyWithControllabilityCheck.cif": line 29, columns 12 .. 13): location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "tau_a2.l4" (File "checks/EventOnlyWithControllabilityCheck.cif": line 31, columns 12 .. 13): location has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
+
+  ------------------------------------------------------------------------------------
+  (1/3) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
+  ------------------------------------------------------------------------------------
+   * In automaton "tau_a1":
+     - edge tau;
+            ^
+   * In location "tau_a2.l2":
+     - edge tau goto l3;
+            ^
+   * In location "tau_a2.l3":
+     - edge tau, tau goto l4;
+            ^    ^
+   * In location "tau_a2.l4":
+     - edge e, tau goto l5;
+               ^
+
+  ------------------------------------------------------------------------------------
+  (2/3) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
+  ------------------------------------------------------------------------------------
+   * In automaton "tau_a1":
+     - edge when true;
+       ^
+   * In location "tau_a2.l1":
+     - edge when true goto l2;
+       ^
+
+  --------------------------------------------------------------
+  (3/3) Event is not declared as controllable or uncontrollable.
+  --------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - event e;
+             ^
+   * In group "g":
+     - event e;
+             ^
+   * In automaton definition "g.A":
+     - automaton def A(event e2; controllable c2; uncontrollable u2):
+                             ^

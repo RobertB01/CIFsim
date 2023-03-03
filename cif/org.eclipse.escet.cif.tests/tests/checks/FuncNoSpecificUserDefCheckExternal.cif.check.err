@@ -1,5 +1,15 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "EXT_NO_PARAM_f" (File "checks/FuncNoSpecificUserDefCheckExternal.cif": line 22, columns 11 .. 24): is an external user-defined function.
- - Unsupported "EXT_PARAM_h" (File "checks/FuncNoSpecificUserDefCheckExternal.cif": line 23, columns 11 .. 21): is an external user-defined function.
- - Unsupported "g.EXT_NO_PARAM_f" (File "checks/FuncNoSpecificUserDefCheckExternal.cif": line 34, columns 13 .. 26): is an external user-defined function.
- - Unsupported "g.EXT_PARAM_h" (File "checks/FuncNoSpecificUserDefCheckExternal.cif": line 35, columns 13 .. 23): is an external user-defined function.
+
+  ----------------------------------------------------
+  (1/1) Function is an external user-defined function.
+  ----------------------------------------------------
+   * In the top-level scope of the specification:
+     - func bool EXT_NO_PARAM_f(): "java:somepkg.SomeClass.someMethod|.";
+                 ^
+     - func bool EXT_PARAM_h(int v): "java:somepkg.SomeClass.someMethod2|.";
+                 ^
+   * In group "g":
+     - func bool EXT_NO_PARAM_f(): "java:somepkg.SomeClass.someMethod|.";
+                 ^
+     - func bool EXT_PARAM_h(int v): "java:somepkg.SomeClass.someMethod2|.";
+                 ^

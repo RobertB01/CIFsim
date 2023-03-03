@@ -1,7 +1,25 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "g" (File "checks/EqnNotAllowedCheck.cif": line 19, column 7): group has an equation.
- - Unsupported "g.a" (File "checks/EqnNotAllowedCheck.cif": line 23, column 13): automaton has an equation.
- - Unsupported "g.A" (File "checks/EqnNotAllowedCheck.cif": line 31, column 17): automaton definition has an equation.
- - Unsupported "g.a.U" (File "checks/EqnNotAllowedCheck.cif": line 26, column 14): location has an equation.
- - Unsupported "g.G" (File "checks/EqnNotAllowedCheck.cif": line 39, column 13): group definition has an equation.
- - Unsupported specification (File "checks/EqnNotAllowedCheck.cif": line 1, column 1): the top level scope of the specification has an equation.
+
+  --------------------------
+  (1/1) An equation is used.
+  --------------------------
+   * In the top-level scope of the specification:
+     - equation q' = q_der;
+                   ^
+   * In group "g":
+     - equation x' = 2.0;
+                   ^
+   * In automaton definition "g.A":
+     - equation z1' = 4.0;
+                    ^
+     - equation z2' = 5.0;
+                    ^
+   * In group definition "g.G":
+     - equation e' = x';
+                   ^
+   * In automaton "g.a":
+     - equation y' = 3.0;
+                   ^
+   * In location "g.a.U":
+     - equation y2' = 4.0;
+                    ^

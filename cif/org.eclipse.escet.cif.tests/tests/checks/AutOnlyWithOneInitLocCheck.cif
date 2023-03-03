@@ -58,22 +58,22 @@ group auts:
       initial 1 = 1;
   end
 
-  automaton init_pred_non_static_eval_report_on_loc:
+  automaton init_pred_non_static_eval_named_loc:
     location loc:
       initial zero() = 0;
   end
 
-  automaton init_pred_non_static_eval_report_on_aut:
+  automaton init_pred_non_static_eval_nameless_loc:
     location:
       initial zero() = 0;
   end
 
-  automaton init_pred_eval_error_report_on_loc:
+  automaton init_pred_eval_error_named_loc:
     location loc:
       initial 1 / 0 = 0;
   end
 
-  automaton init_pred_eval_error_report_on_aut:
+  automaton init_pred_eval_error_nameless_loc:
     location:
       initial 1 / 0 = 0;
   end
@@ -120,22 +120,22 @@ group autdefs:
       initial 1 = 1;
   end
 
-  automaton def init_pred_non_static_eval_report_on_loc():
+  automaton def init_pred_non_static_eval_named_loc():
     location loc:
       initial zero() = 0;
   end
 
-  automaton def init_pred_non_static_eval_report_on_aut():
+  automaton def init_pred_non_static_eval_nameless_loc():
     location:
       initial zero() = 0;
   end
 
-  automaton def init_pred_eval_error_report_on_loc():
+  automaton def init_pred_eval_error_named_loc():
     location loc:
       initial 1 / 0 = 0;
   end
 
-  automaton def init_pred_eval_error_report_on_aut():
+  automaton def init_pred_eval_error_nameless_loc():
     location:
       initial 1 / 0 = 0;
   end

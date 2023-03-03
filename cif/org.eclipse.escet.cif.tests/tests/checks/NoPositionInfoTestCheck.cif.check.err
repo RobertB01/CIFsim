@@ -1,5 +1,14 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "a.loc1" (File "checks/NoPositionInfoTestCheck.cif": line 17, columns 12 .. 15): uses enumeration literal reference "a.LOC_loc1".
- - Unsupported "a.loc1" (File "checks/NoPositionInfoTestCheck.cif": line 17, columns 12 .. 15): uses enumeration literal reference "a.LOC_loc2".
- - Unsupported "a.loc2" (File "checks/NoPositionInfoTestCheck.cif": line 20, columns 12 .. 15): uses enumeration literal reference "a.LOC_loc1".
- - Unsupported "a.LP": uses enumeration literal reference "a.LOC_loc1".
+
+  -----------------------------------------------
+  (1/1) An enumeration literal reference is used.
+  -----------------------------------------------
+   * In discrete variable "a.LP":
+     - disc LPE LP = LOC_loc1;
+                     ^
+   * In location "a.loc1":
+     - edge e when LP = LOC_loc1 do LP := LOC_loc2 goto loc2;
+                        ^                 ^
+   * In location "a.loc2":
+     - edge e do LP := LOC_loc1 goto loc1;
+                       ^

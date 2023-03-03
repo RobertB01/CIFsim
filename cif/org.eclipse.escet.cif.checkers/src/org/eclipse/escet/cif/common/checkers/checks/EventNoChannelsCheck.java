@@ -15,8 +15,6 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 /** CIF check that does not allow channels. */
@@ -24,9 +22,7 @@ public class EventNoChannelsCheck extends CifCheck {
     @Override
     protected void preprocessEvent(Event event, CifCheckViolations violations) {
         if (event.getType() != null) {
-            // Report violation on the event or event parameter.
-            violations.add(event, new ReportObjectTypeDescrMessage(),
-                    new LiteralMessage("is a channel (has a data type)"));
+            violations.add(event, "Event is a channel");
         }
     }
 }

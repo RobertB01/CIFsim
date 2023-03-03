@@ -2058,14 +2058,14 @@ public final class CifParserHooks implements CifParser.Hooks {
         return new AFuncCallExpression(a1, l3, t2.position);
     }
 
-    @Override // FuncExpression : StdLibFunction PAROPENTK PARCLOSETK;
-    public AExpression parseFuncExpression6(Token t1) {
-        return new AFuncCallExpression(new AStdLibFunctionExpression(t1.text, t1.position), null, t1.position);
+    @Override // FuncExpression : StdLibFunction @PAROPENTK PARCLOSETK;
+    public AExpression parseFuncExpression6(Token t1, Token t2) {
+        return new AFuncCallExpression(new AStdLibFunctionExpression(t1.text, t1.position), null, t2.position);
     }
 
-    @Override // FuncExpression : StdLibFunction PAROPENTK Expressions PARCLOSETK;
-    public AExpression parseFuncExpression7(Token t1, List<AExpression> l3) {
-        return new AFuncCallExpression(new AStdLibFunctionExpression(t1.text, t1.position), l3, t1.position);
+    @Override // FuncExpression : StdLibFunction @PAROPENTK Expressions PARCLOSETK;
+    public AExpression parseFuncExpression7(Token t1, Token t2, List<AExpression> l3) {
+        return new AFuncCallExpression(new AStdLibFunctionExpression(t1.text, t1.position), l3, t2.position);
     }
 
     @Override // ExpressionFactor : @TRUEKW;

@@ -1,34 +1,62 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/arrays.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported "aut.empty_arr" (File "cif2plc/arrays.cif": line 41, columns 20 .. 28): uses list type "list[0] int".
- - Unsupported "aut.l" (File "cif2plc/arrays.cif": line 39, column 20): uses list type "list[5] int".
- - Unsupported "aut.l" (File "cif2plc/arrays.cif": line 39, column 20): uses list type "list[5] int[0..50]".
- - Unsupported "aut.l1" (File "cif2plc/arrays.cif": line 43, columns 12 .. 13): uses list type "list[5] int".
- - Unsupported "aut.l2" (File "cif2plc/arrays.cif": line 47, columns 12 .. 13): uses list type "list[5] int".
- - Unsupported "aut.l3" (File "cif2plc/arrays.cif": line 50, columns 12 .. 13): uses list type "list[2] list[5] int[0..99]".
- - Unsupported "aut.l3" (File "cif2plc/arrays.cif": line 50, columns 12 .. 13): uses list type "list[5] int".
- - Unsupported "aut.l3" (File "cif2plc/arrays.cif": line 50, columns 12 .. 13): uses list type "list[5] int[0..99]".
- - Unsupported "aut.l3" (File "cif2plc/arrays.cif": line 50, columns 12 .. 13): uses list type "list[5] int[11..55]".
- - Unsupported "aut.l4" (File "cif2plc/arrays.cif": line 53, columns 12 .. 13): uses list type "list[2] list[5] int".
- - Unsupported "aut.l4" (File "cif2plc/arrays.cif": line 53, columns 12 .. 13): uses list type "list[2] list[5] int[0..99]".
- - Unsupported "aut.l4" (File "cif2plc/arrays.cif": line 53, columns 12 .. 13): uses list type "list[5] int".
- - Unsupported "aut.l4" (File "cif2plc/arrays.cif": line 53, columns 12 .. 13): uses list type "list[5] int[0..99]".
- - Unsupported "aut.l5" (File "cif2plc/arrays.cif": line 56, columns 12 .. 13): uses list type "list[2] list[5] int".
- - Unsupported "aut.l5" (File "cif2plc/arrays.cif": line 56, columns 12 .. 13): uses list type "list[2] list[5] int[0..99]".
- - Unsupported "aut.l5" (File "cif2plc/arrays.cif": line 56, columns 12 .. 13): uses list type "list[5] int".
- - Unsupported "aut.l5" (File "cif2plc/arrays.cif": line 56, columns 12 .. 13): uses list type "list[5] int[0..99]".
- - Unsupported "aut.l6" (File "cif2plc/arrays.cif": line 59, columns 12 .. 13): uses list type "list[2] list[5] int[0..99]".
- - Unsupported "aut.l6" (File "cif2plc/arrays.cif": line 59, columns 12 .. 13): uses list type "list[5] int[0..99]".
- - Unsupported "aut.l7" (File "cif2plc/arrays.cif": line 62, columns 12 .. 13): uses list type "list[0] int".
- - Unsupported "aut.ll" (File "cif2plc/arrays.cif": line 40, columns 35 .. 36): uses list type "list[2] list[5] int[0..50]".
- - Unsupported "aut.ll" (File "cif2plc/arrays.cif": line 40, columns 35 .. 36): uses list type "list[2] list[5] int[0..99]".
- - Unsupported "aut.ll" (File "cif2plc/arrays.cif": line 40, columns 35 .. 36): uses list type "list[5] int[0..50]".
- - Unsupported "aut.ll" (File "cif2plc/arrays.cif": line 40, columns 35 .. 36): uses list type "list[5] int[0..99]".
- - Unsupported "lf" (File "cif2plc/arrays.cif": line 24, columns 18 .. 19): uses list type "list[5] int".
- - Unsupported "lf.l" (File "cif2plc/arrays.cif": line 24, column 33): uses list type "list[5] int".
- - Unsupported "lf.r" (File "cif2plc/arrays.cif": line 25, column 15): uses list type "list[5] int".
- - Unsupported "llf" (File "cif2plc/arrays.cif": line 30, columns 26 .. 28): uses list type "list[2] list[5] int".
- - Unsupported "llf" (File "cif2plc/arrays.cif": line 30, columns 26 .. 28): uses list type "list[5] int".
- - Unsupported "llf.r" (File "cif2plc/arrays.cif": line 31, column 23): uses list type "list[2] list[5] int".
- - Unsupported "llf.r" (File "cif2plc/arrays.cif": line 31, column 23): uses list type "list[5] int".
- - Unsupported "pf" (File "cif2plc/arrays.cif": line 20, columns 10 .. 11): uses list type "list[5] int[0..50]".
+
+  --------------------------
+  (1/1) A list type is used.
+  --------------------------
+   * In discrete variable "aut.empty_arr":
+     - disc list[0] int empty_arr;
+            ^
+   * In discrete variable "aut.l":
+     - disc list[5] int l = [1, 2, 3, 4, 5];
+            ^               ^
+   * In location "aut.l1":
+     - edge do i := l[0], j := l[-1] goto l2;
+                    ^          ^
+   * In location "aut.l2":
+     - edge do l[0] := 7, l[-1] := 8 goto l3;
+               ^          ^
+   * In location "aut.l3":
+     - edge do ll[-2] := lf([11, 22, 33, 44, 55], -1) goto l4;
+               ^ ^       ^ ^^
+   * In location "aut.l4":
+     - edge do ll := llf(-1, 9) goto l5;
+               ^     ^  ^
+   * In location "aut.l5":
+     - edge do ll[0] := llf(3, 123)[0] goto l6;
+               ^ ^      ^  ^       ^
+   * In location "aut.l6":
+     - edge do i := ll[1][2] goto l7;
+                    ^ ^
+   * In location "aut.l7":
+     - edge do empty_arr := <list[0] int>[] goto l8;
+               ^             ^           ^
+   * In discrete variable "aut.ll":
+     - disc list[2] list[5] int[0..99] ll = [[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]];
+            ^       ^                       ^^                ^
+   * In user-defined function "lf":
+     - func list[5] int lf(list[5] int l; int x):
+            ^
+     - r[x] := 6;
+       ^
+     - return r;
+              ^
+   * In function parameter "lf.l":
+     - func list[5] int lf(list[5] int l; int x):
+                           ^
+   * In function variable "lf.r":
+     - list[5] int r = l;
+       ^               ^
+   * In user-defined function "llf":
+     - func list[2] list[5] int llf(int x; int y):
+            ^       ^
+     - r[0][x] := y;
+       ^^
+     - return r;
+              ^
+   * In function variable "llf.r":
+     - list[2] list[5] int r = [[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]];
+       ^       ^               ^^                ^
+   * In user-defined function "pf":
+     - return [1, 2, 3, 4, 5][x];
+              ^

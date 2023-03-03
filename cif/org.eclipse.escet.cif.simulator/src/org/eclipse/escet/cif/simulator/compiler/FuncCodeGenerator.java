@@ -109,7 +109,7 @@ public class FuncCodeGenerator {
         JavaCodeFile file = ctxt.addCodeFile(className);
 
         // Get return type.
-        CifType retType = makeTupleType(deepclone(func.getReturnTypes()), null);
+        CifType retType = makeTupleType(func.getReturnTypes(), null);
 
         // Get function type.
         FuncType funcType = newFuncType();

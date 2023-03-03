@@ -72,6 +72,7 @@ public class CifToUppaalApp extends Application<IOutputComponent> {
     protected int runInternal() {
         // Read CIF specification.
         Specification spec = new CifReader().init().read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -81,7 +82,7 @@ public class CifToUppaalApp extends Application<IOutputComponent> {
         outPath = Paths.resolve(outPath);
 
         // Perform transformation to UPPAAL.
-        Document doc = new CifToUppaal().transform(spec);
+        Document doc = new CifToUppaal().transform(spec, absSpecPath);
         if (isTerminationRequested()) {
             return 0;
         }

@@ -2,8 +2,8 @@ ERROR: File "tchecker/static_eval.cif": Semantic error at line 16, column 23: Ca
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 21, column 18: Cannot statically evaluate continuous variable "cont_var.x".
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 26, column 18: Cannot statically evaluate the derivative of continuous variable "deriv.x".
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 31, column 18: Cannot statically evaluate discrete variable "disc_var.v".
-ERROR: File "tchecker/static_eval.cif": Semantic error at line 36, column 29: Cannot statically evaluate distribution standard library function "random".
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 36, column 29: Distribution standard library function "random" may only be used in the initial values of discrete variables, declared in automata.
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 36, column 35: Cannot statically evaluate distribution standard library function "random".
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 40, column 20: Cannot statically evaluate variable "f_var.x".
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 44, column 20: Cannot statically evaluate function parameter "f_param.x".
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 49, column 23: Cannot statically evaluate input variable "input_var.x".

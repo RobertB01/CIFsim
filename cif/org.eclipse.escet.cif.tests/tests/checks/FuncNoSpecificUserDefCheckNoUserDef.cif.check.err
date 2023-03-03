@@ -1,9 +1,23 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "EXT_NO_PARAM_f" (File "checks/FuncNoSpecificUserDefCheckNoUserDef.cif": line 22, columns 11 .. 24): is a user-defined function.
- - Unsupported "EXT_PARAM_h" (File "checks/FuncNoSpecificUserDefCheckNoUserDef.cif": line 23, columns 11 .. 21): is a user-defined function.
- - Unsupported "g.EXT_NO_PARAM_f" (File "checks/FuncNoSpecificUserDefCheckNoUserDef.cif": line 34, columns 13 .. 26): is a user-defined function.
- - Unsupported "g.EXT_PARAM_h" (File "checks/FuncNoSpecificUserDefCheckNoUserDef.cif": line 35, columns 13 .. 23): is a user-defined function.
- - Unsupported "g.INT_NO_PARAM_fifteen" (File "checks/FuncNoSpecificUserDefCheckNoUserDef.cif": line 30, columns 12 .. 31): is a user-defined function.
- - Unsupported "g.INT_PARAM_inc" (File "checks/FuncNoSpecificUserDefCheckNoUserDef.cif": line 26, columns 12 .. 24): is a user-defined function.
- - Unsupported "INT_NO_PARAM_fifteen" (File "checks/FuncNoSpecificUserDefCheckNoUserDef.cif": line 18, columns 10 .. 29): is a user-defined function.
- - Unsupported "INT_PARAM_inc" (File "checks/FuncNoSpecificUserDefCheckNoUserDef.cif": line 14, columns 10 .. 22): is a user-defined function.
+
+  ------------------------------------------
+  (1/1) Function is a user-defined function.
+  ------------------------------------------
+   * In the top-level scope of the specification:
+     - func int INT_PARAM_inc(int x):
+                ^
+     - func int INT_NO_PARAM_fifteen():
+                ^
+     - func bool EXT_NO_PARAM_f(): "java:somepkg.SomeClass.someMethod|.";
+                 ^
+     - func bool EXT_PARAM_h(int v): "java:somepkg.SomeClass.someMethod2|.";
+                 ^
+   * In group "g":
+     - func int INT_PARAM_inc(int x):
+                ^
+     - func int INT_NO_PARAM_fifteen():
+                ^
+     - func bool EXT_NO_PARAM_f(): "java:somepkg.SomeClass.someMethod|.";
+                 ^
+     - func bool EXT_PARAM_h(int v): "java:somepkg.SomeClass.someMethod2|.";
+                 ^

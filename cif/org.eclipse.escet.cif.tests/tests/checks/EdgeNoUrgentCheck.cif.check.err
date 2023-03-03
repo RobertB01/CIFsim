@@ -1,5 +1,17 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "a.l2" (File "checks/EdgeNoUrgentCheck.cif": line 20, columns 12 .. 13): location has an urgent edge.
- - Unsupported "a.l4" (File "checks/EdgeNoUrgentCheck.cif": line 24, columns 12 .. 13): location has an urgent edge.
- - Unsupported "g.A.l2" (File "checks/EdgeNoUrgentCheck.cif": line 33, columns 14 .. 15): location has an urgent edge.
- - Unsupported "g.A.l4" (File "checks/EdgeNoUrgentCheck.cif": line 37, columns 14 .. 15): location has an urgent edge.
+
+  ---------------------
+  (1/1) Edge is urgent.
+  ---------------------
+   * In location "a.l2":
+     - edge e now goto l3;
+       ^
+   * In location "a.l4":
+     - edge e now goto l1;
+       ^
+   * In location "g.A.l2":
+     - edge e now goto l3;
+       ^
+   * In location "g.A.l4":
+     - edge e now goto l1;
+       ^

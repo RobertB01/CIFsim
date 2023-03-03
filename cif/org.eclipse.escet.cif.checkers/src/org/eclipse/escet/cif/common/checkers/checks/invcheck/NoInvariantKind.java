@@ -20,28 +20,25 @@ import org.eclipse.escet.cif.metamodel.cif.InvKind;
 /** Invariant disallowance values for the invariant kind aspect. */
 public enum NoInvariantKind implements NoKindInterface<InvKind> {
     /** No invariants allowed. */
-    ALL_KINDS(EnumSet.allOf(InvKind.class), null, null),
+    ALL_KINDS(EnumSet.allOf(InvKind.class), null),
 
     /** No state invariants allowed. */
-    STATE(EnumSet.of(InvKind.STATE), "a", "state"),
+    STATE(EnumSet.of(InvKind.STATE), "state"),
 
     /** No state/event exclusion invariants allowed. */
-    STATE_EVENT(EnumSet.of(InvKind.EVENT_DISABLES, InvKind.EVENT_NEEDS), "a", "state/event exclusion"),
+    STATE_EVENT(EnumSet.of(InvKind.EVENT_DISABLES, InvKind.EVENT_NEEDS), "state/event exclusion"),
 
     /** No state/event disables invariants allowed. */
-    STATE_EVENT_DISABLES(EnumSet.of(InvKind.EVENT_DISABLES), "a", "'disables' state/event exclusion"),
+    STATE_EVENT_DISABLES(EnumSet.of(InvKind.EVENT_DISABLES), "'disables' state/event exclusion"),
 
     /** No state/event needs invariants allowed. */
-    STATE_EVENT_NEEDS(EnumSet.of(InvKind.EVENT_NEEDS), "a", "'needs' state/event exclusion");
+    STATE_EVENT_NEEDS(EnumSet.of(InvKind.EVENT_NEEDS), "'needs' state/event exclusion");
 
     /** The number of values in the aspect enumeration {@link InvKind}. */
     public static final int NUMBER_OF_VALUES = InvKind.values().length;
 
     /** Values that are disallowed of the {@link InvKind} aspect. */
     private final EnumSet<InvKind> disallowedValues;
-
-    /** Article to use in front of the {@link #reportText}, {@code null} if there is no report text. */
-    private final String articleText;
 
     /** Text to report on this aspect if an invariant is found to be disallowed, may be {@code null}. */
     private final String reportText;
@@ -50,12 +47,10 @@ public enum NoInvariantKind implements NoKindInterface<InvKind> {
      * Constructor of the {@link NoInvariantKind} enumeration class.
      *
      * @param disallowedValues Values that are disallowed of the {@link InvKind} aspect.
-     * @param articleText Article to use in front of the report text, {@code null} if there is no report text.
      * @param reportText Text to report on this aspect if an invariant is found to be disallowed, may be {@code null}.
      */
-    private NoInvariantKind(EnumSet<InvKind> disallowedValues, String articleText, String reportText) {
+    private NoInvariantKind(EnumSet<InvKind> disallowedValues, String reportText) {
         this.disallowedValues = disallowedValues;
-        this.articleText = articleText;
         this.reportText = reportText;
     }
 
@@ -73,11 +68,6 @@ public enum NoInvariantKind implements NoKindInterface<InvKind> {
      */
     public SubSetRelation compareSubset(NoInvariantKind right) {
         return SubSetRelation.compare(disallowedValues, right.disallowedValues);
-    }
-
-    @Override
-    public String getArticleText() {
-        return articleText;
     }
 
     @Override

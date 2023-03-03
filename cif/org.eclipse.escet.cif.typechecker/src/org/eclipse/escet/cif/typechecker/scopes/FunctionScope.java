@@ -30,7 +30,6 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.NO_TYPE_HINT
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.cif.typechecker.CifTypesTypeChecker.transCifType;
 import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.NO_TIME;
-import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -240,7 +239,7 @@ public class FunctionScope extends ParentScope<Function> {
 
         // Create a single return type for the function.
         Assert.check(!returnTypes.isEmpty());
-        this.returnType = makeTupleType(deepclone(returnTypes), getPosition());
+        this.returnType = makeTupleType(returnTypes, getPosition());
 
         // Type check the function parameters.
         tchecker.addToCycle(this);

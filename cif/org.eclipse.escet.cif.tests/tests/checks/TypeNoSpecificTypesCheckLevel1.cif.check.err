@@ -1,28 +1,137 @@
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
-WARNING: File "checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 118, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
+WARNING: File "checks/TypeNoSpecificTypesCheckLevel1.cif": Semantic warning at line 119, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "COMP_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 42, columns 11 .. 20): uses component type "COMP_TYPES".
- - Unsupported "DICT_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 49, columns 11 .. 20): uses dictionary type "dict(bool:bool)".
- - Unsupported "DIST_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 52, columns 11 .. 20): uses distribution type "dist bool".
- - Unsupported "DIST_TYPES.d" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 53, column 18): uses distribution type "dist bool".
- - Unsupported "DIST_TYPES.d" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 53, column 18): uses function type "func dist bool(bool)".
- - Unsupported "ENUM_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 61, columns 11 .. 20): uses enumeration type "e".
- - Unsupported "FUNC_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 67, columns 11 .. 20): uses function type "func bool()".
- - Unsupported "FUNC_TYPES_AS_DATA" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 69, columns 11 .. 28): uses function type "func bool()".
- - Unsupported "FUNC_TYPES_AS_DATA.fn" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 70, columns 21 .. 22): uses function type "func bool()".
- - Unsupported "grp.t" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 19, column 8): uses integer type "int".
- - Unsupported "INT_TYPES_RANGED" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 77, columns 11 .. 26): uses integer type "int[1..1]".
- - Unsupported "INT_TYPES_RANGELESS.loc" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 82, columns 12 .. 14): uses integer type "int".
- - Unsupported "INT_TYPES_RANGELESS.v" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 81, column 12): uses integer type "int".
- - Unsupported "LIST_TYPES_ARRAY" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 88, columns 11 .. 26): uses list type "list[2] bool".
- - Unsupported "LIST_TYPES_NON_ARRAY.loc" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 93, columns 12 .. 14): uses list type "list bool".
- - Unsupported "LIST_TYPES_NON_ARRAY.v" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 92, column 18): uses list type "list bool".
- - Unsupported "nested_grp.nested_grp.t" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 25, column 10): uses integer type "int".
- - Unsupported "REAL_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 99, columns 11 .. 20): uses real type "real".
- - Unsupported "SET_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 102, columns 11 .. 19): uses set type "set bool".
- - Unsupported "STRING_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 105, columns 11 .. 22): uses string type "string".
- - Unsupported "t" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 15, column 6): uses integer type "int".
- - Unsupported "TUPLE_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 108, columns 11 .. 21): uses tuple type "tuple(bool; bool)".
- - Unsupported "TUPLE_TYPES_MULTI_ASGN" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 110, columns 11 .. 32): uses tuple type "tuple(bool; bool)".
- - Unsupported "type_decl.t" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 31, column 8): uses integer type "int".
- - Unsupported "VOID_TYPES" (File "checks/TypeNoSpecificTypesCheckLevel1.cif": line 118, columns 12 .. 21): uses void type "void".
+
+  --------------------------------
+  (1/12) A component type is used.
+  --------------------------------
+   * In automaton "COMP_TYPES":
+     - invariant switch self: else true end;
+                        ^
+     - invariant switch COMP_TYPES: else true end;
+                        ^
+
+  ---------------------------------
+  (2/12) A dictionary type is used.
+  ---------------------------------
+   * In invariant "DICT_TYPES":
+     - invariant DICT_TYPES: {true: false} = {true: false};
+                             ^               ^
+
+  -----------------------------------
+  (3/12) A distribution type is used.
+  -----------------------------------
+   * In automaton "DIST_TYPES":
+     - edge tau do d := d;
+                   ^    ^
+   * In discrete variable "DIST_TYPES.d":
+     - disc dist bool d = constant(true);
+            ^             ^       ^
+
+  -------------------------------
+  (4/12) A function type is used.
+  -------------------------------
+   * In discrete variable "DIST_TYPES.d":
+     - disc dist bool d = constant(true);
+                          ^
+   * In invariant "FUNC_TYPES":
+     - invariant FUNC_TYPES: f() = true;
+                             ^
+   * In automaton "FUNC_TYPES_AS_DATA":
+     - edge when not lfn[0]();
+                     ^  ^
+   * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
+     - disc list func bool() lfn = [f];
+                 ^                 ^^
+
+  ---------------------------
+  (5/12) A list type is used.
+  ---------------------------
+   * In automaton "FUNC_TYPES_AS_DATA":
+     - edge when not lfn[0]();
+                     ^
+   * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
+     - disc list func bool() lfn = [f];
+            ^                      ^
+   * In invariant "LIST_TYPES_ARRAY":
+     - invariant LIST_TYPES_ARRAY: [true, false] = [true, false];
+                                   ^               ^
+   * In location "LIST_TYPES_NON_ARRAY.loc":
+     - edge tau do v := v;
+                   ^    ^
+   * In discrete variable "LIST_TYPES_NON_ARRAY.v":
+     - disc list bool v;
+            ^
+
+  ---------------------------
+  (6/12) A real type is used.
+  ---------------------------
+   * In invariant "REAL_TYPES":
+     - invariant REAL_TYPES: 1.0 = 1.0;
+                             ^     ^
+
+  --------------------------
+  (7/12) A set type is used.
+  --------------------------
+   * In invariant "SET_TYPES":
+     - invariant SET_TYPES: {true} = {true};
+                            ^        ^
+
+  -----------------------------
+  (8/12) A string type is used.
+  -----------------------------
+   * In invariant "STRING_TYPES":
+     - invariant STRING_TYPES: "a" = "a";
+                               ^     ^
+
+  ----------------------------
+  (9/12) A tuple type is used.
+  ----------------------------
+   * In invariant "TUPLE_TYPES":
+     - invariant TUPLE_TYPES: (true, false) = (true, false);
+                              ^               ^
+   * In automaton "TUPLE_TYPES_MULTI_ASGN":
+     - edge do (a, b) := (true, false);
+               ^         ^
+
+  ----------------------------
+  (10/12) A void type is used.
+  ----------------------------
+   * In event "VOID_TYPES":
+     - event void VOID_TYPES;
+             ^
+
+  ------------------------------------
+  (11/12) An enumeration type is used.
+  ------------------------------------
+   * In invariant "ENUM_TYPES":
+     - invariant ENUM_TYPES: e1 = e2;
+                             ^    ^
+
+  --------------------------------
+  (12/12) An integer type is used.
+  --------------------------------
+   * In automaton "FUNC_TYPES_AS_DATA":
+     - edge when not lfn[0]();
+                         ^
+   * In invariant "INT_TYPES_RANGED":
+     - invariant INT_TYPES_RANGED: 1 = 1;
+                                   ^   ^
+   * In location "INT_TYPES_RANGELESS.loc":
+     - edge tau do v := v;
+                   ^    ^
+   * In discrete variable "INT_TYPES_RANGELESS.v":
+     - disc int v;
+            ^
+   * In type declaration "grp.t":
+     - type t = int;
+                ^
+   * In type declaration "nested_grp.nested_grp.t":
+     - type t = int;
+                ^
+   * In type declaration "t":
+     - type t = int;
+                ^
+   * In type declaration "type_decl.t":
+     - type t = int;
+                ^

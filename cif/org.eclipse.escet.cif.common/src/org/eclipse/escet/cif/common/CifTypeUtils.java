@@ -935,8 +935,8 @@ public class CifTypeUtils {
     /**
      * Merges two compatible types to get the union of both types. Note that:
      * <ul>
-     * <li>The resulting types are either clones of (parts of) the input types, or they are freshly constructed (with
-     * optional position information).</li>
+     * <li>The resulting types are deep cloned or newly created, so that their containment does not change as a result
+     * of using this method.</li>
      * <li>The fields of tuple types may have no names.</li>
      * <li>The two types must be contained in the same scope.</li>
      * <li>Component types and component definition types can not be merged.</li>
@@ -944,8 +944,8 @@ public class CifTypeUtils {
      *
      * @param type1 The first type.
      * @param type2 The second type.
-     * @param position The position used for newly created types. The position itself is not used, only clones are used.
-     *     May be {@code null} to not set position information.
+     * @param position The position used for deep cloned and newly created types. The position itself is not used, only
+     *     clones are used. May be {@code null} to not set position information.
      * @return The merged type, which is the union of both types.
      */
     public static CifType mergeTypes(CifType type1, CifType type2, Position position) {
@@ -978,9 +978,8 @@ public class CifTypeUtils {
             EnumDecl enum2 = ((EnumType)type2).getEnum();
             Assert.check(areEnumsCompatible(enum1, enum2));
 
-            // Clone the first type, to get a valid reference (with proper
-            // wrappings).
-            return deepclone(origType1);
+            // Clone the first type, to get a valid reference (with proper wrappings).
+            return changePositions(deepclone(origType1), position);
         }
 
         if (type1 instanceof RealType && type2 instanceof RealType) {
@@ -1752,10 +1751,10 @@ public class CifTypeUtils {
     }
 
     /**
-     * Creates a tuple type for the given field types, if needed.
+     * Creates a CIF type (possibly a tuple type) for the given field types.
      *
      * <p>
-     * The field types are not deep cloned, so their containment may change as a result of using this method.
+     * The field types are deep cloned, so that their containment does not change as a result of using this method.
      * </p>
      *
      * <p>
@@ -1763,15 +1762,15 @@ public class CifTypeUtils {
      * </p>
      *
      * @param fieldTypes The field types. Must have at least one element.
-     * @param position The position used for newly created types. The position itself is not used, only clones are used.
-     *     May be {@code null} to not set position information.
-     * @return If there is only one element, that element, or a tuple with the given elements otherwise.
+     * @param position The position used for newly created and deep cloned types. The position itself is not used, only
+     *     clones are used. May be {@code null} to not set or update position information.
+     * @return If there is only one field type, a deep clone of that field type, and otherwise a new tuple type.
      */
     public static CifType makeTupleType(List<CifType> fieldTypes, Position position) {
         Assert.check(!fieldTypes.isEmpty());
 
         if (fieldTypes.size() == 1) {
-            return first(fieldTypes);
+            return changePositions(deepclone(first(fieldTypes)), position);
         }
 
         TupleType tupleType = newTupleType();
@@ -1779,7 +1778,7 @@ public class CifTypeUtils {
         for (CifType fieldType: fieldTypes) {
             Field field = newField();
             field.setPosition(copyPosition(position));
-            field.setType(deepclone(fieldType));
+            field.setType(changePositions(deepclone(fieldType), position));
             tupleType.getFields().add(field);
         }
         return tupleType;
@@ -1797,15 +1796,15 @@ public class CifTypeUtils {
      * </p>
      *
      * @param values The values. Must have at least one value.
-     * @param position The position used for newly created types. The position itself is not used, only clones are used.
-     *     May be {@code null} to not set position information.
-     * @return If there is only one element, that element, or a tuple with the given elements otherwise.
+     * @param position The position used for newly created and deep cloned types. The position itself is not used, only
+     *     clones are used. May be {@code null} to not set or update position information.
+     * @return If there is only one value, a deep clone of the type of that value, and otherwise a new tuple type tuple.
      */
     public static CifType makeTupleTypeFromValues(List<Expression> values, Position position) {
         Assert.check(!values.isEmpty());
 
         if (values.size() == 1) {
-            return deepclone(first(values).getType());
+            return changePositions(deepclone(first(values).getType()), position);
         }
 
         TupleType tupleType = newTupleType();
@@ -1813,7 +1812,7 @@ public class CifTypeUtils {
         for (Expression value: values) {
             Field field = newField();
             field.setPosition(copyPosition(position));
-            field.setType(deepclone(value.getType()));
+            field.setType(changePositions(deepclone(value.getType()), position));
             tupleType.getFields().add(field);
         }
         return tupleType;
@@ -1824,18 +1823,92 @@ public class CifTypeUtils {
      * parameters and return types of the given function.
      *
      * @param func The function.
-     * @param position The position used for newly created types. The position itself is not used, only clones are used.
-     *     May be {@code null} to not set position information.
-     * @return The type of the function.
+     * @param position The position used for newly created and deep cloned types. The position itself is not used, only
+     *     clones are used. May be {@code null} to not set or update position information.
+     * @return The new function type.
      */
     public static FuncType makeFunctionType(Function func, Position position) {
         FuncType type = newFuncType();
         type.setPosition(copyPosition(position));
         for (FunctionParameter param: func.getParameters()) {
             CifType paramType = param.getParameter().getType();
-            type.getParamTypes().add(deepclone(paramType));
+            type.getParamTypes().add(changePositions(deepclone(paramType), position));
         }
-        type.setReturnType(makeTupleType(deepclone(func.getReturnTypes()), position));
+        type.setReturnType(makeTupleType(func.getReturnTypes(), position));
+        return type;
+    }
+
+    /**
+     * Change the positions in the given CIF type, recursively.
+     *
+     * @param <T> The type of CIF type.
+     * @param type The CIF type or which to change the positions. Is modified in-place.
+     * @param position The position to which to set the position of the type. The position itself is not used, only
+     *     clones are used. May be {@code null} to not change position information.
+     * @return The given type, with possibly changed positions.
+     */
+    public static <T extends CifType> T changePositions(T type, Position position) {
+        // Skip if not requested to actually change any positions.
+        if (position == null) {
+            return type;
+        }
+
+        // Handle all different types.
+        if (type instanceof BoolType bt) {
+            bt.setPosition(copyPosition(position));
+        } else if (type instanceof RealType rt) {
+            rt.setPosition(copyPosition(position));
+        } else if (type instanceof StringType st) {
+            st.setPosition(copyPosition(position));
+        } else if (type instanceof VoidType vt) {
+            vt.setPosition(copyPosition(position));
+        } else if (type instanceof IntType it) {
+            it.setPosition(copyPosition(position));
+        } else if (type instanceof ListType lt) {
+            lt.setPosition(copyPosition(position));
+            changePositions(lt.getElementType(), position);
+        } else if (type instanceof SetType st) {
+            st.setPosition(copyPosition(position));
+            changePositions(st.getElementType(), position);
+        } else if (type instanceof DictType dt) {
+            dt.setPosition(copyPosition(position));
+            changePositions(dt.getKeyType(), position);
+            changePositions(dt.getValueType(), position);
+        } else if (type instanceof TupleType tt) {
+            tt.setPosition(copyPosition(position));
+            for (Field field: tt.getFields()) {
+                field.setPosition(copyPosition(position));
+                changePositions(field.getType(), position);
+            }
+        } else if (type instanceof DistType dt) {
+            dt.setPosition(copyPosition(position));
+            changePositions(dt.getSampleType(), position);
+        } else if (type instanceof FuncType ft) {
+            ft.setPosition(copyPosition(position));
+            changePositions(ft.getReturnType(), position);
+            for (CifType pt: ft.getParamTypes()) {
+                changePositions(pt, position);
+            }
+        } else if (type instanceof TypeRef tr) {
+            tr.setPosition(copyPosition(position));
+        } else if (type instanceof EnumType et) {
+            et.setPosition(copyPosition(position));
+        } else if (type instanceof ComponentType ct) {
+            ct.setPosition(copyPosition(position));
+        } else if (type instanceof ComponentDefType cdt) {
+            cdt.setPosition(copyPosition(position));
+        } else if (type instanceof CompParamWrapType cpwt) {
+            cpwt.setPosition(copyPosition(position));
+            changePositions(cpwt.getReference(), position);
+        } else if (type instanceof CompInstWrapType ciwt) {
+            ciwt.setPosition(copyPosition(position));
+            changePositions(ciwt.getReference(), position);
+        } else {
+            // Unexpected type.
+            throw new RuntimeException("Unexpected type: " + type);
+        }
+
+        // Return the type.
         return type;
     }
 

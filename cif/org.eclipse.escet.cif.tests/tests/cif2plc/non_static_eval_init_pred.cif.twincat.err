@@ -1,4 +1,16 @@
 ERROR: PLC code generation failed for CIF file "cif2plc/non_static_eval_init_pred.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
- - Unsupported "p" (File "cif2plc/non_static_eval_init_pred.cif": line 14, column 7): failed to determine whether the automaton's location is an initial location, as one of its initialization predicates cannot be statically evaluated.
- - Unsupported "p.x" (File "cif2plc/non_static_eval_init_pred.cif": line 15, column 12): discrete variable has multiple potential initial values (any value in its domain).
+
+  ----------------------------------------------------------------------------------------
+  (1/2) Discrete variable has multiple potential initial values (any value in its domain).
+  ----------------------------------------------------------------------------------------
+   * In automaton "p":
+     - disc int x in any;
+                ^
+
+  --------------------------------------------------------------------------------------------------------------------------------------------
+  (2/2) Failed to determine whether a location is an initial location, as one of its initialization predicates cannot be statically evaluated.
+  --------------------------------------------------------------------------------------------------------------------------------------------
+   * In automaton "p":
+     - initial x > 0;
+                 ^

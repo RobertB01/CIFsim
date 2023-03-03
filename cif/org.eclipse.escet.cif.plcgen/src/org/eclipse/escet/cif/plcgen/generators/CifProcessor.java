@@ -130,7 +130,7 @@ public class CifProcessor {
         // Read CIF specification.
         Specification spec = new CifReader().init(inputPath, absInputPath, false).read();
         widenSpec(spec);
-        preCheckSpec(spec);
+        preCheckSpec(spec, absInputPath);
         normalizeSpec(spec);
 
         // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
@@ -201,10 +201,11 @@ public class CifProcessor {
      * Verify that the specification only contains supported language constructs.
      *
      * @param spec Specification to check.
+     * @param absSpecPath The absolute local file system path to the CIF file to check.
      */
-    private void preCheckSpec(Specification spec) {
+    private void preCheckSpec(Specification spec, String absSpecPath) {
         PlcGenPreChecker checker = new PlcGenPreChecker(target.supportsArrays());
-        checker.reportPreconditionViolations(spec, "CIF PLC code generator");
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF PLC code generator");
     }
 
     /** CIF PLC code generator precondition checker. Does not support component definition/instantiation. */

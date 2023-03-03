@@ -22,8 +22,6 @@ import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 public class InvNoSpecificInvsCheckSubsets extends InvNoSpecificInvsCheck {
     /** Constructor of the {@link InvNoSpecificInvsCheckSubsets} class. */
     public InvNoSpecificInvsCheckSubsets() {
-        super();
-
         disallow(NoInvariantSupKind.REQUIREMENT, NoInvariantKind.STATE, NoInvariantPlaceKind.LOCATIONS);
         disallow(NoInvariantSupKind.PLANT, NoInvariantKind.STATE_EVENT_NEEDS, NoInvariantPlaceKind.ALL_PLACES);
     }

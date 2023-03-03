@@ -43,6 +43,7 @@ automaton COMP_TYPES:
   location:
     initial;
   invariant switch self: else true end;
+  invariant switch COMP_TYPES: else true end;
 end
 
 // DICT_TYPES.
@@ -67,10 +68,10 @@ end
 invariant FUNC_TYPES: f() = true;
 
 automaton FUNC_TYPES_AS_DATA:
-  disc func bool () fn = f;
+  disc list func bool () lfn = [f];
   location:
     initial;
-    edge when not fn();
+    edge when not lfn[0]();
 end
 
 // INT_TYPES_RANGED.

@@ -15,8 +15,6 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
-import org.eclipse.escet.cif.common.checkers.messages.ReportObjectTypeDescrMessage;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 
 /**
@@ -27,8 +25,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 public class EdgeNoIfUpdatesCheck extends CifCheck {
     @Override
     protected void preprocessIfUpdate(IfUpdate update, CifCheckViolations violations) {
-        // Report violation on the closest named ancestor of the 'if' update: a location or an automaton.
-        violations.add(update, new ReportObjectTypeDescrMessage(),
-                new LiteralMessage("has an edge with an 'if' update"));
+        violations.add(update, "Edge has an 'if' update");
     }
 }

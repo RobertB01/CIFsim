@@ -20,7 +20,6 @@ import static org.eclipse.escet.cif.codegen.c89.typeinfos.C89TypeInfoHelper.type
 import static org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker.getRowCount;
 import static org.eclipse.escet.cif.codegen.simulink.typeinfos.SimulinkArrayTypeInfo.getElementConversionFromSimulinkVector;
 import static org.eclipse.escet.cif.common.CifTypeUtils.makeTupleType;
-import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -98,7 +97,7 @@ public class SimulinkExprCodeGen extends C89ExprCodeGen {
         }
         callText.append(')');
 
-        CifType retType = makeTupleType(deepclone(func.getReturnTypes()), null);
+        CifType retType = makeTupleType(func.getReturnTypes(), null);
         TypeInfo retTi = ctxt.typeToTarget(retType);
 
         // Result type is always a value!

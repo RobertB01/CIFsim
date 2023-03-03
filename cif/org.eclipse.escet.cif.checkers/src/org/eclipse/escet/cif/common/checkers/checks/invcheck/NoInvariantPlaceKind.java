@@ -63,11 +63,6 @@ public enum NoInvariantPlaceKind implements NoKindInterface<PlaceKind> {
     }
 
     @Override
-    public String getArticleText() {
-        throw new AssertionError("Place should never be the first text in a report.");
-    }
-
-    @Override
     public String getReportText() {
         return reportText;
     }

@@ -1,3 +1,11 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "f" (File "checks/FuncNoSpecificIntUserDefFuncStatsCheckBreak.cif": line 14, column 10): user-defined function has a 'break' statement.
- - Unsupported "g.f" (File "checks/FuncNoSpecificIntUserDefFuncStatsCheckBreak.cif": line 30, column 12): user-defined function has a 'break' statement.
+
+  -------------------------------------------------------------
+  (1/1) Internal user-defined function has a 'break' statement.
+  -------------------------------------------------------------
+   * In user-defined function "f":
+     - break;
+       ^
+   * In user-defined function "g.f":
+     - break;
+       ^

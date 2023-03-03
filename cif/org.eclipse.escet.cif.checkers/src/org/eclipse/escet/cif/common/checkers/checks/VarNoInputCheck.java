@@ -15,13 +15,12 @@ package org.eclipse.escet.cif.common.checkers.checks;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 
 /** CIF check that does not allow input variables. */
 public class VarNoInputCheck extends CifCheck {
     @Override
     protected void preprocessInputVariable(InputVariable var, CifCheckViolations violations) {
-        violations.add(var, new LiteralMessage("variable is an input variable"));
+        violations.add(var, "Variable is an input variable");
     }
 }

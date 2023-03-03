@@ -1,78 +1,260 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "ADDITION_DICTS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 59, columns 7 .. 20): uses binary operator "+" in binary expression "{true: false} + {false: true}".
- - Unsupported "ADDITION_LISTS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 49, columns 7 .. 20): uses binary operator "+" in binary expression "[1] + [1]".
- - Unsupported "ADDITION_NUMBERS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 39, columns 13 .. 14): uses binary operator "+" in binary expression "1 + 1".
- - Unsupported "ADDITION_NUMBERS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 41, columns 13 .. 14): uses binary operator "+" in binary expression "1 + ADDITION_NUMBERS.i".
- - Unsupported "ADDITION_NUMBERS.GR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 43, columns 13 .. 14): uses binary operator "+" in binary expression "1 + 1.0".
- - Unsupported "ADDITION_NUMBERS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 40, columns 13 .. 14): uses binary operator "+" in binary expression "ADDITION_NUMBERS.i + 1".
- - Unsupported "ADDITION_NUMBERS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 42, columns 13 .. 14): uses binary operator "+" in binary expression "ADDITION_NUMBERS.i + ADDITION_NUMBERS.i".
- - Unsupported "ADDITION_NUMBERS.RG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 44, columns 13 .. 14): uses binary operator "+" in binary expression "1.0 + 1.0".
- - Unsupported "ADDITION_NUMBERS.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 45, columns 13 .. 14): uses binary operator "+" in binary expression "1.0 + 1.0".
- - Unsupported "ADDITION_STRINGS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 54, columns 7 .. 22): uses binary operator "+" in binary expression ""a" + "a"".
- - Unsupported "ADDITION_STRINGS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 54, columns 7 .. 22): uses binary operator "=" in binary expression ""a" + "a" = "aa"".
- - Unsupported "CONJUNCTION.BB" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 70, columns 13 .. 14): uses binary operator "and" in binary expression "true and false".
- - Unsupported "CONJUNCTION.SS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 71, columns 13 .. 14): uses binary operator "and" in binary expression "{true} and {false}".
- - Unsupported "DISJUNCTION.BB" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 76, columns 13 .. 14): uses binary operator "or" in binary expression "true or false".
- - Unsupported "DISJUNCTION.SS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 77, columns 13 .. 14): uses binary operator "or" in binary expression "{true} or {false}".
- - Unsupported "DIVISION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 82, columns 13 .. 14): uses binary operator "/" in binary expression "1 / 1".
- - Unsupported "DIVISION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 82, columns 13 .. 14): uses binary operator "=" in binary expression "1 / 1 = 0.0".
- - Unsupported "DIVISION.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 83, columns 13 .. 14): uses binary operator "/" in binary expression "1 / 1.0".
- - Unsupported "DIVISION.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 83, columns 13 .. 14): uses binary operator "=" in binary expression "1 / 1.0 = 0.0".
- - Unsupported "DIVISION.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 84, columns 13 .. 14): uses binary operator "/" in binary expression "1.0 / 1".
- - Unsupported "DIVISION.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 84, columns 13 .. 14): uses binary operator "=" in binary expression "1.0 / 1 = 0.0".
- - Unsupported "DIVISION.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 85, columns 13 .. 14): uses binary operator "/" in binary expression "1.0 / 1.0".
- - Unsupported "DIVISION.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 85, columns 13 .. 14): uses binary operator "=" in binary expression "1.0 / 1.0 = 0.0".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression ""abc" = "abc"".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression "(1, 2, 3) = (1, 2, 3)".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression "1 = 1".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression "1.2 = 1.2".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression "[1, 2, 3] = [1, 2, 3]".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression "EQUAL.A = EQUAL.A".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression "true = true".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression "{1, 2, 3} = {1, 2, 3}".
- - Unsupported "EQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 104, columns 7 .. 11): uses binary operator "=" in binary expression "{1: 10, 2: 20} = {1: 10, 2: 20}".
- - Unsupported "IMPLICATION" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 138, columns 7 .. 17): uses binary operator "=>" in binary expression "true => false".
- - Unsupported "INTEGER_DIVISION.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 145, columns 13 .. 14): uses binary operator "=" in binary expression "1 div 1 = 0".
- - Unsupported "INTEGER_DIVISION.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 146, columns 13 .. 14): uses binary operator "=" in binary expression "1 div INTEGER_DIVISION.i = 0".
- - Unsupported "INTEGER_DIVISION.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 147, columns 13 .. 14): uses binary operator "=" in binary expression "INTEGER_DIVISION.i div 1 = 0".
- - Unsupported "INTEGER_DIVISION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 148, columns 13 .. 14): uses binary operator "=" in binary expression "INTEGER_DIVISION.i div INTEGER_DIVISION.i = 0".
- - Unsupported "MODULUS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 174, columns 13 .. 14): uses binary operator "=" in binary expression "1 mod 1 = 0".
- - Unsupported "MODULUS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 174, columns 13 .. 14): uses binary operator "mod" in binary expression "1 mod 1".
- - Unsupported "MODULUS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 175, columns 13 .. 14): uses binary operator "=" in binary expression "1 mod MODULUS.i = 0".
- - Unsupported "MODULUS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 175, columns 13 .. 14): uses binary operator "mod" in binary expression "1 mod MODULUS.i".
- - Unsupported "MODULUS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 176, columns 13 .. 14): uses binary operator "=" in binary expression "1 mod 1 = 0".
- - Unsupported "MODULUS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 176, columns 13 .. 14): uses binary operator "mod" in binary expression "1 mod 1".
- - Unsupported "MODULUS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 177, columns 13 .. 14): uses binary operator "=" in binary expression "MODULUS.i mod MODULUS.i = 0".
- - Unsupported "MODULUS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 177, columns 13 .. 14): uses binary operator "mod" in binary expression "MODULUS.i mod MODULUS.i".
- - Unsupported "MULTIPLICATION.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 183, columns 13 .. 14): uses binary operator "*" in binary expression "1 * 1".
- - Unsupported "MULTIPLICATION.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 183, columns 13 .. 14): uses binary operator "=" in binary expression "1 * 1 = 0".
- - Unsupported "MULTIPLICATION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 184, columns 13 .. 14): uses binary operator "*" in binary expression "MULTIPLICATION.i * MULTIPLICATION.i".
- - Unsupported "MULTIPLICATION.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 184, columns 13 .. 14): uses binary operator "=" in binary expression "MULTIPLICATION.i * MULTIPLICATION.i = 0".
- - Unsupported "MULTIPLICATION.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 185, columns 13 .. 14): uses binary operator "*" in binary expression "1 * 1.0".
- - Unsupported "MULTIPLICATION.IR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 185, columns 13 .. 14): uses binary operator "=" in binary expression "1 * 1.0 = 0.0".
- - Unsupported "MULTIPLICATION.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 186, columns 13 .. 14): uses binary operator "*" in binary expression "1.0 * 1".
- - Unsupported "MULTIPLICATION.RI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 186, columns 13 .. 14): uses binary operator "=" in binary expression "1.0 * 1 = 0.0".
- - Unsupported "MULTIPLICATION.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 187, columns 13 .. 14): uses binary operator "*" in binary expression "1.0 * 1.0".
- - Unsupported "MULTIPLICATION.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 187, columns 13 .. 14): uses binary operator "=" in binary expression "1.0 * 1.0 = 0.0".
- - Unsupported "SUBSET" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 191, columns 7 .. 12): uses binary operator "sub" in binary expression "{true} sub {false}".
- - Unsupported "SUBTRACTION_CONTAINERS.DD" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 211, columns 13 .. 14): uses binary operator "-" in binary expression "{1: 2} - {1: 2}".
- - Unsupported "SUBTRACTION_CONTAINERS.DLG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 213, columns 13 .. 15): uses binary operator "-" in binary expression "{1: 2} - [1]".
- - Unsupported "SUBTRACTION_CONTAINERS.DLI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 214, columns 13 .. 15): uses binary operator "-" in binary expression "{1: 2} - [SUBTRACTION_CONTAINERS.i]".
- - Unsupported "SUBTRACTION_CONTAINERS.DS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 212, columns 13 .. 14): uses binary operator "-" in binary expression "{1: 2} - {1}".
- - Unsupported "SUBTRACTION_CONTAINERS.SS" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 210, columns 13 .. 14): uses binary operator "-" in binary expression "{true} - {false}".
- - Unsupported "SUBTRACTION_NUMBERS.GG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 198, columns 13 .. 14): uses binary operator "-" in binary expression "1 - 1".
- - Unsupported "SUBTRACTION_NUMBERS.GI" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 200, columns 13 .. 14): uses binary operator "-" in binary expression "1 - SUBTRACTION_NUMBERS.i".
- - Unsupported "SUBTRACTION_NUMBERS.GR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 202, columns 13 .. 14): uses binary operator "-" in binary expression "1 - 1.0".
- - Unsupported "SUBTRACTION_NUMBERS.IG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 199, columns 13 .. 14): uses binary operator "-" in binary expression "SUBTRACTION_NUMBERS.i - 1".
- - Unsupported "SUBTRACTION_NUMBERS.II" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 201, columns 13 .. 14): uses binary operator "-" in binary expression "SUBTRACTION_NUMBERS.i - SUBTRACTION_NUMBERS.i".
- - Unsupported "SUBTRACTION_NUMBERS.RG" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 203, columns 13 .. 14): uses binary operator "-" in binary expression "1.0 - 1.0".
- - Unsupported "SUBTRACTION_NUMBERS.RR" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 204, columns 13 .. 14): uses binary operator "-" in binary expression "1.0 - 1.0".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression ""abc" != "def"".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression "(1, 2, 4) != (1, 2, 3)".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression "1 != 2".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression "1.2 != 1.5".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression "[1, 2, 4] != [1, 2, 3]".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression "true != false".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression "UNEQUAL.A != UNEQUAL.B".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression "{1, 2, 4} != {1, 2, 3}".
- - Unsupported "UNEQUAL" (File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": line 218, columns 7 .. 13): uses binary operator "!=" in binary expression "{1: 10, 5: 20} != {1: 10, 2: 20}".
+
+  ------------------------------------
+  (1/11) Binary operator "!=" is used.
+  ------------------------------------
+   * In group "UNEQUAL":
+     - invariant 1 != 2;
+                   ^
+     - invariant true != false;
+                      ^
+     - invariant 1.2 != 1.5;
+                     ^
+     - invariant [1, 2, 4] != [1, 2, 3];
+                           ^
+     - invariant {1, 2, 4} != {1, 2, 3};
+                           ^
+     - invariant {1: 10, 5: 20} != {1: 10, 2: 20};
+                                ^
+     - invariant A != B;
+                   ^
+     - invariant (1, 2, 4) != (1, 2, 3);
+                           ^
+     - invariant "abc" != "def";
+                       ^
+
+  -----------------------------------
+  (2/11) Binary operator "*" is used.
+  -----------------------------------
+   * In invariant "MULTIPLICATION.GG":
+     - invariant GG: 1 * 1 = 0;
+                       ^
+   * In invariant "MULTIPLICATION.II":
+     - invariant II: i * i = 0;
+                       ^
+   * In invariant "MULTIPLICATION.IR":
+     - invariant IR: 1 * 1.0 = 0.0;
+                       ^
+   * In invariant "MULTIPLICATION.RI":
+     - invariant RI: 1.0 * 1 = 0.0;
+                         ^
+   * In invariant "MULTIPLICATION.RR":
+     - invariant RR: 1.0 * 1.0 = 0.0;
+                         ^
+
+  -----------------------------------
+  (3/11) Binary operator "+" is used.
+  -----------------------------------
+   * In group "ADDITION_DICTS":
+     - invariant empty({true: false} + {false: true});
+                                     ^
+   * In group "ADDITION_LISTS":
+     - invariant empty([1] + [1]);
+                           ^
+   * In invariant "ADDITION_NUMBERS.GG":
+     - invariant GG: 1 + 1 > 0;
+                       ^
+   * In invariant "ADDITION_NUMBERS.GI":
+     - invariant GI: 1 + i > 0;
+                       ^
+   * In invariant "ADDITION_NUMBERS.GR":
+     - invariant GR: 1 + 1.0 > 0;
+                       ^
+   * In invariant "ADDITION_NUMBERS.IG":
+     - invariant IG: i + 1 > 0;
+                       ^
+   * In invariant "ADDITION_NUMBERS.II":
+     - invariant II: i + i > 0;
+                       ^
+   * In invariant "ADDITION_NUMBERS.RG":
+     - invariant RG: 1.0 + 1.0 > 0;
+                         ^
+   * In invariant "ADDITION_NUMBERS.RR":
+     - invariant RR: 1.0 + 1.0 > 0;
+                         ^
+   * In group "ADDITION_STRINGS":
+     - invariant "a" + "a" = "aa";
+                     ^
+
+  -----------------------------------
+  (4/11) Binary operator "-" is used.
+  -----------------------------------
+   * In invariant "SUBTRACTION_CONTAINERS.DD":
+     - invariant DD: empty({1: 2} - {1: 2});
+                                  ^
+   * In invariant "SUBTRACTION_CONTAINERS.DLG":
+     - invariant DLG: empty({1: 2} - [1]);
+                                   ^
+   * In invariant "SUBTRACTION_CONTAINERS.DLI":
+     - invariant DLI: empty({1: 2} - [i]);
+                                   ^
+   * In invariant "SUBTRACTION_CONTAINERS.DS":
+     - invariant DS: empty({1: 2} - {1});
+                                  ^
+   * In invariant "SUBTRACTION_CONTAINERS.SS":
+     - invariant SS: empty({true} - {false});
+                                  ^
+   * In invariant "SUBTRACTION_NUMBERS.GG":
+     - invariant GG: 1 - 1 > 0;
+                       ^
+   * In invariant "SUBTRACTION_NUMBERS.GI":
+     - invariant GI: 1 - i > 0;
+                       ^
+   * In invariant "SUBTRACTION_NUMBERS.GR":
+     - invariant GR: 1 - 1.0 > 0;
+                       ^
+   * In invariant "SUBTRACTION_NUMBERS.IG":
+     - invariant IG: i - 1 > 0;
+                       ^
+   * In invariant "SUBTRACTION_NUMBERS.II":
+     - invariant II: i - i > 0;
+                       ^
+   * In invariant "SUBTRACTION_NUMBERS.RG":
+     - invariant RG: 1.0 - 1.0 > 0;
+                         ^
+   * In invariant "SUBTRACTION_NUMBERS.RR":
+     - invariant RR: 1.0 - 1.0 > 0;
+                         ^
+
+  -----------------------------------
+  (5/11) Binary operator "/" is used.
+  -----------------------------------
+   * In invariant "DIVISION.II":
+     - invariant II: 1 / 1 = 0.0;
+                       ^
+   * In invariant "DIVISION.IR":
+     - invariant IR: 1 / 1.0 = 0.0;
+                       ^
+   * In invariant "DIVISION.RI":
+     - invariant RI: 1.0 / 1 = 0.0;
+                         ^
+   * In invariant "DIVISION.RR":
+     - invariant RR: 1.0 / 1.0 = 0.0;
+                         ^
+
+  -----------------------------------
+  (6/11) Binary operator "=" is used.
+  -----------------------------------
+   * In group "ADDITION_STRINGS":
+     - invariant "a" + "a" = "aa";
+                           ^
+   * In invariant "DIVISION.II":
+     - invariant II: 1 / 1 = 0.0;
+                           ^
+   * In invariant "DIVISION.IR":
+     - invariant IR: 1 / 1.0 = 0.0;
+                             ^
+   * In invariant "DIVISION.RI":
+     - invariant RI: 1.0 / 1 = 0.0;
+                             ^
+   * In invariant "DIVISION.RR":
+     - invariant RR: 1.0 / 1.0 = 0.0;
+                               ^
+   * In group "EQUAL":
+     - invariant 1 = 1;
+                   ^
+     - invariant true = true;
+                      ^
+     - invariant 1.2 = 1.2;
+                     ^
+     - invariant [1, 2, 3] = [1, 2, 3];
+                           ^
+     - invariant {1, 2, 3} = {1, 2, 3};
+                           ^
+     - invariant {1: 10, 2: 20} = {1: 10, 2: 20};
+                                ^
+     - invariant A = A;
+                   ^
+     - invariant (1, 2, 3) = (1, 2, 3);
+                           ^
+     - invariant "abc" = "abc";
+                       ^
+   * In invariant "INTEGER_DIVISION.GG":
+     - invariant GG: 1 div 1 = 0;
+                             ^
+   * In invariant "INTEGER_DIVISION.GI":
+     - invariant GI: 1 div i = 0;
+                             ^
+   * In invariant "INTEGER_DIVISION.IG":
+     - invariant IG: i div 1 = 0;
+                             ^
+   * In invariant "INTEGER_DIVISION.II":
+     - invariant II: i div i = 0;
+                             ^
+   * In invariant "MODULUS.GG":
+     - invariant GG: 1 mod 1 = 0;
+                             ^
+   * In invariant "MODULUS.GI":
+     - invariant GI: 1 mod i = 0;
+                             ^
+   * In invariant "MODULUS.IG":
+     - invariant IG: 1 mod 1 = 0;
+                             ^
+   * In invariant "MODULUS.II":
+     - invariant II: i mod i = 0;
+                             ^
+   * In invariant "MULTIPLICATION.GG":
+     - invariant GG: 1 * 1 = 0;
+                           ^
+   * In invariant "MULTIPLICATION.II":
+     - invariant II: i * i = 0;
+                           ^
+   * In invariant "MULTIPLICATION.IR":
+     - invariant IR: 1 * 1.0 = 0.0;
+                             ^
+   * In invariant "MULTIPLICATION.RI":
+     - invariant RI: 1.0 * 1 = 0.0;
+                             ^
+   * In invariant "MULTIPLICATION.RR":
+     - invariant RR: 1.0 * 1.0 = 0.0;
+                               ^
+
+  ------------------------------------
+  (7/11) Binary operator "=>" is used.
+  ------------------------------------
+   * In group "IMPLICATION":
+     - invariant true => false;
+                      ^
+
+  -------------------------------------
+  (8/11) Binary operator "and" is used.
+  -------------------------------------
+   * In invariant "CONJUNCTION.BB":
+     - invariant BB: true and false;
+                          ^
+   * In invariant "CONJUNCTION.SS":
+     - invariant SS: empty({true} and {false});
+                                  ^
+
+  -------------------------------------
+  (9/11) Binary operator "mod" is used.
+  -------------------------------------
+   * In invariant "MODULUS.GG":
+     - invariant GG: 1 mod 1 = 0;
+                       ^
+   * In invariant "MODULUS.GI":
+     - invariant GI: 1 mod i = 0;
+                       ^
+   * In invariant "MODULUS.IG":
+     - invariant IG: 1 mod 1 = 0;
+                       ^
+   * In invariant "MODULUS.II":
+     - invariant II: i mod i = 0;
+                       ^
+
+  -------------------------------------
+  (10/11) Binary operator "or" is used.
+  -------------------------------------
+   * In invariant "DISJUNCTION.BB":
+     - invariant BB: true or false;
+                          ^
+   * In invariant "DISJUNCTION.SS":
+     - invariant SS: empty({true} or {false});
+                                  ^
+
+  --------------------------------------
+  (11/11) Binary operator "sub" is used.
+  --------------------------------------
+   * In group "SUBSET":
+     - invariant {true} sub {false};
+                        ^

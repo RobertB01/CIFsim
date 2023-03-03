@@ -1,63 +1,333 @@
 WARNING: File "cif2supremica/invalid1.cif": Semantic warning at line 31, column 9: Automaton "g.p0" has no initial location.
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group contains an initialization predicate.
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): group has a marker predicate that is not of the form "discrete_variable = marked_value".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): has a kindless state invariant in a component.
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): has a kindless state/event exclusion invariant.
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): has a plant state invariant in a component.
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): has a supervisor state invariant in a component.
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[false, true]".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[false]".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list literal "[true]".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list type "list bool".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list type "list[1] bool".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses list type "list[2] bool".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses real number literal "1.2".
- - Unsupported "g" (File "cif2supremica/invalid1.cif": line 14, column 7): uses real type "real".
- - Unsupported "g.a" (File "cif2supremica/invalid1.cif": line 18, column 13): automaton has an edge with an explicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "g.a" (File "cif2supremica/invalid1.cif": line 18, column 13): automaton has an edge with an implicit "tau" event on it, which is not controllable or uncontrollable.
- - Unsupported "g.a" (File "cif2supremica/invalid1.cif": line 18, column 13): automaton is a kindless automaton, not a plant, requirement or supervisor automaton.
- - Unsupported "g.e1" (File "cif2supremica/invalid1.cif": line 15, columns 9 .. 10): event is not declared as controllable or uncontrollable.
- - Unsupported "g.e2" (File "cif2supremica/invalid1.cif": line 16, columns 26 .. 27): event is a channel (has a data type).
- - Unsupported "g.f" (File "cif2supremica/invalid1.cif": line 90, column 13): is a user-defined function.
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has an edge with a multi-assignment.
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has an edge with a partial variable assignment.
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has an edge with an 'if' update.
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has an urgent location.
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): automaton has no initial location.
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses list type "list bool".
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses projection expression "g.p0.lb[0]".
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses tuple literal "(1, 2)".
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses tuple literal "(g.p0.x1, g.p0.x2)".
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses tuple type "tuple(int[1..1]; int[2..2])".
- - Unsupported "g.p0" (File "cif2supremica/invalid1.cif": line 31, columns 9 .. 10): uses tuple type "tuple(int[1..2]; int[1..2])".
- - Unsupported "g.p0.cnt" (File "cif2supremica/invalid1.cif": line 34, columns 10 .. 12): uses real number literal "1.0".
- - Unsupported "g.p0.cnt" (File "cif2supremica/invalid1.cif": line 34, columns 10 .. 12): uses real type "real".
- - Unsupported "g.p0.cnt" (File "cif2supremica/invalid1.cif": line 34, columns 10 .. 12): variable is a continuous variable.
- - Unsupported "g.p0.inp" (File "cif2supremica/invalid1.cif": line 35, columns 16 .. 18): variable is an input variable.
- - Unsupported "g.p0.lb" (File "cif2supremica/invalid1.cif": line 36, columns 20 .. 21): discrete variable has multiple predicates that specify its marked values.
- - Unsupported "g.p0.lb" (File "cif2supremica/invalid1.cif": line 36, columns 20 .. 21): uses list literal "[true]".
- - Unsupported "g.p0.lb" (File "cif2supremica/invalid1.cif": line 36, columns 20 .. 21): uses list type "list bool".
- - Unsupported "g.p0.lb" (File "cif2supremica/invalid1.cif": line 36, columns 20 .. 21): uses list type "list[1] bool".
- - Unsupported "g.p0.x1" (File "cif2supremica/invalid1.cif": line 32, columns 20 .. 21): discrete variable has multiple (2) potential initial values.
- - Unsupported "g.p0.x1" (File "cif2supremica/invalid1.cif": line 32, columns 20 .. 21): discrete variable has multiple predicates that specify its marked values.
- - Unsupported "g.p0.x2" (File "cif2supremica/invalid1.cif": line 33, columns 20 .. 21): discrete variable has multiple potential initial values (any value in its domain).
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): automaton has a location with a marker predicate that cannot be evaluated statically, as the evaluation resulted in an evaluation error.
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): failed to determine whether the automaton's location is an initial location, as evaluating one of its initialization predicates resulted in an evaluation error.
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): has a state invariant in a location.
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-1.0) > 0".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses binary operator ">" on operands of types "real" and "int[0..0]" in binary expression "sqrt(-2.0) > 0".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses function call "sqrt(-1.0)".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses function call "sqrt(-2.0)".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses function type "func real(real)".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses real number literal "1.0".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses real number literal "2.0".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses real type "real".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses unary operator "-" on an operand of type "real" in unary expression "-1.0".
- - Unsupported "g.p1" (File "cif2supremica/invalid1.cif": line 54, columns 9 .. 10): uses unary operator "-" on an operand of type "real" in unary expression "-2.0".
- - Unsupported "g.p2" (File "cif2supremica/invalid1.cif": line 62, columns 9 .. 10): automaton has multiple (2) initial locations.
- - Unsupported "g.snd" (File "cif2supremica/invalid1.cif": line 25, columns 9 .. 11): automaton has an urgent edge.
- - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): has a kindless state invariant in a component.
- - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): has a kindless state/event exclusion invariant.
- - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification contains an initialization predicate.
- - Unsupported specification (File "cif2supremica/invalid1.cif": line 1, column 1): the top level scope of the specification has a marker predicate that is not of the form "discrete_variable = marked_value".
+
+  -------------------------------
+  (1/38) A function call is used.
+  -------------------------------
+   * In automaton "g.p1":
+     - initial sqrt(-1.0) > 0;
+                   ^
+     - marked sqrt(-2.0) > 0;
+                  ^
+
+  -------------------------------
+  (2/38) A function type is used.
+  -------------------------------
+   * In automaton "g.p1":
+     - initial sqrt(-1.0) > 0;
+               ^
+     - marked sqrt(-2.0) > 0;
+              ^
+
+  ------------------------------
+  (3/38) A list literal is used.
+  ------------------------------
+   * In group "g":
+     - p0.lb = [true],
+               ^
+     - p0.lb = [false],
+               ^
+     - p0.lb = [false, true];
+               ^
+   * In discrete variable "g.p0.lb":
+     - disc list bool lb = [true];
+                           ^
+
+  ---------------------------
+  (4/38) A list type is used.
+  ---------------------------
+   * In group "g":
+     - p0.lb = [true],
+       ^       ^
+     - p0.lb = [false],
+       ^       ^
+     - p0.lb = [false, true];
+       ^       ^
+   * In automaton "g.p0":
+     - edge e1 do lb[0] := true;
+                  ^
+   * In discrete variable "g.p0.lb":
+     - disc list bool lb = [true];
+            ^              ^
+
+  ---------------------------------------
+  (5/38) A projection expression is used.
+  ---------------------------------------
+   * In automaton "g.p0":
+     - edge e1 do lb[0] := true;
+                    ^
+
+  -------------------------------------
+  (6/38) A real number literal is used.
+  -------------------------------------
+   * In group "g":
+     - p0.cnt = 1.2,
+                ^
+   * In continuous variable "g.p0.cnt":
+     - cont cnt der 1.0;
+                    ^
+   * In automaton "g.p1":
+     - initial sqrt(-1.0) > 0;
+                     ^
+     - marked sqrt(-2.0) > 0;
+                    ^
+
+  ---------------------------
+  (7/38) A real type is used.
+  ---------------------------
+   * In group "g":
+     - p0.cnt = 1.2,
+       ^        ^
+   * In continuous variable "g.p0.cnt":
+     - cont cnt der 1.0;
+                    ^
+   * In automaton "g.p1":
+     - initial sqrt(-1.0) > 0;
+               ^   ^^^
+     - marked sqrt(-2.0) > 0;
+              ^   ^^^
+
+  -------------------------------
+  (8/38) A tuple literal is used.
+  -------------------------------
+   * In automaton "g.p0":
+     - edge e1 do (x1, x2) := (1, 2);
+                  ^           ^
+
+  ----------------------------
+  (9/38) A tuple type is used.
+  ----------------------------
+   * In automaton "g.p0":
+     - edge e1 do (x1, x2) := (1, 2);
+                  ^           ^
+
+  -------------------------------------------------
+  (10/38) Automaton has multiple initial locations.
+  -------------------------------------------------
+   * In group "g":
+     - plant automaton p2:
+                       ^
+
+  ------------------------------------------
+  (11/38) Automaton has no initial location.
+  ------------------------------------------
+   * In group "g":
+     - plant automaton p0:
+                       ^
+
+  ---------------------------------------------------------------------------------------------------
+  (12/38) Automaton is a kindless automaton rather than a plant, requirement or supervisor automaton.
+  ---------------------------------------------------------------------------------------------------
+   * In group "g":
+     - automaton a:
+                 ^
+
+  ------------------------------------------------------------
+  (13/38) Binary operator ">" is used on a real typed operand.
+  ------------------------------------------------------------
+   * In automaton "g.p1":
+     - initial sqrt(-1.0) > 0;
+                          ^
+     - marked sqrt(-2.0) > 0;
+                         ^
+
+  ----------------------------------------------------------------------------------------------------
+  (14/38) Component has a marker predicate that is not of the form 'discrete_variable = marked_value'.
+  ----------------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - marked 3 > 4,
+                ^
+     - true;
+       ^
+   * In group "g":
+     - marked not false,
+              ^
+     - 1 > 2,
+         ^
+     - 2 = 2,
+         ^
+     - p0.cnt = 1.2,
+              ^
+
+  --------------------------------------------------
+  (15/38) Component has an initialization predicate.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
+     - initial 2 = 2;
+                 ^
+   * In group "g":
+     - initial 1 = 1;
+                 ^
+
+  ----------------------------------------------------------------
+  (16/38) Discrete variable has multiple potential initial values.
+  ----------------------------------------------------------------
+   * In automaton "g.p0":
+     - disc int[1..2] x1 in {1, 2};
+                      ^
+
+  ------------------------------------------------------------------------------------------
+  (17/38) Discrete variable has multiple potential initial values (any value in its domain).
+  ------------------------------------------------------------------------------------------
+   * In automaton "g.p0":
+     - disc int[1..2] x2 in any;
+                      ^
+
+  -----------------------------------------------------------------------------------
+  (18/38) Discrete variable has multiple predicates that specify its marked value(s).
+  -----------------------------------------------------------------------------------
+   * In automaton "g.p0":
+     - disc int[1..2] x1 in {1, 2};
+                      ^
+     - disc list bool lb = [true];
+                      ^
+
+  ------------------------------------
+  (19/38) Edge has a multi-assignment.
+  ------------------------------------
+   * In automaton "g.p0":
+     - edge e1 do (x1, x2) := (1, 2);
+                           ^
+
+  -----------------------------------------------
+  (20/38) Edge has a partial variable assignment.
+  -----------------------------------------------
+   * In automaton "g.p0":
+     - edge e1 do lb[0] := true;
+                        ^
+
+  --------------------------------
+  (21/38) Edge has an 'if' update.
+  --------------------------------
+   * In automaton "g.p0":
+     - edge e1 do if true: x1 := 2 end;
+                  ^
+
+  --------------------------------------------------------------------------------------
+  (22/38) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
+  --------------------------------------------------------------------------------------
+   * In automaton "g.a":
+     - edge e1, e2, tau;
+                    ^
+
+  --------------------------------------------------------------------------------------
+  (23/38) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
+  --------------------------------------------------------------------------------------
+   * In automaton "g.a":
+     - edge when true;
+       ^
+
+  -----------------------
+  (24/38) Edge is urgent.
+  -----------------------
+   * In automaton "g.snd":
+     - edge e2!5 now;
+       ^
+
+  ---------------------------
+  (25/38) Event is a channel.
+  ---------------------------
+   * In group "g":
+     - controllable int[0..5] e2;
+                              ^
+
+  ----------------------------------------------------------------
+  (26/38) Event is not declared as controllable or uncontrollable.
+  ----------------------------------------------------------------
+   * In group "g":
+     - event e1;
+             ^
+
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+  (27/38) Failed to determine whether a location is an initial location, as evaluating one of its initialization predicates results in an evaluation error.
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+   * In automaton "g.p1":
+     - initial sqrt(-1.0) > 0;
+                   ^
+
+  --------------------------------------------
+  (28/38) Function is a user-defined function.
+  --------------------------------------------
+   * In group "g":
+     - func bool f(bool p):
+                 ^
+
+  ---------------------------------------------------------------
+  (29/38) Invariant is a kindless state invariant in a component.
+  ---------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant 11 = 11;
+                    ^
+   * In group "g":
+     - invariant 8 = 8;
+                   ^
+
+  ----------------------------------------------------------------
+  (30/38) Invariant is a kindless state/event exclusion invariant.
+  ----------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant g.e1 needs 3 = 3;
+                      ^
+   * In group "g":
+     - invariant e1 needs p0.x1 > 0;
+                    ^
+     - invariant p0.x1 > 0 disables e1;
+                           ^
+
+  ------------------------------------------------------------
+  (31/38) Invariant is a plant state invariant in a component.
+  ------------------------------------------------------------
+   * In group "g":
+     - plant invariant 9 = 9;
+                         ^
+
+  -----------------------------------------------------
+  (32/38) Invariant is a state invariant in a location.
+  -----------------------------------------------------
+   * In automaton "g.p1":
+     - plant invariant 7 = 7;
+                         ^
+
+  -----------------------------------------------------------------
+  (33/38) Invariant is a supervisor state invariant in a component.
+  -----------------------------------------------------------------
+   * In group "g":
+     - supervisor invariant 10 = 10;
+                               ^
+
+  -----------------------------------------------------------------------------------------------------------------------------
+  (34/38) Location has a marker predicate that cannot be evaluated statically, as evaluating it results in an evaluation error.
+  -----------------------------------------------------------------------------------------------------------------------------
+   * In automaton "g.p1":
+     - marked sqrt(-2.0) > 0;
+                  ^
+
+  ---------------------------
+  (35/38) Location is urgent.
+  ---------------------------
+   * In automaton "g.p0":
+     - location:
+       ^
+
+  -----------------------------------------------------------
+  (36/38) Unary operator "-" is used on a real typed operand.
+  -----------------------------------------------------------
+   * In automaton "g.p1":
+     - initial sqrt(-1.0) > 0;
+                    ^
+     - marked sqrt(-2.0) > 0;
+                   ^
+
+  ------------------------------------------
+  (37/38) Variable is a continuous variable.
+  ------------------------------------------
+   * In automaton "g.p0":
+     - cont cnt der 1.0;
+            ^
+
+  --------------------------------------
+  (38/38) Variable is an input variable.
+  --------------------------------------
+   * In automaton "g.p0":
+     - input bool inp;
+                  ^

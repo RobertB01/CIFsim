@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.typechecker;
 import static org.eclipse.escet.cif.common.CifScopeUtils.getRefObjFromRef;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
+import static org.eclipse.escet.cif.common.CifTypeUtils.changePositions;
 import static org.eclipse.escet.cif.common.CifTypeUtils.checkTypeCompat;
 import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
 import static org.eclipse.escet.cif.common.CifTypeUtils.makeTupleType;
@@ -1036,7 +1037,7 @@ public class CifExprsTypeChecker {
                     throw new SemanticException();
                 }
 
-                rslt.setType(deepclone(ctype));
+                rslt.setType(changePositions(deepclone(ctype), rslt.getPosition()));
                 break;
             }
 
@@ -1093,7 +1094,7 @@ public class CifExprsTypeChecker {
                     throw new SemanticException();
                 }
 
-                rslt.setType(deepclone(ctype));
+                rslt.setType(changePositions(deepclone(ctype), rslt.getPosition()));
                 break;
             }
 
@@ -1108,7 +1109,7 @@ public class CifExprsTypeChecker {
 
                 DistType dtype = (DistType)nctype;
                 CifType type = makeTupleType(list(dtype.getSampleType(), ctype), rslt.getPosition());
-                rslt.setType(deepclone(type));
+                rslt.setType(type);
 
                 break;
             }
@@ -1653,7 +1654,7 @@ public class CifExprsTypeChecker {
                     DictType dtype = (DictType)nltype;
                     SetType stype = (SetType)nrtype;
                     if (checkTypeCompat(dtype.getKeyType(), stype.getElementType(), RangeCompat.IGNORE)) {
-                        resultType = deepclone(ltype);
+                        resultType = changePositions(deepclone(ltype), rslt.getPosition());
                     }
                 } else if (nltype instanceof DictType && nrtype instanceof ListType) {
                     // dict(k:v), list k -> dict(k:v)
@@ -1661,7 +1662,7 @@ public class CifExprsTypeChecker {
                     DictType dtype = (DictType)nltype;
                     ListType listType = (ListType)nrtype;
                     if (checkTypeCompat(dtype.getKeyType(), listType.getElementType(), RangeCompat.IGNORE)) {
-                        resultType = deepclone(ltype);
+                        resultType = changePositions(deepclone(ltype), rslt.getPosition());
                     }
                 }
 
@@ -2096,6 +2097,12 @@ public class CifExprsTypeChecker {
         CifType itype = index.getType();
         CifType nitype = CifTypeUtils.normalizeType(itype);
 
+        // Initialize result.
+        ProjectionExpression rslt = newProjectionExpression();
+        rslt.setChild(child);
+        rslt.setIndex(index);
+        rslt.setPosition(expr.createPosition());
+
         // Check index type, and get result type.
         CifType resultType;
         if (nctype instanceof ListType) {
@@ -2138,7 +2145,7 @@ public class CifExprsTypeChecker {
                 // This check is incomplete. Remaining cases are checked at runtime.
             }
 
-            resultType = deepclone(((ListType)nctype).getElementType());
+            resultType = changePositions(deepclone(((ListType)nctype).getElementType()), rslt.getPosition());
         } else if (nctype instanceof DictType) {
             // dict(k:v), k -> v
             CifType ktype = ((DictType)nctype).getKeyType();
@@ -2148,7 +2155,7 @@ public class CifExprsTypeChecker {
                 throw new SemanticException();
             }
 
-            resultType = deepclone(((DictType)nctype).getValueType());
+            resultType = changePositions(deepclone(((DictType)nctype).getValueType()), rslt.getPosition());
         } else if (nctype instanceof StringType) {
             // string, int -> string
             if (!(nitype instanceof IntType)) {
@@ -2157,14 +2164,14 @@ public class CifExprsTypeChecker {
                 throw new SemanticException();
             }
 
-            resultType = deepclone(ctype);
+            resultType = changePositions(deepclone(ctype), rslt.getPosition());
         } else if (nctype instanceof TupleType) {
             // tuple(t1 f1, t2 f2, ..., tn fn), int i -> ti
             // tuple(t1 f1, t2 f2, ..., tn fn), field fi -> ti
             if (index instanceof FieldExpression) {
                 // Special case for tuple/field projection.
                 Field field = ((FieldExpression)index).getField();
-                resultType = deepclone(field.getType());
+                resultType = changePositions(deepclone(field.getType()), rslt.getPosition());
             } else {
                 // Check index type.
                 if (!(nitype instanceof IntType)) {
@@ -2193,17 +2200,13 @@ public class CifExprsTypeChecker {
                 }
 
                 // Get result type.
-                resultType = deepclone(ttype.getFields().get(idx).getType());
+                resultType = changePositions(deepclone(ttype.getFields().get(idx).getType()), rslt.getPosition());
             }
         } else {
             throw new RuntimeException("Checks above should prevent this.");
         }
 
-        // Create projection expression.
-        ProjectionExpression rslt = newProjectionExpression();
-        rslt.setChild(child);
-        rslt.setIndex(index);
-        rslt.setPosition(expr.createPosition());
+        // Set result type.
         rslt.setType(resultType);
         return rslt;
     }
@@ -2284,11 +2287,11 @@ public class CifExprsTypeChecker {
         // Result type.
         if (nctype instanceof StringType) {
             // string, int, int -> string
-            rslt.setType(deepclone(child.getType()));
+            rslt.setType(changePositions(deepclone(child.getType()), rslt.getPosition()));
         } else {
             Assert.check(nctype instanceof ListType);
             ListType ltype = (ListType)nctype;
-            ListType rtype = deepclone(ltype);
+            ListType rtype = changePositions(deepclone(ltype), rslt.getPosition());
             if (CifTypeUtils.isRangeless(ltype)) {
                 // list t, int (ranged/rangeless/omitted), int (ranged/rangeless/omitted) -> list t
             } else {
@@ -2494,7 +2497,7 @@ public class CifExprsTypeChecker {
         }
 
         // Set type of the function call expression.
-        rslt.setType(deepclone(((FuncType)nftype).getReturnType()));
+        rslt.setType(changePositions(deepclone(((FuncType)nftype).getReturnType()), rslt.getPosition()));
 
         // Return function call expression.
         return rslt;
@@ -3093,7 +3096,7 @@ public class CifExprsTypeChecker {
         mmStdLib.setType(resultType);
         resultType.setPosition(astStdLib.createPosition());
         for (int i = 0; i < atypes.length; i++) {
-            resultType.getParamTypes().add(deepclone(atypes[i]));
+            resultType.getParamTypes().add(changePositions(deepclone(atypes[i]), resultType.getPosition()));
         }
 
         // Type of the result depends on the function and the parameters.
@@ -3218,7 +3221,7 @@ public class CifExprsTypeChecker {
                     }
                 }
 
-                ListType type = deepclone(ltype);
+                ListType type = changePositions(deepclone(ltype), resultType.getPosition());
                 if (!CifTypeUtils.isRangeless(type)) {
                     type.setLower(Math.max(0, type.getLower() - 1));
                     type.setUpper(Math.max(0, type.getUpper() - 1));
@@ -3409,7 +3412,7 @@ public class CifExprsTypeChecker {
                 }
 
                 CifType rtype = makeTupleType(list(ltype.getElementType(), ltype), mmCall.getPosition());
-                resultType.setReturnType(deepclone(rtype));
+                resultType.setReturnType(rtype);
 
                 break;
             }
@@ -3656,7 +3659,7 @@ public class CifExprsTypeChecker {
                     stype.setPosition(astStdLib.createPosition());
                     type.setSampleType(stype);
                 } else {
-                    type.setSampleType(deepclone(atypes[0]));
+                    type.setSampleType(changePositions(deepclone(atypes[0]), resultType.getPosition()));
                 }
 
                 resultType.setReturnType(type);
@@ -3850,7 +3853,7 @@ public class CifExprsTypeChecker {
         }
 
         // Set type of the function call expression.
-        mmCall.setType(deepclone(resultType.getReturnType()));
+        mmCall.setType(changePositions(deepclone(resultType.getReturnType()), mmCall.getPosition()));
 
         // Return function call expression.
         return mmCall;
@@ -4048,7 +4051,7 @@ public class CifExprsTypeChecker {
         } else {
             for (Expression elem: elems) {
                 if (etype == null) {
-                    etype = deepclone(elem.getType());
+                    etype = changePositions(deepclone(elem.getType()), rslt.getPosition());
 
                     // Check element type for first element.
                     if (CifTypeUtils.hasComponentLikeType(etype)) {
@@ -4112,7 +4115,7 @@ public class CifExprsTypeChecker {
 
         // Complete the metamodel representation and return it.
         rslt.setPosition(expr.createPosition());
-        rslt.setType(deepclone(hint));
+        rslt.setType(changePositions(deepclone(hint), rslt.getPosition()));
         return rslt;
     }
 
@@ -4159,7 +4162,7 @@ public class CifExprsTypeChecker {
         CifType etype = null;
         for (Expression elem: elems) {
             if (etype == null) {
-                etype = deepclone(elem.getType());
+                etype = changePositions(deepclone(elem.getType()), rslt.getPosition());
 
                 // Check element type for first element.
                 if (!CifTypeUtils.supportsValueEquality(etype)) {
@@ -4230,8 +4233,8 @@ public class CifExprsTypeChecker {
         for (Expression elem: elems) {
             // Add nameless field to tuple type.
             Field field = newField();
-            field.setPosition(copyPosition(elem.getPosition()));
-            field.setType(deepclone(elem.getType()));
+            field.setPosition(expr.createPosition());
+            field.setType(changePositions(deepclone(elem.getType()), field.getPosition()));
             ttype.getFields().add(field);
 
             // Check element type.
@@ -4304,8 +4307,8 @@ public class CifExprsTypeChecker {
         CifType vtype = null;
         for (DictPair pair: pairs) {
             if (ktype == null) {
-                ktype = deepclone(pair.getKey().getType());
-                vtype = deepclone(pair.getValue().getType());
+                ktype = changePositions(deepclone(pair.getKey().getType()), rslt.getPosition());
+                vtype = changePositions(deepclone(pair.getValue().getType()), rslt.getPosition());
 
                 // Check key type for first pair.
                 if (!CifTypeUtils.supportsValueEquality(ktype)) {
@@ -4548,7 +4551,7 @@ public class CifExprsTypeChecker {
                     : CifTypeUtils.mergeTypes(mergedType, caseType, rslt.getPosition());
         }
         if (cases.size() == 1) {
-            mergedType = deepclone(mergedType);
+            mergedType = changePositions(deepclone(mergedType), rslt.getPosition());
         }
         rslt.setType(mergedType);
 
@@ -5055,7 +5058,7 @@ public class CifExprsTypeChecker {
         // Construct metamodel representation.
         ReceivedExpression rslt = newReceivedExpression();
         rslt.setPosition(expr.createPosition());
-        rslt.setType(deepclone(context.receiveType));
+        rslt.setType(changePositions(deepclone(context.receiveType), rslt.getPosition()));
         return rslt;
     }
 

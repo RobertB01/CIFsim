@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.common.checkers.checks;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
-
 import java.util.Arrays;
 import java.util.EnumSet;
 
@@ -22,11 +20,9 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BaseFunctionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ExpressionsPackage;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentDefType;
 import org.eclipse.escet.cif.metamodel.cif.types.ComponentType;
 import org.eclipse.escet.cif.metamodel.cif.types.DictType;
@@ -70,44 +66,44 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
     @Override
     protected void preprocessComponentDefType(ComponentDefType compDefType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.COMP_DEF_TYPES)) {
-            addTypeViolation(compDefType, "component definition type", violations);
+            violations.add(compDefType, "A component definition type is used");
         }
     }
 
     @Override
     protected void preprocessComponentType(ComponentType compType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.COMP_TYPES)) {
-            addTypeViolation(compType, "component type", violations);
+            violations.add(compType, "A component type is used");
         }
     }
 
     @Override
     protected void preprocessDictType(DictType dictType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.DICT_TYPES)) {
-            addTypeViolation(dictType, "dictionary type", violations);
+            violations.add(dictType, "A dictionary type is used");
         }
     }
 
     @Override
     protected void preprocessDistType(DistType distType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.DIST_TYPES)) {
-            addTypeViolation(distType, "distribution type", violations);
+            violations.add(distType, "A distribution type is used");
         }
     }
 
     @Override
     protected void preprocessEnumType(EnumType enumType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.ENUM_TYPES)) {
-            addTypeViolation(enumType, "enumeration type", violations);
+            violations.add(enumType, "An enumeration type is used");
         }
     }
 
     @Override
     protected void preprocessFuncType(FuncType funcType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.FUNC_TYPES)) {
-            addTypeViolation(funcType, "function type", violations);
+            violations.add(funcType, "A function type is used");
         } else if (disalloweds.contains(NoSpecificType.FUNC_TYPES_AS_DATA) && !isUsedInFunctionCallContext(funcType)) {
-            addTypeViolation(funcType, "function type", "as data value", violations);
+            violations.add(funcType, "A function type is used to store functions or use functions as data values");
         }
     }
 
@@ -129,78 +125,54 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
     @Override
     protected void preprocessIntType(IntType intType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.INT_TYPES)) {
-            addTypeViolation(intType, "integer type", violations);
+            violations.add(intType, "An integer type is used");
         } else if (disalloweds.contains(NoSpecificType.INT_TYPES_RANGELESS) && CifTypeUtils.isRangeless(intType)) {
-            addTypeViolation(intType, "rangeless integer type", violations);
+            violations.add(intType, "A rangeless integer type is used");
         }
     }
 
     @Override
     protected void preprocessListType(ListType listType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.LIST_TYPES)) {
-            addTypeViolation(listType, "list type", violations);
+            violations.add(listType, "A list type is used");
         } else if (disalloweds.contains(NoSpecificType.LIST_TYPES_NON_ARRAY) && !CifTypeUtils.isArrayType(listType)) {
-            addTypeViolation(listType, "non-array list type", violations);
+            violations.add(listType, "A non-array list type is used");
         }
     }
 
     @Override
     protected void preprocessRealType(RealType realType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.REAL_TYPES)) {
-            addTypeViolation(realType, "real type", violations);
+            violations.add(realType, "A real type is used");
         }
     }
 
     @Override
     protected void preprocessSetType(SetType setType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.SET_TYPES)) {
-            addTypeViolation(setType, "set type", violations);
+            violations.add(setType, "A set type is used");
         }
     }
 
     @Override
     protected void preprocessStringType(StringType stringType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.STRING_TYPES)) {
-            addTypeViolation(stringType, "string type", violations);
+            violations.add(stringType, "A string type is used");
         }
     }
 
     @Override
     protected void preprocessTupleType(TupleType tupleType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.TUPLE_TYPES)) {
-            addTypeViolation(tupleType, "tuple type", violations);
+            violations.add(tupleType, "A tuple type is used");
         }
     }
 
     @Override
     protected void preprocessVoidType(VoidType voidType, CifCheckViolations violations) {
         if (disalloweds.contains(NoSpecificType.VOID_TYPES)) {
-            addTypeViolation(voidType, "void type", violations);
+            violations.add(voidType, "A void type is used");
         }
-    }
-
-    /**
-     * Add a violation for the given type.
-     *
-     * @param type The type.
-     * @param description The description of the type.
-     * @param violations The violations collected so far. Is modified in-place.
-     */
-    private void addTypeViolation(CifType type, String description, CifCheckViolations violations) {
-        addTypeViolation(type, description, "", violations);
-    }
-
-    /**
-     * Add a violation for the given type.
-     *
-     * @param type The type.
-     * @param description The description of the type.
-     * @param postfix Additional description after the type.
-     * @param violations The violations collected so far. Is modified in-place.
-     */
-    private void addTypeViolation(CifType type, String description, String postfix, CifCheckViolations violations) {
-        violations.add(type, new LiteralMessage("uses %s \"%s\"%s", description, typeToStr(type),
-                postfix.isEmpty() ? "" : (" " + postfix)));
     }
 
     /** The type, or sub-type, to disallow. */

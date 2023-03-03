@@ -19,12 +19,10 @@ import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.java.Numbers;
 
 /** CIF check that does not allow discrete variables with initial values that cannot be evaluated statically. */
 public class VarDiscOnlyStaticEvalInitCheck extends CifCheck {
@@ -43,22 +41,17 @@ public class VarDiscOnlyStaticEvalInitCheck extends CifCheck {
         }
 
         // Check if all initial values can be evaluated statically.
-        for (int valueCounter = 0; valueCounter < values.getValues().size(); valueCounter++) {
-            Expression value = values.getValues().get(valueCounter);
+        for (Expression value: values.getValues()) {
             if (!CifValueUtils.hasSingleValue(value, true, true)) {
-                // Report violation.
-                violations.add(var,
-                        new LiteralMessage("discrete variable's %sinitial value cannot be evaluated statically",
-                                values.getValues().size() == 1 ? "" : Numbers.toOrdinal(valueCounter + 1) + " "));
+                violations.add(value, "Discrete variable has an initial value that cannot be evaluated statically");
             } else {
                 try {
                     CifEvalUtils.eval(value, true);
                 } catch (CifEvalException e) {
-                    // Report violation.
-                    violations.add(var, new LiteralMessage(
-                            "discrete variable's %sinitial value cannot be evaluated statically, as the evaluation "
-                                    + "resulted in an evaluation error",
-                            values.getValues().size() == 1 ? "" : Numbers.toOrdinal(valueCounter + 1) + " "));
+                    Expression reportExpr = (e.expr != null) ? e.expr : value;
+                    violations.add(reportExpr,
+                            "Discrete variable has an initial value that cannot be evaluated statically, "
+                                    + "as evaluating it results in an evaluation error");
                 }
             }
         }

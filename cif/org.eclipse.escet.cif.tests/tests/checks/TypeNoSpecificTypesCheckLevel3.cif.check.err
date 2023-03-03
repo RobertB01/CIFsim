@@ -1,7 +1,29 @@
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
-WARNING: File "checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 118, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
+WARNING: File "checks/TypeNoSpecificTypesCheckLevel3.cif": Semantic warning at line 119, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "FUNC_TYPES_AS_DATA" (File "checks/TypeNoSpecificTypesCheckLevel3.cif": line 69, columns 11 .. 28): uses function type "func bool()" as data value.
- - Unsupported "FUNC_TYPES_AS_DATA.fn" (File "checks/TypeNoSpecificTypesCheckLevel3.cif": line 70, columns 21 .. 22): uses function type "func bool()" as data value.
- - Unsupported "LIST_TYPES_NON_ARRAY.loc" (File "checks/TypeNoSpecificTypesCheckLevel3.cif": line 93, columns 12 .. 14): uses non-array list type "list bool".
- - Unsupported "LIST_TYPES_NON_ARRAY.v" (File "checks/TypeNoSpecificTypesCheckLevel3.cif": line 92, column 18): uses non-array list type "list bool".
+
+  ---------------------------------------------------------------------------------
+  (1/2) A function type is used to store functions or use functions as data values.
+  ---------------------------------------------------------------------------------
+   * In automaton "FUNC_TYPES_AS_DATA":
+     - edge when not lfn[0]();
+                     ^  ^
+   * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
+     - disc list func bool() lfn = [f];
+                 ^                 ^^
+
+  ------------------------------------
+  (2/2) A non-array list type is used.
+  ------------------------------------
+   * In automaton "FUNC_TYPES_AS_DATA":
+     - edge when not lfn[0]();
+                     ^
+   * In discrete variable "FUNC_TYPES_AS_DATA.lfn":
+     - disc list func bool() lfn = [f];
+            ^
+   * In location "LIST_TYPES_NON_ARRAY.loc":
+     - edge tau do v := v;
+                   ^    ^
+   * In discrete variable "LIST_TYPES_NON_ARRAY.v":
+     - disc list bool v;
+            ^

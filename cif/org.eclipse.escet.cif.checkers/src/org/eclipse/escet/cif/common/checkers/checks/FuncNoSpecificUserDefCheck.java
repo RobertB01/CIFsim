@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.checkers.CifCheck;
 import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.messages.LiteralMessage;
 import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
@@ -73,16 +72,16 @@ public class FuncNoSpecificUserDefCheck extends CifCheck {
         // Check the kind of the function.
         if (disalloweds.contains(funcKind)) {
             if (disalloweds.containsAll(ALL_USER_DEF_FUNCS)) {
-                violations.add(func, new LiteralMessage("is a user-defined function"));
+                violations.add(func, "Function is a user-defined function");
             } else {
                 String funcText = (funcKind == NoSpecificUserDefFunc.INTERNAL) ? "internal" : "external";
-                violations.add(func, new LiteralMessage("is an %s user-defined function", funcText));
+                violations.add(func, "Function is an %s user-defined function", funcText);
             }
         }
 
         // Check the number of parameters of the function.
         if (disalloweds.contains(NoSpecificUserDefFunc.NO_PARAMETER) && func.getParameters().isEmpty()) {
-            violations.add(func, new LiteralMessage("has no parameters"));
+            violations.add(func, "Function is a user-defined function without parameters");
         }
     }
 

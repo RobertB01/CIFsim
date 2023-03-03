@@ -1,2 +1,5 @@
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
- - Unsupported specification (File "cif2uppaal/invalid1.cif": line 1, column 1): no automaton found, specification does not have at least 1 automaton.
+
+  ----------------------------------------------------------------------------
+  (1/1) Specification does not have at least 1 automaton (no automaton found).
+  ----------------------------------------------------------------------------

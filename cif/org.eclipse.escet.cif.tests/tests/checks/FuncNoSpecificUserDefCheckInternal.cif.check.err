@@ -1,5 +1,15 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
- - Unsupported "g.INT_NO_PARAM_fifteen" (File "checks/FuncNoSpecificUserDefCheckInternal.cif": line 30, columns 12 .. 31): is an internal user-defined function.
- - Unsupported "g.INT_PARAM_inc" (File "checks/FuncNoSpecificUserDefCheckInternal.cif": line 26, columns 12 .. 24): is an internal user-defined function.
- - Unsupported "INT_NO_PARAM_fifteen" (File "checks/FuncNoSpecificUserDefCheckInternal.cif": line 18, columns 10 .. 29): is an internal user-defined function.
- - Unsupported "INT_PARAM_inc" (File "checks/FuncNoSpecificUserDefCheckInternal.cif": line 14, columns 10 .. 22): is an internal user-defined function.
+
+  ----------------------------------------------------
+  (1/1) Function is an internal user-defined function.
+  ----------------------------------------------------
+   * In the top-level scope of the specification:
+     - func int INT_PARAM_inc(int x):
+                ^
+     - func int INT_NO_PARAM_fifteen():
+                ^
+   * In group "g":
+     - func int INT_PARAM_inc(int x):
+                ^
+     - func int INT_NO_PARAM_fifteen():
+                ^
