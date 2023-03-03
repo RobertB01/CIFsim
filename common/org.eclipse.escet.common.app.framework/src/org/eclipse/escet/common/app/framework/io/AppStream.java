@@ -61,7 +61,7 @@ public abstract class AppStream implements Closeable {
      * of EOL detection in the output to write. If set, scan for an optional {@code '\n'} character and write an EOL to
      * the output.
      */
-    private boolean beforeCrTest = false;
+    private boolean beforeCrTest = true;
 
     /** Whether a {@code '\r'} character was detected before checking for a {@code '\n'} character. */
     private boolean seenCR = false;
@@ -373,6 +373,20 @@ public abstract class AppStream implements Closeable {
      * @see OutputStream#close()
      */
     private void closeInternal() {
+        if (!beforeCrTest) {
+            // Closing while in the middle of detecting an EOL sequence, where we found a \r, assuming there was no \n
+            // intended.
+
+            // Write new line.
+            if (convertNewLines) {
+                newLineInternal();
+            } else {
+                if (seenCR) {
+                    writeImpl((byte)'\r');
+                }
+            }
+        }
+
         // Flush before closing. This ensures we flush it, and not the close
         // method, which may also hide flushing errors.
         flushInternal();
