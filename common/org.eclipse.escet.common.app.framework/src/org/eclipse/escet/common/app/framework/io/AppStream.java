@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Strings;
 
@@ -47,7 +46,7 @@ import org.eclipse.escet.common.java.Strings;
 public abstract class AppStream implements Closeable {
     /**
      * The character set to use to encode strings to bytes. Only encodings that encode the '\n' character as a '\n' byte
-     * (0x0a) are supported.
+     * (0x0a) and the '\r' character as '\r' byte (0x0d) are supported.
      */
     private final Charset charset = Charset.forName("UTF-8");
 
@@ -58,13 +57,24 @@ public abstract class AppStream implements Closeable {
     private byte[] newline = Strings.NL.getBytes(charset);
 
     /**
-     * Set the 'convert new lines' property of the stream. If enabled, '\n' characters are converted to platform
-     * specific or custom new line characters as set by the 'new line bytes' property. If disabled, '\n' characters are
+     * If clear, write provided non-EOL characters to the output and check for an {@code '\r'} character as first part
+     * of EOL detection in the output to write. If set, scan for an optional {@code '\n'} character and write an EOL to
+     * the output.
+     */
+    private boolean beforeCrTest = false;
+
+    /** Whether a {@code '\r'} character was detected before checking for a {@code '\n'} character. */
+    private boolean seenCR = false;
+
+    /**
+     * Set the 'convert new lines' property of the stream. If enabled, EOL sequences are converted to platform specific
+     * or custom new line sequences set by the 'new line bytes' property. If disabled, EOL sequences in the stream are
      * left as they are. The property is enabled by default, but can be disabled to allow third party code to write to
-     * the stream using custom new lines.
+     * the stream without changing the characters in the stream.
      *
-     * @param convertNewLines Whether to convert '\n' characters to platform specific or custom new lines ({@code true})
-     *     or leave '\n' characters as they are ({@code false}).
+     * @param convertNewLines Whether to convert EOL sequences to platform specific or custom new lines ({@code true})
+     *     or leave EOL sequences as they are found in the stream ({@code false}).
+     * @see #getConvertNewLines
      */
     public void setConvertNewLines(boolean convertNewLines) {
         synchronized (this) {
@@ -73,12 +83,17 @@ public abstract class AppStream implements Closeable {
     }
 
     /**
-     * Get the 'convert new lines' property of the stream. If enabled, '\n' characters are converted to platform
-     * specific or custom new line characters as set by the 'new line bytes' property. If disabled, '\n' characters are
-     * left as they are. The property is enabled by default, but can be disabled to allow third party code to write to
-     * the stream using custom new lines.
+     * Get the 'convert new lines' property of the stream. If enabled, EOL sequences are converted to platform specific
+     * or custom new line characters as set by the 'new line bytes' property. If disabled, EOL sequences are left as
+     * they are found in the stream. The property is enabled by default, but can be disabled to allow third party code
+     * to write to the stream without changing the characters in the stream.
      *
      * @return {@code true} if the property is enabled, {@code false} otherwise.
+     * @see #setConvertNewLines
+     * @see #setLinuxNewLineBytes
+     * @see #setWindowsNewLineBytes
+     * @see #setNewLineBytes
+     * @see #getNewLineBytes
      */
     public boolean getConvertNewLines() {
         synchronized (this) {
@@ -88,11 +103,15 @@ public abstract class AppStream implements Closeable {
 
     /**
      * Set the 'new line bytes' property of the stream. The 'new line bytes' are the platform specific or custom bytes
-     * to write when a new line is to be written, and also instead of each '\n' character if the 'convert new lines'
-     * property is enabled. By default platform specific new line bytes are used, but the new line bytes can be changed
-     * to write custom new lines.
+     * to write when an EOL sequence is to be written and the 'convert new lines' property is enabled. By default
+     * platform specific new line bytes are used, but the new line bytes can be changed to write custom EOL sequences.
      *
      * @param bytes The new line bytes to use.
+     * @see #setConvertNewLines
+     * @see #getConvertNewLines
+     * @see #setLinuxNewLineBytes
+     * @see #setWindowsNewLineBytes
+     * @see #getNewLineBytes
      */
     public void setNewLineBytes(byte[] bytes) {
         synchronized (this) {
@@ -101,9 +120,14 @@ public abstract class AppStream implements Closeable {
     }
 
     /**
-     * Set the 'new line bytes' property of the stream to use Linux (or macOS) new line bytes. Linux new line bytes
-     * ('\n') are used when a new line is to be written. The '\n' characters that are written as part of the user
-     * provided content are written without modification.
+     * Set the 'new line bytes' property of the stream to use Unix new line bytes. Unix new line bytes ('\n') are used
+     * when when an EOL sequence is to be written and the 'convert new lines' property is enabled.
+     *
+     * @see #setConvertNewLines
+     * @see #getConvertNewLines
+     * @see #setWindowsNewLineBytes
+     * @see #setNewLineBytes
+     * @see #getNewLineBytes
      */
     public void setLinuxNewLineBytes() {
         synchronized (this) {
@@ -113,9 +137,14 @@ public abstract class AppStream implements Closeable {
 
     /**
      * Set the 'new line bytes' property of the stream to use Microsoft Windows new line bytes. Microsoft Windows new
-     * line bytes ('\r' followed by '\n') are used when a new line is to be written. The '\n' characters that are
-     * written as part of the user provided content are converted to the Microsoft windows new line bytes as well, if
-     * the 'convert new lines' property is enabled.
+     * line bytes ('\r' followed by '\n') are used when an EOL sequence is to be written and the 'convert new lines'
+     * property is enabled.
+     *
+     * @see #setConvertNewLines
+     * @see #getConvertNewLines
+     * @see #setLinuxNewLineBytes
+     * @see #setNewLineBytes
+     * @see #getNewLineBytes
      */
     public void setWindowsNewLineBytes() {
         synchronized (this) {
@@ -125,11 +154,14 @@ public abstract class AppStream implements Closeable {
 
     /**
      * Get the 'new line bytes' property of the stream. The 'new line bytes' are the platform specific or custom bytes
-     * to write when a new line is to be written, and also instead of each '\n' character if the 'convert new lines'
-     * property is enabled. By default platform specific new line bytes are used, but the new line bytes can be changed
-     * to write custom new lines.
+     * to write when an EOL sequence is to be written and the 'convert new lines' property is enabled.
      *
      * @return The new line bytes being used.
+     * @see #setConvertNewLines
+     * @see #getConvertNewLines
+     * @see #setLinuxNewLineBytes
+     * @see #setWindowsNewLineBytes
+     * @see #setNewLineBytes
      */
     public byte[] getNewLineBytes() {
         synchronized (this) {
@@ -161,29 +193,67 @@ public abstract class AppStream implements Closeable {
     private void writeInternal(byte[] bytes) {
         int curIdx = 0;
         while (curIdx < bytes.length) {
-            // Look for next new line. Assumes '\n' is present in the byte
-            // encoding for new lines.
-            int nlIdx = ArrayUtils.indexOf(bytes, (byte)'\n', curIdx);
+            if (beforeCrTest) {
+                // Collect non-EOL characters of the current line.
+                int eolIdx = curIdx;
+                while (eolIdx < bytes.length && bytes[eolIdx] != '\r' && bytes[eolIdx] != '\n') {
+                    eolIdx++;
+                }
 
-            // Write remainder if no new line found.
-            if (nlIdx == -1) {
-                writeImpl(bytes, curIdx, bytes.length - curIdx);
-                break;
-            }
+                // If non-EOL characters exist, write them to the output.
+                if (eolIdx > curIdx) {
+                    // Write the NON-eol bytes to the output.
+                    writeImpl(bytes, curIdx, eolIdx - curIdx);
+                    curIdx = eolIdx;
 
-            // Write part up to next new line.
-            writeImpl(bytes, curIdx, nlIdx - curIdx);
+                    // We didn't get the entire line, wait for more input.
+                    if (curIdx >= bytes.length) {
+                        return;
+                    }
+                }
 
-            // Write new line.
-            if (convertNewLines) {
-                newLineInternal();
+                // Invariant: eolIdx == curIdx && curIdx < bytes.length .
+                //
+                // We ran out of non-EOL characters and have not reached the end of the bytes, so there must be an EOL
+                // here. That can be "\r", "\n", or "\r\n". In the latter case it's possible that the "\n" is not in the
+                // supplied bytes of this call.
+                //
+                // Here the test of "\r" is performed, which recognizes "\r" completely, "\n" not at all, and the first
+                // character of "\r\n". After skipping over "\r" the "beforeCrTest" boolean is reset to denote we've
+                // seen "\r" and must check for a "\n" now. That recognizes the "\n" case and the "\r\n" case.
+                seenCR = bytes[curIdx] == '\r';
+                if (seenCR) {
+                    curIdx++;
+                }
+                beforeCrTest = false;
             } else {
-                writeImpl((byte)'\n');
-                flushInternal();
-            }
+                // Second step in detecting a EOL. We have checked for CR already before and advanced the index if it
+                // existed.
+                //
+                // Next, check for a NL character.
+                boolean seenNL = bytes[curIdx] == '\n';
+                if (seenNL) {
+                    curIdx++;
+                }
 
-            // Continue past the detected '\n'.
-            curIdx = nlIdx + 1;
+                // Write new line.
+                if (convertNewLines) {
+                    newLineInternal();
+                } else {
+                    if (seenCR) {
+                        writeImpl((byte)'\r');
+                    }
+                    if (seenNL) {
+                        writeImpl((byte)'\n');
+                    }
+                    flushInternal();
+                }
+
+                beforeCrTest = true; // Back to normal text-line processing.
+                seenCR = false; // Not actually needed but nice.
+
+                // And continue processing with the text of the next line.
+            }
         }
     }
 
@@ -212,29 +282,7 @@ public abstract class AppStream implements Closeable {
      */
     public void write(byte b) {
         synchronized (this) {
-            writeInternal(b);
-        }
-    }
-
-    /**
-     * Writes a single byte to the underlying stream. Internal method without thread safety. Perform automatic
-     * line-based flushing.
-     *
-     * @param b The byte to write.
-     * @throws InputOutputException In case of an I/O error.
-     * @see OutputStream#write(int)
-     */
-    private void writeInternal(byte b) {
-        // Assumes '\n' is present in the encoded bytes for new lines.
-        if (b == '\n') {
-            if (convertNewLines) {
-                newLineInternal();
-            } else {
-                writeImpl(b);
-                flushInternal();
-            }
-        } else {
-            writeImpl(b);
+            writeInternal(new byte[] {b});
         }
     }
 
@@ -252,6 +300,8 @@ public abstract class AppStream implements Closeable {
      * {@link #newline} bytes are used.
      *
      * @throws InputOutputException In case of an I/O error.
+     * @see #setNewLineBytes
+     * @see #getNewLineBytes
      */
     public void newLine() {
         synchronized (this) {
