@@ -23,12 +23,10 @@ indexterm:[event-based supervisor synthesis,event-based synthesis toolset]
 The supervisor synthesis procedure takes one or more deterministic plant automata, one or more deterministic requirement automata, and combines them to a maximal permissive supervisor.
 
 indexterm:[event-based supervisor synthesis,supported specifications]
-The tool takes a `.cif` file containing `plant` and `requirement` automata.
+The tool takes a `.cif` file containing `plant` and (optionally) `requirement` automata.
 Besides the general event-based restrictions listed at <<tools-eventbased-supported-specifications>>, the current implementation does not support:
 
 * Having no `plant` automata at all.
-
-* Having no `requirement` automata at all.
 
 * Having any other kind of automaton in the file.
 See <<tools-eventbased-kinds>> for a list of all automaton kinds.
