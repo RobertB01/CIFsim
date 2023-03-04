@@ -1,0 +1,7 @@
+controllable e;
+supervisor automaton sup:
+  alphabet e;
+  location s1:
+    initial;
+    marked;
+end

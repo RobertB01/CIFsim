@@ -15,9 +15,10 @@ controllable e;
 
 // No requirement in the input.
 
-plant r:
-  location:
+plant p:
+  location l1:
     initial;
     marked;
-    edge e;
+    edge e goto l2;
+  location l2;
 end

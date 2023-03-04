@@ -144,10 +144,6 @@ public class SupervisorSynthesis {
             String msg = "Supervisor synthesis needs at least one plant automaton.";
             throw new InvalidInputException(msg);
         }
-        if (reqs.isEmpty()) {
-            String msg = "Supervisor synthesis needs at least one requirement automaton.";
-            throw new InvalidInputException(msg);
-        }
         if (unmarked) {
             String msg = "Supervisor is empty (no marker states).";
             throw new InvalidModelException(msg);

@@ -1,2 +1,2 @@
-ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/no_requirement.cif".
-CAUSE: Supervisor synthesis needs at least one requirement automaton.
+WARNING: Automaton "p" is not trim.
+WARNING: Controllable event "e" is only used by automaton "p".
