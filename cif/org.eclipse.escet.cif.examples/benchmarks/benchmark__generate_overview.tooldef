@@ -11,71 +11,107 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Generates overview HTML file for benchmark results.
+// Generates overview HTML file for benchmarking results.
 
 import java.lang.Long.decode;
-import java.lang.Long.valueOf;
 import org.apache.commons.lang3:org.apache.commons.lang3.StringEscapeUtils.escapeHtml4 as escape;
 
-// Initialize metrics info:
-// - metrics_*: from benchmark model name (column) to configuration (row) to metric value (cell).
-// - configs: the configurations used for benchmarking.
-// - names: the names of the models used for benchmarking.
-map(string: map(int: long)) metrics_nodes = {};
-map(string: map(int: long)) metrics_ops   = {};
-list string configs;
-list string names;
-
-// Find benchmarking results.
-list string file_names = sorted(find("_generated", "*.metrics.csv"));
-if size(file_names) == 0:
-    errln("No benchmark results found. Execute one or more benchmarks before generating an overview of the results.");
+// Find benchmarking results files.
+list string time_files = sorted(find("_generated", "*.time", recursive=false));
+if empty(time_files):
+    errln("No benchmarking results found. Execute benchmarking before generating an overview of the results.");
     exit 1;
 end
 
-// Process the benchmark metrics files.
-bool first_file = true;
-for f in file_names:
-    // Get benchmark model name.
-    string name = replace(f, ".metrics.csv", "");
-    metrics_nodes[name] = {};
-    metrics_ops  [name] = {};
-    names = names + [name];
+// Initialize metrics info:
+// - names: the names of the models used for benchmarking.
+// - configs: the configurations used for benchmarking.
+// - metrics_*: from benchmark model name (column) to configuration (row) to metric value (cell).
+set string names_set;
+list string names;
+map(int: string) configs;
+list int config_nrs;
+int max_config_nr;
+map(string: map(int: long)) metrics_nodes;
+map(string: map(int: long)) metrics_ops;
 
-    // Get benchmark experiment lines. Remove header line.
-    list string lines = readlines(pathjoin("_generated", f));
-    lines = delidx(lines, 0);
+// Helper functions.
+tool string fmt_metric_value(string fmt_pat, long value):
+    if value == -1:: return "?";
+    return fmt(fmt_pat, value);
+end
 
-    // Process the experiment lines.
-    for line in lines:
-        list string parts = split(line, ",");
-        int config_nr = <int>valueOf(trim(parts[0]));
-        long nodes_cnt;
-        if trim(parts[2]) == "?":
-            nodes_cnt = -1;
-        else
-            nodes_cnt = <long>valueOf(trim(parts[2]));
+// Collect metrics info.
+for time_file in time_files:
+    // Get all file names.
+    string config_file = pathjoin("_generated", chfileext(time_file, "time", "config"));
+    string stdout_file = pathjoin("_generated", chfileext(time_file, "time", "out"));
+
+    // Extract configuration from config file.
+    list string config_lines = readlines(config_file);
+    if size(config_lines) != 3:
+        errln("Invalid config file (expected exactly 3 lines, found %d): %s", size(config_lines), config_file);
+        exit 1;
+    end
+    string name = trim(config_lines[0]);
+    int config_nr = <int>trim(config_lines[1]);
+    string config = config_lines[2]; // Keep whitespace in case it is used to align configurations.
+
+    // Extract performance metrics from stdout file.
+    list string stdout_lines = [];
+    if isfile(stdout_file):: stdout_lines = readlines(stdout_file);
+    long nodes = -1;
+    long ops = -1;
+    for line in stdout_lines:
+        if startswith(line, "Maximum used BDD nodes: ") and endswith(line, "."):
+            long x = <long>(trim(line[size("Maximum used BDD nodes: "):-size(".")]));
+            if nodes == -1: nodes = x; else nodes = max(<long>nodes, x); end
         end
-        long ops_cnt;
-        if trim(parts[3]) == "?":
-            ops_cnt = -1;
-        else
-            ops_cnt = <long>valueOf(trim(parts[3]));
-        end
-        metrics_nodes[name][config_nr] = nodes_cnt;
-        metrics_ops  [name][config_nr] = ops_cnt;
-        if first_file:
-            string config = join(parts[4:], ",");
-            config = trim(config);
-            if startswith(config, "\""):: config = config[1:];
-            if endswith  (config, "\""):: config = config[:-1];
-            configs = configs + [config];
+        if startswith(line, "  Operation cache misses: "):
+            long x = <long>(trim(line[size("  Operation cache misses: "):]));
+            if ops == -1: ops = x; else ops = max(<long>ops, x); end
         end
     end
 
-    // Next file is no longer first file.
-    first_file = false;
+    // Store new metrics.
+    names_set = names_set or {name};
+
+    if contains(keys(configs), config_nr) and configs[config_nr] != config:
+        errln("Inconsistent configurations for configuration number %d:", config_nr);
+        errln(" - First configuration: %s", configs[config_nr]);
+        errln(" - Second configuration: %s", config);
+        exit 1;
+    end
+    configs[config_nr] = config;
+
+    if not contains(keys(metrics_nodes), name):: metrics_nodes[name] = {};
+    if not contains(keys(metrics_nodes[name]), config_nr):
+        metrics_nodes[name][config_nr] = nodes;
+    elif metrics_nodes[name][config_nr] != nodes:
+        errln("Inconsistent nodes metric value:");
+        errln(" - Model name: %s", name);
+        errln(" - Configuration number: %d", config_nr);
+        errln(" - First metric value: %s", fmt_metric_value("%,d", metrics_nodes[name][config_nr]));
+        errln(" - Second metric value: %s", fmt_metric_value("%,d", nodes));
+        exit 1;
+    end
+
+    if not contains(keys(metrics_ops), name):: metrics_ops[name] = {};
+    if not contains(keys(metrics_ops[name]), config_nr):
+        metrics_ops[name][config_nr] = ops;
+    elif metrics_ops[name][config_nr] != ops:
+        errln("Inconsistent operations metric value:");
+        errln(" - Model name: %s", name);
+        errln(" - Configuration number: %d", config_nr);
+        errln(" - First metric value: %s", fmt_metric_value("%,d", metrics_ops[name][config_nr]));
+        errln(" - Second metric value: %s", fmt_metric_value("%,d", ops));
+        exit 1;
+    end
 end
+
+names = sorted(names_set);
+config_nrs = sorted(keys(configs));
+max_config_nr = config_nrs[-1];
 
 // Calculate best and worst values, per model.
 long max_long = <long>decode("0x7fffffffffffffff");
@@ -315,31 +351,33 @@ tool tuple(string, string) get_classes_and_style(long value, long best_value, lo
     return " worse2-color", fmt("--percentage:%.3f", worst_percentage);
 end
 
-for idx, config in enumerate(configs):
+for config_nr in config_nrs:
+    string config = configs[config_nr];
     string config_extra_classes;
     if empty(trim(config)):
         config = "(default)";
         config_extra_classes = " config-default";
     end
-    bool last_config = idx == size(configs) - 1;
     string close_extra_classes;
-    if last_config:: close_extra_classes = close_extra_classes + " class='last-row'";
+    if config_nr == max_config_nr:: close_extra_classes = close_extra_classes + " class='last-row'";
     lines_nodes = lines_nodes + [fmt("      <tr%s>", close_extra_classes)];
     lines_ops   = lines_ops   + [fmt("      <tr%s>", close_extra_classes)];
-    lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", idx + 1, size(configs))];
-    lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", idx + 1, size(configs))];
+    lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
+    lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
     lines_nodes = lines_nodes + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
     lines_ops   = lines_ops   + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
-    for idx2, name in enumerate(names):
-        long value_nodes = metrics_nodes[name][idx + 1];
-        long value_ops   = metrics_ops  [name][idx + 1];
+    for idx, name in enumerate(names):
+        long value_nodes = -1;
+        long value_ops   = -1;
+        if contains(keys(metrics_nodes[name]), config_nr):: value_nodes = metrics_nodes[name][config_nr];
+        if contains(keys(metrics_ops  [name]), config_nr):: value_ops   = metrics_ops  [name][config_nr];
         string text_nodes_abs, text_nodes_rel;
         if value_nodes == -1:
             text_nodes_abs = "?";
             text_nodes_rel = "?";
         else
             text_nodes_abs = <string>escape(fmt("%,d", value_nodes));
-            text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes / best_values_nodes[idx2]));
+            text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes / best_values_nodes[idx]));
         end
         string text_ops_abs, text_ops_rel;
         if value_ops == -1:
@@ -347,10 +385,10 @@ for idx, config in enumerate(configs):
             text_ops_rel = "?";
         else
             text_ops_abs = <string>escape(fmt("%,d", value_ops));
-            text_ops_rel = <string>escape(fmt("%,.3f", value_ops / best_values_ops[idx2]));
+            text_ops_rel = <string>escape(fmt("%,.3f", value_ops / best_values_ops[idx]));
         end
-        tuple(string, string) cs_nodes = get_classes_and_style(value_nodes, best_values_nodes[idx2], worst_values_nodes[idx2]);
-        tuple(string, string) cs_ops   = get_classes_and_style(value_ops  , best_values_ops  [idx2], worst_values_ops  [idx2]);
+        tuple(string, string) cs_nodes = get_classes_and_style(value_nodes, best_values_nodes[idx], worst_values_nodes[idx]);
+        tuple(string, string) cs_ops   = get_classes_and_style(value_ops  , best_values_ops  [idx], worst_values_ops  [idx]);
         lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes_abs, text_nodes_rel, text_nodes_abs)];
         lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops_abs,   text_ops_rel,   text_ops_abs)];
     end
@@ -358,10 +396,11 @@ for idx, config in enumerate(configs):
     lines_ops   = lines_ops   + ["      </tr>"];
 end
 
-html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>Maximum number of used BDD nodes:</td></tr>"];
+int col_cnt = size(names) + 2;
+html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>Maximum number of used BDD nodes:</td></tr>", col_cnt)];
 html_lines = html_lines + lines_nodes;
-html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>&nbsp;</td></tr>"];
-html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>Number of BDD operations:</td></tr>"];
+html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>&nbsp;</td></tr>", col_cnt)];
+html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>Number of BDD operations:</td></tr>", col_cnt)];
 html_lines = html_lines + lines_ops;
 
 html_lines = html_lines + [
@@ -375,5 +414,5 @@ string html_filepath = replace(pathjoin("_generated", "_overview.html"), "\\", "
 writefile(html_filepath, html_lines);
 
 // Done.
-outln("Processed %,d benchmark result(s), for %,d configuration(s) each.", size(names), size(configs));
+outln("Processed %,d benchmark models(s), for %,d configuration(s) each.", size(names), size(configs));
 outln("See \"%s\" for the generated overview.", html_filepath);
