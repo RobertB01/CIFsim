@@ -22,4 +22,3 @@ plant p:
     edge e goto l2;
   location l2;
 end
-
