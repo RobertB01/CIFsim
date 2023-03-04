@@ -50,8 +50,18 @@ for f in file_names:
     for line in lines:
         list string parts = split(line, ",");
         int config_nr = <int>valueOf(trim(parts[0]));
-        long nodes_cnt = <long>valueOf(trim(parts[2]));
-        long ops_cnt   = <long>valueOf(trim(parts[3]));
+        long nodes_cnt;
+        if trim(parts[2]) == "?":
+            nodes_cnt = -1;
+        else
+            nodes_cnt = <long>valueOf(trim(parts[2]));
+        end
+        long ops_cnt;
+        if trim(parts[3]) == "?":
+            ops_cnt = -1;
+        else
+            ops_cnt = <long>valueOf(trim(parts[3]));
+        end
         metrics_nodes[name][config_nr] = nodes_cnt;
         metrics_ops  [name][config_nr] = ops_cnt;
         if first_file:
@@ -67,20 +77,28 @@ for f in file_names:
     first_file = false;
 end
 
-// Calculate best values.
+// Calculate best and worst values, per model.
 long max_long = <long>decode("0x7fffffffffffffff");
 list long best_values_nodes;
 list long best_values_ops;
+list long worst_values_nodes;
+list long worst_values_ops;
 for name in names:
-    long best_value_nodes = max_long;
-    long best_value_ops   = max_long;
-    for value in values(metrics_nodes[name]):: best_value_nodes = min(best_value_nodes, value);
-    for value in values(metrics_ops  [name]):: best_value_ops   = min(best_value_ops  , value);
-    best_values_nodes = best_values_nodes + [best_value_nodes];
-    best_values_ops   = best_values_ops   + [best_value_ops  ];
+    long best_value_nodes  = max_long;
+    long best_value_ops    = max_long;
+    long worst_value_nodes = -1;
+    long worst_value_ops   = -1;
+    for value in values(metrics_nodes[name]):: if value != -1:: best_value_nodes  = min(best_value_nodes , value);
+    for value in values(metrics_ops  [name]):: if value != -1:: best_value_ops    = min(best_value_ops   , value);
+    for value in values(metrics_nodes[name]):: if value != -1:: worst_value_nodes = max(worst_value_nodes, value);
+    for value in values(metrics_ops  [name]):: if value != -1:: worst_value_ops   = max(worst_value_ops  , value);
+    best_values_nodes  = best_values_nodes  + [best_value_nodes];
+    best_values_ops    = best_values_ops    + [best_value_ops  ];
+    worst_values_nodes = worst_values_nodes + [worst_value_nodes];
+    worst_values_ops   = worst_values_ops   + [worst_value_ops  ];
 end
 
-// Construct the HTML table lines.
+// Construct the HTML file contents.
 list string html_lines = [
     "<!DOCTYPE html>",
     "<html lang='en'>",
@@ -88,50 +106,177 @@ list string html_lines = [
     "    <title>Benchmark results overview</title>",
     "    <meta charset='utf-8'>",
     "    <style>",
+    "      html {",
+    "        font-family: 'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans','Liberation Sans',sans-serif;",
+    "      }",
     "      h2 {",
     "        margin: 0;",
     "      }",
+    "      .section {",
+    "        margin-top: 20px;",
+    "      }",
     "      table {",
+    "        margin-top: 2px;",
+    "      }",
+    "      table.legend {",
+    "        border: solid 2px black;",
+    "        border-spacing: 0px;",
+    "      }",
+    "      table.legend td {",
+    "        white-space: nowrap;",
+    "      }",
+    "      table.legend td.metric {",
+    "        min-width: 200px;",
+    "      }",
+    "      table.legend td.sep {",
+    "        background: black;",
+    "      }",
+    "      table.legend td.text {",
+    "        padding-left: 4px;",
+    "        padding-right: 4px;",
+    "      }",
+    "      table.legend td.text.left {",
+    "        text-align: left;",
+    "        padding-right: 20px;",
+    "      }",
+    "      table.legend td.text.right {",
+    "        text-align: right;",
+    "        padding-left: 20px;",
+    "      }",
+    "      table.main {",
     "        border-spacing: 0;",
     "      }",
-    "      table tr.last-row td {",
+    "      table.main tr.last-row td {",
     "        border-bottom: solid 2px black;",
     "      }",
-    "      table th {",
+    "      table.main th {",
     "        background: black;",
     "        color: white;",
     "      }",
-    "      table td, table th {",
+    "      table.main td, table.main th {",
     "        padding: 2px 5px;",
     "        border: solid 1px black;",
     "        text-align: left;",
     "        margin: 0;",
     "      }",
-    "      table td:first-of-type, table th:first-of-type {",
+    "      table.main td:first-of-type, table.main th:first-of-type {",
     "        border-left: solid 2px black;",
     "      }",
-    "      table td:last-of-type, table th:last-of-type {",
+    "      table.main td:last-of-type, table.main th:last-of-type {",
     "        border-right: solid 2px black;",
     "      }",
-    "      table th.name {",
+    "      table.main th.name {",
     "        text-align: center;",
     "      }",
-    "      table td.metric {",
+    "      table.main td.config {",
+    "        font-family: monospace;",
+    "        white-space: pre-wrap;",
+    "      }",
+    "      table.main td.config.config-default {",
+    "        color: #888;",
+    "      }",
+    "      table.main td.metric {",
     "        text-align: right;",
     "      }",
-    "      table td.metric.best {",
-    "        background: #e0ffe0;",
+    "      table.legend td.metric.unknown {",
+    "        background: #cccccc;",
+    "      }",
+    "      table.main td.metric.unknown {",
+    "        background: #ccc;",
+    "        color: #222;",
+    "      }",
+    "      table.legend td.metric.best {",
+    "        background: #80ff00;",
+    "      }",
+    "      table.main td.metric.best {",
+    "        background: #80ff00;",
     "        font-weight: bold;",
     "      }",
-    "      table td.dummy {",
+    "      @keyframes worse1-frames {",
+    "        0% {",
+    "          background-color: #80ff00;",
+    "        }",
+    "        33.3% {",
+    "          background-color: yellow;",
+    "        }",
+    "        100% {",
+    "          background-color: orange;",
+    "        }",
+    "      }",
+    "      @keyframes worse2-frames {",
+    "        0% {",
+    "          background-color: orange;",
+    "        }",
+    "        100% {",
+    "          background-color: orangered;",
+    "        }",
+    "      }",
+    "      table.main td.metric.worse1-color {",
+    "        animation: 100.001s linear calc(-1s * var(--percentage)) paused worse1-frames;",
+    "      }",
+    "      table.main td.metric.worse2-color {",
+    "        animation: 100.001s linear calc(-1s * var(--percentage)) paused worse2-frames;",
+    "      }",
+    "      table.legend td.metric.worse1-gradient {",
+    "        background: linear-gradient(to right, #80ff00 0%, yellow 33.3%, orange 100%);",
+    "      }",
+    "      table.legend td.metric.worse2-gradient {",
+    "        background: linear-gradient(to right, orange 0%, orangered 100%);",
+    "      }",
+    "      table.main td.dummy {",
     "        border: 0;",
     "        padding-left: 0;",
     "      }",
     "    </style>",
+    "    <script>",
+    "      function applyOptions(opt) {",
+    "        const elements = document.querySelectorAll('[data-' + opt + ']');",
+    "        for (let i = 0; i < elements.length; i++) {",
+    "          elements[i].innerHTML = elements[i].getAttribute('data-' + opt);",
+    "        }",
+    "      }",
+    "    </script>",
     "  </head>",
     "  <body>",
     "    <h2>CIF data-based synthesis benchmark results overview</h2>",
-    "    <table>"
+    "    <div class='section'>Options:</div>",
+    "    <input type='radio' id='metric-value-opt-abs' name='metric-value-opt' value='abs' onclick=\"applyOptions('abs')\" checked>",
+    "    <label for='metric-value-opt-abs'>Absolute metric values</label><br>",
+    "    <input type='radio' id='metric-value-opt-rel' name='metric-value-opt' value='rel' onclick=\"applyOptions('rel')\">",
+    "    <label for='metric-value-opt-rel'>Relative metric values (relative to best value)</label><br>",
+    "    <div class='section'>Legend (* = per metric, per model):</div>",
+    "    <table class='legend'>",
+    "      <tr>",
+    "        <td class='text'>Best configuration (*)</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text' colspan='2'>A bit worse</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text' colspan='2'>Even worse</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text'>Unknown (error, out of memory, ...)</td>",
+    "      </tr>",
+    "      <tr>",
+    "        <td class='metric best'>&nbsp;</td>",
+    "        <td class='sep'</td>",
+    "        <td class='metric worse1-gradient' colspan='2'>&nbsp;</td>",
+    "        <td class='sep'</td>",
+    "        <td class='metric worse2-gradient' colspan='2'>&nbsp;</td>",
+    "        <td class='sep'</td>",
+    "        <td class='metric unknown'>&nbsp;</td>",
+    "      </tr>",
+    "      <tr>",
+    "        <td></td> <!-- Best -->",
+    "        <td class='sep'</td>",
+    "        <td class='text left'>&times;1</td>",
+    "        <td class='text right'>&times;2</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text left'>&times;2</td>",
+    "        <td class='text right'>worst (*)</td>",
+    "        <td class='sep'</td>",
+    "        <td></td> <!-- Unknown -->",
+    "      </tr>",
+    "    </table>",
+    "    <table class='main section'>",
 ];
 
 list string lines_nodes;
@@ -150,8 +295,32 @@ end
 lines_nodes = lines_nodes + ["      </tr>"];
 lines_ops   = lines_ops   + ["      </tr>"];
 
+tool tuple(string, string) get_classes_and_style(long value, long best_value, long worst_value):
+    // Handle unknown value (synthesis resulted in an error, ran out of memory, crashed, etc).
+    if value == -1:: return " unknown", "";
+
+    // Handle best value.
+    if value == best_value:: return " best", "";
+
+    // Not the best value. Get the percentage that it is worse than the best value.
+    double worse_percentage = ((value / best_value) - 1) * 100;
+
+    // Handle being at most 100% worse, with a gradient.
+    if worse_percentage <= 100:
+        return " worse1-color", fmt("--percentage:%.3f", worse_percentage);
+    end
+
+    // Handle being more than 100% worse, with a different gradient. Scaled as percentage to maximum value.
+    double worst_percentage = (value - 2*best_value) / (worst_value - 2*best_value) * 100;
+    return " worse2-color", fmt("--percentage:%.3f", worst_percentage);
+end
+
 for idx, config in enumerate(configs):
-    if empty(trim(config)):: config = "(default)";
+    string config_extra_classes;
+    if empty(trim(config)):
+        config = "(default)";
+        config_extra_classes = " config-default";
+    end
     bool last_config = idx == size(configs) - 1;
     string close_extra_classes;
     if last_config:: close_extra_classes = close_extra_classes + " class='last-row'";
@@ -159,25 +328,36 @@ for idx, config in enumerate(configs):
     lines_ops   = lines_ops   + [fmt("      <tr%s>", close_extra_classes)];
     lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", idx + 1, size(configs))];
     lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", idx + 1, size(configs))];
-    lines_nodes = lines_nodes + [fmt("        <td class='config'>%s</td>", escape(config))];
-    lines_ops   = lines_ops   + [fmt("        <td class='config'>%s</td>", escape(config))];
+    lines_nodes = lines_nodes + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
+    lines_ops   = lines_ops   + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
     for idx2, name in enumerate(names):
         long value_nodes = metrics_nodes[name][idx + 1];
         long value_ops   = metrics_ops  [name][idx + 1];
-        string text_nodes = <string>escape(fmt("%,d", value_nodes));
-        string text_ops   = <string>escape(fmt("%,d", value_ops  ));
-        string extra_class_nodes;
-        string extra_class_ops;
-        if best_values_nodes[idx2] == value_nodes:: extra_class_nodes = extra_class_nodes + " best";
-        if best_values_ops  [idx2] == value_ops  :: extra_class_ops   = extra_class_ops   + " best";
-        lines_nodes = lines_nodes + [fmt("        <td class='metric%s'>%s</td>", extra_class_nodes, text_nodes)];
-        lines_ops   = lines_ops   + [fmt("        <td class='metric%s'>%s</td>", extra_class_ops  , text_ops  )];
+        string text_nodes_abs, text_nodes_rel;
+        if value_nodes == -1:
+            text_nodes_abs = "?";
+            text_nodes_rel = "?";
+        else
+            text_nodes_abs = <string>escape(fmt("%,d", value_nodes));
+            text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes / best_values_nodes[idx2]));
+        end
+        string text_ops_abs, text_ops_rel;
+        if value_ops == -1:
+            text_ops_abs = "?";
+            text_ops_rel = "?";
+        else
+            text_ops_abs = <string>escape(fmt("%,d", value_ops));
+            text_ops_rel = <string>escape(fmt("%,.3f", value_ops / best_values_ops[idx2]));
+        end
+        tuple(string, string) cs_nodes = get_classes_and_style(value_nodes, best_values_nodes[idx2], worst_values_nodes[idx2]);
+        tuple(string, string) cs_ops   = get_classes_and_style(value_ops  , best_values_ops  [idx2], worst_values_ops  [idx2]);
+        lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes_abs, text_nodes_rel, text_nodes_abs)];
+        lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops_abs,   text_ops_rel,   text_ops_abs)];
     end
     lines_nodes = lines_nodes + ["      </tr>"];
     lines_ops   = lines_ops   + ["      </tr>"];
 end
 
-html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>&nbsp;</td></tr>"];
 html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>Maximum number of used BDD nodes:</td></tr>"];
 html_lines = html_lines + lines_nodes;
 html_lines = html_lines + ["      <tr><td class='dummy' colspan='99'>&nbsp;</td></tr>"];
@@ -190,7 +370,7 @@ html_lines = html_lines + [
     "</html>"
 ];
 
-// Write the overview metrics files.
+// Write the HTML file.
 string html_filepath = replace(pathjoin("_generated", "_overview.html"), "\\", "/");
 writefile(html_filepath, html_lines);
 
