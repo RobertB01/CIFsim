@@ -1,0 +1,15 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2015, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Model source: Kai Cai and W. M. Wonham, "New results on supervisor localization, with case studies", Discrete
+Event Dynamic Systems, volume 25, number 1-2, pages 203-226, 2015, doi: https://doi.org/10.1007/s10626-014-0194-6.
