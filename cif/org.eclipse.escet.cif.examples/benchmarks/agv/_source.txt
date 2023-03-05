@@ -1,0 +1,17 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1997, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Model source: W. M. Wonham and Kai Cai, "Supervisory Control of Discrete-Event Systems", Springer, 2019,
+doi: https://doi.org/10.1007/978-3-319-77452-7.
+
+Model is described in Section 4.7 of the book.
