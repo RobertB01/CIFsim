@@ -79,15 +79,15 @@ plant def Chamber_Cij(event Ri_pick_Cij, Ri_drop_Cij, Processij):
     edge Ri_pick_Cij goto l1;
 end
 
-Chamber_C11 : Chamber_Cij (R1_pick_C11, R1_drop_C11, Process11);
-Chamber_C12 : Chamber_Cij (R1_pick_C12, R1_drop_C12, Process12);
-Chamber_C21 : Chamber_Cij (R2_pick_C21, R2_drop_C21, Process21);
-Chamber_C22 : Chamber_Cij (R2_pick_C22, R2_drop_C22, Process22);
-Chamber_C31 : Chamber_Cij (R3_pick_C31, R3_drop_C31, Process31);
-Chamber_C32 : Chamber_Cij (R3_pick_C32, R3_drop_C32, Process32);
-Chamber_C41 : Chamber_Cij (R4_pick_C41, R4_drop_C41, Process41);
-Chamber_C42 : Chamber_Cij (R4_pick_C42, R4_drop_C42, Process42);
-Chamber_C43 : Chamber_Cij (R4_pick_C43, R4_drop_C43, Process43);
+Chamber_C11: Chamber_Cij(R1_pick_C11, R1_drop_C11, Process11);
+Chamber_C12: Chamber_Cij(R1_pick_C12, R1_drop_C12, Process12);
+Chamber_C21: Chamber_Cij(R2_pick_C21, R2_drop_C21, Process21);
+Chamber_C22: Chamber_Cij(R2_pick_C22, R2_drop_C22, Process22);
+Chamber_C31: Chamber_Cij(R3_pick_C31, R3_drop_C31, Process31);
+Chamber_C32: Chamber_Cij(R3_pick_C32, R3_drop_C32, Process32);
+Chamber_C41: Chamber_Cij(R4_pick_C41, R4_drop_C41, Process41);
+Chamber_C42: Chamber_Cij(R4_pick_C42, R4_drop_C42, Process42);
+Chamber_C43: Chamber_Cij(R4_pick_C43, R4_drop_C43, Process43);
 
 // Buffers.
 
