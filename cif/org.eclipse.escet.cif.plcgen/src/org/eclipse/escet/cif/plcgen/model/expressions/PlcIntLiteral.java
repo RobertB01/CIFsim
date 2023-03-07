@@ -26,9 +26,4 @@ public class PlcIntLiteral extends PlcExpression {
     public PlcIntLiteral(int value) {
         this.value = value;
     }
-
-    @Override
-    public PlcIntLiteral copy() {
-        return new PlcIntLiteral(value);
-    }
 }

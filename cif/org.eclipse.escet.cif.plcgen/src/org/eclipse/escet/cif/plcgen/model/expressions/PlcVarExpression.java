@@ -13,11 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
-import static org.eclipse.escet.common.java.Lists.listc;
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.common.java.Assert;
@@ -52,22 +49,9 @@ public class PlcVarExpression extends PlcExpression {
         this.projections = projections;
     }
 
-    @Override
-    public PlcVarExpression copy() {
-        List<PlcProjection> clonedProjs = listc(projections.size());
-        projections.stream().map(p -> p.copy()).collect(Collectors.toCollection(() -> clonedProjs));
-
-        return new PlcVarExpression(variable, clonedProjs);
-    }
-
     /** Projection in the value of the referenced variable. */
     public abstract static class PlcProjection {
-        /**
-         * Make an independent copy of this projection.
-         *
-         * @return The copy of the projection.
-         */
-        public abstract PlcProjection copy();
+        // Nothing to do.
     }
 
     /** Projection in a structure of the value of the referenced variable. */
@@ -82,11 +66,6 @@ public class PlcVarExpression extends PlcExpression {
          */
         public PlcStructProjection(String fieldName) {
             this.fieldName = fieldName;
-        }
-
-        @Override
-        public PlcStructProjection copy() {
-            return new PlcStructProjection(fieldName);
         }
     }
 
@@ -112,14 +91,6 @@ public class PlcVarExpression extends PlcExpression {
         public PlcArrayProjection(List<PlcExpression> indexExpressions) {
             Assert.check(!indexExpressions.isEmpty());
             this.indexExpressions = indexExpressions;
-        }
-
-        @Override
-        public PlcArrayProjection copy() {
-            List<PlcExpression> clonedindexExprs = listc(indexExpressions.size());
-            indexExpressions.stream().map(ie -> ie.copy()).collect(Collectors.toCollection(() -> clonedindexExprs));
-
-            return new PlcArrayProjection(clonedindexExprs);
         }
     }
 }

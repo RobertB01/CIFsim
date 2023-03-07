@@ -13,10 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
-import static org.eclipse.escet.common.java.Lists.listc;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.escet.common.java.Assert;
 
@@ -39,13 +36,5 @@ public class PlcFuncAppl extends PlcExpression {
         this.arguments = arguments;
 
         Assert.check(!arguments.isEmpty());
-    }
-
-    @Override
-    public PlcFuncAppl copy() {
-        List<PlcNamedValue> clonedArgs = listc(arguments.size());
-        arguments.stream().map(arg -> arg.copy()).collect(Collectors.toCollection(() -> clonedArgs));
-
-        return new PlcFuncAppl(function, clonedArgs);
     }
 }

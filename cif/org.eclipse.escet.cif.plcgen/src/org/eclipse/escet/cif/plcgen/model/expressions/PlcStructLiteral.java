@@ -13,10 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
-import static org.eclipse.escet.common.java.Lists.listc;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 /** Expression describing a structure value. */
 public class PlcStructLiteral extends PlcExpression {
@@ -30,13 +27,5 @@ public class PlcStructLiteral extends PlcExpression {
      */
     public PlcStructLiteral(List<PlcNamedValue> values) {
         this.values = values;
-    }
-
-    @Override
-    public PlcStructLiteral copy() {
-        List<PlcNamedValue> clonedValues = listc(values.size());
-        values.stream().map(v -> v.copy()).collect(Collectors.toCollection(() -> clonedValues));
-
-        return new PlcStructLiteral(clonedValues);
     }
 }

@@ -26,9 +26,4 @@ public class PlcRealLiteral extends PlcExpression {
     public PlcRealLiteral(String value) {
         this.value = value;
     }
-
-    @Override
-    public PlcRealLiteral copy() {
-        return new PlcRealLiteral(value);
-    }
 }

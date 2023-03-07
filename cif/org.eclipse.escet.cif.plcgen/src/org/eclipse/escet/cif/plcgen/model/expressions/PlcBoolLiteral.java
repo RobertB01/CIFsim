@@ -26,9 +26,4 @@ public class PlcBoolLiteral extends PlcExpression {
     public PlcBoolLiteral(boolean value) {
         this.value = value;
     }
-
-    @Override
-    public PlcBoolLiteral copy() {
-        return new PlcBoolLiteral(value);
-    }
 }

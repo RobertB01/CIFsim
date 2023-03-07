@@ -13,10 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
-import static org.eclipse.escet.common.java.Lists.listc;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 /** Expression describing an array value. */
 public class PlcArrayLiteral extends PlcExpression {
@@ -30,13 +27,5 @@ public class PlcArrayLiteral extends PlcExpression {
      */
     public PlcArrayLiteral(List<PlcExpression> values) {
         this.values = values;
-    }
-
-    @Override
-    public PlcArrayLiteral copy() {
-        List<PlcExpression> clonedValues = listc(values.size());
-        values.stream().map(v -> v.copy()).collect(Collectors.toCollection(() -> clonedValues));
-
-        return new PlcArrayLiteral(clonedValues);
     }
 }

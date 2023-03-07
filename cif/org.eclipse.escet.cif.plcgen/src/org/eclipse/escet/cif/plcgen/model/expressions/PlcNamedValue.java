@@ -31,13 +31,4 @@ public class PlcNamedValue {
         this.name = name;
         this.value = value;
     }
-
-    /**
-     * Make an independent copy of this named value.
-     *
-     * @return The copied named value.
-     */
-    public PlcNamedValue copy() {
-        return new PlcNamedValue(name, value.copy());
-    }
 }
