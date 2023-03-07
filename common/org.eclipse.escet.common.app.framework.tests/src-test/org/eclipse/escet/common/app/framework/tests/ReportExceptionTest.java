@@ -281,7 +281,7 @@ public class ReportExceptionTest {
         // Create streams.
         AppStream outStream = new MemAppStream();
         AppStream errStream = new MemAppStream();
-        errStream.setLinuxNewLineBytes();
+        errStream.setUnixNewLineBytes();
         AppStreams streams = new AppStreams(System.in, outStream, errStream);
 
         // Create application.

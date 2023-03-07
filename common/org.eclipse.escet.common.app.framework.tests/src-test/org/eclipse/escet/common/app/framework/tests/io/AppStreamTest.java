@@ -11,10 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.app.framework.io;
+package org.eclipse.escet.common.app.framework.tests.io;
 
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.escet.common.app.framework.io.AppStream;
+import org.eclipse.escet.common.app.framework.io.MemAppStream;
 import org.eclipse.escet.common.java.Assert;
 import org.junit.Test;
 
@@ -41,10 +43,10 @@ public class AppStreamTest {
      * @param texts Text to write, each element is written as a single call to {@link AppStream#write(byte[])}.
      * @return The resulting text from the stream after writing all texts and closing the stream.
      */
-    private String writeLinuxTexts(String... texts) {
+    private String writeUnixTexts(String... texts) {
         MemAppStream stream = new MemAppStream();
         stream.setConvertNewLines(true);
-        stream.setLinuxNewLineBytes();
+        stream.setUnixNewLineBytes();
 
         convertTexts(stream, texts);
         return stream.toString();
@@ -73,8 +75,7 @@ public class AppStreamTest {
      * @param texts Text to write, each element is written as a single call to {@link AppStream#write(byte[])}.
      */
     private void convertTexts(AppStream stream, String... texts) {
-        for (int i = 0; i < texts.length; i++) {
-            String text = texts[i];
+        for (String text: texts) {
             byte[] bytes = new byte[text.length()];
             for (int j = 0; j < text.length(); j++) {
                 int c = text.charAt(j);
@@ -125,34 +126,34 @@ public class AppStreamTest {
     @SuppressWarnings("javadoc")
     public void linuxTextWriteTest() {
         // Write single string.
-        assertEquals("", writeLinuxTexts());
-        assertEquals("ax", writeLinuxTexts("ax"));
-        assertEquals("a\nx", writeLinuxTexts("a\rx"));
-        assertEquals("a\nx", writeLinuxTexts("a\nx"));
-        assertEquals("a\nx", writeLinuxTexts("a\r\nx"));
-        assertEquals("a\n\nx", writeLinuxTexts("a\n\rx")); // \n\r is seen as 2 EOL sequences.
+        assertEquals("", writeUnixTexts());
+        assertEquals("ax", writeUnixTexts("ax"));
+        assertEquals("a\nx", writeUnixTexts("a\rx"));
+        assertEquals("a\nx", writeUnixTexts("a\nx"));
+        assertEquals("a\nx", writeUnixTexts("a\r\nx"));
+        assertEquals("a\n\nx", writeUnixTexts("a\n\rx")); // \n\r is seen as 2 EOL sequences.
 
         // Write multiple strings.
-        assertEquals("ax", writeLinuxTexts("a", "x"));
-        assertEquals("a\nx", writeLinuxTexts("a", "\rx"));
-        assertEquals("a\nx", writeLinuxTexts("a", "\nx"));
-        assertEquals("a\nx", writeLinuxTexts("a", "\r\nx"));
-        assertEquals("a\n\nx", writeLinuxTexts("a", "\n\rx")); // \n\r is seen as 2 EOL sequences.
+        assertEquals("ax", writeUnixTexts("a", "x"));
+        assertEquals("a\nx", writeUnixTexts("a", "\rx"));
+        assertEquals("a\nx", writeUnixTexts("a", "\nx"));
+        assertEquals("a\nx", writeUnixTexts("a", "\r\nx"));
+        assertEquals("a\n\nx", writeUnixTexts("a", "\n\rx")); // \n\r is seen as 2 EOL sequences.
 
-        assertEquals("a\nx", writeLinuxTexts("a\r", "x"));
-        assertEquals("a\nx", writeLinuxTexts("a\n", "x"));
-        assertEquals("a\nx", writeLinuxTexts("a\r", "\nx"));
-        assertEquals("a\n\nx", writeLinuxTexts("a\n", "\rx")); // \n\r is seen as 2 EOL sequences.
+        assertEquals("a\nx", writeUnixTexts("a\r", "x"));
+        assertEquals("a\nx", writeUnixTexts("a\n", "x"));
+        assertEquals("a\nx", writeUnixTexts("a\r", "\nx"));
+        assertEquals("a\n\nx", writeUnixTexts("a\n", "\rx")); // \n\r is seen as 2 EOL sequences.
 
-        assertEquals("a\nx", writeLinuxTexts("a\r\n", "x"));
-        assertEquals("a\n\nx", writeLinuxTexts("a\n\r", "x")); // \n\r is seen as 2 EOL sequences.
+        assertEquals("a\nx", writeUnixTexts("a\r\n", "x"));
+        assertEquals("a\n\nx", writeUnixTexts("a\n\r", "x")); // \n\r is seen as 2 EOL sequences.
 
         // Write single characters.
-        assertEquals("ax", writeLinuxTexts("a", "x"));
-        assertEquals("a\nx", writeLinuxTexts("a", "\r", "x"));
-        assertEquals("a\nx", writeLinuxTexts("a", "\n", "x"));
-        assertEquals("a\nx", writeLinuxTexts("a", "\r", "\n", "x"));
-        assertEquals("a\n\nx", writeLinuxTexts("a", "\n", "\r", "x")); // \n\r is seen as 2 EOL sequences.
+        assertEquals("ax", writeUnixTexts("a", "x"));
+        assertEquals("a\nx", writeUnixTexts("a", "\r", "x"));
+        assertEquals("a\nx", writeUnixTexts("a", "\n", "x"));
+        assertEquals("a\nx", writeUnixTexts("a", "\r", "\n", "x"));
+        assertEquals("a\n\nx", writeUnixTexts("a", "\n", "\r", "x")); // \n\r is seen as 2 EOL sequences.
     }
 
     @Test
@@ -198,10 +199,10 @@ public class AppStreamTest {
         assertEquals("\r\n_x", writeRawTexts("\r\n_x"));
         assertEquals("\n\r_x", writeRawTexts("\n\r_x"));
 
-        assertEquals("\n_x", writeLinuxTexts("\n_x"));
-        assertEquals("\n_x", writeLinuxTexts("\r_x"));
-        assertEquals("\n_x", writeLinuxTexts("\r\n_x"));
-        assertEquals("\n\n_x", writeLinuxTexts("\n\r_x")); // \n\r is seen as 2 EOL sequences.
+        assertEquals("\n_x", writeUnixTexts("\n_x"));
+        assertEquals("\n_x", writeUnixTexts("\r_x"));
+        assertEquals("\n_x", writeUnixTexts("\r\n_x"));
+        assertEquals("\n\n_x", writeUnixTexts("\n\r_x")); // \n\r is seen as 2 EOL sequences.
 
         assertEquals("\r\n_x", writeWindowsTexts("\n_x"));
         assertEquals("\r\n_x", writeWindowsTexts("\r_x"));
@@ -214,10 +215,10 @@ public class AppStreamTest {
         assertEquals("\r\n\r\n_x", writeRawTexts("\r\n\r\n_x"));
         assertEquals("\n\r\n\r_x", writeRawTexts("\n\r\n\r_x"));
 
-        assertEquals("\n\n_x", writeLinuxTexts("\n\n_x"));
-        assertEquals("\n\n_x", writeLinuxTexts("\r\r_x"));
-        assertEquals("\n\n_x", writeLinuxTexts("\r\n\r\n_x"));
-        assertEquals("\n\n\n_x", writeLinuxTexts("\n\r\n\r_x")); // Interpreted as "\n" "\r\n" "\r".
+        assertEquals("\n\n_x", writeUnixTexts("\n\n_x"));
+        assertEquals("\n\n_x", writeUnixTexts("\r\r_x"));
+        assertEquals("\n\n_x", writeUnixTexts("\r\n\r\n_x"));
+        assertEquals("\n\n\n_x", writeUnixTexts("\n\r\n\r_x")); // Interpreted as "\n" "\r\n" "\r".
 
         assertEquals("\r\n\r\n_x", writeWindowsTexts("\n\n_x"));
         assertEquals("\r\n\r\n_x", writeWindowsTexts("\r\r_x"));
@@ -234,10 +235,10 @@ public class AppStreamTest {
         assertEquals("y_\r\n", writeRawTexts("y_\r\n"));
         assertEquals("y_\n\r", writeRawTexts("y_\n\r"));
 
-        assertEquals("y_\n", writeLinuxTexts("y_\n"));
-        assertEquals("y_\n", writeLinuxTexts("y_\r"));
-        assertEquals("y_\n", writeLinuxTexts("y_\r\n"));
-        assertEquals("y_\n\n", writeLinuxTexts("y_\n\r")); // \n\r is seen as 2 EOL sequences.
+        assertEquals("y_\n", writeUnixTexts("y_\n"));
+        assertEquals("y_\n", writeUnixTexts("y_\r"));
+        assertEquals("y_\n", writeUnixTexts("y_\r\n"));
+        assertEquals("y_\n\n", writeUnixTexts("y_\n\r")); // \n\r is seen as 2 EOL sequences.
 
         assertEquals("y_\r\n", writeWindowsTexts("y_\n"));
         assertEquals("y_\r\n", writeWindowsTexts("y_\r"));
@@ -250,10 +251,10 @@ public class AppStreamTest {
         assertEquals("y_\r\n\r\n", writeRawTexts("y_\r\n\r\n"));
         assertEquals("y_\n\r\n\r", writeRawTexts("y_\n\r\n\r"));
 
-        assertEquals("y_\n\n", writeLinuxTexts("y_\n\n"));
-        assertEquals("y_\n\n", writeLinuxTexts("y_\r\r"));
-        assertEquals("y_\n\n", writeLinuxTexts("y_\r\n\r\n"));
-        assertEquals("y_\n\n\n", writeLinuxTexts("y_\n\r\n\r")); // Interpreted as "\n" "\r\n" "\r".
+        assertEquals("y_\n\n", writeUnixTexts("y_\n\n"));
+        assertEquals("y_\n\n", writeUnixTexts("y_\r\r"));
+        assertEquals("y_\n\n", writeUnixTexts("y_\r\n\r\n"));
+        assertEquals("y_\n\n\n", writeUnixTexts("y_\n\r\n\r")); // Interpreted as "\n" "\r\n" "\r".
 
         assertEquals("y_\r\n\r\n", writeWindowsTexts("y_\n\n"));
         assertEquals("y_\r\n\r\n", writeWindowsTexts("y_\r\r"));
@@ -265,7 +266,7 @@ public class AppStreamTest {
     @SuppressWarnings("javadoc")
     public void multiLineTextWriteTest() {
         assertEquals("abc_\n_def_\r_ghi_\r\n_x", writeRawTexts("abc_\n_def_\r_ghi_\r\n_x"));
-        assertEquals("abc_\n_def_\n_ghi_\n_x", writeLinuxTexts("abc_\n_def_\r_ghi_\r\n_x"));
+        assertEquals("abc_\n_def_\n_ghi_\n_x", writeUnixTexts("abc_\n_def_\r_ghi_\r\n_x"));
         assertEquals("abc_\r\n_def_\r\n_ghi_\r\n_x", writeWindowsTexts("abc_\n_def_\r_ghi_\r\n_x"));
     }
 }

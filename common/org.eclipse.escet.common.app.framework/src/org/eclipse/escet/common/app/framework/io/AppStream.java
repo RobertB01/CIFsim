@@ -50,16 +50,16 @@ public abstract class AppStream implements Closeable {
      */
     private final Charset charset = Charset.forName("UTF-8");
 
-    /** Whether to convert '\n' characters to platform new lines. */
+    /** Whether to replace each EOL sequence in the stream with the value of the 'new line bytes' property. */
     private boolean convertNewLines = true;
 
     /** New line bytes to use for new lines. */
     private byte[] newline = Strings.NL.getBytes(charset);
 
     /**
-     * If {@code true}, write provided non-EOL characters to the output and check for a {@code '\r'} character as first part
-     * of EOL detection in the output to write. If {@code false}, scan for an optional {@code '\n'} character and write an EOL to
-     * the output.
+     * If {@code true}, write provided non-EOL characters to the output and check for a {@code '\r'} character as first
+     * part of EOL detection in the output to write. If {@code false}, scan for an optional {@code '\n'} character and
+     * write an EOL to the output.
      */
     private boolean beforeCrTest = true;
 
@@ -90,7 +90,7 @@ public abstract class AppStream implements Closeable {
      *
      * @return {@code true} if the property is enabled, {@code false} otherwise.
      * @see #setConvertNewLines
-     * @see #setLinuxNewLineBytes
+     * @see #setUnixNewLineBytes
      * @see #setWindowsNewLineBytes
      * @see #setNewLineBytes
      * @see #getNewLineBytes
@@ -103,13 +103,14 @@ public abstract class AppStream implements Closeable {
 
     /**
      * Set the 'new line bytes' property of the stream. The 'new line bytes' are the platform specific or custom bytes
-     * to write when an EOL sequence is to be written and the 'convert new lines' property is enabled. By default
-     * platform specific new line bytes are used, but the new line bytes can be changed to write custom EOL sequences.
+     * to write when an EOL sequence is to be written and the 'convert new lines' property is enabled. They are also
+     * written when {@link #newline} is called. By default platform specific new line bytes are used, but the new line
+     * bytes can be changed to write custom EOL sequences.
      *
      * @param bytes The new line bytes to use.
      * @see #setConvertNewLines
      * @see #getConvertNewLines
-     * @see #setLinuxNewLineBytes
+     * @see #setUnixNewLineBytes
      * @see #setWindowsNewLineBytes
      * @see #getNewLineBytes
      */
@@ -121,7 +122,8 @@ public abstract class AppStream implements Closeable {
 
     /**
      * Set the 'new line bytes' property of the stream to use Unix new line bytes. Unix new line bytes ('\n') are used
-     * when an EOL sequence is to be written and the 'convert new lines' property is enabled.
+     * when an EOL sequence is to be written and the 'convert new lines' property is enabled. They are also written when
+     * {@link #newline} is called.
      *
      * @see #setConvertNewLines
      * @see #getConvertNewLines
@@ -129,7 +131,7 @@ public abstract class AppStream implements Closeable {
      * @see #setNewLineBytes
      * @see #getNewLineBytes
      */
-    public void setLinuxNewLineBytes() {
+    public void setUnixNewLineBytes() {
         synchronized (this) {
             this.newline = new byte[] {'\n'};
         }
@@ -138,11 +140,11 @@ public abstract class AppStream implements Closeable {
     /**
      * Set the 'new line bytes' property of the stream to use Microsoft Windows new line bytes. Microsoft Windows new
      * line bytes ('\r' followed by '\n') are used when an EOL sequence is to be written and the 'convert new lines'
-     * property is enabled.
+     * property is enabled. They are also written when {@link #newline} is called.
      *
      * @see #setConvertNewLines
      * @see #getConvertNewLines
-     * @see #setLinuxNewLineBytes
+     * @see #setUnixNewLineBytes
      * @see #setNewLineBytes
      * @see #getNewLineBytes
      */
@@ -154,12 +156,14 @@ public abstract class AppStream implements Closeable {
 
     /**
      * Get the 'new line bytes' property of the stream. The 'new line bytes' are the platform specific or custom bytes
-     * to write when an EOL sequence is to be written and the 'convert new lines' property is enabled.
+     * to write when an EOL sequence is to be written and the 'convert new lines' property is enabled. They are also
+     * written when {@link #newline} is called. By default platform specific new line bytes are used, but the new line
+     * bytes can be changed to write custom EOL sequences.
      *
      * @return The new line bytes being used.
      * @see #setConvertNewLines
      * @see #getConvertNewLines
-     * @see #setLinuxNewLineBytes
+     * @see #setUnixNewLineBytes
      * @see #setWindowsNewLineBytes
      * @see #setNewLineBytes
      */
@@ -374,8 +378,8 @@ public abstract class AppStream implements Closeable {
      */
     private void closeInternal() {
         if (!beforeCrTest) {
-            // Closing while in the middle of detecting an EOL sequence, where we found a '\r', assuming there was no '\n'
-            // intended.
+            // Closing while in the middle of detecting an EOL sequence, where we found a '\r', assuming there was no
+            // '\n' intended.
 
             // Write new line.
             if (convertNewLines) {
@@ -493,20 +497,12 @@ public abstract class AppStream implements Closeable {
      * @see Throwable#printStackTrace
      */
     public void printStackTraceInternal(Throwable ex) {
-        // Disable new line conversion, as Throwable.printStackTrace uses
-        // platform new lines.
-        boolean oldConvertNewLines = convertNewLines;
-        convertNewLines = false;
-
         // Print stack trace to print stream wrapper of this stream.
         PrintStream printer = asPrintStream();
         ex.printStackTrace(printer);
 
         // Flush to ensure print stream does not buffer anything.
         printer.flush();
-
-        // Restore new line conversion property value.
-        convertNewLines = oldConvertNewLines;
     }
 
     /**
