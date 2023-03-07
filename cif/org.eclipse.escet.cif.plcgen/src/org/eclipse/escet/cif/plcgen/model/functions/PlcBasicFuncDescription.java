@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen.model.expressions;
+package org.eclipse.escet.cif.plcgen.model.functions;
 
 import static org.eclipse.escet.common.java.Maps.mapc;
 
@@ -35,7 +35,10 @@ public abstract class PlcBasicFuncDescription {
     /** Name of the function in infix notation, {@code null} if infix form does not exist. */
     public final String infixFuncName;
 
-    /** Binding of the function application for laying out the infix notation. */
+    /**
+     * Binding of the function application for laying out the infix notation. Use {@link ExprBinding#NO_PRIORITY} for
+     * functions that have no infix notation.
+     */
     public final ExprBinding infixBinding;
 
     /**
@@ -44,13 +47,13 @@ public abstract class PlcBasicFuncDescription {
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
      * @param prefixParameters Prefix notation properties of the function parameters.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
-     * @param infixPriority Priority of the function application in infix notation. Use {@link ExprBinding#NO_PRIORITY}
-     *     for functions that have no infix notation.
+     * @param infixBinding Binding of the function application for laying out the infix notation. Use
+     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      */
     public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] prefixParameters,
-            String infixFuncName, ExprBinding infixPriority)
+            String infixFuncName, ExprBinding infixBinding)
     {
-        this(prefixFuncName, Arrays.asList(prefixParameters), infixFuncName, infixPriority);
+        this(prefixFuncName, Arrays.asList(prefixParameters), infixFuncName, infixBinding);
     }
 
     /**
@@ -59,15 +62,15 @@ public abstract class PlcBasicFuncDescription {
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
      * @param prefixParameters Prefix notation properties of the function parameters.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
-     * @param infixPriority Priority of the function application in infix notation. Use {@link ExprBinding#NO_PRIORITY}
-     *     for functions that have no infix notation.
+     * @param infixBinding Binding of the function application for laying out the infix notation. Use
+     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      */
     public PlcBasicFuncDescription(String prefixFuncName, List<PlcParameterDescription> prefixParameters,
-            String infixFuncName, ExprBinding infixPriority)
+            String infixFuncName, ExprBinding infixBinding)
     {
         this.prefixFuncName = prefixFuncName;
         this.infixFuncName = infixFuncName;
-        this.infixBinding = infixPriority;
+        this.infixBinding = infixBinding;
 
         this.prefixParameters = mapc(prefixParameters.size());
         for (PlcParameterDescription prefixParam: prefixParameters) {

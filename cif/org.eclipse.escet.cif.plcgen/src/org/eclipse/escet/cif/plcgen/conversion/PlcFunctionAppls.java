@@ -18,17 +18,17 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcBasicFuncDescription;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcBasicFuncDescription.ExprBinding;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcBasicFuncDescription.PlcParamDirection;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcBasicFuncDescription.PlcParameterDescription;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcCastFunction;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcSemanticFuncDescription;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
 import org.eclipse.escet.common.java.Assert;
 
 /** Elementary function application construction methods for a target. */

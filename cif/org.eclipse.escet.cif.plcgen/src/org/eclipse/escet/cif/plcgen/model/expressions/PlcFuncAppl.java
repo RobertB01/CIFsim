@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.model.expressions;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.common.java.Assert;
 
 /** Function application expression. */

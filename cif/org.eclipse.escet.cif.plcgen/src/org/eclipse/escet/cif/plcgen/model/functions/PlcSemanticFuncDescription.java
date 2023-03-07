@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen.model.expressions;
+package org.eclipse.escet.cif.plcgen.model.functions;
 
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcBasicFuncDescription.ExprBinding;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
 
 /** Function description extended with the semantic operation being performed in a function application. */
 public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
@@ -29,13 +29,13 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist. For
      *     single parameter functions the infix name is assumed to be a prefix directly attached to the parameter,
      *     otherwise the infix name is assumed to be between arguments surrounded by spaces.
-     * @param infixPriority Priority of the function application in infix notation. Use {@link ExprBinding#NO_PRIORITY}
-     *     for functions that have no infix notation.
+     * @param infixBinding Binding of the function application for laying out the infix notation. Use
+     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
-            PlcParameterDescription[] prefixParameters, String infixFuncName, ExprBinding infixPriority)
+            PlcParameterDescription[] prefixParameters, String infixFuncName, ExprBinding infixBinding)
     {
-        super(prefixFuncName, prefixParameters, infixFuncName, infixPriority);
+        super(prefixFuncName, prefixParameters, infixFuncName, infixBinding);
         this.operation = operation;
     }
 

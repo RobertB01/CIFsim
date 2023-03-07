@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen.model.expressions;
+package org.eclipse.escet.cif.plcgen.model.functions;
 
 /** Semantic operation performed by the function application. */
 public enum PlcFuncOperation {
