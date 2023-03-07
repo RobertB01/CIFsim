@@ -125,11 +125,6 @@
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.30.enabled" value="true"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.30.mode" value="inherit"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.30.name" value="test-cif-plcgen"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.31.action" value="NONE"/>
-    <booleanAttribute key="org.eclipse.debug.core.launchGroup.31.adoptIfRunning" value="false"/>
-    <booleanAttribute key="org.eclipse.debug.core.launchGroup.31.enabled" value="true"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.31.mode" value="inherit"/>
-    <stringAttribute key="org.eclipse.debug.core.launchGroup.31.name" value="test-common-app-framework"/>
     <stringAttribute key="org.eclipse.debug.core.launchGroup.4.action" value="NONE"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.4.adoptIfRunning" value="false"/>
     <booleanAttribute key="org.eclipse.debug.core.launchGroup.4.enabled" value="true"/>
