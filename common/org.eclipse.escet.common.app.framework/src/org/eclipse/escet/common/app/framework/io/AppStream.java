@@ -57,8 +57,8 @@ public abstract class AppStream implements Closeable {
     private byte[] newline = Strings.NL.getBytes(charset);
 
     /**
-     * If clear, write provided non-EOL characters to the output and check for an {@code '\r'} character as first part
-     * of EOL detection in the output to write. If set, scan for an optional {@code '\n'} character and write an EOL to
+     * If {@code true}, write provided non-EOL characters to the output and check for a {@code '\r'} character as first part
+     * of EOL detection in the output to write. If {@code false}, scan for an optional {@code '\n'} character and write an EOL to
      * the output.
      */
     private boolean beforeCrTest = true;
@@ -121,7 +121,7 @@ public abstract class AppStream implements Closeable {
 
     /**
      * Set the 'new line bytes' property of the stream to use Unix new line bytes. Unix new line bytes ('\n') are used
-     * when when an EOL sequence is to be written and the 'convert new lines' property is enabled.
+     * when an EOL sequence is to be written and the 'convert new lines' property is enabled.
      *
      * @see #setConvertNewLines
      * @see #getConvertNewLines
@@ -202,7 +202,7 @@ public abstract class AppStream implements Closeable {
 
                 // If non-EOL characters exist, write them to the output.
                 if (eolIdx > curIdx) {
-                    // Write the NON-eol bytes to the output.
+                    // Write the non-EOL bytes to the output.
                     writeImpl(bytes, curIdx, eolIdx - curIdx);
                     curIdx = eolIdx;
 
@@ -212,7 +212,7 @@ public abstract class AppStream implements Closeable {
                     }
                 }
 
-                // Invariant: eolIdx == curIdx && curIdx < bytes.length .
+                // Invariant: eolIdx == curIdx && curIdx < bytes.length.
                 //
                 // We ran out of non-EOL characters and have not reached the end of the bytes, so there must be an EOL
                 // here. That can be "\r", "\n", or "\r\n". In the latter case it's possible that the "\n" is not in the
@@ -374,7 +374,7 @@ public abstract class AppStream implements Closeable {
      */
     private void closeInternal() {
         if (!beforeCrTest) {
-            // Closing while in the middle of detecting an EOL sequence, where we found a \r, assuming there was no \n
+            // Closing while in the middle of detecting an EOL sequence, where we found a '\r', assuming there was no '\n'
             // intended.
 
             // Write new line.

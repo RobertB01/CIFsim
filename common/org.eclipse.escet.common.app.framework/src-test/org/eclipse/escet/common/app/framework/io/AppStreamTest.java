@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.escet.common.java.Assert;
 import org.junit.Test;
 
-/** EOL handling tests in {@link AppStream}. */
+/** Tests for EOL handling in {@link AppStream}. */
 public class AppStreamTest {
     /**
      * Write the given texts to a new {@code AppStream} with disabled EOL sequence conversion, and extract the
@@ -98,6 +98,7 @@ public class AppStreamTest {
         assertEquals("a\r\nx", writeRawTexts("a\r\nx"));
         assertEquals("a\n\rx", writeRawTexts("a\n\rx"));
 
+        // Write multiple strings.
         assertEquals("ax", writeRawTexts("a", "x"));
         assertEquals("a\rx", writeRawTexts("a", "\rx"));
         assertEquals("a\nx", writeRawTexts("a", "\nx"));
@@ -131,6 +132,7 @@ public class AppStreamTest {
         assertEquals("a\nx", writeLinuxTexts("a\r\nx"));
         assertEquals("a\n\nx", writeLinuxTexts("a\n\rx")); // \n\r is seen as 2 EOL sequences.
 
+        // Write multiple strings.
         assertEquals("ax", writeLinuxTexts("a", "x"));
         assertEquals("a\nx", writeLinuxTexts("a", "\rx"));
         assertEquals("a\nx", writeLinuxTexts("a", "\nx"));
@@ -164,6 +166,7 @@ public class AppStreamTest {
         assertEquals("a\r\nx", writeWindowsTexts("a\r\nx"));
         assertEquals("a\r\n\r\nx", writeWindowsTexts("a\n\rx")); // \n\r is seen as 2 EOL sequences.
 
+        // Write multiple strings.
         assertEquals("ax", writeWindowsTexts("a", "x"));
         assertEquals("a\r\nx", writeWindowsTexts("a", "\rx"));
         assertEquals("a\r\nx", writeWindowsTexts("a", "\nx"));
@@ -225,7 +228,7 @@ public class AppStreamTest {
     @Test
     @SuppressWarnings("javadoc")
     public void trailingEolTextWriteTest() {
-        // Single initial EOL sequences.
+        // Single trailing EOL sequences.
         assertEquals("y_\n", writeRawTexts("y_\n"));
         assertEquals("y_\r", writeRawTexts("y_\r"));
         assertEquals("y_\r\n", writeRawTexts("y_\r\n"));
