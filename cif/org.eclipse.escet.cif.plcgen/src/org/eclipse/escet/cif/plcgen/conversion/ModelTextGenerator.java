@@ -113,7 +113,7 @@ public class ModelTextGenerator {
         } else if (expr instanceof PlcVarExpression varExpr) {
             toText(varExpr, textBuilder, funcApplPreference);
         } else {
-            throw new AssertionError("Unexpected PLC expression \"" + String.valueOf(expr) + "\" found.");
+            throw new AssertionError("Unexpected PLC expression \"" + expr + "\" found.");
         }
     }
 
@@ -150,7 +150,7 @@ public class ModelTextGenerator {
             idx = rslt.indexOf('e');
             if (idx == -1) {
                 idx = rslt.indexOf('E');
-                if (idx == -1) {
+                if (idx == -1) { // Not needed for CIF real literals, but our PLC model allows more freedom.
                     idx = rslt.length();
                 }
             }
@@ -296,7 +296,7 @@ public class ModelTextGenerator {
             }
             textBuilder.append(']');
         } else {
-            throw new AssertionError("Unexpected PLC prjection \"" + String.valueOf(proj) + "\" found.");
+            throw new AssertionError("Unexpected PLC prjection \"" + proj + "\" found.");
         }
     }
 
@@ -376,7 +376,7 @@ public class ModelTextGenerator {
         } else if (plcStat instanceof PlcFuncApplStatement funcApplStat) {
             toText(funcApplStat, boxBuilder, pouName);
         } else {
-            throw new AssertionError("Unexpected PLC statement \"" + String.valueOf(plcStat) + "\" found.");
+            throw new AssertionError("Unexpected PLC statement \"" + plcStat + "\" found.");
         }
     }
 
