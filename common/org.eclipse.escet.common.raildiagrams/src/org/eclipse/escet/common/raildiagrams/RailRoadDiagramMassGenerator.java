@@ -36,7 +36,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @see RailRoadDiagramGenerator
  */
 @Mojo(name = "generate-railroad-diagrams")
-public class RailRoadDiagramGeneratorMojo extends AbstractMojo {
+public class RailRoadDiagramMassGenerator extends AbstractMojo {
     /** The path to the root directory that contains the railroad diagram specification files. */
     @Parameter(required = true)
     private File rootPath;
