@@ -17,8 +17,9 @@ variable orderings, for various seeds.
 
 To perform a series of benchmarks for different benchmarking models, follow these steps:
 
-* Configure the configurations you want to benchmark in 'benchmark__settings.tooldef'. The scripts has extensive
-  comments that explain how to configure the benchmarking configurations.
+* Configure the configurations you want to benchmark in 'benchmark__settings.tooldef'. The script has extensive
+  comments that explain how to configure the benchmarking configurations. It is also possible to select a subset of
+  those configurations.
 * In the 'Applications' view, disable the 'Auto Terminate' option, to allow running multiple ToolDef scripts in
   parallel.
 * Execute each of the ToolDef scripts for benchmarking of individual benchmarking models, in parallel. These are the

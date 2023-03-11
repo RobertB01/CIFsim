@@ -11,98 +11,112 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Configurable settings to use for benchmarking, used by 'benchmark__base.tooldef'.
+// Configure the configuration to use for benchmarking, used by 'benchmark__base.tooldef'.
 
-// Returns the settings to use for each of the executions of data-based synthesis, as part of a single benchmark.
-tool list string get_benchmark_executions_settings():
-    // Specify the settings to vary during the benchmark. The data-based synthesis execution performance for each of
-    // these different settings is compared against each other ones, by executing data-based synthesis for each entry
-    // of the list.
-    //
-    // By default, a baseline benchmark is performed, executing data-based synthesis once with default settings.
-    list string varying_settings = [
-        ""
-    ];
-
-    // [EXAMPLE]
-    //
-    // To instead compare different variable ordering algorithms, use the following:
-    //
-    // list string varying_settings = [
-    //     "                --force-order=on --sliding-window-order=on",
-    //     "--dcsh-order=on --force-order=on --sliding-window-order=on",
-    // ];
-
-    // ----------
-
-    // Specify the settings to reset. These ensure that the settings that are varied are not affected by defaults of
-    // the data-based synthesis tool.
-    //
-    // By default, no settings are reset, as a baseline benchmark is performed, executing data-based synthesis once
-    // with default settings.
-    string disable_settings_to_vary = "";
-
-    // [EXAMPLE]
-    //
-    // To instead compare different variable ordering algorithms, configure the reset to disable all variable ordering
-    // algorithms first, using the following:
-    //
-    // string disable_settings_to_vary = "--dcsh-order=off --force-order=off --sliding-window-order=off";
-
-    // ----------
-
-    // Specify the extra settings. For each execution of the varying settings, data-based synthesis is executed once
-    // per entry of this list. Thus:
-    // - If this list has a single entry that is an empty string, the extra settings have no effect.
-    // - If a single entry with some settings is given, then data-based synthesis is still executed once per varying
-    //   settings, but the extra settings are applied for each of these executions.
-    // - If multiple entries are given, data-based synthesis is executed for each combination of varying and extra
-    //   settings.
-    //
-    // By default, extra settings are given that have no effect.
-    list string extra_settings = [
-        ""
-    ];
-
-    // [EXAMPLE]
-    //
-    // To instead compare different variable ordering algorithms for different initial variable orderings, use the
-    // following:
-    //
-    // list string extra_settings = [
-    //     "-r model",
-    //     "-r reverse-model",
-    //     "-r sorted",
-    //     "-r reverse-sorted",
-    //     "-r random:1",
-    //     "-r random:2",
-    //     "-r random:3",
-    // ];
-
-    // ----------
-
-    // Combine the various settings to determine the actual settings for each data-based synthesis execution.
-    list string executions_settings = [];
-    for varying_setting in varying_settings:
-        for extra_setting in extra_settings:
-            // Combine the parts, adding spaces in between only if needed.
-            string execution_settings = disable_settings_to_vary;
-
-            if not empty(disable_settings_to_vary) and not empty(varying_setting):
-                execution_settings = execution_settings + " ";
+// Helper function that returns all combinations of elements from the first sub-list, with elements from the second
+// sub-list, with elements from the third sub-list, etc. For example, for [["a", "b", "c"], ["d"], ["e", "f"]] it
+// returns [["a", "d", "e"], ["a", "d", "f"], ["b", "d", "e"], ["b", "d", "f"], ["c", "d", "e"], ["c", "d", "f"]].
+tool list string combine(list list string to_combine):
+    list string combinations = [""];
+    for alternatives in to_combine:
+        list string new_combinations = [];
+        for combination in combinations:
+            for alternative in alternatives:
+                string new_combination = combination + alternative;
+                new_combinations = new_combinations + [new_combination];
             end
-
-            execution_settings = execution_settings + varying_setting;
-
-            if not empty(varying_setting) and not empty(extra_setting):
-                execution_settings = execution_settings + " ";
-            end
-
-            execution_settings = execution_settings + extra_setting;
-
-            // Add combined settings.
-            executions_settings = executions_settings + [execution_settings];
         end
+        combinations = new_combinations;
     end
-    return executions_settings;
+    return combinations;
+end
+
+// Returns the configurations to use for benchmarking. For each configuration, synthesis is performed. The results
+// allow evaluation of the effect of the different configurations on synthesis performance.
+tool list string get_benchmark_configurations():
+    // By default, a single default configuration is used.
+    return [""];
+
+    // Below are some examples of how different configurations can be configured.
+
+    // Example 1: multiple configurations, all explicitly given.
+    //
+    // return [
+    //   "--var-order=model",
+    //   "--var-order=sorted",
+    //   "--var-order=random:1",
+    //   "--var-order=random:2",
+    // ];
+
+    // Example 2: multiple configurations, some explicitly given, others generated.
+    //
+    // list configurations = [
+    //   "--var-order=model",
+    //   "--var-order=sorted",
+    // ];
+    // for i in range(1, 10):
+    //   configurations = configurations + [fmt("--var-order=random:%d", i)];
+    // end
+    // return configurations;
+
+    // Example 3: combinations of different options.
+    //
+    // return combine([
+    //   ["--var-order=model", "--var-order=sorted", "--var-order=random:1"],
+    //   [" --dcsh-order=on", " --dcsh-order=off"],
+    // ]);
+    //
+    // Uses all combinations of model, sorted and random variable orders with the DCSH ordering algorithm being on or
+    // off, resulting in 3 * 2 = 6 configurations. Note that the elements of the 2nd list start with a space, which
+    // ensures that when elements from the first list are combined with elements from the second list, the different
+    // synthesis options are properly separated by a space.
+
+    // Example 4: combinations within the value of a single option.
+    //
+    // return combine([
+    //   ["--adv-var-order=\""],
+    //   ["model", "sorted"],
+    //   [" -> dcsh -> force -> slidwin", " -> force -> slidwin"],
+    //   ["\""],
+    // ]);
+    //
+    // Combines model and sorted initial variable orders with variable ordering algorithms, either using DCSH as
+    // algorithm, or not. This produces 2 * 2 = 4 configurations. The combinations all use the '--adv-var-order' option.
+    // The value of that option is surrounded by double quotes to ensure it is properly parsed, despite spaces being
+    // used within the option value.
+end
+
+// Returns the subset of configurations to use for benchmarking. By default, all configurations are used, but this can
+// be restricted. This may be useful, for instance to execute parts of the benchmarking for sub-ranges in parallel, or
+// to rerun benchmarking for certain configurations that failed.
+tool list int get_benchmark_configurations_subset():
+    // By default, the full range of configurations is used.
+    int count = size(get_benchmark_configurations());
+    return range(1, count);
+
+    // Below are some examples of how different subsets of configurations can be configured.
+
+    // Example 1: Use an explicitly specified sub-range.
+    //
+    // return range(5, 8);
+
+    // Example 2: Use explicitly specified configurations.
+    //
+    // return [3, 4, 8, 9, 23];
+
+    // Example 3: Use multiple sub-ranges of approximately-equal size, which together span the entire range of
+    // configurations.
+    //
+    // int count = size(get_benchmark_configurations());
+    // int sub = 4; // We want 4 sub-ranges. Constraint: 1 <= sub <= count.
+    // int nr = 2; // We want to use sub-range 2 out of 4. Constraint: 1 <= nr <= sub.
+    // int sub_size = count div sub; // Minimum size of each sub-range.
+    // int need_extra = count mod sub; // Number of sub-ranges that need an extra element.
+    // int i = 1; // 1-based start index of the current sub-range.
+    // for cur_sub in range(1, sub):
+    //   int cur_size = sub_size;
+    //   if cur_sub <= need_extra:: cur_size = cur_size + 1;
+    //   if cur_sub == nr:: return range(i, i + cur_size - 1);
+    //   i = i + cur_size;
+    // end
 end

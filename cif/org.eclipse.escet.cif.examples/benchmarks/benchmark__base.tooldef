@@ -11,12 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Base functionality for benchmarking. Used by the other benchmarking scripts in this directory.
+// Base functionality for executing benchmarks. Used by the other benchmarking scripts in this directory.
 
 from "lib:cif" import *;
 from "benchmark__settings.tooldef" import *;
 import java.lang.System.currentTimeMillis;
-import org.eclipse.escet.common.java:org.eclipse.escet.common.java.DateTimeUtils.durationToString;
 
 // Formats a number to a fixed length.
 tool string fmt_nr(int nr, int max_nr):
@@ -24,7 +23,7 @@ tool string fmt_nr(int nr, int max_nr):
     return fmt("%0" + str(len) + "d", nr);
 end
 
-// Executes a benchmark for a given model in a given folder.
+// Executes benchmarking of a given model in a given folder.
 tool benchmark(string benchmark_name, string folder, string model_file_name):
     // Logging.
     outln("=============================================");
@@ -33,49 +32,87 @@ tool benchmark(string benchmark_name, string folder, string model_file_name):
     outln();
     outln("NOTE: synthesis takes longer when benchmarking due to the collection of platform-independent performance metrics.");
     outln();
-    outln("Benchmarking %s (%s/%s):", benchmark_name, folder, model_file_name);
+    outln("Benchmark: %s (%s/%s)", benchmark_name, folder, model_file_name);
+    outln();
 
-    // Get settings to use for each of the executions of data-based synthesis.
-    list string executions_settings = get_benchmark_executions_settings();
-
-    // Ensure we have something to execute.
-    int executions_count = size(executions_settings);
-    if executions_count == 0:
-        outln("  Nothing to do...");
+    // Get and check configurations.
+    list string configurations = get_benchmark_configurations();
+    int config_count = size(configurations);
+    if config_count == 0:
+        outln("Nothing to do (no configurations)...");
         return;
     end
+
+    // Get and check configurations subset.
+    list int config_subset = sorted(get_benchmark_configurations_subset());
+    if empty(config_subset):
+        outln("Nothing to do (empty configurations subset)...");
+        return;
+    end
+    set int config_subset_set;
+    for config_nr in config_subset:
+        if config_nr < 1 or config_nr > config_count:
+            errln("ERROR: Invalid configuration number %d in configurations subset (it is outside of range [1..%d]).",
+                  config_nr, config_count);
+            exit 1;
+        end
+        config_subset_set = config_subset_set or {config_nr};
+    end
+    if size(config_subset_set) != size(config_subset):
+        errln("ERROR: Invalid configurations subset (it contains a duplicate).");
+        exit 1;
+    end
+
+    // Print configurations.
+    outln("Configurations to benchmark (%d selected from full range [1..%d]):", size(config_subset), config_count);
+    for nr in range(1, config_count):
+        if not contains(config_subset, nr):: continue;
+        int i = nr - 1;
+        string config_txt = configurations[i];
+        if empty(trim(config_txt)):: config_txt = "(default)";
+        string formatted_nr = fmt_nr(nr, config_count);
+        outln("  %s/%d: %s", formatted_nr, config_count, config_txt);
+    end
+    outln();
 
     // Create output folder, if it does not yet exist.
     string output_folder = "_generated";
     mkdir(output_folder, force=true);
 
-    // Benchmark multiple data-based synthesis executions, with different settings.
-    list long times_millis = [];
+    // Perform synthesis for each configuration.
+    outln("Performing synthesis:");
+    for nr in range(1, config_count):
+        // Skip if not in subset.
+        if not contains(config_subset, nr):: continue;
 
-    // Execute data-based synthesis.
-    for i, execution_settings in enumerate(executions_settings):
         // Logging.
-        int nr = i + 1;
-        string settings_txt = execution_settings;
-        if empty(trim(settings_txt)):: settings_txt = "(default settings)";
-        string formatted_nr = fmt_nr(nr, executions_count);
-        outln("  %s/%d: %s", formatted_nr, executions_count, settings_txt);
+        int i = nr - 1;
+        string config = configurations[i];
+        string config_txt = config;
+        if empty(trim(config_txt)):: config_txt = "(default)";
+        string formatted_nr = fmt_nr(nr, config_count);
+        outln("  %s/%d: %s", formatted_nr, config_count, config_txt);
 
         // Determine file names.
-        string settings_file = fmt("%s/%s.%s.settings",    output_folder, benchmark_name, formatted_nr);
-        string output_file   = fmt("%s/%s.%s.ctrlsys.cif", output_folder, benchmark_name, formatted_nr);
-        string stdout_file   = fmt("%s/%s.%s.out",         output_folder, benchmark_name, formatted_nr);
-        string stderr_file   = fmt("%s/%s.%s.err",         output_folder, benchmark_name, formatted_nr);
+        string config_file = fmt("%s/%s.%s.config",      output_folder, benchmark_name, formatted_nr);
+        string time_file   = fmt("%s/%s.%s.time",        output_folder, benchmark_name, formatted_nr);
+        string result_file = fmt("%s/%s.%s.ctrlsys.cif", output_folder, benchmark_name, formatted_nr);
+        string stdout_file = fmt("%s/%s.%s.out",         output_folder, benchmark_name, formatted_nr);
+        string stderr_file = fmt("%s/%s.%s.err",         output_folder, benchmark_name, formatted_nr);
 
-        // Write used settings to a file.
-        writefile(settings_file, execution_settings);
+        // Write used configuration to a file.
+        writefile(config_file, [benchmark_name, str(nr), config]);
 
         // Perform synthesis, measuring the performance.
-        times_millis = times_millis + [currentTimeMillis()];
-        cifdatasynth(fmt("%s/%s", folder, model_file_name), "-m debug", "--event-warn=no", "-o " + output_file,
-                     "--stats=bdd-perf-max-nodes,bdd-perf-cache -t nodes", execution_settings,
+        long time_pre = currentTimeMillis();
+        cifdatasynth(fmt("%s/%s", folder, model_file_name), "-m debug", "--event-warn=no", "-o " + result_file,
+                     "--stats=bdd-perf-max-nodes,bdd-perf-cache -t nodes", config,
                      stdout=stdout_file, stderr=stderr_file, ignoreNonZeroExitCode=true);
-        times_millis = times_millis + [currentTimeMillis()];
+        long time_post = currentTimeMillis();
+        long duration = time_post - time_pre;
+
+        // Write time duration to a file (measured in milliseconds).
+        writefile(time_file, str(duration));
 
         // Print errors from synthesis.
         if isfile(stderr_file):
@@ -85,83 +122,7 @@ tool benchmark(string benchmark_name, string folder, string model_file_name):
         end
     end
 
-    // Get metrics as CSV lines.
-    list string metrics_csv_lines = [];
-    metrics_csv_lines = metrics_csv_lines + ["nr, total, nodes, ops, settings"];
-    for i, execution_settings in enumerate(executions_settings):
-        // Read stdout lines.
-        int nr = i + 1;
-        string formatted_nr = fmt_nr(nr, executions_count);
-        string stdout_file = fmt("%s/%s.%s.out", output_folder, benchmark_name, formatted_nr);
-        list string lines = [];
-        if isfile(stdout_file):: lines = readlines(stdout_file);
-
-        // Extract performance metrics from stdout lines.
-        int? nodes = null;
-        int? ops = null;
-        for line in lines:
-            if startswith(line, "Maximum used BDD nodes: ") and endswith(line, "."):
-                int x = <int>(trim(line[size("Maximum used BDD nodes: "):-size(".")]));
-                if nodes == null: nodes = x; else nodes = max(<int>nodes, x); end
-            end
-            if startswith(line, "  Operation cache misses: "):
-                int x = <int>(trim(line[size("  Operation cache misses: "):]));
-                if ops == null: ops = x; else ops = max(<int>ops, x); end
-            end
-        end
-
-        // Convert performance metrics to text.
-        string nodes_txt = "?";
-        string ops_txt = "?";
-        if nodes != null:: nodes_txt = str(nodes);
-        if ops != null:: ops_txt = str(ops);
-
-        // Add CSV line.
-        metrics_csv_lines = metrics_csv_lines + [fmt("%s, %d, %s, %s, \"%s\"", formatted_nr, executions_count,
-                                                     nodes_txt, ops_txt, execution_settings)];
-    end
-
-    // Write metrics CSV file.
-    writefile(fmt("%s/%s.metrics.csv", output_folder, benchmark_name), metrics_csv_lines);
-
-    // Print metrics CSV to stdout.
+    // Done.
     outln();
-    for metrics_csv_line in metrics_csv_lines:
-        outln("  " + metrics_csv_line);
-    end
-
-    // Get times as CSV lines.
-    list string times_csv_lines = [];
-    times_csv_lines = times_csv_lines + ["nr, total, start_millis, end_millis, durationMillis, durationTxt, settings"];
-    for i, execution_settings in enumerate(executions_settings):
-        int nr = i + 1;
-        string formatted_nr = fmt_nr(nr, executions_count);
-
-        // Calculate duration.
-        long start_millis = times_millis[i * 2];
-        long end_millis = times_millis[(i * 2) + 1];
-        long durationMillis = end_millis - start_millis;
-
-        // Convert duration to text.
-        string durationTxt = <string>durationToString(durationMillis, true);
-
-        // Add CSV line.
-        times_csv_lines = times_csv_lines + [fmt("%s, %d, %d, %d, %d, \"%s\", \"%s\"", formatted_nr, executions_count,
-                                                 start_millis, end_millis, durationMillis, durationTxt,
-                                                 execution_settings)];
-    end
-
-    // Write times CSV file.
-    writefile(fmt("%s/%s.times.csv", output_folder, benchmark_name), times_csv_lines);
-
-    // Print times CSV to stdout.
-    outln();
-    for times_csv_line in times_csv_lines:
-        outln("  " + times_csv_line);
-    end
-
-    // Print total duration.
-    long totalDuration = times_millis[-1] - times_millis[0];
-    outln();
-    outln("  Total duration: " + <string>durationToString(totalDuration, true));
+    outln("Done!");
 end
