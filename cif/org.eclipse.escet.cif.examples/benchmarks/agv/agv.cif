@@ -1,0 +1,217 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1997, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Five Automated Guided Vehicles (AGVs) serve a manufacturing work cell that produces parts. The AGVs travel on fixed
+// circular routes, alternately loading and unloading. The AGVs move through shared zones, and no two AGVs may be in
+// such a zone at the same time, to avoid collisions.
+
+// Five AGVs.
+
+plant AGV1:
+  controllable e11; // Unparks and enters zone 1.
+  controllable e13; // Re-enters zone 1.
+  uncontrollable e10; // Exits zone 1 and loads from IPS1.
+  uncontrollable e12; // Exits zone 1, unloads to WS2 and parks.
+
+  location l0:
+    initial; marked;
+    edge e11 goto l1;
+
+  location l1:
+    edge e10 goto l2;
+
+  location l2:
+    edge e13 goto l3;
+
+  location l3:
+    edge e12 goto l0;
+end
+
+plant AGV2:
+  controllable e21; // Unparks and enters zone 3.
+  controllable e23; // Re-enters zone 1.
+  uncontrollable e18; // Exits zone 3 and enters zone 2
+  uncontrollable e20; // Exits zone 2 and enters zone 1.
+  uncontrollable e22; // Exits zone 1 and loads from IPS2.
+  uncontrollable e24; // Exits zone 1 and re-enters zone 2.
+  uncontrollable e26; // Exits zone 2 and re-enters zone 3.
+  uncontrollable e28; // Exits zone 3, unloads to WS3 and parks.
+
+  location l0:
+    initial; marked;
+    edge e21 goto l1;
+
+  location l1:
+    edge e18 goto l2;
+
+  location l2:
+    edge e20 goto l3;
+
+  location l3:
+    edge e22 goto l4;
+
+  location l4:
+    edge e23 goto l5;
+
+  location l5:
+    edge e24 goto l6;
+
+  location l6:
+    edge e26 goto l7;
+
+  location l7:
+    edge e28 goto l0;
+end
+
+plant AGV3:
+  controllable e31; // Re-enters zone 2.
+  controllable e33; // Unparks and enters zone 2.
+  uncontrollable e32; // Exits zone 2, unloads to WS1 and parks.
+  uncontrollable e34; // Exits zone 2 and loads from WS2.
+
+  location l0:
+    initial; marked;
+    edge e33 goto l1;
+
+  location l1:
+    edge e34 goto l2;
+
+  location l2:
+    edge e31 goto l3;
+
+  location l3:
+    edge e32 goto l0;
+end
+
+plant AGV4:
+  controllable e41; // Unparks & enters Zone 3
+  controllable e43; // Re-enters Zone 4
+  uncontrollable e40; // Exits Zone 3 & enters Zone 4
+  uncontrollable e42; // Exits Zone 4 & loads from WS3
+  uncontrollable e44; // Exits Zone 4 & re-enters Zone
+  uncontrollable e46; // Exits Zone 3, unloads at WS1, & parks
+
+  location l0:
+    initial; marked;
+    edge e41 goto l1;
+
+  location l1:
+    edge e40 goto l2;
+
+  location l2:
+    edge e42 goto l3;
+
+  location l3:
+    edge e43 goto l4;
+
+  location l4:
+    edge e44 goto l5;
+
+  location l5:
+    edge e46 goto l0;
+end
+
+plant AGV5:
+  controllable e51; // Unparks and enters zone 4.
+  controllable e53; // Re-enters zone 4.
+  uncontrollable e50; // Exits zone 4 and loads from WS1.
+  uncontrollable e52; // Exits zone 4, unloads to CPS and parks.
+
+  location l0:
+    initial; marked;
+    edge e51 goto l1;
+
+  location l1:
+    edge e50 goto l2;
+
+  location l2:
+    edge e53 goto l3;
+
+  location l3:
+    edge e52 goto l0;
+end
+
+// Requirement: Ensure no two AGVs are in a zone at the same time.
+
+requirement def ZxSPEC (event a, b, c, d, e, f, g, h):
+  location l0:
+    initial; marked;
+    edge a, b goto l1;
+    edge e, f goto l2;
+
+  location l1:
+    marked;
+    edge c, d goto l0;
+
+  location l2:
+    marked;
+    edge g, h goto l0;
+end
+
+Z1SPEC: ZxSPEC(AGV1.e11, AGV1.e13, AGV1.e10, AGV1.e12, AGV2.e20, AGV2.e23, AGV2.e22, AGV2.e24);
+Z2SPEC: ZxSPEC(AGV2.e18, AGV2.e24, AGV2.e20, AGV2.e26, AGV3.e31, AGV3.e33, AGV3.e32, AGV3.e34);
+Z3SPEC: ZxSPEC(AGV2.e21, AGV2.e26, AGV2.e18, AGV2.e28, AGV4.e41, AGV4.e44, AGV4.e40, AGV4.e46);
+Z4SPEC: ZxSPEC(AGV4.e40, AGV4.e43, AGV4.e42, AGV4.e44, AGV5.e51, AGV5.e53, AGV5.e50, AGV5.e52);
+
+// Requirement: Ensure the proper cyclic sequencing for workstation 1.
+
+requirement WS1SPEC:
+  location l0:
+    initial; marked;
+    edge AGV3.e32 goto l1;
+    edge AGV4.e46 goto l2;
+
+  location l1:
+    marked;
+    edge AGV4.e46 goto l3;
+
+  location l2:
+    marked;
+    edge AGV3.e32 goto l3;
+
+  location l3:
+    marked;
+    edge AGV5.e50 goto l0;
+end
+
+// Requirement: Workstations 2 and 3 must each be used alternately by the two AGVs that use the stations.
+
+requirement def WSxSPEC (event a, b):
+  location l0:
+    initial; marked;
+    edge a goto l1;
+
+  location l1:
+    marked;
+    edge b goto l0;
+end
+
+WS2SPEC: WSxSPEC(AGV1.e12, AGV3.e34);
+WS3SPEC: WSxSPEC(AGV2.e28, AGV4.e42);
+
+// Requirement: Prevent AGVs from entering the shared input stations area at the same time.
+
+requirement IPSSPEC:
+  location l0:
+    initial; marked;
+    edge AGV1.e10 goto l1;
+    edge AGV2.e22 goto l2;
+
+  location l1:
+    marked;
+    edge AGV1.e13 goto l0;
+
+  location l2:
+    marked;
+    edge AGV2.e23 goto l0;
+end
