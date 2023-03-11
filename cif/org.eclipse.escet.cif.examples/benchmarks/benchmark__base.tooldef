@@ -23,7 +23,7 @@ tool string fmt_nr(int nr, int max_nr):
     return fmt("%0" + str(len) + "d", nr);
 end
 
-// Executes benchmarking for a given model in a given folder.
+// Executes benchmarking of a given model in a given folder.
 tool benchmark(string benchmark_name, string folder, string model_file_name):
     // Logging.
     outln("=============================================");
