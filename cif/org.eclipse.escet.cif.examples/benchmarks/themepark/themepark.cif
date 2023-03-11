@@ -1,0 +1,370 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2012, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// The Multimover is a flexible vehicle for use in theme parks and museums. The vehicle is battery-operated and follows
+// an electrical wire that is integrated in the floor. The floor also contains floor codes, that provide information
+// about the track, influence the route and speed of the vehicle, the music it plays, and so on. An operator controls
+// deployment of the vehicles, while ride control coordinates all vehicles, starting and stopping them. Sensors are used
+// to detect physical objects and prevent collisions. The synthesized supervisor ensures safe operation of the vehicles.
+
+// User interface buttons.
+
+plant def Button():
+  uncontrollable u_press, u_release;
+
+  location Released:
+    initial; marked;
+    edge u_press   goto Pressed;
+
+  location Pressed:
+    edge u_release goto Released;
+end
+
+RB: Button(); // Reset button.
+FB: Button(); // Forward button.
+BB: Button(); // Backward button.
+
+// User interface LEDs.
+
+plant RL: // Reset LED.
+  controllable c_on, c_off;
+
+  location Off:
+    marked;
+    edge c_on  goto On;
+
+  location On:
+    initial;
+    edge c_off goto Off;
+end
+
+plant def LED():
+  controllable c_on, c_off;
+
+  location Off:
+    initial;
+    edge c_on  goto On;
+
+  location On:
+    marked;
+    edge c_off goto Off;
+end
+
+FL: LED(); // Forward LED.
+BL: LED(); // Backward LED.
+
+// Proximity sensors.
+
+plant def Sensor():
+  uncontrollable u_active, u_inactive;
+
+  location Inactive:
+    initial; marked;
+    edge u_active   goto Active;
+
+  location Active:
+    edge u_inactive goto Inactive;
+end
+
+FLP: Sensor(); // Forward long-range proximity sensor.
+BLP: Sensor(); // Backward long-range proximity sensor.
+FSP: Sensor(); // Forward short-range proximity sensor.
+BSP: Sensor(); // Backward short-range proximity sensor.
+BS:  Sensor(); // Bumper switch sensor.
+
+plant BA: // Battery sensor.
+  uncontrollable u_empty, u_ok;
+
+  location Ok:
+    initial; marked;
+    edge u_empty goto Empty;
+
+  location Empty:
+    edge u_ok    goto Ok;
+end
+
+// Ride control.
+
+plant RC:
+  uncontrollable u_start, u_stop;
+
+  location Start:
+    initial; marked;
+    edge u_start;
+    edge u_stop  goto Stop;
+
+  location Stop:
+    edge u_stop;
+    edge u_start goto Start;
+end
+
+// Scene Program Handler.
+
+plant SH:
+  uncontrollable u_error, u_chdir;
+  controllable c_enable, c_disable;
+
+  location Off:
+    initial; marked;
+    edge c_enable  goto On;
+
+  location On:
+    edge c_disable goto Off;
+    edge u_error, u_chdir;
+end
+
+// Steer motor.
+
+plant SM:
+  controllable c_enable, c_disable;
+  uncontrollable u_error;
+
+  location Off:
+    initial; marked;
+    edge u_error;
+    edge c_enable  goto On;
+
+  location On:
+    edge c_disable goto Off;
+    edge u_error   goto Off;
+end
+
+// Drive motor.
+
+plant DM:
+  controllable c_enable_fw, c_enable_bw, c_stop, c_fw, c_fwslow, c_fwstop, c_bw, c_bwslow, c_bwstop;
+  uncontrollable u_error, u_disable;
+
+  location Off:
+    initial; marked;
+    edge c_enable_fw, c_enable_bw goto On;
+    edge c_stop goto Stopping;
+
+  location On:
+    edge u_error goto Off;
+    edge c_fw, c_fwslow, c_fwstop, c_bw, c_bwslow, c_bwstop;
+    edge c_stop goto Stopping;
+
+  location Stopping:
+    edge c_enable_fw, c_enable_bw goto On;
+    edge u_disable, u_error goto Off;
+end
+
+// Multimover.
+
+plant MM:
+  controllable c_reset, c_emergency, c_active;
+
+  location Emergency:
+    initial;
+    edge c_reset  goto Reset;
+
+  location Reset:
+    marked;
+    edge c_emergency goto Emergency;
+    edge c_active goto Active;
+
+  location Active:
+    edge c_emergency goto Emergency;
+    edge c_reset  goto Reset;
+end
+
+// Emergency and error handling.
+
+requirement {MM.c_reset, MM.c_active} needs BS.Inactive and BA.Ok;
+
+requirement R18c:
+  location A:
+    initial; marked;
+    edge MM.c_reset;
+    edge SM.u_error, DM.u_error, SH.u_error, BA.u_empty, BS.u_active goto B;
+
+  location B:
+    edge SM.u_error, DM.u_error, SH.u_error, BA.u_empty, BS.u_active;
+    edge MM.c_emergency;
+    edge MM.c_reset goto A;
+end
+
+// Appendix requirements.
+
+// LED actuation.
+
+requirement RL.c_off needs MM.Active or MM.Reset;
+requirement RL.c_on  needs MM.Emergency;
+
+requirement FL.c_on  needs MM.Reset;
+requirement FL.c_off needs MM.Active or MM.Emergency;
+
+requirement BL.c_on  needs MM.Reset;
+requirement BL.c_off needs MM.Active or MM.Emergency;
+
+// Motor actuation.
+
+requirement SH.c_disable needs MM.Reset or MM.Emergency;
+
+requirement DM.c_stop needs (MM.Reset or MM.Emergency);
+requirement DM.c_stop needs SH.Off;
+
+requirement SM.c_disable needs (MM.Reset or MM.Emergency);
+requirement SM.c_disable needs DM.Off;
+requirement SM.c_enable  needs MM.Active;
+
+requirement {DM.c_enable_fw, DM.c_enable_bw} needs MM.Active;
+requirement {DM.c_enable_fw, DM.c_enable_bw} needs SM.On;
+
+requirement SH.c_enable needs MM.Active;
+requirement SH.c_enable needs SM.On;
+requirement SH.c_enable needs DM.On;
+
+requirement {DM.c_fw, DM.c_fwslow, DM.c_fwstop, DM.c_bw, DM.c_bwslow, DM.c_bwstop} needs MM.Active;
+
+requirement R21:
+  location A:
+    initial; marked;
+    edge DM.c_enable_fw goto B;
+    edge DM.c_enable_bw goto C;
+    edge SH.u_chdir;
+
+  location B:
+    edge DM.c_fw, DM.c_fwslow, DM.c_fwstop;
+    edge DM.c_stop  goto D;
+    edge SH.u_chdir goto C;
+    edge DM.u_error goto A;
+
+  location C:
+    edge DM.c_bw, DM.c_bwslow, DM.c_bwstop;
+    edge DM.c_stop  goto D;
+    edge SH.u_chdir goto B;
+    edge DM.u_error goto A;
+
+  location D:
+    edge DM.u_disable, DM.u_error goto A;
+    edge SH.u_chdir;
+end
+
+// Button handling.
+
+requirement MM.c_active needs (FB.Pressed and BB.Released) or (BB.Pressed and FB.Released);
+requirement MM.c_active needs RB.Released;
+requirement MM.c_reset  needs RB.Pressed;
+
+requirement R22a:
+  location A:
+    initial; marked;
+    edge MM.c_active, MM.c_emergency, MM.c_reset;
+    edge FB.u_release;
+    edge FB.u_press   goto B;
+
+  location B:
+    edge MM.c_emergency, MM.c_reset;
+    edge FB.u_release goto A;
+    edge MM.c_active  goto C;
+
+  location C:
+    edge FB.u_release, FB.u_press;
+    edge DM.c_enable_fw, MM.c_reset, MM.c_emergency goto A;
+end
+
+requirement R22b:
+  location A:
+    initial; marked;
+    edge MM.c_active, MM.c_emergency, MM.c_reset;
+    edge BB.u_release;
+    edge BB.u_press  goto B;
+
+  location B:
+    edge MM.c_emergency, MM.c_reset;
+    edge BB.u_release goto A;
+    edge MM.c_active goto C;
+
+  location C:
+    edge BB.u_release, BB.u_press;
+    edge DM.c_enable_bw, MM.c_reset, MM.c_emergency goto A;
+end
+
+// Proximity and ride control handling.
+
+requirement DM.c_fwstop needs RC.Stop or FSP.Active;
+requirement DM.c_bwstop needs RC.Stop or BSP.Active;
+
+requirement {DM.c_fw, DM.c_fwslow} needs RC.Start;
+requirement {DM.c_fw, DM.c_fwslow} needs FSP.Inactive;
+
+requirement {DM.c_bw, DM.c_bwslow} needs RC.Start;
+requirement {DM.c_bw, DM.c_bwslow} needs BSP.Inactive;
+
+requirement DM.c_fwslow needs FLP.Active;
+requirement DM.c_fw     needs FLP.Inactive;
+
+requirement DM.c_bwslow needs BLP.Active;
+requirement DM.c_bw     needs BLP.Inactive;
+
+requirement Last:
+  location S0:
+    initial; marked;
+    edge DM.c_stop;
+    edge DM.c_fw     goto S1;
+    edge DM.c_fwslow goto S2;
+    edge DM.c_fwstop goto S3;
+    edge DM.c_bw     goto S4;
+    edge DM.c_bwslow goto S5;
+    edge DM.c_bwstop goto S6;
+
+  location S1:
+    edge DM.c_stop   goto S0;
+    edge DM.c_fwslow goto S2;
+    edge DM.c_fwstop goto S3;
+    edge DM.c_bw     goto S4;
+    edge DM.c_bwslow goto S5;
+    edge DM.c_bwstop goto S6;
+
+  location S2:
+    edge DM.c_stop   goto S0;
+    edge DM.c_fw     goto S1;
+    edge DM.c_fwstop goto S3;
+    edge DM.c_bw     goto S4;
+    edge DM.c_bwslow goto S5;
+    edge DM.c_bwstop goto S6;
+
+  location S3:
+    edge DM.c_stop   goto S0;
+    edge DM.c_fw     goto S1;
+    edge DM.c_fwslow goto S2;
+    edge DM.c_bw     goto S4;
+    edge DM.c_bwslow goto S5;
+    edge DM.c_bwstop goto S6;
+
+  location S4:
+    edge DM.c_stop   goto S0;
+    edge DM.c_fw     goto S1;
+    edge DM.c_fwslow goto S2;
+    edge DM.c_fwstop goto S3;
+    edge DM.c_bwslow goto S5;
+    edge DM.c_bwstop goto S6;
+
+  location S5:
+    edge DM.c_stop   goto S0;
+    edge DM.c_fw     goto S1;
+    edge DM.c_fwslow goto S2;
+    edge DM.c_fwstop goto S3;
+    edge DM.c_bw     goto S4;
+    edge DM.c_bwstop goto S6;
+
+  location S6:
+    edge DM.c_stop   goto S0;
+    edge DM.c_fw     goto S1;
+    edge DM.c_fwslow goto S2;
+    edge DM.c_fwstop goto S3;
+    edge DM.c_bw     goto S4;
+    edge DM.c_bwslow goto S5;
+end
