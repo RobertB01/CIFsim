@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.asciidoc.generate.raildiagrams;
+package org.eclipse.escet.common.raildiagrams;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +29,6 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.eclipse.escet.common.raildiagrams.OutputFormat;
-import org.eclipse.escet.common.raildiagrams.RailRoadDiagramGenerator;
 
 /**
  * Railroad diagram generator Maven mojo.
