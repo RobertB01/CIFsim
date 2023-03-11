@@ -1,0 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Model source: Rong Su, Jan H. van Schuppen and Jacobus E. Rooda, "Aggregative Synthesis of Distributed Supervisors
+Based on Automaton Abstraction", IEEE Transactions on Automatic Control, volume 55, number 7, pages 1627-1640, 2010,
+doi: https://doi.org/10.1109/TAC.2010.2042342.
