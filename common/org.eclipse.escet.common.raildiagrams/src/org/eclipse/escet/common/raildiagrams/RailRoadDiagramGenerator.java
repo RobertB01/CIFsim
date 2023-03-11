@@ -37,7 +37,7 @@ import org.eclipse.escet.common.raildiagrams.util.Size2D;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.SyntaxWarning;
 
-/** Generator to generate railroad diagram images. */
+/** Generator to generate railroad diagram images. Generates an image for a single railroad diagram. */
 public class RailRoadDiagramGenerator {
     /** Constructor for the {@link RailRoadDiagramGenerator} class. */
     private RailRoadDiagramGenerator() {
