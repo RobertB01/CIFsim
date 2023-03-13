@@ -65,10 +65,10 @@ public class Dmm {
 
     /**
      * Convert the DMM to a string in CSV format as specified in RFC-4180, except the line delimiters may deviate
-     * depending on the platform and the 'useRfcEol' parameter value, {@code true} forces RFC-4180 compliance.
+     * depending on the platform and the 'useRfcEol' parameter value, with {@code true} forcing RFC-4180 compliance.
      *
      * @param useRfcEol If {@code true} use {@code CRLF} line delimiters between the lines as specified in the RFC-4180
-     *      document. If {@code false} use {@code \n} (LF only) as line delimiter.
+     *      standard. If {@code false} use {@code \n} (LF only) as line delimiter.
      * @return The converted DMM as lines of a CSV file.
      */
     public String toString(boolean useRfcEol) {
