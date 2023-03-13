@@ -58,7 +58,22 @@ public class Dmm {
 
     @Override
     public String toString() {
+        // The DMM is considered to be text here rather than a CSV file. Use 'toString(true)' to get proper CSV file
+        // text.
+        return toString(false);
+    }
+
+    /**
+     * Convert the DMM to a string in CSV format as specified in RFC-4180, except the line delimiters may deviate
+     * depending on the platform and the 'useRfcEol' parameter value, with {@code true} forcing RFC-4180 compliance.
+     *
+     * @param useRfcEol If {@code true} use {@code CRLF} line delimiters between the lines as specified in the RFC-4180
+     *      standard. If {@code false} use {@code \n} (LF only) as line delimiter.
+     * @return The converted DMM as lines of a CSV file.
+     */
+    public String toString(boolean useRfcEol) {
         StringBuilder sb = new StringBuilder();
+        String eolSequence = useRfcEol ? CRLF : "\n";
 
         // Header with first column empty.
         sb.append("\"\"");
@@ -66,7 +81,7 @@ public class Dmm {
             sb.append(",");
             sb.append("\"" + label.toString().replace("\"", "\"\"") + "\""); // RFC-4180 " -> "" escaping.
         }
-        sb.append(CRLF);
+        sb.append(eolSequence);
 
         // All rows.
         for (int row = 0; row < rowLabels.length; row++) {
@@ -83,7 +98,7 @@ public class Dmm {
             }
             // Skip newline at last line (is allowed by RFC-4180).
             if (row < rowLabels.length - 1) {
-                sb.append(CRLF);
+                sb.append(eolSequence);
             }
         }
         return sb.toString();
