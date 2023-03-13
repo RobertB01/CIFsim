@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/** Generator to generate railroad diagram images. Generates images for multiple railroad diagrams. */
+/** Generator to generate an image for each railroad diagram file in a directory. */
 public class RailRoadDiagramMassGenerator {
     /** Constructor for the {@link RailRoadDiagramMassGenerator} class. */
     private RailRoadDiagramMassGenerator() {
