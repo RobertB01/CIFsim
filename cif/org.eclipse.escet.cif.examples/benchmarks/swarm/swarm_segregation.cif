@@ -1,0 +1,120 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2016, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Swarm robotics involves a groups of robots that interact to solve relatively complex tasks cooperatively.
+//
+// Swarm robotics segregation involves leader and follower robots. Each leader has a type, characterized by a color
+// (red/green/blue). Followers that are not in range of a leader, or only in range of a single type of leader, do not
+// move. Followers that are in range of multiple types of leaders move randomly.
+
+// Plants.
+
+uncontrollable press;
+
+plant UserInputDevice: // G_1
+  location q1:
+    initial; marked;
+    edge press;
+end
+
+controllable sendR, sendG, sendB, sendNothing;
+
+plant RobotType: // G_2
+  location q1:
+    initial; marked;
+    edge sendR goto q2;
+
+  location q2:
+    edge sendG goto q3;
+
+  location q3:
+    edge sendB goto q4;
+
+  location q4:
+    edge sendNothing goto q1;
+end
+
+controllable moveFW, turnCW, turnCCW, moveStop;
+uncontrollable moveEnded;
+
+plant RobotMotion: // G_3
+  location q1:
+    initial; marked;
+    edge moveFW, turnCW, turnCCW goto q2;
+
+  location q2:
+    edge moveEnded goto q1;
+    edge moveStop goto q1;
+end
+
+uncontrollable getR, getG, getB, getNotR, getNotG, getNotB;
+
+plant def SensorPresenceLeader(event getX, getNotX): // G_Y
+  location q1:
+    initial; marked;
+    edge getX goto q2;
+
+  location q2:
+    edge getNotX goto q1;
+end
+
+SensorPresenceLeaderR: SensorPresenceLeader(getR, getNotR);
+SensorPresenceLeaderG: SensorPresenceLeader(getG, getNotG);
+SensorPresenceLeaderB: SensorPresenceLeader(getB, getNotB);
+
+// Requirements.
+
+requirement Configure: // E_1
+  location q1:
+    initial; marked;
+    edge press goto q2;
+
+  location q2:
+    marked;
+    edge press;
+    edge sendNothing, sendR, sendG, sendB goto q1;
+end
+
+requirement OnlyFollowersMove: // E_2
+  location q1:
+    initial; marked;
+    edge sendR, sendG, sendB goto q2;
+    edge moveFW, turnCW, turnCCW;
+
+  location q2:
+    edge sendNothing goto q1;
+    edge sendR, sendG, sendB;
+end
+
+requirement MoveStrategy: // E_3
+  location q1:
+    initial; marked;
+    edge getR, getG, getB goto q2;
+    edge moveStop;
+
+  location q2:
+    marked;
+    edge getNotR, getNotG, getNotB goto q1;
+    edge getR, getG, getB goto q3;
+    edge moveStop;
+
+  location q3:
+    marked;
+    edge getNotR, getNotG, getNotB goto q2;
+    edge getR, getG, getB goto q4;
+    edge moveFW, turnCW, turnCCW;
+
+  location q4:
+    edge getNotR, getNotG, getNotB goto q3;
+    edge moveFW, turnCW, turnCCW;
+end

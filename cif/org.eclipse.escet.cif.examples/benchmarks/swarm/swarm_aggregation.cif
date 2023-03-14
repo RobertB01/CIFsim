@@ -1,0 +1,86 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2016, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Swarm robotics involves a groups of robots that interact to solve relatively complex tasks cooperatively.
+//
+// Swarm robotics aggregation involves a group of e-puck robots that gather in a homogeneous environment. Each robot is
+// equipped with a sensor to detect the presence of other robots in its line of sight. A robot that does not detect any
+// other robots moves backwards along a circular trajectory. A robot that does detect another robot turns clockwise.
+
+// Plants.
+
+uncontrollable S0, S1;
+
+plant BinarySensor: // G_1
+  location q1:
+    initial; marked;
+    edge S0, S1;
+end
+
+controllable V0, V1;
+
+plant Movement: // G_2
+  location q1:
+    initial; marked;
+    edge V0, V1;
+end
+
+// Requirements.
+
+requirement NoRobotPerceived: // E_1
+  location q1:
+    initial; marked;
+    edge S0 goto q2;
+    edge S1;
+
+  location q2:
+    marked;
+    edge S1 goto q1;
+    edge V0 goto q1;
+    edge S0;
+end
+
+requirement RobotPerceived: // E_2
+  location q1:
+    initial; marked;
+    edge S1 goto q2;
+    edge S0;
+
+  location q2:
+    marked;
+    edge S0 goto q1;
+    edge V1 goto q1;
+    edge S1;
+end
+
+requirement AlternateV0: // E_3
+  location q1:
+    initial; marked;
+    edge V0 goto q2;
+    edge V1;
+
+  location q2:
+    marked;
+    edge V1 goto q1;
+end
+
+requirement AlternateV1: // E_4
+  location q1:
+    initial; marked;
+    edge V1 goto q2;
+    edge V0;
+
+  location q2:
+    marked;
+    edge V0 goto q1;
+end
