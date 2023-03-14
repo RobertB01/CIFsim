@@ -399,7 +399,7 @@ requirement Elevate_and_measure:
     edge em_elevator_release_station goto q_0;
 end
 
-requirement Elevat_and_measure_block:
+requirement Elevate_and_measure_block:
   alphabet em_timer_before_put_start, em_timer_before_put_timeout;
 
   location:
