@@ -107,11 +107,17 @@ end
 controllable arm_allocate_lower_buffer, arm_allocate_upper_buffer;
 
 plant Disable_Events:
-  alphabet arm_allocate_lower_buffer, arm_allocate_upper_buffer, button_automatic_pressed, em_putter_is_in,
-           em_putter_is_out, gk_in_is_in, gk_in_is_out, gk_out_is_in, gk_out_is_out;
-
   location:
     initial; marked;
+    edge arm_allocate_lower_buffer when false;
+    edge arm_allocate_upper_buffer when false;
+    edge button_automatic_pressed when false;
+    edge em_putter_is_in when false;
+    edge em_putter_is_out when false;
+    edge gk_in_is_in when false;
+    edge gk_in_is_out when false;
+    edge gk_out_is_in when false;
+    edge gk_out_is_out when false;
 end
 
 // Events not used in plant models.
@@ -408,10 +414,9 @@ requirement Elevate_and_measure:
 end
 
 requirement Elevate_and_measure_block:
-  alphabet em_timer_before_put_start;
-
   location:
     initial; marked;
+    edge em_timer_before_put_start when false;
 end
 
 requirement Elevator_and_sort:
@@ -507,10 +512,9 @@ requirement Elevator_and_sort:
 end
 
 requirement Elevator_and_sort_block:
-  alphabet es_is_not_down;
-
   location:
     initial; marked;
+    edge es_is_not_down when false;
 end
 
 requirement Measure_station_putter:
