@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 Model source: Sander Thuijsman, Michel Reniers and Dennis Hendriks, "Efficiently enforcing mutual state exclusion
-requirements in symbolic supervisor synthesis" Proceedings of the 2021 IEEE 17th International Conference on Automation
+requirements in symbolic supervisor synthesis", Proceedings of the 2021 IEEE 17th International Conference on Automation
 Science and Engineering, pages 777-783, 2021, doi: https://doi.org/10.1109/CASE49439.2021.9551593.
 
 Model source: Zowi Vos, "Initialization and Termination of Flexible Manufacturing Systems - a formal approach", MSc
