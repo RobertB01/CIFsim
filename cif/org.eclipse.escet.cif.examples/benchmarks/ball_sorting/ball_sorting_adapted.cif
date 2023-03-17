@@ -144,7 +144,6 @@ P8: Selfloop(em_measure_finished);
 controllable es_allocate_upper_buffer, arm_release_upper_buffer, arm_lower_upper_buffer, arm_raise_upper_buffer,
              es_release_upper_buffer, es_deput_ball_upper, es_put_ball_upper;
 
-// P9: Selfloop(arm_allocate_upper_buffer);
 P10: Selfloop(es_allocate_upper_buffer);
 P11: Selfloop(arm_release_upper_buffer);
 P12: Selfloop(arm_lower_upper_buffer);
@@ -168,7 +167,6 @@ p21: Selfloop(gk_release_ball);
 controllable es_allocate_lower_buffer, arm_release_lower_buffer, arm_lower_lower_buffer, arm_raise_lower_buffer,
              es_release_lower_buffer, es_deput_ball_lower, es_put_ball_lower;
 
-// p22: Selfloop(arm_allocate_lower_buffer);
 p23: Selfloop(es_allocate_lower_buffer);
 p24: Selfloop(arm_release_lower_buffer);
 p25: Selfloop(arm_lower_lower_buffer);
