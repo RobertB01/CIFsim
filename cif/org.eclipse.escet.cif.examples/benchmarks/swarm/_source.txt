@@ -1,0 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2016, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Model source: Yuri K. Lopes, Stefan M. Trenkwalder, André B. Leal, Tony J. Dodd and Roderich Groß, "Supervisory control
+theory applied to swarm robotics", Swarm Intelligence, volume 10, pages 65-97, 2016,
+doi: https://doi.org/10.1007/s11721-016-0119-0.

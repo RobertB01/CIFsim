@@ -1,0 +1,220 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2016, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Swarm robotics involves a groups of robots that interact to solve relatively complex tasks cooperatively.
+//
+// Swarm robotics group formation involves leader robots, green follower robots and blue follower robots. Each leader
+// should be in equilibrium, its number green and blue followers differing by at most one. Leaders initially stand
+// still a random location, while followers move randomly. Leaders send offers to followers, which followers may accept,
+// making them stop and relay the leader messages.
+
+// Plants.
+
+controllable moveFW, turnCW, turnCCW, moveStop;
+uncontrollable moveEnded;
+
+plant Movement: // G_1
+  location q1:
+    initial; marked;
+    edge moveFW, turnCW, turnCCW goto q2;
+
+  location q2:
+    edge moveEnded goto q1;
+    edge moveStop goto q1;
+end
+
+controllable startTimer;
+uncontrollable timeout;
+
+plant Timer: // G_2
+  location q1:
+    initial; marked;
+    edge startTimer goto q2;
+
+  location q2:
+    edge timeout goto q1;
+end
+
+controllable sendBG, sendBB, sendOG, sendOB, sendAG, sendAB, sendE, msgStop;
+
+plant MessageSending: // G_3
+  location q1:
+    initial; marked;
+    edge sendBG, sendBB, sendOG, sendOB, sendAG, sendAB, sendE goto q2;
+
+  location q2:
+    edge msgStop goto q1;
+end
+
+controllable getMessage;
+uncontrollable receiveBG, receiveBB, receiveOG, receiveOB, receiveAG, receiveAB;
+
+plant MessageReceiving: // G_4
+  location q1:
+    initial; marked;
+    edge getMessage goto q2;
+
+  location q2:
+    edge receiveBG, receiveBB, receiveOG, receiveOB, receiveAG, receiveAB goto q1;
+end
+
+controllable join;
+uncontrollable setGreen, setLeader, setBlue;
+
+plant Configuration: // G_5
+  location q1:
+    initial; marked;
+    edge setGreen goto q2;
+    edge setLeader goto q3;
+    edge setBlue goto q4;
+
+  location q2:
+    marked;
+    edge join goto q5;
+
+  location q3:
+    marked;
+
+  location q4:
+    marked;
+    edge join goto q5;
+
+  location q5:
+    marked;
+end
+
+controllable ignoreOG, ignoreOB;
+
+plant IgnoreOffer: // G_6
+  location q1:
+    initial; marked;
+    edge ignoreOG, ignoreOB;
+end
+
+// Requirements.
+
+requirement NonFollowersMove: // E_1
+  location q1:
+    initial; marked;
+    edge setGreen, setBlue goto q2;
+    edge setLeader goto q3;
+
+  location q2:
+    marked;
+    edge join goto q3;
+    edge moveFW, turnCW, turnCCW;
+
+  location q3:
+    marked;
+    edge moveStop;
+end
+
+requirement SendOffer: // E_2
+  location q1:
+    initial; marked;
+    edge setLeader goto q2;
+    edge receiveBB, receiveBG;
+
+  location q2:
+    marked;
+    edge receiveBG goto q3;
+    edge receiveBB goto q4;
+
+  location q3:
+    marked;
+    edge sendOG, ignoreOG goto q2;
+
+  location q4:
+    marked;
+    edge sendOB, ignoreOB goto q2;
+end
+
+requirement FollowerCycle: // E_3
+  location q1:
+    initial; marked;
+    edge setGreen goto q2;
+    edge setBlue goto q3;
+    edge receiveOB, receiveOG;
+
+  location q2:
+    marked;
+    edge receiveOG goto q4;
+    edge receiveOB;
+    edge sendBG;
+
+  location q3:
+    marked;
+    edge receiveOB goto q5;
+    edge receiveOG;
+    edge sendBB;
+
+  location q4:
+    marked;
+    edge sendAG goto q6;
+
+  location q5:
+    marked;
+    edge sendAB goto q6;
+
+  location q6:
+    marked;
+    edge join goto q7;
+
+  location q7:
+    marked;
+    edge receiveOB, receiveOG;
+    edge sendE;
+end
+
+requirement Transmission: // E_4
+  location q1:
+    initial; marked;
+    edge sendBG, sendBB, sendOG, sendOB, sendAG, sendAB, sendE goto q2;
+    edge msgStop;
+
+  location q2:
+    marked;
+    edge timeout goto q1;
+end
+
+requirement Equilibrium: // E_5
+  location q1:
+    initial; marked;
+    edge sendOB goto q2;
+    edge sendOG goto q3;
+
+  location q2:
+    marked;
+    edge sendOG goto q1;
+    edge ignoreOB;
+
+  location q3:
+    marked;
+    edge sendOB goto q1;
+    edge ignoreOG;
+end
+
+requirement Relay: // E_6
+  location q1:
+    initial; marked;
+    edge join goto q2;
+    edge receiveBG, receiveBB, receiveOG, receiveOB, receiveAG, receiveAB;
+
+  location q2:
+    marked;
+    edge receiveBG, receiveBB, receiveOG, receiveOB, receiveAG, receiveAB goto q3;
+
+  location q3:
+    marked;
+    edge sendE goto q2;
+end

@@ -1,0 +1,70 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2016, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Swarm robotics involves a groups of robots that interact to solve relatively complex tasks cooperatively.
+//
+// Swarm robotics clustering involves a group of e-puck robots that cluster objects that are initially dispersed in the
+// environment. Robots are equipped with sensors to detect objects and other robots in their direct line of sight, and
+// they move based on their sensor readings.
+
+// Plants.
+
+uncontrollable S0, S1, S2;
+
+plant BinarySensor: // G_1
+  location q1:
+    initial; marked;
+    edge S0, S1, S2;
+end
+
+controllable V0, V1, V2;
+
+plant Movement: // G_2
+  location q1:
+    initial; marked;
+    edge V0, V1, V2;
+end
+
+// Requirements.
+
+requirement def Perceived(event Sx, Sy, Sz, Va):
+  location q1:
+    initial; marked;
+    edge Sx goto q2;
+    edge Sy, Sz;
+
+  location q2:
+    marked;
+    edge Sy, Sz goto q1;
+    edge Va goto q1;
+    edge Sx;
+end
+
+NothingPercieved: Perceived(S0, S1, S2, V0); // E_1
+ObjectPercieved:  Perceived(S1, S2, S0, V1); // E_2
+RobotPercieved:   Perceived(S2, S0, S1, V2); // E_3
+
+requirement def Alternate(event Vx, Vy, Vz):
+  location q1:
+    initial; marked;
+    edge Vx goto q2;
+    edge Vy, Vz;
+
+  location q2:
+    marked;
+    edge Vy, Vz goto q1;
+end
+
+AlternateV0: Alternate(V0, V1, V2); // E_4
+AlternateV1: Alternate(V1, V2, V0); // E_5
+AlternateV2: Alternate(V2, V0, V1); // E_6

@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2018, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Synthesize the supervisor.
+
+from "lib:cif" import *;
+import java.lang.System.currentTimeMillis;
+import org.eclipse.escet.common.java:org.eclipse.escet.common.java.DateTimeUtils.durationToString;
+
+mkdir("generated", force=true);
+
+for fname in find(".", "*.cif", recursive=false):
+    out("%s -> ", fname);
+    string out_fname = chfileext(fname, "cif", "synthesized.cif");
+    long t = currentTimeMillis();
+    cifdatasynth(fname, "-m error", "-t normal", fmt("-o generated/%s", out_fname));
+    long duration = currentTimeMillis() - t;
+    outln("time=%s", durationToString(duration, true));
+end
+
+outln();
+outln("Done!");
