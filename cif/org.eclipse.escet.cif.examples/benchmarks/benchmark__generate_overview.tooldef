@@ -194,7 +194,7 @@ for config_nr in config_nrs:
     worst_weighted_average_ops     = max(worst_weighted_average_ops,     weighted_averages_ops    [config_nr]);
 end
 
-// Construct the HTML file contents.
+// Construct the HTML file contents. First, add the header.
 list string html_lines = [
     "<!DOCTYPE html>",
     "<html lang='en'>",
@@ -213,6 +213,13 @@ list string html_lines = [
     "      }",
     "      table {",
     "        margin-top: 2px;",
+    "      }",
+    "      table.info {",
+    "        border-collapse: collapse;",
+    "        border-spacing: 0;",
+    "      }",
+    "      table.info td {",
+    "        padding: 0 4px 0 0;",
     "      }",
     "      table.legend {",
     "        border: solid 2px black;",
@@ -323,6 +330,12 @@ list string html_lines = [
     "        border: 0;",
     "        padding-left: 0;",
     "      }",
+    "      .warn {",
+    "        display: inline-block;",
+    "        border-left: 6px solid #ffaa44;",
+    "        background-color: #ffddbb;",
+    "        padding: 8px;",
+    "      }",
     "    </style>",
     "    <script>",
     "      function applyOptions(opt) {",
@@ -335,46 +348,9 @@ list string html_lines = [
     "  </head>",
     "  <body>",
     "    <h2>CIF data-based synthesis benchmark results overview</h2>",
-    "    <div class='section'>Options:</div>",
-    "    <input type='radio' id='metric-value-opt-abs' name='metric-value-opt' value='abs' onclick=\"applyOptions('abs')\" checked>",
-    "    <label for='metric-value-opt-abs'>Absolute metric values</label><br>",
-    "    <input type='radio' id='metric-value-opt-rel' name='metric-value-opt' value='rel' onclick=\"applyOptions('rel')\">",
-    "    <label for='metric-value-opt-rel'>Relative metric values (relative to best value)</label><br>",
-    "    <div class='section'>Legend (* = per metric, per model):</div>",
-    "    <table class='legend'>",
-    "      <tr>",
-    "        <td class='text'>Best configuration (*)</td>",
-    "        <td class='sep'</td>",
-    "        <td class='text' colspan='2'>A bit worse</td>",
-    "        <td class='sep'</td>",
-    "        <td class='text' colspan='2'>Even worse</td>",
-    "        <td class='sep'</td>",
-    "        <td class='text'>Unknown (error, out of memory, ...)</td>",
-    "      </tr>",
-    "      <tr>",
-    "        <td class='metric best'>&nbsp;</td>",
-    "        <td class='sep'</td>",
-    "        <td class='metric worse1-gradient' colspan='2'>&nbsp;</td>",
-    "        <td class='sep'</td>",
-    "        <td class='metric worse2-gradient' colspan='2'>&nbsp;</td>",
-    "        <td class='sep'</td>",
-    "        <td class='metric unknown'>&nbsp;</td>",
-    "      </tr>",
-    "      <tr>",
-    "        <td></td> <!-- Best -->",
-    "        <td class='sep'</td>",
-    "        <td class='text left'>&times;1</td>",
-    "        <td class='text right'>&times;2</td>",
-    "        <td class='sep'</td>",
-    "        <td class='text left'>&times;2</td>",
-    "        <td class='text right'>worst (*)</td>",
-    "        <td class='sep'</td>",
-    "        <td></td> <!-- Unknown -->",
-    "      </tr>",
-    "    </table>",
-    "    <table class='main section'>",
 ];
 
+// Get table lines.
 list string lines_nodes;
 list string lines_ops;
 
@@ -417,6 +393,8 @@ tool tuple(string, string) get_classes_and_style(long value, long best_value, lo
     return " worse2-color", fmt("--percentage:%.3f", worst_percentage);
 end
 
+int missing_cnt_nodes;
+int missing_cnt_ops;
 for config_nr in config_nrs:
     // Get configuration.
     string config = configs[config_nr];
@@ -485,6 +463,7 @@ for config_nr in config_nrs:
         if value_nodes == -1:
             text_nodes_abs = "?";
             text_nodes_rel = "?";
+            missing_cnt_nodes = missing_cnt_nodes + 1;
         else
             text_nodes_abs = <string>escape(fmt("%,d", value_nodes));
             text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes / best_values_nodes[idx]));
@@ -494,6 +473,7 @@ for config_nr in config_nrs:
         if value_ops == -1:
             text_ops_abs = "?";
             text_ops_rel = "?";
+            missing_cnt_ops = missing_cnt_ops + 1;
         else
             text_ops_abs = <string>escape(fmt("%,d", value_ops));
             text_ops_rel = <string>escape(fmt("%,.3f", value_ops / best_values_ops[idx]));
@@ -511,13 +491,94 @@ for config_nr in config_nrs:
     lines_ops   = lines_ops   + ["      </tr>"];
 end
 
+// Add information on configurations and models.
+html_lines = html_lines + [
+    "    <table class='info section'>",
+    fmt("      <tr><td>Number of configurations:</td><td>%,d</td></tr>", max_config_nr),
+    fmt("      <tr><td>Number of models:</td><td>%,d</td></tr>", size(names)),
+    "    </table>",
+];
+
+// Add warning for missing values.
+list string warn_lines;
+if size(config_nrs) != max_config_nr:
+    warn_lines = warn_lines + [
+        fmt("      <strong>!</strong> Missing information for %,d configuration(s).", max_config_nr - size(config_nrs))
+    ];
+end
+if missing_cnt_nodes > 0:
+    warn_lines = warn_lines + [
+        fmt("      <strong>!</strong> Missing information for %,d cell(s) in the nodes table.", missing_cnt_nodes)
+    ];
+end
+if missing_cnt_ops > 0:
+    warn_lines = warn_lines + [
+        fmt("      <strong>!</strong> Missing information for %,d cell(s) in the operations table.", missing_cnt_ops)
+    ];
+end
+if not empty(warn_lines):
+    html_lines = html_lines + [
+        "    <div class='warn section'>",
+        join(warn_lines, "<br>"),
+        "    </div>",
+    ];
+end
+
+// Add options.
+html_lines = html_lines + [
+    "    <div class='section'>Options:</div>",
+    "    <input type='radio' id='metric-value-opt-abs' name='metric-value-opt' value='abs' onclick=\"applyOptions('abs')\" checked>",
+    "    <label for='metric-value-opt-abs'>Absolute metric values</label><br>",
+    "    <input type='radio' id='metric-value-opt-rel' name='metric-value-opt' value='rel' onclick=\"applyOptions('rel')\">",
+    "    <label for='metric-value-opt-rel'>Relative metric values (relative to best value)</label><br>",
+];
+
+// Add legend.
+html_lines = html_lines + [
+    "    <div class='section'>Legend (* = per metric, per model):</div>",
+    "    <table class='legend'>",
+    "      <tr>",
+    "        <td class='text'>Best configuration (*)</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text' colspan='2'>A bit worse</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text' colspan='2'>Even worse</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text'>Unknown (error, out of memory, ...)</td>",
+    "      </tr>",
+    "      <tr>",
+    "        <td class='metric best'>&nbsp;</td>",
+    "        <td class='sep'</td>",
+    "        <td class='metric worse1-gradient' colspan='2'>&nbsp;</td>",
+    "        <td class='sep'</td>",
+    "        <td class='metric worse2-gradient' colspan='2'>&nbsp;</td>",
+    "        <td class='sep'</td>",
+    "        <td class='metric unknown'>&nbsp;</td>",
+    "      </tr>",
+    "      <tr>",
+    "        <td></td> <!-- Best -->",
+    "        <td class='sep'</td>",
+    "        <td class='text left'>&times;1</td>",
+    "        <td class='text right'>&times;2</td>",
+    "        <td class='sep'</td>",
+    "        <td class='text left'>&times;2</td>",
+    "        <td class='text right'>worst (*)</td>",
+    "        <td class='sep'</td>",
+    "        <td></td> <!-- Unknown -->",
+    "      </tr>",
+    "    </table>",
+];
+
+// Add tables.
 int col_cnt = size(names) + 5; // 5 more due to the following columns: nr, config, avg, weighted avg, gap.
+html_lines = html_lines + ["    <table class='main section'>"];
 html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>Maximum number of used BDD nodes:</td></tr>", col_cnt)];
 html_lines = html_lines + lines_nodes;
 html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>&nbsp;</td></tr>", col_cnt)];
 html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>Number of BDD operations:</td></tr>", col_cnt)];
 html_lines = html_lines + lines_ops;
 
+// Finalize HTML.
 html_lines = html_lines + [
     "    </table>",
     "  </body>",
@@ -529,5 +590,5 @@ string html_filepath = replace(pathjoin("_generated", "_overview.html"), "\\", "
 writefile(html_filepath, html_lines);
 
 // Done.
-outln("Processed %,d benchmark models(s), for %,d configuration(s) each.", size(names), size(configs));
+outln("Processed %,d benchmark models(s), for %,d configuration(s) each.", size(names), max_config_nr);
 outln("See \"%s\" for the generated overview.", html_filepath);
