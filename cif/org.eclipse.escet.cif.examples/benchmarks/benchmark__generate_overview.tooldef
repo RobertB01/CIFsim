@@ -422,31 +422,35 @@ for config_nr in config_nrs:
     long avg_nodes = unweighted_averages_nodes[config_nr];
     long avg_ops   = unweighted_averages_ops  [config_nr];
 
-    string text_nodes_abs = <string>escape(fmt("%,d", avg_nodes));
-    string text_nodes_rel = <string>escape(fmt("%,.3f", avg_nodes / best_unweighted_average_nodes));
-    string text_ops_abs   = <string>escape(fmt("%,d", avg_ops));
-    string text_ops_rel   = <string>escape(fmt("%,.3f", avg_ops / best_unweighted_average_ops));
+    string text_avg_nodes_abs = <string>escape(fmt("%,d", avg_nodes));
+    string text_avg_nodes_rel = <string>escape(fmt("%,.3f", avg_nodes / best_unweighted_average_nodes));
+    string text_avg_ops_abs   = <string>escape(fmt("%,d", avg_ops));
+    string text_avg_ops_rel   = <string>escape(fmt("%,.3f", avg_ops / best_unweighted_average_ops));
 
-    tuple(string, string) cs_nodes = get_classes_and_style(avg_nodes, best_unweighted_average_nodes, worst_unweighted_average_nodes);
-    tuple(string, string) cs_ops   = get_classes_and_style(avg_ops,   best_unweighted_average_ops,   worst_unweighted_average_ops);
+    tuple(string, string) cs_avg_nodes = get_classes_and_style(avg_nodes, best_unweighted_average_nodes, worst_unweighted_average_nodes);
+    tuple(string, string) cs_avg_ops   = get_classes_and_style(avg_ops,   best_unweighted_average_ops,   worst_unweighted_average_ops);
 
-    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes_abs, text_nodes_rel, text_nodes_abs)];
-    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops_abs,   text_ops_rel,   text_ops_abs)];
+    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
+                                     cs_avg_nodes[0], cs_avg_nodes[1], text_avg_nodes_abs, text_avg_nodes_rel, text_avg_nodes_abs)];
+    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
+                                     cs_avg_ops[0],   cs_avg_ops[1],   text_avg_ops_abs,   text_avg_ops_rel,   text_avg_ops_abs)];
 
     // Add weighted average.
-    avg_nodes = weighted_averages_nodes[config_nr];
-    avg_ops   = weighted_averages_ops  [config_nr];
+    long wavg_nodes = weighted_averages_nodes[config_nr];
+    long wavg_ops   = weighted_averages_ops  [config_nr];
 
-    text_nodes_abs = <string>escape(fmt("%,d", avg_nodes));
-    text_nodes_rel = <string>escape(fmt("%,.3f", avg_nodes / best_weighted_average_nodes));
-    text_ops_abs   = <string>escape(fmt("%,d", avg_ops));
-    text_ops_rel   = <string>escape(fmt("%,.3f", avg_ops / best_weighted_average_ops));
+    string text_wavg_nodes_abs = <string>escape(fmt("%,d", wavg_nodes));
+    string text_wavg_nodes_rel = <string>escape(fmt("%,.3f", wavg_nodes / best_weighted_average_nodes));
+    string text_wavg_ops_abs   = <string>escape(fmt("%,d", wavg_ops));
+    string text_wavg_ops_rel   = <string>escape(fmt("%,.3f", wavg_ops / best_weighted_average_ops));
 
-    cs_nodes = get_classes_and_style(avg_nodes, best_weighted_average_nodes, worst_weighted_average_nodes);
-    cs_ops   = get_classes_and_style(avg_ops,   best_weighted_average_ops,   worst_weighted_average_ops);
+    tuple(string, string) cs_wavg_nodes = get_classes_and_style(wavg_nodes, best_weighted_average_nodes, worst_weighted_average_nodes);
+    tuple(string, string) cs_wavg_ops   = get_classes_and_style(wavg_ops,   best_weighted_average_ops,   worst_weighted_average_ops);
 
-    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes_abs, text_nodes_rel, text_nodes_abs)];
-    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops_abs,   text_ops_rel,   text_ops_abs)];
+    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
+                                     cs_wavg_nodes[0], cs_wavg_nodes[1], text_wavg_nodes_abs, text_wavg_nodes_rel, text_wavg_nodes_abs)];
+    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
+                                     cs_wavg_ops[0],   cs_wavg_ops[1],   text_wavg_ops_abs,   text_wavg_ops_rel,   text_wavg_ops_abs)];
 
     // Add gap.
     lines_nodes = lines_nodes + ["        <td class='metric gap'></td>"];
