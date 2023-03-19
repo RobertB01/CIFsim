@@ -216,8 +216,6 @@ list string html_lines = [
     "      }",
     "      table {",
     "        margin-top: 2px;",
-    "      }",
-    "      table.info {",
     "        border-collapse: collapse;",
     "        border-spacing: 0;",
     "      }",
@@ -226,7 +224,6 @@ list string html_lines = [
     "      }",
     "      table.legend {",
     "        border: solid 2px black;",
-    "        border-spacing: 0px;",
     "      }",
     "      table.legend td {",
     "        white-space: nowrap;",
@@ -249,12 +246,6 @@ list string html_lines = [
     "        text-align: right;",
     "        padding-left: 20px;",
     "      }",
-    "      table#main {",
-    "        border-spacing: 0;",
-    "      }",
-    "      table#main tr.last-row td {",
-    "        border-bottom: solid 2px black;",
-    "      }",
     "      table#main th {",
     "        background: black;",
     "        color: white;",
@@ -268,15 +259,9 @@ list string html_lines = [
     "      }",
     "      table#main td, table#main th {",
     "        padding: 2px 5px;",
-    "        border: solid 1px black;",
+    "        border: solid 2px black;",
     "        text-align: left;",
     "        margin: 0;",
-    "      }",
-    "      table#main td:first-of-type, table#main th:first-of-type {",
-    "        border-left: solid 2px black;",
-    "      }",
-    "      table#main td:last-of-type, table#main th:last-of-type {",
-    "        border-right: solid 2px black;",
     "      }",
     "      table#main th.name {",
     "        text-align: center;",
@@ -374,11 +359,6 @@ list string html_lines = [
     "        nodes   .forEach(e => tbody.appendChild(e));",
     "        opsPre  .forEach(e => tbody.appendChild(e));",
     "        ops     .forEach(e => tbody.appendChild(e));",
-    "        // Set last rows.",
-    "        nodes.forEach(e => e.classList.remove('last-row'));",
-    "        ops  .forEach(e => e.classList.remove('last-row'));",
-    "        nodes[nodes.length - 1].classList.add('last-row');",
-    "        ops  [ops  .length - 1].classList.add('last-row');",
     "        // Set sort indicator.",
     "        document.querySelectorAll('th.col-sortable').forEach(e => e.classList.remove('sorted'));",
     "        document.getElementById(elemId).classList.add('sorted');",
@@ -413,11 +393,6 @@ list string html_lines = [
     "        nodes   .forEach(e => tbody.appendChild(e));",
     "        opsPre  .forEach(e => tbody.appendChild(e));",
     "        ops     .forEach(e => tbody.appendChild(e));",
-    "        // Set last rows.",
-    "        nodes.forEach(e => e.classList.remove('last-row'));",
-    "        ops  .forEach(e => e.classList.remove('last-row'));",
-    "        nodes[nodes.length - 1].classList.add('last-row');",
-    "        ops  [ops  .length - 1].classList.add('last-row');",
     "        // Set sort indicator.",
     "        document.querySelectorAll('th.col-sortable').forEach(e => e.classList.remove('sorted'));",
     "        document.getElementById(elemId).classList.add('sorted');",
@@ -484,10 +459,6 @@ for config_nr in config_nrs:
         config_extra_classes = " config-default";
     end
 
-    // Get last row extra CSS classes.
-    string row_extra_classes;
-    if config_nr == max_config_nr:: row_extra_classes = row_extra_classes + " last-row";
-
     // Get (weighted) averages.
     long avg_nodes  = unweighted_averages_nodes[config_nr];
     long avg_ops    = unweighted_averages_ops  [config_nr];
@@ -495,8 +466,8 @@ for config_nr in config_nrs:
     long wavg_ops   = weighted_averages_ops    [config_nr];
 
     // Add row and first columns: configuration number and configuration.
-    lines_nodes = lines_nodes + [fmt("      <tr class='row-nodes%s' data-nr='%d' data-avg='%d' data-wavg='%d'>", row_extra_classes, config_nr, avg_nodes, wavg_nodes)];
-    lines_ops   = lines_ops   + [fmt("      <tr class='row-ops%s' data-nr='%d' data-avg='%d' data-wavg='%d'>",   row_extra_classes, config_nr, avg_ops,   wavg_ops)];
+    lines_nodes = lines_nodes + [fmt("      <tr class='row-nodes' data-nr='%d' data-avg='%d' data-wavg='%d'>", config_nr, avg_nodes, wavg_nodes)];
+    lines_ops   = lines_ops   + [fmt("      <tr class='row-ops' data-nr='%d' data-avg='%d' data-wavg='%d'>",   config_nr, avg_ops,   wavg_ops)];
     lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
     lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
     lines_nodes = lines_nodes + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
