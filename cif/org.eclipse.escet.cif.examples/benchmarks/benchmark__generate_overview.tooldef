@@ -211,6 +211,9 @@ list string html_lines = [
     "      .section {",
     "        margin-top: 20px;",
     "      }",
+    "      input, label {",
+    "        cursor: pointer;",
+    "      }",
     "      table {",
     "        margin-top: 2px;",
     "      }",
@@ -246,52 +249,59 @@ list string html_lines = [
     "        text-align: right;",
     "        padding-left: 20px;",
     "      }",
-    "      table.main {",
+    "      table#main {",
     "        border-spacing: 0;",
     "      }",
-    "      table.main tr.last-row td {",
+    "      table#main tr.last-row td {",
     "        border-bottom: solid 2px black;",
     "      }",
-    "      table.main th {",
+    "      table#main th {",
     "        background: black;",
     "        color: white;",
     "      }",
-    "      table.main td, table.main th {",
+    "      table#main th.col-sortable.sorted::after {",
+    "        content: ' \\25B4'", // Small up arrow.
+    "      }",
+    "      table#main th.col-sortable:hover {",
+    "        text-decoration: underline;",
+    "        cursor: pointer;",
+    "      }",
+    "      table#main td, table#main th {",
     "        padding: 2px 5px;",
     "        border: solid 1px black;",
     "        text-align: left;",
     "        margin: 0;",
     "      }",
-    "      table.main td:first-of-type, table.main th:first-of-type {",
+    "      table#main td:first-of-type, table#main th:first-of-type {",
     "        border-left: solid 2px black;",
     "      }",
-    "      table.main td:last-of-type, table.main th:last-of-type {",
+    "      table#main td:last-of-type, table#main th:last-of-type {",
     "        border-right: solid 2px black;",
     "      }",
-    "      table.main th.name {",
+    "      table#main th.name {",
     "        text-align: center;",
     "      }",
-    "      table.main td.config {",
+    "      table#main td.config {",
     "        font-family: monospace;",
     "        white-space: pre-wrap;",
     "      }",
-    "      table.main td.config.config-default {",
+    "      table#main td.config.config-default {",
     "        color: #888;",
     "      }",
-    "      table.main td.metric {",
+    "      table#main td.metric {",
     "        text-align: right;",
     "      }",
     "      table.legend td.metric.unknown {",
     "        background: #cccccc;",
     "      }",
-    "      table.main td.metric.unknown {",
+    "      table#main td.metric.unknown {",
     "        background: #ccc;",
     "        color: #222;",
     "      }",
     "      table.legend td.metric.best {",
     "        background: #80ff00;",
     "      }",
-    "      table.main td.metric.best {",
+    "      table#main td.metric.best {",
     "        background: #80ff00;",
     "        font-weight: bold;",
     "      }",
@@ -314,10 +324,10 @@ list string html_lines = [
     "          background-color: orangered;",
     "        }",
     "      }",
-    "      table.main td.metric.worse1-color {",
+    "      table#main td.metric.worse1-color {",
     "        animation: 100.001s linear calc(-1s * var(--percentage)) paused worse1-frames;",
     "      }",
-    "      table.main td.metric.worse2-color {",
+    "      table#main td.metric.worse2-color {",
     "        animation: 100.001s linear calc(-1s * var(--percentage)) paused worse2-frames;",
     "      }",
     "      table.legend td.metric.worse1-gradient {",
@@ -326,7 +336,7 @@ list string html_lines = [
     "      table.legend td.metric.worse2-gradient {",
     "        background: linear-gradient(to right, orange 0%, orangered 100%);",
     "      }",
-    "      table.main td.dummy {",
+    "      table#main td.dummy {",
     "        border: 0;",
     "        padding-left: 0;",
     "      }",
@@ -339,10 +349,78 @@ list string html_lines = [
     "    </style>",
     "    <script>",
     "      function applyOptions(opt) {",
-    "        const elements = document.querySelectorAll('[data-' + opt + ']');",
+    "        const elements = document.querySelectorAll('td[data-' + opt + ']');",
     "        for (let i = 0; i < elements.length; i++) {",
     "          elements[i].innerHTML = elements[i].getAttribute('data-' + opt);",
     "        }",
+    "      }",
+    "      function sortRowsByNr(elemId) {",
+    "        // Get all rows.",
+    "        const tbody    = document.querySelector('table#main tbody');",
+    "        const nodesPre = document.querySelectorAll('table#main tr.row-nodes-pre');",
+    "        const opsPre   = document.querySelectorAll('table#main tr.row-ops-pre');",
+    "        let   nodes    = Array.from(document.querySelectorAll('table#main tr.row-nodes'));",
+    "        let   ops      = Array.from(document.querySelectorAll('table#main tr.row-ops'));",
+    "        // Sort rows.",
+    "        nodes.sort((r1, r2) => {",
+    "          return r1.getAttribute('data-nr') - r2.getAttribute('data-nr');",
+    "        });",
+    "        ops.sort((r1, r2) => {",
+    "          return r1.getAttribute('data-nr') - r2.getAttribute('data-nr');",
+    "        });",
+    "        // Replace all rows.",
+    "        tbody.innerHTML = '';",
+    "        nodesPre.forEach(e => tbody.appendChild(e));",
+    "        nodes   .forEach(e => tbody.appendChild(e));",
+    "        opsPre  .forEach(e => tbody.appendChild(e));",
+    "        ops     .forEach(e => tbody.appendChild(e));",
+    "        // Set last rows.",
+    "        nodes.forEach(e => e.classList.remove('last-row'));",
+    "        ops  .forEach(e => e.classList.remove('last-row'));",
+    "        nodes[nodes.length - 1].classList.add('last-row');",
+    "        ops  [ops  .length - 1].classList.add('last-row');",
+    "        // Set sort indicator.",
+    "        document.querySelectorAll('th.col-sortable').forEach(e => e.classList.remove('sorted'));",
+    "        document.getElementById(elemId).classList.add('sorted');",
+    "      }",
+    "      function sortRowsByAvg(elemId, metric, avgKind) {",
+    "        // Get all rows.",
+    "        const tbody      = document.querySelector('table#main tbody');",
+    "        const nodesPre   = document.querySelectorAll('table#main tr.row-nodes-pre');",
+    "        const opsPre     = document.querySelectorAll('table#main tr.row-ops-pre');",
+    "        let   nodes      = Array.from(document.querySelectorAll('table#main tr.row-nodes'));",
+    "        let   ops        = Array.from(document.querySelectorAll('table#main tr.row-ops'));",
+    "        const rowsToSort = (metric === 'nodes') ? nodes : ops;",
+    "        const otherRows  = (metric === 'nodes') ? ops   : nodes;",
+    "        // Sort rows.",
+    "        rowsToSort.sort((r1, r2) => {",
+    "          return r1.getAttribute('data-' + avgKind) - r2.getAttribute('data-' + avgKind);",
+    "        });",
+    "        const m = new Map();",
+    "        for (var i = 0; i < rowsToSort.length; i++) {",
+    "          m.set(Number(rowsToSort[i].getAttribute('data-nr')), i); // Configuration number to sorted index.",
+    "        }",
+    "        let newOtherRows = Array(otherRows.length);",
+    "        otherRows.forEach(e => { newOtherRows[m.get(Number(e.getAttribute('data-nr')))] = e; });",
+    "        if (metric === 'nodes') {",
+    "          ops = newOtherRows;",
+    "        } else {",
+    "          nodes = newOtherRows;",
+    "        }",
+    "        // Replace all rows.",
+    "        tbody.innerHTML = '';",
+    "        nodesPre.forEach(e => tbody.appendChild(e));",
+    "        nodes   .forEach(e => tbody.appendChild(e));",
+    "        opsPre  .forEach(e => tbody.appendChild(e));",
+    "        ops     .forEach(e => tbody.appendChild(e));",
+    "        // Set last rows.",
+    "        nodes.forEach(e => e.classList.remove('last-row'));",
+    "        ops  .forEach(e => e.classList.remove('last-row'));",
+    "        nodes[nodes.length - 1].classList.add('last-row');",
+    "        ops  [ops  .length - 1].classList.add('last-row');",
+    "        // Set sort indicator.",
+    "        document.querySelectorAll('th.col-sortable').forEach(e => e.classList.remove('sorted'));",
+    "        document.getElementById(elemId).classList.add('sorted');",
     "      }",
     "    </script>",
     "  </head>",
@@ -354,16 +432,16 @@ list string html_lines = [
 list string lines_nodes;
 list string lines_ops;
 
-lines_nodes = lines_nodes + ["      <tr>"];
-lines_ops   = lines_ops   + ["      <tr>"];
-lines_nodes = lines_nodes + ["        <th>Nr</th>"];
-lines_ops   = lines_ops   + ["        <th>Nr</th>"];
+lines_nodes = lines_nodes + ["      <tr class='row-nodes-pre'>"];
+lines_ops   = lines_ops   + ["      <tr class='row-ops-pre'>"];
+lines_nodes = lines_nodes + ["        <th id='col-sortable-nodes-nr' class='col-sortable sorted' onclick='sortRowsByNr(this.id)'>Nr</th>"];
+lines_ops   = lines_ops   + ["        <th id='col-sortable-ops-nr' class='col-sortable' onclick='sortRowsByNr(this.id)'>Nr</th>"];
 lines_nodes = lines_nodes + ["        <th>Configuration</th>"];
 lines_ops   = lines_ops   + ["        <th>Configuration</th>"];
-lines_nodes = lines_nodes + ["        <th class='name'>Average</th>"];
-lines_ops   = lines_ops   + ["        <th class='name'>Average</th>"];
-lines_nodes = lines_nodes + ["        <th class='name'>Weighted avg.</th>"];
-lines_ops   = lines_ops   + ["        <th class='name'>Weighted avg.</th>"];
+lines_nodes = lines_nodes + ["        <th id='col-sortable-nodes-avg' class='name col-sortable' onclick='sortRowsByAvg(this.id, \"nodes\", \"avg\")'>Average</th>"];
+lines_ops   = lines_ops   + ["        <th id='col-sortable-ops-avg' class='name col-sortable' onclick='sortRowsByAvg(this.id, \"ops\", \"avg\")'>Average</th>"];
+lines_nodes = lines_nodes + ["        <th id='col-sortable-nodes-wavg' class='name col-sortable' onclick='sortRowsByAvg(this.id, \"nodes\", \"wavg\")'>Weighted avg.</th>"];
+lines_ops   = lines_ops   + ["        <th id='col-sortable-ops-wavg' class='name col-sortable' onclick='sortRowsByAvg(this.id, \"ops\", \"wavg\")'>Weighted avg.</th>"];
 lines_nodes = lines_nodes + ["        <th class='name gap'></th>"];
 lines_ops   = lines_ops   + ["        <th class='name gap'></th>"];
 for name in names:
@@ -407,21 +485,24 @@ for config_nr in config_nrs:
     end
 
     // Get last row extra CSS classes.
-    string close_extra_classes;
-    if config_nr == max_config_nr:: close_extra_classes = close_extra_classes + " class='last-row'";
+    string row_extra_classes;
+    if config_nr == max_config_nr:: row_extra_classes = row_extra_classes + " last-row";
 
-    // Add config nr and config.
-    lines_nodes = lines_nodes + [fmt("      <tr%s>", close_extra_classes)];
-    lines_ops   = lines_ops   + [fmt("      <tr%s>", close_extra_classes)];
+    // Get (weighted) averages.
+    long avg_nodes  = unweighted_averages_nodes[config_nr];
+    long avg_ops    = unweighted_averages_ops  [config_nr];
+    long wavg_nodes = weighted_averages_nodes  [config_nr];
+    long wavg_ops   = weighted_averages_ops    [config_nr];
+
+    // Add row and first columns: configuration number and configuration.
+    lines_nodes = lines_nodes + [fmt("      <tr class='row-nodes%s' data-nr='%d' data-avg='%d' data-wavg='%d'>", row_extra_classes, config_nr, avg_nodes, wavg_nodes)];
+    lines_ops   = lines_ops   + [fmt("      <tr class='row-ops%s' data-nr='%d' data-avg='%d' data-wavg='%d'>",   row_extra_classes, config_nr, avg_ops,   wavg_ops)];
     lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
     lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
     lines_nodes = lines_nodes + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
     lines_ops   = lines_ops   + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
 
     // Add average.
-    long avg_nodes = unweighted_averages_nodes[config_nr];
-    long avg_ops   = unweighted_averages_ops  [config_nr];
-
     string text_avg_nodes_abs = <string>escape(fmt("%,d", avg_nodes));
     string text_avg_nodes_rel = <string>escape(fmt("%,.3f", avg_nodes / best_unweighted_average_nodes));
     string text_avg_ops_abs   = <string>escape(fmt("%,d", avg_ops));
@@ -436,9 +517,6 @@ for config_nr in config_nrs:
                                      cs_avg_ops[0],   cs_avg_ops[1],   text_avg_ops_abs,   text_avg_ops_rel,   text_avg_ops_abs)];
 
     // Add weighted average.
-    long wavg_nodes = weighted_averages_nodes[config_nr];
-    long wavg_ops   = weighted_averages_ops  [config_nr];
-
     string text_wavg_nodes_abs = <string>escape(fmt("%,d", wavg_nodes));
     string text_wavg_nodes_rel = <string>escape(fmt("%,.3f", wavg_nodes / best_weighted_average_nodes));
     string text_wavg_ops_abs   = <string>escape(fmt("%,d", wavg_ops));
@@ -575,11 +653,11 @@ html_lines = html_lines + [
 
 // Add tables.
 int col_cnt = size(names) + 5; // 5 more due to the following columns: nr, config, avg, weighted avg, gap.
-html_lines = html_lines + ["    <table class='main section'>"];
-html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>Maximum number of used BDD nodes:</td></tr>", col_cnt)];
+html_lines = html_lines + ["    <table id='main' class='section'>"];
+html_lines = html_lines + [fmt("      <tr class='row-nodes-pre'><td class='dummy' colspan='%d'>Maximum number of used BDD nodes:</td></tr>", col_cnt)];
 html_lines = html_lines + lines_nodes;
-html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>&nbsp;</td></tr>", col_cnt)];
-html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>Number of BDD operations:</td></tr>", col_cnt)];
+html_lines = html_lines + [fmt("      <tr class='row-ops-pre'><td class='dummy' colspan='%d'>&nbsp;</td></tr>", col_cnt)];
+html_lines = html_lines + [fmt("      <tr class='row-ops-pre'><td class='dummy' colspan='%d'>Number of BDD operations:</td></tr>", col_cnt)];
 html_lines = html_lines + lines_ops;
 
 // Finalize HTML.
