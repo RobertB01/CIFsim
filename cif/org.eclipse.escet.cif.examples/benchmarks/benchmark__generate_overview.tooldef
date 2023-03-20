@@ -119,22 +119,82 @@ list long best_values_nodes;
 list long best_values_ops;
 list long worst_values_nodes;
 list long worst_values_ops;
+
 for name in names:
     long best_value_nodes  = max_long;
     long best_value_ops    = max_long;
     long worst_value_nodes = -1;
     long worst_value_ops   = -1;
+
     for value in values(metrics_nodes[name]):: if value != -1:: best_value_nodes  = min(best_value_nodes , value);
     for value in values(metrics_ops  [name]):: if value != -1:: best_value_ops    = min(best_value_ops   , value);
     for value in values(metrics_nodes[name]):: if value != -1:: worst_value_nodes = max(worst_value_nodes, value);
     for value in values(metrics_ops  [name]):: if value != -1:: worst_value_ops   = max(worst_value_ops  , value);
+
     best_values_nodes  = best_values_nodes  + [best_value_nodes];
     best_values_ops    = best_values_ops    + [best_value_ops  ];
     worst_values_nodes = worst_values_nodes + [worst_value_nodes];
     worst_values_ops   = worst_values_ops   + [worst_value_ops  ];
 end
 
-// Construct the HTML file contents.
+// Calculate averages.
+map(int: long) unweighted_averages_nodes;
+map(int: long) unweighted_averages_ops;
+map(int: long) weighted_averages_nodes;
+map(int: long) weighted_averages_ops;
+
+long best_unweighted_average_nodes  = max_long;
+long best_unweighted_average_ops    = max_long;
+long best_weighted_average_nodes    = max_long;
+long best_weighted_average_ops      = max_long;
+long worst_unweighted_average_nodes = 0;
+long worst_unweighted_average_ops   = 0;
+long worst_weighted_average_nodes   = 0;
+long worst_weighted_average_ops     = 0;
+
+for config_nr in config_nrs:
+    long value_unweighted_nodes;
+    long value_unweighted_ops;
+    long value_weighted_nodes;
+    long value_weighted_ops;
+    int value_cnt;
+    long weights_nodes;
+    long weights_ops;
+
+    for name_idx, name in enumerate(names):
+        if contains(keys(metrics_nodes[name]), config_nr) and contains(keys(metrics_ops[name]), config_nr):
+            long weight_nodes = best_values_nodes[name_idx];
+            long weight_ops   = best_values_ops  [name_idx];
+
+            value_unweighted_nodes = value_unweighted_nodes +                 metrics_nodes[name][config_nr];
+            value_unweighted_ops   = value_unweighted_ops   +                 metrics_ops  [name][config_nr];
+            value_weighted_nodes   = value_weighted_nodes   + (weight_nodes * metrics_nodes[name][config_nr]);
+            value_weighted_ops     = value_weighted_ops     + (weight_ops   * metrics_ops  [name][config_nr]);
+
+            value_cnt = value_cnt + 1;
+
+            weights_nodes = weights_nodes + weight_nodes;
+            weights_ops   = weights_ops   + weight_ops;
+        end
+    end
+
+    unweighted_averages_nodes[config_nr] = round(value_unweighted_nodes / value_cnt);
+    unweighted_averages_ops  [config_nr] = round(value_unweighted_ops   / value_cnt);
+    weighted_averages_nodes  [config_nr] = round(value_weighted_nodes   / weights_nodes);
+    weighted_averages_ops    [config_nr] = round(value_weighted_ops     / weights_ops);
+
+    best_unweighted_average_nodes  = min(best_unweighted_average_nodes,  unweighted_averages_nodes[config_nr]);
+    best_unweighted_average_ops    = min(best_unweighted_average_ops,    unweighted_averages_ops  [config_nr]);
+    best_weighted_average_nodes    = min(best_weighted_average_nodes,    weighted_averages_nodes  [config_nr]);
+    best_weighted_average_ops      = min(best_weighted_average_ops,      weighted_averages_ops    [config_nr]);
+
+    worst_unweighted_average_nodes = max(worst_unweighted_average_nodes, unweighted_averages_nodes[config_nr]);
+    worst_unweighted_average_ops   = max(worst_unweighted_average_ops,   unweighted_averages_ops  [config_nr]);
+    worst_weighted_average_nodes   = max(worst_weighted_average_nodes,   weighted_averages_nodes  [config_nr]);
+    worst_weighted_average_ops     = max(worst_weighted_average_ops,     weighted_averages_ops    [config_nr]);
+end
+
+// Construct the HTML file contents. First, add the header.
 list string html_lines = [
     "<!DOCTYPE html>",
     "<html lang='en'>",
@@ -151,12 +211,19 @@ list string html_lines = [
     "      .section {",
     "        margin-top: 20px;",
     "      }",
+    "      input, label {",
+    "        cursor: pointer;",
+    "      }",
     "      table {",
     "        margin-top: 2px;",
+    "        border-collapse: collapse;",
+    "        border-spacing: 0;",
+    "      }",
+    "      table.info td {",
+    "        padding: 0 4px 0 0;",
     "      }",
     "      table.legend {",
     "        border: solid 2px black;",
-    "        border-spacing: 0px;",
     "      }",
     "      table.legend td {",
     "        white-space: nowrap;",
@@ -179,52 +246,47 @@ list string html_lines = [
     "        text-align: right;",
     "        padding-left: 20px;",
     "      }",
-    "      table.main {",
-    "        border-spacing: 0;",
-    "      }",
-    "      table.main tr.last-row td {",
-    "        border-bottom: solid 2px black;",
-    "      }",
-    "      table.main th {",
+    "      table#main th {",
     "        background: black;",
     "        color: white;",
     "      }",
-    "      table.main td, table.main th {",
+    "      table#main th.col-sortable.sorted::after {",
+    "        content: ' \\25B4'", // Small up arrow.
+    "      }",
+    "      table#main th.col-sortable:hover {",
+    "        text-decoration: underline;",
+    "        cursor: pointer;",
+    "      }",
+    "      table#main td, table#main th {",
     "        padding: 2px 5px;",
-    "        border: solid 1px black;",
+    "        border: solid 2px black;",
     "        text-align: left;",
     "        margin: 0;",
     "      }",
-    "      table.main td:first-of-type, table.main th:first-of-type {",
-    "        border-left: solid 2px black;",
-    "      }",
-    "      table.main td:last-of-type, table.main th:last-of-type {",
-    "        border-right: solid 2px black;",
-    "      }",
-    "      table.main th.name {",
+    "      table#main th.name {",
     "        text-align: center;",
     "      }",
-    "      table.main td.config {",
+    "      table#main td.config {",
     "        font-family: monospace;",
     "        white-space: pre-wrap;",
     "      }",
-    "      table.main td.config.config-default {",
+    "      table#main td.config.config-default {",
     "        color: #888;",
     "      }",
-    "      table.main td.metric {",
+    "      table#main td.metric {",
     "        text-align: right;",
     "      }",
     "      table.legend td.metric.unknown {",
     "        background: #cccccc;",
     "      }",
-    "      table.main td.metric.unknown {",
+    "      table#main td.metric.unknown {",
     "        background: #ccc;",
     "        color: #222;",
     "      }",
     "      table.legend td.metric.best {",
     "        background: #80ff00;",
     "      }",
-    "      table.main td.metric.best {",
+    "      table#main td.metric.best {",
     "        background: #80ff00;",
     "        font-weight: bold;",
     "      }",
@@ -247,10 +309,10 @@ list string html_lines = [
     "          background-color: orangered;",
     "        }",
     "      }",
-    "      table.main td.metric.worse1-color {",
+    "      table#main td.metric.worse1-color {",
     "        animation: 100.001s linear calc(-1s * var(--percentage)) paused worse1-frames;",
     "      }",
-    "      table.main td.metric.worse2-color {",
+    "      table#main td.metric.worse2-color {",
     "        animation: 100.001s linear calc(-1s * var(--percentage)) paused worse2-frames;",
     "      }",
     "      table.legend td.metric.worse1-gradient {",
@@ -259,27 +321,273 @@ list string html_lines = [
     "      table.legend td.metric.worse2-gradient {",
     "        background: linear-gradient(to right, orange 0%, orangered 100%);",
     "      }",
-    "      table.main td.dummy {",
+    "      table#main td.dummy {",
     "        border: 0;",
     "        padding-left: 0;",
+    "      }",
+    "      .warn {",
+    "        display: inline-block;",
+    "        border-left: 6px solid #ffaa44;",
+    "        background-color: #ffddbb;",
+    "        padding: 8px;",
     "      }",
     "    </style>",
     "    <script>",
     "      function applyOptions(opt) {",
-    "        const elements = document.querySelectorAll('[data-' + opt + ']');",
+    "        const elements = document.querySelectorAll('td[data-' + opt + ']');",
     "        for (let i = 0; i < elements.length; i++) {",
     "          elements[i].innerHTML = elements[i].getAttribute('data-' + opt);",
     "        }",
+    "      }",
+    "      function sortRowsByNr(elemId) {",
+    "        // Get all rows.",
+    "        const tbody    = document.querySelector('table#main tbody');",
+    "        const nodesPre = document.querySelectorAll('table#main tr.row-nodes-pre');",
+    "        const opsPre   = document.querySelectorAll('table#main tr.row-ops-pre');",
+    "        let   nodes    = Array.from(document.querySelectorAll('table#main tr.row-nodes'));",
+    "        let   ops      = Array.from(document.querySelectorAll('table#main tr.row-ops'));",
+    "        // Sort rows.",
+    "        nodes.sort((r1, r2) => {",
+    "          return r1.getAttribute('data-nr') - r2.getAttribute('data-nr');",
+    "        });",
+    "        ops.sort((r1, r2) => {",
+    "          return r1.getAttribute('data-nr') - r2.getAttribute('data-nr');",
+    "        });",
+    "        // Replace all rows.",
+    "        tbody.innerHTML = '';",
+    "        nodesPre.forEach(e => tbody.appendChild(e));",
+    "        nodes   .forEach(e => tbody.appendChild(e));",
+    "        opsPre  .forEach(e => tbody.appendChild(e));",
+    "        ops     .forEach(e => tbody.appendChild(e));",
+    "        // Set sort indicator.",
+    "        document.querySelectorAll('th.col-sortable').forEach(e => e.classList.remove('sorted'));",
+    "        document.getElementById(elemId).classList.add('sorted');",
+    "      }",
+    "      function sortRowsByAvg(elemId, metric, avgKind) {",
+    "        // Get all rows.",
+    "        const tbody      = document.querySelector('table#main tbody');",
+    "        const nodesPre   = document.querySelectorAll('table#main tr.row-nodes-pre');",
+    "        const opsPre     = document.querySelectorAll('table#main tr.row-ops-pre');",
+    "        let   nodes      = Array.from(document.querySelectorAll('table#main tr.row-nodes'));",
+    "        let   ops        = Array.from(document.querySelectorAll('table#main tr.row-ops'));",
+    "        const rowsToSort = (metric === 'nodes') ? nodes : ops;",
+    "        const otherRows  = (metric === 'nodes') ? ops   : nodes;",
+    "        // Sort rows.",
+    "        rowsToSort.sort((r1, r2) => {",
+    "          return r1.getAttribute('data-' + avgKind) - r2.getAttribute('data-' + avgKind);",
+    "        });",
+    "        const m = new Map();",
+    "        for (var i = 0; i < rowsToSort.length; i++) {",
+    "          m.set(Number(rowsToSort[i].getAttribute('data-nr')), i); // Configuration number to sorted index.",
+    "        }",
+    "        let newOtherRows = Array(otherRows.length);",
+    "        otherRows.forEach(e => { newOtherRows[m.get(Number(e.getAttribute('data-nr')))] = e; });",
+    "        if (metric === 'nodes') {",
+    "          ops = newOtherRows;",
+    "        } else {",
+    "          nodes = newOtherRows;",
+    "        }",
+    "        // Replace all rows.",
+    "        tbody.innerHTML = '';",
+    "        nodesPre.forEach(e => tbody.appendChild(e));",
+    "        nodes   .forEach(e => tbody.appendChild(e));",
+    "        opsPre  .forEach(e => tbody.appendChild(e));",
+    "        ops     .forEach(e => tbody.appendChild(e));",
+    "        // Set sort indicator.",
+    "        document.querySelectorAll('th.col-sortable').forEach(e => e.classList.remove('sorted'));",
+    "        document.getElementById(elemId).classList.add('sorted');",
     "      }",
     "    </script>",
     "  </head>",
     "  <body>",
     "    <h2>CIF data-based synthesis benchmark results overview</h2>",
+];
+
+// Get table lines.
+list string lines_nodes;
+list string lines_ops;
+
+lines_nodes = lines_nodes + ["      <tr class='row-nodes-pre'>"];
+lines_ops   = lines_ops   + ["      <tr class='row-ops-pre'>"];
+lines_nodes = lines_nodes + ["        <th id='col-sortable-nodes-nr' class='col-sortable sorted' onclick='sortRowsByNr(this.id)'>Nr</th>"];
+lines_ops   = lines_ops   + ["        <th id='col-sortable-ops-nr' class='col-sortable' onclick='sortRowsByNr(this.id)'>Nr</th>"];
+lines_nodes = lines_nodes + ["        <th>Configuration</th>"];
+lines_ops   = lines_ops   + ["        <th>Configuration</th>"];
+lines_nodes = lines_nodes + ["        <th id='col-sortable-nodes-avg' class='name col-sortable' onclick='sortRowsByAvg(this.id, \"nodes\", \"avg\")'>Average</th>"];
+lines_ops   = lines_ops   + ["        <th id='col-sortable-ops-avg' class='name col-sortable' onclick='sortRowsByAvg(this.id, \"ops\", \"avg\")'>Average</th>"];
+lines_nodes = lines_nodes + ["        <th id='col-sortable-nodes-wavg' class='name col-sortable' onclick='sortRowsByAvg(this.id, \"nodes\", \"wavg\")'>Weighted avg.</th>"];
+lines_ops   = lines_ops   + ["        <th id='col-sortable-ops-wavg' class='name col-sortable' onclick='sortRowsByAvg(this.id, \"ops\", \"wavg\")'>Weighted avg.</th>"];
+lines_nodes = lines_nodes + ["        <th class='name gap'></th>"];
+lines_ops   = lines_ops   + ["        <th class='name gap'></th>"];
+for name in names:
+    lines_nodes = lines_nodes + [fmt("        <th class='name'>%s</th>", escape(name))];
+    lines_ops   = lines_ops   + [fmt("        <th class='name'>%s</th>", escape(name))];
+end
+lines_nodes = lines_nodes + ["      </tr>"];
+lines_ops   = lines_ops   + ["      </tr>"];
+
+tool tuple(string, string) get_classes_and_style(long value, long best_value, long worst_value):
+    // Handle unknown value (synthesis resulted in an error, ran out of memory, crashed, etc).
+    if value == -1:: return " unknown", "";
+
+    // Handle best value.
+    if value == best_value:: return " best", "";
+
+    // Not the best value. Get the percentage that it is worse than the best value.
+    double worse_percentage = ((value / best_value) - 1) * 100;
+
+    // Handle being at most 100% worse, with a gradient.
+    if worse_percentage <= 100:
+        return " worse1-color", fmt("--percentage:%.3f", worse_percentage);
+    end
+
+    // Handle being more than 100% worse, with a different gradient. Scaled as percentage to maximum value.
+    double worst_percentage = (value - 2*best_value) / (worst_value - 2*best_value) * 100;
+    return " worse2-color", fmt("--percentage:%.3f", worst_percentage);
+end
+
+int missing_cnt_nodes;
+int missing_cnt_ops;
+for config_nr in config_nrs:
+    // Get configuration.
+    string config = configs[config_nr];
+
+    // Get configuration extra CSS classes.
+    string config_extra_classes;
+    if empty(trim(config)):
+        config = "(default)";
+        config_extra_classes = " config-default";
+    end
+
+    // Get (weighted) averages.
+    long avg_nodes  = unweighted_averages_nodes[config_nr];
+    long avg_ops    = unweighted_averages_ops  [config_nr];
+    long wavg_nodes = weighted_averages_nodes  [config_nr];
+    long wavg_ops   = weighted_averages_ops    [config_nr];
+
+    // Add row and first columns: configuration number and configuration.
+    lines_nodes = lines_nodes + [fmt("      <tr class='row-nodes' data-nr='%d' data-avg='%d' data-wavg='%d'>", config_nr, avg_nodes, wavg_nodes)];
+    lines_ops   = lines_ops   + [fmt("      <tr class='row-ops' data-nr='%d' data-avg='%d' data-wavg='%d'>",   config_nr, avg_ops,   wavg_ops)];
+    lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
+    lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
+    lines_nodes = lines_nodes + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
+    lines_ops   = lines_ops   + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
+
+    // Add average.
+    string text_avg_nodes_abs = <string>escape(fmt("%,d", avg_nodes));
+    string text_avg_nodes_rel = <string>escape(fmt("%,.3f", avg_nodes / best_unweighted_average_nodes));
+    string text_avg_ops_abs   = <string>escape(fmt("%,d", avg_ops));
+    string text_avg_ops_rel   = <string>escape(fmt("%,.3f", avg_ops / best_unweighted_average_ops));
+
+    tuple(string, string) cs_avg_nodes = get_classes_and_style(avg_nodes, best_unweighted_average_nodes, worst_unweighted_average_nodes);
+    tuple(string, string) cs_avg_ops   = get_classes_and_style(avg_ops,   best_unweighted_average_ops,   worst_unweighted_average_ops);
+
+    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
+                                     cs_avg_nodes[0], cs_avg_nodes[1], text_avg_nodes_abs, text_avg_nodes_rel, text_avg_nodes_abs)];
+    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
+                                     cs_avg_ops[0],   cs_avg_ops[1],   text_avg_ops_abs,   text_avg_ops_rel,   text_avg_ops_abs)];
+
+    // Add weighted average.
+    string text_wavg_nodes_abs = <string>escape(fmt("%,d", wavg_nodes));
+    string text_wavg_nodes_rel = <string>escape(fmt("%,.3f", wavg_nodes / best_weighted_average_nodes));
+    string text_wavg_ops_abs   = <string>escape(fmt("%,d", wavg_ops));
+    string text_wavg_ops_rel   = <string>escape(fmt("%,.3f", wavg_ops / best_weighted_average_ops));
+
+    tuple(string, string) cs_wavg_nodes = get_classes_and_style(wavg_nodes, best_weighted_average_nodes, worst_weighted_average_nodes);
+    tuple(string, string) cs_wavg_ops   = get_classes_and_style(wavg_ops,   best_weighted_average_ops,   worst_weighted_average_ops);
+
+    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
+                                     cs_wavg_nodes[0], cs_wavg_nodes[1], text_wavg_nodes_abs, text_wavg_nodes_rel, text_wavg_nodes_abs)];
+    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
+                                     cs_wavg_ops[0],   cs_wavg_ops[1],   text_wavg_ops_abs,   text_wavg_ops_rel,   text_wavg_ops_abs)];
+
+    // Add gap.
+    lines_nodes = lines_nodes + ["        <td class='metric gap'></td>"];
+    lines_ops   = lines_ops   + ["        <td class='metric gap'></td>"];
+
+    // Add metric values for models.
+    for idx, name in enumerate(names):
+        long value_nodes = -1;
+        long value_ops   = -1;
+        if contains(keys(metrics_nodes[name]), config_nr):: value_nodes = metrics_nodes[name][config_nr];
+        if contains(keys(metrics_ops  [name]), config_nr):: value_ops   = metrics_ops  [name][config_nr];
+
+        string text_nodes_abs, text_nodes_rel;
+        if value_nodes == -1:
+            text_nodes_abs = "?";
+            text_nodes_rel = "?";
+            missing_cnt_nodes = missing_cnt_nodes + 1;
+        else
+            text_nodes_abs = <string>escape(fmt("%,d", value_nodes));
+            text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes / best_values_nodes[idx]));
+        end
+
+        string text_ops_abs, text_ops_rel;
+        if value_ops == -1:
+            text_ops_abs = "?";
+            text_ops_rel = "?";
+            missing_cnt_ops = missing_cnt_ops + 1;
+        else
+            text_ops_abs = <string>escape(fmt("%,d", value_ops));
+            text_ops_rel = <string>escape(fmt("%,.3f", value_ops / best_values_ops[idx]));
+        end
+
+        tuple(string, string) cs_nodes = get_classes_and_style(value_nodes, best_values_nodes[idx], worst_values_nodes[idx]);
+        tuple(string, string) cs_ops   = get_classes_and_style(value_ops  , best_values_ops  [idx], worst_values_ops  [idx]);
+
+        lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes_abs, text_nodes_rel, text_nodes_abs)];
+        lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops_abs,   text_ops_rel,   text_ops_abs)];
+    end
+
+    // Close rows.
+    lines_nodes = lines_nodes + ["      </tr>"];
+    lines_ops   = lines_ops   + ["      </tr>"];
+end
+
+// Add information on configurations and models.
+html_lines = html_lines + [
+    "    <table class='info section'>",
+    fmt("      <tr><td>Number of configurations:</td><td>%,d</td></tr>", max_config_nr),
+    fmt("      <tr><td>Number of models:</td><td>%,d</td></tr>", size(names)),
+    "    </table>",
+];
+
+// Add warning for missing values.
+list string warn_lines;
+if size(config_nrs) != max_config_nr:
+    warn_lines = warn_lines + [
+        fmt("      <strong>!</strong> Missing information for %,d configuration(s).", max_config_nr - size(config_nrs))
+    ];
+end
+if missing_cnt_nodes > 0:
+    warn_lines = warn_lines + [
+        fmt("      <strong>!</strong> Missing information for %,d cell(s) in the nodes table.", missing_cnt_nodes)
+    ];
+end
+if missing_cnt_ops > 0:
+    warn_lines = warn_lines + [
+        fmt("      <strong>!</strong> Missing information for %,d cell(s) in the operations table.", missing_cnt_ops)
+    ];
+end
+if not empty(warn_lines):
+    html_lines = html_lines + [
+        "    <div class='warn section'>",
+        join(warn_lines, "<br>"),
+        "    </div>",
+    ];
+end
+
+// Add options.
+html_lines = html_lines + [
     "    <div class='section'>Options:</div>",
     "    <input type='radio' id='metric-value-opt-abs' name='metric-value-opt' value='abs' onclick=\"applyOptions('abs')\" checked>",
     "    <label for='metric-value-opt-abs'>Absolute metric values</label><br>",
     "    <input type='radio' id='metric-value-opt-rel' name='metric-value-opt' value='rel' onclick=\"applyOptions('rel')\">",
     "    <label for='metric-value-opt-rel'>Relative metric values (relative to best value)</label><br>",
+];
+
+// Add legend.
+html_lines = html_lines + [
     "    <div class='section'>Legend (* = per metric, per model):</div>",
     "    <table class='legend'>",
     "      <tr>",
@@ -312,97 +620,18 @@ list string html_lines = [
     "        <td></td> <!-- Unknown -->",
     "      </tr>",
     "    </table>",
-    "    <table class='main section'>",
 ];
 
-list string lines_nodes;
-list string lines_ops;
-
-lines_nodes = lines_nodes + ["      <tr>"];
-lines_ops   = lines_ops   + ["      <tr>"];
-lines_nodes = lines_nodes + ["        <th>Nr</th>"];
-lines_ops   = lines_ops   + ["        <th>Nr</th>"];
-lines_nodes = lines_nodes + ["        <th>Configuration</th>"];
-lines_ops   = lines_ops   + ["        <th>Configuration</th>"];
-for name in names:
-    lines_nodes = lines_nodes + [fmt("        <th class='name'>%s</th>", escape(name))];
-    lines_ops   = lines_ops   + [fmt("        <th class='name'>%s</th>", escape(name))];
-end
-lines_nodes = lines_nodes + ["      </tr>"];
-lines_ops   = lines_ops   + ["      </tr>"];
-
-tool tuple(string, string) get_classes_and_style(long value, long best_value, long worst_value):
-    // Handle unknown value (synthesis resulted in an error, ran out of memory, crashed, etc).
-    if value == -1:: return " unknown", "";
-
-    // Handle best value.
-    if value == best_value:: return " best", "";
-
-    // Not the best value. Get the percentage that it is worse than the best value.
-    double worse_percentage = ((value / best_value) - 1) * 100;
-
-    // Handle being at most 100% worse, with a gradient.
-    if worse_percentage <= 100:
-        return " worse1-color", fmt("--percentage:%.3f", worse_percentage);
-    end
-
-    // Handle being more than 100% worse, with a different gradient. Scaled as percentage to maximum value.
-    double worst_percentage = (value - 2*best_value) / (worst_value - 2*best_value) * 100;
-    return " worse2-color", fmt("--percentage:%.3f", worst_percentage);
-end
-
-for config_nr in config_nrs:
-    string config = configs[config_nr];
-    string config_extra_classes;
-    if empty(trim(config)):
-        config = "(default)";
-        config_extra_classes = " config-default";
-    end
-    string close_extra_classes;
-    if config_nr == max_config_nr:: close_extra_classes = close_extra_classes + " class='last-row'";
-    lines_nodes = lines_nodes + [fmt("      <tr%s>", close_extra_classes)];
-    lines_ops   = lines_ops   + [fmt("      <tr%s>", close_extra_classes)];
-    lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
-    lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
-    lines_nodes = lines_nodes + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
-    lines_ops   = lines_ops   + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
-    for idx, name in enumerate(names):
-        long value_nodes = -1;
-        long value_ops   = -1;
-        if contains(keys(metrics_nodes[name]), config_nr):: value_nodes = metrics_nodes[name][config_nr];
-        if contains(keys(metrics_ops  [name]), config_nr):: value_ops   = metrics_ops  [name][config_nr];
-        string text_nodes_abs, text_nodes_rel;
-        if value_nodes == -1:
-            text_nodes_abs = "?";
-            text_nodes_rel = "?";
-        else
-            text_nodes_abs = <string>escape(fmt("%,d", value_nodes));
-            text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes / best_values_nodes[idx]));
-        end
-        string text_ops_abs, text_ops_rel;
-        if value_ops == -1:
-            text_ops_abs = "?";
-            text_ops_rel = "?";
-        else
-            text_ops_abs = <string>escape(fmt("%,d", value_ops));
-            text_ops_rel = <string>escape(fmt("%,.3f", value_ops / best_values_ops[idx]));
-        end
-        tuple(string, string) cs_nodes = get_classes_and_style(value_nodes, best_values_nodes[idx], worst_values_nodes[idx]);
-        tuple(string, string) cs_ops   = get_classes_and_style(value_ops  , best_values_ops  [idx], worst_values_ops  [idx]);
-        lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes_abs, text_nodes_rel, text_nodes_abs)];
-        lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops_abs,   text_ops_rel,   text_ops_abs)];
-    end
-    lines_nodes = lines_nodes + ["      </tr>"];
-    lines_ops   = lines_ops   + ["      </tr>"];
-end
-
-int col_cnt = size(names) + 2;
-html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>Maximum number of used BDD nodes:</td></tr>", col_cnt)];
+// Add tables.
+int col_cnt = size(names) + 5; // 5 more due to the following columns: nr, config, avg, weighted avg, gap.
+html_lines = html_lines + ["    <table id='main' class='section'>"];
+html_lines = html_lines + [fmt("      <tr class='row-nodes-pre'><td class='dummy' colspan='%d'>Maximum number of used BDD nodes:</td></tr>", col_cnt)];
 html_lines = html_lines + lines_nodes;
-html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>&nbsp;</td></tr>", col_cnt)];
-html_lines = html_lines + [fmt("      <tr><td class='dummy' colspan='%d'>Number of BDD operations:</td></tr>", col_cnt)];
+html_lines = html_lines + [fmt("      <tr class='row-ops-pre'><td class='dummy' colspan='%d'>&nbsp;</td></tr>", col_cnt)];
+html_lines = html_lines + [fmt("      <tr class='row-ops-pre'><td class='dummy' colspan='%d'>Number of BDD operations:</td></tr>", col_cnt)];
 html_lines = html_lines + lines_ops;
 
+// Finalize HTML.
 html_lines = html_lines + [
     "    </table>",
     "  </body>",
@@ -414,5 +643,5 @@ string html_filepath = replace(pathjoin("_generated", "_overview.html"), "\\", "
 writefile(html_filepath, html_lines);
 
 // Done.
-outln("Processed %,d benchmark models(s), for %,d configuration(s) each.", size(names), size(configs));
+outln("Processed %,d benchmark models(s), for %,d configuration(s) each.", size(names), max_config_nr);
 outln("See \"%s\" for the generated overview.", html_filepath);
