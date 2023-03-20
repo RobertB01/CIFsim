@@ -1,0 +1,18 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2008, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Model source: Goran Čengić and Knut Åkesson, "A Control Software Development Method Using IEC 61499 Function Blocks,
+Simulation and Formal Verification", IFAC Proceedings Volumes, volume 41, number 2, pages 22-27, 2008,
+doi: https://doi.org/10.3182/20080706-5-KR-1001.00003.
+
+Model source: Example from Sumpremica tool.
