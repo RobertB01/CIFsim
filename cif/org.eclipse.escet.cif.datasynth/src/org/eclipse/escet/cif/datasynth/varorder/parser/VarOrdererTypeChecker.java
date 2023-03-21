@@ -194,7 +194,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
         boolean basicDefault = //
                 BddVariableOrderOption.isDefault() && //
                         BddDcshVarOrderOption.isDefault() && //
-                        BddForceVarOrderOption.isDefault() && // \
+                        BddForceVarOrderOption.isDefault() && //
                         BddSlidingWindowVarOrderOption.isDefault() && //
                         BddSlidingWindowSizeOption.isDefault() && //
                         BddHyperEdgeAlgoOption.isDefault();

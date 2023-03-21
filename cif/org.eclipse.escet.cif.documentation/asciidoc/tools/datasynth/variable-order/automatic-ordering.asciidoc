@@ -80,8 +80,8 @@ The DSM-based Cuthill-McKee-Sloan variable ordering Heuristic, or DCSH algorithm
 DCSH applies two algorithms, the Weighted Cuthill-McKee bandwidth-reducing algorithm and the Sloan profile/wavefront-reducing algorithm.
 It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the Weighted Event Span (WES) metric.
 +
-The DCSH algorithm is disabled by default.
-For basic configuration, it can be enabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+The DCSH algorithm is enabled by default.
+For basic configuration, it can be disabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 
 [[tools-datasynth-var-order-auto-var-ordering-orderers-force]]
 * _FORCE_

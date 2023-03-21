@@ -83,8 +83,11 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testBasicValid() {
-        testValid("basic", "sorted(effect=both) -> force(metric=total-span, relations=configured, effect=var-order) -> "
-                + "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+        testValid("basic",
+                "sorted(effect=both) -> "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order) -> "
+                        + "force(metric=total-span, relations=configured, effect=var-order) -> "
+                        + "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
     }
 
     @Test
@@ -760,7 +763,7 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMixBasicAdvancedOptionsDcsh() {
-        Options.set(BddDcshVarOrderOption.class, true);
+        Options.set(BddDcshVarOrderOption.class, false);
         Options.set(BddAdvancedVariableOrderOption.class, "random");
         testInvalid("random", "The BDD variable ordering is configured through basic and advanced options, "
                 + "which is not supported. Use only basic or only advanced options.");
