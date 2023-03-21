@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.datasynth.options;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
-/** BDD variable order and domain interleaving option. */
+/** BDD initial variable order and domain interleaving option. */
 public class BddVariableOrderOption extends StringOption {
     /** The default value of the {@link BddVariableOrderOption} option. */
     public static final String DEFAULT = "sorted";
