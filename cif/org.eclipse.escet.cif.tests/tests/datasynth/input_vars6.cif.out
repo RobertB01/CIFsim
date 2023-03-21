@@ -12,13 +12,21 @@ CIF variables and location pointers:
   Total                                    3      6         12          12          100%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 0
+
+      Skipping orderer: no hyper-edges.
+
     Applying FORCE algorithm:
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
       Number of hyper-edges: 0
       Maximum number of iterations: 20
@@ -28,7 +36,7 @@ Applying variable ordering:
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
       Number of hyper-edges: 0
       Window length: 3

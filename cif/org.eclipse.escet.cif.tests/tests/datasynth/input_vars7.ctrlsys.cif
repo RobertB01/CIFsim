@@ -12,7 +12,7 @@ plant automaton p:
 end
 supervisor automaton sup:
   alphabet;
-  initial io.sensor;
+  initial p.b;
   location:
     initial;
     marked;

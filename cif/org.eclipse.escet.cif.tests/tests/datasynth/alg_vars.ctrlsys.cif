@@ -64,7 +64,7 @@ supervisor automaton sup:
   location:
     initial;
     marked;
-    edge add when (p.c = 1 or p.c = 3 or (q.l2 or (r1.inactive or r3.inactive))) and (p.c = 1 or (p.c = 3 or q.l1)) and ((p.c != 1 or q.l2 or (r1.inactive or r3.inactive)) and ((p.c != 1 or q.l1) and p.c != 3));
+    edge add when r1.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.inactive and (p.c = 1 and q.l1) or (r1.active and r3.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.active and r3.inactive and (p.c = 1 and q.l1));
     edge move when r1.inactive or r3.inactive;
     edge r1.activate when r3.inactive;
     edge r1.deactivate when true;
@@ -72,5 +72,5 @@ supervisor automaton sup:
     edge r2.deactivate when r1.inactive or r3.inactive;
     edge r3.activate when r1.inactive;
     edge r3.deactivate when true;
-    edge remove when p.c != 0 and ((p.c != 2 or (r1.inactive or r3.inactive)) and (p.c = 0 or p.c = 2 or (r1.inactive or r3.inactive)));
+    edge remove when (r1.active or p.c != 0) and ((r1.inactive or (r3.active or p.c != 0)) and (r1.inactive or r3.inactive));
 end

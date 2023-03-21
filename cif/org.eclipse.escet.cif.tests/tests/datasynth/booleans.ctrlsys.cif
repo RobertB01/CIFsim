@@ -27,8 +27,8 @@ supervisor automaton sup:
   location:
     initial;
     marked;
-    edge g.e1 when not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1);
-    edge g.e2 when g.p.b3 and (g.p.b4 and g.p.b1);
-    edge g.e3 when not g.p.b2 and (g.p.b3 and g.p.b1);
-    edge g.e4 when not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1);
+    edge g.e1 when not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4);
+    edge g.e2 when g.p.b1 and (g.p.b3 and g.p.b4);
+    edge g.e3 when not g.p.b2 and (g.p.b1 and g.p.b3);
+    edge g.e4 when not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4);
 end

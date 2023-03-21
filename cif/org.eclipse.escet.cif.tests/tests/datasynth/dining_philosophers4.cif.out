@@ -17,47 +17,105 @@ CIF variables and location pointers:
   Total                                8      24        48          48          100%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 12
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 12
+
+        Total span:   51 (total)   4.25 (avg/edge) / WES:   0.929688 (total)   0.077474 (avg/edge) [before]
+        Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 12
+
+        Total span:   51 (total)   4.25 (avg/edge) / WES:   0.929688 (total)   0.077474 (avg/edge) [before]
+        Total span:   26 (total)   2.17 (avg/edge) / WES:   0.481771 (total)   0.040148 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 12
+
+          Total span:   51 (total)   4.25 (avg/edge) / WES:   0.929688 (total)   0.077474 (avg/edge) [before]
+          Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 12
+
+          Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [before]
+          Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [reversed]
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 12
+
+          Total span:   51 (total)   4.25 (avg/edge) / WES:   0.929688 (total)   0.077474 (avg/edge) [before]
+          Total span:   26 (total)   2.17 (avg/edge) / WES:   0.481771 (total)   0.040148 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 12
+
+          Total span:   26 (total)   2.17 (avg/edge) / WES:   0.481771 (total)   0.040148 (avg/edge) [before]
+          Total span:   26 (total)   2.17 (avg/edge) / WES:   0.481771 (total)   0.040148 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 20
       Maximum number of iterations: 30
 
-      Total span:   51 (total)   4.25 (avg/edge) / WES:   0.929688 (total)   0.077474 (avg/edge) [before]
-      Total span:   27 (total)   2.25 (avg/edge) / WES:   0.494792 (total)   0.041233 (avg/edge) [iteration 1]
-      Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [iteration 2]
-      Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [iteration 3]
-      Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [after]
+      Total span:   40 (total)   2.00 (avg/edge) / WES:   0.434375 (total)   0.021719 (avg/edge) [before]
+      Total span:   40 (total)   2.00 (avg/edge) / WES:   0.434375 (total)   0.021719 (avg/edge) [iteration 1]
+      Total span:   40 (total)   2.00 (avg/edge) / WES:   0.434375 (total)   0.021719 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 12
+      Number of hyper-edges: 20
       Window length: 4
 
-      Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [before]
-      Total span:   26 (total)   2.17 (avg/edge) / WES:   0.466146 (total)   0.038845 (avg/edge) [after]
+      Total span:   40 (total)   2.00 (avg/edge) / WES:   0.434375 (total)   0.021719 (avg/edge) [before]
+      Total span:   40 (total)   2.00 (avg/edge) / WES:   0.434375 (total)   0.021719 (avg/edge) [after]
 
 Variable order changed.
 
 CIF variables and location pointers:
   Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
   -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   p1    0      2 * 2     4 * 2       4 * 2       100%
+  1      location pointer  n/a   p2    0      2 * 2     4 * 2       4 * 2       100%
   2      location pointer  n/a   f2    1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer  n/a   f1    2      1 * 2     2 * 2       2 * 2       100%
-  4      location pointer  n/a   p2    3      2 * 2     4 * 2       4 * 2       100%
-  5      location pointer  n/a   f3    4      1 * 2     2 * 2       2 * 2       100%
-  6      location pointer  n/a   p4    5      2 * 2     4 * 2       4 * 2       100%
+  3      location pointer  n/a   f3    2      1 * 2     2 * 2       2 * 2       100%
+  4      location pointer  n/a   p1    3      2 * 2     4 * 2       4 * 2       100%
+  5      location pointer  n/a   f1    4      1 * 2     2 * 2       2 * 2       100%
+  6      location pointer  n/a   p3    5      2 * 2     4 * 2       4 * 2       100%
   7      location pointer  n/a   f4    6      1 * 2     2 * 2       2 * 2       100%
-  8      location pointer  n/a   p3    7      2 * 2     4 * 2       4 * 2       100%
+  8      location pointer  n/a   p4    7      2 * 2     4 * 2       4 * 2       100%
   -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
   Total                                8      24        48          48          100%
 
@@ -81,10 +139,10 @@ Initial   (aut/locs init predicate):         p1.neither
 Initial   (aut/locs init predicate):         p2.neither
 Initial   (aut/locs init predicate):         p3.neither
 Initial   (aut/locs init predicate):         p4.neither
-Initial   (auts/locs init predicate):        p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Initial   (uncontrolled system):             p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Initial   (system, combined init/plant inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Initial   (system, combined init/state inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Initial   (auts/locs init predicate):        p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+Initial   (uncontrolled system):             p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+Initial   (system, combined init/plant inv): p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+Initial   (system, combined init/state inv): p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       f1.available
@@ -95,10 +153,10 @@ Marked    (aut/locs marker predicate):       p1.neither
 Marked    (aut/locs marker predicate):       p2.neither
 Marked    (aut/locs marker predicate):       p3.neither
 Marked    (aut/locs marker predicate):       p4.neither
-Marked    (auts/locs marker predicate):      p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Marked    (uncontrolled system):             p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Marked    (system, combined mark/plant inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Marked    (system, combined mark/state inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Marked    (auts/locs marker predicate):      p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+Marked    (uncontrolled system):             p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+Marked    (system, combined mark/plant inv): p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+Marked    (system, combined mark/state inv): p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
 
 State/event exclusion plants:
   None
@@ -112,27 +170,27 @@ Uncontrolled system:
     Edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both)
     Edge: (event: p4.take_right) (guard: f1.available and p4.neither) (assignments: f1 := f1.taken, p4 := p4.right)
     Edge: (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both)
-    Edge: (event: p1.release_both) (guard: p1.both and (f2.taken and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither)
-    Edge: (event: p4.release_both) (guard: f1.taken and (p4.both and f4.taken)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither)
-    Edge: (event: p2.take_left) (guard: f2.available and p2.neither) (assignments: f2 := f2.taken, p2 := p2.left)
-    Edge: (event: p2.take_left) (guard: f2.available and p2.right) (assignments: f2 := f2.taken, p2 := p2.both)
-    Edge: (event: p1.take_right) (guard: p1.neither and f2.available) (assignments: f2 := f2.taken, p1 := p1.right)
-    Edge: (event: p1.take_right) (guard: p1.left and f2.available) (assignments: f2 := f2.taken, p1 := p1.both)
-    Edge: (event: p2.release_both) (guard: f2.taken and (p2.both and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither)
+    Edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither)
+    Edge: (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither)
+    Edge: (event: p2.take_left) (guard: p2.neither and f2.available) (assignments: f2 := f2.taken, p2 := p2.left)
+    Edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both)
+    Edge: (event: p1.take_right) (guard: f2.available and p1.neither) (assignments: f2 := f2.taken, p1 := p1.right)
+    Edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both)
+    Edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither)
     Edge: (event: p3.take_left) (guard: f3.available and p3.neither) (assignments: f3 := f3.taken, p3 := p3.left)
     Edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both)
     Edge: (event: p2.take_right) (guard: p2.neither and f3.available) (assignments: f3 := f3.taken, p2 := p2.right)
     Edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both)
-    Edge: (event: p3.release_both) (guard: f3.taken and (f4.taken and p3.both)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither)
-    Edge: (event: p4.take_left) (guard: p4.neither and f4.available) (assignments: f4 := f4.taken, p4 := p4.left)
-    Edge: (event: p4.take_left) (guard: p4.right and f4.available) (assignments: f4 := f4.taken, p4 := p4.both)
-    Edge: (event: p3.take_right) (guard: f4.available and p3.neither) (assignments: f4 := f4.taken, p3 := p3.right)
-    Edge: (event: p3.take_right) (guard: f4.available and p3.left) (assignments: f4 := f4.taken, p3 := p3.both)
+    Edge: (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither)
+    Edge: (event: p4.take_left) (guard: f4.available and p4.neither) (assignments: f4 := f4.taken, p4 := p4.left)
+    Edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both)
+    Edge: (event: p3.take_right) (guard: p3.neither and f4.available) (assignments: f4 := f4.taken, p3 := p3.right)
+    Edge: (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both)
 
 Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)).
+Initialized controlled-initialization predicate: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)).
 
 Restricting behavior using state requirements.
 
@@ -143,144 +201,144 @@ Restricting behavior using state/event exclusion requirements.
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) [marker predicate]
+Backward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) [marker predicate]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) -> p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) or p1.both and f2.taken and (f1.taken and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) [backward reach with edge: (event: p1.release_both) (guard: p1.both and (f2.taken and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) or p1.both and f2.taken and (f1.taken and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) -> <bdd 21n 3p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (p4.both and f4.taken)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 21n 3p> -> <bdd 22n 4p> [backward reach with edge: (event: p1.take_right) (guard: p1.left and f2.available) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 22n 4p> -> <bdd 30n 7p> [backward reach with edge: (event: p2.release_both) (guard: f2.taken and (p2.both and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 30n 7p> -> <bdd 30n 10p> [backward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 30n 10p> -> <bdd 35n 15p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (f4.taken and p3.both)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 35n 15p> -> <bdd 36n 18p> [backward reach with edge: (event: p4.take_left) (guard: p4.right and f4.available) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 36n 18p> -> <bdd 37n 23p> [backward reach with edge: (event: p3.take_right) (guard: f4.available and p3.left) (assignments: f4 := f4.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) -> p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) [backward reach with edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) -> <bdd 21n 3p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 21n 3p> -> <bdd 22n 4p> [backward reach with edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 22n 4p> -> <bdd 25n 7p> [backward reach with edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 25n 7p> -> <bdd 26n 10p> [backward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 26n 10p> -> <bdd 36n 15p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 36n 15p> -> <bdd 37n 18p> [backward reach with edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 37n 18p> -> <bdd 37n 23p> [backward reach with edge: (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 2.
-Backward controlled-behavior: <bdd 37n 23p> -> <bdd 39n 26p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 39n 26p> -> <bdd 47n 29p> [backward reach with edge: (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 47n 29p> -> <bdd 48n 30p> [backward reach with edge: (event: p1.release_both) (guard: p1.both and (f2.taken and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 48n 30p> -> <bdd 55n 34p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (p4.both and f4.taken)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 55n 34p> -> <bdd 56n 39p> [backward reach with edge: (event: p2.take_left) (guard: f2.available and p2.right) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 56n 39p> -> <bdd 57n 40p> [backward reach with edge: (event: p1.take_right) (guard: p1.left and f2.available) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 57n 40p> -> <bdd 57n 41p> [backward reach with edge: (event: p2.release_both) (guard: f2.taken and (p2.both and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 57n 41p> -> <bdd 62n 47p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 62n 47p> -> <bdd 60n 48p> [backward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 60n 48p> -> <bdd 63n 50p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (f4.taken and p3.both)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 63n 50p> -> <bdd 63n 54p> [backward reach with edge: (event: p4.take_left) (guard: p4.right and f4.available) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 37n 23p> -> <bdd 40n 26p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 40n 26p> -> <bdd 44n 29p> [backward reach with edge: (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 44n 29p> -> <bdd 45n 30p> [backward reach with edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 45n 30p> -> <bdd 49n 34p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 49n 34p> -> <bdd 50n 39p> [backward reach with edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 50n 39p> -> <bdd 53n 40p> [backward reach with edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 53n 40p> -> <bdd 54n 41p> [backward reach with edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 54n 41p> -> <bdd 65n 47p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 65n 47p> -> <bdd 61n 48p> [backward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 61n 48p> -> <bdd 65n 50p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 65n 50p> -> <bdd 62n 54p> [backward reach with edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 3.
-Backward controlled-behavior: <bdd 63n 54p> -> <bdd 59n 55p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 59n 55p> -> <bdd 66n 58p> [backward reach with edge: (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 66n 58p> -> <bdd 64n 61p> [backward reach with edge: (event: p1.release_both) (guard: p1.both and (f2.taken and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 64n 61p> -> <bdd 61n 62p> [backward reach with edge: (event: p2.take_left) (guard: f2.available and p2.right) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 61n 62p> -> <bdd 59n 63p> [backward reach with edge: (event: p1.take_right) (guard: p1.left and f2.available) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 59n 63p> -> <bdd 61n 65p> [backward reach with edge: (event: p2.release_both) (guard: f2.taken and (p2.both and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 61n 65p> -> <bdd 63n 67p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 63n 67p> -> <bdd 60n 68p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (f4.taken and p3.both)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 62n 54p> -> <bdd 60n 55p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 60n 55p> -> <bdd 61n 58p> [backward reach with edge: (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 61n 58p> -> <bdd 65n 61p> [backward reach with edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 65n 61p> -> <bdd 59n 62p> [backward reach with edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 59n 62p> -> <bdd 62n 63p> [backward reach with edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 62n 63p> -> <bdd 63n 65p> [backward reach with edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 63n 65p> -> <bdd 67n 67p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 67n 67p> -> <bdd 65n 68p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 4.
-Backward controlled-behavior: <bdd 60n 68p> -> <bdd 58n 70p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 58n 70p> -> <bdd 60n 71p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (p4.both and f4.taken)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 60n 71p> -> <bdd 62n 73p> [backward reach with edge: (event: p2.take_left) (guard: f2.available and p2.right) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 62n 73p> -> <bdd 64n 74p> [backward reach with edge: (event: p2.release_both) (guard: f2.taken and (p2.both and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 64n 74p> -> <bdd 63n 75p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 63n 75p> -> <bdd 59n 76p> [backward reach with edge: (event: p4.take_left) (guard: p4.right and f4.available) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 65n 68p> -> <bdd 67n 70p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 67n 70p> -> <bdd 70n 71p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 70n 71p> -> <bdd 65n 73p> [backward reach with edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 65n 73p> -> <bdd 66n 74p> [backward reach with edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 66n 74p> -> <bdd 66n 75p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 66n 75p> -> <bdd 63n 76p> [backward reach with edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 5.
-Backward controlled-behavior: <bdd 59n 76p> -> <bdd 58n 77p> [backward reach with edge: (event: p1.release_both) (guard: p1.both and (f2.taken and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 58n 77p> -> <bdd 59n 78p> [backward reach with edge: (event: p2.take_left) (guard: f2.available and p2.right) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 63n 76p> -> <bdd 61n 77p> [backward reach with edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 61n 77p> -> <bdd 57n 78p> [backward reach with edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 6.
-Backward controlled-behavior: <bdd 59n 78p> -> <bdd 54n 79p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: <bdd 57n 78p> -> <bdd 55n 79p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 7.
-Backward controlled-behavior: <bdd 54n 79p> [fixed point].
-Controlled behavior: true -> <bdd 54n 79p>.
+Backward controlled-behavior: <bdd 55n 79p> [fixed point].
+Controlled behavior: true -> <bdd 55n 79p>.
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 54n 262p> [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: <bdd 55n 245p> [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) [initialization predicate]
+Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) [initialization predicate]
 Forward reachability: iteration 1.
-Forward controlled-behavior: p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) -> p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) or p1.left and f2.available and (f1.taken and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) [forward reach with edge: (event: p1.take_left) (guard: p1.neither and f1.available) (assignments: f1 := f1.taken, p1 := p1.left), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) or p1.left and f2.available and (f1.taken and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) -> p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) or (p1.neither and f2.available and (f1.taken and p2.neither) and (f3.available and p4.right and (f4.available and p3.neither)) or p1.left and f2.available and (f1.taken and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))) [forward reach with edge: (event: p4.take_right) (guard: f1.available and p4.neither) (assignments: f1 := f1.taken, p4 := p4.right), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither)) or (p1.neither and f2.available and (f1.taken and p2.neither) and (f3.available and p4.right and (f4.available and p3.neither)) or p1.left and f2.available and (f1.taken and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))) -> <bdd 24n 6p> [forward reach with edge: (event: p2.take_left) (guard: f2.available and p2.neither) (assignments: f2 := f2.taken, p2 := p2.left), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 24n 6p> -> <bdd 25n 8p> [forward reach with edge: (event: p1.take_right) (guard: p1.neither and f2.available) (assignments: f2 := f2.taken, p1 := p1.right), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 25n 8p> -> <bdd 26n 9p> [forward reach with edge: (event: p1.take_right) (guard: p1.left and f2.available) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 26n 9p> -> <bdd 32n 18p> [forward reach with edge: (event: p3.take_left) (guard: f3.available and p3.neither) (assignments: f3 := f3.taken, p3 := p3.left), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 32n 18p> -> <bdd 36n 24p> [forward reach with edge: (event: p2.take_right) (guard: p2.neither and f3.available) (assignments: f3 := f3.taken, p2 := p2.right), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 36n 24p> -> <bdd 34n 27p> [forward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 34n 27p> -> <bdd 42n 44p> [forward reach with edge: (event: p4.take_left) (guard: p4.neither and f4.available) (assignments: f4 := f4.taken, p4 := p4.left), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 42n 44p> -> <bdd 44n 53p> [forward reach with edge: (event: p4.take_left) (guard: p4.right and f4.available) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 44n 53p> -> <bdd 53n 70p> [forward reach with edge: (event: p3.take_right) (guard: f4.available and p3.neither) (assignments: f4 := f4.taken, p3 := p3.right), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
-Forward controlled-behavior: <bdd 53n 70p> -> <bdd 54n 79p> [forward reach with edge: (event: p3.take_right) (guard: f4.available and p3.left) (assignments: f4 := f4.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: <bdd 54n 79p>]
+Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) -> p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither)) [forward reach with edge: (event: p1.take_left) (guard: p1.neither and f1.available) (assignments: f1 := f1.taken, p1 := p1.left), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither)) -> p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or (p2.neither and f2.available and (f3.available and p1.neither) and (f1.taken and p3.neither and (f4.available and p4.right)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither))) [forward reach with edge: (event: p4.take_right) (guard: f1.available and p4.neither) (assignments: f1 := f1.taken, p4 := p4.right), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or (p2.neither and f2.available and (f3.available and p1.neither) and (f1.taken and p3.neither and (f4.available and p4.right)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither))) -> <bdd 21n 6p> [forward reach with edge: (event: p2.take_left) (guard: p2.neither and f2.available) (assignments: f2 := f2.taken, p2 := p2.left), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 21n 6p> -> <bdd 24n 8p> [forward reach with edge: (event: p1.take_right) (guard: f2.available and p1.neither) (assignments: f2 := f2.taken, p1 := p1.right), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 24n 8p> -> <bdd 25n 9p> [forward reach with edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 25n 9p> -> <bdd 35n 18p> [forward reach with edge: (event: p3.take_left) (guard: f3.available and p3.neither) (assignments: f3 := f3.taken, p3 := p3.left), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 35n 18p> -> <bdd 38n 24p> [forward reach with edge: (event: p2.take_right) (guard: p2.neither and f3.available) (assignments: f3 := f3.taken, p2 := p2.right), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 38n 24p> -> <bdd 39n 27p> [forward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 39n 27p> -> <bdd 47n 44p> [forward reach with edge: (event: p4.take_left) (guard: f4.available and p4.neither) (assignments: f4 := f4.taken, p4 := p4.left), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 47n 44p> -> <bdd 48n 53p> [forward reach with edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 48n 53p> -> <bdd 56n 70p> [forward reach with edge: (event: p3.take_right) (guard: p3.neither and f4.available) (assignments: f4 := f4.taken, p3 := p3.right), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
+Forward controlled-behavior: <bdd 56n 70p> -> <bdd 55n 79p> [forward reach with edge: (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
 Forward reachability: iteration 2.
-Forward controlled-behavior: <bdd 54n 79p> [fixed point].
+Forward controlled-behavior: <bdd 55n 79p> [fixed point].
 
 Round 1: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: p1.take_left) (guard: p1.neither and f1.available) (assignments: f1 := f1.taken, p1 := p1.left): guard: p1.neither and f1.available -> <bdd 29n 17p>.
-Edge (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both): guard: p1.right and f1.available -> <bdd 24n 9p>.
-Edge (event: p4.take_right) (guard: f1.available and p4.neither) (assignments: f1 := f1.taken, p4 := p4.right): guard: f1.available and p4.neither -> <bdd 30n 17p>.
-Edge (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both): guard: f1.available and p4.left -> p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.left and (f4.taken and p3.neither)) or p1.neither and f2.available and (f1.available and p2.neither) and (f3.taken and p4.left and (f4.taken and p3.left)) or (p1.neither and f2.available and (f1.available and p2.right) and (f3.taken and p4.left and (f4.taken and p3.neither)) or p1.neither and f2.taken and (f1.available and p2.left) and (f3.available and p4.left and (f4.taken and p3.neither))) or (p1.neither and f2.taken and (f1.available and p2.left) and (f3.taken and p4.left and (f4.taken and p3.left)) or p1.neither and f2.taken and (f1.available and p2.both) and (f3.taken and p4.left and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.available and p2.neither) and (f3.available and p4.left and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.available and p2.neither) and (f3.taken and p4.left and (f4.taken and p3.left)) or p1.right and f2.taken and (f1.available and p2.right) and (f3.taken and p4.left and (f4.taken and p3.neither))))).
-Edge (event: p1.release_both) (guard: p1.both and (f2.taken and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither): guard: p1.both and (f2.taken and f1.taken) -> <bdd 24n 9p>.
-Edge (event: p4.release_both) (guard: f1.taken and (p4.both and f4.taken)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither): guard: f1.taken and (p4.both and f4.taken) -> p1.neither and f2.available and (f1.taken and p2.neither) and (f3.available and p4.both and (f4.taken and p3.neither)) or p1.neither and f2.available and (f1.taken and p2.neither) and (f3.taken and p4.both and (f4.taken and p3.left)) or (p1.neither and f2.available and (f1.taken and p2.right) and (f3.taken and p4.both and (f4.taken and p3.neither)) or p1.neither and f2.taken and (f1.taken and p2.left) and (f3.available and p4.both and (f4.taken and p3.neither))) or (p1.neither and f2.taken and (f1.taken and p2.left) and (f3.taken and p4.both and (f4.taken and p3.left)) or p1.neither and f2.taken and (f1.taken and p2.both) and (f3.taken and p4.both and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.available and p4.both and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.taken and p4.both and (f4.taken and p3.left)) or p1.right and f2.taken and (f1.taken and p2.right) and (f3.taken and p4.both and (f4.taken and p3.neither))))).
-Edge (event: p2.take_left) (guard: f2.available and p2.neither) (assignments: f2 := f2.taken, p2 := p2.left): guard: f2.available and p2.neither -> <bdd 39n 17p>.
-Edge (event: p2.take_left) (guard: f2.available and p2.right) (assignments: f2 := f2.taken, p2 := p2.both): guard: f2.available and p2.right -> <bdd 25n 9p>.
-Edge (event: p1.take_right) (guard: p1.neither and f2.available) (assignments: f2 := f2.taken, p1 := p1.right): guard: p1.neither and f2.available -> <bdd 37n 17p>.
-Edge (event: p1.take_right) (guard: p1.left and f2.available) (assignments: f2 := f2.taken, p1 := p1.both): guard: p1.left and f2.available -> <bdd 24n 9p>.
-Edge (event: p2.release_both) (guard: f2.taken and (p2.both and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither): guard: f2.taken and (p2.both and f3.taken) -> <bdd 25n 9p>.
-Edge (event: p3.take_left) (guard: f3.available and p3.neither) (assignments: f3 := f3.taken, p3 := p3.left): guard: f3.available and p3.neither -> <bdd 33n 17p>.
-Edge (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both): guard: f3.available and p3.right -> <bdd 26n 9p>.
-Edge (event: p2.take_right) (guard: p2.neither and f3.available) (assignments: f3 := f3.taken, p2 := p2.right): guard: p2.neither and f3.available -> <bdd 34n 17p>.
-Edge (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both): guard: p2.left and f3.available -> <bdd 25n 9p>.
-Edge (event: p3.release_both) (guard: f3.taken and (f4.taken and p3.both)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither): guard: f3.taken and (f4.taken and p3.both) -> <bdd 26n 9p>.
-Edge (event: p4.take_left) (guard: p4.neither and f4.available) (assignments: f4 := f4.taken, p4 := p4.left): guard: p4.neither and f4.available -> <bdd 28n 17p>.
-Edge (event: p4.take_left) (guard: p4.right and f4.available) (assignments: f4 := f4.taken, p4 := p4.both): guard: p4.right and f4.available -> p1.neither and f2.available and (f1.taken and p2.neither) and (f3.available and p4.right and (f4.available and p3.neither)) or p1.neither and f2.available and (f1.taken and p2.neither) and (f3.taken and p4.right and (f4.available and p3.left)) or (p1.neither and f2.available and (f1.taken and p2.right) and (f3.taken and p4.right and (f4.available and p3.neither)) or p1.neither and f2.taken and (f1.taken and p2.left) and (f3.available and p4.right and (f4.available and p3.neither))) or (p1.neither and f2.taken and (f1.taken and p2.left) and (f3.taken and p4.right and (f4.available and p3.left)) or p1.neither and f2.taken and (f1.taken and p2.both) and (f3.taken and p4.right and (f4.available and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.available and p4.right and (f4.available and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.taken and p4.right and (f4.available and p3.left)) or p1.right and f2.taken and (f1.taken and p2.right) and (f3.taken and p4.right and (f4.available and p3.neither))))).
-Edge (event: p3.take_right) (guard: f4.available and p3.neither) (assignments: f4 := f4.taken, p3 := p3.right): guard: f4.available and p3.neither -> <bdd 31n 17p>.
-Edge (event: p3.take_right) (guard: f4.available and p3.left) (assignments: f4 := f4.taken, p3 := p3.both): guard: f4.available and p3.left -> <bdd 26n 9p>.
+Edge (event: p1.take_left) (guard: p1.neither and f1.available) (assignments: f1 := f1.taken, p1 := p1.left): guard: p1.neither and f1.available -> <bdd 30n 17p>.
+Edge (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both): guard: p1.right and f1.available -> p2.neither and f2.taken and (f3.available and p1.right) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.right) and (f1.available and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.taken and (f3.available and p1.right) and (f1.available and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.taken and (f3.taken and p1.right) and (f1.available and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.taken and (f3.taken and p1.right) and (f1.available and p3.left and (f4.taken and p4.left)) or p2.neither and f2.taken and (f3.taken and p1.right) and (f1.available and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.right) and (f1.available and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.right) and (f1.available and p3.neither and (f4.taken and p4.left)) or p2.right and f2.taken and (f3.taken and p1.right) and (f1.available and p3.right and (f4.taken and p4.neither))))).
+Edge (event: p4.take_right) (guard: f1.available and p4.neither) (assignments: f1 := f1.taken, p4 := p4.right): guard: f1.available and p4.neither -> <bdd 33n 17p>.
+Edge (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both): guard: f1.available and p4.left -> <bdd 27n 9p>.
+Edge (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither): guard: f2.taken and (p1.both and f1.taken) -> p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.taken and p4.left)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither))))).
+Edge (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither): guard: f1.taken and (f4.taken and p4.both) -> <bdd 27n 9p>.
+Edge (event: p2.take_left) (guard: p2.neither and f2.available) (assignments: f2 := f2.taken, p2 := p2.left): guard: p2.neither and f2.available -> <bdd 33n 17p>.
+Edge (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both): guard: p2.right and f2.available -> <bdd 23n 9p>.
+Edge (event: p1.take_right) (guard: f2.available and p1.neither) (assignments: f2 := f2.taken, p1 := p1.right): guard: f2.available and p1.neither -> <bdd 33n 17p>.
+Edge (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both): guard: f2.available and p1.left -> p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.available and (f3.taken and p1.left) and (f1.taken and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.available and (f3.taken and p1.left) and (f1.taken and p3.left and (f4.taken and p4.left)) or p2.neither and f2.available and (f3.taken and p1.left) and (f1.taken and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.available and (f3.taken and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.available and (f3.taken and p1.left) and (f1.taken and p3.neither and (f4.taken and p4.left)) or p2.right and f2.available and (f3.taken and p1.left) and (f1.taken and p3.right and (f4.taken and p4.neither))))).
+Edge (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither): guard: p2.both and (f2.taken and f3.taken) -> <bdd 23n 9p>.
+Edge (event: p3.take_left) (guard: f3.available and p3.neither) (assignments: f3 := f3.taken, p3 := p3.left): guard: f3.available and p3.neither -> <bdd 34n 17p>.
+Edge (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both): guard: f3.available and p3.right -> <bdd 25n 9p>.
+Edge (event: p2.take_right) (guard: p2.neither and f3.available) (assignments: f3 := f3.taken, p2 := p2.right): guard: p2.neither and f3.available -> <bdd 30n 17p>.
+Edge (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both): guard: p2.left and f3.available -> <bdd 23n 9p>.
+Edge (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither): guard: f3.taken and (p3.both and f4.taken) -> <bdd 25n 9p>.
+Edge (event: p4.take_left) (guard: f4.available and p4.neither) (assignments: f4 := f4.taken, p4 := p4.left): guard: f4.available and p4.neither -> <bdd 35n 17p>.
+Edge (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both): guard: f4.available and p4.right -> <bdd 27n 9p>.
+Edge (event: p3.take_right) (guard: p3.neither and f4.available) (assignments: f4 := f4.taken, p3 := p3.right): guard: p3.neither and f4.available -> <bdd 32n 17p>.
+Edge (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both): guard: p3.left and f4.available -> <bdd 25n 9p>.
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 54n 79p>)
-    Edge: (event: p1.take_left) (guard: p1.neither and f1.available -> <bdd 29n 17p>) (assignments: f1 := f1.taken, p1 := p1.left)
-    Edge: (event: p1.take_left) (guard: p1.right and f1.available -> <bdd 24n 9p>) (assignments: f1 := f1.taken, p1 := p1.both)
-    Edge: (event: p4.take_right) (guard: f1.available and p4.neither -> <bdd 30n 17p>) (assignments: f1 := f1.taken, p4 := p4.right)
-    Edge: (event: p4.take_right) (guard: f1.available and p4.left -> p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.left and (f4.taken and p3.neither)) or p1.neither and f2.available and (f1.available and p2.neither) and (f3.taken and p4.left and (f4.taken and p3.left)) or (p1.neither and f2.available and (f1.available and p2.right) and (f3.taken and p4.left and (f4.taken and p3.neither)) or p1.neither and f2.taken and (f1.available and p2.left) and (f3.available and p4.left and (f4.taken and p3.neither))) or (p1.neither and f2.taken and (f1.available and p2.left) and (f3.taken and p4.left and (f4.taken and p3.left)) or p1.neither and f2.taken and (f1.available and p2.both) and (f3.taken and p4.left and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.available and p2.neither) and (f3.available and p4.left and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.available and p2.neither) and (f3.taken and p4.left and (f4.taken and p3.left)) or p1.right and f2.taken and (f1.available and p2.right) and (f3.taken and p4.left and (f4.taken and p3.neither)))))) (assignments: f1 := f1.taken, p4 := p4.both)
-    Edge: (event: p1.release_both) (guard: p1.both and (f2.taken and f1.taken) -> <bdd 24n 9p>) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither)
-    Edge: (event: p4.release_both) (guard: f1.taken and (p4.both and f4.taken) -> p1.neither and f2.available and (f1.taken and p2.neither) and (f3.available and p4.both and (f4.taken and p3.neither)) or p1.neither and f2.available and (f1.taken and p2.neither) and (f3.taken and p4.both and (f4.taken and p3.left)) or (p1.neither and f2.available and (f1.taken and p2.right) and (f3.taken and p4.both and (f4.taken and p3.neither)) or p1.neither and f2.taken and (f1.taken and p2.left) and (f3.available and p4.both and (f4.taken and p3.neither))) or (p1.neither and f2.taken and (f1.taken and p2.left) and (f3.taken and p4.both and (f4.taken and p3.left)) or p1.neither and f2.taken and (f1.taken and p2.both) and (f3.taken and p4.both and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.available and p4.both and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.taken and p4.both and (f4.taken and p3.left)) or p1.right and f2.taken and (f1.taken and p2.right) and (f3.taken and p4.both and (f4.taken and p3.neither)))))) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither)
-    Edge: (event: p2.take_left) (guard: f2.available and p2.neither -> <bdd 39n 17p>) (assignments: f2 := f2.taken, p2 := p2.left)
-    Edge: (event: p2.take_left) (guard: f2.available and p2.right -> <bdd 25n 9p>) (assignments: f2 := f2.taken, p2 := p2.both)
-    Edge: (event: p1.take_right) (guard: p1.neither and f2.available -> <bdd 37n 17p>) (assignments: f2 := f2.taken, p1 := p1.right)
-    Edge: (event: p1.take_right) (guard: p1.left and f2.available -> <bdd 24n 9p>) (assignments: f2 := f2.taken, p1 := p1.both)
-    Edge: (event: p2.release_both) (guard: f2.taken and (p2.both and f3.taken) -> <bdd 25n 9p>) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither)
-    Edge: (event: p3.take_left) (guard: f3.available and p3.neither -> <bdd 33n 17p>) (assignments: f3 := f3.taken, p3 := p3.left)
-    Edge: (event: p3.take_left) (guard: f3.available and p3.right -> <bdd 26n 9p>) (assignments: f3 := f3.taken, p3 := p3.both)
-    Edge: (event: p2.take_right) (guard: p2.neither and f3.available -> <bdd 34n 17p>) (assignments: f3 := f3.taken, p2 := p2.right)
-    Edge: (event: p2.take_right) (guard: p2.left and f3.available -> <bdd 25n 9p>) (assignments: f3 := f3.taken, p2 := p2.both)
-    Edge: (event: p3.release_both) (guard: f3.taken and (f4.taken and p3.both) -> <bdd 26n 9p>) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither)
-    Edge: (event: p4.take_left) (guard: p4.neither and f4.available -> <bdd 28n 17p>) (assignments: f4 := f4.taken, p4 := p4.left)
-    Edge: (event: p4.take_left) (guard: p4.right and f4.available -> p1.neither and f2.available and (f1.taken and p2.neither) and (f3.available and p4.right and (f4.available and p3.neither)) or p1.neither and f2.available and (f1.taken and p2.neither) and (f3.taken and p4.right and (f4.available and p3.left)) or (p1.neither and f2.available and (f1.taken and p2.right) and (f3.taken and p4.right and (f4.available and p3.neither)) or p1.neither and f2.taken and (f1.taken and p2.left) and (f3.available and p4.right and (f4.available and p3.neither))) or (p1.neither and f2.taken and (f1.taken and p2.left) and (f3.taken and p4.right and (f4.available and p3.left)) or p1.neither and f2.taken and (f1.taken and p2.both) and (f3.taken and p4.right and (f4.available and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.available and p4.right and (f4.available and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.taken and p4.right and (f4.available and p3.left)) or p1.right and f2.taken and (f1.taken and p2.right) and (f3.taken and p4.right and (f4.available and p3.neither)))))) (assignments: f4 := f4.taken, p4 := p4.both)
-    Edge: (event: p3.take_right) (guard: f4.available and p3.neither -> <bdd 31n 17p>) (assignments: f4 := f4.taken, p3 := p3.right)
-    Edge: (event: p3.take_right) (guard: f4.available and p3.left -> <bdd 26n 9p>) (assignments: f4 := f4.taken, p3 := p3.both)
+  State: (controlled-behavior: <bdd 55n 79p>)
+    Edge: (event: p1.take_left) (guard: p1.neither and f1.available -> <bdd 30n 17p>) (assignments: f1 := f1.taken, p1 := p1.left)
+    Edge: (event: p1.take_left) (guard: p1.right and f1.available -> p2.neither and f2.taken and (f3.available and p1.right) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.right) and (f1.available and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.taken and (f3.available and p1.right) and (f1.available and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.taken and (f3.taken and p1.right) and (f1.available and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.taken and (f3.taken and p1.right) and (f1.available and p3.left and (f4.taken and p4.left)) or p2.neither and f2.taken and (f3.taken and p1.right) and (f1.available and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.right) and (f1.available and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.right) and (f1.available and p3.neither and (f4.taken and p4.left)) or p2.right and f2.taken and (f3.taken and p1.right) and (f1.available and p3.right and (f4.taken and p4.neither)))))) (assignments: f1 := f1.taken, p1 := p1.both)
+    Edge: (event: p4.take_right) (guard: f1.available and p4.neither -> <bdd 33n 17p>) (assignments: f1 := f1.taken, p4 := p4.right)
+    Edge: (event: p4.take_right) (guard: f1.available and p4.left -> <bdd 27n 9p>) (assignments: f1 := f1.taken, p4 := p4.both)
+    Edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken) -> p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.taken and p4.left)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither)))))) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither)
+    Edge: (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both) -> <bdd 27n 9p>) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither)
+    Edge: (event: p2.take_left) (guard: p2.neither and f2.available -> <bdd 33n 17p>) (assignments: f2 := f2.taken, p2 := p2.left)
+    Edge: (event: p2.take_left) (guard: p2.right and f2.available -> <bdd 23n 9p>) (assignments: f2 := f2.taken, p2 := p2.both)
+    Edge: (event: p1.take_right) (guard: f2.available and p1.neither -> <bdd 33n 17p>) (assignments: f2 := f2.taken, p1 := p1.right)
+    Edge: (event: p1.take_right) (guard: f2.available and p1.left -> p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.available and (f3.taken and p1.left) and (f1.taken and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.available and (f3.taken and p1.left) and (f1.taken and p3.left and (f4.taken and p4.left)) or p2.neither and f2.available and (f3.taken and p1.left) and (f1.taken and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.available and (f3.taken and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.available and (f3.taken and p1.left) and (f1.taken and p3.neither and (f4.taken and p4.left)) or p2.right and f2.available and (f3.taken and p1.left) and (f1.taken and p3.right and (f4.taken and p4.neither)))))) (assignments: f2 := f2.taken, p1 := p1.both)
+    Edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken) -> <bdd 23n 9p>) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither)
+    Edge: (event: p3.take_left) (guard: f3.available and p3.neither -> <bdd 34n 17p>) (assignments: f3 := f3.taken, p3 := p3.left)
+    Edge: (event: p3.take_left) (guard: f3.available and p3.right -> <bdd 25n 9p>) (assignments: f3 := f3.taken, p3 := p3.both)
+    Edge: (event: p2.take_right) (guard: p2.neither and f3.available -> <bdd 30n 17p>) (assignments: f3 := f3.taken, p2 := p2.right)
+    Edge: (event: p2.take_right) (guard: p2.left and f3.available -> <bdd 23n 9p>) (assignments: f3 := f3.taken, p2 := p2.both)
+    Edge: (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken) -> <bdd 25n 9p>) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither)
+    Edge: (event: p4.take_left) (guard: f4.available and p4.neither -> <bdd 35n 17p>) (assignments: f4 := f4.taken, p4 := p4.left)
+    Edge: (event: p4.take_left) (guard: f4.available and p4.right -> <bdd 27n 9p>) (assignments: f4 := f4.taken, p4 := p4.both)
+    Edge: (event: p3.take_right) (guard: p3.neither and f4.available -> <bdd 32n 17p>) (assignments: f4 := f4.taken, p3 := p3.right)
+    Edge: (event: p3.take_right) (guard: p3.left and f4.available -> <bdd 25n 9p>) (assignments: f4 := f4.taken, p3 := p3.both)
 
 Controlled system:                     exactly 79 states.
 
-Initial (synthesis result):            <bdd 54n 79p>
-Initial (uncontrolled system):         p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Initial (controlled system):           p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Initial (synthesis result):            <bdd 55n 79p>
+Initial (uncontrolled system):         p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+Initial (controlled system):           p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion plant invariants, state/event exclusion requirement invariants, state plant invariants, state requirement invariants, and controlled behavior:
-  Event p1.take_left: guard: <bdd 30n 26p> -> p1.right or p1.both or (f2.available or p2.right) or (p2.both or f3.available or (p4.neither or p4.right)) [assume <bdd 27n 27p>].
-  Event p4.take_right: guard: <bdd 34n 26p> -> p1.neither or (p1.left or p2.neither) or (p2.left or p4.left or (p4.both or f4.available)) [assume <bdd 27n 27p>].
-  Event p1.release_both: guard: <bdd 24n 9p> -> true [assume <bdd 24n 9p>].
-  Event p4.release_both: guard: p1.neither and f2.available and (f1.taken and p2.neither) and (f3.available and p4.both and (f4.taken and p3.neither)) or p1.neither and f2.available and (f1.taken and p2.neither) and (f3.taken and p4.both and (f4.taken and p3.left)) or (p1.neither and f2.available and (f1.taken and p2.right) and (f3.taken and p4.both and (f4.taken and p3.neither)) or p1.neither and f2.taken and (f1.taken and p2.left) and (f3.available and p4.both and (f4.taken and p3.neither))) or (p1.neither and f2.taken and (f1.taken and p2.left) and (f3.taken and p4.both and (f4.taken and p3.left)) or p1.neither and f2.taken and (f1.taken and p2.both) and (f3.taken and p4.both and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.available and p4.both and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.taken and p4.both and (f4.taken and p3.left)) or p1.right and f2.taken and (f1.taken and p2.right) and (f3.taken and p4.both and (f4.taken and p3.neither))))) -> true [assume p1.neither and f2.available and (f1.taken and p2.neither) and (f3.available and p4.both and (f4.taken and p3.neither)) or p1.neither and f2.available and (f1.taken and p2.neither) and (f3.taken and p4.both and (f4.taken and p3.left)) or (p1.neither and f2.available and (f1.taken and p2.right) and (f3.taken and p4.both and (f4.taken and p3.neither)) or p1.neither and f2.taken and (f1.taken and p2.left) and (f3.available and p4.both and (f4.taken and p3.neither))) or (p1.neither and f2.taken and (f1.taken and p2.left) and (f3.taken and p4.both and (f4.taken and p3.left)) or p1.neither and f2.taken and (f1.taken and p2.both) and (f3.taken and p4.both and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.available and p4.both and (f4.taken and p3.neither)) or (p1.right and f2.taken and (f1.taken and p2.neither) and (f3.taken and p4.both and (f4.taken and p3.left)) or p1.right and f2.taken and (f1.taken and p2.right) and (f3.taken and p4.both and (f4.taken and p3.neither)))))].
-  Event p2.take_left: guard: <bdd 41n 26p> -> p1.neither or (p1.right or p2.right) or (p2.both or f3.available or (p4.neither or p4.right)) [assume <bdd 37n 27p>].
-  Event p1.take_right: guard: <bdd 40n 26p> -> p1.left or p1.both or (f1.available or p2.neither) or (p2.left or p4.left or (p4.both or f4.available)) [assume <bdd 37n 27p>].
-  Event p2.release_both: guard: <bdd 25n 9p> -> true [assume <bdd 25n 9p>].
-  Event p3.take_left: guard: <bdd 35n 26p> -> not p1.left or f2.available or (p4.neither or p4.right) [assume <bdd 31n 27p>].
-  Event p2.take_right: guard: <bdd 38n 26p> -> not p1.right or f1.available or (p4.left or (p4.both or f4.available)) [assume <bdd 31n 27p>].
-  Event p3.release_both: guard: <bdd 26n 9p> -> true [assume <bdd 26n 9p>].
-  Event p4.take_left: guard: <bdd 37n 26p> -> not p1.left or f2.available or (p2.right or (p2.both or f3.available)) [assume <bdd 34n 27p>].
-  Event p3.take_right: guard: <bdd 37n 26p> -> not p1.right or f1.available or (p2.neither or p2.left) [assume <bdd 34n 27p>].
+  Event p1.take_left: guard: <bdd 36n 26p> -> not p2.left or f3.available or (p3.right or (p3.both or f4.available)) [assume <bdd 29n 27p>].
+  Event p4.take_right: guard: <bdd 34n 26p> -> not p2.right or f2.available or (p3.neither or p3.left) [assume <bdd 29n 27p>].
+  Event p1.release_both: guard: p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.taken and p4.left)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither))))) -> true [assume p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.taken and p4.left)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither)))))].
+  Event p4.release_both: guard: <bdd 27n 9p> -> true [assume <bdd 27n 9p>].
+  Event p2.take_left: guard: <bdd 35n 26p> -> p2.right or p2.both or (f3.available or p1.neither) or (p1.right or p3.right or (p3.both or f4.available)) [assume <bdd 32n 27p>].
+  Event p1.take_right: guard: <bdd 37n 26p> -> p2.neither or (p2.left or p1.left) or (p1.both or f1.available or (p3.neither or p3.left)) [assume <bdd 32n 27p>].
+  Event p2.release_both: guard: <bdd 23n 9p> -> true [assume <bdd 23n 9p>].
+  Event p3.take_left: guard: <bdd 36n 26p> -> p2.neither or (p2.right or p1.neither) or (p1.right or p3.right or (p3.both or f4.available)) [assume <bdd 29n 27p>].
+  Event p2.take_right: guard: <bdd 32n 26p> -> p2.left or p2.both or (f2.available or p1.left) or (p1.both or f1.available or (p3.neither or p3.left)) [assume <bdd 29n 27p>].
+  Event p3.release_both: guard: <bdd 25n 9p> -> true [assume <bdd 25n 9p>].
+  Event p4.take_left: guard: <bdd 41n 26p> -> not p2.left or f3.available or (p1.neither or p1.right) [assume <bdd 39n 27p>].
+  Event p3.take_right: guard: <bdd 42n 26p> -> not p2.right or f2.available or (p1.left or (p1.both or f1.available)) [assume <bdd 39n 27p>].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/dining_philosophers4.ctrlsys.real.cif".

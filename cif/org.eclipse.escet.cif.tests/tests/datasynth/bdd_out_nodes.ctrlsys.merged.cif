@@ -1,6 +1,6 @@
 type n_node_type = tuple(int var; int low; int high);
-type n_nodes_type = list[15] n_node_type;
-const n_nodes_type n_nodes = [(2, -2, 1), (7, 2, 6), (8, 3, 5), (9, -2, 4), (3, -1, -2), (9, 4, -2), (8, -2, 5), (2, -2, 8), (5, 9, -2), (6, -2, 10), (0, 4, 1), (2, -2, 12), (5, 13, -2), (7, 4, 14), (8, -2, 4)];
+type n_nodes_type = list[18] n_node_type;
+const n_nodes_type n_nodes = [(7, 1, 6), (8, 2, 5), (9, -2, 3), (2, -2, 4), (3, -1, -2), (9, 3, -2), (8, -2, 5), (0, 8, 10), (5, 9, -2), (6, -2, 3), (7, 11, 14), (8, 12, 13), (9, -2, 8), (9, 8, -2), (8, -2, 13), (7, 16, 17), (5, 3, -2), (8, -2, 16)];
 alg bool n_value0 = io.i div 1 mod 2 > 0;
 alg bool n_value1 = p.L2;
 alg bool n_value2 = p.b;
@@ -47,7 +47,7 @@ plant automaton p:
 end
 supervisor automaton sup:
   alphabet p.e1, p.e2;
-  initial n_eval(11, n_values);
+  initial n_eval(15, n_values);
   location:
     initial;
     marked;

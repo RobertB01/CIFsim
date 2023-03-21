@@ -11,33 +11,103 @@ CIF variables and location pointers:
   Total                                                 2      12        28          40          70%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 6
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [before]
+        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [before]
+        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [before]
+          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 6
+
+          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [before]
+          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [before]
+          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 6
+
+          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [before]
+          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 3
       Maximum number of iterations: 10
 
-      Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [before]
-      Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [iteration 1]
-      Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [after]
+      Total span:   3 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.333333 (avg/edge) [before]
+      Total span:   3 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.333333 (avg/edge) [iteration 1]
+      Total span:   3 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.333333 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 6
+      Number of hyper-edges: 3
       Window length: 2
 
-      Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [before]
-      Total span:   2 (total)   0.33 (avg/edge) / WES:   0.666667 (total)   0.111111 (avg/edge) [after]
+      Total span:   3 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.333333 (avg/edge) [before]
+      Total span:   3 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.333333 (avg/edge) [after]
 
-Variable order unchanged.
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name            Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  --------------  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..10]  count_max3.cnt  0      4 * 2     11 * 2      16 * 2      ~69%
+  2      location pointer   n/a         adder           1      2 * 2     3 * 2       4 * 2       75%
+  -----  -----------------  ----------  --------------  -----  --------  ----------  ----------  -----------
+  Total                                                 2      12        28          40          70%
 
 Starting data-based synthesis.
 
@@ -50,15 +120,15 @@ Invariant (components state req invariant):  0 <= count_max3.cnt and count_max3.
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      0 <= count_max3.cnt and count_max3.cnt <= 3
 
-Initial   (discrete variable 1):             count_max3.cnt = 0
+Initial   (discrete variable 0):             count_max3.cnt = 0
 Initial   (discrete variables):              count_max3.cnt = 0
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         adder.l1
 Initial   (aut/locs init predicate):         true
 Initial   (auts/locs init predicate):        adder.l1
-Initial   (uncontrolled system):             adder.l1 and count_max3.cnt = 0
-Initial   (system, combined init/plant inv): adder.l1 and count_max3.cnt = 0
-Initial   (system, combined init/state inv): adder.l1 and count_max3.cnt = 0
+Initial   (uncontrolled system):             count_max3.cnt = 0 and adder.l1
+Initial   (system, combined init/plant inv): count_max3.cnt = 0 and adder.l1
+Initial   (system, combined init/state inv): count_max3.cnt = 0 and adder.l1
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       adder.l1
@@ -66,7 +136,7 @@ Marked    (aut/locs marker predicate):       true
 Marked    (auts/locs marker predicate):      adder.l1
 Marked    (uncontrolled system):             adder.l1
 Marked    (system, combined mark/plant inv): adder.l1
-Marked    (system, combined mark/state inv): adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3)
+Marked    (system, combined mark/state inv): 0 <= count_max3.cnt and (count_max3.cnt <= 3 and adder.l1)
 
 State/event exclusion plants:
   None
@@ -86,16 +156,16 @@ Uncontrolled system:
 Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: adder.l1 and count_max3.cnt = 0.
+Initialized controlled-initialization predicate: count_max3.cnt = 0 and adder.l1.
 
 Restricting behavior using state requirements.
 Controlled behavior: true -> 0 <= count_max3.cnt and count_max3.cnt <= 3 [state requirements: 0 <= count_max3.cnt and count_max3.cnt <= 3].
 
 Extending controlled-behavior predicate using variable ranges.
 
-Controlled behavior: 0 <= count_max3.cnt and count_max3.cnt <= 3 -> not adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3) [range: true, variable: location pointer for automaton "adder" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: 0 <= count_max3.cnt and count_max3.cnt <= 3 -> 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)) [range: true, variable: location pointer for automaton "adder" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Extended controlled-behavior predicate using variable ranges: not adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3).
+Extended controlled-behavior predicate using variable ranges: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)).
 
 Restricting behavior using state/event exclusion requirements.
 
@@ -103,32 +173,32 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: adder.l1 [marker predicate]
-Backward controlled-behavior: adder.l1 -> adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) [restricted to current/previous controlled-behavior predicate: not adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3)]
+Backward controlled-behavior: adder.l1 -> 0 <= count_max3.cnt and (count_max3.cnt <= 3 and adder.l1) [restricted to current/previous controlled-behavior predicate: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7))]
 Backward reachability: iteration 1.
-Backward controlled-behavior: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) -> adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or (adder.l3 and count_max3.cnt = 2 or adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3)) [backward reach with edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1), restricted to current/previous controlled-behavior predicate: not adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3)]
+Backward controlled-behavior: 0 <= count_max3.cnt and (count_max3.cnt <= 3 and adder.l1) -> count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 1 or count_max3.cnt = 3) and not adder.l2) [backward reach with edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1), restricted to current/previous controlled-behavior predicate: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7))]
 Backward reachability: iteration 2.
-Backward controlled-behavior: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or (adder.l3 and count_max3.cnt = 2 or adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3)) -> adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1)) [backward reach with edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: not adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3)]
+Backward controlled-behavior: count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 1 or count_max3.cnt = 3) and not adder.l2) -> count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2)) [backward reach with edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7))]
 Backward reachability: iteration 3.
-Backward controlled-behavior: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1)) [fixed point].
-Controlled behavior: not adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l2 and (0 <= count_max3.cnt and count_max3.cnt <= 3) -> adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1)).
+Backward controlled-behavior: count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2)) [fixed point].
+Controlled behavior: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)) -> count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2)).
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (not adder.l1 or 4 <= count_max3.cnt and count_max3.cnt <= 10) and (not adder.l3 or count_max3.cnt != 2) and ((not adder.l3 or not(count_max3.cnt = 1 or count_max3.cnt = 3)) and ((not adder.l2 or (count_max3.cnt = 1 or 3 <= count_max3.cnt and count_max3.cnt <= 10)) and (not adder.l2 or count_max3.cnt != 1))) [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: (count_max3.cnt != 0 or adder.l3) and ((count_max3.cnt != 2 or adder.l2) and (count_max3.cnt != 2 or not adder.l2)) and ((count_max3.cnt != 1 or adder.l2) and ((count_max3.cnt != 1 or not adder.l2) and (count_max3.cnt != 3 or adder.l2))) [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: adder.l1 and count_max3.cnt = 0 [initialization predicate]
+Forward controlled-behavior: count_max3.cnt = 0 and adder.l1 [initialization predicate]
 Forward reachability: iteration 1.
-Forward controlled-behavior: adder.l1 and count_max3.cnt = 0 -> adder.l1 and count_max3.cnt = 0 or adder.l2 and count_max3.cnt = 1 [forward reach with edge: (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1))]
-Forward controlled-behavior: adder.l1 and count_max3.cnt = 0 or adder.l2 and count_max3.cnt = 1 -> adder.l1 and count_max3.cnt = 0 or (adder.l3 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) [forward reach with edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1))]
-Forward controlled-behavior: adder.l1 and count_max3.cnt = 0 or (adder.l3 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1) or (adder.l3 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) [forward reach with edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1), restricted to current/previous controlled-behavior predicate: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1))]
+Forward controlled-behavior: count_max3.cnt = 0 and adder.l1 -> count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 1 and adder.l2 [forward reach with edge: (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2))]
+Forward controlled-behavior: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 1 and adder.l2 -> count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l3 or count_max3.cnt = 1 and adder.l2) [forward reach with edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2))]
+Forward controlled-behavior: count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l3 or count_max3.cnt = 1 and adder.l2) -> count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l3 or count_max3.cnt = 1 and not adder.l3) [forward reach with edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1), restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2))]
 Forward reachability: iteration 2.
-Forward controlled-behavior: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1) or (adder.l3 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1) or adder.l3 and count_max3.cnt = 2 or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) [forward reach with edge: (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1))]
-Forward controlled-behavior: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1) or adder.l3 and count_max3.cnt = 2 or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1) or adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) [forward reach with edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1))]
-Forward controlled-behavior: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1) or adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1)) [forward reach with edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1), restricted to current/previous controlled-behavior predicate: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1))]
+Forward controlled-behavior: count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l3 or count_max3.cnt = 1 and not adder.l3) -> count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and adder.l3 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and not adder.l3) [forward reach with edge: (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2))]
+Forward controlled-behavior: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and adder.l3 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and not adder.l3) -> count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and adder.l3 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3)) [forward reach with edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2))]
+Forward controlled-behavior: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and adder.l3 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3)) -> count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3)) [forward reach with edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1), restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2))]
 Forward reachability: iteration 3.
-Forward controlled-behavior: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1)) [fixed point].
-Controlled behavior: adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3) or adder.l3 and count_max3.cnt = 2 or (adder.l3 and (count_max3.cnt = 1 or count_max3.cnt = 3) or (adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l2 and count_max3.cnt = 1)) -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1)).
+Forward controlled-behavior: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3)) [fixed point].
+Controlled behavior: count_max3.cnt = 0 and not adder.l3 or (count_max3.cnt = 2 and not adder.l2 or count_max3.cnt = 2 and adder.l2) or (count_max3.cnt = 1 and not adder.l2 or (count_max3.cnt = 1 and adder.l2 or count_max3.cnt = 3 and not adder.l2)) -> count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3)).
 
 Round 1: finished, need another round.
 
@@ -136,41 +206,41 @@ Round 2: started.
 
 Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: adder.l1 [marker predicate]
-Backward controlled-behavior: adder.l1 -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 [restricted to current/previous controlled-behavior predicate: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1))]
+Backward controlled-behavior: adder.l1 -> (count_max3.cnt = 0 or count_max3.cnt = 2) and adder.l1 or count_max3.cnt = 1 and adder.l1 [restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3))]
 Backward reachability: iteration 1.
-Backward controlled-behavior: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or (adder.l1 and count_max3.cnt = 1 or adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3)) [backward reach with edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1), restricted to current/previous controlled-behavior predicate: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1))]
+Backward controlled-behavior: (count_max3.cnt = 0 or count_max3.cnt = 2) and adder.l1 or count_max3.cnt = 1 and adder.l1 -> count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 1 and adder.l1 or count_max3.cnt = 3 and adder.l3) [backward reach with edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1), restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3))]
 Backward reachability: iteration 2.
-Backward controlled-behavior: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or (adder.l1 and count_max3.cnt = 1 or adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3)) -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1)) [backward reach with edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1))]
+Backward controlled-behavior: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 1 and adder.l1 or count_max3.cnt = 3 and adder.l3) -> count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3)) [backward reach with edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1), restricted to current/previous controlled-behavior predicate: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3))]
 Backward reachability: iteration 3.
-Backward controlled-behavior: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1)) [fixed point].
+Backward controlled-behavior: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3)) [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (not adder.l1 or (count_max3.cnt = 1 or 3 <= count_max3.cnt and count_max3.cnt <= 10)) and (not adder.l1 or count_max3.cnt != 1) and ((not adder.l3 or not(count_max3.cnt = 2 or count_max3.cnt = 3)) and ((not adder.l2 or count_max3.cnt != 2) and (not adder.l2 or count_max3.cnt != 1))) [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: (count_max3.cnt != 0 or not adder.l1) and (count_max3.cnt != 2 or adder.l2) and ((count_max3.cnt != 2 or not adder.l2) and ((count_max3.cnt != 1 or adder.l3) and (count_max3.cnt != 3 or not adder.l3))) [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1): guard: adder.l1 -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1).
-Edge (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1): guard: adder.l2 -> adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1.
+Edge (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1): guard: adder.l1 -> (count_max3.cnt = 0 or count_max3.cnt = 1) and adder.l1.
+Edge (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1): guard: adder.l2 -> count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and adder.l2.
 
 Final synthesis result:
-  State: (controlled-behavior: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1)))
-    Edge: (event: adder.c_add) (guard: adder.l1 -> adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1)) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1)
-    Edge: (event: adder.c_add) (guard: adder.l2 -> adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1)
+  State: (controlled-behavior: count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3)))
+    Edge: (event: adder.c_add) (guard: adder.l1 -> (count_max3.cnt = 0 or count_max3.cnt = 1) and adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1)
+    Edge: (event: adder.c_add) (guard: adder.l2 -> count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1)
     Edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1)
 
 Controlled system:                     exactly 7 states.
 
-Initial (synthesis result):            adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 2) or adder.l1 and count_max3.cnt = 1 or (adder.l3 and (count_max3.cnt = 2 or count_max3.cnt = 3) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1))
-Initial (uncontrolled system):         adder.l1 and count_max3.cnt = 0
-Initial (controlled system):           adder.l1 and count_max3.cnt = 0
+Initial (synthesis result):            count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3))
+Initial (uncontrolled system):         count_max3.cnt = 0 and adder.l1
+Initial (controlled system):           count_max3.cnt = 0 and adder.l1
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event adder.c_add: guard: adder.l1 and (count_max3.cnt = 0 or count_max3.cnt = 1) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) -> not adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 1) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1) [assume not adder.l3].
+  Event adder.c_add: guard: count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and not adder.l3) -> count_max3.cnt = 0 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1) [assume not adder.l3].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/req_counter.ctrlsys.real.cif".

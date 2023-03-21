@@ -28,7 +28,7 @@ list string default_options = [
 
 string opt_algos_on      = "--dcsh-order=on  --force-order=on  --sliding-window-order=on";
 string opt_algos_off     = "--dcsh-order=off --force-order=off --sliding-window-order=off";
-string var_order_default = "--dcsh-order=off --force-order=on  --sliding-window-order=on  --var-order=sorted";
+string var_order_default = "--dcsh-order=on  --force-order=on  --sliding-window-order=on  --var-order=sorted";
 string opt_simplify_all  = "--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-plant-invs,guards-se-excl-req-invs,guards-state-plant-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl,initial-state-plant-invs";
 
 map(string:list string) test_options = {

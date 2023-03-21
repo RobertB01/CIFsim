@@ -108,15 +108,15 @@ supervisor automaton sup:
     initial;
     marked;
     edge p1.release_both when true;
-    edge p1.take_left when p1.right or p1.both or (f2.available or p2.right) or (p2.both or f3.available or (p4.neither or p4.right));
-    edge p1.take_right when p1.left or p1.both or (f1.available or p2.neither) or (p2.left or p4.left or (p4.both or f4.available));
+    edge p1.take_left when not p2.left or f3.available or (p3.right or (p3.both or f4.available));
+    edge p1.take_right when p2.neither or (p2.left or p1.left) or (p1.both or f1.available or (p3.neither or p3.left));
     edge p2.release_both when true;
-    edge p2.take_left when p1.neither or (p1.right or p2.right) or (p2.both or f3.available or (p4.neither or p4.right));
-    edge p2.take_right when not p1.right or f1.available or (p4.left or (p4.both or f4.available));
+    edge p2.take_left when p2.right or p2.both or (f3.available or p1.neither) or (p1.right or p3.right or (p3.both or f4.available));
+    edge p2.take_right when p2.left or p2.both or (f2.available or p1.left) or (p1.both or f1.available or (p3.neither or p3.left));
     edge p3.release_both when true;
-    edge p3.take_left when not p1.left or f2.available or (p4.neither or p4.right);
-    edge p3.take_right when not p1.right or f1.available or (p2.neither or p2.left);
+    edge p3.take_left when p2.neither or (p2.right or p1.neither) or (p1.right or p3.right or (p3.both or f4.available));
+    edge p3.take_right when not p2.right or f2.available or (p1.left or (p1.both or f1.available));
     edge p4.release_both when true;
-    edge p4.take_left when not p1.left or f2.available or (p2.right or (p2.both or f3.available));
-    edge p4.take_right when p1.neither or (p1.left or p2.neither) or (p2.left or p4.left or (p4.both or f4.available));
+    edge p4.take_left when not p2.left or f3.available or (p1.neither or p1.right);
+    edge p4.take_right when not p2.right or f2.available or (p3.neither or p3.left);
 end

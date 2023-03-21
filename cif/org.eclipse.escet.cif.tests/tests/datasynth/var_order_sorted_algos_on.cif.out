@@ -21,13 +21,13 @@ Applying variable ordering:
 
     Applying DCSH algorithm:
       Metric: wes
-      Relations: configured
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 22
 
       Applying Weighted Cuthill-McKee algorithm:
         Node finder: george-liu
-        Relations: configured
+        Relations: legacy
         Effect: var-order
         Number of graph edges: 6
 
@@ -37,7 +37,7 @@ Applying variable ordering:
       Found new best variable order.
 
       Applying Sloan algorithm:
-        Relations: configured
+        Relations: legacy
         Effect: var-order
         Number of graph edges: 6
 
@@ -49,7 +49,7 @@ Applying variable ordering:
       Applying 2 orderers, sequentially:
         Applying Weighted Cuthill-McKee algorithm:
           Node finder: george-liu
-          Relations: configured
+          Relations: legacy
           Effect: var-order
           Number of graph edges: 6
 
@@ -57,7 +57,7 @@ Applying variable ordering:
           Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
 
         Reversing the variable order:
-          Relations: configured
+          Relations: legacy
           Effect: var-order
           Number of hyper-edges: 22
 
@@ -66,7 +66,7 @@ Applying variable ordering:
 
       Applying 2 orderers, sequentially:
         Applying Sloan algorithm:
-          Relations: configured
+          Relations: legacy
           Effect: var-order
           Number of graph edges: 6
 
@@ -74,7 +74,7 @@ Applying variable ordering:
           Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
 
         Reversing the variable order:
-          Relations: configured
+          Relations: legacy
           Effect: var-order
           Number of hyper-edges: 22
 
@@ -85,25 +85,25 @@ Applying variable ordering:
 
     Applying FORCE algorithm:
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 22
+      Number of hyper-edges: 12
       Maximum number of iterations: 20
 
-      Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [before]
-      Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [iteration 1]
-      Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [after]
+      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
+      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [iteration 1]
+      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 22
+      Number of hyper-edges: 12
       Window length: 4
 
-      Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [before]
-      Total span:   12 (total)   0.55 (avg/edge) / WES:   0.247475 (total)   0.011249 (avg/edge) [after]
+      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
+      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
 
 Variable order changed.
 

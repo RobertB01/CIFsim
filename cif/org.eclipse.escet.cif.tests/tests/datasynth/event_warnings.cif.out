@@ -16,32 +16,92 @@ CIF variables and location pointers:
   Total                                       7      34        84          116         ~72%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 40
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 5
+
+        Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
+        Total span:   12 (total)   0.30 (avg/edge) / WES:   0.117347 (total)   0.002934 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 5
+
+        Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
+        Total span:   13 (total)   0.33 (avg/edge) / WES:   0.166327 (total)   0.004158 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 5
+
+          Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
+          Total span:   12 (total)   0.30 (avg/edge) / WES:   0.117347 (total)   0.002934 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 40
+
+          Total span:   12 (total)   0.30 (avg/edge) / WES:   0.117347 (total)   0.002934 (avg/edge) [before]
+          Total span:   12 (total)   0.30 (avg/edge) / WES:   0.117347 (total)   0.002934 (avg/edge) [reversed]
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 5
+
+          Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
+          Total span:   13 (total)   0.33 (avg/edge) / WES:   0.166327 (total)   0.004158 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 40
+
+          Total span:   13 (total)   0.33 (avg/edge) / WES:   0.166327 (total)   0.004158 (avg/edge) [before]
+          Total span:   13 (total)   0.33 (avg/edge) / WES:   0.166327 (total)   0.004158 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 22
       Maximum number of iterations: 20
 
-      Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
-      Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [iteration 1]
-      Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [after]
+      Total span:   14 (total)   0.64 (avg/edge) / WES:   0.166976 (total)   0.007590 (avg/edge) [before]
+      Total span:   14 (total)   0.64 (avg/edge) / WES:   0.166976 (total)   0.007590 (avg/edge) [iteration 1]
+      Total span:   14 (total)   0.64 (avg/edge) / WES:   0.166976 (total)   0.007590 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 40
+      Number of hyper-edges: 22
       Window length: 4
 
-      Total span:   18 (total)   0.45 (avg/edge) / WES:   0.150000 (total)   0.003750 (avg/edge) [before]
-      Total span:   11 (total)   0.28 (avg/edge) / WES:   0.131633 (total)   0.003291 (avg/edge) [window 0..3]
-      Total span:   11 (total)   0.28 (avg/edge) / WES:   0.131633 (total)   0.003291 (avg/edge) [after]
+      Total span:   14 (total)   0.64 (avg/edge) / WES:   0.166976 (total)   0.007590 (avg/edge) [before]
+      Total span:   13 (total)   0.59 (avg/edge) / WES:   0.189239 (total)   0.008602 (avg/edge) [window 0..3]
+      Total span:   13 (total)   0.59 (avg/edge) / WES:   0.189239 (total)   0.008602 (avg/edge) [after]
 
 Variable order changed.
 

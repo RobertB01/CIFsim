@@ -12,33 +12,105 @@ CIF variables and location pointers:
   Total                                       3      28        110         160         ~69%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 22
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 3
+
+        Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [before]
+        Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 3
+
+        Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [before]
+        Total span:   6 (total)   0.27 (avg/edge) / WES:   0.474747 (total)   0.021579 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 3
+
+          Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [before]
+          Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 22
+
+          Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [before]
+          Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 3
+
+          Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [before]
+          Total span:   6 (total)   0.27 (avg/edge) / WES:   0.474747 (total)   0.021579 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 22
+
+          Total span:   6 (total)   0.27 (avg/edge) / WES:   0.474747 (total)   0.021579 (avg/edge) [before]
+          Total span:   6 (total)   0.27 (avg/edge) / WES:   0.474747 (total)   0.021579 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 14
       Maximum number of iterations: 20
 
-      Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [before]
-      Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [iteration 1]
-      Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [after]
+      Total span:   22 (total)   1.57 (avg/edge) / WES:   1.142857 (total)   0.081633 (avg/edge) [before]
+      Total span:   22 (total)   1.57 (avg/edge) / WES:   1.142857 (total)   0.081633 (avg/edge) [iteration 1]
+      Total span:   22 (total)   1.57 (avg/edge) / WES:   1.142857 (total)   0.081633 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 22
+      Number of hyper-edges: 14
       Window length: 3
 
-      Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [before]
-      Total span:   5 (total)   0.23 (avg/edge) / WES:   0.424242 (total)   0.019284 (avg/edge) [after]
+      Total span:   22 (total)   1.57 (avg/edge) / WES:   1.142857 (total)   0.081633 (avg/edge) [before]
+      Total span:   19 (total)   1.36 (avg/edge) / WES:   0.936508 (total)   0.066893 (avg/edge) [window 0..2]
+      Total span:   19 (total)   1.36 (avg/edge) / WES:   0.936508 (total)   0.066893 (avg/edge) [after]
 
-Variable order unchanged.
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..20]  p.y   0      5 * 2     21 * 2      32 * 2      ~66%
+  2      location pointer   n/a         p     1      4 * 2     13 * 2      16 * 2      ~81%
+  3      discrete variable  int[0..20]  p.x   2      5 * 2     21 * 2      32 * 2      ~66%
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  Total                                       3      28        110         160         ~69%
 
 Starting data-based synthesis.
 
@@ -50,7 +122,7 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):             true
+Initial   (discrete variable 0):             true
 Initial   (discrete variable 2):             true
 Initial   (discrete variables):              <bdd 10n 64p>
 Initial   (components init predicate):       true
@@ -61,11 +133,11 @@ Initial   (system, combined init/plant inv): <bdd 14n 64p>
 Initial   (system, combined init/state inv): <bdd 14n 64p>
 
 Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4))))
-Marked    (auts/locs marker predicate):      (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4))))
-Marked    (uncontrolled system):             (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4))))
-Marked    (system, combined mark/plant inv): (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4))))
-Marked    (system, combined mark/state inv): (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4))))
+Marked    (aut/locs marker predicate):       (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7)))))
+Marked    (auts/locs marker predicate):      (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7)))))
+Marked    (uncontrolled system):             (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7)))))
+Marked    (system, combined mark/plant inv): (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7)))))
+Marked    (system, combined mark/state inv): (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7)))))
 
 State/event exclusion plants:
   None
@@ -99,9 +171,9 @@ Restricting behavior using state requirements.
 
 Extending controlled-behavior predicate using variable ranges.
 
-Controlled behavior: true -> true [range: true, variable: location pointer for automaton "p" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 13/16)].
-Controlled behavior: true -> <bdd 9n 40p> [range: true, variable: discrete variable "p.x" of type "int[0..20]" (group: 1, domain: 2+3, BDD variables: 5, CIF/BDD values: 21/32)].
-Controlled behavior: <bdd 9n 40p> -> <bdd 14n 320p> [range: true, variable: discrete variable "p.y" of type "int[0..20]" (group: 2, domain: 4+5, BDD variables: 5, CIF/BDD values: 21/32)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.y" of type "int[0..20]" (group: 0, domain: 0+1, BDD variables: 5, CIF/BDD values: 21/32)].
+Controlled behavior: true -> <bdd 9n 40p> [range: true, variable: location pointer for automaton "p" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 13/16)].
+Controlled behavior: <bdd 9n 40p> -> <bdd 14n 320p> [range: true, variable: discrete variable "p.x" of type "int[0..20]" (group: 2, domain: 4+5, BDD variables: 5, CIF/BDD values: 21/32)].
 
 Extended controlled-behavior predicate using variable ranges: <bdd 14n 320p>.
 
@@ -110,85 +182,85 @@ Restricting behavior using state/event exclusion requirements.
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4)))) [marker predicate]
-Backward controlled-behavior: (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4)))) -> <bdd 18n 44p> [restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7))))) [marker predicate]
+Backward controlled-behavior: (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7))))) -> <bdd 18n 44p> [restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
 Backward reachability: iteration 1.
 Backward controlled-behavior: <bdd 18n 44p> -> <bdd 21n 77p> [backward reach with edge: (event: u) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
 Backward reachability: iteration 2.
 Backward controlled-behavior: <bdd 21n 77p> -> <bdd 24n 132p> [backward reach with edge: (event: u) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
-Backward controlled-behavior: <bdd 24n 132p> -> <bdd 33n 187p> [backward reach with edge: (event: u) (guard: p.t5) (assignments: p.y := p.y - 1, p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
-Backward controlled-behavior: <bdd 33n 187p> -> <bdd 46n 250p> [backward reach with edge: (event: u) (guard: p.b4) (assignments: p.x := p.x - 4, p.y := p.y + 3, p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 24n 132p> -> <bdd 31n 199p> [backward reach with edge: (event: u) (guard: p.t5) (assignments: p.y := p.y - 1, p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 31n 199p> -> <bdd 51n 331p> [backward reach with edge: (event: u) (guard: p.b4) (assignments: p.x := p.x - 4, p.y := p.y + 3, p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
 Backward reachability: iteration 3.
-Backward controlled-behavior: <bdd 46n 250p> -> <bdd 46n 305p> [backward reach with edge: (event: u) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
-Backward controlled-behavior: <bdd 46n 305p> -> <bdd 56n 361p> [backward reach with edge: (event: u) (guard: p.t4) (assignments: p.x := p.x - 1, p.y := p.y - 1, p := p.t5), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
-Backward controlled-behavior: <bdd 56n 361p> -> <bdd 65n 417p> [backward reach with edge: (event: u) (guard: p.b3) (assignments: p.y := p.y - 1, p := p.b4), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 51n 331p> -> <bdd 51n 336p> [backward reach with edge: (event: u) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 51n 336p> -> <bdd 59n 451p> [backward reach with edge: (event: u) (guard: p.t4) (assignments: p.x := p.x - 1, p.y := p.y - 1, p := p.t5), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 59n 451p> -> <bdd 68n 556p> [backward reach with edge: (event: u) (guard: p.b3) (assignments: p.y := p.y - 1, p := p.b4), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
 Backward reachability: iteration 4.
-Backward controlled-behavior: <bdd 65n 417p> -> <bdd 75n 462p> [backward reach with edge: (event: u) (guard: p.t3) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.t4), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
-Backward controlled-behavior: <bdd 75n 462p> -> <bdd 77n 502p> [backward reach with edge: (event: u) (guard: p.b2) (assignments: p.x := p.x + 1, p := p.b3), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 68n 556p> -> <bdd 73n 616p> [backward reach with edge: (event: u) (guard: p.t3) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.t4), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 73n 616p> -> <bdd 81n 691p> [backward reach with edge: (event: u) (guard: p.b2) (assignments: p.x := p.x + 1, p := p.b3), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
 Backward reachability: iteration 5.
-Backward controlled-behavior: <bdd 77n 502p> -> <bdd 86n 557p> [backward reach with edge: (event: u) (guard: p.t2) (assignments: p.y := p.y - 1, p := p.t3), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
-Backward controlled-behavior: <bdd 86n 557p> -> <bdd 95n 620p> [backward reach with edge: (event: u) (guard: p.b1) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b2), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 81n 691p> -> <bdd 84n 691p> [backward reach with edge: (event: u) (guard: p.t2) (assignments: p.y := p.y - 1, p := p.t3), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 84n 691p> -> <bdd 93n 846p> [backward reach with edge: (event: u) (guard: p.b1) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b2), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
 Backward reachability: iteration 6.
-Backward controlled-behavior: <bdd 95n 620p> -> <bdd 99n 636p> [backward reach with edge: (event: u) (guard: p.t1) (assignments: p.x := p.x + 1, p.y := p.y + 1, p := p.t2), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
+Backward controlled-behavior: <bdd 93n 846p> -> <bdd 98n 868p> [backward reach with edge: (event: u) (guard: p.t1) (assignments: p.x := p.x + 1, p.y := p.y + 1, p := p.t2), restricted to current/previous controlled-behavior predicate: <bdd 14n 320p>]
 Backward reachability: iteration 7.
-Backward controlled-behavior: <bdd 99n 636p> [fixed point].
-Controlled behavior: <bdd 14n 320p> -> <bdd 99n 636p>.
+Backward controlled-behavior: <bdd 98n 868p> [fixed point].
+Controlled behavior: <bdd 14n 320p> -> <bdd 98n 868p>.
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 99n 846p> [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: <bdd 98n 1,276p> [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: <bdd 14n 64p> [initialization predicate]
-Forward controlled-behavior: <bdd 14n 64p> -> <bdd 18n 55p> [restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
+Forward controlled-behavior: <bdd 14n 64p> -> <bdd 18n 55p> [restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
 Forward reachability: iteration 1.
-Forward controlled-behavior: <bdd 18n 55p> -> <bdd 17n 55p> [forward reach with edge: (event: u) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 17n 55p> -> <bdd 25n 187p> [forward reach with edge: (event: u) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 25n 187p> -> <bdd 29n 264p> [forward reach with edge: (event: u) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 29n 264p> -> <bdd 41n 296p> [forward reach with edge: (event: c1) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.t1), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 41n 296p> -> <bdd 51n 359p> [forward reach with edge: (event: c2) (guard: p.m2) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b1), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
+Forward controlled-behavior: <bdd 18n 55p> -> <bdd 17n 55p> [forward reach with edge: (event: u) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 17n 55p> -> <bdd 25n 187p> [forward reach with edge: (event: u) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 25n 187p> -> <bdd 29n 264p> [forward reach with edge: (event: u) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 29n 264p> -> <bdd 41n 404p> [forward reach with edge: (event: c1) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.t1), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 41n 404p> -> <bdd 50n 509p> [forward reach with edge: (event: c2) (guard: p.m2) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b1), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
 Forward reachability: iteration 2.
-Forward controlled-behavior: <bdd 51n 359p> -> <bdd 64n 447p> [forward reach with edge: (event: u) (guard: p.t1) (assignments: p.x := p.x + 1, p.y := p.y + 1, p := p.t2), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 64n 447p> -> <bdd 68n 511p> [forward reach with edge: (event: u) (guard: p.t2) (assignments: p.y := p.y - 1, p := p.t3), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 68n 511p> -> <bdd 77n 539p> [forward reach with edge: (event: u) (guard: p.t3) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.t4), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 77n 539p> -> <bdd 89n 611p> [forward reach with edge: (event: u) (guard: p.t4) (assignments: p.x := p.x - 1, p.y := p.y - 1, p := p.t5), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 89n 611p> -> <bdd 96n 651p> [forward reach with edge: (event: u) (guard: p.b1) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b2), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 96n 651p> -> <bdd 101n 707p> [forward reach with edge: (event: u) (guard: p.b2) (assignments: p.x := p.x + 1, p := p.b3), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
-Forward controlled-behavior: <bdd 101n 707p> -> <bdd 111n 770p> [forward reach with edge: (event: u) (guard: p.b3) (assignments: p.y := p.y - 1, p := p.b4), restricted to current/previous controlled-behavior predicate: <bdd 99n 636p>]
+Forward controlled-behavior: <bdd 50n 509p> -> <bdd 59n 597p> [forward reach with edge: (event: u) (guard: p.t1) (assignments: p.x := p.x + 1, p.y := p.y + 1, p := p.t2), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 59n 597p> -> <bdd 60n 685p> [forward reach with edge: (event: u) (guard: p.t2) (assignments: p.y := p.y - 1, p := p.t3), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 60n 685p> -> <bdd 70n 729p> [forward reach with edge: (event: u) (guard: p.t3) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.t4), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 70n 729p> -> <bdd 80n 817p> [forward reach with edge: (event: u) (guard: p.t4) (assignments: p.x := p.x - 1, p.y := p.y - 1, p := p.t5), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 80n 817p> -> <bdd 90n 892p> [forward reach with edge: (event: u) (guard: p.b1) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b2), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 90n 892p> -> <bdd 100n 997p> [forward reach with edge: (event: u) (guard: p.b2) (assignments: p.x := p.x + 1, p := p.b3), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
+Forward controlled-behavior: <bdd 100n 997p> -> <bdd 105n 1,102p> [forward reach with edge: (event: u) (guard: p.b3) (assignments: p.y := p.y - 1, p := p.b4), restricted to current/previous controlled-behavior predicate: <bdd 98n 868p>]
 Forward reachability: iteration 3.
-Forward controlled-behavior: <bdd 111n 770p> [fixed point].
-Controlled behavior: <bdd 99n 636p> -> <bdd 111n 770p>.
+Forward controlled-behavior: <bdd 105n 1,102p> [fixed point].
+Controlled behavior: <bdd 98n 868p> -> <bdd 105n 1,102p>.
 
 Round 1: finished, need another round.
 
 Round 2: started.
 
 Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4)))) [marker predicate]
-Backward controlled-behavior: (p.m1 or (p.m3 or p.t2) or (p.t4 or (p.b1 or p.b3))) and not p.m1 and (not p.t2 and not p.b1) and ((not p.m3 or (p.x = 1 or p.x = 3) or (p.x = 5 or (p.x = 7 or p.x = 9)) or (p.x = 11 or (p.x = 13 or 15 <= p.x and p.x <= 20) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20)))) and (not p.m3 or p.x = 1 or (p.x = 3 or (p.x = 5 or p.x = 7)) or (p.x = 9 or p.x = 11 or (p.x = 13 or (15 <= p.x and p.x <= 20 or not(p.y = 2 or p.y = 3))))) and ((not p.m3 or 0 <= p.x and p.x <= 15 or (p.x = 17 or p.x = 19)) and ((not p.m3 or not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 2 or p.y = 3)))))) and ((not p.m3 or p.x != 17) and (not p.m3 or not(p.x = 3 or p.x = 11) or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and ((not p.m3 or (not(p.x = 3 or p.x = 11) or not(p.y = 2 or p.y = 3))) and (not p.m3 or p.x != 19)) and ((not p.m3 or p.x != 7 or (p.y = 2 or (p.y = 3 or 6 <= p.y and p.y <= 20))) and (not p.m3 or (p.x != 7 or not(p.y = 2 or p.y = 3))) and ((not p.m3 or p.x != 15) and (not p.b3 and not p.t4)))) -> <bdd 21n 77p> [restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
+Backward controlled-behavior: (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7))))) [marker predicate]
+Backward controlled-behavior: (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 16 or (p.y = 17 or p.y = 20)) and (p.m3 and p.x = 7) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))))) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and (p.x = 3 or p.x = 11)) or ((p.y = 8 or p.y = 9 or (p.y = 12 or p.y = 13)) and (p.m3 and p.x = 7) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or (p.y = 18 or p.y = 19) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)))))) or ((p.y = 18 or p.y = 19) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 18 or p.y = 19) and (p.m3 and p.x = 7) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 10 or p.y = 11) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.y = 10 or p.y = 11) and (p.m3 and (p.x = 3 or p.x = 11)))) or ((p.y = 10 or p.y = 11) and (p.m3 and p.x = 7) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14)))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or ((p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and (p.x = 3 or p.x = 11)) or (p.y = 6 or p.y = 7 or (p.y = 14 or p.y = 15)) and (p.m3 and p.x = 7))))) -> <bdd 21n 77p> [restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
 Backward reachability: iteration 1.
-Backward controlled-behavior: <bdd 21n 77p> -> <bdd 26n 154p> [backward reach with edge: (event: u) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
+Backward controlled-behavior: <bdd 21n 77p> -> <bdd 26n 154p> [backward reach with edge: (event: u) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
 Backward reachability: iteration 2.
-Backward controlled-behavior: <bdd 26n 154p> -> <bdd 29n 209p> [backward reach with edge: (event: u) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
-Backward controlled-behavior: <bdd 29n 209p> -> <bdd 44n 281p> [backward reach with edge: (event: u) (guard: p.t5) (assignments: p.y := p.y - 1, p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
-Backward controlled-behavior: <bdd 44n 281p> -> <bdd 56n 344p> [backward reach with edge: (event: u) (guard: p.b4) (assignments: p.x := p.x - 4, p.y := p.y + 3, p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
+Backward controlled-behavior: <bdd 26n 154p> -> <bdd 29n 209p> [backward reach with edge: (event: u) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
+Backward controlled-behavior: <bdd 29n 209p> -> <bdd 43n 346p> [backward reach with edge: (event: u) (guard: p.t5) (assignments: p.y := p.y - 1, p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
+Backward controlled-behavior: <bdd 43n 346p> -> <bdd 57n 444p> [backward reach with edge: (event: u) (guard: p.b4) (assignments: p.x := p.x - 4, p.y := p.y + 3, p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
 Backward reachability: iteration 3.
-Backward controlled-behavior: <bdd 56n 344p> -> <bdd 56n 399p> [backward reach with edge: (event: u) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
-Backward controlled-behavior: <bdd 56n 399p> -> <bdd 64n 427p> [backward reach with edge: (event: u) (guard: p.t4) (assignments: p.x := p.x - 1, p.y := p.y - 1, p := p.t5), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
-Backward controlled-behavior: <bdd 64n 427p> -> <bdd 73n 483p> [backward reach with edge: (event: u) (guard: p.b3) (assignments: p.y := p.y - 1, p := p.b4), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
+Backward controlled-behavior: <bdd 57n 444p> -> <bdd 58n 514p> [backward reach with edge: (event: u) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
+Backward controlled-behavior: <bdd 58n 514p> -> <bdd 65n 597p> [backward reach with edge: (event: u) (guard: p.t4) (assignments: p.x := p.x - 1, p.y := p.y - 1, p := p.t5), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
+Backward controlled-behavior: <bdd 65n 597p> -> <bdd 73n 702p> [backward reach with edge: (event: u) (guard: p.b3) (assignments: p.y := p.y - 1, p := p.b4), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
 Backward reachability: iteration 4.
-Backward controlled-behavior: <bdd 73n 483p> -> <bdd 87n 547p> [backward reach with edge: (event: u) (guard: p.t3) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.t4), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
-Backward controlled-behavior: <bdd 87n 547p> -> <bdd 89n 587p> [backward reach with edge: (event: u) (guard: p.b2) (assignments: p.x := p.x + 1, p := p.b3), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
+Backward controlled-behavior: <bdd 73n 702p> -> <bdd 81n 790p> [backward reach with edge: (event: u) (guard: p.t3) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.t4), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
+Backward controlled-behavior: <bdd 81n 790p> -> <bdd 89n 865p> [backward reach with edge: (event: u) (guard: p.b2) (assignments: p.x := p.x + 1, p := p.b3), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
 Backward reachability: iteration 5.
-Backward controlled-behavior: <bdd 89n 587p> -> <bdd 102n 675p> [backward reach with edge: (event: u) (guard: p.t2) (assignments: p.y := p.y - 1, p := p.t3), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
-Backward controlled-behavior: <bdd 102n 675p> -> <bdd 111n 738p> [backward reach with edge: (event: u) (guard: p.b1) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b2), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
+Backward controlled-behavior: <bdd 89n 865p> -> <bdd 93n 953p> [backward reach with edge: (event: u) (guard: p.t2) (assignments: p.y := p.y - 1, p := p.t3), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
+Backward controlled-behavior: <bdd 93n 953p> -> <bdd 101n 1,058p> [backward reach with edge: (event: u) (guard: p.b1) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b2), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
 Backward reachability: iteration 6.
-Backward controlled-behavior: <bdd 111n 738p> -> <bdd 111n 770p> [backward reach with edge: (event: u) (guard: p.t1) (assignments: p.x := p.x + 1, p.y := p.y + 1, p := p.t2), restricted to current/previous controlled-behavior predicate: <bdd 111n 770p>]
+Backward controlled-behavior: <bdd 101n 1,058p> -> <bdd 105n 1,102p> [backward reach with edge: (event: u) (guard: p.t1) (assignments: p.x := p.x + 1, p.y := p.y + 1, p := p.t2), restricted to current/previous controlled-behavior predicate: <bdd 105n 1,102p>]
 Backward reachability: iteration 7.
-Backward controlled-behavior: <bdd 111n 770p> [fixed point].
+Backward controlled-behavior: <bdd 105n 1,102p> [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 111n 1,080p> [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: <bdd 105n 1,744p> [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
@@ -199,7 +271,7 @@ Edge (event: c1) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.t1): guard: 
 Edge (event: c2) (guard: p.m2) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b1): guard: p.m2 -> <bdd 21n 77p>.
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 111n 770p>)
+  State: (controlled-behavior: <bdd 105n 1,102p>)
     Edge: (event: u) (guard: p.m0) (assignments: p := p.m1)
     Edge: (event: u) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2)
     Edge: (event: u) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3)
@@ -217,11 +289,11 @@ Final synthesis result:
 
 Controlled system:                     exactly 2,110 states.
 
-Initial (synthesis result):            <bdd 111n 770p>
+Initial (synthesis result):            <bdd 105n 1,102p>
 Initial (uncontrolled system):         <bdd 14n 64p>
 Initial (controlled system):           <bdd 18n 55p>
-Initial (removed by supervisor):       <bdd 20n 56p>
-Initial (added by supervisor):         <bdd 20n 76p>
+Initial (removed by supervisor):       <bdd 29n 95p>
+Initial (added by supervisor):         <bdd 29n 207p>
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: <bdd 18n 55p> -> <bdd 13n 55p> [assume <bdd 14n 64p>].

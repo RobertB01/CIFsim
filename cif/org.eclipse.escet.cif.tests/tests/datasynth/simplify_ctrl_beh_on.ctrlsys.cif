@@ -25,6 +25,6 @@ supervisor automaton sup:
   location:
     initial;
     marked;
-    edge c1 when p1.a and (p1.x = 0 or p1.x = 1);
-    edge c2 when p2.a and (p2.x = 0 or p2.x = 1);
+    edge c1 when (p1.x = 0 or p1.x = 1) and p1.a;
+    edge c2 when (p2.x = 0 or p2.x = 1) and p2.a;
 end
