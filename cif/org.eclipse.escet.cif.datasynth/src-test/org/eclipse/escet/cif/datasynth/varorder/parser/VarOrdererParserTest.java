@@ -53,13 +53,13 @@ public class VarOrdererParserTest {
     @SuppressWarnings("javadoc")
     public void before() {
         AppEnv.registerSimple();
-        Options.set(BddVariableOrderOption.class, BddVariableOrderOption.DEFAULT);
-        Options.set(BddDcshVarOrderOption.class, BddDcshVarOrderOption.DEFAULT);
-        Options.set(BddForceVarOrderOption.class, BddForceVarOrderOption.DEFAULT);
-        Options.set(BddSlidingWindowVarOrderOption.class, BddSlidingWindowVarOrderOption.DEFAULT);
-        Options.set(BddSlidingWindowSizeOption.class, BddSlidingWindowSizeOption.DEFAULT);
-        Options.set(BddHyperEdgeAlgoOption.class, BddHyperEdgeAlgoOption.DEFAULT);
-        Options.set(BddAdvancedVariableOrderOption.class, BddAdvancedVariableOrderOption.DEFAULT);
+        Options.set(BddVariableOrderOption.class, BddVariableOrderOption.DEFAULT_VALUE);
+        Options.set(BddDcshVarOrderOption.class, BddDcshVarOrderOption.DEFAULT_VALUE);
+        Options.set(BddForceVarOrderOption.class, BddForceVarOrderOption.DEFAULT_VALUE);
+        Options.set(BddSlidingWindowVarOrderOption.class, BddSlidingWindowVarOrderOption.DEFAULT_VALUE);
+        Options.set(BddSlidingWindowSizeOption.class, BddSlidingWindowSizeOption.DEFAULT_VALUE);
+        Options.set(BddHyperEdgeAlgoOption.class, BddHyperEdgeAlgoOption.DEFAULT_VALUE);
+        Options.set(BddAdvancedVariableOrderOption.class, BddAdvancedVariableOrderOption.DEFAULT_VALUE);
     }
 
     @After
