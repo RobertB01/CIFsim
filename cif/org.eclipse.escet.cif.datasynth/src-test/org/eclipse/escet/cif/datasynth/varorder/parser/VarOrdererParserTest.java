@@ -85,9 +85,9 @@ public class VarOrdererParserTest {
     public void testBasicValid() {
         testValid("basic",
                 "sorted(effect=both) -> "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order) -> "
-                        + "force(metric=total-span, relations=configured, effect=var-order) -> "
-                        + "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order) -> "
+                        + "force(metric=total-span, relations=linearized, effect=var-order) -> "
+                        + "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
     }
 
     @Test
@@ -289,31 +289,29 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testDcshValid() {
-        testValid("dcsh", "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order)");
-        testValid("dcsh()", "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order)");
+        testValid("dcsh", "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)");
+        testValid("dcsh()", "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)");
 
         testValid("dcsh(node-finder=george-liu)",
-                "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order)");
-        testValid("dcsh(node-finder=sloan)",
-                "dcsh(node-finder=sloan, metric=wes, relations=configured, effect=var-order)");
+                "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)");
+        testValid("dcsh(node-finder=sloan)", "dcsh(node-finder=sloan, metric=wes, relations=legacy, effect=var-order)");
 
         testValid("dcsh(metric=total-span)",
-                "dcsh(node-finder=george-liu, metric=total-span, relations=configured, effect=var-order)");
-        testValid("dcsh(metric=wes)",
-                "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order)");
+                "dcsh(node-finder=george-liu, metric=total-span, relations=legacy, effect=var-order)");
+        testValid("dcsh(metric=wes)", "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)");
 
         testValid("dcsh(relations=legacy)",
                 "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)");
         testValid("dcsh(relations=linearized)",
                 "dcsh(node-finder=george-liu, metric=wes, relations=linearized, effect=var-order)");
         testValid("dcsh(relations=configured)",
-                "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order)");
+                "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)");
 
         testValid("dcsh(effect=var-order)",
-                "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order)");
+                "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)");
         testValid("dcsh(effect=representations)",
-                "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=representations)");
-        testValid("dcsh(effect=both)", "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=both)");
+                "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=representations)");
+        testValid("dcsh(effect=both)", "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=both)");
 
         testValid("dcsh(node-finder=sloan, metric=total-span, relations=linearized, effect=both)",
                 "dcsh(node-finder=sloan, metric=total-span, relations=linearized, effect=both)");
@@ -357,23 +355,23 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testForceValid() {
-        testValid("force", "force(metric=total-span, relations=configured, effect=var-order)");
-        testValid("force()", "force(metric=total-span, relations=configured, effect=var-order)");
+        testValid("force", "force(metric=total-span, relations=linearized, effect=var-order)");
+        testValid("force()", "force(metric=total-span, relations=linearized, effect=var-order)");
 
-        testValid("force(metric=total-span)", "force(metric=total-span, relations=configured, effect=var-order)");
-        testValid("force(metric=wes)", "force(metric=wes, relations=configured, effect=var-order)");
+        testValid("force(metric=total-span)", "force(metric=total-span, relations=linearized, effect=var-order)");
+        testValid("force(metric=wes)", "force(metric=wes, relations=linearized, effect=var-order)");
 
         testValid("force(relations=legacy)", "force(metric=total-span, relations=legacy, effect=var-order)");
         testValid("force(relations=linearized)", "force(metric=total-span, relations=linearized, effect=var-order)");
-        testValid("force(relations=configured)", "force(metric=total-span, relations=configured, effect=var-order)");
+        testValid("force(relations=configured)", "force(metric=total-span, relations=linearized, effect=var-order)");
 
-        testValid("force(effect=var-order)", "force(metric=total-span, relations=configured, effect=var-order)");
+        testValid("force(effect=var-order)", "force(metric=total-span, relations=linearized, effect=var-order)");
         testValid("force(effect=representations)",
-                "force(metric=total-span, relations=configured, effect=representations)");
-        testValid("force(effect=both)", "force(metric=total-span, relations=configured, effect=both)");
+                "force(metric=total-span, relations=linearized, effect=representations)");
+        testValid("force(effect=both)", "force(metric=total-span, relations=linearized, effect=both)");
 
-        testValid("force(metric=wes, relations=linearized, effect=both)",
-                "force(metric=wes, relations=linearized, effect=both)");
+        testValid("force(metric=wes, relations=legacy, effect=both)",
+                "force(metric=wes, relations=legacy, effect=both)");
     }
 
     @Test
@@ -407,31 +405,31 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testSlidWinValid() {
-        testValid("slidwin", "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
-        testValid("slidwin()", "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+        testValid("slidwin", "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
+        testValid("slidwin()", "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
 
-        testValid("slidwin(size=1)", "slidwin(size=1, metric=total-span, relations=configured, effect=var-order)");
-        testValid("slidwin(size=12)", "slidwin(size=12, metric=total-span, relations=configured, effect=var-order)");
+        testValid("slidwin(size=1)", "slidwin(size=1, metric=total-span, relations=linearized, effect=var-order)");
+        testValid("slidwin(size=12)", "slidwin(size=12, metric=total-span, relations=linearized, effect=var-order)");
 
         testValid("slidwin(metric=total-span)",
-                "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
-        testValid("slidwin(metric=wes)", "slidwin(size=4, metric=wes, relations=configured, effect=var-order)");
+                "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
+        testValid("slidwin(metric=wes)", "slidwin(size=4, metric=wes, relations=linearized, effect=var-order)");
 
         testValid("slidwin(relations=legacy)",
                 "slidwin(size=4, metric=total-span, relations=legacy, effect=var-order)");
         testValid("slidwin(relations=linearized)",
                 "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
         testValid("slidwin(relations=configured)",
-                "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+                "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
 
         testValid("slidwin(effect=var-order)",
-                "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+                "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
         testValid("slidwin(effect=representations)",
-                "slidwin(size=4, metric=total-span, relations=configured, effect=representations)");
-        testValid("slidwin(effect=both)", "slidwin(size=4, metric=total-span, relations=configured, effect=both)");
+                "slidwin(size=4, metric=total-span, relations=linearized, effect=representations)");
+        testValid("slidwin(effect=both)", "slidwin(size=4, metric=total-span, relations=linearized, effect=both)");
 
-        testValid("slidwin(size=5, metric=wes, relations=linearized, effect=both)",
-                "slidwin(size=5, metric=wes, relations=linearized, effect=both)");
+        testValid("slidwin(size=5, metric=wes, relations=legacy, effect=both)",
+                "slidwin(size=5, metric=wes, relations=legacy, effect=both)");
     }
 
     @Test
@@ -492,16 +490,16 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testSloanValid() {
-        testValid("sloan", "sloan(relations=configured, effect=var-order)");
-        testValid("sloan()", "sloan(relations=configured, effect=var-order)");
+        testValid("sloan", "sloan(relations=legacy, effect=var-order)");
+        testValid("sloan()", "sloan(relations=legacy, effect=var-order)");
 
         testValid("sloan(relations=legacy)", "sloan(relations=legacy, effect=var-order)");
         testValid("sloan(relations=linearized)", "sloan(relations=linearized, effect=var-order)");
-        testValid("sloan(relations=configured)", "sloan(relations=configured, effect=var-order)");
+        testValid("sloan(relations=configured)", "sloan(relations=legacy, effect=var-order)");
 
-        testValid("sloan(effect=var-order)", "sloan(relations=configured, effect=var-order)");
-        testValid("sloan(effect=representations)", "sloan(relations=configured, effect=representations)");
-        testValid("sloan(effect=both)", "sloan(relations=configured, effect=both)");
+        testValid("sloan(effect=var-order)", "sloan(relations=legacy, effect=var-order)");
+        testValid("sloan(effect=representations)", "sloan(relations=legacy, effect=representations)");
+        testValid("sloan(effect=both)", "sloan(relations=legacy, effect=both)");
 
         testValid("sloan(relations=linearized, effect=both)", "sloan(relations=linearized, effect=both)");
     }
@@ -530,26 +528,26 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testWeightedCmValid() {
-        testValid("weighted-cm", "weighted-cm(node-finder=george-liu, relations=configured, effect=var-order)");
-        testValid("weighted-cm()", "weighted-cm(node-finder=george-liu, relations=configured, effect=var-order)");
+        testValid("weighted-cm", "weighted-cm(node-finder=george-liu, relations=legacy, effect=var-order)");
+        testValid("weighted-cm()", "weighted-cm(node-finder=george-liu, relations=legacy, effect=var-order)");
 
         testValid("weighted-cm(node-finder=george-liu)",
-                "weighted-cm(node-finder=george-liu, relations=configured, effect=var-order)");
+                "weighted-cm(node-finder=george-liu, relations=legacy, effect=var-order)");
         testValid("weighted-cm(node-finder=sloan)",
-                "weighted-cm(node-finder=sloan, relations=configured, effect=var-order)");
+                "weighted-cm(node-finder=sloan, relations=legacy, effect=var-order)");
 
         testValid("weighted-cm(relations=legacy)",
                 "weighted-cm(node-finder=george-liu, relations=legacy, effect=var-order)");
         testValid("weighted-cm(relations=linearized)",
                 "weighted-cm(node-finder=george-liu, relations=linearized, effect=var-order)");
         testValid("weighted-cm(relations=configured)",
-                "weighted-cm(node-finder=george-liu, relations=configured, effect=var-order)");
+                "weighted-cm(node-finder=george-liu, relations=legacy, effect=var-order)");
 
         testValid("weighted-cm(effect=var-order)",
-                "weighted-cm(node-finder=george-liu, relations=configured, effect=var-order)");
+                "weighted-cm(node-finder=george-liu, relations=legacy, effect=var-order)");
         testValid("weighted-cm(effect=representations)",
-                "weighted-cm(node-finder=george-liu, relations=configured, effect=representations)");
-        testValid("weighted-cm(effect=both)", "weighted-cm(node-finder=george-liu, relations=configured, effect=both)");
+                "weighted-cm(node-finder=george-liu, relations=legacy, effect=representations)");
+        testValid("weighted-cm(effect=both)", "weighted-cm(node-finder=george-liu, relations=legacy, effect=both)");
 
         testValid("weighted-cm(node-finder=sloan, relations=linearized, effect=both)",
                 "weighted-cm(node-finder=sloan, relations=linearized, effect=both)");
@@ -587,55 +585,55 @@ public class VarOrdererParserTest {
     @SuppressWarnings("javadoc")
     public void testChoiceValid() {
         testValid("or(choices=[force, dcsh])",
-                "or(metric=wes, relations=configured, effect=var-order, "
-                        + "choices=[force(metric=total-span, relations=configured, effect=var-order), "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order)])");
+                "or(metric=wes, relations=legacy, effect=var-order, "
+                        + "choices=[force(metric=total-span, relations=linearized, effect=var-order), "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)])");
         testValid("or(choices=[(force -> dcsh), (dcsh -> force)])",
-                "or(metric=wes, relations=configured, effect=var-order, "
-                        + "choices=[force(metric=total-span, relations=configured, effect=var-order) -> "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order), "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order) -> "
-                        + "force(metric=total-span, relations=configured, effect=var-order)])");
+                "or(metric=wes, relations=legacy, effect=var-order, "
+                        + "choices=[force(metric=total-span, relations=linearized, effect=var-order) -> "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order), "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order) -> "
+                        + "force(metric=total-span, relations=linearized, effect=var-order)])");
 
         testValid("or(choices=[sloan, sloan], metric=total-span)",
-                "or(metric=total-span, relations=configured, effect=var-order, "
-                        + "choices=[sloan(relations=configured, effect=var-order), "
-                        + "sloan(relations=configured, effect=var-order)])");
+                "or(metric=total-span, relations=legacy, effect=var-order, "
+                        + "choices=[sloan(relations=legacy, effect=var-order), "
+                        + "sloan(relations=legacy, effect=var-order)])");
         testValid("or(choices=[sloan, sloan], metric=wes)",
-                "or(metric=wes, relations=configured, effect=var-order, "
-                        + "choices=[sloan(relations=configured, effect=var-order), "
-                        + "sloan(relations=configured, effect=var-order)])");
+                "or(metric=wes, relations=legacy, effect=var-order, "
+                        + "choices=[sloan(relations=legacy, effect=var-order), "
+                        + "sloan(relations=legacy, effect=var-order)])");
 
         testValid("or(choices=[sloan, sloan], relations=legacy)",
                 "or(metric=wes, relations=legacy, effect=var-order, "
-                        + "choices=[sloan(relations=configured, effect=var-order), "
-                        + "sloan(relations=configured, effect=var-order)])");
+                        + "choices=[sloan(relations=legacy, effect=var-order), "
+                        + "sloan(relations=legacy, effect=var-order)])");
         testValid("or(choices=[sloan, sloan], relations=linearized)",
                 "or(metric=wes, relations=linearized, effect=var-order, "
-                        + "choices=[sloan(relations=configured, effect=var-order), "
-                        + "sloan(relations=configured, effect=var-order)])");
+                        + "choices=[sloan(relations=legacy, effect=var-order), "
+                        + "sloan(relations=legacy, effect=var-order)])");
         testValid("or(choices=[sloan, sloan], relations=configured)",
-                "or(metric=wes, relations=configured, effect=var-order, "
-                        + "choices=[sloan(relations=configured, effect=var-order), "
-                        + "sloan(relations=configured, effect=var-order)])");
+                "or(metric=wes, relations=legacy, effect=var-order, "
+                        + "choices=[sloan(relations=legacy, effect=var-order), "
+                        + "sloan(relations=legacy, effect=var-order)])");
 
         testValid("or(choices=[sloan, sloan], effect=var-order)",
-                "or(metric=wes, relations=configured, effect=var-order, "
-                        + "choices=[sloan(relations=configured, effect=var-order), "
-                        + "sloan(relations=configured, effect=var-order)])");
+                "or(metric=wes, relations=legacy, effect=var-order, "
+                        + "choices=[sloan(relations=legacy, effect=var-order), "
+                        + "sloan(relations=legacy, effect=var-order)])");
         testValid("or(choices=[sloan, sloan], effect=representations)",
-                "or(metric=wes, relations=configured, effect=representations, "
-                        + "choices=[sloan(relations=configured, effect=var-order), "
-                        + "sloan(relations=configured, effect=var-order)])");
+                "or(metric=wes, relations=legacy, effect=representations, "
+                        + "choices=[sloan(relations=legacy, effect=var-order), "
+                        + "sloan(relations=legacy, effect=var-order)])");
         testValid("or(choices=[sloan, sloan], effect=both)",
-                "or(metric=wes, relations=configured, effect=both, "
-                        + "choices=[sloan(relations=configured, effect=var-order), "
-                        + "sloan(relations=configured, effect=var-order)])");
+                "or(metric=wes, relations=legacy, effect=both, "
+                        + "choices=[sloan(relations=legacy, effect=var-order), "
+                        + "sloan(relations=legacy, effect=var-order)])");
 
         testValid("or(choices=[force, dcsh], metric=total-span, relations=linearized, effect=representations)",
                 "or(metric=total-span, relations=linearized, effect=representations, "
-                        + "choices=[force(metric=total-span, relations=configured, effect=var-order), "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order)])");
+                        + "choices=[force(metric=total-span, relations=linearized, effect=var-order), "
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order)])");
     }
 
     @Test
@@ -685,16 +683,16 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testReverseValid() {
-        testValid("reverse", "reverse(relations=configured, effect=var-order)");
-        testValid("reverse()", "reverse(relations=configured, effect=var-order)");
+        testValid("reverse", "reverse(relations=legacy, effect=var-order)");
+        testValid("reverse()", "reverse(relations=legacy, effect=var-order)");
 
         testValid("reverse(relations=legacy)", "reverse(relations=legacy, effect=var-order)");
         testValid("reverse(relations=linearized)", "reverse(relations=linearized, effect=var-order)");
-        testValid("reverse(relations=configured)", "reverse(relations=configured, effect=var-order)");
+        testValid("reverse(relations=configured)", "reverse(relations=legacy, effect=var-order)");
 
-        testValid("reverse(effect=var-order)", "reverse(relations=configured, effect=var-order)");
-        testValid("reverse(effect=representations)", "reverse(relations=configured, effect=representations)");
-        testValid("reverse(effect=both)", "reverse(relations=configured, effect=both)");
+        testValid("reverse(effect=var-order)", "reverse(relations=legacy, effect=var-order)");
+        testValid("reverse(effect=representations)", "reverse(relations=legacy, effect=representations)");
+        testValid("reverse(effect=both)", "reverse(relations=legacy, effect=both)");
 
         testValid("reverse(relations=linearized, effect=both)", "reverse(relations=linearized, effect=both)");
     }
@@ -731,24 +729,24 @@ public class VarOrdererParserTest {
     public void testParentheses() {
         testValid("sorted -> dcsh -> force -> slidwin",
                 "sorted(effect=both) -> "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order) -> "
-                        + "force(metric=total-span, relations=configured, effect=var-order) -> "
-                        + "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order) -> "
+                        + "force(metric=total-span, relations=linearized, effect=var-order) -> "
+                        + "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
         testValid("(sorted -> dcsh -> force -> slidwin)",
                 "sorted(effect=both) -> "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order) -> "
-                        + "force(metric=total-span, relations=configured, effect=var-order) -> "
-                        + "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order) -> "
+                        + "force(metric=total-span, relations=linearized, effect=var-order) -> "
+                        + "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
         testValid("sorted -> (dcsh -> force) -> slidwin",
                 "sorted(effect=both) -> "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order) -> "
-                        + "force(metric=total-span, relations=configured, effect=var-order) -> "
-                        + "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order) -> "
+                        + "force(metric=total-span, relations=linearized, effect=var-order) -> "
+                        + "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
         testValid("(sorted) -> (dcsh) -> (force) -> (slidwin)",
                 "sorted(effect=both) -> "
-                        + "dcsh(node-finder=george-liu, metric=wes, relations=configured, effect=var-order) -> "
-                        + "force(metric=total-span, relations=configured, effect=var-order) -> "
-                        + "slidwin(size=4, metric=total-span, relations=configured, effect=var-order)");
+                        + "dcsh(node-finder=george-liu, metric=wes, relations=legacy, effect=var-order) -> "
+                        + "force(metric=total-span, relations=linearized, effect=var-order) -> "
+                        + "slidwin(size=4, metric=total-span, relations=linearized, effect=var-order)");
     }
 
     @Test

@@ -28,7 +28,6 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
@@ -124,19 +123,11 @@ public class VarOrderHelper {
         // Compute and store different representations of the relations from the specification.
         List<BitSet> legacyHyperEdges = createHyperEdges(new LegacyHyperEdgeCreator(spec, variables));
         List<BitSet> linearizedHyperEdges = createHyperEdges(new LinearizedHyperEdgeCreator(spec, variables));
-        List<BitSet> configuredHyperEdges = switch (BddHyperEdgeAlgoOption.getAlgo()) {
-            case LEGACY -> legacyHyperEdges;
-            case LINEARIZED -> linearizedHyperEdges;
-        };
-        this.hyperEdges = list(configuredHyperEdges, legacyHyperEdges, linearizedHyperEdges);
+        this.hyperEdges = list(legacyHyperEdges, linearizedHyperEdges);
 
         Graph legacyGraph = createGraph(legacyHyperEdges);
         Graph linearizedGraph = createGraph(linearizedHyperEdges);
-        Graph configuredGraph = switch (BddHyperEdgeAlgoOption.getAlgo()) {
-            case LEGACY -> legacyGraph;
-            case LINEARIZED -> linearizedGraph;
-        };
-        this.graphs = list(configuredGraph, legacyGraph, linearizedGraph);
+        this.graphs = list(legacyGraph, linearizedGraph);
 
         // Store additional derivative information used to improve performance of some helper operations.
         this.origIndices = IntStream.range(0, variables.size()).boxed()

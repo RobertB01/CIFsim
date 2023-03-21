@@ -13,15 +13,11 @@
 
 package org.eclipse.escet.cif.datasynth.varorder.helper;
 
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
 import org.eclipse.escet.cif.datasynth.varorder.hyperedges.LegacyHyperEdgeCreator;
 import org.eclipse.escet.cif.datasynth.varorder.hyperedges.LinearizedHyperEdgeCreator;
 
 /** The kind of relations from the CIF specification to use. */
 public enum RelationsKind {
-    /** Use {@link #LEGACY} or {@link #LINEARIZED} based on the configured {@link BddHyperEdgeAlgoOption} value. */
-    CONFIGURED,
-
     /** Use {@link LegacyHyperEdgeCreator legacy} relations. */
     LEGACY,
 
