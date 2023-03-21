@@ -27,7 +27,7 @@ The algorithms to apply, and their settings, can be set using options as well.
 
 The following basic options are available for basic configuration of variable ordering:
 
-* _BDD variable order_
+* _BDD initial variable ordering_
 * _BDD hyper-edge creation algorithm_
 * _BDD DCSH variable ordering algorithm_
 * _BDD FORCE variable ordering algorithm_
