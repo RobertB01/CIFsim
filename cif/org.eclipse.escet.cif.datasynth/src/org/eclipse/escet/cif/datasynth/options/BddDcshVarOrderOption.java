@@ -19,7 +19,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 /** BDD DCSH variable ordering option. */
 public class BddDcshVarOrderOption extends BooleanOption {
     /** The default value of the {@link BddDcshVarOrderOption} option. */
-    public static final boolean DEFAULT = false;
+    public static final boolean DEFAULT_VALUE = true;
 
     /** Constructor for the {@link BddDcshVarOrderOption} class. */
     public BddDcshVarOrderOption() {
@@ -29,7 +29,7 @@ public class BddDcshVarOrderOption extends BooleanOption {
 
                 // description
                 "Whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering "
-                        + "(BOOL=yes), or not apply it (BOOL=no). [DEFAULT=no]",
+                        + "(BOOL=yes), or not apply it (BOOL=no). [DEFAULT=yes]",
 
                 // cmdShort
                 null,
@@ -41,7 +41,7 @@ public class BddDcshVarOrderOption extends BooleanOption {
                 "BOOL",
 
                 // defaultValue
-                DEFAULT,
+                DEFAULT_VALUE,
 
                 // showInDialog
                 true,
@@ -68,6 +68,6 @@ public class BddDcshVarOrderOption extends BooleanOption {
      * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
      */
     public static boolean isDefault() {
-        return isEnabled() == DEFAULT;
+        return isEnabled() == DEFAULT_VALUE;
     }
 }

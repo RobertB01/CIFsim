@@ -15,43 +15,102 @@ CIF variables and location pointers:
   Total                                      6      20        34          44          ~77%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 8
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 4
+
+        Total span:   6 (total)   0.75 (avg/edge) / WES:   0.291667 (total)   0.036458 (avg/edge) [before]
+        Total span:   3 (total)   0.38 (avg/edge) / WES:   0.194444 (total)   0.024306 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 4
+
+        Total span:   6 (total)   0.75 (avg/edge) / WES:   0.291667 (total)   0.036458 (avg/edge) [before]
+        Total span:   3 (total)   0.38 (avg/edge) / WES:   0.194444 (total)   0.024306 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 4
+
+          Total span:   6 (total)   0.75 (avg/edge) / WES:   0.291667 (total)   0.036458 (avg/edge) [before]
+          Total span:   3 (total)   0.38 (avg/edge) / WES:   0.194444 (total)   0.024306 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 8
+
+          Total span:   3 (total)   0.38 (avg/edge) / WES:   0.194444 (total)   0.024306 (avg/edge) [before]
+          Total span:   3 (total)   0.38 (avg/edge) / WES:   0.194444 (total)   0.024306 (avg/edge) [reversed]
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 4
+
+          Total span:   6 (total)   0.75 (avg/edge) / WES:   0.291667 (total)   0.036458 (avg/edge) [before]
+          Total span:   3 (total)   0.38 (avg/edge) / WES:   0.194444 (total)   0.024306 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 8
+
+          Total span:   3 (total)   0.38 (avg/edge) / WES:   0.194444 (total)   0.024306 (avg/edge) [before]
+          Total span:   3 (total)   0.38 (avg/edge) / WES:   0.194444 (total)   0.024306 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 2
       Maximum number of iterations: 20
 
-      Total span:   6 (total)   0.75 (avg/edge) / WES:   0.291667 (total)   0.036458 (avg/edge) [before]
-      Total span:   6 (total)   0.75 (avg/edge) / WES:   0.291667 (total)   0.036458 (avg/edge) [iteration 1]
-      Total span:   6 (total)   0.75 (avg/edge) / WES:   0.291667 (total)   0.036458 (avg/edge) [after]
+      Total span:   3 (total)   1.50 (avg/edge) / WES:   0.333333 (total)   0.166667 (avg/edge) [before]
+      Total span:   3 (total)   1.50 (avg/edge) / WES:   0.333333 (total)   0.166667 (avg/edge) [iteration 1]
+      Total span:   3 (total)   1.50 (avg/edge) / WES:   0.333333 (total)   0.166667 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 8
+      Number of hyper-edges: 2
       Window length: 4
 
-      Total span:   6 (total)   0.75 (avg/edge) / WES:   0.291667 (total)   0.036458 (avg/edge) [before]
-      Total span:   3 (total)   0.38 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [window 0..3]
-      Total span:   3 (total)   0.38 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [after]
+      Total span:   3 (total)   1.50 (avg/edge) / WES:   0.333333 (total)   0.166667 (avg/edge) [before]
+      Total span:   3 (total)   1.50 (avg/edge) / WES:   0.333333 (total)   0.166667 (avg/edge) [after]
 
 Variable order changed.
 
 CIF variables and location pointers:
   Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  bool       p.b   0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..3]  p.x   1      2 * 2     4 * 2       4 * 2       100%
+  1      input variable     int[0..1]  io.i  0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[2..5]  p.y   1      3 * 2     4 * 2       8 * 2       50%
   3      location pointer   n/a        p     2      1 * 2     2 * 2       2 * 2       100%
-  4      input variable     int[0..1]  io.i  3      1 * 2     2 * 2       2 * 2       100%
-  5      discrete variable  int[2..5]  p.y   4      3 * 2     4 * 2       8 * 2       50%
+  4      discrete variable  int[0..3]  p.x   3      2 * 2     4 * 2       4 * 2       100%
+  5      discrete variable  bool       p.b   4      1 * 2     2 * 2       2 * 2       100%
   6      discrete variable  p.E        p.v   5      2 * 2     3 * 2       4 * 2       75%
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
   Total                                      6      20        34          44          ~77%
@@ -66,26 +125,26 @@ Invariant (component state req invariant):   p.b
 Invariant (components state req invariant):  p.b
 Invariant (location state req invariant):    p.L1 or p.v != p.Q
 Invariant (locations state req invariant):   p.L1 or p.v != p.Q
-Invariant (system state req invariant):      p.b and (not p.b or (p.L1 or p.v != p.Q))
+Invariant (system state req invariant):      p.L1 and p.b or p.L2 and (p.b and p.v != p.Q)
 
-Initial   (discrete variable 0):             true
 Initial   (discrete variable 1):             true
+Initial   (discrete variable 3):             true
 Initial   (discrete variable 4):             true
 Initial   (discrete variable 5):             true
 Initial   (discrete variables):              true
 Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         (p.x = 2 or p.x = 3) and p.L1
-Initial   (auts/locs init predicate):        (p.x = 2 or p.x = 3) and p.L1
-Initial   (uncontrolled system):             (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1))
-Initial   (system, combined init/plant inv): (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1))
-Initial   (system, combined init/state inv): p.b and ((not p.b or (p.x = 2 or p.x = 3)) and (not p.b or p.x = 0 or (p.x = 1 or p.L1)))
+Initial   (aut/locs init predicate):         p.L1 and (p.x = 2 or p.x = 3)
+Initial   (auts/locs init predicate):        p.L1 and (p.x = 2 or p.x = 3)
+Initial   (uncontrolled system):             (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1)))
+Initial   (system, combined init/plant inv): (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1)))
+Initial   (system, combined init/state inv): (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and ((p.y = 2 or (p.y = 3 or p.L2) or (p.x = 0 or (p.x = 1 or p.b))) and (p.y = 2 or (p.y = 3 or p.L1))) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and ((p.y = 4 or (p.y = 5 or p.L2) or (p.x = 0 or (p.x = 1 or p.b))) and (p.y = 4 or (p.y = 5 or p.L1))))
 
 Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.L2 and (p.L1 or p.y != 5)
-Marked    (auts/locs marker predicate):      p.L2 and (p.L1 or p.y != 5)
-Marked    (uncontrolled system):             p.L2 and (p.L1 or p.y != 5)
-Marked    (system, combined mark/plant inv): p.L2 and (p.L1 or p.y != 5)
-Marked    (system, combined mark/state inv): p.b and p.L2 and ((p.y = 2 or p.y = 4) and p.v != p.Q) or p.b and p.L2 and (p.y = 3 and p.v != p.Q)
+Marked    (aut/locs marker predicate):       (p.y = 2 or p.y = 4) and p.L2 or p.y = 3 and p.L2
+Marked    (auts/locs marker predicate):      (p.y = 2 or p.y = 4) and p.L2 or p.y = 3 and p.L2
+Marked    (uncontrolled system):             (p.y = 2 or p.y = 4) and p.L2 or p.y = 3 and p.L2
+Marked    (system, combined mark/plant inv): (p.y = 2 or p.y = 4) and p.L2 or p.y = 3 and p.L2
+Marked    (system, combined mark/state inv): (p.y = 2 or p.y = 4) and p.L2 and (p.b and p.v != p.Q) or p.y = 3 and p.L2 and (p.b and p.v != p.Q)
 
 State/event exclusion plants:
   None
@@ -95,94 +154,94 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: p.e1) (guard: p.x = 2 and p.L1) (assignments: p := p.L2)
-    Edge: (event: p.e2) (guard: p.L2 and (io.i = 0 and p.y = 2) or p.L2 and io.i = 1) (assignments: p := p.L1)
+    Edge: (event: p.e1) (guard: p.L1 and p.x = 2) (assignments: p := p.L2)
+    Edge: (event: p.e2) (guard: io.i = 0 and (p.y = 2 and p.L2) or io.i = 1 and p.L2) (assignments: p := p.L1)
     Edge: (event: io.i) (guard: true) (assignments: io.i+ != io.i)
 
 Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1)).
+Initialized controlled-initialization predicate: (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1))).
 
 Restricting behavior using state requirements.
-Controlled behavior: true -> p.b and (not p.b or (p.L1 or p.v != p.Q)) [state requirements: p.b and (not p.b or (p.L1 or p.v != p.Q))].
+Controlled behavior: true -> p.L1 and p.b or p.L2 and (p.b and p.v != p.Q) [state requirements: p.L1 and p.b or p.L2 and (p.b and p.v != p.Q)].
 
 Extending controlled-behavior predicate using variable ranges.
 
-Controlled behavior: p.b and (not p.b or (p.L1 or p.v != p.Q)) -> p.b and ((not p.b or p.L1 or (p.y = 2 or (p.y = 3 or p.v != p.Q))) and (not p.b or p.L1 or (p.y = 4 or (p.y = 5 or p.v != p.Q)))) [range: true, variable: discrete variable "p.y" of type "int[2..5]" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 4/8)].
-Controlled behavior: p.b and ((not p.b or p.L1 or (p.y = 2 or (p.y = 3 or p.v != p.Q))) and (not p.b or p.L1 or (p.y = 4 or (p.y = 5 or p.v != p.Q)))) -> p.b and ((not p.b or p.L1 or (p.y = 2 or (p.y = 3 or p.v != p.Q))) and (not p.b or p.L1 or (p.y = 4 or (p.y = 5 or p.v != p.Q)))) [range: true, variable: discrete variable "p.v" of type "p.E" (group: 5, domain: 10+11, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: p.L1 and p.b or p.L2 and (p.b and p.v != p.Q) -> (p.y = 4 or p.y = 5) and (p.L1 and p.b) or (p.y = 4 or p.y = 5) and p.L2 and (p.b and p.v != p.Q) or ((p.y = 2 or p.y = 3) and (p.L1 and p.b) or (p.y = 2 or p.y = 3) and p.L2 and (p.b and p.v != p.Q)) [range: true, variable: discrete variable "p.y" of type "int[2..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 4/8)].
+Controlled behavior: (p.y = 4 or p.y = 5) and (p.L1 and p.b) or (p.y = 4 or p.y = 5) and p.L2 and (p.b and p.v != p.Q) or ((p.y = 2 or p.y = 3) and (p.L1 and p.b) or (p.y = 2 or p.y = 3) and p.L2 and (p.b and p.v != p.Q)) -> (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q))))) [range: true, variable: discrete variable "p.v" of type "p.E" (group: 5, domain: 10+11, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Extended controlled-behavior predicate using variable ranges: p.b and ((not p.b or p.L1 or (p.y = 2 or (p.y = 3 or p.v != p.Q))) and (not p.b or p.L1 or (p.y = 4 or (p.y = 5 or p.v != p.Q)))).
+Extended controlled-behavior predicate using variable ranges: (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q))))).
 
 Restricting behavior using state/event exclusion requirements.
 
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.L2 and (p.L1 or p.y != 5) [marker predicate]
-Backward controlled-behavior: p.L2 and (p.L1 or p.y != 5) -> p.b and p.L2 and (p.y = 4 and p.v != p.Q) or (p.b and p.L2 and (p.y = 2 and p.v != p.Q) or p.b and p.L2 and (p.y = 3 and p.v != p.Q)) [restricted to current/previous controlled-behavior predicate: p.b and ((not p.b or p.L1 or (p.y = 2 or (p.y = 3 or p.v != p.Q))) and (not p.b or p.L1 or (p.y = 4 or (p.y = 5 or p.v != p.Q))))]
+Backward controlled-behavior: (p.y = 2 or p.y = 4) and p.L2 or p.y = 3 and p.L2 [marker predicate]
+Backward controlled-behavior: (p.y = 2 or p.y = 4) and p.L2 or p.y = 3 and p.L2 -> p.y = 4 and p.L2 and (p.b and p.v != p.Q) or (p.y = 2 and p.L2 and (p.b and p.v != p.Q) or p.y = 3 and p.L2 and (p.b and p.v != p.Q)) [restricted to current/previous controlled-behavior predicate: (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q)))))]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.b and p.L2 and (p.y = 4 and p.v != p.Q) or (p.b and p.L2 and (p.y = 2 and p.v != p.Q) or p.b and p.L2 and (p.y = 3 and p.v != p.Q)) -> p.b and p.x = 0 and (p.L2 and (p.y = 4 and p.v != p.Q)) or p.b and p.x = 0 and (p.L2 and (p.y = 2 and p.v != p.Q)) or (p.b and p.x = 0 and (p.L2 and (p.y = 3 and p.v != p.Q)) or p.b and p.x = 2 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 3 and p.v != p.Q))))) [backward reach with edge: (event: p.e1) (guard: p.x = 2 and p.L1) (assignments: p := p.L2), restricted to current/previous controlled-behavior predicate: p.b and ((not p.b or p.L1 or (p.y = 2 or (p.y = 3 or p.v != p.Q))) and (not p.b or p.L1 or (p.y = 4 or (p.y = 5 or p.v != p.Q))))]
+Backward controlled-behavior: p.y = 4 and p.L2 and (p.b and p.v != p.Q) or (p.y = 2 and p.L2 and (p.b and p.v != p.Q) or p.y = 3 and p.L2 and (p.b and p.v != p.Q)) -> p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 4 and p.L2 and (p.b and p.v != p.Q) or p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) or (p.y = 2 and p.L2 and (p.b and p.v != p.Q) or (p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L2 and (p.b and p.v != p.Q))) [backward reach with edge: (event: p.e1) (guard: p.L1 and p.x = 2) (assignments: p := p.L2), restricted to current/previous controlled-behavior predicate: (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q)))))]
 Backward reachability: iteration 2.
-Backward controlled-behavior: p.b and p.x = 0 and (p.L2 and (p.y = 4 and p.v != p.Q)) or p.b and p.x = 0 and (p.L2 and (p.y = 2 and p.v != p.Q)) or (p.b and p.x = 0 and (p.L2 and (p.y = 3 and p.v != p.Q)) or p.b and p.x = 2 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 3 and p.v != p.Q))))) [fixed point].
-Controlled behavior: p.b and ((not p.b or p.L1 or (p.y = 2 or (p.y = 3 or p.v != p.Q))) and (not p.b or p.L1 or (p.y = 4 or (p.y = 5 or p.v != p.Q)))) -> p.b and p.x = 0 and (p.L2 and (p.y = 4 and p.v != p.Q)) or p.b and p.x = 0 and (p.L2 and (p.y = 2 and p.v != p.Q)) or (p.b and p.x = 0 and (p.L2 and (p.y = 3 and p.v != p.Q)) or p.b and p.x = 2 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 3 and p.v != p.Q))))).
+Backward controlled-behavior: p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 4 and p.L2 and (p.b and p.v != p.Q) or p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) or (p.y = 2 and p.L2 and (p.b and p.v != p.Q) or (p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L2 and (p.b and p.v != p.Q))) [fixed point].
+Controlled behavior: (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q))))) -> p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 4 and p.L2 and (p.b and p.v != p.Q) or p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) or (p.y = 2 and p.L2 and (p.b and p.v != p.Q) or (p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L2 and (p.b and p.v != p.Q))).
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 10n 24p> [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: <bdd 10n 22p> [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1)) [initialization predicate]
-Forward controlled-behavior: (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1)) -> p.b and p.x = 2 and (p.L1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L1 and (p.y = 3 and p.v != p.Q))) [restricted to current/previous controlled-behavior predicate: p.b and p.x = 0 and (p.L2 and (p.y = 4 and p.v != p.Q)) or p.b and p.x = 0 and (p.L2 and (p.y = 2 and p.v != p.Q)) or (p.b and p.x = 0 and (p.L2 and (p.y = 3 and p.v != p.Q)) or p.b and p.x = 2 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 3 and p.v != p.Q)))))]
+Forward controlled-behavior: (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1))) [initialization predicate]
+Forward controlled-behavior: (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1))) -> p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) [restricted to current/previous controlled-behavior predicate: p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 4 and p.L2 and (p.b and p.v != p.Q) or p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) or (p.y = 2 and p.L2 and (p.b and p.v != p.Q) or (p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L2 and (p.b and p.v != p.Q)))]
 Forward reachability: iteration 1.
-Forward controlled-behavior: p.b and p.x = 2 and (p.L1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L1 and (p.y = 3 and p.v != p.Q))) -> p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q)) [forward reach with edge: (event: p.e1) (guard: p.x = 2 and p.L1) (assignments: p := p.L2), restricted to current/previous controlled-behavior predicate: p.b and p.x = 0 and (p.L2 and (p.y = 4 and p.v != p.Q)) or p.b and p.x = 0 and (p.L2 and (p.y = 2 and p.v != p.Q)) or (p.b and p.x = 0 and (p.L2 and (p.y = 3 and p.v != p.Q)) or p.b and p.x = 2 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 3 and p.v != p.Q)))))]
+Forward controlled-behavior: p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) -> p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q)) [forward reach with edge: (event: p.e1) (guard: p.L1 and p.x = 2) (assignments: p := p.L2), restricted to current/previous controlled-behavior predicate: p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 4 and p.L2 and (p.b and p.v != p.Q) or p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) or (p.y = 2 and p.L2 and (p.b and p.v != p.Q) or (p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L2 and (p.b and p.v != p.Q)))]
 Forward reachability: iteration 2.
-Forward controlled-behavior: p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q)) [fixed point].
-Controlled behavior: p.b and p.x = 0 and (p.L2 and (p.y = 4 and p.v != p.Q)) or p.b and p.x = 0 and (p.L2 and (p.y = 2 and p.v != p.Q)) or (p.b and p.x = 0 and (p.L2 and (p.y = 3 and p.v != p.Q)) or p.b and p.x = 2 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 1 or p.x = 3) and (p.L2 and (p.y = 3 and p.v != p.Q))))) -> p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q)).
+Forward controlled-behavior: p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q)) [fixed point].
+Controlled behavior: p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 4 and p.L2 and (p.b and p.v != p.Q) or p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) or (p.y = 2 and p.L2 and (p.b and p.v != p.Q) or (p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L2 and (p.b and p.v != p.Q))) -> p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q)).
 
 Round 1: finished, need another round.
 
 Round 2: started.
 
 Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.L2 and (p.L1 or p.y != 5) [marker predicate]
-Backward controlled-behavior: p.L2 and (p.L1 or p.y != 5) -> p.b and p.x = 2 and (p.L2 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L2 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L2 and (p.y = 3 and p.v != p.Q))) [restricted to current/previous controlled-behavior predicate: p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q))]
+Backward controlled-behavior: (p.y = 2 or p.y = 4) and p.L2 or p.y = 3 and p.L2 [marker predicate]
+Backward controlled-behavior: (p.y = 2 or p.y = 4) and p.L2 or p.y = 3 and p.L2 -> p.y = 4 and p.L2 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L2 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L2 and (p.x = 2 and (p.b and p.v != p.Q))) [restricted to current/previous controlled-behavior predicate: p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q))]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.b and p.x = 2 and (p.L2 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L2 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L2 and (p.y = 3 and p.v != p.Q))) -> p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q)) [backward reach with edge: (event: p.e1) (guard: p.x = 2 and p.L1) (assignments: p := p.L2), restricted to current/previous controlled-behavior predicate: p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q))]
+Backward controlled-behavior: p.y = 4 and p.L2 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L2 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L2 and (p.x = 2 and (p.b and p.v != p.Q))) -> p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q)) [backward reach with edge: (event: p.e1) (guard: p.L1 and p.x = 2) (assignments: p := p.L2), restricted to current/previous controlled-behavior predicate: p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q))]
 Backward reachability: iteration 2.
-Backward controlled-behavior: p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q)) [fixed point].
+Backward controlled-behavior: p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q)) [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (not p.b or p.x != 2 or (p.y != 4 or p.v = p.Q)) and ((not p.b or p.x != 2 or (p.y != 2 or p.v = p.Q)) and (not p.b or p.x != 2 or (p.y != 3 or p.v = p.Q))) [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: (p.y != 4 or p.x != 2 or (not p.b or p.v = p.Q)) and ((p.y != 2 or p.x != 2 or (not p.b or p.v = p.Q)) and (p.y != 3 or p.x != 2 or (not p.b or p.v = p.Q))) [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: p.e1) (guard: p.x = 2 and p.L1) (assignments: p := p.L2): guard: p.x = 2 and p.L1 -> p.b and p.x = 2 and (p.L1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L1 and (p.y = 3 and p.v != p.Q))).
-Edge (event: p.e2) (guard: p.L2 and (io.i = 0 and p.y = 2) or p.L2 and io.i = 1) (assignments: p := p.L1): guard: p.L2 and (io.i = 0 and p.y = 2) or p.L2 and io.i = 1 -> p.b and (p.x = 2 and p.L2) and (io.i = 0 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 3 and p.v != p.Q))).
+Edge (event: p.e1) (guard: p.L1 and p.x = 2) (assignments: p := p.L2): guard: p.L1 and p.x = 2 -> p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))).
+Edge (event: p.e2) (guard: io.i = 0 and (p.y = 2 and p.L2) or io.i = 1 and p.L2) (assignments: p := p.L1): guard: io.i = 0 and (p.y = 2 and p.L2) or io.i = 1 and p.L2 -> io.i = 0 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 4 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 3 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q))).
 
 Final synthesis result:
-  State: (controlled-behavior: p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q)))
-    Edge: (event: p.e1) (guard: p.x = 2 and p.L1 -> p.b and p.x = 2 and (p.L1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L1 and (p.y = 3 and p.v != p.Q)))) (assignments: p := p.L2)
-    Edge: (event: p.e2) (guard: p.L2 and (io.i = 0 and p.y = 2) or p.L2 and io.i = 1 -> p.b and (p.x = 2 and p.L2) and (io.i = 0 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 3 and p.v != p.Q)))) (assignments: p := p.L1)
+  State: (controlled-behavior: p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q)))
+    Edge: (event: p.e1) (guard: p.L1 and p.x = 2 -> p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)))) (assignments: p := p.L2)
+    Edge: (event: p.e2) (guard: io.i = 0 and (p.y = 2 and p.L2) or io.i = 1 and p.L2 -> io.i = 0 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 4 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 3 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)))) (assignments: p := p.L1)
     Edge: (event: io.i) (guard: true) (assignments: io.i+ != io.i)
 
 Controlled system:                     exactly 24 states.
 
-Initial (synthesis result):            p.b and p.x = 2 and (p.y = 4 and p.v != p.Q) or (p.b and p.x = 2 and (p.y = 2 and p.v != p.Q) or p.b and p.x = 2 and (p.y = 3 and p.v != p.Q))
-Initial (uncontrolled system):         (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1))
-Initial (controlled system):           p.b and p.x = 2 and (p.L1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L1 and (p.y = 3 and p.v != p.Q)))
-Initial (removed by supervisor):       (p.b or (p.x = 2 or p.x = 3)) and (p.b or p.x = 0 or (p.x = 1 or p.L1)) and ((not p.b or p.x != 0) and (not p.b or p.x != 2 or (p.L2 or (p.y != 4 or p.v = p.Q)))) and ((not p.b or p.x != 2 or (p.L2 or (p.y != 2 or p.v = p.Q))) and (not p.b or p.x != 2 or (p.L2 or (p.y != 3 or p.v = p.Q))) and ((not p.b or (p.x != 2 or p.L1)) and ((not p.b or p.x != 1) and (not p.b or (p.x != 3 or p.L1)))))
-Initial (added by supervisor):         <bdd 17n 25p>
+Initial (synthesis result):            p.y = 4 and p.x = 2 and (p.b and p.v != p.Q) or (p.y = 2 and p.x = 2 and (p.b and p.v != p.Q) or p.y = 3 and p.x = 2 and (p.b and p.v != p.Q))
+Initial (uncontrolled system):         (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1)))
+Initial (controlled system):           p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)))
+Initial (removed by supervisor):       (p.y != 4 or (p.L2 or p.x != 0)) and ((p.y != 4 or p.L2 or (p.x != 2 or (not p.b or p.v = p.Q))) and (p.y != 4 or (p.L2 or p.x != 1))) and ((p.y != 4 or p.L1) and (p.y != 2 or (p.L2 or p.x != 0)) and ((p.y != 2 or p.L2 or (p.x != 2 or (not p.b or p.v = p.Q))) and (p.y != 2 or (p.L2 or p.x != 1)))) and ((p.y != 2 or p.L1) and ((p.y != 5 or p.L2 or (p.x = 2 or p.x = 3)) and (p.y != 5 or p.L1)) and ((p.y != 3 or (p.L2 or p.x != 0)) and (p.y != 3 or p.L2 or (p.x != 2 or (not p.b or p.v = p.Q))) and ((p.y != 3 or (p.L2 or p.x != 1)) and (p.y != 3 or p.L1))))
+Initial (added by supervisor):         <bdd 15n 28p>
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-  Initial: p.b and p.x = 2 and (p.L1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L1 and (p.y = 3 and p.v != p.Q))) -> p.b and (p.x = 0 or p.x = 2) and ((p.y = 2 or p.y = 4) and p.v != p.Q) or p.b and (p.x = 0 or p.x = 2) and (p.y = 3 and p.v != p.Q) [assume (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1))].
+  Initial: p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) -> (p.y = 2 or p.y = 4) and (p.x = 0 or p.x = 2) and (p.b and p.v != p.Q) or p.y = 3 and (p.x = 0 or p.x = 2) and (p.b and p.v != p.Q) [assume (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1)))].
 
 Simplification of controlled system under the assumption of the plants:
-  Event p.e1: guard: p.b and p.x = 2 and (p.L1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (p.L1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (p.L1 and (p.y = 3 and p.v != p.Q))) -> p.b and (p.y = 4 and p.v != p.Q) or (p.b and (p.y = 2 and p.v != p.Q) or p.b and (p.y = 3 and p.v != p.Q)) [assume p.x = 2 and p.L1].
-  Event p.e2: guard: p.b and (p.x = 2 and p.L2) and (io.i = 0 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 4 and p.v != p.Q)) or (p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 2 and p.v != p.Q)) or p.b and (p.x = 2 and p.L2) and (io.i = 1 and (p.y = 3 and p.v != p.Q))) -> p.b and p.x = 2 and (io.i = 0 and p.v != p.Q) or p.b and p.x = 2 and (io.i = 1 and (p.y = 4 and p.v != p.Q)) or (p.b and p.x = 2 and (io.i = 1 and (p.y = 2 and p.v != p.Q)) or p.b and p.x = 2 and (io.i = 1 and (p.y = 3 and p.v != p.Q))) [assume p.L2 and (io.i = 0 and p.y = 2) or p.L2 and io.i = 1].
+  Event p.e1: guard: p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) -> p.y = 4 and (p.b and p.v != p.Q) or (p.y = 2 and (p.b and p.v != p.Q) or p.y = 3 and (p.b and p.v != p.Q)) [assume p.L1 and p.x = 2].
+  Event p.e2: guard: io.i = 0 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 4 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 3 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q))) -> io.i = 0 and p.x = 2 and (p.b and p.v != p.Q) or io.i = 1 and p.y = 4 and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and p.y = 2 and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and p.y = 3 and (p.x = 2 and (p.b and p.v != p.Q))) [assume io.i = 0 and (p.y = 2 and p.L2) or io.i = 1 and p.L2].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/bdd_out_nodes.ctrlsys.real.cif".

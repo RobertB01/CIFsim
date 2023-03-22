@@ -11,33 +11,103 @@ CIF variables and location pointers:
   Total                                      2      8         20          20          100%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 4
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [before]
+        Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [before]
+        Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [before]
+          Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 4
+
+          Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [before]
+          Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [before]
+          Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 4
+
+          Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [before]
+          Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 2
       Maximum number of iterations: 10
 
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [before]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [iteration 1]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [after]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [iteration 1]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 4
+      Number of hyper-edges: 2
       Window length: 2
 
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [before]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.750000 (total)   0.187500 (avg/edge) [after]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
 
-Variable order unchanged.
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..7]  p.x   0      3 * 2     8 * 2       8 * 2       100%
+  2      location pointer   n/a        p     1      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      8         20          20          100%
 
 Starting data-based synthesis.
 
@@ -49,21 +119,21 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):             p.x = 0
+Initial   (discrete variable 0):             p.x = 0
 Initial   (discrete variables):              p.x = 0
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.l1
 Initial   (auts/locs init predicate):        p.l1
-Initial   (uncontrolled system):             p.l1 and p.x = 0
-Initial   (system, combined init/plant inv): p.l1 and p.x = 0
-Initial   (system, combined init/state inv): p.l1 and p.x = 0
+Initial   (uncontrolled system):             p.x = 0 and p.l1
+Initial   (system, combined init/plant inv): p.x = 0 and p.l1
+Initial   (system, combined init/state inv): p.x = 0 and p.l1
 
 Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6)))
-Marked    (auts/locs marker predicate):      p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6)))
-Marked    (uncontrolled system):             p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6)))
-Marked    (system, combined mark/plant inv): p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6)))
-Marked    (system, combined mark/state inv): p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6)))
+Marked    (aut/locs marker predicate):       (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2)
+Marked    (auts/locs marker predicate):      (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2)
+Marked    (uncontrolled system):             (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2)
+Marked    (system, combined mark/plant inv): (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2)
+Marked    (system, combined mark/state inv): (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2)
 
 State/event exclusion plants:
   None
@@ -79,7 +149,7 @@ Uncontrolled system:
 Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: p.l1 and p.x = 0.
+Initialized controlled-initialization predicate: p.x = 0 and p.l1.
 
 Restricting behavior using state requirements.
 
@@ -90,63 +160,63 @@ Restricting behavior using state/event exclusion requirements.
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6))) [marker predicate]
+Backward controlled-behavior: (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2) [marker predicate]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6))) -> (p.l2 or 0 <= p.x and p.x <= 3) and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6))) [backward reach with edge: (event: u) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2) -> (p.x != 4 or p.l2) and (p.x != 6 and (0 <= p.x and p.x <= 4 or p.x = 6)) [backward reach with edge: (event: u) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 2.
-Backward controlled-behavior: (p.l2 or 0 <= p.x and p.x <= 3) and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6))) [fixed point].
-Controlled behavior: true -> (p.l2 or 0 <= p.x and p.x <= 3) and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6))).
+Backward controlled-behavior: (p.x != 4 or p.l2) and (p.x != 6 and (0 <= p.x and p.x <= 4 or p.x = 6)) [fixed point].
+Controlled behavior: true -> (p.x != 4 or p.l2) and (p.x != 6 and (0 <= p.x and p.x <= 4 or p.x = 6)).
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: p.l1 and (4 <= p.x and p.x <= 7) or (p.l2 and p.x = 6 or p.l2 and (p.x = 5 or p.x = 7)) [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: p.x = 4 and p.l1 or p.x = 6 or (p.x = 5 or p.x = 7) [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.l1 and p.x = 0 [initialization predicate]
+Forward controlled-behavior: p.x = 0 and p.l1 [initialization predicate]
 Forward reachability: iteration 1.
-Forward controlled-behavior: p.l1 and p.x = 0 -> p.l1 and (p.x = 0 or p.x = 2) [forward reach with edge: (event: c) (guard: p.l1) (assignments: p.x := p.x + 2), restricted to current/previous controlled-behavior predicate: (p.l2 or 0 <= p.x and p.x <= 3) and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6)))]
-Forward controlled-behavior: p.l1 and (p.x = 0 or p.x = 2) -> p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3) [forward reach with edge: (event: u) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: (p.l2 or 0 <= p.x and p.x <= 3) and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6)))]
+Forward controlled-behavior: p.x = 0 and p.l1 -> (p.x = 0 or p.x = 2) and p.l1 [forward reach with edge: (event: c) (guard: p.l1) (assignments: p.x := p.x + 2), restricted to current/previous controlled-behavior predicate: (p.x != 4 or p.l2) and (p.x != 6 and (0 <= p.x and p.x <= 4 or p.x = 6))]
+Forward controlled-behavior: (p.x = 0 or p.x = 2) and p.l1 -> (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2 [forward reach with edge: (event: u) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: (p.x != 4 or p.l2) and (p.x != 6 and (0 <= p.x and p.x <= 4 or p.x = 6))]
 Forward reachability: iteration 2.
-Forward controlled-behavior: p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3) [fixed point].
-Controlled behavior: (p.l2 or 0 <= p.x and p.x <= 3) and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6))) -> p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3).
+Forward controlled-behavior: (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2 [fixed point].
+Controlled behavior: (p.x != 4 or p.l2) and (p.x != 6 and (0 <= p.x and p.x <= 4 or p.x = 6)) -> (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2.
 
 Round 1: finished, need another round.
 
 Round 2: started.
 
 Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6))) [marker predicate]
-Backward controlled-behavior: p.l2 and ((p.l1 or p.x != 6) and (p.l1 or (0 <= p.x and p.x <= 4 or p.x = 6))) -> p.l2 and (p.x = 1 or p.x = 3) [restricted to current/previous controlled-behavior predicate: p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3)]
+Backward controlled-behavior: (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2) [marker predicate]
+Backward controlled-behavior: (p.x = 0 or p.x = 4) and p.l2 or (p.x = 2 and p.l2 or (p.x = 1 or p.x = 3) and p.l2) -> (p.x = 1 or p.x = 3) and p.l2 [restricted to current/previous controlled-behavior predicate: (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.l2 and (p.x = 1 or p.x = 3) -> p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3) [backward reach with edge: (event: u) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3)]
+Backward controlled-behavior: (p.x = 1 or p.x = 3) and p.l2 -> (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2 [backward reach with edge: (event: u) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2]
 Backward reachability: iteration 2.
-Backward controlled-behavior: p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3) [fixed point].
+Backward controlled-behavior: (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2 [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (p.l2 or (p.x = 1 or 3 <= p.x and p.x <= 7)) and (p.l1 or not(p.x = 1 or p.x = 3)) [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: (p.x = 1 or (3 <= p.x and p.x <= 7 or p.l2)) and (not(p.x = 1 or p.x = 3) or p.l1) [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: c) (guard: p.l1) (assignments: p.x := p.x + 2): guard: p.l1 -> p.l1 and p.x = 0.
+Edge (event: c) (guard: p.l1) (assignments: p.x := p.x + 2): guard: p.l1 -> p.x = 0 and p.l1.
 
 Final synthesis result:
-  State: (controlled-behavior: p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3))
-    Edge: (event: c) (guard: p.l1 -> p.l1 and p.x = 0) (assignments: p.x := p.x + 2)
+  State: (controlled-behavior: (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2)
+    Edge: (event: c) (guard: p.l1 -> p.x = 0 and p.l1) (assignments: p.x := p.x + 2)
     Edge: (event: u) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2)
 
 Controlled system:                     exactly 4 states.
 
-Initial (synthesis result):            p.l1 and (p.x = 0 or p.x = 2) or p.l2 and (p.x = 1 or p.x = 3)
-Initial (uncontrolled system):         p.l1 and p.x = 0
-Initial (controlled system):           p.l1 and p.x = 0
+Initial (synthesis result):            (p.x = 0 or p.x = 2) and p.l1 or (p.x = 1 or p.x = 3) and p.l2
+Initial (uncontrolled system):         p.x = 0 and p.l1
+Initial (controlled system):           p.x = 0 and p.l1
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event c: guard: p.l1 and p.x = 0 -> p.x = 0 [assume p.l1].
+  Event c: guard: p.x = 0 and p.l1 -> p.x = 0 [assume p.l1].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/loop.ctrlsys.real.cif".

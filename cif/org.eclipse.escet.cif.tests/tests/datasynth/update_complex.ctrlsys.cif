@@ -12,7 +12,7 @@ plant automaton p:
 end
 supervisor automaton sup:
   alphabet;
-  initial p.x = 2 and (p.y = 2 and p.z = 3) or (p.x = 3 and (p.y = 2 and p.z = 2) or p.x = 3 and (p.y = 1 and p.z = 3));
+  initial p.z = 2 and (p.y = 2 and p.x = 3) or (p.z = 3 and (p.y = 2 and p.x = 2) or p.z = 3 and (p.y = 1 and p.x = 3));
   location:
     initial;
     marked;

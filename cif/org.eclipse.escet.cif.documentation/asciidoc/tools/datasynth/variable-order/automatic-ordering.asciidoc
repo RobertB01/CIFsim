@@ -41,7 +41,7 @@ Different algorithms may use different representations of the variable relations
 One such representation is _hyper-edges_, and another is _graph edges_, which are derived from the hyper-edges.
 
 For basic configuration, the variable relations that are used to construct the hyper-edges can be configured using the _BDD hyper-edge creation algorithm_ option (see the <<tools-datasynth-options,options section>>).
-By default, the legacy variable relations are used.
+By default, the _Default_ relations are used.
 The following variable relations can be used:
 
 [[tools-datasynth-var-order-auto-var-ordering-relations-legacy]]
@@ -62,6 +62,11 @@ The linearized hyper-edge creator creates the following hyper-edges:
 ** Per <<tools-cif2cif-chapter-linearize-product,linearized>> edge, a hyper-edge for the variables that occur in the guards and updates of that linearized edge.
 State/event exclusion invariants are taken into account, by first <<tools-cif2cif-chapter-elim-state-event-excl-invs,converting them to automata>>.
 
+[[tools-datasynth-var-order-auto-var-ordering-relations-default]]
+* _Default_
++
+Uses the linearized hyper-edge creator for the _FORCE_ and _sliding window_ variable ordering algorithms, and the legacy hyper-edge creator otherwise.
+
 All hyper-edge creators take into account variables that occur indirectly via algebraic variables.
 
 More detailed information about the various representations of variable relations may be obtained during synthesis by enabling <<tools-datasynth-dbg-output,debug output>>.
@@ -80,8 +85,8 @@ The DSM-based Cuthill-McKee-Sloan variable ordering Heuristic, or DCSH algorithm
 DCSH applies two algorithms, the Weighted Cuthill-McKee bandwidth-reducing algorithm and the Sloan profile/wavefront-reducing algorithm.
 It then chooses the best order out of the orders produced by these two algorithms as well as their reverse orders, based on the Weighted Event Span (WES) metric.
 +
-The DCSH algorithm is disabled by default.
-For basic configuration, it can be enabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
+The DCSH algorithm is enabled by default.
+For basic configuration, it can be disabled using the _BDD DCSH variable ordering algorithm_ option (see the <<tools-datasynth-options,options section>>).
 
 [[tools-datasynth-var-order-auto-var-ordering-orderers-force]]
 * _FORCE_

@@ -9,7 +9,7 @@ plant automaton p:
 end
 supervisor automaton sup:
   alphabet;
-  initial p.l1 and p.x = 3 or p.l2 and p.x = 0;
+  initial p.x = 0 and p.l2 or p.x = 3 and p.l1;
   location:
     initial;
     marked;

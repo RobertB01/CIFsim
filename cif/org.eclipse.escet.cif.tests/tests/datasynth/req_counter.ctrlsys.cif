@@ -23,5 +23,5 @@ supervisor automaton sup:
   location:
     initial;
     marked;
-    edge adder.c_add when not adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 1) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1);
+    edge adder.c_add when count_max3.cnt = 0 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1);
 end

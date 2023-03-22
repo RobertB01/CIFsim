@@ -22,13 +22,13 @@ Applying variable ordering:
 
     Applying DCSH algorithm:
       Metric: wes
-      Relations: configured
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 22
 
       Applying Weighted Cuthill-McKee algorithm:
         Node finder: george-liu
-        Relations: configured
+        Relations: legacy
         Effect: var-order
         Number of graph edges: 6
 
@@ -38,7 +38,7 @@ Applying variable ordering:
       Found new best variable order.
 
       Applying Sloan algorithm:
-        Relations: configured
+        Relations: legacy
         Effect: var-order
         Number of graph edges: 6
 
@@ -50,7 +50,7 @@ Applying variable ordering:
       Applying 2 orderers, sequentially:
         Applying Weighted Cuthill-McKee algorithm:
           Node finder: george-liu
-          Relations: configured
+          Relations: legacy
           Effect: var-order
           Number of graph edges: 6
 
@@ -58,7 +58,7 @@ Applying variable ordering:
           Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
 
         Reversing the variable order:
-          Relations: configured
+          Relations: legacy
           Effect: var-order
           Number of hyper-edges: 22
 
@@ -67,7 +67,7 @@ Applying variable ordering:
 
       Applying 2 orderers, sequentially:
         Applying Sloan algorithm:
-          Relations: configured
+          Relations: legacy
           Effect: var-order
           Number of graph edges: 6
 
@@ -75,7 +75,7 @@ Applying variable ordering:
           Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
 
         Reversing the variable order:
-          Relations: configured
+          Relations: legacy
           Effect: var-order
           Number of hyper-edges: 22
 

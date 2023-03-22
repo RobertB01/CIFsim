@@ -20,7 +20,7 @@ Applying variable ordering:
       Effect: var-order
 
     Reversing the variable order:
-      Relations: configured
+      Relations: legacy
       Effect: both
       Number of hyper-edges: 22
 

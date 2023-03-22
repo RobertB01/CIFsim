@@ -194,7 +194,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
         boolean basicDefault = //
                 BddVariableOrderOption.isDefault() && //
                         BddDcshVarOrderOption.isDefault() && //
-                        BddForceVarOrderOption.isDefault() && // \
+                        BddForceVarOrderOption.isDefault() && //
                         BddSlidingWindowVarOrderOption.isDefault() && //
                         BddSlidingWindowSizeOption.isDefault() && //
                         BddHyperEdgeAlgoOption.isDefault();
@@ -217,16 +217,16 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
         List<VarOrderer> orderers = list(initialOrderer);
         if (BddDcshVarOrderOption.isEnabled()) {
             orderers.add(new DcshVarOrderer(PseudoPeripheralNodeFinderKind.GEORGE_LIU, VarOrderMetricKind.WES,
-                    RelationsKind.CONFIGURED, VarOrdererEffect.VAR_ORDER));
+                    getBasicConfiguredRelationsKind("dcsh"), VarOrdererEffect.VAR_ORDER));
         }
         if (BddForceVarOrderOption.isEnabled()) {
-            orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED,
+            orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, getBasicConfiguredRelationsKind("force"),
                     VarOrdererEffect.VAR_ORDER));
         }
         if (BddSlidingWindowVarOrderOption.isEnabled()) {
             int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen, VarOrderMetricKind.TOTAL_SPAN, RelationsKind.CONFIGURED,
-                    VarOrdererEffect.VAR_ORDER));
+            orderers.add(new SlidingWindowVarOrderer(maxLen, VarOrderMetricKind.TOTAL_SPAN,
+                    getBasicConfiguredRelationsKind("slidwin"), VarOrdererEffect.VAR_ORDER));
         }
         return (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
     }
@@ -243,12 +243,12 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             return new ModelVarOrderer(VarOrdererEffect.BOTH);
         } else if (orderTxtLower.equals("reverse-model")) {
             return new SequentialVarOrderer(list(new ModelVarOrderer(VarOrdererEffect.VAR_ORDER),
-                    new ReverseVarOrderer(RelationsKind.CONFIGURED, VarOrdererEffect.BOTH)));
+                    new ReverseVarOrderer(getBasicConfiguredRelationsKind("reverse"), VarOrdererEffect.BOTH)));
         } else if (orderTxtLower.equals("sorted")) {
             return new SortedVarOrderer(VarOrdererEffect.BOTH);
         } else if (orderTxtLower.equals("reverse-sorted")) {
             return new SequentialVarOrderer(list(new SortedVarOrderer(VarOrdererEffect.VAR_ORDER),
-                    new ReverseVarOrderer(RelationsKind.CONFIGURED, VarOrdererEffect.BOTH)));
+                    new ReverseVarOrderer(getBasicConfiguredRelationsKind("reverse"), VarOrdererEffect.BOTH)));
         } else if (orderTxtLower.equals("random")) {
             return new RandomVarOrderer(null, VarOrdererEffect.BOTH);
         } else if (orderTxtLower.startsWith("random:")) {
@@ -269,6 +269,26 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             }
             return new CustomVarOrderer(customVarOrderOrError.left, VarOrdererEffect.BOTH);
         }
+    }
+
+    /**
+     * Get the hyper-edges relations kind configured via the basic (non-advanced) option.
+     *
+     * @param ordererName The variable orderer name.
+     * @return The relations kind.
+     */
+    private RelationsKind getBasicConfiguredRelationsKind(String ordererName) {
+        switch (BddHyperEdgeAlgoOption.getAlgo()) {
+            case LEGACY:
+                return RelationsKind.LEGACY;
+            case LINEARIZED:
+                return RelationsKind.LINEARIZED;
+            case DEFAULT: {
+                boolean useLinearized = ordererName.equals("force") || ordererName.equals("slidwin");
+                return useLinearized ? RelationsKind.LINEARIZED : RelationsKind.LEGACY;
+            }
+        }
+        throw new RuntimeException("Unexpected option value: " + BddHyperEdgeAlgoOption.getAlgo());
     }
 
     /**
@@ -427,7 +447,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                     break;
                 case "relations":
                     checkDuplicateArg(name, arg, relations);
-                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    relations = checkRelationsKindArg(name, arg);
                     break;
                 case "effect":
                     checkDuplicateArg(name, arg, effect);
@@ -445,7 +465,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             metric = VarOrderMetricKind.WES;
         }
         if (relations == null) {
-            relations = RelationsKind.CONFIGURED;
+            relations = getBasicConfiguredRelationsKind(name);
         }
         if (effect == null) {
             effect = VarOrdererEffect.VAR_ORDER;
@@ -472,7 +492,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                     break;
                 case "relations":
                     checkDuplicateArg(name, arg, relations);
-                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    relations = checkRelationsKindArg(name, arg);
                     break;
                 case "effect":
                     checkDuplicateArg(name, arg, effect);
@@ -487,7 +507,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             metric = VarOrderMetricKind.TOTAL_SPAN;
         }
         if (relations == null) {
-            relations = RelationsKind.CONFIGURED;
+            relations = getBasicConfiguredRelationsKind(name);
         }
         if (effect == null) {
             effect = VarOrdererEffect.VAR_ORDER;
@@ -523,7 +543,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                     break;
                 case "relations":
                     checkDuplicateArg(name, arg, relations);
-                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    relations = checkRelationsKindArg(name, arg);
                     break;
                 case "effect":
                     checkDuplicateArg(name, arg, effect);
@@ -541,7 +561,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             metric = VarOrderMetricKind.TOTAL_SPAN;
         }
         if (relations == null) {
-            relations = RelationsKind.CONFIGURED;
+            relations = getBasicConfiguredRelationsKind(name);
         }
         if (effect == null) {
             effect = VarOrdererEffect.VAR_ORDER;
@@ -563,7 +583,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             switch (arg.name.text) {
                 case "relations":
                     checkDuplicateArg(name, arg, relations);
-                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    relations = checkRelationsKindArg(name, arg);
                     break;
                 case "effect":
                     checkDuplicateArg(name, arg, effect);
@@ -575,7 +595,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             }
         }
         if (relations == null) {
-            relations = RelationsKind.CONFIGURED;
+            relations = getBasicConfiguredRelationsKind(name);
         }
         if (effect == null) {
             effect = VarOrdererEffect.VAR_ORDER;
@@ -603,7 +623,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                     break;
                 case "relations":
                     checkDuplicateArg(name, arg, relations);
-                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    relations = checkRelationsKindArg(name, arg);
                     break;
                 case "effect":
                     checkDuplicateArg(name, arg, effect);
@@ -618,7 +638,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             nodeFinder = PseudoPeripheralNodeFinderKind.GEORGE_LIU;
         }
         if (relations == null) {
-            relations = RelationsKind.CONFIGURED;
+            relations = getBasicConfiguredRelationsKind(name);
         }
         if (effect == null) {
             effect = VarOrdererEffect.VAR_ORDER;
@@ -659,7 +679,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                     break;
                 case "relations":
                     checkDuplicateArg(name, arg, relations);
-                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    relations = checkRelationsKindArg(name, arg);
                     break;
                 case "effect":
                     checkDuplicateArg(name, arg, effect);
@@ -678,7 +698,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             metric = VarOrderMetricKind.WES;
         }
         if (relations == null) {
-            relations = RelationsKind.CONFIGURED;
+            relations = getBasicConfiguredRelationsKind(name);
         }
         if (effect == null) {
             effect = VarOrdererEffect.VAR_ORDER;
@@ -700,7 +720,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             switch (arg.name.text) {
                 case "relations":
                     checkDuplicateArg(name, arg, relations);
-                    relations = checkEnumArg(name, arg, RelationsKind.class, "a kind of relations");
+                    relations = checkRelationsKindArg(name, arg);
                     break;
                 case "effect":
                     checkDuplicateArg(name, arg, effect);
@@ -712,7 +732,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             }
         }
         if (relations == null) {
-            relations = RelationsKind.CONFIGURED;
+            relations = getBasicConfiguredRelationsKind(name);
         }
         if (effect == null) {
             effect = VarOrdererEffect.VAR_ORDER;
@@ -832,6 +852,54 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
 
         // No matching enum constant found.
         reportUnsupportedArgumentValue(name, arg, fmt("the value must be %s.", valueDescription));
+        throw new SemanticException();
+    }
+
+    /**
+     * Check a value of a relations kind argument.
+     *
+     * @param name The name of the variable orderer.
+     * @param arg The argument.
+     * @return The value of the argument.
+     */
+    private RelationsKind checkRelationsKindArg(String name, VarOrdererArg arg) {
+        // Check for right kind of value.
+        if (!(arg instanceof VarOrdererOrdererArg)) {
+            reportUnsupportedArgumentValue(name, arg, "the value must be a kind of relations.");
+            throw new SemanticException();
+        }
+        VarOrdererInstance orderer = ((VarOrdererOrdererArg)arg).value;
+
+        // Check for single.
+        if (orderer instanceof VarOrdererMultiInstance) {
+            reportUnsupportedArgumentValue(name, arg, "the value must be a kind of relations.");
+            throw new SemanticException();
+        }
+        VarOrdererSingleInstance single = (VarOrdererSingleInstance)orderer;
+
+        // Check for no arguments.
+        if (single.hasArgs) {
+            reportUnsupportedArgumentValue(name, arg, "the value must be a kind of relations.");
+            throw new SemanticException();
+        }
+
+        // Parse the value.
+        String constantName = single.name.text.replace("-", "_").toUpperCase(Locale.US);
+        RelationsKind[] values = RelationsKind.class.getEnumConstants();
+        List<RelationsKind> matches = Arrays.stream(values).filter(v -> v.name().equals(constantName))
+                .collect(Collectors.toList());
+        Assert.check(matches.size() <= 2);
+        if (matches.size() == 1) {
+            return first(matches);
+        }
+
+        // Parse special value 'configured'.
+        if (constantName.equals("CONFIGURED")) {
+            return getBasicConfiguredRelationsKind(name);
+        }
+
+        // No matching enum constant found.
+        reportUnsupportedArgumentValue(name, arg, "the value must be a kind of relations.");
         throw new SemanticException();
     }
 

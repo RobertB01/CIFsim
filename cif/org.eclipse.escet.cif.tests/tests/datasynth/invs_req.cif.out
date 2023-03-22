@@ -11,33 +11,96 @@ CIF variables and location pointers:
   Total                                      2      6         12          12          100%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 4
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 0
+
+        Skipping algorithm: no graph edges.
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 0
+
+        Skipping algorithm: no graph edges.
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 0
+
+          Skipping algorithm: no graph edges.
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 4
+
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 0
+
+          Skipping algorithm: no graph edges.
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 4
+
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 0
       Maximum number of iterations: 10
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [after]
+      Skipping algorithm: no hyper-edges.
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 4
+      Number of hyper-edges: 0
       Window length: 2
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [after]
+      Skipping algorithm: no hyper-edges.
 
-Variable order unchanged.
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..3]  p.x   0      2 * 2     4 * 2       4 * 2       100%
+  2      location pointer   n/a        p     1      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      6         12          12          100%
 
 Starting data-based synthesis.
 
@@ -48,26 +111,26 @@ Invariant (system state plant invariant):    true
 Invariant (component state req invariant):   p.x != 1
 Invariant (component state req invariant):   p.x != 2
 Invariant (components state req invariant):  p.x != 2 and p.x != 1
-Invariant (location state req invariant):    p.l2 or p.x != 0
-Invariant (location state req invariant):    p.l1 or p.x != 3
-Invariant (locations state req invariant):   (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
-Invariant (system state req invariant):      p.l1 and p.x = 3 or p.l2 and p.x = 0
+Invariant (location state req invariant):    p.x != 0 or p.l2
+Invariant (location state req invariant):    p.x != 3 or p.l1
+Invariant (locations state req invariant):   (p.x != 0 or p.l2) and (p.x != 3 or p.l1)
+Invariant (system state req invariant):      p.x = 0 and p.l2 or p.x = 3 and p.l1
 
-Initial   (discrete variable 1):             true
+Initial   (discrete variable 0):             true
 Initial   (discrete variables):              true
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true
 Initial   (auts/locs init predicate):        true
 Initial   (uncontrolled system):             true
 Initial   (system, combined init/plant inv): true
-Initial   (system, combined init/state inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial   (system, combined init/state inv): p.x = 0 and p.l2 or p.x = 3 and p.l1
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       true
 Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
 Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
+Marked    (system, combined mark/state inv): p.x = 0 and p.l2 or p.x = 3 and p.l1
 
 State/event exclusion plants:
   None
@@ -84,7 +147,7 @@ Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: true.
 
 Restricting behavior using state requirements.
-Controlled behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [state requirements: p.l1 and p.x = 3 or p.l2 and p.x = 0].
+Controlled behavior: true -> p.x = 0 and p.l2 or p.x = 3 and p.l1 [state requirements: p.x = 0 and p.l2 or p.x = 3 and p.l1].
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -94,31 +157,31 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [restricted to current/previous controlled-behavior predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0]
-Backward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [fixed point].
+Backward controlled-behavior: true -> p.x = 0 and p.l2 or p.x = 3 and p.l1 [restricted to current/previous controlled-behavior predicate: p.x = 0 and p.l2 or p.x = 3 and p.l1]
+Backward controlled-behavior: p.x = 0 and p.l2 or p.x = 3 and p.l1 [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (p.l2 or p.x != 3) and (p.l1 or p.x != 0) [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: (p.x != 0 or p.l1) and (p.x != 3 or p.l2) [current/previous controlled behavior predicate]
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: true [initialization predicate]
-Forward controlled-behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [restricted to current/previous controlled-behavior predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0]
-Forward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [fixed point].
+Forward controlled-behavior: true -> p.x = 0 and p.l2 or p.x = 3 and p.l1 [restricted to current/previous controlled-behavior predicate: p.x = 0 and p.l2 or p.x = 3 and p.l1]
+Forward controlled-behavior: p.x = 0 and p.l2 or p.x = 3 and p.l1 [fixed point].
 
 Round 1: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0)
+  State: (controlled-behavior: p.x = 0 and p.l2 or p.x = 3 and p.l1)
 
 Controlled system:                     exactly 2 states.
 
-Initial (synthesis result):            p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial (synthesis result):            p.x = 0 and p.l2 or p.x = 3 and p.l1
 Initial (uncontrolled system):         true
-Initial (controlled system):           p.l1 and p.x = 3 or p.l2 and p.x = 0
-Initial (removed by supervisor):       (p.l2 or p.x != 3) and (p.l1 or p.x != 0)
-Initial (added by supervisor):         p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial (controlled system):           p.x = 0 and p.l2 or p.x = 3 and p.l1
+Initial (removed by supervisor):       (p.x != 0 or p.l1) and (p.x != 3 or p.l2)
+Initial (added by supervisor):         p.x = 0 and p.l2 or p.x = 3 and p.l1
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/invs_req.ctrlsys.real.cif".

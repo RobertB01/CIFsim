@@ -19,7 +19,7 @@ import org.eclipse.escet.common.app.framework.options.StringOption;
 /** BDD initial variable order and domain interleaving option. */
 public class BddVariableOrderOption extends StringOption {
     /** The default value of the {@link BddVariableOrderOption} option. */
-    public static final String DEFAULT = "sorted";
+    public static final String DEFAULT_VALUE = "sorted";
 
     /** Constructor for the {@link BddVariableOrderOption} class. */
     public BddVariableOrderOption() {
@@ -57,7 +57,7 @@ public class BddVariableOrderOption extends StringOption {
                 "ORDER",
 
                 // defaultValue
-                DEFAULT,
+                DEFAULT_VALUE,
 
                 // emptyAsNull
                 false,
@@ -104,6 +104,6 @@ public class BddVariableOrderOption extends StringOption {
      * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
      */
     public static boolean isDefault() {
-        return getOrder().equals(DEFAULT);
+        return getOrder().equals(DEFAULT_VALUE);
     }
 }

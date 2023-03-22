@@ -28,5 +28,5 @@ supervisor automaton sup:
     marked;
     edge a when p1.x != 5;
     edge b when p1.x != 5;
-    edge c when p1.l1 and (p1.l0 or p1.x != 5);
+    edge c when (p1.x = 0 or p1.x = 4) and p1.l1 or (p1.x = 2 and p1.l1 or (p1.x = 1 or p1.x = 3) and p1.l1);
 end

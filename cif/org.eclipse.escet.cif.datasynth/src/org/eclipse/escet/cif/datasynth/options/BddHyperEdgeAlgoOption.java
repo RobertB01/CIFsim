@@ -20,7 +20,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 /** BDD hyper-edge creation algorithm option. */
 public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
     /** The default value of the {@link BddHyperEdgeAlgoOption} option. */
-    public static final BddHyperEdgeAlgo DEFAULT = BddHyperEdgeAlgo.LEGACY;
+    public static final BddHyperEdgeAlgo DEFAULT_VALUE = BddHyperEdgeAlgo.DEFAULT;
 
     /** Constructor for the {@link BddHyperEdgeAlgoOption} class. */
     public BddHyperEdgeAlgoOption() {
@@ -30,8 +30,11 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
 
                 // description
                 "The algorithm to use to create hyper-edges for BDD variable ordering. "
-                        + "Specify \"legacy\" (default) to use the legacy hyper-edge creation algorithm, "
-                        + "or \"linearized\" to use the linearized hyper-edge creation algorithm.",
+                        + "Specify \"legacy\" to use the legacy hyper-edge creation algorithm, "
+                        + "\"linearized\" to use the linearized hyper-edge creation algorithm, or "
+                        + "\"default\" to use the linearized hyper-edge creation algorithm for the FORCE and sliding "
+                        + "window algorithms, and the legacy hyper-edge creation algorithm for all other variable "
+                        + "orderers. By default, \"default\" is used.",
 
                 // cmdShort
                 null,
@@ -43,7 +46,7 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
                 "ALGO",
 
                 // defaultValue
-                DEFAULT,
+                DEFAULT_VALUE,
 
                 // showInDialog
                 true,
@@ -59,6 +62,8 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
                 return "Legacy hyper-edge creation algorithm";
             case LINEARIZED:
                 return "Linearized hyper-edge creation algorithm";
+            case DEFAULT:
+                return "Default (linearized for FORCE and sliding window, legacy otherwise)";
         }
         throw new RuntimeException("Unknown algorithm: " + algo);
     }
@@ -78,15 +83,21 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
      * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
      */
     public static boolean isDefault() {
-        return getAlgo().equals(DEFAULT);
+        return getAlgo().equals(DEFAULT_VALUE);
     }
 
     /** BDD hyper-edge creation algorithm. */
     public static enum BddHyperEdgeAlgo {
-        /** Use legacy hyper-edge creator. */
+        /** Use the legacy hyper-edge creation algorithm. */
         LEGACY,
 
-        /** Use linearized hyper-edge creator. */
-        LINEARIZED;
+        /** Use the linearized hyper-edge creation algorithm. */
+        LINEARIZED,
+
+        /**
+         * Use the linearized hyper-edge creation algorithm for the FORCE and sliding window algorithms, and the legacy
+         * hyper-edge creation algorithm otherwise.
+         */
+        DEFAULT;
     }
 }

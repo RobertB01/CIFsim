@@ -51,8 +51,8 @@ supervisor automaton sup:
     initial;
     marked;
     edge b when true;
-    edge e when a.l1 and (a.x = 0 or a.x = 4) or (a.l1 and a.x = 2 or a.l1 and (a.x = 1 or a.x = 3)) or (a.l2 and (16 <= a.x and a.x <= 19) or (a.l2 and (8 <= a.x and a.x <= 11 or (a.x = 24 or a.x = 25)) or a.l2 and (4 <= a.x and a.x <= 7 or (12 <= a.x and a.x <= 15 or 20 <= a.x and a.x <= 23))));
-    edge f when a.l2 and (a.x = 12 or a.x = 13) or a.l2 and (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15));
-    edge g when a.l2 and (a.x = 12 or a.x = 14) or (a.l2 and a.x = 13 or a.l2 and a.x = 11);
-    edge h when a.l1 and a.x = 4 or a.l1 and a.x = 2 or (a.l1 and (a.x = 1 or a.x = 5) or (a.l1 and a.x = 3 or a.l2 and (a.x = 12 or a.x = 13)));
+    edge e when (a.x != 0 or a.l1) and ((a.x != 16 or a.l2) and (not(a.x = 8 or a.x = 24) or a.l2)) and ((a.x != 12 or a.l2) and ((a.x != 2 or a.l1) and (a.x != 18 or a.l2))) and ((a.x != 10 or a.l2) and ((not(a.x = 6 or (a.x = 14 or a.x = 22)) or a.l2) and (not(a.x = 1 or a.x = 3) or a.l1)) and ((not(a.x = 17 or a.x = 19) or a.l2) and ((not(a.x = 9 or (a.x = 11 or a.x = 25)) or a.l2) and (not(a.x = 5 or (a.x = 7 or a.x = 13) or (a.x = 15 or (a.x = 21 or a.x = 23))) or a.l2))));
+    edge f when (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2;
+    edge g when (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2);
+    edge h when a.x = 4 and a.l1 or (a.x = 12 and a.l2 or a.x = 2 and a.l1) or (a.x = 1 and a.l1 or a.x = 5 and a.l1 or (a.x = 13 and a.l2 or a.x = 3 and a.l1));
 end

@@ -13,33 +13,105 @@ CIF variables and location pointers:
   Total                                       4      26        70          100         70%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 11
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [before]
+        Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [before]
+        Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [before]
+          Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 11
+
+          Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [before]
+          Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [before]
+          Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 11
+
+          Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [before]
+          Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 2
       Maximum number of iterations: 20
 
-      Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [before]
-      Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [iteration 1]
-      Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [after]
+      Total span:   1 (total)   0.50 (avg/edge) / WES:   0.437500 (total)   0.218750 (avg/edge) [before]
+      Total span:   1 (total)   0.50 (avg/edge) / WES:   0.250000 (total)   0.125000 (avg/edge) [iteration 1]
+      Total span:   1 (total)   0.50 (avg/edge) / WES:   0.437500 (total)   0.218750 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 11
+      Number of hyper-edges: 2
       Window length: 4
 
-      Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [before]
-      Total span:   1 (total)   0.09 (avg/edge) / WES:   0.215909 (total)   0.019628 (avg/edge) [after]
+      Total span:   1 (total)   0.50 (avg/edge) / WES:   0.437500 (total)   0.218750 (avg/edge) [before]
+      Total span:   1 (total)   0.50 (avg/edge) / WES:   0.437500 (total)   0.218750 (avg/edge) [after]
 
-Variable order unchanged.
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..10]  p.z   0      4 * 2     11 * 2      16 * 2      ~69%
+  2      discrete variable  int[0..10]  p.y   1      4 * 2     11 * 2      16 * 2      ~69%
+  3      discrete variable  int[0..10]  p.x   2      4 * 2     11 * 2      16 * 2      ~69%
+  4      discrete variable  bool        p.b   3      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  Total                                       4      26        70          100         70%
 
 Starting data-based synthesis.
 
@@ -54,10 +126,10 @@ Invariant (components state req invariant):  <bdd 12n 27p>
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      <bdd 12n 27p>
 
-Initial   (discrete variable 0):             not p.b
+Initial   (discrete variable 0):             true
 Initial   (discrete variable 1):             true
 Initial   (discrete variable 2):             true
-Initial   (discrete variable 3):             true
+Initial   (discrete variable 3):             not p.b
 Initial   (discrete variables):              <bdd 13n 125p>
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true
@@ -91,25 +163,25 @@ Initialized controlled-initialization predicate: <bdd 13n 125p>.
 
 Restricting behavior using state requirements.
 
-Controlled behavior: true -> not p.b and (p.x = 0 or p.x = 4) or not p.b and p.x = 2 or (not p.b and (p.x = 1 or p.x = 3) or p.b) [state requirement: not p.b and (p.x = 0 or p.x = 4) or (not p.b and p.x = 2 or not p.b and (p.x = 1 or p.x = 3)), edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)].
-Controlled behavior: not p.b and (p.x = 0 or p.x = 4) or not p.b and p.x = 2 or (not p.b and (p.x = 1 or p.x = 3) or p.b) -> not p.b and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6))) or not p.b and ((p.x = 0 or p.x = 4) and (p.y = 1 or p.y = 5)) or (not p.b and ((p.x = 0 or p.x = 4) and p.y = 3) or (not p.b and (p.x = 2 and (p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6))) or not p.b and (p.x = 2 and (p.y = 1 or p.y = 5)))) or (not p.b and (p.x = 2 and p.y = 3) or not p.b and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6))) or (not p.b and ((p.x = 1 or p.x = 3) and (p.y = 1 or p.y = 5)) or (not p.b and ((p.x = 1 or p.x = 3) and p.y = 3) or p.b))) [state requirement: (p.b or p.x = 2 or (p.x = 3 or p.x = 6) or (p.x = 7 or p.x = 10 or (0 <= p.y and p.y <= 7 or p.y = 9))) and (p.b or (p.x = 2 or p.x = 3) or (p.x = 6 or p.x = 7 or (p.x = 10 or p.y != 9))) and ((p.b or (p.x = 2 or p.x = 3) or (p.x = 6 or p.x = 7 or (p.x = 10 or p.y != 7))) and ((p.b or (p.x = 0 or p.x = 1) or (4 <= p.x and p.x <= 9 or (0 <= p.y and p.y <= 7 or p.y = 9))) and (p.b or p.x = 0 or (p.x = 1 or (4 <= p.x and p.x <= 9 or p.y != 9))))) and ((p.b or p.x = 0 or (p.x = 1 or (4 <= p.x and p.x <= 9 or p.y != 7))) and (p.b or not(p.x = 6 or p.x = 7) or (0 <= p.y and p.y <= 7 or p.y = 9)) and ((p.b or (not(p.x = 6 or p.x = 7) or p.y != 9)) and ((p.b or (not(p.x = 6 or p.x = 7) or p.y != 7)) and not p.b))), edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)].
-Controlled behavior: not p.b and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6))) or not p.b and ((p.x = 0 or p.x = 4) and (p.y = 1 or p.y = 5)) or (not p.b and ((p.x = 0 or p.x = 4) and p.y = 3) or (not p.b and (p.x = 2 and (p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6))) or not p.b and (p.x = 2 and (p.y = 1 or p.y = 5)))) or (not p.b and (p.x = 2 and p.y = 3) or not p.b and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6))) or (not p.b and ((p.x = 1 or p.x = 3) and (p.y = 1 or p.y = 5)) or (not p.b and ((p.x = 1 or p.x = 3) and p.y = 3) or p.b))) -> <bdd 13n 28p> [state requirement: (p.b or p.x = 2 or (p.x = 3 or p.x = 6) or (p.x = 7 or p.x = 10 or (0 <= p.z and p.z <= 7 or p.z = 9))) and (p.b or (p.x = 2 or p.x = 3) or (p.x = 6 or p.x = 7 or (p.x = 10 or p.z != 9))) and ((p.b or (p.x = 2 or p.x = 3) or (p.x = 6 or p.x = 7 or (p.x = 10 or p.z != 7))) and ((p.b or (p.x = 0 or p.x = 1) or (4 <= p.x and p.x <= 9 or (0 <= p.z and p.z <= 7 or p.z = 9))) and (p.b or p.x = 0 or (p.x = 1 or (4 <= p.x and p.x <= 9 or p.z != 9))))) and ((p.b or p.x = 0 or (p.x = 1 or (4 <= p.x and p.x <= 9 or p.z != 7))) and (p.b or not(p.x = 6 or p.x = 7) or (0 <= p.z and p.z <= 7 or p.z = 9)) and ((p.b or (not(p.x = 6 or p.x = 7) or p.z != 9)) and ((p.b or (not(p.x = 6 or p.x = 7) or p.z != 7)) and not p.b))), edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)].
-Edge (event: c_e) (guard: true) (assignments: p.y := p.y + 2): guard: true -> (0 <= p.x and p.x <= 7 or p.x = 9) and (p.x != 9 and p.x != 7) [state requirement: (0 <= p.x and p.x <= 7 or p.x = 9) and (p.x != 9 and p.x != 7)].
-Edge (event: c_e) (guard: true -> (0 <= p.x and p.x <= 7 or p.x = 9) and (p.x != 9 and p.x != 7)) (assignments: p.y := p.y + 2): guard: (0 <= p.x and p.x <= 7 or p.x = 9) and (p.x != 9 and p.x != 7) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 0 or p.y = 4) or (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.y = 2 or ((p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 1 or p.y = 3) or (p.x = 1 or p.x = 5) and (p.y = 0 or p.y = 4)) or ((p.x = 1 or p.x = 5) and p.y = 2 or (p.x = 1 or p.x = 5) and (p.y = 1 or p.y = 3) or (p.x = 3 and (p.y = 0 or p.y = 4) or (p.x = 3 and p.y = 2 or p.x = 3 and (p.y = 1 or p.y = 3)))) [state requirement: p.y = 0 or p.y = 4 or (p.y = 2 or (p.y = 1 or p.y = 3))].
+Controlled behavior: true -> (p.x != 8 or p.b) and (p.x != 10 or p.b) and ((p.x != 6 or p.b) and ((p.x != 9 or p.b) and (not(p.x = 5 or p.x = 7) or p.b))) [state requirement: (p.x = 0 or p.x = 4) and not p.b or (p.x = 2 and not p.b or (p.x = 1 or p.x = 3) and not p.b), edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)].
+Controlled behavior: (p.x != 8 or p.b) and (p.x != 10 or p.b) and ((p.x != 6 or p.b) and ((p.x != 9 or p.b) and (not(p.x = 5 or p.x = 7) or p.b))) -> <bdd 9n 28p> [state requirement: (p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6)) and ((p.x = 0 or (p.x = 1 or p.x = 4) or (p.x = 5 or (p.x = 8 or p.x = 9))) and not p.b) or (p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6)) and ((p.x = 2 or (p.x = 3 or p.x = 10)) and not p.b) or ((p.y = 0 or p.y = 2 or (p.y = 4 or p.y = 6)) and ((p.x = 6 or p.x = 7) and not p.b) or (p.y = 1 or p.y = 5) and ((p.x = 0 or (p.x = 1 or p.x = 4) or (p.x = 5 or (p.x = 8 or p.x = 9))) and not p.b)) or ((p.y = 1 or p.y = 5) and ((p.x = 2 or (p.x = 3 or p.x = 10)) and not p.b) or (p.y = 1 or p.y = 5) and ((p.x = 6 or p.x = 7) and not p.b) or (p.y = 3 and ((p.x = 0 or (p.x = 1 or p.x = 4) or (p.x = 5 or (p.x = 8 or p.x = 9))) and not p.b) or (p.y = 3 and ((p.x = 2 or (p.x = 3 or p.x = 10)) and not p.b) or p.y = 3 and ((p.x = 6 or p.x = 7) and not p.b)))), edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)].
+Controlled behavior: <bdd 9n 28p> -> <bdd 13n 88p> [state requirement: (p.z = 0 or p.z = 2 or (p.z = 4 or p.z = 6)) and ((p.x = 0 or (p.x = 1 or p.x = 4) or (p.x = 5 or (p.x = 8 or p.x = 9))) and not p.b) or (p.z = 0 or p.z = 2 or (p.z = 4 or p.z = 6)) and ((p.x = 2 or (p.x = 3 or p.x = 10)) and not p.b) or ((p.z = 0 or p.z = 2 or (p.z = 4 or p.z = 6)) and ((p.x = 6 or p.x = 7) and not p.b) or (p.z = 1 or p.z = 5) and ((p.x = 0 or (p.x = 1 or p.x = 4) or (p.x = 5 or (p.x = 8 or p.x = 9))) and not p.b)) or ((p.z = 1 or p.z = 5) and ((p.x = 2 or (p.x = 3 or p.x = 10)) and not p.b) or (p.z = 1 or p.z = 5) and ((p.x = 6 or p.x = 7) and not p.b) or (p.z = 3 and ((p.x = 0 or (p.x = 1 or p.x = 4) or (p.x = 5 or (p.x = 8 or p.x = 9))) and not p.b) or (p.z = 3 and ((p.x = 2 or (p.x = 3 or p.x = 10)) and not p.b) or p.z = 3 and ((p.x = 6 or p.x = 7) and not p.b)))), edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)].
+Edge (event: c_e) (guard: true) (assignments: p.y := p.y + 2): guard: true -> (p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or p.y = 10 or (0 <= p.x and p.x <= 7 or p.x = 9))) and (p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or (p.y = 10 or p.x != 9))) and ((p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or (p.y = 10 or p.x != 7))) and (p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or (0 <= p.x and p.x <= 7 or p.x = 9)))) and ((p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or p.x != 9)) and (p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or p.x != 7)) and ((not(p.y = 6 or p.y = 7) or (0 <= p.x and p.x <= 7 or p.x = 9)) and ((not(p.y = 6 or p.y = 7) or p.x != 9) and (not(p.y = 6 or p.y = 7) or p.x != 7)))) [state requirement: (p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or p.y = 10 or (0 <= p.x and p.x <= 7 or p.x = 9))) and (p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or (p.y = 10 or p.x != 9))) and ((p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or (p.y = 10 or p.x != 7))) and (p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or (0 <= p.x and p.x <= 7 or p.x = 9)))) and ((p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or p.x != 9)) and (p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or p.x != 7)) and ((not(p.y = 6 or p.y = 7) or (0 <= p.x and p.x <= 7 or p.x = 9)) and ((not(p.y = 6 or p.y = 7) or p.x != 9) and (not(p.y = 6 or p.y = 7) or p.x != 7))))].
+Edge (event: c_e) (guard: true -> (p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or p.y = 10 or (0 <= p.x and p.x <= 7 or p.x = 9))) and (p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or (p.y = 10 or p.x != 9))) and ((p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or (p.y = 10 or p.x != 7))) and (p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or (0 <= p.x and p.x <= 7 or p.x = 9)))) and ((p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or p.x != 9)) and (p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or p.x != 7)) and ((not(p.y = 6 or p.y = 7) or (0 <= p.x and p.x <= 7 or p.x = 9)) and ((not(p.y = 6 or p.y = 7) or p.x != 9) and (not(p.y = 6 or p.y = 7) or p.x != 7))))) (assignments: p.y := p.y + 2): guard: (p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or p.y = 10 or (0 <= p.x and p.x <= 7 or p.x = 9))) and (p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or (p.y = 10 or p.x != 9))) and ((p.y = 2 or (p.y = 3 or p.y = 6) or (p.y = 7 or (p.y = 10 or p.x != 7))) and (p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or (0 <= p.x and p.x <= 7 or p.x = 9)))) and ((p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or p.x != 9)) and (p.y = 0 or p.y = 1 or (4 <= p.y and p.y <= 9 or p.x != 7)) and ((not(p.y = 6 or p.y = 7) or (0 <= p.x and p.x <= 7 or p.x = 9)) and ((not(p.y = 6 or p.y = 7) or p.x != 9) and (not(p.y = 6 or p.y = 7) or p.x != 7)))) -> (p.y = 0 or p.y = 4) and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.y = 0 or p.y = 4) and (p.x = 1 or p.x = 5) or ((p.y = 0 or p.y = 4) and p.x = 3 or p.y = 2 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6))) or (p.y = 2 and (p.x = 1 or p.x = 5) or p.y = 2 and p.x = 3 or ((p.y = 1 or p.y = 3) and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or ((p.y = 1 or p.y = 3) and (p.x = 1 or p.x = 5) or (p.y = 1 or p.y = 3) and p.x = 3))) [state requirement: p.y = 0 or p.y = 4 or (p.y = 2 or (p.y = 1 or p.y = 3))].
 
 Restricted behavior using state requirements:
-  State: (controlled-behavior: <bdd 13n 28p>)
+  State: (controlled-behavior: <bdd 13n 88p>)
     Edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)
-    Edge: (event: c_e) (guard: true -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 0 or p.y = 4) or (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.y = 2 or ((p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 1 or p.y = 3) or (p.x = 1 or p.x = 5) and (p.y = 0 or p.y = 4)) or ((p.x = 1 or p.x = 5) and p.y = 2 or (p.x = 1 or p.x = 5) and (p.y = 1 or p.y = 3) or (p.x = 3 and (p.y = 0 or p.y = 4) or (p.x = 3 and p.y = 2 or p.x = 3 and (p.y = 1 or p.y = 3))))) (assignments: p.y := p.y + 2)
+    Edge: (event: c_e) (guard: true -> (p.y = 0 or p.y = 4) and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.y = 0 or p.y = 4) and (p.x = 1 or p.x = 5) or ((p.y = 0 or p.y = 4) and p.x = 3 or p.y = 2 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6))) or (p.y = 2 and (p.x = 1 or p.x = 5) or p.y = 2 and p.x = 3 or ((p.y = 1 or p.y = 3) and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or ((p.y = 1 or p.y = 3) and (p.x = 1 or p.x = 5) or (p.y = 1 or p.y = 3) and p.x = 3)))) (assignments: p.y := p.y + 2)
 Controlled initialization: <bdd 13n 125p> -> <bdd 13n 27p> [state requirements: <bdd 12n 27p>].
 
 Extending controlled-behavior predicate using variable ranges.
 
-Controlled behavior: <bdd 13n 28p> -> <bdd 17n 32p> [range: true, variable: discrete variable "p.x" of type "int[0..10]" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 17n 32p> -> <bdd 21n 52p> [range: true, variable: discrete variable "p.y" of type "int[0..10]" (group: 2, domain: 4+5, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 21n 52p> -> <bdd 24n 152p> [range: true, variable: discrete variable "p.z" of type "int[0..10]" (group: 3, domain: 6+7, BDD variables: 4, CIF/BDD values: 11/16)].
+Controlled behavior: <bdd 13n 88p> -> <bdd 16n 143p> [range: true, variable: discrete variable "p.z" of type "int[0..10]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 11/16)].
+Controlled behavior: <bdd 16n 143p> -> <bdd 22n 230p> [range: true, variable: discrete variable "p.y" of type "int[0..10]" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 11/16)].
+Controlled behavior: <bdd 22n 230p> -> <bdd 30n 425p> [range: true, variable: discrete variable "p.x" of type "int[0..10]" (group: 2, domain: 4+5, BDD variables: 4, CIF/BDD values: 11/16)].
 
-Extended controlled-behavior predicate using variable ranges: <bdd 24n 152p>.
+Extended controlled-behavior predicate using variable ranges: <bdd 30n 425p>.
 
 Restricting behavior using state/event exclusion requirements.
 
@@ -117,22 +189,22 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> <bdd 24n 152p> [restricted to current/previous controlled-behavior predicate: <bdd 24n 152p>]
+Backward controlled-behavior: true -> <bdd 30n 425p> [restricted to current/previous controlled-behavior predicate: <bdd 30n 425p>]
 Backward reachability: iteration 1.
-Backward controlled-behavior: <bdd 24n 152p> [fixed point].
+Backward controlled-behavior: <bdd 30n 425p> [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 24n 146p> [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: <bdd 30n 548p> [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: <bdd 13n 27p> [initialization predicate]
-Forward controlled-behavior: <bdd 13n 27p> -> <bdd 13n 27p> [restricted to current/previous controlled-behavior predicate: <bdd 24n 152p>]
+Forward controlled-behavior: <bdd 13n 27p> -> <bdd 13n 27p> [restricted to current/previous controlled-behavior predicate: <bdd 30n 425p>]
 Forward reachability: iteration 1.
-Forward controlled-behavior: <bdd 13n 27p> -> <bdd 17n 63p> [forward reach with edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true), restricted to current/previous controlled-behavior predicate: <bdd 24n 152p>]
+Forward controlled-behavior: <bdd 13n 27p> -> <bdd 20n 63p> [forward reach with edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true), restricted to current/previous controlled-behavior predicate: <bdd 30n 425p>]
 Forward reachability: iteration 2.
-Forward controlled-behavior: <bdd 17n 63p> [fixed point].
-Controlled behavior: <bdd 24n 152p> -> <bdd 17n 63p>.
+Forward controlled-behavior: <bdd 20n 63p> [fixed point].
+Controlled behavior: <bdd 30n 425p> -> <bdd 20n 63p>.
 
 Round 1: finished, need another round.
 
@@ -140,32 +212,32 @@ Round 2: started.
 
 Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> <bdd 17n 63p> [restricted to current/previous controlled-behavior predicate: <bdd 17n 63p>]
+Backward controlled-behavior: true -> <bdd 20n 63p> [restricted to current/previous controlled-behavior predicate: <bdd 20n 63p>]
 Backward reachability: iteration 1.
-Backward controlled-behavior: <bdd 17n 63p> [fixed point].
+Backward controlled-behavior: <bdd 20n 63p> [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 17n 124p> [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: <bdd 20n 124p> [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: c_e) (guard: true -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 0 or p.y = 4) or (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.y = 2 or ((p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 1 or p.y = 3) or (p.x = 1 or p.x = 5) and (p.y = 0 or p.y = 4)) or ((p.x = 1 or p.x = 5) and p.y = 2 or (p.x = 1 or p.x = 5) and (p.y = 1 or p.y = 3) or (p.x = 3 and (p.y = 0 or p.y = 4) or (p.x = 3 and p.y = 2 or p.x = 3 and (p.y = 1 or p.y = 3))))) (assignments: p.y := p.y + 2): guard: (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 0 or p.y = 4) or (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.y = 2 or ((p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 1 or p.y = 3) or (p.x = 1 or p.x = 5) and (p.y = 0 or p.y = 4)) or ((p.x = 1 or p.x = 5) and p.y = 2 or (p.x = 1 or p.x = 5) and (p.y = 1 or p.y = 3) or (p.x = 3 and (p.y = 0 or p.y = 4) or (p.x = 3 and p.y = 2 or p.x = 3 and (p.y = 1 or p.y = 3)))) -> <bdd 17n 63p>.
+Edge (event: c_e) (guard: true -> (p.y = 0 or p.y = 4) and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.y = 0 or p.y = 4) and (p.x = 1 or p.x = 5) or ((p.y = 0 or p.y = 4) and p.x = 3 or p.y = 2 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6))) or (p.y = 2 and (p.x = 1 or p.x = 5) or p.y = 2 and p.x = 3 or ((p.y = 1 or p.y = 3) and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or ((p.y = 1 or p.y = 3) and (p.x = 1 or p.x = 5) or (p.y = 1 or p.y = 3) and p.x = 3)))) (assignments: p.y := p.y + 2): guard: (p.y = 0 or p.y = 4) and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.y = 0 or p.y = 4) and (p.x = 1 or p.x = 5) or ((p.y = 0 or p.y = 4) and p.x = 3 or p.y = 2 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6))) or (p.y = 2 and (p.x = 1 or p.x = 5) or p.y = 2 and p.x = 3 or ((p.y = 1 or p.y = 3) and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or ((p.y = 1 or p.y = 3) and (p.x = 1 or p.x = 5) or (p.y = 1 or p.y = 3) and p.x = 3))) -> <bdd 20n 63p>.
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 17n 63p>)
+  State: (controlled-behavior: <bdd 20n 63p>)
     Edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)
-    Edge: (event: c_e) (guard: true -> <bdd 17n 63p>) (assignments: p.y := p.y + 2)
+    Edge: (event: c_e) (guard: true -> <bdd 20n 63p>) (assignments: p.y := p.y + 2)
 
 Controlled system:                     exactly 490 states.
 
-Initial (synthesis result):            <bdd 17n 63p>
+Initial (synthesis result):            <bdd 20n 63p>
 Initial (uncontrolled system):         <bdd 13n 125p>
 Initial (controlled system):           <bdd 13n 27p>
 Initial (removed by supervisor):       <bdd 29n 300p>
-Initial (added by supervisor):         <bdd 29n 329p>
+Initial (added by supervisor):         <bdd 29n 623p>
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
   Initial: <bdd 13n 27p> -> <bdd 12n 27p> [assume <bdd 13n 125p>].

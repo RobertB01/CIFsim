@@ -11,31 +11,101 @@ CIF variables and location pointers:
   Total                                      2      12        32          32          100%
 
 Applying variable ordering:
-  Applying 3 orderers, sequentially:
+  Applying 4 orderers, sequentially:
     Applying model variable order:
       Effect: both
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: configured
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
       Effect: var-order
       Number of hyper-edges: 3
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [before]
+        Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [before]
+        Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [before]
+          Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 3
+
+          Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [before]
+          Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [before]
+          Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 3
+
+          Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [before]
+          Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 1
       Maximum number of iterations: 10
 
-      Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [before]
-      Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [iteration 1]
-      Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [after]
+      Total span:   1 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   1.000000 (avg/edge) [before]
+      Total span:   1 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   1.000000 (avg/edge) [iteration 1]
+      Total span:   1 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   1.000000 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
-      Relations: configured
+      Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 3
+      Number of hyper-edges: 1
       Window length: 2
 
-      Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [before]
-      Total span:   2 (total)   0.67 (avg/edge) / WES:   0.833333 (total)   0.277778 (avg/edge) [after]
+      Total span:   1 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   1.000000 (avg/edge) [before]
+      Total span:   1 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   1.000000 (avg/edge) [after]
 
-Variable order unchanged.
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..7]  r.x   0      3 * 2     8 * 2       8 * 2       100%
+  2      discrete variable  int[0..7]  p.v   1      3 * 2     8 * 2       8 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      12        32          32          100%
 
