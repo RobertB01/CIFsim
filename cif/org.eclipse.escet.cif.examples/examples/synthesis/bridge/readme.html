@@ -1,0 +1,282 @@
+﻿<!doctype html>
+<!--
+  Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CIF example: bridge model</title>
+    <style>
+      html {
+        font-family: 'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans','Liberation Sans',sans-serif;
+      }
+      body {
+        margin-left: 0.7em;
+        margin-right: 0.7em;
+        margin-bottom: 2em;
+      }
+      h1 {
+        margin-top: 0.3em;
+        margin-bottom: 0.5em;
+      }
+      h2, h3, h4 {
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+      }
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+      ul {
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        border: solid 1px #ccc;
+        box-shadow: 0.1em 0.1em 0.5em #888;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CIF example: bridge model</h1>
+
+    <h2>Introduction</h2>
+    <p>
+        This <em>bridge</em> model is a CIF example that models the Oisterwijksebaan bridge, a movable bridge located in Tilburg, the Netherlands.
+        This model is originally described in a <a href="https://doi.org/10.1016/j.compind.2021.103473">scientific publication</a>.
+        Below several simulation scenarios are described that make use of this CIF example model.
+    </p>
+
+    <h2>Simulation scenario 1: nominal behavior</h2>
+    <p>
+        In this first demonstration scenario, we will synthesize a supervisor from the provided models and then simulate the nominal behavior of the bridge using interactive visualization.
+    </p>
+    <p>
+        Scripts written in the ToolDef scripting language are provided to automate this, combining and automating several CIF tools.
+        To synthesize a supervisor, select the <tt>do1_synthesize.tooldef</tt> file in the <em>Project Explorer</em> tab with a single left-mouse click and then press <em>F10</em> on your keyboard.
+        Alternatively, one can right-click the same file and select <em>Execute ToolDef</em>.
+        You will see that output is being printed to the <em>Console</em> tab while the synthesis tool is running.
+    </p>
+    <p>
+        Synthesis will take only a couple of seconds, and the final message on the console is <em>Supervisor synthesized</em>, indicating that synthesis has completed.
+    </p>
+    <p>
+        Now we can start the simulation of the synthesized supervisor by executing <tt>do2_simulate.tooldef</tt>, again by selecting this file and pressing <em>F10</em>.
+        After approximately 10 seconds, two new tabs will appear in the Eclipse ESCET IDE.
+        If your monitor has a high enough resolution, one can drag the tabs to be displayed next to each other, as follows:
+        <img src="images/overview_simulation.png">
+    </p>
+    <p>
+        In the middle of the figure a schematic drawing of the movable bridge is shown that visualizes what is actually happening in the system.
+        At the right of the figure the interactive graphical user interface (GUI) is shown, which we will use later to send commands to the controller.
+        This GUI closely resembles the real-life GUI of this bridge.
+        Finally, the <em>Console</em> tab, shown at the bottom of the figure, records a history of the simulation.
+    </p>
+    <p>
+        If the simulation needs to be stopped at any point in time, one can always terminate it by clicking the red termination square at the top-right corner of the <em>Console</em> tab.
+        Subsequently, all visualizer tabs opened by the simulator can be closed to prepare for a next simulation, by clicking the cross at the right side of each of the tab's headers.
+        Alternatively, the simulation may also be stopped by closing all visualizer tabs.
+    </p>
+    <p>
+        By following the steps below, the nominal behavior of the bridge is showcased.
+        For the sake of convenience, the movements in the simulation are faster than in real life.
+    </p>
+
+    <h4 id="stopping-land-traffic">Stopping land traffic</h4>
+    <ul>
+        <li>
+            A bridge opening is started by activating traffic lights to stop land traffic.
+            Therefore, click on the white bridge deck in the GUI (the white rectangle in the middle).
+        </li>
+        <li>
+            In the pop-up window in the GUI called <em>Barriers</em>, click the button <em>Close LT</em> (where <em>LT</em> is an abbreviation of land traffic).
+        </li>
+        <li>
+            This activates the stop signs <em>SS1</em>-<em>SS5</em>, see the visualization of the system.
+        </li>
+        <li>
+            After several seconds, the button <em>Close Barriers</em> is made available to the operator.
+            In case you missed it, click <em>Open LT</em>, followed by <em>Close LT</em> again, and observe that <em>Close Barriers</em> becomes black after approximately 5 seconds.
+        </li>
+        <li>
+            Now, click <em>Close Barriers</em> to close the traffic barriers.
+            Observe how the barriers are closing and the barrier lights are blinking in the system visualization.
+            The GUI shows closed barriers by the two white rectangles on both sides of the bridge deck.
+        </li>
+        <li>
+            Now the land traffic is safely stopped, so the <em>Barriers</em> pop-up window in the GUI can be closed by clicking the cross at the top-right of the pop-up window.
+        </li>
+    </ul>
+
+    <h4>Opening the bridge</h4>
+    <ul>
+        <li>
+            We are now ready to open the bridge itself.
+            For this, click again on the white bridge deck in the GUI.
+        </li>
+        <li>
+            A different pop-up window in the GUI opens, called <em>Bridge</em>.
+            Click <em>Open Bridge</em>.
+        </li>
+        <li>
+            The bridge is now being opened.
+            By design, the GUI only shows three discrete states of the bridge deck: closed, in-between, and open.
+            The visualization of the actual system shows the continuous movement of the bridge deck.
+        </li>
+    </ul>
+
+    <h4>Changing the vessel traffic lights</h4>
+    <ul>
+        <li>
+            The traffic lights for the vessels can now be changed to let them pass the bridge.
+        </li>
+        <li>
+            Choose any of the four 'regularly looking' traffic lights on the waterway (the blue rectangle) and click on its middle circle (the one directly under the red circle).
+            This makes that traffic light switch to a red-green aspect, which indicates that vessels can soon start to pass the bridge from that side (left side or right side) at that point (upper lane or lower lane).
+        </li>
+        <li>
+            Clicking the same circle again will activate the green aspect, which indicates that vessels can pass the bridge from that side at that point.
+        </li>
+        <li>
+            Now, click on the second circle of the traffic light in the opposite direction (for example, if you turned the top-right traffic light to green, click now on the top-left traffic light).
+            Observe that that traffic light will go to a red-green aspect.
+        </li>
+        <li>
+            Try to click the same circle again as in the previous step.
+            The synthesized supervisor will block that traffic light from going to a green aspect, as there is a requirement in the model that states that a traffic light cannot go to green if the traffic light at the opposite side is already green.
+        </li>
+        <li>
+            At the first traffic light that is green, click on the top circle.
+            This will change that traffic light back to the red aspect.
+        </li>
+        <li>
+            Switching back to the traffic light on the opposite side, click the green circle in the middle, to switch it from a red-green aspect to a green aspect, which is now allowed by the supervisor.
+        </li>
+        <li>
+            Clicking on the top circle of that traffic light brings it back to showing a red aspect.
+        </li>
+    </ul>
+
+    <h4>Closing the bridge</h4>
+    <ul>
+        <li>
+            If all vessel traffic lights are showing a red aspect, the bridge can be closed again.
+            Observe that in that state the button <em>Close Bridge</em> is available.
+            In case you closed the pop-up window with the buttons, you can click again on the white bridge deck in the GUI.
+            Click on the <em>Close Bridge</em> button to close the bridge.
+        </li>
+        <li>
+            The bridge will be closing.
+            If desired, the <em>Stop</em> button can be clicked to stop the bridge movement.
+        </li>
+        <li>
+            Once stopped, the closing of the bridge can be continued by clicking <em>Close Bridge</em> again.
+        </li>
+    </ul>
+
+    <h4>Closing the bridge</h4>
+    <ul>
+        <li>
+            Finally, the land traffic can be released.
+            For this, click <em>Open LT</em> to initiate the process.
+        </li>
+        <li>
+            A fully automated sequence is started.
+            First, the boom barriers are opened.
+            Once open, the land traffic stop signs are turned off.
+        </li>
+        <li>
+            Now the land traffic can freely pass the bridge, so the <em>Bridge</em> pop-up window in the GUI can be closed by clicking the cross at the top-right of the pop-up window.
+        </li>
+    </ul>
+
+    <h4>Terminating the simulation</h4>
+    <ul>
+        <li>
+            The simulation can now be stopped by closing the two visualizer tabs (for the system visualization and the GUI) that the simulator opened, by clicking the cross at the right side of each of the tab's headers.
+        </li>
+    </ul>
+
+    <h2>Simulation scenario 2: fault-tolerant behavior</h2>
+    <p>
+        In this second demonstration scenario, we will simulate faults in the system and observe the behavior of the system with a fault-tolerant supervisor.
+        We assume that the supervisor has already been synthesized.
+        If not, see the first scenario above for how to synthesize it.
+    </p>
+    <p>
+        The simulation of the fault-tolerant supervisor can be started by again executing <tt>do2_simulate.tooldef</tt>, by selecting this file and pressing <em>F10</em>.
+        The same two visualization tabs as for the first scenario appear.
+        Enlarging the system visualization tab, or scrolling to show the right side of the visualization, will reveal a gray panel with numerous faults to inject into the system.
+        For monitors with lower resolutions, rather than putting the two visualizations side by side, it may be better to stack the tabs:
+        <img src="images/visualization_with_faults.png">
+        Observe how both tab headers are shown above a single visible visualization, similar to how browser tabs work.
+        It is then possible to click on the other tab's header to show that visualization, allowing to switch between the two visualizer tabs.
+    </p>
+    <p>
+        The scenario below will inject the fault that the top barrier <em>BB1</em> is stuck and will not close.
+    </p>
+
+    <h4>Closing the bridge</h4>
+    <ul>
+        <li>
+            In the system visualization, locate the fault <em>BB1 stuck</em> (top of the second column) and click the circle in front of it.
+            This injects the fault into the system.
+        </li>
+        <li>
+            Stop the land traffic by following the steps under <a href="#stopping-land-traffic">Stopping land traffic</a> of the nominal scenario.
+        </li>
+        <li>
+            Observe that the top barrier is not closing in the system visualization.
+        </li>
+        <li>
+            After a couple of seconds, the supervisor notices the fault and indicates that a faulty barrier has been detected by coloring it red in the GUI.
+        </li>
+        <li>
+            The operator confirms the error by clicking the <em>Stop</em> button in the GUI.
+        </li>
+        <li>
+            Any fault can be resolved by first clicking the orange circle in front of the injected fault, and then by clicking the circle in front of <em>Reset diagnosers</em> to reset the fault diagnosers of the supervisor.
+        </li>
+        <li>
+            Now we can try to close the barrier again.
+            For this, click <em>Close Barriers</em>.
+        </li>
+        <li>
+            Observe that the top barrier is now closing as in normal circumstances.
+        </li>
+        <li>
+            The simulation might now be continued as under nominal behavior.
+        </li>
+    </ul>
+
+    <p>
+        If desired, one can also at any time inject any of the other faults into the system, and observe how the system controlled by the fault-tolerant supervisor then behaves.
+    </p>
+
+    <h2>Legal</h2>
+    <p>
+        Copyright © 2022, 2023 Contributors to the Eclipse Foundation
+    </p>
+    <p>
+        See the NOTICE file(s) distributed with this work for additional information regarding copyright ownership.
+    </p>
+    <p>
+        This program and the accompanying materials are made available under the terms of the <a href="https://opensource.org/licenses/MIT">MIT License</a>.
+    </p>
+    <p>
+        SPDX-License-Identifier: MIT
+    </p>
+  </body>
+</html>
