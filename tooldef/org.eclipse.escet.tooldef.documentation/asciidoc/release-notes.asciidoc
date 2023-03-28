@@ -29,6 +29,7 @@ TBD
 Improvements and fixes:
 
 * The ToolDef documentation has some improvements related to 'file separator' terminology (issue {escet-issue}450[#450]).
+* The ToolDef documentation for the `chfileext` tool has some formatting fixes (issue {escet-issue}536[#536]).
 
 === Version 0.8 (2022-12-21)
 

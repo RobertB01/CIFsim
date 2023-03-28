@@ -37,6 +37,7 @@ Improvements and fixes:
 * Version-specific versions of the Eclipse ESCET website are no longer indexed by search engines.
 Only the current version of the website is now indexed.
 It may take some time for all search engines to catch up (issue {escet-issue}488[#488]).
+* The DSM clustering tool now outputs files with proper and consistent line endings (issue {escet-issue}540[#540]).
 
 === Version 0.8 (2022-12-21)
 
