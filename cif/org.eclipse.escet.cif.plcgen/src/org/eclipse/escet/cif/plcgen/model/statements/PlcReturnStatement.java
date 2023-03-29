@@ -34,4 +34,9 @@ public class PlcReturnStatement extends PlcStatement {
     public PlcReturnStatement(PlcExpression returnValue) {
         this.returnValue = returnValue;
     }
+
+    @Override
+    public PlcReturnStatement copy() {
+        return new PlcReturnStatement(returnValue);
+    }
 }

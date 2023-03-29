@@ -13,7 +13,11 @@
 
 package org.eclipse.escet.cif.plcgen.model.statements;
 
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 
@@ -24,6 +28,12 @@ public class PlcSelectionStatement extends PlcStatement {
 
     /** Choice to perform if none of the {@link #condChoices} can be chosen. */
     public List<PlcStatement> elseStats;
+
+    /** Constructor of the {@link PlcSelectionStatement} class. */
+    public PlcSelectionStatement() {
+        this(list(), list());
+    }
+
 
     /**
      * Constructor of the {@link PlcSelectionStatement} class.
@@ -54,5 +64,21 @@ public class PlcSelectionStatement extends PlcStatement {
             this.guard = guard;
             this.thenStats = thenStats;
         }
+
+        /**
+         * Make a copy of the selection choice.
+         *
+         * @return The newly created copy of the selection choice.
+         */
+        public PlcSelectChoice copy() {
+            return new PlcSelectChoice(guard, PlcStatement.copy(thenStats));
+        }
+    }
+
+    @Override
+    public PlcStatement copy() {
+        List<PlcSelectChoice> choices = listc(condChoices.size());
+        condChoices.stream().map(condChoice -> condChoice.copy()).collect(Collectors.toCollection(() -> choices));
+        return new PlcSelectionStatement(choices, PlcStatement.copy(elseStats));
     }
 }

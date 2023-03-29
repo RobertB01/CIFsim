@@ -28,4 +28,9 @@ public class PlcFuncApplStatement extends PlcStatement {
     public PlcFuncApplStatement(PlcFuncAppl funcApplExpr) {
         this.funcApplExpr = funcApplExpr;
     }
+
+    @Override
+    public PlcStatement copy() {
+        return new PlcFuncApplStatement(funcApplExpr);
+    }
 }

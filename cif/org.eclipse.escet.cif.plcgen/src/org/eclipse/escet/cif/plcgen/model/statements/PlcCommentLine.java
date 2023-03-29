@@ -58,4 +58,9 @@ public class PlcCommentLine extends PlcStatement {
         this.commentText = commentText;
         this.isEmptyStatement = isEmptyStatement;
     }
+
+    @Override
+    public PlcStatement copy() {
+        return new PlcCommentLine(commentText, isEmptyStatement);
+    }
 }
