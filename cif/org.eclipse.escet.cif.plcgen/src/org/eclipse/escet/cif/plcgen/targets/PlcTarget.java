@@ -130,6 +130,17 @@ public abstract class PlcTarget {
     public abstract boolean supportsEnumerations();
 
     /**
+     * Does the target support the given semantic operation?
+     *
+     * @param funcOper Semantics operation being queried.
+     * @return Whether the target supports the given operation.
+     */
+    public boolean supportsOperation(PlcFuncOperation funcOper) {
+        // By default the operation is supported.
+        return true;
+    }
+
+    /**
      * Does the target support infix notation for the given semantic operation?
      *
      * @param funcOper Semantics operation being queried.

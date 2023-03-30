@@ -64,6 +64,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl negateFuncAppl(PlcExpression in) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.NEGATE_OP));
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.NEGATE_OP, null,
                 ONE_INPUT_PARAMETER, "-", ExprBinding.UNARY_EXPR);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
@@ -77,6 +79,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl powerFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.POWER_OP));
+
         String infixText = target.supportsInfixNotation(PlcFuncOperation.POWER_OP) ? "**" : null;
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.POWER_OP, "EXPT",
                 TWO_INPUT_PARAMATERS, infixText, ExprBinding.POWER_EXPR);
@@ -90,7 +94,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl multiplyFuncAppl(PlcExpression... inN) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.MULTIPLY_OP));
         Assert.check(inN.length > 1);
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.MULTIPLY_OP, "MUL",
                 makeParamList(inN.length), "*", ExprBinding.MUL_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
@@ -106,6 +112,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl divideFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.DIVIDE_OP));
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.DIVIDE_OP, "DIV",
                 TWO_INPUT_PARAMATERS, "/", ExprBinding.MUL_EXPR);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN1", in1), new PlcNamedValue("IN2", in2)));
@@ -119,6 +127,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl moduloFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.MODULO_OP));
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.MODULO_OP, "MOD",
                 TWO_INPUT_PARAMATERS, null, ExprBinding.MUL_EXPR);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN1", in1), new PlcNamedValue("IN2", in2)));
@@ -131,7 +141,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl addFuncAppl(PlcExpression... inN) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.ADD_OP));
         Assert.check(inN.length > 1);
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.ADD_OP, "ADD",
                 makeParamList(inN.length), "+", ExprBinding.ADD_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
@@ -147,6 +159,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl subtractFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.SUBTRACT_OP));
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.SUBTRACT_OP, "SUB",
                 TWO_INPUT_PARAMATERS, "-", ExprBinding.ADD_EXPR);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN1", in1), new PlcNamedValue("IN2", in2)));
@@ -160,6 +174,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl lessThanFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.LESS_THAN_OP));
+
         // The PLC function allows more than two parameters.
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.LESS_THAN_OP, "LT",
                 TWO_INPUT_PARAMATERS, "<", ExprBinding.ORDER_EXPR);
@@ -174,6 +190,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl lessEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.LESS_EQUAL_OP));
+
         // The PLC function allows more than two parameters.
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.LESS_EQUAL_OP, "LE",
                 TWO_INPUT_PARAMATERS, "<=", ExprBinding.ORDER_EXPR);
@@ -188,6 +206,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl greaterThanFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.GREATER_THAN_OP));
+
         // The PLC function allows more than two parameters.
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.GREATER_THAN_OP, "GT",
                 TWO_INPUT_PARAMATERS, ">", ExprBinding.ORDER_EXPR);
@@ -202,6 +222,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl greaterEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.GREATER_EQUAL_OP));
+
         // The PLC function allows more than two parameters.
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.GREATER_EQUAL_OP, "GE",
                 TWO_INPUT_PARAMATERS, ">=", ExprBinding.ORDER_EXPR);
@@ -216,6 +238,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl equalFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.EQUAL_OP));
+
         // The PLC function allows more than two parameters.
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.EQUAL_OP, "EQ",
                 TWO_INPUT_PARAMATERS, "=", ExprBinding.EQUAL_EXPR);
@@ -230,6 +254,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl unEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.UNEQUAL_OP));
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.UNEQUAL_OP, "NE",
                 TWO_INPUT_PARAMATERS, "<>", ExprBinding.EQUAL_EXPR);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN1", in1), new PlcNamedValue("IN2", in2)));
@@ -242,6 +268,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl complementFuncAppl(PlcExpression in) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.COMPLEMENT_OP));
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.COMPLEMENT_OP, "NOT",
                 ONE_INPUT_PARAMETER, null, ExprBinding.UNARY_EXPR);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
@@ -254,7 +282,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl andFuncAppl(PlcExpression... inN) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.AND_OP));
         Assert.check(inN.length > 1);
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.AND_OP, "AND",
                 makeParamList(inN.length), "AND", ExprBinding.CONJUNCT_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
@@ -269,7 +299,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl xorFuncAppl(PlcExpression... inN) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.XOR_OP));
         Assert.check(inN.length > 1);
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.XOR_OP, "XOR",
                 makeParamList(inN.length), "XOR", ExprBinding.EXCL_DISJUNCT_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
@@ -284,7 +316,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl orFuncAppl(PlcExpression... inN) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.OR_OP));
         Assert.check(inN.length > 1);
+
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.OR_OP, "OR",
                 makeParamList(inN.length), "OR", ExprBinding.DISJUNCT_EXPR);
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
@@ -329,6 +363,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl selFuncAppl(PlcExpression g, PlcExpression in0, PlcExpression in1) {
+        Assert.check(target.supportsOperation(PlcFuncOperation.SEL_OP));
+
         PlcParameterDescription[] params = new PlcParameterDescription[] {
                 new PlcParameterDescription("G", PlcParamDirection.INPUT_ONLY),
                 new PlcParameterDescription("IN0", PlcParamDirection.INPUT_ONLY),
