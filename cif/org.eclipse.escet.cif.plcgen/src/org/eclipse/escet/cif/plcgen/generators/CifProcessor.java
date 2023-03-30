@@ -157,7 +157,7 @@ public class CifProcessor {
      */
     private void convertVariable(Declaration decl, CifType type) {
         PlcType varType = typeGen.convertType(type);
-        String varName = nameGenerator.generateName(decl);
+        String varName = nameGenerator.generateGlobalName(decl);
         variableNames.put(decl, varName);
 
         codeStorage.addStateVariable(new PlcVariable(varName, varType));

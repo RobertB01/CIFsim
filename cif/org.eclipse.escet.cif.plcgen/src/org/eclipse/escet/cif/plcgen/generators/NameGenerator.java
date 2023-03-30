@@ -28,7 +28,17 @@ import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
-/** Generator for obtaining clash-free names in the generated code. */
+/**
+ * Generator for obtaining clash-free names in the generated code.
+ *
+ * <p>
+ * The generator can generate globally unique names using {@link #generateGlobalName}. On top of globally unique names
+ * you can create local names that are both locally and globally unique in a scope using {@link #generateLocalName}.
+ * However, as local names are not taken into account for global names (it is assumed all global names occurring in the
+ * local scope are created before generating local names), safely creating new global names for use in the same local
+ * scope is not supported after creating the first local names in a scope.
+ * </p>
+ */
 public class NameGenerator {
     /** Default single lower-case letter name to use if no prefix can be constructed. */
     static final char DEFAULT_CHAR = 'x';
@@ -48,8 +58,8 @@ public class NameGenerator {
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
 
-    /** Numeric suffix value already given out to a caller, ordered by the name prefix. */
-    private Map<String, Integer> maxSuffixes;
+    /** Numeric suffix values already given out to a caller for globally unique names, ordered by the name prefix. */
+    private Map<String, Integer> globalSuffixes;
 
     /**
      * Constructor of the {@link NameGenerator} class.
@@ -60,33 +70,68 @@ public class NameGenerator {
         warnOnRename = settings.warnOnRename;
         warnOutput = settings.warnOutput;
 
-        maxSuffixes = map();
+        globalSuffixes = map();
         for (String name: PLC_LANGUAGE_KEYWORDS) {
-            maxSuffixes.put(name, 0);
+            globalSuffixes.put(name, 0);
         }
     }
 
     /**
      * Convert the given object to something that does not clash with the PLC language or with previously generated
-     * names.
+     * names. This function should not be used for generating names that also may contain local generated names.
      *
      * @param posObject Named CIF object.
      * @return A safe name that does not clash with either the PLC language keywords or names generated earlier.
      */
-    public String generateName(PositionObject posObject) {
+    public String generateGlobalName(PositionObject posObject) {
         Assert.check(CifTextUtils.hasName(posObject), "Missing name for \"" + String.valueOf(posObject) + "\".");
-        return generateName(CifTextUtils.getAbsName(posObject, false), true);
+        return generateName(CifTextUtils.getAbsName(posObject, false), true, null);
+    }
+
+    /**
+     * Convert the given name to a proper name that does not clash with the PLC language or with previously generated
+     * global names.
+     *
+     * @param initialName Suggested name to to use.
+     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings.
+     *     As producing such rename warnings for elements that have no name in CIF is meaningless to a user, this
+     *     parameter should be {@code false} for those names.
+     * @return A proper name that does not clash with PLC language keywords or previously generated global names.
+     */
+    public String generateGlobalName(String initialName, boolean initialIsCifName) {
+        return generateName(initialName, initialIsCifName, null);
+    }
+
+    /**
+     * Convert the given name to a proper name that does not clash with the PLC language, with previously generated
+     * global names or with previously generated local names that used the same {@code localSuffixes} information.
+     *
+     * @param initialName Suggested name to to use.
+     * @param localSuffixes Name suffix information of local names. Use the same map to generate all local names in a
+     *     scope.
+     * @return A proper name that does not clash with PLC language keywords, previously generated global names or local
+     *     names created using this function with the same {@code localSuffixes} map.
+     * @note Local names are assumed not to be used for representing CIF variables.
+     */
+    public String generateLocalName(String initialName, Map<String, Integer> localSuffixes) {
+        return generateName(initialName, false, localSuffixes);
     }
 
     /**
      * Convert the given name to something that does not clash with the PLC language or with previously generated names.
      *
      * @param initialName Suggested name to to use.
-     * @param initialIsCifName Whether the initial name is known by the CIF user. For objects that have no name in CIF,
-     *     producing rename warnings is meaningless.
-     * @return A safe name that does not clash with PLC language keywords or previously generated names.
+     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings.
+     *     As producing such rename warnings for objects that have no name in CIF is meaningless, this parameter should
+     *     be {@code false} for those names.
+     * @param localSuffixes Name suffix information of local names. Use the same map to generate all local names in a
+     *     scope.
+     * @return A proper name that does not clash with PLC language keywords or previously generated global names. If
+     *     a {@code localSuffixes} map is supplied, the produced names also don't clash with all previously generated
+     *     local names that used that same map.
      */
-    public String generateName(String initialName, boolean initialIsCifName) {
+    private String generateName(String initialName, boolean initialIsCifName, Map<String, Integer> localSuffixes) {
+        // Cleanup the name.
         StringBuilder cleanedName = new StringBuilder(initialName.length() + 1 + 2 + 8);
         boolean needsUnderscore = false;
         for (int index = 0; index < initialName.length(); index++) {
@@ -113,18 +158,31 @@ public class NameGenerator {
             cleanedName.append(DEFAULT_CHAR);
         }
 
+        // Make the name unique.
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
-        int maxUsedNumber = maxSuffixes.getOrDefault(lowerCleanedName, -1);
+        int maxUsedNumber = globalSuffixes.getOrDefault(lowerCleanedName, -1);
+        if (localSuffixes != null) {
+            maxUsedNumber = Math.max(maxUsedNumber, localSuffixes.getOrDefault(lowerCleanedName, -1));
+        }
+
         if (maxUsedNumber < 0) {
             // First use of a name without numeric suffix -> use as-is.
             //
             // Store it as 0 suffix, next use will get "__1" appended.
-            maxSuffixes.put(lowerCleanedName, 0);
+            if (localSuffixes != null) {
+                localSuffixes.put(lowerCleanedName, 0);
+            } else {
+                globalSuffixes.put(lowerCleanedName, 0);
+            }
             return cleanedName.toString();
         } else {
             // Identifier already used, append a new suffix.
             maxUsedNumber++;
-            maxSuffixes.put(lowerCleanedName, maxUsedNumber);
+            if (localSuffixes != null) {
+                localSuffixes.put(lowerCleanedName, maxUsedNumber);
+            } else {
+                globalSuffixes.put(lowerCleanedName, maxUsedNumber);
+            }
 
             cleanedName.append("__");
             cleanedName.append(maxUsedNumber);

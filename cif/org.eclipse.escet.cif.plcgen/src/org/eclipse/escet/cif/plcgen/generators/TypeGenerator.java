@@ -139,7 +139,7 @@ public class TypeGenerator {
         String sname = structNames.get(typeWrap);
         if (sname == null) {
             // Generate PLC struct for tuple.
-            sname = nameGenerator.generateName("TupleStruct", false);
+            sname = nameGenerator.generateGlobalName("TupleStruct", false);
             structNames.put(typeWrap, sname);
 
             PlcStructType structType = new PlcStructType();
@@ -220,14 +220,14 @@ public class TypeGenerator {
         PlcValue[] literals = new PlcValue[cifLiterals.size()];
         int litIndex = 0;
         for (EnumLiteral lit: cifLiterals) {
-            String litName = nameGenerator.generateName(CifTextUtils.getAbsName(lit, false), true);
+            String litName = nameGenerator.generateGlobalName(CifTextUtils.getAbsName(lit, false), true);
             literals[litIndex] = new PlcValue(litName);
 
             litIndex++;
         }
 
         // Construct the type and add it to the global type declarations.
-        String declName = nameGenerator.generateName(CifTextUtils.getAbsName(enumDecl, false), true);
+        String declName = nameGenerator.generateGlobalName(CifTextUtils.getAbsName(enumDecl, false), true);
         PlcType declType = new PlcDerivedType(declName);
         PlcEnumType plcEnumType = new PlcEnumType(
                 Arrays.stream(literals).map(v -> v.value).collect(Collectors.toList()));
