@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcTarget {
@@ -127,6 +128,17 @@ public abstract class PlcTarget {
      * @return Whether enumeration types are supported.
      */
     public abstract boolean supportsEnumerations();
+
+    /**
+     * Does the target support infix notation for the given semantic operation?
+     *
+     * @param funcOper Semantics operation being queried.
+     * @return Whether the target support infix notation fot the given operation.
+     */
+    public boolean supportsInfixNotation(PlcFuncOperation funcOper) {
+        // By default infix notation is supported if the standard supplies a notation for it.
+        return true;
+    }
 
     /**
      * Get the size of the largest supported integer type.

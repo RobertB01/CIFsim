@@ -77,8 +77,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl powerFuncAppl(PlcExpression in1, PlcExpression in2) {
+        String infixText = target.supportsInfixNotation(PlcFuncOperation.POWER_OP) ? "**" : null;
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.POWER_OP, "EXPT",
-                TWO_INPUT_PARAMATERS, "**", ExprBinding.POWER_EXPR);
+                TWO_INPUT_PARAMATERS, infixText, ExprBinding.POWER_EXPR);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN1", in1), new PlcNamedValue("IN2", in2)));
     }
 
