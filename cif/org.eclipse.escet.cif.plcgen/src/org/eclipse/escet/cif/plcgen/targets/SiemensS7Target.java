@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.targets;
 import java.util.Map;
 
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.writers.S7Writer;
 import org.eclipse.escet.common.java.Assert;
 
@@ -76,6 +77,12 @@ public class SiemensS7Target extends PlcTarget {
     @Override
     public boolean supportsEnumerations() {
         return false;
+    }
+
+    @Override
+    public boolean supportsOperation(PlcFuncOperation funcOper) {
+        // S7 doesn't have a function for log10.
+        return funcOper != PlcFuncOperation.STDLIB_LOG;
     }
 
     @Override
