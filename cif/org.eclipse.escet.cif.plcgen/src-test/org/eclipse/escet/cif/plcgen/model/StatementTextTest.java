@@ -33,6 +33,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcReturnStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
 import org.junit.Test;
 
 /** Tests of the conversion of PLC statements to text. */
@@ -41,7 +42,7 @@ public class StatementTextTest {
     private static final String POU_NAME = "testPou";
 
     /** Function application generator. */
-    private final PlcFunctionAppls funcAppls = new PlcFunctionAppls();
+    private final PlcFunctionAppls funcAppls = new PlcFunctionAppls(new PlcOpenXmlTarget());
 
     /** Converter of expressions and statements to text. */
     private final ModelTextGenerator textGen = new ModelTextGenerator();

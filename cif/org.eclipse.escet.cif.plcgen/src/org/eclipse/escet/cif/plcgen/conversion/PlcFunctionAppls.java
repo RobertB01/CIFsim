@@ -29,10 +29,14 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcP
 import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 
 /** Elementary function application construction methods for a target. */
 public class PlcFunctionAppls {
+    /** PLC to generate code for. */
+    private final PlcTarget target;
+
     /** Parameters for functions that take one input parameters. */
     private static final PlcParameterDescription[] ONE_INPUT_PARAMETER = new PlcParameterDescription[] {
             new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY),
@@ -43,6 +47,15 @@ public class PlcFunctionAppls {
             new PlcParameterDescription("IN1", PlcParamDirection.INPUT_ONLY),
             new PlcParameterDescription("IN2", PlcParamDirection.INPUT_ONLY),
             new PlcParameterDescription("OUT", PlcParamDirection.OUTPUT_ONLY)};
+
+    /**
+     * Constructor of the {@link PlcTarget} class.
+     *
+     * @param target PLC to generate code for.
+     */
+    public PlcFunctionAppls(PlcTarget target) {
+        this.target = target;
+    }
 
     /**
      * Construct a function application for a negation.

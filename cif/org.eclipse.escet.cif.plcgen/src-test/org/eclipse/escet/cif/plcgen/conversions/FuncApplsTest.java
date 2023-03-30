@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
+import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
 import org.junit.Test;
 
 /** Pretty-print function applications test. */
@@ -50,7 +51,7 @@ public class FuncApplsTest {
     private final PlcExpression real2 = new PlcRealLiteral("2.0");
 
     /** Function application generator. */
-    private final PlcFunctionAppls funcAppls = new PlcFunctionAppls();
+    private final PlcFunctionAppls funcAppls = new PlcFunctionAppls(new PlcOpenXmlTarget());
 
     /** Converter of expressions and statements to text. */
     private final ModelTextGenerator textGen = new ModelTextGenerator();
