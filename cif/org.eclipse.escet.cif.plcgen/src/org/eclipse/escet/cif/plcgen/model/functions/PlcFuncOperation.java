@@ -70,5 +70,44 @@ public enum PlcFuncOperation {
     CAST_OP,
 
     /** Tertiary if/else operation. */
-    SEL_OP;
+    SEL_OP,
+
+    /** Absolute value operation. */
+    STDLIB_ABS,
+
+    /** Exponential operation ((@code e ** x}). */
+    STDLIB_EXP,
+
+    /** Natural logarithm operation. */
+    STDLIB_LN,
+
+    /** Base 10 logarithm operation. */
+    STDLIB_LOG,
+
+    /** Minimum value operation. */
+    STDLIB_MIN,
+
+    /** Maximum value operation. */
+    STDLIB_MAX,
+
+    /** Square root operation. */
+    STDLIB_SQRT,
+
+    /** Arccosine operation. */
+    STDLIB_ACOS,
+
+    /** Arcsine operation. */
+    STDLIB_ASIN,
+
+    /** Arctangent operation. */
+    STDLIB_ATAN,
+
+    /** Cosine operation. */
+    STDLIB_COS,
+
+    /** Sine operation. */
+    STDLIB_SIN,
+
+    /** Tangent operation. */
+    STDLIB_TAN;
 }
