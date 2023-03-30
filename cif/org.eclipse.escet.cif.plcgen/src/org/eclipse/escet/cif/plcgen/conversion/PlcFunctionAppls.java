@@ -57,15 +57,15 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Construct a function application for an exponentiation.
+     * Construct a function application for an exponentiation ({@code a ** b}).
      *
      * @param in1 Base value argument of the function.
      * @param in2 Exponent argument of the function.
      * @return The constructed function application.
      */
-    public PlcFuncAppl exptFuncAppl(PlcExpression in1, PlcExpression in2) {
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.EXP_OP, "EXPT",
-                TWO_INPUT_PARAMATERS, "**", ExprBinding.EXPT_EXPR);
+    public PlcFuncAppl powerFuncAppl(PlcExpression in1, PlcExpression in2) {
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.POWER_OP, "EXPT",
+                TWO_INPUT_PARAMATERS, "**", ExprBinding.POWER_EXPR);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN1", in1), new PlcNamedValue("IN2", in2)));
     }
 
