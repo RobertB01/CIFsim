@@ -262,8 +262,8 @@ public class CifProcessor {
                             (supportArrays ? NoSpecificType.LIST_TYPES_NON_ARRAY : NoSpecificType.LIST_TYPES)),
 
                     // Allow only casting to the same type and int to real, allow projection only on tuples and arrays,
-                    // forbid string, set, and dictionary literals, forbid slicing, and function references outside call
-                    // context.
+                    // forbid string, set, and dictionary literals and time, forbid slicing, and function references
+                    // outside call context.
                     new ExprNoSpecificExprsCheck( //
                             NoSpecificExpr.CAST_EXPRS_FROM_STRING, //
                             NoSpecificExpr.CAST_EXPRS_TO_STRING, //
@@ -274,7 +274,8 @@ public class CifProcessor {
                             NoSpecificExpr.PROJECTION_EXPRS_STRINGS, //
                             NoSpecificExpr.SET_LITS, //
                             NoSpecificExpr.STRING_LITS, //
-                            NoSpecificExpr.SLICE_EXPRS),
+                            NoSpecificExpr.SLICE_EXPRS, //
+                            NoSpecificExpr.TIME_VAR_REFS),
 
                     // Disallow sampling.
                     new ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp.SAMPLE),
