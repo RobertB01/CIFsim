@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET SeText Scanner/Parser Generator (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.setext.generator;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 0.10.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.escet.common.eclipse.ui;bundle-version="0.9.0",
