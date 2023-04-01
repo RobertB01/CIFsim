@@ -32,8 +32,8 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.escet.common.feature" version="0.9.0.qualifier"/>
-      <import feature="org.eclipse.escet.setext.feature" version="0.9.0.qualifier"/>
+      <import feature="org.eclipse.escet.common.feature" version="0.10.0.qualifier"/>
+      <import feature="org.eclipse.escet.setext.feature" version="0.10.0.qualifier"/>
       <import plugin="io.github.java-diff-utils"/>
       <import plugin="org.apache.commons.exec"/>
    </requires>
