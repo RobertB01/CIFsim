@@ -165,7 +165,7 @@ However, this should be carefully considered, taking into account Git's well-kno
 Only perform a rebase if you understand the potential pitfalls of rewriting history.
 Never rebase a branch that is shared with others that have been given 'permission' to work on the branch as well.
 Never rebase a branch when other branches are based on it.
-Never rebase a branch once a merge request is created for it, e.g. to avoid confusion for reviewers, and to prevent rewriting history in case a snapshot of the merge request is submitted to the Eclipse Foundation IP team as part of a Contribution Questionnaire (CQ).
+Never rebase a branch once a merge request is created for it, e.g. to avoid confusion for reviewers, and to prevent rewriting history in case a snapshot of the merge request is submitted to the Eclipse Foundation IP team via link:https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab[IPLab].
 A safer alternative to rebasing is merging, which leads to an extra merge commit and a more complicated history.
 If you fully understand rebasing and employ it carefully, it can be a powerful to maintain a simpler and cleaner history.
 Rebasing local commits that have not yet been pushed to the remote public repository is always at your own discretion.
