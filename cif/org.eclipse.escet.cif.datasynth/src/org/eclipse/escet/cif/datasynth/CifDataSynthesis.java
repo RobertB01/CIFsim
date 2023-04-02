@@ -1278,7 +1278,7 @@ public class CifDataSynthesis {
                 dbg("Round %d: started.", round);
             }
 
-            // Compute non-blocking predicate from marking (fixed point).
+            // Operation 1: Compute non-blocking predicate from marking (fixed point).
             BDD nonBlock;
             if (doTiming) {
                 timing.mainBwMarked.start();
@@ -1300,7 +1300,7 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Detect change in controlled behavior.
+            // Operation 1: Detect change in controlled behavior.
             if (aut.ctrlBeh.equals(nonBlock)) {
                 nonBlock.free();
                 unchanged++;
@@ -1313,7 +1313,7 @@ public class CifDataSynthesis {
                 unchanged = 0;
             }
 
-            // Detect fixed point for main loop.
+            // Operation 1: Detect fixed point for main loop.
             BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
             boolean noCtrlStates = ctrlStates.isZero();
             ctrlStates.free();
@@ -1347,7 +1347,7 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Compute bad-state predicate from blocking (fixed point).
+            // Operation 2: Compute bad-state predicate from blocking predicate (fixed point).
             BDD badState = aut.ctrlBeh.not();
             if (aut.env.isTerminationRequested()) {
                 return;
@@ -1379,7 +1379,7 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Detect change in controlled behavior.
+            // Operation 2: Detect change in controlled behavior.
             if (aut.ctrlBeh.equals(newCtrlBeh)) {
                 newCtrlBeh.free();
                 unchanged++;
@@ -1394,7 +1394,7 @@ public class CifDataSynthesis {
 
             // Optional forward reachability.
             if (doForward) {
-                // Detect fixed point for main loop.
+                // Operation 2: Detect fixed point for main loop.
                 ctrlStates = aut.ctrlBeh.and(aut.plantInv);
                 noCtrlStates = ctrlStates.isZero();
                 ctrlStates.free();
@@ -1428,8 +1428,8 @@ public class CifDataSynthesis {
                     return;
                 }
 
-                // Compute controlled-behavior predicate from initialization of the controlled system as determined so
-                // far (fixed point).
+                // Operation 3: Compute controlled-behavior predicate from initialization of the controlled system as
+                // determined so far (fixed point).
                 if (doTiming) {
                     timing.mainFwInit.start();
                 }
@@ -1450,7 +1450,7 @@ public class CifDataSynthesis {
                     return;
                 }
 
-                // Detect change in controlled behavior.
+                // Operation 3: Detect change in controlled behavior.
                 if (aut.ctrlBeh.equals(newCtrlBeh)) {
                     newCtrlBeh.free();
                     unchanged++;
@@ -1464,7 +1464,7 @@ public class CifDataSynthesis {
                 }
             }
 
-            // Detect fixed point for main loop.
+            // Operation 2 or 3: Detect fixed point for main loop.
             ctrlStates = aut.ctrlBeh.and(aut.plantInv);
             noCtrlStates = ctrlStates.isZero();
             ctrlStates.free();
