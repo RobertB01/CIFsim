@@ -1392,39 +1392,39 @@ public class CifDataSynthesis {
                 unchanged = 0;
             }
 
-                // Operation 2: Detect fixed point for main loop.
-                ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-                noCtrlStates = ctrlStates.isZero();
-                ctrlStates.free();
-                if (noCtrlStates) {
+            // Operation 2: Detect fixed point for main loop.
+            ctrlStates = aut.ctrlBeh.and(aut.plantInv);
+            noCtrlStates = ctrlStates.isZero();
+            ctrlStates.free();
+            if (noCtrlStates) {
+                if (dbgEnabled) {
+                    dbg();
+                    dbg("Round %d: finished, all states are bad.", round);
+                }
+                break;
+            }
+            if (round > 1 && unchanged >= stableCount) {
+                if (dbgEnabled) {
+                    dbg();
+                    dbg("Round %d: finished, controlled behavior is stable.", round);
+                }
+                break;
+            }
+            if (unchanged == 0) {
+                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
+                boolean noInit = init.isZero();
+                init.free();
+                if (noInit) {
                     if (dbgEnabled) {
                         dbg();
-                        dbg("Round %d: finished, all states are bad.", round);
+                        dbg("Round %d: finished, no initialization possible.", round);
                     }
                     break;
                 }
-                if (round > 1 && unchanged >= stableCount) {
-                    if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, controlled behavior is stable.", round);
-                    }
-                    break;
-                }
-                if (unchanged == 0) {
-                    BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                    boolean noInit = init.isZero();
-                    init.free();
-                    if (noInit) {
-                        if (dbgEnabled) {
-                            dbg();
-                            dbg("Round %d: finished, no initialization possible.", round);
-                        }
-                        break;
-                    }
-                }
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
+            }
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
 
             // Optional forward reachability.
             if (doForward) {
@@ -1463,39 +1463,39 @@ public class CifDataSynthesis {
                     unchanged = 0;
                 }
 
-            // Operation 2 or 3: Detect fixed point for main loop.
-            ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-            noCtrlStates = ctrlStates.isZero();
-            ctrlStates.free();
-            if (noCtrlStates) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, all states are bad.", round);
-                }
-                break;
-            }
-            if (unchanged >= stableCount) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, controlled behavior is stable.", round);
-                }
-                break;
-            }
-            if (!doForward && unchanged == 0) {
-                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                boolean noInit = init.isZero();
-                init.free();
-                if (noInit) {
+                // Operation 2 or 3: Detect fixed point for main loop.
+                ctrlStates = aut.ctrlBeh.and(aut.plantInv);
+                noCtrlStates = ctrlStates.isZero();
+                ctrlStates.free();
+                if (noCtrlStates) {
                     if (dbgEnabled) {
                         dbg();
-                        dbg("Round %d: finished, no initialization possible.", round);
+                        dbg("Round %d: finished, all states are bad.", round);
                     }
                     break;
                 }
-            }
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
+                if (unchanged >= stableCount) {
+                    if (dbgEnabled) {
+                        dbg();
+                        dbg("Round %d: finished, controlled behavior is stable.", round);
+                    }
+                    break;
+                }
+                if (!doForward && unchanged == 0) {
+                    BDD init = aut.initialCtrl.and(aut.ctrlBeh);
+                    boolean noInit = init.isZero();
+                    init.free();
+                    if (noInit) {
+                        if (dbgEnabled) {
+                            dbg();
+                            dbg("Round %d: finished, no initialization possible.", round);
+                        }
+                        break;
+                    }
+                }
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
             }
 
             // Finished round.
