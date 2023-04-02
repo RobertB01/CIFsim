@@ -1392,8 +1392,6 @@ public class CifDataSynthesis {
                 unchanged = 0;
             }
 
-            // Optional forward reachability.
-            if (doForward) {
                 // Operation 2: Detect fixed point for main loop.
                 ctrlStates = aut.ctrlBeh.and(aut.plantInv);
                 noCtrlStates = ctrlStates.isZero();
@@ -1428,6 +1426,8 @@ public class CifDataSynthesis {
                     return;
                 }
 
+            // Optional forward reachability.
+            if (doForward) {
                 // Operation 3: Compute controlled-behavior predicate from initialization of the controlled system as
                 // determined so far (fixed point).
                 if (doTiming) {
@@ -1462,7 +1462,6 @@ public class CifDataSynthesis {
                     aut.ctrlBeh = newCtrlBeh;
                     unchanged = 0;
                 }
-            }
 
             // Operation 2 or 3: Detect fixed point for main loop.
             ctrlStates = aut.ctrlBeh.and(aut.plantInv);
@@ -1496,6 +1495,7 @@ public class CifDataSynthesis {
             }
             if (aut.env.isTerminationRequested()) {
                 return;
+            }
             }
 
             // Finished round.
