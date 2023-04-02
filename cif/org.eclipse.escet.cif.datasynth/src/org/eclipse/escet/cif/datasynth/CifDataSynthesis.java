@@ -1403,7 +1403,7 @@ public class CifDataSynthesis {
                 }
                 break;
             }
-            if (round > 1 && unchanged >= stableCount) {
+            if ((!doForward || round > 1) && unchanged >= stableCount) {
                 if (dbgEnabled) {
                     dbg();
                     dbg("Round %d: finished, controlled behavior is stable.", round);
@@ -1426,7 +1426,7 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Optional forward reachability.
+            // Operation 3: Optional forward reachability.
             if (doForward) {
                 // Operation 3: Compute controlled-behavior predicate from initialization of the controlled system as
                 // determined so far (fixed point).
@@ -1463,7 +1463,8 @@ public class CifDataSynthesis {
                     unchanged = 0;
                 }
 
-                // Operation 2 or 3: Detect fixed point for main loop.
+                // Operation 3: Detect fixed point for main loop.
+                // No need to check the controlled behavior with initializationm, as forward reachability starts there.
                 ctrlStates = aut.ctrlBeh.and(aut.plantInv);
                 noCtrlStates = ctrlStates.isZero();
                 ctrlStates.free();
@@ -1480,18 +1481,6 @@ public class CifDataSynthesis {
                         dbg("Round %d: finished, controlled behavior is stable.", round);
                     }
                     break;
-                }
-                if (!doForward && unchanged == 0) {
-                    BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                    boolean noInit = init.isZero();
-                    init.free();
-                    if (noInit) {
-                        if (dbgEnabled) {
-                            dbg();
-                            dbg("Round %d: finished, no initialization possible.", round);
-                        }
-                        break;
-                    }
                 }
                 if (aut.env.isTerminationRequested()) {
                     return;
