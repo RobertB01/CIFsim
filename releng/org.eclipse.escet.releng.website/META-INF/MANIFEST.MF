@@ -2,12 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse ESCET Website (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.releng.website;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 0.10.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.releng.website
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.chi.documentation;bundle-version="0.9.0",
- org.eclipse.escet.cif.documentation;bundle-version="0.9.0",
- org.eclipse.escet.releng.dev.documentation;bundle-version="0.9.0",
- org.eclipse.escet.releng.project.documentation;bundle-version="0.9.0",
- org.eclipse.escet.tooldef.documentation;bundle-version="0.9.0"
+Require-Bundle: org.eclipse.escet.chi.documentation;bundle-version="0.10.0",
+ org.eclipse.escet.cif.documentation;bundle-version="0.10.0",
+ org.eclipse.escet.releng.dev.documentation;bundle-version="0.10.0",
+ org.eclipse.escet.releng.project.documentation;bundle-version="0.10.0",
+ org.eclipse.escet.tooldef.documentation;bundle-version="0.10.0"

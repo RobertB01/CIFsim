@@ -13,11 +13,11 @@
 <feature
       id="org.eclipse.escet.common.feature"
       label="ESCET Common (Incubation)"
-      version="0.9.0.qualifier"
+      version="0.10.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.releng.license.mit"
-      license-feature-version="0.9.0.qualifier">
+      license-feature-version="0.10.0.qualifier">
 
    <description>
       Eclipse ESCET common components.
