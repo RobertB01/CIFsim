@@ -520,26 +520,35 @@ E.g. for `v0.3` we archive `v0.1` and older, but keep `v0.2`.
 
 * Remove the websites of the identified milestone and release candidate versions:
 
-** Clone the Eclipse ESCET website Git repository using `git clone https://gitlab.eclipse.org/eclipse/escet/escet-website.git`.
+** These steps assume that you've set up an Eclipse ESCET development environment, using the <<development-dev-env-setup-chapter-index,standard instructions>>, at `<path-to-dev-env>`.
 
-** In the cloned repository, remove the folders corresponding to the milestone and release candidate versions.
+** Open a terminal.
 
-** Add all changes to be committed, e.g. by using `git add -A`.
+** Execute `cd <path-to-dev-env>/git` to go to the directory of your development environment with Git repositories.
 
-** Commit the changes.
+** Clone the Eclipse ESCET website Git repository by executing `git clone https://gitlab.eclipse.org/eclipse/escet/escet-website.git`.
 
-*** Use as commit message `Removed milestone and RC websites of release vN.N.`, replacing `vN.N` by the release version, e.g., `v1.0` when removing versions `v1.0-M1` and `v1.0-RC1`.
+** Execute `cd escet-website` to enter the directory that contains the new clone.
 
-*** Use the `--author` option to specify your full name (first name and last name) and email address as registered in your Eclipse Foundation account.
-Make sure to use double quotes around the entire argument, and `<` and `>` around the email address.
+** For each website version to remove:
 
-*** E.g. use the following to commit the changes:
-`git commit --author "Full Name <\some@example.org>" -m "Removed milestone and RC websites of release v1.0."`.
+*** Execute `../escet/misc/website/remove-website-version.bash vN.N "Full Name" "\some@example.com"`, with appropriate substitutions, to remove the website:
 
-** Push the changes to the Git server.
-E.g. use `git push`.
+**** Replace `vN.N` with the website milestone or release candidate version to remove, e.g.,`v0.9-M1` or `v1.1.0-RC1`.
+
+**** Replace `Full Name` by your full name (first name and last name) as registered in your Eclipse Foundation account, e.g., `John Smith`.
+
+**** Replace `some@example.com` by your email address as registered in your Eclipse Foundation account.
+
+*** As indicated, review the new commit.
+If it is OK, push it by executing `git push`.
 
 ** If successful you should see the changes on GitLab, at https://gitlab.eclipse.org/eclipse/escet/escet-website/-/commits/master.
+
+** Remove the website repository clone, by executing `cd ..` and `rm -rf escet-website`.
+
+** It may take a few minutes for the Git repository to be synced to the webserver, and for the removed websites to no longer be available online.
+Depending on browser cache settings and other factors, it may be necessary to force refresh your browser for it to pick up the changes on the server.
 
 * Remove the downloads of the identified milestone and release candidate versions:
 

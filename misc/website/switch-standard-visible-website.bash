@@ -77,7 +77,8 @@ set -e
 if [ $CHANGES -eq 1 ]; then
     echo "Committing changes..."
     COMMIT_MSG="Set standard visible website to release ${VERSION_TO_MAKE_DEFAULT}."
-    git commit --author="$ECLIPSE_ACCOUNT_FULLNAME <$ECLIPSE_ACCOUNT_EMAIL>" -m "${COMMIT_MSG}"
+    GIT_COMMITTER_NAME="$ECLIPSE_ACCOUNT_FULLNAME" GIT_COMMITTER_EMAIL="$ECLIPSE_ACCOUNT_EMAIL" \
+            git commit --author="$ECLIPSE_ACCOUNT_FULLNAME <$ECLIPSE_ACCOUNT_EMAIL>" -m "${COMMIT_MSG}"
     echo
     echo ${COMMIT_MSG}
     echo "Review the last commit before pushing it."
