@@ -1278,7 +1278,9 @@ public class CifDataSynthesis {
                 dbg("Round %d: started.", round);
             }
 
-            // Compute non-blocking predicate from marking (fixed point).
+            // Operation 1: Compute non-blocking predicate from marking.
+
+            // 1a: Perform backward reachability computation (fixed point).
             BDD nonBlock;
             if (doTiming) {
                 timing.mainBwMarked.start();
@@ -1300,7 +1302,7 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Detect change in controlled behavior.
+            // 1b: Detect change in controlled behavior.
             if (aut.ctrlBeh.equals(nonBlock)) {
                 nonBlock.free();
                 unchanged++;
@@ -1313,7 +1315,7 @@ public class CifDataSynthesis {
                 unchanged = 0;
             }
 
-            // Detect fixed point for main loop.
+            // 1c: Detect fixed point for main loop.
             BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
             boolean noCtrlStates = ctrlStates.isZero();
             ctrlStates.free();
@@ -1347,7 +1349,9 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Compute bad-state predicate from blocking (fixed point).
+            // Operation 2: Compute bad-state predicate from blocking predicate.
+
+            // 2a: Perform backward reachability computation (fixed point).
             BDD badState = aut.ctrlBeh.not();
             if (aut.env.isTerminationRequested()) {
                 return;
@@ -1379,7 +1383,7 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Detect change in controlled behavior.
+            // 2b: Detect change in controlled behavior.
             if (aut.ctrlBeh.equals(newCtrlBeh)) {
                 newCtrlBeh.free();
                 unchanged++;
@@ -1392,44 +1396,44 @@ public class CifDataSynthesis {
                 unchanged = 0;
             }
 
-            // Optional forward reachability.
-            if (doForward) {
-                // Detect fixed point for main loop.
-                ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-                noCtrlStates = ctrlStates.isZero();
-                ctrlStates.free();
-                if (noCtrlStates) {
+            // 2c: Detect fixed point for main loop.
+            ctrlStates = aut.ctrlBeh.and(aut.plantInv);
+            noCtrlStates = ctrlStates.isZero();
+            ctrlStates.free();
+            if (noCtrlStates) {
+                if (dbgEnabled) {
+                    dbg();
+                    dbg("Round %d: finished, all states are bad.", round);
+                }
+                break;
+            }
+            if ((!doForward || round > 1) && unchanged >= stableCount) {
+                if (dbgEnabled) {
+                    dbg();
+                    dbg("Round %d: finished, controlled behavior is stable.", round);
+                }
+                break;
+            }
+            if (unchanged == 0) {
+                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
+                boolean noInit = init.isZero();
+                init.free();
+                if (noInit) {
                     if (dbgEnabled) {
                         dbg();
-                        dbg("Round %d: finished, all states are bad.", round);
+                        dbg("Round %d: finished, no initialization possible.", round);
                     }
                     break;
                 }
-                if (round > 1 && unchanged >= stableCount) {
-                    if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, controlled behavior is stable.", round);
-                    }
-                    break;
-                }
-                if (unchanged == 0) {
-                    BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                    boolean noInit = init.isZero();
-                    init.free();
-                    if (noInit) {
-                        if (dbgEnabled) {
-                            dbg();
-                            dbg("Round %d: finished, no initialization possible.", round);
-                        }
-                        break;
-                    }
-                }
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
+            }
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
 
-                // Compute controlled-behavior predicate from initialization of the controlled system as determined so
-                // far (fixed point).
+            // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
+            // the controlled system as determined so far.
+            if (doForward) {
+                // 3a: Perform forward reachability computation (fixed point).
                 if (doTiming) {
                     timing.mainFwInit.start();
                 }
@@ -1450,7 +1454,7 @@ public class CifDataSynthesis {
                     return;
                 }
 
-                // Detect change in controlled behavior.
+                // 3b: Detect change in controlled behavior.
                 if (aut.ctrlBeh.equals(newCtrlBeh)) {
                     newCtrlBeh.free();
                     unchanged++;
@@ -1462,40 +1466,29 @@ public class CifDataSynthesis {
                     aut.ctrlBeh = newCtrlBeh;
                     unchanged = 0;
                 }
-            }
 
-            // Detect fixed point for main loop.
-            ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-            noCtrlStates = ctrlStates.isZero();
-            ctrlStates.free();
-            if (noCtrlStates) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, all states are bad.", round);
-                }
-                break;
-            }
-            if (unchanged >= stableCount) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, controlled behavior is stable.", round);
-                }
-                break;
-            }
-            if (!doForward && unchanged == 0) {
-                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                boolean noInit = init.isZero();
-                init.free();
-                if (noInit) {
+                // 3c: Detect fixed point for main loop.
+                // No need to check the controlled behavior with initialization, as forward reachability starts there.
+                ctrlStates = aut.ctrlBeh.and(aut.plantInv);
+                noCtrlStates = ctrlStates.isZero();
+                ctrlStates.free();
+                if (noCtrlStates) {
                     if (dbgEnabled) {
                         dbg();
-                        dbg("Round %d: finished, no initialization possible.", round);
+                        dbg("Round %d: finished, all states are bad.", round);
                     }
                     break;
                 }
-            }
-            if (aut.env.isTerminationRequested()) {
-                return;
+                if (unchanged >= stableCount) {
+                    if (dbgEnabled) {
+                        dbg();
+                        dbg("Round %d: finished, controlled behavior is stable.", round);
+                    }
+                    break;
+                }
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
             }
 
             // Finished round.
