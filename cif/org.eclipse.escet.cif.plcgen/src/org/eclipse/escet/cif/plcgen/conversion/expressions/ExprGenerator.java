@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
@@ -68,6 +70,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.common.java.Assert;
 
 /** Converter of CIF expressions to PLC expressions and statements. */
 public class ExprGenerator {
@@ -197,19 +200,18 @@ public class ExprGenerator {
      * @return The generated result.
      */
     private ExprGenResult convertCastExpr(CastExpression castExpr) {
-//            CastExpression cexpr = (CastExpression)expr;
-//            CifType ctype = normalizeType(cexpr.getChild().getType());
-//            CifType rtype = normalizeType(cexpr.getType());
-//            if (ctype instanceof IntType && rtype instanceof RealType) {
-//                String childTxt = transExpr(cexpr.getChild(), state, init);
-//                return genFuncCall(fmt("DINT_TO_%s", largeRealType.name), true, "IN", childTxt);
-//            }
-//            if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
-//                // Ignore cast expression.
-//                return transExpr(cexpr.getChild(), state, init);
-//            }
-//
-//            throw new RuntimeException("precond violation");
+        ExprGenResult result = convertExpr(castExpr.getChild());
+        CifType ctype = normalizeType(castExpr.getChild().getType());
+        CifType rtype = normalizeType(castExpr.getType());
+        if (ctype instanceof IntType && rtype instanceof RealType) {
+            return result.setValue(funcAppls.castFunctionAppl(result.value, target.getIntegerType(), target.getRealType()));
+        }
+        if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
+            // Ignore cast expression.
+            return result;
+        }
+
+        throw new RuntimeException("Precondition violation.");
     }
 
     /**
@@ -610,213 +612,242 @@ public class ExprGenerator {
 //                // Generate function call.
 //                return genFuncCall(funcPou.name, false, paramNames, paramTxts);
 //            } else if (fexpr instanceof StdLibFunctionExpression) {
-//                StdLibFunction stdlib = ((StdLibFunctionExpression)fexpr).getFunction();
-//                switch (stdlib) {
-//                    case ABS:
-//                        return genFuncCall("ABS", true, null, paramsTxt);
-//
-//                    case CBRT:
-//                        if (PlcOutputTypeOption.isS7Output()) {
-//                            // Use reals to get real result. Use two real-typed values to support S7-400 and S7-300.
-//                            return fmt("(%s) ** (1.0/3.0)", paramsTxt);
-//                        }
-//
-//                        // The 'a ** b' syntax seemed not to work in TwinCAT
-//                        // 3.1. Using the named function instead.
-//                        return genFuncCall("EXPT", true, list("IN1", "IN2"), list(paramsTxt, "1.0/3"));
-//
-//                    case CEIL:
-//                        // Unsupported. IEC 61131-3 has only TRUNC (round
-//                        // towards zero) and REAL_TO_INT (rounds to the nearest
-//                        // even integer if equally far from two integers).
-//                        throw new RuntimeException("precond violation");
-//
-//                    case DELETE:
-//                        // Unsupported.
-//                        throw new RuntimeException("precond violation");
-//
-//                    case EMPTY:
-//                        // Unsupported.
-//                        throw new RuntimeException("precond violation");
-//
-//                    case EXP:
-//                        return genFuncCall("EXP", true, null, paramsTxt);
-//
-//                    case FLOOR:
-//                        // Unsupported. IEC 61131-3 has only TRUNC (round
-//                        // towards zero) and REAL_TO_INT (rounds to the nearest
-//                        // even integer if equally far from two integers).
-//                        throw new RuntimeException("precond violation");
-//
-//                    case FORMAT:
-//                        // Unsupported.
-//                        throw new RuntimeException("precond violation");
-//
-//                    case LN:
-//                        return genFuncCall("LN", true, null, paramsTxt);
-//
-//                    case LOG:
-//                        if (PlcOutputTypeOption.isS7Output()) {
-//                            // S7 doesn't have a function for log10. But log10(x) = ln(x) / ln(10).
-//                            return fmt("%s / %s", genFuncCall("LN", true, null, paramsTxt),
-//                                    genFuncCall("LN", true, null, "10"));
-//                        }
-//
-//                        return genFuncCall("LOG", true, null, paramsTxt);
-//
-//                    case MAXIMUM:
-//                    case MINIMUM: {
-//                        CifType type0 = normalizeType(params.get(0).getType());
-//                        CifType type1 = normalizeType(params.get(1).getType());
-//                        if ((type0 instanceof IntType && type1 instanceof IntType)
-//                                || (type0 instanceof RealType && type1 instanceof RealType))
-//                        {
-//                            // paramTxts OK.
-//                        } else if (type0 instanceof IntType && type1 instanceof RealType) {
-//                            String toName = fmt("DINT_TO_%s", largeRealType.name);
-//                            paramTxts.set(0, genFuncCall(toName, true, "IN", paramTxts.get(0)));
-//                        } else {
-//                            Assert.check(type0 instanceof RealType && type1 instanceof IntType);
-//                            String toName = fmt("DINT_TO_%s", largeRealType.name);
-//                            paramTxts.set(1, genFuncCall(toName, true, "IN", paramTxts.get(1)));
-//                        }
-//                        return genFuncCall((stdlib == StdLibFunction.MAXIMUM) ? "MAX" : "MIN", true, list("IN1", "IN2"),
-//                                paramTxts);
-//                    }
-//
-//                    case POP:
-//                        // Unsupported.
-//                        throw new RuntimeException("precond violation");
-//
-//                    case POWER: {
-//                        CifType type0 = normalizeType(params.get(0).getType());
-//                        CifType type1 = normalizeType(params.get(1).getType());
-//
-//                        // S7-400 and S7-300 only support power on real types.
-//                        if (getPlcOutputType() == S7_400 || getPlcOutputType() == S7_300) {
-//                            String paramTxt0 = paramTxts.get(0);
-//                            String paramTxt1 = paramTxts.get(1);
-//                            if (type0 instanceof IntType) {
-//                                String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
-//                                paramTxt0 = genFuncCall(toName, true, "IN", paramTxt0);
-//                            }
-//
-//                            if (type1 instanceof IntType) {
-//                                String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
-//                                paramTxt1 = genFuncCall(toName, true, "IN", paramTxt1);
-//                            }
-//
-//                            String resultTxt = fmt("(%s) ** (%s)", paramTxt0, paramTxt1);
-//
-//                            // If the resulting type is integer, we need to convert that explicitly.
-//                            FuncType functionType = (FuncType)normalizeType(fexpr.getType());
-//                            CifType resultType = normalizeType(functionType.getReturnType());
-//                            if (resultType instanceof IntType) {
-//                                String toName = fmt("%s_TO_%s", largeRealType.name, largeIntType.name);
-//                                resultTxt = genFuncCall(toName, true, "IN", resultTxt);
-//                            }
-//
-//                            return resultTxt;
-//                        }
-//
-//                        // S7-1500 and S7-1200 use the 'a ** b' syntax for power.
-//                        if (getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200) {
-//                            return fmt("(%s) ** (%s)", paramTxts.get(0), paramTxts.get(1));
-//                        }
-//
-//                        // The 'a ** b' syntax seemed not to work in TwinCAT
-//                        // 3.1. Using the named function instead.
-//                        if (type0 instanceof IntType && type1 instanceof IntType && !isRangeless((IntType)type0)
-//                                && !isRangeless((IntType)type1))
-//                        {
-//                            // First parameter must be of real type.
-//                            String f0 = fmt("DINT_TO_%s", largeRealType.name);
-//                            String c1 = genFuncCall(f0, true, "IN", paramTxts.get(0));
-//                            String c2 = genFuncCall("EXPT", true, list("IN1", "IN2"), list(c1, paramTxts.get(1)));
-//                            String f1 = fmt("%s_TO_DINT", largeRealType.name);
-//                            return genFuncCall(f1, true, "IN", c2);
-//                        } else if (type0 instanceof IntType && type1 instanceof RealType) {
-//                            // First parameter must be of real type.
-//                            String cf = fmt("DINT_TO_%s", largeRealType.name);
-//                            String f0 = genFuncCall(cf, true, "IN", paramTxts.get(0));
-//                            return genFuncCall("EXPT", true, list("IN1", "IN2"), list(f0, paramTxts.get(1)));
-//                        } else {
-//                            return genFuncCall("EXPT", true, list("IN1", "IN2"), paramTxts);
-//                        }
-//                    }
-//
-//                    case ROUND:
-//                        // Unsupported. IEC 61131-3 has only TRUNC (round
-//                        // towards zero) and REAL_TO_INT (rounds to the nearest
-//                        // even integer if equally far from two integers).
-//                        throw new RuntimeException("precond violation");
-//
-//                    case SCALE:
-//                        // Unsupported. We could support this by expanding
-//                        // it to the definition of 'scale', using addition,
-//                        // subtraction, etc.
-//                        throw new RuntimeException("precond violation");
-//
-//                    case SIGN:
-//                        // Unsupported. We could support this by adding our
-//                        // own sign function.
-//                        throw new RuntimeException("precond violation");
-//
-//                    case SIZE:
-//                        // Unsupported.
-//                        throw new RuntimeException("precond violation");
-//
-//                    case SQRT:
-//                        return genFuncCall("SQRT", true, null, paramsTxt);
-//
-//                    case ACOS:
-//                        return genFuncCall("ACOS", true, null, paramsTxt);
-//
-//                    case ASIN:
-//                        return genFuncCall("ASIN", true, null, paramsTxt);
-//
-//                    case ATAN:
-//                        return genFuncCall("ATAN", true, null, paramsTxt);
-//
-//                    case COS:
-//                        return genFuncCall("COS", true, null, paramsTxt);
-//
-//                    case SIN:
-//                        return genFuncCall("SIN", true, null, paramsTxt);
-//
-//                    case TAN:
-//                        return genFuncCall("TAN", true, null, paramsTxt);
-//
-//                    case ACOSH:
-//                    case ASINH:
-//                    case ATANH:
-//                    case COSH:
-//                    case SINH:
-//                    case TANH:
-//                        // Unsupported.
-//                        throw new RuntimeException("precond violation");
-//
-//                    case BERNOULLI:
-//                    case BETA:
-//                    case BINOMIAL:
-//                    case CONSTANT:
-//                    case ERLANG:
-//                    case EXPONENTIAL:
-//                    case GAMMA:
-//                    case GEOMETRIC:
-//                    case LOG_NORMAL:
-//                    case NORMAL:
-//                    case POISSON:
-//                    case RANDOM:
-//                    case TRIANGLE:
-//                    case UNIFORM:
-//                    case WEIBULL:
-//                        // Unsupported.
-//                        throw new RuntimeException("precond violation");
-//                }
-//            }
-//
-//            throw new RuntimeException("precond violation");
+    }
+
+    /**
+     * Convert a call to the standard library.
+     *
+     * @param stdlibFuncCallExpr The performed call to convert.
+     * @param argumentResults Already converted argument values of the call.
+     * @return The converted expression.
+     */
+    private ExprGenResult convertStdlibExpr(FunctionCallExpression stdlibFuncCallExpr,
+            List<ExprGenResult> argumentResults)
+    {
+        List<Expression> arguments = stdlibFuncCallExpr.getParams();
+        StdLibFunction stdlib = ((StdLibFunctionExpression)stdlibFuncCallExpr.getFunction()).getFunction();
+        switch (stdlib) {
+            case ABS: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.absFuncAppl(arg1.value));
+            }
+
+            case CBRT: {
+                // Use reals to get real result. Use two real-typed values to support S7-400 and S7-300.
+                PlcExpression expValue = funcAppls.divideFuncAppl(new PlcRealLiteral("1.0"), new PlcRealLiteral("3.0"));
+
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.powFuncAppl(arg1.value, expValue));
+            }
+
+            case CEIL:
+                // Unsupported. IEC 61131-3 has only TRUNC (round
+                // towards zero) and REAL_TO_INT (rounds to the nearest
+                // even integer if equally far from two integers).
+                throw new RuntimeException("precond violation");
+
+            case DELETE:
+                // Unsupported.
+                throw new RuntimeException("precond violation");
+
+            case EMPTY:
+                // Unsupported.
+                throw new RuntimeException("precond violation");
+
+            case EXP: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.expFuncAppl(arg1.value));
+            }
+
+            case FLOOR:
+                // Unsupported. IEC 61131-3 has only TRUNC (round
+                // towards zero) and REAL_TO_INT (rounds to the nearest
+                // even integer if equally far from two integers).
+                throw new RuntimeException("precond violation");
+
+            case FORMAT:
+                // Unsupported.
+                throw new RuntimeException("precond violation");
+
+            case LN: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.lnFuncAppl(arg1.value));
+            }
+
+            case LOG: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+
+                if (!funcAppls.supportsLog()) {
+                    // Fallback to log10(x) = ln(x) / ln(10).
+                    PlcExpression lnX = funcAppls.lnFuncAppl(arg1.value);
+                    PlcExpression ln10 = funcAppls.lnFuncAppl(new PlcRealLiteral("10.0"));
+                    return arg1.setValue(funcAppls.divideFuncAppl(lnX, ln10));
+                }
+                return arg1.setValue(funcAppls.logFuncAppl(arg1.value));
+            }
+
+            case MAXIMUM:
+            case MINIMUM: {
+                CifType ltype = normalizeType(arguments.get(0).getType());
+                CifType rtype = normalizeType(arguments.get(1).getType());
+                PlcExpression leftSide = unifyTypeOfExpr(argumentResults.get(0).value, ltype, rtype);
+                PlcExpression rightSide = unifyTypeOfExpr(argumentResults.get(1).value, rtype, ltype);
+
+                // TODO Both MIN and MAX can be flattened to N-ary function calls thus allowing to perform multiple such
+                // CIF function calls at the same time..
+                ExprGenResult result = new ExprGenResult(this, argumentResults.get(0), argumentResults.get(1));
+                if (stdlib == StdLibFunction.MAXIMUM) {
+                    return result.setValue(funcAppls.maxFuncAppl(leftSide, rightSide));
+                } else {
+                    return result.setValue(funcAppls.minFuncAppl(leftSide, rightSide));
+                }
+            }
+
+            case POP:
+                // Unsupported.
+                throw new RuntimeException("precond violation");
+
+            case POWER: {
+                CifType baseType = normalizeType(arguments.get(0).getType());
+                CifType powerType = normalizeType(arguments.get(1).getType());
+
+                // Cif input and output expectations.
+                boolean cifBaseIsInt = baseType instanceof IntType;
+                boolean cifPowerIsInt = powerType instanceof IntType;
+                boolean cifIntResult = cifBaseIsInt & cifPowerIsInt;
+
+                // Find an input type combination that works for the PLC.
+                boolean plcBaseIsInt = cifBaseIsInt;
+                boolean plcPowerIsInt = cifPowerIsInt;
+                if (!funcAppls.supportsPow(plcBaseIsInt, plcPowerIsInt) && plcBaseIsInt) {
+                    plcBaseIsInt = false;
+                }
+                if (!funcAppls.supportsPow(plcBaseIsInt, plcPowerIsInt) && plcPowerIsInt) {
+                    plcPowerIsInt = false;
+                }
+                // Either a working combination has been found or we dropped back to the always supported
+                // POW(real, real) case.
+
+                // Convert both sides if needed.
+                PlcExpression baseSide = argumentResults.get(0).value;
+                if (cifBaseIsInt && !plcBaseIsInt) {
+                    baseSide = funcAppls.castFunctionAppl(baseSide, target.getIntegerType(), target.getRealType());
+                }
+                PlcExpression powerSide = argumentResults.get(1).value;
+                if (cifPowerIsInt && !plcPowerIsInt) {
+                    powerSide = funcAppls.castFunctionAppl(powerSide, target.getIntegerType(), target.getRealType());
+                }
+
+                // Generate the call.
+                PlcExpression powCall = funcAppls.powFuncAppl(baseSide, powerSide);
+
+                // Convert the result back if CIF and PLC types are not the same. Note that the PLC cannot reach an
+                // integer typed result if CIF does not have it as the PLC sides are never changed to integer type.
+                boolean plcIntResult = plcBaseIsInt & plcPowerIsInt;
+                if (cifIntResult && !plcIntResult) {
+                    powCall = funcAppls.castFunctionAppl(powerSide, target.getRealType(), target.getIntegerType());
+                }
+
+                ExprGenResult result = new ExprGenResult(this, argumentResults.get(0), argumentResults.get(1));
+                return result.setValue(powCall);
+            }
+
+            case ROUND:
+                // Unsupported. IEC 61131-3 has only TRUNC (round
+                // towards zero) and REAL_TO_INT (rounds to the nearest
+                // even integer if equally far from two integers).
+                throw new RuntimeException("precond violation");
+
+            case SCALE:
+                // Unsupported. We could support this by expanding
+                // it to the definition of 'scale', using addition,
+                // subtraction, etc.
+                throw new RuntimeException("precond violation");
+
+            case SIGN:
+                // Unsupported. We could support this by adding our
+                // own sign function.
+                throw new RuntimeException("precond violation");
+
+            case SIZE:
+                // Unsupported.
+                throw new RuntimeException("precond violation");
+
+            case SQRT: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.sqrtFuncAppl(arg1.value));
+            }
+
+            case ACOS: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.acosFuncAppl(arg1.value));
+            }
+
+            case ASIN: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.asinFuncAppl(arg1.value));
+            }
+
+            case ATAN: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.atanFuncAppl(arg1.value));
+            }
+
+            case COS: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.cosFuncAppl(arg1.value));
+            }
+
+            case SIN: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.sinFuncAppl(arg1.value));
+            }
+
+            case TAN: {
+                Assert.check(argumentResults.size() == 1);
+                ExprGenResult arg1 = argumentResults.get(0);
+                return arg1.setValue(funcAppls.tanFuncAppl(arg1.value));
+            }
+
+            case ACOSH:
+            case ASINH:
+            case ATANH:
+            case COSH:
+            case SINH:
+            case TANH:
+                // Unsupported.
+                throw new RuntimeException("precond violation");
+
+            case BERNOULLI:
+            case BETA:
+            case BINOMIAL:
+            case CONSTANT:
+            case ERLANG:
+            case EXPONENTIAL:
+            case GAMMA:
+            case GEOMETRIC:
+            case LOG_NORMAL:
+            case NORMAL:
+            case POISSON:
+            case RANDOM:
+            case TRIANGLE:
+            case UNIFORM:
+            case WEIBULL:
+                // Unsupported.
+                throw new RuntimeException("precond violation");
+        }
+        throw new RuntimeException("Precondition violation.");
     }
 
     /**
