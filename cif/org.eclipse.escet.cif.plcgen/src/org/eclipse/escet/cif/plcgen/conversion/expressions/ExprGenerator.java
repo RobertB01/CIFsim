@@ -92,7 +92,80 @@ public class ExprGenerator {
         } else if (expr instanceof TimeExpression) {
 //            Assert.notNull(state);
 //            return state + ".curTime";
-        } else if (expr instanceof CastExpression) {
+        } else if (expr instanceof CastExpression ce) {
+            return convertCastExpr(ce);
+        } else if (expr instanceof UnaryExpression ue) {
+            return convertUnaryExpr(ue);
+        } else if (expr instanceof BinaryExpression be) {
+            return convertBinaryExpr(be);
+        } else if (expr instanceof IfExpression ife) {
+            return convertIfExpr(ife);
+        } else if (expr instanceof ProjectionExpression pe) {
+            return convertProjectionExpr(pe);
+        } else if (expr instanceof SliceExpression) {
+            throw new RuntimeException("precond violation");
+        } else if (expr instanceof FunctionCallExpression fce) {
+            return convertFuncCallExpr(fce);
+        } else if (expr instanceof ListExpression le) {
+            return convertArrayExpr(le);
+        } else if (expr instanceof SetExpression) {
+            throw new RuntimeException("precond violation");
+        } else if (expr instanceof TupleExpression te) {
+            return convertTupleExpr(te);
+        } else if (expr instanceof DictExpression) {
+            throw new RuntimeException("precond violation");
+        } else if (expr instanceof ConstantExpression) {
+//            Assert.check(constantsAllowed);
+//            Constant constant = ((ConstantExpression)expr).getConstant();
+//            return getPlcName(constant);
+        } else if (expr instanceof DiscVariableExpression) {
+//            DiscVariable var = ((DiscVariableExpression)expr).getVariable();
+//            EObject parent = var.eContainer();
+//            if (parent instanceof ComplexComponent) {
+//                // Discrete variable.
+//                Assert.notNull(state);
+//                return state + "." + getPlcName(var);
+//            } else {
+//                // Local variable or parameter of a function.
+//                return getPlcName(var);
+//            }
+        } else if (expr instanceof AlgVariableExpression) {
+//            Assert.notNull(state);
+//            AlgVariable var = ((AlgVariableExpression)expr).getVariable();
+//            return genFuncCall(getPlcName(var), false, "state", state);
+        } else if (expr instanceof ContVariableExpression) {
+//            Assert.notNull(state);
+//            ContVariableExpression cvexpr = (ContVariableExpression)expr;
+//            ContVariable var = cvexpr.getVariable();
+//            if (cvexpr.isDerivative()) {
+//                return genFuncCall("deriv" + getPlcName(var), false, "state", state);
+//            } else {
+//                return state + "." + getPlcName(var);
+//            }
+        } else if (expr instanceof LocationExpression) {
+//            throw new RuntimeException("loc expr unexpected in lin spec");
+        } else if (expr instanceof EnumLiteralExpression) {
+//            // We have at most a single enumeration after linearization. There is
+//            // no need to prefix literals with the enumeration, as the literal
+//            // names are globally unique as well.
+//            EnumLiteral lit = ((EnumLiteralExpression)expr).getLiteral();
+//            return getPlcName(lit);
+        } else if (expr instanceof FunctionExpression) {
+            throw new RuntimeException("precond violation");
+        } else if (expr instanceof InputVariableExpression) {
+//            InputVariable var = ((InputVariableExpression)expr).getVariable();
+//            return getPlcName(var);
+        }
+        throw new RuntimeException("Precondition violation.");
+    }
+
+    /**
+     * Convert a cast expression.
+     *
+     * @param castExpr Expression to convert.
+     * @return The generated result.
+     */
+    private ExprGenResult convertCastExpr(CastExpression castExpr) {
 //            CastExpression cexpr = (CastExpression)expr;
 //            CifType ctype = normalizeType(cexpr.getChild().getType());
 //            CifType rtype = normalizeType(cexpr.getType());
@@ -106,7 +179,15 @@ public class ExprGenerator {
 //            }
 //
 //            throw new RuntimeException("precond violation");
-        } else if (expr instanceof UnaryExpression) {
+    }
+
+    /**
+     * Convert a unary operator expression.
+     *
+     * @param unaryExpr Expression to convert.
+     * @return The generated result.
+     */
+    private ExprGenResult convertUnaryExpr(UnaryExpression unaryExpr) {
 //            UnaryExpression uexpr = (UnaryExpression)expr;
 //            Expression child = uexpr.getChild();
 //            String childTxt = transExpr(child, state, init);
@@ -130,7 +211,15 @@ public class ExprGenerator {
 //                default:
 //                    throw new RuntimeException("Unknown unop: " + op);
 //            }
-        } else if (expr instanceof BinaryExpression) {
+    }
+
+    /**
+     * Convert a binary operator expression.
+     *
+     * @param binExpr Binary expression to convert.
+     * @return The generated result.
+     */
+    private ExprGenResult convertBinaryExpr(BinaryExpression binExpr) {
 //            BinaryExpression bexpr = (BinaryExpression)expr;
 //            String left = transExpr(bexpr.getLeft(), state, init);
 //            String right = transExpr(bexpr.getRight(), state, init);
@@ -258,7 +347,15 @@ public class ExprGenerator {
 //                default:
 //                    throw new RuntimeException("Unknown binop: " + op);
 //            }
-        } else if (expr instanceof IfExpression) {
+    }
+
+    /**
+     * Convert an 'if' expression to PLC code.
+     *
+     * @param ifExpr Expression to convert.
+     * @return The converted expression.
+     */
+    private ExprGenResult convertIfExpr(IfExpression ifExpr) {
 //            // Create function for the 'if' expression.
 //            int nr = nextIfFuncNr;
 //            String name = "ifExprFunc" + nr;
@@ -342,7 +439,15 @@ public class ExprGenerator {
 //            } else {
 //                return genFuncCall(name, false, "state", state);
 //            }
-        } else if (expr instanceof ProjectionExpression) {
+    }
+
+    /**
+     * Convert projection expressions to a PLC expression.
+     *
+     * @param expr Projection expression to convert.
+     * @return The converted expression.
+     */
+    private ExprGenResult convertProjectionExpr(Expression expr) {
 //            // Since projection on function call results etc are not allowed,
 //            // we generate functions for the projections, and use them instead.
 //            ProjectionExpression pexpr = (ProjectionExpression)expr;
@@ -377,9 +482,15 @@ public class ExprGenerator {
 //            }
 //
 //            throw new RuntimeException("precond violation");
-        } else if (expr instanceof SliceExpression) {
-            throw new RuntimeException("precond violation");
-        } else if (expr instanceof FunctionCallExpression) {
+    }
+
+    /**
+     * Convert a function call.
+     *
+     * @param funcCallExpr Expression performing the call.
+     * @return The converted expression.
+     */
+    private ExprGenResult convertFuncCallExpr(FunctionCallExpression funcCallExpr) {
 //            FunctionCallExpression fcexpr = (FunctionCallExpression)expr;
 //
 //            List<String> paramTxts = listc(fcexpr.getParams().size());
@@ -613,7 +724,15 @@ public class ExprGenerator {
 //            }
 //
 //            throw new RuntimeException("precond violation");
-        } else if (expr instanceof ListExpression) {
+    }
+
+    /**
+     * Convert an array literal expression to PLC code.
+     *
+     * @param listExpr Expression to convert.
+     * @return The converted expression.
+     */
+    private ExprGenResult convertArrayExpr(ListExpression listExpr) {
 //            // Transform the elements.
 //            ListExpression lexpr = (ListExpression)expr;
 //            List<String> elemTxts = listc(lexpr.getElements().size());
@@ -638,9 +757,15 @@ public class ExprGenerator {
 //                String name = genArrayLitCreateFunc(ltype);
 //                return genFuncCall(name, false, argTxts, elemTxts);
 //            }
-        } else if (expr instanceof SetExpression) {
-            throw new RuntimeException("precond violation");
-        } else if (expr instanceof TupleExpression) {
+    }
+
+    /**
+     * Convert a tuple literal expression to PLC code.
+     *
+     * @param tupleExpr Expression to convert.
+     * @return The converted expression.
+     */
+    private ExprGenResult convertTupleExpr(TupleExpression tupleExpr) {
 //            // Transform the elements.
 //            TupleExpression texpr = (TupleExpression)expr;
 //            List<String> elemTxts = listc(texpr.getFields().size());
@@ -674,50 +799,5 @@ public class ExprGenerator {
 //                String name = transTupleType(ttype);
 //                return genFuncCall("make" + name, false, argTxts, elemTxts);
 //            }
-        } else if (expr instanceof DictExpression) {
-            throw new RuntimeException("precond violation");
-        } else if (expr instanceof ConstantExpression) {
-//            Assert.check(constantsAllowed);
-//            Constant constant = ((ConstantExpression)expr).getConstant();
-//            return getPlcName(constant);
-        } else if (expr instanceof DiscVariableExpression) {
-//            DiscVariable var = ((DiscVariableExpression)expr).getVariable();
-//            EObject parent = var.eContainer();
-//            if (parent instanceof ComplexComponent) {
-//                // Discrete variable.
-//                Assert.notNull(state);
-//                return state + "." + getPlcName(var);
-//            } else {
-//                // Local variable or parameter of a function.
-//                return getPlcName(var);
-//            }
-        } else if (expr instanceof AlgVariableExpression) {
-//            Assert.notNull(state);
-//            AlgVariable var = ((AlgVariableExpression)expr).getVariable();
-//            return genFuncCall(getPlcName(var), false, "state", state);
-        } else if (expr instanceof ContVariableExpression) {
-//            Assert.notNull(state);
-//            ContVariableExpression cvexpr = (ContVariableExpression)expr;
-//            ContVariable var = cvexpr.getVariable();
-//            if (cvexpr.isDerivative()) {
-//                return genFuncCall("deriv" + getPlcName(var), false, "state", state);
-//            } else {
-//                return state + "." + getPlcName(var);
-//            }
-        } else if (expr instanceof LocationExpression) {
-//            throw new RuntimeException("loc expr unexpected in lin spec");
-        } else if (expr instanceof EnumLiteralExpression) {
-//            // We have at most a single enumeration after linearization. There is
-//            // no need to prefix literals with the enumeration, as the literal
-//            // names are globally unique as well.
-//            EnumLiteral lit = ((EnumLiteralExpression)expr).getLiteral();
-//            return getPlcName(lit);
-        } else if (expr instanceof FunctionExpression) {
-            throw new RuntimeException("precond violation");
-        } else if (expr instanceof InputVariableExpression) {
-//            InputVariable var = ((InputVariableExpression)expr).getVariable();
-//            return getPlcName(var);
-        }
-        throw new RuntimeException("Precondition violation.");
     }
 }
