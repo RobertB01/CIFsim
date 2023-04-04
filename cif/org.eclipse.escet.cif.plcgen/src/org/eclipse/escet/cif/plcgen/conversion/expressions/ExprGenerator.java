@@ -13,6 +13,15 @@
 
 package org.eclipse.escet.cif.plcgen.conversion.expressions;
 
+import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
+import static org.eclipse.escet.cif.common.CifValueUtils.flattenBinExpr;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Sets.set;
+
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
@@ -48,12 +57,41 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TimeExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
+import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
+import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
+import org.eclipse.escet.cif.metamodel.cif.types.IntType;
+import org.eclipse.escet.cif.metamodel.cif.types.RealType;
+import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 
 /** Converter of CIF expressions to PLC expressions and statements. */
 public class ExprGenerator {
+    /** An integer CIF type, used for type conversions. */
+    private static final CifType INT_TYPE = newIntType();
+
+    /** A real CIF type, used for type conversions. */
+    private static final CifType REAL_TYPE = newRealType();
+
+    /** PLC target to generate code for. */
+    private final PlcTarget target;
+
+    /** PLC function applications of the target. */
+    private final PlcFunctionAppls funcAppls;
+
+    /**
+     * Constructor of the {@link ExprGenerator} class.
+     *
+     * @param target Plc target to generate code for.
+     */
+    public ExprGenerator(PlcTarget target) {
+        this.target = target;
+        this.funcAppls = new PlcFunctionAppls(target);
+    }
 
     /**
      * Give temporary variables back to the generator for future re-use.
@@ -181,29 +219,23 @@ public class ExprGenerator {
      * @return The generated result.
      */
     private ExprGenResult convertUnaryExpr(UnaryExpression unaryExpr) {
-//            UnaryExpression uexpr = (UnaryExpression)expr;
-//            Expression child = uexpr.getChild();
-//            String childTxt = transExpr(child, state, init);
-//            UnaryOperator op = uexpr.getOperator();
-//            switch (op) {
-//                case INVERSE:
-//                    return genFuncCall("NOT", true, null, childTxt);
-//
-//                case NEGATE:
-//                    if (child instanceof IntExpression || child instanceof RealExpression) {
-//                        return fmt("-%s", childTxt);
-//                    }
-//                    return fmt("-(%s)", childTxt);
-//
-//                case PLUS:
-//                    return childTxt;
-//
-//                case SAMPLE:
-//                    throw new RuntimeException("precond violation");
-//
-//                default:
-//                    throw new RuntimeException("Unknown unop: " + op);
-//            }
+        ExprGenResult result = convertExpr(unaryExpr.getChild());
+        switch (unaryExpr.getOperator()) {
+            case INVERSE:
+                return result.setValue(funcAppls.complementFuncAppl(result.value));
+
+            case NEGATE:
+                return result.setValue(funcAppls.negateFuncAppl(result.value));
+
+            case PLUS:
+                return result;
+
+            case SAMPLE:
+                throw new RuntimeException("Precondition violation.");
+
+            default:
+                throw new RuntimeException("Unknown unop: " + unaryExpr.getOperator());
+        }
     }
 
     /**
@@ -213,133 +245,201 @@ public class ExprGenerator {
      * @return The generated result.
      */
     private ExprGenResult convertBinaryExpr(BinaryExpression binExpr) {
-//            BinaryExpression bexpr = (BinaryExpression)expr;
-//            String left = transExpr(bexpr.getLeft(), state, init);
-//            String right = transExpr(bexpr.getRight(), state, init);
-//            CifType ltype = normalizeType(bexpr.getLeft().getType());
-//            CifType rtype = normalizeType(bexpr.getRight().getType());
-//            BinaryOperator op = bexpr.getOperator();
-//            Pair<String, String> leftRight;
-//            switch (op) {
-//                case IMPLICATION:
-//                    return fmt("%s OR (%s)", genFuncCall("NOT", true, null, left), right);
-//
-//                case BI_CONDITIONAL:
-//                    return fmt("(%s) = (%s)", left, right);
-//
-//                case DISJUNCTION:
-//                    if (ltype instanceof BoolType) {
-//                        return fmt("(%s) OR (%s)", left, right);
-//                    }
-//
-//                    throw new RuntimeException("precond violation");
-//
-//                case CONJUNCTION:
-//                    if (ltype instanceof BoolType) {
-//                        return fmt("(%s) AND (%s)", left, right);
-//                    }
-//
-//                    throw new RuntimeException("precond violation");
-//
-//                case LESS_THAN:
-//                    // S7-400 and S7-300 only support less than on the same types.
-//                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
-//                    return fmt("(%s) < (%s)", leftRight.left, leftRight.right);
-//
-//                case LESS_EQUAL:
-//                    // S7-400 and S7-300 only support less equal on the same types.
-//                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
-//                    return fmt("(%s) <= (%s)", leftRight.left, leftRight.right);
-//
-//                case GREATER_THAN:
-//                    // S7-400 and S7-300 only support greater than on the same types.
-//                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
-//                    return fmt("(%s) > (%s)", leftRight.left, leftRight.right);
-//
-//                case GREATER_EQUAL:
-//                    // S7-400 and S7-300 only support greater equal on the same types.
-//                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
-//                    return fmt("(%s) >= (%s)", leftRight.left, leftRight.right);
-//
-//                case EQUAL:
-//                    // Comparing structure types is not allowed in IEC 61131-3,
-//                    // and thus equality on tuples can't be supported directly.
-//                    // We could always create a function for it though.
-//                    if (ltype instanceof BoolType || ltype instanceof IntType || ltype instanceof RealType
-//                            || ltype instanceof EnumType)
-//                    {
-//                        return fmt("(%s) = (%s)", left, right);
-//                    }
-//
-//                    throw new RuntimeException("precond violation");
-//
-//                case UNEQUAL:
-//                    // Comparing structure types is not allowed in IEC 61131-3,
-//                    // and thus equality on tuples can't be supported directly.
-//                    // We could always create a function for it though.
-//                    if (ltype instanceof BoolType || ltype instanceof IntType || ltype instanceof RealType
-//                            || ltype instanceof EnumType)
-//                    {
-//                        return fmt("(%s) <> (%s)", left, right);
-//                    }
-//
-//                    throw new RuntimeException("precond violation");
-//
-//                case ADDITION:
-//                    // S7-400 and S7-300 only support addition on the same types.
-//                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
-//                    if (ltype instanceof IntType || ltype instanceof RealType) {
-//                        return fmt("(%s) + (%s)", leftRight.left, leftRight.right);
-//                    }
-//
-//                    throw new RuntimeException("precond violation");
-//
-//                case SUBTRACTION:
-//                    // S7-400 and S7-300 only support subtraction on the same types.
-//                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
-//                    if (ltype instanceof IntType || ltype instanceof RealType) {
-//                        return fmt("(%s) - (%s)", leftRight.left, leftRight.right);
-//                    }
-//
-//                    throw new RuntimeException("precond violation");
-//
-//                case MULTIPLICATION:
-//                    // S7-400 and S7-300 only support multiplication on the same types.
-//                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
-//                    return fmt("(%s) * (%s)", leftRight.left, leftRight.right);
-//
-//                case DIVISION:
-//                    // S7-400 and S7-300 only support division on the same types.
-//                    if (ltype instanceof IntType && rtype instanceof IntType) {
-//                        // Left value will become real type.
-//                        leftRight = convertBinaryLeftRight(left, right, newRealType(), rtype);
-//
-//                        // Ensure real valued result.
-//                        String toName = fmt("DINT_TO_%s", largeRealType.name);
-//                        return fmt("%s / (%s)", genFuncCall(toName, true, "IN", leftRight.left), leftRight.right);
-//                    }
-//
-//                    leftRight = convertBinaryLeftRight(left, right, ltype, rtype);
-//                    return fmt("(%s) / (%s)", leftRight.left, leftRight.right);
-//
-//                case INTEGER_DIVISION:
-//                    // Truncated towards zero in both CIF and IEC 61131-3.
-//                    return fmt("(%s) / (%s)", left, right);
-//
-//                case MODULUS:
-//                    // Note that in CIF division by zero is an error, while
-//                    // in IEC 61131-3 it results in zero.
-//                    return fmt("(%s) MOD (%s)", left, right);
-//
-//                case ELEMENT_OF:
-//                    throw new RuntimeException("precond violation");
-//
-//                case SUBSET:
-//                    throw new RuntimeException("precond violation");
-//
-//                default:
-//                    throw new RuntimeException("Unknown binop: " + op);
-//            }
+        CifType ltype = normalizeType(binExpr.getLeft().getType());
+        CifType rtype = normalizeType(binExpr.getRight().getType());
+
+        ExprGenResult leftResult = convertExpr(binExpr.getLeft());
+        ExprGenResult rightResult = convertExpr(binExpr.getRight());
+        ExprGenResult result = new ExprGenResult(this, leftResult, rightResult);
+        switch (binExpr.getOperator()) {
+            case IMPLICATION:
+                // Right-value or not left-value.
+                return result.setValue(funcAppls.orFuncAppl(rightResult.value,
+                        funcAppls.complementFuncAppl(leftResult.value)));
+
+            case BI_CONDITIONAL:
+                return result.setValue(funcAppls.equalFuncAppl(leftResult.value, rightResult.value));
+
+            case DISJUNCTION:
+                if (ltype instanceof BoolType) {
+                    return convertFlattenedExpr(binExpr);
+                }
+
+                throw new RuntimeException("Precondition violation.");
+
+            case CONJUNCTION:
+                if (ltype instanceof BoolType) {
+                    return convertFlattenedExpr(binExpr);
+                }
+
+                throw new RuntimeException("Precondition violation.");
+
+            case LESS_THAN: {
+                // S7-400 and S7-300 only support less than on the same types.
+                PlcExpression leftSide = unifyTypeOfExpr(leftResult.value, ltype, rtype);
+                PlcExpression rightSide = unifyTypeOfExpr(rightResult.value, rtype, ltype);
+                return result.setValue(funcAppls.lessThanFuncAppl(leftSide, rightSide));
+            }
+
+            case LESS_EQUAL: {
+                // S7-400 and S7-300 only support less equal on the same types.
+                PlcExpression leftSide = unifyTypeOfExpr(leftResult.value, ltype, rtype);
+                PlcExpression rightSide = unifyTypeOfExpr(rightResult.value, rtype, ltype);
+                return result.setValue(funcAppls.lessEqualFuncAppl(leftSide, rightSide));
+            }
+
+            case GREATER_THAN: {
+                // S7-400 and S7-300 only support greater than on the same types.
+                PlcExpression leftSide = unifyTypeOfExpr(leftResult.value, ltype, rtype);
+                PlcExpression rightSide = unifyTypeOfExpr(rightResult.value, rtype, ltype);
+                return result.setValue(funcAppls.greaterThanFuncAppl(leftSide, rightSide));
+            }
+
+            case GREATER_EQUAL: {
+                // S7-400 and S7-300 only support greater equal on the same types.
+                PlcExpression leftSide = unifyTypeOfExpr(leftResult.value, ltype, rtype);
+                PlcExpression rightSide = unifyTypeOfExpr(rightResult.value, rtype, ltype);
+                return result.setValue(funcAppls.greaterEqualFuncAppl(leftSide, rightSide));
+            }
+
+            case EQUAL:
+                // Comparing structure types is not allowed in IEC 61131-3,
+                // and thus equality on tuples can't be supported directly.
+                // We could always create code for it though.
+                if (ltype instanceof BoolType || ltype instanceof IntType || ltype instanceof RealType
+                        || ltype instanceof EnumType)
+                {
+                    return result.setValue(funcAppls.equalFuncAppl(leftResult.value, rightResult.value));
+                }
+
+                throw new RuntimeException("Precondition violation.");
+
+            case UNEQUAL:
+                // Comparing structure types is not allowed in IEC 61131-3,
+                // and thus equality on tuples can't be supported directly.
+                // We could always create code for it though.
+                if (ltype instanceof BoolType || ltype instanceof IntType || ltype instanceof RealType
+                        || ltype instanceof EnumType)
+                {
+                    return result.setValue(funcAppls.unEqualFuncAppl(leftResult.value, rightResult.value));
+                }
+
+                throw new RuntimeException("Precondition violation.");
+
+            case ADDITION:
+                // S7-400 and S7-300 only support addition on the same types.
+                if (ltype instanceof IntType || ltype instanceof RealType) {
+                    return convertFlattenedExpr(binExpr);
+                }
+
+                throw new RuntimeException("Precondition violation.");
+
+            case SUBTRACTION:
+                // S7-400 and S7-300 only support subtraction on the same types.
+                if (ltype instanceof IntType || ltype instanceof RealType) {
+                    PlcExpression leftSide = unifyTypeOfExpr(leftResult.value, ltype, rtype);
+                    PlcExpression rightSide = unifyTypeOfExpr(rightResult.value, rtype, ltype);
+                    return result.setValue(funcAppls.subtractFuncAppl(leftSide, rightSide));
+                }
+
+                throw new RuntimeException("Precondition violation.");
+
+            case MULTIPLICATION: {
+                return convertFlattenedExpr(binExpr);
+            }
+
+            case DIVISION: {
+                // S7-400 and S7-300 only support division on the same types.
+                PlcExpression leftSide = unifyTypeOfExpr(leftResult.value, ltype, REAL_TYPE);
+                PlcExpression rightSide = unifyTypeOfExpr(rightResult.value, rtype, REAL_TYPE);
+                return result.setValue(funcAppls.divideFuncAppl(leftSide, rightSide));
+            }
+
+            case INTEGER_DIVISION:
+                // Truncated towards zero in both CIF and IEC 61131-3.
+                return result.setValue(funcAppls.divideFuncAppl(leftResult.value, rightResult.value));
+
+            case MODULUS:
+                // Note that in CIF division by zero is an error, while
+                // in IEC 61131-3 it results in zero.
+                return result.setValue(funcAppls.moduloFuncAppl(leftResult.value, rightResult.value));
+
+            case ELEMENT_OF:
+                throw new RuntimeException("Precondition violation.");
+
+            case SUBSET:
+                throw new RuntimeException("Precondition violation.");
+
+            default:
+                throw new RuntimeException("Unknown binary expression operator: " + binExpr.getOperator());
+        }
+    }
+
+    /**
+     * Flatten the binary expression on its operator, convert the collection children, and combine the children into
+     * an n-ary PLC function.
+     *
+     * @param binExpr Binary expression to flatten and convert. Must be a disjunction, conjunction, addition, or
+     *     multiplication expression.
+     * @return The converted expression.
+     */
+    private ExprGenResult convertFlattenedExpr(BinaryExpression binExpr) {
+        // Configure some variables to guide the conversion.
+        java.util.function.Function<PlcExpression[], PlcExpression> applFunc;
+        boolean unifyTypes;
+        switch (binExpr.getOperator()) {
+            case DISJUNCTION:
+                applFunc = values -> funcAppls.orFuncAppl(values);
+                unifyTypes = false;
+                break;
+            case CONJUNCTION:
+                applFunc = values -> funcAppls.andFuncAppl(values);
+                unifyTypes = false;
+                break;
+            case ADDITION:
+                applFunc = values -> funcAppls.addFuncAppl(values);
+                unifyTypes = true; // S7-400 and S7-300 only support multiplication on the same types.
+                break;
+            case MULTIPLICATION:
+                applFunc = values -> funcAppls.multiplyFuncAppl(values);
+                unifyTypes = true; // S7-400 and S7-300 only support multiplication on the same types.
+                break;
+            default:
+                throw new RuntimeException("Unexpected flattened binary expression operator: " + binExpr.getOperator());
+        }
+
+        // Collect the child expressions and compute a unified type if needed.
+        List<Expression> exprs = flattenBinExpr(List.of(binExpr), binExpr.getOperator());
+        CifType unifiedType;
+        if (unifyTypes) {
+            unifiedType = INT_TYPE;
+            for (Expression expr: exprs) {
+                if (normalizeType(expr.getType()) instanceof RealType) {
+                    unifiedType = REAL_TYPE;
+                    break;
+                }
+            }
+        } else {
+            unifiedType = null;
+        }
+
+        // Convert each child expression and extract the collect the results.
+        ExprGenResult[] exprGenResults = new ExprGenResult[exprs.size()];
+        PlcExpression[] values = new PlcExpression[exprs.size()];
+        int i = 0;
+        for (Expression expr: exprs) {
+            exprGenResults[i] = convertExpr(expr);
+            if (unifyTypes) {
+                values[i] = unifyTypeOfExpr(exprGenResults[i].value, normalizeType(expr.getType()), unifiedType);
+            } else {
+                values[i] = exprGenResults[i].value;
+            }
+            i++;
+        }
+
+        // Create the final result and give it to the caller.
+        ExprGenResult exprGenResult = new ExprGenResult(this, exprGenResults);
+        return exprGenResult.setValue(applFunc.apply(values));
     }
 
     /**
@@ -792,5 +892,20 @@ public class ExprGenerator {
 //                String name = transTupleType(ttype);
 //                return genFuncCall("make" + name, false, argTxts, elemTxts);
 //            }
+    }
+
+    /**
+     * Unify type {@code myType} of {@code subExpr} to match with type {@code otherType}.
+     *
+     * @param subExpr Sub expression to unify.
+     * @param myType Type of the sub expression.
+     * @param otherType Type to unify to.
+     * @return Sub expression with matching type to {@code otherType}.
+     */
+    private PlcExpression unifyTypeOfExpr(PlcExpression subExpr, CifType myType, CifType otherType) {
+        if (myType instanceof IntType && otherType instanceof RealType) {
+            return funcAppls.castFunctionAppl(subExpr, target.getIntegerType(), target.getRealType());
+        }
+        return subExpr;
     }
 }
