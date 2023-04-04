@@ -144,11 +144,25 @@ public abstract class PlcTarget {
      * Does the target support infix notation for the given semantic operation?
      *
      * @param funcOper Semantics operation being queried.
-     * @return Whether the target support infix notation fot the given operation.
+     * @return Whether the target support infix notation for the given operation.
      */
     public boolean supportsInfixNotation(PlcFuncOperation funcOper) {
-        // By default infix notation is supported if the standard supplies a notation for it.
+        // By default infix notation is supported if the PLC standard supplies a notation for it.
         return true;
+    }
+
+    /**
+     * Query whether the power function {@code base ** power} exists for a given combination of parameter types.
+     *
+     * @param baseIsInt If {@true} the test queries for an integer typed base value. If {@code false} the test queries
+     *     for a real typed base value.
+     * @param powerIsInt If {@true} the test queries for an integer typed power value. If {@code false} the test queries
+     *     for a real typed power value.
+     * @return Whether the queried combination of base and power value types is supported by the PLC.
+     * @note It is assumed that {@code supportsPow(false, false)} holds.
+     */
+    public boolean supportsPower(boolean baseIsInt, boolean powerIsInt) {
+        return !baseIsInt; // First parameter must always have a real type.
     }
 
     /**

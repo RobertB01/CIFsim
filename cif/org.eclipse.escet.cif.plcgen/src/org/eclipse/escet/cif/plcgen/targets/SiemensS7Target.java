@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
@@ -77,6 +78,16 @@ public class SiemensS7Target extends PlcTarget {
     @Override
     public boolean supportsEnumerations() {
         return false;
+    }
+
+    @Override
+    public boolean supportsPower(boolean baseIsInt, boolean powerIsInt) {
+        // S7-400 and S7-300 only support power on real types.
+        if (EnumSet.of(PlcTargetType.S7_300, PlcTargetType.S7_400).contains(targetType)) {
+            return !baseIsInt && !powerIsInt;
+        } else {
+            return true;
+        }
     }
 
     @Override

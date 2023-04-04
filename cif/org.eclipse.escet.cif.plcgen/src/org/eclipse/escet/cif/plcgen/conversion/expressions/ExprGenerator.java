@@ -69,6 +69,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 
@@ -639,7 +640,7 @@ public class ExprGenerator {
 
                 Assert.check(argumentResults.size() == 1);
                 ExprGenResult arg1 = argumentResults.get(0);
-                return arg1.setValue(funcAppls.powFuncAppl(arg1.value, expValue));
+                return arg1.setValue(funcAppls.powerFuncAppl(arg1.value, expValue));
             }
 
             case CEIL:
@@ -682,7 +683,7 @@ public class ExprGenerator {
                 Assert.check(argumentResults.size() == 1);
                 ExprGenResult arg1 = argumentResults.get(0);
 
-                if (!funcAppls.supportsLog()) {
+                if (!target.supportsOperation(PlcFuncOperation.STDLIB_LOG)) {
                     // Fallback to log10(x) = ln(x) / ln(10).
                     PlcExpression lnX = funcAppls.lnFuncAppl(arg1.value);
                     PlcExpression ln10 = funcAppls.lnFuncAppl(new PlcRealLiteral("10.0"));
@@ -724,10 +725,10 @@ public class ExprGenerator {
                 // Find an input type combination that works for the PLC.
                 boolean plcBaseIsInt = cifBaseIsInt;
                 boolean plcPowerIsInt = cifPowerIsInt;
-                if (!funcAppls.supportsPow(plcBaseIsInt, plcPowerIsInt) && plcBaseIsInt) {
+                if (!target.supportsPower(plcBaseIsInt, plcPowerIsInt) && plcBaseIsInt) {
                     plcBaseIsInt = false;
                 }
-                if (!funcAppls.supportsPow(plcBaseIsInt, plcPowerIsInt) && plcPowerIsInt) {
+                if (!target.supportsPower(plcBaseIsInt, plcPowerIsInt) && plcPowerIsInt) {
                     plcPowerIsInt = false;
                 }
                 // Either a working combination has been found or we dropped back to the always supported
@@ -744,7 +745,7 @@ public class ExprGenerator {
                 }
 
                 // Generate the call.
-                PlcExpression powCall = funcAppls.powFuncAppl(baseSide, powerSide);
+                PlcExpression powCall = funcAppls.powerFuncAppl(baseSide, powerSide);
 
                 // Convert the result back if CIF and PLC types are not the same. Note that the PLC cannot reach an
                 // integer typed result if CIF does not have it as the PLC sides are never changed to integer type.
