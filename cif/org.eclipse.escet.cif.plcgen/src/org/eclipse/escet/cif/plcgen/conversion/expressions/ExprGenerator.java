@@ -191,7 +191,7 @@ public class ExprGenerator {
 //            InputVariable var = ((InputVariableExpression)expr).getVariable();
 //            return getPlcName(var);
         }
-        throw new RuntimeException("Precondition violation.");
+        throw new RuntimeException("Unexpected expr: " + expr);
     }
 
     /**
