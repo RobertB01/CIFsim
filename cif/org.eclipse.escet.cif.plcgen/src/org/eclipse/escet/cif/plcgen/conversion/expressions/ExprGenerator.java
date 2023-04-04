@@ -48,6 +48,9 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TimeExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 
 /** Converter of CIF expressions to PLC expressions and statements. */
 public class ExprGenerator {
@@ -72,26 +75,16 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     public ExprGenResult convertExpr(Expression expr) {
-        if (expr instanceof BoolExpression) {
-//            return ((BoolExpression)expr).isValue() ? "TRUE" : "FALSE";
-        } else if (expr instanceof IntExpression) {
-//            return str(((IntExpression)expr).getValue());
-        } else if (expr instanceof RealExpression) {
-//            String rslt = ((RealExpression)expr).getValue();
-//            int idx = rslt.indexOf('.');
-//            if (idx == -1) {
-//                idx = rslt.indexOf('e');
-//                if (idx == -1) {
-//                    idx = rslt.indexOf('E');
-//                }
-//                rslt = rslt.substring(0, idx) + ".0" + rslt.substring(idx);
-//            }
-//            return rslt;
+        if (expr instanceof BoolExpression be) {
+            return new ExprGenResult(this).setValue(new PlcBoolLiteral(be.isValue()));
+        } else if (expr instanceof IntExpression ie) {
+            return new ExprGenResult(this).setValue(new PlcIntLiteral(ie.getValue()));
+        } else if (expr instanceof RealExpression re) {
+            return new ExprGenResult(this).setValue(new PlcRealLiteral(re.getValue()));
         } else if (expr instanceof StringExpression) {
             throw new RuntimeException("precond violation");
         } else if (expr instanceof TimeExpression) {
-//            Assert.notNull(state);
-//            return state + ".curTime";
+            throw new RuntimeException("precond violation"); // XXX Fix message.
         } else if (expr instanceof CastExpression ce) {
             return convertCastExpr(ce);
         } else if (expr instanceof UnaryExpression ue) {
