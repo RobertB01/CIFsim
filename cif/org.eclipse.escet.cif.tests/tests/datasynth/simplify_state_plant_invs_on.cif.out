@@ -19,7 +19,7 @@ Applying variable ordering:
       Metric: wes
       Relations: legacy
       Effect: var-order
-      Number of hyper-edges: 2
+      Number of hyper-edges: 3
 
       Applying Weighted Cuthill-McKee algorithm:
         Node finder: george-liu
@@ -27,8 +27,8 @@ Applying variable ordering:
         Effect: var-order
         Number of graph edges: 1
 
-        Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
-        Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [after]
+        Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
+        Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [after]
 
       Found new best variable order.
 
@@ -37,8 +37,8 @@ Applying variable ordering:
         Effect: var-order
         Number of graph edges: 1
 
-        Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
-        Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [after]
+        Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
+        Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [after]
 
       Applying 2 orderers, sequentially:
         Applying Weighted Cuthill-McKee algorithm:
@@ -47,16 +47,16 @@ Applying variable ordering:
           Effect: var-order
           Number of graph edges: 1
 
-          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
-          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [after]
+          Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
+          Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [after]
 
         Reversing the variable order:
           Relations: legacy
           Effect: var-order
-          Number of hyper-edges: 2
+          Number of hyper-edges: 3
 
-          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
-          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [reversed]
+          Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
+          Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [reversed]
 
       Applying 2 orderers, sequentially:
         Applying Sloan algorithm:
@@ -64,16 +64,16 @@ Applying variable ordering:
           Effect: var-order
           Number of graph edges: 1
 
-          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
-          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [after]
+          Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
+          Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [after]
 
         Reversing the variable order:
           Relations: legacy
           Effect: var-order
-          Number of hyper-edges: 2
+          Number of hyper-edges: 3
 
-          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
-          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [reversed]
+          Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
+          Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [reversed]
 
     Applying FORCE algorithm:
       Metric: total-span

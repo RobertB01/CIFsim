@@ -112,7 +112,7 @@ public class LegacyHyperEdgeCreator extends HyperEdgeCreator {
             Automaton aut = (Automaton)comp;
             for (Location loc: aut.getLocations()) {
                 // Add a hyper-edge per invariant of the location.
-                for (Invariant inv: comp.getInvariants()) {
+                for (Invariant inv: loc.getInvariants()) {
                     Expression pred = inv.getPredicate();
                     VariableCollector varCollector = new VariableCollector();
                     Set<PositionObject> vars = set();

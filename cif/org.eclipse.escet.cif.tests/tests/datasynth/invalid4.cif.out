@@ -19,7 +19,7 @@ Applying variable ordering:
       Metric: wes
       Relations: legacy
       Effect: var-order
-      Number of hyper-edges: 2
+      Number of hyper-edges: 1
 
       Applying Weighted Cuthill-McKee algorithm:
         Node finder: george-liu
@@ -50,10 +50,10 @@ Applying variable ordering:
         Reversing the variable order:
           Relations: legacy
           Effect: var-order
-          Number of hyper-edges: 2
+          Number of hyper-edges: 1
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [reversed]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.500000 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.500000 (avg/edge) [reversed]
 
       Found new best variable order.
 
@@ -68,10 +68,10 @@ Applying variable ordering:
         Reversing the variable order:
           Relations: legacy
           Effect: var-order
-          Number of hyper-edges: 2
+          Number of hyper-edges: 1
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [reversed]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.500000 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.500000 (total)   0.500000 (avg/edge) [reversed]
 
     Applying FORCE algorithm:
       Metric: total-span
