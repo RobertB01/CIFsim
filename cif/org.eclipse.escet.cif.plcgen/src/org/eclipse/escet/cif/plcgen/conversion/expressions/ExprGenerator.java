@@ -19,11 +19,14 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
@@ -65,11 +68,18 @@ import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
+import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
+import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 
@@ -81,6 +91,15 @@ public class ExprGenerator {
     /** A real CIF type, used for type conversions. */
     private static final CifType REAL_TYPE = newRealType();
 
+    /** Type conversion class from CIF to PLC types. */
+    private final TypeGenerator typeGenerator;
+
+    /** Generator for obtaining clash-free names in the generated code. */
+    private final NameGenerator nameGenerator;
+
+    /** Map for the name generator to create loccal variables. */
+    private final Map<String, Integer> localNameGenMap = map();
+
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
@@ -91,10 +110,39 @@ public class ExprGenerator {
      * Constructor of the {@link ExprGenerator} class.
      *
      * @param target Plc target to generate code for.
+     * @param typeGenerator Type conversion class from CIF to PLC types.
+     * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public ExprGenerator(PlcTarget target) {
+    public ExprGenerator(PlcTarget target, TypeGenerator typeGenerator, NameGenerator nameGenerator) {
         this.target = target;
+        this.typeGenerator = typeGenerator;
+        this.nameGenerator = nameGenerator;
         this.funcAppls = new PlcFunctionAppls(target);
+    }
+
+    /**
+     * Obtain a local scratch variable. Its name starts with the provided prefix, and it will have a PLC type that
+     * matches with the provided CIF type.
+     *
+     * @param prefix Initial part of the name of the variable.
+     * @param cifType CIF type to convert to a PLC type.
+     * @return The created variable.
+     */
+    public PlcVariable getTempVariable(String prefix, CifType cifType) {
+        PlcType plcType = typeGenerator.convertType(cifType);
+        return getTempVariable(prefix, plcType);
+    }
+
+    /**
+     * Obtain a local scratch variable. Its name starts with the provided prefix, and it will have the provided type.
+     *
+     * @param prefix Initial part of the name of the variable.
+     * @param plcType Type of the returned variable.
+     * @return The created variable.
+     */
+    public PlcVariable getTempVariable(String prefix, PlcType plcType) {
+        String name = nameGenerator.generateLocalName(prefix, localNameGenMap);
+        return new PlcVariable(name, plcType);
     }
 
     /**
@@ -107,7 +155,7 @@ public class ExprGenerator {
      * @param variables Variables being returned.
      */
     public void giveTempVariables(Set<PlcVariable> variables) {
-        // TODO Auto-generated method stub
+        // Currently variables are silently discarded.
     }
 
     /**
