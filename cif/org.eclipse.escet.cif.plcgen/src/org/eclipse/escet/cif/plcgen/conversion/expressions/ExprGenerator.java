@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -75,6 +76,8 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcArrayProjection;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
@@ -902,30 +905,29 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprGenResult convertArrayExpr(ListExpression listExpr) {
-//            // Transform the elements.
-//            ListExpression lexpr = (ListExpression)expr;
-//            List<String> elemTxts = listc(lexpr.getElements().size());
-//            for (int i = 0; i < lexpr.getElements().size(); i++) {
-//                Expression elem = lexpr.getElements().get(i);
-//                String valueTxt = transExpr(elem, state, init);
-//                elemTxts.add(valueTxt);
-//            }
-//
-//            // Optimize for initialization value, as then we can use literals,
-//            // and literals have the best performance. However, for the general
-//            // case we can't use literals, so we generate a function per array
-//            // type.
-//            if (init) {
-//                return fmt("[%s]", String.join(", ", elemTxts));
-//            } else {
-//                ListType ltype = (ListType)normalizeType(lexpr.getType());
-//                List<String> argTxts = listc(lexpr.getElements().size());
-//                for (int i = 0; i < lexpr.getElements().size(); i++) {
-//                    argTxts.add(fmt("elem%d", i));
-//                }
-//                String name = genArrayLitCreateFunc(ltype);
-//                return genFuncCall(name, false, argTxts, elemTxts);
-//            }
+        PlcType listType = typeGenerator.convertType(listExpr.getType());
+        PlcVariable arrayVar = getTempVariable("litArray", listType);
+
+        ExprGenResult result = new ExprGenResult(this);
+        int idx = 0;
+        for (Expression e: listExpr.getElements()) {
+            ExprGenResult childResult = convertExpr(e);
+            // Add child computation to the result, return the temporary variables of it.
+            result.mergeCode(childResult);
+            giveTempVariables(childResult.codeVariables);
+
+            // Construct assignment.
+            PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(idx)));
+            PlcVarExpression lhs = new PlcVarExpression(arrayVar, List.of(arrayProj));
+            PlcAssignmentStatement assignment = new PlcAssignmentStatement(lhs, childResult.value);
+            idx++;
+
+            // Add statement to the result.
+            result.code.add(assignment);
+            giveTempVariables(childResult.valueVariables);
+        }
+        result.valueVariables.add(arrayVar);
+        return result.setValue(new PlcVarExpression(arrayVar));
     }
 
     /**
@@ -935,39 +937,30 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprGenResult convertTupleExpr(TupleExpression tupleExpr) {
-//            // Transform the elements.
-//            TupleExpression texpr = (TupleExpression)expr;
-//            List<String> elemTxts = listc(texpr.getFields().size());
-//            for (int i = 0; i < texpr.getFields().size(); i++) {
-//                Expression value = texpr.getFields().get(i);
-//                String valueTxt = transExpr(value, state, init);
-//                elemTxts.add(valueTxt);
-//            }
-//
-//            // Optimize for initialization value, as then we can use literals,
-//            // and literals have the best performance. However, for the general
-//            // case we can't use literals, so we generate a function per array
-//            // type.
-//            if (init) {
-//                TupleType ttype = (TupleType)normalizeType(texpr.getType());
-//                List<String> fieldTxts = listc(texpr.getFields().size());
-//                for (int i = 0; i < texpr.getFields().size(); i++) {
-//                    Field field = ttype.getFields().get(i);
-//                    String fieldTxt = getPlcName(field);
-//                    fieldTxts.add(fmt("%s:=%s", fieldTxt, elemTxts.get(i)));
-//                }
-//                return fmt("(%s)", String.join(", ", fieldTxts));
-//            } else {
-//                TupleType ttype = (TupleType)normalizeType(texpr.getType());
-//                List<String> argTxts = listc(texpr.getFields().size());
-//                for (int i = 0; i < texpr.getFields().size(); i++) {
-//                    Field field = ttype.getFields().get(i);
-//                    String fieldTxt = getPlcName(field);
-//                    argTxts.add(fieldTxt);
-//                }
-//                String name = transTupleType(ttype);
-//                return genFuncCall("make" + name, false, argTxts, elemTxts);
-//            }
+        PlcType varType = typeGenerator.convertType(tupleExpr.getType());
+        PlcVariable structVar = getTempVariable("litStruct", varType);
+        // The underlying structure type.
+        PlcStructType structType = typeGenerator.getStructureType(varType);
+
+        ExprGenResult result = new ExprGenResult(this);
+        int idx = 0;
+        for (Expression e: tupleExpr.getFields()) {
+            ExprGenResult childResult = convertExpr(e);
+            // Add child computation to the result, return the temporary variables of it.
+            result.mergeCode(childResult);
+            giveTempVariables(childResult.codeVariables);
+
+            // Construct assignment.
+            PlcStructProjection structProj = new PlcStructProjection(structType.fields.get(idx).name);
+            PlcVarExpression lhs = new PlcVarExpression(structVar, List.of(structProj));
+            PlcAssignmentStatement assignment = new PlcAssignmentStatement(lhs, childResult.value);
+            idx++;
+
+            result.code.add(assignment);
+            giveTempVariables(childResult.valueVariables);
+        }
+        result.valueVariables.add(structVar);
+        return result.setValue(new PlcVarExpression(structVar));
     }
 
     /**

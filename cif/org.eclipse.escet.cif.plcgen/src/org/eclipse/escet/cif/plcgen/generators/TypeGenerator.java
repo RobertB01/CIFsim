@@ -66,8 +66,11 @@ public class TypeGenerator {
     /** Generator that stores and writes generated PLC code. */
     private final PlcCodeStorage plcCodeStorage;
 
-    /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances, to PLC names. */
+    /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances, to PLC type-declaration names. */
     private final Map<TypeEqHashWrap, String> structNames = map();
+
+    /** Mapping from type declaration names to their underlying structure type. */
+    private final Map<String, PlcStructType> structTypes = map();
 
     /**
      * Mapping from CIF enumerations to PLC enumeration type and value information.
@@ -139,9 +142,6 @@ public class TypeGenerator {
         String sname = structNames.get(typeWrap);
         if (sname == null) {
             // Generate PLC struct for tuple.
-            sname = nameGenerator.generateGlobalName("TupleStruct", false);
-            structNames.put(typeWrap, sname);
-
             PlcStructType structType = new PlcStructType();
             int fieldNumber = 1;
             for (Field field: tupleType.getFields()) {
@@ -151,10 +151,26 @@ public class TypeGenerator {
                 fieldNumber++;
             }
 
+            // Wrap a type declaration around the struct type, make it findable for future queries, and store the
+            // created PLC structure type.
+            sname = nameGenerator.generateGlobalName("TupleStruct", false);
             PlcTypeDecl typeDecl = new PlcTypeDecl(sname, structType);
+            structNames.put(typeWrap, sname);
+            structTypes.put(sname, structType);
             plcCodeStorage.addTypeDecl(typeDecl);
         }
         return new PlcDerivedType(sname);
+    }
+
+    /**
+     * Get the underlying structure type from the associated declaration type used in the generators.
+     *
+     * @param type Declaration type of the structure type being queried.
+     * @return The underlying structure type.
+     */
+    public PlcStructType getStructureType(PlcType type) {
+        Assert.check(type instanceof PlcDerivedType);
+        return structTypes.get(((PlcDerivedType)type).name);
     }
 
     /**
