@@ -500,89 +500,85 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprGenResult convertIfExpr(IfExpression ifExpr) {
-//            // Create function for the 'if' expression.
-//            int nr = nextIfFuncNr;
-//            String name = "ifExprFunc" + nr;
-//            nextIfFuncNr++;
-//
-//            PlcType rtype = transType(expr.getType());
-//            PlcPou func = new PlcPou(name, PlcPouType.FUNCTION, rtype);
-//            project.pous.add(func);
-//
-//            // Add parameters for state, as well as function parameters and
-//            // local variables of functions (if they occur in the 'if'
-//            // expression). If no parameters needed, add dummy one, as
-//            // functions without parameters are not allowed.
-//            String fstate;
-//            boolean funcDummyParam = false;
-//            if (state == null) {
-//                fstate = null;
-//
-//                // Get function parameters and local variables of the function,
-//                // referred to in the 'if' expression. Each unique variable is
-//                // is only added once.
-//                List<Expression> refs = list();
-//                Set<DiscVariable> inputs = set();
-//                CifScopeUtils.collectRefExprs(expr, refs);
-//                for (Expression ref: refs) {
-//                    if (ref instanceof DiscVariableExpression) {
-//                        DiscVariable var = ((DiscVariableExpression)ref).getVariable();
-//                        EObject parent = var.eContainer();
-//                        if (parent instanceof ComplexComponent) {
-//                            continue;
-//                        }
-//                        inputs.add(var);
-//                    }
-//                }
-//
-//                // Add parameters, to pass along those 'variables'.
-//                for (DiscVariable input: inputs) {
-//                    PlcType type = transType(input.getType());
-//                    func.inputVars.add(new PlcVariable(getPlcName(input), type));
-//                }
-//
-//                // If no parameters, add dummy one.
-//                if (inputs.isEmpty()) {
-//                    funcDummyParam = true;
-//                    func.inputVars.add(new PlcVariable("dummy", INT_TYPE));
-//                }
-//            } else {
-//                fstate = "state";
-//                func.inputVars.add(new PlcVariable("state", STATE_TYPE));
-//            }
-//
-//            // Add code for 'if' statement, for the 'if' expression.
-//            IfExpression ifExpr = (IfExpression)expr;
-//            func.body.add("IF %s THEN", transPreds(ifExpr.getGuards(), fstate, init));
-//            func.body.indent();
-//            func.body.add("%s := %s;", name, transExpr(ifExpr.getThen(), fstate, init));
-//            func.body.dedent();
-//            for (ElifExpression elifExpr: ifExpr.getElifs()) {
-//                func.body.add("ELSIF %s THEN", transPreds(elifExpr.getGuards(), fstate, init));
-//                func.body.indent();
-//                func.body.add("%s := %s;", name, transExpr(elifExpr.getThen(), fstate, init));
-//                func.body.dedent();
-//            }
-//            func.body.add("ELSE");
-//            func.body.indent();
-//            func.body.add("%s := %s;", name, transExpr(ifExpr.getElse(), fstate, init));
-//            func.body.dedent();
-//            func.body.add("END_IF;");
-//
-//            // Return function call.
-//            if (state == null && funcDummyParam) {
-//                return genFuncCall(name, false, "dummy", "0");
-//            } else if (state == null) {
-//                List<String> paramNames = listc(func.inputVars.size());
-//                List<String> paramValues = listc(func.inputVars.size());
-//                for (PlcVariable var: func.inputVars) {
-//                    paramNames.add(var.name);
-//                    paramValues.add(var.name);
-//                }
-//                return genFuncCall(name, false, paramNames, paramValues);
-//            } else {
-//                return genFuncCall(name, false, "state", state);
-//            }
+        ExprGenResult result = new ExprGenResult(this);
+        PlcType resultValueType = typeGenerator.convertType(ifExpr.getType());
+        PlcVariable resultVar = getTempVariable("ifResult", resultValueType);
+        result.valueVariables.add(resultVar);
+        result.setValue(new PlcVarExpression(resultVar));
+
+        PlcSelectionStatement selStat = null;
+        selStat = addBranch(ifExpr.getGuards(), ifExpr.getThen(), resultVar, selStat, result.code);
+
+        for (ElifExpression elif: ifExpr.getElifs()) {
+            selStat = addBranch(elif.getGuards(), elif.getThen(), resultVar, selStat, result.code);
+        }
+        return result;
+    }
+
+    /**
+     * Append an {@link IfExpression} branch to the PLC code.
+     *
+     * @param guards CIF expressions that must hold to select the branch. If it is {@code null} the guards always hold.
+     * @param thenExpr Expression value to return if the guards hold.
+     * @param resultVar Variable to assign the 'thenExpr' value to.
+     * @param selStat Selection statement used the previous time.
+     * @param rootCode Code block for storing the entire IfExpression.
+     * @return The last used selection statement after adding the branch.
+     */
+    private PlcSelectionStatement addBranch(List<Expression> guards, Expression thenExpr, PlcVariable resultVar,
+            PlcSelectionStatement selStat, List<PlcStatement> rootCode)
+    {
+        // Place to store generated guard condition code. If no guards are present (that is, it's the 'else' of the
+        // IfExpression), the final assignment of the return value is put there.
+        List<PlcStatement> codeStorage = (selStat != null) ? selStat.elseStats : rootCode;
+
+        if (guards != null) {
+            // Convert the guard conditions. copy any generated code into storage, collect the used variables and the
+            // converted expression for the final N-ary AND.
+            PlcExpression[] grdValues = new PlcExpression[guards.size()];
+            boolean seenGuardCode = false;
+            Set<PlcVariable> grdVariables = set();
+
+            // For all guard expressions, convert them and store their output.
+            int grdNum = 0;
+            for (Expression guard: guards) {
+                ExprGenResult grdResult = convertExpr(guard);
+                if (grdResult.hasCode()) {
+                    seenGuardCode = true;
+                    codeStorage.addAll(grdResult.code);
+                    grdVariables.addAll(grdResult.codeVariables);
+                }
+                grdVariables.addAll(grdResult.valueVariables);
+                grdValues[grdNum] = grdResult.value;
+                grdNum++;
+            }
+
+            // If there is no previous selection statement or we added code to the 'else' branch of it, the previous
+            // selection statement cannot be used for this branch. Append a new selection statement to the code block
+            // in that case.
+            if (selStat == null || seenGuardCode) {
+                selStat = new PlcSelectionStatement();
+                codeStorage.add(selStat);
+            }
+
+            // Add a new branch in the previous selection statement or in the just appended new selection statement.
+            PlcSelectChoice choice = new PlcSelectChoice(funcAppls.andFuncAppl(grdValues), list());
+            selStat.condChoices.add(choice);
+            giveTempVariables(grdVariables);
+
+            // The 'then' statements of that choice are now the spot to write the 'then' code + value.
+            codeStorage = choice.thenStats;
+        }
+        // else there is no guard and 'codeStorage' already points at the right spot for writing the final 'else' code +
+        // value.
+
+        // Convert the result value. As we released the guard condition temporaries above, these may be used again here.
+        ExprGenResult retValueResult = convertExpr(thenExpr);
+        codeStorage.addAll(retValueResult.code);
+        codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(resultVar), retValueResult.value));
+        giveTempVariables(retValueResult.codeVariables);
+        giveTempVariables(retValueResult.valueVariables);
+        return selStat;
     }
 
     /**
