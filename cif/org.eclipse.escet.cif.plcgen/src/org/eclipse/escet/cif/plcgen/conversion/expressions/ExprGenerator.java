@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.FieldExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
@@ -66,8 +67,11 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
+import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
+import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
+import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
@@ -575,40 +579,68 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprGenResult convertProjectionExpr(Expression expr) {
-//            // Since projection on function call results etc are not allowed,
-//            // we generate functions for the projections, and use them instead.
-//            ProjectionExpression pexpr = (ProjectionExpression)expr;
-//            CifType ctype = normalizeType(pexpr.getChild().getType());
-//            Expression child = pexpr.getChild();
-//            if (ctype instanceof TupleType) {
-//                Field field = CifValueUtils.getTupleProjField(pexpr);
-//                TupleType ttype = (TupleType)field.eContainer();
-//                int idx = ttype.getFields().indexOf(field);
-//                String fname = fmt("proj%d_%s", idx, transTupleType(ttype));
-//                String childTxt = transExpr(child, state, init);
-//                return genFuncCall(fname, false, "tuple", childTxt);
-//            } else if (ctype instanceof ListType) {
-//                ListType ltype = (ListType)ctype;
-//                String childTxt = transExpr(child, state, init);
-//                String idxTxt = transExpr(pexpr.getIndex(), state, init);
-//
-//                if (child instanceof DiscVariableExpression || child instanceof ConstantExpression) {
-//                    // Optimize for direct discrete variable or constant
-//                    // reference, which we can directly projected.
-//                    int size = ltype.getLower();
-//                    String normProjIdxName = genNormProjIdxFunc();
-//                    String normTxt = genFuncCall(normProjIdxName, false, list("idx", "size"), list(idxTxt, str(size)));
-//                    return fmt("%s[%s]", childTxt, normTxt);
-//                } else {
-//                    // General case. Use function call on projection function.
-//                    String fname = genArrayProjFunc(ltype);
-//                    List<String> argTxts = list("arr", "idx");
-//                    List<String> valueTxts = list(childTxt, idxTxt);
-//                    return genFuncCall(fname, false, argTxts, valueTxts);
-//                }
-//            }
-//
-//            throw new RuntimeException("precond violation");
+        // Unwrap and store the nested projections, last projection at index 0.
+        List<ProjectionExpression> projections = list();
+        while (expr instanceof ProjectionExpression proj) {
+            projections.add(proj);
+            expr = proj.getChild();
+        }
+        Assert.check(!projections.isEmpty());
+
+        // Convert the projection root value and make it usable for the PLC.
+        ExprGenResult exprResult = convertExpr(expr);
+
+        // Setup the result of this method and prepare it for stacking the above collected projections on top of it.
+        PlcVarExpression lhsExpr; // LHS projected variable in the result of this method.
+        ExprGenResult convertResult; // Result of this method.
+        if (exprResult.value instanceof PlcVarExpression varExpr) {
+            // We received a variable to project at. As this is supported by the PLC, grab the result to add more
+            // projections.
+            lhsExpr = varExpr;
+            convertResult = exprResult;
+        } else {
+            // We got something different from a single variable. Assume the worst and use a new variable, copy the
+            // 'exprResult' into it, and assign its value to the new variable.
+            PlcType plcType = typeGenerator.convertType(expr.getType());
+            PlcVariable plcProjectRoot = getTempVariable("project", plcType);
+            lhsExpr = new PlcVarExpression(plcProjectRoot);
+
+            // Build a new result for this method and fill it with the result of the converted root.
+            convertResult = new ExprGenResult(this, exprResult);
+            convertResult.mergeCodeVariables(exprResult);
+            convertResult.mergeCode(exprResult);
+            convertResult.codeVariables.addAll(exprResult.valueVariables);
+            convertResult.setValue(lhsExpr);
+
+            // Append "plcProjectRoot := <root-value expression>;" to the code.
+            convertResult.code.add(new PlcAssignmentStatement(lhsExpr, convertResult.value));
+            convertResult.valueVariables.add(plcProjectRoot);
+        }
+
+        // Convert the collected projections in reverse order and stack them onto 'lhsExpr'.
+        for (int i = projections.size() - 1; i >= 0; i--) {
+            CifType unProjectedType = normalizeType(projections.get(i).getChild().getType());
+            Expression cifIndexExpr = projections.get(i).getIndex();
+
+            if (unProjectedType instanceof ListType) {
+                // Convert the index.
+                ExprGenResult indexResult = convertExpr(cifIndexExpr);
+                convertResult.mergeCodeAndVariables(indexResult);
+                lhsExpr.projections.add(new PlcArrayProjection(indexResult.value));
+
+            } else if (unProjectedType instanceof TupleType tt) {
+                Assert.check(cifIndexExpr instanceof FieldExpression);
+                Field field = ((FieldExpression)cifIndexExpr).getField();
+                int fieldIndex = tt.getFields().indexOf(field);
+
+                PlcType structTypeName = typeGenerator.convertType(unProjectedType);
+                PlcStructType structType = typeGenerator.getStructureType(structTypeName);
+                lhsExpr.projections.add(new PlcStructProjection(structType.fields.get(fieldIndex).name));
+            } else {
+                throw new AssertionError("Unexpected unprojected type \"" + unProjectedType + "\" found.");
+            }
+        }
+        return convertResult;
     }
 
     /**
@@ -618,46 +650,31 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprGenResult convertFuncCallExpr(FunctionCallExpression funcCallExpr) {
-//            FunctionCallExpression fcexpr = (FunctionCallExpression)expr;
-//
-//            List<String> paramTxts = listc(fcexpr.getParams().size());
-//            List<Expression> params = fcexpr.getParams();
-//            for (Expression param: params) {
-//                paramTxts.add(transExpr(param, state, init));
-//            }
-//            String paramsTxt = String.join(", ", paramTxts);
-//
-//            Expression fexpr = fcexpr.getFunction();
-//            if (fexpr instanceof FunctionExpression) {
-//                // Get function, and generate code for it.
-//                Function func = ((FunctionExpression)fexpr).getFunction();
-//                Assert.check(func instanceof InternalFunction);
-//                PlcPou funcPou = transFunction((InternalFunction)func);
-//
-//                // Get function and parameter names from the POU, as they may
-//                // have been renamed.
-//                List<String> paramNames = listc(funcPou.inputVars.size());
-//                for (PlcVariable param: funcPou.inputVars) {
-//                    paramNames.add(param.name);
-//                }
-//
-//                // Generate function call.
-//                return genFuncCall(funcPou.name, false, paramNames, paramTxts);
-//            } else if (fexpr instanceof StdLibFunctionExpression) {
+        // Convert all parameters of the call.
+        List<ExprGenResult> argumentResults = listc(funcCallExpr.getParams().size());
+        for (Expression param: funcCallExpr.getParams()) {
+            argumentResults.add(convertExpr(param));
+        }
+
+        // Dispatch call construction based on the function being called.
+        Expression fexpr = funcCallExpr.getFunction();
+        if (fexpr instanceof StdLibFunctionExpression stdlibExpr) {
+            return convertStdlibExpr(funcCallExpr, argumentResults);
+        }
+        // TODO: Implement function calls to internal functions.
+        throw new RuntimeException("Precondition violation.");
     }
 
     /**
      * Convert a call to the standard library.
      *
-     * @param stdlibFuncCallExpr The performed call to convert.
+     * @param stdlibCallExpr The performed call to convert.
      * @param argumentResults Already converted argument values of the call.
      * @return The converted expression.
      */
-    private ExprGenResult convertStdlibExpr(FunctionCallExpression stdlibFuncCallExpr,
-            List<ExprGenResult> argumentResults)
-    {
-        List<Expression> arguments = stdlibFuncCallExpr.getParams();
-        StdLibFunction stdlib = ((StdLibFunctionExpression)stdlibFuncCallExpr.getFunction()).getFunction();
+    private ExprGenResult convertStdlibExpr(FunctionCallExpression stdlibCallExpr, List<ExprGenResult> argumentResults) {
+        List<Expression> arguments = stdlibCallExpr.getParams();
+        StdLibFunction stdlib = ((StdLibFunctionExpression)stdlibCallExpr.getFunction()).getFunction();
         switch (stdlib) {
             case ABS: {
                 Assert.check(argumentResults.size() == 1);
