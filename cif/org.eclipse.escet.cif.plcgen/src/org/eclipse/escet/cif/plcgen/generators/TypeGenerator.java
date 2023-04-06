@@ -180,13 +180,34 @@ public class TypeGenerator {
      * @return The PLC type generated for the enumeration.
      */
     public PlcType convertEnumDecl(EnumDecl enumDecl) {
+        return ensureEnumDecl(enumDecl).enumDeclType;
+    }
+
+    /**
+     * Ensure that the given CIF enumeration declaration is or becomes available as a named PLC enumeration.
+     *
+     * @param enumDecl Enumeration declaration to check.
+     * @return The PLC equivalent of the given CIF declaration.
+     */
+    private EnumDeclData ensureEnumDecl(EnumDecl enumDecl) {
         EnumDeclEqHashWrap wrappedEnumDecl = new EnumDeclEqHashWrap(enumDecl);
         EnumDeclData declData = enumDeclNames.get(wrappedEnumDecl);
         if (declData == null) {
             declData = makeEnumDeclData(enumDecl);
             enumDeclNames.put(wrappedEnumDecl, declData);
         }
-        return declData.enumDeclType;
+        return declData;
+    }
+
+    /**
+     * Get the PLC equivalent of the given CIF enumeration literal.
+     *
+     * @param enumLit Enumeration to convert.
+     * @return The equivalent PLC value of the provided enum literal.
+     */
+    public PlcValue getPlcEnumLiteral(EnumLiteral enumLit) {
+        EnumDecl enumDecl = (EnumDecl)enumLit.eContainer();
+        return ensureEnumDecl(enumDecl).getLiteral(enumLit);
     }
 
     /** Enumeration declaration type and value information storage. */
@@ -214,7 +235,6 @@ public class TypeGenerator {
          * @param literal Enumeration literal to translate. Must be a literal of a compatible enumeration.
          * @return The translated value.
          */
-        @SuppressWarnings("unused") // TODO Use the function in expression conversions.
         public PlcValue getLiteral(EnumLiteral literal) {
             // Use the enumeration containing the literal itself for getting the index.
             EnumDecl enumDecl = (EnumDecl)literal.eContainer();
