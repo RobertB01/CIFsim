@@ -33,7 +33,6 @@ import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -42,7 +41,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.DictExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FieldExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
@@ -59,11 +57,9 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.SliceExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunctionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StringExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TimeExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
@@ -186,9 +182,9 @@ public class ExprGenerator {
         } else if (expr instanceof RealExpression re) {
             return new ExprGenResult(this).setValue(new PlcRealLiteral(re.getValue()));
         } else if (expr instanceof StringExpression) {
-            throw new RuntimeException("precond violation");
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof TimeExpression) {
-            throw new RuntimeException("precond violation"); // XXX Fix message.
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof CastExpression ce) {
             return convertCastExpr(ce);
         } else if (expr instanceof UnaryExpression ue) {
@@ -200,23 +196,23 @@ public class ExprGenerator {
         } else if (expr instanceof ProjectionExpression pe) {
             return convertProjectionExpr(pe);
         } else if (expr instanceof SliceExpression) {
-            throw new RuntimeException("precond violation");
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof FunctionCallExpression fce) {
             return convertFuncCallExpr(fce);
         } else if (expr instanceof ListExpression le) {
             return convertArrayExpr(le);
         } else if (expr instanceof SetExpression) {
-            throw new RuntimeException("precond violation");
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof TupleExpression te) {
             return convertTupleExpr(te);
         } else if (expr instanceof DictExpression) {
-            throw new RuntimeException("precond violation");
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof ConstantExpression ce) {
             return new ExprGenResult(this).setValue(cifData.getExprForConstant(ce.getConstant()));
         } else if (expr instanceof DiscVariableExpression de) {
             return new ExprGenResult(this).setValue(cifData.getExprForDiscVar(de.getVariable()));
         } else if (expr instanceof AlgVariableExpression ae) {
-            // TODO: Decide how to deal with agebraic variables.
+            // TODO: Decide how to deal with algebraic variables.
             return convertExpr(ae.getVariable().getValue()); // Convert its definition.
         } else if (expr instanceof ContVariableExpression ce) {
             return new ExprGenResult(this).setValue(cifData.getExprForContvar(ce.getVariable(), ce.isDerivative()));
@@ -224,9 +220,9 @@ public class ExprGenerator {
             return new ExprGenResult(this).setValue(cifData.getExprForLocation(le.getLocation()));
         } else if (expr instanceof EnumLiteralExpression eLit) {
             // Handled in convertProjection().
-            throw new RuntimeException("precond violation");
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof FunctionExpression) {
-            throw new RuntimeException("precond violation");
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {
             return new ExprGenResult(this).setValue(cifData.getExprForInputVar(ie.getVariable()));
         }
@@ -244,7 +240,8 @@ public class ExprGenerator {
         CifType ctype = normalizeType(castExpr.getChild().getType());
         CifType rtype = normalizeType(castExpr.getType());
         if (ctype instanceof IntType && rtype instanceof RealType) {
-            return result.setValue(funcAppls.castFunctionAppl(result.value, target.getIntegerType(), target.getRealType()));
+            return result
+                    .setValue(funcAppls.castFunctionAppl(result.value, target.getIntegerType(), target.getRealType()));
         }
         if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
             // Ignore cast expression.
@@ -296,8 +293,8 @@ public class ExprGenerator {
         switch (binExpr.getOperator()) {
             case IMPLICATION:
                 // Right-value or not left-value.
-                return result.setValue(funcAppls.orFuncAppl(rightResult.value,
-                        funcAppls.complementFuncAppl(leftResult.value)));
+                return result.setValue(
+                        funcAppls.orFuncAppl(rightResult.value, funcAppls.complementFuncAppl(leftResult.value)));
 
             case BI_CONDITIONAL:
                 return result.setValue(funcAppls.equalFuncAppl(leftResult.value, rightResult.value));
@@ -418,8 +415,8 @@ public class ExprGenerator {
     }
 
     /**
-     * Flatten the binary expression on its operator, convert the collection children, and combine the children into
-     * an n-ary PLC function.
+     * Flatten the binary expression on its operator, convert the collection children, and combine the children into an
+     * n-ary PLC function.
      *
      * @param binExpr Binary expression to flatten and convert. Must be a disjunction, conjunction, addition, or
      *     multiplication expression.
@@ -627,7 +624,6 @@ public class ExprGenerator {
                 ExprGenResult indexResult = convertExpr(cifIndexExpr);
                 convertResult.mergeCodeAndVariables(indexResult);
                 lhsExpr.projections.add(new PlcArrayProjection(indexResult.value));
-
             } else if (unProjectedType instanceof TupleType tt) {
                 Assert.check(cifIndexExpr instanceof FieldExpression);
                 Field field = ((FieldExpression)cifIndexExpr).getField();
@@ -662,7 +658,7 @@ public class ExprGenerator {
             return convertStdlibExpr(funcCallExpr, argumentResults);
         }
         // TODO: Implement function calls to internal functions.
-        throw new RuntimeException("Precondition violation.");
+        throw new RuntimeException("Calls to internal functions are not implemented yet.");
     }
 
     /**
@@ -672,7 +668,9 @@ public class ExprGenerator {
      * @param argumentResults Already converted argument values of the call.
      * @return The converted expression.
      */
-    private ExprGenResult convertStdlibExpr(FunctionCallExpression stdlibCallExpr, List<ExprGenResult> argumentResults) {
+    private ExprGenResult convertStdlibExpr(FunctionCallExpression stdlibCallExpr,
+            List<ExprGenResult> argumentResults)
+    {
         List<Expression> arguments = stdlibCallExpr.getParams();
         StdLibFunction stdlib = ((StdLibFunctionExpression)stdlibCallExpr.getFunction()).getFunction();
         switch (stdlib) {
@@ -695,15 +693,15 @@ public class ExprGenerator {
                 // Unsupported. IEC 61131-3 has only TRUNC (round
                 // towards zero) and REAL_TO_INT (rounds to the nearest
                 // even integer if equally far from two integers).
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case DELETE:
                 // Unsupported.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case EMPTY:
                 // Unsupported.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case EXP: {
                 Assert.check(argumentResults.size() == 1);
@@ -715,11 +713,11 @@ public class ExprGenerator {
                 // Unsupported. IEC 61131-3 has only TRUNC (round
                 // towards zero) and REAL_TO_INT (rounds to the nearest
                 // even integer if equally far from two integers).
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case FORMAT:
                 // Unsupported.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case LN: {
                 Assert.check(argumentResults.size() == 1);
@@ -759,7 +757,7 @@ public class ExprGenerator {
 
             case POP:
                 // Unsupported.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case POWER: {
                 CifType baseType = normalizeType(arguments.get(0).getType());
@@ -810,22 +808,22 @@ public class ExprGenerator {
                 // Unsupported. IEC 61131-3 has only TRUNC (round
                 // towards zero) and REAL_TO_INT (rounds to the nearest
                 // even integer if equally far from two integers).
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case SCALE:
                 // Unsupported. We could support this by expanding
                 // it to the definition of 'scale', using addition,
                 // subtraction, etc.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case SIGN:
                 // Unsupported. We could support this by adding our
                 // own sign function.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case SIZE:
                 // Unsupported.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case SQRT: {
                 Assert.check(argumentResults.size() == 1);
@@ -876,7 +874,7 @@ public class ExprGenerator {
             case SINH:
             case TANH:
                 // Unsupported.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
 
             case BERNOULLI:
             case BETA:
@@ -894,7 +892,7 @@ public class ExprGenerator {
             case UNIFORM:
             case WEIBULL:
                 // Unsupported.
-                throw new RuntimeException("precond violation");
+                throw new RuntimeException("Precondition violation.");
         }
         throw new RuntimeException("Precondition violation.");
     }
