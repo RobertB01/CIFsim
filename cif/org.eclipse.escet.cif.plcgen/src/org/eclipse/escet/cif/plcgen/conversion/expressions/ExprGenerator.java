@@ -106,18 +106,25 @@ public class ExprGenerator {
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
+    /** Access to PLC equivalents of CIF variables, automata and locations. */
+    private final CifDataProvider cifData;
+
     /** PLC function applications of the target. */
     private final PlcFunctionAppls funcAppls;
 
     /**
      * Constructor of the {@link ExprGenerator} class.
      *
-     * @param target Plc target to generate code for.
+     * @param target PLC target to generate code for.
+     * @param cifData Access to PLC equivalents of CIF variables, automata and locations.
      * @param typeGenerator Type conversion class from CIF to PLC types.
      * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public ExprGenerator(PlcTarget target, TypeGenerator typeGenerator, NameGenerator nameGenerator) {
+    public ExprGenerator(PlcTarget target, CifDataProvider cifData, TypeGenerator typeGenerator,
+            NameGenerator nameGenerator)
+    {
         this.target = target;
+        this.cifData = cifData;
         this.typeGenerator = typeGenerator;
         this.nameGenerator = nameGenerator;
         this.funcAppls = new PlcFunctionAppls(target);
@@ -200,47 +207,24 @@ public class ExprGenerator {
             return convertTupleExpr(te);
         } else if (expr instanceof DictExpression) {
             throw new RuntimeException("precond violation");
-        } else if (expr instanceof ConstantExpression) {
-//            Assert.check(constantsAllowed);
-//            Constant constant = ((ConstantExpression)expr).getConstant();
-//            return getPlcName(constant);
-        } else if (expr instanceof DiscVariableExpression) {
-//            DiscVariable var = ((DiscVariableExpression)expr).getVariable();
-//            EObject parent = var.eContainer();
-//            if (parent instanceof ComplexComponent) {
-//                // Discrete variable.
-//                Assert.notNull(state);
-//                return state + "." + getPlcName(var);
-//            } else {
-//                // Local variable or parameter of a function.
-//                return getPlcName(var);
-//            }
-        } else if (expr instanceof AlgVariableExpression) {
-//            Assert.notNull(state);
-//            AlgVariable var = ((AlgVariableExpression)expr).getVariable();
-//            return genFuncCall(getPlcName(var), false, "state", state);
-        } else if (expr instanceof ContVariableExpression) {
-//            Assert.notNull(state);
-//            ContVariableExpression cvexpr = (ContVariableExpression)expr;
-//            ContVariable var = cvexpr.getVariable();
-//            if (cvexpr.isDerivative()) {
-//                return genFuncCall("deriv" + getPlcName(var), false, "state", state);
-//            } else {
-//                return state + "." + getPlcName(var);
-//            }
-        } else if (expr instanceof LocationExpression) {
-//            throw new RuntimeException("loc expr unexpected in lin spec");
-        } else if (expr instanceof EnumLiteralExpression) {
-//            // We have at most a single enumeration after linearization. There is
-//            // no need to prefix literals with the enumeration, as the literal
-//            // names are globally unique as well.
-//            EnumLiteral lit = ((EnumLiteralExpression)expr).getLiteral();
-//            return getPlcName(lit);
+        } else if (expr instanceof ConstantExpression ce) {
+            return new ExprGenResult(this).setValue(cifData.getExprForConstant(ce.getConstant()));
+        } else if (expr instanceof DiscVariableExpression de) {
+            return new ExprGenResult(this).setValue(cifData.getExprForDiscVar(de.getVariable()));
+        } else if (expr instanceof AlgVariableExpression ae) {
+            // TODO: Decide how to deal with agebraic variables.
+            return convertExpr(ae.getVariable().getValue()); // Convert its definition.
+        } else if (expr instanceof ContVariableExpression ce) {
+            return new ExprGenResult(this).setValue(cifData.getExprForContvar(ce.getVariable(), ce.isDerivative()));
+        } else if (expr instanceof LocationExpression le) {
+            return new ExprGenResult(this).setValue(cifData.getExprForLocation(le.getLocation()));
+        } else if (expr instanceof EnumLiteralExpression eLit) {
+            // Handled in convertProjection().
+            throw new RuntimeException("precond violation");
         } else if (expr instanceof FunctionExpression) {
             throw new RuntimeException("precond violation");
-        } else if (expr instanceof InputVariableExpression) {
-//            InputVariable var = ((InputVariableExpression)expr).getVariable();
-//            return getPlcName(var);
+        } else if (expr instanceof InputVariableExpression ie) {
+            return new ExprGenResult(this).setValue(cifData.getExprForInputVar(ie.getVariable()));
         }
         throw new RuntimeException("Unexpected expr: " + expr);
     }
