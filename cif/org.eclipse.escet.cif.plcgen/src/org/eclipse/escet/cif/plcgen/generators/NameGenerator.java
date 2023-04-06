@@ -93,9 +93,9 @@ public class NameGenerator {
      * global names.
      *
      * @param initialName Suggested name to to use.
-     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings.
-     *     As producing such rename warnings for elements that have no name in CIF is meaningless to a user, this
-     *     parameter should be {@code false} for those names.
+     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings. As
+     *     producing such rename warnings for elements that have no name in CIF is meaningless to a user, this parameter
+     *     should be {@code false} for those names.
      * @return A proper name that does not clash with PLC language keywords or previously generated global names.
      */
     public String generateGlobalName(String initialName, boolean initialIsCifName) {
@@ -121,13 +121,13 @@ public class NameGenerator {
      * Convert the given name to something that does not clash with the PLC language or with previously generated names.
      *
      * @param initialName Suggested name to to use.
-     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings.
-     *     As producing such rename warnings for objects that have no name in CIF is meaningless, this parameter should
-     *     be {@code false} for those names.
+     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings. As
+     *     producing such rename warnings for objects that have no name in CIF is meaningless, this parameter should be
+     *     {@code false} for those names.
      * @param localSuffixes Name suffix information of local names. Use the same map to generate all local names in a
      *     scope.
-     * @return A proper name that does not clash with PLC language keywords or previously generated global names. If
-     *     a {@code localSuffixes} map is supplied, the produced names also don't clash with all previously generated
+     * @return A proper name that does not clash with PLC language keywords or previously generated global names. If a
+     *     {@code localSuffixes} map is supplied, the produced names also don't clash with all previously generated
      *     local names that used that same map.
      */
     private String generateName(String initialName, boolean initialIsCifName, Map<String, Integer> localSuffixes) {

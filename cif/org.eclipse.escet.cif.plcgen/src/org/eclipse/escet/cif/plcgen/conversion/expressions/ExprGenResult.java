@@ -68,8 +68,7 @@ import org.eclipse.escet.common.java.Assert;
  * <li>Obtain the final value by evaluating the {@link #value} expression. Use the final value or store it somewhere
  * safe.</li>
  * <li>After the final value is used or safely stored, the temporary values in {@link #valueVariables} are not needed
- * any more, they should be released by calling {@link #releaseValueVariables}.
- * </li>
+ * any more, they should be released by calling {@link #releaseValueVariables}.</li>
  * </ol>
  * </p>
  */
@@ -88,10 +87,9 @@ public class ExprGenResult {
     public List<PlcStatement> code = list();
 
     /**
-     * Temporary variables that are assigned in {@link #code the PLC code} and used in evaluating the
-     * {@link #value result value}. They should be released for reuse after evaluating the {@link #value} expression in
-     * the generated result. In that way, the variables will not have important values for other parts in the generated
-     * result.
+     * Temporary variables that are assigned in {@link #code the PLC code} and used in evaluating the {@link #value
+     * result value}. They should be released for reuse after evaluating the {@link #value} expression in the generated
+     * result. In that way, the variables will not have important values for other parts in the generated result.
      */
     public Set<PlcVariable> valueVariables = set();
 

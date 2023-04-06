@@ -34,7 +34,6 @@ public class PlcSelectionStatement extends PlcStatement {
         this(list(), list());
     }
 
-
     /**
      * Constructor of the {@link PlcSelectionStatement} class.
      *
