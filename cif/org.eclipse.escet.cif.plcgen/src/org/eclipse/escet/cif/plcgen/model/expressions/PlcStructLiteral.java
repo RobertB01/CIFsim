@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
+import java.util.Collections;
 import java.util.List;
 
 /** Expression describing a structure value. */
@@ -26,6 +27,6 @@ public class PlcStructLiteral extends PlcExpression {
      * @param values Values of the structure.
      */
     public PlcStructLiteral(List<PlcNamedValue> values) {
-        this.values = values;
+        this.values = Collections.unmodifiableList(values);
     }
 }

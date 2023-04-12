@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
+import java.util.Collections;
 import java.util.List;
 
 /** Expression describing an array value. */
@@ -26,6 +27,6 @@ public class PlcArrayLiteral extends PlcExpression {
      * @param values Values of the array.
      */
     public PlcArrayLiteral(List<PlcExpression> values) {
-        this.values = values;
+        this.values = Collections.unmodifiableList(values);
     }
 }
