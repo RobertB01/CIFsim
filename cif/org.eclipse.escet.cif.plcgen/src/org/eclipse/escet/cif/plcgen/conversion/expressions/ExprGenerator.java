@@ -77,6 +77,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcArrayProjection;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -588,42 +589,65 @@ public class ExprGenerator {
         ExprGenResult exprResult = convertExpr(expr);
 
         // Setup the result of this method and prepare it for stacking the above collected projections on top of it.
-        PlcVarExpression lhsExpr; // LHS projected variable in the result of this method.
-        ExprGenResult convertResult; // Result of this method.
         if (exprResult.value instanceof PlcVarExpression varExpr) {
-            // We received a variable to project at. As this is supported by the PLC, grab the result to add more
-            // projections.
-            lhsExpr = varExpr;
-            convertResult = exprResult;
+            // We received a variable to project at, grab the result to add more projections.
+
+            // Copy the already converted expressions of 'varExpr', append the new CIF projections to it.
+            List<PlcProjection> plcProjections = list();
+            plcProjections.addAll(varExpr.projections);
+            convertProjections(projections, plcProjections, exprResult);
+
+            // Build a new PLC projections expressions with the parent variable and the collected projections.
+            PlcVarExpression lhsExpr = new PlcVarExpression(varExpr.variable, plcProjections);
+            exprResult.setValue(lhsExpr);
+            return exprResult;
         } else {
             // We got something different from a single variable. Assume the worst and use a new variable, copy the
-            // 'exprResult' into it, and assign its value to the new variable.
+            // parent result into it, and assign its value to the new variable.
             PlcType plcType = typeGenerator.convertType(expr.getType());
             PlcVariable plcProjectRoot = getTempVariable("project", plcType);
-            lhsExpr = new PlcVarExpression(plcProjectRoot);
 
-            // Build a new result for this method and fill it with the result of the converted root.
-            convertResult = new ExprGenResult(this, exprResult);
+            // Build a new result and fill it with the result of the converted root.
+            ExprGenResult convertResult = new ExprGenResult(this, exprResult);
             convertResult.mergeCodeVariables(exprResult);
             convertResult.mergeCode(exprResult);
-            convertResult.codeVariables.addAll(exprResult.valueVariables);
-            convertResult.setValue(lhsExpr);
 
-            // Append "plcProjectRoot := <root-value expression>;" to the code.
+            // Convert the CIF projections, so they can be added to the new 'project' variable.
+            List<PlcProjection> plcProjections = list();
+            convertProjections(projections, plcProjections, convertResult);
+
+            // Append "plcProjectRoot := <root-value expression>;" to the code, and return a new projection expression
+            // with the converted CIF projections.
+            PlcVarExpression lhsExpr = new PlcVarExpression(plcProjectRoot, plcProjections);
             convertResult.code.add(new PlcAssignmentStatement(lhsExpr, convertResult.value));
-            convertResult.valueVariables.add(plcProjectRoot);
-        }
+            convertResult.codeVariables.addAll(exprResult.valueVariables); // Parent value is now in code.
 
-        // Convert the collected projections in reverse order and stack them onto 'lhsExpr'.
-        for (int i = projections.size() - 1; i >= 0; i--) {
-            CifType unProjectedType = normalizeType(projections.get(i).getChild().getType());
-            Expression cifIndexExpr = projections.get(i).getIndex();
+            convertResult.valueVariables.add(plcProjectRoot);
+            convertResult.setValue(lhsExpr);
+            return convertResult;
+        }
+    }
+
+    /**
+     * Convert CIF projections to PLC projections, reversing order.
+     *
+     * @param cifProjections CIF projections to convert, in reverse order. Last projection to apply should be at index
+     *     {@code 0}.
+     * @param plcProjections Storage of converted CIF projections. Is extended in-place.
+     * @param convertResult Storage of exprgen results from CIF array index expressions.
+     */
+    private void convertProjections(List<ProjectionExpression> cifProjections, List<PlcProjection> plcProjections,
+            ExprGenResult convertResult)
+    {
+        for (int i = cifProjections.size() - 1; i >= 0; i--) {
+            CifType unProjectedType = normalizeType(cifProjections.get(i).getChild().getType());
+            Expression cifIndexExpr = cifProjections.get(i).getIndex();
 
             if (unProjectedType instanceof ListType) {
                 // Convert the index.
                 ExprGenResult indexResult = convertExpr(cifIndexExpr);
                 convertResult.mergeCodeAndVariables(indexResult);
-                lhsExpr.projections.add(new PlcArrayProjection(indexResult.value));
+                plcProjections.add(new PlcArrayProjection(indexResult.value));
             } else if (unProjectedType instanceof TupleType tt) {
                 Assert.check(cifIndexExpr instanceof FieldExpression);
                 Field field = ((FieldExpression)cifIndexExpr).getField();
@@ -631,12 +655,11 @@ public class ExprGenerator {
 
                 PlcType structTypeName = typeGenerator.convertType(unProjectedType);
                 PlcStructType structType = typeGenerator.getStructureType(structTypeName);
-                lhsExpr.projections.add(new PlcStructProjection(structType.fields.get(fieldIndex).name));
+                plcProjections.add(new PlcStructProjection(structType.fields.get(fieldIndex).name));
             } else {
                 throw new AssertionError("Unexpected unprojected type \"" + unProjectedType + "\" found.");
             }
         }
-        return convertResult;
     }
 
     /**
