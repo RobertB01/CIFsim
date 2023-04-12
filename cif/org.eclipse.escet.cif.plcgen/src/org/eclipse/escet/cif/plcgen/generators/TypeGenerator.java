@@ -46,11 +46,11 @@ import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.cif.plcgen.targets.PlcTargetInterface;
 import org.eclipse.escet.common.java.Assert;
 
 /** Class for handling types. */
-public class TypeGenerator {
+public class TypeGenerator implements TypeGeneratorInterface {
     /** Standard integer type. */
     private final PlcElementaryType standardIntType;
 
@@ -61,7 +61,7 @@ public class TypeGenerator {
     private final ConvertEnums enumConversion;
 
     /** Generator for obtaining clash-free names in the generated code. */
-    private final NameGenerator nameGenerator;
+    private final NameGeneratorInterface nameGenerator;
 
     /** Generator that stores and writes generated PLC code. */
     private final PlcCodeStorage plcCodeStorage;
@@ -90,7 +90,7 @@ public class TypeGenerator {
      * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      * @param plcCodeStorage Generator that stores and writes generated PLC code.
      */
-    public TypeGenerator(PlcTarget target, PlcGenSettings settings, NameGenerator nameGenerator,
+    public TypeGenerator(PlcTargetInterface target, PlcGenSettings settings, NameGeneratorInterface nameGenerator,
             PlcCodeStorage plcCodeStorage)
     {
         standardIntType = target.getIntegerType();
@@ -101,12 +101,7 @@ public class TypeGenerator {
         this.plcCodeStorage = plcCodeStorage;
     }
 
-    /**
-     * Convert a CIF type to a PLC type.
-     *
-     * @param type CIF type to convert.
-     * @return The associated PLC type.
-     */
+    @Override
     public PlcType convertType(CifType type) {
         if (type instanceof BoolType) {
             return PlcElementaryType.BOOL_TYPE;
@@ -162,23 +157,13 @@ public class TypeGenerator {
         return new PlcDerivedType(sname);
     }
 
-    /**
-     * Get the underlying structure type from the associated declaration type used in the generators.
-     *
-     * @param type Declaration type of the structure type being queried.
-     * @return The underlying structure type.
-     */
+    @Override
     public PlcStructType getStructureType(PlcType type) {
         Assert.check(type instanceof PlcDerivedType);
         return structTypes.get(((PlcDerivedType)type).name);
     }
 
-    /**
-     * Convert a CIF enumeration declaration to a named PLC enumeration.
-     *
-     * @param enumDecl Enumeration declaration to convert.
-     * @return The PLC type generated for the enumeration.
-     */
+    @Override
     public PlcType convertEnumDecl(EnumDecl enumDecl) {
         return ensureEnumDecl(enumDecl).enumDeclType;
     }
@@ -199,12 +184,7 @@ public class TypeGenerator {
         return declData;
     }
 
-    /**
-     * Get the PLC equivalent of the given CIF enumeration literal.
-     *
-     * @param enumLit Enumeration to convert.
-     * @return The equivalent PLC value of the provided enum literal.
-     */
+    @Override
     public PlcValue getPlcEnumLiteral(EnumLiteral enumLit) {
         EnumDecl enumDecl = (EnumDecl)enumLit.eContainer();
         return ensureEnumDecl(enumDecl).getLiteral(enumLit);

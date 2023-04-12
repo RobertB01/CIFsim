@@ -67,13 +67,13 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
-import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.cif.plcgen.targets.PlcTargetInterface;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 
 /** Extracts information from the CIF input file, to be used during PLC code generation. */
 public class CifProcessor {
     /** PLC target to generate code for. */
-    private final PlcTarget target;
+    private final PlcTargetInterface target;
 
     /** User-specified path to the CIF specification for which to generate PLC code. */
     private final String inputPath;
@@ -91,13 +91,13 @@ public class CifProcessor {
     private final WarnOutput warnOutput;
 
     /** Type generator. */
-    private final TypeGenerator typeGen;
+    private final TypeGeneratorInterface typeGen;
 
     /** PLC code storage and writer. */
     private final PlcCodeStorage codeStorage;
 
     /** Generator for obtaining clash-free names in the generated code. */
-    private final NameGenerator nameGenerator;
+    private final NameGeneratorInterface nameGenerator;
 
     /** Names of converted declarations. */
     private final Map<Declaration, String> variableNames = map();
@@ -111,8 +111,8 @@ public class CifProcessor {
      * @param codeStorage PLC code storage and writer.
      * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public CifProcessor(PlcTarget target, PlcGenSettings settings, TypeGenerator typeGen, PlcCodeStorage codeStorage,
-            NameGenerator nameGenerator)
+    public CifProcessor(PlcTargetInterface target, PlcGenSettings settings, TypeGeneratorInterface typeGen,
+            PlcCodeStorage codeStorage, NameGeneratorInterface nameGenerator)
     {
         this.target = target;
         inputPath = settings.inputPath;
@@ -348,7 +348,7 @@ public class CifProcessor {
         } else if (!target.supportsEnumerations()) {
             // Enumerations are not converted.
             String msg = fmt("Enumerations are not converted, while this is required for %s code. Please set the "
-                    + "\"Convert enumerations\" option accordingly.", target.targetType.dialogText);
+                    + "\"Convert enumerations\" option accordingly.", target.getTargetType().dialogText);
             throw new InvalidInputException(msg);
         }
     }

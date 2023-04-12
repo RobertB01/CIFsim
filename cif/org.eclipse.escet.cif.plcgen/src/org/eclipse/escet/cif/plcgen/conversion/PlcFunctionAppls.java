@@ -29,13 +29,13 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcP
 import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
-import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.cif.plcgen.targets.PlcTargetInterface;
 import org.eclipse.escet.common.java.Assert;
 
 /** Elementary function application construction methods for a target. */
 public class PlcFunctionAppls {
     /** PLC to generate code for. */
-    private final PlcTarget target;
+    private final PlcTargetInterface target;
 
     /** Parameters for functions that take one input parameters. */
     private static final PlcParameterDescription[] ONE_INPUT_PARAMETER = new PlcParameterDescription[] {
@@ -49,11 +49,11 @@ public class PlcFunctionAppls {
             new PlcParameterDescription("OUT", PlcParamDirection.OUTPUT_ONLY)};
 
     /**
-     * Constructor of the {@link PlcTarget} class.
+     * Constructor of the {@link PlcTargetInterface} class.
      *
      * @param target PLC to generate code for.
      */
-    public PlcFunctionAppls(PlcTarget target) {
+    public PlcFunctionAppls(PlcTargetInterface target) {
         this.target = target;
     }
 

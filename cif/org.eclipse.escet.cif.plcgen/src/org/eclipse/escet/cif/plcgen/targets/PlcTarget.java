@@ -20,12 +20,14 @@ import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
+import org.eclipse.escet.cif.plcgen.generators.NameGeneratorInterface;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.TypeGeneratorInterface;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 
 /** Base class for generating a {@link PlcProject}. */
-public abstract class PlcTarget {
+public abstract class PlcTarget implements PlcTargetInterface {
     /** Size of an integer value in a CIF specification. */
     public static final int CIF_INTEGER_SIZE = 32;
 
@@ -41,6 +43,9 @@ public abstract class PlcTarget {
     /** User-defined real type size to use by the PLC. */
     private PlcNumberBits realTypeSize;
 
+    /** Absolute base path to which to write the generated code. */
+    private String outputPath;
+
     /**
      * Constructor of the {@link PlcTarget} class.
      *
@@ -48,6 +53,11 @@ public abstract class PlcTarget {
      */
     public PlcTarget(PlcTargetType targetType) {
         this.targetType = targetType;
+    }
+
+    @Override
+    public PlcTargetType getTargetType() {
+        return targetType;
     }
 
     /**
@@ -58,11 +68,12 @@ public abstract class PlcTarget {
     public void generate(PlcGenSettings settings) {
         intTypeSize = settings.intTypeSize;
         realTypeSize = settings.realTypeSize;
+        outputPath = settings.outputPath;
 
         // Construct the generators.
-        NameGenerator nameGenerator = new NameGenerator(settings);
+        NameGeneratorInterface nameGenerator = new NameGenerator(settings);
         PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
-        TypeGenerator typeGen = new TypeGenerator(this, settings, nameGenerator, codeStorage);
+        TypeGeneratorInterface typeGen = new TypeGenerator(this, settings, nameGenerator, codeStorage);
         CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameGenerator);
 
         // Warn the user about getting a possibly too small integer type size.
@@ -106,61 +117,30 @@ public abstract class PlcTarget {
      *
      * @return The requested PLC code writer.
      */
-    public abstract OutputTypeWriter getPlcCodeWriter();
+    protected abstract OutputTypeWriter getPlcCodeWriter();
 
-    /**
-     * Returns whether the target supports arrays.
-     *
-     * @return Whether arrays are supported.
-     */
+    @Override
     public abstract boolean supportsArrays();
 
-    /**
-     * Returns whether or not the PLC target type supports named constants.
-     *
-     * @return Whether named constants are supported.
-     */
+    @Override
     public abstract boolean supportsConstants();
 
-    /**
-     * Return whether the target supports enumeration types.
-     *
-     * @return Whether enumeration types are supported.
-     */
+    @Override
     public abstract boolean supportsEnumerations();
 
-    /**
-     * Does the target support the given semantic operation?
-     *
-     * @param funcOper Semantics operation being queried.
-     * @return Whether the target supports the given operation.
-     */
+    @Override
     public boolean supportsOperation(PlcFuncOperation funcOper) {
         // By default the operation is supported.
         return true;
     }
 
-    /**
-     * Does the target support infix notation for the given semantic operation?
-     *
-     * @param funcOper Semantics operation being queried.
-     * @return Whether the target support infix notation for the given operation.
-     */
+    @Override
     public boolean supportsInfixNotation(PlcFuncOperation funcOper) {
         // By default infix notation is supported if the PLC standard supplies a notation for it.
         return true;
     }
 
-    /**
-     * Query whether the power function {@code base ** power} exists for a given combination of parameter types.
-     *
-     * @param baseIsInt If {@true} the test queries for an integer typed base value. If {@code false} the test queries
-     *     for a real typed base value.
-     * @param powerIsInt If {@true} the test queries for an integer typed power value. If {@code false} the test queries
-     *     for a real typed power value.
-     * @return Whether the queried combination of base and power value types is supported by the PLC.
-     * @note It is assumed that {@code supportsPow(false, false)} holds.
-     */
+    @Override
     public boolean supportsPower(boolean baseIsInt, boolean powerIsInt) {
         return !baseIsInt; // First parameter must always have a real type.
     }
@@ -172,11 +152,7 @@ public abstract class PlcTarget {
      */
     protected abstract int getMaxIntegerTypeSize();
 
-    /**
-     * Get the type of a standard integer value in the PLC.
-     *
-     * @return The type of a standard integer value in the PLC.
-     */
+    @Override
     public PlcElementaryType getIntegerType() {
         int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
         int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
@@ -190,21 +166,16 @@ public abstract class PlcTarget {
      */
     protected abstract int getMaxRealTypeSize();
 
-    /**
-     * Get the type of a standard real value in the PLC.
-     *
-     * @return The type of a standard real value in the PLC.
-     */
+    @Override
     public PlcElementaryType getRealType() {
         int generatorBestRealSize = Math.min(CIF_REAL_SIZE, getMaxRealTypeSize());
         int userSpecifiedRealSize = realTypeSize.getTypeSize(generatorBestRealSize);
         return PlcElementaryType.getRealTypeBySize(userSpecifiedRealSize);
     }
 
-    /**
-     * Get replacement string for the CIF input file extension including dot, used to derive an output path.
-     *
-     * @return The replacement string.
-     */
-    public abstract String getPathSuffixReplacement();
+    @Override
+    public void writeOutput(PlcProject project) {
+        OutputTypeWriter writer = getPlcCodeWriter();
+        writer.write(project, outputPath);
+    }
 }

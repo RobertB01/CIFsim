@@ -69,8 +69,8 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
-import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
-import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.NameGeneratorInterface;
+import org.eclipse.escet.cif.plcgen.generators.TypeGeneratorInterface;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -84,7 +84,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
-import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.cif.plcgen.targets.PlcTargetInterface;
 import org.eclipse.escet.common.java.Assert;
 
 /** Converter of CIF expressions to PLC expressions and statements. */
@@ -96,16 +96,16 @@ public class ExprGenerator {
     private static final CifType REAL_TYPE = newRealType();
 
     /** Type conversion class from CIF to PLC types. */
-    private final TypeGenerator typeGenerator;
+    private final TypeGeneratorInterface typeGenerator;
 
     /** Generator for obtaining clash-free names in the generated code. */
-    private final NameGenerator nameGenerator;
+    private final NameGeneratorInterface nameGenerator;
 
     /** Map for the name generator to create loccal variables. */
     private final Map<String, Integer> localNameGenMap = map();
 
     /** PLC target to generate code for. */
-    private final PlcTarget target;
+    private final PlcTargetInterface target;
 
     /** Access to PLC equivalents of CIF variables, automata and locations. */
     private final CifDataProvider cifData;
@@ -121,8 +121,8 @@ public class ExprGenerator {
      * @param typeGenerator Type conversion class from CIF to PLC types.
      * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public ExprGenerator(PlcTarget target, CifDataProvider cifData, TypeGenerator typeGenerator,
-            NameGenerator nameGenerator)
+    public ExprGenerator(PlcTargetInterface target, CifDataProvider cifData, TypeGeneratorInterface typeGenerator,
+            NameGeneratorInterface nameGenerator)
     {
         this.target = target;
         this.cifData = cifData;

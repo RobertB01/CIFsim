@@ -39,7 +39,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * scope is not supported after creating the first local names in a scope.
  * </p>
  */
-public class NameGenerator {
+public class NameGenerator implements NameGeneratorInterface {
     /** Default single lower-case letter name to use if no prefix can be constructed. */
     static final char DEFAULT_CHAR = 'x';
 
@@ -76,43 +76,18 @@ public class NameGenerator {
         }
     }
 
-    /**
-     * Convert the given object to something that does not clash with the PLC language or with previously generated
-     * names. This function should not be used for generating names that also may contain local generated names.
-     *
-     * @param posObject Named CIF object.
-     * @return A safe name that does not clash with either the PLC language keywords or names generated earlier.
-     */
+    @Override
     public String generateGlobalName(PositionObject posObject) {
         Assert.check(CifTextUtils.hasName(posObject), "Missing name for \"" + String.valueOf(posObject) + "\".");
         return generateName(CifTextUtils.getAbsName(posObject, false), true, null);
     }
 
-    /**
-     * Convert the given name to a proper name that does not clash with the PLC language or with previously generated
-     * global names.
-     *
-     * @param initialName Suggested name to to use.
-     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings. As
-     *     producing such rename warnings for elements that have no name in CIF is meaningless to a user, this parameter
-     *     should be {@code false} for those names.
-     * @return A proper name that does not clash with PLC language keywords or previously generated global names.
-     */
+    @Override
     public String generateGlobalName(String initialName, boolean initialIsCifName) {
         return generateName(initialName, initialIsCifName, null);
     }
 
-    /**
-     * Convert the given name to a proper name that does not clash with the PLC language, with previously generated
-     * global names or with previously generated local names that used the same {@code localSuffixes} information.
-     *
-     * @param initialName Suggested name to to use.
-     * @param localSuffixes Name suffix information of local names. Use the same map to generate all local names in a
-     *     scope.
-     * @return A proper name that does not clash with PLC language keywords, previously generated global names or local
-     *     names created using this function with the same {@code localSuffixes} map.
-     * @note Local names are assumed not to be used for representing CIF variables.
-     */
+    @Override
     public String generateLocalName(String initialName, Map<String, Integer> localSuffixes) {
         return generateName(initialName, false, localSuffixes);
     }
