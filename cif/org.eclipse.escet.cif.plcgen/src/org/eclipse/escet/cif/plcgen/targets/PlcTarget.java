@@ -61,20 +61,15 @@ public abstract class PlcTarget implements PlcTargetInterface {
     }
 
     /**
-     * Generate and write the PLC code.
+     * Initialize the target.
      *
      * @param settings Configuration to use.
      */
-    public void generate(PlcGenSettings settings) {
+
+    public void setup(PlcGenSettings settings) {
         intTypeSize = settings.intTypeSize;
         realTypeSize = settings.realTypeSize;
         outputPath = settings.outputPath;
-
-        // Construct the generators.
-        NameGeneratorInterface nameGenerator = new NameGenerator(settings);
-        PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
-        TypeGeneratorInterface typeGen = new TypeGenerator(this, settings, nameGenerator, codeStorage);
-        CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameGenerator);
 
         // Warn the user about getting a possibly too small integer type size.
         if (settings.intTypeSize.getTypeSize(PlcTarget.CIF_INTEGER_SIZE) < PlcTarget.CIF_INTEGER_SIZE) {
@@ -97,6 +92,21 @@ public abstract class PlcTarget implements PlcTargetInterface {
                     .warn("Maximum real type size supported by the PLC is less than the CIF real type size. Some "
                             + "values in the program may be truncated.");
         }
+    }
+
+    /**
+     * Generate and write the PLC code.
+     *
+     * @param settings Configuration to use.
+     */
+    public void generate(PlcGenSettings settings) {
+        setup(settings);
+
+        // Construct the generators.
+        NameGeneratorInterface nameGenerator = new NameGenerator(settings);
+        PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
+        TypeGeneratorInterface typeGen = new TypeGenerator(this, settings, nameGenerator, codeStorage);
+        CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameGenerator);
 
         // Perform the conversion.
         cifProcessor.process();

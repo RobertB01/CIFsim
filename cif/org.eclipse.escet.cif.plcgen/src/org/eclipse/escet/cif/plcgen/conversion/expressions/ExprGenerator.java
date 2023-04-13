@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.conversion.expressions;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.common.CifValueUtils.flattenBinExpr;
+import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -63,7 +64,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
-import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
@@ -501,6 +501,7 @@ public class ExprGenerator {
         for (ElifExpression elif: ifExpr.getElifs()) {
             selStat = addBranch(elif.getGuards(), elif.getThen(), resultVar, selStat, result.code);
         }
+        addBranch(null, ifExpr.getElse(), resultVar, selStat, result.code);
         return result;
     }
 
@@ -551,7 +552,12 @@ public class ExprGenerator {
             }
 
             // Add a new branch in the previous selection statement or in the just appended new selection statement.
-            PlcSelectChoice choice = new PlcSelectChoice(funcAppls.andFuncAppl(grdValues), list());
+            PlcSelectChoice choice;
+            if (grdNum == 1) {
+                choice = new PlcSelectChoice(grdValues[0], list());
+            } else {
+                choice = new PlcSelectChoice(funcAppls.andFuncAppl(grdValues), list());
+            }
             selStat.condChoices.add(choice);
             giveTempVariables(grdVariables);
 
@@ -649,9 +655,14 @@ public class ExprGenerator {
                 convertResult.mergeCodeAndVariables(indexResult);
                 plcProjections.add(new PlcArrayProjection(indexResult.value));
             } else if (unProjectedType instanceof TupleType tt) {
-                Assert.check(cifIndexExpr instanceof FieldExpression);
-                Field field = ((FieldExpression)cifIndexExpr).getField();
-                int fieldIndex = tt.getFields().indexOf(field);
+                int fieldIndex;
+                if (cifIndexExpr instanceof FieldExpression fe) {
+                    fieldIndex = tt.getFields().indexOf(fe.getField());
+                } else if (cifIndexExpr instanceof IntExpression ie) {
+                    fieldIndex = ie.getValue();
+                } else {
+                    throw new AssertionError("Unexpected index expr \"" + cifIndexExpr + "\" found.");
+                }
 
                 PlcType structTypeName = typeGenerator.convertType(unProjectedType);
                 PlcStructType structType = typeGenerator.getStructureType(structTypeName);
@@ -785,42 +796,44 @@ public class ExprGenerator {
             case POWER: {
                 CifType baseType = normalizeType(arguments.get(0).getType());
                 CifType powerType = normalizeType(arguments.get(1).getType());
+                boolean baseIsInt = baseType instanceof IntType;
+                boolean powerIsInt = powerType instanceof IntType;
 
                 // Cif input and output expectations.
-                boolean cifBaseIsInt = baseType instanceof IntType;
-                boolean cifPowerIsInt = powerType instanceof IntType;
-                boolean cifIntResult = cifBaseIsInt & cifPowerIsInt;
+                boolean baseAllowsInt = baseIsInt && !isRangeless((IntType)baseType);
+                boolean powerAllowsInt = powerIsInt && !isRangeless((IntType)powerType) && ((IntType)powerType).getLower() >= 0;
+                boolean cifIntResult = baseAllowsInt & powerAllowsInt;
 
                 // Find an input type combination that works for the PLC.
-                boolean plcBaseIsInt = cifBaseIsInt;
-                boolean plcPowerIsInt = cifPowerIsInt;
+                boolean plcBaseIsInt = baseIsInt;
+                boolean plcPowerIsInt = powerIsInt;
                 if (!target.supportsPower(plcBaseIsInt, plcPowerIsInt) && plcBaseIsInt) {
-                    plcBaseIsInt = false;
+                    plcBaseIsInt = false; // 'int ** X' doesn't work, use a real as base type.
                 }
                 if (!target.supportsPower(plcBaseIsInt, plcPowerIsInt) && plcPowerIsInt) {
-                    plcPowerIsInt = false;
+                    plcPowerIsInt = false; // 'X ** int' doesn't work, use a real as power type.
                 }
-                // Either a working combination has been found or we dropped back to the always supported
+                // Either a working combination has been found or we fell back to the always supported
                 // POW(real, real) case.
 
                 // Convert both sides if needed.
                 PlcExpression baseSide = argumentResults.get(0).value;
-                if (cifBaseIsInt && !plcBaseIsInt) {
+                if (baseIsInt && !plcBaseIsInt) {
                     baseSide = funcAppls.castFunctionAppl(baseSide, target.getIntegerType(), target.getRealType());
                 }
                 PlcExpression powerSide = argumentResults.get(1).value;
-                if (cifPowerIsInt && !plcPowerIsInt) {
+                if (powerType instanceof IntType && !plcPowerIsInt) {
                     powerSide = funcAppls.castFunctionAppl(powerSide, target.getIntegerType(), target.getRealType());
                 }
 
                 // Generate the call.
                 PlcExpression powCall = funcAppls.powerFuncAppl(baseSide, powerSide);
+                boolean plcIntResult = plcBaseIsInt & plcPowerIsInt;
 
                 // Convert the result back if CIF and PLC types are not the same. Note that the PLC cannot reach an
                 // integer typed result if CIF does not have it as the PLC sides are never changed to integer type.
-                boolean plcIntResult = plcBaseIsInt & plcPowerIsInt;
                 if (cifIntResult && !plcIntResult) {
-                    powCall = funcAppls.castFunctionAppl(powerSide, target.getRealType(), target.getIntegerType());
+                    powCall = funcAppls.castFunctionAppl(powCall, target.getRealType(), target.getIntegerType());
                 }
 
                 ExprGenResult result = new ExprGenResult(this, argumentResults.get(0), argumentResults.get(1));
