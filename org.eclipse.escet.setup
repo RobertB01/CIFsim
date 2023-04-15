@@ -16,11 +16,11 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.ide.version"
-      value="2022-06"/>
+      value="2023-03"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.orbit.version"
-      value="R20220531185310"/>
+      value="R20230302014618"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse-checkstyle.version.major"
@@ -419,9 +419,6 @@
       <requirement
           name="org.apache.xerces"/>
       <requirement
-          name="org.apache.xml.resolver"
-          versionRange="[1.2.0.v201005080400,1.2.0.v201005080400]"/>
-      <requirement
           name="org.apache.xml.serializer"/>
       <requirement
           name="org.eclipse.emf.feature.group"/>
@@ -450,8 +447,6 @@
             url="https://download.eclipse.org/tools/orbit/downloads/drops/${eclipse.orbit.version}/repository"/>
         <repository
             url="https://download.eclipse.org/justj/jres/${eclipse.justj.version.major}/updates/release/${eclipse.justj.version.major}.${eclipse.justj.version.minor}.${eclipse.justj.version.micro}"/>
-        <repository
-            url="https://download.eclipse.org/tools/orbit/downloads/drops/R20220302172233/repository"/>
       </repositoryList>
     </targlet>
   </setupTask>
