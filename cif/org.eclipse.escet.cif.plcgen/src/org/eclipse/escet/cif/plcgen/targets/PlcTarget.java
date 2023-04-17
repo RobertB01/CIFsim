@@ -151,7 +151,7 @@ public abstract class PlcTarget implements PlcTargetInterface {
     }
 
     @Override
-    public boolean supportsPower(boolean baseIsInt, boolean powerIsInt) {
+    public boolean supportsPower(boolean baseIsInt, boolean exponentIsInt) {
         return !baseIsInt; // First parameter must always have a real type.
     }
 

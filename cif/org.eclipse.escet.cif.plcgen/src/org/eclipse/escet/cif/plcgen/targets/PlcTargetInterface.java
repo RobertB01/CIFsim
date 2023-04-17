@@ -64,16 +64,16 @@ public interface PlcTargetInterface {
     public abstract boolean supportsInfixNotation(PlcFuncOperation funcOper);
 
     /**
-     * Query whether the power function {@code base ** power} exists for a given combination of parameter types.
+     * Query whether the power function {@code base ** exponent} exists for a given combination of parameter types.
      *
-     * @param baseIsInt If {@code true} the test queries for an integer typed base value. If {@code false} the test queries
-     *     for a real typed base value.
-     * @param powerIsInt If {@code true} the test queries for an integer typed power value. If {@code false} the test queries
-     *     for a real typed power value.
-     * @return Whether the queried combination of base and power value types is supported by the PLC.
+     * @param baseIsInt If {@code true} the test queries for an integer typed base value. If {@code false} the test
+     *     queries for a real typed base value.
+     * @param exponentIsInt If {@code true} the test queries for an integer typed exponent value. If {@code false} the
+     *     test queries for a real typed exponent value.
+     * @return Whether the queried combination of base and exponent value types is supported by the PLC.
      * @note It is assumed that {@code supportsPower(false, false)} holds.
      */
-    public abstract boolean supportsPower(boolean baseIsInt, boolean powerIsInt);
+    public abstract boolean supportsPower(boolean baseIsInt, boolean exponentIsInt);
 
     /**
      * Get the type of a standard integer value in the PLC.

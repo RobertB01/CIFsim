@@ -81,10 +81,10 @@ public class SiemensS7Target extends PlcTarget {
     }
 
     @Override
-    public boolean supportsPower(boolean baseIsInt, boolean powerIsInt) {
+    public boolean supportsPower(boolean baseIsInt, boolean exponentIsInt) {
         // S7-400 and S7-300 only support power on real types.
         if (EnumSet.of(PlcTargetType.S7_300, PlcTargetType.S7_400).contains(targetType)) {
-            return !baseIsInt && !powerIsInt;
+            return !baseIsInt && !exponentIsInt;
         } else {
             return true;
         }

@@ -72,7 +72,7 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Construct a power function application ({@code a ** b}).
+     * Construct a power function application ({@code base ** exponent}).
      *
      * @param in1 Base value argument of the function.
      * @param in2 Exponent argument of the function.

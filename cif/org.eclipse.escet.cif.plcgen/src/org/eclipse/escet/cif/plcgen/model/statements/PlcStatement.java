@@ -35,7 +35,7 @@ public abstract class PlcStatement {
      */
     public static List<PlcStatement> copy(List<PlcStatement> statements) {
         List<PlcStatement> stats = listc(statements.size());
-        stats.stream().map(s -> s.copy()).collect(Collectors.toCollection(() -> stats));
+        stats.stream().map(PlcStatement::copy).collect(Collectors.toCollection(() -> stats));
         return stats;
     }
 }

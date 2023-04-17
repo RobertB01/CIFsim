@@ -77,7 +77,7 @@ public class PlcSelectionStatement extends PlcStatement {
     @Override
     public PlcStatement copy() {
         List<PlcSelectChoice> choices = listc(condChoices.size());
-        condChoices.stream().map(condChoice -> condChoice.copy()).collect(Collectors.toCollection(() -> choices));
+        condChoices.stream().map(PlcSelectChoice::copy).collect(Collectors.toCollection(() -> choices));
         return new PlcSelectionStatement(choices, PlcStatement.copy(elseStats));
     }
 }

@@ -60,8 +60,8 @@ import org.eclipse.escet.common.java.Assert;
  * <p>
  * To obtain the final value of the instance in the PLC, the following steps should be followed.
  * <ol>
- * <li>Execute the statements in {@link #code} if it exists. Doing this may change the {@link #codeVariables}
- * and the {@link #valueVariables}. As these variables should be reserved for this purpose at the time of obtaining the
+ * <li>Execute the statements in {@link #code} if it exists. Doing this may change the {@link #codeVariables} and the
+ * {@link #valueVariables}. As these variables should be reserved for this purpose at the time of obtaining the
  * {@link ExprGenResult} instance, there is no need to take care of reserving them beforehand.</li>
  * <li>After the {@link #code} has been executed, variables stored in the {@link #codeVariables} are not needed any more
  * to obtain the final value. They should be released by calling {@link #releaseCodeVariables}.</li>
