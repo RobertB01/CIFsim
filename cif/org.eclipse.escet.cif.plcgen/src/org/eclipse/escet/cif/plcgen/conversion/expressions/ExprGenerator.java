@@ -95,13 +95,13 @@ public class ExprGenerator {
     /** A real CIF type, used for type conversions. */
     private static final CifType REAL_TYPE = newRealType();
 
-    /** Type conversion class from CIF to PLC types. */
+    /** Type converter from CIF to PLC types. */
     private final TypeGeneratorInterface typeGenerator;
 
     /** Generator for obtaining clash-free names in the generated code. */
     private final NameGeneratorInterface nameGenerator;
 
-    /** Map for the name generator to create loccal variables. */
+    /** Map for the name generator to create local variables. */
     private final Map<String, Integer> localNameGenMap = map();
 
     /** PLC target to generate code for. */
@@ -118,7 +118,7 @@ public class ExprGenerator {
      *
      * @param target PLC target to generate code for.
      * @param cifData Access to PLC equivalents of CIF variables, automata and locations.
-     * @param typeGenerator Type conversion class from CIF to PLC types.
+     * @param typeGenerator Type converter from CIF to PLC types.
      * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
     public ExprGenerator(PlcTargetInterface target, CifDataProvider cifData, TypeGeneratorInterface typeGenerator,
@@ -166,7 +166,7 @@ public class ExprGenerator {
      * @param variables Variables being returned.
      */
     public void giveTempVariables(Set<PlcVariable> variables) {
-        // Currently variables are silently discarded.
+        // TODO: Currently variables are silently discarded.
     }
 
     /**
@@ -438,7 +438,7 @@ public class ExprGenerator {
                 break;
             case ADDITION:
                 applFunc = values -> funcAppls.addFuncAppl(values);
-                unifyTypes = true; // S7-400 and S7-300 only support multiplication on the same types.
+                unifyTypes = true; // S7-400 and S7-300 only support addition on the same types.
                 break;
             case MULTIPLICATION:
                 applFunc = values -> funcAppls.multiplyFuncAppl(values);
@@ -508,22 +508,22 @@ public class ExprGenerator {
     /**
      * Append an {@link IfExpression} branch to the PLC code.
      *
-     * @param guards CIF expressions that must hold to select the branch. If it is {@code null} the guards always hold.
+     * @param guards CIF expressions that must hold to select the branch. Is {@code null} for the 'else' branch.
      * @param thenExpr Expression value to return if the guards hold.
      * @param resultVar Variable to assign the 'thenExpr' value to.
-     * @param selStat Selection statement used the previous time.
-     * @param rootCode Code block for storing the entire IfExpression.
+     * @param selStat Selection statement used the previous time, or {@code null} if no selection statement has been created yet.
+     * @param rootCode Code block for storing the entire 'if' expression.
      * @return The last used selection statement after adding the branch.
      */
     private PlcSelectionStatement addBranch(List<Expression> guards, Expression thenExpr, PlcVariable resultVar,
             PlcSelectionStatement selStat, List<PlcStatement> rootCode)
     {
         // Place to store generated guard condition code. If no guards are present (that is, it's the 'else' of the
-        // IfExpression), the final assignment of the return value is put there.
+        // 'if' expression), the final assignment of the return value is put there.
         List<PlcStatement> codeStorage = (selStat != null) ? selStat.elseStats : rootCode;
 
         if (guards != null) {
-            // Convert the guard conditions. copy any generated code into storage, collect the used variables and the
+            // Convert the guard conditions. Copy any generated code into storage, collect the used variables and the
             // converted expression for the final N-ary AND.
             PlcExpression[] grdValues = new PlcExpression[guards.size()];
             boolean seenGuardCode = false;
@@ -640,7 +640,7 @@ public class ExprGenerator {
      * @param cifProjections CIF projections to convert, in reverse order. Last projection to apply should be at index
      *     {@code 0}.
      * @param plcProjections Storage of converted CIF projections. Is extended in-place.
-     * @param convertResult Storage of exprgen results from CIF array index expressions.
+     * @param convertResult Storage of expression generator results from CIF array index expressions.
      */
     private void convertProjections(List<ProjectionExpression> cifProjections, List<PlcProjection> plcProjections,
             ExprGenResult convertResult)
@@ -691,12 +691,12 @@ public class ExprGenerator {
         if (fexpr instanceof StdLibFunctionExpression stdlibExpr) {
             return convertStdlibExpr(funcCallExpr, argumentResults);
         }
-        // TODO: Implement function calls to internal functions.
-        throw new RuntimeException("Calls to internal functions are not implemented yet.");
+        // TODO: Implement function calls to internal user-defined functions.
+        throw new RuntimeException("Calls to internal user-defined functions are not implemented yet.");
     }
 
     /**
-     * Convert a call to the standard library.
+     * Convert a call to a standard library function.
      *
      * @param stdlibCallExpr The performed call to convert.
      * @param argumentResults Already converted argument values of the call.
@@ -780,7 +780,7 @@ public class ExprGenerator {
                 PlcExpression rightSide = unifyTypeOfExpr(argumentResults.get(1).value, rtype, ltype);
 
                 // TODO Both MIN and MAX can be flattened to N-ary function calls thus allowing to perform multiple such
-                // CIF function calls at the same time..
+                // CIF function calls at the same time.
                 ExprGenResult result = new ExprGenResult(this, argumentResults.get(0), argumentResults.get(1));
                 if (stdlib == StdLibFunction.MAXIMUM) {
                     return result.setValue(funcAppls.maxFuncAppl(leftSide, rightSide));
@@ -799,7 +799,7 @@ public class ExprGenerator {
                 boolean baseIsInt = baseType instanceof IntType;
                 boolean powerIsInt = powerType instanceof IntType;
 
-                // Cif input and output expectations.
+                // CIF input and output expectations.
                 boolean baseAllowsInt = baseIsInt && !isRangeless((IntType)baseType);
                 boolean powerAllowsInt = powerIsInt && !isRangeless((IntType)powerType) && ((IntType)powerType).getLower() >= 0;
                 boolean cifIntResult = baseAllowsInt & powerAllowsInt;
@@ -930,7 +930,7 @@ public class ExprGenerator {
                 // Unsupported.
                 throw new RuntimeException("Precondition violation.");
         }
-        throw new RuntimeException("Precondition violation.");
+        throw new RuntimeException("Unexpected standard library function: " + stdlib);
     }
 
     /**
@@ -974,8 +974,7 @@ public class ExprGenerator {
     private ExprGenResult convertTupleExpr(TupleExpression tupleExpr) {
         PlcType varType = typeGenerator.convertType(tupleExpr.getType());
         PlcVariable structVar = getTempVariable("litStruct", varType);
-        // The underlying structure type.
-        PlcStructType structType = typeGenerator.getStructureType(varType);
+        PlcStructType structType = typeGenerator.getStructureType(varType); // The underlying structure type.
 
         ExprGenResult result = new ExprGenResult(this);
         int idx = 0;
@@ -991,6 +990,7 @@ public class ExprGenerator {
             PlcAssignmentStatement assignment = new PlcAssignmentStatement(lhs, childResult.value);
             idx++;
 
+            // Add statement to the result.
             result.code.add(assignment);
             giveTempVariables(childResult.valueVariables);
         }

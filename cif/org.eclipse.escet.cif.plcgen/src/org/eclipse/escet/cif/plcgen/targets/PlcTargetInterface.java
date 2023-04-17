@@ -66,12 +66,12 @@ public interface PlcTargetInterface {
     /**
      * Query whether the power function {@code base ** power} exists for a given combination of parameter types.
      *
-     * @param baseIsInt If {@true} the test queries for an integer typed base value. If {@code false} the test queries
+     * @param baseIsInt If {@code true} the test queries for an integer typed base value. If {@code false} the test queries
      *     for a real typed base value.
-     * @param powerIsInt If {@true} the test queries for an integer typed power value. If {@code false} the test queries
+     * @param powerIsInt If {@code true} the test queries for an integer typed power value. If {@code false} the test queries
      *     for a real typed power value.
      * @return Whether the queried combination of base and power value types is supported by the PLC.
-     * @note It is assumed that {@code supportsPow(false, false)} holds.
+     * @note It is assumed that {@code supportsPower(false, false)} holds.
      */
     public abstract boolean supportsPower(boolean baseIsInt, boolean powerIsInt);
 

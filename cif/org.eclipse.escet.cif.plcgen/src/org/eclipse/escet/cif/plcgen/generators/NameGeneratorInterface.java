@@ -20,17 +20,17 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 /** Code generator interface for a {@link NameGenerator}. */
 public interface NameGeneratorInterface {
     /**
-     * Convert the given object to something that does not clash with the PLC language or with previously generated
-     * names. This function should not be used for generating names that also may contain local generated names.
+     * Convert the given object to a proper name that does not clash with the PLC language or with previously generated
+     * global names. This function should not be used for generating names that also may contain local generated names.
      *
      * @param posObject Named CIF object.
-     * @return A safe name that does not clash with either the PLC language keywords or names generated earlier.
+     * @return A proper name that does not clash with PLC language keywords or previously generated global names.
      */
     public abstract String generateGlobalName(PositionObject posObject);
 
     /**
      * Convert the given name to a proper name that does not clash with the PLC language or with previously generated
-     * global names.
+     * global names. This function should not be used for generating names that also may contain local generated names.
      *
      * @param initialName Suggested name to to use.
      * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings. As

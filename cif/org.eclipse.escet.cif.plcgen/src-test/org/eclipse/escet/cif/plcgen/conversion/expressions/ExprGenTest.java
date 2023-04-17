@@ -119,10 +119,10 @@ public class ExprGenTest {
     // in CIF:
     // - const bool fixed = false;
     // - input int theInput;
-    // - disc realflatDisc;
+    // - disc real flatDisc;
     // - cont timer der 1.0;
     // - automaton *: location here; end [[only the location is created]]
-    // - disc tuple (real, real) tupVar;
+    // - disc tuple(real field1, field2, field3) tupVar;
 
     private static Constant constantVar = newConstant("fixed", null, newBoolType(),
             newBoolExpression(null, newBoolType(), false));
@@ -174,7 +174,7 @@ public class ExprGenTest {
             int taskCyceTime = 1;
             int priority = 1;
             String inputPath = "input/path";
-            String outputPath = "/outpput/path";
+            String outputPath = "/output/path";
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
@@ -246,7 +246,7 @@ public class ExprGenTest {
      * <ul>
      * <li>CIF constant {@code X} becomes PLC {@code bool X} (works because the only constant that we have has type
      * {@code bool}).</li>
-     * <li>CIF discvars are stoed in a {@code StateStruct state} structure, although the structure itself is not
+     * <li>CIF discrete variables are stored in a {@code StateStruct state} structure, although the structure itself is not
      * defined.</li>
      * <li>CIF {@code cont X} becomes variables {@code X} and {@code X_der}.</li>
      * <li>CIF location {@code X} becomes a boolean variable {@code X}.</li>
@@ -263,7 +263,7 @@ public class ExprGenTest {
 
         @Override
         protected PlcExpression getExprForDiscVar(DiscVariable variable) {
-            // state.discvar_name .
+            // state.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
             return new PlcVarExpression(new PlcVariable("state", new PlcDerivedType("StateStruct")), fieldProj);
         }
@@ -373,7 +373,7 @@ public class ExprGenTest {
         } else if (type instanceof PlcDerivedType dt) {
             return dt.name;
         }
-        throw new AssertionError("mplement me: " + type.getClass());
+        throw new AssertionError("Implement me: " + type.getClass());
     }
 
     /**
@@ -593,9 +593,9 @@ public class ExprGenTest {
 
     @Test
     public void testIfExpressionConversion() {
-        // if true then 1 elseif (if true then true else false) then 2 else 3;
+        // if true: 1 elif (if true: true else false end): 2 else 3 end;
 
-        // Inner part: if true then true else false
+        // Inner part: if true: true else false end
         List<ElifExpression> elifs = List.of();
         Expression elseVal = newBoolExpression(null, newBoolType(), false);
         List<Expression> guards = List.of(newBoolExpression(null, newBoolType(), true));
@@ -640,7 +640,7 @@ public class ExprGenTest {
         // [false, true][1]
         ListExpression array = newListExpression(
                 List.of(newBoolExpression(null, newBoolType(), false), newBoolExpression(null, newBoolType(), true)),
-                null, newListType(newBoolType(), 0, null, 1));
+                null, newListType(newBoolType(), 2, null, 2));
         Expression arrProj = newProjectionExpression(array, newIntExpression(null, newIntType(), 1), null,
                 newBoolType());
         String realText = runTest(arrProj);
@@ -699,6 +699,7 @@ public class ExprGenTest {
 
     @Test
     public void testProjectedVarProjectionExpressionConversion() {
+        // tupVar[0]
         DiscVariableExpression tupVarExpr = newDiscVariableExpression(null, makeTupleType(3), tupVar);
         Expression tupProj = newProjectionExpression(tupVarExpr, newIntExpression(null, newIntType(), 0), null,
                 newRealType());
@@ -714,7 +715,7 @@ public class ExprGenTest {
 
     @Test
     public void testFunctionCallExpressionConversion() {
-        // abs(1)
+        // abs(21)
         Expression func = newStdLibFunctionExpression(StdLibFunction.ABS, null, null);
         List<Expression> args = List.of(newIntExpression(null, newIntType(), 21));
         Expression call = newFunctionCallExpression(func, args, null, null);
@@ -782,7 +783,7 @@ public class ExprGenTest {
         // [false, true]
         ListExpression array = newListExpression(
                 List.of(newBoolExpression(null, newBoolType(), false), newBoolExpression(null, newBoolType(), true)),
-                null, newListType(newBoolType(), 0, null, 1));
+                null, newListType(newBoolType(), 2, null, 2));
         String realText = runTest(array);
         String expectedText = """
                 Code:
@@ -843,6 +844,7 @@ public class ExprGenTest {
         String expectedText = "==> timer_der";
         assertEquals(expectedText, realText);
 
+        // timer
         realText = runTest(newContVariableExpression(false, null, null, contVar)); // "timer".
         expectedText = "==> timer";
         assertEquals(expectedText, realText);

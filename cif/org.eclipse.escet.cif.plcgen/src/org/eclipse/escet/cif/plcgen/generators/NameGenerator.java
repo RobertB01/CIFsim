@@ -93,14 +93,14 @@ public class NameGenerator implements NameGeneratorInterface {
     }
 
     /**
-     * Convert the given name to something that does not clash with the PLC language or with previously generated names.
+     * Convert the given name to a proper name that does not clash with the PLC language or with previously generated names.
      *
      * @param initialName Suggested name to to use.
      * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings. As
-     *     producing such rename warnings for objects that have no name in CIF is meaningless, this parameter should be
+     *     producing such rename warnings for objects that have no name in CIF is meaningless to the user, this parameter should be
      *     {@code false} for those names.
      * @param localSuffixes Name suffix information of local names. Use the same map to generate all local names in a
-     *     scope.
+     *     scope. Must be {@code null} when generating global names.
      * @return A proper name that does not clash with PLC language keywords or previously generated global names. If a
      *     {@code localSuffixes} map is supplied, the produced names also don't clash with all previously generated
      *     local names that used that same map.
