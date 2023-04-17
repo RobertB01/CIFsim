@@ -60,6 +60,8 @@ public interface PlcTargetInterface {
      *
      * @param funcOper Semantics operation being queried.
      * @return Whether the target support infix notation for the given operation.
+     * @note The result is undefined for operations that are not supported by the target and for operations that do not
+     *     have an infix notation.
      */
     public abstract boolean supportsInfixNotation(PlcFuncOperation funcOper);
 

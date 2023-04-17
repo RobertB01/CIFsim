@@ -86,7 +86,7 @@ public class SiemensS7Target extends PlcTarget {
         if (EnumSet.of(PlcTargetType.S7_300, PlcTargetType.S7_400).contains(targetType)) {
             return !baseIsInt && !exponentIsInt;
         } else {
-            return true;
+            return super.supportsPower(baseIsInt, exponentIsInt);
         }
     }
 

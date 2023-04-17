@@ -65,7 +65,6 @@ public abstract class PlcTarget implements PlcTargetInterface {
      *
      * @param settings Configuration to use.
      */
-
     public void setup(PlcGenSettings settings) {
         intTypeSize = settings.intTypeSize;
         realTypeSize = settings.realTypeSize;
@@ -146,7 +145,6 @@ public abstract class PlcTarget implements PlcTargetInterface {
 
     @Override
     public boolean supportsInfixNotation(PlcFuncOperation funcOper) {
-        // By default infix notation is supported if the PLC standard supplies a notation for it.
         return true;
     }
 

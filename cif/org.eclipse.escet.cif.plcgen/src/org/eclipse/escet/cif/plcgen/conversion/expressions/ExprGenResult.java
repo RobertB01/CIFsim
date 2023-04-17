@@ -127,7 +127,7 @@ public class ExprGenResult {
     public void mergeCodeAndVariables(ExprGenResult parentResult) {
         mergeCodeVariables(parentResult);
         mergeCode(parentResult);
-        mergevalueVariables(parentResult);
+        mergeValueVariables(parentResult);
     }
 
     /**
@@ -153,7 +153,7 @@ public class ExprGenResult {
      *
      * @param parentResult Source of the value variables to copy.
      */
-    public void mergevalueVariables(ExprGenResult parentResult) {
+    public void mergeValueVariables(ExprGenResult parentResult) {
         valueVariables.addAll(parentResult.valueVariables);
     }
 
