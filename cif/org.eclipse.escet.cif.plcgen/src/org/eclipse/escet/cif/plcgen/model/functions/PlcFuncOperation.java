@@ -18,7 +18,7 @@ public enum PlcFuncOperation {
     /** Negate (unary minus) operation. */
     NEGATE_OP,
 
-    /** Exponentiation operation ({@code a ** b}). */
+    /** Power operation ({@code base ** exponent}). */
     POWER_OP,
 
     /** Multiplication operation. */

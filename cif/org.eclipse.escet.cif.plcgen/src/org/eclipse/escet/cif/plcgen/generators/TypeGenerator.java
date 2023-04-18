@@ -137,6 +137,7 @@ public class TypeGenerator implements TypeGeneratorInterface {
         String sname = structNames.get(typeWrap);
         if (sname == null) {
             // Generate PLC struct for tuple.
+            // TODO Improve the relation from the PLC code back to the CIF specification by using supplied field names.
             PlcStructType structType = new PlcStructType();
             int fieldNumber = 1;
             for (Field field: tupleType.getFields()) {
@@ -160,7 +161,9 @@ public class TypeGenerator implements TypeGeneratorInterface {
     @Override
     public PlcStructType getStructureType(PlcType type) {
         Assert.check(type instanceof PlcDerivedType);
-        return structTypes.get(((PlcDerivedType)type).name);
+        PlcStructType structType = structTypes.get(((PlcDerivedType)type).name);
+        Assert.notNull(structType);
+        return structType;
     }
 
     @Override

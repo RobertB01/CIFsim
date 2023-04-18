@@ -367,7 +367,6 @@ public class ExprGenerator {
                 throw new RuntimeException("Precondition violation.");
 
             case ADDITION:
-                // S7-400 and S7-300 only support addition on the same types.
                 if (ltype instanceof IntType || ltype instanceof RealType) {
                     return convertFlattenedExpr(binExpr);
                 }
@@ -384,9 +383,8 @@ public class ExprGenerator {
 
                 throw new RuntimeException("Precondition violation.");
 
-            case MULTIPLICATION: {
+            case MULTIPLICATION:
                 return convertFlattenedExpr(binExpr);
-            }
 
             case DIVISION: {
                 // S7-400 and S7-300 only support division on the same types.
@@ -463,7 +461,8 @@ public class ExprGenerator {
             unifiedType = null;
         }
 
-        // Convert each child expression and extract the collect the results.
+        // Convert each child expressions, collect the child results as preparation to their merge. Also collect the
+        // child result expressions separately as they need to be applied to the N-ary function decided above.
         ExprGenResult[] exprGenResults = new ExprGenResult[exprs.size()];
         PlcExpression[] values = new PlcExpression[exprs.size()];
         int i = 0;
@@ -507,6 +506,31 @@ public class ExprGenerator {
 
     /**
      * Append an {@link IfExpression} branch to the PLC code.
+     *
+     * <p>
+     * Conceptually this function appends a <pre>ELSE IF guards THEN resultVar := thenExpr</pre> branch to the selection
+     * statement in {@code selStat}. The {@code guards} variable also controls whether there is a condition at all to
+     * test and {@code selStat} controls whether the first branch is created.
+     * </p>
+     * <p>
+     * The difficulty here is that the converted {@code guards} may have generated code attached which must be executed
+     * before evaluating the guards condition. The PLC {@code IF} statement does not support that.
+     * </p>
+     * <p>
+     * Therefore in such a case the current {@code selStat} cannot be extended with another {@code IF} branch. Instead,
+     * the code attached to the converted guards must be put in its {@code ELSE} branch so it can be executed. Below
+     * that code, a new selection statement must be started to evaluate the guards and possibly perform the assignment.
+     * That is, it generates <pre> ELSE
+     *     // Code to perform before evaluating the guards.
+     *     IF guard-expr THEN resultVar := thenExpr
+     *     ... // Possibly more branches will be added.
+     *     END_IF
+     * END_IF</pre> where the top {@code ELSE} and bottom {@code END_IF} are part of the supplied {@code selStat}.
+     * </p>
+     * <p>
+     * In addition, next branches must now be added to this new selection statement. The returned value thus changes to
+     * the new selection statement.
+     * </p>
      *
      * @param guards CIF expressions that must hold to select the branch. Is {@code null} for the 'else' branch.
      * @param thenExpr Expression value to return if the guards hold.
@@ -1002,17 +1026,17 @@ public class ExprGenerator {
     }
 
     /**
-     * Unify type {@code myType} of {@code subExpr} to match with type {@code otherType}.
+     * If necessary, adapt the result value of {@code subExpr} such that it becomes compatible with {@code otherType}.
      *
-     * @param subExpr Sub expression to unify.
-     * @param myType Type of the sub expression.
-     * @param otherType Type to unify to.
-     * @return Sub expression with matching type to {@code otherType}.
+     * @param expr Expression to make compatible with {@code otherType}.
+     * @param myType Type of the expression, must be either {@link IntType} or {@link RealType}.
+     * @param otherType Type to unify to, must be either {@link IntType} or {@link RealType}.
+     * @return An expression like {@code expr} with compatible type to {@code otherType}.
      */
-    private PlcExpression unifyTypeOfExpr(PlcExpression subExpr, CifType myType, CifType otherType) {
+    private PlcExpression unifyTypeOfExpr(PlcExpression expr, CifType myType, CifType otherType) {
         if (myType instanceof IntType && otherType instanceof RealType) {
-            return funcAppls.castFunctionAppl(subExpr, target.getIntegerType(), target.getRealType());
+            return funcAppls.castFunctionAppl(expr, target.getIntegerType(), target.getRealType());
         }
-        return subExpr;
+        return expr;
     }
 }

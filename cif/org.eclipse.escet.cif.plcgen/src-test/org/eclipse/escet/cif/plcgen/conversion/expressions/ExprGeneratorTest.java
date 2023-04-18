@@ -109,7 +109,7 @@ import org.junit.Test;
 
 /** Tests for the expression generator. */
 @SuppressWarnings("javadoc")
-public class ExprGenTest {
+public class ExprGeneratorTest {
     private static ModelTextGenerator modelToText = new ModelTextGenerator();
 
     private TestPlcTarget target;
@@ -200,20 +200,17 @@ public class ExprGenTest {
 
         @Override
         public boolean supportsArrays() {
-            Assert.fail("Implement me.");
-            return false;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
 
         @Override
         public boolean supportsConstants() {
-            Assert.fail("Implement me.");
-            return false;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
 
         @Override
         public boolean supportsEnumerations() {
-            Assert.fail("Implement me.");
-            return false;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
 
         @Override
@@ -228,14 +225,12 @@ public class ExprGenTest {
 
         @Override
         public String getPathSuffixReplacement() {
-            Assert.fail("Implement me.");
-            return null;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
 
         @Override
         protected OutputTypeWriter getPlcCodeWriter() {
-            Assert.fail("Implement me.");
-            return null;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
     }
 
@@ -297,14 +292,12 @@ public class ExprGenTest {
 
         @Override
         public String generateGlobalName(PositionObject posObject) {
-            Assert.fail("Implement me.");
-            return null;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
 
         @Override
         public String generateGlobalName(String initialName, boolean initialIsCifName) {
-            Assert.fail("Implement me.");
-            return null;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
 
         @Override
@@ -325,7 +318,7 @@ public class ExprGenTest {
             } else if (type instanceof RealType) {
                 return PlcElementaryType.LREAL_TYPE;
             } else if (type instanceof ListType lt) {
-                return new PlcArrayType(lt.getLower(), lt.getUpper(), convertType(lt.getElementType()));
+                return new PlcArrayType(0, lt.getUpper() - 1, convertType(lt.getElementType()));
             } else if (type instanceof TupleType tt) {
                 return new PlcDerivedType("tupType_" + tt.getFields().size());
             }
@@ -343,20 +336,17 @@ public class ExprGenTest {
                 }
                 return structType;
             }
-            Assert.fail("Implement me.");
-            return null;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
 
         @Override
         public PlcType convertEnumDecl(EnumDecl enumDecl) {
-            Assert.fail("Implement me.");
-            return null;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
 
         @Override
         public PlcValue getPlcEnumLiteral(EnumLiteral enumLit) {
-            Assert.fail("Implement me.");
-            return null;
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
     }
 
@@ -373,7 +363,7 @@ public class ExprGenTest {
         } else if (type instanceof PlcDerivedType dt) {
             return dt.name;
         }
-        throw new AssertionError("Implement me: " + type.getClass());
+        throw new UnsupportedOperationException("Not needed for the test.");
     }
 
     /**

@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 
 /** Provider of PLC equivalents of CIF variables, location pointers and locations. */
 public abstract class CifDataProvider {
+    // TODO This class needs a proper implementation of CIF to PLC data conversions.
     /**
      * Return the PLC expression to get the value of the provided constant.
      *
@@ -45,10 +46,8 @@ public abstract class CifDataProvider {
      * @param getDerivative Whether access to the derivative value is requested, otherwise access to the value of the
      *     variable itself is requested.
      * @return The expression to access a value of the provided continuous variable.
-     * @note The expression returned for a derivative cannot be assumed to be writable.
      */
     protected abstract PlcExpression getExprForContvar(ContVariable variable, boolean getDerivative);
-    // TODO: Extend the plc target with a way to obtain the writability status of derivatives.
 
     /**
      * Return the PLC expression for deciding whether the automaton owning the given location is at the time of
