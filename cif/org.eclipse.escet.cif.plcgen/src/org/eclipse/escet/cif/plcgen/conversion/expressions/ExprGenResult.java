@@ -182,7 +182,7 @@ public class ExprGenResult {
      * purposes, executing the {@link #code} at that time may have unintended side-effects.
      */
     public void releaseCodeVariables() {
-        generator.giveTempVariables(codeVariables);
+        generator.releaseTempVariables(codeVariables);
         codeVariables.clear();
     }
 
@@ -199,7 +199,7 @@ public class ExprGenResult {
 
     /** Release the variables used in the {@link #value} result. After release, their content may change at any time. */
     public void releaseValueVariables() {
-        generator.giveTempVariables(valueVariables);
+        generator.releaseTempVariables(valueVariables);
         valueVariables.clear();
     }
 

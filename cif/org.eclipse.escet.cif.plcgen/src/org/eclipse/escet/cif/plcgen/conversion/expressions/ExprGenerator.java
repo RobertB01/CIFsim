@@ -165,7 +165,7 @@ public class ExprGenerator {
      *
      * @param variables Variables being returned.
      */
-    public void giveTempVariables(Set<PlcVariable> variables) {
+    public void releaseTempVariables(Set<PlcVariable> variables) {
         // TODO: Currently variables are silently discarded.
     }
 
@@ -583,7 +583,7 @@ public class ExprGenerator {
                 choice = new PlcSelectChoice(funcAppls.andFuncAppl(grdValues), list());
             }
             selStat.condChoices.add(choice);
-            giveTempVariables(grdVariables);
+            releaseTempVariables(grdVariables);
 
             // The 'then' statements of that choice are now the spot to write the 'then' code + value.
             codeStorage = choice.thenStats;
@@ -595,8 +595,8 @@ public class ExprGenerator {
         ExprGenResult retValueResult = convertExpr(thenExpr);
         codeStorage.addAll(retValueResult.code);
         codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(resultVar), retValueResult.value));
-        giveTempVariables(retValueResult.codeVariables);
-        giveTempVariables(retValueResult.valueVariables);
+        releaseTempVariables(retValueResult.codeVariables);
+        releaseTempVariables(retValueResult.valueVariables);
         return selStat;
     }
 
@@ -975,7 +975,7 @@ public class ExprGenerator {
             ExprGenResult childResult = convertExpr(e);
             // Add child computation to the result, return the temporary variables of it.
             result.mergeCode(childResult);
-            giveTempVariables(childResult.codeVariables);
+            releaseTempVariables(childResult.codeVariables);
 
             // Construct assignment.
             PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(idx)));
@@ -985,7 +985,7 @@ public class ExprGenerator {
 
             // Add statement to the result.
             result.code.add(assignment);
-            giveTempVariables(childResult.valueVariables);
+            releaseTempVariables(childResult.valueVariables);
         }
         result.valueVariables.add(arrayVar);
         return result.setValue(new PlcVarExpression(arrayVar));
@@ -1008,7 +1008,7 @@ public class ExprGenerator {
             ExprGenResult childResult = convertExpr(e);
             // Add child computation to the result, return the temporary variables of it.
             result.mergeCode(childResult);
-            giveTempVariables(childResult.codeVariables);
+            releaseTempVariables(childResult.codeVariables);
 
             // Construct assignment.
             PlcStructProjection structProj = new PlcStructProjection(structType.fields.get(idx).name);
@@ -1018,7 +1018,7 @@ public class ExprGenerator {
 
             // Add statement to the result.
             result.code.add(assignment);
-            giveTempVariables(childResult.valueVariables);
+            releaseTempVariables(childResult.valueVariables);
         }
         result.valueVariables.add(structVar);
         return result.setValue(new PlcVarExpression(structVar));
