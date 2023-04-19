@@ -28,7 +28,6 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcEnumType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.common.CifEnumUtils.EnumDeclEqHashWrap;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -46,6 +45,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetInterface;
 import org.eclipse.escet.common.java.Assert;
 
@@ -188,7 +188,7 @@ public class TypeGenerator implements TypeGeneratorInterface {
     }
 
     @Override
-    public PlcValue getPlcEnumLiteral(EnumLiteral enumLit) {
+    public PlcEnumLiteral getPlcEnumLiteral(EnumLiteral enumLit) {
         EnumDecl enumDecl = (EnumDecl)enumLit.eContainer();
         return ensureEnumDecl(enumDecl).getLiteral(enumLit);
     }
@@ -199,7 +199,7 @@ public class TypeGenerator implements TypeGeneratorInterface {
         public final PlcType enumDeclType;
 
         /** Values of the converted enumeration literals. */
-        private final PlcValue[] values;
+        private final PlcEnumLiteral[] values;
 
         /**
          * Constructor of the {@link EnumDeclData} class.
@@ -207,7 +207,7 @@ public class TypeGenerator implements TypeGeneratorInterface {
          * @param enumDeclType The enumeration data type in the PLC.
          * @param values Values of the converted enumeration literals.
          */
-        public EnumDeclData(PlcType enumDeclType, PlcValue[] values) {
+        public EnumDeclData(PlcType enumDeclType, PlcEnumLiteral[] values) {
             this.enumDeclType = enumDeclType;
             this.values = values;
         }
@@ -218,7 +218,7 @@ public class TypeGenerator implements TypeGeneratorInterface {
          * @param literal Enumeration literal to translate. Must be a literal of a compatible enumeration.
          * @return The translated value.
          */
-        public PlcValue getLiteral(EnumLiteral literal) {
+        public PlcEnumLiteral getLiteral(EnumLiteral literal) {
             // Use the enumeration containing the literal itself for getting the index.
             EnumDecl enumDecl = (EnumDecl)literal.eContainer();
             return values[enumDecl.getLiterals().indexOf(literal)];
@@ -236,11 +236,11 @@ public class TypeGenerator implements TypeGeneratorInterface {
 
         // Convert the enumeration literals.
         List<EnumLiteral> cifLiterals = enumDecl.getLiterals();
-        PlcValue[] literals = new PlcValue[cifLiterals.size()];
+        PlcEnumLiteral[] literals = new PlcEnumLiteral[cifLiterals.size()];
         int litIndex = 0;
         for (EnumLiteral lit: cifLiterals) {
             String litName = nameGenerator.generateGlobalName(CifTextUtils.getAbsName(lit, false), true);
-            literals[litIndex] = new PlcValue(litName);
+            literals[litIndex] = new PlcEnumLiteral(litName);
 
             litIndex++;
         }

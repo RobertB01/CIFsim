@@ -220,8 +220,7 @@ public class ExprGenerator {
         } else if (expr instanceof LocationExpression le) {
             return new ExprGenResult(this).setValue(cifData.getExprForLocation(le.getLocation()));
         } else if (expr instanceof EnumLiteralExpression eLit) {
-            // Handled in convertProjection().
-            throw new RuntimeException("Precondition violation.");
+            return new ExprGenResult(this).setValue(typeGenerator.getPlcEnumLiteral(eLit.getLiteral()));
         } else if (expr instanceof FunctionExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {

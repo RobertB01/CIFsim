@@ -25,6 +25,8 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDictExpres
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newElifExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteral;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteralExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFieldExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFuncType;
@@ -64,7 +66,6 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -95,6 +96,7 @@ import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGeneratorInterface;
 import org.eclipse.escet.cif.plcgen.generators.TypeGeneratorInterface;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
@@ -345,8 +347,8 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public PlcValue getPlcEnumLiteral(EnumLiteral enumLit) {
-            throw new UnsupportedOperationException("Not needed for the test.");
+        public PlcEnumLiteral getPlcEnumLiteral(EnumLiteral enumLit) {
+            return new PlcEnumLiteral(enumLit.getName());
         }
     }
 
@@ -845,6 +847,14 @@ public class ExprGeneratorTest {
         // here (the location)
         String realText = runTest(newLocationExpression(loc, null, newBoolType()));
         String expectedText = "==> here";
+        assertEquals(expectedText, realText);
+    }
+
+    @Test
+    public void testEnumLiteralExpressionConversion() {
+        EnumLiteral eLit = newEnumLiteral("value123", null);
+        String realText = runTest(newEnumLiteralExpression(eLit, null, null));
+        String expectedText = "==> value123";
         assertEquals(expectedText, realText);
     }
 

@@ -15,10 +15,10 @@ package org.eclipse.escet.cif.plcgen.generators;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 
 /** Code generation interface for a {@link TypeGenerator}. */
 public interface TypeGeneratorInterface {
@@ -52,5 +52,5 @@ public interface TypeGeneratorInterface {
      * @param enumLit Enumeration to convert.
      * @return The equivalent PLC value of the provided enum literal.
      */
-    public PlcValue getPlcEnumLiteral(EnumLiteral enumLit);
+    public PlcEnumLiteral getPlcEnumLiteral(EnumLiteral enumLit);
 }
