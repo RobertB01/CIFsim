@@ -211,6 +211,7 @@ public class ExprGenerator {
         } else if (expr instanceof ConstantExpression ce) {
             return new ExprGenResult(this).setValue(cifData.getExprForConstant(ce.getConstant()));
         } else if (expr instanceof DiscVariableExpression de) {
+            // TODO This may not work for user-defined internal function parameters and local variables.
             return new ExprGenResult(this).setValue(cifData.getExprForDiscVar(de.getVariable()));
         } else if (expr instanceof AlgVariableExpression ae) {
             // TODO: Decide how to deal with algebraic variables.
@@ -460,7 +461,7 @@ public class ExprGenerator {
             unifiedType = null;
         }
 
-        // Convert each child expressions, collect the child results as preparation to their merge. Also collect the
+        // Convert each child expressions and collect the child results as preparation to their merge. Also collect the
         // child result expressions separately as they need to be applied to the N-ary function decided above.
         ExprGenResult[] exprGenResults = new ExprGenResult[exprs.size()];
         PlcExpression[] values = new PlcExpression[exprs.size()];
