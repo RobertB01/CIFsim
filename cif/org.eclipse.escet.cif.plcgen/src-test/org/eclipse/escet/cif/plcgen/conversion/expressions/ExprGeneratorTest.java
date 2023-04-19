@@ -644,7 +644,7 @@ public class ExprGeneratorTest {
                 Value variables:
                  - BOOL[0..1] litArray101;
 
-                ==> litArray101[1]""";
+                ==> litArray101[SEL(G := 1 >= 0, IN0 := 1 + 2, IN1 := 1)]""";
         assertEquals(expectedText, realText);
     }
 

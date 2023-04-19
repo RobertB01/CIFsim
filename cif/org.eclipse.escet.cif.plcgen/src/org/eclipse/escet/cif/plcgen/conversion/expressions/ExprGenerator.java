@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.conversion.expressions;
 import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.common.CifValueUtils.flattenBinExpr;
+import static org.eclipse.escet.cif.common.CifValueUtils.getTupleProjIndex;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.copy;
@@ -44,7 +45,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.FieldExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
@@ -664,23 +664,19 @@ public class ExprGenerator {
             List<PlcProjection> plcProjections, ExprGenResult convertResult)
     {
         for (int i = cifProjections.size() - 1; i >= 0; i--) {
-            CifType unProjectedType = normalizeType(cifProjections.get(i).getChild().getType());
-            Expression cifIndexExpr = cifProjections.get(i).getIndex();
+            ProjectionExpression cifProjection = cifProjections.get(i);
+            CifType unProjectedType = normalizeType(cifProjection.getChild().getType());
+            Expression cifIndexExpr = cifProjection.getIndex();
 
-            if (unProjectedType instanceof ListType) {
+            if (unProjectedType instanceof ListType lt) {
                 // Convert the index.
                 ExprGenResult indexResult = convertExpr(cifIndexExpr);
                 convertResult.mergeCodeAndVariables(indexResult);
-                plcProjections.add(new PlcArrayProjection(indexResult.value));
+
+                PlcExpression normalizedIndex = funcAppls.normalizeArrayIndex(indexResult.value, lt.getUpper());
+                plcProjections.add(new PlcArrayProjection(normalizedIndex));
             } else if (unProjectedType instanceof TupleType tt) {
-                int fieldIndex;
-                if (cifIndexExpr instanceof FieldExpression fe) {
-                    fieldIndex = tt.getFields().indexOf(fe.getField());
-                } else if (cifIndexExpr instanceof IntExpression ie) {
-                    fieldIndex = ie.getValue();
-                } else {
-                    throw new AssertionError("Unexpected index expr \"" + cifIndexExpr + "\" found.");
-                }
+                int fieldIndex = getTupleProjIndex(cifProjection);
 
                 PlcType structTypeName = typeGenerator.convertType(unProjectedType);
                 PlcStructType structType = typeGenerator.getStructureType(structTypeName);
