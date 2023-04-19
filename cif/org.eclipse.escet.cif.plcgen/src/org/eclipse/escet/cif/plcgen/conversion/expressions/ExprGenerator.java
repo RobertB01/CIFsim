@@ -620,17 +620,17 @@ public class ExprGenerator {
         ExprGenResult exprResult = convertExpr(expr);
 
         // Setup the result of this method and prepare it for stacking the above collected projections on top of it.
-        if (exprResult.value instanceof PlcVarExpression varExpr) {
+        if (exprResult.value instanceof PlcVarExpression parentVarExpr) {
             // We received a variable to project at, grab the result to add more projections.
 
             // Copy the already converted expressions of 'varExpr', append the new CIF projections to it.
             List<PlcProjection> plcProjections = list();
-            plcProjections.addAll(varExpr.projections);
+            plcProjections.addAll(parentVarExpr.projections);
             convertProjections(projections, plcProjections, exprResult);
 
             // Build a new PLC projections expressions with the parent variable and the collected projections.
-            PlcVarExpression lhsExpr = new PlcVarExpression(varExpr.variable, plcProjections);
-            exprResult.setValue(lhsExpr);
+            PlcVarExpression varExpr = new PlcVarExpression(parentVarExpr.variable, plcProjections);
+            exprResult.setValue(varExpr);
             return exprResult;
         } else {
             // We got something different from a single variable. Assume the worst and use a new variable, copy the
@@ -649,12 +649,12 @@ public class ExprGenerator {
 
             // Append "plcProjectRoot := <root-value expression>;" to the code, and return a new projection expression
             // with the converted CIF projections.
-            PlcVarExpression lhsExpr = new PlcVarExpression(plcProjectRoot, plcProjections);
-            convertResult.code.add(new PlcAssignmentStatement(lhsExpr, convertResult.value));
+            PlcVarExpression varExpr = new PlcVarExpression(plcProjectRoot, plcProjections);
+            convertResult.code.add(new PlcAssignmentStatement(varExpr, convertResult.value));
             convertResult.codeVariables.addAll(exprResult.valueVariables); // Parent value is now in code.
 
             convertResult.valueVariables.add(plcProjectRoot);
-            convertResult.setValue(lhsExpr);
+            convertResult.setValue(varExpr);
             return convertResult;
         }
     }
