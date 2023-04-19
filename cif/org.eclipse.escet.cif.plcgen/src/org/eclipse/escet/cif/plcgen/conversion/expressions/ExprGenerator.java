@@ -462,7 +462,7 @@ public class ExprGenerator {
             unifiedType = null;
         }
 
-        // Convert each child expressions and collect the child results as preparation to their merge. Also collect the
+        // Convert each child expression, and collect the child results as preparation to their merge. Also collect the
         // child result expressions separately as they need to be applied to the N-ary function decided above.
         ExprGenResult[] exprGenResults = new ExprGenResult[exprs.size()];
         PlcExpression[] values = new PlcExpression[exprs.size()];
