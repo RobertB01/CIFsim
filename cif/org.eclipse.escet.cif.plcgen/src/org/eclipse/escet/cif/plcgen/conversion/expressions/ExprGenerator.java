@@ -107,7 +107,7 @@ public class ExprGenerator {
     /** PLC target to generate code for. */
     private final PlcTargetInterface target;
 
-    /** Access to PLC equivalents of CIF variables, automata and locations. */
+    /** Access to PLC equivalents of CIF data. */
     private final CifDataProvider cifData;
 
     /** PLC function applications of the target. */

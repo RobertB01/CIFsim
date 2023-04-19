@@ -20,9 +20,14 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 
-/** Provider of PLC equivalents of CIF variables, location pointers and locations. */
+/** Provider of PLC equivalents of CIF data. */
+/*
+ * TODO: Currently this class is an empty shell listing discovered needed conversions for expression generation from CIF
+ * complex components. It is not complete (eg initial locations and user-defined internal functions have not been
+ * considered). It is also possible that the currently proposed functions here are non-optimal for implementing this
+ * class.
+ */
 public abstract class CifDataProvider {
-    // TODO This class needs a proper implementation of CIF to PLC data conversions.
     /**
      * Return the PLC expression to get the value of the provided constant.
      *
