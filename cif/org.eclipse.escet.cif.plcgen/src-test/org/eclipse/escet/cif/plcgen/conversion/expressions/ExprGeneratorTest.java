@@ -243,8 +243,8 @@ public class ExprGeneratorTest {
      * <ul>
      * <li>CIF constant {@code X} becomes PLC {@code bool X} (works because the only constant that we have has type
      * {@code bool}).</li>
-     * <li>CIF discrete variables are stored in a {@code StateStruct state} structure, although the structure itself is not
-     * defined.</li>
+     * <li>CIF discrete variables are stored in a {@code StateStruct state} structure, although the structure itself is
+     * not defined.</li>
      * <li>CIF {@code cont X} becomes variables {@code X} and {@code X_der}.</li>
      * <li>CIF location {@code X} becomes a boolean variable {@code X}.</li>
      * <li>CIF input variable becomes PLC {@code int X} (works because the only input variable that we have has type

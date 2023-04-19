@@ -78,7 +78,8 @@ public class NameGeneratorTest {
         // Completely garbage.
         assertEquals("x", nameGenerator.generateGlobalName("", false)); // Empty input.
         assertEquals("x__1", nameGenerator.generateGlobalName(".", false)); // Garbage input.
-        assertEquals("x__2", nameGenerator.generateGlobalName("_", false)); // Another garbage input produces a new name.
+        assertEquals("x__2", nameGenerator.generateGlobalName("_", false)); // Another garbage input produces a new
+                                                                            // name.
 
         // Leading garbage.
         assertEquals("t5", nameGenerator.generateGlobalName(".t5", false)); // Skip garbage before identifier.

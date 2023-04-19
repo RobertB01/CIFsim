@@ -112,8 +112,8 @@ public class CifProcessor {
      * @param codeStorage PLC code storage and writer.
      * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public CifProcessor(PlcTarget target, PlcGenSettings settings, TypeGenerator typeGen,
-            PlcCodeStorage codeStorage, NameGenerator nameGenerator)
+    public CifProcessor(PlcTarget target, PlcGenSettings settings, TypeGenerator typeGen, PlcCodeStorage codeStorage,
+            NameGenerator nameGenerator)
     {
         this.target = target;
         inputPath = settings.inputPath;
