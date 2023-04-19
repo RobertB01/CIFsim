@@ -117,7 +117,7 @@ public class ExprGenerator {
      * Constructor of the {@link ExprGenerator} class.
      *
      * @param target PLC target to generate code for.
-     * @param cifData Access to PLC equivalents of CIF variables, automata and locations.
+     * @param cifData Access to PLC equivalents of CIF data.
      * @param typeGenerator Type converter from CIF to PLC types.
      * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
