@@ -23,17 +23,17 @@ import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.junit.Before;
 import org.junit.Test;
 
-/** Tests for the {@link NameGenerator} class. */
+/** Tests for the {@link DefaultNameGenerator} class. */
 public class NameGeneratorTest {
     /** Generator instance under test. */
-    public NameGenerator nameGenerator;
+    public DefaultNameGenerator nameGenerator;
 
     @SuppressWarnings("javadoc")
     @Before
     public void setup() {
         PlcGenSettings settings = new PlcGenSettings(null, null, null, null, 0, 0, null, null, null, PlcNumberBits.AUTO,
                 PlcNumberBits.AUTO, false, null, null, false, null);
-        nameGenerator = new NameGenerator(settings);
+        nameGenerator = new DefaultNameGenerator(settings);
     }
 
     @SuppressWarnings("javadoc")

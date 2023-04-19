@@ -29,13 +29,13 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.targets.PlcTargetInterface;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 
 /** Class that stores and writes generated PLC code. */
 public class PlcCodeStorage {
     /** PLC target to generate code for. */
-    private final PlcTargetInterface target;
+    private final PlcTarget target;
 
     /** Project with PLC code. */
     private final PlcProject project;
@@ -64,7 +64,7 @@ public class PlcCodeStorage {
      * @param target PLC target to generate code for.
      * @param settings Configuration to use.
      */
-    public PlcCodeStorage(PlcTargetInterface target, PlcGenSettings settings) {
+    public PlcCodeStorage(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
 
         // Create project, configuration, resource, and task.

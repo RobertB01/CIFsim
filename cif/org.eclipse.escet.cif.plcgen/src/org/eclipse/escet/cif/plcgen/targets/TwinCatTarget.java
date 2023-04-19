@@ -18,7 +18,7 @@ import org.eclipse.escet.cif.cif2plc.writers.TwinCatWriter;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 
 /** Code generator for the TwinCAT PLC type. */
-public class TwinCatTarget extends PlcTarget {
+public class TwinCatTarget extends PlcBaseTarget {
     /** Constructor of the {@link TwinCatTarget} class. */
     public TwinCatTarget() {
         super(PlcTargetType.TWINCAT);

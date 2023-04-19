@@ -94,15 +94,15 @@ import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
-import org.eclipse.escet.cif.plcgen.generators.NameGeneratorInterface;
-import org.eclipse.escet.cif.plcgen.generators.TypeGeneratorInterface;
+import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
+import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
-import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -156,13 +156,13 @@ public class ExprGeneratorTest {
     public void setup() {
         target = new TestPlcTarget();
         CifDataProvider cifDataProvider = new TestCifDataProvider();
-        TypeGeneratorInterface typeGen = new TestTypeGenerator();
-        NameGeneratorInterface nameGen = new TestNameGenerator();
+        TypeGenerator typeGen = new TestTypeGenerator();
+        NameGenerator nameGen = new TestNameGenerator();
         exprGen = new ExprGenerator(target, cifDataProvider, typeGen, nameGen);
     }
 
     /** PLC target for testing the expression generator. */
-    private static class TestPlcTarget extends PlcTarget {
+    private static class TestPlcTarget extends PlcBaseTarget {
         public boolean supportsLog = true;
 
         public TestPlcTarget() {
@@ -289,7 +289,7 @@ public class ExprGeneratorTest {
      * Generator appends a unique number after the name.
      * </p>
      */
-    private static class TestNameGenerator implements NameGeneratorInterface {
+    private static class TestNameGenerator implements NameGenerator {
         private int nextNameSuffix = 100;
 
         @Override
@@ -310,7 +310,7 @@ public class ExprGeneratorTest {
     }
 
     /** Type generator for testing the expression generator. */
-    private static class TestTypeGenerator implements TypeGeneratorInterface {
+    private static class TestTypeGenerator implements TypeGenerator {
         @Override
         public PlcType convertType(CifType type) {
             if (type instanceof BoolType) {

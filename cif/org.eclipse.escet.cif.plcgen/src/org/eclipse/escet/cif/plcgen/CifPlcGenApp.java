@@ -38,8 +38,8 @@ import org.eclipse.escet.cif.plcgen.options.PlcTargetTypeOption;
 import org.eclipse.escet.cif.plcgen.targets.AbbTarget;
 import org.eclipse.escet.cif.plcgen.targets.Iec611313Target;
 import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
+import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.cif.plcgen.targets.PlcTargetInterface;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.targets.SiemensS7Target;
 import org.eclipse.escet.cif.plcgen.targets.TwinCatTarget;
@@ -95,7 +95,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
     protected int runInternal() {
         // Configure code generation.
         PlcTargetType targetType = PlcTargetTypeOption.getPlcTargetType();
-        PlcTarget target;
+        PlcBaseTarget target;
         switch (targetType) {
             case ABB:
                 target = new AbbTarget();
@@ -137,7 +137,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      * @param target The target to generate PLC code for.
      * @return The constructed settings instance.
      */
-    private PlcGenSettings makePlcGenSettings(PlcTargetInterface target) {
+    private PlcGenSettings makePlcGenSettings(PlcTarget target) {
         String projectName = PlcProjectNameOption.getProjName();
         String configurationName = PlcConfigurationNameOption.getCfgName();
         String resourceName = PlcResourceNameOption.getResName();

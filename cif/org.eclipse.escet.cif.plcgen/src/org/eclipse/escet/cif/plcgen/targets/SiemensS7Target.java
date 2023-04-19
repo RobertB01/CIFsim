@@ -22,7 +22,7 @@ import org.eclipse.escet.cif.plcgen.writers.S7Writer;
 import org.eclipse.escet.common.java.Assert;
 
 /** Code generator for Siemens S7-300, S7-400, S7-1200, and S7-1500 PLC types. */
-public class SiemensS7Target extends PlcTarget {
+public class SiemensS7Target extends PlcBaseTarget {
     /** Replacement strings for the extension in the CIF input file name to construct an output path for each target. */
     private static final Map<PlcTargetType, String> OUT_SUFFIX_REPLACEMENTS;
 
