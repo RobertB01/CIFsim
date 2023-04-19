@@ -37,6 +37,7 @@ import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.common.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
@@ -235,6 +236,10 @@ public class CifProcessor {
                             .ignoreNeverBlockingInvariants() //
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                     NoInvariantPlaceKind.ALL_PLACES),
+
+                    // Disallow equations.
+                    // TODO This may be too strict. Consider what equations should be allowed more closely.
+                    new EqnNotAllowedCheck(),
 
                     // No urgency.
                     new LocNoUrgentCheck(), //
