@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.common.CifValueUtils.flattenBinExpr;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
+import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -623,52 +624,44 @@ public class ExprGenerator {
         if (exprResult.value instanceof PlcVarExpression parentVarExpr) {
             // We received a variable to project at, grab the result to add more projections.
 
-            // Copy the already converted expressions of 'varExpr', append the new CIF projections to it.
-            List<PlcProjection> plcProjections = list();
-            plcProjections.addAll(parentVarExpr.projections);
-            convertProjections(projections, plcProjections, exprResult);
-
             // Build a new PLC projections expressions with the parent variable and the collected projections.
-            PlcVarExpression varExpr = new PlcVarExpression(parentVarExpr.variable, plcProjections);
+            PlcVarExpression varExpr = new PlcVarExpression(parentVarExpr.variable,
+                    convertAddProjections(projections, copy(parentVarExpr.projections), exprResult));
             exprResult.setValue(varExpr);
             return exprResult;
         } else {
-            // We got something different from a single variable. Assume the worst and use a new variable, copy the
-            // parent result into it, and assign its value to the new variable.
+            // We got something different than a single variable. Assume the worst and use a new variable.
             PlcType plcType = typeGenerator.convertType(expr.getType());
-            PlcVariable plcProjectRoot = getTempVariable("project", plcType);
+            PlcVariable projectVar = getTempVariable("project", plcType);
 
-            // Build a new result and fill it with the result of the converted root.
+            // Construct a new result, add the parent result, and Append "projectVar := <root-value expression>;" to the
+            // code to get the parent result in the new variable.
             ExprGenResult convertResult = new ExprGenResult(this, exprResult);
-            convertResult.mergeCodeVariables(exprResult);
-            convertResult.mergeCode(exprResult);
-
-            // Convert the CIF projections, so they can be added to the new 'project' variable.
-            List<PlcProjection> plcProjections = list();
-            convertProjections(projections, plcProjections, convertResult);
-
-            // Append "plcProjectRoot := <root-value expression>;" to the code, and return a new projection expression
-            // with the converted CIF projections.
-            PlcVarExpression varExpr = new PlcVarExpression(plcProjectRoot, plcProjections);
+            PlcVarExpression varExpr = new PlcVarExpression(projectVar);
             convertResult.code.add(new PlcAssignmentStatement(varExpr, convertResult.value));
             convertResult.codeVariables.addAll(exprResult.valueVariables); // Parent value is now in code.
 
-            convertResult.valueVariables.add(plcProjectRoot);
-            convertResult.setValue(varExpr);
+            // Convert the CIF projections that were on top of the projection root value and apply them to the new
+            // variable.
+            convertAddProjections(projections, list(), convertResult);
+            convertResult.setValue(
+                    new PlcVarExpression(projectVar, convertAddProjections(projections, list(), convertResult)));
+            convertResult.valueVariables.add(projectVar);
             return convertResult;
         }
     }
 
     /**
-     * Convert CIF projections to PLC projections, reversing order.
+     * Convert CIF projections to PLC projections while reversing order and add them after the supplied PLC projections.
      *
      * @param cifProjections CIF projections to convert, in reverse order. Last projection to apply should be at index
      *     {@code 0}.
      * @param plcProjections Storage of converted CIF projections. Is extended in-place.
      * @param convertResult Storage of expression generator results from CIF array index expressions.
+     * @return The updated list PLC projections.
      */
-    private void convertProjections(List<ProjectionExpression> cifProjections, List<PlcProjection> plcProjections,
-            ExprGenResult convertResult)
+    private List<PlcProjection> convertAddProjections(List<ProjectionExpression> cifProjections,
+            List<PlcProjection> plcProjections, ExprGenResult convertResult)
     {
         for (int i = cifProjections.size() - 1; i >= 0; i--) {
             CifType unProjectedType = normalizeType(cifProjections.get(i).getChild().getType());
@@ -696,6 +689,7 @@ public class ExprGenerator {
                 throw new AssertionError("Unexpected unprojected type \"" + unProjectedType + "\" found.");
             }
         }
+        return plcProjections;
     }
 
     /**
