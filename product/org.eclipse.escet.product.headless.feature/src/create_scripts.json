@@ -83,22 +83,22 @@
         },
         {
             "script_name": "cifprod",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.SynchronousProductApplication"
         },
         {
             "script_name": "cifsupsynth",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.SupervisorSynthesisApplication"
         },
         {
             "script_name": "cifsynthanalys",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisApplication"
         },
         {
             "script_name": "cifncchk",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckApplication"
         },
         {
@@ -108,47 +108,47 @@
         },
         {
             "script_name": "cifctrlchk",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.ControllabilityCheckApplication"
         },
         {
             "script_name": "ciflngeqv",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.LanguageEquivalenceCheckApplication"
         },
         {
             "script_name": "cifnfadfa",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.NfaToDfaApplication"
         },
         {
             "script_name": "cifdfamin",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.DfaMinimizationApplication"
         },
         {
             "script_name": "cifproj",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.ProjectionApplication"
         },
         {
             "script_name": "cifobschk",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.ObserverCheckApplication"
         },
         {
             "script_name": "cifabstr",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.AutomatonAbstractionApplication"
         },
         {
             "script_name": "ciftrimchk",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.TrimCheckApplication"
         },
         {
             "script_name": "ciftrim",
-            "plugin_name": "org.eclipse.escet.cif.eventbased.apps",
+            "plugin_name": "org.eclipse.escet.cif.eventbased",
             "class_name": "org.eclipse.escet.cif.eventbased.apps.TrimApplication"
         }
     ],
