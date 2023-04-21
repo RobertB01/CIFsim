@@ -17,7 +17,7 @@
     <booleanAttribute key="clearConfig" value="true"/>
     <booleanAttribute key="clearws" value="false"/>
     <booleanAttribute key="clearwslog" value="true"/>
-    <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/test-cif-simulator-fluid"/>
+    <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/test-cif-simulator-tank"/>
     <booleanAttribute key="default" value="false"/>
     <stringAttribute key="featureDefaultLocation" value="workspace"/>
     <stringAttribute key="featurePluginResolution" value="workspace"/>
@@ -27,7 +27,7 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
     <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-consoleLog  org.eclipse.escet.cif.simulator org.eclipse.escet.cif.simulator.CifSimulatorApp --option-dialog=1 --stateviz=1 --plotviz=1 ${resource_loc:/org.eclipse.escet.cif.examples/examples/hybrid/tank/tank.cif}"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-consoleLog  org.eclipse.escet.cif.simulator org.eclipse.escet.cif.simulator.CifSimulatorApp --option-dialog=1 --stateviz=1 --plotviz=1 -i auto -a first --frame-rate=20 --speed=1 --trajdata=on ${resource_loc:/org.eclipse.escet.cif.examples/examples/hybrid/tank/tank.cif}"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="pde.version" value="3.3"/>
     <stringAttribute key="product" value="org.eclipse.escet.product.branding.product"/>
