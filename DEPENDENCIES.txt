@@ -145,8 +145,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.jface.text/3.20.100.v20220516-0819, EPL-2
 p2/orbit/p2.eclipse.plugin/org.eclipse.jface/3.26.0.v20220513-0449, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring/3.12.200.v20220502-1514, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.ui.refactoring/3.12.100.v20220329-1353, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.services/3.10.200.v20210723-0643, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.osgi/3.18.0.v20220516-2155, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.services/3.10.200.v20210723-0643, EPL-2.0, approved, eclipse.equinox
+p2/orbit/p2.eclipse.plugin/org.eclipse.osgi/3.18.0.v20220516-2155, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.plugin/org.eclipse.pde.build/3.11.200.v20220503-0921, EPL-2.0, approved, eclipse.pde
 p2/orbit/p2.eclipse.plugin/org.eclipse.pde.core/3.15.200.v20220527-1237, EPL-2.0, approved, eclipse.pde
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.cocoa.macosx.aarch64/3.120.0.v20220530-1036, EPL-2.0, approved, eclipse.platform
