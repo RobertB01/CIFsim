@@ -4,13 +4,13 @@
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:git="http://www.eclipse.org/oomph/setup/git/1.0"
+    xmlns:pde="http://www.eclipse.org/oomph/setup/pde/1.0"
     xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
     xmlns:projects="http://www.eclipse.org/oomph/setup/projects/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
-    xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
     name="escet"
     label="Eclipse ESCET">
   <setupTask
@@ -277,6 +277,8 @@
     <requirement
         name="org.eclipse.m2e.feature.feature.group"/>
     <requirement
+        name="org.eclipse.m2e.pde.feature.feature.group"/>
+    <requirement
         name="org.eclipse.oomph.setup.sdk.feature.group"/>
     <requirement
         name="org.eclipse.sirius.specifier.feature.group"/>
@@ -325,125 +327,8 @@
         locateNestedProjects="true"/>
   </setupTask>
   <setupTask
-      xsi:type="setup.targlets:TargletTask">
-    <targlet
-        name="${scope.project.label}"
-        activeRepositoryList="Eclipse ESCET">
-      <annotation
-          source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGenerator">
-        <detail
-            key="location">
-          <value>${org.eclipse.escet.git.clone.location}/releng/org.eclipse.escet.releng.target/org.eclipse.escet.releng.target.target</value>
-        </detail>
-        <detail
-            key="extraUnits">
-          <value>org.eclipse.equinox.executable.feature.group</value>
-        </detail>
-        <detail
-            key="generateImplicitUnits">
-          <value>true</value>
-        </detail>
-        <detail
-            key="minimizeImplicitUnits">
-          <value>true</value>
-        </detail>
-        <detail
-            key="includeMode">
-          <value>planner</value>
-        </detail>
-        <detail
-            key="generateVersions">
-          <value>false</value>
-        </detail>
-        <detail
-            key="includeAllPlatforms">
-          <value>false</value>
-        </detail>
-        <detail
-            key="includeSource">
-          <value>true</value>
-        </detail>
-      </annotation>
-      <requirement
-          name="com.google.guava"/>
-      <requirement
-          name="io.github.java-diff-utils"/>
-      <requirement
-          name="javax.inject"/>
-      <requirement
-          name="org.apache.batik.anim"/>
-      <requirement
-          name="org.apache.batik.awt.util"/>
-      <requirement
-          name="org.apache.batik.bridge"/>
-      <requirement
-          name="org.apache.batik.codec"/>
-      <requirement
-          name="org.apache.batik.constants"/>
-      <requirement
-          name="org.apache.batik.css"/>
-      <requirement
-          name="org.apache.batik.dom"/>
-      <requirement
-          name="org.apache.batik.dom.svg"/>
-      <requirement
-          name="org.apache.batik.ext"/>
-      <requirement
-          name="org.apache.batik.gvt"/>
-      <requirement
-          name="org.apache.batik.i18n"/>
-      <requirement
-          name="org.apache.batik.parser"/>
-      <requirement
-          name="org.apache.batik.script"/>
-      <requirement
-          name="org.apache.batik.shared.resources"/>
-      <requirement
-          name="org.apache.batik.svggen"/>
-      <requirement
-          name="org.apache.batik.transcoder"/>
-      <requirement
-          name="org.apache.batik.util"/>
-      <requirement
-          name="org.apache.batik.xml"/>
-      <requirement
-          name="org.apache.commons.exec"/>
-      <requirement
-          name="org.apache.commons.io"/>
-      <requirement
-          name="org.apache.commons.lang3"/>
-      <requirement
-          name="org.apache.commons.math3"/>
-      <requirement
-          name="org.eclipse.emf.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.validation"/>
-      <requirement
-          name="org.eclipse.epp.mpc.feature.group"/>
-      <requirement
-          name="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group"/>
-      <requirement
-          name="org.eclipse.sdk.feature.group"/>
-      <requirement
-          name="org.jsoup"/>
-      <requirement
-          name="org.knowm.xchart"/>
-      <requirement
-          name="*"/>
-      <sourceLocator
-          rootFolder="${org.eclipse.escet.git.clone.location}"
-          locateNestedProjects="true"/>
-      <repositoryList
-          name="Eclipse ESCET">
-        <repository
-            url="https://download.eclipse.org/releases/${eclipse.ide.version}"/>
-        <repository
-            url="https://download.eclipse.org/tools/orbit/downloads/drops/${eclipse.orbit.version}/repository"/>
-        <repository
-            url="https://download.eclipse.org/justj/jres/${eclipse.justj.version.major}/updates/release/${eclipse.justj.version.major}.${eclipse.justj.version.minor}.${eclipse.justj.version.micro}"/>
-      </repositoryList>
-    </targlet>
-  </setupTask>
+      xsi:type="pde:TargetPlatformTask"
+      name="Eclipse ESCET Target Platform"/>
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask">
     <workingSet
