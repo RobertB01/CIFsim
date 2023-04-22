@@ -55,6 +55,7 @@
       <import feature="org.eclipse.platform" version="4.24.0" match="compatible"/>
       <import feature="org.eclipse.justj.openjdk.hotspot.jre.full" version="17.0.5" match="compatible"/>
       <import feature="org.eclipse.epp.mpc"/>
+      <import plugin="org.eclipse.pde.runtime"/>
    </requires>
 
    <plugin
