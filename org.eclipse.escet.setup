@@ -415,12 +415,6 @@
       <requirement
           name="org.apache.commons.math3"/>
       <requirement
-          name="org.apache.xalan"/>
-      <requirement
-          name="org.apache.xerces"/>
-      <requirement
-          name="org.apache.xml.serializer"/>
-      <requirement
           name="org.eclipse.emf.feature.group"/>
       <requirement
           name="org.eclipse.emf.validation"/>
