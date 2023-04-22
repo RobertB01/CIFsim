@@ -235,6 +235,14 @@
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
+        name="org.eclipse.wildwebdeveloper.xml">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.wildwebdeveloper.xml/validation.noGrammar"
+          value="ignore"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
         name="org.eclipse.wst.xml.core">
       <setupTask
           xsi:type="setup:PreferenceTask"
