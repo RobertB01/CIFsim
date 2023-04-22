@@ -78,8 +78,8 @@ IN THE SOFTWARE.
    </configurations>
 
    <repositories>
-      <repository location="https://download.eclipse.org/releases/2022-06" enabled="true" />
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20220531185310/repository" enabled="true" />
+      <repository location="https://download.eclipse.org/releases/2023-03" enabled="true" />
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20230302014618/repository" enabled="true" />
    </repositories>
 
    <preferencesInfo>
