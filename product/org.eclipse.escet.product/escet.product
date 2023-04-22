@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Eclipse ESCET (Incubation)" uid="org.eclipse.escet.product" id="org.eclipse.escet.product.branding.product" application="org.eclipse.ui.ide.workbench" version="0.10.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Eclipse ESCET (Incubation)" uid="org.eclipse.escet.product" id="org.eclipse.escet.product.branding.product" application="org.eclipse.ui.ide.workbench" version="0.10.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/org.eclipse.escet.product.branding/images/escet_about.png"/>
