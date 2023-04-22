@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.simulator.compiler;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeJava;
+import static org.apache.commons.text.StringEscapeUtils.escapeJava;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTextUtils.invToStr;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.EVENT_CLS_PREFIX;
