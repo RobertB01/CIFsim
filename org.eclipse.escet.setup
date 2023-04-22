@@ -15,32 +15,12 @@
     label="Eclipse ESCET">
   <setupTask
       xsi:type="setup:VariableTask"
-      name="eclipse.ide.version"
-      value="2023-03"/>
-  <setupTask
-      xsi:type="setup:VariableTask"
-      name="eclipse.orbit.version"
-      value="R20230302014618"/>
-  <setupTask
-      xsi:type="setup:VariableTask"
       name="eclipse-checkstyle.version.major"
       value="8"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse-checkstyle.version.minor"
       value="41"/>
-  <setupTask
-      xsi:type="setup:VariableTask"
-      name="eclipse.justj.version.major"
-      value="17"/>
-  <setupTask
-      xsi:type="setup:VariableTask"
-      name="eclipse.justj.version.minor"
-      value="0"/>
-  <setupTask
-      xsi:type="setup:VariableTask"
-      name="eclipse.justj.version.micro"
-      value="5"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
