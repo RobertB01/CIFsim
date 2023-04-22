@@ -175,17 +175,6 @@ SPDX-License-Identifier: MIT
                     <!-- See https://www.eclipse.org/justj/?page=documentation for more information. -->
                     <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-17</executionEnvironment>
 
-                    <!-- Special dependency for Eclipse JDT compiler tool fragment. -->
-                    <dependency-resolution>
-                        <extraRequirements>
-                            <requirement>
-                                <type>eclipse-plugin</type>
-                                <id>org.eclipse.jdt.compiler.tool</id>
-                                <versionRange>1.0.0</versionRange>
-                            </requirement>
-                        </extraRequirements>
-                    </dependency-resolution>
-
                     <!-- Configure environments. -->
                     <!-- Determines which environment specific bundles will be in target platform. -->
                     <!-- Also determines the products to build. -->
