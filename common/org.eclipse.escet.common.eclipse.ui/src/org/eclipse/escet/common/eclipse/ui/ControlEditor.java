@@ -26,8 +26,6 @@ import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.ReflectionUtils;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -125,13 +123,10 @@ public abstract class ControlEditor extends EditorPart {
         contents = createContents(parent);
         Assert.check(contents.getParent() == parent);
 
-        contents.addDisposeListener(new DisposeListener() {
-            @Override
-            public void widgetDisposed(DisposeEvent event) {
-                // Release all waiting threads
-                synchronized (contents) {
-                    contents.notifyAll();
-                }
+        contents.addDisposeListener(e -> {
+            // Release all waiting threads
+            synchronized (contents) {
+                contents.notifyAll();
             }
         });
     }
@@ -418,14 +413,18 @@ public abstract class ControlEditor extends EditorPart {
     }
 
     /**
-     * Causes the caller to wait until it is awakened.
+     * Causes the caller to wait until the editor is closed.
      *
-     * @throws InterruptedException If thread is finished execution or is terminated abnormally.
+     * @throws RuntimeException If thread is finished execution or is terminated abnormally.
      */
-    public void waitUntilClosed() throws InterruptedException {
-        if (contents != null) {
+    public void waitUntilClosed() {
+        if (isAvailable()) {
             synchronized (contents) {
-                contents.wait();
+                try {
+                    contents.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

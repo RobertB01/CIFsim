@@ -92,12 +92,7 @@ public class SynthesisAnalysisApplication extends Application<IOutputComponent> 
         ControlEditor editor = ControlEditor.show(InputFileOption.getPath(), SynthesisAnalysisEditor.class,
                 "show the event-based synthesis analysis tool");
 
-        try {
-            editor.waitUntilClosed();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
+        editor.waitUntilClosed();
         return 0;
     }
 
