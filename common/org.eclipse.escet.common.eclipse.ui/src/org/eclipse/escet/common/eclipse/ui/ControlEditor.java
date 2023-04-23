@@ -16,6 +16,7 @@ package org.eclipse.escet.common.eclipse.ui;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.net.URI;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -77,6 +78,9 @@ public abstract class ControlEditor extends EditorPart {
     /** The control that represents the editor's contents. */
     protected Control contents;
 
+    /** Registers if the editor has been disposed previously. */
+    private final AtomicBoolean contentsDisposed = new AtomicBoolean(false);
+
     /**
      * Implementation of the {@link EditorPart#init} method.
      *
@@ -124,9 +128,10 @@ public abstract class ControlEditor extends EditorPart {
         Assert.check(contents.getParent() == parent);
 
         contents.addDisposeListener(e -> {
-            // Release all waiting threads
+            // Release all waiting threads.
             synchronized (contents) {
                 contents.notifyAll();
+                contentsDisposed.set(true);
             }
         });
     }
@@ -412,19 +417,20 @@ public abstract class ControlEditor extends EditorPart {
         });
     }
 
-    /**
-     * Causes the caller to wait until the editor is closed.
-     *
-     * @throws RuntimeException If thread is finished execution or is terminated abnormally.
-     */
+    /** Causes the caller to wait until the editor is closed. */
     public void waitUntilClosed() {
-        if (isAvailable()) {
-            synchronized (contents) {
-                try {
-                    contents.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+        if (contents == null) {
+            return;
+        }
+        synchronized (contents) {
+            if (contentsDisposed.get()) {
+                return;
+            }
+
+            try {
+                contents.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
