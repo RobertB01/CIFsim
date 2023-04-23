@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+import org.eclipse.ui.PlatformUI;
 
 /** Eclipse theme preference change listener. */
 public class EclipseThemePreferenceChangeListener implements IPreferenceChangeListener {
@@ -45,13 +46,30 @@ public class EclipseThemePreferenceChangeListener implements IPreferenceChangeLi
         }
     }
 
-    /** Registers this Eclipse theme preference change listener. */
+    /**
+     * Registers this Eclipse theme preference change listener.
+     *
+     * <p>
+     * When running a stand-alone application, the workspace is not provided. In which case this listener class will not
+     * be registered.
+     * </p>
+     */
     private void register() {
-        EclipseThemeUtils.getEclipseThemePreferences().addPreferenceChangeListener(this);
+        if (PlatformUI.isWorkbenchRunning()) {
+            EclipseThemeUtils.getEclipseThemePreferences().addPreferenceChangeListener(this);
+        }
     }
 
-    /** Unregisters this Eclipse theme preference change listener. */
+    /** Unregisters this Eclipse theme preference change listener.
+     *
+     * <p>
+     * When running a stand-alone application, the workspace is not provided. In which case this listener class will not
+     * be registered and thus not require unregistering.
+     * </p>
+     */
     public void unregister() {
-        EclipseThemeUtils.getEclipseThemePreferences().removePreferenceChangeListener(this);
+        if (PlatformUI.isWorkbenchRunning()) {
+            EclipseThemeUtils.getEclipseThemePreferences().removePreferenceChangeListener(this);
+        }
     }
 }
