@@ -48,23 +48,59 @@ To upgrade to a new Eclipse Platform/IDE version:
 ** Check the link:https://eclipseide.org/release/noteworthy/[New & Noteworthy] page for the new release and all intermediate releases since the previous version.
 Note that you can switch to the New & Noteworthy pages of previous releases using the dropdown at the bottom of the page.
 
-* New development environment
-** <<development-dev-env-setup-chapter-index,Set up a new development environment>> for the new Eclipse IDE version.
+* Upgrade the development environment
+** Alternative 1: set up a fresh new development environment.
+*** The benefit of this alternative is that you get a clean new environment, and can use it side-by-side with existing development environments.
+The downside is that you have to manually configure the new environment, or manually migrate your workspace and settings.
+You also have to cleanup or remove your old development environments, in case you don't use them anymore.
+*** <<development-dev-env-setup-chapter-index,Set up a new development environment>> for the new Eclipse IDE version.
+** Alternative 2: in-place upgrade of an existing development environment.
+*** The benefit of this alternative is that you can keep your existing environment, preventing multiple such environments as well as manual migrations.
+The downside is that you run the risk of older things remaining in your development environment, requiring manual cleanup.
+*** Update the _P2 Director_ section of the Oomph setup, if needed.
+Especially, consider what is no longer compatible with the new Eclipse version and remove it, or replace it by an alternative.
+*** If you removed anything from the _P2 Director_ section of the Oomph setup, also remove it manually from your development environment:
+**** Click menu:Help[About Eclipse Platform].
+**** Click the btn:[Installation Details] button.
+**** Select on the _Installed Software_ tab the item to remove and click the btn:[Uninstall...] button.
+**** On the _Uninstall_ dialog, click the btn:[Finish] button.
+**** When asked to restart the Eclipse Platform, click btn:[Restart Now] (newer Eclipse versions) or btn:[Yes] (older Eclipse versions).
+**** Repeat these steps for each item that was removed from the _P2 Director_ section of the Oomph setup.
+*** Update your installation profile for the new Eclipse version, and apply it:
+**** From the toolbar, select the dropdown menu of the menu:Open User[] item and choose menu:Open Installation[].
+**** Select the _Installation file:..._ node.
+**** In the _Properties_ view, change the _Product Version_ to the _Eclipse Platform_ edition of the new Eclipse version.
+**** Save the `installation.setup` file.
+**** Click menu:File[Restart].
+**** Once Eclipse restarts, you may see some initialization progress at the bottom right corner of the development environment window.
+**** Wait for the _Eclipse Update_ dialog to appear, indicating that _The installation does not satisfy the requirements listed below_.
+**** Click the btn:[Install] button to update Eclipse.
+**** Wait for the update to complete, while observing the progress at the bottom right corner of the development environment window.
+**** If a _Trust_ dialog appears, click btn:[Select All] and then btn:[Trust Selected].
+**** After some time, notice the Oomph icon with the flashing warning sign (image:{development-imgsdir}/oomph-icon-warning.png[]) at the bottom right corner of the development environment window.
+**** Click it to open the _Eclipse Updater_ window.
+**** Click btn:[Finish] to restart Eclipse, completing the update.
+**** Once Eclipse restarts, you may see a _Older Workspace Version_ popup.
+**** If so, click btn:[Continue] to update your workspace to the new Eclipse version.
 
 * Version updates
-** Look up Orbit version for the new Eclipse Platform/IDE release, see https://download.eclipse.org/tools/orbit/downloads/.
-** Update Oomph setup (`org.eclipse.escet.setup`), configuring new Eclipse IDE and Orbit versions.
-** Update `dev-env-setup.asciidoc` to match new Eclipse version.
+** Look up the Orbit version for the new Eclipse Platform/IDE release, see https://download.eclipse.org/tools/orbit/downloads/.
+** Update the target platform (`org.eclipse.escet.releng.target/org.eclipse.escet.releng.target.target`), configuring new versions for the Eclipse IDE and Orbit update sites.
+** Update `dev-env-setup.asciidoc` to match the new Eclipse version.
 ** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
-** Update Eclipse and Orbit update site URLs in product (`org.eclipse.escet.product/escet.product`).
-** Update Eclipse and Orbit update site URLs in update site (`org.eclipse.escet.product/category.xml`).
-** Update Maven plugin third party dependency versions to match Orbit versions (`org.eclipse.escet.common.asciidoc/pom.xml`).
+** Update Eclipse and Orbit update site URLs in the product (`org.eclipse.escet.product/escet.product`).
+** Update Eclipse and Orbit update site URLs in the update site (`org.eclipse.escet.product/category.xml`).
+** Update Maven plugin third party dependency versions to match the versions of these plugins from Orbit (`org.eclipse.escet.common.asciidoc/pom.xml`).
+** Commit any changes.
 
-* Update target platform and address any issues
-** Let Oomph regenerate the target platform, and commit any changes.
+* Update target platform and adapt to the new Eclipse version
+** Let Oomph reactivate the target platform, and address any issues.
+** Commit any changes.
 ** Force a rebuild in Eclipse (menu:Project[Clean...]).
-** Check workspace for any errors/warnings and address them if any.
+** Check the workspace for any errors/warnings and address them if any.
+** Commit any changes.
 ** Check _New and Noteworthy_ (release notes) of the new Eclipse version and relevant intermediate versions for changes and adapt as necessary.
+** Commit any changes.
 
 * Java formatter profile
 ** Right click the `org.eclipse.escet.common.java` project in the _Package Explorer_ view and choose menu:Properties[].
@@ -192,8 +228,8 @@ Update the keywords themselves and the field's JavaDoc, including the link to th
 ** Search for the current Java version to find other references (e.g., search for `17`).
 
 * For any Java versions (e.g. 17 to 18, or 17.0.1 to 17.0.2):
-** Update the JustJ version (`eclipse.justj.version.*` variables) in the Oomph setup (`org.eclipse.escet.setup`).
-** Regenerate the target platform file using Oomph.
+** Update the JustJ update site URL in the target platform (`org.eclipse.escet.releng.target/org.eclipse.escet.releng.target.target`).
+** Re-activate the target platform using Oomph.
 ** Update JustJ version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 ** Run a <<development-building-and-testing-chapter-index,Maven build>>.
