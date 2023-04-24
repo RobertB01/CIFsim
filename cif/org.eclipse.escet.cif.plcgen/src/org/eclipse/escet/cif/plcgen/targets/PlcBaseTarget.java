@@ -71,22 +71,22 @@ public abstract class PlcBaseTarget implements PlcTarget {
         outputPath = settings.outputPath;
 
         // Warn the user about getting a possibly too small integer type size.
-        if (settings.intTypeSize.getTypeSize(PlcBaseTarget.CIF_INTEGER_SIZE) < PlcBaseTarget.CIF_INTEGER_SIZE) {
+        if (settings.intTypeSize.getTypeSize(CIF_INTEGER_SIZE) < CIF_INTEGER_SIZE) {
             settings.warnOutput.warn(
                     "Configured integer type size is less than the CIF integer type size. Some values in the program "
                             + "may be truncated.");
-        } else if (getMaxIntegerTypeSize() < PlcBaseTarget.CIF_INTEGER_SIZE) {
+        } else if (getMaxIntegerTypeSize() < CIF_INTEGER_SIZE) {
             settings.warnOutput
                     .warn("Maximum integer type size supported by the PLC is less than the CIF integer type size. Some "
                             + "values in the program may be truncated.");
         }
 
         // Warn the user about getting a possibly too small real type size.
-        if (settings.realTypeSize.getTypeSize(PlcBaseTarget.CIF_REAL_SIZE) < PlcBaseTarget.CIF_REAL_SIZE) {
+        if (settings.realTypeSize.getTypeSize(CIF_REAL_SIZE) < CIF_REAL_SIZE) {
             settings.warnOutput
                     .warn("Configured real type size is less than the CIF real type size. Some values in the program "
                             + "may be truncated.");
-        } else if (getMaxRealTypeSize() < PlcBaseTarget.CIF_REAL_SIZE) {
+        } else if (getMaxRealTypeSize() < CIF_REAL_SIZE) {
             settings.warnOutput
                     .warn("Maximum real type size supported by the PLC is less than the CIF real type size. Some "
                             + "values in the program may be truncated.");

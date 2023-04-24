@@ -634,7 +634,7 @@ public class ExprGenerator {
             PlcType plcType = typeGenerator.convertType(expr.getType());
             PlcVariable projectVar = getTempVariable("project", plcType);
 
-            // Construct a new result, add the parent result, and Append "projectVar := <root-value expression>;" to the
+            // Construct a new result, add the parent result, and append "projectVar := <root-value expression>;" to the
             // code to get the parent result in the new variable.
             ExprGenResult convertResult = new ExprGenResult(this, exprResult);
             PlcVarExpression varExpr = new PlcVarExpression(projectVar);
@@ -643,7 +643,6 @@ public class ExprGenerator {
 
             // Convert the CIF projections that were on top of the projection root value and apply them to the new
             // variable.
-            convertAddProjections(projections, list(), convertResult);
             convertResult.setValue(
                     new PlcVarExpression(projectVar, convertAddProjections(projections, list(), convertResult)));
             convertResult.valueVariables.add(projectVar);

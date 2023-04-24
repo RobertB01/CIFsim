@@ -49,7 +49,7 @@ public class PlcFunctionAppls {
             new PlcParameterDescription("OUT", PlcParamDirection.OUTPUT_ONLY)};
 
     /**
-     * Constructor of the {@link PlcTarget} class.
+     * Constructor of the {@link PlcFunctionAppls} class.
      *
      * @param target PLC to generate code for.
      */
