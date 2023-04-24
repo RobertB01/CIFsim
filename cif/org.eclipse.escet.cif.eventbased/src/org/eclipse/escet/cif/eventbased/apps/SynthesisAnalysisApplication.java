@@ -89,8 +89,10 @@ public class SynthesisAnalysisApplication extends Application<IOutputComponent> 
 
     @Override
     protected int runInternal() {
-        ControlEditor.show(InputFileOption.getPath(), SynthesisAnalysisEditor.class,
+        ControlEditor editor = ControlEditor.show(InputFileOption.getPath(), SynthesisAnalysisEditor.class,
                 "show the event-based synthesis analysis tool");
+
+        editor.waitUntilClosed();
         return 0;
     }
 
