@@ -78,7 +78,7 @@ public abstract class ControlEditor extends EditorPart {
     /** The control that represents the editor's contents. */
     protected Control contents;
 
-    /** Registers if the editor has been disposed previously. */
+    /** Indicates whether the editor has been closed, i.e., its {@link #contents} has been disposed. */
     private final AtomicBoolean contentsDisposed = new AtomicBoolean(false);
 
     /**
@@ -130,8 +130,8 @@ public abstract class ControlEditor extends EditorPart {
         contents.addDisposeListener(e -> {
             // Release all waiting threads.
             synchronized (contents) {
-                contents.notifyAll();
                 contentsDisposed.set(true);
+                contents.notifyAll();
             }
         });
     }
