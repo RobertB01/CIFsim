@@ -50,8 +50,7 @@ public class EclipseThemePreferenceChangeListener implements IPreferenceChangeLi
      * Registers this Eclipse theme preference change listener.
      *
      * <p>
-     * When running a stand-alone application, the workspace is not provided. In which case this listener class will not
-     * be registered.
+     * For stand-alone (no workspace) executions, this call has no effect (retheming is not supported).
      * </p>
      */
     private void register() {
@@ -60,11 +59,11 @@ public class EclipseThemePreferenceChangeListener implements IPreferenceChangeLi
         }
     }
 
-    /** Unregisters this Eclipse theme preference change listener.
+    /**
+     * Unregisters this Eclipse theme preference change listener.
      *
      * <p>
-     * When running a stand-alone application, the workspace is not provided. In which case this listener class will not
-     * be registered and thus not require unregistering.
+     * For stand-alone (no workspace) executions, this call has no effect (retheming is not supported).
      * </p>
      */
     public void unregister() {
