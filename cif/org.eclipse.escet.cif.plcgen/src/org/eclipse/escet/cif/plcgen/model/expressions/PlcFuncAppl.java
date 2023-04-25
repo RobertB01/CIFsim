@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
@@ -34,7 +35,7 @@ public class PlcFuncAppl extends PlcExpression {
      */
     public PlcFuncAppl(PlcBasicFuncDescription function, List<PlcNamedValue> arguments) {
         this.function = function;
-        this.arguments = arguments;
+        this.arguments = Collections.unmodifiableList(arguments);
 
         Assert.check(!arguments.isEmpty());
     }

@@ -13,20 +13,17 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
-import java.util.Collections;
-import java.util.List;
-
-/** Expression describing a structure value. */
-public class PlcStructLiteral extends PlcExpression {
-    /** Values of the structure. */
-    public final List<PlcNamedValue> values;
+/** Expression class for an enumeration literal. */
+public class PlcEnumLiteral extends PlcExpression {
+    /** Value of the literal. */
+    public final String value;
 
     /**
-     * Constructor of the {@link PlcStructLiteral} class.
+     * Constructor of the {@link PlcEnumLiteral} class.
      *
-     * @param values Values of the structure.
+     * @param value Value of the literal.
      */
-    public PlcStructLiteral(List<PlcNamedValue> values) {
-        this.values = Collections.unmodifiableList(values);
+    public PlcEnumLiteral(String value) {
+        this.value = value;
     }
 }

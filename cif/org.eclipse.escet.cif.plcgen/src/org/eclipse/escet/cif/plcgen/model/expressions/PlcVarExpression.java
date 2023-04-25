@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
@@ -34,8 +35,7 @@ public class PlcVarExpression extends PlcExpression {
      * @param projections Projections to select a part of the variable.
      */
     public PlcVarExpression(PlcVariable variable, PlcProjection... projections) {
-        this.variable = variable;
-        this.projections = Arrays.asList(projections);
+        this(variable, Arrays.asList(projections));
     }
 
     /**
@@ -46,7 +46,7 @@ public class PlcVarExpression extends PlcExpression {
      */
     public PlcVarExpression(PlcVariable variable, List<PlcProjection> projections) {
         this.variable = variable;
-        this.projections = projections;
+        this.projections = Collections.unmodifiableList(projections);
     }
 
     /** Projection in the value of the referenced variable. */
@@ -90,7 +90,7 @@ public class PlcVarExpression extends PlcExpression {
          */
         public PlcArrayProjection(List<PlcExpression> indexExpressions) {
             Assert.check(!indexExpressions.isEmpty());
-            this.indexExpressions = indexExpressions;
+            this.indexExpressions = Collections.unmodifiableList(indexExpressions);
         }
     }
 }

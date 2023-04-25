@@ -13,14 +13,16 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.writers.S7Writer;
 import org.eclipse.escet.common.java.Assert;
 
 /** Code generator for Siemens S7-300, S7-400, S7-1200, and S7-1500 PLC types. */
-public class SiemensS7Target extends PlcTarget {
+public class SiemensS7Target extends PlcBaseTarget {
     /** Replacement strings for the extension in the CIF input file name to construct an output path for each target. */
     private static final Map<PlcTargetType, String> OUT_SUFFIX_REPLACEMENTS;
 
@@ -76,6 +78,22 @@ public class SiemensS7Target extends PlcTarget {
     @Override
     public boolean supportsEnumerations() {
         return false;
+    }
+
+    @Override
+    public boolean supportsPower(boolean baseIsInt, boolean exponentIsInt) {
+        // S7-400 and S7-300 only support power on real types.
+        if (EnumSet.of(PlcTargetType.S7_300, PlcTargetType.S7_400).contains(targetType)) {
+            return !baseIsInt && !exponentIsInt;
+        } else {
+            return super.supportsPower(baseIsInt, exponentIsInt);
+        }
+    }
+
+    @Override
+    public boolean supportsOperation(PlcFuncOperation funcOper) {
+        // S7 doesn't have a function for log10.
+        return funcOper != PlcFuncOperation.STDLIB_LOG;
     }
 
     @Override

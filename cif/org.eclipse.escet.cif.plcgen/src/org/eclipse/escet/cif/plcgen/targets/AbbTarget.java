@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.writers.AbbWriter;
 
 /** Code generator for the ABB PLC type. */
-public class AbbTarget extends PlcTarget {
+public class AbbTarget extends PlcBaseTarget {
     /** Constructor of the {@link AbbTarget} class. */
     public AbbTarget() {
         // TODO Verify settings of the ABB target.

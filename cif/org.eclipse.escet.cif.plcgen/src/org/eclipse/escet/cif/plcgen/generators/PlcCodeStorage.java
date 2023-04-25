@@ -28,7 +28,6 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
-import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
@@ -37,9 +36,6 @@ import org.eclipse.escet.common.java.Assert;
 public class PlcCodeStorage {
     /** PLC target to generate code for. */
     private final PlcTarget target;
-
-    /** Absolute base path to which to write the generated code. */
-    private final String outputPath;
 
     /** Project with PLC code. */
     private final PlcProject project;
@@ -70,7 +66,6 @@ public class PlcCodeStorage {
      */
     public PlcCodeStorage(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
-        this.outputPath = settings.outputPath;
 
         // Create project, configuration, resource, and task.
         project = new PlcProject(settings.projectName);
@@ -186,7 +181,6 @@ public class PlcCodeStorage {
      * @note Depending on the actual write implementation a single file or a directory may be written.
      */
     public void writeOutput() {
-        OutputTypeWriter writer = target.getPlcCodeWriter();
-        writer.write(project, outputPath);
+        target.writeOutput(project);
     }
 }

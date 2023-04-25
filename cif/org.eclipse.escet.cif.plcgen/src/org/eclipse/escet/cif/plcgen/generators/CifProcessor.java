@@ -37,6 +37,7 @@ import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.common.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
@@ -157,7 +158,7 @@ public class CifProcessor {
      */
     private void convertVariable(Declaration decl, CifType type) {
         PlcType varType = typeGen.convertType(type);
-        String varName = nameGenerator.generateName(decl);
+        String varName = nameGenerator.generateGlobalName(decl);
         variableNames.put(decl, varName);
 
         codeStorage.addStateVariable(new PlcVariable(varName, varType));
@@ -236,6 +237,10 @@ public class CifProcessor {
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                     NoInvariantPlaceKind.ALL_PLACES),
 
+                    // Disallow equations.
+                    // TODO This may be too strict. Consider what equations should be allowed more closely.
+                    new EqnNotAllowedCheck(),
+
                     // No urgency.
                     new LocNoUrgentCheck(), //
                     new EdgeNoUrgentCheck(),
@@ -262,8 +267,8 @@ public class CifProcessor {
                             (supportArrays ? NoSpecificType.LIST_TYPES_NON_ARRAY : NoSpecificType.LIST_TYPES)),
 
                     // Allow only casting to the same type and int to real, allow projection only on tuples and arrays,
-                    // forbid string, set, and dictionary literals, forbid slicing, and function references outside call
-                    // context.
+                    // forbid string, set, and dictionary literals and time, forbid slicing, and function references
+                    // outside call context.
                     new ExprNoSpecificExprsCheck( //
                             NoSpecificExpr.CAST_EXPRS_FROM_STRING, //
                             NoSpecificExpr.CAST_EXPRS_TO_STRING, //
@@ -274,7 +279,8 @@ public class CifProcessor {
                             NoSpecificExpr.PROJECTION_EXPRS_STRINGS, //
                             NoSpecificExpr.SET_LITS, //
                             NoSpecificExpr.STRING_LITS, //
-                            NoSpecificExpr.SLICE_EXPRS),
+                            NoSpecificExpr.SLICE_EXPRS, //
+                            NoSpecificExpr.TIME_VAR_REFS),
 
                     // Disallow sampling.
                     new ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp.SAMPLE),
@@ -347,7 +353,7 @@ public class CifProcessor {
         } else if (!target.supportsEnumerations()) {
             // Enumerations are not converted.
             String msg = fmt("Enumerations are not converted, while this is required for %s code. Please set the "
-                    + "\"Convert enumerations\" option accordingly.", target.targetType.dialogText);
+                    + "\"Convert enumerations\" option accordingly.", target.getTargetType().dialogText);
             throw new InvalidInputException(msg);
         }
     }

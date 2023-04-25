@@ -37,6 +37,7 @@ import org.eclipse.escet.cif.plcgen.options.PlcRealTypeSizeOption;
 import org.eclipse.escet.cif.plcgen.options.PlcTargetTypeOption;
 import org.eclipse.escet.cif.plcgen.targets.AbbTarget;
 import org.eclipse.escet.cif.plcgen.targets.Iec611313Target;
+import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
@@ -94,7 +95,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
     protected int runInternal() {
         // Configure code generation.
         PlcTargetType targetType = PlcTargetTypeOption.getPlcTargetType();
-        PlcTarget target;
+        PlcBaseTarget target;
         switch (targetType) {
             case ABB:
                 target = new AbbTarget();

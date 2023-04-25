@@ -15,9 +15,10 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.cif2plc.writers.TwinCatWriter;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 
 /** Code generator for the TwinCAT PLC type. */
-public class TwinCatTarget extends PlcTarget {
+public class TwinCatTarget extends PlcBaseTarget {
     /** Constructor of the {@link TwinCatTarget} class. */
     public TwinCatTarget() {
         super(PlcTargetType.TWINCAT);
@@ -41,6 +42,12 @@ public class TwinCatTarget extends PlcTarget {
     @Override
     public boolean supportsEnumerations() {
         return true;
+    }
+
+    @Override
+    public boolean supportsInfixNotation(PlcFuncOperation funcOper) {
+        // The 'a ** b' syntax seemed not to work in TwinCAT 3.1. Use the named function instead.
+        return funcOper != PlcFuncOperation.POWER_OP;
     }
 
     @Override

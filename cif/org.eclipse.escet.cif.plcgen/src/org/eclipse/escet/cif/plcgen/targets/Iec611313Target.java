@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.cif2plc.writers.Iec611313Writer;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 
 /** Code generator for the IEC 61131-3 PLC type. */
-public class Iec611313Target extends PlcTarget {
+public class Iec611313Target extends PlcBaseTarget {
     /** Constructor of the {@link Iec611313Target} class. */
     public Iec611313Target() {
         super(PlcTargetType.IEC_61131_3);

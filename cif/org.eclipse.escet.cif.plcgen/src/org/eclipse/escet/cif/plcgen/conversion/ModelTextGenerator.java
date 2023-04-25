@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcArrayLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -104,6 +105,8 @@ public class ModelTextGenerator {
             toText(intLit, textBuilder);
         } else if (expr instanceof PlcRealLiteral realLit) {
             toText(realLit, textBuilder);
+        } else if (expr instanceof PlcEnumLiteral enumLit) {
+            toText(enumLit, textBuilder);
         } else if (expr instanceof PlcArrayLiteral arrayLit) {
             toText(arrayLit, textBuilder, funcApplPreference);
         } else if (expr instanceof PlcStructLiteral structLit) {
@@ -157,6 +160,16 @@ public class ModelTextGenerator {
             rslt = rslt.substring(0, idx) + ".0" + rslt.substring(idx);
         }
         textBuilder.append(rslt);
+    }
+
+    /**
+     * Convert an enumeration literal expression to text.
+     *
+     * @param enumLit Expression to convert.
+     * @param textBuilder Storage of produced text, extended in-place.
+     */
+    private void toText(PlcEnumLiteral enumLit, StringBuilder textBuilder) {
+        textBuilder.append(enumLit.value);
     }
 
     /**

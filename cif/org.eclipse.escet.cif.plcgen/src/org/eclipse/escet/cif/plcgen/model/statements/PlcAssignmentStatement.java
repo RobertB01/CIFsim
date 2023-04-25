@@ -34,4 +34,9 @@ public class PlcAssignmentStatement extends PlcStatement {
         this.lhs = lhs;
         this.value = value;
     }
+
+    @Override
+    public PlcAssignmentStatement copy() {
+        return new PlcAssignmentStatement(lhs, value);
+    }
 }

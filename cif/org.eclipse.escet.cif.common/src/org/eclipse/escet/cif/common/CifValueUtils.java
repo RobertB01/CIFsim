@@ -2342,14 +2342,36 @@ public class CifValueUtils {
             try {
                 idx = (Integer)CifEvalUtils.eval(iexpr, false);
             } catch (CifEvalException e) {
-                // This expression should be statically evaluable, as
-                // checked by the type checker.
+                // This expression should be statically evaluable, as checked by the type checker.
                 throw new RuntimeException(e);
             }
 
             // Get field.
             CifType ctype = normalizeType(pexpr.getChild().getType());
             return ((TupleType)ctype).getFields().get(idx);
+        }
+    }
+
+    /**
+     * Returns the index of the field being projected in a tuple projection.
+     *
+     * @param pexpr The tuple projection expression.
+     * @return The index of the field being projected.
+     */
+    public static int getTupleProjIndex(ProjectionExpression pexpr) {
+        TupleType tupType = (TupleType)normalizeType(pexpr.getChild().getType());
+        Expression indexExpr = pexpr.getIndex();
+
+        if (indexExpr instanceof FieldExpression fe) {
+            return tupType.getFields().indexOf(fe.getField());
+        } else {
+            // Evaluate index.
+            try {
+                return (int)CifEvalUtils.eval(indexExpr, false);
+            } catch (CifEvalException e) {
+                // This expression should be statically evaluable, as checked by the type checker.
+                throw new RuntimeException(e);
+            }
         }
     }
 
