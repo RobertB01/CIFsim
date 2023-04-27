@@ -879,44 +879,24 @@ public class BuiltInFileTools {
         // Get absolute local file system path.
         String abspath = Paths.resolve(path);
 
-        // Open file for reading.
-        FileReader fileReader;
-        try {
-            fileReader = new FileReader(abspath);
+        // Read the lines.
+        List<String> lines = new ToolDefList<>();
+        try (FileReader fileReader = new FileReader(abspath);
+             BufferedReader bufferedReader = new BufferedReader(fileReader))
+        {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                lines.add(line);
+            }
         } catch (FileNotFoundException ex) {
             String msg = fmt(
                     "Failed to read file \"%s\": the file does not exist, is a directory rather than a file, or "
                             + "for some other reason could not be opened for reading.",
                     path);
             throw new ToolDefException(msg, ex);
-        }
-
-        // Read the file into a list of strings.
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        List<String> lines = new ToolDefList<>();
-        ToolDefException error = null;
-
-        try {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                lines.add(line);
-            }
         } catch (IOException ex) {
             String msg = fmt("Failed to read file \"%s\": an I/O error occurred.", path);
-            error = new ToolDefException(msg, ex);
-        } finally {
-            try {
-                bufferedReader.close();
-            } catch (IOException ex) {
-                if (error == null) {
-                    String msg = fmt("Failed to read file \"%s\": could not close the file.", path);
-                    error = new ToolDefException(msg, ex);
-                }
-            }
-        }
-
-        if (error != null) {
-            throw error;
+            throw new ToolDefException(msg, ex);
         }
 
         // Return the read lines.
@@ -1086,35 +1066,11 @@ public class BuiltInFileTools {
      *     if it already exists ({@code false}).
      */
     public static void writefile(String path, String text, boolean append) {
-        // Create file stream.
-        FileAppStream stream;
-        try {
-            stream = new FileAppStream(path, append);
-        } catch (InputOutputException ex) {
-            String msg = fmt("Failed to open file \"%s\" for writing.", path);
-            throw new ToolDefException(msg, ex);
-        }
-
-        // Write to the file.
-        ToolDefException error = null;
-        try {
+        try (FileAppStream stream = new FileAppStream(path, append)) {
             stream.print(text);
         } catch (InputOutputException ex) {
             String msg = fmt("Failed to write to file \"%s\".", path);
-            error = new ToolDefException(msg, ex);
-        } finally {
-            try {
-                stream.close();
-            } catch (InputOutputException ex) {
-                if (error != null) {
-                    String msg = fmt("Failed to close file \"%s\".", path);
-                    error = new ToolDefException(msg, ex);
-                }
-            }
-        }
-
-        if (error != null) {
-            throw error;
+            throw new ToolDefException(msg, ex);
         }
     }
 
@@ -1131,37 +1087,13 @@ public class BuiltInFileTools {
      *     file failed due to an I/O error, or closing the file failed.
      */
     public static void writefile(String path, List<String> lines, boolean append) {
-        // Create file stream.
-        FileAppStream stream;
-        try {
-            stream = new FileAppStream(path, append);
-        } catch (InputOutputException ex) {
-            String msg = fmt("Failed to open file \"%s\" for writing.", path);
-            throw new ToolDefException(msg, ex);
-        }
-
-        // Write to the file.
-        ToolDefException error = null;
-        try {
+        try (FileAppStream stream = new FileAppStream(path, append)) {
             for (String line: lines) {
                 stream.println(line);
             }
         } catch (InputOutputException ex) {
             String msg = fmt("Failed to write to file \"%s\".", path);
-            error = new ToolDefException(msg, ex);
-        } finally {
-            try {
-                stream.close();
-            } catch (InputOutputException ex) {
-                if (error != null) {
-                    String msg = fmt("Failed to close file \"%s\".", path);
-                    error = new ToolDefException(msg, ex);
-                }
-            }
-        }
-
-        if (error != null) {
-            throw error;
+            throw new ToolDefException(msg, ex);
         }
     }
 }
