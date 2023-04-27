@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.CopyOption;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystemLoopException;
@@ -881,7 +882,7 @@ public class BuiltInFileTools {
 
         // Read the lines.
         List<String> lines = new ToolDefList<>();
-        try (FileReader fileReader = new FileReader(abspath);
+        try (FileReader fileReader = new FileReader(abspath, StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(fileReader))
         {
             String line;
