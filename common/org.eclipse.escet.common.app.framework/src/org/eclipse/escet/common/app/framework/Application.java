@@ -637,9 +637,19 @@ public abstract class Application<T extends IOutputComponent> {
      */
     public void printHelpMessage(AppStream s) {
         printHelpHeader(s);
+
+        s.println();
         printHelpOptions(s);
-        printHelpNotes(s);
+
+        if (getHelpMessageNotes().length > 0) {
+            s.println();
+            printHelpNotes(s);
+        }
+
+        s.println();
         printHelpExitCodes(s);
+
+        s.println();
         printHelpCopyright(s);
     }
 
