@@ -468,6 +468,7 @@ tool list string readlines(string path)
 ----
 
 Read lines of text from a file.
+Uses UTF-8 encoding when reading the file.
 
 _Parameters_
 
@@ -568,6 +569,7 @@ tool writefile(string path, list string lines, bool append = false)
 ----
 
 Writes text to a file.
+Uses UTF-8 encoding when writing the file.
 
 _Parameters_
 
@@ -577,6 +579,7 @@ May contain both `\` and `/` as file separators.
 
 `text`, `lines`::
 The text or lines of text to write to the file.
+In case `lines` are given, a Unix new line character (`\n`) will additionally be written after each line of text.
 
 `append`::
 Whether to append the lines text to the file if it already exists (`true`), or overwrite the file if it already exists (`false`).
