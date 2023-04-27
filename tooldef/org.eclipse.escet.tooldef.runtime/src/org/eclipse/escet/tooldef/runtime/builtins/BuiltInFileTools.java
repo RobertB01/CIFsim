@@ -1068,6 +1068,7 @@ public class BuiltInFileTools {
      */
     public static void writefile(String path, String text, boolean append) {
         try (FileAppStream stream = new FileAppStream(path, append)) {
+            stream.setConvertNewLines(false); // Don't convert new lines. Write raw string.
             stream.print(text);
         } catch (InputOutputException ex) {
             String msg = fmt("Failed to write to file \"%s\".", path);
@@ -1089,6 +1090,8 @@ public class BuiltInFileTools {
      */
     public static void writefile(String path, List<String> lines, boolean append) {
         try (FileAppStream stream = new FileAppStream(path, append)) {
+            stream.setConvertNewLines(false); // Don't convert new lines within the lines. Write raw lines.
+            stream.setUnixNewLineBytes(); // Use Unix new lines after the separate lines.
             for (String line: lines) {
                 stream.println(line);
             }
