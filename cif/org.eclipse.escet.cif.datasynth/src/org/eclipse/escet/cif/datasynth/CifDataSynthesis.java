@@ -765,15 +765,17 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Simplify. That is, because the edge guards are restricted, 'plantInv' will always be 'true'. This ensures
-            // that for an edge with update 'y := y + 1' and state plant invariant 'x != 3' that the edge won't get an
-            // extra guard 'x != 3'. Simplifying is best effort, it may be possible to simplify the guard further.
-            BDD updPredSimplified = updPred.simplify(aut.plantInv);
-            if (updPred.equals(updPredSimplified)) {
-                updPredSimplified.free();
-            } else {
+            // Compute 'guard and plantInv => updPred'. If the backwards applied state plant invariant is already
+            // implied by the current guard and state plant invariant in the source state, we don't need to strengthen
+            // the guard. In that case, replace the predicate by 'true', to not add any restriction.
+            BDD guardAndPlantInv = edge.guard.and(aut.plantInv);
+            BDD implication = guardAndPlantInv.imp(updPred);
+            boolean skip = implication.isOne();
+            guardAndPlantInv.free();
+            implication.free();
+            if (skip) {
                 updPred.free();
-                updPred = updPredSimplified;
+                updPred = aut.factory.one();
             }
 
             if (aut.env.isTerminationRequested()) {
