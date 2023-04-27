@@ -169,8 +169,7 @@ public class OptionCategory {
      *
      * @return The options that are part of this option category, not including any options from sub-categories.
      */
-    @SuppressWarnings("rawtypes")
-    public List<Option> getOptions() {
+    public List<Option<?>> getOptions() {
         return Collections.unmodifiableList(options);
     }
 
