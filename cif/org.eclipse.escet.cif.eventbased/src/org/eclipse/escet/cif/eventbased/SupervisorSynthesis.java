@@ -85,7 +85,7 @@ public class SupervisorSynthesis {
      *
      * <p>
      * Note that some checks produce warning messages rather than rejecting the input. Such checks are technically not a
-     * requirement for performing synthesis. but if such a check fails (and produces a warning), the synthesis result is
+     * requirement for performing synthesis, but if such a check fails (and produces a warning), the synthesis result is
      * unlikely to be useful.
      * </p>
      *
@@ -140,10 +140,20 @@ public class SupervisorSynthesis {
             }
         }
 
+        // Warn for no requirements.
+        if (reqs.isEmpty()) {
+            String msg = "The specification has no requirement automata.";
+            OutputProvider.warn(msg);
+            warnCount++;
+        }
+
+        // Check for at least one plant.
         if (plants.isEmpty()) {
             String msg = "Supervisor synthesis needs at least one plant automaton.";
             throw new InvalidInputException(msg);
         }
+
+        // Check for no marker state.
         if (unmarked) {
             String msg = "Supervisor is empty (no marker states).";
             throw new InvalidModelException(msg);
@@ -170,7 +180,6 @@ public class SupervisorSynthesis {
         }
 
         // Extra non-fatal checks for things that are probably not right.
-
         if (warnEmpty || warnDeadlock) {
             for (Automaton aut: automs) {
                 // Automaton should have a non-empty alphabet.
