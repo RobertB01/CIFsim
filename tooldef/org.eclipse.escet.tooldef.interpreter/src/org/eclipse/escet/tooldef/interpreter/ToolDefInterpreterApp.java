@@ -20,7 +20,9 @@ import java.util.List;
 
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
+import org.eclipse.escet.common.app.framework.options.HelpOption;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
@@ -66,6 +68,15 @@ public class ToolDefInterpreterApp extends Application<IOutputComponent> {
     @Override
     public String getAppDescription() {
         return "The ToolDef interpreter executes ToolDef scripts.";
+    }
+
+    @Override
+    public void printHelpExitCodes(AppStream s) {
+        super.printHelpExitCodes(s);
+        HelpOption.outw(s, "In certain cases, the ToolDef script may produce a different exit code, that overrides "
+                + "the default exit code. For instance, in case an \"exit\" statement with a custom exit code is "
+                + "successfully executed, or in case the \"tooldef\" tool is used to execute a ToolDef script that "
+                + "produces a non-zero exit code and \"ignoreNonZeroExitCode\" is set to \"false\".");
     }
 
     @Override

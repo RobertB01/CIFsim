@@ -217,7 +217,7 @@ public class HelpOption extends BooleanOption {
      * @param msg The 'normal' output (pattern) to wrap and forward.
      * @param args The arguments of the 'normal' output pattern.
      */
-    private static void outw(AppStream s, String msg, Object... args) {
+    public static void outw(AppStream s, String msg, Object... args) {
         for (String txt: wrap(fmt(msg, args))) {
             s.println(txt);
         }
