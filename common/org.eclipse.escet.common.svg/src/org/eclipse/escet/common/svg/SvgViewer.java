@@ -400,9 +400,8 @@ public class SvgViewer extends ControlEditor {
 
         // Save image.
         if (savePath.endsWith(".svg")) {
-            // Get transformer from Apache Xalan.
-            TransformerFactory factory = TransformerFactory
-                    .newInstance("org.apache.xalan.processor.TransformerFactoryImpl", null);
+            // Get transformer.
+            TransformerFactory factory = TransformerFactory.newInstance();
 
             Transformer transformer;
             try {
@@ -424,33 +423,6 @@ public class SvgViewer extends ControlEditor {
             tgtStream = new BufferedOutputStream(tgtStream);
 
             // Set source and target of transformation.
-            //
-            // Note that the target has no 'system id'; setting it is
-            // problematic (see below). Not setting it could
-            // potentially also lead to problems in the future.
-            // However, we'll let it become a problem before
-            // attempting to solve it.
-            //
-            // Problem:
-            // Assume we want to save the contents of the
-            // SVG viewer/visualizer to "/home/some/path/a b/c.svg".
-            // This absolute file path is converted to URI
-            // "file:/home/some/path/a%20b/c.svg" as a URI is required
-            // by the javax.xml.transform.stream.StreamResult
-            // constructor. The space is URL encoded to '%20'. The
-            // Apache Xalan implementation simply strips the prefix to
-            // get the absolute path. It does not decode the URI. The
-            // result is that the directory can not be found, and we
-            // thus get "Failed to save image." as error:
-            // "ERROR: java.io.FileNotFoundException:
-            // /home/some/path/a%20b/c.svg (No such file or directory)
-            // CAUSE: /home/some/path/a%20b/c.svg (No such file or
-            // directory)"
-            // This is a known bug in Apache Xalan, see
-            // https://issues.apache.org/jira/browse/XALANJ-2511 and
-            // https://issues.apache.org/jira/browse/XALANJ-2461.
-            // Once that bug is fixed, we can upgrade to the new
-            // version, and saving SVG images is fixed as well.
             DOMSource src = new DOMSource(document);
             StreamResult tgt = new StreamResult(tgtStream);
 

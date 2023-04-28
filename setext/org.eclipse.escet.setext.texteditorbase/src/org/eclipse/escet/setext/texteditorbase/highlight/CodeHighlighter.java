@@ -17,7 +17,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Iterator;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
 import org.eclipse.escet.setext.texteditorbase.scanners.GenericPartitionScanner;
