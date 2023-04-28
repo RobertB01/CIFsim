@@ -67,6 +67,15 @@ public abstract class AppStream implements Closeable {
     private boolean seenCR = false;
 
     /**
+     * Returns the character set to use to encode strings to bytes.
+     *
+     * @return The character set.
+     */
+    public Charset getCharset() {
+        return charset;
+    }
+
+    /**
      * Set the 'convert new lines' property of the stream. If enabled, EOL sequences are converted to platform specific
      * or custom new line sequences set by the 'new line bytes' property. If disabled, EOL sequences in the stream are
      * left as they are. The property is enabled by default, but can be disabled to allow third party code to write to
@@ -90,6 +99,7 @@ public abstract class AppStream implements Closeable {
      *
      * @return {@code true} if the property is enabled, {@code false} otherwise.
      * @see #setConvertNewLines
+     * @see #setPlatformNewLineBytes
      * @see #setUnixNewLineBytes
      * @see #setWindowsNewLineBytes
      * @see #setNewLineBytes
@@ -110,6 +120,7 @@ public abstract class AppStream implements Closeable {
      * @param bytes The new line bytes to use.
      * @see #setConvertNewLines
      * @see #getConvertNewLines
+     * @see #setPlatformNewLineBytes
      * @see #setUnixNewLineBytes
      * @see #setWindowsNewLineBytes
      * @see #getNewLineBytes
@@ -121,12 +132,31 @@ public abstract class AppStream implements Closeable {
     }
 
     /**
+     * Set the 'new line bytes' property of the stream to use the new line bytes of the current platform. The
+     * platform-specific new line bytes are used when an EOL sequence is to be written and the 'convert new lines'
+     * property is enabled. They are also written when {@link #newline} is called.
+     *
+     * @see #setConvertNewLines
+     * @see #getConvertNewLines
+     * @see #setUnixNewLineBytes
+     * @see #setWindowsNewLineBytes
+     * @see #setNewLineBytes
+     * @see #getNewLineBytes
+     */
+    public void setPlatformNewLineBytes() {
+        synchronized (this) {
+            this.newline = Strings.NL.getBytes(charset);
+        }
+    }
+
+    /**
      * Set the 'new line bytes' property of the stream to use Unix new line bytes. Unix new line bytes ('\n') are used
      * when an EOL sequence is to be written and the 'convert new lines' property is enabled. They are also written when
      * {@link #newline} is called.
      *
      * @see #setConvertNewLines
      * @see #getConvertNewLines
+     * @see #setPlatformNewLineBytes
      * @see #setWindowsNewLineBytes
      * @see #setNewLineBytes
      * @see #getNewLineBytes
@@ -144,6 +174,7 @@ public abstract class AppStream implements Closeable {
      *
      * @see #setConvertNewLines
      * @see #getConvertNewLines
+     * @see #setPlatformNewLineBytes
      * @see #setUnixNewLineBytes
      * @see #setNewLineBytes
      * @see #getNewLineBytes
@@ -163,6 +194,7 @@ public abstract class AppStream implements Closeable {
      * @return The new line bytes being used.
      * @see #setConvertNewLines
      * @see #getConvertNewLines
+     * @see #setPlatformNewLineBytes
      * @see #setUnixNewLineBytes
      * @see #setWindowsNewLineBytes
      * @see #setNewLineBytes
