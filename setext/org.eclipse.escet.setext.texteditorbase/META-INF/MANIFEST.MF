@@ -28,5 +28,5 @@ Require-Bundle: org.eclipse.swt;bundle-version="3.113.0",
  org.eclipse.ui.workbench.texteditor;bundle-version="3.14.0",
  org.eclipse.core.commands;bundle-version="3.9.600",
  org.eclipse.ui.workbench;bundle-version="3.117.0",
- org.apache.commons.lang3;bundle-version="3.1.0"
+ org.apache.commons.commons-text;bundle-version="1.10.0"
 Automatic-Module-Name: org.eclipse.escet.setext.texteditorbase

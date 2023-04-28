@@ -6,7 +6,8 @@ Bundle-Version: 0.10.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.escet.common.java,
  org.eclipse.escet.common.java.removablelist
-Require-Bundle: org.apache.commons.lang3;bundle-version="3.1.0"
+Require-Bundle: org.apache.commons.lang3;bundle-version="3.1.0",
+ org.apache.commons.commons-text;bundle-version="1.10.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.common.java

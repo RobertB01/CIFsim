@@ -126,6 +126,7 @@ org.eclipse.jdt.core.formatter.alignment_for_multiplicative_operator=16
 org.eclipse.jdt.core.formatter.alignment_for_parameterized_type_references=0
 org.eclipse.jdt.core.formatter.alignment_for_parameters_in_constructor_declaration=16
 org.eclipse.jdt.core.formatter.alignment_for_parameters_in_method_declaration=16
+org.eclipse.jdt.core.formatter.alignment_for_permitted_types_in_type_declaration=16
 org.eclipse.jdt.core.formatter.alignment_for_record_components=16
 org.eclipse.jdt.core.formatter.alignment_for_relational_operator=0
 org.eclipse.jdt.core.formatter.alignment_for_resources_in_try=82
