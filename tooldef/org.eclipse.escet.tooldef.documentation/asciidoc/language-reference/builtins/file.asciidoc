@@ -579,7 +579,7 @@ May contain both `\` and `/` as file separators.
 
 `text`, `lines`::
 The text or lines of text to write to the file.
-In case `lines` are given, new line will additionally be written after each line of text.
+In case `lines` are given, a new line will additionally be written after each line of text.
 
 `append`::
 Whether to append the lines text to the file if it already exists (`true`), or overwrite the file if it already exists (`false`).

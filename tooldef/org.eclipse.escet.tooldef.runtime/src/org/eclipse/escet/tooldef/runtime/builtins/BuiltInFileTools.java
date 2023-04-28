@@ -1097,7 +1097,8 @@ public class BuiltInFileTools {
      *
      * @param path The absolute or relative local file system path of the file. May contain both {@code "\"} and
      *     {@code "/"} as file separators.
-     * @param lines The lines of text to write to the file.
+     * @param lines The lines of text to write to the file. A new line will additionally be written after each line of
+     *     text.
      * @param append Whether to append the lines text to the file if it already exists ({@code true}), or overwrite the
      *     file if it already exists ({@code false}).
      * @param newline Indicates how to handle new lines. Use {@code "platform"} to write the text with platform-specific
