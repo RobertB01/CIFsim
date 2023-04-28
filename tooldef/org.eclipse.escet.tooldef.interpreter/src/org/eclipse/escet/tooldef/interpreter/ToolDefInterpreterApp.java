@@ -73,10 +73,10 @@ public class ToolDefInterpreterApp extends Application<IOutputComponent> {
     @Override
     public void printHelpExitCodes(AppStream s) {
         super.printHelpExitCodes(s);
-        HelpOption.outw(s, "In certain cases, the ToolDef script may produce a different exit code, that overrides "
-                + "the default exit code. For instance, in case an \"exit\" statement with a custom exit code is "
-                + "successfully executed, or in case the \"tooldef\" tool is used to execute a ToolDef script that "
-                + "produces a non-zero exit code and \"ignoreNonZeroExitCode\" is set to \"false\".");
+        HelpOption.outw(s, "In certain cases, the ToolDef script may produce an exit code different from the default "
+                + "exit code. For instance, in case an \"exit\" statement with a custom exit code is successfully "
+                + "executed, or in case the \"tooldef\" tool is used to execute a ToolDef script that produces a "
+                + "non-zero exit code and \"ignoreNonZeroExitCode\" is set to \"false\".");
     }
 
     @Override
