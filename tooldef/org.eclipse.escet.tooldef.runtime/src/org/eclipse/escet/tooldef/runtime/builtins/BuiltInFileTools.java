@@ -1065,10 +1065,26 @@ public class BuiltInFileTools {
      * @param text The text to write to the file.
      * @param append Whether to append the text to the file if it already exists ({@code true}), or overwrite the file
      *     if it already exists ({@code false}).
+     * @param newline Indicates how to handle new lines. Use {@code "preserve"} to write the text 'as is', preserving
+     *     the new lines as they are in the given text. Use {@code "platform"} to write the text with platform-specific
+     *     new lines, replacing all new lines by the new lines of the current platform. Use any other string to write
+     *     the text with specific given new lines, replacing all new lines in the given text by the given new lines.
      */
-    public static void writefile(String path, String text, boolean append) {
+    public static void writefile(String path, String text, boolean append, String newline) {
         try (FileAppStream stream = new FileAppStream(path, append)) {
-            stream.setConvertNewLines(false); // Don't convert new lines. Write raw string.
+            switch (newline) {
+                case "preserve":
+                    stream.setConvertNewLines(false);
+                    break;
+                case "platform":
+                    stream.setConvertNewLines(true);
+                    stream.setPlatformNewLineBytes();
+                    break;
+                default:
+                    stream.setConvertNewLines(true);
+                    stream.setNewLineBytes(newline.getBytes(stream.getCharset()));
+                    break;
+            }
             stream.print(text);
         } catch (InputOutputException ex) {
             String msg = fmt("Failed to write to file \"%s\".", path);
@@ -1084,14 +1100,30 @@ public class BuiltInFileTools {
      * @param lines The lines of text to write to the file.
      * @param append Whether to append the lines text to the file if it already exists ({@code true}), or overwrite the
      *     file if it already exists ({@code false}).
+     * @param newline Indicates how to handle new lines. Use {@code "platform"} to write the text with platform-specific
+     *     new lines, replacing all new lines by the new lines of the current platform. Use any other string to write
+     *     the text with specific given new lines, replacing all new lines in the given text by the given new lines. Use
+     *     {@code "preserve"} is not supported.
      * @throws ToolDefException If the path exists but is a directory rather than a regular file, the file does not
      *     exist, but cannot be created, the file could not be opened for writing for any other reason, writing to the
-     *     file failed due to an I/O error, or closing the file failed.
+     *     file failed due to an I/O error, closing the file failed, or {@code "preserve"} is given for {@code newline}.
      */
-    public static void writefile(String path, List<String> lines, boolean append) {
+    public static void writefile(String path, List<String> lines, boolean append, String newline) {
+        if ("preserve".equals(newline)) {
+            throw new ToolDefException(
+                    "Using \"preserve\" for \"newline\" is not supported when writing lines of text.");
+        }
+
         try (FileAppStream stream = new FileAppStream(path, append)) {
-            stream.setConvertNewLines(false); // Don't convert new lines within the lines. Write raw lines.
-            stream.setUnixNewLineBytes(); // Use Unix new lines after the separate lines.
+            stream.setConvertNewLines(true);
+            switch (newline) {
+                case "platform":
+                    stream.setPlatformNewLineBytes();
+                    break;
+                default:
+                    stream.setNewLineBytes(newline.getBytes(stream.getCharset()));
+                    break;
+            }
             for (String line: lines) {
                 stream.println(line);
             }

@@ -96,10 +96,10 @@ tool bool _rmdir(string path, bool force = false):
     return $rmdir(path, force);
 end
 
-tool _writefile(string path, string text, bool append = false):
-    $writefile(path, text, append);
+tool _writefile(string path, string text, bool append = false, string newline = "platform"):
+    $writefile(path, text, append, newline);
 end
 
-tool _writefile(string path, list string lines, bool append = false):
-    $writefile(path, lines, append);
+tool _writefile(string path, list string lines, bool append = false, string newline = "platform"):
+    $writefile(path, lines, append, newline);
 end

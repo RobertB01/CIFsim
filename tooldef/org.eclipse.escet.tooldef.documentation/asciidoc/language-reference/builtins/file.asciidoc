@@ -564,8 +564,8 @@ indexterm:[writefile]
 
 [source, tooldef]
 ----
-tool writefile(string path, string text,       bool append = false)
-tool writefile(string path, list string lines, bool append = false)
+tool writefile(string path, string text,       bool append = false, string newline = "platform")
+tool writefile(string path, list string lines, bool append = false, string newline = "platform")
 ----
 
 Writes text to a file.
@@ -579,10 +579,33 @@ May contain both `\` and `/` as file separators.
 
 `text`, `lines`::
 The text or lines of text to write to the file.
-In case `lines` are given, a Unix new line character (`\n`) will additionally be written after each line of text.
+In case `lines` are given, new line will additionally be written after each line of text.
 
 `append`::
 Whether to append the lines text to the file if it already exists (`true`), or overwrite the file if it already exists (`false`).
+
+`newline`::
+Indicates how to handle new lines:
++
+[cols="1,5"]
+|===
+| Value | Effect
+
+| `"platform"`
+| Write the text or lines of text with platform-specific new lines.
+All new lines in the given `text` or `lines` are replaced by the new lines of the current platform.
+The new lines of the current platform are also used after each of the `lines`.
+
+|`"preserve"`
+| Write the `text` 'as is'.
+The new lines as they are in the given `text` are preserved.
+Using `"preserve"` is not supported when writing `lines`.
+
+| Any other value
+| Write the text or lines of text with the given new lines.
+All new lines in the given `text` or `lines` are replaced by the given new line text.
+The given new line text is also used after each of the `lines`.
+|===
 
 _Runtime errors_
 
@@ -591,3 +614,4 @@ _Runtime errors_
 * If the file can not be opened for writing for any other reason.
 * If writing to the file fails due to an I/O error.
 * If closing the file fails.
+* If `"preserve"` is given for `newline` when writing `lines`.
