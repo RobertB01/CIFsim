@@ -593,8 +593,8 @@ Indicates how to handle new lines:
 
 | `"platform"`
 | Write the text or lines of text with platform-specific new lines.
-All new lines in the given `text` or `lines` are replaced by the new lines of the current platform.
-The new lines of the current platform are also used after each of the `lines`.
+All new lines in the given `text` or `lines` are replaced by the new line of the current platform.
+The new line of the current platform is also written after each of the `lines`.
 
 |`"preserve"`
 | Write the `text` 'as is'.
@@ -602,9 +602,9 @@ The new lines as they are in the given `text` are preserved.
 Using `"preserve"` is not supported when writing `lines`.
 
 | Any other value
-| Write the text or lines of text with the given new lines.
+| Write the text or lines of text with the given new line.
 All new lines in the given `text` or `lines` are replaced by the given new line text.
-The given new line text is also used after each of the `lines`.
+The given new line text is also written after each of the `lines`.
 |===
 
 _Runtime errors_

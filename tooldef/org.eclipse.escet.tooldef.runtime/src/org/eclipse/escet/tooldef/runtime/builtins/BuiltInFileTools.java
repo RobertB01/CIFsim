@@ -1067,8 +1067,8 @@ public class BuiltInFileTools {
      *     if it already exists ({@code false}).
      * @param newline Indicates how to handle new lines. Use {@code "preserve"} to write the text 'as is', preserving
      *     the new lines as they are in the given text. Use {@code "platform"} to write the text with platform-specific
-     *     new lines, replacing all new lines by the new lines of the current platform. Use any other string to write
-     *     the text with specific given new lines, replacing all new lines in the given text by the given new lines.
+     *     new lines, replacing all new lines by the new line of the current platform. Use any other string to write the
+     *     text with specific given new line, replacing all new lines in the given text by the given new line.
      */
     public static void writefile(String path, String text, boolean append, String newline) {
         try (FileAppStream stream = new FileAppStream(path, append)) {
@@ -1102,8 +1102,8 @@ public class BuiltInFileTools {
      * @param append Whether to append the lines text to the file if it already exists ({@code true}), or overwrite the
      *     file if it already exists ({@code false}).
      * @param newline Indicates how to handle new lines. Use {@code "platform"} to write the text with platform-specific
-     *     new lines, replacing all new lines by the new lines of the current platform. Use any other string to write
-     *     the text with specific given new lines, replacing all new lines in the given text by the given new lines. Use
+     *     new lines, replacing all new lines by the new line of the current platform. Use any other string to write the
+     *     text with specific given new line, replacing all new lines in the given text by the given new line. Using
      *     {@code "preserve"} is not supported.
      * @throws ToolDefException If the path exists but is a directory rather than a regular file, the file does not
      *     exist, but cannot be created, the file could not be opened for writing for any other reason, writing to the
