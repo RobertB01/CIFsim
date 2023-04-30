@@ -49,8 +49,19 @@ pipeline {
     }
 
     stages {
+        stage('Initialize GPG') {
+            steps {
+                withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
+                    sh 'gpg --batch --import "${KEYRING}"'
+                    sh 'for fpr in $(gpg --list-keys --with-colons | awk -F: \'/fpr:/ {print $10}\' | sort -u); do \
+                          echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key ${fpr} trust; \
+                        done'
+                }
+            }
+        }
         stage('Build & Test') {
             steps {
+                withCredentials([string(credentialsId: 'gpg-passphrase', variable: 'KEYRING_PASSPHRASE')]) {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
                         # Print versions.
@@ -76,6 +87,7 @@ pipeline {
                         # Sign releases. Determined based on release version tag name.
                         if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             BUILD_ARGS="$BUILD_ARGS -Psign"
+                            BUILD_ARGS="$BUILD_ARGS -Dgpg.passphrase=${KEYRING_PASSPHRASE}"
                         fi
 
                         # Override the 'escet.version.enduser' property for releases. Remains 'dev' otherwise.
@@ -102,7 +114,7 @@ pipeline {
                         # Perform build.
                         ./build.sh $BUILD_ARGS
                     '''
-                }
+                }}
             }
 
             post {
