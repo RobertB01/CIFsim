@@ -40,6 +40,19 @@
             <repository location="https://download.eclipse.org/justj/jres/17/updates/release/17.0.5"/>
         </location>
         <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven">
+            <feature id="org.apache.commons.text.feature" label="Apache Commons Text" provider-name="Eclipse ESCET" version="1.10.0.qualifier">
+                <description url="https://commons.apache.org/proper/commons-text">
+                    Apache Commons Text is a library focused on algorithms working on strings.
+                </description>
+                <copyright url="https://github.com/apache/commons-text/blob/master/NOTICE.txt">
+                    Copyright (c) The Apache Software Foundation
+                </copyright>
+                <license url="http://www.apache.org/licenses/LICENSE-2.0">
+                    Apache License, Version 2.0, see <a href="http://www.apache.org/licenses/LICENSE-2.0"
+                    >http://www.apache.org/licenses/LICENSE-2.0</a>.
+                </license>
+                <plugin download-size="0" id="org.apache.commons.commons-text" install-size="0" unpack="false" version="0.0.0"/>
+            </feature>
             <dependencies>
                 <dependency>
                     <groupId>org.apache.commons</groupId>
