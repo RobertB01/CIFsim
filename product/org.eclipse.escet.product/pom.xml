@@ -183,6 +183,25 @@
             <id>sign</id>
             <build>
                 <plugins>
+                    <!-- Sign third party dependencies obtained from Maven central, using GPG signing. -->
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-gpg-plugin</artifactId>
+                        <version>${tycho.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-gpg</id>
+                                <goals>
+                                    <goal>sign-p2-artifacts</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>0C60515FCC4D6E5A</keyname> <!-- Eclipse ESCET public key. -->
+                                    <skipIfJarsigned>true</skipIfJarsigned> <!-- Sign if not already JAR-signed. -->
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <!-- Sign Windows executables. -->
                     <plugin>
                         <groupId>org.eclipse.cbi.maven.plugins</groupId>
