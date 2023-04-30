@@ -52,10 +52,13 @@ pipeline {
         stage('Initialize GPG') {
             steps {
                 withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
-                    sh 'gpg --batch --import "${KEYRING}"'
-                    sh 'for fpr in $(gpg --list-keys --with-colons | awk -F: \'/fpr:/ {print $10}\' | sort -u); do \
-                          echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key ${fpr} trust; \
-                        done'
+                    # Only sign certain branches, see below for details.
+                    if [[ "$GIT_BRANCH" == "568-ensure-plugins-that-are-not-jar-signed-are-pgp-signed" || "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                        sh 'gpg --batch --import "${KEYRING}"'
+                        sh 'for fpr in $(gpg --list-keys --with-colons | awk -F: \'/fpr:/ {print $10}\' | sort -u); do \
+                              echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key ${fpr} trust; \
+                            done'
+                    fi
                 }
             }
         }
