@@ -487,7 +487,7 @@ SPDX-License-Identifier: MIT
                     <plugin>
                         <groupId>org.eclipse.tycho</groupId>
                         <artifactId>tycho-gpg-plugin</artifactId>
-                        <version>${tycho-version}</version>
+                        <version>${tycho.version}</version>
                         <executions>
                             <execution>
                                 <id>sign-gpg</id>
