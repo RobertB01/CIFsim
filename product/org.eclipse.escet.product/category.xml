@@ -17,6 +17,12 @@
    <feature id="com.github.javabdd.feature.source">
       <category name="org.eclipse.escet.thirdparty.category"/>
    </feature>
+   <feature id="org.apache.commons.text.feature">
+      <category name="org.eclipse.escet.thirdparty.category"/>
+   </feature>
+   <feature id="org.apache.commons.text.feature.source">
+      <category name="org.eclipse.escet.thirdparty.category"/>
+   </feature>
    <feature id="org.eclipse.escet.chi.feature">
       <category name="org.eclipse.escet.chi.category"/>
    </feature>
@@ -79,7 +85,7 @@
    <category-def name="org.eclipse.escet.thirdparty.category" label="Eclipse ESCET Third Party (Incubation)">
       <category name="org.eclipse.escet.category"/>
       <description>
-         Eclipse ESCET third party dependencies that are distributed by the Eclipse ESCET project itself.
+         Eclipse ESCET third party dependencies that are redistributed by the Eclipse ESCET project.
       </description>
    </category-def>
    <category-def name="org.eclipse.escet.tooldef.category" label="Eclipse ESCET ToolDef (Incubation)">
