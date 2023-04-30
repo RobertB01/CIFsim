@@ -85,7 +85,7 @@ pipeline {
                         # Configure 'sign' profile for build.
                         # Sign 'master' branch, to allow checking release signing before deployment.
                         # Sign releases. Determined based on release version tag name.
-                        if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                        if [[ "$GIT_BRANCH" == "568-ensure-plugins-that-are-not-jar-signed-are-pgp-signed" || "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             BUILD_ARGS="$BUILD_ARGS -Psign"
                             BUILD_ARGS="$BUILD_ARGS -Dgpg.passphrase=${KEYRING_PASSPHRASE}"
                         fi
