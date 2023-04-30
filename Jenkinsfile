@@ -52,13 +52,15 @@ pipeline {
         stage('Initialize GPG') {
             steps {
                 withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
-                    # Only sign certain branches, see below for details.
-                    if [[ "$GIT_BRANCH" == "568-ensure-plugins-that-are-not-jar-signed-are-pgp-signed" || "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
-                        sh 'gpg --batch --import "${KEYRING}"'
-                        sh 'for fpr in $(gpg --list-keys --with-colons | awk -F: \'/fpr:/ {print $10}\' | sort -u); do \
-                              echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key ${fpr} trust; \
-                            done'
-                    fi
+                    sh '''
+                        # Only sign certain branches. See similar condition below for details.
+                        if [[ "$GIT_BRANCH" == "568-ensure-plugins-that-are-not-jar-signed-are-pgp-signed" || "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                            gpg --batch --import "${KEYRING}"
+                            for fpr in $(gpg --list-keys --with-colons | awk -F: \'/fpr:/ {print $10}\' | sort -u); do
+                              echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key ${fpr} trust;
+                            done
+                        fi
+                    '''
                 }
             }
         }
@@ -88,6 +90,7 @@ pipeline {
                         # Configure 'sign' profile for build.
                         # Sign 'master' branch, to allow checking release signing before deployment.
                         # Sign releases. Determined based on release version tag name.
+                        # This condition must match a similar condition above.
                         if [[ "$GIT_BRANCH" == "568-ensure-plugins-that-are-not-jar-signed-are-pgp-signed" || "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             BUILD_ARGS="$BUILD_ARGS -Psign"
                             BUILD_ARGS="$BUILD_ARGS -Dgpg.passphrase=${KEYRING_PASSPHRASE}"
