@@ -47,8 +47,6 @@
                     <version>5.0.0</version>
                     <type>jar</type>
                 </dependency>
-            </dependencies>
-            <dependencies>
                 <dependency>
                     <groupId>org.apache.commons</groupId>
                     <artifactId>commons-text</artifactId>
