@@ -11,12 +11,6 @@
  -->
 
 <site>
-   <feature id="com.github.javabdd.feature">
-      <category name="org.eclipse.escet.thirdparty.category"/>
-   </feature>
-   <feature id="com.github.javabdd.feature.source">
-      <category name="org.eclipse.escet.thirdparty.category"/>
-   </feature>
    <feature id="org.eclipse.escet.chi.feature">
       <category name="org.eclipse.escet.chi.category"/>
    </feature>
