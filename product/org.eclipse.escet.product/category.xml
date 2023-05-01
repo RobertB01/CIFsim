@@ -17,12 +17,6 @@
    <feature id="com.github.javabdd.feature.source">
       <category name="org.eclipse.escet.thirdparty.category"/>
    </feature>
-   <feature id="org.apache.commons.text.feature">
-      <category name="org.eclipse.escet.thirdparty.category"/>
-   </feature>
-   <feature id="org.apache.commons.text.feature.source">
-      <category name="org.eclipse.escet.thirdparty.category"/>
-   </feature>
    <feature id="org.eclipse.escet.chi.feature">
       <category name="org.eclipse.escet.chi.category"/>
    </feature>
@@ -46,6 +40,12 @@
    </feature>
    <feature id="org.eclipse.escet.setext.feature.source">
       <category name="org.eclipse.escet.setext.category"/>
+   </feature>
+   <feature id="org.eclipse.escet.thirdparty.feature">
+      <category name="org.eclipse.escet.thirdparty.category"/>
+   </feature>
+   <feature id="org.eclipse.escet.thirdparty.feature.source">
+      <category name="org.eclipse.escet.thirdparty.category"/>
    </feature>
    <feature id="org.eclipse.escet.tooldef.feature">
       <category name="org.eclipse.escet.tooldef.category"/>
