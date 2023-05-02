@@ -15,11 +15,14 @@ package org.eclipse.escet.tooldef.interpreter;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.HelpOption;
@@ -31,8 +34,19 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.typechecker.SemanticProblem;
+import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
+import org.eclipse.escet.setext.runtime.DebugMode;
+import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 import org.eclipse.escet.tooldef.io.ToolDefReader;
+import org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors;
 import org.eclipse.escet.tooldef.metamodel.tooldef.Script;
+import org.eclipse.escet.tooldef.metamodel.tooldef.expressions.ToolInvokeExpression;
+import org.eclipse.escet.tooldef.metamodel.tooldef.statements.ToolInvokeStatement;
+import org.eclipse.escet.tooldef.parser.ToolDefInvokeParser;
+import org.eclipse.escet.tooldef.typechecker.CheckerContext;
+import org.eclipse.escet.tooldef.typechecker.ToolDefTypeChecker;
 
 /** ToolDef interpreter application. */
 public class ToolDefInterpreterApp extends Application<IOutputComponent> {
@@ -98,15 +112,55 @@ public class ToolDefInterpreterApp extends Application<IOutputComponent> {
         // Get script path.
         String scriptPath = Paths.resolve(inputPath);
 
-        // Execute script.
+        // Get tool invocation, if any.
+        String invocationText = ToolDefInvokeOption.getInvocationText();
+        ToolInvokeStatement invocation = invocationText == null ? null
+                : getInvocation(invocationText, reader.getTypeChecker());
+
+        // Execute script or tool invocation.
+        String whatIsExecuted = (invocation == null) ? "script" : "tool";
         if (dbgEnabled) {
-            dbg("Executing ToolDef script.");
+            dbg("Executing ToolDef %s.", whatIsExecuted);
         }
-        int exitCode = ToolDefInterpreter.execute(script, scriptPath, this);
+        int exitCode = ToolDefInterpreter.execute(script, scriptPath, invocation, this);
         if (dbgEnabled) {
-            dbg("Finished executing ToolDef script (exit code %d).", exitCode);
+            dbg("Finished executing ToolDef %s (exit code %d).", whatIsExecuted, exitCode);
         }
         return exitCode;
+    }
+
+    /**
+     * Get the tool invocation for the given tool invocation text, by parsing and type checking it.
+     *
+     * @param invocationText The tool invocation text, in ToolDef textual syntax. Maybe
+     * @param tchecker The type checker use to check the ToolDef script.
+     * @return The tool invocation.
+     */
+    private ToolInvokeStatement getInvocation(String invocationText, ToolDefTypeChecker tchecker) {
+        // Parse it.
+        ToolDefInvokeParser parser = new ToolDefInvokeParser();
+        ToolInvokeExpression invocationExpr;
+        try {
+            invocationExpr = parser.parseString(invocationText, CheckerContext.TOOL_INVOCATION_LOCATION, null,
+                    DebugMode.NONE);
+        } catch (SyntaxException e) {
+            String msg = fmt("The tool invocation provided via the 'Tool invocation' option is invalid: \"%s\".",
+                    invocationText);
+            throw new InvalidOptionException(msg, e);
+        }
+        Assert.check(parser.getWarnings().isEmpty());
+
+        // Type check it. Ignore any warnings.
+        ToolInvokeStatement invocationStatement = ToolDefConstructors.newToolInvokeStatement(invocationExpr, null);
+        List<SemanticProblem> problems = tchecker.typeCheck(invocationStatement);
+        List<SemanticProblem> errors = problems.stream().filter(p -> p.severity == SemanticProblemSeverity.ERROR)
+                .toList();
+        if (!errors.isEmpty()) {
+            String msg = fmt("The tool invocation provided via the 'Tool invocation' option is invalid: \"%s\":\n",
+                    invocationText) + errors.stream().map(p -> " - " + p.toString()).collect(Collectors.joining("\n"));
+            throw new InvalidOptionException(msg);
+        }
+        return invocationStatement;
     }
 
     @Override
