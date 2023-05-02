@@ -97,9 +97,10 @@ import org.eclipse.escet.tooldef.metamodel.tooldef.types.ToolDefType;
  * <ul>
  * <li>{@link ToolDefScanner}</li>
  * <li>{@link ToolDefParser}</li>
+ * <li>{@link ToolDefInvokeParser}</li>
  * </ul>
  */
-public final class ToolDefHooks implements ToolDefScanner.Hooks, ToolDefParser.Hooks {
+public final class ToolDefHooks implements ToolDefScanner.Hooks, ToolDefParser.Hooks, ToolDefInvokeParser.Hooks {
     /** The parser that owns the call back hooks. */
     private Parser<?> parser;
 
