@@ -39,7 +39,7 @@ public class DefaultVariableStorage implements VariableStorage {
     private final NameGenerator nameGenerator;
 
     /** Names of converted declarations. */
-    private final Map<Declaration, String> variableNames = map();
+    private final Map<Declaration, PlcVariable> variables = map();
 
     /**
      * Constructor of the {@link DefaultVariableStorage} class.
@@ -62,7 +62,8 @@ public class DefaultVariableStorage implements VariableStorage {
     public void addStateVariable(Declaration decl, CifType type) {
         PlcType varType = typeGen.convertType(type);
         String varName = nameGenerator.generateGlobalName(decl);
-        variableNames.put(decl, varName);
-        codeStorage.addStateVariable(new PlcVariable(varName, varType));
+        PlcVariable plcVar = new PlcVariable(varName, varType);
+        variables.put(decl, plcVar);
+        codeStorage.addStateVariable(plcVar);
     }
 }
