@@ -17,6 +17,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 
 /** Interface for storing and retrieving globally used variables in the PLC program. */
 public interface VariableStorage {
@@ -27,4 +28,14 @@ public interface VariableStorage {
      * @param type CIF type of the variable.
      */
     void addStateVariable(Declaration variable, CifType type);
+
+    /** Make the variables ready for use in the PLC code. */
+    void process();
+
+    /**
+     * Provide access to PLC equivalents of the globally used CIF state for expression generation.
+     *
+     * @return Access to PLC equivalents of the globally used CIF state for expression generation.
+     */
+    public CifDataProvider getRootCifDataProvider();
 }

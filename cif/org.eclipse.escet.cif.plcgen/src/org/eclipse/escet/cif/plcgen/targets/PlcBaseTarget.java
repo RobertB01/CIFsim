@@ -110,17 +110,25 @@ public abstract class PlcBaseTarget implements PlcTarget {
         VariableStorage varStorage = new DefaultVariableStorage(this, typeGen, codeStorage, nameGenerator);
         CifProcessor cifProcessor = new CifProcessor(this, settings, varStorage, typeGen);
 
-        // Perform the conversion.
+        // Check and normalize the CIF specification, and extract relevant information.from it.
         cifProcessor.process();
         if (settings.shouldTerminate.get()) {
             return;
         }
 
+        // Make the globally used variables ready for use in the PLC code.
+        varStorage.process();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
+
+        // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();
         if (settings.shouldTerminate.get()) {
             return;
         }
 
+        // And write it.
         codeStorage.writeOutput();
     }
 
