@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.tooldef.interpreter;
 
-import static org.eclipse.escet.common.java.Lists.list;
-
 import java.util.List;
 
 import org.eclipse.escet.common.app.framework.AppEnv;
@@ -50,7 +48,7 @@ public class ToolDefInterpreter {
         ExecContext ctxt = new ExecContext(app);
 
         // Get statements to execute.
-        List<Declaration> statements = (invocation == null) ? script.getDeclarations() : list(invocation);
+        List<Declaration> statements = (invocation == null) ? script.getDeclarations() : List.of(invocation);
 
         // Execute the statements.
         int exitCode;
