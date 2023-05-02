@@ -1,0 +1,2 @@
+ERROR: The tool invocation provided via the 'Tool invocation' option is invalid: "t()":
+ - Semantic error at line 1, column 2: Cannot invoke tool "t" (1 overload) for the given arguments: no argument for mandatory parameter "x".

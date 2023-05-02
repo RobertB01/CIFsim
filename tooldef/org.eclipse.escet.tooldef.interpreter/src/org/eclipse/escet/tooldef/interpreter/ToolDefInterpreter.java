@@ -19,6 +19,7 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.tooldef.metamodel.tooldef.Declaration;
 import org.eclipse.escet.tooldef.metamodel.tooldef.Script;
+import org.eclipse.escet.tooldef.metamodel.tooldef.statements.ToolInvokeStatement;
 import org.eclipse.escet.tooldef.runtime.ExitException;
 
 /** ToolDef interpreter. */
@@ -34,10 +35,11 @@ public class ToolDefInterpreter {
      * @param script The ToolDef script to execute.
      * @param path The absolute local file system path to the script. The path contains file separators for the current
      *     platform.
+     * @param invocation The tool invocation to execute, or {@code null} to execute the entire script.
      * @param app The ToolDef interpreter application.
      * @return The exit code.
      */
-    public static int execute(Script script, String path, ToolDefInterpreterApp app) {
+    public static int execute(Script script, String path, ToolInvokeStatement invocation, ToolDefInterpreterApp app) {
         // Store script path. Used by the 'scriptpath' built-in tool.
         final String propName = "org.eclipse.escet.tooldef.interpreter.scriptpath";
         AppEnv.setProperty(propName, path);
@@ -45,12 +47,18 @@ public class ToolDefInterpreter {
         // Create new execution context.
         ExecContext ctxt = new ExecContext(app);
 
-        // Execute statements.
+        // Get statements to execute.
+        List<Declaration> statements = (invocation == null) ? script.getDeclarations() : List.of(invocation);
+
+        // Execute the statements.
         int exitCode;
         try {
-            List<Declaration> statements = script.getDeclarations();
             ToolDefReturnValue retValue = ToolDefExec.execute(statements, ctxt);
-            Assert.check(retValue == null);
+
+            // No return value for a script.
+            Assert.implies(invocation == null, retValue == null);
+
+            // Ignore the return value in case a tool invocation is executed.
             exitCode = 0;
         } catch (ExitException ex) {
             exitCode = ex.exitCode;

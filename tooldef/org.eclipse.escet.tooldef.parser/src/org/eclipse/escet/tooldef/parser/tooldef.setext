@@ -188,6 +188,7 @@ end
 end
 
 @main Script : org.eclipse.escet.tooldef.parser.ToolDefParser;
+@start ToolInvokeExpression: org.eclipse.escet.tooldef.parser.ToolDefInvokeParser;
 
 @import java.util.List;
 @import org.eclipse.escet.tooldef.metamodel.tooldef;

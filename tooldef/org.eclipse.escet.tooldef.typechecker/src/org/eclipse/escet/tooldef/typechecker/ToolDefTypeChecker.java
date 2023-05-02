@@ -33,6 +33,7 @@ import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
+import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.common.typechecker.TypeChecker;
 import org.eclipse.escet.setext.runtime.Token;
 import org.eclipse.escet.tooldef.common.ToolDefTextUtils;
@@ -45,6 +46,7 @@ import org.eclipse.escet.tooldef.metamodel.tooldef.ToolDefImport;
 import org.eclipse.escet.tooldef.metamodel.tooldef.ToolDefTool;
 import org.eclipse.escet.tooldef.metamodel.tooldef.TypeDecl;
 import org.eclipse.escet.tooldef.metamodel.tooldef.statements.Statement;
+import org.eclipse.escet.tooldef.metamodel.tooldef.statements.ToolInvokeStatement;
 
 /** ToolDef type checker. */
 public class ToolDefTypeChecker extends TypeChecker<Script, Script> {
@@ -95,6 +97,7 @@ public class ToolDefTypeChecker extends TypeChecker<Script, Script> {
     protected Script transRoot(Script script) {
         // Sanity checking.
         Assert.check(script.getName() == null);
+        Assert.check(rootCtxt == null);
 
         // Initialize context.
         CheckerContext ctxt = new CheckerContext(this, script);
@@ -125,6 +128,24 @@ public class ToolDefTypeChecker extends TypeChecker<Script, Script> {
 
         // Return the script.
         return script;
+    }
+
+    /**
+     * Type check a tool invocation statement. A script must have been type checked by invoking
+     * {@link #typeCheck(Script)} prior to invoking this method. The tool to is resolved within that script.
+     *
+     * @param invocation The tool invocation statement to be type checked. Is modified in-place.
+     * @return Any problems found by the type checker.
+     */
+    public List<SemanticProblem> typeCheck(ToolInvokeStatement invocation) {
+        preparePostUse();
+        try {
+            tcheck(invocation, rootCtxt);
+        } catch (SemanticException e) {
+            // Ignore type checking finding a problem. The problems are reported back to the caller.
+        }
+        List<SemanticProblem> problems = finalizePostUse();
+        return problems;
     }
 
     /**
