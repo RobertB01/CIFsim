@@ -119,10 +119,12 @@ public class ToolDefInterpreterApp extends Application<IOutputComponent> {
     protected OptionCategory getAllOptions() {
         OptionCategory generalCat = getGeneralOptionCategory();
 
-        List<Option> transOpts = list();
-        transOpts.add(Options.getInstance(InputFileOption.class));
-        List<OptionCategory> transSubCats = list();
-        OptionCategory transCat = new OptionCategory("Interpreter", "Interpreter options.", transSubCats, transOpts);
+        List<Option> interpreterOpts = list();
+        interpreterOpts.add(Options.getInstance(InputFileOption.class));
+        interpreterOpts.add(Options.getInstance(ToolDefInvokeOption.class));
+        List<OptionCategory> interpreterSubCats = list();
+        OptionCategory transCat = new OptionCategory("Interpreter", "Interpreter options.", interpreterSubCats,
+                interpreterOpts);
 
         List<OptionCategory> cats = list(generalCat, transCat);
         OptionCategory options = new OptionCategory("ToolDef Interpreter Options",
