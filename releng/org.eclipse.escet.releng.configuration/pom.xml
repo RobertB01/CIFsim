@@ -467,14 +467,15 @@ SPDX-License-Identifier: MIT
             <id>sign</id>
             <build>
                 <plugins>
-                    <!-- Sign JARs. -->
+                    <!-- JAR signing, for JARs that are created from sources in our own repo. -->
+                    <!-- GPG signing, for third party dependencies is configured in org.eclipse.escet.product. -->
                     <plugin>
                         <groupId>org.eclipse.cbi.maven.plugins</groupId>
                         <artifactId>eclipse-jarsigner-plugin</artifactId>
                         <version>${eclipse.cbi.version}</version>
                         <executions>
                             <execution>
-                                <id>sign</id>
+                                <id>sign-jar</id>
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>

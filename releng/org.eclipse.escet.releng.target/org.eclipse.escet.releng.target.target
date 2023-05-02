@@ -42,6 +42,12 @@
         <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven">
             <dependencies>
                 <dependency>
+                    <groupId>com.github.com-github-javabdd</groupId>
+                    <artifactId>com.github.javabdd</artifactId>
+                    <version>5.0.0</version>
+                    <type>jar</type>
+                </dependency>
+                <dependency>
                     <groupId>org.apache.commons</groupId>
                     <artifactId>commons-text</artifactId>
                     <version>1.10.0</version>
