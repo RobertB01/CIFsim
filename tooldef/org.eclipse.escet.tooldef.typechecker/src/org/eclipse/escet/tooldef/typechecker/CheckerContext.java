@@ -57,6 +57,9 @@ import org.eclipse.escet.tooldef.metamodel.tooldef.types.ToolDefType;
 
 /** ToolDef type checker context/scope. */
 public class CheckerContext extends PositionObjectImpl {
+    /** The location for tool invocations provided via the 'Tool invocation' option of the ToolDef interpreter. */
+    public static final String TOOL_INVOCATION_LOCATION = "/<invoke>";
+
     /** The ToolDef type checker to use. */
     public final ToolDefTypeChecker tchecker;
 
@@ -160,8 +163,10 @@ public class CheckerContext extends PositionObjectImpl {
      * @param args The message arguments.
      */
     public void addProblem(Message msg, TextPosition position, String... args) {
-        // Make sure the position information is valid for the current file.
-        if (position == null || !position.location.equals(tchecker.getSourceFilePath())) {
+        // Make sure the position information is valid for the current file or tool invocation.
+        if (position != null && position.location.equals(TOOL_INVOCATION_LOCATION)) {
+            // Error in tool invocation provided via the ToolDef interpreter's 'Tool invocation' option.
+        } else if (position == null || !position.location.equals(tchecker.getSourceFilePath())) {
             String inMsg = msg.severity.toString() + ": " + msg.format(args);
             Exception inner = new RuntimeException(inMsg);
             String exMsg = (position == null) ? "Missing position info" : "Position info wrong file";
