@@ -14,10 +14,7 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
-
-import java.util.Map;
 
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
@@ -30,8 +27,6 @@ import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.cif2plc.CifToPlcPreChecker;
 import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
@@ -65,7 +60,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -91,39 +85,29 @@ public class CifProcessor {
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
 
+    /** Storage and retrieval of globally used variables in the PLC. */
+    private final VariableStorage varStorage;
+
     /** Type generator. */
     private final TypeGenerator typeGen;
-
-    /** PLC code storage and writer. */
-    private final PlcCodeStorage codeStorage;
-
-    /** Generator for obtaining clash-free names in the generated code. */
-    private final NameGenerator nameGenerator;
-
-    /** Names of converted declarations. */
-    private final Map<Declaration, String> variableNames = map();
 
     /**
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
      *
      * @param target PLC target to generate code for.
      * @param settings Configuration to use.
+     * @param varStorage Storage and retrieval of globally used variables in the PLC.
      * @param typeGen Type generator.
-     * @param codeStorage PLC code storage and writer.
-     * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public CifProcessor(PlcTarget target, PlcGenSettings settings, TypeGenerator typeGen, PlcCodeStorage codeStorage,
-            NameGenerator nameGenerator)
-    {
+    public CifProcessor(PlcTarget target, PlcGenSettings settings, VariableStorage varStorage, TypeGenerator typeGen) {
         this.target = target;
         inputPath = settings.inputPath;
         absInputPath = settings.absInputPath;
         simplifyValues = settings.simplifyValues;
         enumConversion = settings.enumConversion;
         warnOutput = settings.warnOutput;
+        this.varStorage = varStorage;
         this.typeGen = typeGen;
-        this.codeStorage = codeStorage;
-        this.nameGenerator = nameGenerator;
     }
 
     /** Process the input CIF specification, extracting the relevant information for PLC code generation. */
@@ -137,9 +121,9 @@ public class CifProcessor {
         // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
             if (decl instanceof DiscVariable discVar) {
-                convertVariable(decl, discVar.getType());
+                varStorage.addStateVariable(decl, discVar.getType());
             } else if (decl instanceof InputVariable inpVar) {
-                convertVariable(decl, inpVar.getType());
+                varStorage.addStateVariable(decl, inpVar.getType());
             } else if (decl instanceof EnumDecl enumDecl) {
                 typeGen.convertEnumDecl(enumDecl);
             }
@@ -148,20 +132,6 @@ public class CifProcessor {
             // TODO Initial value -> precheckers restrict to constant initial value.
             // TODO Extend allowed initial values by computing at runtime.
         }
-    }
-
-    /**
-     * Convert a CIF variable and add it to the global variable table in the PLC.
-     *
-     * @param decl Discrete variable or input variable to convert.
-     * @param type Type of the variable.
-     */
-    private void convertVariable(Declaration decl, CifType type) {
-        PlcType varType = typeGen.convertType(type);
-        String varName = nameGenerator.generateGlobalName(decl);
-        variableNames.put(decl, varName);
-
-        codeStorage.addStateVariable(new PlcVariable(varName, varType));
     }
 
     /**

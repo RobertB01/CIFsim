@@ -21,9 +21,11 @@ import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.DefaultVariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 
 /** Base class for generating a {@link PlcProject}. */
@@ -105,7 +107,8 @@ public abstract class PlcBaseTarget implements PlcTarget {
         NameGenerator nameGenerator = new DefaultNameGenerator(settings);
         PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
         TypeGenerator typeGen = new DefaultTypeGenerator(this, settings, nameGenerator, codeStorage);
-        CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameGenerator);
+        VariableStorage varStorage = new DefaultVariableStorage(this, typeGen, codeStorage, nameGenerator);
+        CifProcessor cifProcessor = new CifProcessor(this, settings, varStorage, typeGen);
 
         // Perform the conversion.
         cifProcessor.process();
