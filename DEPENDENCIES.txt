@@ -1,3 +1,4 @@
+maven/mavencentral/com.github.com-github-javabdd/com.github.javabdd/5.0.0, LGPL-2.0-or-later, approved, #2530
 maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, Apache-2.0, approved, #20
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.11.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.google.guava/failureaccess/1.0.1, Apache-2.0, approved, CQ22654
@@ -42,7 +43,6 @@ maven/mavencentral/org.osgi/osgi.annotation/8.1.0, Apache-2.0, approved, #1985
 maven/mavencentral/org.ow2.sat4j/org.ow2.sat4j.core/2.3.6, (EPL-1.0 OR LGPL-2.0-or-later) AND MIT, approved, #1929
 maven/mavencentral/org.ow2.sat4j/org.ow2.sat4j.pb/2.3.6, (EPL-1.0 OR LGPL-2.1-or-later) AND MIT, approved, #1928
 maven/mavencentral/org.tukaani/xz/1.9, LicenseRef-Public-Domain, approved, CQ23498
-p2/orbit/p2.eclipse.plugin/com.github.com-github-javabdd.com.github.javabdd/5.0.0, LGPL-2.0-or-later, approved, #2530
 p2/orbit/p2.eclipse.plugin/com.sun.jna.platform/5.12.1.v20221103-2317, Apache-2.0 OR LGPL-2.1-or-later, approved, #4137
 p2/orbit/p2.eclipse.plugin/com.sun.jna/5.12.1.v20221103-2317, Apache-2.0 OR LGPL-2.1-or-later, approved, #4136
 p2/orbit/p2.eclipse.plugin/io.github.java-diff-utils/4.8.0.v20221112-0806, Apache-2.0, approved, CQ22697
