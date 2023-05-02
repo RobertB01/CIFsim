@@ -18,11 +18,14 @@ string test_path = "interpreter";
 string test_pattern = "*.tooldef";
 list string default_options = ["--devmode=1"];
 map(string:list string) test_options = {
-    "interpreter/debug_output.tooldef":  ["-mdebug"],
-    "interpreter/exit0.tooldef":         ["-mdebug"],
-    "interpreter/exit1.tooldef":         ["-mdebug"],
-    "interpreter/exit_deep.tooldef":     ["-mdebug"],
-    "interpreter/exit_no_value.tooldef": ["-mdebug"]
+    "interpreter/debug_output.tooldef":               ["-mdebug"],
+    "interpreter/exit0.tooldef":                      ["-mdebug"],
+    "interpreter/exit1.tooldef":                      ["-mdebug"],
+    "interpreter/exit_deep.tooldef":                  ["-mdebug"],
+    "interpreter/exit_no_value.tooldef":              ["-mdebug"],
+    "interpreter/tool_invoke_option_invoke1.tooldef": ["--invoke=tool1(5)"],
+    "interpreter/tool_invoke_option_invoke2.tooldef": ["--invoke='tool1(6, true)'"],
+    "interpreter/tool_invoke_option_invoke3.tooldef": ["--invoke=tool2(false)"],
 };
 set string test_skip = {
     "interpreter/err_java_method_rslt_nan.tooldef",
