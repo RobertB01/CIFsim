@@ -18,6 +18,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
@@ -35,6 +36,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     /** Size of a real value in a CIF specification. */
     public static final int CIF_REAL_SIZE = 64;
+
+    /** Conversion of PLC models to text for the target. */
+    private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
 
     /** PLC target type for code generation. */
     public final PlcTargetType targetType;
@@ -138,6 +142,11 @@ public abstract class PlcBaseTarget implements PlcTarget {
      * @return The requested PLC code writer.
      */
     protected abstract OutputTypeWriter getPlcCodeWriter();
+
+    @Override
+    public ModelTextGenerator getModelTextGenerator() {
+        return modelTextGenerator;
+    }
 
     @Override
     public abstract boolean supportsArrays();
