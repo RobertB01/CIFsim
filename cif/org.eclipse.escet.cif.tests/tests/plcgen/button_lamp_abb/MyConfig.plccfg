@@ -4,6 +4,7 @@ CONFIGURATION MyConfig
         hw_lamp_bit: BOOL;
     END_VAR
     VAR_GLOBAL // TIMERS
+        firstRun: BOOL := TRUE;
         timer0: TON;
         timer1: TON;
         curTimer: INT := 0;

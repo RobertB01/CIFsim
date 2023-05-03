@@ -3,7 +3,12 @@
   <POU Name="MAIN">
     <Declaration><![CDATA[PROGRAM MAIN]]></Declaration>
     <Implementation>
-      <ST/>
+      <ST><![CDATA[IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    hw_lamp_bit := FALSE;
+END_IF;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>
