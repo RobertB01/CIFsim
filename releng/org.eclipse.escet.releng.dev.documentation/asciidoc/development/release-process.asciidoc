@@ -221,10 +221,10 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 <ul>
     <li>Eclipse ESCET vN.N-NNN release notes
     <ul>
-        <li><a href="https://www.eclipse.org/escet/vN.N-NNN/release-notes.html">ESCET toolkit release notes</a></li>
-        <li><a href="https://www.eclipse.org/escet/vN.N-NNN/chi/release-notes.html">Chi release notes</a></li>
-        <li><a href="https://www.eclipse.org/escet/vN.N-NNN/cif/release-notes.html">CIF release notes</a></li>
-        <li><a href="https://www.eclipse.org/escet/vN.N-NNN/tooldef/release-notes.html">ToolDef release notes</a></li>
+        <li><a href="https://www.eclipse.dev/escet/vN.N-NNN/release-notes.html">ESCET toolkit release notes</a></li>
+        <li><a href="https://www.eclipse.dev/escet/vN.N-NNN/chi/release-notes.html">Chi release notes</a></li>
+        <li><a href="https://www.eclipse.dev/escet/vN.N-NNN/cif/release-notes.html">CIF release notes</a></li>
+        <li><a href="https://www.eclipse.dev/escet/vN.N-NNN/tooldef/release-notes.html">ToolDef release notes</a></li>
     </ul>
     </li>
     <li><a href="https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones/NN">Eclipse ESCET GitLab vN.N issues</a></li>
@@ -371,7 +371,7 @@ Jenkins will then automatically build and release a new version from that tag.
 * All releases are available at https://download.eclipse.org/escet/.
 For a version `v0.1`, the downloads will be located at `\https://download.eclipse.org/escet/v0.1`.
 
-** End users should however be referred to https://eclipse.org/escet/download.html instead of `download.eclipse.org`.
+** End users should however be referred to https://eclipse.dev/escet/download.html instead of `download.eclipse.org`.
 The buttons on this web page serve downloads via a mirror script.
 This ensures that a nearby mirror is selected, for faster downloads.
 It also ensures that downloads are counted in the download statistics.
@@ -383,10 +383,10 @@ It typically takes a day or two for all the mirror sites to synchronize with us 
 Immediately after the downloads being available, downloading them may thus be slower, even if the mirror script is used.
 
 * Jenkins will automatically push the website for the new release to the website Git repository, in a directory for the specific release.
-For a version `v0.1`, the website can be accessed at `\https://eclipse.org/escet/v0.1`.
+For a version `v0.1`, the website can be accessed at `\https://eclipse.dev/escet/v0.1`.
 It may take a few minutes for the Git repository to be synced to the webserver and for the website for the new version to become available.
 
-* If the website for the new release is to be the standard visible website for the project (at `https://eclipse.org/escet`), it has to be manually replaced.
+* If the website for the new release is to be the standard visible website for the project (at `https://eclipse.dev/escet`), it has to be manually replaced.
 This is to ensure that a bugfix release for an older version doesn't override the standard visible website.
 The following steps explain how to 'promote' a website for a specific version to become the standard visible website:
 
@@ -416,7 +416,7 @@ If it is OK, push it by executing `git push`.
 ** Remove the website repository clone, by executing `cd ..` and `rm -rf escet-website`.
 
 ** It may take a few minutes for the Git repository to be synced to the webserver, and for the new standard visible website to become available.
-The standard visible website can be accessed at `https://eclipse.org/escet`.
+The standard visible website can be accessed at `https://eclipse.dev/escet`.
 Depending on browser cache settings and other factors, it may be necessary to force refresh your browser for it to pick up the changes on the server.
 
 * Inform others about the new release:
@@ -427,15 +427,15 @@ Depending on browser cache settings and other factors, it may be necessary to fo
 ----
 I just released vN.N:
 
-- https://eclipse.org/escet/
-- https://eclipse.org/escet/download.html
-- https://eclipse.org/escet/release-notes.html
+- https://eclipse.dev/escet/
+- https://eclipse.dev/escet/download.html
+- https://eclipse.dev/escet/release-notes.html
 
 And here are the permalinks:
 
-- https://eclipse.org/escet/vN.N
-- https://eclipse.org/escet/vN.N/download.html
-- https://eclipse.org/escet/vN.N/release-notes.html
+- https://eclipse.dev/escet/vN.N
+- https://eclipse.dev/escet/vN.N/download.html
+- https://eclipse.dev/escet/vN.N/release-notes.html
 
 Note that mirrors may still need to sync, so downloads may be a bit slower until then.
 ----
@@ -446,9 +446,9 @@ Note that mirrors may still need to sync, so downloads may be a bit slower until
 ----
 I just released vN.N-NNN:
 
-- https://eclipse.org/escet/vN.N-NNN
-- https://eclipse.org/escet/vN.N-NNN/download.html
-- https://eclipse.org/escet/vN.N-NNN/release-notes.html
+- https://eclipse.dev/escet/vN.N-NNN
+- https://eclipse.dev/escet/vN.N-NNN/download.html
+- https://eclipse.dev/escet/vN.N-NNN/release-notes.html
 
 Note that mirrors may still need to sync, so downloads may be a bit slower until then.
 ----

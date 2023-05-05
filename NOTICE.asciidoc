@@ -2,8 +2,8 @@
 
 This content is produced and maintained by the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project.
 
-* Website: https://eclipse.org/escet
-* Downloads: https://eclipse.org/escet/download.html
+* Website: https://eclipse.dev/escet
+* Downloads: https://eclipse.dev/escet/download.html
 * GitLab development server: https://gitlab.eclipse.org/eclipse/escet/escet
 * Issue tracker: https://gitlab.eclipse.org/eclipse/escet/escet/-/issues
 * Forum: https://www.eclipse.org/forums/index.php/f/527/
