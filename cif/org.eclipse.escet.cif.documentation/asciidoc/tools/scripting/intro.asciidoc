@@ -16,7 +16,6 @@ include::../_part_attributes.asciidoc[]
 [[tools-scripting-chapter-intro]]
 == Introduction to scripting
 
-// Removed the previously present link to documentation about 'ToolDef'.
 All CIF <<tools-chapter-index,tools>> can be used in ToolDef scripts.
 ToolDef is a cross-platform and machine-independent scripting language that supports command line execution, but is also available as plug-in for link:https://eclipse.org[Eclipse], providing an integrated development experience.
 See the link:https://eclipse.dev/escet/{escet-website-version}/tooldef[ToolDef website] for more information on ToolDef.
