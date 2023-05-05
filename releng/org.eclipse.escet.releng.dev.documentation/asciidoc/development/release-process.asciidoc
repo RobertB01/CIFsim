@@ -221,10 +221,10 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 <ul>
     <li>Eclipse ESCET vN.N-NNN release notes
     <ul>
-        <li><a href="https://www.eclipse.dev/escet/vN.N-NNN/release-notes.html">ESCET toolkit release notes</a></li>
-        <li><a href="https://www.eclipse.dev/escet/vN.N-NNN/chi/release-notes.html">Chi release notes</a></li>
-        <li><a href="https://www.eclipse.dev/escet/vN.N-NNN/cif/release-notes.html">CIF release notes</a></li>
-        <li><a href="https://www.eclipse.dev/escet/vN.N-NNN/tooldef/release-notes.html">ToolDef release notes</a></li>
+        <li><a href="https://eclipse.dev/escet/vN.N-NNN/release-notes.html">ESCET toolkit release notes</a></li>
+        <li><a href="https://eclipse.dev/escet/vN.N-NNN/chi/release-notes.html">Chi release notes</a></li>
+        <li><a href="https://eclipse.dev/escet/vN.N-NNN/cif/release-notes.html">CIF release notes</a></li>
+        <li><a href="https://eclipse.dev/escet/vN.N-NNN/tooldef/release-notes.html">ToolDef release notes</a></li>
     </ul>
     </li>
     <li><a href="https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones/NN">Eclipse ESCET GitLab vN.N issues</a></li>

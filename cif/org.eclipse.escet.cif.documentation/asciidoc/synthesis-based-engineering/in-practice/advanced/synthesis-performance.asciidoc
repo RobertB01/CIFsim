@@ -28,7 +28,7 @@ However, if you still suffer such issues, consider the following to resolve them
 
 indexterm:[synthesis, memory]
 
-* See the page of the Eclipse ESCET general toolkit documentation on link:https://www.eclipse.dev/escet/{escet-website-version}/performance/index.html[resolving performance and memory problems].
+* See the page of the Eclipse ESCET general toolkit documentation on link:https://eclipse.dev/escet/{escet-website-version}/performance/index.html[resolving performance and memory problems].
 In particular, make sure to give Java more memory.
 This should be the first thing you check.
 

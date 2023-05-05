@@ -155,7 +155,7 @@ It prints the maximum amount of memory used during synthesis, in number of bytes
 +
 Note that collecting this metric may make synthesis take longer than without collecting it.
 +
-The CIF data-based synthesis tool is written in Java, a link:https://www.eclipse.dev/escet/{escet-website-version}/performance/tweak-perf-settings.html#managed-memory-and-garbage-collection[managed language with a garbage collector].
+The CIF data-based synthesis tool is written in Java, a link:https://eclipse.dev/escet/{escet-website-version}/performance/tweak-perf-settings.html#managed-memory-and-garbage-collection[managed language with a garbage collector].
 Hence, the measured memory usage is a best-effort approximation, and may not be correct.
 +
 When measuring memory usage, always perform multiple measurements, and take the average.
@@ -164,7 +164,7 @@ If memory usage is measured using the Eclipse ESCET IDE, make sure not to perfor
 However, when measuring the memory usage in the Eclipse ESCET IDE, the IDE itself, as well as editor content, console content, and so on, are also included in the memory usage.
 It is therefore highly recommended to use the Eclipse ESCET command line scripts rather than the Eclipse ESCET IDE to perform memory usage measurements.
 +
-To ensure the best result, let Java link:https://www.eclipse.dev/escet/{escet-website-version}/performance/tweak-perf-settings.html#monitoring-eclipse-heap-status[perform a garbage collection] before starting the data-based synthesis tool.
+To ensure the best result, let Java link:https://eclipse.dev/escet/{escet-website-version}/performance/tweak-perf-settings.html#monitoring-eclipse-heap-status[perform a garbage collection] before starting the data-based synthesis tool.
 This ensures that synthesis starts with 'clean' memory.
 This is particularly relevant if multiple syntheses are performed one after the other, to ensure that any previous syntheses do not affect subsequent measurements.
 Both synthesis and garbage collection may conveniently be executed via a <<tools-scripting-chapter-intro,ToolDef script>>.
@@ -178,7 +178,7 @@ cifdatasynth(...);
 ```
 +
 The maximum used memory statistics obtained in this way are an easy way to get an approximation of the memory used during synthesis.
-For a more comprehensive way to measure memory usage, use a tool like link:https://www.eclipse.dev/escet/{escet-website-version}/performance/tweak-perf-settings.html#monitoring-with-visualvm[VisualVM].
+For a more comprehensive way to measure memory usage, use a tool like link:https://eclipse.dev/escet/{escet-website-version}/performance/tweak-perf-settings.html#monitoring-with-visualvm[VisualVM].
 
 In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 
