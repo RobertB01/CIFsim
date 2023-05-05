@@ -288,7 +288,7 @@ public enum ErrMsg {
     // AST related constraint.
     INV_REF_IN_EXPR("Cannot use \"%s\" as a value, as it is an invariant.", 1, ERROR),
 
-    // Invariant.unique.
+    // Invariant.unique
     INV_DUPL_EVENT("Duplicate invariant for event \"%s\".", 1, WARNING),
 
     // UnaryExpression.type
@@ -389,14 +389,13 @@ public enum ErrMsg {
     SWITCH_MISSING_ELSE("The switch is missing an \"else\".", 0, ERROR),
 
     // SwitchExpression.overspecified
-    SWITCH_AUT_DUPL_LOC("Duplicate switch \"case\" for location \"%s\".", 1, ERROR),
+    SWITCH_DUPL_CASE("Duplicate switch \"case\" for %s \"%s\".", 2, ERROR),
 
     // SwitchExpression.complete
-    SWITCH_AUT_MISSING_LOC("Missing switch \"case\" for location \"%s\".", 1, ERROR),
+    SWITCH_MISSING_CASE("Missing switch \"case\" for %s \"%s\".", 2, ERROR),
 
     // SwitchExpression.superfluousElse
-    SWITCH_AUT_SUPERFLUOUS_ELSE("Switch \"else\" is superfluous, as all locations already have a \"case\".", 0,
-            WARNING),
+    SWITCH_SUPERFLUOUS_ELSE("Switch \"else\" is superfluous, as all %s already have a \"case\".", 1, WARNING),
 
     // ListExpression.type
     // SetExpression.type

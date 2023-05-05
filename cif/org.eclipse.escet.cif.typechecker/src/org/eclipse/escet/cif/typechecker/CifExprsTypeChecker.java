@@ -74,6 +74,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.list2set;
+import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.str;
 import static org.eclipse.escet.common.position.common.PositionUtils.copyPosition;
 
@@ -4535,11 +4536,8 @@ public class CifExprsTypeChecker {
             // Check for incomplete/overspecified locations.
             checkSwitchLocsComplete(rslt, scope, tchecker);
         } else {
-            // Check for missing 'else'.
-            if (last(cases).getKey() != null) {
-                tchecker.addProblem(ErrMsg.SWITCH_MISSING_ELSE, expr.position);
-                throw new SemanticException();
-            }
+            // Check for incomplete/overspecified values.
+            checkSwitchValuesComplete(rslt, scope, tchecker);
         }
 
         // Compute type for the 'switch' expression. If we don't merge, we need
@@ -4871,8 +4869,8 @@ public class CifExprsTypeChecker {
                 Position prevPos = done.get(loc);
                 if (prevPos != null) {
                     // Duplicate location.
-                    tchecker.addProblem(ErrMsg.SWITCH_AUT_DUPL_LOC, locRef.getPosition(), getAbsName(loc));
-                    tchecker.addProblem(ErrMsg.SWITCH_AUT_DUPL_LOC, prevPos, getAbsName(loc));
+                    tchecker.addProblem(ErrMsg.SWITCH_DUPL_CASE, locRef.getPosition(), "location", getAbsName(loc));
+                    tchecker.addProblem(ErrMsg.SWITCH_DUPL_CASE, prevPos, "location", getAbsName(loc));
                     throw new SemanticException();
                 } else {
                     // New location.
@@ -4891,7 +4889,7 @@ public class CifExprsTypeChecker {
                 // only specify 'else'. As such, we either have an error, or no
                 // missing locations. As such, in case we have an error, the
                 // location will have a name.
-                tchecker.addProblem(ErrMsg.SWITCH_AUT_MISSING_LOC, switchExpr.getPosition(), getAbsName(loc));
+                tchecker.addProblem(ErrMsg.SWITCH_MISSING_CASE, switchExpr.getPosition(), "location", getAbsName(loc));
             }
             throw new SemanticException();
         }
@@ -4903,7 +4901,116 @@ public class CifExprsTypeChecker {
         // 'else'.
         if (todo.isEmpty() && !aut.getLocations().isEmpty() && elsePos != null) {
             // Overspecified.
-            tchecker.addProblem(ErrMsg.SWITCH_AUT_SUPERFLUOUS_ELSE, elsePos);
+            tchecker.addProblem(ErrMsg.SWITCH_SUPERFLUOUS_ELSE, elsePos, "locations");
+            // Non-fatal problem.
+        }
+    }
+
+    /**
+     * Type check a 'switch' expression on anything but an automaton reference, for completeness of the values. Also
+     * checks for overspecified cases.
+     *
+     * @param switchExpr The expression to check. Must not have an automaton reference (including 'self') as value.
+     * @param scope The scope to resolve references in.
+     * @param tchecker The CIF type checker to use.
+     */
+    private static void checkSwitchValuesComplete(SwitchExpression switchExpr, SymbolScope<?> scope,
+            CifTypeChecker tchecker)
+    {
+        // Determine whether we can check the completeness in full, namely whether 1) the type of the switch value has
+        // a (practically) finite number of values, and 2) all case keys are statically evaluable. Otherwise, we require
+        // an 'else' to be present.
+        boolean checkInFull = true;
+        CifType type = switchExpr.getValue().getType();
+        double nrOfPossibleValues = CifValueUtils.getPossibleValueCount(type);
+        if (nrOfPossibleValues > Integer.MAX_VALUE) {
+            checkInFull = false;
+        } else {
+            for (SwitchCase switchCase: switchExpr.getCases()) {
+                if (switchCase.getKey() == null) {
+                    continue; // An 'else' case doesn't have a value.
+                }
+                if (!checkStaticEvaluable(switchCase.getKey(), null)) {
+                    checkInFull = false;
+                    break;
+                }
+            }
+        }
+
+        // Handle not checking in full. Requires an 'else' to be present to ensure it is complete.
+        if (!checkInFull) {
+            if (last(switchExpr.getCases()).getKey() != null) {
+                tchecker.addProblem(ErrMsg.SWITCH_MISSING_ELSE, switchExpr.getPosition());
+                throw new SemanticException();
+            }
+            return;
+        }
+
+        // Initialization for checking in full.
+        Set<Object> todo = setc((int)nrOfPossibleValues);
+        for (Expression possibleValue: CifValueUtils.getPossibleValues(type)) {
+            try {
+                todo.add(CifEvalUtils.eval(possibleValue, false));
+            } catch (CifEvalException e) {
+                // Runtime evaluation errors don't happen for possible values of a types, as they are all literals.
+                throw new RuntimeException("Failed to evaluate possible value of a type.", e);
+            }
+        }
+        Map<Object, Position> foundValues = map();
+        Position elsePos = null;
+
+        // Process all keys of the cases.
+        List<SwitchCase> cases = switchExpr.getCases();
+        for (SwitchCase cse: cases) {
+            Expression keyExpr = cse.getKey();
+            if (keyExpr == null) {
+                // An 'else' case.
+                Assert.check(elsePos == null);
+                elsePos = cse.getPosition();
+            } else {
+                // Evaluate key.
+                Object keyValue;
+                try {
+                    keyValue = CifEvalUtils.eval(keyExpr, false);
+                } catch (CifEvalException e) {
+                    // Problem reported where the actual expression evaluation fails.
+                    tchecker.addProblem(ErrMsg.EVAL_FAILURE, e.expr.getPosition(), e.getMessage());
+                    throw new SemanticException();
+                }
+
+                // Key value is done, so no longer 'todo'.
+                todo.remove(keyValue);
+
+                // Check for duplicate and add to 'done'.
+                Position prevPos = foundValues.get(keyValue);
+                if (prevPos != null) {
+                    // Duplicate location.
+                    String valueText = CifEvalUtils.objToStr(keyValue);
+                    tchecker.addProblem(ErrMsg.SWITCH_DUPL_CASE, keyExpr.getPosition(), "value", valueText);
+                    tchecker.addProblem(ErrMsg.SWITCH_DUPL_CASE, prevPos, "value", valueText);
+                    throw new SemanticException();
+                } else {
+                    // New key value.
+                    foundValues.put(keyValue, keyExpr.getPosition());
+                }
+            }
+        }
+
+        // Check for incomplete mapping.
+        if (!todo.isEmpty() && elsePos == null) {
+            // Incomplete.
+            // Incomplete.
+            for (Object value: todo) {
+                tchecker.addProblem(ErrMsg.SWITCH_MISSING_CASE, switchExpr.getPosition(), "value",
+                        CifEvalUtils.objToStr(value));
+            }
+            throw new SemanticException();
+        }
+
+        // Check for overspecified mapping.
+        if (todo.isEmpty() && elsePos != null) {
+            // Overspecified.
+            tchecker.addProblem(ErrMsg.SWITCH_SUPERFLUOUS_ELSE, elsePos, "values");
             // Non-fatal problem.
         }
     }
