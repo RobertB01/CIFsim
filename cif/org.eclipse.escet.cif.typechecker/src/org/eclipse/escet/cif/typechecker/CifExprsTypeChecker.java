@@ -4922,8 +4922,8 @@ public class CifExprsTypeChecker {
         // an 'else' to be present.
         boolean checkInFull = true;
         CifType type = switchExpr.getValue().getType();
-        double nrOfPossibleValues = CifValueUtils.getPossibleValueCount(type);
-        if (nrOfPossibleValues > Integer.MAX_VALUE) {
+        double nrOfPossibleValuesDouble = CifValueUtils.getPossibleValueCount(type);
+        if (nrOfPossibleValuesDouble > Integer.MAX_VALUE) {
             checkInFull = false;
         } else {
             for (SwitchCase switchCase: switchExpr.getCases()) {
@@ -4946,14 +4946,19 @@ public class CifExprsTypeChecker {
             return;
         }
 
-        // Initialization for checking in full.
-        Set<Object> todo = setc((int)nrOfPossibleValues);
-        for (Expression possibleValue: CifValueUtils.getPossibleValues(type)) {
-            try {
-                todo.add(CifEvalUtils.eval(possibleValue, false));
-            } catch (CifEvalException e) {
-                // Runtime evaluation errors don't happen for possible values of a types, as they are all literals.
-                throw new RuntimeException("Failed to evaluate possible value of a type.", e);
+        // Initialization for checking in full. If many possible values, don't create, nor report, all missing values,
+        // for performance reasons.
+        int nrOfPossibleValues = (int)nrOfPossibleValuesDouble;
+        boolean tooManyPossibleValues = nrOfPossibleValues > 100;
+        Set<Object> todo = tooManyPossibleValues ? null : setc(nrOfPossibleValues);
+        if (todo != null) {
+            for (Expression possibleValue: CifValueUtils.getPossibleValues(type)) {
+                try {
+                    todo.add(CifEvalUtils.eval(possibleValue, false));
+                } catch (CifEvalException e) {
+                    // Runtime evaluation errors don't happen for possible values of a types, as they are all literals.
+                    throw new RuntimeException("Failed to evaluate possible value of a type.", e);
+                }
             }
         }
         Map<Object, Position> foundValues = map();
@@ -4979,7 +4984,9 @@ public class CifExprsTypeChecker {
                 }
 
                 // Key value is done, so no longer 'todo'.
-                todo.remove(keyValue);
+                if (todo != null) {
+                    todo.remove(keyValue);
+                }
 
                 // Check for duplicate and add to 'done'.
                 Position prevPos = foundValues.get(keyValue);
@@ -4997,22 +5004,24 @@ public class CifExprsTypeChecker {
         }
 
         // Check for incomplete mapping.
-        if (!todo.isEmpty() && elsePos == null) {
-            // Incomplete.
+        if (todo != null && !todo.isEmpty() && elsePos == null) {
             // Incomplete.
             for (Object value: todo) {
                 tchecker.addProblem(ErrMsg.SWITCH_MISSING_CASE, switchExpr.getPosition(), "value",
                         CifEvalUtils.objToStr(value));
             }
             throw new SemanticException();
+        } else if (todo == null && elsePos == null && foundValues.size() < nrOfPossibleValues) {
+            tchecker.addProblem(ErrMsg.SWITCH_MISSING_CASE_LARGE, switchExpr.getPosition(), "values");
+            throw new SemanticException();
         }
 
         // Check for overspecified mapping.
-        if (todo.isEmpty() && elsePos != null) {
+        if (todo != null && todo.isEmpty() && elsePos != null) {
             // Overspecified.
             tchecker.addProblem(ErrMsg.SWITCH_SUPERFLUOUS_ELSE, elsePos, "values");
             // Non-fatal problem.
-        }
+        } // if 'todo == null', we may have case keys outside of the switch value range, so we're not sure.
     }
 
     /**

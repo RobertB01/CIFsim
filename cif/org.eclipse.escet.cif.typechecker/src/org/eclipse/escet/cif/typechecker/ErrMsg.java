@@ -393,6 +393,7 @@ public enum ErrMsg {
 
     // SwitchExpression.complete
     SWITCH_MISSING_CASE("Missing switch \"case\" for %s \"%s\".", 2, ERROR),
+    SWITCH_MISSING_CASE_LARGE("Missing switch \"case\" for some %s.", 1, ERROR),
 
     // SwitchExpression.superfluousElse
     SWITCH_SUPERFLUOUS_ELSE("Switch \"else\" is superfluous, as all %s already have a \"case\".", 1, WARNING),
