@@ -22,9 +22,9 @@ The release notes for the versions of the Eclipse ESCET tools, as part of the Ec
 
 See also the release notes for the specific tools for more information:
 
-* link:https://eclipse.org/escet/{escet-website-version}/cif/release-notes.html[CIF release notes]
-* link:https://eclipse.org/escet/{escet-website-version}/chi/release-notes.html[Chi release notes]
-* link:https://eclipse.org/escet/{escet-website-version}/tooldef/release-notes.html[ToolDef release notes]
+* link:https://eclipse.dev/escet/{escet-website-version}/cif/release-notes.html[CIF release notes]
+* link:https://eclipse.dev/escet/{escet-website-version}/chi/release-notes.html[Chi release notes]
+* link:https://eclipse.dev/escet/{escet-website-version}/tooldef/release-notes.html[ToolDef release notes]
 
 === Version 0.10
 

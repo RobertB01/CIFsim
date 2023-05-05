@@ -29,7 +29,7 @@ ToolDef is a cross-platform and machine-independent scripting language.
 It supports command line execution, but is also available as plug-in for the link:https://eclipse.org[Eclipse] IDE, providing an integrated development experience.
 
 ToolDef is one of the tools of the Eclipse ESCET(TM) project.
-Visit the link:https://eclipse.org/escet/{escet-website-version}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
+Visit the link:https://eclipse.dev/escet/{escet-website-version}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
 
 [WARNING]
 ====
