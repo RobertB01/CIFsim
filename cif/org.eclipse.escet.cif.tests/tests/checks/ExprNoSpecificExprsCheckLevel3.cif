@@ -317,7 +317,7 @@ end
 
 // SWITCH_EXPRS.
 group SWITCH_EXPRS:
-  invariant switch 5: case 5: true else false end;
+  invariant switch 5: case 5: true end;
 end
 
 // TIME_VAR_REFS.
