@@ -1,0 +1,136 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// bool
+
+input bool ib;
+alg int ab = switch ib:
+               case true: 1
+               case false: 2
+             end;
+
+// bool (via type definition)
+
+type t = bool;
+input t it;
+alg int at = switch it:
+               case true: 1
+               case false: 2
+             end;
+
+// bool (via wrapping expression)
+
+group def G():
+  type t = bool;
+end
+g: G();
+input t iw;
+alg int aw = switch iw:
+               case true: 1
+               case false: 2
+             end;
+
+// int (ranged)
+
+input int[8..9] ii;
+alg int ai = switch ii:
+               case 8: 1
+               case 9: 2
+             end;
+
+// enum
+
+enum e = e1, e2;
+input e ie;
+alg int ae = switch ie:
+               case e1: 1
+               case e2: 2
+             end;
+
+// real
+
+input real ir;
+alg int ar = switch ir:
+               case 1.0: 1
+               case 2.0: 2
+               else      3
+             end;
+
+// string
+
+input string is;
+alg int as = switch is:
+               case "a": 1
+               case "b": 2
+               else      3
+             end;
+
+// list (rangeless)
+
+input list bool il;
+alg int al = switch il:
+               case []:     1
+               case [true]: 2
+               else         3
+             end;
+
+// list (bounded)
+
+input list[1..2] int[5..5] il12;
+alg int al12 = switch il12:
+                 case [5]:    1
+                 case [5, 5]: 2
+               end;
+
+// list (array)
+
+input list[2] int[5..5] il1;
+alg int al1 = switch il1:
+                case [5, 5]: 1
+              end;
+
+// set
+
+input set bool iset;
+alg int aset = switch iset:
+                case {}:            1
+                case {false}:       2
+                case {true}:        3
+                case {false, true}: 4
+              end;
+
+// dict
+
+input dict(int[8..8]:bool) idict;
+alg int adict = switch idict:
+                  case {}:        1
+                  case {8:false}: 2
+                  case {8:true}:  3
+                end;
+
+// tuple
+
+input tuple(int[1..2] a, b) itup;
+alg int atup = switch itup:
+                 case (1, 1): 1
+                 case (1, 2): 1
+                 case (2, 1): 1
+                 case (2, 2): 1
+               end;
+
+// Types that don't support value equality:
+// - function
+// - distribution
+// - component
+// - component definition
+// - void

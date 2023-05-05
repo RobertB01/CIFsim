@@ -1,0 +1,9 @@
+ERROR: File "tchecker/switch_dupl_case.cif": Semantic error at line 17, column 25: Duplicate switch "case" for location "a.l1".
+ERROR: File "tchecker/switch_dupl_case.cif": Semantic error at line 19, column 25: Duplicate switch "case" for location "a.l1".
+ERROR: File "tchecker/switch_dupl_case.cif": Semantic error at line 22, column 25: Duplicate switch "case" for location "a.l1".
+ERROR: File "tchecker/switch_dupl_case.cif": Semantic error at line 23, column 25: Duplicate switch "case" for location "a.l1".
+ERROR: File "tchecker/switch_dupl_case.cif": Semantic error at line 36, column 23: Duplicate switch "case" for value "1".
+ERROR: File "tchecker/switch_dupl_case.cif": Semantic error at line 38, column 23: Duplicate switch "case" for value "1".
+ERROR: File "tchecker/switch_dupl_case.cif": Semantic error at line 41, column 23: Duplicate switch "case" for value "1".
+ERROR: File "tchecker/switch_dupl_case.cif": Semantic error at line 42, column 23: Duplicate switch "case" for value "1".
+ERROR: Failed to load CIF file "tchecker/switch_dupl_case.cif": the file has errors.

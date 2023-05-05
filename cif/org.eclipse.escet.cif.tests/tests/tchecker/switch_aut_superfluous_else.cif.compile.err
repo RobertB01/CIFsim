@@ -1,1 +1,0 @@
-WARNING: File "tchecker/switch_aut_superfluous_else.cif": Semantic warning at line 18, column 18: Switch "else" is superfluous, as all locations already have a "case".
