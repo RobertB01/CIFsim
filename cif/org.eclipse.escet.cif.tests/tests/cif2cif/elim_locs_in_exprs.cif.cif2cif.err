@@ -1,5 +1,6 @@
 WARNING: File "cif2cif/elim_locs_in_exprs.cif": Semantic warning at line 103, column 19: Switch "else" is superfluous, as all locations already have a "case".
 WARNING: File "cif2cif/elim_locs_in_exprs.cif": Semantic warning at line 113, column 19: Switch "else" is superfluous, as all locations already have a "case".
+WARNING: File "cif2cif/elim_locs_in_exprs.cif": Semantic warning at line 130, column 19: Switch "else" is superfluous, as all values already have a "case".
 WARNING: Location pointer variable "LP" for automaton "p2" is renamed to "LP2".
 WARNING: Enumeration "LPE", introduced as the type of the location pointer variable for automaton "p2", is renamed to "LPE2".
 WARNING: Enumeration literal "LOC_l1", introduced as a value of the location pointer variable for automaton "p2", is renamed to "LOC_l13".
