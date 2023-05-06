@@ -15,7 +15,7 @@
 
 input bool ib;
 alg int ab = switch ib:
-               case true: 1
+               case true:  1
                case false: 2
              end;
 
@@ -24,21 +24,32 @@ alg int ab = switch ib:
 type t = bool;
 input t it;
 alg int at = switch it:
-               case true: 1
+               case true:  1
                case false: 2
              end;
 
-// bool (via wrapping expression)
+// bool (via component instantiation wrapping expression)
 
 group def G():
   type t = bool;
 end
 g: G();
-input t iw;
+input g.t iw;
 alg int aw = switch iw:
-               case true: 1
+               case true:  1
                case false: 2
              end;
+
+// bool (via component parameter wrapping expression)
+
+group def H(G g):
+  input g.t iw;
+  alg int aw = switch iw:
+                 case true:  1
+                 case false: 2
+               end;
+end
+h: H(g);
 
 // int (ranged)
 

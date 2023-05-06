@@ -21,6 +21,15 @@ plant p:
   disc g1.e1 v1;
   disc g2.e2 v2;
   initial v1 = g1.A or v2 = g2.A or v1 = g1.B or v2 = g2.B;
+  invariant switch v1:
+              case g1.A: 4
+              case g1.B: 5
+            end
+            =
+            switch v2:
+              case g2.A: 4
+              case g2.B: 5
+            end;
   location:
     initial;
 end
