@@ -933,6 +933,102 @@ public class CifTypeUtils {
     }
 
     /**
+     * Does the given type have an enumeration type, either directly, or indirectly?
+     *
+     * @param type The CIF type to check.
+     * @return {@code true} if the CIF type has an enumeration type, {@code false} otherwise.
+     */
+    public static boolean hasEnumType(CifType type) {
+        if (type instanceof BoolType) {
+            return false;
+        }
+        if (type instanceof IntType) {
+            return false;
+        }
+
+        if (type instanceof TypeRef) {
+            return hasEnumType(((TypeRef)type).getType().getType());
+        }
+
+        if (type instanceof EnumType) {
+            return true;
+        }
+        if (type instanceof RealType) {
+            return false;
+        }
+        if (type instanceof StringType) {
+            return false;
+        }
+
+        if (type instanceof ListType) {
+            return hasEnumType(((ListType)type).getElementType());
+        }
+
+        if (type instanceof SetType) {
+            return hasEnumType(((SetType)type).getElementType());
+        }
+
+        if (type instanceof FuncType) {
+            FuncType ftype = (FuncType)type;
+            if (hasEnumType(ftype.getReturnType())) {
+                return true;
+            }
+            for (CifType paramType: ftype.getParamTypes()) {
+                if (hasEnumType(paramType)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if (type instanceof DictType) {
+            DictType dtype = (DictType)type;
+            return hasEnumType(dtype.getKeyType()) || hasEnumType(dtype.getValueType());
+        }
+
+        if (type instanceof TupleType) {
+            TupleType ttype = (TupleType)type;
+            for (Field field: ttype.getFields()) {
+                if (hasEnumType(field.getType())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if (type instanceof DistType) {
+            return false;
+        }
+
+        if (type instanceof ComponentDefType) {
+            return false;
+        }
+        if (type instanceof ComponentType) {
+            return false;
+        }
+
+        if (type instanceof CompInstWrapType) {
+            // Just peel of the wrapper. We don't care about how we reach a
+            // type, but only what type we reach.
+            CompInstWrapType wrapper = (CompInstWrapType)type;
+            return hasEnumType(wrapper.getReference());
+        }
+
+        if (type instanceof CompParamWrapType) {
+            // Just peel of the wrapper. We don't care about how we reach a
+            // type, but only what type we reach.
+            CompParamWrapType wrapper = (CompParamWrapType)type;
+            return hasEnumType(wrapper.getReference());
+        }
+
+        if (type instanceof VoidType) {
+            return false;
+        }
+
+        throw new RuntimeException("Unknown type: " + type);
+    }
+
+    /**
      * Merges two compatible types to get the union of both types. Note that:
      * <ul>
      * <li>The resulting types are deep cloned or newly created, so that their containment does not change as a result
