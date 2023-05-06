@@ -4956,7 +4956,7 @@ public class CifExprsTypeChecker {
                 try {
                     todo.add(CifEvalUtils.eval(possibleValue, false));
                 } catch (CifEvalException e) {
-                    // Runtime evaluation errors don't happen for possible values of a types, as they are all literals.
+                    // Runtime evaluation errors don't happen for possible values of a type, as they are all literals.
                     throw new RuntimeException("Failed to evaluate possible value of a type.", e);
                 }
             }
