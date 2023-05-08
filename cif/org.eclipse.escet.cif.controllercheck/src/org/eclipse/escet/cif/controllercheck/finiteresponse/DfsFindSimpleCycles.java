@@ -48,15 +48,20 @@ public class DfsFindSimpleCycles {
     /**
      * Generic class for finding simple cycles using depth-first search.
      *
-     * @param <Graph> Graph being searched.
+     * @param <Graph> Graph class being searched.
+     * @param <Cycle> Class that stores a found cycle. This class should implement hashing and equality under rotation
+     *     of its edges. For example, cycle {@code abc} may again be found as cycle {@code bca} or {@code cab}.
      */
-    public abstract static class GenericDfsSimpleCyclesFinder<Graph> {
+    public abstract static class GenericDfsSimpleCyclesFinder<Graph, Cycle> {
+        /** Found cycles in the graph. */
+        private Set<Cycle> foundCycles;
+
         /**
          * XXX
          *
          * @param graph Graph being searched.
          */
-        public Set<EventLoop> searchEventLoops(Graph graph, Set<Event> loopEvents, AppEnvData env) {
+        public Set<Cycle> searchEventLoops(Graph graph, Set<Event> loopEvents, AppEnvData env) {
             List<Location> vertices = getVertices(graph);
             List<Event> stack = listc(vertices.size() + 1);
 
@@ -64,25 +69,28 @@ public class DfsFindSimpleCycles {
 
             Set<Location> visitedLocations = setc(vertices.size());
 
-            Set<EventLoop> eventLoops = set();
+            Set<Cycle> foundCycles = set();
+            this.foundCycles = foundCycles;
+
             for (Location loc: vertices) {
                 if (visitedLocations.contains(loc)) {
                     continue;
                 }
-                searchEventLoops(loc, loopEvents, stackIndex, stack, eventLoops, visitedLocations, env);
+                searchEventLoops(loc, loopEvents, stackIndex, stack, visitedLocations, env);
 
                 if (env.isTerminationRequested()) {
                     return null;
                 }
             }
-            return eventLoops;
+            this.foundCycles = null;
+            return foundCycles;
         }
 
         /**
          * XXX
          */
         private void searchEventLoops(Location rootLoc, Set<Event> loopEvents, Map<Location, Integer> stackIndex,
-                List<Event> stack, Set<EventLoop> eventLoops, Set<Location> visitedLocations, AppEnvData env)
+                List<Event> stack, Set<Location> visitedLocations, AppEnvData env)
         {
             if (env.isTerminationRequested()) {
                 return;
@@ -107,12 +115,12 @@ public class DfsFindSimpleCycles {
 
                     if (loopStartIndex == null) {
                         stack.add(event);
-                        searchEventLoops(edgeTargetLoc, loopEvents, stackIndex, stack, eventLoops, visitedLocations,
+                        searchEventLoops(edgeTargetLoc, loopEvents, stackIndex, stack, visitedLocations,
                                 env);
                         stack.remove(stack.size() - 1);
                     } else {
                         stack.add(event);
-                        eventLoops.add(retrieveLoopFromStack(loopStartIndex, stack));
+                        foundCycles.add(makeCycle(stack.subList(loopStartIndex, stack.size())));
                         stack.remove(stack.size() - 1);
                     }
 
@@ -125,20 +133,20 @@ public class DfsFindSimpleCycles {
         }
 
         /**
-         * XXX
-         */
-        private EventLoop retrieveLoopFromStack(Integer fromIndex, List<Event> stack) {
-            List<Event> events = listc(stack.size() - fromIndex);
-            events.addAll(stack.subList(fromIndex, stack.size()));
-            return new EventLoop(events);
-        }
-
-        /**
          * Get all the vertices of the graph.
          *
          * @param graph Graph to use.
          * @return All the vertices of the graph.
          */
         public abstract List<Location> getVertices(Graph graph);
+
+        /**
+         * Construct a stored cycle from a sequence of edges.
+         *
+         * @param edges Edges that form a cycle. The supplied list is not stable, it must be copied to preserve the
+         *     result.
+         * @return The constructed cycle.
+         */
+        public abstract Cycle makeCycle(List<Event> edges);
     }
 }
