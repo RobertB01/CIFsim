@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.DfsFindSimpleCycles.GenericDfsSimpleCyclesFinder;
@@ -48,12 +49,15 @@ public class EventLoopSearch {
      * @return The event loops in the specified automaton.
      */
     public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
-        EventLoopFinder finder = new EventLoopFinder(loopEvents);
-        return finder.findSimpleCycles(aut, env);
+        BooleanSupplier isTerminationRequested = () -> env.isTerminationRequested();
+        EventLoopFinder finder = new EventLoopFinder(loopEvents, isTerminationRequested);
+        return finder.findSimpleCycles(aut);
     }
 
     /** Cycle finder for finding event loops in an automaton. */
-    public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder<Automaton, Location, EventLoopEdge, EventLoop> {
+    public static class EventLoopFinder
+            extends GenericDfsSimpleCyclesFinder<Automaton, Location, EventLoopEdge, EventLoop>
+    {
         /** The events that can form an event loop. */
         private final Set<Event> loopEvents;
 
@@ -61,8 +65,11 @@ public class EventLoopSearch {
          * Constructor of the {@link EventLoopFinder} class.
          *
          * @param loopEvents The events that can form an event loop.
+         * @param isTerminationRequested Test function to detect a user abort request. If {@code null}, termination
+         *     detection is disabled.
          */
-        public EventLoopFinder(Set<Event> loopEvents) {
+        public EventLoopFinder(Set<Event> loopEvents, BooleanSupplier isTerminationRequested) {
+            super(isTerminationRequested);
             this.loopEvents = loopEvents;
         }
 

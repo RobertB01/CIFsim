@@ -21,8 +21,7 @@ import static org.eclipse.escet.common.java.Sets.setc;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.eclipse.escet.common.app.framework.AppEnvData;
+import java.util.function.BooleanSupplier;
 
 /**
  * Class containing data structures and code for finding simple cycles in a directed graph.
@@ -61,13 +60,26 @@ public class DfsFindSimpleCycles {
         /** Found cycles in the graph. */
         private Set<Cycle> foundCycles;
 
+        /** Test function to detect a user abort request. */
+        private final BooleanSupplier isTerminationRequested;
+
+        /**
+         * Constructor of the {@link GenericDfsSimpleCyclesFinder} class.
+         *
+         * @param isTerminationRequested Test function to detect a user abort request. If {@code null}, termination
+         *     detection is disabled.
+         */
+        public GenericDfsSimpleCyclesFinder(BooleanSupplier isTerminationRequested) {
+            this.isTerminationRequested = isTerminationRequested;
+        }
+
         /**
          * Find all simple cycles in the provided graph.
          *
          * @param graph Graph being searched.
          * @return The found simple cycles in the graph.
          */
-        public Set<Cycle> findSimpleCycles(Graph graph, AppEnvData env) {
+        public Set<Cycle> findSimpleCycles(Graph graph) {
             List<Vertex> vertices = getVertices(graph);
             stack = listc(vertices.size() + 1);
             stackIndex = mapc(vertices.size());
@@ -80,9 +92,9 @@ public class DfsFindSimpleCycles {
                 if (visitedVertices.contains(vertex)) {
                     continue;
                 }
-                expandVertexPath(vertex, env);
+                expandVertexPath(vertex);
 
-                if (env.isTerminationRequested()) {
+                if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
                     return null;
                 }
             }
@@ -100,8 +112,8 @@ public class DfsFindSimpleCycles {
          *
          * @param vertex Next vertex to search.
          */
-        private void expandVertexPath(Vertex vertex, AppEnvData env) {
-            if (env.isTerminationRequested()) {
+        private void expandVertexPath(Vertex vertex) {
+            if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
                 return;
             }
 
@@ -114,7 +126,7 @@ public class DfsFindSimpleCycles {
 
                 if (loopStartIndex == null) {
                     stack.add(edge);
-                    expandVertexPath(edgeTargetLoc, env);
+                    expandVertexPath(edgeTargetLoc);
                     stack.remove(stack.size() - 1);
                 } else {
                     stack.add(edge);
@@ -122,7 +134,7 @@ public class DfsFindSimpleCycles {
                     stack.remove(stack.size() - 1);
                 }
 
-                if (env.isTerminationRequested()) {
+                if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
                     return;
                 }
             }
