@@ -13,13 +13,19 @@
 
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
-import static org.eclipse.escet.common.java.Lists.copy;
+import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.DfsFindSimpleCycles.GenericDfsSimpleCyclesFinder;
+import org.eclipse.escet.cif.controllercheck.finiteresponse.DfsFindSimpleCycles.GraphEdge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
@@ -42,20 +48,73 @@ public class EventLoopSearch {
      * @return The event loops in the specified automaton.
      */
     public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
-        EventLoopFinder finder = new EventLoopFinder();
-        return finder.searchEventLoops(aut, loopEvents, env);
+        EventLoopFinder finder = new EventLoopFinder(loopEvents);
+        return finder.searchEventLoops(aut, env);
     }
 
     /** Cycle finder for finding event loops in an automaton. */
     public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder<Automaton, EventLoop> {
+        /** The events that can form an event loop. */
+        private final Set<Event> loopEvents;
+
+        /**
+         * Constructor of the {@link EventLoopFinder} class.
+         *
+         * @param loopEvents The events that can form an event loop.
+         */
+        public EventLoopFinder(Set<Event> loopEvents) {
+            this.loopEvents = loopEvents;
+        }
+
         @Override
         public List<Location> getVertices(Automaton graph) {
             return graph.getLocations();
         }
 
         @Override
-        public EventLoop makeCycle(List<Event> edges) {
-            return new EventLoop(copy(edges));
+        public EventLoop makeCycle(List<GraphEdge> edges) {
+            List<Event> events = listc(edges.size());
+            for (GraphEdge edge: edges) {
+                EventLoopEdge evtLoopEdge = (EventLoopEdge)edge;
+                events.add(evtLoopEdge.event);
+            }
+            return new EventLoop(events);
+        }
+
+        @Override
+        public List<GraphEdge> getEdges(Location vertex) {
+            List<GraphEdge> edges = list();
+            for (Edge edge: vertex.getEdges()) {
+                if (isEmptyIntersection(loopEvents, getEvents(edge))) {
+                    continue;
+                }
+
+                Location edgeTargetLoc = CifEdgeUtils.getTarget(edge);
+                for (Event event: getEvents(edge)) {
+                    if (loopEvents.contains(event)) {
+                        edges.add(new EventLoopEdge(vertex, edgeTargetLoc, event));
+                    }
+                }
+            }
+            return edges;
+        }
+    }
+
+    /** Edge class for finding event loops in an automaton. */
+    private static class EventLoopEdge extends GraphEdge {
+        /** The event of the edge. */
+        public final Event event;
+
+        /**
+         * Constructor of the {@link EventLoopEdge} class.
+         *
+         * @param startVertex Vertex where the edge leaves.
+         * @param destinationVertex Vertex where the edge arrives.
+         * @param event The event of the edge,
+         */
+        public EventLoopEdge(Location startVertex, Location destinationVertex, Event event) {
+            super(startVertex, destinationVertex);
+            this.event = event;
         }
     }
 }

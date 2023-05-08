@@ -13,10 +13,8 @@
 
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
-import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.mapc;
-import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
 
@@ -24,10 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.common.CifEdgeUtils;
-import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
 
 /**
@@ -54,7 +49,7 @@ public class DfsFindSimpleCycles {
      */
     public abstract static class GenericDfsSimpleCyclesFinder<Graph, Cycle> {
         /** Edges currently being searched. */
-        List<Event> stack;
+        List<GraphEdge> stack;
 
         /** Starting vertex of the edges at the {@link #stack} to their index at the {@link #stack}. */
         Map<Location, Integer> stackIndex;
@@ -70,7 +65,7 @@ public class DfsFindSimpleCycles {
          *
          * @param graph Graph being searched.
          */
-        public Set<Cycle> searchEventLoops(Graph graph, Set<Event> loopEvents, AppEnvData env) {
+        public Set<Cycle> searchEventLoops(Graph graph, AppEnvData env) {
             List<Location> vertices = getVertices(graph);
             stack = listc(vertices.size() + 1);
             stackIndex = mapc(vertices.size());
@@ -83,7 +78,7 @@ public class DfsFindSimpleCycles {
                 if (visitedVertices.contains(loc)) {
                     continue;
                 }
-                searchEventLoops(loc, loopEvents, env);
+                searchEventLoops(loc, env);
 
                 if (env.isTerminationRequested()) {
                     return null;
@@ -101,7 +96,7 @@ public class DfsFindSimpleCycles {
         /**
          * XXX
          */
-        private void searchEventLoops(Location rootLoc, Set<Event> loopEvents, AppEnvData env) {
+        private void searchEventLoops(Location rootLoc, AppEnvData env) {
             if (env.isTerminationRequested()) {
                 return;
             }
@@ -109,32 +104,22 @@ public class DfsFindSimpleCycles {
             visitedVertices.add(rootLoc);
             stackIndex.put(rootLoc, stack.size());
 
-            for (Edge edge: rootLoc.getEdges()) {
-                if (isEmptyIntersection(loopEvents, getEvents(edge))) {
-                    continue;
-                }
-
-                Location edgeTargetLoc = CifEdgeUtils.getTarget(edge);
+            for (GraphEdge edge: getEdges(rootLoc)) {
+                Location edgeTargetLoc = edge.destinationVertex;
                 Integer loopStartIndex = stackIndex.get(edgeTargetLoc);
 
-                for (Event event: getEvents(edge)) {
-                    if (!loopEvents.contains(event)) {
-                        continue;
-                    }
+                if (loopStartIndex == null) {
+                    stack.add(edge);
+                    searchEventLoops(edgeTargetLoc, env);
+                    stack.remove(stack.size() - 1);
+                } else {
+                    stack.add(edge);
+                    foundCycles.add(makeCycle(stack.subList(loopStartIndex, stack.size())));
+                    stack.remove(stack.size() - 1);
+                }
 
-                    if (loopStartIndex == null) {
-                        stack.add(event);
-                        searchEventLoops(edgeTargetLoc, loopEvents, env);
-                        stack.remove(stack.size() - 1);
-                    } else {
-                        stack.add(event);
-                        foundCycles.add(makeCycle(stack.subList(loopStartIndex, stack.size())));
-                        stack.remove(stack.size() - 1);
-                    }
-
-                    if (env.isTerminationRequested()) {
-                        return;
-                    }
+                if (env.isTerminationRequested()) {
+                    return;
                 }
             }
             stackIndex.remove(rootLoc);
@@ -149,12 +134,40 @@ public class DfsFindSimpleCycles {
         public abstract List<Location> getVertices(Graph graph);
 
         /**
+         * Obtain the edge that leaves from the provided vertex in the graph.
+         *
+         * @param vertex Starting vertex of all returned edges.
+         * @return The returned edges.
+         */
+        public abstract List<GraphEdge> getEdges(Location vertex);
+
+        /**
          * Construct a stored cycle from a sequence of edges.
          *
          * @param edges Edges that form a cycle. The supplied list is not stable, it must be copied to preserve the
          *     result.
          * @return The constructed cycle.
          */
-        public abstract Cycle makeCycle(List<Event> edges);
+        public abstract Cycle makeCycle(List<GraphEdge> edges);
+    }
+
+    /** An edge in the graph. */
+    public static class GraphEdge {
+        /** Vertex where the edge leaves. */
+        public final Location startVertex;
+
+        /** Vertex where the edge arrives. */
+        public final Location destinationVertex;
+
+        /**
+         * Constructor of the {@link GraphEdge} class.
+         *
+         * @param startVertex Vertex where the edge leaves.
+         * @param destinationVertex Vertex where the edge arrives.
+         */
+        public GraphEdge(Location startVertex, Location destinationVertex) {
+            this.startVertex = startVertex;
+            this.destinationVertex = destinationVertex;
+        }
     }
 }
