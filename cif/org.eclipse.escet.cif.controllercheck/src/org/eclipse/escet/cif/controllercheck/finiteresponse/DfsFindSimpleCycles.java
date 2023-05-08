@@ -31,7 +31,15 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
 
-/** XXX */
+/**
+ * Class containing data structures and code for finding simple cycles in a directed graph.
+ *
+ * <P>
+ * A simple cycle is a sequence of edges where each non-last edge arrives at the vertex that is used as starting vertex
+ * for the next edge and the last edge arrives at the starting vertex of the first edge, and every edge in the cycle
+ * starts from a different vertex.
+ * </p>
+ */
 public class DfsFindSimpleCycles {
     /** Constructor of the static {@link DfsFindSimpleCycles} class. */
     private DfsFindSimpleCycles() {
@@ -39,80 +47,86 @@ public class DfsFindSimpleCycles {
     }
 
     /**
-     * XXX
+     * Generic class for finding simple cycles using depth-first search.
      */
-    public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
-        List<Event> stack = listc(aut.getLocations().size() + 1);
+    public static class GenericDfsSimpleCyclesFinder {
+        /**
+         * XXX
+         */
+        public Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
+            List<Event> stack = listc(aut.getLocations().size() + 1);
 
-        Map<Location, Integer> stackIndex = mapc(aut.getLocations().size());
+            Map<Location, Integer> stackIndex = mapc(aut.getLocations().size());
 
-        Set<Location> visitedLocations = setc(aut.getLocations().size());
+            Set<Location> visitedLocations = setc(aut.getLocations().size());
 
-        Set<EventLoop> eventLoops = set();
-        for (Location loc: aut.getLocations()) {
-            if (visitedLocations.contains(loc)) {
-                continue;
+            Set<EventLoop> eventLoops = set();
+            for (Location loc: aut.getLocations()) {
+                if (visitedLocations.contains(loc)) {
+                    continue;
+                }
+                searchEventLoops(loc, loopEvents, stackIndex, stack, eventLoops, visitedLocations, env);
+
+                if (env.isTerminationRequested()) {
+                    return null;
+                }
             }
-            searchEventLoops(loc, loopEvents, stackIndex, stack, eventLoops, visitedLocations, env);
+            return eventLoops;
+        }
 
+        /**
+         * XXX
+         */
+        private void searchEventLoops(Location rootLoc, Set<Event> loopEvents, Map<Location, Integer> stackIndex,
+                List<Event> stack, Set<EventLoop> eventLoops, Set<Location> visitedLocations, AppEnvData env)
+        {
             if (env.isTerminationRequested()) {
-                return null;
-            }
-        }
-        return eventLoops;
-    }
-
-    /**
-     * XXX
-     */
-    private static void searchEventLoops(Location rootLoc, Set<Event> loopEvents, Map<Location, Integer> stackIndex,
-            List<Event> stack, Set<EventLoop> eventLoops, Set<Location> visitedLocations, AppEnvData env)
-    {
-        if (env.isTerminationRequested()) {
-            return;
-        }
-
-        visitedLocations.add(rootLoc);
-
-        stackIndex.put(rootLoc, stack.size());
-
-        for (Edge edge: rootLoc.getEdges()) {
-            if (isEmptyIntersection(loopEvents, getEvents(edge))) {
-                continue;
+                return;
             }
 
-            Location edgeTargetLoc = CifEdgeUtils.getTarget(edge);
-            Integer loopStartIndex = stackIndex.get(edgeTargetLoc);
+            visitedLocations.add(rootLoc);
 
-            for (Event event: getEvents(edge)) {
-                if (!loopEvents.contains(event)) {
+            stackIndex.put(rootLoc, stack.size());
+
+            for (Edge edge: rootLoc.getEdges()) {
+                if (isEmptyIntersection(loopEvents, getEvents(edge))) {
                     continue;
                 }
 
-                if (loopStartIndex == null) {
-                    stack.add(event);
-                    searchEventLoops(edgeTargetLoc, loopEvents, stackIndex, stack, eventLoops, visitedLocations, env);
-                    stack.remove(stack.size() - 1);
-                } else {
-                    stack.add(event);
-                    eventLoops.add(retrieveLoopFromStack(loopStartIndex, stack));
-                    stack.remove(stack.size() - 1);
-                }
+                Location edgeTargetLoc = CifEdgeUtils.getTarget(edge);
+                Integer loopStartIndex = stackIndex.get(edgeTargetLoc);
 
-                if (env.isTerminationRequested()) {
-                    return;
+                for (Event event: getEvents(edge)) {
+                    if (!loopEvents.contains(event)) {
+                        continue;
+                    }
+
+                    if (loopStartIndex == null) {
+                        stack.add(event);
+                        searchEventLoops(edgeTargetLoc, loopEvents, stackIndex, stack, eventLoops, visitedLocations,
+                                env);
+                        stack.remove(stack.size() - 1);
+                    } else {
+                        stack.add(event);
+                        eventLoops.add(retrieveLoopFromStack(loopStartIndex, stack));
+                        stack.remove(stack.size() - 1);
+                    }
+
+                    if (env.isTerminationRequested()) {
+                        return;
+                    }
                 }
             }
+            stackIndex.remove(rootLoc);
         }
-        stackIndex.remove(rootLoc);
-    }
 
-    /**
-     * XXX
-     */
-    private static EventLoop retrieveLoopFromStack(Integer fromIndex, List<Event> stack) {
-        List<Event> events = listc(stack.size() - fromIndex);
-        events.addAll(stack.subList(fromIndex, stack.size()));
-        return new EventLoop(events);
+        /**
+         * XXX
+         */
+        private EventLoop retrieveLoopFromStack(Integer fromIndex, List<Event> stack) {
+            List<Event> events = listc(stack.size() - fromIndex);
+            events.addAll(stack.subList(fromIndex, stack.size()));
+            return new EventLoop(events);
+        }
     }
 }

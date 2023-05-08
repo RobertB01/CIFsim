@@ -15,11 +15,12 @@ package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
 import java.util.Set;
 
+import org.eclipse.escet.cif.controllercheck.finiteresponse.DfsFindSimpleCycles.GenericDfsSimpleCyclesFinder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
 
-/** Static class with loop finding functions, based on Tarjan's strongly connected component algorithm. */
+/** Static class for finding event loops. */
 public class EventLoopSearch {
     /** Constructor of the static {@link EventLoopSearch} class. */
     private EventLoopSearch() {
@@ -37,6 +38,12 @@ public class EventLoopSearch {
      * @return The event loops in the specified automaton.
      */
     public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
-        return DfsFindSimpleCycles.searchEventLoops(aut, loopEvents, env);
+        EventLoopFinder finder = new EventLoopFinder();
+        return finder.searchEventLoops(aut, loopEvents, env);
+    }
+
+    /** Cycle finder for finding event loops in an automaton. */
+    public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder {
+        // Not yet containing anything.
     }
 }
