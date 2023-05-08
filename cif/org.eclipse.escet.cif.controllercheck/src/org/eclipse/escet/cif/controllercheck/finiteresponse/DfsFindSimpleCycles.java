@@ -44,12 +44,13 @@ public class DfsFindSimpleCycles {
      *
      * @param <Graph> Graph class being searched.
      * @param <Vertex> Vertex class in the graph.
+     * @param <Edge> Edge class in the graph.
      * @param <Cycle> Class that stores a found cycle. This class should implement hashing and equality under rotation
      *     of its edges. For example, cycle {@code abc} may again be found as cycle {@code bca} or {@code cab}.
      */
-    public abstract static class GenericDfsSimpleCyclesFinder<Graph, Vertex, Cycle> {
+    public abstract static class GenericDfsSimpleCyclesFinder<Graph, Vertex, Edge extends GraphEdge<Vertex>, Cycle> {
         /** Edges currently being searched. */
-        List<GraphEdge<Vertex>> stack;
+        List<Edge> stack;
 
         /** Starting vertex of the edges at the {@link #stack} to their index at the {@link #stack}. */
         Map<Vertex, Integer> stackIndex;
@@ -107,7 +108,7 @@ public class DfsFindSimpleCycles {
             visitedVertices.add(vertex);
             stackIndex.put(vertex, stack.size());
 
-            for (GraphEdge<Vertex> edge: getEdges(vertex)) {
+            for (Edge edge: getEdges(vertex)) {
                 Vertex edgeTargetLoc = edge.destinationVertex;
                 Integer loopStartIndex = stackIndex.get(edgeTargetLoc);
 
@@ -142,7 +143,7 @@ public class DfsFindSimpleCycles {
          * @param vertex Starting vertex of all returned edges.
          * @return The returned edges.
          */
-        public abstract List<GraphEdge<Vertex>> getEdges(Vertex vertex);
+        public abstract List<Edge> getEdges(Vertex vertex);
 
         /**
          * Construct a stored cycle from a sequence of edges.
@@ -151,7 +152,7 @@ public class DfsFindSimpleCycles {
          *     result.
          * @return The constructed cycle.
          */
-        public abstract Cycle makeCycle(List<GraphEdge<Vertex>> edges);
+        public abstract Cycle makeCycle(List<Edge> edges);
     }
 
     /**

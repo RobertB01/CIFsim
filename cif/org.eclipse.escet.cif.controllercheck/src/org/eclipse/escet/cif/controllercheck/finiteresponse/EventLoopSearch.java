@@ -53,7 +53,7 @@ public class EventLoopSearch {
     }
 
     /** Cycle finder for finding event loops in an automaton. */
-    public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder<Automaton, Location, EventLoop> {
+    public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder<Automaton, Location, EventLoopEdge, EventLoop> {
         /** The events that can form an event loop. */
         private final Set<Event> loopEvents;
 
@@ -72,18 +72,17 @@ public class EventLoopSearch {
         }
 
         @Override
-        public EventLoop makeCycle(List<GraphEdge<Location>> edges) {
+        public EventLoop makeCycle(List<EventLoopEdge> edges) {
             List<Event> events = listc(edges.size());
-            for (GraphEdge<Location> edge: edges) {
-                EventLoopEdge evtLoopEdge = (EventLoopEdge)edge;
-                events.add(evtLoopEdge.event);
+            for (EventLoopEdge edge: edges) {
+                events.add(edge.event);
             }
             return new EventLoop(events);
         }
 
         @Override
-        public List<GraphEdge<Location>> getEdges(Location vertex) {
-            List<GraphEdge<Location>> edges = list();
+        public List<EventLoopEdge> getEdges(Location vertex) {
+            List<EventLoopEdge> edges = list();
             for (Edge edge: vertex.getEdges()) {
                 if (isEmptyIntersection(loopEvents, getEvents(edge))) {
                     continue;
