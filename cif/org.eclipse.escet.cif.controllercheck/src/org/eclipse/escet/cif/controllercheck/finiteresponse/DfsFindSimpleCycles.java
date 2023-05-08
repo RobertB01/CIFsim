@@ -53,6 +53,15 @@ public class DfsFindSimpleCycles {
      *     of its edges. For example, cycle {@code abc} may again be found as cycle {@code bca} or {@code cab}.
      */
     public abstract static class GenericDfsSimpleCyclesFinder<Graph, Cycle> {
+        /** Edges currently being searched. */
+        List<Event> stack;
+
+        /** Starting vertex of the edges at the {@link #stack} to their index at the {@link #stack}. */
+        Map<Location, Integer> stackIndex;
+
+        /** Vertices that are or were being searched for cycles. */
+        Set<Location> visitedVertices;
+
         /** Found cycles in the graph. */
         private Set<Cycle> foundCycles;
 
@@ -63,25 +72,28 @@ public class DfsFindSimpleCycles {
          */
         public Set<Cycle> searchEventLoops(Graph graph, Set<Event> loopEvents, AppEnvData env) {
             List<Location> vertices = getVertices(graph);
-            List<Event> stack = listc(vertices.size() + 1);
-
-            Map<Location, Integer> stackIndex = mapc(vertices.size());
-
-            Set<Location> visitedLocations = setc(vertices.size());
+            stack = listc(vertices.size() + 1);
+            stackIndex = mapc(vertices.size());
+            visitedVertices = setc(vertices.size());
 
             Set<Cycle> foundCycles = set();
             this.foundCycles = foundCycles;
 
             for (Location loc: vertices) {
-                if (visitedLocations.contains(loc)) {
+                if (visitedVertices.contains(loc)) {
                     continue;
                 }
-                searchEventLoops(loc, loopEvents, stackIndex, stack, visitedLocations, env);
+                searchEventLoops(loc, loopEvents, env);
 
                 if (env.isTerminationRequested()) {
                     return null;
                 }
             }
+
+            // Cleanup and return the found cycles.
+            visitedVertices = null;
+            stackIndex = null;
+            stack = null;
             this.foundCycles = null;
             return foundCycles;
         }
@@ -89,15 +101,12 @@ public class DfsFindSimpleCycles {
         /**
          * XXX
          */
-        private void searchEventLoops(Location rootLoc, Set<Event> loopEvents, Map<Location, Integer> stackIndex,
-                List<Event> stack, Set<Location> visitedLocations, AppEnvData env)
-        {
+        private void searchEventLoops(Location rootLoc, Set<Event> loopEvents, AppEnvData env) {
             if (env.isTerminationRequested()) {
                 return;
             }
 
-            visitedLocations.add(rootLoc);
-
+            visitedVertices.add(rootLoc);
             stackIndex.put(rootLoc, stack.size());
 
             for (Edge edge: rootLoc.getEdges()) {
@@ -115,8 +124,7 @@ public class DfsFindSimpleCycles {
 
                     if (loopStartIndex == null) {
                         stack.add(event);
-                        searchEventLoops(edgeTargetLoc, loopEvents, stackIndex, stack, visitedLocations,
-                                env);
+                        searchEventLoops(edgeTargetLoc, loopEvents, env);
                         stack.remove(stack.size() - 1);
                     } else {
                         stack.add(event);
