@@ -49,11 +49,11 @@ public class EventLoopSearch {
      */
     public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
         EventLoopFinder finder = new EventLoopFinder(loopEvents);
-        return finder.searchEventLoops(aut, env);
+        return finder.findSimpleCycles(aut, env);
     }
 
     /** Cycle finder for finding event loops in an automaton. */
-    public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder<Automaton, EventLoop> {
+    public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder<Automaton, Location, EventLoop> {
         /** The events that can form an event loop. */
         private final Set<Event> loopEvents;
 
@@ -72,9 +72,9 @@ public class EventLoopSearch {
         }
 
         @Override
-        public EventLoop makeCycle(List<GraphEdge> edges) {
+        public EventLoop makeCycle(List<GraphEdge<Location>> edges) {
             List<Event> events = listc(edges.size());
-            for (GraphEdge edge: edges) {
+            for (GraphEdge<Location> edge: edges) {
                 EventLoopEdge evtLoopEdge = (EventLoopEdge)edge;
                 events.add(evtLoopEdge.event);
             }
@@ -82,8 +82,8 @@ public class EventLoopSearch {
         }
 
         @Override
-        public List<GraphEdge> getEdges(Location vertex) {
-            List<GraphEdge> edges = list();
+        public List<GraphEdge<Location>> getEdges(Location vertex) {
+            List<GraphEdge<Location>> edges = list();
             for (Edge edge: vertex.getEdges()) {
                 if (isEmptyIntersection(loopEvents, getEvents(edge))) {
                     continue;
@@ -101,7 +101,7 @@ public class EventLoopSearch {
     }
 
     /** Edge class for finding event loops in an automaton. */
-    private static class EventLoopEdge extends GraphEdge {
+    private static class EventLoopEdge extends GraphEdge<Location> {
         /** The event of the edge. */
         public final Event event;
 

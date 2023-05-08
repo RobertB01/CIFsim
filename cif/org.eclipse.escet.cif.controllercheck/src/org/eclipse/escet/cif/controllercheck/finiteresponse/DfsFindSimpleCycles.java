@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.common.app.framework.AppEnvData;
 
 /**
@@ -44,29 +43,31 @@ public class DfsFindSimpleCycles {
      * Generic class for finding simple cycles using depth-first search.
      *
      * @param <Graph> Graph class being searched.
+     * @param <Vertex> Vertex class in the graph.
      * @param <Cycle> Class that stores a found cycle. This class should implement hashing and equality under rotation
      *     of its edges. For example, cycle {@code abc} may again be found as cycle {@code bca} or {@code cab}.
      */
-    public abstract static class GenericDfsSimpleCyclesFinder<Graph, Cycle> {
+    public abstract static class GenericDfsSimpleCyclesFinder<Graph, Vertex, Cycle> {
         /** Edges currently being searched. */
-        List<GraphEdge> stack;
+        List<GraphEdge<Vertex>> stack;
 
         /** Starting vertex of the edges at the {@link #stack} to their index at the {@link #stack}. */
-        Map<Location, Integer> stackIndex;
+        Map<Vertex, Integer> stackIndex;
 
         /** Vertices that are or were being searched for cycles. */
-        Set<Location> visitedVertices;
+        Set<Vertex> visitedVertices;
 
         /** Found cycles in the graph. */
         private Set<Cycle> foundCycles;
 
         /**
-         * XXX
+         * Find all simple cycles in the provided graph.
          *
          * @param graph Graph being searched.
+         * @return The found simple cycles in the graph.
          */
-        public Set<Cycle> searchEventLoops(Graph graph, AppEnvData env) {
-            List<Location> vertices = getVertices(graph);
+        public Set<Cycle> findSimpleCycles(Graph graph, AppEnvData env) {
+            List<Vertex> vertices = getVertices(graph);
             stack = listc(vertices.size() + 1);
             stackIndex = mapc(vertices.size());
             visitedVertices = setc(vertices.size());
@@ -74,11 +75,11 @@ public class DfsFindSimpleCycles {
             Set<Cycle> foundCycles = set();
             this.foundCycles = foundCycles;
 
-            for (Location loc: vertices) {
-                if (visitedVertices.contains(loc)) {
+            for (Vertex vertex: vertices) {
+                if (visitedVertices.contains(vertex)) {
                     continue;
                 }
-                searchEventLoops(loc, env);
+                expandVertexPath(vertex, env);
 
                 if (env.isTerminationRequested()) {
                     return null;
@@ -94,23 +95,25 @@ public class DfsFindSimpleCycles {
         }
 
         /**
-         * XXX
+         * Expand the vertex path being searched by the give vertex.
+         *
+         * @param vertex Next vertex to search.
          */
-        private void searchEventLoops(Location rootLoc, AppEnvData env) {
+        private void expandVertexPath(Vertex vertex, AppEnvData env) {
             if (env.isTerminationRequested()) {
                 return;
             }
 
-            visitedVertices.add(rootLoc);
-            stackIndex.put(rootLoc, stack.size());
+            visitedVertices.add(vertex);
+            stackIndex.put(vertex, stack.size());
 
-            for (GraphEdge edge: getEdges(rootLoc)) {
-                Location edgeTargetLoc = edge.destinationVertex;
+            for (GraphEdge<Vertex> edge: getEdges(vertex)) {
+                Vertex edgeTargetLoc = edge.destinationVertex;
                 Integer loopStartIndex = stackIndex.get(edgeTargetLoc);
 
                 if (loopStartIndex == null) {
                     stack.add(edge);
-                    searchEventLoops(edgeTargetLoc, env);
+                    expandVertexPath(edgeTargetLoc, env);
                     stack.remove(stack.size() - 1);
                 } else {
                     stack.add(edge);
@@ -122,7 +125,7 @@ public class DfsFindSimpleCycles {
                     return;
                 }
             }
-            stackIndex.remove(rootLoc);
+            stackIndex.remove(vertex);
         }
 
         /**
@@ -131,7 +134,7 @@ public class DfsFindSimpleCycles {
          * @param graph Graph to use.
          * @return All the vertices of the graph.
          */
-        public abstract List<Location> getVertices(Graph graph);
+        public abstract List<Vertex> getVertices(Graph graph);
 
         /**
          * Obtain the edge that leaves from the provided vertex in the graph.
@@ -139,7 +142,7 @@ public class DfsFindSimpleCycles {
          * @param vertex Starting vertex of all returned edges.
          * @return The returned edges.
          */
-        public abstract List<GraphEdge> getEdges(Location vertex);
+        public abstract List<GraphEdge<Vertex>> getEdges(Vertex vertex);
 
         /**
          * Construct a stored cycle from a sequence of edges.
@@ -148,16 +151,20 @@ public class DfsFindSimpleCycles {
          *     result.
          * @return The constructed cycle.
          */
-        public abstract Cycle makeCycle(List<GraphEdge> edges);
+        public abstract Cycle makeCycle(List<GraphEdge<Vertex>> edges);
     }
 
-    /** An edge in the graph. */
-    public static class GraphEdge {
+    /**
+     * An edge in the graph.
+     *
+     * @param <Vertex> Vertex class in the graph.
+     */
+    public static class GraphEdge<Vertex> {
         /** Vertex where the edge leaves. */
-        public final Location startVertex;
+        public final Vertex startVertex;
 
         /** Vertex where the edge arrives. */
-        public final Location destinationVertex;
+        public final Vertex destinationVertex;
 
         /**
          * Constructor of the {@link GraphEdge} class.
@@ -165,7 +172,7 @@ public class DfsFindSimpleCycles {
          * @param startVertex Vertex where the edge leaves.
          * @param destinationVertex Vertex where the edge arrives.
          */
-        public GraphEdge(Location startVertex, Location destinationVertex) {
+        public GraphEdge(Vertex startVertex, Vertex destinationVertex) {
             this.startVertex = startVertex;
             this.destinationVertex = destinationVertex;
         }
