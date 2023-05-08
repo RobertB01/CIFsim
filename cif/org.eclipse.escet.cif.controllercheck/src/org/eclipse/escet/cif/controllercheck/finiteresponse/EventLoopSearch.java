@@ -24,13 +24,13 @@ import java.util.Set;
 import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
-import org.eclipse.escet.cif.controllercheck.finiteresponse.DfsFindSimpleCycles.GenericDfsSimpleCyclesFinder;
-import org.eclipse.escet.cif.controllercheck.finiteresponse.DfsFindSimpleCycles.GraphEdge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
+import org.eclipse.escet.common.java.DfsFindSimpleCycles.GenericDfsSimpleCyclesFinder;
+import org.eclipse.escet.common.java.DfsFindSimpleCycles.GraphEdge;
 import org.eclipse.escet.common.java.ListProductIterator;
 
 /** Static class for finding event loops. */
