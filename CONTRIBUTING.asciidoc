@@ -10,7 +10,7 @@ The toolkit includes tooling to support the entire development process of (super
 
 For more information, see:
 
-* Website: https://eclipse.org/escet
+* Website: https://eclipse.dev/escet
 * GitLab: https://gitlab.eclipse.org/eclipse/escet/escet
 * Project home: https://projects.eclipse.org/projects/technology.escet
 
@@ -18,7 +18,7 @@ For more information, see:
 
 For more information regarding source code management, builds, setting up a developer environment, coding standards, how to contribute, and more, see the Eclipse ESCET development documentation at:
 
-* https://eclipse.org/escet/development
+* https://eclipse.dev/escet/development
 
 The project maintains the following source code repositories:
 
@@ -38,7 +38,7 @@ Remember that contributions are always welcome!
 
 To contribute source code (e.g. patches) via GitLab, see:
 
-* https://eclipse.org/escet/development/development/contributing.html
+* https://eclipse.dev/escet/development/development/contributing.html
 
 To create issues, reply to issues, contribute patches and merge requests, etc, you need an Eclipse Foundation account.
 It can easily be created at https://accounts.eclipse.org/user/register.

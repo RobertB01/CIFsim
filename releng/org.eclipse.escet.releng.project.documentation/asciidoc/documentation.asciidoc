@@ -52,9 +52,9 @@ The following information is available:
 The Eclipse ESCET toolkit features multiple languages and associated tools.
 Check the website for each of these languages for more specific information, including separate documentation for each of them:
 
-* link:https://eclipse.org/escet/{escet-website-version}/cif[CIF]
-* link:https://eclipse.org/escet/{escet-website-version}/chi[Chi]
-* link:https://eclipse.org/escet/{escet-website-version}/tooldef[ToolDef]
+* link:https://eclipse.dev/escet/{escet-website-version}/cif[CIF]
+* link:https://eclipse.dev/escet/{escet-website-version}/chi[Chi]
+* link:https://eclipse.dev/escet/{escet-website-version}/tooldef[ToolDef]
 
 // Use
 

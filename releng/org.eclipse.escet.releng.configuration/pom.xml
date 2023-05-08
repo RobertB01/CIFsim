@@ -25,9 +25,9 @@ SPDX-License-Identifier: MIT
         <escet.version.enduser>dev</escet.version.enduser>
 
         <!-- The version to use for referring across-docset to web pages of other docsets.  -->
-        <!-- For instance, in AsciiDoc, use 'http://eclipse.org/escet/{escet-website-version}/...'. -->
-        <!-- By default, this is replaced by nothing, to for instance 'http://eclipse.org/escet//...'.  -->
-        <!-- The Jenkinsfile overrides this for releases only, to for instance 'http://eclipse.org/escet/v0.1/...'. -->
+        <!-- For instance, in AsciiDoc, use 'http://eclipse.dev/escet/{escet-website-version}/...'. -->
+        <!-- By default, this is replaced by nothing, to for instance 'http://eclipse.dev/escet//...'.  -->
+        <!-- The Jenkinsfile overrides this for releases only, to for instance 'http://eclipse.dev/escet/v0.1/...'. -->
         <escet.website.version></escet.website.version>
 
         <!-- The version qualifier to use for all plugins/features/etc. -->

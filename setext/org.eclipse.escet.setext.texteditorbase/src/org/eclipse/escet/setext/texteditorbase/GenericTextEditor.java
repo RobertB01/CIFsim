@@ -500,7 +500,7 @@ public class GenericTextEditor<T1, T2, TT extends Enum<TT>> extends TextEditor
     public String getValidationCrashIssueReportingInstructions() {
         return "Validation crashed. Please report this to the Eclipse ESCET development team at "
                 + "https://gitlab.eclipse.org/eclipse/escet/escet/-/issues. For more information, see "
-                + "https://eclipse.org/escet/contact-and-support.html. We appreciate you "
+                + "https://eclipse.dev/escet/contact-and-support.html. We appreciate you "
                 + "taking the effort to report issues to us!";
     }
 

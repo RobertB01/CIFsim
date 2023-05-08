@@ -6,6 +6,6 @@ The toolkit includes tooling to support the entire development process of (super
 
 For more information, see:
 
-* Website: https://eclipse.org/escet
+* Website: https://eclipse.dev/escet
 * GitLab: https://gitlab.eclipse.org/eclipse/escet/escet
 * Project home: https://projects.eclipse.org/projects/technology.escet

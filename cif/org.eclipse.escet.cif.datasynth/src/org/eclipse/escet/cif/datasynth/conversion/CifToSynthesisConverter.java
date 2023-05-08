@@ -2062,7 +2062,11 @@ public class CifToSynthesisConverter {
         }
 
         // Add relations to assure variables not being assigned don't change, i.e. won't jump arbitrarily.
-        for (int i = 0; i < assigned.length; i++) {
+        //
+        // We go through the variables in the reverse order of the variable order. This generally ensures the best
+        // performance, as new updates are added 'on top' of existing updates, allowing reuse of the existing BDDs,
+        // rather than needing to recreate them.
+        for (int i = assigned.length - 1; i >= 0; i--) {
             // If assigned, skip variable.
             if (assigned[i]) {
                 continue;
