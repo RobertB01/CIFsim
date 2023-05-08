@@ -80,6 +80,7 @@ public class DfsFindSimpleCycles {
          * @return The found simple cycles in the graph.
          */
         public Set<Cycle> findSimpleCycles(Graph graph) {
+            // Initialize data fields for the search.
             List<Vertex> vertices = getVertices(graph);
             stack = listc(vertices.size() + 1);
             stackIndex = mapc(vertices.size());
@@ -88,6 +89,8 @@ public class DfsFindSimpleCycles {
             Set<Cycle> foundCycles = set();
             this.foundCycles = foundCycles;
 
+            // Examine all vertices of the graph. Due to directed edges or limited edges that can be traversed it is
+            // possible that some vertices are not always reachable.
             for (Vertex vertex: vertices) {
                 if (visitedVertices.contains(vertex)) {
                     continue;
@@ -117,27 +120,35 @@ public class DfsFindSimpleCycles {
                 return;
             }
 
+            // Expand the path by the new vertex.
             visitedVertices.add(vertex);
-            stackIndex.put(vertex, stack.size());
+            int vertexStackPos = stack.size();
+            stackIndex.put(vertex, vertexStackPos);
+            stack.add(null); // Is replaced with proper edges below.
 
+            // Explore the edges from the new vertex for further expansion.
             for (Edge edge: getEdges(vertex)) {
                 Vertex edgeTargetLoc = edge.destinationVertex;
-                Integer loopStartIndex = stackIndex.get(edgeTargetLoc);
+                Integer cycleStartIndex = stackIndex.get(edgeTargetLoc);
 
-                if (loopStartIndex == null) {
-                    stack.add(edge);
+                if (cycleStartIndex == null) {
+                    // New vertex in this search, explore it. Note this ignores the visitedVertices set, so multiple
+                    // graph traversals over the same vertex in different searches are possible.
+                    stack.set(vertexStackPos, edge);
                     expandVertexPath(edgeTargetLoc);
-                    stack.remove(stack.size() - 1);
                 } else {
-                    stack.add(edge);
-                    foundCycles.add(makeCycle(stack.subList(loopStartIndex, stack.size())));
-                    stack.remove(stack.size() - 1);
+                    // A simple cycle was detected, add it to the collection.
+                    stack.set(vertexStackPos, edge);
+                    foundCycles.add(makeCycle(stack.subList(cycleStartIndex, vertexStackPos + 1)));
                 }
 
                 if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
                     return;
                 }
             }
+
+            // Done with the vertex, cleanup.
+            stack.remove(vertexStackPos);
             stackIndex.remove(vertex);
         }
 

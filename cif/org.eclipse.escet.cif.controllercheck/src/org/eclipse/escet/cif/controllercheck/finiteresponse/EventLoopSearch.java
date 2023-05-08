@@ -89,6 +89,7 @@ public class EventLoopSearch {
 
         @Override
         public List<EventLoopEdge> getEdges(Location vertex) {
+            // Construct the list leaving edges from the vertex.
             List<EventLoopEdge> edges = list();
             for (Edge edge: vertex.getEdges()) {
                 if (isEmptyIntersection(loopEvents, getEvents(edge))) {
