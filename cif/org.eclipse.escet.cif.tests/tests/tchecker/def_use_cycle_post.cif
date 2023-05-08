@@ -117,7 +117,7 @@ group all:
     disc real x27 = {0.0: x28}[0.0];       // Dictionary value expression.
     disc real x28 = x29 + inp;             // Input variable expression.
     disc real x29 = x30 + size(<string>self); // Self reference.
-    disc real x30 = x31 + switch 5: case 5:  1.0 else 2.0 end; // Switch expr.
+    disc real x30 = x31 + switch 5: case 5:  1.0          end; // Switch expr.
     disc real x31 = x32 + switch z: case l1: 1.0 else 2.0 end; // Switch expr.
 
     disc real x32 = x1;          // Closing the cycle.

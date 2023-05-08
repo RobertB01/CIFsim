@@ -1,5 +1,0 @@
-ERROR: File "tchecker/switch_aut_dupl_loc.cif": Semantic error at line 16, column 25: Duplicate switch "case" for location "a.l1".
-ERROR: File "tchecker/switch_aut_dupl_loc.cif": Semantic error at line 18, column 25: Duplicate switch "case" for location "a.l1".
-ERROR: File "tchecker/switch_aut_dupl_loc.cif": Semantic error at line 21, column 25: Duplicate switch "case" for location "a.l1".
-ERROR: File "tchecker/switch_aut_dupl_loc.cif": Semantic error at line 22, column 25: Duplicate switch "case" for location "a.l1".
-ERROR: Failed to load CIF file "tchecker/switch_aut_dupl_loc.cif": the file has errors.

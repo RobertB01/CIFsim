@@ -11,17 +11,31 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Type has too many values.
-input list int[5..5] i1;
-const int c1 = switch 5: case i1[0]: 6 end;
-
-input real i2;
-const int c2 = switch 5.0: case i2: 6 end;
-
-// Discrete variable can not be statically evaluated.
+// Switch on automaton.
 automaton a:
-  disc int[8..8] d = 8;
-  alg int c = switch 8: case d: 6 end;
+  alg int c1 = switch self:
+                 case l1: 1
+                 case l2: 2
+                 else     3
+               end;
+
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+
+automaton b:
   location:
     initial;
 end
+
+alg real a1 = switch b: else 1.0 end;
+
+// Switch on non-automaton.
+input int[1..2] i;
+alg int a2 = switch i:
+               case 1: 1
+               case 2: 2
+               else    3
+             end;

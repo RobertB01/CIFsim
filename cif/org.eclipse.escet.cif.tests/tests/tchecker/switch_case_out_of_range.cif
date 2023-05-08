@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,19 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton a:
-  const int c1 = switch self:
-                   case l2: 1
-                 end;
-  const int c2 = switch a:
-                   case l1: 1
-                   case l3: 2
-                 end;
-
-  location l1:
-    initial;
-  location l2:
-    initial;
-  location l3:
-    initial;
-end
+input int[1..3] i;
+alg int c1 = switch i:
+               case 1: 1
+               case 2: 2
+               case 3: 3
+               case 4: 4 // Key is out of range.
+             end;

@@ -1,4 +1,0 @@
-ERROR: File "tchecker/switch_aut_missing_loc.cif": Semantic error at line 15, column 18: Missing switch "case" for location "a.l1".
-ERROR: File "tchecker/switch_aut_missing_loc.cif": Semantic error at line 15, column 18: Missing switch "case" for location "a.l3".
-ERROR: File "tchecker/switch_aut_missing_loc.cif": Semantic error at line 18, column 18: Missing switch "case" for location "a.l2".
-ERROR: Failed to load CIF file "tchecker/switch_aut_missing_loc.cif": the file has errors.

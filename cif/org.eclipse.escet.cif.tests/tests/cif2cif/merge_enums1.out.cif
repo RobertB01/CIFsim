@@ -13,6 +13,7 @@ end
 automaton a:
   disc t x = BLUE;
   invariant x = BLUE;
+  invariant switch x: case RED: true case GREEN: false else true or false end;
   location:
     initial;
 end

@@ -154,8 +154,8 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                     ^     ^
    * In group "SWITCH_EXPRS":
-     - invariant switch 5: case 5: true else false end;
-                                   ^         ^
+     - invariant switch 5: case 5: true end;
+                                   ^
    * In constant "TUPLE_FIELD_REFS_NAMED.c":
      - const tuple(bool a; bool b) c = (true, false);
                                         ^     ^
@@ -468,7 +468,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant switch self: else true end;
                  ^
    * In group "SWITCH_EXPRS":
-     - invariant switch 5: case 5: true else false end;
+     - invariant switch 5: case 5: true end;
                  ^
 
   --------------------------------
@@ -560,7 +560,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                             ^  ^
    * In group "SWITCH_EXPRS":
-     - invariant switch 5: case 5: true else false end;
+     - invariant switch 5: case 5: true end;
                         ^       ^
    * In group "TIME_VAR_REFS":
      - invariant time > 0;
