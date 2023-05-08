@@ -13,10 +13,12 @@
 
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.controllercheck.finiteresponse.DfsFindSimpleCycles.GenericDfsSimpleCyclesFinder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
 
@@ -43,7 +45,10 @@ public class EventLoopSearch {
     }
 
     /** Cycle finder for finding event loops in an automaton. */
-    public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder {
-        // Not yet containing anything.
+    public static class EventLoopFinder extends GenericDfsSimpleCyclesFinder<Automaton> {
+        @Override
+        public List<Location> getVertices(Automaton graph) {
+            return graph.getLocations();
+        }
     }
 }

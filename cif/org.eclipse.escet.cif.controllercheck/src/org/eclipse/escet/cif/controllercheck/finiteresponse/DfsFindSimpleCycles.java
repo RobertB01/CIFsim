@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -48,20 +47,25 @@ public class DfsFindSimpleCycles {
 
     /**
      * Generic class for finding simple cycles using depth-first search.
+     *
+     * @param <Graph> Graph being searched.
      */
-    public static class GenericDfsSimpleCyclesFinder {
+    public abstract static class GenericDfsSimpleCyclesFinder<Graph> {
         /**
          * XXX
+         *
+         * @param graph Graph being searched.
          */
-        public Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
-            List<Event> stack = listc(aut.getLocations().size() + 1);
+        public Set<EventLoop> searchEventLoops(Graph graph, Set<Event> loopEvents, AppEnvData env) {
+            List<Location> vertices = getVertices(graph);
+            List<Event> stack = listc(vertices.size() + 1);
 
-            Map<Location, Integer> stackIndex = mapc(aut.getLocations().size());
+            Map<Location, Integer> stackIndex = mapc(vertices.size());
 
-            Set<Location> visitedLocations = setc(aut.getLocations().size());
+            Set<Location> visitedLocations = setc(vertices.size());
 
             Set<EventLoop> eventLoops = set();
-            for (Location loc: aut.getLocations()) {
+            for (Location loc: vertices) {
                 if (visitedLocations.contains(loc)) {
                     continue;
                 }
@@ -128,5 +132,13 @@ public class DfsFindSimpleCycles {
             events.addAll(stack.subList(fromIndex, stack.size()));
             return new EventLoop(events);
         }
+
+        /**
+         * Get all the vertices of the graph.
+         *
+         * @param graph Graph to use.
+         * @return All the vertices of the graph.
+         */
+        public abstract List<Location> getVertices(Graph graph);
     }
 }
