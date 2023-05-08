@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
 import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
+import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
@@ -30,6 +31,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
+import org.eclipse.escet.common.java.ListProductIterator;
 
 /** Static class for finding event loops. */
 public class EventLoopSearch {
@@ -79,12 +81,19 @@ public class EventLoopSearch {
         }
 
         @Override
-        public EventLoop makeCycle(List<EventLoopEdge> edges) {
-            List<Event> events = listc(edges.size());
+        public void addCycle(List<EventLoopEdge> edges, Set<EventLoop> foundCycles) {
+            // Collect the events of each edge in the cycle.
+            List<List<Event>> eventCollections = listc(edges.size());
             for (EventLoopEdge edge: edges) {
-                events.add(edge.event);
+                eventCollections.add(edge.events);
             }
-            return new EventLoop(events);
+
+            // And expand to all combinations of one event for each edge.
+            ListProductIterator<Event> iter = new ListProductIterator<>(eventCollections);
+            while (iter.hasNext()) {
+                List<Event> selectedEvents = iter.next();
+                foundCycles.add(new EventLoop(copy(selectedEvents)));
+            }
         }
 
         @Override
@@ -97,9 +106,11 @@ public class EventLoopSearch {
                 }
 
                 Location edgeTargetLoc = CifEdgeUtils.getTarget(edge);
+                List<Event> edgeEvents = list();
                 for (Event event: getEvents(edge)) {
                     if (loopEvents.contains(event)) {
-                        edges.add(new EventLoopEdge(vertex, edgeTargetLoc, event));
+                        edgeEvents.add(event);
+                        edges.add(new EventLoopEdge(vertex, edgeTargetLoc, edgeEvents));
                     }
                 }
             }
@@ -109,19 +120,19 @@ public class EventLoopSearch {
 
     /** Edge class for finding event loops in an automaton. */
     private static class EventLoopEdge extends GraphEdge<Location> {
-        /** The event of the edge. */
-        public final Event event;
+        /** The events of the edge. */
+        public final List<Event> events;
 
         /**
          * Constructor of the {@link EventLoopEdge} class.
          *
          * @param startVertex Vertex where the edge leaves.
          * @param destinationVertex Vertex where the edge arrives.
-         * @param event The event of the edge,
+         * @param events The events of the edge,
          */
-        public EventLoopEdge(Location startVertex, Location destinationVertex, Event event) {
+        public EventLoopEdge(Location startVertex, Location destinationVertex, List<Event> events) {
             super(startVertex, destinationVertex);
-            this.event = event;
+            this.events = events;
         }
     }
 }

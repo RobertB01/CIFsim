@@ -139,7 +139,7 @@ public class DfsFindSimpleCycles {
                 } else {
                     // A simple cycle was detected, add it to the collection.
                     stack.set(vertexStackPos, edge);
-                    foundCycles.add(makeCycle(stack.subList(cycleStartIndex, vertexStackPos + 1)));
+                    addCycle(stack.subList(cycleStartIndex, vertexStackPos + 1), foundCycles);
                 }
 
                 if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
@@ -169,13 +169,13 @@ public class DfsFindSimpleCycles {
         public abstract List<Edge> getEdges(Vertex vertex);
 
         /**
-         * Construct a stored cycle from a sequence of edges.
+         * Add a cycle to the collection found cycles.
          *
-         * @param edges Edges that form a cycle. The supplied list is not stable, it must be copied to preserve the
+         * @param edges Edges that form a new cycle. The supplied list is not stable, it must be copied to preserve the
          *     result.
-         * @return The constructed cycle.
+         * @param foundCycles Previously found cycles.
          */
-        public abstract Cycle makeCycle(List<Edge> edges);
+        public abstract void addCycle(List<Edge> edges, Set<Cycle> foundCycles);
     }
 
     /**
