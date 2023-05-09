@@ -345,7 +345,7 @@ public class SynthesisEdge {
      * @param asgn The assignment.
      * @return The end user readable textual representation.
      */
-    private Object assignmentToString(Assignment asgn) {
+    private String assignmentToString(Assignment asgn) {
         Expression addr = asgn.getAddressable();
         Declaration addrVar = (Declaration)CifScopeUtils.getRefObjFromRef(addr);
         Expression rhs = asgn.getValue();
