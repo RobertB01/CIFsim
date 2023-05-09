@@ -23,7 +23,6 @@ import java.util.Map;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
-import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -31,7 +30,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenResult;
@@ -93,10 +91,11 @@ public class DefaultVariableStorage implements VariableStorage {
         // Construct a converter for CIF expressions.
         ExprGenerator exprGen = new ExprGenerator(target, getRootCifDataProvider(), typeGen, nameGenerator);
 
-        // Order the state variables on their dependencies for initialization.
+        // Order the discrete variables on their dependencies for initialization.
+        // TODO Add continuous variables here as well.
+        // TODO Find out what to do with algebraic variables here (they are not state, this orderer will choke on them).
         StateInitVarOrderer varOrderer = new StateInitVarOrderer();
         for (Declaration decl: variables.keySet()) {
-            // Ordering dies if you supply anything else but discrete or continuous variables.
             if (decl instanceof DiscVariable) {
                 varOrderer.addObject(decl);
             }
@@ -104,14 +103,13 @@ public class DefaultVariableStorage implements VariableStorage {
 
         // Generate initialization code and store it.
         List<PlcStatement> statements = list();
+        // TODO Initialize the constants if not done in its declaration.
+        // TODO Initialize input variables by reading the sensors.
         statements.add(new PlcCommentLine("Initialize the state variables."));
         for (Declaration decl: varOrderer.computeOrder(true)) {
             ExprGenResult exprResult;
             if (decl instanceof DiscVariable discVar) {
                 exprResult = exprGen.convertExpr(first(discVar.getValue().getValues()));
-            } else if (decl instanceof InputVariable inpVar) {
-                Expression defaultValue = CifValueUtils.getDefaultValue(inpVar.getType(), null);
-                exprResult = exprGen.convertExpr(defaultValue);
             } else {
                 throw new AssertionError("Unexpected kind of variable " + decl);
             }
