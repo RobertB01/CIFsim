@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
 import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
-import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
@@ -92,7 +91,7 @@ public class EventLoopSearch {
             ListProductIterator<Event> iter = new ListProductIterator<>(eventCollections);
             while (iter.hasNext()) {
                 List<Event> selectedEvents = iter.next();
-                foundCycles.add(new EventLoop(copy(selectedEvents)));
+                foundCycles.add(new EventLoop(selectedEvents));
             }
         }
 
@@ -110,8 +109,8 @@ public class EventLoopSearch {
                 for (Event event: getEvents(edge)) {
                     if (loopEvents.contains(event)) {
                         edgeEvents.add(event);
-                        edges.add(new EventLoopEdge(vertex, edgeTargetLoc, edgeEvents));
                     }
+                    edges.add(new EventLoopEdge(vertex, edgeTargetLoc, edgeEvents));
                 }
             }
             return edges;
