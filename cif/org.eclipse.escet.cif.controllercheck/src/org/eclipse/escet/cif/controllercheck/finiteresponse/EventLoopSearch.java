@@ -28,7 +28,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
-import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GenericDfsSimpleCyclesFinder;
+import org.eclipse.escet.common.java.DirectedGraphCycleFinder;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GraphEdge;
 import org.eclipse.escet.common.java.ListProductIterator;
 
@@ -57,7 +57,7 @@ public class EventLoopSearch {
 
     /** Cycle finder for finding event loops in an automaton. */
     public static class EventLoopFinder
-            extends GenericDfsSimpleCyclesFinder<Automaton, Location, EventLoopEdge, EventLoop>
+            extends DirectedGraphCycleFinder<Automaton, Location, EventLoopEdge, EventLoop>
     {
         /** The events that can form an event loop. */
         private final Set<Event> loopEvents;
