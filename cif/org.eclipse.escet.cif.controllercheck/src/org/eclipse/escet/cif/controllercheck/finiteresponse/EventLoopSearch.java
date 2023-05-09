@@ -28,8 +28,8 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnvData;
-import org.eclipse.escet.common.java.DfsFindSimpleCycles.GenericDfsSimpleCyclesFinder;
-import org.eclipse.escet.common.java.DfsFindSimpleCycles.GraphEdge;
+import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GenericDfsSimpleCyclesFinder;
+import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GraphEdge;
 import org.eclipse.escet.common.java.ListProductIterator;
 
 /** Static class for finding event loops. */
@@ -75,12 +75,12 @@ public class EventLoopSearch {
         }
 
         @Override
-        public List<Location> getVertices(Automaton graph) {
+        protected List<Location> getVertices(Automaton graph) {
             return graph.getLocations();
         }
 
         @Override
-        public void addCycle(List<EventLoopEdge> edges, Set<EventLoop> foundCycles) {
+        protected void addCycle(List<EventLoopEdge> edges, Set<EventLoop> foundCycles) {
             // Collect the events of each edge in the cycle.
             List<List<Event>> eventCollections = listc(edges.size());
             for (EventLoopEdge edge: edges) {
@@ -96,7 +96,7 @@ public class EventLoopSearch {
         }
 
         @Override
-        public List<EventLoopEdge> getEdges(Location vertex) {
+        protected List<EventLoopEdge> getOutgoingEdges(Location vertex) {
             List<EventLoopEdge> edges = list();
             for (Edge edge: vertex.getEdges()) {
                 if (isEmptyIntersection(loopEvents, getEvents(edge))) {

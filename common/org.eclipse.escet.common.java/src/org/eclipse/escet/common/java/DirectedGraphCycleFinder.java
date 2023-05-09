@@ -32,33 +32,33 @@ import java.util.function.BooleanSupplier;
  * starts from a different vertex.
  * </p>
  */
-public class DfsFindSimpleCycles {
-    /** Constructor of the static {@link DfsFindSimpleCycles} class. */
-    private DfsFindSimpleCycles() {
+public class DirectedGraphCycleFinder {
+    /** Constructor of the static {@link DirectedGraphCycleFinder} class. */
+    private DirectedGraphCycleFinder() {
         // Static class.
     }
 
     /**
      * Generic class for finding simple cycles using depth-first search.
      *
-     * @param <Graph> Graph class being searched.
-     * @param <Vertex> Vertex class in the graph.
-     * @param <Edge> Edge class in the graph.
-     * @param <Cycle> Class that stores a found cycle. This class should implement hashing and equality under rotation
+     * @param <G> Graph class being searched.
+     * @param <V> Vertex class in the graph.
+     * @param <E> Edge class in the graph.
+     * @param <C> Class that stores a found cycle. This class should implement hashing and equality under rotation
      *     of its edges. For example, cycle {@code abc} may again be found as cycle {@code bca} or {@code cab}.
      */
-    public abstract static class GenericDfsSimpleCyclesFinder<Graph, Vertex, Edge extends GraphEdge<Vertex>, Cycle> {
+    public abstract static class GenericDfsSimpleCyclesFinder<G, V, E extends GraphEdge<V>, C> {
         /** Edges currently being searched. */
-        List<Edge> stack;
+        private List<E> stack;
 
         /** Starting vertex of the edges at the {@link #stack} to their index at the {@link #stack}. */
-        Map<Vertex, Integer> stackIndex;
+        private Map<V, Integer> stackIndex;
 
         /** Vertices that are or were being searched for cycles. */
-        Set<Vertex> visitedVertices;
+        private Set<V> visitedVertices;
 
         /** Found cycles in the graph. */
-        private Set<Cycle> foundCycles;
+        private Set<C> foundCycles;
 
         /** Test function to detect a user abort request. */
         private final BooleanSupplier isTerminationRequested;
@@ -79,19 +79,19 @@ public class DfsFindSimpleCycles {
          * @param graph Graph being searched.
          * @return The found simple cycles in the graph.
          */
-        public Set<Cycle> findSimpleCycles(Graph graph) {
+        public Set<C> findSimpleCycles(G graph) {
             // Initialize data fields for the search.
-            List<Vertex> vertices = getVertices(graph);
+            List<V> vertices = getVertices(graph);
             stack = listc(vertices.size() + 1);
             stackIndex = mapc(vertices.size());
             visitedVertices = setc(vertices.size());
 
-            Set<Cycle> foundCycles = set();
+            Set<C> foundCycles = set();
             this.foundCycles = foundCycles;
 
             // Examine all vertices of the graph. Due to directed edges or limited edges that can be traversed it is
             // possible that some vertices are not always reachable.
-            for (Vertex vertex: vertices) {
+            for (V vertex: vertices) {
                 if (visitedVertices.contains(vertex)) {
                     continue;
                 }
@@ -115,7 +115,7 @@ public class DfsFindSimpleCycles {
          *
          * @param vertex Next vertex to search.
          */
-        private void expandVertexPath(Vertex vertex) {
+        private void expandVertexPath(V vertex) {
             if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
                 return;
             }
@@ -127,15 +127,15 @@ public class DfsFindSimpleCycles {
             stack.add(null); // Is replaced with proper edges below.
 
             // Explore the edges from the new vertex for further expansion.
-            for (Edge edge: getEdges(vertex)) {
-                Vertex edgeTargetLoc = edge.destinationVertex;
-                Integer cycleStartIndex = stackIndex.get(edgeTargetLoc);
+            for (E edge: getOutgoingEdges(vertex)) {
+                V edgeTargetVertex = edge.destinationVertex;
+                Integer cycleStartIndex = stackIndex.get(edgeTargetVertex);
 
                 if (cycleStartIndex == null) {
                     // New vertex in this search, explore it. Note that this ignores the visitedVertices set, so
                     // multiple graph traversals over the same vertex in different searches are possible.
                     stack.set(vertexStackPos, edge);
-                    expandVertexPath(edgeTargetLoc);
+                    expandVertexPath(edgeTargetVertex);
                 } else {
                     // A simple cycle was detected, add it to the collection.
                     stack.set(vertexStackPos, edge);
@@ -158,7 +158,7 @@ public class DfsFindSimpleCycles {
          * @param graph Graph to use.
          * @return All the vertices of the graph.
          */
-        public abstract List<Vertex> getVertices(Graph graph);
+        protected abstract List<V> getVertices(G graph);
 
         /**
          * Obtain the edges that leave from the provided vertex in the graph.
@@ -166,7 +166,7 @@ public class DfsFindSimpleCycles {
          * @param vertex Starting vertex of all returned edges.
          * @return The returned edges.
          */
-        public abstract List<Edge> getEdges(Vertex vertex);
+        protected abstract List<E> getOutgoingEdges(V vertex);
 
         /**
          * Add a cycle to the collection of found cycles.
@@ -175,20 +175,20 @@ public class DfsFindSimpleCycles {
          *     result.
          * @param foundCycles Previously found cycles.
          */
-        public abstract void addCycle(List<Edge> edges, Set<Cycle> foundCycles);
+        protected abstract void addCycle(List<E> edges, Set<C> foundCycles);
     }
 
     /**
      * An edge in the graph.
      *
-     * @param <Vertex> Vertex class in the graph.
+     * @param <V> Vertex class in the graph.
      */
-    public static class GraphEdge<Vertex> {
+    public static class GraphEdge<V> {
         /** Vertex where the edge leaves. */
-        public final Vertex startVertex;
+        public final V startVertex;
 
         /** Vertex where the edge arrives. */
-        public final Vertex destinationVertex;
+        public final V destinationVertex;
 
         /**
          * Constructor of the {@link GraphEdge} class.
@@ -196,7 +196,7 @@ public class DfsFindSimpleCycles {
          * @param startVertex Vertex where the edge leaves.
          * @param destinationVertex Vertex where the edge arrives.
          */
-        public GraphEdge(Vertex startVertex, Vertex destinationVertex) {
+        public GraphEdge(V startVertex, V destinationVertex) {
             this.startVertex = startVertex;
             this.destinationVertex = destinationVertex;
         }
