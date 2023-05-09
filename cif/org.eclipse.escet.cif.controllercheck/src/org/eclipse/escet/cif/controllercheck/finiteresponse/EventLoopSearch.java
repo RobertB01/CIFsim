@@ -97,7 +97,6 @@ public class EventLoopSearch {
 
         @Override
         public List<EventLoopEdge> getEdges(Location vertex) {
-            // Construct the list leaving edges from the vertex.
             List<EventLoopEdge> edges = list();
             for (Edge edge: vertex.getEdges()) {
                 if (isEmptyIntersection(loopEvents, getEvents(edge))) {
@@ -127,7 +126,7 @@ public class EventLoopSearch {
          *
          * @param startVertex Vertex where the edge leaves.
          * @param destinationVertex Vertex where the edge arrives.
-         * @param events The events of the edge,
+         * @param events The events of the edge.
          */
         public EventLoopEdge(Location startVertex, Location destinationVertex, List<Event> events) {
             super(startVertex, destinationVertex);

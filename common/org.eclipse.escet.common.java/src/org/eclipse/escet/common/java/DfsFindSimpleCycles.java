@@ -111,7 +111,7 @@ public class DfsFindSimpleCycles {
         }
 
         /**
-         * Expand the vertex path being searched by the give vertex.
+         * Expand the vertex path being searched by the given vertex.
          *
          * @param vertex Next vertex to search.
          */
@@ -132,8 +132,8 @@ public class DfsFindSimpleCycles {
                 Integer cycleStartIndex = stackIndex.get(edgeTargetLoc);
 
                 if (cycleStartIndex == null) {
-                    // New vertex in this search, explore it. Note this ignores the visitedVertices set, so multiple
-                    // graph traversals over the same vertex in different searches are possible.
+                    // New vertex in this search, explore it. Note that this ignores the visitedVertices set, so
+                    // multiple graph traversals over the same vertex in different searches are possible.
                     stack.set(vertexStackPos, edge);
                     expandVertexPath(edgeTargetLoc);
                 } else {
@@ -161,7 +161,7 @@ public class DfsFindSimpleCycles {
         public abstract List<Vertex> getVertices(Graph graph);
 
         /**
-         * Obtain the edge that leaves from the provided vertex in the graph.
+         * Obtain the edges that leave from the provided vertex in the graph.
          *
          * @param vertex Starting vertex of all returned edges.
          * @return The returned edges.
@@ -169,7 +169,7 @@ public class DfsFindSimpleCycles {
         public abstract List<Edge> getEdges(Vertex vertex);
 
         /**
-         * Add a cycle to the collection found cycles.
+         * Add a cycle to the collection of found cycles.
          *
          * @param edges Edges that form a new cycle. The supplied list is not stable, it must be copied to preserve the
          *     result.
