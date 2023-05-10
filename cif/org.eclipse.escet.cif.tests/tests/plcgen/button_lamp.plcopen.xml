@@ -20,7 +20,12 @@
         <interface/>
         <body>
           <ST>
-            <xhtml xmlns="http://www.w3.org/1999/xhtml"/>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    hw_lamp_bit := FALSE;
+END_IF;</xhtml>
           </ST>
         </body>
       </pou>
@@ -50,6 +55,14 @@
             </variable>
           </globalVars>
           <globalVars constant="false" name="TIMERS">
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
             <variable name="timer0">
               <type>
                 <derived name="TON"/>

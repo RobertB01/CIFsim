@@ -1,3 +1,24 @@
 PROGRAM MAIN
 
+IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    p_b := TRUE;
+    p_x := 0;
+    p_y := 1.23;
+    p_ve := g_LIT1;
+    p_v1 := 0;
+    litStruct.field1 := 0.0;
+    litStruct.field2 := 0.0;
+    p_v2 := litStruct;
+    litStruct__1.field1 := litStruct__2;
+    litStruct__1.field2 := 0.0;
+    p_v3 := litStruct__1;
+    litStruct__3.field1 := 0;
+    litStruct__3.field2 := 0;
+    p_tv := litStruct__3;
+    p_j := 0;
+    p_r := 1000000.0;
+END_IF;
 END_PROGRAM

@@ -15,8 +15,11 @@ package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType.INT_TYPE;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcGlobalVarList;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouInstance;
@@ -29,7 +32,10 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** Class that stores and writes generated PLC code. */
@@ -57,6 +63,9 @@ public class PlcCodeStorage {
 
     /** Global variable list for state variables, lazily created. */
     private PlcGlobalVarList globalStateVars = null;
+
+    /** If not {@code null}, code for initializing the state variables. */
+    private List<PlcStatement> stateInitializationCode = null;
 
     /**
      * Constructor of the {@link PlcCodeStorage} class.
@@ -138,6 +147,18 @@ public class PlcCodeStorage {
         project.typeDecls.add(decl);
     }
 
+    /**
+     * Add code to initialize the state of the globally used variables.
+     *
+     * @param stateInitializationCode Code for initializing the globally used variables.
+     */
+    public void addStateInitialization(List<PlcStatement> stateInitializationCode) {
+        Assert.check(this.stateInitializationCode == null);
+        if (PlcModelUtils.isNonEmptyCode(stateInitializationCode)) {
+            this.stateInitializationCode = stateInitializationCode;
+        }
+    }
+
     /** Perform any additional processing to make the generated PLC program ready. */
     public void finishPlcProgram() {
         // Add all created variable tables.
@@ -153,6 +174,21 @@ public class PlcCodeStorage {
         // Global variable list of the main program. Note that the cif2plc Siemens target requires the "TIMERS" name.
         PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
         addGlobalVariableTable(mainVariables);
+
+        if (stateInitializationCode != null) {
+            // Insert code to create the initial state.
+            PlcVariable firstFlag = new PlcVariable("firstRun", PlcElementaryType.BOOL_TYPE, null, new PlcValue("TRUE"));
+            mainVariables.variables.add(firstFlag);
+
+            CodeBox box = main.body;
+            box.add("IF %s THEN", firstFlag.name);
+            box.indent();
+            box.add("%s := FALSE;", firstFlag.name);
+            box.add();
+            target.getModelTextGenerator().toText(stateInitializationCode, box, main.name, false);
+            box.dedent();
+            box.add("END_IF;");
+        }
 
         // Add main program variables.
         PlcType tonType = new PlcDerivedType("TON");

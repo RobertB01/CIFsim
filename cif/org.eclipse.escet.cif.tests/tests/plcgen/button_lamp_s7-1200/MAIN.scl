@@ -2,4 +2,10 @@ ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
 
 BEGIN
+    IF firstRun THEN
+        firstRun := FALSE;
+
+        (* Initialize the state variables. *)
+        hw_lamp_bit := FALSE;
+    END_IF;
 END_ORGANIZATION_BLOCK

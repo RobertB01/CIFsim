@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
+import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 
 /** Code generator interface for a {@link PlcBaseTarget}. */
@@ -25,6 +26,13 @@ public interface PlcTarget {
      * @return The target type of the target.
      */
     public abstract PlcTargetType getTargetType();
+
+    /**
+     * Retrieve the converter of the PLC model classes to their textual equivalent.
+     *
+     * @return The text generator for the PLC model classes.
+     */
+    public abstract ModelTextGenerator getModelTextGenerator();
 
     /**
      * Returns whether the target supports arrays.

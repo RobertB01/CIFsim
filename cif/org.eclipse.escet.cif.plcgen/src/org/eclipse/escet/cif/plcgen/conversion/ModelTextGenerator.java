@@ -314,7 +314,7 @@ public class ModelTextGenerator {
     }
 
     /**
-     * Convert a sequence of PLC statements to text. Without {@code fixCodeBlock} an sequence without proper statement
+     * Convert a sequence of PLC statements to text. Without {@code fixCodeBlock} a sequence without proper statement
      * will crash the application.
      *
      * @param plcStats Statements to convert.
@@ -329,7 +329,7 @@ public class ModelTextGenerator {
     }
 
     /**
-     * Convert a sequence of PLC statements to text. Without {@code fixCodeBlock} an sequence without proper statement
+     * Convert a sequence of PLC statements to text. Without {@code fixCodeBlock} a sequence without proper statement
      * will crash the application.
      *
      * @param plcStats StatementS to convert.

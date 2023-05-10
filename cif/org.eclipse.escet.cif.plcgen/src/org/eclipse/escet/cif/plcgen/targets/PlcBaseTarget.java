@@ -18,12 +18,15 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.DefaultVariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 
 /** Base class for generating a {@link PlcProject}. */
@@ -33,6 +36,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     /** Size of a real value in a CIF specification. */
     public static final int CIF_REAL_SIZE = 64;
+
+    /** Conversion of PLC models to text for the target. */
+    private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
 
     /** PLC target type for code generation. */
     public final PlcTargetType targetType;
@@ -105,19 +111,28 @@ public abstract class PlcBaseTarget implements PlcTarget {
         NameGenerator nameGenerator = new DefaultNameGenerator(settings);
         PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
         TypeGenerator typeGen = new DefaultTypeGenerator(this, settings, nameGenerator, codeStorage);
-        CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameGenerator);
+        VariableStorage varStorage = new DefaultVariableStorage(this, typeGen, codeStorage, nameGenerator);
+        CifProcessor cifProcessor = new CifProcessor(this, settings, varStorage, typeGen);
 
-        // Perform the conversion.
+        // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
         if (settings.shouldTerminate.get()) {
             return;
         }
 
+        // Make the globally used variables ready for use in the PLC code.
+        varStorage.process();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
+
+        // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();
         if (settings.shouldTerminate.get()) {
             return;
         }
 
+        // And write it.
         codeStorage.writeOutput();
     }
 
@@ -127,6 +142,11 @@ public abstract class PlcBaseTarget implements PlcTarget {
      * @return The requested PLC code writer.
      */
     protected abstract OutputTypeWriter getPlcCodeWriter();
+
+    @Override
+    public ModelTextGenerator getModelTextGenerator() {
+        return modelTextGenerator;
+    }
 
     @Override
     public abstract boolean supportsArrays();
