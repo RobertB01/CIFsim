@@ -191,9 +191,10 @@ public class PlcCodeStorage {
         PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
         addGlobalVariableTable(mainVariables);
 
+        ExprGenerator exprGen = getExprGenerator();
         if (stateInitializationCode != null) {
             // Insert code to create the initial state.
-            PlcVariable firstFlag = new PlcVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
+            PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
                     new PlcValue("TRUE"));
             mainVariables.variables.add(firstFlag);
 
@@ -209,9 +210,9 @@ public class PlcCodeStorage {
 
         // Add main program variables.
         PlcType tonType = new PlcDerivedType("TON");
-        mainVariables.variables.add(new PlcVariable("timer0", tonType));
-        mainVariables.variables.add(new PlcVariable("timer1", tonType));
-        mainVariables.variables.add(new PlcVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
+        mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
+        mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
+        mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
 
         // Add program to task.
         task.pouInstances.add(new PlcPouInstance("MAIN", main));
