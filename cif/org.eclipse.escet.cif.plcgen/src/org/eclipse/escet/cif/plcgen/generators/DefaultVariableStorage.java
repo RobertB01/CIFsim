@@ -72,7 +72,7 @@ public class DefaultVariableStorage implements VariableStorage {
     @Override
     public void process() {
         // Construct a converter for CIF expressions.
-        ExprGenerator exprGen = new ExprGenerator(target, getRootCifDataProvider());
+        ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
 
         // Order the discrete variables on their dependencies for initialization.
         // TODO Add continuous variables here as well.
