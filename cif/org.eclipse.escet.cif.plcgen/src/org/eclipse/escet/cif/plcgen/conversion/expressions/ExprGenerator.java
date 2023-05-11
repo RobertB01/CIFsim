@@ -31,6 +31,7 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
+import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
@@ -139,8 +140,33 @@ public class ExprGenerator {
      * @return The created variable.
      */
     public PlcVariable getTempVariable(String prefix, PlcType plcType) {
+        return makeLocalVariable(prefix, plcType);
+    }
+
+    /**
+     * Construct a local variable to use in the generated code.
+     *
+     * @param prefix Initial part of the name of the variable.
+     * @param plcType Type of the returned variable.
+     * @return The created variable.
+     */
+    public PlcVariable makeLocalVariable(String prefix, PlcType plcType) {
+        return makeLocalVariable(prefix, plcType, null, null);
+    }
+
+    /**
+     * Construct a local variable to use in the generated code.
+     *
+     * @param prefix Initial part of the name of the variable.
+     * @param plcType Type of the returned variable.
+     * @param address The address of the variable, or {@code null} if not specified.
+     * @param value The initial value of the variable, or {@code null} if not specified.
+     *
+     * @return The created variable.
+     */
+    public PlcVariable makeLocalVariable(String prefix, PlcType plcType, String address, PlcValue value) {
         String name = target.getNameGenerator().generateLocalName(prefix, localNameGenMap);
-        return new PlcVariable(name, plcType);
+        return new PlcVariable(name, plcType, address, value);
     }
 
     /**
