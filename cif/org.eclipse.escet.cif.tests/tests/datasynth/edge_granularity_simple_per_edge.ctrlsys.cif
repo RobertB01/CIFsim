@@ -1,0 +1,33 @@
+uncontrollable e;
+controllable a;
+controllable b;
+plant automaton p1:
+  location l1:
+    initial;
+    marked;
+    edge e goto l2;
+  location l2:
+    edge e goto l1;
+end
+plant automaton p2:
+  disc int[0..3] x in any;
+  location l1:
+    initial;
+    marked;
+    edge e when x = 1 goto l1;
+    edge e when x = 2 goto l2;
+    edge e when x = 3 goto l3;
+  location l2:
+    edge a goto l1;
+  location l3:
+    edge b goto l1;
+end
+supervisor automaton sup:
+  alphabet a, b;
+  initial p2.x != 3;
+  location:
+    initial;
+    marked;
+    edge a when (p2.x != 0 or p1.l1) and p2.x != 3;
+    edge b when false;
+end

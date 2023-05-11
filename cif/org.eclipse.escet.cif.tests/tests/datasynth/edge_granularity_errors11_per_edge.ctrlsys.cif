@@ -1,0 +1,17 @@
+uncontrollable e;
+plant automaton p:
+  disc int[0..7] x in any;
+  location l1:
+    initial;
+    edge e when x = 5 or x = 6 do x := x + 2 goto l2;
+    edge e when x = 6 or x = 7 do x := x + 3 goto l2;
+  location l2:
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  initial p.x = 5;
+  location:
+    initial;
+    marked;
+end
