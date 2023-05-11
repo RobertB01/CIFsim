@@ -85,29 +85,19 @@ public class CifProcessor {
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
 
-    /** Storage and retrieval of globally used variables in the PLC. */
-    private final VariableStorage varStorage;
-
-    /** Type generator. */
-    private final TypeGenerator typeGen;
-
     /**
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
      *
      * @param target PLC target to generate code for.
      * @param settings Configuration to use.
-     * @param varStorage Storage and retrieval of globally used variables in the PLC.
-     * @param typeGen Type generator.
      */
-    public CifProcessor(PlcTarget target, PlcGenSettings settings, VariableStorage varStorage, TypeGenerator typeGen) {
+    public CifProcessor(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
         inputPath = settings.inputPath;
         absInputPath = settings.absInputPath;
         simplifyValues = settings.simplifyValues;
         enumConversion = settings.enumConversion;
         warnOutput = settings.warnOutput;
-        this.varStorage = varStorage;
-        this.typeGen = typeGen;
     }
 
     /** Process the input CIF specification, extracting the relevant information for PLC code generation. */
@@ -121,11 +111,11 @@ public class CifProcessor {
         // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
             if (decl instanceof DiscVariable discVar) {
-                varStorage.addStateVariable(decl, discVar.getType());
+                target.getVarStorage().addStateVariable(decl, discVar.getType());
             } else if (decl instanceof InputVariable inpVar) {
-                varStorage.addStateVariable(decl, inpVar.getType());
+                target.getVarStorage().addStateVariable(decl, inpVar.getType());
             } else if (decl instanceof EnumDecl enumDecl) {
-                typeGen.convertEnumDecl(enumDecl);
+                target.getTypeGenerator().convertEnumDecl(enumDecl);
             }
 
             // TODO Constants.

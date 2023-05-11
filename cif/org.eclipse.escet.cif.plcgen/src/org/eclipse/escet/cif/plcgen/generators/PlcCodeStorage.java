@@ -177,7 +177,8 @@ public class PlcCodeStorage {
 
         if (stateInitializationCode != null) {
             // Insert code to create the initial state.
-            PlcVariable firstFlag = new PlcVariable("firstRun", PlcElementaryType.BOOL_TYPE, null, new PlcValue("TRUE"));
+            PlcVariable firstFlag = new PlcVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
+                    new PlcValue("TRUE"));
             mainVariables.variables.add(firstFlag);
 
             CodeBox box = main.body;

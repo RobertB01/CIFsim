@@ -51,6 +51,9 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Class for handling types. */
 public class DefaultTypeGenerator implements TypeGenerator {
+    /** PLC target to generate code for. */
+    private final PlcTarget target;
+
     /** Standard integer type. */
     private final PlcElementaryType standardIntType;
 
@@ -59,12 +62,6 @@ public class DefaultTypeGenerator implements TypeGenerator {
 
     /** How to convert enumeration declarations to the PLC. */
     private final ConvertEnums enumConversion;
-
-    /** Generator for obtaining clash-free names in the generated code. */
-    private final NameGenerator nameGenerator;
-
-    /** Generator that stores and writes generated PLC code. */
-    private final PlcCodeStorage plcCodeStorage;
 
     /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances, to PLC type-declaration names. */
     private final Map<TypeEqHashWrap, String> structNames = map();
@@ -87,18 +84,12 @@ public class DefaultTypeGenerator implements TypeGenerator {
      *
      * @param target PLC target.
      * @param settings Configuration to use.
-     * @param nameGenerator Generator for obtaining clash-free names in the generated code.
-     * @param plcCodeStorage Generator that stores and writes generated PLC code.
      */
-    public DefaultTypeGenerator(PlcTarget target, PlcGenSettings settings, NameGenerator nameGenerator,
-            PlcCodeStorage plcCodeStorage)
-    {
+    public DefaultTypeGenerator(PlcTarget target, PlcGenSettings settings) {
+        this.target = target;
         standardIntType = target.getIntegerType();
         standardRealType = target.getRealType();
         enumConversion = settings.enumConversion;
-
-        this.nameGenerator = nameGenerator;
-        this.plcCodeStorage = plcCodeStorage;
     }
 
     @Override
@@ -149,11 +140,11 @@ public class DefaultTypeGenerator implements TypeGenerator {
 
             // Wrap a type declaration around the struct type, make it findable for future queries, and store the
             // created PLC structure type.
-            sname = nameGenerator.generateGlobalName("TupleStruct", false);
+            sname = target.getNameGenerator().generateGlobalName("TupleStruct", false);
             PlcTypeDecl typeDecl = new PlcTypeDecl(sname, structType);
             structNames.put(typeWrap, sname);
             structTypes.put(sname, structType);
-            plcCodeStorage.addTypeDecl(typeDecl);
+            target.getCodeStorage().addTypeDecl(typeDecl);
         }
         return new PlcDerivedType(sname);
     }
@@ -239,18 +230,18 @@ public class DefaultTypeGenerator implements TypeGenerator {
         PlcEnumLiteral[] literals = new PlcEnumLiteral[cifLiterals.size()];
         int litIndex = 0;
         for (EnumLiteral lit: cifLiterals) {
-            String litName = nameGenerator.generateGlobalName(CifTextUtils.getAbsName(lit, false), true);
+            String litName = target.getNameGenerator().generateGlobalName(CifTextUtils.getAbsName(lit, false), true);
             literals[litIndex] = new PlcEnumLiteral(litName);
 
             litIndex++;
         }
 
         // Construct the type and add it to the global type declarations.
-        String declName = nameGenerator.generateGlobalName(CifTextUtils.getAbsName(enumDecl, false), true);
+        String declName = target.getNameGenerator().generateGlobalName(CifTextUtils.getAbsName(enumDecl, false), true);
         PlcType declType = new PlcDerivedType(declName);
         PlcEnumType plcEnumType = new PlcEnumType(
                 Arrays.stream(literals).map(v -> v.value).collect(Collectors.toList()));
-        plcCodeStorage.addTypeDecl(new PlcTypeDecl(declName, plcEnumType));
+        target.getCodeStorage().addTypeDecl(new PlcTypeDecl(declName, plcEnumType));
 
         return new EnumDeclData(declType, literals);
     }

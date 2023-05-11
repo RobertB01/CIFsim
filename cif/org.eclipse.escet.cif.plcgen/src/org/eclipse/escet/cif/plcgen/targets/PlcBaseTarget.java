@@ -37,9 +37,6 @@ public abstract class PlcBaseTarget implements PlcTarget {
     /** Size of a real value in a CIF specification. */
     public static final int CIF_REAL_SIZE = 64;
 
-    /** Conversion of PLC models to text for the target. */
-    private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
-
     /** PLC target type for code generation. */
     public final PlcTargetType targetType;
 
@@ -52,6 +49,24 @@ public abstract class PlcBaseTarget implements PlcTarget {
     /** Absolute base path to which to write the generated code. */
     private String outputPath;
 
+    /** Conversion of PLC models to text for the target. */
+    private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
+
+    /** Extracts information from the CIF input file, to be used during PLC code generation. */
+    private CifProcessor cifProcessor;
+
+    /** Handles storage and retrieval of globally used variables in the PLC program. */
+    private VariableStorage varStorage;
+
+    /** Handles type storage and conversions. */
+    private TypeGenerator typeGenerator;
+
+    /** Stores and writes generated PLC code. */
+    private PlcCodeStorage codeStorage;
+
+    /** Generate clash-free names in the generated code. */
+    private NameGenerator nameGenerator;
+
     /**
      * Constructor of the {@link PlcBaseTarget} class.
      *
@@ -59,11 +74,6 @@ public abstract class PlcBaseTarget implements PlcTarget {
      */
     public PlcBaseTarget(PlcTargetType targetType) {
         this.targetType = targetType;
-    }
-
-    @Override
-    public PlcTargetType getTargetType() {
-        return targetType;
     }
 
     /**
@@ -107,12 +117,11 @@ public abstract class PlcBaseTarget implements PlcTarget {
     public void generate(PlcGenSettings settings) {
         setup(settings);
 
-        // Construct the generators.
-        NameGenerator nameGenerator = new DefaultNameGenerator(settings);
-        PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
-        TypeGenerator typeGen = new DefaultTypeGenerator(this, settings, nameGenerator, codeStorage);
-        VariableStorage varStorage = new DefaultVariableStorage(this, typeGen, codeStorage, nameGenerator);
-        CifProcessor cifProcessor = new CifProcessor(this, settings, varStorage, typeGen);
+        nameGenerator = new DefaultNameGenerator(settings);
+        codeStorage = new PlcCodeStorage(this, settings);
+        typeGenerator = new DefaultTypeGenerator(this, settings);
+        varStorage = new DefaultVariableStorage(this);
+        cifProcessor = new CifProcessor(this, settings);
 
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
@@ -144,8 +153,38 @@ public abstract class PlcBaseTarget implements PlcTarget {
     protected abstract OutputTypeWriter getPlcCodeWriter();
 
     @Override
+    public PlcTargetType getTargetType() {
+        return targetType;
+    }
+
+    @Override
     public ModelTextGenerator getModelTextGenerator() {
         return modelTextGenerator;
+    }
+
+    @Override
+    public CifProcessor getCifProcessor() {
+        return cifProcessor;
+    }
+
+    @Override
+    public VariableStorage getVarStorage() {
+        return varStorage;
+    }
+
+    @Override
+    public TypeGenerator getTypeGenerator() {
+        return typeGenerator;
+    }
+
+    @Override
+    public PlcCodeStorage getCodeStorage() {
+        return codeStorage;
+    }
+
+    @Override
+    public NameGenerator getNameGenerator() {
+        return nameGenerator;
     }
 
     @Override

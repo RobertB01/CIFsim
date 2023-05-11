@@ -94,8 +94,11 @@ import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
+import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
@@ -156,14 +159,16 @@ public class ExprGeneratorTest {
     public void setup() {
         target = new TestPlcTarget();
         CifDataProvider cifDataProvider = new TestCifDataProvider();
-        TypeGenerator typeGen = new TestTypeGenerator();
-        NameGenerator nameGen = new TestNameGenerator();
-        exprGen = new ExprGenerator(target, cifDataProvider, typeGen, nameGen);
+        exprGen = new ExprGenerator(target, cifDataProvider);
     }
 
     /** PLC target for testing the expression generator. */
     private static class TestPlcTarget extends PlcBaseTarget {
         public boolean supportsLog = true;
+
+        private TypeGenerator typeGenerator = new TestTypeGenerator();
+
+        private NameGenerator nameGenerator = new TestNameGenerator();
 
         public TestPlcTarget() {
             super(PlcTargetType.IEC_61131_3);
@@ -198,6 +203,31 @@ public class ExprGeneratorTest {
                 return supportsLog;
             }
             return super.supportsOperation(funcOper);
+        }
+
+        @Override
+        public CifProcessor getCifProcessor() {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public VariableStorage getVarStorage() {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public TypeGenerator getTypeGenerator() {
+            return typeGenerator;
+        }
+
+        @Override
+        public PlcCodeStorage getCodeStorage() {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public NameGenerator getNameGenerator() {
+            return nameGenerator;
         }
 
         @Override
