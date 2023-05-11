@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable e;
+
+plant p:
+  disc int[0..7] x in any;
+
+  location l1:
+    initial;
+
+    // Partially overlapping guards, same update, some overflow.
+    edge e when x = 5 or x = 6 do x := x + 2 goto l2;
+    edge e when x = 6 or x = 7 do x := x + 2 goto l2;
+
+  location l2:
+    marked;
+end

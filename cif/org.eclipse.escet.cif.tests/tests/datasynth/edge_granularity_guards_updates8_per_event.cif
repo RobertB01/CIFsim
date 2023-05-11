@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable e;
+
+plant p:
+  disc int[0..3] x in any;
+  disc int[0..3] y;
+  disc int[0..3] z;
+
+  location l1: // x in {0, 1, 2}, y = 0, z = 0
+    initial;
+
+    // Partially overlapping guards, different and same updates, and a second variable as well.
+    edge e when x = 0 or x = 1 do y := 0, z := 1 goto y0;
+    edge e when x = 1 or x = 2 do y := 1, z := 1 goto y1;
+    edge e when x = 0          do y := 0, z := 1 goto y0;
+    edge e when x = 0          do y := 2, z := 2 goto y2;
+    edge e when x = 1          do y := 1, z := 2 goto y1;
+    edge e when x = 1          do y := 3, z := 3 goto y3;
+
+  location y0: // x in {0, 1}, y = 0, z = 1
+    marked y = 0;
+
+  location y1: // x in {1, 2}, y = 1, z in {1, 2}, but not (x = 2 and z = 2)
+    marked y = 1;
+
+  location y2: // x = 0, y = 2, z = 2
+    marked y = 2;
+
+  location y3: // x = 1, y = 3, z = 3
+    marked y = 3;
+end
