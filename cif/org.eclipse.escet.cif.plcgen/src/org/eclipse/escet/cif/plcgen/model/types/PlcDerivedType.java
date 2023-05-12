@@ -29,4 +29,20 @@ public class PlcDerivedType extends PlcType {
     public PlcDerivedType(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof PlcDerivedType derivedType)) {
+            return false;
+        }
+        return name.equals(derivedType.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

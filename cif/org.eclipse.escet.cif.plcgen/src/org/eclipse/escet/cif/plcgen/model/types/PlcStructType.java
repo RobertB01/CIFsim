@@ -23,4 +23,28 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 public class PlcStructType extends PlcType {
     /** The fields of the struct type. */
     public List<PlcVariable> fields = list();
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof PlcStructType structType) || fields.size() != structType.fields.size()) {
+            return false;
+        }
+        for (int i = 0; i < fields.size(); i++) {
+            if (!fields.get(i).name.equals(structType.fields.get(i).name)) {
+                return false;
+            }
+            if (!fields.get(i).type.equals(structType.fields.get(i).type)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return fields.hashCode();
+    }
 }
