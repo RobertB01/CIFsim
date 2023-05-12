@@ -13,24 +13,24 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType.INT_TYPE;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYPE;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcGlobalVarList;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouInstance;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcResource;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcTask;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcValue;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;

@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.plcgen.conversion;
 
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;

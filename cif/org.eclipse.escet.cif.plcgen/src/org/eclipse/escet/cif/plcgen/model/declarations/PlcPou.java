@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.declarations;
 
-import static org.eclipse.escet.cif.cif2plc.plcdata.PlcProject.INDENT;
+import static org.eclipse.escet.cif.plcgen.model.declarations.PlcProject.INDENT;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;

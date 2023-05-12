@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.common.java.Assert;

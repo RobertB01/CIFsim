@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
