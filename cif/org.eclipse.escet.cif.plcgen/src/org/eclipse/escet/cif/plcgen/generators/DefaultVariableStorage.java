@@ -20,9 +20,6 @@ import static org.eclipse.escet.common.java.Maps.map;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcType;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -34,12 +31,15 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenResult;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 

@@ -17,7 +17,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.writers.OutputTypeWriter;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 
