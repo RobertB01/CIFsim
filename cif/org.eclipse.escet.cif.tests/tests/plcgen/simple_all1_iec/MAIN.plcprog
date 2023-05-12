@@ -12,6 +12,8 @@ IF firstRun THEN
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
     p_v2 := litStruct;
+    litStruct__2.field1 := 0.0;
+    litStruct__2.field2 := 0.0;
     litStruct__1.field1 := litStruct__2;
     litStruct__1.field2 := 0.0;
     p_v3 := litStruct__1;
