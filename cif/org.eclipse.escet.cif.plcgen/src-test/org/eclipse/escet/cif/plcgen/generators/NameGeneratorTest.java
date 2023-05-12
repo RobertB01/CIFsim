@@ -18,8 +18,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Map;
 
-import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.junit.Before;
 import org.junit.Test;
 
