@@ -40,30 +40,30 @@ public interface PlcTarget {
     public abstract ModelTextGenerator getModelTextGenerator();
 
     /**
-     * Retrieve the CIF processor generator.
+     * Retrieve the CIF processor.
      *
-     * @return The CIF processor generator.
+     * @return The CIF processor.
      */
     public abstract CifProcessor getCifProcessor();
 
     /**
-     * Retrieve the variables storage generator.
+     * Retrieve the variable storage.
      *
-     * @return The variables storage generator.
+     * @return The variable storage.
      */
     public abstract VariableStorage getVarStorage();
 
     /**
-     * Retrieve the type conversion generator.
+     * Retrieve the type generator.
      *
-     * @return The type conversion generator.
+     * @return The type generator.
      */
     public abstract TypeGenerator getTypeGenerator();
 
     /**
-     * Retrieve the PLC code storage generator.
+     * Retrieve the PLC code storage.
      *
-     * @return The PLC code storage generator.
+     * @return The PLC code storage.
      */
     public abstract PlcCodeStorage getCodeStorage();
 
