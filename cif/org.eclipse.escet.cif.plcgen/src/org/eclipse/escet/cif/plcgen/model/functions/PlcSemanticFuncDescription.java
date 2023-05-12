@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
-import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
-
 /** Function description extended with the semantic operation being performed in a function application. */
 public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
     /** The semantic operation performed by the function application. */

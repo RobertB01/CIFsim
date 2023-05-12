@@ -16,6 +16,11 @@ package org.eclipse.escet.cif.plcgen.targets;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
+import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
+import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 
 /** Code generator interface for a {@link PlcBaseTarget}. */
@@ -33,6 +38,41 @@ public interface PlcTarget {
      * @return The text generator for the PLC model classes.
      */
     public abstract ModelTextGenerator getModelTextGenerator();
+
+    /**
+     * Retrieve the CIF processor.
+     *
+     * @return The CIF processor.
+     */
+    public abstract CifProcessor getCifProcessor();
+
+    /**
+     * Retrieve the variable storage.
+     *
+     * @return The variable storage.
+     */
+    public abstract VariableStorage getVarStorage();
+
+    /**
+     * Retrieve the type generator.
+     *
+     * @return The type generator.
+     */
+    public abstract TypeGenerator getTypeGenerator();
+
+    /**
+     * Retrieve the PLC code storage.
+     *
+     * @return The PLC code storage.
+     */
+    public abstract PlcCodeStorage getCodeStorage();
+
+    /**
+     * Retrieve the name generator.
+     *
+     * @return The name generator.
+     */
+    public abstract NameGenerator getNameGenerator();
 
     /**
      * Returns whether the target supports arrays.

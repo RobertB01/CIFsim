@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -64,6 +65,9 @@ public class PlcCodeStorage {
     /** Global variable list for state variables, lazily created. */
     private PlcGlobalVarList globalStateVars = null;
 
+    /** The expression generator to use for generating code in the main program. Initialized lazily. */
+    private ExprGenerator exprGenerator = null;
+
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
 
@@ -86,6 +90,18 @@ public class PlcCodeStorage {
 
         task = new PlcTask(settings.taskName, settings.taskCycleTime, settings.taskPriority);
         resource.tasks.add(task);
+    }
+
+    /**
+     * Get the expression generator to use for generating code in the main program.
+     *
+     * @return The expression generator to use for generating code in the main program.
+     */
+    public ExprGenerator getExprGenerator() {
+        if (exprGenerator == null) {
+            exprGenerator = new ExprGenerator(target, target.getVarStorage().getRootCifDataProvider());
+        }
+        return exprGenerator;
     }
 
     /**
@@ -175,9 +191,11 @@ public class PlcCodeStorage {
         PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
         addGlobalVariableTable(mainVariables);
 
+        ExprGenerator exprGen = getExprGenerator();
         if (stateInitializationCode != null) {
             // Insert code to create the initial state.
-            PlcVariable firstFlag = new PlcVariable("firstRun", PlcElementaryType.BOOL_TYPE, null, new PlcValue("TRUE"));
+            PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
+                    new PlcValue("TRUE"));
             mainVariables.variables.add(firstFlag);
 
             CodeBox box = main.body;
@@ -192,9 +210,9 @@ public class PlcCodeStorage {
 
         // Add main program variables.
         PlcType tonType = new PlcDerivedType("TON");
-        mainVariables.variables.add(new PlcVariable("timer0", tonType));
-        mainVariables.variables.add(new PlcVariable("timer1", tonType));
-        mainVariables.variables.add(new PlcVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
+        mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
+        mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
+        mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
 
         // Add program to task.
         task.pouInstances.add(new PlcPouInstance("MAIN", main));

@@ -48,15 +48,6 @@ public class DefaultVariableStorage implements VariableStorage {
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
-    /** Type generator. */
-    private final TypeGenerator typeGen;
-
-    /** PLC code storage and writer. */
-    private final PlcCodeStorage codeStorage;
-
-    /** Generator for obtaining clash-free names in the generated code. */
-    private final NameGenerator nameGenerator;
-
     /** Names of converted declarations. */
     private final Map<Declaration, PlcVariable> variables = map();
 
@@ -64,32 +55,24 @@ public class DefaultVariableStorage implements VariableStorage {
      * Constructor of the {@link DefaultVariableStorage} class.
      *
      * @param target PLC target to generate code for.
-     * @param typeGen Type generator.
-     * @param codeStorage PLC code storage and writer.
-     * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public DefaultVariableStorage(PlcTarget target, TypeGenerator typeGen, PlcCodeStorage codeStorage,
-            NameGenerator nameGenerator)
-    {
+    public DefaultVariableStorage(PlcTarget target) {
         this.target = target;
-        this.typeGen = typeGen;
-        this.codeStorage = codeStorage;
-        this.nameGenerator = nameGenerator;
     }
 
     @Override
     public void addStateVariable(Declaration decl, CifType type) {
-        PlcType varType = typeGen.convertType(type);
-        String varName = nameGenerator.generateGlobalName(decl);
+        PlcType varType = target.getTypeGenerator().convertType(type);
+        String varName = target.getNameGenerator().generateGlobalName(decl);
         PlcVariable plcVar = new PlcVariable(varName, varType);
         variables.put(decl, plcVar);
-        codeStorage.addStateVariable(plcVar);
+        target.getCodeStorage().addStateVariable(plcVar);
     }
 
     @Override
     public void process() {
         // Construct a converter for CIF expressions.
-        ExprGenerator exprGen = new ExprGenerator(target, getRootCifDataProvider(), typeGen, nameGenerator);
+        ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
 
         // Order the discrete variables on their dependencies for initialization.
         // TODO Add continuous variables here as well.
@@ -119,7 +102,7 @@ public class DefaultVariableStorage implements VariableStorage {
             statements.add(new PlcAssignmentStatement(lhs, exprResult.value));
             exprGen.releaseTempVariables(exprResult.valueVariables);
         }
-        codeStorage.addStateInitialization(statements);
+        target.getCodeStorage().addStateInitialization(statements);
     }
 
     @Override
