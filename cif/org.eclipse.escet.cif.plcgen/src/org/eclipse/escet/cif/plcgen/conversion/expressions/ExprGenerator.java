@@ -25,6 +25,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -86,6 +87,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSetIterator;
 
 /** Converter of CIF expressions to PLC expressions and statements. */
 public class ExprGenerator {
@@ -97,6 +99,18 @@ public class ExprGenerator {
 
     /** Map for the name generator to create local variables. */
     private final Map<String, Integer> localNameGenMap = map();
+
+    /** Local and temporary variables of the generator. */
+    private final List<PlcVariable> variables = list();
+
+    /** Map of variable names to their {@link #variables} index. */
+    private final Map<String, Integer> varNameToVarIndex = map();
+
+    /** Indices set of temporary variables. */
+    private final BitSet variableIsTemp = new BitSet();
+
+    /** Indices set of temporary variables that can be handed out. */
+    private final BitSet variableIsAvailable = new BitSet();
 
     /** PLC target to generate code for. */
     private final PlcTarget target;
@@ -140,7 +154,17 @@ public class ExprGenerator {
      * @return The created variable.
      */
     public PlcVariable getTempVariable(String prefix, PlcType plcType) {
-        return makeLocalVariable(prefix, plcType);
+        // 1. Attempt to find a temporary variable that can be used.
+        for (int idx: new BitSetIterator(variableIsAvailable)) {
+            PlcVariable var = variables.get(idx);
+            if (plcType.equals(var.type) && var.name.startsWith(prefix)) {
+                variableIsAvailable.clear(idx);
+                return var;
+            }
+        }
+
+        // 2. Make a new variable.
+        return createVariable(prefix, plcType, null, null, true);
     }
 
     /**
@@ -151,7 +175,7 @@ public class ExprGenerator {
      * @return The created variable.
      */
     public PlcVariable makeLocalVariable(String prefix, PlcType plcType) {
-        return makeLocalVariable(prefix, plcType, null, null);
+        return createVariable(prefix, plcType, null, null, false);
     }
 
     /**
@@ -165,12 +189,37 @@ public class ExprGenerator {
      * @return The created variable.
      */
     public PlcVariable makeLocalVariable(String prefix, PlcType plcType, String address, PlcValue value) {
-        String name = target.getNameGenerator().generateLocalName(prefix, localNameGenMap);
-        return new PlcVariable(name, plcType, address, value);
+        return createVariable(prefix, plcType, address, value, false);
     }
 
     /**
-     * Give temporary variables back to the generator for future re-use.
+     * Construct a new local variable and add it to the variable administration.
+     *
+     * @param prefix Initial part of the name of the variable.
+     * @param plcType Type of the returned variable.
+     * @param address The address of the variable, or {@code null} if not specified.
+     * @param value The initial value of the variable, or {@code null} if not specified.
+     * @param isTempVar Whether the variable is a temporary variable.
+     * @return The created variable.
+     * @note The new variable is not marked as available.
+     */
+    private PlcVariable createVariable(String prefix, PlcType plcType, String address, PlcValue value,
+            boolean isTempVar)
+    {
+        String name = target.getNameGenerator().generateLocalName(prefix, localNameGenMap);
+        PlcVariable newVar = new PlcVariable(name, plcType, address, value);
+        int newVarIndex = variables.size();
+        variables.add(newVar);
+        varNameToVarIndex.put(newVar.name, newVarIndex);
+        if (isTempVar) {
+            variableIsTemp.set(newVarIndex);
+        }
+        return newVar;
+    }
+
+    /**
+     * Give variables back to the generator for future re-use. Returning non-temporary variables is allowed but they are
+     * ignored.
      *
      * <p>
      * Intended to be used by {@link ExprGenResult} instances.
@@ -179,7 +228,13 @@ public class ExprGenerator {
      * @param variables Variables being returned.
      */
     public void releaseTempVariables(Set<PlcVariable> variables) {
-        // TODO: Currently variables are silently discarded.
+        for (PlcVariable var: variables) {
+            Integer idx = varNameToVarIndex.get(var.name);
+            if (idx == null || !variableIsTemp.get(idx)) {
+                continue;
+            }
+            variableIsAvailable.set(idx);
+        }
     }
 
     /**
