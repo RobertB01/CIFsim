@@ -187,7 +187,7 @@ public class PlcCodeStorage {
         PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
         project.pous.add(main);
 
-        // Global variable list of the main program. Note that the cif2plc Siemens target requires the "TIMERS" name.
+        // Global variable list of the main program. Note that the Siemens target currently requires the "TIMERS" name.
         PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
         addGlobalVariableTable(mainVariables);
 
