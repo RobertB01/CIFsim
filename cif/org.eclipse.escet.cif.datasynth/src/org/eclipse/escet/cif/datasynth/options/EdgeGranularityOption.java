@@ -27,8 +27,8 @@ public class EdgeGranularityOption extends EnumOption<EdgeGranularity> {
 
                 // description
                 "Specify the granularity of edges to use during synthesis."
-                        + "Specify \"per-edge\" (default) to allow each event to have multiple edges, "
-                        + "or \"per-event\" to merge for each event the edges into a single edge.",
+                        + "Specify \"per-edge\" to allow each event to have multiple edges, "
+                        + "or \"per-event\" (default) to merge for each event the edges into a single edge.",
 
                 // cmdShort
                 null,
@@ -40,7 +40,7 @@ public class EdgeGranularityOption extends EnumOption<EdgeGranularity> {
                 "GRAN",
 
                 // defaultValue
-                EdgeGranularity.PER_EDGE,
+                EdgeGranularity.PER_EVENT,
 
                 // showInDialog
                 true,
