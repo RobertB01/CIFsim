@@ -38,7 +38,7 @@ See the <<tools-datasynth-var-order,section about BDD variable order>> for more 
 Synthesis does not directly use the edges from the model.
 It applies <<tools-cif2cif-chapter-linearize-product,linearization>> and then uses the edges from the linearized model.
 Edges are internally also added to <<tools-datasynth-input-vars,support input variables>> during synthesis.
-Furthermore, edges may be combined to form <<tool-datasynth-edge-granularity,less granular>> edges, before they are used for reachability computations.
+Furthermore, edges may be combined to form <<tools-datasynth-edge-granularity,less granular>> edges, before they are used for reachability computations.
 
 The order in which the edges are considered for reachability computations is determined by the _Edge order for backward reachability_ and _Edge order for forward reachability_ options (see the <<tools-datasynth-options,options section>>).
 Several predefined orders exist, and it is also possible to define a custom order.
