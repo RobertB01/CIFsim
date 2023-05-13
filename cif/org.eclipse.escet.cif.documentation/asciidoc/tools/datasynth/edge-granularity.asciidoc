@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,edge granularity]
+
+[[tools-datasynth-edge-granularity]]
+== Edge granularity
+
+Before synthesis, the entire CIF specification is <<tools-cif2cif-chapter-linearize-product,linearized>>, essentially combining the edges of the various automata to edges of a single automaton.
+These edges are then used to perform synthesis.
+
+However, using the edges 'as is', doesn't always give the best synthesis performance.
+It may be beneficial to combine some edges together, to form a single combined edge.
+This combined edge may have a smaller BDD representations than the original edges from which it was combined, reducing memory usage during synthesis.
+The combined edge may also lead to faster convergence for link:https://en.wikipedia.org/wiki/Reachability[reachability] computations, reducing both memory usage and synthesis time.
+However, the effect depends on the particular model being synthesized, and combining edges can also lead to an increase in memory usage and synthesis time.
+Furthermore, the synthesis performance may also be affected by the <<tools-datasynth-edge-order,order>> in which the edges are considered during reachability computations, and whether or not <<tools-datasynth-forward-reach,forward>> reachability is used.
+
+The edge representation can thus be more granular (more edges) or less granular (less edges).
+The following granularities are supported:
+
+* _Per edge_: Allow each event to have multiple edges.
+Essentially, the linearized edges are used 'as is'.
+
+* _Per event_: Merge for each event the edges into a single edge.
+
+The granularity can be configured using the _Edge granularity_ option (see the <<tools-datasynth-options,options section>>).
+By default, the 'per-event' edge granularity is used.

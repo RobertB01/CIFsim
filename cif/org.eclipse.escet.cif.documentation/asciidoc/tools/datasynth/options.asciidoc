@@ -37,6 +37,9 @@ For more information, see the <<tools-datasynth-supervisor-namespace,section abo
 Is disabled by default.
 For more information, see the <<tools-datasynth-forward-reach,section about forward reachability>>.
 
+* _Edge granularity_: Specify the granularity of edges to use during synthesis.
+For more information, see the <<tools-datasynth-edge-granularity,section about edge granularity>>.
+
 * _Edge order_: This option is no longer supported.
 Use the _Edge order for backward reachability_ and _Edge order for forward reachability_ options instead.
 
