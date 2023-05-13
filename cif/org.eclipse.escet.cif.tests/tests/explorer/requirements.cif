@@ -1,0 +1,20 @@
+requirement r1.x + r2.x >= 0;
+
+requirement r1:
+  disc int x;
+  requirement x >= 0;
+
+  location:
+    initial;
+    requirement x >= 0;
+end
+
+requirement r2:
+  disc int x;
+  requirement x >= 0;
+
+  location loc:
+    initial;
+    requirement x >= 0;
+    requirement x <= 1 div x;
+end

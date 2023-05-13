@@ -1,0 +1,33 @@
+WARNING: The CIF specification has features that may cause an unexpected resulting state space:
+WARNING: 
+WARNING:   --------------------------------------------------------
+WARNING:   (1/2) Requirement automaton will be explored as a plant.
+WARNING:   --------------------------------------------------------
+WARNING:    * In the top-level scope of the specification:
+WARNING:      - requirement automaton r1:
+WARNING:                              ^
+WARNING:      - requirement automaton r2:
+WARNING:                              ^
+WARNING: 
+WARNING:   --------------------------------------------------------
+WARNING:   (2/2) Requirement invariant will be explored as a plant.
+WARNING:   --------------------------------------------------------
+WARNING:    * In the top-level scope of the specification:
+WARNING:      - requirement invariant r1.x + r2.x >= 0;
+WARNING:                                          ^
+WARNING:    * In automaton "r1":
+WARNING:      - requirement invariant x >= 0;
+WARNING:                                ^
+WARNING:      - requirement invariant x >= 0;
+WARNING:                                ^
+WARNING:    * In automaton "r2":
+WARNING:      - requirement invariant x >= 0;
+WARNING:                                ^
+WARNING:    * In location "r2.loc":
+WARNING:      - requirement invariant x >= 0;
+WARNING:                                ^
+WARNING:      - requirement invariant x <= 1 div x;
+WARNING:                                ^
+WARNING: 
+ERROR: Failed to compute invariant "r2.x <= 1 div r2.x" in initial state.
+CAUSE: Division by zero: 1 div 0.
