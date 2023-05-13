@@ -24,6 +24,7 @@ list string default_options = [
     "--bdd-dbg-maxpaths=20",
     "--bdd-simplify=guards-plants,initial-unctrl",
     "--forward-reach=on",
+    "--edge-granularity=per-edge",
 ];
 
 string opt_algos_on      = "--dcsh-order=on  --force-order=on  --sliding-window-order=on";
