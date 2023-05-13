@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.explorer.app;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
+import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.ArrayDeque;
@@ -285,11 +286,9 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         // Warn about features of the specification that may lead to an unexpected resulting state space.
         CifCheckViolations warnings = new CifChecker(new RequirementAsPlantChecker()).check(spec, absSpecPath);
         if (warnings.hasViolations()) {
-            warn("The CIF specification has features that may cause an unexpected resulting state space:");
-            for (String line: warnings.createReport()) {
-                warn(line);
-            }
-            warn();
+            warn(String.join("\n",
+                    concat("The CIF specification has features that may cause an unexpected resulting state space:",
+                            warnings.createReport())));
         }
         if (isTerminationRequested()) {
             return 0;

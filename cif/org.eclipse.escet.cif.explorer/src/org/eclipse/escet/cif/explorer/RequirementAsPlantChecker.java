@@ -24,14 +24,14 @@ public class RequirementAsPlantChecker extends CifCheck {
     @Override
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
         if (aut.getKind() == SupKind.REQUIREMENT) {
-            violations.add(aut, "Requirement automaton will be explored as a plant");
+            violations.add(aut, "Automaton is a requirement, but will be explored as a plant");
         }
     }
 
     @Override
     protected void preprocessInvariant(Invariant inv, CifCheckViolations violations) {
         if (inv.getSupKind() == SupKind.REQUIREMENT) {
-            violations.add(inv, "Requirement invariant will be explored as a plant");
+            violations.add(inv, "Invariant is a requirement, but will be explored as a plant");
         }
     }
 }
