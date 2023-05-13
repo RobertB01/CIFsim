@@ -26,10 +26,13 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesNoRefsOptimized;
+import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.checkers.CifChecker;
 import org.eclipse.escet.cif.explorer.CifAutomatonBuilder;
 import org.eclipse.escet.cif.explorer.ExplorerPreChecker;
 import org.eclipse.escet.cif.explorer.ExplorerPreChecker.CheckParameters;
 import org.eclipse.escet.cif.explorer.ExplorerStateFactory;
+import org.eclipse.escet.cif.explorer.RequirementAsPlantChecker;
 import org.eclipse.escet.cif.explorer.app.common.EnableCifOutputOption;
 import org.eclipse.escet.cif.explorer.app.common.EnableReportOption;
 import org.eclipse.escet.cif.explorer.app.common.ReportFileOption;
@@ -249,6 +252,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         // Read CIF file.
         CifReader cifReader = new CifReader().init();
         Specification spec = cifReader.read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -270,10 +274,23 @@ public class ExplorerApplication extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Check specification.
+        // Check specification for being supported.
         EnumSet<CheckParameters> params = EnumSet.allOf(CheckParameters.class);
         ExplorerPreChecker checker = new ExplorerPreChecker(params);
         checker.checkSpec(spec);
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Warn about features of the specification that may lead to an unexpected resulting state space.
+        CifCheckViolations warnings = new CifChecker(new RequirementAsPlantChecker()).check(spec, absSpecPath);
+        if (warnings.hasViolations()) {
+            warn("The CIF specification has features that may cause an unexpected resulting state space:");
+            for (String line: warnings.createReport()) {
+                warn(line);
+            }
+            warn();
+        }
         if (isTerminationRequested()) {
             return 0;
         }
