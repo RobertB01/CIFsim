@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/edge_granularity_errors08_per_edge.cif".
+Reading CIF file "datasynth/edge_granularity_errors08_per_event.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -143,8 +143,7 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: p.x = 6 and p.l1 or p.x = 5 and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
-    Edge: (event: e) (guard: (p.x = 6 or p.x = 7) and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
+    Edge: (event: e) (guard: p.x = 6 and p.l1 or (p.x = 5 or p.x = 7) and p.l1) (assignments: p.x := p.x + 3, p := p.l2 / p.x := p.x + 3, p := p.l2)
 
 Restricting behavior using state/event exclusion plants.
 
@@ -170,8 +169,7 @@ Computing controlled system guards.
 
 Final synthesis result:
   State: (controlled-behavior: p.l2)
-    Edge: (event: e) (guard: p.x = 6 and p.l1 or p.x = 5 and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
-    Edge: (event: e) (guard: (p.x = 6 or p.x = 7) and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
+    Edge: (event: e) (guard: p.x = 6 and p.l1 or (p.x = 5 or p.x = 7) and p.l1) (assignments: p.x := p.x + 3, p := p.l2 / p.x := p.x + 3, p := p.l2)
 
 Controlled system:                     exactly 0 states.
 

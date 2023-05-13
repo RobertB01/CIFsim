@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/edge_granularity_errors03_per_edge.cif".
+Reading CIF file "datasynth/edge_granularity_errors03_per_event.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -143,8 +143,7 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2)
-    Edge: (event: e) (guard: p.l1) (assignments: p.x := 5, p := p.l2)
+    Edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2 / p.x := 5, p := p.l2)
 
 Restricting behavior using state/event exclusion plants.
 
@@ -162,24 +161,20 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l2 [marker predicate]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.l2 -> p.x != 7 or p.l2 [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: p.x != 7 or p.l2 -> true [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := 5, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.l2 -> p.x != 7 or p.l2 [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2 / p.x := 5, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 2.
-Backward controlled-behavior: true [fixed point].
+Backward controlled-behavior: p.x != 7 or p.l2 [fixed point].
+Controlled behavior: true -> p.x != 7 or p.l2.
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: p.x = 7 and p.l1 [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
-Backward uncontrolled bad-state: false -> p.x = 7 and p.l1 [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2)]
-Backward reachability: iteration 2.
-Backward uncontrolled bad-state: p.x = 7 and p.l1 [fixed point].
-Controlled behavior: true -> p.x != 7 or p.l2.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.l1 [initialization predicate]
 Forward controlled-behavior: p.l1 -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1) [restricted to current/previous controlled-behavior predicate: p.x != 7 or p.l2]
 Forward reachability: iteration 1.
-Forward controlled-behavior: (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1) -> (p.x != 0 or p.l1) and (p.x != 7 or p.l2) [forward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: p.x != 7 or p.l2]
+Forward controlled-behavior: (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1) -> (p.x != 0 or p.l1) and (p.x != 7 or p.l2) [forward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2 / p.x := 5, p := p.l2), restricted to current/previous controlled-behavior predicate: p.x != 7 or p.l2]
 Forward reachability: iteration 2.
 Forward controlled-behavior: (p.x != 0 or p.l1) and (p.x != 7 or p.l2) [fixed point].
 Controlled behavior: p.x != 7 or p.l2 -> (p.x != 0 or p.l1) and (p.x != 7 or p.l2).
@@ -192,7 +187,7 @@ Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l2 [marker predicate]
 Backward controlled-behavior: p.l2 -> p.x = 4 and p.l2 or ((p.x = 2 or p.x = 6) and p.l2 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.l2) [restricted to current/previous controlled-behavior predicate: (p.x != 0 or p.l1) and (p.x != 7 or p.l2)]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.x = 4 and p.l2 or ((p.x = 2 or p.x = 6) and p.l2 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.l2) -> (p.x != 0 or p.l1) and (p.x != 7 or p.l2) [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: (p.x != 0 or p.l1) and (p.x != 7 or p.l2)]
+Backward controlled-behavior: p.x = 4 and p.l2 or ((p.x = 2 or p.x = 6) and p.l2 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.l2) -> (p.x != 0 or p.l1) and (p.x != 7 or p.l2) [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2 / p.x := 5, p := p.l2), restricted to current/previous controlled-behavior predicate: (p.x != 0 or p.l1) and (p.x != 7 or p.l2)]
 Backward reachability: iteration 2.
 Backward controlled-behavior: (p.x != 0 or p.l1) and (p.x != 7 or p.l2) [fixed point].
 
@@ -206,8 +201,7 @@ Computing controlled system guards.
 
 Final synthesis result:
   State: (controlled-behavior: (p.x != 0 or p.l1) and (p.x != 7 or p.l2))
-    Edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2)
-    Edge: (event: e) (guard: p.l1) (assignments: p.x := 5, p := p.l2)
+    Edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2 / p.x := 5, p := p.l2)
 
 Controlled system:                     exactly 14 states.
 
@@ -221,4 +215,4 @@ Simplification of controlled system initialization predicate under the assumptio
   Initial: (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1) -> p.x != 7 [assume p.l1].
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/edge_granularity_errors03_per_edge.ctrlsys.real.cif".
+Writing output CIF file "datasynth/edge_granularity_errors03_per_event.ctrlsys.real.cif".

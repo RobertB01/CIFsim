@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/edge_granularity_guards_updates8_per_edge.cif".
+Reading CIF file "datasynth/edge_granularity_guards_updates8_per_event.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -151,12 +151,7 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: (p.x = 0 or p.x = 1) and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0)
-    Edge: (event: e) (guard: p.x = 2 and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 1, p.z := 1, p := p.y1)
-    Edge: (event: e) (guard: p.x = 0 and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0)
-    Edge: (event: e) (guard: p.x = 0 and p.l1) (assignments: p.y := 2, p.z := 2, p := p.y2)
-    Edge: (event: e) (guard: p.x = 1 and p.l1) (assignments: p.y := 1, p.z := 2, p := p.y1)
-    Edge: (event: e) (guard: p.x = 1 and p.l1) (assignments: p.y := 3, p.z := 3, p := p.y3)
+    Edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0 / p.y := 1, p.z := 1, p := p.y1 / p.y := 0, p.z := 1, p := p.y0 / p.y := 2, p.z := 2, p := p.y2 / p.y := 1, p.z := 2, p := p.y1 / p.y := 3, p.z := 3, p := p.y3)
 
 Restricting behavior using state/event exclusion plants.
 
@@ -178,8 +173,7 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3) [marker predicate]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3) -> (p.x = 0 or p.x = 1) and (p.y = 0 and (p.l1 or p.y0)) or (p.x = 0 or p.x = 1) and (p.y = 2 and p.l1) or ((p.x = 0 or p.x = 1) and (p.y = 2 and p.y2) or (p.x = 0 or p.x = 1) and (p.y = 1 and (p.l1 or p.y1))) or ((p.x = 0 or p.x = 1) and (p.y = 3 and (p.l1 or p.y3)) or (p.x = 2 or p.x = 3) and (p.y = 0 and p.y0) or ((p.x = 2 or p.x = 3) and (p.y = 2 and p.y2) or ((p.x = 2 or p.x = 3) and (p.y = 1 and p.y1) or (p.x = 2 or p.x = 3) and (p.y = 3 and p.y3)))) [backward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 1) and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: (p.x = 0 or p.x = 1) and (p.y = 0 and (p.l1 or p.y0)) or (p.x = 0 or p.x = 1) and (p.y = 2 and p.l1) or ((p.x = 0 or p.x = 1) and (p.y = 2 and p.y2) or (p.x = 0 or p.x = 1) and (p.y = 1 and (p.l1 or p.y1))) or ((p.x = 0 or p.x = 1) and (p.y = 3 and (p.l1 or p.y3)) or (p.x = 2 or p.x = 3) and (p.y = 0 and p.y0) or ((p.x = 2 or p.x = 3) and (p.y = 2 and p.y2) or ((p.x = 2 or p.x = 3) and (p.y = 1 and p.y1) or (p.x = 2 or p.x = 3) and (p.y = 3 and p.y3)))) -> <bdd 21n 14p> [backward reach with edge: (event: e) (guard: p.x = 2 and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 1, p.z := 1, p := p.y1), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3) -> <bdd 21n 14p> [backward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0 / p.y := 1, p.z := 1, p := p.y1 / p.y := 0, p.z := 1, p := p.y0 / p.y := 2, p.z := 2, p := p.y2 / p.y := 1, p.z := 2, p := p.y1 / p.y := 3, p.z := 3, p := p.y3), restricted to current/previous controlled-behavior predicate: true]
 Backward reachability: iteration 2.
 Backward controlled-behavior: <bdd 21n 14p> [fixed point].
 Controlled behavior: true -> <bdd 21n 14p>.
@@ -192,11 +186,7 @@ Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.z = 0 and (p.y = 0 and p.l1) [initialization predicate]
 Forward controlled-behavior: p.z = 0 and (p.y = 0 and p.l1) -> (p.x = 0 or p.x = 2) and p.z = 0 and (p.y = 0 and p.l1) or p.x = 1 and p.z = 0 and (p.y = 0 and p.l1) [restricted to current/previous controlled-behavior predicate: <bdd 21n 14p>]
 Forward reachability: iteration 1.
-Forward controlled-behavior: (p.x = 0 or p.x = 2) and p.z = 0 and (p.y = 0 and p.l1) or p.x = 1 and p.z = 0 and (p.y = 0 and p.l1) -> p.x = 0 and p.z = 0 and (p.y = 0 and p.l1) or p.x = 0 and p.z = 1 and (p.y = 0 and p.y0) or (p.x = 2 and p.z = 0 and (p.y = 0 and p.l1) or (p.x = 1 and p.z = 0 and (p.y = 0 and p.l1) or p.x = 1 and p.z = 1 and (p.y = 0 and p.y0))) [forward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 1) and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0), restricted to current/previous controlled-behavior predicate: <bdd 21n 14p>]
-Forward controlled-behavior: p.x = 0 and p.z = 0 and (p.y = 0 and p.l1) or p.x = 0 and p.z = 1 and (p.y = 0 and p.y0) or (p.x = 2 and p.z = 0 and (p.y = 0 and p.l1) or (p.x = 1 and p.z = 0 and (p.y = 0 and p.l1) or p.x = 1 and p.z = 1 and (p.y = 0 and p.y0))) -> <bdd 23n 7p> [forward reach with edge: (event: e) (guard: p.x = 2 and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 1, p.z := 1, p := p.y1), restricted to current/previous controlled-behavior predicate: <bdd 21n 14p>]
-Forward controlled-behavior: <bdd 23n 7p> -> <bdd 27n 8p> [forward reach with edge: (event: e) (guard: p.x = 0 and p.l1) (assignments: p.y := 2, p.z := 2, p := p.y2), restricted to current/previous controlled-behavior predicate: <bdd 21n 14p>]
-Forward controlled-behavior: <bdd 27n 8p> -> <bdd 28n 9p> [forward reach with edge: (event: e) (guard: p.x = 1 and p.l1) (assignments: p.y := 1, p.z := 2, p := p.y1), restricted to current/previous controlled-behavior predicate: <bdd 21n 14p>]
-Forward controlled-behavior: <bdd 28n 9p> -> <bdd 33n 10p> [forward reach with edge: (event: e) (guard: p.x = 1 and p.l1) (assignments: p.y := 3, p.z := 3, p := p.y3), restricted to current/previous controlled-behavior predicate: <bdd 21n 14p>]
+Forward controlled-behavior: (p.x = 0 or p.x = 2) and p.z = 0 and (p.y = 0 and p.l1) or p.x = 1 and p.z = 0 and (p.y = 0 and p.l1) -> <bdd 33n 10p> [forward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0 / p.y := 1, p.z := 1, p := p.y1 / p.y := 0, p.z := 1, p := p.y0 / p.y := 2, p.z := 2, p := p.y2 / p.y := 1, p.z := 2, p := p.y1 / p.y := 3, p.z := 3, p := p.y3), restricted to current/previous controlled-behavior predicate: <bdd 21n 14p>]
 Forward reachability: iteration 2.
 Forward controlled-behavior: <bdd 33n 10p> [fixed point].
 Controlled behavior: <bdd 21n 14p> -> <bdd 33n 10p>.
@@ -209,8 +199,7 @@ Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3) [marker predicate]
 Backward controlled-behavior: p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3) -> <bdd 29n 7p> [restricted to current/previous controlled-behavior predicate: <bdd 33n 10p>]
 Backward reachability: iteration 1.
-Backward controlled-behavior: <bdd 29n 7p> -> <bdd 32n 9p> [backward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 1) and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0), restricted to current/previous controlled-behavior predicate: <bdd 33n 10p>]
-Backward controlled-behavior: <bdd 32n 9p> -> <bdd 33n 10p> [backward reach with edge: (event: e) (guard: p.x = 2 and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 1, p.z := 1, p := p.y1), restricted to current/previous controlled-behavior predicate: <bdd 33n 10p>]
+Backward controlled-behavior: <bdd 29n 7p> -> <bdd 33n 10p> [backward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0 / p.y := 1, p.z := 1, p := p.y1 / p.y := 0, p.z := 1, p := p.y0 / p.y := 2, p.z := 2, p := p.y2 / p.y := 1, p.z := 2, p := p.y1 / p.y := 3, p.z := 3, p := p.y3), restricted to current/previous controlled-behavior predicate: <bdd 33n 10p>]
 Backward reachability: iteration 2.
 Backward controlled-behavior: <bdd 33n 10p> [fixed point].
 
@@ -224,12 +213,7 @@ Computing controlled system guards.
 
 Final synthesis result:
   State: (controlled-behavior: <bdd 33n 10p>)
-    Edge: (event: e) (guard: (p.x = 0 or p.x = 1) and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0)
-    Edge: (event: e) (guard: p.x = 2 and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 1, p.z := 1, p := p.y1)
-    Edge: (event: e) (guard: p.x = 0 and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0)
-    Edge: (event: e) (guard: p.x = 0 and p.l1) (assignments: p.y := 2, p.z := 2, p := p.y2)
-    Edge: (event: e) (guard: p.x = 1 and p.l1) (assignments: p.y := 1, p.z := 2, p := p.y1)
-    Edge: (event: e) (guard: p.x = 1 and p.l1) (assignments: p.y := 3, p.z := 3, p := p.y3)
+    Edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 0, p.z := 1, p := p.y0 / p.y := 1, p.z := 1, p := p.y1 / p.y := 0, p.z := 1, p := p.y0 / p.y := 2, p.z := 2, p := p.y2 / p.y := 1, p.z := 2, p := p.y1 / p.y := 3, p.z := 3, p := p.y3)
 
 Controlled system:                     exactly 10 states.
 
@@ -243,4 +227,4 @@ Simplification of controlled system initialization predicate under the assumptio
   Initial: (p.x = 0 or p.x = 2) and p.z = 0 and (p.y = 0 and p.l1) or p.x = 1 and p.z = 0 and (p.y = 0 and p.l1) -> p.x != 3 [assume p.z = 0 and (p.y = 0 and p.l1)].
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/edge_granularity_guards_updates8_per_edge.ctrlsys.real.cif".
+Writing output CIF file "datasynth/edge_granularity_guards_updates8_per_event.ctrlsys.real.cif".
