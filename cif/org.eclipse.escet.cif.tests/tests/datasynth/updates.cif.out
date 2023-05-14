@@ -183,7 +183,6 @@ Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4) [initialization predicate]
@@ -209,7 +208,6 @@ Backward controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2)
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p.v = 4 and p.w = 0 or (p.v = 4 and p.w = 2 or p.v = 4 and (p.w = 1 or (p.w = 3 or p.w = 5))) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 

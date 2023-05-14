@@ -182,7 +182,6 @@ Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4)) [initialization predicate]
@@ -206,7 +205,6 @@ Backward controlled-behavior: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4) [fix
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: g.p.b2 or not g.p.b1 or (not g.p.b3 or not g.p.b4) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 

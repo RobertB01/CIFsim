@@ -209,7 +209,6 @@ Backward controlled-behavior: r1.inactive or r3.inactive [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: r1.active and r3.active [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: r1.inactive and r2.inactive and (r3.inactive and q.l1) [initialization predicate]

@@ -250,7 +250,6 @@ Controlled behavior: true -> <bdd 55n 79p>.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 55n 245p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) [initialization predicate]
