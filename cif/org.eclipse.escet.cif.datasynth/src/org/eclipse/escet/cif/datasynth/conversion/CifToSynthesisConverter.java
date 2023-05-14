@@ -89,6 +89,8 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
+import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -158,6 +160,7 @@ import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.GridBox.GridBoxLayout;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
@@ -550,6 +553,12 @@ public class CifToSynthesisConverter {
 
         // Order the synthesis edges.
         orderEdges(synthAut);
+        if (synthAut.env.isTerminationRequested()) {
+            return synthAut;
+        }
+
+        // Prepare edge workset algorithm.
+        prepareEdgeWorksetAlgorithm(synthAut);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -2533,6 +2542,63 @@ public class CifToSynthesisConverter {
 
             // Return the custom edge order.
             return orderedEdges;
+        }
+    }
+
+    /**
+     * Prepare edge workset algorithm.
+     *
+     * @param synthAut The synthesis automaton.
+     */
+    private void prepareEdgeWorksetAlgorithm(SynthesisAutomaton synthAut) {
+        // Skip if workset algorithm is disabled.
+        if (!EdgeWorksetAlgoOption.isEnabled()) {
+            return;
+        }
+
+        // Edge workset algorithm requires per-event edge granularity, and no duplicate edges in the edge order.
+        if (EdgeGranularityOption.getGranularity() != EdgeGranularity.PER_EVENT) {
+            throw new InvalidOptionException(
+                    "The edge workset algorithm can only be used with per-event edge granularity. "
+                            + "Either disable the edge workset algorithm, or configure per-event edge granularity.");
+        }
+        if (EdgeOrderDuplicateEventsOption.getDuplicateEvents() == EdgeOrderDuplicateEvents.ALLOWED) {
+            throw new InvalidOptionException(
+                    "The edge workset algorithm can not be used with duplicate events in the edge order. "
+                            + "Either disable the edge workset algorithm, or disable duplicates for custom edge orders.");
+        }
+
+        // Skip in case of conversion failure.
+        if (!problems.isEmpty()) {
+            return;
+        }
+
+        // Compute the dependency sets for all edges. For each edge 'e', its forward dependencies are those edges that
+        // may become enabled after taking edge 'e'. The backward dependencies are inverted with respect to the forward
+        // ones.
+        //
+        // Note that the workset algorithm removes 'e' from the workset after it has been applied, after adding the
+        // dependencies of 'e'. Hence, it does not matter whether an edge has itself as a dependency or not.
+        //
+        // Ideally, we'd compute the exact dependencies, but with arbitrary guard predicates and arbitrary assigned
+        // values in updates, this is typically too complex to analyze statically. Hence, we compute an
+        // over-approximation. The larger the over-approximation, the more edges are needlessly applied, impacting
+        // synthesis performance. The dependencies must never be under-approximated, as that would make the workset
+        // algorithm invalid, since it then may no longer reach all reachable states.
+        //
+        // For now, each edge has all other edges as its dependencies. This is trivially correct, but has the worst
+        // possible performance.
+        // TODO: Improve the workset dependencies, to reduce the over-approximation and improve synthesis performance.
+        synthAut.worksetDependenciesBackward = listc(synthAut.orderedEdgesBackward.size());
+        for (int i = 0; i < synthAut.orderedEdgesBackward.size(); i++) {
+            synthAut.worksetDependenciesBackward.add(BitSets.ones(synthAut.orderedEdgesBackward.size()));
+        }
+
+        if (ForwardReachOption.isEnabled()) {
+            synthAut.worksetDependenciesForward = listc(synthAut.orderedEdgesForward.size());
+            for (int i = 0; i < synthAut.orderedEdgesForward.size(); i++) {
+                synthAut.worksetDependenciesForward.add(BitSets.ones(synthAut.orderedEdgesForward.size()));
+            }
         }
     }
 
