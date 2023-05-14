@@ -35,6 +35,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
@@ -1567,8 +1568,14 @@ public class CifDataSynthesis {
         }
 
         // Apply edges until we get a fixed point.
-        Pair<BDD, Boolean> reachabilityResult = reachabilityFixedOrder(pred, bad, forward, ctrl, unctrl, restriction,
-                aut, dbgEnabled, predName, restrictionName);
+        Pair<BDD, Boolean> reachabilityResult;
+        if (EdgeWorksetAlgoOption.isEnabled()) {
+            reachabilityResult = reachabilityWorkset(pred, bad, forward, ctrl, unctrl, restriction, aut, dbgEnabled,
+                    predName, restrictionName);
+        } else {
+            reachabilityResult = reachabilityFixedOrder(pred, bad, forward, ctrl, unctrl, restriction, aut, dbgEnabled,
+                    predName, restrictionName);
+        }
         if (reachabilityResult == null || aut.env.isTerminationRequested()) {
             return null;
         }
@@ -1588,6 +1595,104 @@ public class CifDataSynthesis {
             dbg("%s: %s [fixed point].", Strings.makeInitialUppercase(predName), bddToStr(pred, aut));
         }
         return pred;
+    }
+
+    /**
+     * Performs forward or backward reachability until a fixed point is reached, by applying the edges using the workset
+     * algorithm.
+     *
+     * @param pred The predicate to which to apply the reachability. This predicate should not be used after this
+     *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
+     *     returned by this method as part of the return value.
+     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
+     * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
+     * @param ctrl Whether to include edges with controllable events in the reachability.
+     * @param unctrl Whether to include edges with uncontrollable events in the reachability.
+     * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
+     *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
+     *     which is semantically equivalent to providing 'true'.
+     * @param aut The synthesis automaton.
+     * @param dbgEnabled Whether debug output is enabled.
+     * @param predName The name of the given predicate, for debug output. Must be in lower case.
+     * @param restrictionName The name of the restriction predicate, for debug output. Must be in lower case. Must be
+     *     {@code null} if no restriction predicate is provided.
+     * @return The fixed point result of the reachability computation, together with an indication of whether the
+     *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
+     *     returned if the application is terminated.
+     */
+    private static Pair<BDD, Boolean> reachabilityWorkset(BDD pred, boolean bad, boolean forward, boolean ctrl,
+            boolean unctrl, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName,
+            String restrictionName)
+    {
+        List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
+        boolean changed = false;
+        int iter = 0;
+        int remainingEdges = orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
+        while (remainingEdges > 0) {
+            // Print iteration, for debugging.
+            iter++;
+            if (dbgEnabled) {
+                dbg("%s reachability: iteration %d.", (forward ? "Forward" : "Backward"), iter);
+            }
+
+            // Push through all edges.
+            for (SynthesisEdge edge: orderedEdges) {
+                // Skip edges if requested.
+                if ((!ctrl && edge.event.getControllable()) || (!unctrl && !edge.event.getControllable())) {
+                    remainingEdges--;
+                    if (remainingEdges == 0) {
+                        break; // Fixed point reached.
+                    }
+                    continue;
+                }
+                if (aut.env.isTerminationRequested()) {
+                    return null;
+                }
+
+                // Apply edge. Apply the runtime error predicates when applying backward.
+                BDD updPred = pred.id();
+                updPred = edge.apply(updPred, bad, forward, restriction, !forward);
+                if (aut.env.isTerminationRequested()) {
+                    return null;
+                }
+
+                // Extend reachable states.
+                BDD newPred = pred.id().orWith(updPred);
+                if (aut.env.isTerminationRequested()) {
+                    return null;
+                }
+
+                // Detect change.
+                if (pred.equals(newPred)) {
+                    // No change.
+                    newPred.free();
+                    remainingEdges--;
+                    if (remainingEdges == 0) {
+                        break; // Fixed point reached.
+                    }
+                } else {
+                    // Change.
+                    if (dbgEnabled) {
+                        String restrTxt;
+                        if (restriction == null) {
+                            restrTxt = "";
+                        } else {
+                            Assert.notNull(restrictionName);
+                            restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
+                                    bddToStr(restriction, aut));
+                        }
+                        dbg("%s: %s -> %s [%s reach with edge: %s%s]", Strings.makeInitialUppercase(predName),
+                                bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
+                                edge.toString(0, ""), restrTxt);
+                    }
+                    pred.free();
+                    pred = newPred;
+                    changed = true;
+                    remainingEdges = orderedEdges.size(); // Change found, reset the counter.
+                }
+            }
+        }
+        return pair(pred, changed);
     }
 
     /**
