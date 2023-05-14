@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
+import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -45,6 +46,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
@@ -1565,7 +1567,57 @@ public class CifDataSynthesis {
         }
 
         // Apply edges until we get a fixed point.
+        Pair<BDD, Boolean> reachabilityResult = reachabilityFixedOrder(pred, bad, forward, ctrl, unctrl, restriction,
+                aut, dbgEnabled, predName, restrictionName);
+        if (reachabilityResult == null || aut.env.isTerminationRequested()) {
+            return null;
+        }
+        pred = reachabilityResult.left;
+        changed |= reachabilityResult.right;
+
+        // Cleanup edges for being applied.
+        for (SynthesisEdge edge: aut.edges) {
+            edge.postApply(forward);
+        }
+
+        // Fixed point reached.
+        if (aut.env.isTerminationRequested()) {
+            return null;
+        }
+        if (dbgEnabled && changed) {
+            dbg("%s: %s [fixed point].", Strings.makeInitialUppercase(predName), bddToStr(pred, aut));
+        }
+        return pred;
+    }
+
+    /**
+     * Performs forward or backward reachability until a fixed point is reached, by applying the edges in a fixed order.
+     *
+     * @param pred The predicate to which to apply the reachability. This predicate should not be used after this
+     *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
+     *     returned by this method as part of the return value.
+     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
+     * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
+     * @param ctrl Whether to include edges with controllable events in the reachability.
+     * @param unctrl Whether to include edges with uncontrollable events in the reachability.
+     * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
+     *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
+     *     which is semantically equivalent to providing 'true'.
+     * @param aut The synthesis automaton.
+     * @param dbgEnabled Whether debug output is enabled.
+     * @param predName The name of the given predicate, for debug output. Must be in lower case.
+     * @param restrictionName The name of the restriction predicate, for debug output. Must be in lower case. Must be
+     *     {@code null} if no restriction predicate is provided.
+     * @return The fixed point result of the reachability computation, together with an indication of whether the
+     *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
+     *     returned if the application is terminated.
+     */
+    private static Pair<BDD, Boolean> reachabilityFixedOrder(BDD pred, boolean bad, boolean forward, boolean ctrl,
+            boolean unctrl, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName,
+            String restrictionName)
+    {
         List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
+        boolean changed = false;
         int iter = 0;
         int remainingEdges = orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
         while (remainingEdges > 0) {
@@ -1632,20 +1684,7 @@ public class CifDataSynthesis {
                 }
             }
         }
-
-        // Cleanup edges for being applied.
-        for (SynthesisEdge edge: aut.edges) {
-            edge.postApply(forward);
-        }
-
-        // Fixed point reached.
-        if (aut.env.isTerminationRequested()) {
-            return null;
-        }
-        if (dbgEnabled && changed) {
-            dbg("%s: %s [fixed point].", Strings.makeInitialUppercase(predName), bddToStr(pred, aut));
-        }
-        return pred;
+        return pair(pred, changed);
     }
 
     /**
