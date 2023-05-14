@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth;
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
+import static org.eclipse.escet.common.java.BitSets.copy;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -24,6 +25,7 @@ import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -32,6 +34,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -52,6 +55,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
@@ -1565,10 +1569,14 @@ public class CifDataSynthesis {
         }
 
         // Determine the edges to be applied.
+        boolean useWorkSetAlgo = EdgeWorksetAlgoOption.isEnabled();
         List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
         Predicate<SynthesisEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
                 || (unctrl && !e.event.getControllable());
         List<SynthesisEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
+        int[] edgesToApplyIndices = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
+                .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).toArray() : null;
+        BitSet edgesToApplyMask = useWorkSetAlgo ? BitSets.makeBitset(edgesToApplyIndices) : null;
 
         // Prepare edges for being applied.
         Collection<SynthesisEdge> edgesToPrepare = EdgeOrderDuplicateEventsOption
@@ -1582,9 +1590,9 @@ public class CifDataSynthesis {
 
         // Apply edges until we get a fixed point.
         Pair<BDD, Boolean> reachabilityResult;
-        if (EdgeWorksetAlgoOption.isEnabled()) {
-            reachabilityResult = reachabilityWorkset(pred, bad, edgesToApply, forward, restriction, aut, dbgEnabled,
-                    predName, restrictionName);
+        if (useWorkSetAlgo) {
+            reachabilityResult = reachabilityWorkset(pred, bad, orderedEdges, edgesToApplyMask, forward, restriction,
+                    aut, dbgEnabled, predName, restrictionName);
         } else {
             reachabilityResult = reachabilityFixedOrder(pred, bad, edgesToApply, forward, restriction, aut, dbgEnabled,
                     predName, restrictionName);
@@ -1618,7 +1626,9 @@ public class CifDataSynthesis {
      *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
      *     returned by this method as part of the return value.
      * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
-     * @param edges The synthesis edges to apply.
+     * @param edges The synthesis edges.
+     * @param edgesMask The edges to apply, as a mask on the edges, indicating for each edge whether it should be
+     *     applied.
      * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
      *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
@@ -1633,21 +1643,21 @@ public class CifDataSynthesis {
      *     returned if the application is terminated.
      */
     private static Pair<BDD, Boolean> reachabilityWorkset(BDD pred, boolean bad, List<SynthesisEdge> edges,
-            boolean forward, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName,
-            String restrictionName)
+            BitSet edgesMask, boolean forward, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled,
+            String predName, String restrictionName)
     {
         boolean changed = false;
-        int iter = 0;
-        int remainingEdges = edges.size(); // Number of edges to apply without change to get the fixed point.
-        while (remainingEdges > 0) {
-            // Print iteration, for debugging.
-            iter++;
-            if (dbgEnabled) {
-                dbg("%s reachability: iteration %d.", (forward ? "Forward" : "Backward"), iter);
-            }
+        List<BitSet> dependencies = forward ? aut.worksetDependenciesForward : aut.worksetDependenciesBackward;
+        BitSet workset = copy(edgesMask);
+        while (!workset.isEmpty()) {
+            // Choose the next edge to apply.
+            // TODO: For now, choose the first edge in the workset. Better heuristics will be added later.
+            int edgeIdx = workset.nextSetBit(0);
+            SynthesisEdge edge = edges.get(edgeIdx);
 
-            // Push through all edges.
-            for (SynthesisEdge edge: edges) {
+            // Repeatedly apply the edge, until it no longer has an effect.
+            boolean changedByEdge = false;
+            while (true) {
                 // Apply edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
@@ -1665,10 +1675,7 @@ public class CifDataSynthesis {
                 if (pred.equals(newPred)) {
                     // No change.
                     newPred.free();
-                    remainingEdges--;
-                    if (remainingEdges == 0) {
-                        break; // Fixed point reached.
-                    }
+                    break;
                 } else {
                     // Change.
                     if (dbgEnabled) {
@@ -1687,9 +1694,19 @@ public class CifDataSynthesis {
                     pred.free();
                     pred = newPred;
                     changed = true;
-                    remainingEdges = edges.size(); // Change found, reset the counter.
+                    changedByEdge = true;
                 }
             }
+
+            // Update the workset.
+            if (changedByEdge) {
+                // Add the dependent edges of the edge that was just applied, as these may have become enabled.
+                // However, only add those dependent edges that are to be applied at all.
+                BitSet dependents = copy(dependencies.get(edgeIdx));
+                dependents.and(edgesMask);
+                workset.or(dependents);
+            }
+            workset.clear(edgeIdx); // A fixed point was reached for this edge, so it can be removed from the workset.
         }
         return pair(pred, changed);
     }
