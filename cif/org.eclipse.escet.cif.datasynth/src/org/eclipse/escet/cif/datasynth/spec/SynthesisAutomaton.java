@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth.spec;
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,6 +86,22 @@ public class SynthesisAutomaton {
 
     /** The events that are disabled before synthesis. */
     public Set<Event> disabledEvents;
+
+    /**
+     * Per synthesis edge in {@link #orderedEdgesBackward}, the dependencies for the workset algorithm. The dependencies
+     * are encoded as a bitset with a 'true' entry for each dependency, using indices in {@link #orderedEdgesBackward}.
+     * It is assumed that {@link #orderedEdgesBackward} has no duplicates. This field is {@code null} until it is
+     * computed. It remains {@code null} if the workset algorithm is disabled.
+     */
+    public List<BitSet> worksetDependenciesBackward;
+
+    /**
+     * Per synthesis edge in {@link #orderedEdgesForward}, the dependencies for the workset algorithm. The dependencies
+     * are encoded as a bitset with a 'true' entry for each dependency, using indices in {@link #orderedEdgesForward}.
+     * It is assumed that {@link #orderedEdgesForward} has no duplicates. This field is {@code null} until it is
+     * computed. It remains {@code null} if the workset algorithm is disabled, or if forward reachability is disabled.
+     */
+    public List<BitSet> worksetDependenciesForward;
 
     /**
      * Initialization predicates for each of the synthesis variables. Predicates are obtained from the initial values as
