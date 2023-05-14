@@ -20,21 +20,26 @@ import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
+import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
@@ -1559,8 +1564,16 @@ public class CifDataSynthesis {
             }
         }
 
+        // Determine the edges to be applied.
+        List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
+        Predicate<SynthesisEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
+                || (unctrl && !e.event.getControllable());
+        List<SynthesisEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
+
         // Prepare edges for being applied.
-        for (SynthesisEdge edge: aut.edges) {
+        Collection<SynthesisEdge> edgesToPrepare = EdgeOrderDuplicateEventsOption
+                .getDuplicateEvents() == EdgeOrderDuplicateEvents.ALLOWED ? list2set(edgesToApply) : edgesToApply;
+        for (SynthesisEdge edge: edgesToPrepare) {
             edge.preApply(forward, restriction);
         }
         if (aut.env.isTerminationRequested()) {
@@ -1570,10 +1583,10 @@ public class CifDataSynthesis {
         // Apply edges until we get a fixed point.
         Pair<BDD, Boolean> reachabilityResult;
         if (EdgeWorksetAlgoOption.isEnabled()) {
-            reachabilityResult = reachabilityWorkset(pred, bad, forward, ctrl, unctrl, restriction, aut, dbgEnabled,
+            reachabilityResult = reachabilityWorkset(pred, bad, edgesToApply, forward, restriction, aut, dbgEnabled,
                     predName, restrictionName);
         } else {
-            reachabilityResult = reachabilityFixedOrder(pred, bad, forward, ctrl, unctrl, restriction, aut, dbgEnabled,
+            reachabilityResult = reachabilityFixedOrder(pred, bad, edgesToApply, forward, restriction, aut, dbgEnabled,
                     predName, restrictionName);
         }
         if (reachabilityResult == null || aut.env.isTerminationRequested()) {
@@ -1583,7 +1596,7 @@ public class CifDataSynthesis {
         changed |= reachabilityResult.right;
 
         // Cleanup edges for being applied.
-        for (SynthesisEdge edge: aut.edges) {
+        for (SynthesisEdge edge: edgesToPrepare) {
             edge.postApply(forward);
         }
 
@@ -1605,9 +1618,8 @@ public class CifDataSynthesis {
      *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
      *     returned by this method as part of the return value.
      * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
+     * @param edges The synthesis edges to apply.
      * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
-     * @param ctrl Whether to include edges with controllable events in the reachability.
-     * @param unctrl Whether to include edges with uncontrollable events in the reachability.
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
      *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
      *     which is semantically equivalent to providing 'true'.
@@ -1620,14 +1632,13 @@ public class CifDataSynthesis {
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
      *     returned if the application is terminated.
      */
-    private static Pair<BDD, Boolean> reachabilityWorkset(BDD pred, boolean bad, boolean forward, boolean ctrl,
-            boolean unctrl, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName,
+    private static Pair<BDD, Boolean> reachabilityWorkset(BDD pred, boolean bad, List<SynthesisEdge> edges,
+            boolean forward, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName,
             String restrictionName)
     {
-        List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
         boolean changed = false;
         int iter = 0;
-        int remainingEdges = orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
+        int remainingEdges = edges.size(); // Number of edges to apply without change to get the fixed point.
         while (remainingEdges > 0) {
             // Print iteration, for debugging.
             iter++;
@@ -1636,19 +1647,7 @@ public class CifDataSynthesis {
             }
 
             // Push through all edges.
-            for (SynthesisEdge edge: orderedEdges) {
-                // Skip edges if requested.
-                if ((!ctrl && edge.event.getControllable()) || (!unctrl && !edge.event.getControllable())) {
-                    remainingEdges--;
-                    if (remainingEdges == 0) {
-                        break; // Fixed point reached.
-                    }
-                    continue;
-                }
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
-
+            for (SynthesisEdge edge: edges) {
                 // Apply edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
@@ -1688,7 +1687,7 @@ public class CifDataSynthesis {
                     pred.free();
                     pred = newPred;
                     changed = true;
-                    remainingEdges = orderedEdges.size(); // Change found, reset the counter.
+                    remainingEdges = edges.size(); // Change found, reset the counter.
                 }
             }
         }
@@ -1702,9 +1701,8 @@ public class CifDataSynthesis {
      *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
      *     returned by this method as part of the return value.
      * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
+     * @param edges The synthesis edges to apply.
      * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
-     * @param ctrl Whether to include edges with controllable events in the reachability.
-     * @param unctrl Whether to include edges with uncontrollable events in the reachability.
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
      *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
      *     which is semantically equivalent to providing 'true'.
@@ -1717,14 +1715,13 @@ public class CifDataSynthesis {
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
      *     returned if the application is terminated.
      */
-    private static Pair<BDD, Boolean> reachabilityFixedOrder(BDD pred, boolean bad, boolean forward, boolean ctrl,
-            boolean unctrl, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName,
+    private static Pair<BDD, Boolean> reachabilityFixedOrder(BDD pred, boolean bad, List<SynthesisEdge> edges,
+            boolean forward, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName,
             String restrictionName)
     {
-        List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
         boolean changed = false;
         int iter = 0;
-        int remainingEdges = orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
+        int remainingEdges = edges.size(); // Number of edges to apply without change to get the fixed point.
         while (remainingEdges > 0) {
             // Print iteration, for debugging.
             iter++;
@@ -1733,19 +1730,7 @@ public class CifDataSynthesis {
             }
 
             // Push through all edges.
-            for (SynthesisEdge edge: orderedEdges) {
-                // Skip edges if requested.
-                if ((!ctrl && edge.event.getControllable()) || (!unctrl && !edge.event.getControllable())) {
-                    remainingEdges--;
-                    if (remainingEdges == 0) {
-                        break; // Fixed point reached.
-                    }
-                    continue;
-                }
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
-
+            for (SynthesisEdge edge: edges) {
                 // Apply edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
@@ -1785,7 +1770,7 @@ public class CifDataSynthesis {
                     pred.free();
                     pred = newPred;
                     changed = true;
-                    remainingEdges = orderedEdges.size(); // Change found, reset the counter.
+                    remainingEdges = edges.size(); // Change found, reset the counter.
                 }
             }
         }
