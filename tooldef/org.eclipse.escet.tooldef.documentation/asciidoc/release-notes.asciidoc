@@ -26,6 +26,21 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-website-version
 
 TBD
 
+New features:
+
+* The ToolDef interpreter has a new _Tool invocation_ option to invoke a specific tool with chosen arguments, rather than executing the entire script (issue {escet-issue}578[#578]).
+* The `writefile` built-in tool has a new optional `newline` parameter, allowing to configure new line handling.
+The default is still to use the new lines of the current platform.
+See the documentation for further details (issue {escet-issue}571[#571]).
+
+Improvements and fixes:
+
+* The `readlines` and `writefile` built-in tools have been made more robust with respect to closing file streams in case of I/O errors (issue {escet-issue}571[#571]).
+* The `readlines` built-in tool now uses the UTF-8 encoding when reading files, rather than the platform's default encoding (issue {escet-issue}571[#571]).
+* The `readlines` and `writefile` built-in tools now have improved documentation (issue {escet-issue}571[#571]).
+* The ToolDef interpreter's help text now properly explains the tool's exit codes (issue {escet-issue}573[#573]).
+* The ToolDef interpreter documentation has been slightly improved (issue {escet-issue}578[#578]).
+
 === Version 0.9 (2023-03-31)
 
 Improvements and fixes:
