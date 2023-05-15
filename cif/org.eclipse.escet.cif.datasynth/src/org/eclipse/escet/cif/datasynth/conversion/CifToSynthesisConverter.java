@@ -3181,7 +3181,7 @@ public class CifToSynthesisConverter {
             return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
         }
 
-        // Switch expression
+        // Switch expression.
         if (expr instanceof SwitchExpression) {
             SwitchExpression switchExpr = (SwitchExpression)expr;
             Expression value = switchExpr.getValue();
