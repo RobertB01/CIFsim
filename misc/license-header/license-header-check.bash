@@ -204,6 +204,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef.metamodel/model/autofix.py:2$"
 # Exclude files that have an associated license file.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.cif2plc/src/org/eclipse/escet/cif/cif2plc/writers/tc6_xml_v201.xsd:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.plcgen/src/org/eclipse/escet/cif/plcgen/writers/tc6_xml_v201.xsd:0$"
 # Exclude files literally included in documentation.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/images/language-reference/syntax/cif.bnf:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/images/tools/cifsim/output/svgviz/buffers_products/buffers_products.svg:0$"

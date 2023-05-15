@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen.options;
 
-import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;

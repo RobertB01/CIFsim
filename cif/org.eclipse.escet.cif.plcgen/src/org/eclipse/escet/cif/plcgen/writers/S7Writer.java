@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.writers;
 
-import static org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType.PROGRAM;
+import static org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType.PROGRAM;
 import static org.eclipse.escet.cif.plcgen.targets.PlcTargetType.S7_1200;
 import static org.eclipse.escet.cif.plcgen.targets.PlcTargetType.S7_1500;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -21,16 +21,15 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcGlobalVarList;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcResource;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
-import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;

@@ -25,8 +25,6 @@ import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
-import org.eclipse.escet.cif.cif2plc.CifToPlcPreChecker;
-import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
@@ -62,6 +60,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 
@@ -172,7 +171,7 @@ public class CifProcessor {
     /** CIF PLC code generator precondition checker. Does not support component definition/instantiation. */
     private static class PlcGenPreChecker extends CifPreconditionChecker {
         /**
-         * Constructor of the {@link CifToPlcPreChecker} class.
+         * Constructor of the {@link PlcGenPreChecker} class.
          *
          * @param supportArrays Whether the target supports arrays.
          */
