@@ -121,6 +121,7 @@ The following restrictions apply:
 The following information from the specification is ignored:
 
 * Automaton and invariant supervisory kinds.
+A warning is printed if a requirement automaton or requirement invariant is encountered.
 
 * Controllability of events.
 
