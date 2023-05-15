@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
@@ -103,6 +104,38 @@ public class ExprGenResult {
      * </p>
      */
     public PlcExpression value = null;
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        ModelTextGenerator tg = new ModelTextGenerator();
+        if (!code.isEmpty()) {
+            sb.append("code:\n");
+            for (PlcStatement s: code) {
+                sb.append(tg.toString(s, "noPou") + "\n");
+            }
+        }
+        if (!codeVariables.isEmpty()) {
+            sb.append("code-variables:");
+            for (PlcVariable v: codeVariables) {
+                sb.append(" " + v.name);
+            }
+            sb.append("\n");
+        }
+        if (value != null) {
+            sb.append("value: " + tg.toString(value) + "\n");
+        } else {
+            sb.append("value: <NULL>\n");
+        }
+        if (!valueVariables.isEmpty()) {
+            sb.append("value-variables:");
+            for (PlcVariable v: valueVariables) {
+                sb.append(" " + v.name);
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 
     /**
      * Constructor of the {@link ExprGenResult} class.
