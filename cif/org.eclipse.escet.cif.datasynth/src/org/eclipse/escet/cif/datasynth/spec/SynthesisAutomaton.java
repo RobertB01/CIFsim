@@ -65,22 +65,22 @@ public class SynthesisAutomaton {
      */
     public SynthesisVariable[] variables;
 
-    /** The linearized edges. */
+    /** The synthesis edges. */
     public List<SynthesisEdge> edges;
 
     /**
-     * The linearized edges, ordered for backward reachability computations. Contains all edges from {@link #edges} at
+     * The synthesis edges, ordered for backward reachability computations. Contains all edges from {@link #edges} at
      * least once.
      */
     public List<SynthesisEdge> orderedEdgesBackward;
 
     /**
-     * The linearized edges, ordered for forward reachability computations. Contains all edges from {@link #edges} at
+     * The synthesis edges, ordered for forward reachability computations. Contains all edges from {@link #edges} at
      * least once.
      */
     public List<SynthesisEdge> orderedEdgesForward;
 
-    /** Mapping from events to their corresponding linearized edges. */
+    /** Mapping from events to their synthesis edges. */
     public Map<Event, List<SynthesisEdge>> eventEdges;
 
     /** The events that are disabled before synthesis. */

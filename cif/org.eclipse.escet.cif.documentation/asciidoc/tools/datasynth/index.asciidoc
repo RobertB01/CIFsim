@@ -55,6 +55,7 @@ The following additional information is available:
 * <<tools-datasynth-input-vars>>
 * <<tools-datasynth-init>>
 * <<tools-datasynth-performance>>
+* <<tools-datasynth-edge-granularity>>
 * <<tools-datasynth-edge-order>>
 * <<tools-datasynth-var-order>>
 * <<tools-datasynth-op-cache>>

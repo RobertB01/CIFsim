@@ -376,6 +376,8 @@ include::tools/datasynth/initialization.asciidoc[]
 
 include::tools/datasynth/performance.asciidoc[]
 
+include::tools/datasynth/edge-granularity.asciidoc[]
+
 include::tools/datasynth/edge-order.asciidoc[]
 
 include::tools/datasynth/variable-order/index.asciidoc[]

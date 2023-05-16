@@ -83,6 +83,8 @@ import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
 import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
@@ -536,6 +538,12 @@ public class CifToSynthesisConverter {
 
         // Add events and edges for input variables.
         addInputVariableEdges(synthAut);
+        if (synthAut.env.isTerminationRequested()) {
+            return synthAut;
+        }
+
+        // Merge edges to the desired granularity.
+        mergeEdges(synthAut);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -1771,7 +1779,7 @@ public class CifToSynthesisConverter {
 
                 // Create edge.
                 SynthesisEdge synthEdge = new SynthesisEdge(synthAut);
-                synthEdge.edge = cifEdge;
+                synthEdge.edges = list(cifEdge);
 
                 // Set event.
                 Assert.check(cifEdge.getEvents().size() == 1);
@@ -1935,7 +1943,8 @@ public class CifToSynthesisConverter {
                 // Add guards text for this group.
                 List<String> guardTxts = list();
                 for (SynthesisEdge edge: group) {
-                    List<Expression> guards = edge.edge.getGuards();
+                    Assert.check(edge.edges.size() == 1); // No synthesis edges have been merged yet.
+                    List<Expression> guards = first(edge.edges).getGuards();
                     String guardsTxt;
                     if (guards.isEmpty()) {
                         guardsTxt = "true";
@@ -2088,8 +2097,7 @@ public class CifToSynthesisConverter {
         }
 
         // Store data for the updates.
-        int asgnCnt = assignments.size();
-        synthEdge.assignments = assignments.toArray(new Assignment[asgnCnt]);
+        synthEdge.assignments = list(assignments);
         synthEdge.update = relation;
         synthEdge.error = error;
     }
@@ -2304,12 +2312,13 @@ public class CifToSynthesisConverter {
 
             // Add edge that allows input variable to change to any other value.
             SynthesisEdge edge = new SynthesisEdge(synthAut);
-            edge.edge = null;
+            edge.edges = list((Edge)null);
             edge.event = event;
             edge.origGuard = synthAut.factory.one();
             edge.guard = synthAut.factory.one();
             edge.error = synthAut.factory.zero();
             synthAut.edges.add(edge);
+            synthAut.eventEdges.put(event, list(edge));
 
             // Add CIF assignment to edge. Right hand side not filled, as it is not a 'normal' assignment. Also,
             // technically in CIF an input variable can not be assigned.
@@ -2317,7 +2326,7 @@ public class CifToSynthesisConverter {
             addr.setVariable(synthInputVar.var);
             Assignment asgn = newAssignment();
             asgn.setAddressable(addr);
-            edge.assignments = new Assignment[] {asgn};
+            edge.assignments = list(list(asgn));
 
             // Add update relation.
             edge.update = synthAut.factory.one();
@@ -2351,6 +2360,38 @@ public class CifToSynthesisConverter {
                 vectorNew.free();
             }
         }
+    }
+
+    /**
+     * Merges synthesis edges to the desired granularity.
+     *
+     * @param synthAut The synthesis automaton. Is modified in-place.
+     */
+    private void mergeEdges(SynthesisAutomaton synthAut) {
+        // Skip in case of conversion failure.
+        if (synthAut.eventEdges == null) {
+            return;
+        }
+
+        // Merge the edges, if needed.
+        EdgeGranularity granularity = EdgeGranularityOption.getGranularity();
+        switch (granularity) {
+            case PER_EDGE:
+                // Nothing to do, as already at per-edge granularity.
+                return;
+            case PER_EVENT: {
+                // Merge edges per event.
+                int eventCount = synthAut.eventEdges.size();
+                synthAut.edges = listc(eventCount);
+                for (Entry<Event, List<SynthesisEdge>> entry: synthAut.eventEdges.entrySet()) {
+                    SynthesisEdge mergedEdge = entry.getValue().stream().reduce(SynthesisEdge::mergeEdges).get();
+                    synthAut.edges.add(mergedEdge);
+                    entry.setValue(list(mergedEdge));
+                }
+                return;
+            }
+        }
+        throw new RuntimeException("Unknown granularity: " + granularity);
     }
 
     /**
