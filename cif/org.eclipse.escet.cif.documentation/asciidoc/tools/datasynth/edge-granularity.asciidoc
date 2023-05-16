@@ -16,23 +16,63 @@ indexterm:[data-based supervisory controller synthesis,edge granularity]
 [[tools-datasynth-edge-granularity]]
 == Edge granularity
 
-Before synthesis, the entire CIF specification is <<tools-cif2cif-chapter-linearize-product,linearized>>, essentially combining the edges of the various automata to edges of a single automaton.
-These edges are then used to perform synthesis.
+To prepare for synthesis, the data-based synthesis tool first <<tools-cif2cif-chapter-linearize-product,linearizes>> the specification.
+This essentially combines the edges of the various automata in different ways, to form new self-loop edges that are then part of a single location of a single automaton.
+After that, each such linearized edge is converted to a Binary Decision Diagram (BDD) representation, a symbolic representation of the edge that allows efficient computations.
+The BDD representations of the edges are then used to perform the actual synthesis.
 
-However, using the edges 'as is' doesn't always give the best synthesis performance.
-It may be beneficial to combine some edges together, to form a single combined edge.
-This combined edge may have a smaller BDD representations than the original edges from which it was combined, reducing memory usage during synthesis.
+However, using the linearized edges 'as is' doesn't always give the best synthesis performance.
+It may be beneficial to combine some linearized edges together, to form a single combined edge.
+This combined edge may have a smaller BDD representation than the original edges from which it was combined, reducing memory usage during synthesis.
 The combined edge may also lead to faster convergence for link:https://en.wikipedia.org/wiki/Reachability[reachability] computations, reducing both memory usage and synthesis time.
 However, the effect depends on the particular model being synthesized, and combining edges can also lead to an increase in memory usage and synthesis time.
 Furthermore, the synthesis performance may also be affected by the <<tools-datasynth-edge-order,order>> in which the edges are considered during reachability computations, and whether or not <<tools-datasynth-forward-reach,forward>> reachability is used.
 
-The edge representation can thus be more granular (more edges) or less granular (less edges).
+The edge representation to use for synthesis can thus be more granular (more edges) or less granular (less edges).
 The following granularities are supported:
 
 * _Per edge_: Allow each event to have multiple edges.
 Essentially, the linearized edges are used 'as is'.
 
-* _Per event_: Merge for each event the edges into a single edge.
+* _Per event_: Ensure each event has exactly one edge.
+Essentially, for each event, the linearized edges are merged together to form a single edge for that event.
 
 The granularity can be configured using the _Edge granularity_ option (see the <<tools-datasynth-options,options section>>).
 By default, the 'per event' edge granularity is used.
+
+=== Linearization and non-determinism
+
+The CIF data-based synthesis tool uses the <<tools-cif2cif-chapter-linearize-product,linearize-product>> variant of linearization, as this variant ensures that all behavior of the specification is preserved.
+After having merged the edges for a certain event together into a single event, one may wonder whether the result is then the same as would have been obtained by the <<tools-cif2cif-chapter-linearize-merge,linearize-merge>> variant of linearization.
+This is indeed the case in many situations, but there are exceptions.
+
+If two linearized edges (as obtained by linearize-product) have overlapping guards, they can be enabled at the same time, and we therefore have to deal with this non-determinism.
+If the edges then have different updates, we get to the exceptional case.
+In such cases, linearize-merge will choose one of the updates, while the approach for merging edges on BDD representation as is used for 'per event' edge granularity will allow both updates.
+Note that there is no way in CIF to represent such merged edges as a single CIF edge, but such edges can be represented using BDDs.
+
+=== Example
+
+As an example, consider two linearized edges, obtained by linearize-product:
+
+* `+when x <= 4 do x := x + 1+`
+* `+when x >= 4 do x := x - 1+`
+
+When we combine them, we first combine their guards using `or`.
+This gives us `+x <= 4 or x >= 4+`, which can be simplified to `true`.
+This is a good example of how combining edges may simplify them, reducing their memory usage.
+
+We then also combine their updates, where we distinguish 3 cases:
+
+* Case 1 (the first guard holds, the second one doesn't):
+Here `+x <= 4 and not x >= 4+`, which is `+x <= 4 and x < 4+`, which is just `x < 4`.
+As only the first edge is enabled, we get that if guard `x < 4` holds, then update `x := x + 1` should be applied.
+* Case 2 (the second guard holds, the first one doesn't):
+Here `+not x <= 4 and x >= 4+`, which is `+x > 4 and x >= 4+`, which is just `x > 4`.
+As only the second edge is enabled, we get that if guard `x > 4` holds, then update `x := x - 1` should be applied.
+* Case 3 (both guards hold):
+Here `+x <= 4 and x >= 4+`, which is just `x = 4`.
+As both edges are enabled, we get that if guard `x = 4` holds, then either of the updates may be applied.
+
+Case 3 can not be directly represented as an update of a single edge of a CIF model, as on a single edge, even using `if` updates, we can not perform two different updates on the same variable.
+This is a good example of how the updates can become more complex, as we need to distinguish various cases, and relate the updates to the guards and combinations of guards, which may be more complex then the original edges that were combined.
