@@ -45,6 +45,10 @@ public class PlcStructType extends PlcType {
 
     @Override
     public int hashCode() {
-        return fields.hashCode();
+        int h = 0;
+        for (PlcVariable field: fields) {
+            h = h + field.name.hashCode() + field.type.hashCode() * 23;
+        }
+        return h;
     }
 }
