@@ -42,7 +42,7 @@ And it now properly handles paths with spaces and other special characters in th
 * The CIF event-based synthesis analysis tool's command line script has been fixed to not immediately terminate after starting the tool (issue {escet-issue}567[#567]).
 * The CIF event-based synthesis tool now warns about synthesizing specifications without requirement automata (issue {escet-issue}553[#553]).
 * The CIF data-based synthesis tool now has better performance for converting updates of the CIF specification to their internal BDD representations (issue {escet-issue}580[#580]).
-* The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still producing in the same values for platform-independent metrics (issue {escet-issue}564[#564]).
+* The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still producing the same values for platform-independent metrics (issue {escet-issue}564[#564]).
 * The CIF data-based synthesis legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering, rather than considering invariants in the automaton twice.
 This could affect synthesis performance (issue {escet-issue}377[#377]).
 * The CIF controller property checker's finite response check may now have improved performance (issue {escet-issue}583[#583]).
