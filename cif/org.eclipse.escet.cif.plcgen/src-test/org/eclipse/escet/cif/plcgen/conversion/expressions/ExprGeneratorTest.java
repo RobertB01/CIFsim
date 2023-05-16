@@ -872,12 +872,9 @@ public class ExprGeneratorTest {
         assertEquals(expectedText, realText);
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void testLocationExpressionConversion() {
-        // here (the location)
-        String realText = runTest(newLocationExpression(loc, null, newBoolType()));
-        String expectedText = "==> here";
-        assertEquals(expectedText, realText);
+        runTest(newLocationExpression());
     }
 
     @Test
