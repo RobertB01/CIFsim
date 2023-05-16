@@ -107,6 +107,10 @@ map(string:list string) test_options = {
     "datasynth/namespace_conflict.cif":                         ["-n g.h.c.n"],
     "datasynth/namespace_invalid.cif":                          ["-n a.b."],
     "datasynth/namespace_non_empty.cif":                        ["-n g.h"],
+    "datasynth/reachability1_workset_off.cif":                  ["--edge-workset=off --edge-granularity=per-event"],
+    "datasynth/reachability1_workset_on.cif":                   ["--edge-workset=on  --edge-granularity=per-event"],
+    "datasynth/reachability2_workset_off.cif":                  ["--edge-workset=off --edge-granularity=per-event"],
+    "datasynth/reachability2_workset_on.cif":                   ["--edge-workset=on  --edge-granularity=per-event"],
     "datasynth/simplify_ctrl_beh_off.cif":                      ["--bdd-simplify="],
     "datasynth/simplify_ctrl_beh_on.cif":                       ["--bdd-simplify=guards-ctrl-beh"],
     "datasynth/simplify_initial_plant_inv_off.cif":             ["--bdd-simplify="],
@@ -166,6 +170,8 @@ map(string:list string) test_options = {
     "datasynth/var_order_reverse_sorted_algos_on.cif":          ["-r reverse-sorted " + opt_algos_on + " " + opt_simplify_all],
     "datasynth/var_order_sorted_algos_off.cif":                 ["-r sorted " + opt_algos_off + " " + opt_simplify_all],
     "datasynth/var_order_sorted_algos_on.cif":                  ["-r sorted " + opt_algos_on + " " + opt_simplify_all],
+    "datasynth/workset_with_edge_order_duplicate_events.cif":   ["--edge-workset=on --edge-granularity=per-event --edge-order-duplicate-events=allowed"],
+    "datasynth/workset_with_per_edge_edge_granularity.cif":     ["--edge-workset=on --edge-granularity=per-edge"],
 };
 set string test_skip = {};
 

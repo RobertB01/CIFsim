@@ -1,0 +1,1 @@
+ERROR: The edge workset algorithm can only be used with per-event edge granularity. Either disable the edge workset algorithm, or configure per-event edge granularity.
