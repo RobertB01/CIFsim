@@ -48,6 +48,22 @@ public class PlcElementaryType extends PlcType {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof PlcElementaryType elementaryType)) {
+            return false;
+        }
+        return name.equals(elementaryType.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
     /**
      * Retrieve the integer type that uses the given number of bits in PLC memory.
      *

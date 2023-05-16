@@ -28,4 +28,20 @@ public class PlcEnumType extends PlcType {
     public PlcEnumType(List<String> literals) {
         this.literals = literals;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof PlcEnumType enumType)) {
+            return false;
+        }
+        return literals.equals(enumType.literals);
+    }
+
+    @Override
+    public int hashCode() {
+        return literals.hashCode();
+    }
 }

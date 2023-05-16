@@ -41,4 +41,20 @@ public class PlcArrayType extends PlcType {
         Assert.check(lower == 0);
         Assert.check(upper >= lower);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof PlcArrayType arrayType)) {
+            return false;
+        }
+        return lower == arrayType.lower && upper == arrayType.upper && elemType.equals(arrayType.elemType);
+    }
+
+    @Override
+    public int hashCode() {
+        return elemType.hashCode() + upper + lower;
+    }
 }

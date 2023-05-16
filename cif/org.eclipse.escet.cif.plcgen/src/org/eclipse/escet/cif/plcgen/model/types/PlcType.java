@@ -15,5 +15,9 @@ package org.eclipse.escet.cif.plcgen.model.types;
 
 /** PLC type. */
 public abstract class PlcType {
-    // No common data/methods.
+    @Override
+    public abstract boolean equals(Object other);
+
+    @Override
+    public abstract int hashCode();
 }
