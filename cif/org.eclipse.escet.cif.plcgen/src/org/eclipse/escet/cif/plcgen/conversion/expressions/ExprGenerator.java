@@ -185,7 +185,6 @@ public class ExprGenerator {
      * @param plcType Type of the returned variable.
      * @param address The address of the variable, or {@code null} if not specified.
      * @param value The initial value of the variable, or {@code null} if not specified.
-     *
      * @return The created variable.
      */
     public PlcVariable makeLocalVariable(String prefix, PlcType plcType, String address, PlcValue value) {
