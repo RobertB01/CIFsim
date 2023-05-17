@@ -105,6 +105,8 @@ import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrdererParser;
 import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrdererTypeChecker;
 import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererInstance;
+import org.eclipse.escet.cif.datasynth.workset.AllEdgesEdgeDependencySetCreator;
+import org.eclipse.escet.cif.datasynth.workset.EdgeDependencySetCreator;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -160,7 +162,6 @@ import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.GridBox.GridBoxLayout;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
@@ -2573,33 +2574,9 @@ public class CifToSynthesisConverter {
             return;
         }
 
-        // Compute the dependency sets for all edges. For each edge 'e', its forward dependencies are those edges that
-        // may become enabled after taking edge 'e'. The backward dependencies are inverted with respect to the forward
-        // ones.
-        //
-        // Note that the workset algorithm removes 'e' from the workset after it has been applied, after adding the
-        // dependencies of 'e'. Hence, it does not matter whether an edge has itself as a dependency or not.
-        //
-        // Ideally, we'd compute the exact dependencies, but with arbitrary guard predicates and arbitrary assigned
-        // values in updates, this is typically too complex to analyze statically. Hence, we compute an
-        // over-approximation. The larger the over-approximation, the more edges are needlessly applied, impacting
-        // synthesis performance. The dependencies must never be under-approximated, as that would make the workset
-        // algorithm invalid, since it then may no longer reach all reachable states.
-        //
-        // For now, each edge has all other edges as its dependencies. This is trivially correct, but has the worst
-        // possible performance.
-        // TODO: Improve the workset dependencies, to reduce the over-approximation and improve synthesis performance.
-        synthAut.worksetDependenciesBackward = listc(synthAut.orderedEdgesBackward.size());
-        for (int i = 0; i < synthAut.orderedEdgesBackward.size(); i++) {
-            synthAut.worksetDependenciesBackward.add(BitSets.ones(synthAut.orderedEdgesBackward.size()));
-        }
-
-        if (ForwardReachOption.isEnabled()) {
-            synthAut.worksetDependenciesForward = listc(synthAut.orderedEdgesForward.size());
-            for (int i = 0; i < synthAut.orderedEdgesForward.size(); i++) {
-                synthAut.worksetDependenciesForward.add(BitSets.ones(synthAut.orderedEdgesForward.size()));
-            }
-        }
+        // Compute the dependency sets for all edges, and store them in the synthesis automaton.
+        EdgeDependencySetCreator creator = new AllEdgesEdgeDependencySetCreator();
+        creator.createAndStore(synthAut, ForwardReachOption.isEnabled());
     }
 
     /**
