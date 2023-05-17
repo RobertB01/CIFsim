@@ -26,6 +26,41 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-website-version
 
 TBD
 
+Language changes:
+
+* The CIF type checker now allows omitting the `else` part of `switch` expressions in more situations, when it can be statically determined that the `switch` expression is complete without it.
+The type checker has also been improved, regarding detection of duplicate and missing switch cases, and superfluous ``else``s (issue {escet-issue}548[#548]).
+
+New features:
+
+* The CIF data-based synthesis tool has a new _Edge granularity_ option to configure the granularity of edges to use during synthesis.
+Previously, the linearized edges were used 'as is'.
+Now, they are merged per event, to obtain a single edge per event.
+The option can be used to restore the old behavior.
+The new edge granularity has been shown to reduce both the memory usage and time required to perform synthesis.
+For more information, see the documentation of the new option (issue {escet-issue}586[#586]).
+
+Improvements and fixes:
+
+* The CIF simulator's command line script has been fixed for handling dark theme detection, preventing crashes and improving dark theme support, when using the simulator's plot visualizer or interactive GUI input component (issue {escet-issue}567[#567]).
+* The CIF simulator's SVG visualizer _Save as_ dialog now properly starts in the directory that contains the SVG file, also on Windows.
+And it now properly handles paths with spaces and other special characters in them (issue {escet-issue}221[#221]).
+* The CIF explorer now warns about exploring specifications with requirements (issue {escet-issue}585[#585]).
+* The CIF event-based synthesis toolset's command line scripts now have correct information to start the tools, where previously they always crashed (issue {escet-issue}567[#567]).
+* The CIF event-based synthesis analysis tool's command line script has been fixed for handling dark theme detection, preventing crashes and improving dark theme support (issue {escet-issue}567[#567]).
+* The CIF event-based synthesis analysis tool's command line script has been fixed to not immediately terminate after starting the tool (issue {escet-issue}567[#567]).
+* The CIF event-based synthesis tool now warns about synthesizing specifications without requirement automata (issue {escet-issue}553[#553]).
+* The CIF data-based synthesis tool now has better performance for converting updates of the CIF specification to their internal BDD representations (issue {escet-issue}580[#580]).
+* The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still producing the same values for platform-independent metrics (issue {escet-issue}564[#564]).
+* The CIF data-based synthesis legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering, rather than considering invariants in the automaton twice.
+This could affect synthesis performance (issue {escet-issue}377[#377]).
+* The CIF controller property checker's finite response check may now have improved performance (issue {escet-issue}583[#583]).
+* The CIF to CIF transformation to merge all enumerations of the specification into a single enumeration has been changed.
+It now converts the last case of all `switch` expressions to an `else`, for switch expressions that switch over a value that has a type that includes an enumeration type.
+Hereby, the keys of these last cases are removed from the model (issue {escet-issue}548[#548]).
+* The website has been fixed to ensure all version-specific URLs are now properly replaced by non-version-specific ones when a version-specific website is promoted to become the main website.
+Previously, a few URLs remained version-specific (issue {escet-issue}577[#577]).
+
 === Version 0.9 (2023-03-31)
 
 New features:
