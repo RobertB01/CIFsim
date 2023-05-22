@@ -1608,7 +1608,7 @@ public class CifDataSynthesis {
             edge.postApply(forward);
         }
 
-        // Fixed point reached.
+        // Fixed point reached. Inform the user.
         if (aut.env.isTerminationRequested()) {
             return null;
         }
@@ -1650,15 +1650,15 @@ public class CifDataSynthesis {
         List<BitSet> dependencies = forward ? aut.worksetDependenciesForward : aut.worksetDependenciesBackward;
         BitSet workset = copy(edgesMask);
         while (!workset.isEmpty()) {
-            // Choose the next edge to apply.
+            // Select the next edge to apply.
             // TODO: For now, choose the first edge in the workset. Better heuristics will be added later.
             int edgeIdx = workset.nextSetBit(0);
             SynthesisEdge edge = edges.get(edgeIdx);
 
-            // Repeatedly apply the edge, until it no longer has an effect.
+            // Repeatedly apply the selected edge, until it no longer has an effect.
             boolean changedByEdge = false;
             while (true) {
-                // Apply edge. Apply the runtime error predicates when applying backward.
+                // Apply selected edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
                 if (aut.env.isTerminationRequested()) {
@@ -1671,31 +1671,31 @@ public class CifDataSynthesis {
                     return null;
                 }
 
-                // Detect change.
+                // Detect no change (fixed point reached for the selected edge).
                 if (pred.equals(newPred)) {
-                    // No change.
                     newPred.free();
                     break;
-                } else {
-                    // Change.
-                    if (dbgEnabled) {
-                        String restrTxt;
-                        if (restriction == null) {
-                            restrTxt = "";
-                        } else {
-                            Assert.notNull(restrictionName);
-                            restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
-                                    bddToStr(restriction, aut));
-                        }
-                        dbg("%s: %s -> %s [%s reach with edge: %s%s]", Strings.makeInitialUppercase(predName),
-                                bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
-                                edge.toString(0, ""), restrTxt);
-                    }
-                    pred.free();
-                    pred = newPred;
-                    changed = true;
-                    changedByEdge = true;
                 }
+
+                // The predicate changed: at least one new state was reached. Inform the user.
+                if (dbgEnabled) {
+                    String restrTxt;
+                    if (restriction == null) {
+                        restrTxt = "";
+                    } else {
+                        Assert.notNull(restrictionName);
+                        restrTxt = fmt(", restricted to %s predicate: %s", restrictionName, bddToStr(restriction, aut));
+                    }
+                    dbg("%s: %s -> %s [%s reach with edge: %s%s]", Strings.makeInitialUppercase(predName),
+                            bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
+                            edge.toString(0, ""), restrTxt);
+                }
+
+                // Update the administration.
+                pred.free();
+                pred = newPred;
+                changed = true;
+                changedByEdge = true;
             }
 
             // Update the workset.
@@ -1706,7 +1706,10 @@ public class CifDataSynthesis {
                 dependents.and(edgesMask);
                 workset.or(dependents);
             }
-            workset.clear(edgeIdx); // A fixed point was reached for this edge, so it can be removed from the workset.
+            // A fixed point was reached for the selected edge, so it can be removed from the workset. Note that by
+            // removing this edge after adding its dependencies, it does not matter whether an edge is a dependency of
+            // itself or not.
+            workset.clear(edgeIdx);
         }
         return pair(pred, changed);
     }
@@ -1770,7 +1773,7 @@ public class CifDataSynthesis {
                         break; // Fixed point reached.
                     }
                 } else {
-                    // Change.
+                    // The predicate changed: at least one new state was reached. Inform the user.
                     if (dbgEnabled) {
                         String restrTxt;
                         if (restriction == null) {
@@ -1784,6 +1787,8 @@ public class CifDataSynthesis {
                                 bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
                                 edge.toString(0, ""), restrTxt);
                     }
+
+                    // Update the administration.
                     pred.free();
                     pred = newPred;
                     changed = true;
