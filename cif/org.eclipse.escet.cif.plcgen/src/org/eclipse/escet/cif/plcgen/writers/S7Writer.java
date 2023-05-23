@@ -221,11 +221,12 @@ public class S7Writer extends OutputTypeWriter {
         // Initialization of variables.
         c.add("BEGIN");
         c.indent();
+        ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
         for (PlcVariable var: variables) {
             if (var.value == null) {
                 continue;
             }
-            c.add("%s := %s;", var.name, toBox(var.value));
+            c.add("%s := %s;", var.name, modelTextGenerator.toString(var.value));
         }
         c.dedent();
 
@@ -273,9 +274,10 @@ public class S7Writer extends OutputTypeWriter {
         // The variables, either constants or input variables. 'type', 'value', 'name' and 'address' shouldn't contain
         // XML characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
         if (globVarList.constants) {
+            ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
             for (PlcVariable constant: globVarList.variables) {
                 c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(constant.type),
-                        toBox(constant.value), constant.name);
+                        modelTextGenerator.toString(constant.value), constant.name);
             }
         } else {
             for (PlcVariable var: globVarList.variables) {

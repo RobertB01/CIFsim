@@ -51,7 +51,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcValue;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -309,11 +309,11 @@ public class PlcOpenXmlWriter extends OutputTypeWriter {
      * @param value The value.
      * @param parent The parent element in which to generate new elements.
      */
-    private void transValue(PlcValue value, Element parent) {
+    private void transValue(PlcExpression value, Element parent) {
         Element vElem = parent.getOwnerDocument().createElement("simpleValue");
         parent.appendChild(vElem);
 
-        vElem.setAttribute("value", value.value);
+        vElem.setAttribute("value", target.getModelTextGenerator().toString(value));
     }
 
     /**

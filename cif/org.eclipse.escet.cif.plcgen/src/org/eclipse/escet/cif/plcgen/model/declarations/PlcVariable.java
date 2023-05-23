@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.declarations;
 
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcValue;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** PLC variable (or constant). */
@@ -28,7 +28,7 @@ public class PlcVariable {
     public final String address;
 
     /** The initial value of the variable, or {@code null} if not specified. */
-    public final PlcValue value;
+    public final PlcExpression value;
 
     /**
      * Constructor for the {@link PlcVariable} class, without address and initial value.
@@ -48,7 +48,7 @@ public class PlcVariable {
      * @param address The address of the variable, or {@code null} if not specified.
      * @param value The initial value of the variable, or {@code null} if not specified.
      */
-    public PlcVariable(String name, PlcType type, String address, PlcValue value) {
+    public PlcVariable(String name, PlcType type, String address, PlcExpression value) {
         this.name = name;
         this.type = type;
         this.address = address;

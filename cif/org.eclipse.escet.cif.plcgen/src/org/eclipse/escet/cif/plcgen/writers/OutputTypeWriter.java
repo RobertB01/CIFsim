@@ -28,7 +28,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcValue;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -213,7 +212,8 @@ public abstract class OutputTypeWriter {
      */
     protected Box toBox(PlcVariable variable) {
         String addrTxt = (variable.address == null) ? "" : fmt(" AT %s", variable.address);
-        String valueTxt = (variable.value == null) ? "" : fmt(" := %s", toBox(variable.value));
+        String valueTxt = (variable.value == null) ? ""
+                : " := " + target.getModelTextGenerator().toString(variable.value);
         String txt = fmt("%s%s: %s%s;", variable.name, addrTxt, toBox(variable.type), valueTxt);
         return new TextBox(txt);
     }
@@ -302,16 +302,6 @@ public abstract class OutputTypeWriter {
             c.add("END_VAR");
         }
         return c;
-    }
-
-    /**
-     * Convert a {@link PlcValue} instance to a {@link Box} text.
-     *
-     * @param value Value to convert.
-     * @return The generated box representation.
-     */
-    protected Box toBox(PlcValue value) {
-        return new TextBox(value.value);
     }
 
     /**
