@@ -17,11 +17,21 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 
 /** IEC 61131-3 writer. */
 public class Iec611313Writer extends OutputTypeWriter {
+    /**
+     * Constructor of the {@link Iec611313Writer} class.
+     *
+     * @param target PLC target to generate code for.
+     */
+    public Iec611313Writer(PlcTarget target) {
+        super(target);
+    }
+
     @Override
     public void write(PlcProject project, String outPath) {
         ensureDirectory(outPath);

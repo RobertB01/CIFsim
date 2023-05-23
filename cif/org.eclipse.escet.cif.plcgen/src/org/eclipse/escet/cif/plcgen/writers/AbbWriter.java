@@ -17,11 +17,21 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 
 /** Writer for generated PLC code for the ABB PLC target type. */
 public class AbbWriter extends OutputTypeWriter {
+    /**
+     * Constructor of the {@link AbbWriter} class.
+     *
+     * @param target PLC target to generate code for.
+     */
+    public AbbWriter(PlcTarget target) {
+        super(target);
+    }
+
     @Override
     public void write(PlcProject project, String outputPath) {
         ensureDirectory(outputPath);

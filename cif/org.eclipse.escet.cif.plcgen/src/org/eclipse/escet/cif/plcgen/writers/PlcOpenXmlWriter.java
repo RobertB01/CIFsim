@@ -58,6 +58,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.CodeBox;
@@ -73,6 +74,15 @@ public class PlcOpenXmlWriter extends OutputTypeWriter {
 
     /** XHTML namespace URI. */
     private static final String XHTML_NS = "http://www.w3.org/1999/xhtml";
+
+    /**
+     * Constructor of the {@link PlcOpenXmlWriter} class.
+     *
+     * @param target PLC target to generate code for.
+     */
+    public PlcOpenXmlWriter(PlcTarget target) {
+        super(target);
+    }
 
     /**
      * {@inheritDoc}

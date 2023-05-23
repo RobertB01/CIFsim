@@ -51,6 +51,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
@@ -93,6 +94,15 @@ public class TwinCatWriter extends OutputTypeWriter {
 
     /** Old code files that are scheduled to be removed (since there are no replacements in {@link #files}). */
     private List<File> oldCodeFiles = list();
+
+    /**
+     * Constructor of the {@link AbbWriter} class.
+     *
+     * @param target PLC target to generate code for.
+     */
+    public TwinCatWriter(PlcTarget target) {
+        super(target);
+    }
 
     /**
      * {@inheritDoc}

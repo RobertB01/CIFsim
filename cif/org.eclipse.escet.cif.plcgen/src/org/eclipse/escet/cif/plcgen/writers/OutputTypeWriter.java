@@ -35,6 +35,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.Box;
@@ -48,6 +49,18 @@ import org.eclipse.escet.common.java.Assert;
 public abstract class OutputTypeWriter {
     /** The indentation to use for the Structured Text files. */
     public static final int INDENT = 4;
+
+    /** PLC target to generate code for. */
+    protected final PlcTarget target;
+
+    /**
+     * Constructor of the {@link OutputTypeWriter} class.
+     *
+     * @param target PLC target to generate code for.
+     */
+    protected OutputTypeWriter(PlcTarget target) {
+        this.target = target;
+    }
 
     /**
      * Convert the project contents to output acceptable for a PLC output type.

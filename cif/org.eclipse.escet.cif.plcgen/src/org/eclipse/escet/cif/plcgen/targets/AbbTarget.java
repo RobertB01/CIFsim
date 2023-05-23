@@ -26,7 +26,7 @@ public class AbbTarget extends PlcBaseTarget {
 
     @Override
     public OutputTypeWriter getPlcCodeWriter() {
-        return new AbbWriter();
+        return new AbbWriter(this);
     }
 
     @Override

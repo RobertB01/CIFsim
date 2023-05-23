@@ -25,7 +25,7 @@ public class PlcOpenXmlTarget extends PlcBaseTarget {
 
     @Override
     public OutputTypeWriter getPlcCodeWriter() {
-        return new PlcOpenXmlWriter();
+        return new PlcOpenXmlWriter(this);
     }
 
     @Override

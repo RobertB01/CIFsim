@@ -60,7 +60,7 @@ public class SiemensS7Target extends PlcBaseTarget {
 
     @Override
     public OutputTypeWriter getPlcCodeWriter() {
-        return new S7Writer(targetType);
+        return new S7Writer(this);
     }
 
     @Override

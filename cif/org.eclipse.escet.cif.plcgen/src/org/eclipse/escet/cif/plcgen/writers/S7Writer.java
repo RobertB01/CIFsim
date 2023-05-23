@@ -21,6 +21,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.EnumSet;
 import java.util.List;
 
+import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -30,7 +31,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
-import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
@@ -40,16 +41,13 @@ import org.eclipse.escet.common.java.Assert;
 
 /** S7 writer for S7-1500, S7-1200, S7-400 and S7-300 SIMATIC controllers. */
 public class S7Writer extends OutputTypeWriter {
-    /** Targeted S7 PLC target type. */
-    private final PlcTargetType targetType;
-
     /**
      * Constructor for the {@link S7Writer} class.
      *
-     * @param targetType Targeted S7 PLC type.
+     * @param target PLC target to generate code for.
      */
-    public S7Writer(PlcTargetType targetType) {
-        this.targetType = targetType;
+    public S7Writer(PlcTarget target) {
+        super(target);
     }
 
     @Override
@@ -163,7 +161,7 @@ public class S7Writer extends OutputTypeWriter {
      * @return Whether IEC timers are supported for the current target type.
      */
     private boolean hasIecTimers() {
-        return EnumSet.of(S7_1200, S7_1500).contains(targetType);
+        return EnumSet.of(S7_1200, S7_1500).contains(target.getTargetType());
     }
 
     /**
@@ -248,7 +246,7 @@ public class S7Writer extends OutputTypeWriter {
      * @return Whether optimized block access is supported for the current target type.
      */
     private boolean hasOptimizedBlockAccess() {
-        return EnumSet.of(S7_1200, S7_1500).contains(targetType);
+        return EnumSet.of(S7_1200, S7_1500).contains(target.getTargetType());
     }
 
     @Override

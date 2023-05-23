@@ -25,7 +25,7 @@ public class Iec611313Target extends PlcBaseTarget {
 
     @Override
     public OutputTypeWriter getPlcCodeWriter() {
-        return new Iec611313Writer();
+        return new Iec611313Writer(this);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class TwinCatTarget extends PlcBaseTarget {
 
     @Override
     public OutputTypeWriter getPlcCodeWriter() {
-        return new TwinCatWriter();
+        return new TwinCatWriter(this);
     }
 
     @Override
