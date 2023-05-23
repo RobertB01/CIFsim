@@ -188,15 +188,6 @@ public abstract class PlcBaseTarget implements PlcTarget {
     }
 
     @Override
-    public abstract boolean supportsArrays();
-
-    @Override
-    public abstract boolean supportsConstants();
-
-    @Override
-    public abstract boolean supportsEnumerations();
-
-    @Override
     public boolean supportsOperation(PlcFuncOperation funcOper) {
         // By default the operation is supported.
         return true;
