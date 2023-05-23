@@ -22,12 +22,23 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private final PlcTarget target;
 
     /**
+     * The event transitions to generate. Is {@code null} until the transitions are provided with
+     * {@link #setTransitions}.
+     */
+    private CifEventTransition transitions = null;
+
+    /**
      * Constructor of the {@link DefaultTransitionGenerator} class.
      *
      * @param target The chosen PLC target.
      */
     public DefaultTransitionGenerator(PlcTarget target) {
         this.target = target;
+    }
+
+    @Override
+    public void setTransitions(CifEventTransition transitions) {
+        this.transitions = transitions;
     }
 
     @Override
