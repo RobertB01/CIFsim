@@ -22,7 +22,7 @@ import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 
 /** Writer for generated PLC code for the ABB PLC target type. */
-public class AbbWriter extends OutputTypeWriter {
+public class AbbWriter extends Writer {
     /**
      * Constructor of the {@link AbbWriter} class.
      *

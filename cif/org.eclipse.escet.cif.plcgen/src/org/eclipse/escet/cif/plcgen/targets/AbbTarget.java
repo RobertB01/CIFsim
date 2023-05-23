@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.plcgen.writers.AbbWriter;
-import org.eclipse.escet.cif.plcgen.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.writers.Writer;
 
 /** Code generator for the ABB PLC type. */
 public class AbbTarget extends PlcBaseTarget {
@@ -25,7 +25,7 @@ public class AbbTarget extends PlcBaseTarget {
     }
 
     @Override
-    public OutputTypeWriter getPlcCodeWriter() {
+    public Writer getPlcCodeWriter() {
         return new AbbWriter(this);
     }
 

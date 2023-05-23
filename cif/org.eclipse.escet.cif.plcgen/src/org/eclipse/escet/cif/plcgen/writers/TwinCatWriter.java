@@ -67,7 +67,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /** TwinCAT 3.1 writer. */
-public class TwinCatWriter extends OutputTypeWriter {
+public class TwinCatWriter extends Writer {
     /** The PLC project to use, {@code null} until available. */
     private PlcProject project;
 

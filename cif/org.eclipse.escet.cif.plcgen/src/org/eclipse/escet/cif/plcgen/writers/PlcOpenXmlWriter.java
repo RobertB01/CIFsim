@@ -68,7 +68,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 /** PLCopen XML (version 2.01) writer. */
-public class PlcOpenXmlWriter extends OutputTypeWriter {
+public class PlcOpenXmlWriter extends Writer {
     /** PLCopen XML version namespace URI. */
     private static final String PLCOPEN_NS = "http://www.plcopen.org/xml/tc6_0201";
 

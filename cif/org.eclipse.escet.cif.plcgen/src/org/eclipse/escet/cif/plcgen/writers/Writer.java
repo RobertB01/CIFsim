@@ -45,7 +45,7 @@ import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** Base class for writing PLC code for a given output type. */
-public abstract class OutputTypeWriter {
+public abstract class Writer {
     /** The indentation to use for the Structured Text files. */
     public static final int INDENT = 4;
 
@@ -53,11 +53,11 @@ public abstract class OutputTypeWriter {
     protected final PlcTarget target;
 
     /**
-     * Constructor of the {@link OutputTypeWriter} class.
+     * Constructor of the {@link Writer} class.
      *
      * @param target PLC target to generate code for.
      */
-    protected OutputTypeWriter(PlcTarget target) {
+    protected Writer(PlcTarget target) {
         this.target = target;
     }
 

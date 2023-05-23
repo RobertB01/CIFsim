@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
-import org.eclipse.escet.cif.plcgen.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.cif.plcgen.writers.TwinCatWriter;
 
 /** Code generator for the TwinCAT PLC type. */
@@ -25,7 +25,7 @@ public class TwinCatTarget extends PlcBaseTarget {
     }
 
     @Override
-    public OutputTypeWriter getPlcCodeWriter() {
+    public Writer getPlcCodeWriter() {
         return new TwinCatWriter(this);
     }
 

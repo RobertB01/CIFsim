@@ -27,7 +27,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
-import org.eclipse.escet.cif.plcgen.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.writers.Writer;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcBaseTarget implements PlcTarget {
@@ -150,7 +150,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
      *
      * @return The requested PLC code writer.
      */
-    protected abstract OutputTypeWriter getPlcCodeWriter();
+    protected abstract Writer getPlcCodeWriter();
 
     @Override
     public PlcTargetType getTargetType() {
@@ -242,7 +242,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     @Override
     public void writeOutput(PlcProject project) {
-        OutputTypeWriter writer = getPlcCodeWriter();
+        Writer writer = getPlcCodeWriter();
         writer.write(project, outputPath);
     }
 }

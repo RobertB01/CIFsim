@@ -17,7 +17,7 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
-import org.eclipse.escet.cif.plcgen.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.cif.plcgen.writers.S7Writer;
 import org.eclipse.escet.common.java.Assert;
 
@@ -59,7 +59,7 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public OutputTypeWriter getPlcCodeWriter() {
+    public Writer getPlcCodeWriter() {
         return new S7Writer(this);
     }
 

@@ -22,7 +22,7 @@ import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 
 /** IEC 61131-3 writer. */
-public class Iec611313Writer extends OutputTypeWriter {
+public class Iec611313Writer extends Writer {
     /**
      * Constructor of the {@link Iec611313Writer} class.
      *

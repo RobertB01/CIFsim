@@ -40,7 +40,7 @@ import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** S7 writer for S7-1500, S7-1200, S7-400 and S7-300 SIMATIC controllers. */
-public class S7Writer extends OutputTypeWriter {
+public class S7Writer extends Writer {
     /**
      * Constructor for the {@link S7Writer} class.
      *
