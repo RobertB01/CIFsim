@@ -17,8 +17,8 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
-import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.cif.plcgen.writers.S7Writer;
+import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
 
 /** Code generator for Siemens S7-300, S7-400, S7-1200, and S7-1500 PLC types. */
