@@ -140,16 +140,16 @@ public class CifProcessor {
 
         // Replace locations in expressions by explicit variables.
         new ElimLocRefExprs(
-                a -> "LP", // candidate name for location pointer variables.
-                a -> "LPE", // candidate name for location pointer enum.
-                l -> "LOC_" + l.getName(),  // candidate name for location pointer literals.
+                a -> "LP", // Candidate name for location pointer variables.
+                a -> "LPE", // Candidate name for location pointer enumeration.
+                loc -> "LOC_" + loc.getName(), // Candidate name for location pointer literals.
                 true, // Add initialization predicates for the initialization of the location pointer variables.
                 false, // Do not rename locations to ensure unique names.
                 false, // Also generate unused location pointers.
                 null, // Map of location pointer variables to their automaton.
                 true, // Optimize of initialization of location pointers.
-                true  // add location pointer expressions to guards.
-            ).transform(spec);
+                true // Add location pointer expressions to guards.
+        ).transform(spec);
 
         // Simplify the specification, to increase the supported subset. Since simplification of values fills in all
         // constants, we can also remove the constants. However, this may lead to large amounts of duplication for
