@@ -39,7 +39,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntExpress
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListType;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newProjectionExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealExpression;
@@ -59,7 +58,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -138,8 +136,6 @@ public class ExprGeneratorTest {
 
     private static ContVariable contVar = newContVariable(newRealExpression(null, newRealType(), "1.0"), "timer", null,
             null);
-
-    private static Location loc = newLocation(null, null, null, null, null, "here", null, false);
 
     private static DiscVariable tupVar = newDiscVariable("tupVar", null, makeTupleType(3), null);
 
@@ -299,11 +295,6 @@ public class ExprGeneratorTest {
         protected PlcExpression getExprForContvar(ContVariable variable, boolean getDerivative) {
             String name = variable.getName() + (getDerivative ? "_der" : "");
             return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
-        }
-
-        @Override
-        protected PlcExpression getExprForLocation(Location location) {
-            return new PlcVarExpression(new PlcVariable(location.getName(), PlcElementaryType.BOOL_TYPE));
         }
 
         @Override

@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -32,7 +31,6 @@ import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenResult;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -125,12 +123,6 @@ public class DefaultVariableStorage implements VariableStorage {
             public PlcExpression getExprForContvar(ContVariable variable, boolean getDerivative) {
                 // TODO Return the proper PLC expression for the requested continuous variable.
                 return new PlcVarExpression(new PlcVariable("someContvariable", PlcElementaryType.LREAL_TYPE));
-            }
-
-            @Override
-            public PlcExpression getExprForLocation(Location location) {
-                // TODO Return the proper PLC expression for the requested location.
-                return new PlcBoolLiteral(false);
             }
 
             @Override

@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen.conversion.expressions;
 
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -54,15 +53,6 @@ public abstract class CifDataProvider {
      * @return The expression to access a value of the provided continuous variable.
      */
     protected abstract PlcExpression getExprForContvar(ContVariable variable, boolean getDerivative);
-
-    /**
-     * Return the PLC expression for deciding whether the automaton owning the given location is at the time of
-     * evaluation in that location.
-     *
-     * @param location Location being queried.
-     * @return A boolean expression expressing whether the owning automaton of the location is in that location.
-     */
-    protected abstract PlcExpression getExprForLocation(Location location);
 
     /**
      * Return the PLC expression to access the provided input variable.
