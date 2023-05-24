@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.plcgen.generators;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 
-/** Generator for creating PLC code to perform  CIF event transitions in the PLC. */
+/** Generator for creating PLC code to perform CIF event transitions in the PLC. */
 public class DefaultTransitionGenerator implements TransitionGenerator {
     /** PLC target to generate code for. */
     private final PlcTarget target;

@@ -129,8 +129,8 @@ public class CifEventTransition {
          * @param guards Guards of the edge.
          * @param updates Updates of the edge.
          */
-        public TransitionEdge(Location sourceLoc, Location targetLoc, Expression sendValue,
-                List<Expression> guards, List<Update> updates)
+        public TransitionEdge(Location sourceLoc, Location targetLoc, Expression sendValue, List<Expression> guards,
+                List<Update> updates)
         {
             this.sourceLoc = sourceLoc;
             this.targetLoc = targetLoc;
