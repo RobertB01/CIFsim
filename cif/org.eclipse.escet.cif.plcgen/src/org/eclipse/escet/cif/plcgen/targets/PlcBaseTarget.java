@@ -142,7 +142,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
         }
 
         // Generate the event transition functions.
-        transitionGenerator.process();
+        transitionGenerator.generate();
 
         // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();

@@ -21,7 +21,33 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
-/** CIF data for generating a transition for an event. */
+/**
+ * CIF data for generating a transition for an event.
+ *
+ * <p>
+ * <ul>
+ * <li>A channel event can be performed if and only if
+ * <ul>
+ * <li>At least one of the {@link #senders} automata has an enabled edge,</li>
+ * <li>at least one of the {@link #receivers} automata has an enabled edge, and</li>
+ * <li>every automaton in {@link #syncers} has at least one enabled edge.</li>
+ * </ul>
+ * Performing an event transition for a channel event is done by performing an edge transition with one of the
+ * {@link #senders} with an enabled edge, one of the {@link #receivers} with an enabled edge, all {@link #syncers}, and
+ * all {@link #monitors} that have an enabled edge. Automata in {@link #monitors} without enabled edge don't synchronize
+ * in the performed event transition and keep their state.</li>
+ *
+ * <li>A normal event (that is, not a channel) ignores the {@link #senders} and {@link #receivers} automata. It is
+ * generally recommended not to use these variables for normal events. A normal event can be performed if and only if
+ * <ul>
+ * <li>Every automaton in {@link #syncers} has at least one enabled edge.</li>
+ * </ul>
+ * Performing an event transition for a normal event is done by performing an edge transition with all {@link #syncers}
+ * automata, and all {@link #monitors} that have an enabled edge. Automata in {@link #monitors} without enabled edge
+ * don't synchronize in the performed event transition and keep their state.</li>
+ * </ul>
+ * </p>
+ */
 public class CifEventTransition {
     /** Event of the transition. */
     public final Event event;
@@ -32,10 +58,10 @@ public class CifEventTransition {
     /** Transitions of automata that receive a value with the event. */
     public final List<TransitionAutomaton> receivers;
 
-    /** Transitions of automata that always participate with the event. */
+    /** Transitions of automata that always synchronize with the event. */
     public final List<TransitionAutomaton> syncers;
 
-    /** Transitions of automata that may or may not participate with the event. */
+    /** Transitions of automata that may or may not synchronize with the event. */
     public final List<TransitionAutomaton> monitors;
 
     /**
@@ -44,8 +70,8 @@ public class CifEventTransition {
      * @param event Event of the transition.
      * @param senders Transitions of automata that send a value with the event.
      * @param receivers Transitions of automata that receive a value with the event.
-     * @param syncers Transitions of automata that always participate with the event.
-     * @param monitors Transitions of automata that may or may not participate with the event.
+     * @param syncers Transitions of automata that always synchronize with the event.
+     * @param monitors Transitions of automata that may or may not synchronize with the event.
      */
     public CifEventTransition(Event event, List<TransitionAutomaton> senders, List<TransitionAutomaton> receivers,
             List<TransitionAutomaton> syncers, List<TransitionAutomaton> monitors)
@@ -79,11 +105,11 @@ public class CifEventTransition {
 
     /** An edge of an automaton that may be executed with the event. */
     public final class TransitionEdge {
-        /** Start location of the edge. */
+        /** Source location of the edge. */
         public final Location sourceLoc;
 
-        /** Destination location of the edge. */
-        public final Location destinationLoc;
+        /** Target location of the edge. */
+        public final Location targetLoc;
 
         /** Value being sent by the send automaton in the edge, {@code null} otherwise. */
         public final Expression sendValue;
@@ -97,17 +123,17 @@ public class CifEventTransition {
         /**
          * Constructor of the {@link TransitionEdge} class.
          *
-         * @param sourceLoc Start location of the edge.
-         * @param destinationLoc Destination location of the edge.
+         * @param sourceLoc Source location of the edge.
+         * @param targetLoc Target location of the edge.
          * @param sendValue Value being sent by the send automaton in the edge, {@code null} otherwise.
          * @param guards Guards of the edge.
          * @param updates Updates of the edge.
          */
-        public TransitionEdge(Location sourceLoc, Location destinationLoc, Expression sendValue,
+        public TransitionEdge(Location sourceLoc, Location targetLoc, Expression sendValue,
                 List<Expression> guards, List<Update> updates)
         {
             this.sourceLoc = sourceLoc;
-            this.destinationLoc = destinationLoc;
+            this.targetLoc = targetLoc;
             this.sendValue = sendValue;
             this.guards = guards;
             this.updates = updates;

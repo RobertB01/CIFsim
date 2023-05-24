@@ -50,7 +50,7 @@ public interface PlcTarget {
     /**
      * Retrieve the transition generator.
      *
-     * @return The transition generator of the target
+     * @return The transition generator of the target.
      */
     public abstract TransitionGenerator getTransitionGenerator();
 
