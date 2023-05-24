@@ -44,7 +44,7 @@ import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.java.Assert;
 
-/** Base class for writing PLC code for a given output type. */
+/** Base class for writing PLC code for a given target type. */
 public abstract class Writer {
     /** The indentation to use for the Structured Text files. */
     public static final int INDENT = 4;
@@ -62,7 +62,7 @@ public abstract class Writer {
     }
 
     /**
-     * Convert the project contents to output acceptable for a PLC output type.
+     * Convert the project contents to output acceptable for a PLC target type.
      *
      * @param project PLC program code to convert.
      * @param outputPath The absolute local file system destination to write the converted output.
