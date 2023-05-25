@@ -51,13 +51,14 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcValue;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.CodeBox;
@@ -67,12 +68,21 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 /** PLCopen XML (version 2.01) writer. */
-public class PlcOpenXmlWriter extends OutputTypeWriter {
+public class PlcOpenXmlWriter extends Writer {
     /** PLCopen XML version namespace URI. */
     private static final String PLCOPEN_NS = "http://www.plcopen.org/xml/tc6_0201";
 
     /** XHTML namespace URI. */
     private static final String XHTML_NS = "http://www.w3.org/1999/xhtml";
+
+    /**
+     * Constructor of the {@link PlcOpenXmlWriter} class.
+     *
+     * @param target PLC target to generate code for.
+     */
+    public PlcOpenXmlWriter(PlcTarget target) {
+        super(target);
+    }
 
     /**
      * {@inheritDoc}
@@ -299,11 +309,11 @@ public class PlcOpenXmlWriter extends OutputTypeWriter {
      * @param value The value.
      * @param parent The parent element in which to generate new elements.
      */
-    private void transValue(PlcValue value, Element parent) {
+    private void transValue(PlcExpression value, Element parent) {
         Element vElem = parent.getOwnerDocument().createElement("simpleValue");
         parent.appendChild(vElem);
 
-        vElem.setAttribute("value", value.value);
+        vElem.setAttribute("value", target.getModelTextGenerator().toString(value));
     }
 
     /**

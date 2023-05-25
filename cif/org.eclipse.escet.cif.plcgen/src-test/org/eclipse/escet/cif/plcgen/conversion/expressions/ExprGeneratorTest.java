@@ -106,7 +106,7 @@ import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
-import org.eclipse.escet.cif.plcgen.writers.OutputTypeWriter;
+import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.junit.Before;
@@ -261,7 +261,7 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        protected OutputTypeWriter getPlcCodeWriter() {
+        protected Writer getPlcCodeWriter() {
             throw new UnsupportedOperationException("Not needed for the test.");
         }
     }

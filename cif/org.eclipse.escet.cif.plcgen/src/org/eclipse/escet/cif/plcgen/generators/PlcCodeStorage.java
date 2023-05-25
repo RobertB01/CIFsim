@@ -30,7 +30,8 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcValue;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -195,7 +196,7 @@ public class PlcCodeStorage {
         if (stateInitializationCode != null) {
             // Insert code to create the initial state.
             PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
-                    new PlcValue("TRUE"));
+                    new PlcBoolLiteral(true));
             mainVariables.variables.add(firstFlag);
 
             CodeBox box = main.body;
@@ -212,7 +213,7 @@ public class PlcCodeStorage {
         PlcType tonType = new PlcDerivedType("TON");
         mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
         mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
-        mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
+        mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcIntLiteral(0)));
 
         // Add program to task.
         task.pouInstances.add(new PlcPouInstance("MAIN", main));

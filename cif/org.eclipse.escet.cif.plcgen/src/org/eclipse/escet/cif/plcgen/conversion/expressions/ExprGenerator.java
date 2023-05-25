@@ -73,7 +73,6 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcValue;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcArrayProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
@@ -187,7 +186,7 @@ public class ExprGenerator {
      * @param value The initial value of the variable, or {@code null} if not specified.
      * @return The created variable.
      */
-    public PlcVariable makeLocalVariable(String prefix, PlcType plcType, String address, PlcValue value) {
+    public PlcVariable makeLocalVariable(String prefix, PlcType plcType, String address, PlcExpression value) {
         return createVariable(prefix, plcType, address, value, false);
     }
 
@@ -202,7 +201,7 @@ public class ExprGenerator {
      * @return The created variable.
      * @note The new variable is not marked as available.
      */
-    private PlcVariable createVariable(String prefix, PlcType plcType, String address, PlcValue value,
+    private PlcVariable createVariable(String prefix, PlcType plcType, String address, PlcExpression value,
             boolean isTempVar)
     {
         String name = target.getNameGenerator().generateLocalName(prefix, localNameGenMap);

@@ -28,13 +28,13 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcValue;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.Box;
@@ -44,13 +44,25 @@ import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.java.Assert;
 
-/** Base class for writing PLC code for a given output type. */
-public abstract class OutputTypeWriter {
+/** Base class for writing PLC code for a given target type. */
+public abstract class Writer {
     /** The indentation to use for the Structured Text files. */
     public static final int INDENT = 4;
 
+    /** PLC target to generate code for. */
+    protected final PlcTarget target;
+
     /**
-     * Convert the project contents to output acceptable for a PLC output type.
+     * Constructor of the {@link Writer} class.
+     *
+     * @param target PLC target to generate code for.
+     */
+    protected Writer(PlcTarget target) {
+        this.target = target;
+    }
+
+    /**
+     * Convert the project contents to output acceptable for a PLC target type.
      *
      * @param project PLC program code to convert.
      * @param outputPath The absolute local file system destination to write the converted output.
@@ -200,7 +212,8 @@ public abstract class OutputTypeWriter {
      */
     protected Box toBox(PlcVariable variable) {
         String addrTxt = (variable.address == null) ? "" : fmt(" AT %s", variable.address);
-        String valueTxt = (variable.value == null) ? "" : fmt(" := %s", toBox(variable.value));
+        String valueTxt = (variable.value == null) ? ""
+                : " := " + target.getModelTextGenerator().toString(variable.value);
         String txt = fmt("%s%s: %s%s;", variable.name, addrTxt, toBox(variable.type), valueTxt);
         return new TextBox(txt);
     }
@@ -289,16 +302,6 @@ public abstract class OutputTypeWriter {
             c.add("END_VAR");
         }
         return c;
-    }
-
-    /**
-     * Convert a {@link PlcValue} instance to a {@link Box} text.
-     *
-     * @param value Value to convert.
-     * @return The generated box representation.
-     */
-    protected Box toBox(PlcValue value) {
-        return new TextBox(value.value);
     }
 
     /**
