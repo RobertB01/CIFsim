@@ -26,7 +26,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  *
  * <p>
  * <ul>
- * <li>A channel event can be performed if and only if
+ * <li>A channel event can be performed if and only if:
  * <ul>
  * <li>At least one of the {@link #senders} automata has an enabled edge,</li>
  * <li>at least one of the {@link #receivers} automata has an enabled edge, and</li>
@@ -38,7 +38,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  * in the performed event transition and keep their state.</li>
  *
  * <li>A normal event (that is, not a channel) ignores the {@link #senders} and {@link #receivers} automata. It is
- * generally recommended not to use these variables for normal events. A normal event can be performed if and only if
+ * generally recommended not to use these variables for normal events. A normal event can be performed if and only if:
  * <ul>
  * <li>Every automaton in {@link #syncers} has at least one enabled edge.</li>
  * </ul>
