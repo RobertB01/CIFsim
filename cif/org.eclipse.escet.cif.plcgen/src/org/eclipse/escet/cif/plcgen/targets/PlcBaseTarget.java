@@ -17,10 +17,12 @@ import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
+import org.eclipse.escet.cif.plcgen.generators.DefaultTransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultVariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
@@ -54,6 +56,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     /** Extracts information from the CIF input file, to be used during PLC code generation. */
     private CifProcessor cifProcessor;
+
+    /** Generates PLC code for performing CIF event transitions. */
+    private TransitionGenerator transitionGenerator;
 
     /** Handles storage and retrieval of globally used variables in the PLC program. */
     private VariableStorage varStorage;
@@ -122,6 +127,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
         typeGenerator = new DefaultTypeGenerator(this, settings);
         varStorage = new DefaultVariableStorage(this);
         cifProcessor = new CifProcessor(this, settings);
+        transitionGenerator = new DefaultTransitionGenerator(this);
 
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
@@ -134,6 +140,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
         if (settings.shouldTerminate.get()) {
             return;
         }
+
+        // Generate the event transition functions.
+        transitionGenerator.generate();
 
         // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();
@@ -168,6 +177,11 @@ public abstract class PlcBaseTarget implements PlcTarget {
     }
 
     @Override
+    public TransitionGenerator getTransitionGenerator() {
+        return transitionGenerator;
+    }
+
+    @Override
     public VariableStorage getVarStorage() {
         return varStorage;
     }
@@ -186,15 +200,6 @@ public abstract class PlcBaseTarget implements PlcTarget {
     public NameGenerator getNameGenerator() {
         return nameGenerator;
     }
-
-    @Override
-    public abstract boolean supportsArrays();
-
-    @Override
-    public abstract boolean supportsConstants();
-
-    @Override
-    public abstract boolean supportsEnumerations();
 
     @Override
     public boolean supportsOperation(PlcFuncOperation funcOper) {
