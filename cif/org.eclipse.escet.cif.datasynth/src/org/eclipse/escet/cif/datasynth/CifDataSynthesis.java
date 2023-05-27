@@ -1285,12 +1285,15 @@ public class CifDataSynthesis {
                 timing.mainBwMarked.start();
             }
             try {
-                nonBlock = CifDataSynthesisReachability.reachability(aut.marked.id(), false, // bad
-                        false, // forward
-                        true, // ctrl
-                        true, // unctrl
-                        aut.ctrlBeh, aut, dbgEnabled, "backward controlled-behavior", "marker",
-                        "current/previous controlled-behavior", round);
+                CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
+                        "backward controlled-behavior", "marker", "current/previous controlled-behavior", //
+                        aut.ctrlBeh, // restriction
+                        false, // not bad states = good states
+                        false, // not forward reachability = backward reachability
+                        true, // include edges with controllable events
+                        true, // include edges with uncontrollable events
+                        dbgEnabled);
+                nonBlock = reachability.performReachability(aut.marked.id());
             } finally {
                 if (doTiming) {
                     timing.mainBwMarked.stop();
@@ -1360,12 +1363,15 @@ public class CifDataSynthesis {
                 timing.mainBwBadState.start();
             }
             try {
-                badState = CifDataSynthesisReachability.reachability(badState, true, // bad
-                        false, // forward
-                        false, // ctrl
-                        true, // unctrl
-                        null, aut, dbgEnabled, "backward uncontrolled bad-state",
-                        "current/previous controlled behavior", null, round);
+                CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
+                        "backward uncontrolled bad-state", "current/previous controlled behavior", null, //
+                        null, // no restriction
+                        true, // bad states
+                        false, // not forward reachability = backward reachability
+                        false, // exclude edges with controllable events
+                        true, // include edges with uncontrollable events
+                        dbgEnabled);
+                badState = reachability.performReachability(badState);
             } finally {
                 if (doTiming) {
                     timing.mainBwBadState.stop();
@@ -1437,12 +1443,15 @@ public class CifDataSynthesis {
                     timing.mainFwInit.start();
                 }
                 try {
-                    newCtrlBeh = CifDataSynthesisReachability.reachability(aut.initialCtrl.id(), false, // bad
-                            true, // forward
-                            true, // ctrl
-                            true, // unctrl
-                            aut.ctrlBeh, aut, dbgEnabled, "forward controlled-behavior", "initialization",
-                            "current/previous controlled-behavior", round);
+                    CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
+                            "forward controlled-behavior", "initialization", "current/previous controlled-behavior", //
+                            aut.ctrlBeh, // no restriction
+                            false, // not bad states = good states
+                            true, // forward reachability
+                            true, // include edges with controllable events
+                            true, // include edges with uncontrollable events
+                            dbgEnabled);
+                    newCtrlBeh = reachability.performReachability(aut.initialCtrl.id());
                 } finally {
                     if (doTiming) {
                         timing.mainFwInit.stop();

@@ -40,9 +40,83 @@ import com.github.javabdd.BDD;
 
 /** CIF data-based synthesis reachability computations. */
 public class CifDataSynthesisReachability {
-    /** Constructor for the {@link CifDataSynthesisReachability} class. */
-    private CifDataSynthesisReachability() {
-        // Static class.
+    /** The synthesis automaton. */
+    private final SynthesisAutomaton aut;
+
+    /** The 1-based round number of the main synthesis algorithm, for debug output. */
+    private final int round;
+
+    /** The name of the predicate on which to apply the reachability, for debug output. Must be in lower case. */
+    private final String predName;
+
+    /**
+     * The name of the initial value of the predicate on which to apply the reachability, for debug output. Must be in
+     * lower case.
+     */
+    private final String initName;
+
+    /**
+     * The name of the restriction predicate, for debug output. Must be in lower case. May be {@code null} if no
+     * restriction predicate will be used.
+     */
+    private final String restrictionName;
+
+    /**
+     * The predicate that indicates the upper bound on the reached states. That is, during reachability no states may be
+     * reached outside these states. May be {@code null} to not impose a restriction, which is semantically equivalent
+     * to providing 'true'.
+     */
+    private final BDD restriction;
+
+    /** Whether the given predicate represents bad states ({@code true}) or good states ({@code false}). */
+    private final boolean bad;
+
+    /** Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}). */
+    private final boolean forward;
+
+    /** Whether to include edges with controllable events in the reachability. */
+    private final boolean ctrl;
+
+    /** Whether to include edges with uncontrollable events in the reachability. */
+    private final boolean unctrl;
+
+    /** Whether debug output is enabled. */
+    private final boolean dbgEnabled;
+
+    /**
+     * Constructor for the {@link CifDataSynthesisReachability} class.
+     *
+     * @param aut The synthesis automaton.
+     * @param round The 1-based round number of the main synthesis algorithm, for debug output.
+     * @param predName The name of the given predicate, for debug output. Must be in lower case.
+     * @param initName The name of the initial value of the given predicate, for debug output. Must be in lower case.
+     * @param restrictionName The name of the restriction predicate, for debug output. Must be in lower case. May be
+     *     {@code null} if no restriction predicate will be used.
+     * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
+     *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
+     *     which is semantically equivalent to providing 'true'.
+     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
+     * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
+     * @param ctrl Whether to include edges with controllable events in the reachability.
+     * @param unctrl Whether to include edges with uncontrollable events in the reachability.
+     * @param dbgEnabled Whether debug output is enabled.
+     */
+    public CifDataSynthesisReachability(SynthesisAutomaton aut, int round, String predName, String initName,
+            String restrictionName, BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
+            boolean dbgEnabled)
+    {
+        Assert.areEqual(restrictionName == null, restriction == null);
+        this.aut = aut;
+        this.round = round;
+        this.predName = predName;
+        this.initName = initName;
+        this.restrictionName = restrictionName;
+        this.restriction = restriction;
+        this.bad = bad;
+        this.forward = forward;
+        this.ctrl = ctrl;
+        this.unctrl = unctrl;
+        this.dbgEnabled = dbgEnabled;
     }
 
     /**
@@ -50,26 +124,9 @@ public class CifDataSynthesisReachability {
      *
      * @param pred The predicate to which to apply the reachability. This predicate is {@link BDD#free freed} by this
      *     method.
-     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
-     * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
-     * @param ctrl Whether to include edges with controllable events in the reachability.
-     * @param unctrl Whether to include edges with uncontrollable events in the reachability.
-     * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
-     *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
-     *     which is semantically equivalent to providing 'true'.
-     * @param aut The synthesis automaton.
-     * @param dbgEnabled Whether debug output is enabled.
-     * @param predName The name of the given predicate, for debug output. Must be in lower case.
-     * @param initName The name of the initial value of the given predicate, for debug output. Must be in lower case.
-     * @param restrictionName The name of the restriction predicate, for debug output. Must be in lower case. Must be
-     *     {@code null} if no restriction predicate is provided.
-     * @param round The 1-based round number of the main synthesis algorithm, for debug output.
      * @return The fixed point result of the reachability computation, or {@code null} if the application is terminated.
      */
-    public static BDD reachability(BDD pred, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
-            BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName, String initName,
-            String restrictionName, int round)
-    {
+    public BDD performReachability(BDD pred) {
         // Print debug output.
         if (dbgEnabled) {
             dbg();
@@ -125,11 +182,9 @@ public class CifDataSynthesisReachability {
         // Apply edges until we get a fixed point.
         Pair<BDD, Boolean> reachabilityResult;
         if (useWorkSetAlgo) {
-            reachabilityResult = reachabilityWorkset(pred, bad, orderedEdges, edgesToApplyMask, forward, restriction,
-                    aut, dbgEnabled, predName, restrictionName);
+            reachabilityResult = performReachabilityWorkset(pred, orderedEdges, edgesToApplyMask);
         } else {
-            reachabilityResult = reachabilityFixedOrder(pred, bad, edgesToApply, forward, restriction, aut, dbgEnabled,
-                    predName, restrictionName);
+            reachabilityResult = performReachabilityFixedOrder(pred, edgesToApply);
         }
         if (reachabilityResult == null || aut.env.isTerminationRequested()) {
             return null;
@@ -159,27 +214,14 @@ public class CifDataSynthesisReachability {
      * @param pred The predicate to which to apply the reachability. This predicate should not be used after this
      *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
      *     returned by this method as part of the return value.
-     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
      * @param edges The synthesis edges.
      * @param edgesMask The edges to apply, as a mask on the edges, indicating for each edge whether it should be
      *     applied.
-     * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
-     * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
-     *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
-     *     which is semantically equivalent to providing 'true'.
-     * @param aut The synthesis automaton.
-     * @param dbgEnabled Whether debug output is enabled.
-     * @param predName The name of the given predicate, for debug output. Must be in lower case.
-     * @param restrictionName The name of the restriction predicate, for debug output. Must be in lower case. Must be
-     *     {@code null} if no restriction predicate is provided.
      * @return The fixed point result of the reachability computation, together with an indication of whether the
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
      *     returned if the application is terminated.
      */
-    private static Pair<BDD, Boolean> reachabilityWorkset(BDD pred, boolean bad, List<SynthesisEdge> edges,
-            BitSet edgesMask, boolean forward, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled,
-            String predName, String restrictionName)
-    {
+    private Pair<BDD, Boolean> performReachabilityWorkset(BDD pred, List<SynthesisEdge> edges, BitSet edgesMask) {
         boolean changed = false;
         List<BitSet> dependencies = forward ? aut.worksetDependenciesForward : aut.worksetDependenciesBackward;
         BitSet workset = copy(edgesMask);
@@ -254,25 +296,12 @@ public class CifDataSynthesisReachability {
      * @param pred The predicate to which to apply the reachability. This predicate should not be used after this
      *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
      *     returned by this method as part of the return value.
-     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
      * @param edges The synthesis edges to apply.
-     * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
-     * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
-     *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
-     *     which is semantically equivalent to providing 'true'.
-     * @param aut The synthesis automaton.
-     * @param dbgEnabled Whether debug output is enabled.
-     * @param predName The name of the given predicate, for debug output. Must be in lower case.
-     * @param restrictionName The name of the restriction predicate, for debug output. Must be in lower case. Must be
-     *     {@code null} if no restriction predicate is provided.
      * @return The fixed point result of the reachability computation, together with an indication of whether the
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
      *     returned if the application is terminated.
      */
-    private static Pair<BDD, Boolean> reachabilityFixedOrder(BDD pred, boolean bad, List<SynthesisEdge> edges,
-            boolean forward, BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName,
-            String restrictionName)
-    {
+    private Pair<BDD, Boolean> performReachabilityFixedOrder(BDD pred, List<SynthesisEdge> edges) {
         boolean changed = false;
         int iter = 0;
         int remainingEdges = edges.size(); // Number of edges to apply without change to get the fixed point.
