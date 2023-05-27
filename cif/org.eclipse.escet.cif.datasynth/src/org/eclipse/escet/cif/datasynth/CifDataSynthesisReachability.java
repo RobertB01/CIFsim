@@ -38,7 +38,13 @@ import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
 
+/** CIF data-based synthesis reachability computations. */
 public class CifDataSynthesisReachability {
+    /** Constructor for the {@link CifDataSynthesisReachability} class. */
+    private CifDataSynthesisReachability() {
+        // Static class.
+    }
+
     /**
      * Performs forward or backward reachability until a fixed point is reached.
      *
@@ -60,7 +66,7 @@ public class CifDataSynthesisReachability {
      * @param round The 1-based round number of the main synthesis algorithm, for debug output.
      * @return The fixed point result of the reachability computation, or {@code null} if the application is terminated.
      */
-    private static BDD reachability(BDD pred, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
+    public static BDD reachability(BDD pred, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
             BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName, String initName,
             String restrictionName, int round)
     {

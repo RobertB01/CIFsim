@@ -1285,7 +1285,7 @@ public class CifDataSynthesis {
                 timing.mainBwMarked.start();
             }
             try {
-                nonBlock = reachability(aut.marked.id(), false, // bad
+                nonBlock = CifDataSynthesisReachability.reachability(aut.marked.id(), false, // bad
                         false, // forward
                         true, // ctrl
                         true, // unctrl
@@ -1360,7 +1360,7 @@ public class CifDataSynthesis {
                 timing.mainBwBadState.start();
             }
             try {
-                badState = reachability(badState, true, // bad
+                badState = CifDataSynthesisReachability.reachability(badState, true, // bad
                         false, // forward
                         false, // ctrl
                         true, // unctrl
@@ -1437,7 +1437,7 @@ public class CifDataSynthesis {
                     timing.mainFwInit.start();
                 }
                 try {
-                    newCtrlBeh = reachability(aut.initialCtrl.id(), false, // bad
+                    newCtrlBeh = CifDataSynthesisReachability.reachability(aut.initialCtrl.id(), false, // bad
                             true, // forward
                             true, // ctrl
                             true, // unctrl
