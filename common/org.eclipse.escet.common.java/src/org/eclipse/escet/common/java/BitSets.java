@@ -173,4 +173,19 @@ public class BitSets {
     public static Iterable<Integer> iterateTrueBits(BitSet bitSet, int fromIndex) {
         return new BitSetIterator(bitSet, fromIndex);
     }
+
+    /**
+     * Convert a bitset to a textual representation of 0s and 1s.
+     *
+     * @param bitset The bitset.
+     * @param length The length of the textual representation.
+     * @return The textual representation.
+     */
+    public static String bitsetToStr(BitSet bitset, int length) {
+        StringBuilder txt = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            txt.append(bitset.get(i) ? "1" : "0");
+        }
+        return txt.toString();
+    }
 }
