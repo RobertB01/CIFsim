@@ -13,27 +13,27 @@
 
 package org.eclipse.escet.cif.cif2uppaal;
 
-import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
-import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.EventNoChannelsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
-import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
-import org.eclipse.escet.cif.common.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
-import org.eclipse.escet.cif.common.checkers.checks.VarNoContinuousCheck;
-import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
-import org.eclipse.escet.cif.common.checkers.checks.VarNoInputCheck;
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoInputCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 
 /** CIF to UPPAAL transformation precondition checker. */
 public class CifToUppaalPreChecker extends CifPreconditionChecker {

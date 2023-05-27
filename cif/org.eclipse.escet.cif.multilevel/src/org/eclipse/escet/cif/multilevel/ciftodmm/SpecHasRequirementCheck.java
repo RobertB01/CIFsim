@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.cif.multilevel.ciftodmm;
 
-import org.eclipse.escet.cif.common.checkers.CifCheck;
-import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.checkers.CifCheck;
+import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;

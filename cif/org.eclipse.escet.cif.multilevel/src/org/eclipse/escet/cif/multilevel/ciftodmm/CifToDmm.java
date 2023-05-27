@@ -13,13 +13,13 @@
 
 package org.eclipse.escet.cif.multilevel.ciftodmm;
 
-import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind.STATE;
-import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind.ALL_PLACES;
-import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind.LOCATIONS;
-import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind.KINDLESS;
-import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind.PLANT;
-import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind.REQUIREMENT;
-import static org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind.SUPERVISOR;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind.STATE;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind.ALL_PLACES;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind.LOCATIONS;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.KINDLESS;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.PLANT;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.REQUIREMENT;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.SUPERVISOR;
 
 import java.util.BitSet;
 import java.util.List;
@@ -29,19 +29,19 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.common.checkers.checks.AutOnlySpecificSupKindsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
-import org.eclipse.escet.cif.common.checkers.checks.EqnNotAllowedCheck;
-import org.eclipse.escet.cif.common.checkers.checks.EventNoTauCheck;
-import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
-import org.eclipse.escet.cif.common.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
-import org.eclipse.escet.cif.common.checkers.checks.VarNoContinuousCheck;
-import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.common.app.framework.AppEnv;
