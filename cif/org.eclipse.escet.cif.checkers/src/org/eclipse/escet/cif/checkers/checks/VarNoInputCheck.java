@@ -11,10 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers.checks;
+package org.eclipse.escet.cif.checkers.checks;
 
-import org.eclipse.escet.cif.common.checkers.CifCheck;
-import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.checkers.CifCheck;
+import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 
 /** CIF check that does not allow input variables. */

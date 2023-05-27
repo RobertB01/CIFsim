@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers.checks.invcheck;
+package org.eclipse.escet.cif.checkers.checks.invcheck;
 
 /** Available places of declaring an invariant. */
 public enum PlaceKind {

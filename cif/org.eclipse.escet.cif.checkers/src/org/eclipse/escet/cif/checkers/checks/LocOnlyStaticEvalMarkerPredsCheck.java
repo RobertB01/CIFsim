@@ -11,13 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers.checks;
+package org.eclipse.escet.cif.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifEvalUtils.evalPred;
 
+import org.eclipse.escet.cif.checkers.CifCheck;
+import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.CifEvalException;
-import org.eclipse.escet.cif.common.checkers.CifCheck;
-import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;

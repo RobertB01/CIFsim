@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers.checks.invcheck;
+package org.eclipse.escet.cif.checkers.checks.invcheck;
 
 /**
  * Interface for the disallowance enumeration on an aspect of an invariant.

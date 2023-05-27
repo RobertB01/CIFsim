@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.common.checkers.checks.invcheck;
+package org.eclipse.escet.cif.checkers.checks.invcheck;
 
 import java.util.EnumSet;
 
