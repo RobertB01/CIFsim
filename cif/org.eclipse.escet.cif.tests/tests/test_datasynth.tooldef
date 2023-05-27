@@ -170,6 +170,7 @@ map(string:list string) test_options = {
     "datasynth/var_order_reverse_sorted_algos_on.cif":          ["-r reverse-sorted " + opt_algos_on + " " + opt_simplify_all],
     "datasynth/var_order_sorted_algos_off.cif":                 ["-r sorted " + opt_algos_off + " " + opt_simplify_all],
     "datasynth/var_order_sorted_algos_on.cif":                  ["-r sorted " + opt_algos_on + " " + opt_simplify_all],
+    "datasynth/workset_forward.cif":                            ["--edge-workset=on --edge-granularity=per-event --forward-reach=on"],
     "datasynth/workset_with_edge_order_duplicate_events.cif":   ["--edge-workset=on --edge-granularity=per-event --edge-order-duplicate-events=allowed"],
     "datasynth/workset_with_per_edge_edge_granularity.cif":     ["--edge-workset=on --edge-granularity=per-edge"],
 };
