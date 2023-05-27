@@ -21,29 +21,29 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   -------------------------------------------------------------------
    * In the top-level scope of the specification:
      - plant invariant e needs true;
-                         ^
+             ^
    * In location "different_locs.loc3":
      - plant invariant e needs true;
-                         ^
+             ^
    * In group "g.p":
      - plant invariant e needs true;
-                         ^
+             ^
    * In automaton "named_invs":
      - plant invariant I3: e needs true;
                        ^
    * In automaton "nameless_loc":
      - plant invariant e needs true;
-                         ^
+             ^
 
   ---------------------------------------------------------------
   (2/2) Invariant is a requirement state invariant in a location.
   ---------------------------------------------------------------
    * In location "different_locs.loc4":
      - requirement invariant true;
-                             ^
+                   ^
    * In automaton "named_invs":
      - requirement invariant I5: true;
                              ^
    * In automaton "nameless_loc":
      - requirement invariant true;
-                             ^
+                   ^
