@@ -52,6 +52,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -162,6 +163,7 @@ import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.GridBox.GridBoxLayout;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
@@ -559,7 +561,7 @@ public class CifToSynthesisConverter {
         }
 
         // Prepare edge workset algorithm.
-        prepareEdgeWorksetAlgorithm(synthAut);
+        prepareEdgeWorksetAlgorithm(synthAut, dbgEnabled);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -2550,8 +2552,9 @@ public class CifToSynthesisConverter {
      * Prepare edge workset algorithm.
      *
      * @param synthAut The synthesis automaton.
+     * @param dbgEnabled Whether debug output is enabled.
      */
-    private void prepareEdgeWorksetAlgorithm(SynthesisAutomaton synthAut) {
+    private void prepareEdgeWorksetAlgorithm(SynthesisAutomaton synthAut, boolean dbgEnabled) {
         // Skip if workset algorithm is disabled.
         if (!EdgeWorksetAlgoOption.isEnabled()) {
             return;
@@ -2575,8 +2578,45 @@ public class CifToSynthesisConverter {
         }
 
         // Compute the dependency sets for all edges, and store them in the synthesis automaton.
+        boolean forwardEnabled = ForwardReachOption.isEnabled();
         EdgeDependencySetCreator creator = new AllEdgesEdgeDependencySetCreator();
-        creator.createAndStore(synthAut, ForwardReachOption.isEnabled());
+        creator.createAndStore(synthAut, forwardEnabled);
+
+        // Print dependency sets as debug output.
+        if (dbgEnabled) {
+            int edgeCnt = synthAut.worksetDependenciesBackward.size();
+            if (edgeCnt > 0) {
+                if (forwardEnabled) {
+                    dbg("Workset forward dependencies:");
+                    GridBox box = new GridBox(edgeCnt, 4, 0, 1);
+                    for (int i = 0; i < edgeCnt; i++) {
+                        BitSet bitset = synthAut.worksetDependenciesForward.get(i);
+                        box.set(i, 0, " -");
+                        box.set(i, 1, Integer.toString(i + 1) + ":");
+                        box.set(i, 2, CifTextUtils.getAbsName(synthAut.orderedEdgesForward.get(i).event));
+                        box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
+                    }
+                    for (String line: box.getLines()) {
+                        dbg(line);
+                    }
+                    dbg();
+                }
+
+                dbg("Workset backward dependencies:");
+                GridBox box = new GridBox(edgeCnt, 4, 0, 1);
+                for (int i = 0; i < edgeCnt; i++) {
+                    BitSet bitset = synthAut.worksetDependenciesBackward.get(i);
+                    box.set(i, 0, " -");
+                    box.set(i, 1, Integer.toString(i + 1) + ":");
+                    box.set(i, 2, CifTextUtils.getAbsName(synthAut.orderedEdgesBackward.get(i).event));
+                    box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
+                }
+                for (String line: box.getLines()) {
+                    dbg(line);
+                }
+                dbg();
+            }
+        }
     }
 
     /**
