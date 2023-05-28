@@ -11,6 +11,36 @@ CIF variables and location pointers:
 
 Skipping variable ordering: only one variable present.
 
+Workset forward dependencies:
+ - 1:  p.m 1111111111111
+ - 2:  p.d 1111111111111
+ - 3:  p.f 1111111111111
+ - 4:  p.e 1111111111111
+ - 5:  p.a 1111111111111
+ - 6:  p.g 1111111111111
+ - 7:  p.c 1111111111111
+ - 8:  p.b 1111111111111
+ - 9:  p.k 1111111111111
+ - 10: p.h 1111111111111
+ - 11: p.i 1111111111111
+ - 12: p.j 1111111111111
+ - 13: p.l 1111111111111
+
+Workset backward dependencies:
+ - 1:  p.m 1111111111111
+ - 2:  p.d 1111111111111
+ - 3:  p.f 1111111111111
+ - 4:  p.e 1111111111111
+ - 5:  p.a 1111111111111
+ - 6:  p.g 1111111111111
+ - 7:  p.c 1111111111111
+ - 8:  p.b 1111111111111
+ - 9:  p.k 1111111111111
+ - 10: p.h 1111111111111
+ - 11: p.i 1111111111111
+ - 12: p.j 1111111111111
+ - 13: p.l 1111111111111
+
 Starting data-based synthesis.
 
 Invariant (components state plant inv):      true

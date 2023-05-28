@@ -109,6 +109,16 @@ CIF variables and location pointers:
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
   Total                                      2      8         16          20          80%
 
+Workset forward dependencies:
+ - 1: p.u_inc    111
+ - 2: p.u_switch 111
+ - 3: p.u_dec    111
+
+Workset backward dependencies:
+ - 1: p.u_inc    111
+ - 2: p.u_switch 111
+ - 3: p.u_dec    111
+
 Starting data-based synthesis.
 
 Invariant (components state plant inv):      true
