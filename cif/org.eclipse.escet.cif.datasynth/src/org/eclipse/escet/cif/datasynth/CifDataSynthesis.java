@@ -43,7 +43,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
-import org.eclipse.escet.cif.datasynth.workset.AllEdgesEdgeDependencySetCreator;
+import org.eclipse.escet.cif.datasynth.workset.BddBasedEdgeDependencySetCreator;
 import org.eclipse.escet.cif.datasynth.workset.EdgeDependencySetCreator;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
@@ -1238,7 +1238,7 @@ public class CifDataSynthesis {
     private static void prepareWorksetAlgorithm(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Compute the dependency sets for all edges, and store them in the synthesis automaton.
         boolean forwardEnabled = ForwardReachOption.isEnabled();
-        EdgeDependencySetCreator creator = new AllEdgesEdgeDependencySetCreator();
+        EdgeDependencySetCreator creator = new BddBasedEdgeDependencySetCreator();
         creator.createAndStore(aut, forwardEnabled);
 
         // Print dependency sets as debug output.
