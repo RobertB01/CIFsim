@@ -99,14 +99,6 @@ Applying variable ordering:
 
 Variable order unchanged.
 
-Workset forward dependencies:
- - 1: p1.next 11
- - 2: p2.e    11
-
-Workset backward dependencies:
- - 1: p1.next 11
- - 2: p2.e    11
-
 Starting data-based synthesis.
 
 Invariant (components state plant inv):      true
@@ -157,6 +149,14 @@ Restricting behavior using state requirements.
 Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
+
+Edge workset algorithm forward dependencies:
+ - 1: p1.next 01
+ - 2: p2.e    10
+
+Edge workset algorithm backward dependencies:
+ - 1: p1.next 01
+ - 2: p2.e    10
 
 Round 1: started.
 

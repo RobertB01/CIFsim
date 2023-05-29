@@ -109,16 +109,6 @@ CIF variables and location pointers:
   -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
   Total                                      2      8         16          20          80%
 
-Workset forward dependencies:
- - 1: p.u_inc    111
- - 2: p.u_switch 111
- - 3: p.u_dec    111
-
-Workset backward dependencies:
- - 1: p.u_inc    111
- - 2: p.u_switch 111
- - 3: p.u_dec    111
-
 Starting data-based synthesis.
 
 Invariant (components state plant inv):      true
@@ -171,6 +161,16 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "p.x
 Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
+
+Edge workset algorithm forward dependencies:
+ - 1: p.u_inc    010
+ - 2: p.u_switch 101
+ - 3: p.u_dec    010
+
+Edge workset algorithm backward dependencies:
+ - 1: p.u_inc    010
+ - 2: p.u_switch 101
+ - 3: p.u_dec    010
 
 Round 1: started.
 
