@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.workset;
+package org.eclipse.escet.cif.datasynth.workset.dependencies;
 
 import static org.junit.Assert.assertEquals;
 
