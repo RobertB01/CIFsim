@@ -82,8 +82,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
         AppEnv.unregisterApplication();
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testNoEdges() {
         test("""
                 plant p:
@@ -93,8 +93,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, "", false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testEventsUnused() {
         test("""
                 controllable e;
@@ -105,8 +105,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, "", false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testEventsSingleSelfLoop() {
         test("""
                 controllable e;
@@ -118,8 +118,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, "0", false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testEventsSingleAut() {
         test("""
                 plant p:
@@ -146,8 +146,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testEventsTwoAutsSync() {
         test("""
                 controllable a1, a2, b, c1, c2;
@@ -178,8 +178,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testEventsMonitor() {
         test("""
                 controllable a, b, c;
@@ -200,8 +200,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnGuardDiffVarSameValue() {
         test("""
                 controllable a, b;
@@ -219,8 +219,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnGuardSameVarAndValue() {
         test("""
                 controllable a, b;
@@ -237,8 +237,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnGuardSameVarDifferentValue() {
         test("""
                 controllable a, b;
@@ -255,8 +255,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnGuardSameVarEqualValue() {
         test("""
                 controllable a, b;
@@ -273,8 +273,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnGuardSameVarNotValue() {
         test("""
                 controllable a, b, c;
@@ -293,8 +293,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnGuardSameVarOrValue() {
         test("""
                 controllable a, b, c, d;
@@ -315,8 +315,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnTwoValueGuardOneValue() {
         test("""
                 controllable a, b, c;
@@ -335,8 +335,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnIncrGuardsSingleValue() {
         test("""
                 controllable a, b, c, d, e, f, g;
@@ -363,8 +363,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsAsgnGuardedIncrGuardsSingleValue() {
         test("""
                 controllable a, b, c, d, e;
@@ -387,8 +387,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsGuardAlgVar() {
         test("""
                 controllable a, b, c;
@@ -408,8 +408,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsGuardLocRef() {
         test("""
                 controllable a, b, c;
@@ -433,8 +433,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testVarsInputVar() {
         test("""
                 controllable a;
@@ -450,8 +450,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testEventsAndVars() {
         test("""
                 controllable a, b, c, d, e;
@@ -481,8 +481,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testEventsAndVarsAndSelfLoop() {
         test("""
                 controllable a, b, c, d, e, f, g, h, i, j, k, l;
@@ -529,8 +529,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testOrderedEdgesNormalOrder() {
         test("""
                 controllable a, b, c;
@@ -550,8 +550,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 """, false);
     }
 
-    @SuppressWarnings("javadoc")
     @Test
+    @SuppressWarnings("javadoc")
     public void testOrderedEdgesReverseOrder() {
         test("""
                 controllable a, b, c;
