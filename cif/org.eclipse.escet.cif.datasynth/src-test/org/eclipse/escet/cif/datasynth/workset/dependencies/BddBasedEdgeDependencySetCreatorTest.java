@@ -115,7 +115,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     initial;
                     edge e;
                 end
-                """, "0", false);
+                """, ".", false);
     }
 
     @Test
@@ -138,11 +138,11 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c goto l1;
                 end
                 """, """
-                00100
-                00001
-                01001
-                10000
-                01010
+                ..1..
+                ....1
+                .1..1
+                1....
+                .1.1.
                 """, false);
     }
 
@@ -170,11 +170,11 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c2 goto l1;
                 end
                 """, """
-                01101
-                10110
-                00011
-                11001
-                11010
+                .11.1
+                1.11.
+                ...11
+                11..1
+                11.1.
                 """, false);
     }
 
@@ -194,9 +194,9 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c goto l1;
                 end
                 """, """
-                010
-                101
-                110
+                .1.
+                1.1
+                11.
                 """, false);
     }
 
@@ -214,8 +214,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge b when vb = 1;
                 end
                 """, """
-                01
-                10
+                .1
+                1.
                 """, false);
     }
 
@@ -232,8 +232,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge b when v = 1;
                 end
                 """, """
-                01
-                10
+                .1
+                1.
                 """, false);
     }
 
@@ -250,8 +250,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge b when v = 2;
                 end
                 """, """
-                00
-                10
+                ..
+                1.
                 """, false);
     }
 
@@ -268,8 +268,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge b when v = v;
                 end
                 """, """
-                01
-                10
+                .1
+                1.
                 """, false);
     }
 
@@ -287,9 +287,9 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c when not (v = 1);
                 end
                 """, """
-                010
-                100
-                100
+                .1.
+                1..
+                1..
                 """, false);
     }
 
@@ -308,10 +308,10 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge d when v = 0 or v = 3;
                 end
                 """, """
-                0110
-                1011
-                1100
-                1100
+                .11.
+                1.11
+                11..
+                11..
                 """, false);
     }
 
@@ -329,9 +329,9 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c when v = 1;
                 end
                 """, """
-                011
-                100
-                110
+                .11
+                1..
+                11.
                 """, false);
     }
 
@@ -353,13 +353,13 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge g when v = 5;
                 end
                 """, """
-                0011100
-                1000000
-                1000000
-                1000000
-                1000000
-                0000000
-                0000000
+                ..111..
+                1......
+                1......
+                1......
+                1......
+                .......
+                .......
                 """, false);
     }
 
@@ -379,11 +379,11 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge e when v = 3;
                 end
                 """, """
-                00010
-                00000
-                10000
-                00000
-                00000
+                ...1.
+                .....
+                1....
+                .....
+                .....
                 """, false);
     }
 
@@ -402,9 +402,9 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c when aa;
                 end
                 """, """
-                010
-                101
-                110
+                .1.
+                1.1
+                11.
                 """, false);
     }
 
@@ -427,9 +427,9 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c when p1.l1;
                 end
                 """, """
-                010
-                101
-                100
+                .1.
+                1.1
+                1..
                 """, false);
     }
 
@@ -445,8 +445,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge a when i;
                 end
                 """, """
-                01
-                10
+                .1
+                1.
                 """, false);
     }
 
@@ -473,11 +473,11 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge e when pa.va = 1 do vb := 5 goto l1;
                 end
                 """, """
-                00111
-                00011
-                10001
-                11100
-                10100
+                ..111
+                ...11
+                1...1
+                111..
+                1.1..
                 """, false);
     }
 
@@ -514,18 +514,18 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 end
                 requirement l needs pa.l4;
                 """, """
-                001000000001
-                000110000001
-                000001111001
-                000001111001
-                000001111001
-                000000111001
-                000000000101
-                000000000011
-                000000000011
-                000000000001
-                000000000001
-                111111111110
+                ..1........1
+                ...11......1
+                .....1111..1
+                .....1111..1
+                .....1111..1
+                ......111..1
+                .........1.1
+                ..........11
+                ..........11
+                ...........1
+                ...........1
+                11111111111.
                 """, false);
     }
 
@@ -544,9 +544,9 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c goto l1;
                 end
                 """, """
-                010
-                001
-                100
+                .1.
+                ..1
+                1..
                 """, false);
     }
 
@@ -565,9 +565,9 @@ public class BddBasedEdgeDependencySetCreatorTest {
                     edge c goto l1;
                 end
                 """, """
-                001
-                100
-                010
+                ..1
+                1..
+                .1.
                 """, true);
     }
 

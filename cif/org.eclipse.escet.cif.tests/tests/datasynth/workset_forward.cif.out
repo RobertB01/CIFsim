@@ -151,12 +151,12 @@ Extending controlled-behavior predicate using variable ranges.
 Restricting behavior using state/event exclusion requirements.
 
 Edge workset algorithm forward dependencies:
- - 1: p1.next 01
- - 2: p2.e    10
+ - 1: p1.next .1
+ - 2: p2.e    1.
 
 Edge workset algorithm backward dependencies:
- - 1: p1.next 01
- - 2: p2.e    10
+ - 1: p1.next .1
+ - 2: p2.e    1.
 
 Round 1: started.
 
