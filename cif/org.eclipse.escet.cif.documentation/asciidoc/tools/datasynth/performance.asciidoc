@@ -104,6 +104,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Better order for less computations and smaller BDD representations
 | Choose the best order, depends on the model, custom order allows for best performance
 
+| Order
+| Edge workset algorithm
+| <<tools-datasynth-edge-order>>
+| Better order for less computations and smaller BDD representations
+| Enable to dynamically determine the order in which edges are considered, for better performance
+
 | Library
 | BDD library initial node table size
 | <<tools-datasynth-stats>>

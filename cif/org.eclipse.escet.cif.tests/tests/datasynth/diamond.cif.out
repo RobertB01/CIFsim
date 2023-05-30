@@ -203,7 +203,6 @@ Controlled behavior: true -> motor1.Off and (order.l1 and motor2.On) or (motor1.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (motor1.On or (not order.l1 or motor2.Off)) and ((motor1.Off or (not order.l3 or motor2.On)) and (motor1.Off or order.l1 or (order.l3 or motor2.Off))) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) [initialization predicate]

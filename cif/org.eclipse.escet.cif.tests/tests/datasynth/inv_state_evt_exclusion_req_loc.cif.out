@@ -218,7 +218,6 @@ Controlled behavior: true -> (not(a.x = 16 or a.x = 17) or a.l2) and (0 <= a.x a
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (a.x = 16 or a.x = 17) and a.l1 or (a.x = 8 or a.x = 9 or (a.x = 24 or a.x = 25)) and a.l1 or ((a.x = 20 or a.x = 21) and a.l1 or (a.x = 12 or a.x = 13) and a.l1) or ((a.x = 18 or a.x = 19) and a.l1 or (a.x = 10 or a.x = 11) and a.l1 or ((a.x = 6 or a.x = 7 or (a.x = 22 or a.x = 23)) and a.l1 or (a.x = 14 or a.x = 15) and a.l1)) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: a.x = 1 and a.l1 [initialization predicate]
@@ -287,7 +286,6 @@ Backward controlled-behavior: a.x = 16 and a.l2 or a.x = 8 and a.l2 or (a.x = 4 
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 15n 27p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 

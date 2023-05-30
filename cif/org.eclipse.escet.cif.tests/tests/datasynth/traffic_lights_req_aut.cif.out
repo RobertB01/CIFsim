@@ -206,7 +206,6 @@ Controlled behavior: true -> LightA.Red and (R.RR and LightB.Red) or (LightA.Red
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (LightA.Green or (not R.RR or LightB.Green)) and ((LightA.Green or (not R.RG or LightB.Red)) and (LightA.Red or (not R.GR or LightB.Green))) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) [initialization predicate]
