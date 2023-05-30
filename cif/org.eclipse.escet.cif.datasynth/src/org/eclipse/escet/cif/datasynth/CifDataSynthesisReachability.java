@@ -165,9 +165,8 @@ public class CifDataSynthesisReachability {
         Predicate<SynthesisEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
                 || (unctrl && !e.event.getControllable());
         List<SynthesisEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
-        int[] edgesToApplyIndices = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
-                .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).toArray() : null;
-        BitSet edgesToApplyMask = useWorkSetAlgo ? BitSets.makeBitset(edgesToApplyIndices) : null;
+        BitSet edgesToApplyMask = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
+                .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;
 
         // Prepare edges for being applied.
         Collection<SynthesisEdge> edgesToPrepare = EdgeOrderDuplicateEventsOption
