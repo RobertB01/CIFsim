@@ -35,38 +35,38 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
         // Compute which events may potentially follow which other events.
         int edgeCnt = synthAut.edges.size();
         Map<Event, Set<Event>> followEvents = mapc(edgeCnt); // For each event, which events can follow it.
-        for (SynthesisEdge edge1: synthAut.orderedEdgesForward) {
-            Event event1 = edge1.event;
+        for (SynthesisEdge precedingEdge: synthAut.orderedEdgesForward) {
+            Event precedingEvent = precedingEdge.event;
 
             // Compute the states that can potentially be reached by this edge.
-            edge1.preApply(true, null); // Forward reachability, no restriction.
-            BDD forwardResult1 = edge1.apply( //
+            precedingEdge.preApply(true, null); // Forward reachability, no restriction.
+            BDD precedingEdgeReachableStates = precedingEdge.apply( //
                     synthAut.factory.one(), // Apply edge to 'true' predicate.
                     false, // Not bad states = good states.
                     true, // Forward reachability.
                     null, // No restriction.
                     false // Do not apply error predicate (not yet supported for forward reachability).
             );
-            edge1.postApply(true); // Forward reachability.
+            precedingEdge.postApply(true); // Forward reachability.
 
             // Compute which events may potentially follow the event of this edge.
-            for (SynthesisEdge edge2: synthAut.orderedEdgesForward) {
-                Event event2 = edge2.event;
-                if (event1 == event2) {
+            for (SynthesisEdge followingEdge: synthAut.orderedEdgesForward) {
+                Event followingEvent = followingEdge.event;
+                if (precedingEvent == followingEvent) {
                     continue; // Save computations by skipping self-dependencies (workset algorithm does not need them).
                 }
 
                 // Compute whether these events may potentially follow each other.
-                BDD enabled = forwardResult1.and(edge2.guard);
+                BDD enabled = precedingEdgeReachableStates.and(followingEdge.guard);
                 if (!enabled.isZero()) {
                     // Second edge can potentially follow the first edge.
-                    followEvents.computeIfAbsent(event1, e -> set()).add(event2);
+                    followEvents.computeIfAbsent(precedingEvent, e -> set()).add(followingEvent);
                 }
                 enabled.free();
             }
 
             // Cleanup.
-            forwardResult1.free();
+            precedingEdgeReachableStates.free();
         }
 
         // Compute and store the edge dependency sets, based on the event follows relation.
