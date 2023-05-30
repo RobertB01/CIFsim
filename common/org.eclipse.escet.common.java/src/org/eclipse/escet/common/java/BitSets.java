@@ -14,6 +14,13 @@
 package org.eclipse.escet.common.java;
 
 import java.util.BitSet;
+import java.util.EnumSet;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 /** Common functions around bitsets. */
 public class BitSets {
@@ -188,5 +195,46 @@ public class BitSets {
             txt.append(bitset.get(i) ? "1" : ".");
         }
         return txt.toString();
+    }
+
+    /**
+     * Returns a {@link Collector} that accumulates the input elements into a new {@link BitSet}, where the input
+     * elements indicate the indices of the {@code true} bits.
+     *
+     * @return The collector.
+     */
+    public static Collector<Integer, BitSet, BitSet> toBitSet() {
+        return new BitSetCollector();
+    }
+
+    /** Collector that constructs a {@link BitSet} with {@code true} bits at the provided indices. */
+    private static class BitSetCollector implements Collector<Integer, BitSet, BitSet> {
+        @Override
+        public Supplier<BitSet> supplier() {
+            return () -> new BitSet();
+        }
+
+        @Override
+        public BiConsumer<BitSet, Integer> accumulator() {
+            return (b, i) -> b.set(i);
+        }
+
+        @Override
+        public BinaryOperator<BitSet> combiner() {
+            return (a, b) -> {
+                a.or(b);
+                return a;
+            };
+        }
+
+        @Override
+        public Function<BitSet, BitSet> finisher() {
+            return b -> b;
+        }
+
+        @Override
+        public Set<Characteristics> characteristics() {
+            return EnumSet.of(Characteristics.IDENTITY_FINISH, Characteristics.UNORDERED);
+        }
     }
 }
