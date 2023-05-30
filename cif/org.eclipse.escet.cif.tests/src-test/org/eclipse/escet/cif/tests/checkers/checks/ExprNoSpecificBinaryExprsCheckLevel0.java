@@ -18,7 +18,7 @@ import java.util.EnumSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 
 /**
  * {@link ExprNoSpecificBinaryExprsCheck} with all level 0 disalloweds enabled.

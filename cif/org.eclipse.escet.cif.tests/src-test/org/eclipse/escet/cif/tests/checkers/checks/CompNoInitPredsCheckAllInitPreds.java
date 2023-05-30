@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.tests.checkers.checks;
 
-import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 
 /** {@link CompNoInitPredsCheck} class where only presence of initialization predicates is checked. */
 public class CompNoInitPredsCheckAllInitPreds extends CompNoInitPredsCheck {

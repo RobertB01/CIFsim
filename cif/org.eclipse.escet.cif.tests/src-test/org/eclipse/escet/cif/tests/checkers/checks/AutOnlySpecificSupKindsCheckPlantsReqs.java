@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.tests.checkers.checks;
 
-import org.eclipse.escet.cif.common.checkers.checks.AutOnlySpecificSupKindsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** {@link AutOnlySpecificSupKindsCheck} allowing plants and requirements. */

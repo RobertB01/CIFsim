@@ -13,32 +13,32 @@
 
 package org.eclipse.escet.cif.cif2plc;
 
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck.NoSpecificStatement;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
+import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption;
-import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
-import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck.NoSpecificStatement;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
-import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
-import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 
 /** CIF PLC code generator precondition checker. Does not support component definition/instantiation. */
 public class CifToPlcPreChecker extends CifPreconditionChecker {

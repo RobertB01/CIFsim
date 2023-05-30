@@ -18,7 +18,7 @@ import java.util.EnumSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 
 /**
  * {@link ExprNoSpecificUnaryExprsCheck} with all level 2 and higher disalloweds enabled.
