@@ -175,7 +175,8 @@ public class BitSets {
     }
 
     /**
-     * Convert a bitset to a textual representation of 0s and 1s.
+     * Convert a bitset to a textual representation of {@code "."} characters (for false bits) and {@code "1"}
+     * characters (for true bits).
      *
      * @param bitset The bitset.
      * @param length The length of the textual representation.
@@ -184,7 +185,7 @@ public class BitSets {
     public static String bitsetToStr(BitSet bitset, int length) {
         StringBuilder txt = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
-            txt.append(bitset.get(i) ? "1" : "0");
+            txt.append(bitset.get(i) ? "1" : ".");
         }
         return txt.toString();
     }
