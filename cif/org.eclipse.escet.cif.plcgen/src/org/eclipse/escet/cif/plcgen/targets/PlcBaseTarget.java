@@ -13,18 +13,23 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
-import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
-import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
+import org.eclipse.escet.cif.plcgen.generators.DefaultTransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.DefaultVariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
+import org.eclipse.escet.cif.plcgen.writers.Writer;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcBaseTarget implements PlcTarget {
@@ -46,6 +51,27 @@ public abstract class PlcBaseTarget implements PlcTarget {
     /** Absolute base path to which to write the generated code. */
     private String outputPath;
 
+    /** Conversion of PLC models to text for the target. */
+    private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
+
+    /** Extracts information from the CIF input file, to be used during PLC code generation. */
+    private CifProcessor cifProcessor;
+
+    /** Generates PLC code for performing CIF event transitions. */
+    private TransitionGenerator transitionGenerator;
+
+    /** Handles storage and retrieval of globally used variables in the PLC program. */
+    private VariableStorage varStorage;
+
+    /** Handles type storage and conversions. */
+    private TypeGenerator typeGenerator;
+
+    /** Stores and writes generated PLC code. */
+    private PlcCodeStorage codeStorage;
+
+    /** Generate clash-free names in the generated code. */
+    private NameGenerator nameGenerator;
+
     /**
      * Constructor of the {@link PlcBaseTarget} class.
      *
@@ -53,11 +79,6 @@ public abstract class PlcBaseTarget implements PlcTarget {
      */
     public PlcBaseTarget(PlcTargetType targetType) {
         this.targetType = targetType;
-    }
-
-    @Override
-    public PlcTargetType getTargetType() {
-        return targetType;
     }
 
     /**
@@ -101,23 +122,35 @@ public abstract class PlcBaseTarget implements PlcTarget {
     public void generate(PlcGenSettings settings) {
         setup(settings);
 
-        // Construct the generators.
-        NameGenerator nameGenerator = new DefaultNameGenerator(settings);
-        PlcCodeStorage codeStorage = new PlcCodeStorage(this, settings);
-        TypeGenerator typeGen = new DefaultTypeGenerator(this, settings, nameGenerator, codeStorage);
-        CifProcessor cifProcessor = new CifProcessor(this, settings, typeGen, codeStorage, nameGenerator);
+        nameGenerator = new DefaultNameGenerator(settings);
+        codeStorage = new PlcCodeStorage(this, settings);
+        typeGenerator = new DefaultTypeGenerator(this, settings);
+        varStorage = new DefaultVariableStorage(this);
+        cifProcessor = new CifProcessor(this, settings);
+        transitionGenerator = new DefaultTransitionGenerator(this);
 
-        // Perform the conversion.
+        // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
         if (settings.shouldTerminate.get()) {
             return;
         }
 
+        // Make the globally used variables ready for use in the PLC code.
+        varStorage.process();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
+
+        // Generate the event transition functions.
+        transitionGenerator.generate();
+
+        // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();
         if (settings.shouldTerminate.get()) {
             return;
         }
 
+        // And write it.
         codeStorage.writeOutput();
     }
 
@@ -126,16 +159,47 @@ public abstract class PlcBaseTarget implements PlcTarget {
      *
      * @return The requested PLC code writer.
      */
-    protected abstract OutputTypeWriter getPlcCodeWriter();
+    protected abstract Writer getPlcCodeWriter();
 
     @Override
-    public abstract boolean supportsArrays();
+    public PlcTargetType getTargetType() {
+        return targetType;
+    }
 
     @Override
-    public abstract boolean supportsConstants();
+    public ModelTextGenerator getModelTextGenerator() {
+        return modelTextGenerator;
+    }
 
     @Override
-    public abstract boolean supportsEnumerations();
+    public CifProcessor getCifProcessor() {
+        return cifProcessor;
+    }
+
+    @Override
+    public TransitionGenerator getTransitionGenerator() {
+        return transitionGenerator;
+    }
+
+    @Override
+    public VariableStorage getVarStorage() {
+        return varStorage;
+    }
+
+    @Override
+    public TypeGenerator getTypeGenerator() {
+        return typeGenerator;
+    }
+
+    @Override
+    public PlcCodeStorage getCodeStorage() {
+        return codeStorage;
+    }
+
+    @Override
+    public NameGenerator getNameGenerator() {
+        return nameGenerator;
+    }
 
     @Override
     public boolean supportsOperation(PlcFuncOperation funcOper) {
@@ -183,7 +247,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     @Override
     public void writeOutput(PlcProject project) {
-        OutputTypeWriter writer = getPlcCodeWriter();
+        Writer writer = getPlcCodeWriter();
         writer.write(project, outputPath);
     }
 }

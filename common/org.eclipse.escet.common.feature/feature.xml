@@ -33,9 +33,7 @@
 
    <requires>
       <import plugin="org.apache.commons.io"/>
-      <import plugin="org.apache.xalan"/>
       <import feature="org.eclipse.jdt"/>
-      <import plugin="org.apache.xml.serializer"/>
    </requires>
 
    <plugin

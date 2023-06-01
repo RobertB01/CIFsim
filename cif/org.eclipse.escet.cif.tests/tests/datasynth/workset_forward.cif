@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p1:
+  controllable next;
+  disc int[0..3] c = 0;
+
+  location:
+    initial;
+    marked;
+    edge next when c < 3 do c := c + 1;
+end
+
+plant p2:
+  controllable e;
+  disc bool b;
+
+  location:
+    initial;
+    marked;
+    edge e when p1.c = 1, not b do b := true;
+end

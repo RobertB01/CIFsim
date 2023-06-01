@@ -106,6 +106,36 @@
             </plugin>
 
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <!-- Eclipse M2E lifecycle mappings. Does not influence the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-clean-plugin</artifactId>
+                                        <versionRange>[2.5,)</versionRange>
+                                        <goals>
+                                            <goal>clean</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
@@ -153,6 +183,25 @@
             <id>sign</id>
             <build>
                 <plugins>
+                    <!-- Sign third party dependencies obtained from Maven central, using GPG signing. -->
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-gpg-plugin</artifactId>
+                        <version>${tycho.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-gpg</id>
+                                <goals>
+                                    <goal>sign-p2-artifacts</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>0C60515FCC4D6E5A</keyname> <!-- Eclipse ESCET public key. -->
+                                    <skipIfJarsigned>true</skipIfJarsigned> <!-- Sign if not already JAR-signed. -->
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <!-- Sign Windows executables. -->
                     <plugin>
                         <groupId>org.eclipse.cbi.maven.plugins</groupId>

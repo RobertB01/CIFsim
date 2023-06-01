@@ -637,9 +637,19 @@ public abstract class Application<T extends IOutputComponent> {
      */
     public void printHelpMessage(AppStream s) {
         printHelpHeader(s);
+
+        s.println();
         printHelpOptions(s);
-        printHelpNotes(s);
+
+        if (getHelpMessageNotes().length > 0) {
+            s.println();
+            printHelpNotes(s);
+        }
+
+        s.println();
         printHelpExitCodes(s);
+
+        s.println();
         printHelpCopyright(s);
     }
 
@@ -789,7 +799,7 @@ public abstract class Application<T extends IOutputComponent> {
     public String getCrashReportIssueReportingInstructions() {
         return "Issues can be reported using the Eclipse ESCET issue tracker, at "
                 + "https://gitlab.eclipse.org/eclipse/escet/escet/-/issues. For more information, see "
-                + "https://eclipse.org/escet/contact-and-support.html. This crash report "
+                + "https://eclipse.dev/escet/contact-and-support.html. This crash report "
                 + "contains valuable information that you can include in your bug report, to make it easier for the "
                 + "bug to be fixed. We appreciate you taking the effort to report issues to us!";
     }

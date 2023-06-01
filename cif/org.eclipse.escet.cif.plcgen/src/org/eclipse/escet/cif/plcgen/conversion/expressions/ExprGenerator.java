@@ -25,13 +25,11 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
@@ -70,8 +68,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
-import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
-import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -85,8 +82,11 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSetIterator;
 
 /** Converter of CIF expressions to PLC expressions and statements. */
 public class ExprGenerator {
@@ -96,14 +96,20 @@ public class ExprGenerator {
     /** A real CIF type, used for type conversions. */
     private static final CifType REAL_TYPE = newRealType();
 
-    /** Type converter from CIF to PLC types. */
-    private final TypeGenerator typeGenerator;
-
-    /** Generator for obtaining clash-free names in the generated code. */
-    private final NameGenerator nameGenerator;
-
     /** Map for the name generator to create local variables. */
     private final Map<String, Integer> localNameGenMap = map();
+
+    /** Local and temporary variables of the generator. */
+    private final List<PlcVariable> variables = list();
+
+    /** Map of variable names to their {@link #variables} index. */
+    private final Map<String, Integer> varNameToVarIndex = map();
+
+    /** Indices set of temporary variables. */
+    private final BitSet variableIsTemp = new BitSet();
+
+    /** Indices set of temporary variables that can be handed out. */
+    private final BitSet variableIsAvailable = new BitSet();
 
     /** PLC target to generate code for. */
     private final PlcTarget target;
@@ -119,16 +125,10 @@ public class ExprGenerator {
      *
      * @param target PLC target to generate code for.
      * @param cifData Access to PLC equivalents of CIF data.
-     * @param typeGenerator Type converter from CIF to PLC types.
-     * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public ExprGenerator(PlcTarget target, CifDataProvider cifData, TypeGenerator typeGenerator,
-            NameGenerator nameGenerator)
-    {
+    public ExprGenerator(PlcTarget target, CifDataProvider cifData) {
         this.target = target;
         this.cifData = cifData;
-        this.typeGenerator = typeGenerator;
-        this.nameGenerator = nameGenerator;
         this.funcAppls = new PlcFunctionAppls(target);
     }
 
@@ -141,7 +141,7 @@ public class ExprGenerator {
      * @return The created variable.
      */
     public PlcVariable getTempVariable(String prefix, CifType cifType) {
-        PlcType plcType = typeGenerator.convertType(cifType);
+        PlcType plcType = target.getTypeGenerator().convertType(cifType);
         return getTempVariable(prefix, plcType);
     }
 
@@ -153,12 +153,71 @@ public class ExprGenerator {
      * @return The created variable.
      */
     public PlcVariable getTempVariable(String prefix, PlcType plcType) {
-        String name = nameGenerator.generateLocalName(prefix, localNameGenMap);
-        return new PlcVariable(name, plcType);
+        // 1. Attempt to find a temporary variable that can be used.
+        for (int idx: new BitSetIterator(variableIsAvailable)) {
+            PlcVariable var = variables.get(idx);
+            if (plcType.equals(var.type) && var.name.startsWith(prefix)) {
+                variableIsAvailable.clear(idx);
+                return var;
+            }
+        }
+
+        // 2. Make a new variable.
+        return createVariable(prefix, plcType, null, null, true);
     }
 
     /**
-     * Give temporary variables back to the generator for future re-use.
+     * Construct a local variable to use in the generated code.
+     *
+     * @param prefix Initial part of the name of the variable.
+     * @param plcType Type of the returned variable.
+     * @return The created variable.
+     */
+    public PlcVariable makeLocalVariable(String prefix, PlcType plcType) {
+        return createVariable(prefix, plcType, null, null, false);
+    }
+
+    /**
+     * Construct a local variable to use in the generated code.
+     *
+     * @param prefix Initial part of the name of the variable.
+     * @param plcType Type of the returned variable.
+     * @param address The address of the variable, or {@code null} if not specified.
+     * @param value The initial value of the variable, or {@code null} if not specified.
+     * @return The created variable.
+     */
+    public PlcVariable makeLocalVariable(String prefix, PlcType plcType, String address, PlcExpression value) {
+        return createVariable(prefix, plcType, address, value, false);
+    }
+
+    /**
+     * Construct a new local variable and add it to the variable administration.
+     *
+     * @param prefix Initial part of the name of the variable.
+     * @param plcType Type of the returned variable.
+     * @param address The address of the variable, or {@code null} if not specified.
+     * @param value The initial value of the variable, or {@code null} if not specified.
+     * @param isTempVar Whether the variable is a temporary variable.
+     * @return The created variable.
+     * @note The new variable is not marked as available.
+     */
+    private PlcVariable createVariable(String prefix, PlcType plcType, String address, PlcExpression value,
+            boolean isTempVar)
+    {
+        String name = target.getNameGenerator().generateLocalName(prefix, localNameGenMap);
+        PlcVariable newVar = new PlcVariable(name, plcType, address, value);
+        int newVarIndex = variables.size();
+        variables.add(newVar);
+        varNameToVarIndex.put(newVar.name, newVarIndex);
+        if (isTempVar) {
+            variableIsTemp.set(newVarIndex);
+        }
+        return newVar;
+    }
+
+    /**
+     * Give variables back to the generator for future re-use. Returning non-temporary variables is allowed but they are
+     * ignored.
      *
      * <p>
      * Intended to be used by {@link ExprGenResult} instances.
@@ -167,7 +226,13 @@ public class ExprGenerator {
      * @param variables Variables being returned.
      */
     public void releaseTempVariables(Set<PlcVariable> variables) {
-        // TODO: Currently variables are silently discarded.
+        for (PlcVariable var: variables) {
+            Integer idx = varNameToVarIndex.get(var.name);
+            if (idx == null || !variableIsTemp.get(idx)) {
+                continue;
+            }
+            variableIsAvailable.set(idx);
+        }
     }
 
     /**
@@ -222,7 +287,7 @@ public class ExprGenerator {
         } else if (expr instanceof LocationExpression le) {
             return new ExprGenResult(this).setValue(cifData.getExprForLocation(le.getLocation()));
         } else if (expr instanceof EnumLiteralExpression eLit) {
-            return new ExprGenResult(this).setValue(typeGenerator.getPlcEnumLiteral(eLit.getLiteral()));
+            return new ExprGenResult(this).setValue(target.getTypeGenerator().getPlcEnumLiteral(eLit.getLiteral()));
         } else if (expr instanceof FunctionExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {
@@ -490,7 +555,7 @@ public class ExprGenerator {
      */
     private ExprGenResult convertIfExpr(IfExpression ifExpr) {
         ExprGenResult result = new ExprGenResult(this);
-        PlcType resultValueType = typeGenerator.convertType(ifExpr.getType());
+        PlcType resultValueType = target.getTypeGenerator().convertType(ifExpr.getType());
         PlcVariable resultVar = getTempVariable("ifResult", resultValueType);
         result.valueVariables.add(resultVar);
         result.setValue(new PlcVarExpression(resultVar));
@@ -631,7 +696,7 @@ public class ExprGenerator {
             return exprResult;
         } else {
             // We got something different than a single variable. Assume the worst and use a new variable.
-            PlcType plcType = typeGenerator.convertType(expr.getType());
+            PlcType plcType = target.getTypeGenerator().convertType(expr.getType());
             PlcVariable projectVar = getTempVariable("project", plcType);
 
             // Construct a new result, add the parent result, and append "projectVar := <root-value expression>;" to the
@@ -677,8 +742,8 @@ public class ExprGenerator {
             } else if (unProjectedType instanceof TupleType tt) {
                 int fieldIndex = getTupleProjIndex(cifProjection);
 
-                PlcType structTypeName = typeGenerator.convertType(unProjectedType);
-                PlcStructType structType = typeGenerator.getStructureType(structTypeName);
+                PlcType structTypeName = target.getTypeGenerator().convertType(unProjectedType);
+                PlcStructType structType = target.getTypeGenerator().getStructureType(structTypeName);
                 plcProjections.add(new PlcStructProjection(structType.fields.get(fieldIndex).name));
             } else {
                 throw new AssertionError("Unexpected unprojected type \"" + unProjectedType + "\" found.");
@@ -956,7 +1021,7 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprGenResult convertArrayExpr(ListExpression listExpr) {
-        PlcType listType = typeGenerator.convertType(listExpr.getType());
+        PlcType listType = target.getTypeGenerator().convertType(listExpr.getType());
         PlcVariable arrayVar = getTempVariable("litArray", listType);
 
         ExprGenResult result = new ExprGenResult(this);
@@ -988,10 +1053,14 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprGenResult convertTupleExpr(TupleExpression tupleExpr) {
-        PlcType varType = typeGenerator.convertType(tupleExpr.getType());
+        // Construct the destination variable.
+        PlcType varType = target.getTypeGenerator().convertType(tupleExpr.getType());
         PlcVariable structVar = getTempVariable("litStruct", varType);
-        PlcStructType structType = typeGenerator.getStructureType(varType); // The underlying structure type.
 
+        // Get the underlying structure type.
+        PlcStructType structType = target.getTypeGenerator().getStructureType(varType);
+
+        // Convert the values of the tuple expression and assign them to fields of the destination variable.
         ExprGenResult result = new ExprGenResult(this);
         int idx = 0;
         for (Expression e: tupleExpr.getFields()) {

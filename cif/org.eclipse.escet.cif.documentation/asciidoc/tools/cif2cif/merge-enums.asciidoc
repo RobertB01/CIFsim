@@ -149,6 +149,41 @@ After the merging of the enumerations, both `v1` and `v2` have implicit initial 
 Thus, they had different initial values beforehand, and the same initial values afterward.
 To solve this problem, the <<tools-cif2cif-chapter-add-default-init-values>> CIF to CIF transformation is automatically applied as preprocessing before the actual elimination of the enumerations, to ensure that the explicit initial values are properly transformed.
 
+indexterm:[merge enumerations,switch expressions]
+
+=== Switch expressions
+
+Consider the following specification:
+
+[source, cif]
+----
+enum E1 = A, B;
+enum E2 = C, D;
+
+input E1 i;
+invariant switch i:
+            case A: true
+            case B: false
+          end;
+----
+
+After merging the enumerations, the single merged enumeration has four literals (`A`, `B`, `C` and `D`).
+The `switch` expression is then incomplete, as it does not cover the extra literals from `E2` (`C` and `D`) that got merged with `E1`.
+To ensure that `switch` expressions remain complete and valid, all `switch` expressions that switch over a value that has a type that includes an enumeration type, but do not have an `else`, are modified.
+Their last `case` is converted to an `else`, removing the key of the `case` in the process.
+For the example above, this results in:
+
+[source, cif]
+----
+enum E = A, B, C, D;
+
+input E i;
+invariant switch i:
+            case A: true
+            else    false
+          end;
+----
+
 indexterm:[merge enumerations,size considerations]
 
 === Size considerations
@@ -157,6 +192,8 @@ Since enumerations are merged, duplicate literals become a single new literal.
 Therefore, this transformation may decrease the size of the specification.
 
 The added default initial values may significantly increase the size of the specification.
+
+Removing the key of the last `case` of a `switch` expressions may slightly decrease the size of the specification.
 
 === Optimality
 

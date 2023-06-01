@@ -1,0 +1,2 @@
+ERROR: The tool invocation provided via the 'Tool invocation' option is invalid: "t())".
+CAUSE: Parsing failed at line 1, column 4, at or near ")" (found ")", expected end-of-file).

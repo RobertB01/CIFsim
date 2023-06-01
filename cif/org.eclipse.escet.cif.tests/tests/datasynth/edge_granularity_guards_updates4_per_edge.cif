@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable e;
+
+plant p:
+  disc int[0..3] x in any;
+  disc int[0..3] y in any;
+
+  location l1: // x in {0, 1}, y in any
+    initial;
+
+    // Different guards, different updates.
+    edge e when x = 0 do y := 2 goto y2;
+    edge e when x = 1 do y := 3 goto y3;
+
+  location y2: // x = 0, y = 2
+    marked y = 2;
+
+  location y3: // x = 1, y = 3
+    marked y = 3;
+end

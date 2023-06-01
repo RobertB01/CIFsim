@@ -1,2 +1,3 @@
 WARNING: Automaton "p" is not trim.
+WARNING: The specification has no requirement automata.
 WARNING: Controllable event "e" is only used by automaton "p".

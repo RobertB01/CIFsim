@@ -1,0 +1,178 @@
+Reading CIF file "datasynth/reachability1_workset_on.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..14]  p.v   0      4 * 2     15 * 2      16 * 2      ~94%
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  Total                                       1      8         30          32          ~94%
+
+Skipping variable ordering: only one variable present.
+
+Starting data-based synthesis.
+
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variable 0):             p.v = 0
+Initial   (discrete variables):              p.v = 0
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             p.v = 0
+Initial   (system, combined init/plant inv): p.v = 0
+Initial   (system, combined init/state inv): p.v = 0
+
+Marked    (component marker predicate):      p.v = 14
+Marked    (components marker predicate):     p.v = 14
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             p.v = 14
+Marked    (system, combined mark/plant inv): p.v = 14
+Marked    (system, combined mark/state inv): p.v = 14
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14)
+    Edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5)
+    Edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7)
+    Edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6)
+    Edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1)
+    Edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9)
+    Edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3)
+    Edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2)
+    Edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13)
+    Edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10)
+    Edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11)
+    Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
+    Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
+
+Restricting behavior using state/event exclusion plants.
+
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: p.v = 0.
+
+Restricting behavior using state requirements.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.v" of type "int[0..14]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 15/16)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge workset algorithm forward dependencies:
+ - 1:  p.m .............
+ - 2:  p.d ...1.........
+ - 3:  p.f .....1.......
+ - 4:  p.e ..1..........
+ - 5:  p.a .......1.....
+ - 6:  p.g .........1...
+ - 7:  p.c .1...........
+ - 8:  p.b ......1......
+ - 9:  p.k 1............
+ - 10: p.h ..........1..
+ - 11: p.i ...........1.
+ - 12: p.j ........1...1
+ - 13: p.l 1............
+
+Edge workset algorithm backward dependencies:
+ - 1:  p.m ........1...1
+ - 2:  p.d ......1......
+ - 3:  p.f ...1.........
+ - 4:  p.e .1...........
+ - 5:  p.a .............
+ - 6:  p.g ..1..........
+ - 7:  p.c .......1.....
+ - 8:  p.b ....1........
+ - 9:  p.k ...........1.
+ - 10: p.h .....1.......
+ - 11: p.i .........1...
+ - 12: p.j ..........1..
+ - 13: p.l ...........1.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.v = 14 [marker predicate]
+Backward controlled-behavior: p.v = 14 -> p.v = 14 or p.v = 13 [backward reach with edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v = 14 or p.v = 13 -> p.v = 12 or (p.v = 14 or p.v = 13) [backward reach with edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v = 12 or (p.v = 14 or p.v = 13) -> p.v = 12 or p.v = 14 or (p.v = 13 or p.v = 11) [backward reach with edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v = 12 or p.v = 14 or (p.v = 13 or p.v = 11) -> p.v = 12 or p.v = 10 or (p.v = 14 or (p.v = 13 or p.v = 11)) [backward reach with edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v = 12 or p.v = 10 or (p.v = 14 or (p.v = 13 or p.v = 11)) -> p.v = 12 or (p.v = 10 or p.v = 14) or (p.v = 9 or (p.v = 13 or p.v = 11)) [backward reach with edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v = 12 or (p.v = 10 or p.v = 14) or (p.v = 9 or (p.v = 13 or p.v = 11)) -> p.v = 8 or (p.v = 10 or p.v = 12) or (p.v = 14 or p.v = 9 or (p.v = 13 or p.v = 11)) [backward reach with edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v = 8 or (p.v = 10 or p.v = 12) or (p.v = 14 or p.v = 9 or (p.v = 13 or p.v = 11)) -> p.v = 8 or p.v = 10 or (p.v = 12 or p.v = 14) or (p.v = 9 or p.v = 13 or (p.v = 11 or p.v = 7)) [backward reach with edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v = 8 or p.v = 10 or (p.v = 12 or p.v = 14) or (p.v = 9 or p.v = 13 or (p.v = 11 or p.v = 7)) -> not(p.v = 0 or p.v = 4) and p.v != 2 and (not(p.v = 1 or p.v = 5) and p.v != 3) [backward reach with edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: not(p.v = 0 or p.v = 4) and p.v != 2 and (not(p.v = 1 or p.v = 5) and p.v != 3) -> not(p.v = 0 or p.v = 4) and p.v != 2 and (p.v != 1 and p.v != 3) [backward reach with edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: not(p.v = 0 or p.v = 4) and p.v != 2 and (p.v != 1 and p.v != 3) -> (p.v = 1 or 3 <= p.v and p.v <= 14) and (p.v != 1 and p.v != 3) [backward reach with edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: (p.v = 1 or 3 <= p.v and p.v <= 14) and (p.v != 1 and p.v != 3) -> (p.v = 1 or 3 <= p.v and p.v <= 14) and p.v != 1 [backward reach with edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: (p.v = 1 or 3 <= p.v and p.v <= 14) and p.v != 1 -> p.v != 0 and p.v != 1 [backward reach with edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v != 0 and p.v != 1 -> p.v != 0 [backward reach with edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.v != 0 -> true [backward reach with edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: p.v = 0 [initialization predicate]
+Forward controlled-behavior: p.v = 0 -> p.v = 0 or p.v = 1 [forward reach with edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v = 0 or p.v = 1 -> p.v = 0 or (p.v = 2 or p.v = 1) [forward reach with edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v = 0 or (p.v = 2 or p.v = 1) -> 0 <= p.v and p.v <= 3 [forward reach with edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: 0 <= p.v and p.v <= 3 -> p.v = 0 or p.v = 4 or (p.v = 2 or (p.v = 1 or p.v = 3)) [forward reach with edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v = 0 or p.v = 4 or (p.v = 2 or (p.v = 1 or p.v = 3)) -> p.v = 0 or (p.v = 1 or p.v = 4) or (p.v = 5 or (p.v = 2 or p.v = 3)) [forward reach with edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v = 0 or (p.v = 1 or p.v = 4) or (p.v = 5 or (p.v = 2 or p.v = 3)) -> p.v = 0 or (p.v = 2 or p.v = 4) or (p.v = 6 or p.v = 1 or (p.v = 5 or p.v = 3)) [forward reach with edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v = 0 or (p.v = 2 or p.v = 4) or (p.v = 6 or p.v = 1 or (p.v = 5 or p.v = 3)) -> 0 <= p.v and p.v <= 7 [forward reach with edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: 0 <= p.v and p.v <= 7 -> p.v != 12 and (not(p.v = 10 or p.v = 14) and not(p.v = 9 or (p.v = 11 or p.v = 13))) [forward reach with edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v != 12 and (not(p.v = 10 or p.v = 14) and not(p.v = 9 or (p.v = 11 or p.v = 13))) -> (0 <= p.v and p.v <= 11 or p.v = 14) and (0 <= p.v and p.v <= 9 or (p.v = 12 or p.v = 13)) [forward reach with edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (0 <= p.v and p.v <= 11 or p.v = 14) and (0 <= p.v and p.v <= 9 or (p.v = 12 or p.v = 13)) -> (0 <= p.v and p.v <= 11 or p.v = 13) and (p.v != 13 and p.v != 11) [forward reach with edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (0 <= p.v and p.v <= 11 or p.v = 13) and (p.v != 13 and p.v != 11) -> 0 <= p.v and p.v <= 11 [forward reach with edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: 0 <= p.v and p.v <= 11 -> p.v != 14 and p.v != 13 [forward reach with edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v != 14 and p.v != 13 -> p.v != 14 [forward reach with edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v != 14 -> true [forward reach with edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: true [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14)
+    Edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5)
+    Edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7)
+    Edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6)
+    Edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1)
+    Edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9)
+    Edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3)
+    Edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2)
+    Edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13)
+    Edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10)
+    Edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11)
+    Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
+    Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
+
+Controlled system:                     exactly 15 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         p.v = 0
+Initial (controlled system):           p.v = 0
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/reachability1_workset_on.ctrlsys.real.cif".

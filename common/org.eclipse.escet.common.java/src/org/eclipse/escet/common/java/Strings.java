@@ -26,8 +26,8 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /** Helper methods for working with strings. */
 public final class Strings {

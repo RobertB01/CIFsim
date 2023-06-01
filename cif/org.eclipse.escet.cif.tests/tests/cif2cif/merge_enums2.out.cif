@@ -7,6 +7,7 @@ plant automaton p:
   disc E v1 = A;
   disc E v2 = B;
   initial v1 = A or v2 = A or v1 = B or v2 = B;
+  invariant switch v1: case A: 4 else 5 end = switch v2: case A: 4 else 5 end;
   location:
     initial;
 end

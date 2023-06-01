@@ -1,0 +1,1 @@
+WARNING: Event "b" is never enabled in the input specification, taking into account only state/event exclusion requirements.

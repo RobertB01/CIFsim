@@ -25,9 +25,9 @@ SPDX-License-Identifier: MIT
         <escet.version.enduser>dev</escet.version.enduser>
 
         <!-- The version to use for referring across-docset to web pages of other docsets.  -->
-        <!-- For instance, in AsciiDoc, use 'http://eclipse.org/escet/{escet-website-version}/...'. -->
-        <!-- By default, this is replaced by nothing, to for instance 'http://eclipse.org/escet//...'.  -->
-        <!-- The Jenkinsfile overrides this for releases only, to for instance 'http://eclipse.org/escet/v0.1/...'. -->
+        <!-- For instance, in AsciiDoc, use 'http://eclipse.dev/escet/{escet-website-version}/...'. -->
+        <!-- By default, this is replaced by nothing, to for instance 'http://eclipse.dev/escet//...'.  -->
+        <!-- The Jenkinsfile overrides this for releases only, to for instance 'http://eclipse.dev/escet/v0.1/...'. -->
         <escet.website.version></escet.website.version>
 
         <!-- The version qualifier to use for all plugins/features/etc. -->
@@ -174,17 +174,6 @@ SPDX-License-Identifier: MIT
                     <!-- Let JustJ handle the execution environment. -->
                     <!-- See https://www.eclipse.org/justj/?page=documentation for more information. -->
                     <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-17</executionEnvironment>
-
-                    <!-- Special dependency for Eclipse JDT compiler tool fragment. -->
-                    <dependency-resolution>
-                        <extraRequirements>
-                            <requirement>
-                                <type>eclipse-plugin</type>
-                                <id>org.eclipse.jdt.compiler.tool</id>
-                                <versionRange>1.0.0</versionRange>
-                            </requirement>
-                        </extraRequirements>
-                    </dependency-resolution>
 
                     <!-- Configure environments. -->
                     <!-- Determines which environment specific bundles will be in target platform. -->
@@ -380,7 +369,7 @@ SPDX-License-Identifier: MIT
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-plugin-plugin</artifactId>
-                    <version>3.6.4</version>
+                    <version>3.8.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -478,14 +467,15 @@ SPDX-License-Identifier: MIT
             <id>sign</id>
             <build>
                 <plugins>
-                    <!-- Sign JARs. -->
+                    <!-- JAR signing, for JARs that are created from sources in our own repo. -->
+                    <!-- GPG signing, for third party dependencies is configured in org.eclipse.escet.product. -->
                     <plugin>
                         <groupId>org.eclipse.cbi.maven.plugins</groupId>
                         <artifactId>eclipse-jarsigner-plugin</artifactId>
                         <version>${eclipse.cbi.version}</version>
                         <executions>
                             <execution>
-                                <id>sign</id>
+                                <id>sign-jar</id>
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>

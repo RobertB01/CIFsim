@@ -205,7 +205,6 @@ Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: Counter.zero and Actuator.Off [initialization predicate]

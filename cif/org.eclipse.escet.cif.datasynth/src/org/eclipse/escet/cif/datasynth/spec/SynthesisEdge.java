@@ -14,7 +14,10 @@
 package org.eclipse.escet.cif.datasynth.spec;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
+import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Strings.fmt;
+
+import java.util.List;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -37,8 +40,12 @@ public class SynthesisEdge {
     /** The synthesis automaton that contains this edge. */
     public final SynthesisAutomaton aut;
 
-    /** The CIF edge that corresponds to this synthesis edge. Is {@code null} for edges created for input variables. */
-    public Edge edge;
+    /**
+     * The linearized CIF edges that corresponds to this synthesis edge. Contains a {@code null} value for edges created
+     * for input variables. There is always at least one edge (or {@code null}). If there are multiple edges, then this
+     * synthesis edge represents the disjunction of multiple linearized edges.
+     */
+    public List<Edge> edges;
 
     /** The event on the edge. */
     public Event event;
@@ -52,8 +59,8 @@ public class SynthesisEdge {
     /** Precomputed '{@link #guard} and {@link #error}'. Is {@code null} if not available. */
     public BDD guardError;
 
-    /** The CIF assignments that correspond to these synthesis assignments. */
-    public Assignment[] assignments;
+    /** Per {@link #edges edge}, the CIF assignments that are applied by this synthesis edge. */
+    public List<List<Assignment>> assignments;
 
     /**
      * The update predicate that relates old and new values of variables, indicating which combinations of old and new
@@ -80,7 +87,7 @@ public class SynthesisEdge {
      * <p>
      * Runtime errors include assignments leading to values outside of the BDD representable ranges, division by zero,
      * etc. Runtime errors may or may not include assignments leading to values that are outside of the valid CIF range,
-     * which that can still be represented by BDDs, as those situations are also taken care of by the range invariants.
+     * which can still be represented by BDDs, as those situations are also taken care of by the range invariants.
      * </p>
      */
     public BDD error;
@@ -325,14 +332,24 @@ public class SynthesisEdge {
             guardsTxt = fmt("%s -> %s", origGuardTxt, guardTxt);
         }
         txt.append(fmt(" (guard: %s)", guardsTxt));
-        if (assignments.length > 0) {
+        if (assignments.stream().anyMatch(as -> !as.isEmpty())) {
             txt.append(" (assignments: ");
-            for (int i = 0; i < assignments.length; i++) {
+            for (int i = 0; i < assignments.size(); i++) {
                 if (i > 0) {
-                    txt.append(", ");
+                    txt.append(" / ");
                 }
-                Assignment asgn = assignments[i];
-                txt.append(assignmentToString(asgn));
+                List<Assignment> edgeAssignments = assignments.get(i);
+                if (edgeAssignments.isEmpty()) {
+                    txt.append("none");
+                } else {
+                    for (int j = 0; j < edgeAssignments.size(); j++) {
+                        if (j > 0) {
+                            txt.append(", ");
+                        }
+                        Assignment asgn = edgeAssignments.get(j);
+                        txt.append(assignmentToString(asgn));
+                    }
+                }
             }
             txt.append(")");
         }
@@ -345,7 +362,7 @@ public class SynthesisEdge {
      * @param asgn The assignment.
      * @return The end user readable textual representation.
      */
-    private Object assignmentToString(Assignment asgn) {
+    private String assignmentToString(Assignment asgn) {
         Expression addr = asgn.getAddressable();
         Declaration addrVar = (Declaration)CifScopeUtils.getRefObjFromRef(addr);
         Expression rhs = asgn.getValue();
@@ -394,5 +411,51 @@ public class SynthesisEdge {
             }
         }
         throw new RuntimeException("No synthesis variable found for addressable: " + addrVar);
+    }
+
+    /**
+     * Merges two synthesis edges for the same event, from the same synthesis automaton. The result is a single merged
+     * edge that is the disjunction of the two edges. The edges being merged are no longer valid edges afterwards, and
+     * any BDD instances they held will have been freed.
+     *
+     * @param edge1 The first edge to merge. Is modified in-place.
+     * @param edge2 The second edge to merge. Is modified in-place.
+     * @return The merged edge.
+     */
+    public static SynthesisEdge mergeEdges(SynthesisEdge edge1, SynthesisEdge edge2) {
+        // Ensure we merge edges for the same event, in the same synthesis automaton.
+        Assert.areEqual(edge1.aut, edge2.aut);
+        Assert.areEqual(edge1.event, edge2.event);
+        Assert.check(!edge1.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
+        Assert.check(!edge2.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
+
+        // Create new synthesis edge.
+        SynthesisEdge mergedEdge = new SynthesisEdge(edge1.aut);
+        mergedEdge.event = edge1.event;
+
+        // Merged the edges and assignments.
+        mergedEdge.edges = concat(edge1.edges, edge2.edges);
+        mergedEdge.assignments = concat(edge1.assignments, edge2.assignments);
+
+        // Merge updates. The updates need to be made conditional on their original guards, to ensure that the updates
+        // of the correct original edge are applied when the guard of that original edge holds. To support
+        // non-determinism, if both guards hold, either of the updates may be applied. If neither of the guards holds,
+        // we do not care what the update is, as the guard and update predicates are always combined before the edge is
+        // applied. So, create: '(guard1 and update1) or (guard2 and update2)'.
+        BDD update1 = edge1.guard.id().andWith(edge1.update);
+        BDD update2 = edge2.guard.id().andWith(edge2.update);
+        mergedEdge.update = update1.orWith(update2);
+
+        // Merge errors. The errors are combined in a similar way as the updates.
+        BDD error1 = edge1.guard.id().andWith(edge1.error);
+        BDD error2 = edge2.guard.id().andWith(edge2.error);
+        mergedEdge.error = error1.orWith(error2);
+
+        // Merge guards.
+        mergedEdge.origGuard = edge1.origGuard.orWith(edge2.origGuard);
+        mergedEdge.guard = edge1.guard.orWith(edge2.guard);
+
+        // Return the merged edge.
+        return mergedEdge;
     }
 }

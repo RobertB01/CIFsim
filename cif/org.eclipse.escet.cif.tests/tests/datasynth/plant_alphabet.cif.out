@@ -68,7 +68,6 @@ Controlled behavior: true -> p1.l0.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p1.l1 [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p1.l0 [initialization predicate]

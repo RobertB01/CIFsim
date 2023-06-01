@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.tests.checkers.checks;
 
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
 
 /**
  * CIF check with an SVG file reference and SVG output mapping. Tests that the checker framework correctly resolves the

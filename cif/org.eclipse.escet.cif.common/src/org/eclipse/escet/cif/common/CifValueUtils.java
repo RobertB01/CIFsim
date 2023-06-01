@@ -264,9 +264,9 @@ public class CifValueUtils {
      * depending on the run-time state of the system.
      *
      * <p>
-     * Note that this method is more liberal than the {@code CifTypeChecker.checkStaticEvaluable} method, as the type
-     * checker does not allow static evaluation of algebraic variables, while this method allows it if the algebraic
-     * variable has a single value.
+     * Note that this method is more liberal than the {@code CifExprsTypeChecker.checkStaticEvaluable} method, as the
+     * type checker does not allow static evaluation of algebraic variables, while this method allows it if the
+     * algebraic variable has a single value.
      * </p>
      *
      * <p>

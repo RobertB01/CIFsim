@@ -1,0 +1,2 @@
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 251, column 20: Switch "else" is superfluous, as all values already have a "case".
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 256, column 20: Switch "else" is superfluous, as all values already have a "case".

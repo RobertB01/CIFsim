@@ -14,11 +14,34 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.Map;
-
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck.NoSpecificStatement;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
+import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
@@ -28,46 +51,16 @@ import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
-import org.eclipse.escet.cif.cif2plc.CifToPlcPreChecker;
-import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.common.CifCollectUtils;
-import org.eclipse.escet.cif.common.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.common.checkers.checks.AutOnlyWithOneInitLocCheck;
-import org.eclipse.escet.cif.common.checkers.checks.CompNoInitPredsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.EdgeNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.checks.EqnNotAllowedCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck.NoSpecificStatement;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
-import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.LocNoUrgentCheck;
-import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
-import org.eclipse.escet.cif.common.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 
@@ -91,39 +84,19 @@ public class CifProcessor {
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
 
-    /** Type generator. */
-    private final TypeGenerator typeGen;
-
-    /** PLC code storage and writer. */
-    private final PlcCodeStorage codeStorage;
-
-    /** Generator for obtaining clash-free names in the generated code. */
-    private final NameGenerator nameGenerator;
-
-    /** Names of converted declarations. */
-    private final Map<Declaration, String> variableNames = map();
-
     /**
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
      *
      * @param target PLC target to generate code for.
      * @param settings Configuration to use.
-     * @param typeGen Type generator.
-     * @param codeStorage PLC code storage and writer.
-     * @param nameGenerator Generator for obtaining clash-free names in the generated code.
      */
-    public CifProcessor(PlcTarget target, PlcGenSettings settings, TypeGenerator typeGen, PlcCodeStorage codeStorage,
-            NameGenerator nameGenerator)
-    {
+    public CifProcessor(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
         inputPath = settings.inputPath;
         absInputPath = settings.absInputPath;
         simplifyValues = settings.simplifyValues;
         enumConversion = settings.enumConversion;
         warnOutput = settings.warnOutput;
-        this.typeGen = typeGen;
-        this.codeStorage = codeStorage;
-        this.nameGenerator = nameGenerator;
     }
 
     /** Process the input CIF specification, extracting the relevant information for PLC code generation. */
@@ -137,31 +110,17 @@ public class CifProcessor {
         // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
             if (decl instanceof DiscVariable discVar) {
-                convertVariable(decl, discVar.getType());
+                target.getVarStorage().addStateVariable(decl, discVar.getType());
             } else if (decl instanceof InputVariable inpVar) {
-                convertVariable(decl, inpVar.getType());
+                target.getVarStorage().addStateVariable(decl, inpVar.getType());
             } else if (decl instanceof EnumDecl enumDecl) {
-                typeGen.convertEnumDecl(enumDecl);
+                target.getTypeGenerator().convertEnumDecl(enumDecl);
             }
 
             // TODO Constants.
             // TODO Initial value -> precheckers restrict to constant initial value.
             // TODO Extend allowed initial values by computing at runtime.
         }
-    }
-
-    /**
-     * Convert a CIF variable and add it to the global variable table in the PLC.
-     *
-     * @param decl Discrete variable or input variable to convert.
-     * @param type Type of the variable.
-     */
-    private void convertVariable(Declaration decl, CifType type) {
-        PlcType varType = typeGen.convertType(type);
-        String varName = nameGenerator.generateGlobalName(decl);
-        variableNames.put(decl, varName);
-
-        codeStorage.addStateVariable(new PlcVariable(varName, varType));
     }
 
     /**
@@ -212,7 +171,7 @@ public class CifProcessor {
     /** CIF PLC code generator precondition checker. Does not support component definition/instantiation. */
     private static class PlcGenPreChecker extends CifPreconditionChecker {
         /**
-         * Constructor of the {@link CifToPlcPreChecker} class.
+         * Constructor of the {@link PlcGenPreChecker} class.
          *
          * @param supportArrays Whether the target supports arrays.
          */

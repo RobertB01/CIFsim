@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.cif2cif;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumDecl;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteral;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
+import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
 
@@ -33,6 +34,8 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
+import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 
@@ -52,6 +55,12 @@ import org.eclipse.escet.cif.metamodel.java.CifWalker;
  * If enumeration literals are renamed, this may influence value equality for {@link CifTypeUtils#areEnumsCompatible
  * compatible} enumerations. However, since the resulting specification has at most one enumeration, there are no
  * multiple enumerations, and compatibility is thus not an issue.
+ * </p>
+ *
+ * <p>
+ * All switch expressions that switch over a value that has a type that includes an enumeration type, but do not have an
+ * 'else', may become incomplete by merging enumerations. Therefore, for any such switch expression, its last 'case' is
+ * converted to an 'else'. The key of that last 'case' is thereby removed from the model.
  * </p>
  *
  * @see EnumsToInts
@@ -188,5 +197,18 @@ public class MergeEnums extends CifWalker implements CifToCifTransformation {
     protected void walkEnumType(EnumType enumType) {
         // Replace enumeration declaration reference.
         enumType.setEnum(mergedEnum);
+    }
+
+    @Override
+    protected void postprocessSwitchExpression(SwitchExpression switchExpr) {
+        // Make switch expression complete by changing last 'case' into an 'else', in case it may have become
+        // incomplete. Only switch expressions with a value type that includes an enumeration type may have become
+        // incomplete.
+        if (CifTypeUtils.hasEnumType(switchExpr.getValue().getType())) {
+            SwitchCase lastCase = last(switchExpr.getCases());
+            if (lastCase.getKey() != null) {
+                lastCase.setKey(null);
+            }
+        }
     }
 }

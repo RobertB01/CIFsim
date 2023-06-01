@@ -1,0 +1,2 @@
+ERROR: The tool invocation provided via the 'Tool invocation' option is invalid: "%".
+CAUSE: Scanning failed for character "%" (Unicode U+25) at line 1, column 1.

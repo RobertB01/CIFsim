@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth.spec;
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,26 +66,38 @@ public class SynthesisAutomaton {
      */
     public SynthesisVariable[] variables;
 
-    /** The linearized edges. */
+    /** The synthesis edges. */
     public List<SynthesisEdge> edges;
 
     /**
-     * The linearized edges, ordered for backward reachability computations. Contains all edges from {@link #edges} at
+     * The synthesis edges, ordered for backward reachability computations. Contains all edges from {@link #edges} at
      * least once.
      */
     public List<SynthesisEdge> orderedEdgesBackward;
 
     /**
-     * The linearized edges, ordered for forward reachability computations. Contains all edges from {@link #edges} at
+     * The synthesis edges, ordered for forward reachability computations. Contains all edges from {@link #edges} at
      * least once.
      */
     public List<SynthesisEdge> orderedEdgesForward;
 
-    /** Mapping from events to their corresponding linearized edges. */
+    /** Mapping from events to their synthesis edges. */
     public Map<Event, List<SynthesisEdge>> eventEdges;
 
     /** The events that are disabled before synthesis. */
     public Set<Event> disabledEvents;
+
+    /**
+     * Per synthesis edge in {@link #orderedEdgesBackward}, its backward edge dependencies set for the workset
+     * algorithm. This field is {@code null} until it is computed.
+     */
+    public List<BitSet> worksetDependenciesBackward;
+
+    /**
+     * Per synthesis edge in {@link #orderedEdgesForward}, its forward edge dependencies set for the workset algorithm.
+     * This field is {@code null} until it is computed.
+     */
+    public List<BitSet> worksetDependenciesForward;
 
     /**
      * Initialization predicates for each of the synthesis variables. Predicates are obtained from the initial values as

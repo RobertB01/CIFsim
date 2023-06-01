@@ -13,6 +13,7 @@ CONFIGURATION Untitled1
         p_r: LREAL;
     END_VAR
     VAR_GLOBAL // TIMERS
+        firstRun: BOOL := TRUE;
         timer0: TON;
         timer1: TON;
         curTimer: INT := 0;

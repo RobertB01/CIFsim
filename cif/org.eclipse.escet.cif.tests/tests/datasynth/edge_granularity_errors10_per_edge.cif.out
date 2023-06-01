@@ -1,0 +1,182 @@
+Reading CIF file "datasynth/edge_granularity_errors10_per_edge.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a        p     0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[0..7]  p.x   1      3 * 2     8 * 2       8 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      8         20          20          100%
+
+Applying variable ordering:
+  Applying 4 orderers, sequentially:
+    Applying model variable order:
+      Effect: both
+
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 7
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [before]
+        Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [before]
+        Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [before]
+          Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 7
+
+          Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [before]
+          Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [before]
+          Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 7
+
+          Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [before]
+          Total span:   1 (total)   0.14 (avg/edge) / WES:   0.571429 (total)   0.081633 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 2
+      Maximum number of iterations: 10
+
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [iteration 1]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 2
+      Window length: 2
+
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..7]  p.x   0      3 * 2     8 * 2       8 * 2       100%
+  2      location pointer   n/a        p     1      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      8         20          20          100%
+
+Starting data-based synthesis.
+
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variable 0):             true
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p.l1
+Initial   (auts/locs init predicate):        p.l1
+Initial   (uncontrolled system):             p.l1
+Initial   (system, combined init/plant inv): p.l1
+Initial   (system, combined init/state inv): p.l1
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.l2
+Marked    (auts/locs marker predicate):      p.l2
+Marked    (uncontrolled system):             p.l2
+Marked    (system, combined mark/plant inv): p.l2
+Marked    (system, combined mark/state inv): p.l2
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: e) (guard: p.x = 6 and p.l1 or p.x = 5 and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
+    Edge: (event: e) (guard: (p.x = 6 or p.x = 7) and p.l1) (assignments: p.x := p.x + 4, p := p.l2)
+
+Restricting behavior using state/event exclusion plants.
+
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: p.l1.
+
+Restricting behavior using state requirements.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.l2 [marker predicate]
+Backward reachability: iteration 1.
+Controlled behavior: true -> p.l2.
+
+Round 1: finished, no initialization possible.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: p.l2)
+    Edge: (event: e) (guard: p.x = 6 and p.l1 or p.x = 5 and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
+    Edge: (event: e) (guard: (p.x = 6 or p.x = 7) and p.l1) (assignments: p.x := p.x + 4, p := p.l2)
+
+Controlled system:                     exactly 0 states.
+
+Initial (synthesis result):            p.l2
+Initial (uncontrolled system):         p.l1
+Initial (controlled system):           false
+Initial (removed by supervisor):       p.l1
+Initial (added by supervisor):         p.l2

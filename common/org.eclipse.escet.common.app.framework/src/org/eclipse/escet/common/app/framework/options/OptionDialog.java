@@ -503,7 +503,11 @@ public class OptionDialog implements Runnable {
         // Set the text.
         MemAppStream helpStream = new MemAppStream();
         AppEnv.getApplication().printHelpHeader(helpStream);
-        AppEnv.getApplication().printHelpNotes(helpStream);
+        if (AppEnv.getApplication().getHelpMessageNotes().length > 0) {
+            helpStream.println();
+            AppEnv.getApplication().printHelpNotes(helpStream);
+        }
+        helpStream.println();
         AppEnv.getApplication().printHelpCopyright(helpStream);
         txt.setText(helpStream.toString());
 
@@ -543,8 +547,11 @@ public class OptionDialog implements Runnable {
         // Set the text.
         MemAppStream helpStream = new MemAppStream();
         AppEnv.getApplication().printHelpHeader(helpStream);
+        helpStream.println();
         AppEnv.getApplication().printHelpOptions(helpStream);
+        helpStream.println();
         AppEnv.getApplication().printHelpExitCodes(helpStream);
+        helpStream.println();
         AppEnv.getApplication().printHelpCopyright(helpStream);
         txt.setText(helpStream.toString());
 

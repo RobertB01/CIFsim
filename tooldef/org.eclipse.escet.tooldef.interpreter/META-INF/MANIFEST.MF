@@ -18,6 +18,7 @@ Require-Bundle: org.eclipse.escet.common.eclipse.ui;bundle-version="0.10.0",
  org.eclipse.escet.tooldef.typechecker;bundle-version="0.10.0",
  org.eclipse.escet.common.typechecker;bundle-version="0.10.0",
  org.eclipse.escet.tooldef.runtime;bundle-version="0.10.0",
- org.eclipse.escet.tooldef.common;bundle-version="0.10.0"
+ org.eclipse.escet.tooldef.common;bundle-version="0.10.0",
+ org.eclipse.escet.tooldef.metamodel.java;bundle-version="0.10.0"
 Export-Package: org.eclipse.escet.tooldef.interpreter
 Automatic-Module-Name: org.eclipse.escet.tooldef.interpreter

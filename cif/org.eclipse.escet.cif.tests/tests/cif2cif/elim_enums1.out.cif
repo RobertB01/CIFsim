@@ -9,6 +9,7 @@ end
 automaton a:
   disc t x = 2;
   invariant x = 2;
+  invariant switch x: case 0: true case 1: false case 2: true or false end;
   location:
     initial;
 end

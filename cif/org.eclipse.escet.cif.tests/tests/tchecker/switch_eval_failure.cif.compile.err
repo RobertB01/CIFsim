@@ -1,0 +1,2 @@
+ERROR: File "tchecker/switch_eval_failure.cif": Semantic error at line 19, column 22: Evaluation failure: Division by zero: 1 div 0.
+ERROR: Failed to load CIF file "tchecker/switch_eval_failure.cif": the file has errors.

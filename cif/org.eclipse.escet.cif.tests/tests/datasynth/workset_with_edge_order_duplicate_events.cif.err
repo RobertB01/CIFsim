@@ -1,0 +1,1 @@
+ERROR: The edge workset algorithm can not be used with duplicate events in the edge order. Either disable the edge workset algorithm, or disable duplicates for custom edge orders.

@@ -174,7 +174,6 @@ Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)) [initialization predicate]

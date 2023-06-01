@@ -56,7 +56,9 @@ echo ${VERSION_TO_MAKE_DEFAULT} > $FILENAME_VERSION
 echo "Replacing version-specific URLs in HTML files..."
 WEBSITES_FILES_AND_DIRS=$(cat $FILENAME_CONTENTS)
 find $WEBSITES_FILES_AND_DIRS -type f -iname "*.html" -print0 | \
-    xargs -0 sed -i "s@https://eclipse.org/escet/${VERSION_TO_MAKE_DEFAULT}/@https://eclipse.org/escet/@g"
+    xargs -0 sed -i "s@https://eclipse.dev/escet/${VERSION_TO_MAKE_DEFAULT}/@https://eclipse.dev/escet/@g"
+find $WEBSITES_FILES_AND_DIRS -type f -iname "*.html" -print0 | \
+    xargs -0 sed -i "s@https://www.eclipse.dev/escet/${VERSION_TO_MAKE_DEFAULT}/@https://eclipse.dev/escet/@g"
 
 # Remove robots meta tag.
 echo "Removing robots meta tag in HTML files..."

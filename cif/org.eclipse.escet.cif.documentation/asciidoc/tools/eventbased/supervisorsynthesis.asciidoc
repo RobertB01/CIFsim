@@ -44,6 +44,8 @@ In addition, it warns about common mistakes:
 
 * Non-<<tools-eventbased-chapter-trim-check,trim>> automata.
 
+* Specifications without any `requirement` automata.
+
 Finally, it can also perform checks about correct constructs that may not be the intention of its author.
 Each of these checks has to be enabled with an option:
 

@@ -70,7 +70,6 @@ public class HelpOption extends BooleanOption {
         outw(s, msg);
         s.println();
         outw(s, description);
-        s.println();
     }
 
     /**
@@ -135,24 +134,20 @@ public class HelpOption extends BooleanOption {
 
         outw(s, "The following values can be used to enable any boolean option (BOOL): \"on\", \"true\", \"yes\", "
                 + "and \"1\". The corresponding values to disable are: \"off\", \"false\", \"no\", and \"0\".");
-        s.println();
     }
 
     /**
      * Prints the help message notes of an application to the given stream.
      *
-     * @param notes The help message notes of the application, if any.
+     * @param notes The help message notes of the application. Must not be empty.
      * @param s The stream to print the output to.
      */
     public static void printHelpNotes(String[] notes, AppStream s) {
-        if (notes.length == 0) {
-            return;
-        }
+        Assert.check(notes.length > 0);
         s.println("Notes:");
         for (String note: notes) {
             s.println(wrapEx(" - ", "   ", note));
         }
-        s.println();
     }
 
     /**
@@ -172,7 +167,6 @@ public class HelpOption extends BooleanOption {
         for (int i = 0; i < lines.length; i++) {
             s.println(wrapEx(spaces(2) + i + spaces(2), spaces(5), lines[i]));
         }
-        s.println();
     }
 
     /**
@@ -223,7 +217,7 @@ public class HelpOption extends BooleanOption {
      * @param msg The 'normal' output (pattern) to wrap and forward.
      * @param args The arguments of the 'normal' output pattern.
      */
-    private static void outw(AppStream s, String msg, Object... args) {
+    public static void outw(AppStream s, String msg, Object... args) {
         for (String txt: wrap(fmt(msg, args))) {
             s.println(txt);
         }

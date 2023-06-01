@@ -37,6 +37,9 @@ For more information, see the <<tools-datasynth-supervisor-namespace,section abo
 Is disabled by default.
 For more information, see the <<tools-datasynth-forward-reach,section about forward reachability>>.
 
+* _Edge granularity_: Specify the granularity of edges to use during synthesis.
+For more information, see the <<tools-datasynth-edge-granularity,section about edge granularity>>.
+
 * _Edge order_: This option is no longer supported.
 Use the _Edge order for backward reachability_ and _Edge order for forward reachability_ options instead.
 
@@ -52,6 +55,10 @@ For more information, see the <<tools-datasynth-edge-order,section about edge or
 
 * _Edge order duplicate events_: Specify whether duplicate events are allowed for custom edge orders specified using the _Edge order for backward reachability_ and _Edge order for forward reachability_ options.
 By default, duplicate events are disallowed.
+For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
+
+* _Edge workset algorithm_: Synthesis involves many reachability computations that involve following edges forward or backward.
+The workset algorithm is one approach that determines the order in which edges are considered.
 For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
 
 * _State requirement invariant enforcement_: Specify how state requirement invariants are enforced during synthesis.

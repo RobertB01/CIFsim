@@ -59,15 +59,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
-import org.eclipse.escet.cif.cif2plc.options.PlcNumberBits;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcArrayType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcStructType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
-import org.eclipse.escet.cif.cif2plc.writers.OutputTypeWriter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -94,16 +85,28 @@ import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
+import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
+import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
+import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
+import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.junit.Before;
@@ -156,14 +159,16 @@ public class ExprGeneratorTest {
     public void setup() {
         target = new TestPlcTarget();
         CifDataProvider cifDataProvider = new TestCifDataProvider();
-        TypeGenerator typeGen = new TestTypeGenerator();
-        NameGenerator nameGen = new TestNameGenerator();
-        exprGen = new ExprGenerator(target, cifDataProvider, typeGen, nameGen);
+        exprGen = new ExprGenerator(target, cifDataProvider);
     }
 
     /** PLC target for testing the expression generator. */
     private static class TestPlcTarget extends PlcBaseTarget {
         public boolean supportsLog = true;
+
+        private TypeGenerator typeGenerator = new TestTypeGenerator();
+
+        private NameGenerator nameGenerator = new TestNameGenerator();
 
         public TestPlcTarget() {
             super(PlcTargetType.IEC_61131_3);
@@ -201,6 +206,31 @@ public class ExprGeneratorTest {
         }
 
         @Override
+        public CifProcessor getCifProcessor() {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public VariableStorage getVarStorage() {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public TypeGenerator getTypeGenerator() {
+            return typeGenerator;
+        }
+
+        @Override
+        public PlcCodeStorage getCodeStorage() {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public NameGenerator getNameGenerator() {
+            return nameGenerator;
+        }
+
+        @Override
         public boolean supportsArrays() {
             throw new UnsupportedOperationException("Not needed for the test.");
         }
@@ -231,7 +261,7 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        protected OutputTypeWriter getPlcCodeWriter() {
+        protected Writer getPlcCodeWriter() {
             throw new UnsupportedOperationException("Not needed for the test.");
         }
     }

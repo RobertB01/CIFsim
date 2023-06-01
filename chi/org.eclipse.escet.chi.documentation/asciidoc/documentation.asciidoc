@@ -30,7 +30,7 @@ It uses a process-based view, and uses synchronous point-to-point communication 
 A process is written as an imperative program, with a syntax much inspired by the well-known Python language.
 
 Chi is one of the tools of the Eclipse ESCET(TM) project.
-Visit the link:https://eclipse.org/escet/{escet-website-version}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
+Visit the link:https://eclipse.dev/escet/{escet-website-version}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
 
 [WARNING]
 ====

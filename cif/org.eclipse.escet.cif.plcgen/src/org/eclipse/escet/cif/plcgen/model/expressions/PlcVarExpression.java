@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.common.java.Assert;
 
 /** Expression referencing a variable, includes optional projections on the variable. */

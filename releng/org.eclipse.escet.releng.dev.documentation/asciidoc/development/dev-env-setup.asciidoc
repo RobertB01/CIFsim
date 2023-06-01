@@ -50,8 +50,8 @@ Wait for the update to complete and the Eclipse Installer to restart.
 If the button is disabled (grey), you are already using the latest version.
 * In the first wizard window:
 ** Select _Eclipse Platform_ from the big list at the top.
-** Select _2022-06_ for _Product Version_.
-** For _Java 11+ VM_ select _JRE 17.x.x - \https://download.eclipse.org/justj/jres/17/updates/release/latest_.
+** Select _2023-03_ for _Product Version_.
+** For _Java 17+ VM_ select _JRE 17.x.x - \https://download.eclipse.org/justj/jres/17/updates/release/latest_.
 ** Choose whether you want a P2 bundle pool (recommended).
 ** Click btn:[Next].
 * In the second wizard window:

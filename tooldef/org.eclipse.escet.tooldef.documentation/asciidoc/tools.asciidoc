@@ -46,6 +46,15 @@ For details, execute the ToolDef interpreter with the `--help` or `-h` command l
 tooldef --help
 ----
 
+In particular, consider the following options:
+
+* _Tool invocation_ (`--invoke=INVOCATION` or `-i INVOCATION`)
++
+The tool to invoke, and its arguments, in ToolDef syntax.
+For example: `tooldef some_script.tooldef --invoke='mytool(1, true)'` to invoke the `mytool` tool with arguments `1` and `true`.
+If the option is not used, the entire ToolDef script is executed instead.
+By default, the entire script is executed.
+
 indexterm:[execution,Eclipse IDE]
 indexterm:[Eclipse IDE,execution]
 
@@ -54,9 +63,11 @@ indexterm:[Eclipse IDE,execution]
 indexterm:[options,Eclipse IDE]
 indexterm:[Eclipse IDE,options]
 To execute a ToolDef script in the Eclipse IDE, right click the file or an open text editor for the script, and choose menu:Execute ToolDef[].
-Alternatively, choose menu:Execute ToolDef...[] to first shown an option dialog, where several options that influence how the script is executed, before actually executing the script.
+Alternatively, choose menu:Execute ToolDef...[] to first shown an option dialog.
+The dialog shows several options that influence how the script is executed.
+These options can be configured as desired before executing the script.
 
-It is also possible to start executing a script by pressing kbd:[F10], while a `.tooldef` file is selected or an open text for such a file has the focus.
+It is also possible to start executing a script by pressing kbd:[F10], while a `.tooldef` file is selected or an open text editor for such a file has the focus.
 Finally, clicking the corresponding toolbar icon (image:{imgsdir}/tooldef_icon.png[]) has the same effect.
 
 Execution of ToolDef script can be manually terminated by means of the termination features of the _Applications_ view.

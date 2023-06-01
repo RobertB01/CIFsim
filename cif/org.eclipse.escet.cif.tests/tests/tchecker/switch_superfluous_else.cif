@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Switch on automaton.
+automaton a:
+  alg int c1 = switch self:
+                 case l1: 1
+                 case l2: 2
+                 else     3
+               end;
+
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+
+automaton b:
+  location:
+    initial;
+end
+
+alg real a1 = switch b: else 1.0 end;
+
+// Switch on non-automaton.
+input int[1..2] i;
+alg int a2 = switch i:
+               case 1: 1
+               case 2: 2
+               else    3
+             end;

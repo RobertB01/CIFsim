@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -29,6 +28,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcP
 import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 

@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.CopyOption;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystemLoopException;
@@ -879,44 +880,24 @@ public class BuiltInFileTools {
         // Get absolute local file system path.
         String abspath = Paths.resolve(path);
 
-        // Open file for reading.
-        FileReader fileReader;
-        try {
-            fileReader = new FileReader(abspath);
+        // Read the lines.
+        List<String> lines = new ToolDefList<>();
+        try (FileReader fileReader = new FileReader(abspath, StandardCharsets.UTF_8);
+             BufferedReader bufferedReader = new BufferedReader(fileReader))
+        {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                lines.add(line);
+            }
         } catch (FileNotFoundException ex) {
             String msg = fmt(
                     "Failed to read file \"%s\": the file does not exist, is a directory rather than a file, or "
                             + "for some other reason could not be opened for reading.",
                     path);
             throw new ToolDefException(msg, ex);
-        }
-
-        // Read the file into a list of strings.
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        List<String> lines = new ToolDefList<>();
-        ToolDefException error = null;
-
-        try {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                lines.add(line);
-            }
         } catch (IOException ex) {
             String msg = fmt("Failed to read file \"%s\": an I/O error occurred.", path);
-            error = new ToolDefException(msg, ex);
-        } finally {
-            try {
-                bufferedReader.close();
-            } catch (IOException ex) {
-                if (error == null) {
-                    String msg = fmt("Failed to read file \"%s\": could not close the file.", path);
-                    error = new ToolDefException(msg, ex);
-                }
-            }
-        }
-
-        if (error != null) {
-            throw error;
+            throw new ToolDefException(msg, ex);
         }
 
         // Return the read lines.
@@ -1084,37 +1065,30 @@ public class BuiltInFileTools {
      * @param text The text to write to the file.
      * @param append Whether to append the text to the file if it already exists ({@code true}), or overwrite the file
      *     if it already exists ({@code false}).
+     * @param newline Indicates how to handle new lines. Use {@code "preserve"} to write the text 'as is', preserving
+     *     the new lines as they are in the given text. Use {@code "platform"} to write the text with platform-specific
+     *     new lines, replacing all new lines by the new line of the current platform. Use any other string to write the
+     *     text with specific given new line, replacing all new lines in the given text by the given new line.
      */
-    public static void writefile(String path, String text, boolean append) {
-        // Create file stream.
-        FileAppStream stream;
-        try {
-            stream = new FileAppStream(path, append);
-        } catch (InputOutputException ex) {
-            String msg = fmt("Failed to open file \"%s\" for writing.", path);
-            throw new ToolDefException(msg, ex);
-        }
-
-        // Write to the file.
-        ToolDefException error = null;
-        try {
+    public static void writefile(String path, String text, boolean append, String newline) {
+        try (FileAppStream stream = new FileAppStream(path, append)) {
+            switch (newline) {
+                case "preserve":
+                    stream.setConvertNewLines(false);
+                    break;
+                case "platform":
+                    stream.setConvertNewLines(true);
+                    stream.setPlatformNewLineBytes();
+                    break;
+                default:
+                    stream.setConvertNewLines(true);
+                    stream.setNewLineBytes(newline.getBytes(stream.getCharset()));
+                    break;
+            }
             stream.print(text);
         } catch (InputOutputException ex) {
             String msg = fmt("Failed to write to file \"%s\".", path);
-            error = new ToolDefException(msg, ex);
-        } finally {
-            try {
-                stream.close();
-            } catch (InputOutputException ex) {
-                if (error != null) {
-                    String msg = fmt("Failed to close file \"%s\".", path);
-                    error = new ToolDefException(msg, ex);
-                }
-            }
-        }
-
-        if (error != null) {
-            throw error;
+            throw new ToolDefException(msg, ex);
         }
     }
 
@@ -1123,45 +1097,40 @@ public class BuiltInFileTools {
      *
      * @param path The absolute or relative local file system path of the file. May contain both {@code "\"} and
      *     {@code "/"} as file separators.
-     * @param lines The lines of text to write to the file.
+     * @param lines The lines of text to write to the file. A new line will additionally be written after each line of
+     *     text.
      * @param append Whether to append the lines text to the file if it already exists ({@code true}), or overwrite the
      *     file if it already exists ({@code false}).
+     * @param newline Indicates how to handle new lines. Use {@code "platform"} to write the text with platform-specific
+     *     new lines, replacing all new lines by the new line of the current platform. Use any other string to write the
+     *     text with specific given new line, replacing all new lines in the given text by the given new line. Using
+     *     {@code "preserve"} is not supported.
      * @throws ToolDefException If the path exists but is a directory rather than a regular file, the file does not
      *     exist, but cannot be created, the file could not be opened for writing for any other reason, writing to the
-     *     file failed due to an I/O error, or closing the file failed.
+     *     file failed due to an I/O error, closing the file failed, or {@code "preserve"} is given for {@code newline}.
      */
-    public static void writefile(String path, List<String> lines, boolean append) {
-        // Create file stream.
-        FileAppStream stream;
-        try {
-            stream = new FileAppStream(path, append);
-        } catch (InputOutputException ex) {
-            String msg = fmt("Failed to open file \"%s\" for writing.", path);
-            throw new ToolDefException(msg, ex);
+    public static void writefile(String path, List<String> lines, boolean append, String newline) {
+        if ("preserve".equals(newline)) {
+            throw new ToolDefException(
+                    "Using \"preserve\" for \"newline\" is not supported when writing lines of text.");
         }
 
-        // Write to the file.
-        ToolDefException error = null;
-        try {
+        try (FileAppStream stream = new FileAppStream(path, append)) {
+            stream.setConvertNewLines(true);
+            switch (newline) {
+                case "platform":
+                    stream.setPlatformNewLineBytes();
+                    break;
+                default:
+                    stream.setNewLineBytes(newline.getBytes(stream.getCharset()));
+                    break;
+            }
             for (String line: lines) {
                 stream.println(line);
             }
         } catch (InputOutputException ex) {
             String msg = fmt("Failed to write to file \"%s\".", path);
-            error = new ToolDefException(msg, ex);
-        } finally {
-            try {
-                stream.close();
-            } catch (InputOutputException ex) {
-                if (error != null) {
-                    String msg = fmt("Failed to close file \"%s\".", path);
-                    error = new ToolDefException(msg, ex);
-                }
-            }
-        }
-
-        if (error != null) {
-            throw error;
+            throw new ToolDefException(msg, ex);
         }
     }
 }

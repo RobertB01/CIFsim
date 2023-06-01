@@ -1,3 +1,9 @@
 PROGRAM MAIN
 
+IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    hw_lamp_bit := FALSE;
+END_IF;
 END_PROGRAM

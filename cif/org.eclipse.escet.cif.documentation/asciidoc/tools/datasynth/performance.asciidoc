@@ -32,6 +32,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Impacts the up-front effort, size of the controlled behavior, number of iterations to reach fixed points, and the post-synthesis effort
 | Complex trade-off between different effects, depends on the model
 
+| Input
+| Edge granularity
+| <<tools-datasynth-edge-granularity>>
+| Impacts the size of the edge representations, size of the controlled behavior, number of iterations to reach fixed points, and the post-synthesis effort
+| Choose the best representation, depends on the model
+
 | Output
 | BDD output mode
 | <<tools-datasynth-supervisor-bdd>>
@@ -97,6 +103,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | <<tools-datasynth-edge-order>>
 | Better order for less computations and smaller BDD representations
 | Choose the best order, depends on the model, custom order allows for best performance
+
+| Order
+| Edge workset algorithm
+| <<tools-datasynth-edge-order>>
+| Better order for less computations and smaller BDD representations
+| Enable to dynamically determine the order in which edges are considered, for better performance
 
 | Library
 | BDD library initial node table size

@@ -79,7 +79,29 @@
         <interface/>
         <body>
           <ST>
-            <xhtml xmlns="http://www.w3.org/1999/xhtml"/>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    p_b := TRUE;
+    p_x := 0;
+    p_y := 1.23;
+    p_ve := g_LIT1;
+    p_v1 := 0;
+    litStruct.field1 := 0.0;
+    litStruct.field2 := 0.0;
+    p_v2 := litStruct;
+    litStruct.field1 := 0.0;
+    litStruct.field2 := 0.0;
+    litStruct__1.field1 := litStruct;
+    litStruct__1.field2 := 0.0;
+    p_v3 := litStruct__1;
+    litStruct__2.field1 := 0;
+    litStruct__2.field2 := 0;
+    p_tv := litStruct__2;
+    p_j := 0;
+    p_r := 1000000.0;
+END_IF;</xhtml>
           </ST>
         </body>
       </pou>
@@ -154,6 +176,14 @@
             </variable>
           </globalVars>
           <globalVars constant="false" name="TIMERS">
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
             <variable name="timer0">
               <type>
                 <derived name="TON"/>

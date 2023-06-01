@@ -1,0 +1,20 @@
+uncontrollable e;
+plant automaton p:
+  disc int[0..3] x in any;
+  disc int[0..3] y in any;
+  location l1:
+    initial;
+    edge e when x = 0 do y := 2 goto y2;
+    edge e when x = 1 do y := 3 goto y3;
+  location y2:
+    marked y = 2;
+  location y3:
+    marked y = 3;
+end
+supervisor automaton sup:
+  alphabet;
+  initial p.x = 0 or p.x = 1;
+  location:
+    initial;
+    marked;
+end

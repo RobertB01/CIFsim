@@ -62,6 +62,7 @@ EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.core.resources.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.jdt.core.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.jdt.launching.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.jdt.ui.prefs"
+EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.ltk.core.refactoring.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.m2e.core.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.pde.core.prefs"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=org.eclipse.pde.prefs"
@@ -203,6 +204,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef.metamodel/model/autofix.py:2$"
 # Exclude files that have an associated license file.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.cif2plc/src/org/eclipse/escet/cif/cif2plc/writers/tc6_xml_v201.xsd:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.plcgen/src/org/eclipse/escet/cif/plcgen/writers/tc6_xml_v201.xsd:0$"
 # Exclude files literally included in documentation.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/images/language-reference/syntax/cif.bnf:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/images/tools/cifsim/output/svgviz/buffers_products/buffers_products.svg:0$"

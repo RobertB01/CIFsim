@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.plcgen.model.functions;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 
 /** Cast function with the semantic type conversion performed in a function application. */
 public class PlcCastFunction extends PlcBasicFuncDescription {

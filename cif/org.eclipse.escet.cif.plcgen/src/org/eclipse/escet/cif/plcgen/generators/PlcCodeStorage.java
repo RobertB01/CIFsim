@@ -13,23 +13,31 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType.INT_TYPE;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYPE;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcConfiguration;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcDerivedType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcGlobalVarList;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcPou;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouInstance;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcPouType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcProject;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcResource;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcTask;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcTypeDecl;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
+import java.util.List;
+
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
+import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** Class that stores and writes generated PLC code. */
@@ -58,6 +66,12 @@ public class PlcCodeStorage {
     /** Global variable list for state variables, lazily created. */
     private PlcGlobalVarList globalStateVars = null;
 
+    /** The expression generator to use for generating code in the main program. Initialized lazily. */
+    private ExprGenerator exprGenerator = null;
+
+    /** If not {@code null}, code for initializing the state variables. */
+    private List<PlcStatement> stateInitializationCode = null;
+
     /**
      * Constructor of the {@link PlcCodeStorage} class.
      *
@@ -77,6 +91,18 @@ public class PlcCodeStorage {
 
         task = new PlcTask(settings.taskName, settings.taskCycleTime, settings.taskPriority);
         resource.tasks.add(task);
+    }
+
+    /**
+     * Get the expression generator to use for generating code in the main program.
+     *
+     * @return The expression generator to use for generating code in the main program.
+     */
+    public ExprGenerator getExprGenerator() {
+        if (exprGenerator == null) {
+            exprGenerator = new ExprGenerator(target, target.getVarStorage().getRootCifDataProvider());
+        }
+        return exprGenerator;
     }
 
     /**
@@ -138,6 +164,18 @@ public class PlcCodeStorage {
         project.typeDecls.add(decl);
     }
 
+    /**
+     * Add code to initialize the state of the globally used variables.
+     *
+     * @param stateInitializationCode Code for initializing the globally used variables.
+     */
+    public void addStateInitialization(List<PlcStatement> stateInitializationCode) {
+        Assert.check(this.stateInitializationCode == null);
+        if (PlcModelUtils.isNonEmptyCode(stateInitializationCode)) {
+            this.stateInitializationCode = stateInitializationCode;
+        }
+    }
+
     /** Perform any additional processing to make the generated PLC program ready. */
     public void finishPlcProgram() {
         // Add all created variable tables.
@@ -150,15 +188,32 @@ public class PlcCodeStorage {
         PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
         project.pous.add(main);
 
-        // Global variable list of the main program. Note that the cif2plc Siemens target requires the "TIMERS" name.
+        // Global variable list of the main program. Note that the Siemens target currently requires the "TIMERS" name.
         PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
         addGlobalVariableTable(mainVariables);
 
+        ExprGenerator exprGen = getExprGenerator();
+        if (stateInitializationCode != null) {
+            // Insert code to create the initial state.
+            PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
+                    new PlcBoolLiteral(true));
+            mainVariables.variables.add(firstFlag);
+
+            CodeBox box = main.body;
+            box.add("IF %s THEN", firstFlag.name);
+            box.indent();
+            box.add("%s := FALSE;", firstFlag.name);
+            box.add();
+            target.getModelTextGenerator().toText(stateInitializationCode, box, main.name, false);
+            box.dedent();
+            box.add("END_IF;");
+        }
+
         // Add main program variables.
         PlcType tonType = new PlcDerivedType("TON");
-        mainVariables.variables.add(new PlcVariable("timer0", tonType));
-        mainVariables.variables.add(new PlcVariable("timer1", tonType));
-        mainVariables.variables.add(new PlcVariable("curTimer", INT_TYPE, null, new PlcValue("0")));
+        mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
+        mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
+        mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcIntLiteral(0)));
 
         // Add program to task.
         task.pouInstances.add(new PlcPouInstance("MAIN", main));

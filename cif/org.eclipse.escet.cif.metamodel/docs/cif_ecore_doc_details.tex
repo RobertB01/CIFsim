@@ -3575,15 +3575,15 @@ A switch expression.
   `value' expressions of the `cases'. This implies that those expressions must
   be type compatible (ignoring ranges).
 \citem{SwitchExpression.complete}
-  If the `value' refers to an automaton, the `cases' must be complete for all
-  locations of the automaton.
+  The `cases', possibly including an `else`, must be complete for all locations
+  of the automaton, or all possible values of the type of the switch value
+  otherwise.
 \citem{SwitchExpression.overspecified}
-  If the `value' refers to an automaton, the `cases' must not be overspecified
-  (same location multiple times as \emph{key} of one of a case).
+  The `cases' must not be overspecified (same location or value multiple times
+  as \emph{key} of one of the cases).
 \citemnf{SwitchExpression.superfluousElse}
-  If the `value' refers to an automaton, the `cases' must not be overspecified
-  (an `else' is present while all locations are already specified as `key' of
-  a case).
+  The `cases' must not be overspecified (an `else' is present while all
+  locations or values are already specified as `key' of a case).
 \end{constraints}
 }
 

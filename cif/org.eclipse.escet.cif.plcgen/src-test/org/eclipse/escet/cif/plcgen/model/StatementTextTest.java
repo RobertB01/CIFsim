@@ -17,10 +17,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcElementaryType;
-import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -33,6 +32,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcReturnStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
 import org.junit.Test;
 

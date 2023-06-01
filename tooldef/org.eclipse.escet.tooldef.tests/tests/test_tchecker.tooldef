@@ -17,7 +17,11 @@ string class = "org.eclipse.escet.tooldef.interpreter.ToolDefInterpreterApp";
 string test_path = "tchecker";
 string test_pattern = "*.tooldef";
 list string default_options = ["--devmode=1"];
-map(string:list string) test_options = {};
+map(string:list string) test_options = {
+    "tchecker/tool_invoke_option_parse_err.tooldef":  ["--invoke=t())"],
+    "tchecker/tool_invoke_option_scan_err.tooldef":   ["--invoke=%"],
+    "tchecker/tool_invoke_option_tcheck_err.tooldef": ["--invoke=t()"],
+};
 set string test_skip = {};
 
 // Initialize counts.

@@ -43,11 +43,12 @@ import java.util.NoSuchElementException;
  *
  * <pre>[[1, 2, 3], [4], [5, 6]]</pre>
  *
- * It is transformed to:
+ * It is transformed to the sequence:
  *
- * <pre>[[1, 4, 5], [1, 4, 6], [2, 4, 5], [2, 4, 6], [3, 4, 5], [3, 4, 6]]</pre>
+ * <pre>[1, 4, 5], [1, 4, 6], [2, 4, 5], [2, 4, 6], [3, 4, 5], [3, 4, 6]</pre>
  *
- * The resulting sub-lists are returned one by one.
+ * The resulting lists are created one by one with the original elements. It is safe to take ownership of a resulting
+ * list.
  * </p>
  *
  * @param <T> The elements of the lists of lists (for both the input and the output).

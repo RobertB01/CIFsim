@@ -37,11 +37,13 @@ import org.eclipse.escet.tooldef.metamodel.tooldef.types.ToolDefType;
  * <ul>
  *  <li>{@link ToolDefScanner}</li>
  *  <li>{@link ToolDefParser}</li>
+ *  <li>{@link ToolDefInvokeParser}</li>
  * </ul>
  */
 public final class ToolDefHooks
 implements ToolDefScanner.Hooks,
-           ToolDefParser.Hooks
+           ToolDefParser.Hooks,
+           ToolDefInvokeParser.Hooks
 {
     @Override
     public void setParser(Parser<?> parser) {
