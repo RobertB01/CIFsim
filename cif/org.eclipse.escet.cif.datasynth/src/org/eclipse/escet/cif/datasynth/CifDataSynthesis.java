@@ -1215,6 +1215,7 @@ public class CifDataSynthesis {
                 }
 
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
+                enabledExpression = enabledExpression.and(aut.plantInv);
                 if (!enabledExpression.isZero()) {
                     enabledExpression.free();
                     alwaysDisabled = false;

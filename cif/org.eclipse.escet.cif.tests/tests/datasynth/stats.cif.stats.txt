@@ -468,4 +468,3 @@ Operations,Used BBD nodes
 996,42
 996,39
 996,35
-996,33
