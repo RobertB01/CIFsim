@@ -32,7 +32,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
@@ -72,7 +72,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
         Options.set(EdgeGranularityOption.class, EdgeGranularity.PER_EVENT);
         Options.set(EdgeOrderForwardOption.class, "sorted");
         Options.set(EdgeOrderBackwardOption.class, "sorted");
-        Options.set(EdgeOrderDuplicateEventsOption.class, EdgeOrderDuplicateEvents.DISALLOWED);
+        Options.set(EdgeOrderDuplicateEventsOption.class, EdgeOrderDuplicateEventAllowance.DISALLOWED);
         Options.set(EdgeWorksetAlgoOption.class, true);
     }
 
