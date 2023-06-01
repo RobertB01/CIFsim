@@ -327,80 +327,80 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
   ---------------------------------------
    * In the top-level scope of the specification:
      - invariant p.y > 0;
-                     ^
+       ^
      - invariant f2() > 0;
-                      ^
+       ^
      - invariant size(q.v1) + size(q.v2) > 0;
-                                         ^
+       ^
      - invariant size(q.v5) + size(q.v6) > 0;
-                                         ^
+       ^
      - invariant (sample q.v3)[0];
-                              ^
+       ^
      - invariant q.v4(1) > 0;
-                         ^
+       ^
      - invariant size(q.v7) > 0;
-                            ^
+       ^
      - invariant <int>q.v1 > 0;
-                           ^
+       ^
      - invariant empty(q.v6 or q.v6);
-                      ^
+       ^
      - invariant empty(q.v6 and q.v6);
-                      ^
+       ^
      - invariant q.v5 = q.v5;
-                      ^
+       ^
      - invariant q.v6 != q.v6;
-                      ^
+       ^
      - invariant empty(q.v5 + [1]);
-                      ^
+       ^
      - invariant empty(q.v6 - {1});
-                      ^
+       ^
      - invariant 1 in q.v6;
-                   ^
+       ^
      - invariant {1} sub q.v6;
-                     ^
+       ^
      - invariant q.v5[0] > 0;
-                         ^
+       ^
      - invariant q.v5[:][0] > 0;
-                            ^
+       ^
      - invariant ceil(q.r) > 0;
-                           ^
+       ^
      - invariant size(del(q.v5, 0)) > 0;
-                                    ^
+       ^
      - invariant floor(q.r) > 0;
-                            ^
+       ^
      - invariant fmt("%s", q.v1) != "";
-                                 ^
+       ^
      - invariant pop(q.v5)[0] > 0;
-                              ^
+       ^
      - invariant round(q.r) > 0;
-                            ^
+       ^
      - invariant scale(q.r, 2, 3, 4, 5) > 0;
-                                        ^
+       ^
      - invariant sign(q.r) > 0;
-                           ^
+       ^
      - invariant acosh(q.r) > 0;
-                            ^
+       ^
      - invariant asinh(q.r) > 0;
-                            ^
+       ^
      - invariant atanh(q.r) > 0;
-                            ^
+       ^
      - invariant cosh(q.r) > 0;
-                           ^
+       ^
      - invariant sinh(q.r) > 0;
-                           ^
+       ^
      - invariant tanh(q.r) > 0;
-                           ^
+       ^
      - invariant [f2][q.i]() > 0;
-                             ^
+       ^
    * In group "g":
      - invariant p.y > 1;
-                     ^
+       ^
    * In automaton "p":
      - plant invariant y > 2;
-                         ^
+             ^
    * In location "p.a":
      - plant invariant x > 3;
-                         ^
+             ^
 
   ---------------------------
   (34/52) Location is urgent.

@@ -367,7 +367,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   -----------------------------------------------------
    * In location "p.l":
      - plant invariant b;
-                       ^
+             ^
 
   ------------------------------------------------------------------------
   (41/43) Unary operator "+" is used on a rangeless integer typed operand.

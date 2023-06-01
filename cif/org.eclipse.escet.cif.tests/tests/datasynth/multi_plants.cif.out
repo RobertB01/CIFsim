@@ -184,7 +184,6 @@ Controlled behavior: true -> (p1.x = 0 or p1.x = 4) and (p2.l0 and p1.l0) or ((p
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 12n 21p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p1.x = 0 and (p2.l0 and p1.l0) [initialization predicate]
@@ -224,7 +223,6 @@ Backward controlled-behavior: (p1.x = 0 or p1.x = 4) and (p2.l0 and p1.l0) or (p
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (1 <= p1.x and p1.x <= 3 or p1.x = 5 or (not p2.l0 or p1.l1)) and (1 <= p1.x and p1.x <= 3 or p1.x = 5 or (not p2.l2 or p1.l0)) and ((p1.x != 2 or (not p2.l0 or p1.l1)) and ((p1.x != 2 or (not p2.l2 or p1.l0)) and (p1.x != 1 or (not p2.l0 or p1.l1)))) and ((p1.x != 1 or (not p2.l2 or p1.l0)) and (p1.x != 1 or (not p2.l1 or p1.l0)) and ((p1.x != 5 or (not p2.l0 or p1.l1)) and ((p1.x != 3 or (not p2.l0 or p1.l1)) and (p1.x != 3 or (not p2.l2 or p1.l0))))) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 

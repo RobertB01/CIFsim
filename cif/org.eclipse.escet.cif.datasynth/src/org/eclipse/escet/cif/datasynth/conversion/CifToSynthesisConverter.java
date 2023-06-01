@@ -89,6 +89,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -550,6 +551,12 @@ public class CifToSynthesisConverter {
 
         // Order the synthesis edges.
         orderEdges(synthAut);
+        if (synthAut.env.isTerminationRequested()) {
+            return synthAut;
+        }
+
+        // Check edge workset algorithm options.
+        checkEdgeWorksetAlgorithmOptions();
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -2536,6 +2543,26 @@ public class CifToSynthesisConverter {
         }
     }
 
+    /** Check edge workset algorithm options. */
+    private void checkEdgeWorksetAlgorithmOptions() {
+        // Skip if workset algorithm is disabled.
+        if (!EdgeWorksetAlgoOption.isEnabled()) {
+            return;
+        }
+
+        // Edge workset algorithm requires per-event edge granularity, and no duplicate edges in the edge order.
+        if (EdgeGranularityOption.getGranularity() != EdgeGranularity.PER_EVENT) {
+            throw new InvalidOptionException(
+                    "The edge workset algorithm can only be used with per-event edge granularity. "
+                            + "Either disable the edge workset algorithm, or configure per-event edge granularity.");
+        }
+        if (EdgeOrderDuplicateEventsOption.getDuplicateEvents() == EdgeOrderDuplicateEvents.ALLOWED) {
+            throw new InvalidOptionException(
+                    "The edge workset algorithm can not be used with duplicate events in the edge order. "
+                            + "Either disable the edge workset algorithm, or disable duplicates for custom edge orders.");
+        }
+    }
+
     /**
      * Converts CIF predicates to a synthesis predicate, assuming conjunction between the CIF predicates.
      *
@@ -3115,7 +3142,7 @@ public class CifToSynthesisConverter {
             return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
         }
 
-        // Switch expression
+        // Switch expression.
         if (expr instanceof SwitchExpression) {
             SwitchExpression switchExpr = (SwitchExpression)expr;
             Expression value = switchExpr.getValue();

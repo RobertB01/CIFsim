@@ -13,30 +13,20 @@
 
 package org.eclipse.escet.cif.parser.ast.automata;
 
-import java.util.List;
-
-import org.eclipse.escet.cif.parser.ast.AInvariant;
-import org.eclipse.escet.common.java.TextPosition;
-import org.eclipse.escet.setext.runtime.Token;
+import org.eclipse.escet.cif.parser.ast.AInvariantDecl;
 
 /** Invariants of a location. */
 public class AInvariantLocationElement extends ALocationElement {
-    /** The supervisory kind of the invariants, or {@code null} if not specified. */
-    public final Token kind;
-
-    /** The invariants of the location. */
-    public final List<AInvariant> invariants;
+    /** The invariant declaration. */
+    public final AInvariantDecl invariantDecl;
 
     /**
      * Constructor for the {@link AInvariantLocationElement} class.
      *
-     * @param kind The supervisory kind of the invariants, or {@code null} if not specified.
-     * @param invariants The invariants of the location.
-     * @param position Position information.
+     * @param invariantDecl The invariant declaration.
      */
-    public AInvariantLocationElement(Token kind, List<AInvariant> invariants, TextPosition position) {
-        super(position);
-        this.kind = kind;
-        this.invariants = invariants;
+    public AInvariantLocationElement(AInvariantDecl invariantDecl) {
+        super(invariantDecl.position);
+        this.invariantDecl = invariantDecl;
     }
 }

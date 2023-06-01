@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.tests.checkers.checks;
 
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 
 /** Test class that disallows internal user-defined functions. */
 public class FuncNoSpecificUserDefCheckInternal extends FuncNoSpecificUserDefCheck {

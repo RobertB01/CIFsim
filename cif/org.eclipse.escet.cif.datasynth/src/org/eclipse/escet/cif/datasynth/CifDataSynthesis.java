@@ -20,8 +20,8 @@ import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Sets.setc;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +34,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
@@ -42,9 +43,13 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.workset.dependencies.BddBasedEdgeDependencySetCreator;
+import org.eclipse.escet.cif.datasynth.workset.dependencies.EdgeDependencySetCreator;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
@@ -153,6 +158,14 @@ public class CifDataSynthesis {
             }
             if (EventWarnOption.isEnabled()) {
                 checkInputEdges(aut);
+            }
+
+            // Prepare workset algorithm, if enabled.
+            if (EdgeWorksetAlgoOption.isEnabled()) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                prepareWorksetAlgorithm(aut, dbgEnabled);
             }
         } finally {
             if (doTiming) {
@@ -1217,6 +1230,55 @@ public class CifDataSynthesis {
     }
 
     /**
+     * Prepare edge workset algorithm.
+     *
+     * @param aut The automaton on which to perform synthesis. Is modified in-place.
+     * @param dbgEnabled Whether debug output is enabled.
+     */
+    private static void prepareWorksetAlgorithm(SynthesisAutomaton aut, boolean dbgEnabled) {
+        // Compute the dependency sets for all edges, and store them in the synthesis automaton.
+        boolean forwardEnabled = ForwardReachOption.isEnabled();
+        EdgeDependencySetCreator creator = new BddBasedEdgeDependencySetCreator();
+        creator.createAndStore(aut, forwardEnabled);
+
+        // Print dependency sets as debug output.
+        if (dbgEnabled) {
+            int edgeCnt = aut.worksetDependenciesBackward.size();
+            if (edgeCnt > 0) {
+                if (forwardEnabled) {
+                    dbg();
+                    dbg("Edge workset algorithm forward dependencies:");
+                    GridBox box = new GridBox(edgeCnt, 4, 0, 1);
+                    for (int i = 0; i < edgeCnt; i++) {
+                        BitSet bitset = aut.worksetDependenciesForward.get(i);
+                        box.set(i, 0, " -");
+                        box.set(i, 1, Integer.toString(i + 1) + ":");
+                        box.set(i, 2, CifTextUtils.getAbsName(aut.orderedEdgesForward.get(i).event));
+                        box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
+                    }
+                    for (String line: box.getLines()) {
+                        dbg(line);
+                    }
+                }
+
+                dbg();
+                dbg("Edge workset algorithm backward dependencies:");
+                GridBox box = new GridBox(edgeCnt, 4, 0, 1);
+                for (int i = 0; i < edgeCnt; i++) {
+                    BitSet bitset = aut.worksetDependenciesBackward.get(i);
+                    box.set(i, 0, " -");
+                    box.set(i, 1, Integer.toString(i + 1) + ":");
+                    box.set(i, 2, CifTextUtils.getAbsName(aut.orderedEdgesBackward.get(i).event));
+                    box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
+                }
+                for (String line: box.getLines()) {
+                    dbg(line);
+                }
+            }
+        }
+    }
+
+    /**
      * Performs the actual synthesis algorithm from the paper, calculating various fixed points.
      *
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
@@ -1286,12 +1348,15 @@ public class CifDataSynthesis {
                 timing.mainBwMarked.start();
             }
             try {
-                nonBlock = reachability(aut.marked.id(), false, // bad
-                        false, // forward
-                        true, // ctrl
-                        true, // unctrl
-                        aut.ctrlBeh, aut, dbgEnabled, "backward controlled-behavior", "marker",
-                        "current/previous controlled-behavior", round);
+                CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
+                        "backward controlled-behavior", "marker", "current/previous controlled-behavior", //
+                        aut.ctrlBeh, // restriction
+                        false, // not bad states = good states
+                        false, // not forward reachability = backward reachability
+                        true, // include edges with controllable events
+                        true, // include edges with uncontrollable events
+                        dbgEnabled);
+                nonBlock = reachability.performReachability(aut.marked.id());
             } finally {
                 if (doTiming) {
                     timing.mainBwMarked.stop();
@@ -1361,12 +1426,15 @@ public class CifDataSynthesis {
                 timing.mainBwBadState.start();
             }
             try {
-                badState = reachability(badState, true, // bad
-                        false, // forward
-                        false, // ctrl
-                        true, // unctrl
-                        null, aut, dbgEnabled, "backward uncontrolled bad-state",
-                        "current/previous controlled behavior", null, round);
+                CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
+                        "backward uncontrolled bad-state", "current/previous controlled behavior", null, //
+                        null, // no restriction
+                        true, // bad states
+                        false, // not forward reachability = backward reachability
+                        false, // exclude edges with controllable events
+                        true, // include edges with uncontrollable events
+                        dbgEnabled);
+                badState = reachability.performReachability(badState);
             } finally {
                 if (doTiming) {
                     timing.mainBwBadState.stop();
@@ -1438,12 +1506,15 @@ public class CifDataSynthesis {
                     timing.mainFwInit.start();
                 }
                 try {
-                    newCtrlBeh = reachability(aut.initialCtrl.id(), false, // bad
-                            true, // forward
-                            true, // ctrl
-                            true, // unctrl
-                            aut.ctrlBeh, aut, dbgEnabled, "forward controlled-behavior", "initialization",
-                            "current/previous controlled-behavior", round);
+                    CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
+                            "forward controlled-behavior", "initialization", "current/previous controlled-behavior", //
+                            aut.ctrlBeh, // no restriction
+                            false, // not bad states = good states
+                            true, // forward reachability
+                            true, // include edges with controllable events
+                            true, // include edges with uncontrollable events
+                            dbgEnabled);
+                    newCtrlBeh = reachability.performReachability(aut.initialCtrl.id());
                 } finally {
                     if (doTiming) {
                         timing.mainFwInit.stop();
@@ -1497,155 +1568,6 @@ public class CifDataSynthesis {
                 dbg("Round %d: finished, need another round.", round);
             }
         }
-    }
-
-    /**
-     * Performs forward or backward reachability until a fixed point is reached.
-     *
-     * @param pred The predicate to which to apply the reachability. This predicate is {@link BDD#free freed} by this
-     *     method.
-     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
-     * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
-     * @param ctrl Whether to include edges with controllable events in the reachability.
-     * @param unctrl Whether to include edges with uncontrollable events in the reachability.
-     * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
-     *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
-     *     which is semantically equivalent to providing 'true'.
-     * @param aut The synthesis automaton.
-     * @param dbgEnabled Whether debug output is enabled.
-     * @param predName The name of the given predicate, for debug output. Must be in lower case.
-     * @param initName The name of the initial value of the given predicate, for debug output. Must be in lower case.
-     * @param restrictionName The name of the restriction predicate, for debug output. Must be in lower case. Must be
-     *     {@code null} if no restriction predicate is provided.
-     * @param round The 1-based round number of the main synthesis algorithm, for debug output.
-     * @return The fixed point result of the reachability computation, or {@code null} if the application is terminated.
-     */
-    private static BDD reachability(BDD pred, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
-            BDD restriction, SynthesisAutomaton aut, boolean dbgEnabled, String predName, String initName,
-            String restrictionName, int round)
-    {
-        // Print debug output.
-        if (dbgEnabled) {
-            dbg();
-            dbg("Round %d: computing %s predicate.", round, predName);
-            dbg("%s: %s [%s predicate]", Strings.makeInitialUppercase(predName), bddToStr(pred, aut), initName);
-        }
-
-        // Initialization.
-        boolean changed = false;
-
-        // Restrict predicate.
-        if (restriction != null) {
-            BDD restrictedPred = pred.and(restriction);
-            if (aut.env.isTerminationRequested()) {
-                return null;
-            }
-
-            if (pred.equals(restrictedPred)) {
-                restrictedPred.free();
-            } else {
-                if (dbgEnabled) {
-                    Assert.notNull(restrictionName);
-                    dbg("%s: %s -> %s [restricted to %s predicate: %s]", Strings.makeInitialUppercase(predName),
-                            bddToStr(pred, aut), bddToStr(restrictedPred, aut), restrictionName,
-                            bddToStr(restriction, aut));
-                }
-                pred.free();
-                pred = restrictedPred;
-                changed = true;
-            }
-        }
-
-        // Prepare edges for being applied.
-        for (SynthesisEdge edge: aut.edges) {
-            edge.preApply(forward, restriction);
-        }
-        if (aut.env.isTerminationRequested()) {
-            return null;
-        }
-
-        // Apply edges until we get a fixed point.
-        List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
-        int iter = 0;
-        int remainingEdges = orderedEdges.size(); // Number of edges to apply without change to get the fixed point.
-        while (remainingEdges > 0) {
-            // Print iteration, for debugging.
-            iter++;
-            if (dbgEnabled) {
-                dbg("%s reachability: iteration %d.", (forward ? "Forward" : "Backward"), iter);
-            }
-
-            // Push through all edges.
-            for (SynthesisEdge edge: orderedEdges) {
-                // Skip edges if requested.
-                if ((!ctrl && edge.event.getControllable()) || (!unctrl && !edge.event.getControllable())) {
-                    remainingEdges--;
-                    if (remainingEdges == 0) {
-                        break; // Fixed point reached.
-                    }
-                    continue;
-                }
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
-
-                // Apply edge. Apply the runtime error predicates when applying backward.
-                BDD updPred = pred.id();
-                updPred = edge.apply(updPred, bad, forward, restriction, !forward);
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
-
-                // Extend reachable states.
-                BDD newPred = pred.id().orWith(updPred);
-                if (aut.env.isTerminationRequested()) {
-                    return null;
-                }
-
-                // Detect change.
-                if (pred.equals(newPred)) {
-                    // No change.
-                    newPred.free();
-                    remainingEdges--;
-                    if (remainingEdges == 0) {
-                        break; // Fixed point reached.
-                    }
-                } else {
-                    // Change.
-                    if (dbgEnabled) {
-                        String restrTxt;
-                        if (restriction == null) {
-                            restrTxt = "";
-                        } else {
-                            Assert.notNull(restrictionName);
-                            restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
-                                    bddToStr(restriction, aut));
-                        }
-                        dbg("%s: %s -> %s [%s reach with edge: %s%s]", Strings.makeInitialUppercase(predName),
-                                bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
-                                edge.toString(0, ""), restrTxt);
-                    }
-                    pred.free();
-                    pred = newPred;
-                    changed = true;
-                    remainingEdges = orderedEdges.size(); // Change found, reset the counter.
-                }
-            }
-        }
-
-        // Cleanup edges for being applied.
-        for (SynthesisEdge edge: aut.edges) {
-            edge.postApply(forward);
-        }
-
-        // Fixed point reached.
-        if (aut.env.isTerminationRequested()) {
-            return null;
-        }
-        if (dbgEnabled && changed) {
-            dbg("%s: %s [fixed point].", Strings.makeInitialUppercase(predName), bddToStr(pred, aut));
-        }
-        return pred;
     }
 
     /**

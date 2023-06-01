@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.tests.checkers.checks;
 
-import org.eclipse.escet.cif.common.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 
 /**
  * Test checker requiring 2 or 3 automata, exactly 0 kindless, at least 1 plant, 1 requirement, and at most 1

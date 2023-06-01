@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.tests.checkers.checks;
 
-import org.eclipse.escet.cif.common.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificIntUserDefFuncStatsCheck;
 
 /** Test class for {@link FuncNoSpecificIntUserDefFuncStatsCheck} to check the 'continue' statements check. */
 public class FuncNoSpecificIntUserDefFuncStatsCheckContinue extends FuncNoSpecificIntUserDefFuncStatsCheck {

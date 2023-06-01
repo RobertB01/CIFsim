@@ -47,9 +47,7 @@ public final class VarOrdererParserHooks implements VarOrdererParser.Hooks {
     }
 
     @Override // VarOrdererSeq : VarOrdererSeq ARROWTK VarOrderer;
-    public List<VarOrdererInstance> parseVarOrdererSeq2(List<VarOrdererInstance> l1,
-            VarOrdererInstance v3)
-    {
+    public List<VarOrdererInstance> parseVarOrdererSeq2(List<VarOrdererInstance> l1, VarOrdererInstance v3) {
         l1.add(v3);
         return l1;
     }
@@ -60,9 +58,7 @@ public final class VarOrdererParserHooks implements VarOrdererParser.Hooks {
     }
 
     @Override // VarOrdererList : VarOrdererList COMMATK VarOrderer;
-    public List<VarOrdererInstance> parseVarOrdererList2(List<VarOrdererInstance> l1,
-            VarOrdererInstance v3)
-    {
+    public List<VarOrdererInstance> parseVarOrdererList2(List<VarOrdererInstance> l1, VarOrdererInstance v3) {
         l1.add(v3);
         return l1;
     }
@@ -93,9 +89,7 @@ public final class VarOrdererParserHooks implements VarOrdererParser.Hooks {
     }
 
     @Override // VarOrdererArgs : VarOrdererArgs COMMATK VarOrdererArg;
-    public List<VarOrdererArg> parseVarOrdererArgs2(List<VarOrdererArg> l1,
-            VarOrdererArg v3)
-    {
+    public List<VarOrdererArg> parseVarOrdererArgs2(List<VarOrdererArg> l1, VarOrdererArg v3) {
         l1.add(v3);
         return l1;
     }

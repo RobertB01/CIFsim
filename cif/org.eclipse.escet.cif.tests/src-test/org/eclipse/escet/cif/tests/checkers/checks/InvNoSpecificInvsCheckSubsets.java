@@ -13,10 +13,10 @@
 
 package org.eclipse.escet.cif.tests.checkers.checks;
 
-import org.eclipse.escet.cif.common.checkers.checks.InvNoSpecificInvsCheck;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantKind;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantPlaceKind;
-import org.eclipse.escet.cif.common.checkers.checks.invcheck.NoInvariantSupKind;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 
 /** CIF check that disallows requirement state invariants in locations and 'needs' state/event exclusion invariants. */
 public class InvNoSpecificInvsCheckSubsets extends InvNoSpecificInvsCheck {

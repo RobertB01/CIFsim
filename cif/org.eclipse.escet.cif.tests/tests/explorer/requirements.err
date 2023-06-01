@@ -14,19 +14,19 @@ WARNING: The CIF specification has features that may cause an unexpected resulti
   ------------------------------------------------------------------
    * In the top-level scope of the specification:
      - requirement invariant r1.x + r2.x >= 0;
-                                         ^
+                   ^
    * In automaton "r1":
      - requirement invariant x >= 0;
-                               ^
+                   ^
      - requirement invariant x >= 0;
-                               ^
+                   ^
    * In automaton "r2":
      - requirement invariant x >= 0;
-                               ^
+                   ^
    * In location "r2.loc":
      - requirement invariant x >= 0;
-                               ^
+                   ^
      - requirement invariant x <= 1 div x;
-                               ^
+                   ^
 ERROR: Failed to compute invariant "r2.x <= 1 div r2.x" in initial state.
 CAUSE: Division by zero: 1 div 0.

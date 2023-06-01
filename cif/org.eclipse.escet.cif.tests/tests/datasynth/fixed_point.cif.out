@@ -160,7 +160,6 @@ Controlled behavior: true -> (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p.l0 and p.x = 2 or (p.l1 and p.x = 2 or p.l1 and (p.x = 1 and p.y = 2)) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.l0 and (p.x = 1 and p.y = 1) [initialization predicate]
@@ -182,7 +181,6 @@ Backward controlled-behavior: p.x = 1 and p.y = 1 [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p.x = 2 or p.y = 2 [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 

@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth.spec;
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,6 +86,18 @@ public class SynthesisAutomaton {
 
     /** The events that are disabled before synthesis. */
     public Set<Event> disabledEvents;
+
+    /**
+     * Per synthesis edge in {@link #orderedEdgesBackward}, its backward edge dependencies set for the workset
+     * algorithm. This field is {@code null} until it is computed.
+     */
+    public List<BitSet> worksetDependenciesBackward;
+
+    /**
+     * Per synthesis edge in {@link #orderedEdgesForward}, its forward edge dependencies set for the workset algorithm.
+     * This field is {@code null} until it is computed.
+     */
+    public List<BitSet> worksetDependenciesForward;
 
     /**
      * Initialization predicates for each of the synthesis variables. Predicates are obtained from the initial values as
