@@ -76,7 +76,6 @@ import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.parser.CifParser;
-import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.ACompDecl;
 import org.eclipse.escet.cif.parser.ast.ACompDefDecl;
 import org.eclipse.escet.cif.parser.ast.ACompInstDecl;
@@ -519,30 +518,30 @@ public class SymbolScopeBuilder {
      * @param parent The parent symbol scope to which to add the declaration.
      */
     private void addDecl(ADecl decl, ParentScope<?> parent) {
-        if (decl instanceof AAlgVariableDecl) {
-            addAlgVars((AAlgVariableDecl)decl, parent);
-        } else if (decl instanceof AConstDecl) {
-            addConstants((AConstDecl)decl, parent);
-        } else if (decl instanceof AContVariableDecl) {
-            addContVars((AContVariableDecl)decl, parent);
-        } else if (decl instanceof AEventDecl) {
-            addEvents((AEventDecl)decl, parent);
-        } else if (decl instanceof AEnumDecl) {
-            addEnum((AEnumDecl)decl, parent);
-        } else if (decl instanceof ATypeDefDecl) {
-            addTypeDefs(((ATypeDefDecl)decl).typeDefs, parent);
-        } else if (decl instanceof AInputVariableDecl) {
-            addInputVars((AInputVariableDecl)decl, parent);
-        } else if (decl instanceof AIoDecl) {
-            parent.astIoDecls.add((AIoDecl)decl);
-        } else if (decl instanceof AInitialDecl) {
-            parent.astInitPreds.add((AInitialDecl)decl);
-        } else if (decl instanceof AInvariantDecl) {
-            addInvariants(decl, parent, parent.getComplexComponent().getInvariants());
-        } else if (decl instanceof AMarkedDecl) {
-            parent.astMarkerPreds.add((AMarkedDecl)decl);
-        } else if (decl instanceof AEquationDecl) {
-            parent.addEquations(((AEquationDecl)decl).equations);
+        if (decl instanceof AAlgVariableDecl algVarDecl) {
+            addAlgVars(algVarDecl, parent);
+        } else if (decl instanceof AConstDecl constDecl) {
+            addConstants(constDecl, parent);
+        } else if (decl instanceof AContVariableDecl contVarDecl) {
+            addContVars(contVarDecl, parent);
+        } else if (decl instanceof AEventDecl eventDecl) {
+            addEvents(eventDecl, parent);
+        } else if (decl instanceof AEnumDecl enumDecl) {
+            addEnum(enumDecl, parent);
+        } else if (decl instanceof ATypeDefDecl typeDefDecl) {
+            addTypeDefs(typeDefDecl.typeDefs, parent);
+        } else if (decl instanceof AInputVariableDecl inputVarDecl) {
+            addInputVars(inputVarDecl, parent);
+        } else if (decl instanceof AIoDecl ioDecl) {
+            parent.astIoDecls.add(ioDecl);
+        } else if (decl instanceof AInitialDecl initDecl) {
+            parent.astInitPreds.add(initDecl);
+        } else if (decl instanceof AInvariantDecl invDecl) {
+            addInvariants(invDecl, parent, parent.getComplexComponent().getInvariants());
+        } else if (decl instanceof AMarkedDecl markedDecl) {
+            parent.astMarkerPreds.add(markedDecl);
+        } else if (decl instanceof AEquationDecl equationDecl) {
+            parent.addEquations(equationDecl.equations);
         } else {
             throw new RuntimeException("Unknown/unexpected decl: " + decl);
         }
@@ -644,8 +643,8 @@ public class SymbolScopeBuilder {
                     List<AEquation> eqns;
                     eqns = ((AEquationLocationElement)lelem).equations;
                     parent.addEquations(eqns);
-                } else if (lelem instanceof AInvariantLocationElement) {
-                    addInvariants(lelem, parent, loc2.getInvariants());
+                } else if (lelem instanceof AInvariantLocationElement invLocElem) {
+                    addInvariants(invLocElem.invariantDecl, parent, loc2.getInvariants());
                 }
             }
         }
@@ -833,28 +832,17 @@ public class SymbolScopeBuilder {
     /**
      * Add invariants to the given parent symbol scope.
      *
-     * @param invs The invariants to add.
+     * @param invariantDecl The invariants to add.
      * @param parent The parent symbol scope to which to add the invariants.
      * @param mmInvs The list to which to add the metamodel invariants. Can be the invariants in a component or in a
      *     location.
      */
-    private void addInvariants(ACifObject invs, ParentScope<?> parent, EList<Invariant> mmInvs) {
-        List<AInvariant> invariants = null;
-        SupKind supKind = null;
-        if (invs instanceof AInvariantDecl) {
-            invariants = ((AInvariantDecl)invs).invariants;
-            // Process supervisory kind of the invariant.
-            supKind = transInvSupKind(((AInvariantDecl)invs).kind);
-        } else if (invs instanceof AInvariantLocationElement) {
-            invariants = ((AInvariantLocationElement)invs).invariants;
-            // Process supervisory kind of the invariant.
-            supKind = transInvSupKind(((AInvariantLocationElement)invs).kind);
-        } else {
-            throw new RuntimeException("Unknown/unexpected invariants: " + invs);
-        }
+    private void addInvariants(AInvariantDecl invariantDecl, ParentScope<?> parent, EList<Invariant> mmInvs) {
+        // Process supervisory kind of the invariant.
+        SupKind supKind = transInvSupKind(invariantDecl.kind);
 
         // Add the individual invariants.
-        for (AInvariant astInv: invariants) {
+        for (AInvariant astInv: invariantDecl.invariants) {
             // Get the invariant name.
             AIdentifier invName = astInv.name;
 
@@ -877,8 +865,10 @@ public class SymbolScopeBuilder {
 
             // Create and add invariants.
             for (int i = 0; i < numberOfInvariants; i++) {
-                Position invPos = invName == null ? astInv.createPosition() : invName.createPosition();
+                // Get position information.
+                Position invPos = invName != null ? invName.createPosition() : invariantDecl.createPosition();
 
+                // Create invariant.
                 Invariant mmInv = newInvariant();
                 if (invName != null) {
                     mmInv.setName(invName.id);
