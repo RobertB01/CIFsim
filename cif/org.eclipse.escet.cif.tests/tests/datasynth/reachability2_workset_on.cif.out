@@ -162,6 +162,16 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
+Edge workset algorithm forward dependencies:
+ - 1: p.u_inc    .1.
+ - 2: p.u_switch 1.1
+ - 3: p.u_dec    .1.
+
+Edge workset algorithm backward dependencies:
+ - 1: p.u_inc    .1.
+ - 2: p.u_switch 1.1
+ - 3: p.u_dec    .1.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.

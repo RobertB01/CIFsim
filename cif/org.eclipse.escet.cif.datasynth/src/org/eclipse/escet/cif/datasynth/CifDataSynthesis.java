@@ -21,6 +21,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Sets.setc;
 
+import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
@@ -41,9 +43,13 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.workset.dependencies.BddBasedEdgeDependencySetCreator;
+import org.eclipse.escet.cif.datasynth.workset.dependencies.EdgeDependencySetCreator;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
@@ -152,6 +158,14 @@ public class CifDataSynthesis {
             }
             if (EventWarnOption.isEnabled()) {
                 checkInputEdges(aut);
+            }
+
+            // Prepare workset algorithm, if enabled.
+            if (EdgeWorksetAlgoOption.isEnabled()) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                prepareWorksetAlgorithm(aut, dbgEnabled);
             }
         } finally {
             if (doTiming) {
@@ -1211,6 +1225,55 @@ public class CifDataSynthesis {
                         + "and invariants.", CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
                 continue;
+            }
+        }
+    }
+
+    /**
+     * Prepare edge workset algorithm.
+     *
+     * @param aut The automaton on which to perform synthesis. Is modified in-place.
+     * @param dbgEnabled Whether debug output is enabled.
+     */
+    private static void prepareWorksetAlgorithm(SynthesisAutomaton aut, boolean dbgEnabled) {
+        // Compute the dependency sets for all edges, and store them in the synthesis automaton.
+        boolean forwardEnabled = ForwardReachOption.isEnabled();
+        EdgeDependencySetCreator creator = new BddBasedEdgeDependencySetCreator();
+        creator.createAndStore(aut, forwardEnabled);
+
+        // Print dependency sets as debug output.
+        if (dbgEnabled) {
+            int edgeCnt = aut.worksetDependenciesBackward.size();
+            if (edgeCnt > 0) {
+                if (forwardEnabled) {
+                    dbg();
+                    dbg("Edge workset algorithm forward dependencies:");
+                    GridBox box = new GridBox(edgeCnt, 4, 0, 1);
+                    for (int i = 0; i < edgeCnt; i++) {
+                        BitSet bitset = aut.worksetDependenciesForward.get(i);
+                        box.set(i, 0, " -");
+                        box.set(i, 1, Integer.toString(i + 1) + ":");
+                        box.set(i, 2, CifTextUtils.getAbsName(aut.orderedEdgesForward.get(i).event));
+                        box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
+                    }
+                    for (String line: box.getLines()) {
+                        dbg(line);
+                    }
+                }
+
+                dbg();
+                dbg("Edge workset algorithm backward dependencies:");
+                GridBox box = new GridBox(edgeCnt, 4, 0, 1);
+                for (int i = 0; i < edgeCnt; i++) {
+                    BitSet bitset = aut.worksetDependenciesBackward.get(i);
+                    box.set(i, 0, " -");
+                    box.set(i, 1, Integer.toString(i + 1) + ":");
+                    box.set(i, 2, CifTextUtils.getAbsName(aut.orderedEdgesBackward.get(i).event));
+                    box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
+                }
+                for (String line: box.getLines()) {
+                    dbg(line);
+                }
             }
         }
     }
