@@ -1,0 +1,3 @@
+TYPE hw_button_location:
+    (hw_button_Released, hw_button_Pushed);
+END_TYPE

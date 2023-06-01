@@ -73,6 +73,26 @@
           </struct>
         </baseType>
       </dataType>
+      <dataType name="p_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="p_l1"/>
+              <value name="p_l6"/>
+              <value name="p_l7"/>
+              <value name="p_l8"/>
+              <value name="p_l9"/>
+              <value name="p_l10"/>
+              <value name="p_l11"/>
+              <value name="p_l12"/>
+              <value name="p_l13"/>
+              <value name="p_l14"/>
+              <value name="p_l15"/>
+              <value name="p_l16"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
     </dataTypes>
     <pous>
       <pou name="MAIN" pouType="program">
@@ -101,6 +121,7 @@
     p_tv := litStruct__2;
     p_j := 0;
     p_r := 1000000.0;
+    p := p_l1;
 END_IF;</xhtml>
           </ST>
         </body>
@@ -172,6 +193,11 @@ END_IF;</xhtml>
             <variable name="p_r">
               <type>
                 <LREAL/>
+              </type>
+            </variable>
+            <variable name="p">
+              <type>
+                <derived name="p_location"/>
               </type>
             </variable>
           </globalVars>

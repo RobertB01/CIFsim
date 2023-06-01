@@ -1,0 +1,3 @@
+TYPE sup_location:
+    (sup_s1, sup_s2, sup_s3, sup_s4, sup_s5, sup_s6, sup_s7, sup_s8, sup_s9, sup_s10);
+END_TYPE

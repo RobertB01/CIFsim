@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <DUT Name="timer_location">
+    <Declaration><![CDATA[TYPE timer_location:
+    (timer_Idle, timer_Running);
+END_TYPE]]></Declaration>
+    <ObjectProperties/>
+  </DUT>
+</TcPlcObject>

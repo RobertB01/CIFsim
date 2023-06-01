@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <DUT Name="sup_location">
+    <Declaration><![CDATA[TYPE sup_location:
+    (sup_s1, sup_s2, sup_s3, sup_s4, sup_s5, sup_s6, sup_s7, sup_s8, sup_s9, sup_s10);
+END_TYPE]]></Declaration>
+    <ObjectProperties/>
+  </DUT>
+</TcPlcObject>

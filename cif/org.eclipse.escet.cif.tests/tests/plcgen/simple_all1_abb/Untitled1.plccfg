@@ -11,6 +11,7 @@ CONFIGURATION Untitled1
         p_tv: TupleStruct__2;
         p_j: DINT;
         p_r: REAL;
+        p: DINT;
     END_VAR
     VAR_GLOBAL // TIMERS
         firstRun: BOOL := TRUE;

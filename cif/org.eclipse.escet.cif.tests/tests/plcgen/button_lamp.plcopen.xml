@@ -14,7 +14,56 @@
     </coordinateInfo>
   </contentHeader>
   <types>
-    <dataTypes/>
+    <dataTypes>
+      <dataType name="timer_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="timer_Idle"/>
+              <value name="timer_Running"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
+      <dataType name="sup_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="sup_s1"/>
+              <value name="sup_s2"/>
+              <value name="sup_s3"/>
+              <value name="sup_s4"/>
+              <value name="sup_s5"/>
+              <value name="sup_s6"/>
+              <value name="sup_s7"/>
+              <value name="sup_s8"/>
+              <value name="sup_s9"/>
+              <value name="sup_s10"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
+      <dataType name="hw_button_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="hw_button_Released"/>
+              <value name="hw_button_Pushed"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
+      <dataType name="hw_lamp_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="hw_lamp_Off"/>
+              <value name="hw_lamp_On"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
+    </dataTypes>
     <pous>
       <pou name="MAIN" pouType="program">
         <interface/>
@@ -24,7 +73,11 @@
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    timer := timer_Idle;
+    sup := sup_s1;
+    hw_button := hw_button_Released;
     hw_lamp_bit := FALSE;
+    hw_lamp := hw_lamp_Off;
 END_IF;</xhtml>
           </ST>
         </body>
@@ -43,14 +96,34 @@ END_IF;</xhtml>
             </pouInstance>
           </task>
           <globalVars constant="false" name="STATE">
+            <variable name="timer">
+              <type>
+                <derived name="timer_location"/>
+              </type>
+            </variable>
+            <variable name="sup">
+              <type>
+                <derived name="sup_location"/>
+              </type>
+            </variable>
             <variable name="hw_button_bit">
               <type>
                 <BOOL/>
               </type>
             </variable>
+            <variable name="hw_button">
+              <type>
+                <derived name="hw_button_location"/>
+              </type>
+            </variable>
             <variable name="hw_lamp_bit">
               <type>
                 <BOOL/>
+              </type>
+            </variable>
+            <variable name="hw_lamp">
+              <type>
+                <derived name="hw_lamp_location"/>
               </type>
             </variable>
           </globalVars>

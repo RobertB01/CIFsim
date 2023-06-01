@@ -6,6 +6,10 @@ BEGIN
         firstRun := FALSE;
 
         (* Initialize the state variables. *)
+        timer := someConstantvariable;
+        sup := someConstantvariable;
+        hw_button := someConstantvariable;
         hw_lamp_bit := FALSE;
+        hw_lamp := someConstantvariable;
     END_IF;
 END_ORGANIZATION_BLOCK
