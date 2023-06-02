@@ -77,6 +77,27 @@ SPDX-License-Identifier: MIT
         <!-- JaCoCo code coverage tool. -->
         <jacoco.version>0.8.7</jacoco.version>
     </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>1.9.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.9.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <pluginRepositories>
         <!-- Dash license plugin. -->
@@ -211,13 +232,6 @@ SPDX-License-Identifier: MIT
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
-                        <version>3.0.0</version>
-                    </dependency>
-                </dependencies>
                 <configuration>
                     <!-- Execute tests in alphabetical order, to make it easier to compare different build logs. -->
                     <runOrder>alphabetical</runOrder>
