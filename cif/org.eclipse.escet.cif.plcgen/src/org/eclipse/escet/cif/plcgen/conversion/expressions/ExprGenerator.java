@@ -285,7 +285,7 @@ public class ExprGenerator {
         } else if (expr instanceof ContVariableExpression ce) {
             return new ExprGenResult(this).setValue(cifData.getExprForContvar(ce.getVariable(), ce.isDerivative()));
         } else if (expr instanceof LocationExpression le) {
-            return new ExprGenResult(this).setValue(cifData.getExprForLocation(le.getLocation()));
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof EnumLiteralExpression eLit) {
             return new ExprGenResult(this).setValue(target.getTypeGenerator().getPlcEnumLiteral(eLit.getLiteral()));
         } else if (expr instanceof FunctionExpression) {

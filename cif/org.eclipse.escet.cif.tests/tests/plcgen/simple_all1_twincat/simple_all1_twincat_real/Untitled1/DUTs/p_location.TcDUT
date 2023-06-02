@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <DUT Name="p_location">
+    <Declaration><![CDATA[TYPE p_location:
+    (p_l1, p_l6, p_l7, p_l8, p_l9, p_l10, p_l11, p_l12, p_l13, p_l14, p_l15, p_l16);
+END_TYPE]]></Declaration>
+    <ObjectProperties/>
+  </DUT>
+</TcPlcObject>

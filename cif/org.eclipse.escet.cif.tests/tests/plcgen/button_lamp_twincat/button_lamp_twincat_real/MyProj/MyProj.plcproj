@@ -4,6 +4,18 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\timer_location.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\sup_location.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\hw_button_location.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\hw_lamp_location.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\STATE.TcGVL">
       <SubType>Code</SubType>
     </Compile>

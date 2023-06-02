@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
+import org.eclipse.escet.cif.cif2cif.ElimLocRefExprs;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
@@ -301,6 +302,28 @@ public class CifProcessor {
     private void normalizeSpec(Specification spec) {
         // Add default initial values, to simplify the code generation.
         new AddDefaultInitialValues().transform(spec);
+
+        // Replace locations in expressions by explicit variables.
+        new ElimLocRefExprs(
+                a -> "", // Candidate name for location pointer variables.
+                a -> "location", // Candidate name for location pointer enumeration.
+                loc -> loc.getName(), // Candidate name for location pointer literals.
+                false, // Do not rename locations to ensure unique names.
+                true, // Add initialization predicates for the initialization of the location pointer variables.
+                false, // Also generate unused location pointers.
+                null, // Map of location pointer variables to their automaton.
+                true, // Optimize of initialization of location pointers.
+                true // Add location pointer expressions to guards.
+        ).transform(spec);
+
+        // Simplify the specification, to increase the supported subset. Since simplification of values fills in all
+        // constants, we can also remove the constants. However, this may lead to large amounts of duplication for
+        // constants with large literal values. Therefore, it is an option. We could always use less expensive variants
+        // of value simplification, in the future.
+        if (simplifyValues) {
+            new SimplifyValues().transform(spec);
+            new ElimConsts().transform(spec);
+        }
 
         // If requested, convert enumerations.
         if (enumConversion == ConvertEnums.INTS) {
