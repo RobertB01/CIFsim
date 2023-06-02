@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.statements;
 
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 
@@ -23,6 +24,16 @@ public class PlcAssignmentStatement extends PlcStatement {
 
     /** Value to assign. */
     public PlcExpression value;
+
+    /**
+     * Constructor of the {@link PlcAssignmentStatement} class.
+     *
+     * @param lhsVar Variable to assign to.
+     * @param value Value to assign.
+     */
+    public PlcAssignmentStatement(PlcVariable lhsVar, PlcExpression value) {
+        this(new PlcVarExpression(lhsVar), value);
+    }
 
     /**
      * Constructor of the {@link PlcAssignmentStatement} class.
