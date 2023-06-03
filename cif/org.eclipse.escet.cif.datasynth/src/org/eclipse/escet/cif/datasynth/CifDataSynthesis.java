@@ -1196,18 +1196,10 @@ public class CifDataSynthesis {
             }
 
             // Check whether the guards on edges of automata combined with invariants are all 'false'. There might be
-            // multiple edges for an event. State plant invariants are included in edge guards. Depending on options,
-            // state requirement invariants may always be in the controlled behavior, or they may also be included in
-            // edge guards. State requirement invariants will however only be in the edge guards for controllable
-            // events, and are simplified under the assumption that the requirement already holds in the source state
-            // of the edge. The full restriction may thus not be in the edge guard. For uncontrollable events, the
-            // state requirement invariants will always be in the controlled behavior, regardless of the options.
-            //
-            // If all state requirement invariants are encoded into the controlled behavior, we could check edge guards,
-            // state/event exclusion invariants, and state plant invariants only. And then check them again while also
-            // considering state requirement invariants. If state requirement invariants are encoded into edge guards
-            // or the controlled behavior, only the second option remains. To simplify the implementation and make it
-            // more consistent regardless of the options, we only perform the second check.
+            // multiple edges for an event. State/event exclusion invariants are included in the edge guards. State
+            // plant invariants and state requirement invariants are sometimes included in the edge guard (depending on
+            // the options). To simplify the implementation and make it more consistent regardless of the options, we
+            // always include the state invariants again.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
                 if (aut.env.isTerminationRequested()) {
