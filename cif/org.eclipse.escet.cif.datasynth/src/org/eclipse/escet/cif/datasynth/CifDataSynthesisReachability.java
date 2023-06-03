@@ -27,7 +27,7 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -170,7 +170,7 @@ public class CifDataSynthesisReachability {
 
         // Prepare edges for being applied.
         Collection<SynthesisEdge> edgesToPrepare = EdgeOrderDuplicateEventsOption
-                .getDuplicateEvents() == EdgeOrderDuplicateEvents.ALLOWED ? list2set(edgesToApply) : edgesToApply;
+                .getAllowance() == EdgeOrderDuplicateEventAllowance.ALLOWED ? list2set(edgesToApply) : edgesToApply;
         for (SynthesisEdge edge: edgesToPrepare) {
             edge.preApply(forward, restriction);
         }
