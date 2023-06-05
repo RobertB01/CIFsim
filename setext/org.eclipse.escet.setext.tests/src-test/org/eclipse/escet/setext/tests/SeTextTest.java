@@ -14,7 +14,7 @@
 package org.eclipse.escet.setext.tests;
 
 import org.eclipse.escet.tooldef.interpreter.ToolDefBasedPluginUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** SeText integration and regression tests. */
 public class SeTextTest extends ToolDefBasedPluginUnitTest {
