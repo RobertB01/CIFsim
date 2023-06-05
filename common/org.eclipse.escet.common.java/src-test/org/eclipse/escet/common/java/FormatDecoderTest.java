@@ -19,7 +19,8 @@ import static org.eclipse.escet.common.java.FormatDescription.Conversion.LITERAL
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collections;
 import java.util.DuplicateFormatFlagsException;
@@ -28,7 +29,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link FormatDecoder} class. */
 public class FormatDecoderTest {
@@ -608,9 +609,9 @@ public class FormatDecoderTest {
     }
 
     /** Test that duplicate flags are not allowed for Java formatting. */
-    @Test(expected = DuplicateFormatFlagsException.class)
+    @Test
     public void testJavaDuplFlag() {
-        fmt("%--10s", 12345);
+        assertThrows(DuplicateFormatFlagsException.class, () -> fmt("%--10s", 12345));
     }
 
     /**

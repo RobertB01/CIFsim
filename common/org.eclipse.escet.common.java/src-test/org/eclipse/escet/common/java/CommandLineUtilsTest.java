@@ -14,9 +14,10 @@
 package org.eclipse.escet.common.java;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link CommandLineUtils} class. */
 public class CommandLineUtilsTest {
@@ -92,22 +93,22 @@ public class CommandLineUtilsTest {
         test("\"a\\\tb\"", new String[] {"a\tb"}, "\"a\tb\"");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testParseArgsMissingSingleQuote() {
-        test("\'a", null, null);
+        assertThrows(IllegalArgumentException.class, () -> test("\'a", null, null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testParseArgsMissingDoubleQuote() {
-        test("\"a", null, null);
+        assertThrows(IllegalArgumentException.class, () -> test("\"a", null, null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testParseArgsMissingEscapeChar() {
-        test("\\", null, null);
+        assertThrows(IllegalArgumentException.class, () -> test("\\", null, null));
     }
 
     /**

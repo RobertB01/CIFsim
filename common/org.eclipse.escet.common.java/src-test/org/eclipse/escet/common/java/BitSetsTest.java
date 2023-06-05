@@ -14,11 +14,11 @@
 package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.IntStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link BitSets} class. */
 public class BitSetsTest {
