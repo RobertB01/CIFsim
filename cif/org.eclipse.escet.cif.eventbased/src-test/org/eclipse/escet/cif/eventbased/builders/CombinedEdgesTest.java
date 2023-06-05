@@ -15,21 +15,22 @@ package org.eclipse.escet.cif.eventbased.builders;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Set;
 
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.automata.Event.EventControllability;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("javadoc")
 public class CombinedEdgesTest {
     @SuppressWarnings("unused")
-    @Test(expected = AssertionError.class)
+    @Test
     public void testEmptyAlphabet1() {
         Event a = new Event("a", EventControllability.CONTR_EVENT);
         Event b = new Event("b", EventControllability.CONTR_EVENT);
@@ -39,12 +40,14 @@ public class CombinedEdgesTest {
         Set<Event> alph1 = set();
         Automaton aut1 = new Automaton(alph1);
 
-        CombinedEdges ce = new CombinedEdges(a, list(aut1));
-        assertEquals(a, ce.event);
-        assertEquals(1, ce.sourceEdges.size());
-        assertNull(ce.sourceEdges.get(0));
+        assertThrows(AssertionError.class, () -> new CombinedEdges(a, list(aut1)));
 
-        ce.clear(); // Should not crash.
+        // Tests below have been disabled.
+        // assertEquals(a, ce.event);
+        // assertEquals(1, ce.sourceEdges.size());
+        // assertNull(ce.sourceEdges.get(0));
+
+        // ce.clear(); // Should not crash.
     }
 
     @SuppressWarnings("unused")

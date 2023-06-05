@@ -27,8 +27,8 @@ import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("javadoc")
 public class PartitionRefinementTest {
@@ -110,7 +110,7 @@ public class PartitionRefinementTest {
         return "{" + s + "}";
     }
 
-    @Before
+    @BeforeEach
     public void init() {
         Event e = new Event("e", EventControllability.CONTR_EVENT);
         Automaton aut = new Automaton(set(e));
