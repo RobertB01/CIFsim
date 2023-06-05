@@ -15,16 +15,17 @@ package org.eclipse.escet.tooldef.runtime;
 
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** ToolDef map value tests. */
 @SuppressWarnings("javadoc")
@@ -48,10 +49,8 @@ public class ToolDefMapTest {
         assertEquals("{1: 2, 3: 4}", map4.toString());
     }
 
-    @SuppressWarnings("unused")
-    @Test(expected = IllegalArgumentException.class)
     public void testCreateInitialCapacityNegative() {
-        new ToolDefMap<>(-1);
+        assertThrows(IllegalArgumentException.class, () -> new ToolDefMap<>(-1));
     }
 
     @Test
