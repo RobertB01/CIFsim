@@ -15,9 +15,9 @@ package org.eclipse.escet.chi.runtime;
 
 import static org.eclipse.escet.chi.runtime.ArithmeticFunctions.floorDivision;
 import static org.eclipse.escet.chi.runtime.ArithmeticFunctions.modulus;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the arithmetic functions. */
 public class ArithmeticFunctionsTest {

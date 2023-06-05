@@ -13,11 +13,11 @@
 
 package org.eclipse.escet.chi.runtime.data;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Comparator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests on the {@link IndexableDeque} class. */
 public class IndexableDequeTest {
