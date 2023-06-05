@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifMath;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Binary operator range tests. */
 public class BinOpRangeTest extends TwoArgsRangeTestsBase {

@@ -15,8 +15,8 @@ package org.eclipse.escet.cif.typechecker;
 
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifMath;
@@ -25,7 +25,7 @@ import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.TextBox;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Modulus binary operator range tests. */
 public class ModulusRangeTest {

@@ -15,12 +15,12 @@ package org.eclipse.escet.cif.typechecker;
 
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListType;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Range compatibility tests, for list type ranges. */
 public class RangeCompatListTest {
