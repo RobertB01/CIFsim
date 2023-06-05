@@ -17,7 +17,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link BoxUtils} class. */
 public class BoxUtilsTest extends BoxTestsBase {
