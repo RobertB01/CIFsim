@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.tests;
 
 import org.eclipse.escet.tooldef.interpreter.ToolDefBasedPluginUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** CIF integration and regression tests. */
 public class CifTest extends ToolDefBasedPluginUnitTest {
