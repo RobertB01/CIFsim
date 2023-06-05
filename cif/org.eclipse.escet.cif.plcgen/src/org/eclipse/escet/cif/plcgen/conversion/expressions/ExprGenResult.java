@@ -72,8 +72,10 @@ import org.eclipse.escet.common.java.Assert;
  * any more, they should be released by calling {@link #releaseValueVariables}.</li>
  * </ol>
  * </p>
+ *
+ * @param <E> Type of the {@link #value}.
  */
-public class ExprGenResult {
+public abstract class ExprGenResult<E extends PlcExpression> {
     /** The expression generator managing the temporary variables that have been added here. */
     private final ExprGenerator generator;
 
@@ -97,13 +99,8 @@ public class ExprGenResult {
     /**
      * Expression to evaluate after running the {@link #code} if it exists. The {@link #valueVariables} should be
      * released for reuse afterwards.
-     *
-     * <p>
-     * While the value can be set directly, it is generally recommended to use the {@link #setValue} daisy-chain method
-     * to construct an {@link ExprGenResult} instance.
-     * </p>
      */
-    public PlcExpression value = null;
+    public E value = null;
 
     @Override
     public String toString() {
@@ -144,12 +141,21 @@ public class ExprGenResult {
      * @param parentResults Results of child sub-expressions. Their code, code variables and value variables are copied
      *     into this result in the specified order.
      */
-    public ExprGenResult(ExprGenerator generator, ExprGenResult... parentResults) {
+    protected ExprGenResult(ExprGenerator generator, List<ExprGenResult<?>> parentResults) {
         this.generator = generator;
 
-        for (ExprGenResult parentResult: parentResults) {
+        for (ExprGenResult<?> parentResult: parentResults) {
             mergeCodeAndVariables(parentResult);
         }
+    }
+
+    /**
+     * Constructor of the {@link ExprGenResult} class.
+     *
+     * @param generator Expression generator managing the temporary variables.
+     */
+    protected ExprGenResult(ExprGenerator generator) {
+        this.generator = generator;
     }
 
     /**
@@ -157,7 +163,7 @@ public class ExprGenResult {
      *
      * @param parentResult Source of the code variables, code, and value variables to copy.
      */
-    public void mergeCodeAndVariables(ExprGenResult parentResult) {
+    public void mergeCodeAndVariables(ExprGenResult<?> parentResult) {
         mergeCodeVariables(parentResult);
         mergeCode(parentResult);
         mergeValueVariables(parentResult);
@@ -168,7 +174,7 @@ public class ExprGenResult {
      *
      * @param parentResult Source of the code variables to copy.
      */
-    public void mergeCodeVariables(ExprGenResult parentResult) {
+    public void mergeCodeVariables(ExprGenResult<?> parentResult) {
         codeVariables.addAll(parentResult.codeVariables);
     }
 
@@ -177,7 +183,7 @@ public class ExprGenResult {
      *
      * @param parentResult Source of the code to copy.
      */
-    public void mergeCode(ExprGenResult parentResult) {
+    public void mergeCode(ExprGenResult<?> parentResult) {
         code.addAll(PlcStatement.copy(parentResult.code));
     }
 
@@ -186,7 +192,7 @@ public class ExprGenResult {
      *
      * @param parentResult Source of the value variables to copy.
      */
-    public void mergeValueVariables(ExprGenResult parentResult) {
+    public void mergeValueVariables(ExprGenResult<?> parentResult) {
         valueVariables.addAll(parentResult.valueVariables);
     }
 
@@ -234,16 +240,5 @@ public class ExprGenResult {
     public void releaseValueVariables() {
         generator.releaseTempVariables(valueVariables);
         valueVariables.clear();
-    }
-
-    /**
-     * Set the result value.
-     *
-     * @param plcExpr Expression to give to the result.
-     * @return This result instance for daisy-chaining.
-     */
-    public ExprGenResult setValue(PlcExpression plcExpr) {
-        value = plcExpr;
-        return this;
     }
 }

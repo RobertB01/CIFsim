@@ -304,8 +304,7 @@ public class CifProcessor {
         new AddDefaultInitialValues().transform(spec);
 
         // Replace locations in expressions by explicit variables.
-        new ElimLocRefExprs(
-                a -> "", // Candidate name for location pointer variables.
+        new ElimLocRefExprs(a -> "", // Candidate name for location pointer variables.
                 a -> "location", // Candidate name for location pointer enumeration.
                 loc -> loc.getName(), // Candidate name for location pointer literals.
                 false, // Do not rename locations to ensure unique names.
