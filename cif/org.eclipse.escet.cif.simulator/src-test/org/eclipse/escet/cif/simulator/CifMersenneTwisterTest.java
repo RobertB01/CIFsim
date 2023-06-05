@@ -13,12 +13,12 @@
 
 package org.eclipse.escet.cif.simulator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.math3.random.MersenneTwister;
 import org.eclipse.escet.cif.simulator.runtime.distributions.CifMersenneTwister;
 import org.eclipse.escet.cif.simulator.runtime.distributions.CifRandomGenerator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link CifMersenneTwister} class. */
 public class CifMersenneTwisterTest {
