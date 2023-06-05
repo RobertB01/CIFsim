@@ -53,7 +53,8 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newUnaryExpression;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.Map;
@@ -109,8 +110,8 @@ import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the expression generator. */
 @SuppressWarnings("javadoc")
@@ -155,7 +156,7 @@ public class ExprGeneratorTest {
         return newDiscVariableExpression(null, newRealType(), discVar);
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         target = new TestPlcTarget();
         CifDataProvider cifDataProvider = new TestCifDataProvider();
@@ -473,14 +474,14 @@ public class ExprGeneratorTest {
         assertEquals(expectedText, realText);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testStringExpressionConversion() {
-        runTest(newStringExpression(null, null, "abc"));
+        assertThrows(RuntimeException.class, () -> runTest(newStringExpression(null, null, "abc")));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testTimeExpressionConversion() {
-        runTest(newTimeExpression(null, null));
+        assertThrows(RuntimeException.class, () -> runTest(newTimeExpression(null, null)));
     }
 
     @Test
@@ -608,9 +609,11 @@ public class ExprGeneratorTest {
         assertEquals(expectedText, realText);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testBinaryElementOfConversion() {
-        runTest(newBinaryExpression(null, BinaryOperator.ELEMENT_OF, null, null, null));
+        assertThrows(RuntimeException.class, () -> {
+            runTest(newBinaryExpression(null, BinaryOperator.ELEMENT_OF, null, null, null));
+        });
     }
 
     @Test
@@ -730,9 +733,9 @@ public class ExprGeneratorTest {
         assertEquals(expectedText, realText);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testSliceExpressionConversion() {
-        runTest(newSliceExpression());
+        assertThrows(RuntimeException.class, () -> runTest(newSliceExpression()));
     }
 
     @Test
@@ -838,9 +841,9 @@ public class ExprGeneratorTest {
         assertEquals(expectedText, realText);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testDictExpressionConversion() {
-        runTest(newDictExpression());
+        assertThrows(RuntimeException.class, () -> runTest(newDictExpression()));
     }
 
     @Test
@@ -888,9 +891,9 @@ public class ExprGeneratorTest {
         assertEquals(expectedText, realText);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testFunctionExpressionConversion() {
-        runTest(newFunctionExpression());
+        assertThrows(RuntimeException.class, () -> runTest(newFunctionExpression()));
     }
 
     @Test
