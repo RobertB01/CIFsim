@@ -16,7 +16,6 @@ package org.eclipse.escet.common.dsm.sequencing;
 import static org.eclipse.escet.common.java.Strings.trimLeft;
 import static org.eclipse.escet.common.java.Strings.trimRight;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,29 +36,23 @@ public class Sequencer {
     /**
      * Load a file containing {@code (<name1>, <name2>)} directed edges of a graph.
      *
-     * @param fname Name of the file to load.
+     * @param fpath The file path to load.
      */
-    public void loadVertexPairs(Path fname) {
+    public void loadVertexPairs(Path fpath) {
         GraphCreator creator = g.getGraphCreator();
         creator.setupCreation();
 
-        try (BufferedReader reader = Files.newBufferedReader(fname)) {
-            while (true) {
-                String line = reader.readLine();
-                if (line == null) {
-                    break;
-                }
-
-                addVertexPairs(creator, line);
-            }
+        try {
+            Files.lines(fpath).forEachOrdered(line -> { addVertexPairs(creator, line); });
         } catch (IOException ex) {
-            throw new RuntimeException("Could not read file \"" + fname + "\".", ex);
+            throw new RuntimeException("Could not read file \"" + fpath + "\".", ex);
         }
-        creator.finishCreastion();
+
+        creator.finishCreation();
     }
 
     /**
-     * Create a graph from a line {@code (<name1>, <name2>)} directed edges.
+     * Create a graph from a line with a sequence of directed edges, each of the form {@code (<name1>, <name2>)}.
      *
      * @param pairs Line of text with the edge pairs.
      */
@@ -67,11 +60,12 @@ public class Sequencer {
         GraphCreator creator = g.getGraphCreator();
         creator.setupCreation();
         addVertexPairs(creator, pairs);
-        creator.finishCreastion();
+        creator.finishCreation();
     }
 
     /**
-     * Parse a line of text containing {@code (<name1>, <name2>)} directed edges and add them to the graph.
+     * Parse a line of text with a sequence of directed edges, each of the form {@code (<name1>, <name2>)}, and add the
+     * edges to the graph.
      *
      * @param creator Storage for the found edges.
      * @param line Line of text to parse.

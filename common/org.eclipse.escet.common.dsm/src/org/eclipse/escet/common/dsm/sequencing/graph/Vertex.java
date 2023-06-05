@@ -15,7 +15,7 @@ package org.eclipse.escet.common.dsm.sequencing.graph;
 
 import java.util.List;
 
-/** Vertex in the graph. */
+/** Vertex in a graph. */
 public class Vertex {
     /** Index number of the vertex in {@link Graph#vertices}. */
     public final int number;

@@ -38,5 +38,5 @@ public interface GraphCreator {
     void addVertex(String vertexName);
 
     /** Finish and cleanup creating the graph, must be the last method called in the interface. */
-    void finishCreastion();
+    void finishCreation();
 }

@@ -23,7 +23,7 @@ import java.util.Map;
  * Graph with vertices and edges.
  *
  * <p>
- * Vertices are numbered and stored in a list indexed omn that number for an easy and fast mapping between numbers and
+ * Vertices are numbered and stored in a list indexed on that number for an easy and fast mapping between numbers and
  * vertices. They have a list of input and output edges. Note that output of a vertex is input for the next vertex so
  * edge information is essentially duplicated for easier reasoning.
  * </p>
@@ -38,10 +38,10 @@ public class Graph implements GraphCreator {
     /** Vertices of the graph. */
     public final List<Vertex> vertices = list();
 
-    /** Map for referring to vertices by name. Exists only while the graph is created. */
+    /** Map for referring to vertices by name. Exists only while the graph is being created. */
     private Map<String, Integer> vertexNames;
 
-    /** Created edges by source and target vertex numbers. Exists only while the graph is created. */
+    /** Created edges by source and target vertex numbers. Exists only while the graph is being created. */
     private Map<Integer, Map<Integer, Edge>> edgeMap;
 
     /**
@@ -104,22 +104,9 @@ public class Graph implements GraphCreator {
         Vertex targetVertex = getVertexByName(targetVertexName);
 
         // Find or create the edge.
-        Edge edge;
-        Map<Integer, Edge> targetMap = edgeMap.get(sourceVertex.number);
-        if (targetMap != null) {
-            edge = targetMap.get(targetVertex.number);
-            if (edge != null) {
-                return; // Edge already exists, done!
-            }
-            // Edge does not exist, create it below.
-        } else {
-            // Target map does not exist, create it.
-            // Then create the edge below.
-            targetMap = map();
-            edgeMap.put(sourceVertex.number, targetMap);
-        }
-        edge = new Edge(sourceVertex.number, targetVertex.number);
-        targetMap.put(targetVertex.number, edge);
+        Map<Integer, Edge> targetMap = edgeMap.computeIfAbsent(sourceVertex.number, srcVertex -> map());
+        Edge edge = targetMap.computeIfAbsent(targetVertex.number,
+                destVertex -> new Edge(sourceVertex.number, targetVertex.number));
 
         // Hook the new edge into the graph.
         sourceVertex.outputs.add(edge);
@@ -151,7 +138,7 @@ public class Graph implements GraphCreator {
     }
 
     @Override
-    public void finishCreastion() {
+    public void finishCreation() {
         vertexNames = null;
         edgeMap = null;
     }
