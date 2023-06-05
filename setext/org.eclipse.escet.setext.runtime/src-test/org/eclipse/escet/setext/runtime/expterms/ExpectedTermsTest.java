@@ -13,10 +13,10 @@
 
 package org.eclipse.escet.setext.runtime.expterms;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.setext.runtime.exceptions.ParseException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Expected terminals on parse error tests. */
 @SuppressWarnings("javadoc")

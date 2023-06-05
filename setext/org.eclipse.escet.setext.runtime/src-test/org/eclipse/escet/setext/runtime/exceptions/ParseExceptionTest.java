@@ -13,10 +13,10 @@
 
 package org.eclipse.escet.setext.runtime.exceptions;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.common.java.TextPosition;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link ParseException} class. */
 @SuppressWarnings("javadoc")
