@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.slice;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +38,7 @@ import org.eclipse.escet.setext.parser.ast.parser.ParserRulePart;
 import org.eclipse.escet.setext.parser.ast.parser.StartSymbol;
 import org.eclipse.escet.setext.parser.ast.regex.RegExChar;
 import org.eclipse.escet.setext.parser.ast.scanner.Terminal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests based on the test grammar (definition 4.49) taken from Example 4.48 of the book "Compilers: Principles,
