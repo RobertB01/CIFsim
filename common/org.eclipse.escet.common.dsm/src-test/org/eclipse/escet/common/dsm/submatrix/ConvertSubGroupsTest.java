@@ -17,14 +17,14 @@ import static org.eclipse.escet.common.dsm.submatrix.SubMatrixFunctions.computeA
 import static org.eclipse.escet.common.dsm.submatrix.SubMatrixFunctions.convertSubGroups;
 import static org.eclipse.escet.common.java.BitSets.makeBitset;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.dsm.Group.GroupType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the {@link SubMatrixFunctions#convertSubGroups} and {@link SubMatrixFunctions#computeAvailNodes} functions.
