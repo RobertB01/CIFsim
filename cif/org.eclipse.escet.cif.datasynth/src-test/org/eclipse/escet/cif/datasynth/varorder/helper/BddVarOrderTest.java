@@ -14,12 +14,12 @@
 package org.eclipse.escet.cif.datasynth.varorder.helper;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDFactory;
