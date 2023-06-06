@@ -13,7 +13,9 @@
 
 package org.eclipse.escet.common.dsm.sequencing;
 
+import static org.eclipse.escet.common.java.BitSets.copy;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
@@ -23,6 +25,7 @@ import static org.eclipse.escet.common.java.Strings.trimRight;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
@@ -32,10 +35,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.escet.common.dsm.sequencing.elements.CollectionElement;
+import org.eclipse.escet.common.dsm.sequencing.elements.Element;
+import org.eclipse.escet.common.dsm.sequencing.elements.SingularElement;
 import org.eclipse.escet.common.dsm.sequencing.graph.Cycle;
 import org.eclipse.escet.common.dsm.sequencing.graph.Edge;
 import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
 import org.eclipse.escet.common.dsm.sequencing.graph.GraphCreator;
+import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
 
@@ -105,9 +112,9 @@ public class Sequencer {
      * Perform Sequencing ofthe provided graph.
      *
      * @param g Graph to sequence.
-     * TODO Return a result.
+     * @return The vertices in sequenced order.
      */
-    public static void sequenceGraph(Graph g) {
+    public static List<Vertex> sequenceGraph(Graph g) {
         // Find simple cycles (cycles that don't cross themselves).
         GraphCycleFinder cycleFinder = new GraphCycleFinder();
         Set<Cycle> foundCycles = cycleFinder.findSimpleCycles(g);
@@ -115,10 +122,67 @@ public class Sequencer {
         // Group the found cycles in collections of related cycles (cycles that share at least one vertex).
         List<List<Cycle>> cycleCollections = makeCycleCollections(foundCycles);
 
-        // Break cycles of each collection with a tearing edges heuristic.
+        // Break cycles of each collection with a tearing edges heuristic, and store the collections in collection
+        // elements as the first step in sequencing the graph.
+        List<Element> elements = list(); // Storage for the created collection elements.
+        BitSet storedVertices = new BitSet(); // Vertices of all stored elements.
         for (List<Cycle> collection: cycleCollections) {
+            // Break all cycles in the collection.
             tearCycles(collection);
+
+            // To prepare for topological sorting, convert collections to collection elements, and store them.
+            CollectionElement collectionElement = makeCollectionElement(collection, g.vertices);
+            collectionElement.setVertexIndices(storedVertices);
+            elements.add(collectionElement);
         }
+
+        // The second step in sequencing the graph is to walk over the vertices of the graph, and create a singular
+        // element for each of the remaining vertices. Since these vertices are not involved in a cycle, they don't have
+        // cyclic dependencies.
+        int vertexIndex = 0;
+        List<Vertex> graphVertices = g.vertices;
+        for (Vertex vertex: graphVertices) {
+            if (!storedVertices.get(vertexIndex)) { // Vertex is not stored as element yet.
+                storedVertices.set(vertexIndex);
+                BitSet inputs = new BitSet(graphVertices.size());
+                for (Edge e: vertex.inputs) {
+                    inputs.set(e.producingVertex);
+                }
+                BitSet outputs = new BitSet(graphVertices.size());
+                for (Edge e: vertex.outputs) {
+                    outputs.set(e.consumingVertex);
+                }
+                SingularElement element = new SingularElement(vertex, inputs, outputs);
+                elements.add(element);
+            }
+            vertexIndex++;
+        }
+
+        // Sequence the entire graph.
+        //
+        // There are no cycles here, since all their vertices are hidden inside the collection elements. The vertices
+        // inside each collection element have already been ordered internally and can be copied as-is into the final
+        // vertices list.
+
+        // Do a sanity check.
+        int numVertices = 0;
+        BitSet vertices = new BitSet();
+        for (Element elem: elements) {
+            elem.setVertexIndices(vertices);
+            numVertices += elem.getVertexCount();
+        }
+        Assert.check(numVertices == g.vertices.size()); // Check all graph vertices have been added.
+        Assert.check(numVertices == vertices.cardinality());
+
+        // Order the elements.
+        Element[] orderedElements = orderElements((Element[])elements.toArray(), vertices);
+
+        // Expand the ordered elements to their vertices.
+        List<Vertex> result = listc(numVertices);
+        for (Element elem: orderedElements) {
+            elem.appendVertices(result);
+        }
+        return result;
     }
 
     /**
@@ -296,5 +360,149 @@ public class Sequencer {
             bestEdge.teared = true;
             tearedCycles.or(edgeCycles);
         }
+    }
+
+    /**
+     * Construct a collection element from the collection of cycles.
+     *
+     * @param collection Collection to convert.
+     * @param graphVertices Vertices of the graph.
+     * @return The constructed collection element.
+     */
+    private static CollectionElement makeCollectionElement(List<Cycle> collection, List<Vertex> graphVertices) {
+        // The created collection element has external input and output dependencies only (the vertices in the
+        // collection are not dependencies). Each vertex inside is also converted to an element. Those elements have
+        // non-teared input and output dependencies between the internal elements only.
+        //
+        // In this way, the collection element can be ordered with respect to the entire graph, while the internal
+        // vertices can be ordered within the collection.
+
+        // Get the vertex indices of all vertices in the cycle.
+        BitSet containedVertices = new BitSet();
+        for (Cycle cycle: collection) {
+            containedVertices.or(cycle.vertices);
+        }
+
+        BitSet collectionInputs = new BitSet(); // Inputs of the collection element.
+        BitSet collectionOutputs = new BitSet(); // Outputs of the collection element.
+
+        // For each vertex in the collection, add its external dependencies to collection inputs and outputs. Also build
+        // non-teared inputs and outputs of each internal vertex element over the internal elements only, so the
+        // contained elements can be ordered.
+        SingularElement[] containedElements = new SingularElement[containedVertices.cardinality()];
+        int nextFreeContained = 0;
+
+        for (int vertexIndex: new BitSetIterator(containedVertices)) {
+            Vertex vertex = graphVertices.get(vertexIndex);
+
+            // Process input dependencies of the vertex.
+            BitSet nonTearedinputs = new BitSet();
+            for (Edge e: vertex.inputs) {
+                collectionInputs.set(e.producingVertex);
+                nonTearedinputs.set(e.producingVertex, !e.teared);
+            }
+
+            // Process output dependencies of the vertex.
+            BitSet nonTearedoutputs = new BitSet();
+            for (Edge e: vertex.outputs) {
+                collectionOutputs.set(e.consumingVertex);
+                nonTearedoutputs.set(e.consumingVertex, !e.teared);
+            }
+
+            // Restrict the inputs and outputs of the internal element, and store it.
+            nonTearedinputs.and(containedVertices);
+            nonTearedoutputs.and(containedVertices);
+            containedElements[nextFreeContained] = new SingularElement(vertex, nonTearedinputs, nonTearedoutputs);
+            nextFreeContained++;
+        }
+        // Order internal elements.
+        containedElements = orderElements(containedElements, containedVertices);
+
+        // Exclude the contained vertices from the input and output of the collection element, and construct the
+        // collection element with the ordered internal elements..
+        collectionInputs.andNot(containedVertices);
+        collectionOutputs.andNot(containedVertices);
+        return new CollectionElement(Arrays.asList(containedElements), collectionInputs, collectionOutputs);
+    }
+
+    /**
+     * Order elements such that the vertices of an element only depend on vertices of an earlier element in the result.
+     * Note that this function assumes existence of such an order.
+     *
+     * @param <E> Element class.
+     * @param elements Elements to order. Array is destroyed during the call.
+     * @param vertices The vertices contained by the given elements.
+     * @return The elements in dependency order.
+     */
+    private static <E extends Element> E[] orderElements(E[] elements, BitSet vertices) {
+        @SuppressWarnings("unchecked")
+        E[] destination = (E[])new Object[elements.length];
+
+        int firstEmpty = 0; // Lowest entry in 'destination' that has not been assigned.
+        int lastEmpty = destination.length - 1; // Highest entry in 'destination' that has not been assigned.
+        BitSet predecessors = copy(vertices); // Vertex numbers *not* added before 'firstEmpty'.
+        BitSet successors = copy(vertices); // Vertex numbers *not* added after 'lastEmpty'.
+
+        // Elements are moved from 'elements' to 'destination'.
+        //
+        // The 'destination' is split into 3 parts. A prefix part near the start of the array up-to and excluding the
+        // 'firstEmpty' index. Similarly, there is a suffix part near the end of the array just after 'lastEmpty' up-to
+        // the end of the array. In between the perfix and suffix parts is empty space that becomes used when the prefix
+        // or the suffix part grows.
+        //
+        // The input 'elements' array contains unordered elements that must be moved to the destination.
+        //
+        // An element can be appended to the destination prefix part if all input vertices of that element have been
+        // moved to the prefix. Similarly, an element can be prepended to the destination suffix part if all output
+        // vertices of that element have been moved to the suffix. If both moves can be performed one of them is
+        // arbitrarily chosen.
+        // After a move, the gap in 'elements' is filled by moving last element in it into that gap.
+        //
+        // The function assumes there are no cycles in the vertex dependencies, thus each iteration one or more elements
+        // move until all elements are in 'destination'.
+        int lastElement = elements.length - 1; // Last used index in 'elements'.
+        while (lastElement >= 0) {
+            boolean progress = false;
+
+            // Find and move one or more elements to the destination.
+            int elmIdx = 0;
+            while (elmIdx <= lastElement) {
+                // Loop terminates because each case below either decreases 'lastElement' or increases 'elmIdx'.
+                if (!elements[elmIdx].hasInputDeps(predecessors)) {
+                    // All available elements containing vertices needed by this element have already been moved to the
+                    // front of 'destination'. Append this element.
+                    destination[firstEmpty] = elements[elmIdx];
+                    firstEmpty++;
+                    elements[elmIdx].clearVertexIndices(predecessors);
+                    progress = true;
+
+                    // Eliminate the gap at 'elmIdx' by moving the last element into it.
+                    if (elmIdx != lastElement) {
+                        elements[elmIdx] = elements[lastElement];
+                    }
+                    elements[lastElement] = null;
+                    lastElement--;
+                } else if (!elements[elmIdx].hasOutputDeps(successors)) {
+                    // All available elements containing vertices that need this element have already been moved to the
+                    // end of 'destination'. Prepend this element.
+                    destination[lastEmpty] = elements[elmIdx];
+                    lastEmpty--;
+                    elements[elmIdx].clearVertexIndices(successors);
+                    progress = true;
+
+                    // Eliminate the gap at 'elmIdx' by moving the last element into it.
+                    if (elmIdx != lastElement) {
+                        elements[elmIdx] = elements[lastElement];
+                    }
+                    elements[lastElement] = null;
+                    lastElement--;
+                } else {
+                    elmIdx++; // Element cannot be moved, keep it for the next iteration.
+                }
+            }
+            Assert.check(progress); // Something must be copied each iteration.
+        }
+        Assert.check(lastEmpty + 1 == firstEmpty); // Nothing should remain in the 'elements'.
+        return destination;
     }
 }
