@@ -43,7 +43,7 @@ public class Edge {
             return true;
         }
 
-        // As a particular edge should exist exactly once, an equal edge should not happen.
+        // As a particular edge should exist exactly once, a different instance implies a different edge.
         if (other instanceof Edge edge) {
             Assert.check(producingVertex != edge.producingVertex || consumingVertex != edge.consumingVertex);
         }
