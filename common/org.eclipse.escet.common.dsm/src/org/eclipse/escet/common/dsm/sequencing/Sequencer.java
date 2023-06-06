@@ -27,18 +27,22 @@ import org.eclipse.escet.common.dsm.sequencing.graph.GraphCreator;
 
 /** Class for sequencing a graph or DSM. */
 public class Sequencer {
+    /** Constructor of the {@link Sequencer} class. */
+    private Sequencer() {
+        // Static class.
+    }
+
     /** Pattern for matching a {@code (vertex-name, vertex-name)} pair. */
     private static final Pattern PAIR_PATTERN = Pattern.compile("[(]([^,)]+),([^)]+)[)]");
-
-    /** Graph being sequenced. */
-    public final Graph g = new Graph();
 
     /**
      * Load a file containing {@code (<name1>, <name2>)} directed edges of a graph.
      *
      * @param fpath The file path to load.
+     * @return The loaded graph.
      */
-    public void loadVertexPairs(Path fpath) {
+    public static Graph loadVertexPairs(Path fpath) {
+        Graph g = new Graph();
         GraphCreator creator = g.getGraphCreator();
         creator.setupCreation();
 
@@ -49,18 +53,22 @@ public class Sequencer {
         }
 
         creator.finishCreation();
+        return g;
     }
 
     /**
      * Create a graph from a line with a sequence of directed edges, each of the form {@code (<name1>, <name2>)}.
      *
      * @param pairs Line of text with the edge pairs.
+     * @return The loaded graph.
      */
-    public void loadVertexPairs(String pairs) {
+    public static Graph loadVertexPairs(String pairs) {
+        Graph g = new Graph();
         GraphCreator creator = g.getGraphCreator();
         creator.setupCreation();
         addVertexPairs(creator, pairs);
         creator.finishCreation();
+        return g;
     }
 
     /**
@@ -70,7 +78,7 @@ public class Sequencer {
      * @param creator Storage for the found edges.
      * @param line Line of text to parse.
      */
-    private void addVertexPairs(GraphCreator creator, String line) {
+    private static void addVertexPairs(GraphCreator creator, String line) {
         Matcher m = PAIR_PATTERN.matcher(line);
         while (m.find()) {
             String sourceName = trimLeft(trimRight(m.group(1)));
