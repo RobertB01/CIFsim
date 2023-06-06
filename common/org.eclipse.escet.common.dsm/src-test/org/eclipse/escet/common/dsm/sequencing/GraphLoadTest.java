@@ -25,18 +25,14 @@ public class GraphLoadTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testEmptyGraphLoad() {
-        Sequencer sequencer = new Sequencer();
-        sequencer.loadVertexPairs("");
-        assertEquals("Graph with 0 vertices.\n", sequencer.g.dumpGraph());
+        Graph g = Sequencer.loadVertexPairs("");
+        assertEquals("Graph with 0 vertices.\n", g.dumpGraph());
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testStringGraphLoad() {
-        Sequencer sequencer = new Sequencer();
-        Graph g = sequencer.g;
-
-        sequencer.loadVertexPairs("(0, 5) (0, 9), (5, 9)\n");
+        Graph g = Sequencer.loadVertexPairs("(0, 5) (0, 9), (5, 9)\n");
 
         // Dirty way to tear the 0 -> 9 edge.
         Assert.check(g.vertices.get(0).name.equals("0"));
