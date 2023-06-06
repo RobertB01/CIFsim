@@ -86,7 +86,7 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
             if (visitedVertices.contains(vertex)) {
                 continue;
             }
-            expandVertexPath(vertex);
+            expandVertexPath(graph, vertex);
 
             if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
                 return null;
@@ -104,9 +104,10 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
     /**
      * Expand the vertex path being searched by the given vertex.
      *
+     * @param graph Graph being searched.
      * @param vertex Next vertex to search.
      */
-    private void expandVertexPath(V vertex) {
+    private void expandVertexPath(G graph, V vertex) {
         if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
             return;
         }
@@ -118,7 +119,7 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
         stack.add(null); // Is replaced with proper edges below.
 
         // Explore the edges from the new vertex for further expansion.
-        for (E edge: getOutgoingEdges(vertex)) {
+        for (E edge: getOutgoingEdges(graph, vertex)) {
             V edgeTargetVertex = edge.destinationVertex;
             Integer cycleStartIndex = stackIndex.get(edgeTargetVertex);
 
@@ -126,11 +127,11 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
                 // New vertex in this search, explore it. Note that this ignores the visitedVertices set, so
                 // multiple graph traversals over the same vertex in different searches are possible.
                 stack.set(vertexStackPos, edge);
-                expandVertexPath(edgeTargetVertex);
+                expandVertexPath(graph, edgeTargetVertex);
             } else {
                 // A simple cycle was detected, add it to the collection.
                 stack.set(vertexStackPos, edge);
-                addCycle(stack.subList(cycleStartIndex, vertexStackPos + 1), foundCycles);
+                addCycle(graph, stack.subList(cycleStartIndex, vertexStackPos + 1), foundCycles);
             }
 
             if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
@@ -146,7 +147,7 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
     /**
      * Get all the vertices of the graph.
      *
-     * @param graph Graph to use.
+     * @param graph Graph to examine.
      * @return All the vertices of the graph.
      */
     protected abstract List<V> getVertices(G graph);
@@ -154,19 +155,21 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
     /**
      * Obtain the edges that leave from the provided vertex in the graph.
      *
+     * @param graph Graph to examine.
      * @param vertex Starting vertex of all returned edges.
      * @return The returned edges.
      */
-    protected abstract List<E> getOutgoingEdges(V vertex);
+    protected abstract List<E> getOutgoingEdges(G graph, V vertex);
 
     /**
      * Add a cycle to the collection of found cycles.
      *
+     * @param graph Graph to examine.
      * @param edges Edges that form a new cycle. The supplied list is not stable, it must be copied to preserve the
      *     result.
      * @param foundCycles Previously found cycles.
      */
-    protected abstract void addCycle(List<E> edges, Set<C> foundCycles);
+    protected abstract void addCycle(G graph, List<E> edges, Set<C> foundCycles);
 
     /**
      * An edge in the graph.
