@@ -887,7 +887,7 @@ public class ExprGeneratorTest {
 
     @Test
     public void testDiscVariableValueConversion() {
-        // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}.
+        // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}).
         String realText = runValueTest(newDiscVariableExpression(null, newRealType(), discVar));
         String expectedText = "==> state.flatDisc";
         assertEquals(expectedText, realText);
@@ -895,7 +895,7 @@ public class ExprGeneratorTest {
 
     @Test
     public void testDiscVariableAddressableConversion() {
-        // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}.
+        // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}).
         String realText = runAddressableTest(newDiscVariableExpression(null, newRealType(), discVar));
         String expectedText = "==> newState.flatDisc";
         assertEquals(expectedText, realText);

@@ -57,7 +57,7 @@ public abstract class CifDataProvider {
      * Return the PLC expression to read the value or the derivative of the provided continuous variable.
      *
      * @param variable Variable to read.
-     * @param getDerivative Whether read to the derivative value is requested, otherwise access to the value of the
+     * @param getDerivative Whether read to the derivative value is requested, otherwise read to the value of the
      *     variable itself is requested.
      * @return The expression to read a value of the provided continuous variable.
      */
@@ -67,7 +67,7 @@ public abstract class CifDataProvider {
      * Return the PLC expression to write the value or the derivative of the provided continuous variable.
      *
      * @param variable Variable to write.
-     * @param getDerivative Whether write to the derivative value is requested, otherwise access to the value of the
+     * @param getDerivative Whether write to the derivative value is requested, otherwise write to the value of the
      *     variable itself is requested.
      * @return The expression to write a value of the provided continuous variable.
      */
