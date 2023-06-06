@@ -112,9 +112,11 @@ public class Sequencer {
      * Perform Sequencing ofthe provided graph.
      *
      * @param g Graph to sequence.
+     * @param collections If not {@code null}, the list is in-place extended with collections of vertex indices for each
+     *     strongly connected component in the graph.
      * @return The vertices in sequenced order.
      */
-    public static List<Vertex> sequenceGraph(Graph g) {
+    public static List<Vertex> sequenceGraph(Graph g, List<BitSet> collections) {
         // Find simple cycles (cycles that don't cross themselves).
         GraphCycleFinder cycleFinder = new GraphCycleFinder();
         Set<Cycle> foundCycles = cycleFinder.findSimpleCycles(g);
@@ -175,11 +177,19 @@ public class Sequencer {
         Assert.check(numVertices == vertices.cardinality());
 
         // Order the elements.
-        Element[] orderedElements = orderElements((Element[])elements.toArray(), vertices);
+        Element[] orderedElements = new Element[elements.size()];
+        orderElements(elements.toArray(new Element[0]), vertices, orderedElements);
 
         // Expand the ordered elements to their vertices.
         List<Vertex> result = listc(numVertices);
         for (Element elem: orderedElements) {
+            if (collections != null && elem instanceof CollectionElement ce) {
+                BitSet verticesSet = new BitSet();
+                collections.add(verticesSet);
+                for (SingularElement element: ce.containedElements) {
+                    verticesSet.set(element.vertex.number);
+                }
+            }
             elem.appendVertices(result);
         }
         return result;
@@ -416,27 +426,27 @@ public class Sequencer {
             nextFreeContained++;
         }
         // Order internal elements.
-        containedElements = orderElements(containedElements, containedVertices);
+        SingularElement[] orderedElements = new SingularElement[containedElements.length];
+        orderElements(containedElements, containedVertices, orderedElements);
 
         // Exclude the contained vertices from the input and output of the collection element, and construct the
         // collection element with the ordered internal elements..
         collectionInputs.andNot(containedVertices);
         collectionOutputs.andNot(containedVertices);
-        return new CollectionElement(Arrays.asList(containedElements), collectionInputs, collectionOutputs);
+        return new CollectionElement(Arrays.asList(orderedElements), collectionInputs, collectionOutputs);
     }
 
     /**
      * Order elements such that the vertices of an element only depend on vertices of an earlier element in the result.
      * Note that this function assumes existence of such an order.
      *
-     * @param <E> Element class.
+     * @param <E> Type of the elements.
      * @param elements Elements to order. Array is destroyed during the call.
      * @param vertices The vertices contained by the given elements.
-     * @return The elements in dependency order.
+     * @param destination Ordered output but you cannot create that in the function.
      */
-    private static <E extends Element> E[] orderElements(E[] elements, BitSet vertices) {
-        @SuppressWarnings("unchecked")
-        E[] destination = (E[])new Object[elements.length];
+    private static <E extends Element> void orderElements(E[] elements, BitSet vertices, E[] destination) {
+        Assert.check(elements.length == destination.length);
 
         int firstEmpty = 0; // Lowest entry in 'destination' that has not been assigned.
         int lastEmpty = destination.length - 1; // Highest entry in 'destination' that has not been assigned.
@@ -503,6 +513,5 @@ public class Sequencer {
             Assert.check(progress); // Something must be copied each iteration.
         }
         Assert.check(lastEmpty + 1 == firstEmpty); // Nothing should remain in the 'elements'.
-        return destination;
     }
 }
