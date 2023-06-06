@@ -430,7 +430,7 @@ public class ExprGeneratorTest {
      * @param result The result to convert.
      * @return The readable text representation of the result.
      */
-    private String resultToString(ExprGenResult<?> result) {
+    private String resultToString(ExprGenResult<?, ?> result) {
         boolean needsEmptyLine = false;
         StringBuilder sb = new StringBuilder();
         if (result.hasCodeVariables()) {

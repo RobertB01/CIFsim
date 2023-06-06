@@ -74,8 +74,9 @@ import org.eclipse.escet.common.java.Assert;
  * </p>
  *
  * @param <E> Type of the {@link #value}.
+ * @param <R> Type of the result.
  */
-public abstract class ExprGenResult<E extends PlcExpression> {
+public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenResult<E, R>> {
     /** The expression generator managing the temporary variables that have been added here. */
     private final ExprGenerator generator;
 
@@ -141,21 +142,12 @@ public abstract class ExprGenResult<E extends PlcExpression> {
      * @param parentResults Results of child sub-expressions. Their code, code variables and value variables are copied
      *     into this result in the specified order.
      */
-    protected ExprGenResult(ExprGenerator generator, List<ExprGenResult<?>> parentResults) {
+    protected ExprGenResult(ExprGenerator generator, ExprGenResult<?, ?>... parentResults) {
         this.generator = generator;
 
-        for (ExprGenResult<?> parentResult: parentResults) {
+        for (ExprGenResult<?, ?> parentResult: parentResults) {
             mergeCodeAndVariables(parentResult);
         }
-    }
-
-    /**
-     * Constructor of the {@link ExprGenResult} class.
-     *
-     * @param generator Expression generator managing the temporary variables.
-     */
-    protected ExprGenResult(ExprGenerator generator) {
-        this.generator = generator;
     }
 
     /**
@@ -163,7 +155,7 @@ public abstract class ExprGenResult<E extends PlcExpression> {
      *
      * @param parentResult Source of the code variables, code, and value variables to copy.
      */
-    public void mergeCodeAndVariables(ExprGenResult<?> parentResult) {
+    public void mergeCodeAndVariables(ExprGenResult<?, ?> parentResult) {
         mergeCodeVariables(parentResult);
         mergeCode(parentResult);
         mergeValueVariables(parentResult);
@@ -174,7 +166,7 @@ public abstract class ExprGenResult<E extends PlcExpression> {
      *
      * @param parentResult Source of the code variables to copy.
      */
-    public void mergeCodeVariables(ExprGenResult<?> parentResult) {
+    public void mergeCodeVariables(ExprGenResult<?, ?> parentResult) {
         codeVariables.addAll(parentResult.codeVariables);
     }
 
@@ -183,7 +175,7 @@ public abstract class ExprGenResult<E extends PlcExpression> {
      *
      * @param parentResult Source of the code to copy.
      */
-    public void mergeCode(ExprGenResult<?> parentResult) {
+    public void mergeCode(ExprGenResult<?, ?> parentResult) {
         code.addAll(PlcStatement.copy(parentResult.code));
     }
 
@@ -192,7 +184,7 @@ public abstract class ExprGenResult<E extends PlcExpression> {
      *
      * @param parentResult Source of the value variables to copy.
      */
-    public void mergeValueVariables(ExprGenResult<?> parentResult) {
+    public void mergeValueVariables(ExprGenResult<?, ?> parentResult) {
         valueVariables.addAll(parentResult.valueVariables);
     }
 
@@ -214,6 +206,18 @@ public abstract class ExprGenResult<E extends PlcExpression> {
     public boolean hasCodeVariables() {
         Assert.implies(code.isEmpty(), codeVariables.isEmpty());
         return !codeVariables.isEmpty();
+    }
+
+    /**
+     * Daisy-chain method to set the value of the result to the provided expression.
+     *
+     * @param plcExpr Value of the result to store.
+     * @return The called instance.
+     */
+    @SuppressWarnings("unchecked")
+    public R setValue(PlcExpression plcExpr) {
+        value = (E)plcExpr;
+        return (R)this;
     }
 
     /**

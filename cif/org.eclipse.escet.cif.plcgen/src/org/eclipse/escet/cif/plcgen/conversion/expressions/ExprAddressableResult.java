@@ -13,12 +13,10 @@
 
 package org.eclipse.escet.cif.plcgen.conversion.expressions;
 
-import java.util.List;
-
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 
 /** Storage of a write-only converted CIF expression. */
-public class ExprAddressableResult extends ExprGenResult<PlcVarExpression> {
+public class ExprAddressableResult extends ExprGenResult<PlcVarExpression, ExprAddressableResult> {
     /**
      * Constructor of the {@link ExprAddressableResult} class.
      *
@@ -26,27 +24,7 @@ public class ExprAddressableResult extends ExprGenResult<PlcVarExpression> {
      * @param parentResults Results of child sub-expressions. Their code, code variables and value variables are copied
      *     into this result in the specified order.
      */
-    public ExprAddressableResult(ExprGenerator generator, List<ExprGenResult<?>> parentResults) {
+    public ExprAddressableResult(ExprGenerator generator, ExprGenResult<?, ?>... parentResults) {
         super(generator, parentResults);
-    }
-
-    /**
-     * Constructor of the {@link ExprAddressableResult} class.
-     *
-     * @param generator Expression generator managing the temporary variables.
-     */
-    public ExprAddressableResult(ExprGenerator generator) {
-        super(generator);
-    }
-
-    /**
-     * Daisy-chain method to set the value of the result to the provided expression.
-     *
-     * @param plcExpr Value of the result to store.
-     * @return The called instance.
-     */
-    public ExprAddressableResult setValue(PlcVarExpression plcExpr) {
-        value = plcExpr;
-        return this;
     }
 }

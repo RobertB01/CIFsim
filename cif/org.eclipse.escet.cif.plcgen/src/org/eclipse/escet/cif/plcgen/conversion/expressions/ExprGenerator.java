@@ -375,7 +375,7 @@ public class ExprGenerator {
 
         ExprValueResult leftResult = convertValue(binExpr.getLeft());
         ExprValueResult rightResult = convertValue(binExpr.getRight());
-        ExprValueResult result = new ExprValueResult(this, List.of(leftResult, rightResult));
+        ExprValueResult result = new ExprValueResult(this, leftResult, rightResult);
         switch (binExpr.getOperator()) {
             case IMPLICATION:
                 // Right-value or not left-value.
@@ -541,12 +541,12 @@ public class ExprGenerator {
 
         // Convert each child expression, and collect the child results as preparation to their merge. Also collect the
         // child result expressions separately as they need to be applied to the N-ary function decided above.
-        List<ExprGenResult<?>> exprValueResults = listc(exprs.size());
+        ExprGenResult<?, ?>[] exprValueResults = new ExprGenResult<?, ?>[exprs.size()];
         PlcExpression[] values = new PlcExpression[exprs.size()];
         int i = 0;
         for (Expression expr: exprs) {
             ExprValueResult exprValueResult = convertValue(expr);
-            exprValueResults.add(exprValueResult);
+            exprValueResults[i] = exprValueResult;
             if (unifyTypes) {
                 values[i] = unifyTypeOfExpr(exprValueResult.value, normalizeType(expr.getType()), unifiedType);
             } else {
@@ -739,7 +739,7 @@ public class ExprGenerator {
 
             // Construct a new result, add the parent result, and append "projectVar := <root-value expression>;" to the
             // code to get the parent result in the new variable.
-            ExprValueResult convertResult = new ExprValueResult(this, List.of(exprResult));
+            ExprValueResult convertResult = new ExprValueResult(this, exprResult);
             PlcVarExpression varExpr = new PlcVarExpression(projectVar);
             convertResult.code.add(new PlcAssignmentStatement(varExpr, convertResult.value));
             convertResult.codeVariables.addAll(exprResult.valueVariables); // Parent value is now in code.
@@ -763,7 +763,7 @@ public class ExprGenerator {
      * @return The updated list PLC projections.
      */
     private List<PlcProjection> convertAddProjections(List<ProjectionExpression> cifProjections,
-            List<PlcProjection> plcProjections, ExprGenResult<?> convertResult)
+            List<PlcProjection> plcProjections, ExprGenResult<?, ?> convertResult)
     {
         for (int i = cifProjections.size() - 1; i >= 0; i--) {
             ProjectionExpression cifProjection = cifProjections.get(i);
@@ -898,7 +898,7 @@ public class ExprGenerator {
                 PlcExpression leftSide = unifyTypeOfExpr(argumentResults.get(0).value, ltype, rtype);
                 PlcExpression rightSide = unifyTypeOfExpr(argumentResults.get(1).value, rtype, ltype);
 
-                ExprValueResult result = new ExprValueResult(this, copy(argumentResults));
+                ExprValueResult result = new ExprValueResult(this, argumentResults.get(0), argumentResults.get(1));
                 if (stdlib == StdLibFunction.MAXIMUM) {
                     return result.setValue(funcAppls.maxFuncAppl(leftSide, rightSide));
                 } else {
@@ -956,7 +956,7 @@ public class ExprGenerator {
                     powCall = funcAppls.castFunctionAppl(powCall, target.getRealType(), target.getIntegerType());
                 }
 
-                ExprValueResult result = new ExprValueResult(this, copy(argumentResults));
+                ExprValueResult result = new ExprValueResult(this, argumentResults.get(0), argumentResults.get(1));
                 return result.setValue(powCall);
             }
 
