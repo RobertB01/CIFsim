@@ -100,6 +100,11 @@ public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenRe
     /**
      * Expression to evaluate after running the {@link #code} if it exists. The {@link #valueVariables} should be
      * released for reuse afterwards.
+     *
+     * <p>
+     * While the value can be set directly, it is generally recommended to use the {@link #setValue} daisy-chain method
+     * to construct an {@link ExprGenResult} instance.
+     * </p>
      */
     public E value = null;
 
@@ -215,8 +220,8 @@ public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenRe
      * @return The called instance.
      */
     @SuppressWarnings("unchecked")
-    public R setValue(PlcExpression plcExpr) {
-        value = (E)plcExpr;
+    public R setValue(E plcExpr) {
+        value = plcExpr;
         return (R)this;
     }
 
