@@ -23,15 +23,20 @@ import static org.eclipse.escet.common.java.Strings.trimRight;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.BitSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.escet.common.dsm.sequencing.graph.Cycle;
+import org.eclipse.escet.common.dsm.sequencing.graph.Edge;
 import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
 import org.eclipse.escet.common.dsm.sequencing.graph.GraphCreator;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
 
 /** Class for sequencing a graph or DSM. */
@@ -109,6 +114,11 @@ public class Sequencer {
 
         // Group the found cycles in collections of related cycles (cycles that share at least one vertex).
         List<List<Cycle>> cycleCollections = makeCycleCollections(foundCycles);
+
+        // Break cycles of each collection with a tearing edges heuristic.
+        for (List<Cycle> collection: cycleCollections) {
+            tearCycles(collection);
+        }
     }
 
     /**
@@ -209,5 +219,82 @@ public class Sequencer {
             }
         }
         return result;
+    }
+
+    /**
+     * Tear all cycles in the given collection by heuristically cutting a (hopefully small) number of edges.
+     *
+     * <p>
+     * Heuristic has been published in: A. Kusiak and J.Wang, "Efficient organizing of design activities", International
+     * Journal of Production Research, volume volume 31, issue 4, pages 753-769, 1993,
+     * doi:<a href="https://doi.org/10.1080/00207549308956755">10.1080/00207549308956755</a>.
+     * </p>
+     *
+     * <p>
+     * The paper has no pseudo-code. It explains the general idea, and then shows the decisions that are made in the
+     * sequencing process for a number of example graphs, with the tearing decisions (they name it "triangularization")
+     * at edge-selection detail level.
+     * </p>
+     *
+     * <p>
+     * This implementation swaps the tearing and topological sort steps, but these are independent steps and thus the
+     * swap does not affect the result.
+     * </p>
+     *
+     * <p>
+     * This code assumes that all cycles share their {@link Edge} instances. This allows toggling the
+     * {@link Edge#teared} flag for all cycles with that edge with a single assignment.
+     * </p>
+     *
+     * @param collection Collection of cycles to tear.
+     */
+    @SuppressWarnings("null")
+    static void tearCycles(List<Cycle> collection) {
+        Map<Edge, BitSet> edgeCounts = map(); // Edges with indices of cycles that have it.
+
+        // Store all edges in the map.
+        int cycleNum = 0;
+        for (Cycle cycle: collection) {
+            for (Edge edge: cycle.edges) {
+                Assert.check(!edge.teared); // Assumption: Edges are not teared already.
+                BitSet cyclesWithEdge = edgeCounts.computeIfAbsent(edge, e -> new BitSet(collection.size()));
+                cyclesWithEdge.set(cycleNum); // Add the cycle to the edge.
+            }
+            cycleNum++;
+        }
+
+        // Repeatedly find a good edge to cut.
+        BitSet tearedCycles = new BitSet(collection.size()); // Contains indices of cycles that have been teared.
+        while (tearedCycles.cardinality() < collection.size()) {
+            // Some cycles have not been teared yet.
+
+            // The heuristic is to tear an edge that is used by as many non-teared cycles as possible.
+            Edge bestEdge = null; // Best edge to tear.
+            BitSet edgeCycles = null; // Non-teared cycles that are affected if 'bestEdge' is teared.
+            int bestEdgeCount = -1; // Number of uses of 'bestEdge'.
+            Iterator<Entry<Edge, BitSet>> iter = edgeCounts.entrySet().iterator();
+            while (iter.hasNext()) {
+                Entry<Edge, BitSet> entry = iter.next();
+                BitSet cyclesWithEdge = entry.getValue();
+                cyclesWithEdge.andNot(tearedCycles); // Remove already teared cycles from the 'edgeCounts' entry.
+
+                int count = entry.getValue().cardinality();
+                if (count == 0) { // Cutting this edge is not going to tear any cycle, remove it completely.
+                    iter.remove();
+                    continue;
+                }
+                // Update the best result if appropriate.
+                if (count > bestEdgeCount) {
+                    bestEdgeCount = count;
+                    bestEdge = entry.getKey();
+                    edgeCycles = entry.getValue();
+                }
+            }
+            Assert.check(bestEdgeCount > 0);
+
+            // Tear the best edge, and update what cycles have been teared.
+            bestEdge.teared = true;
+            tearedCycles.or(edgeCycles);
+        }
     }
 }
