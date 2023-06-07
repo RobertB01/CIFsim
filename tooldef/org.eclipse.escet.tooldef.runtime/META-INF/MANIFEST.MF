@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.10.0",
  org.apache.commons.exec;bundle-version="1.1.0",
  org.apache.commons.io;bundle-version="2.6.0",
  io.github.java-diff-utils;bundle-version="4.8.0"
+Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.tooldef.runtime,
  org.eclipse.escet.tooldef.runtime.builtins
 Bundle-Vendor: Eclipse ESCET
