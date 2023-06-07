@@ -29,6 +29,7 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
@@ -574,22 +575,46 @@ public class ExprGenerator {
         result.setValue(new PlcVarExpression(resultVar));
 
         PlcSelectionStatement selStat = null;
-        selStat = addBranch(ifExpr.getGuards(), ifExpr.getThen(), resultVar, selStat, result.code);
+        selStat = addBranch(ifExpr.getGuards(), generateThenStatement(resultVar, ifExpr.getThen()), selStat,
+                result.code);
 
         for (ElifExpression elif: ifExpr.getElifs()) {
-            selStat = addBranch(elif.getGuards(), elif.getThen(), resultVar, selStat, result.code);
+            selStat = addBranch(elif.getGuards(), generateThenStatement(resultVar, elif.getThen()), selStat,
+                    result.code);
         }
-        addBranch(null, ifExpr.getElse(), resultVar, selStat, result.code);
+        addBranch(null, generateThenStatement(resultVar, ifExpr.getElse()), selStat, result.code);
         return result;
     }
 
     /**
-     * Append an {@link IfExpression} branch to the PLC code.
+     * Construct a callback function for generating code to assign the result value to the result variable.
+     *
+     * @param resultVar Result variable to assign.
+     * @param resultValue Result value to assign to the variable.
+     * @return Callback function that produces the code with the assignment.
+     */
+    private Supplier<List<PlcStatement>> generateThenStatement(PlcVariable resultVar, Expression resultValue) {
+        return new Supplier<>() {
+            @Override
+            public List<PlcStatement> get() {
+                List<PlcStatement> statements = list();
+                ExprValueResult retValueResult = convertValue(resultValue);
+                statements.addAll(retValueResult.code);
+                statements.add(new PlcAssignmentStatement(new PlcVarExpression(resultVar), retValueResult.value));
+                releaseTempVariables(retValueResult.codeVariables);
+                releaseTempVariables(retValueResult.valueVariables);
+                return statements;
+            }
+        };
+    }
+
+    /**
+     * Append an IF branch to a selection statement in the PLC code.
      *
      * <p>
-     * Conceptually this function appends a <pre>ELSE IF guards THEN resultVar := thenExpr</pre> branch to the selection
-     * statement in {@code selStat}. The {@code guards} variable also controls whether there is a condition at all to
-     * test and {@code selStat} controls whether the first branch is created.
+     * Conceptually this function appends a <pre>ELSE IF guards THEN ....</pre> branch to the selection statement in
+     * {@code selStat}. The {@code guards} variable also controls whether there is a condition at all to test and
+     * {@code selStat} controls whether the first branch is created.
      * </p>
      * <p>
      * The difficulty here is that the converted {@code guards} may have generated code attached which must be executed
@@ -601,29 +626,28 @@ public class ExprGenerator {
      * that code, a new selection statement must be started to evaluate the guards and possibly perform the assignment.
      * That is, it generates <pre> ELSE
      *     // Code to perform before evaluating the guards.
-     *     IF guard-expr THEN resultVar := thenExpr
+     *     IF guard-expr THEN ... // Statements for the new branch.
      *     ... // Possibly more branches will be added.
      *     END_IF
      * END_IF</pre> where the top {@code ELSE} and bottom {@code END_IF} are part of the supplied {@code selStat}.
      * </p>
      * <p>
-     * In addition, next branches must now be added to this new selection statement. The returned value thus changes to
-     * the new selection statement.
+     * In addition in that case, next branches must now be added to this new selection statement. The returned value
+     * thus changes to the new selection statement.
      * </p>
      *
-     * @param guards CIF expressions that must hold to select the branch. Is {@code null} for the 'else' branch.
-     * @param thenExpr Expression value to return if the guards hold.
-     * @param resultVar Variable to assign the 'thenExpr' value to.
-     * @param selStat Selection statement used the previous time, or {@code null} if no selection statement has been
+     * @param guards CIF expressions that must hold to select the branch. Is {@code null} for the final 'else' branch.
+     * @param genThenStats Code generator for the statements in the added branch.
+     * @param selStat Selection statement returned the previous time, or {@code null} if no selection statement has been
      *     created yet.
-     * @param rootCode Code block for storing the entire 'if' expression.
+     * @param rootCode Code block for storing the entire generated PLC IF statement.
      * @return The last used selection statement after adding the branch.
      */
-    private PlcSelectionStatement addBranch(List<Expression> guards, Expression thenExpr, PlcVariable resultVar,
+    public PlcSelectionStatement addBranch(List<Expression> guards, Supplier<List<PlcStatement>> genThenStats,
             PlcSelectionStatement selStat, List<PlcStatement> rootCode)
     {
-        // Place to store generated guard condition code. If no guards are present (that is, it's the 'else' of the
-        // 'if' expression), the final assignment of the return value is put there.
+        // Place to store generated guard condition code. If no guards are present (that is, it's the final 'else'
+        // branch. The 'then' statements are put there in this case.
         List<PlcStatement> codeStorage = (selStat != null) ? selStat.elseStats : rootCode;
 
         if (guards != null) {
@@ -671,12 +695,9 @@ public class ExprGenerator {
         // else there is no guard and 'codeStorage' already points at the right spot for writing the final 'else' code +
         // value.
 
-        // Convert the result value. As we released the guard condition temporaries above, these may be used again here.
-        ExprValueResult retValueResult = convertValue(thenExpr);
-        codeStorage.addAll(retValueResult.code);
-        codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(resultVar), retValueResult.value));
-        releaseTempVariables(retValueResult.codeVariables);
-        releaseTempVariables(retValueResult.valueVariables);
+        // Add the statements in the branch.
+        codeStorage.addAll(genThenStats.get());
+
         return selStat;
     }
 
