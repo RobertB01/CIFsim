@@ -18,6 +18,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 
 /** Provider of PLC equivalents of CIF data. */
 
@@ -34,25 +35,43 @@ public abstract class CifDataProvider {
      * @param constant Constant to access.
      * @return The expression to get the value of the constant in the PLC.
      */
-    protected abstract PlcExpression getExprForConstant(Constant constant);
+    protected abstract PlcExpression getValueForConstant(Constant constant);
 
     /**
-     * Return the PLC expression to access the provided discrete variable.
+     * Return the PLC expression to read the provided discrete variable.
      *
-     * @param variable Variable to access.
-     * @return The expression to access the provided discrete variable.
+     * @param variable Variable to read.
+     * @return The expression to read the provided discrete variable.
      */
-    protected abstract PlcExpression getExprForDiscVar(DiscVariable variable);
+    protected abstract PlcExpression getValueForDiscVar(DiscVariable variable);
 
     /**
-     * Return the PLC expression to access the value or the derivative of the provided continuous variable.
+     * Return the PLC expression to write the provided discrete variable.
      *
-     * @param variable Variable to access.
-     * @param getDerivative Whether access to the derivative value is requested, otherwise access to the value of the
+     * @param variable Variable to write.
+     * @return The expression to write the provided discrete variable.
+     */
+    protected abstract PlcVarExpression getAddressableForDiscVar(DiscVariable variable);
+
+    /**
+     * Return the PLC expression to read the value or the derivative of the provided continuous variable.
+     *
+     * @param variable Variable to read.
+     * @param getDerivative Whether read to the derivative value is requested, otherwise read to the value of the
      *     variable itself is requested.
-     * @return The expression to access a value of the provided continuous variable.
+     * @return The expression to read a value of the provided continuous variable.
      */
-    protected abstract PlcExpression getExprForContvar(ContVariable variable, boolean getDerivative);
+    protected abstract PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative);
+
+    /**
+     * Return the PLC expression to write the value or the derivative of the provided continuous variable.
+     *
+     * @param variable Variable to write.
+     * @param getDerivative Whether write to the derivative value is requested, otherwise write to the value of the
+     *     variable itself is requested.
+     * @return The expression to write a value of the provided continuous variable.
+     */
+    protected abstract PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative);
 
     /**
      * Return the PLC expression to access the provided input variable.
@@ -61,5 +80,5 @@ public abstract class CifDataProvider {
      * @return The expression to access the provided input variable.
      * @note The returned expression may not allow writing to the variable.
      */
-    protected abstract PlcExpression getExprForInputVar(InputVariable variable);
+    protected abstract PlcExpression getValueForInputVar(InputVariable variable);
 }
