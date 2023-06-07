@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.eventbased.partitions;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +27,6 @@ import org.eclipse.escet.cif.eventbased.automata.Event.EventControllability;
 import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -147,7 +147,7 @@ public class PartitionRefinementTest {
 
         Set<Set<Location>> actual = PartitionRefinement.addSet(startList, newLocs);
         String actStr = toString(actual);
-        Assert.assertEquals(expStr, actStr);
+        assertEquals(expStr, actStr);
     }
 
     @Test
@@ -156,7 +156,7 @@ public class PartitionRefinementTest {
         Set<Set<Location>> expected = startList;
         Set<Set<Location>> actual = Sets.copy(startList);
         actual = PartitionRefinement.q(PartitionRefinement.hInfinite(actual));
-        Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test

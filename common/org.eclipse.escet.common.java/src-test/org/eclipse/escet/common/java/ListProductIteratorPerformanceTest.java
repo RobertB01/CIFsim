@@ -77,7 +77,7 @@ public class ListProductIteratorPerformanceTest {
     /** Dummy test. */
     @Test
     public void testDummy() {
-        // Dummy test to avoid warnings about org.junit.Test not being used,
+        // Dummy test to avoid warnings about org.junit.jupiter.api.Test not being used,
         // when the actual tests are disabled.
     }
 

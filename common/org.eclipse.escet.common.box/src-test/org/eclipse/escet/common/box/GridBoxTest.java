@@ -14,7 +14,7 @@
 package org.eclipse.escet.common.box;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.typechecker;
 import static org.eclipse.escet.cif.common.CifTypeUtils.checkTypeCompat;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListType;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;

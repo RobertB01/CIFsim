@@ -15,7 +15,7 @@ package org.eclipse.escet.setext.generator.parser;
 
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.Collections;
 import java.util.List;
