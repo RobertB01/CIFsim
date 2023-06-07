@@ -1,0 +1,3 @@
+TYPE timer_location:
+    (timer_Idle, timer_Running);
+END_TYPE

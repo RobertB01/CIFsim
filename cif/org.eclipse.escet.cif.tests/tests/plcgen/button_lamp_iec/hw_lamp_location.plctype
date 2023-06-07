@@ -1,0 +1,3 @@
+TYPE hw_lamp_location:
+    (hw_lamp_Off, hw_lamp_On);
+END_TYPE

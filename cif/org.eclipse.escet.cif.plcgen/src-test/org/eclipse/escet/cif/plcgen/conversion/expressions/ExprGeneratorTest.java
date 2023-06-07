@@ -39,7 +39,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntExpress
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListType;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newProjectionExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealExpression;
@@ -60,7 +59,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -139,8 +137,6 @@ public class ExprGeneratorTest {
 
     private static ContVariable contVar = newContVariable(newRealExpression(null, newRealType(), "1.0"), "timer", null,
             null);
-
-    private static Location loc = newLocation(null, null, null, null, null, "here", null, false);
 
     private static DiscVariable tupVar = newDiscVariable("tupVar", null, makeTupleType(3), null);
 
@@ -285,30 +281,38 @@ public class ExprGeneratorTest {
      */
     private static class TestCifDataProvider extends CifDataProvider {
         @Override
-        protected PlcExpression getExprForConstant(Constant constant) {
+        protected PlcExpression getValueForConstant(Constant constant) {
             return new PlcVarExpression(new PlcVariable(constant.getName(), PlcElementaryType.BOOL_TYPE));
         }
 
         @Override
-        protected PlcExpression getExprForDiscVar(DiscVariable variable) {
+        protected PlcExpression getValueForDiscVar(DiscVariable variable) {
             // state.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
             return new PlcVarExpression(new PlcVariable("state", new PlcDerivedType("StateStruct")), fieldProj);
         }
 
         @Override
-        protected PlcExpression getExprForContvar(ContVariable variable, boolean getDerivative) {
+        protected PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
+            // newState.discvar_name
+            PlcProjection fieldProj = new PlcStructProjection(variable.getName());
+            return new PlcVarExpression(new PlcVariable("newState", new PlcDerivedType("StateStruct")), fieldProj);
+        }
+
+        @Override
+        protected PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
             String name = variable.getName() + (getDerivative ? "_der" : "");
             return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
-        protected PlcExpression getExprForLocation(Location location) {
-            return new PlcVarExpression(new PlcVariable(location.getName(), PlcElementaryType.BOOL_TYPE));
+        protected PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
+            String name = "new_" + variable.getName() + (getDerivative ? "_der" : "");
+            return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
-        protected PlcExpression getExprForInputVar(InputVariable variable) {
+        protected PlcExpression getValueForInputVar(InputVariable variable) {
             return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
     }
@@ -402,12 +406,32 @@ public class ExprGeneratorTest {
     /**
      * Run the expression generator at the given expression, and return a dump of the result.
      *
-     * @param expr Expression to convert.
+     * @param expr The expression to convert.
      * @return Human-readable representation of the result.
      */
-    private String runTest(Expression expr) {
-        ExprGenResult result = exprGen.convertExpr(expr);
+    private String runValueTest(Expression expr) {
+        ExprValueResult result = exprGen.convertValue(expr);
+        return resultToString(result);
+    }
 
+    /**
+     * Run the expression generator at the given expression, and return a dump of the result.
+     *
+     * @param expr The expression to convert.
+     * @return Human-readable representation of the result.
+     */
+    private String runAddressableTest(Expression expr) {
+        ExprAddressableResult result = exprGen.convertAddressable(expr);
+        return resultToString(result);
+    }
+
+    /**
+     * Convert the expression generation result to a readable text.
+     *
+     * @param result The result to convert.
+     * @return The readable text representation of the result.
+     */
+    private String resultToString(ExprGenResult<?, ?> result) {
         boolean needsEmptyLine = false;
         StringBuilder sb = new StringBuilder();
         if (result.hasCodeVariables()) {
@@ -453,7 +477,7 @@ public class ExprGeneratorTest {
     @Test
     public void testBoolExpressionConversion() {
         // true
-        String realText = runTest(newBoolExpression(null, null, true));
+        String realText = runValueTest(newBoolExpression(null, null, true));
         String expectedText = "==> TRUE";
         assertEquals(expectedText, realText);
     }
@@ -461,7 +485,7 @@ public class ExprGeneratorTest {
     @Test
     public void testIntExpressionConversion() {
         // 111
-        String realText = runTest(newIntExpression(null, null, 111));
+        String realText = runValueTest(newIntExpression(null, null, 111));
         String expectedText = "==> 111";
         assertEquals(expectedText, realText);
     }
@@ -469,19 +493,19 @@ public class ExprGeneratorTest {
     @Test
     public void testRealExpressionConversion() {
         // 1.31
-        String realText = runTest(newRealExpression(null, null, "1.31"));
+        String realText = runValueTest(newRealExpression(null, null, "1.31"));
         String expectedText = "==> 1.31";
         assertEquals(expectedText, realText);
     }
 
     @Test
     public void testStringExpressionConversion() {
-        assertThrows(RuntimeException.class, () -> runTest(newStringExpression(null, null, "abc")));
+        assertThrows(RuntimeException.class, () -> runValueTest(newStringExpression(null, null, "abc")));
     }
 
     @Test
     public void testTimeExpressionConversion() {
-        assertThrows(RuntimeException.class, () -> runTest(newTimeExpression(null, null)));
+        assertThrows(RuntimeException.class, () -> runValueTest(newTimeExpression(null, null)));
     }
 
     @Test
@@ -489,13 +513,13 @@ public class ExprGeneratorTest {
         // <real>17
         Expression child = newIntExpression(null, newIntType(), 17);
         Expression expr = newCastExpression(child, null, newRealType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> DINT_TO_LREAL(IN := 17)";
         assertEquals(expectedText, realText);
 
         // Equal types, do nothing.
         expr = newCastExpression(child, null, newIntType());
-        realText = runTest(expr);
+        realText = runValueTest(expr);
         expectedText = "==> 17";
         assertEquals(expectedText, realText);
     }
@@ -505,14 +529,14 @@ public class ExprGeneratorTest {
         // not true
         Expression child = newBoolExpression(null, newBoolType(), true);
         Expression expr = newUnaryExpression(child, UnaryOperator.INVERSE, null, newBoolType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> NOT(IN := TRUE)";
         assertEquals(expectedText, realText);
 
         // -(1.58)
         child = newRealExpression(null, newRealType(), "1.58");
         expr = newUnaryExpression(child, UnaryOperator.NEGATE, null, newRealType());
-        realText = runTest(expr);
+        realText = runValueTest(expr);
         expectedText = "==> -1.58";
         assertEquals(expectedText, realText);
     }
@@ -523,7 +547,7 @@ public class ExprGeneratorTest {
         Expression left = newBoolExpression(null, newBoolType(), true);
         Expression right = newBoolExpression(null, newBoolType(), false);
         Expression expr = newBinaryExpression(left, BinaryOperator.IMPLICATION, null, right, newBoolType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> FALSE OR NOT(IN := TRUE)";
         assertEquals(expectedText, realText);
     }
@@ -536,7 +560,7 @@ public class ExprGeneratorTest {
         Expression right = newBoolExpression(null, newBoolType(), false);
         Expression expr = newBinaryExpression(mid, BinaryOperator.DISJUNCTION, null, right, newBoolType());
         expr = newBinaryExpression(left, BinaryOperator.DISJUNCTION, null, expr, newBoolType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> TRUE OR fixed OR FALSE";
         assertEquals(expectedText, realText);
     }
@@ -547,7 +571,7 @@ public class ExprGeneratorTest {
         Expression left = newIntExpression(null, newIntType(), 100);
         Expression right = newRealExpression(null, newRealType(), "200.0");
         Expression expr = newBinaryExpression(left, BinaryOperator.LESS_EQUAL, null, right, newBoolType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> DINT_TO_LREAL(IN := 100) <= 200.0";
         assertEquals(expectedText, realText);
     }
@@ -558,7 +582,7 @@ public class ExprGeneratorTest {
         Expression left = newIntExpression(null, newIntType(), 100);
         Expression right = newRealExpression(null, newRealType(), "200.0");
         Expression expr = newBinaryExpression(left, BinaryOperator.UNEQUAL, null, right, newBoolType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> 100 <> 200.0";
         assertEquals(expectedText, realText);
     }
@@ -571,7 +595,7 @@ public class ExprGeneratorTest {
         Expression right = newRealExpression(null, newRealType(), "300.0");
         Expression expr = newBinaryExpression(mid, BinaryOperator.ADDITION, null, right, newRealType());
         expr = newBinaryExpression(left, BinaryOperator.ADDITION, null, expr, newRealType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> DINT_TO_LREAL(IN := 100) + 200.0 + 300.0";
         assertEquals(expectedText, realText);
     }
@@ -582,7 +606,7 @@ public class ExprGeneratorTest {
         Expression left = newIntExpression(null, newIntType(), 100);
         Expression right = newIntExpression(null, newIntType(), 200);
         Expression expr = newBinaryExpression(left, BinaryOperator.INTEGER_DIVISION, null, right, newIntType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> 100 / 200";
         assertEquals(expectedText, realText);
     }
@@ -593,7 +617,7 @@ public class ExprGeneratorTest {
         Expression left = newIntExpression(null, newIntType(), 100);
         Expression right = newIntExpression(null, newIntType(), 200);
         Expression expr = newBinaryExpression(left, BinaryOperator.DIVISION, null, right, newIntType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> DINT_TO_LREAL(IN := 100) / DINT_TO_LREAL(IN := 200)";
         assertEquals(expectedText, realText);
     }
@@ -604,7 +628,7 @@ public class ExprGeneratorTest {
         Expression left = newRealExpression(null, newRealType(), "100.0");
         Expression right = newIntExpression(null, newIntType(), 200);
         Expression expr = newBinaryExpression(left, BinaryOperator.DIVISION, null, right, newIntType());
-        String realText = runTest(expr);
+        String realText = runValueTest(expr);
         String expectedText = "==> 100.0 / DINT_TO_LREAL(IN := 200)";
         assertEquals(expectedText, realText);
     }
@@ -612,7 +636,7 @@ public class ExprGeneratorTest {
     @Test
     public void testBinaryElementOfConversion() {
         assertThrows(RuntimeException.class, () -> {
-            runTest(newBinaryExpression(null, BinaryOperator.ELEMENT_OF, null, null, null));
+            runValueTest(newBinaryExpression(null, BinaryOperator.ELEMENT_OF, null, null, null));
         });
     }
 
@@ -635,7 +659,7 @@ public class ExprGeneratorTest {
         then = newIntExpression(null, newIntType(), 1);
         resultType = newIntType();
         Expression ifExpr = newIfExpression(elifs, elseVal, guards, null, then, resultType);
-        String realText = runTest(ifExpr);
+        String realText = runValueTest(ifExpr);
         String expectedText = """
                 Code:
                 IF TRUE THEN
@@ -668,7 +692,7 @@ public class ExprGeneratorTest {
                 null, newListType(newBoolType(), 2, null, 2));
         Expression arrProj = newProjectionExpression(array, newIntExpression(null, newIntType(), 1), null,
                 newBoolType());
-        String realText = runTest(arrProj);
+        String realText = runValueTest(arrProj);
         String expectedText = """
                 Code:
                 litArray101[0] := FALSE;
@@ -688,7 +712,7 @@ public class ExprGeneratorTest {
         TupleExpression struct = newTupleExpression(fields, null, makeTupleType(2));
         Expression structProj = newProjectionExpression(struct, newIntExpression(null, newIntType(), 1), null,
                 newBoolType());
-        String realText = runTest(structProj);
+        String realText = runValueTest(structProj);
         String expectedText = """
                 Code:
                 litStruct101.field1 := state.flatDisc;
@@ -709,7 +733,7 @@ public class ExprGeneratorTest {
         TupleExpression struct = newTupleExpression(fields, null, tt);
         FieldExpression fe = newFieldExpression(tt.getFields().get(0), null, newRealType());
         Expression structProj = newProjectionExpression(struct, fe, null, newRealType());
-        String realText = runTest(structProj);
+        String realText = runValueTest(structProj);
         String expectedText = """
                 Code:
                 litStruct101.field1 := state.flatDisc;
@@ -723,19 +747,29 @@ public class ExprGeneratorTest {
     }
 
     @Test
-    public void testProjectedVarProjectionExpressionConversion() {
+    public void testProjectedVarProjectionValueConversion() {
         // tupVar[0]
         DiscVariableExpression tupVarExpr = newDiscVariableExpression(null, makeTupleType(3), tupVar);
         Expression tupProj = newProjectionExpression(tupVarExpr, newIntExpression(null, newIntType(), 0), null,
                 newRealType());
-        String realText = runTest(tupProj);
+        String realText = runValueTest(tupProj);
         String expectedText = "==> state.tupVar.field1";
         assertEquals(expectedText, realText);
     }
 
     @Test
+    public void testProjectedVarProjectionAddressableConversion() {
+        DiscVariableExpression tupVarExpr = newDiscVariableExpression(null, makeTupleType(3), tupVar);
+        Expression tupProj = newProjectionExpression(tupVarExpr, newIntExpression(null, newIntType(), 0), null,
+                newRealType());
+        String realText = runAddressableTest(tupProj);
+        String expectedText = "==> newState.tupVar.field1";
+        assertEquals(expectedText, realText);
+    }
+
+    @Test
     public void testSliceExpressionConversion() {
-        assertThrows(RuntimeException.class, () -> runTest(newSliceExpression()));
+        assertThrows(RuntimeException.class, () -> runValueTest(newSliceExpression()));
     }
 
     @Test
@@ -744,7 +778,7 @@ public class ExprGeneratorTest {
         Expression func = newStdLibFunctionExpression(StdLibFunction.ABS, null, null);
         List<Expression> args = List.of(newIntExpression(null, newIntType(), 21));
         Expression call = newFunctionCallExpression(func, args, null, null);
-        String realText = runTest(call);
+        String realText = runValueTest(call);
         String expectedText = "==> ABS(IN := 21)";
         assertEquals(expectedText, realText);
 
@@ -752,7 +786,7 @@ public class ExprGeneratorTest {
         func = newStdLibFunctionExpression(StdLibFunction.CBRT, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
         call = newFunctionCallExpression(func, args, null, null);
-        realText = runTest(call);
+        realText = runValueTest(call);
         expectedText = "==> 17.28 ** (1.0 / 3.0)";
         assertEquals(expectedText, realText);
 
@@ -761,7 +795,7 @@ public class ExprGeneratorTest {
         func = newStdLibFunctionExpression(StdLibFunction.LOG, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
         call = newFunctionCallExpression(func, args, null, null);
-        realText = runTest(call);
+        realText = runValueTest(call);
         expectedText = "==> LOG(IN := 17.28)";
         assertEquals(expectedText, realText);
 
@@ -770,7 +804,7 @@ public class ExprGeneratorTest {
         func = newStdLibFunctionExpression(StdLibFunction.LOG, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
         call = newFunctionCallExpression(func, args, null, null);
-        realText = runTest(call);
+        realText = runValueTest(call);
         expectedText = "==> LN(IN := 17.28) / LN(IN := 10.0)";
         assertEquals(expectedText, realText);
 
@@ -780,7 +814,7 @@ public class ExprGeneratorTest {
         args = List.of(newIntExpression(null, newIntType(0, null, 2), 1),
                 newIntExpression(null, newIntType(0, null, 2), 2));
         call = newFunctionCallExpression(func, args, null, null);
-        realText = runTest(call);
+        realText = runValueTest(call);
         expectedText = "==> LREAL_TO_DINT(IN := DINT_TO_LREAL(IN := 1) ** 2)";
         assertEquals(expectedText, realText);
 
@@ -789,7 +823,7 @@ public class ExprGeneratorTest {
         func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newFuncType(paramTypes, null, newRealType()));
         args = List.of(newIntExpression(null, newIntType(), 2), newIntExpression(null, newIntType(), 3));
         call = newFunctionCallExpression(func, args, null, null);
-        realText = runTest(call);
+        realText = runValueTest(call);
         expectedText = "==> DINT_TO_LREAL(IN := 2) ** 3";
         assertEquals(expectedText, realText);
 
@@ -798,7 +832,7 @@ public class ExprGeneratorTest {
         func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newRealType());
         args = List.of(newIntExpression(null, newIntType(), 3), newRealExpression(null, newRealType(), "2.0"));
         call = newFunctionCallExpression(func, args, null, null);
-        realText = runTest(call);
+        realText = runValueTest(call);
         expectedText = "==> DINT_TO_LREAL(IN := 3) ** 2.0";
         assertEquals(expectedText, realText);
     }
@@ -809,7 +843,7 @@ public class ExprGeneratorTest {
         ListExpression array = newListExpression(
                 List.of(newBoolExpression(null, newBoolType(), false), newBoolExpression(null, newBoolType(), true)),
                 null, newListType(newBoolType(), 2, null, 2));
-        String realText = runTest(array);
+        String realText = runValueTest(array);
         String expectedText = """
                 Code:
                 litArray101[0] := FALSE;
@@ -828,7 +862,7 @@ public class ExprGeneratorTest {
         List<Expression> fields = List.of(makeDiscVarExpr(), newRealExpression(null, newRealType(), "1.2345"));
         TupleType tt = makeTupleType(2);
         TupleExpression struct = newTupleExpression(fields, null, tt);
-        String realText = runTest(struct);
+        String realText = runValueTest(struct);
         String expectedText = """
                 Code:
                 litStruct101.field1 := state.flatDisc;
@@ -843,62 +877,80 @@ public class ExprGeneratorTest {
 
     @Test
     public void testDictExpressionConversion() {
-        assertThrows(RuntimeException.class, () -> runTest(newDictExpression()));
+        assertThrows(RuntimeException.class, () -> runValueTest(newDictExpression()));
     }
 
     @Test
     public void testContConstantExpressionConversion() {
         // fixed
-        String realText = runTest(newConstantExpression(constantVar, null, newBoolType()));
+        String realText = runValueTest(newConstantExpression(constantVar, null, newBoolType()));
         String expectedText = "==> fixed";
         assertEquals(expectedText, realText);
     }
 
     @Test
-    public void testDiscVariableExpressionConversion() {
-        // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}.
-        String realText = runTest(newDiscVariableExpression(null, newRealType(), discVar));
+    public void testDiscVariableValueConversion() {
+        // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}).
+        String realText = runValueTest(newDiscVariableExpression(null, newRealType(), discVar));
         String expectedText = "==> state.flatDisc";
         assertEquals(expectedText, realText);
     }
 
     @Test
-    public void testContVariableExpressionConversion() {
+    public void testDiscVariableAddressableConversion() {
+        // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}).
+        String realText = runAddressableTest(newDiscVariableExpression(null, newRealType(), discVar));
+        String expectedText = "==> newState.flatDisc";
+        assertEquals(expectedText, realText);
+    }
+
+    @Test
+    public void testContVariableValueConversion() {
         // timer'
-        String realText = runTest(newContVariableExpression(true, null, null, contVar)); // "timer" derivative.
+        String realText = runValueTest(newContVariableExpression(true, null, null, contVar));
         String expectedText = "==> timer_der";
         assertEquals(expectedText, realText);
 
         // timer
-        realText = runTest(newContVariableExpression(false, null, null, contVar)); // "timer".
+        realText = runValueTest(newContVariableExpression(false, null, null, contVar));
         expectedText = "==> timer";
         assertEquals(expectedText, realText);
     }
 
     @Test
-    public void testLocationExpressionConversion() {
-        // here (the location)
-        String realText = runTest(newLocationExpression(loc, null, newBoolType()));
-        String expectedText = "==> here";
+    public void testContVariableAddressableConversion() {
+        // timer'
+        String realText = runAddressableTest(newContVariableExpression(true, null, null, contVar));
+        String expectedText = "==> new_timer_der";
         assertEquals(expectedText, realText);
+
+        // timer
+        realText = runAddressableTest(newContVariableExpression(false, null, null, contVar));
+        expectedText = "==> new_timer";
+        assertEquals(expectedText, realText);
+    }
+
+    @Test
+    public void testLocationExpressionConversion() {
+        assertThrows(RuntimeException.class, () -> runValueTest(newLocationExpression()));
     }
 
     @Test
     public void testEnumLiteralExpressionConversion() {
         EnumLiteral eLit = newEnumLiteral("value123", null);
-        String realText = runTest(newEnumLiteralExpression(eLit, null, null));
+        String realText = runValueTest(newEnumLiteralExpression(eLit, null, null));
         String expectedText = "==> value123";
         assertEquals(expectedText, realText);
     }
 
     @Test
     public void testFunctionExpressionConversion() {
-        assertThrows(RuntimeException.class, () -> runTest(newFunctionExpression()));
+        assertThrows(RuntimeException.class, () -> runValueTest(newFunctionExpression()));
     }
 
     @Test
     public void testInputVariableExpressionConversion() {
-        String realText = runTest(newInputVariableExpression(null, newIntType(), inputVar));
+        String realText = runValueTest(newInputVariableExpression(null, newIntType(), inputVar));
         String expectedText = "==> theInput";
         assertEquals(expectedText, realText);
     }

@@ -1,7 +1,11 @@
 CONFIGURATION MyConfig
     VAR_GLOBAL // STATE
+        timer: DINT;
+        sup: DINT;
         hw_button_bit: BOOL;
+        hw_button: DINT;
         hw_lamp_bit: BOOL;
+        hw_lamp: DINT;
     END_VAR
     VAR_GLOBAL // TIMERS
         firstRun: BOOL := TRUE;

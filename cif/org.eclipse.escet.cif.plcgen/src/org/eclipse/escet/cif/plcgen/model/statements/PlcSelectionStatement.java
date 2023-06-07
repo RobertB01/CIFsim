@@ -37,6 +37,24 @@ public class PlcSelectionStatement extends PlcStatement {
     /**
      * Constructor of the {@link PlcSelectionStatement} class.
      *
+     * @param condChoice Conditional choice to consider in the code selection.
+     */
+    public PlcSelectionStatement(PlcSelectChoice condChoice) {
+        this(list(condChoice));
+    }
+
+    /**
+     * Constructor of the {@link PlcSelectionStatement} class.
+     *
+     * @param condChoices Conditional choices to consider in the code selection.
+     */
+    public PlcSelectionStatement(List<PlcSelectChoice> condChoices) {
+        this(condChoices, list());
+    }
+
+    /**
+     * Constructor of the {@link PlcSelectionStatement} class.
+     *
      * @param condChoices Conditional choices to consider in the code selection.
      * @param elseStats Choice to perform if none of the {@link #condChoices} can be chosen.
      */
@@ -52,6 +70,16 @@ public class PlcSelectionStatement extends PlcStatement {
 
         /** Statements to execute if the guard holds. */
         public List<PlcStatement> thenStats;
+
+        /**
+         * Constructor of the {@link PlcSelectChoice} class.
+         *
+         * @param guard Condition that must hold to select this choice.
+         * @param thenStat Statement to execute if the guard holds.
+         */
+        public PlcSelectChoice(PlcExpression guard, PlcStatement thenStat) {
+            this(guard, list(thenStat));
+        }
 
         /**
          * Constructor of the {@link PlcSelectChoice} class.

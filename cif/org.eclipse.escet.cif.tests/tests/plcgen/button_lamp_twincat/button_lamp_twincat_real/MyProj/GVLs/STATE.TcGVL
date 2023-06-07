@@ -2,8 +2,12 @@
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <GVL Name="STATE">
     <Declaration><![CDATA[VAR_GLOBAL // STATE
+    timer: timer_location;
+    sup: sup_location;
     hw_button_bit: BOOL;
+    hw_button: hw_button_location;
     hw_lamp_bit: BOOL;
+    hw_lamp: hw_lamp_location;
 END_VAR]]></Declaration>
     <ObjectProperties/>
   </GVL>

@@ -13,12 +13,12 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
 /** Edge order duplicate events option. */
-public class EdgeOrderDuplicateEventsOption extends EnumOption<EdgeOrderDuplicateEvents> {
+public class EdgeOrderDuplicateEventsOption extends EnumOption<EdgeOrderDuplicateEventAllowance> {
     /** Constructor for the {@link EdgeOrderDuplicateEventsOption} class. */
     public EdgeOrderDuplicateEventsOption() {
         super(
@@ -40,7 +40,7 @@ public class EdgeOrderDuplicateEventsOption extends EnumOption<EdgeOrderDuplicat
                 "ALLOWANCE",
 
                 // defaultValue
-                EdgeOrderDuplicateEvents.DISALLOWED,
+                EdgeOrderDuplicateEventAllowance.DISALLOWED,
 
                 // showInDialog
                 true,
@@ -50,14 +50,14 @@ public class EdgeOrderDuplicateEventsOption extends EnumOption<EdgeOrderDuplicat
     }
 
     @Override
-    protected String getDialogText(EdgeOrderDuplicateEvents duplicateEvents) {
-        switch (duplicateEvents) {
+    protected String getDialogText(EdgeOrderDuplicateEventAllowance allowance) {
+        switch (allowance) {
             case DISALLOWED:
                 return "Duplicate events are disallowed";
             case ALLOWED:
                 return "Duplicate events are allowed";
         }
-        throw new RuntimeException("Unknown duplicate events allowance: " + duplicateEvents);
+        throw new RuntimeException("Unknown duplicate events allowance: " + allowance);
     }
 
     /**
@@ -65,12 +65,12 @@ public class EdgeOrderDuplicateEventsOption extends EnumOption<EdgeOrderDuplicat
      *
      * @return The value of the {@link EdgeOrderDuplicateEventsOption} option.
      */
-    public static EdgeOrderDuplicateEvents getDuplicateEvents() {
+    public static EdgeOrderDuplicateEventAllowance getAllowance() {
         return Options.get(EdgeOrderDuplicateEventsOption.class);
     }
 
     /** Edge order duplicate event allowance. */
-    public static enum EdgeOrderDuplicateEvents {
+    public static enum EdgeOrderDuplicateEventAllowance {
         /** Duplicate events are allowed. */
         ALLOWED,
 

@@ -220,7 +220,7 @@ public class ExprGenerator {
      * ignored.
      *
      * <p>
-     * Intended to be used by {@link ExprGenResult} instances.
+     * Intended to be used by {@link ExprValueResult} instances.
      * </p>
      *
      * @param variables Variables being returned.
@@ -236,18 +236,37 @@ public class ExprGenerator {
     }
 
     /**
-     * Convert a CIF expression to a combination of PLC expressions and statements.
+     * Convert a CIF expression to a combination of a PLC write-only expression, used variables, and statements.
      *
      * @param expr CIF expression to convert.
      * @return The converted expression.
      */
-    public ExprGenResult convertExpr(Expression expr) {
+    public ExprAddressableResult convertAddressable(Expression expr) {
+        if (expr instanceof DiscVariableExpression de) {
+            // TODO This may not work for user-defined internal function parameters and local variables.
+            return new ExprAddressableResult(this).setValue(cifData.getAddressableForDiscVar(de.getVariable()));
+        } else if (expr instanceof ContVariableExpression ce) {
+            return new ExprAddressableResult(this)
+                    .setValue(cifData.getAddressableForContvar(ce.getVariable(), ce.isDerivative()));
+        } else if (expr instanceof ProjectionExpression pe) {
+            return convertProjectionAddressable(pe);
+        }
+        throw new RuntimeException("Unexpected expr: " + expr);
+    }
+
+    /**
+     * Convert a CIF expression to a combination of a PLC read-only expression, used variables, and statements.
+     *
+     * @param expr CIF expression to convert.
+     * @return The converted expression.
+     */
+    public ExprValueResult convertValue(Expression expr) {
         if (expr instanceof BoolExpression be) {
-            return new ExprGenResult(this).setValue(new PlcBoolLiteral(be.isValue()));
+            return new ExprValueResult(this).setValue(new PlcBoolLiteral(be.isValue()));
         } else if (expr instanceof IntExpression ie) {
-            return new ExprGenResult(this).setValue(new PlcIntLiteral(ie.getValue()));
+            return new ExprValueResult(this).setValue(new PlcIntLiteral(ie.getValue()));
         } else if (expr instanceof RealExpression re) {
-            return new ExprGenResult(this).setValue(new PlcRealLiteral(re.getValue()));
+            return new ExprValueResult(this).setValue(new PlcRealLiteral(re.getValue()));
         } else if (expr instanceof StringExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof TimeExpression) {
@@ -261,7 +280,7 @@ public class ExprGenerator {
         } else if (expr instanceof IfExpression ife) {
             return convertIfExpr(ife);
         } else if (expr instanceof ProjectionExpression pe) {
-            return convertProjectionExpr(pe);
+            return convertProjectionValue(pe);
         } else if (expr instanceof SliceExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof FunctionCallExpression fce) {
@@ -275,23 +294,23 @@ public class ExprGenerator {
         } else if (expr instanceof DictExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof ConstantExpression ce) {
-            return new ExprGenResult(this).setValue(cifData.getExprForConstant(ce.getConstant()));
+            return new ExprValueResult(this).setValue(cifData.getValueForConstant(ce.getConstant()));
         } else if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
-            return new ExprGenResult(this).setValue(cifData.getExprForDiscVar(de.getVariable()));
+            return new ExprValueResult(this).setValue(cifData.getValueForDiscVar(de.getVariable()));
         } else if (expr instanceof AlgVariableExpression ae) {
             // TODO: Decide how to deal with algebraic variables.
-            return convertExpr(ae.getVariable().getValue()); // Convert its definition.
+            return convertValue(ae.getVariable().getValue()); // Convert its definition.
         } else if (expr instanceof ContVariableExpression ce) {
-            return new ExprGenResult(this).setValue(cifData.getExprForContvar(ce.getVariable(), ce.isDerivative()));
+            return new ExprValueResult(this).setValue(cifData.getValueForContvar(ce.getVariable(), ce.isDerivative()));
         } else if (expr instanceof LocationExpression le) {
-            return new ExprGenResult(this).setValue(cifData.getExprForLocation(le.getLocation()));
+            throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof EnumLiteralExpression eLit) {
-            return new ExprGenResult(this).setValue(target.getTypeGenerator().getPlcEnumLiteral(eLit.getLiteral()));
+            return new ExprValueResult(this).setValue(target.getTypeGenerator().getPlcEnumLiteral(eLit.getLiteral()));
         } else if (expr instanceof FunctionExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {
-            return new ExprGenResult(this).setValue(cifData.getExprForInputVar(ie.getVariable()));
+            return new ExprValueResult(this).setValue(cifData.getValueForInputVar(ie.getVariable()));
         }
         throw new RuntimeException("Unexpected expr: " + expr);
     }
@@ -302,8 +321,8 @@ public class ExprGenerator {
      * @param castExpr Expression to convert.
      * @return The generated result.
      */
-    private ExprGenResult convertCastExpr(CastExpression castExpr) {
-        ExprGenResult result = convertExpr(castExpr.getChild());
+    private ExprValueResult convertCastExpr(CastExpression castExpr) {
+        ExprValueResult result = convertValue(castExpr.getChild());
         CifType ctype = normalizeType(castExpr.getChild().getType());
         CifType rtype = normalizeType(castExpr.getType());
         if (ctype instanceof IntType && rtype instanceof RealType) {
@@ -324,8 +343,8 @@ public class ExprGenerator {
      * @param unaryExpr Expression to convert.
      * @return The generated result.
      */
-    private ExprGenResult convertUnaryExpr(UnaryExpression unaryExpr) {
-        ExprGenResult result = convertExpr(unaryExpr.getChild());
+    private ExprValueResult convertUnaryExpr(UnaryExpression unaryExpr) {
+        ExprValueResult result = convertValue(unaryExpr.getChild());
         switch (unaryExpr.getOperator()) {
             case INVERSE:
                 return result.setValue(funcAppls.complementFuncAppl(result.value));
@@ -350,13 +369,13 @@ public class ExprGenerator {
      * @param binExpr Binary expression to convert.
      * @return The generated result.
      */
-    private ExprGenResult convertBinaryExpr(BinaryExpression binExpr) {
+    private ExprValueResult convertBinaryExpr(BinaryExpression binExpr) {
         CifType ltype = normalizeType(binExpr.getLeft().getType());
         CifType rtype = normalizeType(binExpr.getRight().getType());
 
-        ExprGenResult leftResult = convertExpr(binExpr.getLeft());
-        ExprGenResult rightResult = convertExpr(binExpr.getRight());
-        ExprGenResult result = new ExprGenResult(this, leftResult, rightResult);
+        ExprValueResult leftResult = convertValue(binExpr.getLeft());
+        ExprValueResult rightResult = convertValue(binExpr.getRight());
+        ExprValueResult result = new ExprValueResult(this, leftResult, rightResult);
         switch (binExpr.getOperator()) {
             case IMPLICATION:
                 // Right-value or not left-value.
@@ -367,17 +386,10 @@ public class ExprGenerator {
                 return result.setValue(funcAppls.equalFuncAppl(leftResult.value, rightResult.value));
 
             case DISJUNCTION:
-                if (ltype instanceof BoolType) {
-                    return convertFlattenedExpr(binExpr);
-                }
-
-                throw new RuntimeException("Precondition violation.");
-
             case CONJUNCTION:
                 if (ltype instanceof BoolType) {
                     return convertFlattenedExpr(binExpr);
                 }
-
                 throw new RuntimeException("Precondition violation.");
 
             case LESS_THAN: {
@@ -487,7 +499,7 @@ public class ExprGenerator {
      *     multiplication expression.
      * @return The converted expression.
      */
-    private ExprGenResult convertFlattenedExpr(BinaryExpression binExpr) {
+    private ExprValueResult convertFlattenedExpr(BinaryExpression binExpr) {
         // Configure some variables to guide the conversion.
         java.util.function.Function<PlcExpression[], PlcExpression> applFunc;
         boolean unifyTypes;
@@ -529,22 +541,23 @@ public class ExprGenerator {
 
         // Convert each child expression, and collect the child results as preparation to their merge. Also collect the
         // child result expressions separately as they need to be applied to the N-ary function decided above.
-        ExprGenResult[] exprGenResults = new ExprGenResult[exprs.size()];
+        ExprGenResult<?, ?>[] exprValueResults = new ExprGenResult<?, ?>[exprs.size()];
         PlcExpression[] values = new PlcExpression[exprs.size()];
         int i = 0;
         for (Expression expr: exprs) {
-            exprGenResults[i] = convertExpr(expr);
+            ExprValueResult exprValueResult = convertValue(expr);
+            exprValueResults[i] = exprValueResult;
             if (unifyTypes) {
-                values[i] = unifyTypeOfExpr(exprGenResults[i].value, normalizeType(expr.getType()), unifiedType);
+                values[i] = unifyTypeOfExpr(exprValueResult.value, normalizeType(expr.getType()), unifiedType);
             } else {
-                values[i] = exprGenResults[i].value;
+                values[i] = exprValueResult.value;
             }
             i++;
         }
 
         // Create the final result and give it to the caller.
-        ExprGenResult exprGenResult = new ExprGenResult(this, exprGenResults);
-        return exprGenResult.setValue(applFunc.apply(values));
+        ExprValueResult exprValueResult = new ExprValueResult(this, exprValueResults);
+        return exprValueResult.setValue(applFunc.apply(values));
     }
 
     /**
@@ -553,8 +566,8 @@ public class ExprGenerator {
      * @param ifExpr Expression to convert.
      * @return The converted expression.
      */
-    private ExprGenResult convertIfExpr(IfExpression ifExpr) {
-        ExprGenResult result = new ExprGenResult(this);
+    private ExprValueResult convertIfExpr(IfExpression ifExpr) {
+        ExprValueResult result = new ExprValueResult(this);
         PlcType resultValueType = target.getTypeGenerator().convertType(ifExpr.getType());
         PlcVariable resultVar = getTempVariable("ifResult", resultValueType);
         result.valueVariables.add(resultVar);
@@ -623,7 +636,7 @@ public class ExprGenerator {
             // For all guard expressions, convert them and store their output.
             int grdNum = 0;
             for (Expression guard: guards) {
-                ExprGenResult grdResult = convertExpr(guard);
+                ExprValueResult grdResult = convertValue(guard);
                 if (grdResult.hasCode()) {
                     seenGuardCode = true;
                     codeStorage.addAll(grdResult.code);
@@ -659,7 +672,7 @@ public class ExprGenerator {
         // value.
 
         // Convert the result value. As we released the guard condition temporaries above, these may be used again here.
-        ExprGenResult retValueResult = convertExpr(thenExpr);
+        ExprValueResult retValueResult = convertValue(thenExpr);
         codeStorage.addAll(retValueResult.code);
         codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(resultVar), retValueResult.value));
         releaseTempVariables(retValueResult.codeVariables);
@@ -668,12 +681,12 @@ public class ExprGenerator {
     }
 
     /**
-     * Convert projection expressions to a PLC expression.
+     * Convert projection expressions to a write-only PLC expression.
      *
      * @param expr Projection expression to convert.
      * @return The converted expression.
      */
-    private ExprGenResult convertProjectionExpr(Expression expr) {
+    private ExprAddressableResult convertProjectionAddressable(Expression expr) {
         // Unwrap and store the nested projections, last projection at index 0.
         List<ProjectionExpression> projections = list();
         while (expr instanceof ProjectionExpression proj) {
@@ -683,7 +696,32 @@ public class ExprGenerator {
         Assert.check(!projections.isEmpty());
 
         // Convert the projection root value and make it usable for the PLC.
-        ExprGenResult exprResult = convertExpr(expr);
+        ExprAddressableResult exprResult = convertAddressable(expr);
+
+        // Build new PLC projections expressions with the parent variable and the collected projections.
+        PlcVarExpression varExpr = new PlcVarExpression(exprResult.value.variable,
+                convertAddProjections(projections, copy(exprResult.value.projections), exprResult));
+        exprResult.setValue(varExpr);
+        return exprResult;
+    }
+
+    /**
+     * Convert projection expressions to a read-only PLC expression.
+     *
+     * @param expr Projection expression to convert.
+     * @return The converted expression.
+     */
+    private ExprValueResult convertProjectionValue(Expression expr) {
+        // Unwrap and store the nested projections, last projection at index 0.
+        List<ProjectionExpression> projections = list();
+        while (expr instanceof ProjectionExpression proj) {
+            projections.add(proj);
+            expr = proj.getChild();
+        }
+        Assert.check(!projections.isEmpty());
+
+        // Convert the projection root value and make it usable for the PLC.
+        ExprValueResult exprResult = convertValue(expr);
 
         // Setup the result of this method and prepare it for stacking the above collected projections on top of it.
         if (exprResult.value instanceof PlcVarExpression parentVarExpr) {
@@ -701,7 +739,7 @@ public class ExprGenerator {
 
             // Construct a new result, add the parent result, and append "projectVar := <root-value expression>;" to the
             // code to get the parent result in the new variable.
-            ExprGenResult convertResult = new ExprGenResult(this, exprResult);
+            ExprValueResult convertResult = new ExprValueResult(this, exprResult);
             PlcVarExpression varExpr = new PlcVarExpression(projectVar);
             convertResult.code.add(new PlcAssignmentStatement(varExpr, convertResult.value));
             convertResult.codeVariables.addAll(exprResult.valueVariables); // Parent value is now in code.
@@ -725,7 +763,7 @@ public class ExprGenerator {
      * @return The updated list PLC projections.
      */
     private List<PlcProjection> convertAddProjections(List<ProjectionExpression> cifProjections,
-            List<PlcProjection> plcProjections, ExprGenResult convertResult)
+            List<PlcProjection> plcProjections, ExprGenResult<?, ?> convertResult)
     {
         for (int i = cifProjections.size() - 1; i >= 0; i--) {
             ProjectionExpression cifProjection = cifProjections.get(i);
@@ -734,7 +772,7 @@ public class ExprGenerator {
 
             if (unProjectedType instanceof ListType lt) {
                 // Convert the index.
-                ExprGenResult indexResult = convertExpr(cifIndexExpr);
+                ExprValueResult indexResult = convertValue(cifIndexExpr);
                 convertResult.mergeCodeAndVariables(indexResult);
 
                 PlcExpression normalizedIndex = funcAppls.normalizeArrayIndex(indexResult.value, lt.getUpper());
@@ -758,11 +796,11 @@ public class ExprGenerator {
      * @param funcCallExpr Expression performing the call.
      * @return The converted expression.
      */
-    private ExprGenResult convertFuncCallExpr(FunctionCallExpression funcCallExpr) {
+    private ExprValueResult convertFuncCallExpr(FunctionCallExpression funcCallExpr) {
         // Convert all parameters of the call.
-        List<ExprGenResult> argumentResults = listc(funcCallExpr.getParams().size());
+        List<ExprValueResult> argumentResults = listc(funcCallExpr.getParams().size());
         for (Expression param: funcCallExpr.getParams()) {
-            argumentResults.add(convertExpr(param));
+            argumentResults.add(convertValue(param));
         }
 
         // Dispatch call construction based on the function being called.
@@ -781,15 +819,15 @@ public class ExprGenerator {
      * @param argumentResults Already converted argument values of the call.
      * @return The converted expression.
      */
-    private ExprGenResult convertStdlibExpr(FunctionCallExpression stdlibCallExpr,
-            List<ExprGenResult> argumentResults)
+    private ExprValueResult convertStdlibExpr(FunctionCallExpression stdlibCallExpr,
+            List<ExprValueResult> argumentResults)
     {
         List<Expression> arguments = stdlibCallExpr.getParams();
         StdLibFunction stdlib = ((StdLibFunctionExpression)stdlibCallExpr.getFunction()).getFunction();
         switch (stdlib) {
             case ABS: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.absFuncAppl(arg1.value));
             }
 
@@ -798,7 +836,7 @@ public class ExprGenerator {
                 PlcExpression expValue = funcAppls.divideFuncAppl(new PlcRealLiteral("1.0"), new PlcRealLiteral("3.0"));
 
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.powerFuncAppl(arg1.value, expValue));
             }
 
@@ -818,7 +856,7 @@ public class ExprGenerator {
 
             case EXP: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.expFuncAppl(arg1.value));
             }
 
@@ -834,13 +872,13 @@ public class ExprGenerator {
 
             case LN: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.lnFuncAppl(arg1.value));
             }
 
             case LOG: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
 
                 if (!target.supportsOperation(PlcFuncOperation.STDLIB_LOG)) {
                     // Fallback to log10(x) = ln(x) / ln(10).
@@ -853,14 +891,14 @@ public class ExprGenerator {
 
             case MAXIMUM:
             case MINIMUM: {
+                // TODO Both MIN and MAX are n-ary functions in the PLC (just like disjucntion, add, or conjunction).
+                Assert.check(argumentResults.size() == 2);
                 CifType ltype = normalizeType(arguments.get(0).getType());
                 CifType rtype = normalizeType(arguments.get(1).getType());
                 PlcExpression leftSide = unifyTypeOfExpr(argumentResults.get(0).value, ltype, rtype);
                 PlcExpression rightSide = unifyTypeOfExpr(argumentResults.get(1).value, rtype, ltype);
 
-                // TODO Both MIN and MAX can be flattened to N-ary function calls thus allowing to perform multiple such
-                // CIF function calls at the same time.
-                ExprGenResult result = new ExprGenResult(this, argumentResults.get(0), argumentResults.get(1));
+                ExprValueResult result = new ExprValueResult(this, argumentResults.get(0), argumentResults.get(1));
                 if (stdlib == StdLibFunction.MAXIMUM) {
                     return result.setValue(funcAppls.maxFuncAppl(leftSide, rightSide));
                 } else {
@@ -873,6 +911,7 @@ public class ExprGenerator {
                 throw new RuntimeException("Precondition violation.");
 
             case POWER: {
+                Assert.check(argumentResults.size() == 2);
                 CifType baseType = normalizeType(arguments.get(0).getType());
                 CifType exponentType = normalizeType(arguments.get(1).getType());
                 boolean baseIsInt = baseType instanceof IntType;
@@ -917,7 +956,7 @@ public class ExprGenerator {
                     powCall = funcAppls.castFunctionAppl(powCall, target.getRealType(), target.getIntegerType());
                 }
 
-                ExprGenResult result = new ExprGenResult(this, argumentResults.get(0), argumentResults.get(1));
+                ExprValueResult result = new ExprValueResult(this, argumentResults.get(0), argumentResults.get(1));
                 return result.setValue(powCall);
             }
 
@@ -944,43 +983,43 @@ public class ExprGenerator {
 
             case SQRT: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.sqrtFuncAppl(arg1.value));
             }
 
             case ACOS: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.acosFuncAppl(arg1.value));
             }
 
             case ASIN: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.asinFuncAppl(arg1.value));
             }
 
             case ATAN: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.atanFuncAppl(arg1.value));
             }
 
             case COS: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.cosFuncAppl(arg1.value));
             }
 
             case SIN: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.sinFuncAppl(arg1.value));
             }
 
             case TAN: {
                 Assert.check(argumentResults.size() == 1);
-                ExprGenResult arg1 = argumentResults.get(0);
+                ExprValueResult arg1 = argumentResults.get(0);
                 return arg1.setValue(funcAppls.tanFuncAppl(arg1.value));
             }
 
@@ -1020,14 +1059,14 @@ public class ExprGenerator {
      * @param listExpr Expression to convert.
      * @return The converted expression.
      */
-    private ExprGenResult convertArrayExpr(ListExpression listExpr) {
+    private ExprValueResult convertArrayExpr(ListExpression listExpr) {
         PlcType listType = target.getTypeGenerator().convertType(listExpr.getType());
         PlcVariable arrayVar = getTempVariable("litArray", listType);
 
-        ExprGenResult result = new ExprGenResult(this);
+        ExprValueResult result = new ExprValueResult(this);
         int idx = 0;
         for (Expression e: listExpr.getElements()) {
-            ExprGenResult childResult = convertExpr(e);
+            ExprValueResult childResult = convertValue(e);
             // Add child computation to the result, return the temporary variables of it.
             result.mergeCode(childResult);
             releaseTempVariables(childResult.codeVariables);
@@ -1052,7 +1091,7 @@ public class ExprGenerator {
      * @param tupleExpr Expression to convert.
      * @return The converted expression.
      */
-    private ExprGenResult convertTupleExpr(TupleExpression tupleExpr) {
+    private ExprValueResult convertTupleExpr(TupleExpression tupleExpr) {
         // Construct the destination variable.
         PlcType varType = target.getTypeGenerator().convertType(tupleExpr.getType());
         PlcVariable structVar = getTempVariable("litStruct", varType);
@@ -1061,10 +1100,10 @@ public class ExprGenerator {
         PlcStructType structType = target.getTypeGenerator().getStructureType(varType);
 
         // Convert the values of the tuple expression and assign them to fields of the destination variable.
-        ExprGenResult result = new ExprGenResult(this);
+        ExprValueResult result = new ExprValueResult(this);
         int idx = 0;
         for (Expression e: tupleExpr.getFields()) {
-            ExprGenResult childResult = convertExpr(e);
+            ExprValueResult childResult = convertValue(e);
             // Add child computation to the result, return the temporary variables of it.
             result.mergeCode(childResult);
             releaseTempVariables(childResult.codeVariables);

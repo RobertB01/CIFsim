@@ -4,6 +4,10 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    timer := timer_Idle;
+    sup := sup_s1;
+    hw_button := hw_button_Released;
     hw_lamp_bit := FALSE;
+    hw_lamp := hw_lamp_Off;
 END_IF;
 END_PROGRAM
