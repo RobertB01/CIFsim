@@ -41,13 +41,6 @@ public class CombinedEdgesTest {
         Automaton aut1 = new Automaton(alph1);
 
         assertThrows(AssertionError.class, () -> new CombinedEdges(a, list(aut1)));
-
-        // Tests below have been disabled.
-        // assertEquals(a, ce.event);
-        // assertEquals(1, ce.sourceEdges.size());
-        // assertNull(ce.sourceEdges.get(0));
-
-        // ce.clear(); // Should not crash.
     }
 
     @SuppressWarnings("unused")
