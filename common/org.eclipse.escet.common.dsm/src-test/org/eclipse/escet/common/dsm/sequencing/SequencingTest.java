@@ -47,11 +47,11 @@ public class SequencingTest {
         StringBuilder sb = new StringBuilder();
         int pos = 0;
         for (Vertex v: vertices) {
-            vertexPositions.set(v.number, pos);
             if (pos > 0) {
                 sb.append(" ");
                 pos++;
             }
+            vertexPositions.set(v.number, pos);
             sb.append(v.name);
             pos += v.name.length();
         }
@@ -114,10 +114,9 @@ public class SequencingTest {
                 (12, 4) (12, 6) (12, 10)
                 """;
         String result = testSequencing(graphPairs);
-        String expected = "1 2 3 11 7 6 10 9 12 5 4 8kn"
+        String expected = "1 2 3 11 7 6 10 9 12 5 4 8\n"
                         + "           * *  * *\n"
                         + "                     * * *\n";
         assertEquals(expected, result);
     }
-
 }
