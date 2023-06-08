@@ -14,12 +14,12 @@
 package org.eclipse.escet.setext.texteditor;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
 import org.eclipse.escet.setext.texteditorbase.highlight.CodeHighlighter;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /** SeText code highlighter tests. Essentially tests the {@link CodeHighlighter} class. */
 public class SeTextCodeHighlighterIT {

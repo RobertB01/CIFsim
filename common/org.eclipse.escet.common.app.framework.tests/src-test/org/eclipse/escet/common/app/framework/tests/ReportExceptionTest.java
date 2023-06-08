@@ -15,7 +15,7 @@ package org.eclipse.escet.common.app.framework.tests;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,7 +28,7 @@ import org.eclipse.escet.common.app.framework.management.AppManager;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /** Unit tests for testing application framework exception reporting. */
 public class ReportExceptionTest {

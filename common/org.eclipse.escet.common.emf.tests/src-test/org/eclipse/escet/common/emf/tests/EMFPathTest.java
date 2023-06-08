@@ -13,9 +13,8 @@
 
 package org.eclipse.escet.common.emf.tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
@@ -24,7 +23,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.escet.common.emf.EMFPath;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /** Unit tests for the {@link EMFPath} class. */
 @SuppressWarnings("javadoc")
@@ -156,13 +155,14 @@ public class EMFPathTest {
         assertEquals("EClass.eStructuralFeatures[0] / EReference", path.toString());
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
+    @SuppressWarnings("unused")
     public void testPathConstructionInvalidRoot() {
         EPackage pkg = EcoreFactory.eINSTANCE.createEPackage();
         EClass cls = EcoreFactory.eINSTANCE.createEClass();
         pkg.getEClassifiers().add(cls);
 
-        assertThrows(AssertionError.class, () -> new EMFPath(pkg, null, cls));
+        new EMFPath(pkg, null, cls);
     }
 
     @Test
@@ -207,7 +207,7 @@ public class EMFPathTest {
         assertSame(ref2, rslt);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testResolveAgainstInvalidFeature() {
         // pkg1 -> cls1
         EPackage pkg1 = EcoreFactory.eINSTANCE.createEPackage();
@@ -218,10 +218,10 @@ public class EMFPathTest {
         EClass cls2 = EcoreFactory.eINSTANCE.createEClass();
 
         EMFPath path = new EMFPath(cls1, null);
-        assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(cls2));
+        path.resolveAgainst(cls2);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testResolveAgainstFeatureOnNull() {
         // ref1 -> gentype1
         EReference ref1 = EcoreFactory.eINSTANCE.createEReference();
@@ -233,10 +233,10 @@ public class EMFPathTest {
 
         EStructuralFeature feat = gentype1.eClass().getEStructuralFeature("eLowerBound");
         EMFPath path = new EMFPath(gentype1, feat);
-        assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(ref2));
+        path.resolveAgainst(ref2);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testResolveAgainstFeatureInvalidIndex() {
         // pkg1 -> cls1 -> ref1
         EPackage pkg1 = EcoreFactory.eINSTANCE.createEPackage();
@@ -249,6 +249,6 @@ public class EMFPathTest {
         EPackage pkg2 = EcoreFactory.eINSTANCE.createEPackage();
 
         EMFPath path = new EMFPath(ref1, null);
-        assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(pkg2));
+        path.resolveAgainst(pkg2);
     }
 }

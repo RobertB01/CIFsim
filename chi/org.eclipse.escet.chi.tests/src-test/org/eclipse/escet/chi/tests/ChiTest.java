@@ -14,7 +14,7 @@
 package org.eclipse.escet.chi.tests;
 
 import org.eclipse.escet.tooldef.interpreter.ToolDefBasedPluginUnitTest;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /** Chi integration and regression tests. */
 public class ChiTest extends ToolDefBasedPluginUnitTest {

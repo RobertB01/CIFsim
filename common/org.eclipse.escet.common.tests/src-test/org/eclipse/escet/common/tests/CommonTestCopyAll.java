@@ -14,7 +14,7 @@
 package org.eclipse.escet.common.tests;
 
 import org.eclipse.escet.tooldef.interpreter.ToolDefBasedPluginUnitTest;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * Copies all actual output after running {@link CommonTest} over the expected output. This allows to easily update the
