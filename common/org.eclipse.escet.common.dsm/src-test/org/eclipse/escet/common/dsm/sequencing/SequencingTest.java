@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
+import org.eclipse.escet.common.dsm.sequencing.graph.ReadGraph;
 import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
 import org.eclipse.escet.common.java.BitSetIterator;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class SequencingTest {
      * @return The generated output.
      */
     private static String testSequencing(String pairs) {
-        Graph g = Sequencer.loadVertexPairs(pairs);
+        Graph g = ReadGraph.loadVertexPairs(pairs);
         List<BitSet> collections = list();
         List<Vertex> vertices = Sequencer.sequenceGraph(g, collections);
 

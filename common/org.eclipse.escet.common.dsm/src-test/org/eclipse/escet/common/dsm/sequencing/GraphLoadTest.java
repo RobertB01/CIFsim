@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.escet.common.dsm.sequencing.graph.Edge;
 import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
+import org.eclipse.escet.common.dsm.sequencing.graph.ReadGraph;
 import org.eclipse.escet.common.java.Assert;
 import org.junit.Test;
 
@@ -25,14 +26,14 @@ public class GraphLoadTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testEmptyGraphLoad() {
-        Graph g = Sequencer.loadVertexPairs("");
+        Graph g = ReadGraph.loadVertexPairs("");
         assertEquals("Graph with 0 vertices.\n", g.dumpGraph());
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testStringGraphLoad() {
-        Graph g = Sequencer.loadVertexPairs("(0, 5) (0, 9), (5, 9)\n");
+        Graph g = ReadGraph.loadVertexPairs("(0, 5) (0, 9), (5, 9)\n");
 
         // Dirty way to tear the 0 -> 9 edge.
         Assert.check(g.vertices.get(0).name.equals("0"));
