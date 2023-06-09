@@ -25,7 +25,7 @@ import org.junit.Test;
 /** Tests for tearing edges of cycles. */
 @SuppressWarnings("javadoc")
 public class EdgeTearTest {
-    int countTearedEdges(List<Edge> edges) {
+    private int countTearedEdges(List<Edge> edges) {
         int count = 0;
         for (Edge e: edges) {
             count = count + (e.teared ? 1 : 0);

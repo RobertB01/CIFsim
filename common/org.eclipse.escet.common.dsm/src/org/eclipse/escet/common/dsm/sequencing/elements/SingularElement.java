@@ -24,7 +24,7 @@ public class SingularElement extends Element {
     public final Vertex vertex;
 
     /**
-     * Constructor of the {@link Element}.
+     * Constructor of the {@link SingularElement} class.
      *
      * @param vertex Vertex represented by the element.
      * @param inputs Inputs of the element.

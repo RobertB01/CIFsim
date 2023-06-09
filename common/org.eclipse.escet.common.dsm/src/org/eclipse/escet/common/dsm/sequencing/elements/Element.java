@@ -30,7 +30,7 @@ public abstract class Element {
     public final BitSet outputs;
 
     /**
-     * Constructor of the {@link Element}.
+     * Constructor of the {@link Element} class.
      *
      * @param inputs Inputs of the element.
      * @param outputs Outputs of the element.
@@ -61,14 +61,14 @@ public abstract class Element {
     }
 
     /**
-     * Set the indices in 'indexSet' of the vertices in the element.
+     * Set the indices in {@code indexSet} of the vertices in the element.
      *
      * @param indexSet Storage of the added indices.
      */
     public abstract void setVertexIndices(BitSet indexSet);
 
     /**
-     * Clear the indices in 'indexSet' of the vertices in the element.
+     * Clear the indices in {@code indexSet} of the vertices in the element.
      *
      * @param indexSet Storage of the added indices.
      */
@@ -97,8 +97,8 @@ public abstract class Element {
 
     @Override
     public String toString() {
-        String inputText = inputs.stream().mapToObj(i -> String.valueOf(i)).collect(Collectors.joining(","));
-        String outputText = outputs.stream().mapToObj(i -> String.valueOf(i)).collect(Collectors.joining(","));
+        String inputText = inputs.stream().mapToObj(String::valueOf).collect(Collectors.joining(","));
+        String outputText = outputs.stream().mapToObj(String::valueOf).collect(Collectors.joining(","));
         return fmt("<<Element %s: [%s] -> [%s]>>", getSelfNumbers(), inputText, outputText);
     }
 }

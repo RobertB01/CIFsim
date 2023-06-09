@@ -16,7 +16,7 @@ package org.eclipse.escet.common.dsm.sequencing.graph;
 import java.util.BitSet;
 import java.util.List;
 
-/** A cycle in the graph. */
+/** A cycle in a graph. */
 public class Cycle {
     /** Edges in the cycle. */
     public final List<Edge> edges;

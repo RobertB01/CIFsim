@@ -28,8 +28,8 @@ public class CollectionElement extends Element {
      * Constructor of the {@link CollectionElement} class.
      *
      * @param containedElements Singular elements in the collection.
-     * @param inputs Producers for this element.
-     * @param outputs Consumers for this element.
+     * @param inputs Inputs of the element.
+     * @param outputs Outputs of the element.
      */
     public CollectionElement(List<SingularElement> containedElements, BitSet inputs, BitSet outputs) {
         super(inputs, outputs);

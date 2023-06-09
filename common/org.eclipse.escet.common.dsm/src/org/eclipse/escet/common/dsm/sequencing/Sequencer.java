@@ -46,7 +46,7 @@ public class Sequencer {
     }
 
     /**
-     * Perform Sequencing ofthe provided graph.
+     * Perform sequencing of the provided graph.
      *
      * @param g Graph to sequence.
      * @param collections If not {@code null}, the list is in-place extended with collections of vertex indices for each
@@ -180,7 +180,7 @@ public class Sequencer {
                 // already for another vertex in 'cycle'?
                 //
                 // One occurrence of this is:
-                // - First vertex picks set X as the cycleCollection.
+                // - First vertex picks set X as the 'cycleCollection'.
                 // - Second vertex finds set Y as related, and Y gets copied into X (see below).
                 // - Third vertex finds set Y as related. Copying is allowed but not needed.
                 //
@@ -237,7 +237,7 @@ public class Sequencer {
      *
      * <p>
      * Heuristic has been published in: A. Kusiak and J.Wang, "Efficient organizing of design activities", International
-     * Journal of Production Research, volume volume 31, issue 4, pages 753-769, 1993,
+     * Journal of Production Research, volume 31, issue 4, pages 753-769, 1993,
      * doi:<a href="https://doi.org/10.1080/00207549308956755">10.1080/00207549308956755</a>.
      * </p>
      *
@@ -289,7 +289,7 @@ public class Sequencer {
                 BitSet cyclesWithEdge = entry.getValue();
                 cyclesWithEdge.andNot(tearedCycles); // Remove already teared cycles from the 'edgeCounts' entry.
 
-                int count = entry.getValue().cardinality();
+                int count = cyclesWithEdge .cardinality();
                 if (count == 0) { // Cutting this edge is not going to tear any cycle, remove it completely.
                     iter.remove();
                     continue;
@@ -330,12 +330,12 @@ public class Sequencer {
             containedVertices.or(cycle.vertices);
         }
 
-        BitSet collectionInputs = new BitSet(); // Inputs of the collection element.
-        BitSet collectionOutputs = new BitSet(); // Outputs of the collection element.
-
         // For each vertex in the collection, add its external dependencies to collection inputs and outputs. Also build
         // non-teared inputs and outputs of each internal vertex element over the internal elements only, so the
         // contained elements can be ordered.
+        BitSet collectionInputs = new BitSet(); // Inputs of the collection element.
+        BitSet collectionOutputs = new BitSet(); // Outputs of the collection element.
+
         SingularElement[] containedElements = new SingularElement[containedVertices.cardinality()];
         int nextFreeContained = 0;
 
@@ -362,12 +362,13 @@ public class Sequencer {
             containedElements[nextFreeContained] = new SingularElement(vertex, nonTearedinputs, nonTearedoutputs);
             nextFreeContained++;
         }
+
         // Order internal elements.
         SingularElement[] orderedElements = new SingularElement[containedElements.length];
         orderElements(containedElements, containedVertices, orderedElements);
 
         // Exclude the contained vertices from the input and output of the collection element, and construct the
-        // collection element with the ordered internal elements..
+        // collection element with the ordered internal elements.
         collectionInputs.andNot(containedVertices);
         collectionOutputs.andNot(containedVertices);
         return new CollectionElement(Arrays.asList(orderedElements), collectionInputs, collectionOutputs);
@@ -380,7 +381,7 @@ public class Sequencer {
      * @param <E> Type of the elements.
      * @param elements Elements to order. Array is destroyed during the call.
      * @param vertices The vertices contained by the given elements.
-     * @param destination Ordered output but you cannot create that in the function.
+     * @param destination Ordered output. Is modified in-place. Must have the same length as the number of elements to order.
      */
     private static <E extends Element> void orderElements(E[] elements, BitSet vertices, E[] destination) {
         Assert.check(elements.length == destination.length);
@@ -394,7 +395,7 @@ public class Sequencer {
         //
         // The 'destination' is split into 3 parts. A prefix part near the start of the array up-to and excluding the
         // 'firstEmpty' index. Similarly, there is a suffix part near the end of the array just after 'lastEmpty' up-to
-        // the end of the array. In between the perfix and suffix parts is empty space that becomes used when the prefix
+        // the end of the array. In between the prefix and suffix parts is empty space that becomes used when the prefix
         // or the suffix part grows.
         //
         // The input 'elements' array contains unordered elements that must be moved to the destination.
