@@ -29,18 +29,31 @@ import org.junit.Test;
 @SuppressWarnings("javadoc")
 public class CycleCollectingTest {
     private final Edge edge12 = new Edge(1, 2);
+
     private final Edge edge21 = new Edge(2, 1);
+
     private final Cycle cycle12 = new Cycle(List.of(edge12, edge21));
+
     private final Edge edge23 = new Edge(2, 3);
+
     private final Edge edge35 = new Edge(3, 5);
+
     private final Edge edge52 = new Edge(5, 2);
+
     private final Cycle cycle235 = new Cycle(List.of(edge23, edge35, edge52)); // Shares edge 3-5.
+
     private final Edge edge56 = new Edge(5, 6);
+
     private final Edge edge63 = new Edge(6, 3);
+
     private final Cycle cycle356 = new Cycle(List.of(edge63, edge35, edge56)); // Shares edge 3-5.
+
     private final Edge edge78 = new Edge(7, 8);
+
     private final Edge edge89 = new Edge(8, 9);
+
     private final Edge edge97 = new Edge(9, 7);
+
     private final Cycle cycle789 = new Cycle(List.of(edge78, edge89, edge97));
 
     @Test

@@ -289,7 +289,7 @@ public class Sequencer {
                 BitSet cyclesWithEdge = entry.getValue();
                 cyclesWithEdge.andNot(tearedCycles); // Remove already teared cycles from the 'edgeCounts' entry.
 
-                int count = cyclesWithEdge .cardinality();
+                int count = cyclesWithEdge.cardinality();
                 if (count == 0) { // Cutting this edge is not going to tear any cycle, remove it completely.
                     iter.remove();
                     continue;

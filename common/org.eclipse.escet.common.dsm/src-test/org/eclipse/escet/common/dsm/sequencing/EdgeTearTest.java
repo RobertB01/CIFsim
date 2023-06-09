@@ -82,6 +82,5 @@ public class EdgeTearTest {
         assertEquals(edge35, getFirstTearedEdge(cycle235));
         assertEquals(1, countTearedEdges(cycle356));
         assertEquals(edge35, getFirstTearedEdge(cycle356));
-
     }
 }
