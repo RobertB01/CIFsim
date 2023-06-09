@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
 
-/** An single DSM element. */
+/** A single vertex as DSM element. */
 public class SingularElement extends Element {
     /** Vertex of this element. */
     public final Vertex vertex;

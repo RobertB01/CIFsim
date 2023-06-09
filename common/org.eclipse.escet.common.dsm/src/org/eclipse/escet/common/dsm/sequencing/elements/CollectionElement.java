@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
 
-/** A collection of elements related through related cycles although that information has been dropped here. */
+/** A collection of related vertices as a DSM element. */
 public class CollectionElement extends Element {
     /** Cycle elements in the collection. */
     public final List<SingularElement> containedElements;

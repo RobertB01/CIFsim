@@ -136,13 +136,13 @@ public class Sequencer {
      * Construct zero or more collections of related cycles.
      *
      * <p>
-     * A cycle is related to another cycle if they share at least one vertex. In addition, all cycles are directly or
-     * indirectly linked to each other, you cannot partition the collection into 2 sets such that there is no relation
-     * between any pair of cycles from different sets.
+     * A collection contains all cycles that directly or indirectly (via other cycles) share at least one vertex. In
+     * other words, collections are disjoint partitions of cycles.
      * </p>
      *
      * <p>
-     * This in turn implies that each vertex is related to at most one collection of related cycles.
+     * Each vertex in a cycle is used in exactly one collection. If two cycles share a vertex they are related,
+     * and thus both cycles must be in the same collection.
      * </p>
      *
      * @param cycles Cycles to organize into collections.
@@ -343,23 +343,23 @@ public class Sequencer {
             Vertex vertex = graphVertices.get(vertexIndex);
 
             // Process input dependencies of the vertex.
-            BitSet nonTearedinputs = new BitSet();
+            BitSet nonTearedInputs = new BitSet();
             for (Edge e: vertex.inputs) {
                 collectionInputs.set(e.producingVertex);
-                nonTearedinputs.set(e.producingVertex, !e.teared);
+                nonTearedInputs.set(e.producingVertex, !e.teared);
             }
 
             // Process output dependencies of the vertex.
-            BitSet nonTearedoutputs = new BitSet();
+            BitSet nonTearedOutputs = new BitSet();
             for (Edge e: vertex.outputs) {
                 collectionOutputs.set(e.consumingVertex);
-                nonTearedoutputs.set(e.consumingVertex, !e.teared);
+                nonTearedOutputs.set(e.consumingVertex, !e.teared);
             }
 
             // Restrict the inputs and outputs of the internal element, and store it.
-            nonTearedinputs.and(containedVertices);
-            nonTearedoutputs.and(containedVertices);
-            containedElements[nextFreeContained] = new SingularElement(vertex, nonTearedinputs, nonTearedoutputs);
+            nonTearedInputs.and(containedVertices);
+            nonTearedOutputs.and(containedVertices);
+            containedElements[nextFreeContained] = new SingularElement(vertex, nonTearedInputs, nonTearedOutputs);
             nextFreeContained++;
         }
 

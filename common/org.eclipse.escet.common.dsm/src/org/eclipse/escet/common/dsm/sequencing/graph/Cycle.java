@@ -48,21 +48,17 @@ public class Cycle {
         }
 
         // Compute offset of 'otherCycle' for the first element of this cycle.
-        for (int offset = 0; offset < edges.size(); offset++) {
+        int offset; // Avoid false positive Checkstyle warning.
+        for (offset = 0; offset < edges.size(); offset++) {
             if (otherCycle.edges.get(offset).producingVertex != edges.get(0).producingVertex) {
                 continue;
             }
 
             // As these elements contain simple cycles, the same vertex will not be found at any other offset.
             // Therefore, to find a match it must happen at the found offset.
-
-            // Avoid check-style rule about not changing the iterator variable by stupid programmers so they can have
-            // the risk of using the wrong variable instead. Quite an improvement!
-            int theOffset = offset;
-
             for (int index = 1; index < edges.size(); index++) {
-                theOffset = (theOffset == edges.size() - 1) ? 0 : (theOffset + 1);
-                if (otherCycle.edges.get(theOffset).producingVertex != edges.get(index).producingVertex) {
+                offset = (offset + 1) % edges.size(); // Increment offset before comparing so index and offset match.
+                if (otherCycle.edges.get(offset).producingVertex != edges.get(index).producingVertex) {
                     return false;
                 }
             }
@@ -73,6 +69,6 @@ public class Cycle {
 
     @Override
     public int hashCode() {
-        return vertices.hashCode();
+        return vertices.hashCode(); // Abstracts from the order of the vertices.
     }
 }

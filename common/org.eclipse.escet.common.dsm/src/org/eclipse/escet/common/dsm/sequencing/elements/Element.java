@@ -61,16 +61,16 @@ public abstract class Element {
     }
 
     /**
-     * Set the indices in {@code indexSet} of the vertices in the element.
+     * Add the vertex indices of the element to the {@code indexSet}.
      *
-     * @param indexSet Storage of the added indices.
+     * @param indexSet Set to update, modified in-place.
      */
     public abstract void setVertexIndices(BitSet indexSet);
 
     /**
-     * Clear the indices in {@code indexSet} of the vertices in the element.
+     * Remove the vertex indices of the element from the {@code indexSet}.
      *
-     * @param indexSet Storage of the added indices.
+     * @param indexSet Set to update, modified in-place.
      */
     public abstract void clearVertexIndices(BitSet indexSet);
 
