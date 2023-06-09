@@ -14,7 +14,6 @@
 package org.eclipse.escet.common.dsm.sequencing;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -25,12 +24,21 @@ import org.junit.Test;
 /** Tests for tearing edges of cycles. */
 @SuppressWarnings("javadoc")
 public class EdgeTearTest {
-    private int countTearedEdges(List<Edge> edges) {
+    private int countTearedEdges(Cycle cycle) {
         int count = 0;
-        for (Edge e: edges) {
+        for (Edge e: cycle.edges) {
             count = count + (e.teared ? 1 : 0);
         }
         return count;
+    }
+
+    private Edge getFirstTearedEdge(Cycle cycle) {
+        for (Edge e: cycle.edges) {
+            if (e.teared) {
+                return e;
+            }
+        }
+        return null;
     }
 
     @Test
@@ -40,7 +48,7 @@ public class EdgeTearTest {
         Edge edge97 = new Edge(9, 7);
         Cycle cycle789 = new Cycle(List.of(edge78, edge89, edge97));
         Sequencer.tearCycles(List.of(cycle789));
-        assertEquals(1, countTearedEdges(cycle789.edges));
+        assertEquals(1, countTearedEdges(cycle789));
     }
 
     @Test
@@ -54,8 +62,8 @@ public class EdgeTearTest {
         Edge edge52 = new Edge(5, 2);
         Cycle cycle235 = new Cycle(List.of(edge23, edge35, edge52));
         Sequencer.tearCycles(List.of(cycle12, cycle235));
-        assertEquals(1, countTearedEdges(cycle12.edges));
-        assertEquals(1, countTearedEdges(cycle235.edges));
+        assertEquals(1, countTearedEdges(cycle12));
+        assertEquals(1, countTearedEdges(cycle235));
     }
 
     @Test
@@ -68,8 +76,12 @@ public class EdgeTearTest {
         Edge edge63 = new Edge(6, 3);
         Cycle cycle356 = new Cycle(List.of(edge63, edge35, edge56)); // Shares edge 3-5.
         Sequencer.tearCycles(List.of(cycle235, cycle356));
-        assertEquals(1, countTearedEdges(cycle235.edges));
-        assertEquals(1, countTearedEdges(cycle356.edges));
-        assertTrue(edge35.teared); // Heuristic forces tearing this edge.
+
+        // Heuristic forces edge 35 to be teared.
+        assertEquals(1, countTearedEdges(cycle235));
+        assertEquals(edge35, getFirstTearedEdge(cycle235));
+        assertEquals(1, countTearedEdges(cycle356));
+        assertEquals(edge35, getFirstTearedEdge(cycle356));
+
     }
 }

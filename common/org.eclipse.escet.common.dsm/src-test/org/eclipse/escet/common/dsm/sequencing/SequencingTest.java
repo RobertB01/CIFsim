@@ -18,9 +18,9 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.junit.Assert.assertEquals;
 
 import java.util.BitSet;
-import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
 import org.eclipse.escet.common.dsm.sequencing.graph.ReadGraph;
 import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
@@ -41,47 +41,39 @@ public class SequencingTest {
         List<BitSet> collections = list();
         List<Vertex> vertices = Sequencer.sequenceGraph(g, collections);
 
-        List<Integer> vertexPositions = listc(vertices.size());
-        while (vertexPositions.size() < vertices.size()) {
-            vertexPositions.add(null);
+        // Build a grid to layout the result, first row contains the vertex names, rows below it indicate the
+        // collections.
+        //
+        // Fill the first row of the grid with the sequenced vertices while storing their columns by vertex number.
+        GridBox grid = new GridBox(1 + collections.size(), vertices.size());
+        List<Integer> vertexGridColumns = listc(vertices.size());
+        while (vertexGridColumns.size() < vertices.size()) {
+            vertexGridColumns.add(null);
         }
-        StringBuilder sb = new StringBuilder();
-        int pos = 0;
+        int colNum = 0;
         for (Vertex v: vertices) {
-            if (pos > 0) {
-                sb.append(" ");
-                pos++;
-            }
-            vertexPositions.set(v.number, pos);
-            sb.append(v.name);
-            pos += v.name.length();
+            grid.set(0, colNum, v.name + " ");
+            vertexGridColumns.set(v.number, colNum);
+            colNum++;
         }
-        sb.append("\n");
+
+        // For each collection in the result, set a "*" in the columns for the vertices in that collection.
+        int collectionIndex = 0;
         for (BitSet collection: collections) {
-            List<Integer> positions = listc(collection.size());
             for (int vi: new BitSetIterator(collection)) {
-                positions.add(vertexPositions.get(vi));
+                grid.set(collectionIndex + 1, vertexGridColumns.get(vi), "*");
             }
-            Collections.sort(positions);
-            int curpos = 0;
-            for (int p: positions) {
-                while (curpos < p) {
-                    sb.append(" ");
-                    curpos++;
-                }
-                sb.append("*");
-                curpos++;
-            }
-            sb.append("\n");
+            collectionIndex++;
         }
-        return sb.toString();
+
+        return grid.toString();
     }
 
     @Test
     public void sequentialGraphTest() {
         String graphPairs = "(1, 2), (2, 3), (2, 4), (3, 4)";
         String result = testSequencing(graphPairs);
-        String expected = "1 2 3 4\n";
+        String expected = "1 2 3 4";
         assertEquals(expected, result);
     }
 
@@ -90,7 +82,7 @@ public class SequencingTest {
         String graphPairs = "(1, 2), (2, 3), (3, 2), (3, 4)";
         String result = testSequencing(graphPairs);
         String expected = "1 3 2 4\n"
-                        + "  * *\n";
+                        + "  * *";
         assertEquals(expected, result);
     }
 
@@ -117,7 +109,7 @@ public class SequencingTest {
         String result = testSequencing(graphPairs);
         String expected = "1 2 3 11 7 6 10 9 12 5 4 8\n"
                         + "           * *  * *\n"
-                        + "                     * * *\n";
+                        + "                     * * *";
         assertEquals(expected, result);
     }
 }
