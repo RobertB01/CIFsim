@@ -609,7 +609,7 @@ public class ExprGenerator {
     }
 
     /**
-     * Append an IF branch to a selection statement in the PLC code.
+     * Append an {@code IF} branch to a selection statement in the PLC code.
      *
      * <p>
      * Conceptually this function appends a <pre>ELSE IF guards THEN ....</pre> branch to the selection statement in
@@ -640,7 +640,7 @@ public class ExprGenerator {
      * @param genThenStats Code generator for the statements in the added branch.
      * @param selStat Selection statement returned the previous time, or {@code null} if no selection statement has been
      *     created yet.
-     * @param rootCode Code block for storing the entire generated PLC IF statement.
+     * @param rootCode Code block for storing the entire generated PLC {@code IF} statement.
      * @return The last used selection statement after adding the branch.
      */
     public PlcSelectionStatement addBranch(List<Expression> guards, Supplier<List<PlcStatement>> genThenStats,
