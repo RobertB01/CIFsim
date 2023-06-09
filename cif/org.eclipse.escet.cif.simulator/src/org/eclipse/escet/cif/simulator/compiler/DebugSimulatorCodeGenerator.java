@@ -81,7 +81,7 @@ public class DebugSimulatorCodeGenerator {
         // Add imports.
         file.imports.add("org.eclipse.escet.cif.simulator.CifSimulatorApp");
         file.imports.add("org.eclipse.escet.common.app.framework.AppProperties");
-        file.imports.add("org.junit.Test");
+        file.imports.add("org.junit.jupiter.api.Test");
 
         // Add header.
         CodeBox h = file.header;
