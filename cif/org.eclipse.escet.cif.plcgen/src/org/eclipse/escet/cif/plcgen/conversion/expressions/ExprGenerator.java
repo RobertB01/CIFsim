@@ -594,17 +594,14 @@ public class ExprGenerator {
      * @return Callback function that produces the code with the assignment.
      */
     private Supplier<List<PlcStatement>> generateThenStatement(PlcVariable resultVar, Expression resultValue) {
-        return new Supplier<>() {
-            @Override
-            public List<PlcStatement> get() {
-                List<PlcStatement> statements = list();
-                ExprValueResult retValueResult = convertValue(resultValue);
-                statements.addAll(retValueResult.code);
-                statements.add(new PlcAssignmentStatement(new PlcVarExpression(resultVar), retValueResult.value));
-                releaseTempVariables(retValueResult.codeVariables);
-                releaseTempVariables(retValueResult.valueVariables);
-                return statements;
-            }
+        return () -> {
+            List<PlcStatement> statements = list();
+            ExprValueResult retValueResult = convertValue(resultValue);
+            statements.addAll(retValueResult.code);
+            statements.add(new PlcAssignmentStatement(new PlcVarExpression(resultVar), retValueResult.value));
+            releaseTempVariables(retValueResult.codeVariables);
+            releaseTempVariables(retValueResult.valueVariables);
+            return statements;
         };
     }
 
@@ -647,7 +644,7 @@ public class ExprGenerator {
             PlcSelectionStatement selStat, List<PlcStatement> rootCode)
     {
         // Place to store generated guard condition code. If no guards are present (that is, it's the final 'else'
-        // branch. The 'then' statements are put there in this case.
+        // branch), the 'then' statements are put in the ELSE branch.
         List<PlcStatement> codeStorage = (selStat != null) ? selStat.elseStats : rootCode;
 
         if (guards != null) {
