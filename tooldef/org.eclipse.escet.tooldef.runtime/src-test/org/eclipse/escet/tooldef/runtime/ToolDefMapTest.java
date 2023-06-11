@@ -49,6 +49,7 @@ public class ToolDefMapTest {
         assertEquals("{1: 2, 3: 4}", map4.toString());
     }
 
+    @Test
     public void testCreateInitialCapacityNegative() {
         assertThrows(IllegalArgumentException.class, () -> new ToolDefMap<>(-1));
     }
