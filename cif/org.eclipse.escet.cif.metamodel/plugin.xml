@@ -49,6 +49,14 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated cif -->
+      <package
+            uri="http://eclipse.org/escet/cif/annotations"
+            class="org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage"
+            genModel="model/cif.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://eclipse.org/escet/cif/types"
             class="org.eclipse.escet.cif.metamodel.cif.types.TypesPackage"

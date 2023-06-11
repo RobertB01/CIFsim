@@ -8,6 +8,9 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.escet.cif.metamodel.cif,
+ org.eclipse.escet.cif.metamodel.cif.annotations,
+ org.eclipse.escet.cif.metamodel.cif.annotations.impl,
+ org.eclipse.escet.cif.metamodel.cif.annotations.util,
  org.eclipse.escet.cif.metamodel.cif.automata,
  org.eclipse.escet.cif.metamodel.cif.automata.impl,
  org.eclipse.escet.cif.metamodel.cif.automata.util,
