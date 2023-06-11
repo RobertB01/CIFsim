@@ -14,7 +14,7 @@
 package org.eclipse.escet.common.tests;
 
 import org.eclipse.escet.tooldef.interpreter.ToolDefBasedPluginUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Common tools integration and regression tests. */
 public class CommonTest extends ToolDefBasedPluginUnitTest {

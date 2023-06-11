@@ -14,11 +14,11 @@
 package org.eclipse.escet.common.app.framework.tests;
 
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -31,7 +31,7 @@ import org.eclipse.escet.common.app.framework.javacompiler.JavaInputFileObject;
 import org.eclipse.escet.common.app.framework.javacompiler.ResourceClassLoader;
 import org.eclipse.escet.common.app.framework.javacompiler.RuntimeJavaCompiler;
 import org.eclipse.escet.common.app.framework.javacompiler.RuntimeJavaCompilerException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link RuntimeJavaCompiler}. */
 public abstract class RuntimeJavaCompilerTest {

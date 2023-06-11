@@ -14,8 +14,8 @@
 package org.eclipse.escet.common.emf.tests;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +26,7 @@ import org.eclipse.escet.common.emf.EMFResourceException;
 import org.eclipse.escet.common.emf.ResourceManager;
 import org.eclipse.escet.common.java.Exceptions;
 import org.eclipse.escet.common.java.Strings;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link ResourceManager} class. */
 public class ResourceManagerTest {

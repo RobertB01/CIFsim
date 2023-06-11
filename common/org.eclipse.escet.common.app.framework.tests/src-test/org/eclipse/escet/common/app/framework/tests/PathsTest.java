@@ -15,26 +15,26 @@ package org.eclipse.escet.common.app.framework.tests;
 
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.Arrays;
 
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link Paths} class. */
 @SuppressWarnings("javadoc")
 public class PathsTest {
-    @Before
+    @BeforeEach
     public void before() {
         AppEnv.registerSimple();
     }
 
-    @After
+    @AfterEach
     public void after() {
         AppEnv.unregisterApplication();
     }
@@ -288,8 +288,8 @@ public class PathsTest {
             String msg2 = fmt("Case %d: join(%s)", i, Arrays.deepToString(inputs2));
 
             // Test it.
-            assertEquals(msg1, expectedOutput, actualOutput1);
-            assertEquals(msg2, expectedOutput, actualOutput2);
+            assertEquals(expectedOutput, actualOutput1, msg1);
+            assertEquals(expectedOutput, actualOutput2, msg2);
         }
     }
 
@@ -382,7 +382,7 @@ public class PathsTest {
                 for (String rel: new String[] {rel1, rel2}) {
                     String actual = Paths.getRelativePath(tgt, rel);
                     String msg = fmt("getRelativePath(%s, %s)", tgt, rel);
-                    assertEquals(msg, expected, actual);
+                    assertEquals(expected, actual, msg);
                 }
             }
         }
@@ -406,7 +406,7 @@ public class PathsTest {
             String expAbsDirPath = test[1];
             String realAbsDirPath = Paths.getAbsFilePathDir(absFilePath);
             String msg = fmt("getAbsFilePathDir(%s) = %s != %s", absFilePath, realAbsDirPath, expAbsDirPath);
-            assertEquals(msg, expAbsDirPath, realAbsDirPath);
+            assertEquals(expAbsDirPath, realAbsDirPath, msg);
         }
     }
 
@@ -438,7 +438,7 @@ public class PathsTest {
             String expFileName = test[1];
             String realFileName = Paths.getFileName(filePath);
             String msg = fmt("getFileName(%s) = %s != %s", filePath, realFileName, expFileName);
-            assertEquals(msg, expFileName, realFileName);
+            assertEquals(expFileName, realFileName, msg);
         }
     }
 }
