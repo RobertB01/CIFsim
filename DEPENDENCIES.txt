@@ -31,10 +31,8 @@ maven/mavencentral/org.eclipse.sisu/org.eclipse.sisu.inject/0.3.5, EPL-1.0, appr
 maven/mavencentral/org.eclipse.sisu/org.eclipse.sisu.plexus/0.3.5, EPL-1.0, approved, technology.sisu
 maven/mavencentral/org.jsoup/jsoup/1.15.3, MIT, approved, #3272
 maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.9.2, EPL-2.0, approved, #3133
-maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.9.3, EPL-2.0, approved, #3133
 maven/mavencentral/org.junit.jupiter/junit-jupiter-engine/5.9.2, EPL-2.0, approved, #3125
 maven/mavencentral/org.junit.platform/junit-platform-commons/1.9.2, EPL-2.0, approved, #3130
-maven/mavencentral/org.junit.platform/junit-platform-commons/1.9.3, EPL-2.0, approved, #3130
 maven/mavencentral/org.junit.platform/junit-platform-engine/1.9.2, EPL-2.0, approved, #3128
 maven/mavencentral/org.junit.platform/junit-platform-launcher/1.9.2, EPL-2.0, approved, #3132
 maven/mavencentral/org.opentest4j/opentest4j/1.2.0, Apache-2.0, approved, clearlydefined
