@@ -34,6 +34,8 @@ import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -425,6 +427,124 @@ public abstract class CifWithArgWalker<T> {
      * @param arg The extra argument provided to the post-processing method.
      */
     protected void postprocessAlphabet(Alphabet obj, T arg) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Walking function for the {@link Annotation} class.
+     *
+     * @param obj The object to walk over.
+     * @param arg The extra argument provided to the walking method.
+     */
+    protected void walkAnnotation(Annotation obj, T arg) {
+        precrawlAnnotation(obj, arg);
+        List<AnnotationArgument> _arguments = obj.getArguments();
+        for (AnnotationArgument x: _arguments) {
+            walkAnnotationArgument(x, arg);
+        }
+        Position _position = obj.getPosition();
+        if (_position != null) {
+            walkPosition(_position, arg);
+        }
+        postcrawlAnnotation(obj, arg);
+    }
+
+    /**
+     * Pre-crawling function for the {@link Annotation} class.
+     *
+     * @param obj The object to crawl over.
+     * @param arg The extra argument provided to the pre-crawling method.
+     */
+    protected void precrawlAnnotation(Annotation obj, T arg) {
+        precrawlPositionObject(obj, arg);
+        preprocessAnnotation(obj, arg);
+    }
+
+    /**
+     * Post-crawling function for the {@link Annotation} class.
+     *
+     * @param obj The object to crawl over.
+     * @param arg The extra argument provided to the post-crawling method.
+     */
+    protected void postcrawlAnnotation(Annotation obj, T arg) {
+        postprocessAnnotation(obj, arg);
+        postcrawlPositionObject(obj, arg);
+    }
+
+    /**
+     * Pre-processing function for the {@link Annotation} class.
+     *
+     * @param obj The object to pre-process.
+     * @param arg The extra argument provided to the pre-processing method.
+     */
+    protected void preprocessAnnotation(Annotation obj, T arg) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Post-processing function for the {@link Annotation} class.
+     *
+     * @param obj The object to post-process.
+     * @param arg The extra argument provided to the post-processing method.
+     */
+    protected void postprocessAnnotation(Annotation obj, T arg) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Walking function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to walk over.
+     * @param arg The extra argument provided to the walking method.
+     */
+    protected void walkAnnotationArgument(AnnotationArgument obj, T arg) {
+        precrawlAnnotationArgument(obj, arg);
+        Position _position = obj.getPosition();
+        if (_position != null) {
+            walkPosition(_position, arg);
+        }
+        postcrawlAnnotationArgument(obj, arg);
+    }
+
+    /**
+     * Pre-crawling function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to crawl over.
+     * @param arg The extra argument provided to the pre-crawling method.
+     */
+    protected void precrawlAnnotationArgument(AnnotationArgument obj, T arg) {
+        precrawlPositionObject(obj, arg);
+        preprocessAnnotationArgument(obj, arg);
+    }
+
+    /**
+     * Post-crawling function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to crawl over.
+     * @param arg The extra argument provided to the post-crawling method.
+     */
+    protected void postcrawlAnnotationArgument(AnnotationArgument obj, T arg) {
+        postprocessAnnotationArgument(obj, arg);
+        postcrawlPositionObject(obj, arg);
+    }
+
+    /**
+     * Pre-processing function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to pre-process.
+     * @param arg The extra argument provided to the pre-processing method.
+     */
+    protected void preprocessAnnotationArgument(AnnotationArgument obj, T arg) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Post-processing function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to post-process.
+     * @param arg The extra argument provided to the post-processing method.
+     */
+    protected void postprocessAnnotationArgument(AnnotationArgument obj, T arg) {
         // Derived classes may override this method to do actual processing.
     }
 
@@ -5606,6 +5726,14 @@ public abstract class CifWithArgWalker<T> {
     protected void walkPositionObject(PositionObject obj, T arg) {
         if (obj instanceof Alphabet) {
             walkAlphabet((Alphabet)obj, arg);
+            return;
+        }
+        if (obj instanceof Annotation) {
+            walkAnnotation((Annotation)obj, arg);
+            return;
+        }
+        if (obj instanceof AnnotationArgument) {
+            walkAnnotationArgument((AnnotationArgument)obj, arg);
             return;
         }
         if (obj instanceof CifType) {

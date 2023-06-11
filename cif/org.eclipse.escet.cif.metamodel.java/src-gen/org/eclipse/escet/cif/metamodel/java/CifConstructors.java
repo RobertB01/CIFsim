@@ -37,6 +37,9 @@ import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsFactory;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataFactory;
@@ -280,6 +283,68 @@ public class CifConstructors {
         }
         if (position != null) {
             rslt_.setPosition(position);
+        }
+        return rslt_;
+    }
+
+    /**
+     * Returns a new instance of the {@link Annotation} class. This constructs a new object, without setting any of its features.
+     *
+     * @return A new instance of the {@link Annotation} class.
+     */
+    public static Annotation newAnnotation() {
+        return AnnotationsFactory.eINSTANCE.createAnnotation();
+    }
+
+    /**
+     * Returns a new instance of the {@link Annotation} class.
+     *
+     * @param arguments The "arguments" of the new "Annotation". Multiplicity [0..*]. May be {@code null} to skip setting the "arguments", or to set it later.
+     * @param name The "name" of the new "Annotation". Multiplicity [1..1]. May be {@code null} to set the "name" later.
+     * @param position The "position" of the new "Annotation". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @return A new instance of the {@link Annotation} class.
+     */
+    public static Annotation newAnnotation(List<AnnotationArgument> arguments, String name, Position position) {
+        Annotation rslt_ = newAnnotation();
+        if (arguments != null) {
+            rslt_.getArguments().addAll(arguments);
+        }
+        if (name != null) {
+            rslt_.setName(name);
+        }
+        if (position != null) {
+            rslt_.setPosition(position);
+        }
+        return rslt_;
+    }
+
+    /**
+     * Returns a new instance of the {@link AnnotationArgument} class. This constructs a new object, without setting any of its features.
+     *
+     * @return A new instance of the {@link AnnotationArgument} class.
+     */
+    public static AnnotationArgument newAnnotationArgument() {
+        return AnnotationsFactory.eINSTANCE.createAnnotationArgument();
+    }
+
+    /**
+     * Returns a new instance of the {@link AnnotationArgument} class.
+     *
+     * @param name The "name" of the new "AnnotationArgument". Multiplicity [1..1]. May be {@code null} to set the "name" later.
+     * @param position The "position" of the new "AnnotationArgument". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param value The "value" of the new "AnnotationArgument". Multiplicity [1..1]. May be {@code null} to set the "value" later.
+     * @return A new instance of the {@link AnnotationArgument} class.
+     */
+    public static AnnotationArgument newAnnotationArgument(String name, Position position, Expression value) {
+        AnnotationArgument rslt_ = newAnnotationArgument();
+        if (name != null) {
+            rslt_.setName(name);
+        }
+        if (position != null) {
+            rslt_.setPosition(position);
+        }
+        if (value != null) {
+            rslt_.setValue(value);
         }
         return rslt_;
     }
