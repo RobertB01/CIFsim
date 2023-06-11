@@ -15,11 +15,11 @@ package org.eclipse.escet.chi.runtime;
 
 import static org.eclipse.escet.chi.runtime.IoFunctions.readInt;
 import static org.eclipse.escet.chi.runtime.IoFunctions.readString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.escet.chi.runtime.data.io.ChiReadMemoryFile;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the I/O functions. */
 @SuppressWarnings("javadoc")

@@ -17,15 +17,15 @@ import static org.eclipse.escet.common.dsm.submatrix.SubMatrixFunctions.makeSubN
 import static org.eclipse.escet.common.java.BitSets.bitset;
 import static org.eclipse.escet.common.java.BitSets.makeBitset;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.dsm.Group.GroupType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for construction a sub nodes array. */
 public class MakeSubNodesTest {

@@ -15,7 +15,7 @@ package org.eclipse.escet.chi.codegen.statements.seq;
 
 import static org.eclipse.escet.chi.codegen.statements.seq.Seq.convertStatements;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import org.eclipse.escet.chi.codegen.java.JavaClass;
 import org.eclipse.escet.chi.metamodel.chi.ChiFactory;
 import org.eclipse.escet.chi.metamodel.chi.Statement;
 import org.eclipse.escet.common.box.VBox;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for converting Chi statements to seq statements.

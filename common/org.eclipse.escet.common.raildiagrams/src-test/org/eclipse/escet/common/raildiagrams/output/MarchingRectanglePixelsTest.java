@@ -13,14 +13,14 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.eclipse.escet.common.raildiagrams.output.MarchingRectangles.Edge;
 import org.eclipse.escet.common.raildiagrams.output.MarchingRectangles.Pixel;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests of the {@link MarchingRectangles.Pixel} class. */
 public class MarchingRectanglePixelsTest {

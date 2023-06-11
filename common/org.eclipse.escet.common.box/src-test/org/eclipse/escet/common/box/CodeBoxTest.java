@@ -14,13 +14,14 @@
 package org.eclipse.escet.common.box;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link CodeBox} class. */
 public abstract class CodeBoxTest extends BoxTestsBase {
@@ -140,34 +141,34 @@ public abstract class CodeBoxTest extends BoxTestsBase {
         assertEqualLists(list("", "a"), box.getLines());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testIllegalDedent() {
         CodeBox box = createCodeBox();
-        box.dedent();
+        assertThrows(IllegalStateException.class, () -> box.dedent());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testIllegalIndentAmount1() {
-        createCodeBox(0);
+        assertThrows(IllegalArgumentException.class, () -> createCodeBox(0));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testIllegalIndentAmount2() {
-        createCodeBox(-1);
+        assertThrows(IllegalArgumentException.class, () -> createCodeBox(-1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testIllegalIndentAmount3() {
-        createCodeBox().setIndentAmount(0);
+        assertThrows(IllegalArgumentException.class, () -> createCodeBox().setIndentAmount(0));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testIllegalIndentAmount4() {
-        createCodeBox().setIndentAmount(-1);
+        assertThrows(IllegalArgumentException.class, () -> createCodeBox().setIndentAmount(-1));
     }
 }

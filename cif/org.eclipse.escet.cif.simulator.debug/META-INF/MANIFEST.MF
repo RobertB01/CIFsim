@@ -38,6 +38,6 @@ Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="0.10.0",
  org.knowm.xchart;bundle-version="3.6.5",
  org.apache.commons.lang3;bundle-version="3.1.0",
  org.eclipse.escet.cif.simulator;bundle-version="0.10.0",
- org.junit,
  org.apache.commons.commons-text;bundle-version="1.10.0"
+Import-Package: org.junit.jupiter.api;version="5.9.2"
 Automatic-Module-Name: org.eclipse.escet.cif.simulator.debug

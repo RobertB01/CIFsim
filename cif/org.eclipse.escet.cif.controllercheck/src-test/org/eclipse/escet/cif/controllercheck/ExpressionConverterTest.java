@@ -30,8 +30,8 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newVariableVa
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.mapc;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -61,8 +61,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Tests of the expression converter. */
 public class ExpressionConverterTest {
@@ -99,7 +99,7 @@ public class ExpressionConverterTest {
     /** The MDD expression converter. */
     private ConvertExpression convert;
 
-    @Before
+    @BeforeEach
     @SuppressWarnings("javadoc")
     public void beforeTest() {
         // Create CIF variables.

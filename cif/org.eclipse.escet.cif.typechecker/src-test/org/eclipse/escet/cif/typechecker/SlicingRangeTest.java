@@ -16,13 +16,13 @@ package org.eclipse.escet.cif.typechecker;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifMath;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Slicing range tests. */
 public class SlicingRangeTest {

@@ -13,11 +13,12 @@
 
 package org.eclipse.escet.cif.datasynth.bdd;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
@@ -29,9 +30,9 @@ public class CifBddBitVectorTest {
     /** The BDD factory to use. */
     private final BDDFactory factory = BDDFactory.init("java", 100, 100);
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateNegative() {
-        CifBddBitVector.create(factory, -1);
+        assertThrows(IllegalArgumentException.class, () -> CifBddBitVector.create(factory, -1));
     }
 
     @Test
@@ -44,9 +45,9 @@ public class CifBddBitVectorTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateBitsNegative() {
-        CifBddBitVector.create(factory, -1);
+        assertThrows(IllegalArgumentException.class, () -> CifBddBitVector.create(factory, -1));
     }
 
     @Test
@@ -62,9 +63,9 @@ public class CifBddBitVectorTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateIntNegative() {
-        CifBddBitVector.create(factory, -1);
+        assertThrows(IllegalArgumentException.class, () -> CifBddBitVector.create(factory, -1));
     }
 
     @Test
@@ -79,14 +80,14 @@ public class CifBddBitVectorTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateIntWithLenNegativeLen() {
-        CifBddBitVector.createInt(factory, -1, 1);
+        assertThrows(IllegalArgumentException.class, () -> CifBddBitVector.createInt(factory, -1, 1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateIntWithLenNegativeValue() {
-        CifBddBitVector.createInt(factory, 1, -1);
+        assertThrows(IllegalArgumentException.class, () -> CifBddBitVector.createInt(factory, 1, -1));
     }
 
     @Test
@@ -209,16 +210,16 @@ public class CifBddBitVectorTest {
         assertEquals(factory.zero(), vector.getBit(0));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testGetNegative() {
         CifBddBitVector vector = CifBddBitVector.create(factory, 1);
-        vector.getBit(-1);
+        assertThrows(IndexOutOfBoundsException.class, () -> vector.getBit(-1));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testGetTooLarge() {
         CifBddBitVector vector = CifBddBitVector.create(factory, 1);
-        vector.getBit(1);
+        assertThrows(IndexOutOfBoundsException.class, () -> vector.getBit(1));
     }
 
     @Test
@@ -274,16 +275,16 @@ public class CifBddBitVectorTest {
         }
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testSetBitNegative() {
         CifBddBitVector vector = CifBddBitVector.create(factory, 1);
-        vector.setBit(-1, factory.zero());
+        assertThrows(IndexOutOfBoundsException.class, () -> vector.setBit(-1, factory.zero()));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testSetBitTooLarge() {
         CifBddBitVector vector = CifBddBitVector.create(factory, 1);
-        vector.setBit(1, factory.zero());
+        assertThrows(IndexOutOfBoundsException.class, () -> vector.setBit(1, factory.zero()));
     }
 
     @Test
@@ -335,16 +336,16 @@ public class CifBddBitVectorTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetIntNegative() {
         CifBddBitVector vector = CifBddBitVector.create(factory, 1);
-        vector.setInt(-1);
+        assertThrows(IllegalArgumentException.class, () -> vector.setInt(-1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetIntTooLarge() {
         CifBddBitVector vector = CifBddBitVector.create(factory, 2);
-        vector.setInt(4);
+        assertThrows(IllegalArgumentException.class, () -> vector.setInt(4));
     }
 
     @Test
@@ -457,9 +458,9 @@ public class CifBddBitVectorTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testResizeNegative() {
-        CifBddBitVector.create(factory, 0).resize(-1);
+        assertThrows(IllegalArgumentException.class, () -> CifBddBitVector.create(factory, 0).resize(-1));
     }
 
     @Test
@@ -539,22 +540,22 @@ public class CifBddBitVectorTest {
         assertEquals(true, vc.carry.isOne());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDivZero() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1);
-        vector.div(0);
+        assertThrows(IllegalArgumentException.class, () -> vector.div(0));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDivNegative() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1);
-        vector.div(-1);
+        assertThrows(IllegalArgumentException.class, () -> vector.div(-1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDivTooLarge() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1, 0);
-        vector.div(2);
+        assertThrows(IllegalArgumentException.class, () -> vector.div(2));
     }
 
     @Test
@@ -566,33 +567,33 @@ public class CifBddBitVectorTest {
             for (int j = 1; j < cnt; j++) {
                 int actual = vector.div(j).getInt();
                 int expected = i / j;
-                assertEquals(i + " / " + j, expected, actual);
+                assertEquals(expected, actual, i + " / " + j);
             }
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testModZero() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1);
-        vector.mod(0);
+        assertThrows(IllegalArgumentException.class, () -> vector.mod(0));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testModNegative() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1);
-        vector.mod(-1);
+        assertThrows(IllegalArgumentException.class, () -> vector.mod(-1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testModTooLarge() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1, 0);
-        vector.mod(2);
+        assertThrows(IllegalArgumentException.class, () -> vector.mod(2));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testModHighestNonFalse() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1);
-        vector.mod(1);
+        assertThrows(IllegalStateException.class, () -> vector.mod(1));
     }
 
     @Test
@@ -630,15 +631,15 @@ public class CifBddBitVectorTest {
             for (int j = 1; j < cnt; j++) {
                 int actual = vector.mod(j).getInt();
                 int expected = i % j;
-                assertEquals(i + " % " + j, expected, actual);
+                assertEquals(expected, actual, i + " % " + j);
             }
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testShiftLeftNegative() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1);
-        vector.shiftLeft(-1, factory.zero());
+        assertThrows(IllegalArgumentException.class, () -> vector.shiftLeft(-1, factory.zero()));
     }
 
     @Test
@@ -680,10 +681,10 @@ public class CifBddBitVectorTest {
         assertEquals(val6f, vector.shiftLeft(7, factory.zero()).getInt());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testShiftRightNegative() {
         CifBddBitVector vector = CifBddBitVector.createInt(factory, 1);
-        vector.shiftRight(-1, factory.zero());
+        assertThrows(IllegalArgumentException.class, () -> vector.shiftRight(-1, factory.zero()));
     }
 
     @Test

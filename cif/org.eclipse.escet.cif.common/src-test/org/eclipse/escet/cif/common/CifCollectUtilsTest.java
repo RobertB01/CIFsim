@@ -17,11 +17,11 @@ import static org.eclipse.escet.cif.common.CifCollectUtils.getComplexComponentsS
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newGroup;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link CifCollectUtils} class. */
 public class CifCollectUtilsTest {

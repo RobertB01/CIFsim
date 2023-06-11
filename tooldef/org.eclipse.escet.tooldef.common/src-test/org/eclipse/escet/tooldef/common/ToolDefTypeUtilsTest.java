@@ -42,9 +42,9 @@ import static org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors.newTo
 import static org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors.newTupleType;
 import static org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors.newTypeParam;
 import static org.eclipse.escet.tooldef.metamodel.java.ToolDefConstructors.newTypeParamRef;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -63,7 +63,7 @@ import org.eclipse.escet.tooldef.metamodel.tooldef.TypeParam;
 import org.eclipse.escet.tooldef.metamodel.tooldef.types.IntType;
 import org.eclipse.escet.tooldef.metamodel.tooldef.types.ToolDefType;
 import org.eclipse.escet.tooldef.metamodel.tooldef.types.TypeParamRef;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link ToolDefTypeUtils} class. */
 @SuppressWarnings("javadoc")
@@ -219,8 +219,8 @@ public class ToolDefTypeUtilsTest {
             for (ToolDefType t2: TYPES) {
                 String msg12 = fmt("equal(%s, %s)", typeToStr(t1), typeToStr(t2));
                 String msg21 = fmt("equal(%s, %s)", typeToStr(t2), typeToStr(t1));
-                assertEquals(msg12, t1 == t2, areEqualTypes(t1, t2));
-                assertEquals(msg21, t1 == t2, areEqualTypes(t2, t1));
+                assertEquals(t1 == t2, areEqualTypes(t1, t2), msg12);
+                assertEquals(t1 == t2, areEqualTypes(t2, t1), msg21);
             }
         }
     }
@@ -238,8 +238,8 @@ public class ToolDefTypeUtilsTest {
                 String txt2 = typeToStr(t2);
                 String msg12 = fmt("equal(%s, %s)", txt1, txt2);
                 String msg21 = fmt("equal(%s, %s)", txt2, txt1);
-                assertEquals(msg12, txt1.equals(txt2), areEqualTypes(t1, t2));
-                assertEquals(msg21, txt1.equals(txt2), areEqualTypes(t2, t1));
+                assertEquals(txt1.equals(txt2), areEqualTypes(t1, t2), msg12);
+                assertEquals(txt1.equals(txt2), areEqualTypes(t2, t1), msg21);
             }
         }
     }
@@ -257,8 +257,8 @@ public class ToolDefTypeUtilsTest {
                 String txt2 = typeToStr(t2);
                 String msg12 = fmt("equal(%s, %s)", txt1, txt2);
                 String msg21 = fmt("equal(%s, %s)", txt2, txt1);
-                assertEquals(msg12, txt1.equals(txt2), areEqualTypes(t1, t2));
-                assertEquals(msg21, txt1.equals(txt2), areEqualTypes(t2, t1));
+                assertEquals(txt1.equals(txt2), areEqualTypes(t1, t2), msg12);
+                assertEquals(txt1.equals(txt2), areEqualTypes(t2, t1), msg21);
             }
         }
     }
@@ -275,8 +275,8 @@ public class ToolDefTypeUtilsTest {
                 } else {
                     rslt = t1 != t2;
                 }
-                assertEquals(msg12, rslt, areDistinguishableTypes(t1, t2));
-                assertEquals(msg21, rslt, areDistinguishableTypes(t2, t1));
+                assertEquals(rslt, areDistinguishableTypes(t1, t2), msg12);
+                assertEquals(rslt, areDistinguishableTypes(t2, t1), msg21);
             }
         }
     }
@@ -513,35 +513,35 @@ public class ToolDefTypeUtilsTest {
                 ToolDefType merged = mergeTypes(t1, t2);
 
                 // Fresh/cloned result.
-                assertNotSame(txt, t1, merged);
-                assertNotSame(txt, t2, merged);
+                assertNotSame(t1, merged, txt);
+                assertNotSame(t2, merged, txt);
 
                 // Symmetric result.
                 ToolDefType merged2 = mergeTypes(t2, t1);
-                assertEquals(txt, true, areEqualTypes(merged, merged2));
+                assertEquals(true, areEqualTypes(merged, merged2), txt);
 
                 // Merged type contains both original types.
-                assertEquals(txt, true, isSubType(t1, merged));
-                assertEquals(txt, true, isSubType(t2, merged));
+                assertEquals(true, isSubType(t1, merged), txt);
+                assertEquals(true, isSubType(t2, merged), txt);
 
                 // If equal, types themselves are the merge result.
                 if (areEqualTypes(t1, t2)) {
-                    assertEquals(txt, true, areEqualTypes(t1, merged));
-                    assertEquals(txt, true, areEqualTypes(t2, merged));
+                    assertEquals(true, areEqualTypes(t1, merged), txt);
+                    assertEquals(true, areEqualTypes(t2, merged), txt);
                 }
 
                 // If one contains the other, larger one is the merge result.
                 if (isSubType(t1, t2)) {
-                    assertEquals(txt, true, areEqualTypes(t2, merged));
+                    assertEquals(true, areEqualTypes(t2, merged), txt);
                 } else if (isSubType(t2, t1)) {
-                    assertEquals(txt, true, areEqualTypes(t1, merged));
+                    assertEquals(true, areEqualTypes(t1, merged), txt);
                 }
 
                 // If result is one of them, that one contains the other.
                 if (areEqualTypes(t2, merged)) {
-                    assertEquals(txt, true, isSubType(t1, t2));
+                    assertEquals(true, isSubType(t1, t2), txt);
                 } else if (areEqualTypes(t1, merged)) {
-                    assertEquals(txt, true, isSubType(t2, t1));
+                    assertEquals(true, isSubType(t2, t1), txt);
                 }
 
                 // Make sure no type in between the merge result and both
@@ -564,7 +564,7 @@ public class ToolDefTypeUtilsTest {
                     // Detect in between type.
                     boolean between1 = isSubType(t1, t3) && isSubType(t3, merged);
                     boolean between2 = isSubType(t2, t3) && isSubType(t3, merged);
-                    assertEquals(txt3, false, between1 && between2);
+                    assertEquals(false, between1 && between2, txt3);
                 }
             }
         }

@@ -20,8 +20,8 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.BitSet;
 import java.util.List;
@@ -43,21 +43,21 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /** Tests for {@link VarOrderHelper}. */
 public class VarOrderHelperTest {
     @SuppressWarnings("javadoc")
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         AppEnv.registerSimple();
         Options.set(BddHyperEdgeAlgoOption.class, BddHyperEdgeAlgo.LEGACY);
     }
 
     @SuppressWarnings("javadoc")
-    @AfterClass
+    @AfterAll
     public static void afterClass() {
         AppEnv.unregisterApplication();
     }

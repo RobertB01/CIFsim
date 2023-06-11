@@ -15,7 +15,7 @@ package org.eclipse.escet.common.box;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link VBox} class. */
 public class VBoxTest extends BoxTestsBase {

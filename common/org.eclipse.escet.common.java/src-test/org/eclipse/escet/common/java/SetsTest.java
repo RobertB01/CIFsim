@@ -28,17 +28,17 @@ import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Sets.sortedgeneric;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
 import static org.eclipse.escet.common.java.Sets.union;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the methods of the {@link Sets} class. */
 public class SetsTest {

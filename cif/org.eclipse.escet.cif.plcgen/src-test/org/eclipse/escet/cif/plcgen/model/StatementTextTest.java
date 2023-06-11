@@ -13,7 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSe
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests of the conversion of PLC statements to text. */
 public class StatementTextTest {
@@ -74,10 +75,10 @@ public class StatementTextTest {
         assertEquals("(* Nothing to do. *) ;", toStr(List.of(), true));
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void emptyBlockNonfixCrashTest() {
-        toStr(List.of(), false);
+        assertThrows(AssertionError.class, () -> toStr(List.of(), false));
     }
 
     @Test

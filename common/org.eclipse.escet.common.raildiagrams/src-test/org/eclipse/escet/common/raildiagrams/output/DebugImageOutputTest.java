@@ -17,7 +17,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.raildiagrams.output.DebugImageOutput.BACKGROUND;
 import static org.eclipse.escet.common.raildiagrams.output.DebugImageOutput.CONNECT_POINT;
 import static org.eclipse.escet.common.raildiagrams.output.DebugImageOutput.SINGLE_RAIL;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -35,8 +35,8 @@ import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link DebugImageOutput} class. */
 public class DebugImageOutputTest {
@@ -52,7 +52,7 @@ public class DebugImageOutputTest {
     /** Constraint solver. */
     Solver solver;
 
-    @Before
+    @BeforeEach
     @SuppressWarnings("javadoc")
     public void setup() {
         output = new DebugImageOutput();

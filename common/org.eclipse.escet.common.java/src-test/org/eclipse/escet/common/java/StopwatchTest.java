@@ -13,10 +13,11 @@
 
 package org.eclipse.escet.common.java;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link Stopwatch} class. */
 @SuppressWarnings("javadoc")
@@ -93,17 +94,17 @@ public class StopwatchTest {
         assertTrue(stopwatch.getDurationSecs() > 1);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testStartAlreadyRunning() {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
-        stopwatch.start();
+        assertThrows(IllegalStateException.class, () -> stopwatch.start());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testStopNotRunning() {
         Stopwatch stopwatch = new Stopwatch();
-        stopwatch.stop();
+        assertThrows(IllegalStateException.class, () -> stopwatch.stop());
     }
 
     @Test

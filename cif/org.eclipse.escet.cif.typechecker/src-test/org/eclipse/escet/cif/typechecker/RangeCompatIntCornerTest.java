@@ -15,13 +15,13 @@ package org.eclipse.escet.cif.typechecker;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.checkTypeCompat;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Range compatibility corner cases tests, for integer type ranges. */
 public class RangeCompatIntCornerTest {

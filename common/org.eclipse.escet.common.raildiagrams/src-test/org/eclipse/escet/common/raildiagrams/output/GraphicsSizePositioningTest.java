@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.Color;
 import java.util.function.Consumer;
@@ -32,8 +32,8 @@ import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
 import org.eclipse.escet.common.raildiagrams.util.Size2D;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Test graphics sizes and positioning. */
 public class GraphicsSizePositioningTest {
@@ -44,7 +44,7 @@ public class GraphicsSizePositioningTest {
     private Configuration config;
 
     @SuppressWarnings("javadoc")
-    @Before
+    @BeforeEach
     public void setup() {
         OutputTarget target = new NormalImageOutput();
         Consumer<String> debugLogger = null;

@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.typechecker;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.common.CifMath;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Minimum/maximum standard library function range tests. */
 public class MinMaxRangeTest extends TwoArgsRangeTestsBase {

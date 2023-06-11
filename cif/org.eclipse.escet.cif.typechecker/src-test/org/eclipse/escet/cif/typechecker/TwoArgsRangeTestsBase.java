@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.typechecker;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 
