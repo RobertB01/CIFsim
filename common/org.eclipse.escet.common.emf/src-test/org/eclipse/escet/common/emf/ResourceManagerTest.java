@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.emf.tests;
+package org.eclipse.escet.common.emf;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.emf.EMFResourceException;
-import org.eclipse.escet.common.emf.ResourceManager;
 import org.eclipse.escet.common.java.Exceptions;
 import org.eclipse.escet.common.java.Strings;
 import org.junit.jupiter.api.Test;
