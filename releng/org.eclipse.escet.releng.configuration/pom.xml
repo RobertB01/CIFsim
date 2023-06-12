@@ -236,6 +236,19 @@ SPDX-License-Identifier: MIT
                     <!-- Execute tests in alphabetical order, to make it easier to compare different build logs. -->
                     <runOrder>alphabetical</runOrder>
                 </configuration>
+                <executions>
+                <execution>
+                    <id>execute-plugin-tests</id>
+                    <configuration>
+                        <includes>**/PluginTest*.class,**/*IT.class</includes>
+                        <failIfNoTests>false</failIfNoTests>
+                    </configuration>
+                    <goals>
+                        <goal>plugin-test</goal>
+                        <goal>verify</goal>
+                    </goals>
+                </execution>
+                </executions>
             </plugin>
 
             <!-- Enable source bundles/features. -->
