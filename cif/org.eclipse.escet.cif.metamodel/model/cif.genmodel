@@ -560,7 +560,7 @@
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//annotations/AnnotationArgument">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//annotations/AnnotationArgument/name"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        <genFeatures children="true" createChild="true" propertySortChoices="true"
             ecoreFeature="ecore:EReference cif.ecore#//annotations/AnnotationArgument/value"/>
       </genClasses>
     </nestedGenPackages>
