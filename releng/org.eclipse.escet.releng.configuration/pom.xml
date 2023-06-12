@@ -209,25 +209,7 @@ SPDX-License-Identifier: MIT
                 </configuration>
             </plugin>
 
-            <!-- Enable and configure unit testing. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <!-- Execute tests in alphabetical order, to make it easier to compare different build logs. -->
-                    <runOrder>alphabetical</runOrder>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>execute-tests</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Enable and configure integration testing. -->
+            <!-- Enable and configure unit/integration testing. -->
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-surefire-plugin</artifactId>
@@ -240,7 +222,6 @@ SPDX-License-Identifier: MIT
                 <execution>
                     <id>execute-plugin-tests</id>
                     <configuration>
-                        <includes>**/PluginTest*.class,**/*IT.class</includes>
                         <failIfNoTests>false</failIfNoTests>
                     </configuration>
                     <goals>
