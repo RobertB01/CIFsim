@@ -219,16 +219,16 @@ SPDX-License-Identifier: MIT
                     <runOrder>alphabetical</runOrder>
                 </configuration>
                 <executions>
-                <execution>
-                    <id>execute-plugin-tests</id>
-                    <configuration>
-                        <failIfNoTests>false</failIfNoTests>
-                    </configuration>
-                    <goals>
-                        <goal>plugin-test</goal>
-                        <goal>verify</goal>
-                    </goals>
-                </execution>
+                    <execution>
+                        <id>execute-tests</id>
+                        <configuration>
+                            <failIfNoTests>false</failIfNoTests>
+                        </configuration>
+                        <goals>
+                            <goal>plugin-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
 
