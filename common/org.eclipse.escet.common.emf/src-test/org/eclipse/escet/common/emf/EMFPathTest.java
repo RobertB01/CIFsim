@@ -156,13 +156,12 @@ public class EMFPathTest {
     }
 
     @Test
-    @SuppressWarnings("unused")
     public void testPathConstructionInvalidRoot() {
         EPackage pkg = EcoreFactory.eINSTANCE.createEPackage();
         EClass cls = EcoreFactory.eINSTANCE.createEClass();
         pkg.getEClassifiers().add(cls);
 
-        // assertThrows(AssertionError.class, () -> new EMFPath(pkg, null, cls));
+        assertThrows(AssertionError.class, () -> new EMFPath(pkg, null, cls));
     }
 
     @Test
@@ -218,7 +217,7 @@ public class EMFPathTest {
         EClass cls2 = EcoreFactory.eINSTANCE.createEClass();
 
         EMFPath path = new EMFPath(cls1, null);
-        // assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(cls2));
+        assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(cls2));
     }
 
     @Test
@@ -233,7 +232,7 @@ public class EMFPathTest {
 
         EStructuralFeature feat = gentype1.eClass().getEStructuralFeature("eLowerBound");
         EMFPath path = new EMFPath(gentype1, feat);
-        // assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(ref2));
+        assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(ref2));
     }
 
     @Test
@@ -249,6 +248,6 @@ public class EMFPathTest {
         EPackage pkg2 = EcoreFactory.eINSTANCE.createEPackage();
 
         EMFPath path = new EMFPath(ref1, null);
-        // assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(pkg2));
+        assertThrows(IllegalArgumentException.class, () -> path.resolveAgainst(pkg2));
     }
 }
