@@ -19,7 +19,7 @@ cd $(dirname $(readlink -f $0))
 DOCNAME=cif_ecore_doc
 
 TODAY_DATE=`date +'%Y-%m-%d'`
-sed -i "s/^\\\\date{Version .*}$/\\\\date{Version $TODAY_DATE}/g" $DOCNAME.tex
+sed -i'' -e "s/^\\\\date{Version .*}$/\\\\date{Version $TODAY_DATE}/g" $DOCNAME.tex
 
 rm -f $DOCNAME.aux
 rm -f $DOCNAME.bbl

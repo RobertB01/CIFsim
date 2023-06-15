@@ -398,6 +398,7 @@ public enum ErrMsg {
     // SwitchExpression.superfluousElse
     SWITCH_SUPERFLUOUS_ELSE("Switch \"else\" is superfluous, as all %s already have a \"case\".", 1, WARNING),
 
+    // SwitchExpression.singleCase
     SWITCH_SINGLE_CASE("The switch has only on \"case\", which will be depricated in the future.", 0, WARNING),
 
     // ListExpression.type
