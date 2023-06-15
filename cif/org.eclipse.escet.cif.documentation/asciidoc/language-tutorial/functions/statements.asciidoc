@@ -130,9 +130,12 @@ alg int where = switch A:
   end;
 ----
 
-Observe that in this `switch` statement we omitted the `else` case. 
+Observe that in this `switch` statement we omitted the `else` case.
 The `else` case is allowed to be omitted if all the cases together cover all possible values of the `switch` expression.
 In the example above, the three cases cover all possible locations of automaton `A`.
+
+`if` statements and `switch` statements have the same functionality.
+Therefore, a `switch` statement can be rewritten into an `if` expression, see <<tools-cif2cif-chapter-switches-to-ifs>> for the CIF to CIF transformation tool to do this automatically.
 
 indexterm:[function statements,return]
 
