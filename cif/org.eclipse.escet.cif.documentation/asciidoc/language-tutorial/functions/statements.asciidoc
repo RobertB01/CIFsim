@@ -23,6 +23,8 @@ This lesson explains the different statements that can be used in internal user-
 
 * <<lang-tut-functions-statements-if>>
 
+* <<lang-tut-functions-statements-switch>>
+
 * <<lang-tut-functions-statements-return>>
 
 * <<lang-tut-functions-statements-while>>
@@ -81,6 +83,56 @@ end
 
 This `signum` function takes a real number `x` and returns its link:https://en.wikipedia.org/wiki/Signum_function[sign].
 The `if` statement is used to detect the different situations, and to return the correct result in each of those situations.
+
+indexterm:[function statements,switch]
+
+[[lang-tut-functions-statements-switch]]
+=== Switch statement
+
+Similar to the `if` statement from <<lang-tut-functions-statements-if>>, a `switch` statement can be used to perform different calculations under different circumstances.
+Consider the following function:
+
+[source, cif]
+----
+enum modes = OFF, ON1, ON2, ON3, BROKEN;
+func int speed(modes m):
+  return switch m:
+    case ON1: 5
+    case ON2: 10
+    case ON3: 15
+    else      0
+  end;
+end
+----
+
+This `speed` function takes an operation mode `m` and returns a speed.
+If the value of `m` matches one of the cases, the `switch` statement will evaluate to the indicated value.
+For example, if `m = ON2`, this `switch` statement evaluates to `10`.
+If none of the cases matches, the value of the `else` case is taken.
+For example, if `m = BROKEN`, this `switch` statement evaluates to `0`.
+
+One can use all the types from <<lang-tut-values-chapter-overview>>, including user-defined types, as long as the type of the cases matches the switch expression.
+In the example, `m` is of type `modes`, which is an enumeration, hence all cases should be of type `modes` as well.
+One can also use an automaton as a type of the `switch` statement, where the cases have to be locations of that automaton:
+
+[source, cif]
+----
+automaton A:
+    location l1;
+    location l2;
+    location l3;
+end
+
+alg int where = switch A:
+    case l1:  1
+    case l2:  2
+    case l3:  3
+  end;
+----
+
+Observe that in this `switch` statement we omitted the `else` case. 
+The `else` case is allowed to be omitted if all the cases together cover all possible values of the `switch` expression.
+In the example above, the three cases cover all possible locations of automaton `A`.
 
 indexterm:[function statements,return]
 
