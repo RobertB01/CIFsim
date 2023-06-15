@@ -1,0 +1,2 @@
+WARNING: File "tchecker/switch_single_case.cif": Semantic warning at line 14, column 16: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "tchecker/switch_single_case.cif": Semantic warning at line 21, column 16: The switch has only one "case", which will be deprecated in the future.
