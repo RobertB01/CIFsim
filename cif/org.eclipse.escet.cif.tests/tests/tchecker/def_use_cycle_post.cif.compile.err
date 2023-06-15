@@ -105,5 +105,12 @@ ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 404, colum
 ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 405, column 3: Definition/use cycle detected: "init7.<loc>" is recursively defined in terms of itself: init7.<loc> -> init7.x -> init7.<loc>.
 ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 412, column 8: Definition/use cycle detected: "init8.x'" is recursively defined in terms of itself: init8.x' -> init8.<loc> -> init8.x'.
 ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 413, column 3: Definition/use cycle detected: "init8.<loc>" is recursively defined in terms of itself: init8.<loc> -> init8.x' -> init8.<loc>.
+WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 120, column 27: The switch has only one "case", which will be deprecated in the future.
 WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 278, column 14: Location "l2" is not reachable from any of the initial locations of automaton "reachable_locs.p".
+WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 338, column 15: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 343, column 15: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 350, column 15: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 355, column 15: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 365, column 18: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 370, column 20: The switch has only one "case", which will be deprecated in the future.
 ERROR: Failed to load CIF file "tchecker/def_use_cycle_post.cif": the file has errors.

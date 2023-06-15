@@ -1,0 +1,3 @@
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 407, column 19: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 429, column 15: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 462, column 20: The switch has only one "case", which will be deprecated in the future.

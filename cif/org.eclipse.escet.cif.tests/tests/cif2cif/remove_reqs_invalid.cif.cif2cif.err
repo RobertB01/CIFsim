@@ -1,3 +1,4 @@
+WARNING: File "cif2cif/remove_reqs_invalid.cif": Semantic warning at line 48, column 15: The switch has only one "case", which will be deprecated in the future.
 ERROR: File "cif2cif/remove_reqs_invalid.cif": Unsatisfied precondition for CIF to CIF transformation.
 CAUSE: Removing requirements from a CIF specification failed due to the remaining part of the specification using declarations that are declared in the requirement automata that are to be removed, or a location of a requirement automaton contains invariants that cannot be removed:
  - Location "b" of requirement automaton "k" contains a kindless invariant.

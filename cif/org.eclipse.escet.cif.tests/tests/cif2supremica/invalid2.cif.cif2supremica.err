@@ -1,3 +1,5 @@
+WARNING: File "cif2supremica/invalid2.cif": Semantic warning at line 34, column 20: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "cif2supremica/invalid2.cif": Semantic warning at line 35, column 20: The switch has only one "case", which will be deprecated in the future.
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
 
   -------------------------------------------

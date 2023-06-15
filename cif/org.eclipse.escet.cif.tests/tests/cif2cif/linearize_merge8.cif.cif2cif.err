@@ -1,1 +1,4 @@
+WARNING: File "cif2cif/linearize_merge8.cif": Semantic warning at line 24, column 15: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "cif2cif/linearize_merge8.cif": Semantic warning at line 25, column 15: The switch has only one "case", which will be deprecated in the future.
 WARNING: File "cif2cif/linearize_merge8.cif": Semantic warning at line 26, column 38: Switch "else" is superfluous, as all locations already have a "case".
+WARNING: File "cif2cif/linearize_merge8.cif": Semantic warning at line 39, column 15: The switch has only one "case", which will be deprecated in the future.

@@ -1,4 +1,6 @@
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 38, column 43: Component parameter "COMP_DEF_TYPES2.p" is not used anywhere in the specification.
+WARNING: File "checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 45, column 13: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 46, column 13: The switch has only one "case", which will be deprecated in the future.
 WARNING: File "checks/TypeNoSpecificTypesCheckLevel2.cif": Semantic warning at line 119, column 12: Event "VOID_TYPES" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 

@@ -1,0 +1,1 @@
+WARNING: File "pprint_elim_cdef/comp_param_use1.out.cif": Semantic warning at line 8, column 17: The switch has only one "case", which will be deprecated in the future.

@@ -1,2 +1,8 @@
+WARNING: File "cif2cif/simplify_values.cif": Semantic warning at line 236, column 18: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "cif2cif/simplify_values.cif": Semantic warning at line 240, column 18: The switch has only one "case", which will be deprecated in the future.
 WARNING: File "cif2cif/simplify_values.cif": Semantic warning at line 251, column 20: Switch "else" is superfluous, as all values already have a "case".
 WARNING: File "cif2cif/simplify_values.cif": Semantic warning at line 256, column 20: Switch "else" is superfluous, as all values already have a "case".
+WARNING: File "cif2cif/simplify_values.cif": Semantic warning at line 269, column 18: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "cif2cif/simplify_values.cif": Semantic warning at line 273, column 18: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "cif2cif/simplify_values.cif": Semantic warning at line 1234, column 17: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "cif2cif/simplify_values.cif": Semantic warning at line 1237, column 17: The switch has only one "case", which will be deprecated in the future.

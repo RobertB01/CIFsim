@@ -5,4 +5,6 @@ ERROR: File "tchecker/switch_missing_case.cif": Semantic error at line 34, colum
 ERROR: File "tchecker/switch_missing_case.cif": Semantic error at line 34, column 16: Missing switch "case" for value "3".
 ERROR: File "tchecker/switch_missing_case.cif": Semantic error at line 37, column 16: Missing switch "case" for value "2".
 ERROR: File "tchecker/switch_missing_case.cif": Semantic error at line 44, column 14: Missing switch "case" for some values.
+WARNING: File "tchecker/switch_missing_case.cif": Semantic warning at line 16, column 18: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "tchecker/switch_missing_case.cif": Semantic warning at line 34, column 16: The switch has only one "case", which will be deprecated in the future.
 ERROR: Failed to load CIF file "tchecker/switch_missing_case.cif": the file has errors.
