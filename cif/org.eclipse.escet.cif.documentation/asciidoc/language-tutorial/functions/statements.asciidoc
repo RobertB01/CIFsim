@@ -143,9 +143,9 @@ automaton Controller:
 end
 
 alg int acceleration = switch Controller:
-    case accelerate: 5
+    case accelerate:  5
     case decelerate: -3
-    case steady: 0
+    case steady:      0
   end;
 ----
 
