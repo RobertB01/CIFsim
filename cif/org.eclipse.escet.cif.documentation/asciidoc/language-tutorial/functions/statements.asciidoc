@@ -21,11 +21,11 @@ This lesson explains the different statements that can be used in internal user-
 
 * <<lang-tut-functions-statements-assignment>>
 
+* <<lang-tut-functions-statements-return>>
+
 * <<lang-tut-functions-statements-if>>
 
 * <<lang-tut-functions-statements-switch>>
-
-* <<lang-tut-functions-statements-return>>
 
 * <<lang-tut-functions-statements-while>>
 
@@ -59,6 +59,24 @@ edge do (x, y) := (1, 2);
 // Multi-assignment in a function.
 x, y := 1, 2;
 ----
+
+indexterm:[function statements,return]
+
+[[lang-tut-functions-statements-return]]
+=== Return statement
+
+The execution of a function ends when a `return` statement is encountered.
+The value following the `return` statement is the result of the entire function.
+Consider again the `return` statement from the `mean` function from the <<lang-tut-functions-chapter-internal-functions,previous lesson>>:
+
+// Copied from: functions/internal-functions
+[source, cif]
+----
+return sum / length;
+----
+
+In this case, the `sum` of the input values is divided by the number of input elements (variable `length`) to obtain the mean of the input values.
+The mean of the input values is the result of the function.
 
 indexterm:[function statements,if]
 
@@ -94,8 +112,8 @@ Consider the following function:
 
 [source, cif]
 ----
-enum modes = OFF, ON1, ON2, ON3, BROKEN;
-func int speed(modes m):
+enum mode = OFF, ON1, ON2, ON3, BROKEN;
+func int convert_to_speed(mode m):
   return switch m:
     case ON1: 5
     case ON2: 10
@@ -105,28 +123,29 @@ func int speed(modes m):
 end
 ----
 
-This `speed` function takes an operation mode `m` and returns a speed.
+This `convert_to_speed` function takes an operation mode `m` and returns a speed.
 If the value of `m` matches one of the cases, the `switch` statement will evaluate to the indicated value.
 For example, if `m = ON2`, this `switch` statement evaluates to `10`.
 If none of the cases matches, the value of the `else` case is taken.
 For example, if `m = BROKEN`, this `switch` statement evaluates to `0`.
 
 One can use all the types from <<lang-tut-values-chapter-overview>>, including user-defined types, as long as the type of the cases matches the switch expression.
-In the example, `m` is of type `modes`, which is an enumeration, hence all cases should be of type `modes` as well.
+In the example, `m` is of type `mode`, which is an enumeration, hence all cases should be of type `mode` as well.
+
 One can also use an automaton as a type of the `switch` statement, where the cases have to be locations of that automaton:
 
 [source, cif]
 ----
-automaton A:
-    location l1;
-    location l2;
-    location l3;
+automaton Controller:
+    location accelerate;
+    location decelerate;
+    location steady;
 end
 
-alg int where = switch A:
-    case l1:  1
-    case l2:  2
-    case l3:  3
+alg int acceleration = switch Controller:
+    case accelerate: 5
+    case decelerate: -3
+    case steady: 0
   end;
 ----
 
@@ -136,24 +155,6 @@ In the example above, the three cases cover all possible locations of automaton 
 
 `if` statements and `switch` statements are very similar.
 It is possible to rewrite a `switch` statement into an `if` statement, see <<tools-cif2cif-chapter-switches-to-ifs>> for the CIF to CIF transformation tool to do this automatically.
-
-indexterm:[function statements,return]
-
-[[lang-tut-functions-statements-return]]
-=== Return statement
-
-The execution of a function ends when a `return` statement is encountered.
-The value following the `return` statement is the result of the entire function.
-Consider again the `return` statement from the `mean` function from the <<lang-tut-functions-chapter-internal-functions,previous lesson>>:
-
-// Copied from: functions/internal-functions
-[source, cif]
-----
-return sum / length;
-----
-
-In this case, the `sum` of the input values is divided by the number of input elements (variable `length`) to obtain the mean of the input values.
-The mean of the input values is the result of the function.
 
 indexterm:[function statements,while]
 
