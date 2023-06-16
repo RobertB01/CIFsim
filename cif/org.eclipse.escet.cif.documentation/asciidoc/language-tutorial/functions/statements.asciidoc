@@ -132,7 +132,7 @@ For example, if `m = BROKEN`, this `switch` statement evaluates to `0`.
 One can use all the types from <<lang-tut-values-chapter-overview>>, including user-defined types, as long as the type of the cases matches the switch expression.
 In the example, `m` is of type `mode`, which is an enumeration, hence all cases should be of type `mode` as well.
 
-One can also use an automaton as a type of the `switch` statement, where the cases have to be locations of that automaton:
+One can also use an automaton as a type of the `switch` statement, where the cases have to be locations of that automaton (for clarity, we omitted the events and the control switch conditions in this example):
 
 [source, cif]
 ----
