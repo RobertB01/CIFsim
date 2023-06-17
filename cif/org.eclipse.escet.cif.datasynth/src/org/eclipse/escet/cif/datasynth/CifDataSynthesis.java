@@ -1479,18 +1479,21 @@ public class CifDataSynthesis {
                     }
                     break;
                 }
+
+                // 2) Check for controlled behavior being stable, after having performed all computations at least once.
+                boolean allPerformedAtLeastOnce = round > 1 || computationIdx == computationsInOrder.size() - 1;
+                if (allPerformedAtLeastOnce && unchanged >= stableCount) {
+                    if (dbgEnabled) {
+                        dbg();
+                        dbg("Round %d: finished, controlled behavior is stable.", round);
+                    }
+                    break;
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
 
             // 1c: Detect fixed point for main loop.
-            if (round > 1 && unchanged >= stableCount) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, controlled behavior is stable.", round);
-                }
-                break;
-            }
             if (unchanged == 0) {
                 BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                 boolean noInit = init.isZero();
@@ -1510,13 +1513,6 @@ public class CifDataSynthesis {
             // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
 
             // 2c: Detect fixed point for main loop.
-            if ((!doForward || round > 1) && unchanged >= stableCount) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, controlled behavior is stable.", round);
-                }
-                break;
-            }
             if (unchanged == 0) {
                 BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                 boolean noInit = init.isZero();
@@ -1538,13 +1534,6 @@ public class CifDataSynthesis {
 
                 // 3c: Detect fixed point for main loop.
                 // No need to check the controlled behavior with initialization, as forward reachability starts there.
-                if (unchanged >= stableCount) {
-                    if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, controlled behavior is stable.", round);
-                    }
-                    break;
-                }
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
