@@ -1411,27 +1411,33 @@ public class CifDataSynthesis {
                     };
                     stopwatch.start();
                 }
+
+                // Perform the reachability computation.
+                BDD reachabilityResult;
+                try {
+                    CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, predName,
+                            initName, restrictionName, restriction, badStates, applyForward, inclCtrl, inclUnctrl,
+                            dbgEnabled);
+                    reachabilityResult = reachability.performReachability(startPred);
+                } finally {
+                    // Stop timing the reachability computation.
+                    if (doTiming) {
+                        Stopwatch stopwatch = switch (computation) {
+                            case NONBLOCK -> timing.mainBwMarked;
+                            case CTRL -> timing.mainBwBadState;
+                            case REACH -> timing.mainFwInit;
+                        };
+                        stopwatch.stop();
+                    }
+                }
+
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
 
-            // 1a: Perform backward reachability computation (fixed point).
-            BDD nonBlock;
-            try {
-                CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                        predName, initName, restrictionName, //
-                        restriction, badStates, applyForward, inclCtrl, inclUnctrl, //
-                        dbgEnabled);
-                nonBlock = reachability.performReachability(startPred);
-            } finally {
-                if (doTiming) {
-                    timing.mainBwMarked.stop();
-                }
-            }
-
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
 
             // 1b: Detect change in controlled behavior.
             if (aut.ctrlBeh.equals(nonBlock)) {
@@ -1482,22 +1488,6 @@ public class CifDataSynthesis {
 
             // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
 
-            // 2a: Perform backward reachability computation (fixed point).
-            try {
-                CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                        predName, initName, restrictionName, //
-                        restriction, badStates, applyForward, inclCtrl, inclUnctrl, //
-                        dbgEnabled);
-                badState = reachability.performReachability(startPred);
-            } finally {
-                if (doTiming) {
-                    timing.mainBwBadState.stop();
-                }
-            }
-
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
 
             BDD newCtrlBeh = badState.not();
             badState.free();
@@ -1554,22 +1544,6 @@ public class CifDataSynthesis {
 
             // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
             // the controlled system as determined so far (reachable states).
-                // 3a: Perform forward reachability computation (fixed point).
-                try {
-                    CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                            predName, initName, restrictionName, //
-                            restriction, badStates, applyForward, inclCtrl, inclUnctrl, //
-                            dbgEnabled);
-                    newCtrlBeh = reachability.performReachability(startPred);
-                } finally {
-                    if (doTiming) {
-                        timing.mainFwInit.stop();
-                    }
-                }
-
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
 
                 // 3b: Detect change in controlled behavior.
                 if (aut.ctrlBeh.equals(newCtrlBeh)) {
