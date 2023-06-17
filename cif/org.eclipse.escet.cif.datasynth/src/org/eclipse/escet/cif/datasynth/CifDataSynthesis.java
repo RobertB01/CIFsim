@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
+import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.concat;
@@ -1359,7 +1360,7 @@ public class CifDataSynthesis {
                     case CTRL -> aut.ctrlBeh.not();
                     case REACH -> aut.initialCtrl.id();
                 };
-                if (aut.env.isTerminationRequested()) {
+                if (computation == CTRL && aut.env.isTerminationRequested()) {
                     return;
                 }
 
