@@ -1345,6 +1345,10 @@ public class CifDataSynthesis {
                 dbg("Round %d: started.", round);
             }
 
+            // Perform the fixed-point computations of the round.
+            for (FixedPointComputation computation: computationsInOrder) {
+            }
+
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
 
             // 1a: Perform backward reachability computation (fixed point).
