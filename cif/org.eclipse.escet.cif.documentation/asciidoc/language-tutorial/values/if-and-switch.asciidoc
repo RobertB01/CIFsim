@@ -52,7 +52,8 @@ The type of the ‘then’ expression, the type of the ‘else’ expression, th
 if x > 0 and y == 2: 1.5 elif x > 0 and y != 2 or x < 0: -2.8 else 0.1 end
 ----
 
-The `if` and `elif` guard predicates are processed in order. So once one is evaluated to true, the 'then' of that expression is evaluated and the remainder of the `elif` expressions and the `else` are skipped.
+The `if` and `elif` guard predicates are processed in order.
+So once one guard evaluates to true, the 'then' of that expression is evaluated and the remainder of the `elif` expressions and the `else` are skipped.
 Consider the following `if` expression.
 
 [source, cif]

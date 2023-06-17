@@ -25,8 +25,6 @@ This lesson explains the different statements that can be used in internal user-
 
 * <<lang-tut-functions-statements-if>>
 
-* <<lang-tut-functions-statements-switch>>
-
 * <<lang-tut-functions-statements-while>>
 
 * <<lang-tut-functions-statements-break>>
