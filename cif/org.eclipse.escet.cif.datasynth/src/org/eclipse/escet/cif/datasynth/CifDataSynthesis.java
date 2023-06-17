@@ -1334,6 +1334,7 @@ public class CifDataSynthesis {
         // Perform synthesis.
         int round = 0;
         int unchanged = 0;
+        FIXED_POINT_LOOP:
         while (true) {
             // Next round.
             round++;
@@ -1477,7 +1478,7 @@ public class CifDataSynthesis {
                         dbg();
                         dbg("Round %d: finished, all states are bad.", round);
                     }
-                    break;
+                    break FIXED_POINT_LOOP;
                 }
                 if (aut.env.isTerminationRequested()) {
                     return;
@@ -1490,7 +1491,7 @@ public class CifDataSynthesis {
                         dbg();
                         dbg("Round %d: finished, controlled behavior is stable.", round);
                     }
-                    break;
+                    break FIXED_POINT_LOOP;
                 }
 
                 // 3) Check for no initial states left.
@@ -1504,7 +1505,7 @@ public class CifDataSynthesis {
                             dbg();
                             dbg("Round %d: finished, no initialization possible.", round);
                         }
-                        break;
+                        break FIXED_POINT_LOOP;
                     }
                     if (aut.env.isTerminationRequested()) {
                         return;
