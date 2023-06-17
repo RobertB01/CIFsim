@@ -1347,6 +1347,10 @@ public class CifDataSynthesis {
 
             // Perform the fixed-point computations of the round.
             for (FixedPointComputation computation: computationsInOrder) {
+                // Skip computing reachable states if forward reachability is not configured.
+                if (computation == FixedPointComputation.REACH && !doForward) {
+                    continue;
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
@@ -1509,7 +1513,6 @@ public class CifDataSynthesis {
 
             // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
             // the controlled system as determined so far (reachable states).
-            if (doForward) {
                 // 3a: Perform forward reachability computation (fixed point).
                 if (doTiming) {
                     timing.mainFwInit.start();
@@ -1569,7 +1572,6 @@ public class CifDataSynthesis {
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
-            }
 
             // Finished round.
             if (dbgEnabled) {
