@@ -1451,22 +1451,22 @@ public class CifDataSynthesis {
                         }
                         break;
                 }
+
+                // Detect change in controlled behavior.
+                if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                    newCtrlBeh.free();
+                    unchanged++;
+                } else {
+                    if (dbgEnabled) {
+                        dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut));
+                    }
+                    aut.ctrlBeh.free();
+                    aut.ctrlBeh = newCtrlBeh;
+                    unchanged = 0;
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
-
-            // 1b: Detect change in controlled behavior.
-            if (aut.ctrlBeh.equals(nonBlock)) {
-                nonBlock.free();
-                unchanged++;
-            } else {
-                if (dbgEnabled) {
-                    dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(nonBlock, aut));
-                }
-                aut.ctrlBeh.free();
-                aut.ctrlBeh = nonBlock;
-                unchanged = 0;
-            }
 
             // 1c: Detect fixed point for main loop.
             BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
@@ -1504,19 +1504,6 @@ public class CifDataSynthesis {
 
             // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
 
-            // 2b: Detect change in controlled behavior.
-            if (aut.ctrlBeh.equals(newCtrlBeh)) {
-                newCtrlBeh.free();
-                unchanged++;
-            } else {
-                if (dbgEnabled) {
-                    dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut));
-                }
-                aut.ctrlBeh.free();
-                aut.ctrlBeh = newCtrlBeh;
-                unchanged = 0;
-            }
-
             // 2c: Detect fixed point for main loop.
             ctrlStates = aut.ctrlBeh.and(aut.plantInv);
             noCtrlStates = ctrlStates.isZero();
@@ -1553,19 +1540,6 @@ public class CifDataSynthesis {
 
             // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
             // the controlled system as determined so far (reachable states).
-
-                // 3b: Detect change in controlled behavior.
-                if (aut.ctrlBeh.equals(newCtrlBeh)) {
-                    newCtrlBeh.free();
-                    unchanged++;
-                } else {
-                    if (dbgEnabled) {
-                        dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut));
-                    }
-                    aut.ctrlBeh.free();
-                    aut.ctrlBeh = newCtrlBeh;
-                    unchanged = 0;
-                }
 
                 // 3c: Detect fixed point for main loop.
                 // No need to check the controlled behavior with initialization, as forward reachability starts there.
