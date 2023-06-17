@@ -1351,6 +1351,16 @@ public class CifDataSynthesis {
                 if (computation == FixedPointComputation.REACH && !doForward) {
                     continue;
                 }
+
+                // Get predicate from which to start the reachability computation.
+                BDD startPred = switch(computation) {
+                    case NONBLOCK-> aut.marked.id();
+                    case CTRL -> aut.ctrlBeh.not();
+                    case REACH -> aut.initialCtrl.id();
+                };
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
@@ -1369,7 +1379,7 @@ public class CifDataSynthesis {
                         true, // include edges with controllable events
                         true, // include edges with uncontrollable events
                         dbgEnabled);
-                nonBlock = reachability.performReachability(aut.marked.id());
+                nonBlock = reachability.performReachability(startPred);
             } finally {
                 if (doTiming) {
                     timing.mainBwMarked.stop();
@@ -1430,11 +1440,6 @@ public class CifDataSynthesis {
             // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
 
             // 2a: Perform backward reachability computation (fixed point).
-            BDD badState = aut.ctrlBeh.not();
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
             if (doTiming) {
                 timing.mainBwBadState.start();
             }
@@ -1447,7 +1452,7 @@ public class CifDataSynthesis {
                         false, // exclude edges with controllable events
                         true, // include edges with uncontrollable events
                         dbgEnabled);
-                badState = reachability.performReachability(badState);
+                badState = reachability.performReachability(startPred);
             } finally {
                 if (doTiming) {
                     timing.mainBwBadState.stop();
@@ -1526,7 +1531,7 @@ public class CifDataSynthesis {
                             true, // include edges with controllable events
                             true, // include edges with uncontrollable events
                             dbgEnabled);
-                    newCtrlBeh = reachability.performReachability(aut.initialCtrl.id());
+                    newCtrlBeh = reachability.performReachability(startPred);
                 } finally {
                     if (doTiming) {
                         timing.mainFwInit.stop();
