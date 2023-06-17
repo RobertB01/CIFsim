@@ -25,6 +25,7 @@
     p_tv := litStruct__2;
     p_j := 0;
     p_r := 1000000.0;
+    p := p_l1;
 END_IF;]]></ST>
     </Implementation>
     <ObjectProperties/>

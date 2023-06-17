@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.common.raildiagrams.output;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.Optional;
 
 import org.eclipse.escet.common.raildiagrams.output.MarchingRectangles.PixelCoverage;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Test marching rectangles computation. */
 public class MarchingRectanglesTest {

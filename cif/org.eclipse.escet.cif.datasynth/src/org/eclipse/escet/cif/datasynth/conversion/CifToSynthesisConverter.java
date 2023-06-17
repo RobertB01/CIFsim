@@ -87,7 +87,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
@@ -2506,7 +2506,7 @@ public class CifToSynthesisConverter {
                         (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
 
                 // Check for duplicate events, if duplicates are disallowed.
-                if (EdgeOrderDuplicateEventsOption.getDuplicateEvents() == EdgeOrderDuplicateEvents.DISALLOWED) {
+                if (EdgeOrderDuplicateEventsOption.getAllowance() == EdgeOrderDuplicateEventAllowance.DISALLOWED) {
                     for (SynthesisEdge edge: matches) {
                         if (processedEdges.contains(edge)) {
                             String msg = fmt("Invalid custom %s edge order: event \"%s\" is included more than once. "
@@ -2556,7 +2556,7 @@ public class CifToSynthesisConverter {
                     "The edge workset algorithm can only be used with per-event edge granularity. "
                             + "Either disable the edge workset algorithm, or configure per-event edge granularity.");
         }
-        if (EdgeOrderDuplicateEventsOption.getDuplicateEvents() == EdgeOrderDuplicateEvents.ALLOWED) {
+        if (EdgeOrderDuplicateEventsOption.getAllowance() == EdgeOrderDuplicateEventAllowance.ALLOWED) {
             throw new InvalidOptionException(
                     "The edge workset algorithm can not be used with duplicate events in the edge order. "
                             + "Either disable the edge workset algorithm, or disable duplicates for custom edge orders.");

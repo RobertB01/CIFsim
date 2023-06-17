@@ -257,43 +257,43 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   ---------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant 11 = 11;
-                    ^
+       ^
    * In group "g":
      - invariant 8 = 8;
-                   ^
+       ^
 
   ----------------------------------------------------------------
   (30/38) Invariant is a kindless state/event exclusion invariant.
   ----------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant g.e1 needs 3 = 3;
-                      ^
+       ^
    * In group "g":
      - invariant e1 needs p0.x1 > 0;
-                    ^
+       ^
      - invariant p0.x1 > 0 disables e1;
-                           ^
+       ^
 
   ------------------------------------------------------------
   (31/38) Invariant is a plant state invariant in a component.
   ------------------------------------------------------------
    * In group "g":
      - plant invariant 9 = 9;
-                         ^
+             ^
 
   -----------------------------------------------------
   (32/38) Invariant is a state invariant in a location.
   -----------------------------------------------------
    * In automaton "g.p1":
      - plant invariant 7 = 7;
-                         ^
+             ^
 
   -----------------------------------------------------------------
   (33/38) Invariant is a supervisor state invariant in a component.
   -----------------------------------------------------------------
    * In group "g":
      - supervisor invariant 10 = 10;
-                               ^
+                  ^
 
   -----------------------------------------------------------------------------------------------------------------------------
   (34/38) Location has a marker predicate that cannot be evaluated statically, as evaluating it results in an evaluation error.

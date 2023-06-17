@@ -14,12 +14,13 @@
 package org.eclipse.escet.cif.eventbased.automata;
 
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Set;
 
 import org.eclipse.escet.cif.eventbased.automata.Event.EventControllability;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for edge and location removal from an automaton. */
 @SuppressWarnings("javadoc")
@@ -35,14 +36,14 @@ public class LocationRemovalTest {
     }
 
     /** Try to remove the initial location of an automaton without edges. */
-    @Test(expected = AssertionError.class)
+    @Test
     public void testRemoveInitialLocation() {
         Set<Event> alphabet = set();
         Automaton aut = new Automaton(alphabet);
         Location loc = new Location(aut, null);
         aut.setInitial(loc);
 
-        aut.removeLocation(loc);
+        assertThrows(AssertionError.class, () -> aut.removeLocation(loc));
     }
 
     private void checkStart123End(boolean remove1, boolean remove2, boolean remove3) {

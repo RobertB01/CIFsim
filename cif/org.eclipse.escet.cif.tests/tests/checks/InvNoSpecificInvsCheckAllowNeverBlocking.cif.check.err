@@ -18,16 +18,16 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   ---------------------------
    * In location "different_locs.loc2":
      - invariant true disables e;
-                      ^
+       ^
    * In location "different_locs.loc5":
      - supervisor invariant e needs false;
-                              ^
+                  ^
    * In automaton "named_invs":
      - invariant I2: true disables e;
                  ^
    * In automaton "nameless_loc":
      - invariant true disables e;
-                      ^
+       ^
    * In group "state_invs":
      - invariant false;
-                 ^
+       ^

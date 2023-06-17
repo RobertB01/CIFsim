@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.cif.io.emf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,13 +30,13 @@ import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** CIF ASCII file EMF load/save integration tests. */
 @SuppressWarnings("javadoc")
 public class CifEmfIoTest {
-    @Before
+    @BeforeEach
     public void setup() {
         // Register CIF resource factory with EMF.
         Registry registry = Resource.Factory.Registry.INSTANCE;

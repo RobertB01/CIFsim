@@ -13,10 +13,10 @@
 
 package org.eclipse.escet.common.box;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.common.app.framework.io.MemAppStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link Box} class. */
 public class BoxTest extends BoxTestsBase {

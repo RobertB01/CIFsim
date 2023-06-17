@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.workset.dependencies;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -32,7 +32,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEvents;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
@@ -43,9 +43,9 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Lists;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.JFactory;
@@ -53,7 +53,7 @@ import com.github.javabdd.JFactory;
 /** Tests for {@link BddBasedEdgeDependencySetCreator}. */
 public class BddBasedEdgeDependencySetCreatorTest {
     /** Register application and options. */
-    @BeforeClass
+    @BeforeAll
     public static void before() {
         AppEnv.registerSimple();
 
@@ -72,12 +72,12 @@ public class BddBasedEdgeDependencySetCreatorTest {
         Options.set(EdgeGranularityOption.class, EdgeGranularity.PER_EVENT);
         Options.set(EdgeOrderForwardOption.class, "sorted");
         Options.set(EdgeOrderBackwardOption.class, "sorted");
-        Options.set(EdgeOrderDuplicateEventsOption.class, EdgeOrderDuplicateEvents.DISALLOWED);
+        Options.set(EdgeOrderDuplicateEventsOption.class, EdgeOrderDuplicateEventAllowance.DISALLOWED);
         Options.set(EdgeWorksetAlgoOption.class, true);
     }
 
     /** Unregister application. */
-    @AfterClass
+    @AfterAll
     public static void after() {
         AppEnv.unregisterApplication();
     }

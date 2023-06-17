@@ -141,7 +141,8 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
                 org.eclipse.escet.cif.metamodel.cif.automata.Location loc0, loc1;
                 loc0 = ((CifOrigin)err.locs[0].origin).cifLoc;
                 loc1 = ((CifOrigin)err.locs[1].origin).cifLoc;
-                Map<Event, org.eclipse.escet.cif.metamodel.cif.declarations.Event> eventsToCifEventsMap = invert(cte.events);
+                Map<Event, org.eclipse.escet.cif.metamodel.cif.declarations.Event> eventsToCifEventsMap = invert(
+                        cte.events);
 
                 if (err.event == null) { // Markers of the locations are different.
                     if (!isMarked(loc0)) {
@@ -212,13 +213,16 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
      * @param path The counter example path.
      * @param events Mapping from event-based toolset events to CIF events.
      */
-    private static void printPath(List<Event> path, Map<Event, org.eclipse.escet.cif.metamodel.cif.declarations.Event> events) {
+    private static void printPath(List<Event> path,
+            Map<Event, org.eclipse.escet.cif.metamodel.cif.declarations.Event> events)
+    {
         if (path == null || path.isEmpty()) {
             // Nothing to print.
             return;
         }
 
-        OutputProvider.out("This state pair can be reached with the following sequence of events from the initial state:");
+        OutputProvider
+                .out("This state pair can be reached with the following sequence of events from the initial state:");
         int step = 1;
         for (Event pathEvent: path) {
             org.eclipse.escet.cif.metamodel.cif.declarations.Event origPathEvent = events.get(pathEvent);

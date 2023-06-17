@@ -17,9 +17,9 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVaria
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,13 +43,13 @@ import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** {@link VarOrdererParser} tests. */
 public class VarOrdererParserTest {
-    @Before
+    @BeforeEach
     @SuppressWarnings("javadoc")
     public void before() {
         AppEnv.registerSimple();
@@ -62,7 +62,7 @@ public class VarOrdererParserTest {
         Options.set(BddAdvancedVariableOrderOption.class, BddAdvancedVariableOrderOption.DEFAULT_VALUE);
     }
 
-    @After
+    @AfterEach
     @SuppressWarnings("javadoc")
     public void after() {
         AppEnv.unregisterApplication();
@@ -838,12 +838,12 @@ public class VarOrdererParserTest {
         // Type check.
         VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables);
         VarOrderer orderer = tchecker.typeCheck(parseResult);
-        assertFalse("Type check warnings found.", tchecker.hasWarning());
+        assertFalse(tchecker.hasWarning(), "Type check warnings found.");
         if (tchecker.hasError()) {
-            assertEquals("Expected one type check problem.", tchecker.getProblems().size(), 1);
-            assertTrue(tchecker.getProblems().get(0).toString(), false);
+            assertEquals(tchecker.getProblems().size(), 1, "Expected one type check problem.");
+            assertTrue(false, tchecker.getProblems().get(0).toString());
         }
-        assertTrue("Type checker produced no result.", orderer != null);
+        assertTrue(orderer != null, "Type checker produced no result.");
         assertEquals(expectedOrderer, orderer.toString());
     }
 
@@ -880,10 +880,10 @@ public class VarOrdererParserTest {
         try {
             VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables);
             VarOrderer orderer = tchecker.typeCheck(parseResult);
-            assertEquals("Type checker produced result.", orderer, null);
-            assertFalse("Type check warnings found.", tchecker.hasWarning());
-            assertTrue("Type check no error found.", tchecker.hasError());
-            assertEquals("Expected one type check problem.", tchecker.getProblems().size(), 1);
+            assertEquals(orderer, null, "Type checker produced result.");
+            assertFalse(tchecker.hasWarning(), "Type check warnings found.");
+            assertTrue(tchecker.hasError(), "Type check no error found.");
+            assertEquals(tchecker.getProblems().size(), 1, "Expected one type check problem.");
             assertEquals(expectedMsg, tchecker.getProblems().get(0).toString());
         } catch (InvalidOptionException e) {
             assertEquals(expectedMsg, e.getMessage());

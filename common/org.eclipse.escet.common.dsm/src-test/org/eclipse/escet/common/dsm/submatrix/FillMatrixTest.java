@@ -16,14 +16,14 @@ package org.eclipse.escet.common.dsm.submatrix;
 import static org.eclipse.escet.common.dsm.submatrix.SubMatrixFunctions.fillSubMatrix;
 import static org.eclipse.escet.common.java.BitSets.makeBitset;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.dsm.Group.GroupType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link SubMatrixFunctions#fillSubMatrix} function. */
 public class FillMatrixTest {
@@ -50,7 +50,7 @@ public class FillMatrixTest {
         assertTrue(sub.isSquare());
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                assertEquals(fmt("entry (%d, %d)", i, j), (int)expected[i][j], (int)sub.getEntry(i, j));
+                assertEquals((int)expected[i][j], (int)sub.getEntry(i, j), fmt("entry (%d, %d)", i, j));
             }
         }
     }
@@ -69,7 +69,7 @@ public class FillMatrixTest {
         assertTrue(sub.isSquare());
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
-                assertEquals(fmt("entry (%d, %d)", i, j), (int)expected[i][j], (int)sub.getEntry(i, j));
+                assertEquals((int)expected[i][j], (int)sub.getEntry(i, j), fmt("entry (%d, %d)", i, j));
             }
         }
     }
@@ -88,7 +88,7 @@ public class FillMatrixTest {
         assertTrue(sub.isSquare());
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
-                assertEquals(fmt("entry (%d, %d)", i, j), (int)expected[i][j], (int)sub.getEntry(i, j));
+                assertEquals((int)expected[i][j], (int)sub.getEntry(i, j), fmt("entry (%d, %d)", i, j));
             }
         }
     }

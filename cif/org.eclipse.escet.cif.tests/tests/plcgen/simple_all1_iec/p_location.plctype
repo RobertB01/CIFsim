@@ -1,0 +1,3 @@
+TYPE p_location:
+    (p_l1, p_l6, p_l7, p_l8, p_l9, p_l10, p_l11, p_l12, p_l13, p_l14, p_l15, p_l16);
+END_TYPE

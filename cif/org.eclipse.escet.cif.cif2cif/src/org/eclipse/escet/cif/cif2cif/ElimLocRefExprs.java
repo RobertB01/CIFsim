@@ -201,8 +201,8 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * <li>Uses {@code "LPE"} as candidate name for location pointer enumeration declarations.</li>
      * <li>Uses the location name prefixed with {@code "LOC_"} as candidate name for location pointer enumeration
      * literals.</li>
-     * <li>Adds initialization predicates for the initialization of the location pointer variables.</li>
      * <li>Considers the names of the locations of the automaton for renaming to ensure unique names.</li>
+     * <li>Adds initialization predicates for the initialization of the location pointer variables.</li>
      * <li>Performs an optimized transformation (only adds location pointer variables to automata for which a location
      * is referenced in an expression.</li>
      * <li>Does not construct a mapping location pointer variables to the absolute names (without keyword escaping) of

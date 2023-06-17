@@ -30,8 +30,8 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationEx
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -47,8 +47,8 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the CIF to DMM transformation. */
 public class CifToDmmTest {
@@ -56,7 +56,7 @@ public class CifToDmmTest {
     private Specification spec;
 
     @SuppressWarnings("javadoc")
-    @Before
+    @BeforeEach
     public void setup() {
         spec = newSpecification();
     }

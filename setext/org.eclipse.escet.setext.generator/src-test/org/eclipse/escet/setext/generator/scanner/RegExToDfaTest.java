@@ -21,7 +21,7 @@ import static org.eclipse.escet.setext.generator.scanner.RegExToDfa.lastpos;
 import static org.eclipse.escet.setext.generator.scanner.RegExToDfa.nullable;
 import static org.eclipse.escet.setext.generator.scanner.RegExToDfa.simplify;
 import static org.eclipse.escet.setext.io.SeTextReader.parseRegEx;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,9 +36,9 @@ import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.regex.RegEx;
 import org.eclipse.escet.setext.parser.ast.regex.RegExChar;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Units tests for the {@link RegExToDfa} class. */
 public class RegExToDfaTest {
@@ -48,14 +48,14 @@ public class RegExToDfaTest {
     /** {@code @eof} regular expression. */
     private static final RegEx RE_EOF = new RegExChar(-1, DUMMY_POS);
 
-    @Before
+    @BeforeEach
     @SuppressWarnings("javadoc")
     public void before() {
         AppEnv.registerSimple();
         Options.set(OutputModeOption.class, OutputMode.ERROR);
     }
 
-    @After
+    @AfterEach
     @SuppressWarnings("javadoc")
     public void after() {
         AppEnv.unregisterApplication();

@@ -13,15 +13,16 @@
 
 package org.eclipse.escet.tooldef.runtime;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** ToolDef tuple value tests. */
 @SuppressWarnings("javadoc")
@@ -215,21 +216,21 @@ public class ToolDefTupleTest {
         assertEquals(true, n2.getValue(3));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetValuePairErr() {
         ToolDefTuplePair<Integer, Boolean> p;
         p = new ToolDefTuplePair<>(1, true);
 
-        p.getValue(2);
+        assertThrows(IllegalArgumentException.class, () -> p.getValue(2));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetValueNaryErr() {
         ToolDefTuplePair<Integer, Boolean> p;
         ToolDefTupleNary<String, ToolDefTuplePair<Integer, Boolean>> n1;
         p = new ToolDefTuplePair<>(1, true);
         n1 = new ToolDefTupleNary<>("a", p);
 
-        n1.getValue(3);
+        assertThrows(IllegalArgumentException.class, () -> n1.getValue(3));
     }
 }

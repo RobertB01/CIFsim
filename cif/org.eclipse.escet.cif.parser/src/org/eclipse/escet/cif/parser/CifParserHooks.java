@@ -1026,7 +1026,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // LocationElement : InvariantDecls;
     public ALocationElement parseLocationElement3(AInvariantDecl a1) {
-        return new AInvariantLocationElement(a1.kind, a1.invariants, a1.position);
+        return new AInvariantLocationElement(a1);
     }
 
     @Override // LocationElement : @EQUATIONKW Equations SEMICOLTK;
@@ -1278,22 +1278,22 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Invariant : Expression;
     public AInvariant parseInvariant1(AExpression a1) {
-        return new AInvariant(null, a1, null, null, a1.position);
+        return new AInvariant(null, a1, null, null);
     }
 
     @Override // Invariant : Identifier COLONTK Expression;
     public AInvariant parseInvariant2(AIdentifier a1, AExpression a3) {
-        return new AInvariant(a1, a3, null, null, a3.position);
+        return new AInvariant(a1, a3, null, null);
     }
 
     @Override // Invariant : Name @NEEDSKW Expression;
     public AInvariant parseInvariant3(AName a1, Token t2, AExpression a3) {
-        return new AInvariant(null, a3, t2, list(a1), t2.position);
+        return new AInvariant(null, a3, t2, list(a1));
     }
 
     @Override // Invariant : Identifier COLONTK Name @NEEDSKW Expression;
     public AInvariant parseInvariant4(AIdentifier a1, AName a3, Token t4, AExpression a5) {
-        return new AInvariant(a1, a5, t4, list(a3), t4.position);
+        return new AInvariant(a1, a5, t4, list(a3));
     }
 
     @Override // Invariant : NonEmptySetExpression @NEEDSKW Expression;
@@ -1308,22 +1308,22 @@ public final class CifParserHooks implements CifParser.Hooks {
                 throw new CustomSyntaxException(msg, elem.position);
             }
         }
-        return new AInvariant(null, a3, t2, events, t2.position);
+        return new AInvariant(null, a3, t2, events);
     }
 
     @Override // Invariant : Expression @DISABLESKW Name;
     public AInvariant parseInvariant6(AExpression a1, Token t2, AName a3) {
-        return new AInvariant(null, a1, t2, list(a3), t2.position);
+        return new AInvariant(null, a1, t2, list(a3));
     }
 
     @Override // Invariant : Identifier COLONTK Expression @DISABLESKW Name;
     public AInvariant parseInvariant7(AIdentifier a1, AExpression a3, Token t4, AName a5) {
-        return new AInvariant(a1, a3, t4, list(a5), t4.position);
+        return new AInvariant(a1, a3, t4, list(a5));
     }
 
     @Override // Invariant : Expression @DISABLESKW NamesSet;
     public AInvariant parseInvariant8(AExpression a1, Token t2, List<AName> l3) {
-        return new AInvariant(null, a1, t2, l3, t2.position);
+        return new AInvariant(null, a1, t2, l3);
     }
 
     @Override // NamesSet : CUROPENTK Names CURCLOSETK;
