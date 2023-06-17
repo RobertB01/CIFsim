@@ -53,7 +53,7 @@ if x > 0 and y == 2: 1.5 elif x > 0 and y != 2 or x < 0: -2.8 else 0.1 end
 ----
 
 The `if` and `elif` guard predicates are processed in order. So once one is evaluated to true, the 'then' of that expression is evaluated and the remainder of the `elif` expressions and the `else` are skipped.
-Consider the following `if` statement.
+Consider the following `if` expression.
 
 [source, cif]
 ----
@@ -68,36 +68,40 @@ indexterm:[expression,switch]
 indexterm:[switch,expression]
 
 [[lang-tut-values-chapter-switch-expression]]
-=== Switch statement
+=== Switch expression
 
-Similar to the `if` statement from <<lang-tut-functions-statements-if>>, a `switch` statement can be used to perform different calculations under different circumstances.
-Consider the following function:
+Similar to the `if` expressions, a `switch` expression can be used to perform different calculations under different circumstances.
+Consider the following partial CIF model:
 
 [source, cif]
 ----
 enum mode = OFF, ON1, ON2, ON3, DISCONNECTED;
-func int get_speed(mode m):
-  return switch m:
-    case ON1: 5
-    case ON2: 10
-    case ON3: 15
-    else      0
-    end;
+automaton rotary_switch:
+  disc mode m = OFF;
+  ...
+end
+
+alg int speed = switch rotary_switch.m:
+  case ON1: 5
+  case ON2: 10
+  case ON3: 15
+  else      0
+  end;
 end
 ----
 
-This `get_speed` function takes an operation mode `m` and returns the speed corresponding to that mode.
-If the value of `m` matches one of the cases, the `switch` statement will evaluate to the corresponding value.
-For example, if `m = ON2`, this `switch` statement evaluates to `10`.
+This `switch` expression takes the operation mode `rotary_switch.m` and provides the speed corresponding to that mode.
+If the value of `rotary_switch.m` matches one of the cases, the `switch` expression will evaluate to the corresponding value.
+For example, if `rotary_switch.m = ON2`, this `switch` expression evaluates to `10`.
 If none of the cases matches, the value of the `else` case is taken.
-For example, if `m = DISCONNECTED`, this `switch` statement evaluates to `0`.
+For example, if `rotary_switch.m = DISCONNECTED`, this `switch` expression evaluates to `0`.
 Note that multiple values can be captured by the `else` case, i.e., you do not have to cover each possible value with a separate case.
 
 One can use all elementary and container types from <<lang-tut-values-chapter-overview>>, including user-defined types, as long as the types of the cases matches the type of the switch expression.
-In the example, `m` is of type `mode`, which is an enumeration.
+In the example, `rotary_switch.m` is of type `mode`, which is an enumeration.
 Hence all cases should be of type `mode` as well.
 
-One can also use an automaton as a type of the `switch` statement, where the cases have to be locations of that automaton:
+One can also use an automaton as a type of the `switch` expression, where the cases have to be locations of that automaton:
 
 [source, cif]
 ----
@@ -114,10 +118,10 @@ alg int acceleration = switch controller:
   end;
 ----
 
-Observe that in this `switch` statement we omitted the `else` case.
+Observe that in this `switch` expression we omitted the `else` case.
 The `else` case is allowed to be omitted if all the cases together cover all possible values of the `switch` expression.
 In the example above, the three cases cover all possible locations of automaton `controller`.
 
-`if` statements and `switch` statements are very similar.
-It is possible to rewrite a `switch` statement into an `if` statement.
+`if` expressions and `switch` expressions are very similar.
+It is possible to rewrite a `switch` expression into an `if` expression.
 See <<tools-cif2cif-chapter-switches-to-ifs>> for the CIF to CIF transformation tool to do this automatically.
