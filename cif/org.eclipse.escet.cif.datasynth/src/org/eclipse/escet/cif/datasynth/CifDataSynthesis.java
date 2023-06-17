@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
+import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.concat;
@@ -1318,16 +1319,14 @@ public class CifDataSynthesis {
         // operation of the loop, the last operation of the loop, or an operation in between.
         // - We do need to go through all the operations of the loop at least once.
 
-        // Count the number of reachability operations in the loop;
-        int reachabilityCount = 0;
-        reachabilityCount++; // Backward reach of marking (non-blocking states).
-        reachabilityCount++; // Backward uncontrollable reach of bad states (controllable states).
-        if (doForward) { // Forward reach of initialization (reachable states).
-            reachabilityCount++;
+        // Get the fixed-point computations to perform, in the order to perform them.
+        List<FixedPointComputation> computationsInOrder = FixedPointComputationsOrderOption.getOrder().computations;
+        if (!doForward) {
+            computationsInOrder = computationsInOrder.stream().filter(c -> c != REACH).toList();
         }
 
-        // Get the order in which to perform the fixed-point computations.
-        List<FixedPointComputation> computationsInOrder = FixedPointComputationsOrderOption.getOrder().computations;
+        // Count the number of reachability operations in the loop;
+        int reachabilityCount = computationsInOrder.size();
 
         // Get the number of reachability operations that need to be stable before we can stop synthesis.
         int stableCount = reachabilityCount - 1;
@@ -1348,11 +1347,9 @@ public class CifDataSynthesis {
             }
 
             // Perform the fixed-point computations of the round.
-            for (FixedPointComputation computation: computationsInOrder) {
-                // Skip computing reachable states if forward reachability is not configured.
-                if (computation == FixedPointComputation.REACH && !doForward) {
-                    continue;
-                }
+            for (int computationIdx = 0; computationIdx < computationsInOrder.size(); computationIdx++) {
+                // Get fixed-point computation to perform.
+                FixedPointComputation computation = computationsInOrder.get(computationIdx);
 
                 // Get predicate from which to start the reachability computation.
                 BDD startPred = switch(computation) {
