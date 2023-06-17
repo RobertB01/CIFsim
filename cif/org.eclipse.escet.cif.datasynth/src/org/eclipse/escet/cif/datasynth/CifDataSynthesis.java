@@ -53,6 +53,7 @@ import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.Stopwatch;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
@@ -1400,15 +1401,22 @@ public class CifDataSynthesis {
                         inclCtrl = true;
                         break;
                 }
+
+                // Start timing the reachability computation.
+                if (doTiming) {
+                    Stopwatch stopwatch = switch (computation) {
+                        case NONBLOCK -> timing.mainBwMarked;
+                        case CTRL -> timing.mainBwBadState;
+                        case REACH -> timing.mainFwInit;
+                    };
+                    stopwatch.start();
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
 
             // 1a: Perform backward reachability computation (fixed point).
             BDD nonBlock;
-            if (doTiming) {
-                timing.mainBwMarked.start();
-            }
             try {
                 CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
                         predName, initName, restrictionName, //
@@ -1475,9 +1483,6 @@ public class CifDataSynthesis {
             // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
 
             // 2a: Perform backward reachability computation (fixed point).
-            if (doTiming) {
-                timing.mainBwBadState.start();
-            }
             try {
                 CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
                         predName, initName, restrictionName, //
@@ -1550,9 +1555,6 @@ public class CifDataSynthesis {
             // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
             // the controlled system as determined so far (reachable states).
                 // 3a: Perform forward reachability computation (fixed point).
-                if (doTiming) {
-                    timing.mainFwInit.start();
-                }
                 try {
                     CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
                             predName, initName, restrictionName, //
