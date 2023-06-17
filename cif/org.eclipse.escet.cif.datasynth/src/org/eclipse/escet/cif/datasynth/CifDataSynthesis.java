@@ -1318,9 +1318,9 @@ public class CifDataSynthesis {
 
         // Count the number of reachability operations in the loop;
         int reachabilityCount = 0;
-        reachabilityCount++; // Backward reach of marking.
-        reachabilityCount++; // Backward uncontrollable reach of bad states.
-        if (doForward) { // Forward reach of initialization.
+        reachabilityCount++; // Backward reach of marking (non-blocking states).
+        reachabilityCount++; // Backward uncontrollable reach of bad states (controllable states).
+        if (doForward) { // Forward reach of initialization (reachable states).
             reachabilityCount++;
         }
 
@@ -1345,7 +1345,7 @@ public class CifDataSynthesis {
                 dbg("Round %d: started.", round);
             }
 
-            // Operation 1: Compute non-blocking predicate from marking.
+            // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
 
             // 1a: Perform backward reachability computation (fixed point).
             BDD nonBlock;
@@ -1419,7 +1419,7 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Operation 2: Compute bad-state predicate from blocking predicate.
+            // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
 
             // 2a: Perform backward reachability computation (fixed point).
             BDD badState = aut.ctrlBeh.not();
@@ -1504,7 +1504,7 @@ public class CifDataSynthesis {
             }
 
             // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
-            // the controlled system as determined so far.
+            // the controlled system as determined so far (reachable states).
             if (doForward) {
                 // 3a: Perform forward reachability computation (fixed point).
                 if (doTiming) {
