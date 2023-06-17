@@ -1352,8 +1352,8 @@ public class CifDataSynthesis {
                 FixedPointComputation computation = computationsInOrder.get(computationIdx);
 
                 // Get predicate from which to start the reachability computation.
-                BDD startPred = switch(computation) {
-                    case NONBLOCK-> aut.marked.id();
+                BDD startPred = switch (computation) {
+                    case NONBLOCK -> aut.marked.id();
                     case CTRL -> aut.ctrlBeh.not();
                     case REACH -> aut.initialCtrl.id();
                 };
