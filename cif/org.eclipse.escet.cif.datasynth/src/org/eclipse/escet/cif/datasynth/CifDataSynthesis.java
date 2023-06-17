@@ -1196,10 +1196,11 @@ public class CifDataSynthesis {
             }
 
             // Check whether the guards on edges of automata combined with invariants are all 'false'. There might be
-            // multiple edges for an event. State/event exclusion invariants are included in the edge guards. State
-            // plant invariants and state requirement invariants are sometimes included in the edge guard (depending on
-            // the options). To simplify the implementation and make it more consistent regardless of the options, we
-            // always include the state invariants again.
+            // multiple edges for an event. State/event exclusion plant invariants are included in the edge guards.
+            // State/event exclusion requirement invariants are included in the edge guards for controllable events.
+            // State plant invariants and state requirement invariants are sometimes included in the edge guard
+            // (depending also on whether the edge guard was strengthened). To simplify the implementation and make it
+            // more consistent regardless, we always include the state invariants again.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
                 if (aut.env.isTerminationRequested()) {
@@ -1207,7 +1208,7 @@ public class CifDataSynthesis {
                 }
 
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
-                enabledExpression = enabledExpression.and(aut.plantInv);
+                enabledExpression = enabledExpression.andWith(aut.plantInv.id());
                 if (!enabledExpression.isZero()) {
                     enabledExpression.free();
                     alwaysDisabled = false;
