@@ -1361,6 +1361,45 @@ public class CifDataSynthesis {
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
+
+                // Configure reachability computation.
+                String predName; // Name of the predicate to compute.
+                String initName; // Name of the initial value of the predicate.
+                String restrictionName; // Name of the restriction predicate, if applicable.
+                BDD restriction; // The restriction predicate, if applicable.
+                boolean badStates; // Whether the predicate represents bad states (true) or good states (false).
+                boolean applyForward; // Whether to apply forward reachability (true) or backward reachability (false).
+                boolean inclCtrl; // Whether to include edges with controllable events in the reachability.
+                boolean inclUnctrl = true; // Always include edges with uncontrollable events in the reachability.
+                switch (computation) {
+                    case NONBLOCK:
+                        predName = "backward controlled-behavior";
+                        initName = "marker";
+                        restrictionName = "current/previous controlled-behavior";
+                        restriction = aut.ctrlBeh;
+                        badStates = false;
+                        applyForward = false;
+                        inclCtrl = true;
+                        break;
+                    case CTRL:
+                        predName = "backward uncontrolled bad-state";
+                        initName = "current/previous controlled behavior";
+                        restrictionName = null;
+                        restriction = null;
+                        badStates = true;
+                        applyForward = false;
+                        inclCtrl = false;
+                        break;
+                    case REACH:
+                        predName = "forward controlled-behavior";
+                        initName = "initialization";
+                        restrictionName = "current/previous controlled-behavior";
+                        restriction = aut.ctrlBeh;
+                        badStates = false;
+                        applyForward = true;
+                        inclCtrl = true;
+                        break;
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
@@ -1372,12 +1411,8 @@ public class CifDataSynthesis {
             }
             try {
                 CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                        "backward controlled-behavior", "marker", "current/previous controlled-behavior", //
-                        aut.ctrlBeh, // restriction
-                        false, // not bad states = good states
-                        false, // not forward reachability = backward reachability
-                        true, // include edges with controllable events
-                        true, // include edges with uncontrollable events
+                        predName, initName, restrictionName, //
+                        restriction, badStates, applyForward, inclCtrl, inclUnctrl, //
                         dbgEnabled);
                 nonBlock = reachability.performReachability(startPred);
             } finally {
@@ -1445,12 +1480,8 @@ public class CifDataSynthesis {
             }
             try {
                 CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                        "backward uncontrolled bad-state", "current/previous controlled behavior", null, //
-                        null, // no restriction
-                        true, // bad states
-                        false, // not forward reachability = backward reachability
-                        false, // exclude edges with controllable events
-                        true, // include edges with uncontrollable events
+                        predName, initName, restrictionName, //
+                        restriction, badStates, applyForward, inclCtrl, inclUnctrl, //
                         dbgEnabled);
                 badState = reachability.performReachability(startPred);
             } finally {
@@ -1524,12 +1555,8 @@ public class CifDataSynthesis {
                 }
                 try {
                     CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                            "forward controlled-behavior", "initialization", "current/previous controlled-behavior", //
-                            aut.ctrlBeh, // no restriction
-                            false, // not bad states = good states
-                            true, // forward reachability
-                            true, // include edges with controllable events
-                            true, // include edges with uncontrollable events
+                            predName, initName, restrictionName, //
+                            restriction, badStates, applyForward, inclCtrl, inclUnctrl, //
                             dbgEnabled);
                     newCtrlBeh = reachability.performReachability(startPred);
                 } finally {
