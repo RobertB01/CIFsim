@@ -1,3 +1,3 @@
 WARNING: File "tchecker/switch_superfluous_else.cif": Semantic warning at line 19, column 18: Switch "else" is superfluous, as all locations already have a "case".
-WARNING: File "tchecker/switch_superfluous_else.cif": Semantic warning at line 33, column 15: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "tchecker/switch_superfluous_else.cif": Semantic warning at line 33, column 15: The switch expression has only one case, which is deprecated.
 WARNING: File "tchecker/switch_superfluous_else.cif": Semantic warning at line 40, column 16: Switch "else" is superfluous, as all values already have a "case".

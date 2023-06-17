@@ -1,5 +1,5 @@
-WARNING: File "cif2uppaal/invalid3.cif": Semantic warning at line 36, column 20: The switch has only one "case", which will be deprecated in the future.
-WARNING: File "cif2uppaal/invalid3.cif": Semantic warning at line 37, column 20: The switch has only one "case", which will be deprecated in the future.
+WARNING: File "cif2uppaal/invalid3.cif": Semantic warning at line 36, column 20: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2uppaal/invalid3.cif": Semantic warning at line 37, column 20: The switch expression has only one case, which is deprecated.
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
 
   -------------------------------------------

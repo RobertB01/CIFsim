@@ -16,8 +16,11 @@ const int c1 = switch 1:
                end;
 
 enum single = SINGLE;
-
 const single x = SINGLE;
 const int c2 = switch x:
                  case SINGLE: 1
+               end;
+
+const int c3 = switch x:
+                 else 1
                end;
