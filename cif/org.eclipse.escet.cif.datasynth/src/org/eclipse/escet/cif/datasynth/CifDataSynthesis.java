@@ -1479,6 +1479,9 @@ public class CifDataSynthesis {
                     }
                     break;
                 }
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
 
                 // 2) Check for controlled behavior being stable, after having performed all computations at least once.
                 boolean allPerformedAtLeastOnce = round > 1 || computationIdx == computationsInOrder.size() - 1;
