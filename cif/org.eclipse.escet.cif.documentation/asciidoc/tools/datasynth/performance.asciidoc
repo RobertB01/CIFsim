@@ -31,6 +31,7 @@ For instance, try to:
 * Several options of the data-based synthesis tool impact its performance.
 A list of such option is given below.
 
+[[tools-datasynth-performance-out-of-memory]]
 If you run out of memory, here are some potential solutions:
 
 * Increase the memory available to the synthesis tool.

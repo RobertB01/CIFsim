@@ -138,15 +138,17 @@ The default is `100000` nodes.
 The initial node table size must be in the range [1 .. 2^31^ - 1].
 For more information, see the <<tools-datasynth-stats,section about statistics>>.
 
-* _BDD library operation cache size_: The BDD library that is used maintains an internal operation cache.
-This option can be used to set the fixed size of that cache.
+[[tools-datasynth-options-cache-size]]
+* _BDD library operation cache size_: The BDD library that is used maintains several internal operation caches.
+This option can be used to set the fixed size of these caches.
 The operation cache size must be in the range [2 .. 2^31^ - 1].
 By default, this option is disabled (value `off` on the command line), and the _BDD library operation cache ratio_ option is used instead.
 For more information, see the <<tools-datasynth-op-cache,section about BDD operation caches>>.
 
-* _BDD library operation cache ratio_: The BDD library that is used maintains an internal operation cache.
-This option can be used to set the ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
-For instance, a ratio of `0.1` means that the size of the operation cache is 10% of the size of the node table.
+[[tools-datasynth-options-cache-ratio]]
+* _BDD library operation cache ratio_: The BDD library that is used maintains several internal operation caches.
+This option can be used to set the ratio of the size of the operation caches of the BDD library to the size of the node table of the BDD library.
+For instance, a ratio of `0.1` means that the sizes of the operation caches are 10% of the size of the node table.
 The operation cache ratio must be in the range [0.01 .. 1000].
 The default ratio is 1.0.
 This option has no effect if the _BDD library operation cache size_ option is enabled.
