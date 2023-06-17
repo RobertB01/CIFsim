@@ -1466,7 +1466,9 @@ public class CifDataSynthesis {
                     unchanged = 0;
                 }
 
-                // Detect fixed point for main loop: check for empty controlled behavior.
+                // Detect a fixed point for all fixed-point computations:
+
+                // 1) Check for empty controlled behavior.
                 BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
                 boolean noCtrlStates = ctrlStates.isZero();
                 ctrlStates.free();
