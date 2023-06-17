@@ -1468,21 +1468,23 @@ public class CifDataSynthesis {
                     aut.ctrlBeh = newCtrlBeh;
                     unchanged = 0;
                 }
+
+                // Detect fixed point for main loop: check for empty controlled behavior.
+                BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
+                boolean noCtrlStates = ctrlStates.isZero();
+                ctrlStates.free();
+                if (noCtrlStates) {
+                    if (dbgEnabled) {
+                        dbg();
+                        dbg("Round %d: finished, all states are bad.", round);
+                    }
+                    break;
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
 
             // 1c: Detect fixed point for main loop.
-            BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-            boolean noCtrlStates = ctrlStates.isZero();
-            ctrlStates.free();
-            if (noCtrlStates) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, all states are bad.", round);
-                }
-                break;
-            }
             if (round > 1 && unchanged >= stableCount) {
                 if (dbgEnabled) {
                     dbg();
@@ -1509,16 +1511,6 @@ public class CifDataSynthesis {
             // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
 
             // 2c: Detect fixed point for main loop.
-            ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-            noCtrlStates = ctrlStates.isZero();
-            ctrlStates.free();
-            if (noCtrlStates) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, all states are bad.", round);
-                }
-                break;
-            }
             if ((!doForward || round > 1) && unchanged >= stableCount) {
                 if (dbgEnabled) {
                     dbg();
@@ -1547,16 +1539,6 @@ public class CifDataSynthesis {
 
                 // 3c: Detect fixed point for main loop.
                 // No need to check the controlled behavior with initialization, as forward reachability starts there.
-                ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-                noCtrlStates = ctrlStates.isZero();
-                ctrlStates.free();
-                if (noCtrlStates) {
-                    if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, all states are bad.", round);
-                    }
-                    break;
-                }
                 if (unchanged >= stableCount) {
                     if (dbgEnabled) {
                         dbg();
