@@ -1401,6 +1401,8 @@ public class CifDataSynthesis {
                         applyForward = true;
                         inclCtrl = true;
                         break;
+                    default:
+                        throw new RuntimeException("Unknown computation: " + computation);
                 }
 
                 // Start timing the reachability computation.
@@ -1450,6 +1452,8 @@ public class CifDataSynthesis {
                             return;
                         }
                         break;
+                    default:
+                        throw new RuntimeException("Unknown computation: " + computation);
                 }
 
                 // Detect change in controlled behavior.
