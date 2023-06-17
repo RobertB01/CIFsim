@@ -1,0 +1,94 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-values-chapter-if-and-switch]]
+== If and switch expressions
+
+indexterm:[if]
+indexterm:[expression,if]
+indexterm:[if,expression]
+
+[[lang-tut-values-chapter-if-expression]]
+=== If expression
+
+It is possible to perform different calculations under different circumstances.
+Consider the following expression:
+
+[source, cif]
+----
+if x > 0: 1 elif x < 0: -1 else 0 end
+----
+
+This expression takes a real number `x` and calculates its link:https://en.wikipedia.org/wiki/Signum_function[sign].
+The `if` expression is used to detect the different situations, and to return the correct result in each of those situations.
+
+indexterm:[switch]
+indexterm:[expression,switch]
+indexterm:[switch,expression]
+
+[[lang-tut-values-chapter-switch-expression]]
+=== Switch statement
+
+Similar to the `if` statement from <<lang-tut-functions-statements-if>>, a `switch` statement can be used to perform different calculations under different circumstances.
+Consider the following function:
+
+[source, cif]
+----
+enum mode = OFF, ON1, ON2, ON3, DISCONNECTED;
+func int get_speed(mode m):
+  return switch m:
+    case ON1: 5
+    case ON2: 10
+    case ON3: 15
+    else      0
+    end;
+end
+----
+
+This `get_speed` function takes an operation mode `m` and returns the speed corresponding to that mode.
+If the value of `m` matches one of the cases, the `switch` statement will evaluate to the corresponding value.
+For example, if `m = ON2`, this `switch` statement evaluates to `10`.
+If none of the cases matches, the value of the `else` case is taken.
+For example, if `m = DISCONNECTED`, this `switch` statement evaluates to `0`.
+Note that multiple values can be captured by the `else` case, i.e., you do not have to cover each possible value with a separate case.
+
+One can use all elementary and container types from <<lang-tut-values-chapter-overview>>, including user-defined types, as long as the types of the cases matches the type of the switch expression.
+In the example, `m` is of type `mode`, which is an enumeration.
+Hence all cases should be of type `mode` as well.
+
+One can also use an automaton as a type of the `switch` statement, where the cases have to be locations of that automaton:
+
+[source, cif]
+----
+automaton controller:
+  location accelerate: ...
+  location decelerate: ...
+  location steady: ...
+end
+
+alg int acceleration = switch controller:
+  case accelerate:  5
+  case decelerate: -3
+  case steady:      0
+  end;
+----
+
+Observe that in this `switch` statement we omitted the `else` case.
+The `else` case is allowed to be omitted if all the cases together cover all possible values of the `switch` expression.
+In the example above, the three cases cover all possible locations of automaton `controller`.
+
+`if` statements and `switch` statements are very similar.
+It is possible to rewrite a `switch` statement into an `if` statement.
+See <<tools-cif2cif-chapter-switches-to-ifs>> for the CIF to CIF transformation tool to do this automatically.
