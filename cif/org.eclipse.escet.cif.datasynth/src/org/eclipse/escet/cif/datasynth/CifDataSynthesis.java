@@ -1512,20 +1512,6 @@ public class CifDataSynthesis {
                 }
             }
 
-            // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
-
-            // 1c: Detect fixed point for main loop.
-
-            // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
-
-            // 2c: Detect fixed point for main loop.
-
-            // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
-            // the controlled system as determined so far (reachable states).
-
-                // 3c: Detect fixed point for main loop.
-                // No need to check the controlled behavior with initialization, as forward reachability starts there.
-
             // Finished round.
             if (dbgEnabled) {
                 dbg();
