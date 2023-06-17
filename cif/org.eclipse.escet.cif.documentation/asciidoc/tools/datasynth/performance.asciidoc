@@ -16,6 +16,13 @@ indexterm:[data-based supervisory controller synthesis,performance]
 [[tools-datasynth-performance]]
 == Performance
 
+Obviously, the actual model that is used has a large impact as well.
+More variables often leads to longer synthesis times.
+However, the predicates that are used may also significantly impact performance.
+
+Try to use state/event exclusion requirement invariants instead of requirement automata with a single location and self loops.
+Also, try to avoid an event-based modeling style, and use a data-based modeling style instead, if possible.
+
 The following <<tools-datasynth-options,options>> have an effect on the performance of data-based synthesis:
 
 [cols="5,15,15,20,40",options="header"]
@@ -164,10 +171,3 @@ The second column lists the different options.
 The third column indicates in which section of the data-based synthesis tool documentation you can find more information about that option.
 The fourth column indicates the effect of the option.
 The fifth column indicates what to choose for the option, for best performance, although a trade-off may be involved.
-
-Obviously, the actual model that is used has a large impact as well.
-More variables often leads to longer synthesis times.
-However, the predicates that are used may also significantly impact performance.
-
-Try to use state/event exclusion requirement invariants instead of requirement automata with a single location and self loops.
-Also, try to avoid an event-based modeling style, and use a data-based modeling style instead, if possible.
