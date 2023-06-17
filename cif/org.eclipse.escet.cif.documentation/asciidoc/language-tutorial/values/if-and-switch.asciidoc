@@ -34,6 +34,35 @@ if x > 0: 1 elif x < 0: -1 else 0 end
 This expression takes a real number `x` and calculates its link:https://en.wikipedia.org/wiki/Signum_function[sign].
 The `if` expression is used to detect the different situations, and to return the correct result in each of those situations.
 
+An `if` expression always consist of the `if` and the `else` part.
+But the number of `elif` parts is free, and it could be omitted altogether:
+
+[source, cif]
+----
+if x > 0: 1 elif x < 0: -1 else 0 end
+if x > 0: 1 else 0 end
+if x > 0: 1 elif x < -10: -2 elif x < 0: -1 else 0 end
+----
+
+The 'guard predicate' of an `if` or `elif` (the expression before the `:`) can be any expression that evaluates to a boolean value.
+The type of the ‘then’ expression, the type of the ‘else’ expression, the types of the ‘thens’ of the `elif` expressions (if any) must all match:
+
+[source, cif]
+----
+if x > 0 and y == 2: 1.5 elif x > 0 and y != 2 or x < 0: -2.8 else 0.1 end
+----
+
+The `if` and `elif` guard predicates are processed in order. So once one is evaluated to true, the 'then' of that expression is evaluated and the remainder of the `elif` expressions and the `else` are skipped.
+Consider the following `if` statement.
+
+[source, cif]
+----
+if x > 0: 1.5 elif x > 0: -2.8 else 0.1 end
+----
+
+For any value `x > 0`, this `if` expression returns `1.5`.
+It will never return `-2.8`, as the `if` part is evaluated before the `elif` part.
+
 indexterm:[switch]
 indexterm:[expression,switch]
 indexterm:[switch,expression]
