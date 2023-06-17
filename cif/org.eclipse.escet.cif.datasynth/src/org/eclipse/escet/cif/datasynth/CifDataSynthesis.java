@@ -1435,10 +1435,25 @@ public class CifDataSynthesis {
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
+
+                // Get new controlled behavior.
+                BDD newCtrlBeh;
+                switch (computation) {
+                    case NONBLOCK:
+                    case REACH:
+                        newCtrlBeh = reachabilityResult;
+                        break;
+                    case CTRL:
+                        newCtrlBeh = reachabilityResult.not();
+                        reachabilityResult.free();
+                        if (aut.env.isTerminationRequested()) {
+                            return;
+                        }
+                        break;
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
-
 
             // 1b: Detect change in controlled behavior.
             if (aut.ctrlBeh.equals(nonBlock)) {
@@ -1488,13 +1503,6 @@ public class CifDataSynthesis {
             }
 
             // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
-
-
-            BDD newCtrlBeh = badState.not();
-            badState.free();
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
 
             // 2b: Detect change in controlled behavior.
             if (aut.ctrlBeh.equals(newCtrlBeh)) {
