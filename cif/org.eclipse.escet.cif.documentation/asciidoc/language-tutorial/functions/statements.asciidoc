@@ -112,49 +112,52 @@ Consider the following function:
 
 [source, cif]
 ----
-enum mode = OFF, ON1, ON2, ON3, BROKEN;
-func int convert_to_speed(mode m):
+enum mode = OFF, ON1, ON2, ON3, DISCONNECTED;
+func int get_speed(mode m):
   return switch m:
     case ON1: 5
     case ON2: 10
     case ON3: 15
     else      0
-  end;
+    end;
 end
 ----
 
-This `convert_to_speed` function takes an operation mode `m` and returns a speed.
-If the value of `m` matches one of the cases, the `switch` statement will evaluate to the indicated value.
+This `get_speed` function takes an operation mode `m` and returns the speed corresponding to that mode.
+If the value of `m` matches one of the cases, the `switch` statement will evaluate to the corresponding value.
 For example, if `m = ON2`, this `switch` statement evaluates to `10`.
 If none of the cases matches, the value of the `else` case is taken.
-For example, if `m = BROKEN`, this `switch` statement evaluates to `0`.
+For example, if `m = DISCONNECTED`, this `switch` statement evaluates to `0`.
+Note that multiple values can be captured by the `else` case, i.e., you do not have to cover each possible value with a separate case.
 
-One can use all the types from <<lang-tut-values-chapter-overview>>, including user-defined types, as long as the type of the cases matches the switch expression.
-In the example, `m` is of type `mode`, which is an enumeration, hence all cases should be of type `mode` as well.
+One can use all elementary and container types from <<lang-tut-values-chapter-overview>>, including user-defined types, as long as the types of the cases matches the type of the switch expression.
+In the example, `m` is of type `mode`, which is an enumeration.
+Hence all cases should be of type `mode` as well.
 
-One can also use an automaton as a type of the `switch` statement, where the cases have to be locations of that automaton (for clarity, we omitted the events and the control switch conditions in this example):
+One can also use an automaton as a type of the `switch` statement, where the cases have to be locations of that automaton:
 
 [source, cif]
 ----
-automaton Controller:
-    location accelerate;
-    location decelerate;
-    location steady;
+automaton controller:
+  location accelerate: ...
+  location decelerate: ...
+  location steady: ...
 end
 
-alg int acceleration = switch Controller:
-    case accelerate:  5
-    case decelerate: -3
-    case steady:      0
+alg int acceleration = switch controller:
+  case accelerate:  5
+  case decelerate: -3
+  case steady:      0
   end;
 ----
 
 Observe that in this `switch` statement we omitted the `else` case.
 The `else` case is allowed to be omitted if all the cases together cover all possible values of the `switch` expression.
-In the example above, the three cases cover all possible locations of automaton `A`.
+In the example above, the three cases cover all possible locations of automaton `controller`.
 
 `if` statements and `switch` statements are very similar.
-It is possible to rewrite a `switch` statement into an `if` statement, see <<tools-cif2cif-chapter-switches-to-ifs>> for the CIF to CIF transformation tool to do this automatically.
+It is possible to rewrite a `switch` statement into an `if` statement.
+See <<tools-cif2cif-chapter-switches-to-ifs>> for the CIF to CIF transformation tool to do this automatically.
 
 indexterm:[function statements,while]
 
