@@ -1296,44 +1296,44 @@ public class CifDataSynthesis {
             boolean doTiming, CifDataSynthesisTiming timing)
     {
         // We know that:
-        // - Each round, we perform the same operations.
-        // - Each operation is a fixed point calculation.
-        // - All the operations take a controlled behavior and produce a potentially changed controlled behavior.
+        // - Each round, we perform the same computations, in the same order.
+        // - Each computation is a fixed-point computation.
+        // - All the computations take a controlled behavior and produce a potentially changed controlled behavior.
         // - All other data that is used is constant. For instance, marking and initialization predicates of the
-        // original model are used, and they don't change during the main loop (this method). The used guards and
-        // update relations also don't change during the main loop (this method), etc.
+        // original model are used, and they don't change during the fixed-point computations. The used guards and
+        // update relations also don't change during the fixed-point computations, etc.
         //
-        // This means that:
-        // - If we have 'n' operations, and the previous 'n - 1' operations didn't change the controlled behavior,
-        // then the controlled behavior was last changed by the next operation that we will perform.
-        // - The controlled behavior came from that 'next' operation.
-        // - It was not changed by all the other operations since the last iteration of the loop.
-        // - The operation is a fixed point as all other operations.
-        // - Putting the result of a fixed point into that same fixed point again means the input is also the output.
-        // - Thus, the 'next' operation will not have an effect on the controlled behavior.
-        // - Similarly, all next operations won't have an affect. We have thus reached a fixed point for this entire
-        // main loop (this method), and are done with synthesis.
+        // To ensure a proper fixed-point result for synthesis:
+        // - We need to perform all the computations at least once.
+        // - We can stop as soon as the controlled behavior remains stable for all the computations.
         //
-        // Some additional things to consider:
-        // - This applies to any 'n - 1' previous operations, regardless of whether the next operation is the first
-        // operation of the loop, the last operation of the loop, or an operation in between.
-        // - We do need to go through all the operations of the loop at least once.
+        // Therefore:
+        // - We keep track of the number of consecutive computations that produced a stable result.
+        // - If a computation does not change the controlled behavior, we can increment the number by one.
+        // - If a computation changed the controlled behavior, we need to reconsider the other computations again.
+        // However, the computation itself is a fixed-point computation, and thus won't change the controlled behavior
+        // when applied again. Hence, that computation is the first computation after the change that produced a stable
+        // result, and the number can be set to one.
+        // - As soon as the number of consecutive computations that produced a stable result equals the total number of
+        // computations to perform, we have produced a stable result for all the computations.
+        //
+        // Note that:
+        // - We will perform each computation at least once, as we need that many increments to reach the termination
+        // condition.
+        // - We stop as soon as the controlled behavior is stable, regardless of whether we have completed the current
+        // round of performing the computations, since there is no need to finish the round if the controlled behavior
+        // is already stable.
 
         // Get the fixed-point computations to perform, in the order to perform them.
         List<FixedPointComputation> computationsInOrder = FixedPointComputationsOrderOption.getOrder().computations;
         if (!doForward) {
             computationsInOrder = computationsInOrder.stream().filter(c -> c != REACH).toList();
         }
-
-        // Count the number of reachability operations in the loop;
-        int reachabilityCount = computationsInOrder.size();
-
-        // Get the number of reachability operations that need to be stable before we can stop synthesis.
-        int stableCount = reachabilityCount - 1;
+        int numberOfComputations = computationsInOrder.size();
 
         // Perform synthesis.
         int round = 0;
-        int unchanged = 0;
+        int stableCount = 0;
         FIXED_POINT_LOOP:
         while (true) {
             // Next round.
@@ -1348,10 +1348,7 @@ public class CifDataSynthesis {
             }
 
             // Perform the fixed-point computations of the round.
-            for (int computationIdx = 0; computationIdx < computationsInOrder.size(); computationIdx++) {
-                // Get fixed-point computation to perform.
-                FixedPointComputation computation = computationsInOrder.get(computationIdx);
-
+            for (FixedPointComputation computation: computationsInOrder) {
                 // Get predicate from which to start the reachability computation.
                 BDD startPred = switch (computation) {
                     case NONBLOCK -> aut.marked.id();
@@ -1455,16 +1452,18 @@ public class CifDataSynthesis {
                 }
 
                 // Detect change in controlled behavior.
-                if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                boolean unchanged = aut.ctrlBeh.equals(newCtrlBeh);
+                boolean changed = !unchanged;
+                if (unchanged) {
                     newCtrlBeh.free();
-                    unchanged++;
+                    stableCount++;
                 } else {
                     if (dbgEnabled) {
                         dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut));
                     }
                     aut.ctrlBeh.free();
                     aut.ctrlBeh = newCtrlBeh;
-                    unchanged = 0;
+                    stableCount = 1;
                 }
 
                 // Detect a fixed point for all fixed-point computations:
@@ -1485,8 +1484,7 @@ public class CifDataSynthesis {
                 }
 
                 // 2) Check for controlled behavior being stable, after having performed all computations at least once.
-                boolean allPerformedAtLeastOnce = round > 1 || computationIdx == computationsInOrder.size() - 1;
-                if (allPerformedAtLeastOnce && unchanged >= stableCount) {
+                if (stableCount == numberOfComputations) {
                     if (dbgEnabled) {
                         dbg();
                         dbg("Round %d: finished, controlled behavior is stable.", round);
@@ -1494,9 +1492,10 @@ public class CifDataSynthesis {
                     break FIXED_POINT_LOOP;
                 }
 
-                // 3) Check for no initial states left.
-                // No need to check this for forward reachability, as it starts there.
-                if (computation != REACH && unchanged == 0) {
+                // 3) Check for no initial states left, if the controlled behavior changed. There is no need to check
+                // this for forward reachability, as it starts from the initial states, and if there are no initial
+                // states, then the controlled behavior is empty and a fixed point was detected above already.
+                if (changed && computation != REACH) {
                     BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                     boolean noInit = init.isZero();
                     init.free();
