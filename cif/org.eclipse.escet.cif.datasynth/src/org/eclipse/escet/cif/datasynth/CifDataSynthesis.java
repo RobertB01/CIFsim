@@ -36,6 +36,8 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
+import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption;
+import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
@@ -1321,6 +1323,9 @@ public class CifDataSynthesis {
         if (doForward) { // Forward reach of initialization.
             reachabilityCount++;
         }
+
+        // Get the order in which to perform the fixed-point computations.
+        List<FixedPointComputation> computationsInOrder = FixedPointComputationsOrderOption.getOrder().computations;
 
         // Get the number of reachability operations that need to be stable before we can stop synthesis.
         int stableCount = reachabilityCount - 1;

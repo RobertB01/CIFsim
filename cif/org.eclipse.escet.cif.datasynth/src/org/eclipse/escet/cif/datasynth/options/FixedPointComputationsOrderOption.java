@@ -13,6 +13,12 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
+import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.NONBLOCK;
+import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
+
+import java.util.List;
+
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputationsOrder;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
@@ -85,21 +91,45 @@ public class FixedPointComputationsOrderOption extends EnumOption<FixedPointComp
     /** Fixed-point computations order. */
     public static enum FixedPointComputationsOrder {
         /** Non-blocking -> controllable -> reachable. */
-        NONBLOCK_CTRL_REACH,
+        NONBLOCK_CTRL_REACH(NONBLOCK, CTRL, REACH),
 
         /** Non-blocking -> reachable -> controllable. */
-        NONBLOCK_REACH_CTRL,
+        NONBLOCK_REACH_CTRL(NONBLOCK, REACH, CTRL),
 
         /** Controllable -> non-blocking -> reachable. */
-        CTRL_NONBLOCK_REACH,
+        CTRL_NONBLOCK_REACH(CTRL, NONBLOCK, REACH),
 
         /** Controllable -> reachable -> non-blocking. */
-        CTRL_REACH_NONBLOCK,
+        CTRL_REACH_NONBLOCK(CTRL, REACH, NONBLOCK),
 
         /** Reachable -> non-blocking -> controllable. */
-        REACH_NONBLOCK_CTRL,
+        REACH_NONBLOCK_CTRL(REACH, NONBLOCK, CTRL),
 
         /** Reachable -> controllable -> non-blocking. */
-        REACH_CTRL_NONBLOCK,
+        REACH_CTRL_NONBLOCK(REACH, CTRL, NONBLOCK);
+
+        /** The computations to perform, in the order to perform them. */
+        public final List<FixedPointComputation> computations;
+
+        /**
+         * Constructor of the {@link FixedPointComputationsOrder} enum.
+         *
+         * @param computations The computations to perform, in the order to perform them.
+         */
+        private FixedPointComputationsOrder(FixedPointComputation... computations) {
+            this.computations = List.of(computations);
+        }
+    }
+
+    /** Fixed-point computation. */
+    public static enum FixedPointComputation {
+        /** Compute non-blocking states. */
+        NONBLOCK,
+
+        /** Compute controllable states. */
+        CTRL,
+
+        /** Compute reachable states. */
+        REACH,
     }
 }
