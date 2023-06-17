@@ -1492,54 +1492,39 @@ public class CifDataSynthesis {
                     }
                     break;
                 }
+
+                // 3) Check for no initial states left.
+                // No need to check this for forward reachability, as it starts there.
+                if (computation != REACH && unchanged == 0) {
+                    BDD init = aut.initialCtrl.and(aut.ctrlBeh);
+                    boolean noInit = init.isZero();
+                    init.free();
+                    if (noInit) {
+                        if (dbgEnabled) {
+                            dbg();
+                            dbg("Round %d: finished, no initialization possible.", round);
+                        }
+                        break;
+                    }
+                    if (aut.env.isTerminationRequested()) {
+                        return;
+                    }
+                }
             }
 
             // Operation 1: Compute non-blocking predicate from marking (non-blocking states).
 
             // 1c: Detect fixed point for main loop.
-            if (unchanged == 0) {
-                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                boolean noInit = init.isZero();
-                init.free();
-                if (noInit) {
-                    if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, no initialization possible.", round);
-                    }
-                    break;
-                }
-            }
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
 
             // Operation 2: Compute bad-state predicate from blocking predicate (controllable states).
 
             // 2c: Detect fixed point for main loop.
-            if (unchanged == 0) {
-                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                boolean noInit = init.isZero();
-                init.free();
-                if (noInit) {
-                    if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, no initialization possible.", round);
-                    }
-                    break;
-                }
-            }
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
 
             // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
             // the controlled system as determined so far (reachable states).
 
                 // 3c: Detect fixed point for main loop.
                 // No need to check the controlled behavior with initialization, as forward reachability starts there.
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
 
             // Finished round.
             if (dbgEnabled) {
