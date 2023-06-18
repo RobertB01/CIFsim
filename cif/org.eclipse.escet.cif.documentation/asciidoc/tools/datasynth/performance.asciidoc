@@ -24,9 +24,7 @@ A model with more variables often has to longer synthesis time and requires more
 However, the predicates that are used may also significantly impact performance.
 
 * The modeling style used when modeling the plants and requirements can also have a significant impact on the performance.
-For instance, try to:
-** Use state/event exclusion requirement invariants instead of requirement automata with a single location and self loops.
-** Avoid an event-based modeling style, and use a data-based modeling style instead, if possible.
+See for instance <<sbe-in-practice-advanced-performance,these suggestions>>.
 
 * Several options of the data-based synthesis tool impact its performance.
 A list of such option is given below.
