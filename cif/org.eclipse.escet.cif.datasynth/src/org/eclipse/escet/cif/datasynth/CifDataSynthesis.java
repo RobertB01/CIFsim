@@ -1199,7 +1199,7 @@ public class CifDataSynthesis {
             // multiple edges for an event. State/event exclusion plant invariants are included in the edge guards.
             // State/event exclusion requirement invariants are included in the edge guards for controllable events.
             // State plant invariants and state requirement invariants are sometimes included in the edge guard
-            // (depending also on whether the edge guard was strengthened). To simplify the implementation and make it
+            // (it may depend on options, and on whether the edge guard was strengthened). To simplify the implementation and make it
             // more consistent regardless, we always include the state invariants again.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
