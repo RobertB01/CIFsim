@@ -11,58 +11,108 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Tests for the controllable events.
 plant p:
-  controllable c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13;
-  disc int[0..10] w, x, y;
-  disc int[0..1] z = 1;
+  controllable c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16;
+  disc int[0..10]          v3, v4, v5, v6, v7, v8, v9, v10, v11,      v13;
+
   location l1:
     initial; marked;
-    edge c0 when false;                // Never enabled due to 'false' automaton guard.
-    edge c1;                           // Never enabled due to 'false' state/event exclusion requirement.
-    edge c2;                           // Never enabled due to 'false' state/event exclusion plant.
-    edge c3 when x < 5;                // Never enabled due to 'false' combination of automaton guard and requirement.
-    edge c4 when x < 5;                // Never enabled due to 'false' combination of automaton guard and plant.
-    edge c5;                           // Never enabled due to 'false' combination of state/event excl plant and req.
-    edge c6 when y = 5;                // Never enabled due to 'false' combination of guard and state requirement.
-    edge c7 when w = 5;                // Never enabled due to 'false' combination of guard and state plant invariant.
-    edge c8 when y = 4 do y := y + 1;  // Never enabled due to reaching 'y = 5', which is not allowed.
-    edge c9 goto l2;                   // Never enabled after synthesis because of transition to deadlock location.
-    edge c10 when z = 1 do z := z + 1; // Never enabled due to variable out of domain after assignment.
+    edge c0  when false;         // Never enabled due to 'false' automaton guard.
+    edge c1;                     // Never enabled due to 'false' state/event exclusion requirement.
+    edge c2;                     // Never enabled due to 'false' state/event exclusion plant.
+    edge c3  when v3  != 0;      // Never enabled due to 'false' combination of automaton guard and state/event exclusion requirement.
+    edge c4  when v4  != 0;      // Never enabled due to 'false' combination of automaton guard and state/event exclusion plant.
+    edge c5;                     // Never enabled due to 'false' combination of state/event exclusion requirement and state/event exclusion plant.
+    edge c6  when v6  != 0;      // Never enabled due to 'false' combination of automaton guard, state/event exclusion requirement and state/event exclusion plant.
+    edge c7  when v7  != 0;      // Never enabled due to 'false' combination of automaton guard and state requirement.
+    edge c8  when v8  != 0;      // Never enabled due to 'false' combination of automaton guard and state plant.
+    edge c9  when v9  != 0;      // Never enabled due to 'false' combination of automaton guard, state requirement, and state plant.
+    edge c10 when v10 != 0;      // Never enabled due to 'false' combination of automaton guard, state/event exclusion requirement, state/event exclusion plant, state requirement, and state plant.
+    edge c11 when v11 = 4  do v11 := v11 + 1; // Never enabled due to reaching 'v11 = 5', which is not allowed.
+    edge c12 goto l2;            // Never enabled after synthesis because of transition to deadlock location.
+    edge c13 when v13 = 10 do v13 := v13 + 1; // Never enabled due to variable out of domain after assignment.
 
-    edge c11 when false;               // For two edges labeled with the same event, only one warning.
-    edge c11 when false;
+    edge c14 when false;         // For two edges labeled with the same event, only one warning.
+    edge c14 when false;
 
-    edge c12;                          // For two edges labeled with the same event, only warn when both edges are
-    edge c12 when false;               // disabled.
+    edge c15;                    // For two edges labeled with the same event, only warn when both edges are disabled
+    edge c15 when false;
   location l2;
   location l3:
-    edge c13;                          // Never enabled due to origin location being unreachable.
+    edge c16;                    // Never enabled due to origin location being unreachable.
 end
 
-requirement p.c1 needs false;
-plant       p.c2 needs false;
-requirement p.c1 needs p.x >= 5;
-requirement p.c3 needs p.x >= 5;
-plant       p.c4 needs p.x >= 5;
-requirement p.c5 needs p.x <= 5;
-plant       p.c5 needs p.x > 5;
-requirement p.c6 needs p.y >= 5;
-requirement p.y != 5;
-plant       p.w != 5;
+requirement p.c1 needs  false;
+plant       p.c2 needs  false;
+requirement p.c3 needs  p.v3  = 0;
+plant       p.c4 needs  p.v4  = 0;
+requirement p.c5 needs  p.v5 != 0;
+plant       p.c5 needs  p.v5  = 0;
+plant       p.c6 needs  p.v6 != 1;
+requirement p.c6 needs  p.v6  = 0 or p.v6 = 1;
+requirement             p.v7  = 0;
+plant                   p.v8  = 0;
+plant                   p.v9 != 1;
+requirement             p.v9  = 0 or p.v9 = 1;
+requirement p.c10 needs p.v10 != 1;
+plant       p.c10 needs p.v10 != 2;
+requirement             p.v10 != 3;
+plant                   p.v10 = 0 or p.v10 = 1 or p.v10 = 2 or p.v10 = 3;
+plant                   p.v11 != 5;
+
+// Tests for the uncontrollable events.
+// Note that tests 1, 3, 5, 6, 10, and 12 cannot be performed, as they result in an empty supervisor. Moreover, when
+// determining whether an event is enabled, state/event exclusion requirement for uncontrollable events are not taken
+// into account.
 
 plant q:
-  uncontrollable u0, u1, u2, u3, u4;
+  uncontrollable u0, u2, u4, u7, u8, u9, u11, u13, u14, u15, u16;
+  disc int[0..10]        v4, v7, v8, v9, v11, v13;
+
   location l1:
     initial; marked;
-    edge u0 when false;                // Never enabled due to 'false' automaton guard.
-    edge u1;                           // Never enabled due to 'false' state/event exclusion plant.
-    edge u2 when p.x < 5;              // Never enabled due to 'false' combination of automaton guard and state/event exclusion plant.
-    edge u3 when p.y = 5;              // Never enabled due to 'false' combination of guard and state requirement.
-    edge u4 when p.w = 5;              // Never enabled due to 'false' combination of guard and state plant invariants.
+    edge u0  when false;         // Never enabled due to 'false' automaton guard.
+    // edge u1;                  // Never enabled due to 'false' state/event exclusion requirement.
+    edge u2;                     // Never enabled due to 'false' state/event exclusion plant.
+    // edge u3 when v3  != 0;    // Never enabled due to 'false' combination of automaton guard and state/event exclusion requirement.
+    edge u4  when v4 != 0;       // Never enabled due to 'false' combination of automaton guard and state/event exclusion plant.
+    // edge u5;                  // Never enabled due to 'false' combination of state/event exclusion requirement and state/event exclusion plant.
+    // edge u6 when v6  != 0;    // Never enabled due to 'false' combination of automaton guard, state/event exclusion requirement and state/event exclusion plant.
+    edge u7  when v7 != 0;       // Never enabled due to 'false' combination of automaton guard and state requirement.
+    edge u8  when v8 != 0;       // Never enabled due to 'false' combination of automaton guard and state plant.
+    edge u9  when v9 != 0;       // Never enabled due to 'false' combination of automaton guard, state requirement, and state plant.
+    // edge u10 when v10 != 0;   // Never enabled due to 'false' combination of automaton guard, state/event exclusion requirement, state/event exclusion plant, state requirement, and state plant.
+    edge u11 when v11 = 4  do v11 := v11 + 1; // Never enabled due to reaching 'v11 = 5', which is not allowed.
+    // edge u12 goto l2;         // Uncontrollable events cannot become blocked in the controlled system!
+    edge u13 when v13 = 10 do v13 := v13 + 1; // Never enabled due to variable out of domain after assignment.
+
+    edge u14 when false;         // For two edges labeled with the same event, only one warning.
+    edge u14 when false;
+
+    edge u15;                    // For two edges labeled with the same event, only warn when both edges are disabled
+    edge u15 when false;
+  location l3:
+    edge u16;                    // Never enabled due to origin location being unreachable.
 end
 
-plant q.u1 needs false;
-plant q.u2 needs p.x >= 5;
+// requirement q.u1 needs  false;
+plant       q.u2 needs  false;
+// requirement q.u3 needs  q.v3  = 0;
+plant       q.u4 needs  q.v4  = 0;
+// requirement q.u5 needs  q.v5 != 0;
+// plant       q.u5 needs  q.v5  = 0;
+// plant       q.u6 needs  q.v6 != 1;
+// requirement q.u6 needs  q.v6  = 0 or q.v6 = 1;
+requirement             q.v7  = 0;
+plant                   q.v8  = 0;
+plant                   q.v9 != 1;
+requirement             q.v9  = 0 or q.v9 = 1;
+// requirement q.u10 needs q.v10 != 1;
+// plant       q.u10 needs q.v10 != 2;
+// requirement             q.v10 != 3;
+// plant                   q.v10 = 0 or q.v10 = 1 or q.v10 = 2 or q.v10 = 3;
+plant                   q.v11 != 5;
 
 // c_synch and u_synch are never enabled because they are either disabled by automaton a or by automaton b.
 controllable c_off, c_synch;
