@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -23,7 +23,7 @@ indexterm:[if,expression]
 [[lang-tut-values-chapter-if-expression]]
 === If expression
 
-It is possible to perform different calculations under different circumstances.
+It is possible to produce different values under different circumstances.
 Consider the following expression:
 
 [source, cif]
@@ -32,10 +32,10 @@ if x > 0: 1 elif x < 0: -1 else 0 end
 ----
 
 This expression takes a real number `x` and calculates its link:https://en.wikipedia.org/wiki/Signum_function[sign].
-The `if` expression is used to detect the different situations, and to return the correct result in each of those situations.
+The `if` expression is used to detect the different situations, and to produce the correct result in each of those situations.
 
-An `if` expression always consist of the `if` and the `else` part.
-But the number of `elif` parts is free, and it could be omitted altogether:
+An `if` expression always consist of the `if` and the `else` parts.
+In between can optionally be any number of `elif` parts:
 
 [source, cif]
 ----
@@ -52,17 +52,17 @@ The type of the ‘then’ expression, the type of the ‘else’ expression, th
 if x > 0 and y == 2: 1.5 elif x > 0 and y != 2 or x < 0: -2.8 else 0.1 end
 ----
 
-The `if` and `elif` guard predicates are processed in order.
-So once one guard evaluates to true, the 'then' of that expression is evaluated and the remainder of the `elif` expressions and the `else` are skipped.
-Consider the following `if` expression.
+The `if` and `elif` alternatives are considered in order.
+The first alternative that has a guard that holds determines what value is produced by the `if` expression.
+Consider the following `if` expression:
 
 [source, cif]
 ----
 if x > 0: 1.5 elif x > 0: -2.8 else 0.1 end
 ----
 
-For any value `x > 0`, this `if` expression returns `1.5`.
-It will never return `-2.8`, as the `if` part is evaluated before the `elif` part.
+For any value `x > 0`, this `if` expression produces `1.5`.
+It will never produce `-2.8`, as the `if` part is evaluated before the `elif` part.
 
 indexterm:[switch]
 indexterm:[expression,switch]
@@ -71,7 +71,7 @@ indexterm:[switch,expression]
 [[lang-tut-values-chapter-switch-expression]]
 === Switch expression
 
-Similar to the `if` expressions, a `switch` expression can be used to perform different calculations under different circumstances.
+Similar to an `if` expression, a `switch` expression can be used to produce different values under different circumstances.
 Consider the following partial CIF model:
 
 [source, cif]
@@ -83,26 +83,38 @@ automaton rotary_switch:
 end
 
 alg int speed = switch rotary_switch.m:
-  case ON1: 5
-  case ON2: 10
-  case ON3: 15
-  else      0
-  end;
+                  case ON1: 5
+                  case ON2: 10
+                  case ON3: 15
+                  else      0
+                end;
 end
 ----
 
 This `switch` expression takes the operation mode `rotary_switch.m` and provides the speed corresponding to that mode.
-If the value of `rotary_switch.m` matches one of the cases, the `switch` expression will evaluate to the corresponding value.
-For example, if `rotary_switch.m = ON2`, this `switch` expression evaluates to `10`.
-If none of the cases matches, the value of the `else` case is taken.
-For example, if `rotary_switch.m = DISCONNECTED`, this `switch` expression evaluates to `0`.
+If the value of `m` matches one of the cases, the `switch` expression will evaluate to the corresponding value.
+For example, if `m` has value `ON2`, this `switch` expression evaluates to `10`.
+If none of the cases match, the value of the `else` case is taken.
+For example, if `m` has value `DISCONNECTED`, this `switch` expression evaluates to `0`.
 Note that multiple values can be captured by the `else` case, i.e., you do not have to cover each possible value with a separate case.
 
-One can use all elementary and container types from <<lang-tut-values-chapter-overview>>, including user-defined types, as long as the types of the cases matches the type of the switch expression.
-In the example, `rotary_switch.m` is of type `mode`, which is an enumeration.
+One can use different kind of types as long as the types of the cases match the type of the `switch` expression.
+In the example above, `m` is of type `mode`, which is an enumeration.
 Hence all cases should be of type `mode` as well.
+Below is an example using a ranged integer in the `switch` expression:
 
-One can also use an automaton as a type of the `switch` expression, where the cases have to be locations of that automaton:
+[source, cif]
+----
+alg int[0,2] num_products;
+
+alg string display_text = switch num_products:
+                            case 0: "There are no products in the buffer."
+                            case 1: "There is one product in the buffer."
+                            case 2: "There are two products in the buffer."
+                          end;
+----
+
+One can also use an automaton as a variable of the `switch` expression, where the cases have to be locations of that automaton:
 
 [source, cif]
 ----
@@ -113,10 +125,10 @@ automaton controller:
 end
 
 alg int acceleration = switch controller:
-  case accelerate:  5
-  case decelerate: -3
-  case steady:      0
-  end;
+                         case accelerate:  5
+                         case decelerate: -3
+                         case steady:      0
+                       end;
 ----
 
 Observe that in this `switch` expression we omitted the `else` case.
@@ -125,4 +137,4 @@ In the example above, the three cases cover all possible locations of automaton 
 
 `if` expressions and `switch` expressions are very similar.
 It is possible to rewrite a `switch` expression into an `if` expression.
-See <<tools-cif2cif-chapter-switches-to-ifs>> for the CIF to CIF transformation tool to do this automatically.
+See the  <<tools-cif2cif-chapter-switches-to-ifs,CIF to CIF transformation>> for how to do this automatically.
