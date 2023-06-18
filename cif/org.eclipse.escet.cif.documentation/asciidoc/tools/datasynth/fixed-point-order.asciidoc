@@ -1,0 +1,73 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+indexterm:[data-based supervisory controller synthesis,fixed-point order]
+
+[[tools-datasynth-fixed-point-order]]
+== Fixed-point computations order
+
+Data-based synthesis essentially works by computations that involve predicates that partition the entire state space into states that satisfy a property or don't satisfy a property.
+For instance, a marker predicate may indicate which states of the state space are marked.
+All other states are thus not marked.
+
+indexterm:[reachability]
+indexterm:[fixed point]
+The main computations performed during synthesis involve link:https://en.wikipedia.org/wiki/Reachability[reachability] computations.
+For instance, from which states is it possible to reach a marker state?
+To compute the states that can reach a marker state, the marker predicate of the input specification is used.
+The marker predicate indicates the states that are themselves marked.
+Then, the states are calculated that can reach one of those marked states, via a single transition.
+They are put together, to form the states that are marked or can be marked after one transition.
+By taking another such step, we can add the states that can reach a marked state via two transitions.
+We then have all states that can reach a marked state via zero, one, or two transitions.
+We can repeat this until no new states are found, which is called reaching a link:https://en.wikipedia.org/wiki/Fixed_point_%28mathematics%29[fixed point].
+The order in which transitions are considered and states are found may however not be exactly as described, as it <<tools-datasynth-edge-order,is configurable>>.
+
+indexterm:[reachability,backward]
+The form of reachability described above is called _backward_ reachability, as it starts from some target (e.g. marked states), and goes backwards to find all states from which the target can be reached.
+Conversely, <<tools-datasyth-forward-reach,_forward_ reachability>> starts from the initial states, and adds states reachable via transitions until all reachable states are found.
+
+Multiple fixed-point reachability computations are performed during synthesis:
+
+* _Computing the non-blocking states_:
+The non-blocking states are those states that can reach a marked state.
+They are computed by a backward reachability computation, starting from the marker predicates.
+This computation is mandatory, to ensure that a valid supervisor is computed.
+
+* _Computing the controllable states_:
+The controllable states are those states where only controllable events are restricted.
+They are computed by inverting the result of a backward reachibility computation over only the uncontrollable events, starting from the bad states.
+This computation is mandatory, to ensure that a valid supervisor is computed.
+
+* _Computing the reachable states_:
+The reachable states are those states that can be reached from an initial state.
+They are computed by a forward reachability computation, starting from the initial states.
+Performing a forward reachability computation is optional, and can be <<tools-datasynth-forward-reach-config,enabled or disabled>>.
+
+The enabled fixed-point computations are repeated until an overall fixed point is reached.
+
+The order in which the different fixed-point computations are performed has no effect on the correctness of the resulting supervisor.
+However, it can have a significant impact on the <<tools-datasynth-performance,performance>> of synthesis.
+For instance, if a model has a limited set of initial states and not many states can be reached via forward reachability, then computing the reachable states first may be beneficial.
+The limited set of reachable states may then impact a subsequent non-blocking computation, which only needs to consider those reachable states, which could reduce the effort needed to complete the computation.
+It may also reduce the size of the predicates produced during the fixed-point computation, which may reduce the amount of memory required to complete the computation and subsequent computations.
+However, if there are many initial states and the set of marked states is much smaller, the inverse may be true, and it could be better to start with the non-blocking computation.
+The best order, the order that gives the best performance, depends on the specification being synthesized.
+
+By default, the non-blocking states computation is performed first, then the controllable states computation, and lastly the reachable states computation (if enabled).
+The order in which the fixed-point computations are performed can be configured using the _Fixed-point computations order_ <<tools-datasynth-options,option>>.
+When specifying the value of the option on the command line, specify `nonblock` for the non-blocking states computation, `ctrl` for the controllable states computation, and `reach` for the reachable states computation, in the desired order, joined by dashes.
+For instance, specify `ctrl-reach-nonblock` or `reach-ctrl-nonblock`.
+Note that all three fixed-point computations must be included when specifying their order, regardless of whether they are all enabled or not.
+
+Besides the order of the fixed-point computations, enabling or disabling the forward reachability computation can also have a significant impact on the synthesis performance.

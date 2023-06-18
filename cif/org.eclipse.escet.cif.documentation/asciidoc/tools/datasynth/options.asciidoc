@@ -37,6 +37,10 @@ For more information, see the <<tools-datasynth-supervisor-namespace,section abo
 Is disabled by default.
 For more information, see the <<tools-datasynth-forward-reach,section about forward reachability>>.
 
+* _Fixed-point computations order_: The order in which the fixed-point computations are to be performed during synthesis.
+This may impact the performance of synthesis.
+For more information, see the <<tools-datasynth-fixed-point-order,section about fixed-point computations order>>.
+
 * _Edge granularity_: Specify the granularity of edges to use during synthesis.
 For more information, see the <<tools-datasynth-edge-granularity,section about edge granularity>>.
 

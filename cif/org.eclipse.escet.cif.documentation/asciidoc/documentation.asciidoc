@@ -370,6 +370,8 @@ include::tools/datasynth/simplification.asciidoc[]
 
 include::tools/datasynth/forward-reachability.asciidoc[]
 
+include::tools/datasynth/fixed-point-order.asciidoc[]
+
 include::tools/datasynth/input-variables.asciidoc[]
 
 include::tools/datasynth/initialization.asciidoc[]
