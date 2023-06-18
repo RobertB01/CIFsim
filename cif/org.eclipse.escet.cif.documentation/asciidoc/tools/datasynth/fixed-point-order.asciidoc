@@ -35,7 +35,7 @@ The order in which transitions are considered and states are found may however n
 
 indexterm:[reachability,backward]
 The form of reachability described above is called _backward_ reachability, as it starts from some target (e.g. marked states), and goes backwards to find all states from which the target can be reached.
-Conversely, <<tools-datasyth-forward-reach,_forward_ reachability>> starts from the initial states, and adds states reachable via transitions until all reachable states are found.
+Conversely, <<tools-datasynth-forward-reach,_forward_ reachability>> starts from the initial states, and adds states reachable via transitions until all reachable states are found.
 
 Multiple fixed-point reachability computations are performed during synthesis:
 
