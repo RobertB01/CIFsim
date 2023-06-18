@@ -292,7 +292,6 @@ AutDecl : Decl
 
 {cif.ADecl}
 Decl : @TYPEKW TypeDefs SEMICOLTK
-     | ENUMKW Identifier EQTK @CUROPENTK Identifiers CURCLOSETK SEMICOLTK // Deprecated.
      | ENUMKW Identifier EQTK Identifiers SEMICOLTK
      | OptControllability @EVENTKW           Identifiers SEMICOLTK
      | OptControllability @EVENTKW EventType Identifiers SEMICOLTK
