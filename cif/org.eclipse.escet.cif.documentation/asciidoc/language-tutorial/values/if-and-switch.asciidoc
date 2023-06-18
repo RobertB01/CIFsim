@@ -16,6 +16,12 @@ include::../_part_attributes.asciidoc[]
 [[lang-tut-values-chapter-if-and-switch]]
 == If and switch expressions
 
+In some models one wants to produce different values under different circumstances.
+Or one needs to convert from one type to another type.
+`if` and `switch` expressions provide means to do this in a concise manner.
+This lesson provides and introduction to both expressions.
+The <<sbe-in-practice-example-simulation-model,simulation model>> of the synthesis-based engineering example showcases both expressions in practice.
+
 indexterm:[if]
 indexterm:[expression,if]
 indexterm:[if,expression]
@@ -23,7 +29,6 @@ indexterm:[if,expression]
 [[lang-tut-values-chapter-if-expression]]
 === If expression
 
-It is possible to produce different values under different circumstances.
 Consider the following expression:
 
 [source, cif]
