@@ -63,7 +63,6 @@ import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.cif2plc.NaryExpressionConverter.NaryExpression;
 import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
 import org.eclipse.escet.cif.cif2plc.options.ConvertEnumsOption;
-import org.eclipse.escet.cif.cif2plc.options.ElimEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeArg;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeArgOption;
@@ -403,10 +402,7 @@ public class CifToPlcTrans {
         new AddDefaultInitialValues().transform(spec);
 
         // If requested, convert enumerations.
-        if (ElimEnumsOption.elimEnums()) {
-            warn("The \"elim-enums\" option is deprecated. Use the \"convert-enums\" option instead.");
-            new EnumsToInts().transform(spec);
-        } else if (ConvertEnumsOption.getValue() == ConvertEnums.INTS) {
+        if (ConvertEnumsOption.getValue() == ConvertEnums.INTS) {
             new EnumsToInts().transform(spec);
         } else if (ConvertEnumsOption.getValue() == ConvertEnums.CONSTS) {
             // This transformation introduces new constants that are intentionally not removed if simplify values is
