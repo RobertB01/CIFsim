@@ -16,12 +16,14 @@ package org.eclipse.escet.cif.datasynth.options;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.NONBLOCK;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
+import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputationsOrder;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.java.Assert;
 
 /** Option to specify the order of the fixed-point computations. */
 public class FixedPointComputationsOrderOption extends EnumOption<FixedPointComputationsOrder> {
@@ -117,6 +119,7 @@ public class FixedPointComputationsOrderOption extends EnumOption<FixedPointComp
          * @param computations The computations to perform, in the order to perform them.
          */
         private FixedPointComputationsOrder(FixedPointComputation... computations) {
+            Assert.areEqual(FixedPointComputation.values().length, set(computations).size());
             this.computations = List.of(computations);
         }
     }

@@ -1297,7 +1297,7 @@ public class CifDataSynthesis {
     {
         // We know that:
         // - Each round, we perform the same computations, in the same order.
-        // - Each computation is a fixed-point computation.
+        // - Each computation is a fixed-point reachability computation.
         // - All the computations take a controlled behavior and produce a potentially changed controlled behavior.
         // - All other data that is used is constant. For instance, marking and initialization predicates of the
         // original model are used, and they don't change during the fixed-point computations. The used guards and
@@ -1324,7 +1324,7 @@ public class CifDataSynthesis {
         // round of performing the computations, since there is no need to finish the round if the controlled behavior
         // is already stable.
 
-        // Get the fixed-point computations to perform, in the order to perform them.
+        // Get the fixed-point reachability computations to perform, in the order to perform them.
         List<FixedPointComputation> computationsInOrder = FixedPointComputationsOrderOption.getOrder().computations;
         if (!doForward) {
             computationsInOrder = computationsInOrder.stream().filter(c -> c != REACH).toList();
@@ -1347,19 +1347,19 @@ public class CifDataSynthesis {
                 dbg("Round %d: started.", round);
             }
 
-            // Perform the fixed-point computations of the round.
-            for (FixedPointComputation computation: computationsInOrder) {
-                // Get predicate from which to start the reachability computation.
-                BDD startPred = switch (computation) {
+            // Perform the fixed-point reachability computations of the round.
+            for (FixedPointComputation fixedPointComputation: computationsInOrder) {
+                // Get predicate from which to start the fixed-point reachability computation.
+                BDD startPred = switch (fixedPointComputation) {
                     case NONBLOCK -> aut.marked.id();
                     case CTRL -> aut.ctrlBeh.not();
                     case REACH -> aut.initialCtrl.id();
                 };
-                if (computation == CTRL && aut.env.isTerminationRequested()) {
+                if (fixedPointComputation == CTRL && aut.env.isTerminationRequested()) {
                     return;
                 }
 
-                // Configure reachability computation.
+                // Configure fixed-point reachability computation.
                 String predName; // Name of the predicate to compute.
                 String initName; // Name of the initial value of the predicate.
                 String restrictionName; // Name of the restriction predicate, if applicable.
@@ -1367,8 +1367,8 @@ public class CifDataSynthesis {
                 boolean badStates; // Whether the predicate represents bad states (true) or good states (false).
                 boolean applyForward; // Whether to apply forward reachability (true) or backward reachability (false).
                 boolean inclCtrl; // Whether to include edges with controllable events in the reachability.
-                boolean inclUnctrl = true; // Always include edges with uncontrollable events in the reachability.
-                switch (computation) {
+                final boolean inclUnctrl = true; // Always include edges with uncontrollable events in the reachability.
+                switch (fixedPointComputation) {
                     case NONBLOCK:
                         predName = "backward controlled-behavior";
                         initName = "marker";
@@ -1397,12 +1397,12 @@ public class CifDataSynthesis {
                         inclCtrl = true;
                         break;
                     default:
-                        throw new RuntimeException("Unknown computation: " + computation);
+                        throw new RuntimeException("Unknown fixed-point computation: " + fixedPointComputation);
                 }
 
-                // Start timing the reachability computation.
+                // Start timing the fixed-point reachability computation.
                 if (doTiming) {
-                    Stopwatch stopwatch = switch (computation) {
+                    Stopwatch stopwatch = switch (fixedPointComputation) {
                         case NONBLOCK -> timing.mainBwMarked;
                         case CTRL -> timing.mainBwBadState;
                         case REACH -> timing.mainFwInit;
@@ -1410,7 +1410,7 @@ public class CifDataSynthesis {
                     stopwatch.start();
                 }
 
-                // Perform the reachability computation.
+                // Perform the fixed-point reachability computation.
                 BDD reachabilityResult;
                 try {
                     CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, predName,
@@ -1418,9 +1418,9 @@ public class CifDataSynthesis {
                             dbgEnabled);
                     reachabilityResult = reachability.performReachability(startPred);
                 } finally {
-                    // Stop timing the reachability computation.
+                    // Stop timing the fixed-point reachability computation.
                     if (doTiming) {
-                        Stopwatch stopwatch = switch (computation) {
+                        Stopwatch stopwatch = switch (fixedPointComputation) {
                             case NONBLOCK -> timing.mainBwMarked;
                             case CTRL -> timing.mainBwBadState;
                             case REACH -> timing.mainFwInit;
@@ -1435,7 +1435,7 @@ public class CifDataSynthesis {
 
                 // Get new controlled behavior.
                 BDD newCtrlBeh;
-                switch (computation) {
+                switch (fixedPointComputation) {
                     case NONBLOCK:
                     case REACH:
                         newCtrlBeh = reachabilityResult;
@@ -1448,7 +1448,7 @@ public class CifDataSynthesis {
                         }
                         break;
                     default:
-                        throw new RuntimeException("Unknown computation: " + computation);
+                        throw new RuntimeException("Unknown fixed-point computation: " + fixedPointComputation);
                 }
 
                 // Detect change in controlled behavior.
@@ -1466,7 +1466,7 @@ public class CifDataSynthesis {
                     stableCount = 1;
                 }
 
-                // Detect a fixed point for all fixed-point computations:
+                // Detect a fixed point for all fixed-point computations (as far as they are not disabled by options):
 
                 // 1) Check for empty controlled behavior.
                 BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
@@ -1495,7 +1495,7 @@ public class CifDataSynthesis {
                 // 3) Check for no initial states left, if the controlled behavior changed. There is no need to check
                 // this for forward reachability, as it starts from the initial states, and if there are no initial
                 // states, then the controlled behavior is empty and a fixed point was detected above already.
-                if (changed && computation != REACH) {
+                if (changed && fixedPointComputation != REACH) {
                     BDD init = aut.initialCtrl.and(aut.ctrlBeh);
                     boolean noInit = init.isZero();
                     init.free();
