@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.escet.common.app.framework.AppEnv;
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.java.Exceptions;
 import org.eclipse.escet.common.java.Strings;
 import org.junit.jupiter.api.Test;
@@ -145,15 +146,14 @@ public class ResourceManagerTest {
      * @param expectedErrorLines Expected lines of text of error message.
      */
     private void testInternal(String testName, List<String> expectedErrorLines) {
-        String pluginName = getClass().getPackage().getName();
-        String uri = "platform:/plugin/" + pluginName + "/test_models/" + testName;
+        String uri = "file:test_models/" + testName;
         try {
             // Load, assuming single EPackage root object.
             ResourceManager.loadObject(uri, EPackage.class);
         } catch (EMFResourceException e) {
             String expected = String.join(Strings.NL, expectedErrorLines);
             String actual = Exceptions.exToStr(e);
-            actual = actual.replace(uri, "<uri>");
+            actual = actual.replace(Paths.createEmfURI(uri).toString(), "<uri>");
             actual = actual.replaceAll("\\@[0-9a-fA-F]+", "@<hash>");
             assertEquals(expected, actual);
             return;
