@@ -289,7 +289,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Starting data-based synthesis.");
             }
-            CifDataSynthesis.synthesize(aut, dbgEnabled, doTiming, timing);
+            boolean printCtrlSysStates = stats.contains(SynthesisStatistics.CTRL_SYS_STATES);
+            CifDataSynthesis.synthesize(aut, dbgEnabled, doTiming, timing, printCtrlSysStates);
             if (isTerminationRequested()) {
                 return;
             }
