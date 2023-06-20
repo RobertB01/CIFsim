@@ -56,7 +56,7 @@ It can only be used when a per-event edge granularity is configured, and duplica
 Improvements and fixes:
 
 * The position information of invariants has been improved.
-All CIF tools that may report on invariants give improved file position information, such as for type checker errors and precondition violation reports (issue {escet-issue}591[#591]).
+All CIF tools that may report on invariants give improved file position information, for example in type checker errors and precondition violation reports (issue {escet-issue}591[#591]).
 * The CIF simulator's command line script has been fixed for handling dark theme detection, preventing crashes and improving dark theme support, when using the simulator's plot visualizer or interactive GUI input component (issue {escet-issue}567[#567]).
 * The CIF simulator's SVG visualizer _Save as_ dialog now properly starts in the directory that contains the SVG file, also on Windows.
 And it now properly handles paths with spaces and other special characters in them (issue {escet-issue}221[#221]).
