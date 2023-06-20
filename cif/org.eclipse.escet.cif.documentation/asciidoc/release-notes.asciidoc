@@ -34,6 +34,15 @@ Use the syntax without curly brackets instead (issue {escet-issue}613[#613]).
 * The CIF type checker now allows omitting the `else` part of `switch` expressions in more situations, when it can be statically determined that the `switch` expression is complete without it.
 The type checker has also been improved, regarding detection of duplicate and missing switch cases, and superfluous ``else``s (issue {escet-issue}548[#548]).
 
+Deprecations and removals:
+
+* The CIF PLC code generator's deprecated _Eliminate enumerations_ option has been removed.
+It was deprecated since release v0.2.
+Use the _Convert enumerations_ option instead, which allows for more control (issue {escet-issue}613[#613]).
+* The deprecated CIF to CIF transformation to eliminate enumerations (`elim-enums`) has been removed.
+It was deprecated since release v0.2.
+Use the transformation to convert enumerations to integers instead, as it has the same functionality (issue {escet-issue}613[#613]).
+
 New features:
 
 * The CIF data-based synthesis tool has a new _Edge granularity_ option to configure the granularity of edges to use during synthesis.
@@ -66,13 +75,7 @@ And it now properly handles paths with spaces and other special characters in th
 * The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still producing the same values for platform-independent metrics (issue {escet-issue}564[#564]).
 * The CIF data-based synthesis legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering, rather than considering invariants in the automaton twice.
 This could affect synthesis performance (issue {escet-issue}377[#377]).
-* The CIF PLC code generator's deprecated _Eliminate enumerations_ option has been removed.
-It was deprecated since release v0.2.
-Use the _Convert enumerations_ option instead, which allows for more control (issue {escet-issue}613[#613]).
 * The CIF controller property checker's finite response check may now have improved performance (issue {escet-issue}583[#583]).
-* The deprecated CIF to CIF transformation to eliminate enumerations (`elim-enums`) has been removed.
-It was deprecated since release v0.2.
-Use the transformation to convert enumerations to integers instead, as it has the same functionality (issue {escet-issue}613[#613]).
 * The CIF to CIF transformation to merge all enumerations of the specification into a single enumeration has been changed.
 It now converts the last case of all `switch` expressions to an `else`, for switch expressions that switch over a value that has a type that includes an enumeration type.
 Hereby, the keys of these last cases are removed from the model (issue {escet-issue}548[#548]).
