@@ -14,7 +14,7 @@
 [[tools-datasynth-state-req-invs]]
 == State requirement invariants
 
-Before synthesis, the entire CIF specification is converted to Binary Decision Diagrams (BDDs), a representation of predicates that allows for efficient synthesis.
+Before synthesis, the entire CIF specification is converted to Binary Decision Diagrams (BDDs), a representation of predicates that allows for <<tools-datasynth-performance,efficient synthesis>>.
 The state requirement invariants of the specification thus also need to be part of the BDD representation of the specification.
 These requirements can be enforced by applying them to the BDDs in multiple ways:
 

@@ -25,7 +25,7 @@ Whenever a certain operation is performed on one or more nodes of a BDD graph, t
 If that same operation is performed again on the same nodes, the cached result is reused, if available.
 This way, repeated calculations can be prevented for shared sub-graphs.
 
-The operation cache is essential for the performance of the synthesis algorithm.
+The operation cache is essential for the <<tools-datasynth-performance,performance>> of the synthesis algorithm.
 With an infinite cache, the operations are generally linear in the number of nodes used to represent the BDDs on which they are applied.
 Without caching, the computation time grows exponentially.
 
