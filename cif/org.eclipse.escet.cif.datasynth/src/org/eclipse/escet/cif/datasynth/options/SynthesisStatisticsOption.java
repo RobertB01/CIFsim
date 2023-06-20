@@ -34,10 +34,10 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                         + "\"bdd-perf-cache\" for BDD cache statistics, "
                         + "\"bdd-perf-cont\" for continuous BDD performance statistics, "
                         + "\"bdd-perf-max-nodes\" for maximum used BDD nodes statistics, "
+                        + "\"ctrl-sys-states\" (default) for controlled system states statistics, "
                         + "\"timing\" for timing statistics, and/or "
                         + "\"max-memory\" for maximum used memory statistics. "
 
-                        + "By default, no statistics are printed. "
                         + "Prefix a name with \"+\" to add it on top of the defaults, "
                         + "or with \"-\" to remove it from the defaults.",
 
@@ -51,7 +51,7 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                 "STATS",
 
                 // defaultValue
-                EnumSet.noneOf(SynthesisStatistics.class),
+                EnumSet.of(SynthesisStatistics.CTRL_SYS_STATES),
 
                 // showInDialog
                 true,
@@ -76,6 +76,8 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                 return "Continuous BDD performance";
             case BDD_PERF_MAX_NODES:
                 return "Maximum used BDD nodes";
+            case CTRL_SYS_STATES:
+                return "Controlled system states";
             case TIMING:
                 return "Timing";
             case MAX_MEMORY:
