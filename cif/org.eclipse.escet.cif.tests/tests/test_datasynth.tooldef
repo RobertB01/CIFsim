@@ -82,8 +82,8 @@ map(string:list string) test_options = {
     "datasynth/edge_granularity_simple_per_edge.cif":           ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_simple_per_event.cif":          ["--edge-granularity=per-event"],
     "datasynth/edge_order_both_custom_basic.cif":               ["--backward-edge-order=C,p.event,D,p.z,p.a,p.X,p.Y,p.c --forward-edge-order=C,p.event,D,p.z,p.a,p.X,p.Y,p.c"],
-    "datasynth/edge_order_both_custom_dupl_no.cif":             ["--stats=bdd-perf-cache,bdd-perf-max-nodes --backward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on"],
-    "datasynth/edge_order_both_custom_dupl_yes.cif":            ["--stats=bdd-perf-cache,bdd-perf-max-nodes --backward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --edge-order-duplicate-events=allowed --edge-workset=off"],
+    "datasynth/edge_order_both_custom_dupl_no.cif":             ["--stats=+bdd-perf-cache,+bdd-perf-max-nodes --backward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on"],
+    "datasynth/edge_order_both_custom_dupl_yes.cif":            ["--stats=+bdd-perf-cache,+bdd-perf-max-nodes --backward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --edge-order-duplicate-events=allowed --edge-workset=off"],
     "datasynth/edge_order_both_dupl_match1.cif":                ["--backward-edge-order=p.c,*          --forward-edge-order=p.c,*"],
     "datasynth/edge_order_both_dupl_match2.cif":                ["--backward-edge-order=p.event,*      --forward-edge-order=p.event,*"],
     "datasynth/edge_order_both_missing.cif":                    ["--backward-edge-order=q.*            --forward-edge-order=q.*"],
@@ -146,7 +146,7 @@ map(string:list string) test_options = {
     "datasynth/state_plant_invs_unctrl.cif":                    [opt_simplify_all],
     "datasynth/state_req_inv_all_ctrl_beh.cif":                 ["--state-req-invs=all-ctrl-beh"],
     "datasynth/state_req_inv_per_edge.cif":                     ["--state-req-invs=per-edge"],
-    "datasynth/stats.cif":                                      ["--stats=bdd-perf-cache,bdd-perf-cont,bdd-perf-max-nodes"],
+    "datasynth/stats.cif":                                      ["--stats=+bdd-perf-cache,+bdd-perf-cont,+bdd-perf-max-nodes"],
     "datasynth/traffic_lights_req_state_inv_all_ctrl_beh.cif":  ["--state-req-invs=all-ctrl-beh"],
     "datasynth/traffic_lights_req_state_inv_per_edge.cif":      ["--state-req-invs=per-edge"],
     "datasynth/supname_custom.cif":                             ["-s g"],
@@ -365,7 +365,7 @@ for test in tests:
         // Print what we are testing.
         outln("Testing \"%s\" (state space size compare)...", test);
 
-        // Get number of states in controlled system, from debug output.
+        // Get number of states in controlled system, from statistics output.
         bool synth_states_exact = false;
         long synth_states_nr = -1;
         if isfile(test1_out_real):
@@ -375,8 +375,8 @@ for test in tests:
             // Find number of states, and exactness.
             for line in lines:
                 // Find line with useful information.
-                string pre_exact  = "Controlled system:                     exactly";
-                string pre_atmost = "Controlled system:                     at most";
+                string pre_exact  = "Controlled system: exactly";
+                string pre_atmost = "Controlled system: at most";
                 bool line_exact  = startswith(line, pre_exact);
                 bool line_atmost = startswith(line, pre_atmost);
                 if not line_exact and not line_atmost:: continue;
