@@ -147,6 +147,7 @@ map(string:list string) test_options = {
     "datasynth/state_req_inv_all_ctrl_beh.cif":                 ["--state-req-invs=all-ctrl-beh"],
     "datasynth/state_req_inv_per_edge.cif":                     ["--state-req-invs=per-edge"],
     "datasynth/stats.cif":                                      ["--stats=+bdd-perf-cache,+bdd-perf-cont,+bdd-perf-max-nodes"],
+    "datasynth/stats_none.cif":                                 ["--stats="],
     "datasynth/traffic_lights_req_state_inv_all_ctrl_beh.cif":  ["--state-req-invs=all-ctrl-beh"],
     "datasynth/traffic_lights_req_state_inv_per_edge.cif":      ["--state-req-invs=per-edge"],
     "datasynth/supname_custom.cif":                             ["-s g"],
