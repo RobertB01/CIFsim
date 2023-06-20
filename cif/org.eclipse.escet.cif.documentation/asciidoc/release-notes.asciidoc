@@ -28,20 +28,17 @@ TBD
 
 Language changes:
 
-* The deprecated curly-brackets syntax for declaring enumerations has been removed.
-It has been deprecated for years, and deprecation warnings were present since release v0.2.
-Use the syntax without curly brackets instead (issue {escet-issue}613[#613]).
 * The CIF type checker now allows omitting the `else` part of `switch` expressions in more situations, when it can be statically determined that the `switch` expression is complete without it.
 The type checker has also been improved, regarding detection of duplicate and missing switch cases, and superfluous ``else``s (issue {escet-issue}548[#548]).
 
 Deprecations and removals:
 
-* The CIF PLC code generator's deprecated _Eliminate enumerations_ option has been removed.
-It was deprecated since release v0.2.
+* The curly-brackets syntax for declaring enumerations was deprecated in 2014 and has now been removed.
+Use the syntax without curly brackets instead (issue {escet-issue}613[#613]).
+* The CIF PLC code generator's _Eliminate enumerations_ option was deprecated in release v0.2 and has now been removed.
 Use the _Convert enumerations_ option instead, which allows for more control (issue {escet-issue}613[#613]).
-* The deprecated CIF to CIF transformation to eliminate enumerations (`elim-enums`) has been removed.
-It was deprecated since release v0.2.
-Use the transformation to convert enumerations to integers instead, as it has the same functionality (issue {escet-issue}613[#613]).
+* The CIF to CIF transformation to eliminate enumerations (`elim-enums`) was deprecated in release v0.2 and has now been removed.
+Use the transformation to convert enumerations to integers (`enums-to-ints`) instead, as it has the same functionality (issue {escet-issue}613[#613]).
 
 New features:
 
@@ -52,16 +49,14 @@ The option can be used to restore the old behavior.
 The new edge granularity has been shown to reduce both the memory usage and time required to perform synthesis, but this may depend on the model being synthesized.
 For more information, see the documentation of the new option (issue {escet-issue}586[#586]).
 * The CIF data-based synthesis tool now features an experimental workset algorithm to dynamically determine the order in which edges are considered during reachability fixed-point computations.
-It should be considered experimental, and is disabled by default.
+It is currently considered to be experimental and is disabled by default.
 It can be enabled using the new _Edge workset algorithm_ option.
 It can only be used when a per-event edge granularity is configured, and duplicate events are allowed in the edge order (issues {escet-issue}520[#520] and {escet-issue}602[#602]).
 
 Improvements and fixes:
 
-* The position information for invariants has been improved.
-This affects various CIF tools.
-For instance, it improves with invariants as reported by the CIF type checker.
-It also improves reporting of precondition violations by several CIF tools, including the CIF PLC code generator, the CIF to Supremica transformation, and the CIF explorer (issue {escet-issue}591[#591]).
+* The position information of invariants has been improved.
+All CIF tools that may report on invariants give improved file position information, such as for type checker errors and precondition violation reports (issue {escet-issue}591[#591]).
 * The CIF simulator's command line script has been fixed for handling dark theme detection, preventing crashes and improving dark theme support, when using the simulator's plot visualizer or interactive GUI input component (issue {escet-issue}567[#567]).
 * The CIF simulator's SVG visualizer _Save as_ dialog now properly starts in the directory that contains the SVG file, also on Windows.
 And it now properly handles paths with spaces and other special characters in them (issue {escet-issue}221[#221]).
