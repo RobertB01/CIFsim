@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,25 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Add an input variable, without a 'stats_none.ctrlsys.extra.cif' file, to make sure state space generation fails.
-// Then the state space size is not compared to the statistics output (which is on purpose not printed for this test).
-input int[0..3] x;
-plant invariant x > 1;
-
-// Actual test model.
-controllable e;
-controllable f;
-
-plant a:
-  disc int[0..25] x = 1;
-
-  requirement invariant f needs x >= 10;            // f enabled for 10 <= x <= 15
-  requirement invariant f needs x <= 15;
-
+plant p:
   location:
     initial;
     marked;
-
-    edge e when x < 20 do x := x + 1;
-    edge f;
 end
+
+plant invariant false;

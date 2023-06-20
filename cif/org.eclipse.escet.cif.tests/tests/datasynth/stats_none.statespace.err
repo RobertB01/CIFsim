@@ -1,2 +1,0 @@
-ERROR: State space exploration failed due to unsatisfied preconditions:
- - Input variable "x" is not supported.
