@@ -167,7 +167,7 @@ Explains dictionary types, values, and commonly used expressions.
 Explains how to combine values of different types.
 
 <<lang-tut-values-chapter-if-and-switch>>::
-Explains the `if` and `switch` expressions.
+Explains `if` and `switch` expressions.
 
 [[lang-tut-reuse1]]
 *Scalable solutions and reuse (1/2)*
