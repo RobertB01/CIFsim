@@ -90,7 +90,7 @@ Final synthesis result:
   State: (controlled-behavior: true)
     Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
 
-Controlled system:                     exactly 4 states.
+Controlled system: exactly 4 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         p.x = 0

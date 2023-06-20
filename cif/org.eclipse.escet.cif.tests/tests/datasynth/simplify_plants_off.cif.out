@@ -108,7 +108,7 @@ Final synthesis result:
     Edge: (event: c_b) (guard: p.x = 4 or p.x = 5 -> p.x = 4 or p.x = 5)
     Edge: (event: c_b) (guard: p.x = 3 -> false)
 
-Controlled system:                     exactly 6 states.
+Controlled system: exactly 6 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         true

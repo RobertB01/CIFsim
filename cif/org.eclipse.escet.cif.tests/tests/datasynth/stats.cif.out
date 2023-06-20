@@ -149,7 +149,7 @@ Final synthesis result:
     Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
     Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
 
-Controlled system:                     exactly 20 states.
+Controlled system: exactly 20 states.
 
 Initial (synthesis result):            a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23)))
 Initial (uncontrolled system):         a.x = 1

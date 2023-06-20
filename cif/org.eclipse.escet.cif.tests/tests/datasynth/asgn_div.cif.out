@@ -221,7 +221,7 @@ Final synthesis result:
     Edge: (event: p.ed4) (guard: p.loc1 -> p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1))) (assignments: p.d4 := p.d4 div 4, p := p.loc2)
     Edge: (event: p.ed5) (guard: p.loc1 -> false) (assignments: p.d5 := p.d5 div 5, p := p.loc2)
 
-Controlled system:                     exactly 7 states.
+Controlled system: exactly 7 states.
 
 Initial (synthesis result):            <bdd 27n 7p>
 Initial (uncontrolled system):         <bdd 16n 243p>

@@ -228,7 +228,7 @@ Final synthesis result:
     Edge: (event: c2) (guard: p2.a -> (p2.x = 0 or p2.x = 1) and (p2.a and p1.x = 0) or ((p2.x = 0 or p2.x = 1) and p2.a and (p1.x = 2 and p1.a) or (p2.x = 0 or p2.x = 1) and (p2.a and p1.x = 1))) (assignments: p2 := p2.b)
     Edge: (event: u2) (guard: (p2.x = 0 or p2.x = 1) and p2.b) (assignments: p2.x := p2.x + 1, p2 := p2.a)
 
-Controlled system:                     exactly 25 states.
+Controlled system: exactly 25 states.
 
 Initial (synthesis result):            (p2.x != 0 or (p1.x != 2 or p1.a)) and (p2.x != 0 or p1.x != 3) and ((p2.x != 2 or p2.b or (p1.x != 2 or p1.a)) and (p2.x != 2 or (p2.b or p1.x != 3))) and ((p2.x != 2 or p2.a) and (p2.x != 1 or (p1.x != 2 or p1.a)) and ((p2.x != 1 or p1.x != 3) and p2.x != 3))
 Initial (uncontrolled system):         p2.x = 0 and p2.a and (p1.x = 0 and p1.a)

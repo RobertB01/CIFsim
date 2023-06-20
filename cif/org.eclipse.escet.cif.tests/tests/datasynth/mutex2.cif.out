@@ -204,7 +204,7 @@ Final synthesis result:
     Edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown)
     Edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle)
 
-Controlled system:                     exactly 8 states.
+Controlled system: exactly 8 states.
 
 Initial (synthesis result):            not machine1.Producing or not machine2.Producing
 Initial (uncontrolled system):         machine1.Idle and machine2.Idle

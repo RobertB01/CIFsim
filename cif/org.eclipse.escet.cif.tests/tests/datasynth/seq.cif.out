@@ -240,7 +240,7 @@ Final synthesis result:
     Edge: (event: u1) (guard: p.m4) (assignments: p.x := p.x + 1, p := p.m5)
     Edge: (event: c2) (guard: p.m2 -> p.x = 3 and p.m2) (assignments: p.x := p.x + 1)
 
-Controlled system:                     exactly 6 states.
+Controlled system: exactly 6 states.
 
 Initial (synthesis result):            <bdd 21n 5p>
 Initial (uncontrolled system):         p.x = 3 and p.m0

@@ -225,7 +225,7 @@ Final synthesis result:
     Edge: (event: e) (guard: false) (assignments: rcv1.x := 2)
     Edge: (event: e) (guard: cnt.c = 2 -> cnt.c = 2 and rcv1.x = 0) (assignments: rcv2.x := 2)
 
-Controlled system:                     exactly 9 states.
+Controlled system: exactly 9 states.
 
 Initial (synthesis result):            cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0)))
 Initial (uncontrolled system):         cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
