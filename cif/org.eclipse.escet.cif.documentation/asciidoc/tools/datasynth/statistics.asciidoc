@@ -17,11 +17,11 @@ indexterm:[data-based supervisory controller synthesis,statistics]
 == Statistics
 
 The data-based synthesis tool supports printing various kinds of statistics.
-Some are enabled by default, while others are not.
-Statistics can be enabled or disabled using the _Statistics_ option (see the <<tools-datasynth-options,options section>>).
+By default, no statistics are printed.
+Statistics can be enabled using the _Statistics_ option (see the <<tools-datasynth-options,options section>>).
 The following statistics are available:
 
-* _BDD garbage collection_ [`bdd-gc-collect`] (disabled by default)
+* _BDD garbage collection_ [`bdd-gc-collect`]
 +
 Prints BDD garbage collection information before and after each garbage collection.
 +
@@ -32,7 +32,7 @@ See also the BDD library initial node table size option (see the <<tools-datasyn
 BDD garbage collection information is printed to the console before and after each garbage collection.
 The printed information includes the size of the node table, the number of free nodes, timing information, etc.
 
-* _BDD node table resize_ [`bdd-gc-resize`] (disabled by default)
+* _BDD node table resize_ [`bdd-gc-resize`]
 +
 Prints BDD node table resize information each time a BDD node table resize is performed.
 +
@@ -44,7 +44,7 @@ See also the BDD library initial node table size option (see the <<tools-datasyn
 BDD node table resize information is printed to the console each time the node table is resized.
 The printed information includes the old and new sizes of the node table.
 
-* _BDD cache_ [`bdd-perf-cache`] (disabled by default)
+* _BDD cache_ [`bdd-perf-cache`]
 +
 Prints metrics related to the BDD cache.
 +
@@ -90,7 +90,7 @@ This excludes the trivial cases where the cache is not checked.
 This excludes the trivial cases where the cache is not checked.
 |===
 
-* _Continuous BDD performance statistics_ [`bdd-perf-cont`] (disabled by default)
+* _Continuous BDD performance statistics_ [`bdd-perf-cont`]
 +
 Prints continuously collected platform and machine independent BDD performance related metrics.
 +
@@ -116,7 +116,7 @@ The number of operations performed on BDD nodes is a platform and machine indepe
 The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
 |===
 
-* _Controlled system states_ [`ctrl-sys-states`] (enabled by default)
+* _Controlled system states_ [`ctrl-sys-states`]
 +
 Prints the number of states in the resulting controlled system (the uncontrolled system restricted by the synthesized supervisor).
 +
@@ -126,7 +126,7 @@ In other situations, the controlled behavior predicate that is used to determine
 This metric is printed to the console, after the supervisor is computed, and before it is <<tools-datasynth-simplification,simplified>> and written to a file.
 It prints the number of states in the controlled system.
 
-* _Maximum used BDD nodes_ [`bdd-perf-max-nodes`] (disabled by default)
+* _Maximum used BDD nodes_ [`bdd-perf-max-nodes`]
 +
 Prints the maximum number of BDD nodes used during synthesis.
 +
@@ -138,7 +138,7 @@ It prints the maximum number of BDD nodes used during synthesis.
 +
 Note that collecting this metric makes synthesis take longer than without collecting it.
 
-* _Timing_ [`timing`] (disabled by default)
+* _Timing_ [`timing`]
 +
 Print information for timing of various parts of the tool.
 +
@@ -153,7 +153,7 @@ Durations are all printed in milliseconds, to make it easier to compare timing f
 When measuring timing performance, always perform multiple measurements, and take the average.
 Also, use a warm-up phase, to avoid skewed results.
 
-* _Maximum used memory_ [`max-memory`] (disabled by default)
+* _Maximum used memory_ [`max-memory`]
 +
 Prints the maximum memory used during synthesis.
 +
@@ -193,8 +193,8 @@ For a more comprehensive way to measure memory usage, use a tool like link:https
 In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 
 From the command line, using the `--stats` option, the names of the different kinds of statistics, as indicated above between square brackets, should be used, separated by commas.
-For instance, use `--stats=bdd-gc-collect,bdd-gc-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but disable all other statistics.
-Prefix a name with `pass:c[+]` to add it on top of the defaults, or with `-` to remove it from the defaults.
-For instance, use `--stats=+bdd-gc-collect,+bdd-gc-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, in addition to the default statistics.
+For instance, use `--stats=bdd-gc-collect,bdd-gc-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but keep all other statistics disabled.
 
 Specifying a statistics kind twice leads to a warning being printed to the console.
+
+// Don't explain add/remove from default, as default is no statistics.
