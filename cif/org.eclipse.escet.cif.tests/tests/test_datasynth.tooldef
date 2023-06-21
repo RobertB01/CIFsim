@@ -25,6 +25,7 @@ list string default_options = [
     "--bdd-simplify=guards-plants,initial-unctrl",
     "--forward-reach=on",
     "--edge-granularity=per-edge",
+    "--stats=ctrl-sys-states",
 ];
 
 string opt_algos_on      = "--dcsh-order=on  --force-order=on  --sliding-window-order=on";
@@ -82,8 +83,8 @@ map(string:list string) test_options = {
     "datasynth/edge_granularity_simple_per_edge.cif":           ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_simple_per_event.cif":          ["--edge-granularity=per-event"],
     "datasynth/edge_order_both_custom_basic.cif":               ["--backward-edge-order=C,p.event,D,p.z,p.a,p.X,p.Y,p.c --forward-edge-order=C,p.event,D,p.z,p.a,p.X,p.Y,p.c"],
-    "datasynth/edge_order_both_custom_dupl_no.cif":             ["--stats=+bdd-perf-cache,+bdd-perf-max-nodes --backward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on"],
-    "datasynth/edge_order_both_custom_dupl_yes.cif":            ["--stats=+bdd-perf-cache,+bdd-perf-max-nodes --backward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --edge-order-duplicate-events=allowed --edge-workset=off"],
+    "datasynth/edge_order_both_custom_dupl_no.cif":             ["--stats=ctrl-sys-states,bdd-perf-cache,bdd-perf-max-nodes --backward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on"],
+    "datasynth/edge_order_both_custom_dupl_yes.cif":            ["--stats=ctrl-sys-states,bdd-perf-cache,bdd-perf-max-nodes --backward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --edge-order-duplicate-events=allowed --edge-workset=off"],
     "datasynth/edge_order_both_dupl_match1.cif":                ["--backward-edge-order=p.c,*          --forward-edge-order=p.c,*"],
     "datasynth/edge_order_both_dupl_match2.cif":                ["--backward-edge-order=p.event,*      --forward-edge-order=p.event,*"],
     "datasynth/edge_order_both_missing.cif":                    ["--backward-edge-order=q.*            --forward-edge-order=q.*"],
@@ -146,7 +147,7 @@ map(string:list string) test_options = {
     "datasynth/state_plant_invs_unctrl.cif":                    [opt_simplify_all],
     "datasynth/state_req_inv_all_ctrl_beh.cif":                 ["--state-req-invs=all-ctrl-beh"],
     "datasynth/state_req_inv_per_edge.cif":                     ["--state-req-invs=per-edge"],
-    "datasynth/stats.cif":                                      ["--stats=+bdd-perf-cache,+bdd-perf-cont,+bdd-perf-max-nodes"],
+    "datasynth/stats.cif":                                      ["--stats=ctrl-sys-states,bdd-perf-cache,bdd-perf-cont,bdd-perf-max-nodes"],
     "datasynth/stats_none.cif":                                 ["--stats="],
     "datasynth/traffic_lights_req_state_inv_all_ctrl_beh.cif":  ["--state-req-invs=all-ctrl-beh"],
     "datasynth/traffic_lights_req_state_inv_per_edge.cif":      ["--state-req-invs=per-edge"],
