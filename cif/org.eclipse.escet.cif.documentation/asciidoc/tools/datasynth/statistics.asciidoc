@@ -124,7 +124,6 @@ If the resulting supervisor (and thus the controlled system) is empty, or if <<t
 In other situations, the controlled behavior predicate that is used to determine the number potentially gives an over-approximation, and an upper bound on the number of states is printed (e.g. `at most 1,234 states`).
 +
 This metric is printed to the console, after the supervisor is computed, and before it is <<tools-datasynth-simplification,simplified>> and written to a file.
-It prints the number of states in the controlled system.
 
 * _Maximum used BDD nodes_ [`bdd-perf-max-nodes`]
 +
