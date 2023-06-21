@@ -23,9 +23,9 @@ This lesson explains the different statements that can be used in internal user-
 
 * <<lang-tut-functions-statements-return>>
 
-* <<lang-tut-functions-statements-if>>
-
 * <<lang-tut-functions-statements-while>>
+
+* <<lang-tut-functions-statements-if>>
 
 * <<lang-tut-functions-statements-break>>
 
@@ -116,9 +116,9 @@ indexterm:[if,function statement]
 === If statement
 
 Consider again the `mean` function from above.
-The current implementation is not safe for empty lists.
+It does not correctly handle empty lists.
 The length of an empty list is `0`, so the `return` statement will cause a division-by-zero error.
-We can capture this edge case using an `if` statement as follows:
+We can correctly handle this edge case using an `if` statement:
 
 [source, cif]
 ----
