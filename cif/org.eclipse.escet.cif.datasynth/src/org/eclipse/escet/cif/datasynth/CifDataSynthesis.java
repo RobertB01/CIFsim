@@ -75,10 +75,10 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      * @param doTiming Whether to collect timing statistics.
      * @param timing The timing statistics data. Is modified in-place.
-     * @param printCtrlSysStates Whether to print controlled system states statistics.
+     * @param doPrintCtrlSysStates Whether to print controlled system states statistics.
      */
     public static void synthesize(SynthesisAutomaton aut, boolean dbgEnabled, boolean doTiming,
-            CifDataSynthesisTiming timing, boolean printCtrlSysStates)
+            CifDataSynthesisTiming timing, boolean doPrintCtrlSysStates)
     {
         // Algorithm is based on the following paper: Lucien Ouedraogo, Ratnesh Kumar, Robi Malik, and Knut Åkesson:
         // Nonblocking and Safe Control of Discrete-Event Systems Modeled as Extended Finite Automata, IEEE Transactions
@@ -247,7 +247,7 @@ public class CifDataSynthesis {
             boolean emptySup = !checkInitStatePresent(aut);
 
             // Statistics: number of states in controlled system.
-            if (printCtrlSysStates) {
+            if (doPrintCtrlSysStates) {
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
