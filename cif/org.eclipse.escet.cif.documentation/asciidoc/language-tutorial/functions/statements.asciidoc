@@ -114,7 +114,36 @@ indexterm:[if,function statement]
 
 [[lang-tut-functions-statements-if]]
 === If statement
+In a previous lesson, the <<lang-tut-values-chapter-if-expression,`if` expression>> is introduced to construct more complex expressions.
+Consider the `if` expression from that previous lesson, but now used within a function:
 
+[source, cif]
+----
+func int signum(real x):
+  return if   x > 0:  1
+         elif x < 0: -1
+         else         0
+         end;
+end
+----
+
+For functions one can also use `if` statements.
+This expression can be rewritten into an `if` statement as follows:
+
+[source, cif]
+----
+func int signum(real x):
+  if x > 0:
+    return 1;
+  elif x < 0:
+    return -1;
+  else
+    return 0;
+  end
+end
+----
+
+A difference between an `if` statement and an `if` expression is that the `if` statement can be partial in the sense that it does not need an `else` part.
 Consider again the `mean` function from above.
 It does not correctly handle empty lists.
 The length of an empty list is `0`, so the `return` statement will cause a division-by-zero error.
