@@ -92,7 +92,7 @@ Computing controlled system guards.
 Final synthesis result:
   State: (controlled-behavior: p.x = 5)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            p.x = 5
 Initial (uncontrolled system):         p.x = 5

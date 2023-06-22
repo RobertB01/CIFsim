@@ -192,7 +192,7 @@ Final synthesis result:
   State: (controlled-behavior: p.x = 1 and p.y = 1)
     Edge: (event: c) (guard: p.l0 -> p.l0 and (p.x = 1 and p.y = 1)) (assignments: p := p.l1)
 
-Controlled system:                     exactly 2 states.
+Controlled system: exactly 2 states.
 
 Initial (synthesis result):            p.x = 1 and p.y = 1
 Initial (uncontrolled system):         p.l0 and (p.x = 1 and p.y = 1)

@@ -131,7 +131,7 @@ Final synthesis result:
     Edge: (event: A.u1) (guard: A.l2 -> false) (assignments: A := A.l3)
     Edge: (event: A.u1) (guard: A.l3 -> false)
 
-Controlled system:                     exactly 2 states.
+Controlled system: exactly 2 states.
 
 Initial (synthesis result):            not A.l3
 Initial (uncontrolled system):         A.l1

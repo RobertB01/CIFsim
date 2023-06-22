@@ -17,6 +17,7 @@ import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -74,9 +75,10 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      * @param doTiming Whether to collect timing statistics.
      * @param timing The timing statistics data. Is modified in-place.
+     * @param doPrintCtrlSysStates Whether to print controlled system states statistics.
      */
     public static void synthesize(SynthesisAutomaton aut, boolean dbgEnabled, boolean doTiming,
-            CifDataSynthesisTiming timing)
+            CifDataSynthesisTiming timing, boolean doPrintCtrlSysStates)
     {
         // Algorithm is based on the following paper: Lucien Ouedraogo, Ratnesh Kumar, Robi Malik, and Knut Åkesson:
         // Nonblocking and Safe Control of Discrete-Event Systems Modeled as Extended Finite Automata, IEEE Transactions
@@ -244,11 +246,13 @@ public class CifDataSynthesis {
             }
             boolean emptySup = !checkInitStatePresent(aut);
 
-            // Debug output: number of states in controlled system.
-            if (aut.env.isTerminationRequested()) {
-                return;
+            // Statistics: number of states in controlled system.
+            if (doPrintCtrlSysStates) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                printNumberStates(aut, emptySup, doForward, dbgEnabled);
             }
-            printNumberStates(aut, emptySup, doForward, dbgEnabled);
 
             // Determine the output of synthesis (1/2).
             if (aut.env.isTerminationRequested()) {
@@ -1602,7 +1606,7 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Prints the number of states in the controlled system, as debug output.
+     * Prints the number of states in the controlled system, as normal output, separating it from the debug output.
      *
      * @param aut The synthesis automaton.
      * @param emptySup Whether the supervisor is empty.
@@ -1612,11 +1616,6 @@ public class CifDataSynthesis {
     private static void printNumberStates(SynthesisAutomaton aut, boolean emptySup, boolean doForward,
             boolean dbgEnabled)
     {
-        // Only print debug output if enabled.
-        if (!dbgEnabled) {
-            return;
-        }
-
         // Get number of states in controlled system.
         double nr;
         if (emptySup) {
@@ -1629,11 +1628,12 @@ public class CifDataSynthesis {
         }
         Assert.check(emptySup || nr > 0);
 
-        // Print debug output.
+        // Print controlled system states statistics.
         boolean isExact = emptySup || doForward;
-        dbg();
-        dbg("Controlled system:                     %s %,.0f state%s.", (isExact ? "exactly" : "at most"), nr,
-                nr == 1 ? "" : "s");
+        if (dbgEnabled) {
+            dbg();
+        }
+        out("Controlled system: %s %,.0f state%s.", (isExact ? "exactly" : "at most"), nr, nr == 1 ? "" : "s");
     }
 
     /**

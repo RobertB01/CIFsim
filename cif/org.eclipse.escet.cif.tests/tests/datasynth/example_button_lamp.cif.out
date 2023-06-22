@@ -233,7 +233,7 @@ Final synthesis result:
     Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On)) (assignments: Lamp1 := Lamp1.Off)
     Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false) (assignments: Lamp1 := Lamp1.Off)
 
-Controlled system:                     exactly 4 states.
+Controlled system: exactly 4 states.
 
 Initial (synthesis result):            (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)
 Initial (uncontrolled system):         Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)

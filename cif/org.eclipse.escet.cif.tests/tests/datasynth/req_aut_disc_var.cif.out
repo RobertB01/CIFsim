@@ -111,7 +111,7 @@ Final synthesis result:
     Edge: (event: c) (guard: r.x = 5)
     Edge: (event: c) (guard: r.x != 5 -> false)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            r.x = 5
 Initial (uncontrolled system):         r.x = 5

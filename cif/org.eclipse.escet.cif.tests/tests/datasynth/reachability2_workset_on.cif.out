@@ -213,7 +213,7 @@ Final synthesis result:
     Edge: (event: p.u_switch) (guard: p.x = 0 and p.decrease or p.x = 5 and p.increase) (assignments: p := p.decrease / p := p.increase)
     Edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1)
 
-Controlled system:                     exactly 12 states.
+Controlled system: exactly 12 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         p.x = 0 and p.increase

@@ -20,10 +20,6 @@ By default, the data-based synthesis algorithm shows no progress information, an
 By enabling debug output, detailed information is printed to the console.
 Debug output can be enabled by setting the _Output mode_ option (_General_ category) to _Debug_.
 
-The debug output also contains information about the number of states in the resulting controlled system (the uncontrolled system restricted by the synthesized supervisor).
-If the resulting supervisor (and thus the controlled system) is empty, or if <<tools-datasynth-forward-reach,forward reachability>> is enabled, the number of states that is printed is an exact number (e.g. `exactly 0 states`, `exactly 1 state`, `exactly 1,234 states`).
-In other situations, the controlled behavior predicate that is used to determine the number potentially gives an over-approximation, and an upper bound on the number of states is printed (e.g. `at most 1,234 states`).
-
 Enabling debug output may significantly slow down the synthesis algorithm, especially for larger models.
 The performance degradation stems mostly from the printing of predicates.
 Predicates are internally represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).

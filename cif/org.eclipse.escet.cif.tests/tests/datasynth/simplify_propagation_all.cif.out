@@ -237,7 +237,7 @@ Final synthesis result:
     Edge: (event: q_b) (guard: q.loc4 -> false) (assignments: q := q.loc5)
     Edge: (event: q_b) (guard: q.loc6 -> false) (assignments: q := q.loc7)
 
-Controlled system:                     exactly 24 states.
+Controlled system: exactly 24 states.
 
 Initial (synthesis result):            p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7))
 Initial (uncontrolled system):         p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1)

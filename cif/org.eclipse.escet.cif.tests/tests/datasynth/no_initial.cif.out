@@ -83,7 +83,7 @@ Computing controlled system guards.
 Final synthesis result:
   State: (controlled-behavior: false)
 
-Controlled system:                     exactly 0 states.
+Controlled system: exactly 0 states.
 
 Initial (synthesis result):            false
 Initial (uncontrolled system):         false

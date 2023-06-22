@@ -205,7 +205,7 @@ Final synthesis result:
     Edge: (event: e) (guard: p.loc1 -> p.loc1 and (p.x = 4 or p.x = 5)) (assignments: p := p.loc2)
     Edge: (event: e) (guard: p.loc2 -> p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3)) (assignments: p := p.loc1)
 
-Controlled system:                     exactly 5 states.
+Controlled system: exactly 5 states.
 
 Initial (synthesis result):            p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))
 Initial (uncontrolled system):         p.loc1

@@ -368,7 +368,7 @@ Final synthesis result:
     Edge: (event: c_synch) (guard: a.l1 and b.l2 -> false)
     Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
-Controlled system:                     exactly 2 states.
+Controlled system: exactly 2 states.
 
 Initial (synthesis result):            p.w = 0 and (p.x = 0 and p.l1) and (p.y = 0 and p.z = 1 and (a.l1 and b.l1)) or p.w = 0 and (p.x = 0 and p.l1) and (p.y = 0 and p.z = 1 and (a.l2 and b.l2))
 Initial (uncontrolled system):         p.w = 0 and (p.x = 0 and p.l1) and (p.y = 0 and p.z = 1 and (a.l1 and b.l1))

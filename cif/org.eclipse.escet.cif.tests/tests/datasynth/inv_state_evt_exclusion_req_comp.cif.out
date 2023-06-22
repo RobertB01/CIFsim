@@ -163,7 +163,7 @@ Final synthesis result:
     Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
     Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
 
-Controlled system:                     exactly 20 states.
+Controlled system: exactly 20 states.
 
 Initial (synthesis result):            a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23)))
 Initial (uncontrolled system):         a.x = 1

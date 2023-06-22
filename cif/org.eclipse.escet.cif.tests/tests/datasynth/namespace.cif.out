@@ -211,7 +211,7 @@ Final synthesis result:
     Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0 -> false) (assignments: g.r := g.r.loc2)
     Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0 -> false)
 
-Controlled system:                     exactly 16 states.
+Controlled system: exactly 16 states.
 
 Initial (synthesis result):            g.r.loc1
 Initial (uncontrolled system):         g.r.loc1

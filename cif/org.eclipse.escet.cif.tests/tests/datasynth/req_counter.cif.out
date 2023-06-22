@@ -231,7 +231,7 @@ Final synthesis result:
     Edge: (event: adder.c_add) (guard: adder.l2 -> count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1)
     Edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1)
 
-Controlled system:                     exactly 7 states.
+Controlled system: exactly 7 states.
 
 Initial (synthesis result):            count_max3.cnt = 0 and adder.l1 or count_max3.cnt = 2 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or (count_max3.cnt = 1 and not adder.l3 or count_max3.cnt = 3 and adder.l3))
 Initial (uncontrolled system):         count_max3.cnt = 0 and adder.l1

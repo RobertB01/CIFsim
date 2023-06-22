@@ -198,7 +198,7 @@ Final synthesis result:
     Edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1)
     Edge: (event: p2.e) (guard: p1.c = 1 and not p2.b) (assignments: p2.b := true)
 
-Controlled system:                     exactly 7 states.
+Controlled system: exactly 7 states.
 
 Initial (synthesis result):            p1.c != 0 or not p2.b
 Initial (uncontrolled system):         p1.c = 0 and not p2.b

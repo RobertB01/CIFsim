@@ -158,7 +158,7 @@ Computing controlled system guards.
 Final synthesis result:
   State: (controlled-behavior: <bdd 32n 150p>)
 
-Controlled system:                     exactly 1,680 states.
+Controlled system: exactly 1,680 states.
 
 Initial (synthesis result):            <bdd 32n 150p>
 Initial (uncontrolled system):         <bdd 27n 45p>

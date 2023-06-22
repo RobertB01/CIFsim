@@ -167,7 +167,7 @@ Final synthesis result:
   State: (controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3)
     Edge: (event: p.c) (guard: p.l1 -> p.l1 and p.x = 3) (assignments: p := p.l2)
 
-Controlled system:                     exactly 0 states.
+Controlled system: exactly 0 states.
 
 Initial (synthesis result):            p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3
 Initial (uncontrolled system):         p.l1 and p.x = 0

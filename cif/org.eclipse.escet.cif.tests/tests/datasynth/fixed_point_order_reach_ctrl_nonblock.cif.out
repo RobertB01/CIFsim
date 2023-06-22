@@ -249,7 +249,7 @@ Final synthesis result:
     Edge: (event: p.u4) (guard: p.l4 and (p.y = 2 or p.y = 3)) (assignments: p.y := p.y - 1)
     Edge: (event: p.u4) (guard: p.l4 and p.y = 1) (assignments: p := p.l5)
 
-Controlled system:                     exactly 15 states.
+Controlled system: exactly 15 states.
 
 Initial (synthesis result):            <bdd 23n 11p>
 Initial (uncontrolled system):         p.l1 and p.y = 0

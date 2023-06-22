@@ -225,7 +225,7 @@ Final synthesis result:
     Edge: (event: d) (guard: true -> false) (assignments: p.x := p.x + 1, p.y := p.y - 1)
     Edge: (event: e) (guard: true -> p.x = 4 and p.y = 5 or p.x = 2 and p.y = 7 or (p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6))) (assignments: p.x := p.x + 1, p.y := p.y - 1)
 
-Controlled system:                     exactly 5 states.
+Controlled system: exactly 5 states.
 
 Initial (synthesis result):            p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2))
 Initial (uncontrolled system):         p.x = 3 and p.y = 6

@@ -236,7 +236,7 @@ Final synthesis result:
     Edge: (event: c1) (guard: p1.l2 and p2.l3 -> false) (assignments: p1 := p1.l3, p2 := p2.l4)
     Edge: (event: c2) (guard: p2.l2 -> false) (assignments: p2 := p2.l3)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            p1.l0 and (p2.l0 and p1.x = 0)
 Initial (uncontrolled system):         p1.l0 and (p2.l0 and p1.x = 0)

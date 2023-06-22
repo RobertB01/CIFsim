@@ -317,7 +317,7 @@ Final synthesis result:
     Edge: (event: p3.take_right) (guard: p3.neither and f4.available -> <bdd 32n 17p>) (assignments: f4 := f4.taken, p3 := p3.right)
     Edge: (event: p3.take_right) (guard: p3.left and f4.available -> <bdd 25n 9p>) (assignments: f4 := f4.taken, p3 := p3.both)
 
-Controlled system:                     exactly 79 states.
+Controlled system: exactly 79 states.
 
 Initial (synthesis result):            <bdd 55n 79p>
 Initial (uncontrolled system):         p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))

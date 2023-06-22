@@ -235,7 +235,7 @@ Final synthesis result:
     Edge: (event: red_B) (guard: R.RG and LightB.Green -> LightA.Red and (R.RG and LightB.Green)) (assignments: LightB := LightB.Red, R := R.RR)
     Edge: (event: red_B) (guard: not R.RG and LightB.Green -> false) (assignments: LightB := LightB.Red)
 
-Controlled system:                     exactly 3 states.
+Controlled system: exactly 3 states.
 
 Initial (synthesis result):            LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red))
 Initial (uncontrolled system):         LightA.Red and (R.RR and LightB.Red)
