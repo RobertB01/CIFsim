@@ -48,6 +48,10 @@ Now, they are merged per event, to obtain a single edge per event.
 The option can be used to restore the old behavior.
 The new edge granularity has been shown to reduce both the memory usage and time required to perform synthesis, but this may depend on the model being synthesized.
 For more information, see the documentation of the new option (issue {escet-issue}586[#586]).
+* The CIF data-based synthesis tool has a new _Fixed-point computations order_ option to configure the order in which the fixed-point computations are to be performed during synthesis.
+By default, still the non-blocking states are computed first, then the controllable states, and finally and reachable states (if enabled).
+Using the option, the order can be changed.
+This may significantly improve synthesis performance, but the effect greatly depends on the model being synthesized (issue {escet-issue}609[#609]).
 * The CIF data-based synthesis tool now features an experimental workset algorithm to dynamically determine the order in which edges are considered during reachability fixed-point computations.
 It is currently considered to be experimental and is disabled by default.
 It can be enabled using the new _Edge workset algorithm_ option.
@@ -65,15 +69,28 @@ And it now properly handles paths with spaces and other special characters in th
 * The CIF event-based synthesis analysis tool's command line script has been fixed for handling dark theme detection, preventing crashes and improving dark theme support (issue {escet-issue}567[#567]).
 * The CIF event-based synthesis analysis tool's command line script has been fixed to not immediately terminate after starting the tool (issue {escet-issue}567[#567]).
 * The CIF event-based synthesis tool now warns about synthesizing specifications without requirement automata (issue {escet-issue}553[#553]).
+* The CIF data-based synthesis tool no longer prints the number of states in the controlled system as part of its debug output.
+Instead, this information is now one of the statistics that can be enabled using the _Statistics_ options.
+The new statistic is disabled by default.
+If enabled, the statistic is printed to normal output.
+The output itself has some whitespace changes (issue {escet-issue}526[#526]).
 * The CIF data-based synthesis tool now has better performance for converting updates of the CIF specification to their internal BDD representations (issue {escet-issue}580[#580]).
 * The CIF data-based synthesis tool now has slightly better performance due to skipping some unnecessary calculations for applying edges during reachability fixed-point computations (issue {escet-issue}520[#520]).
-* The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still producing the same values for platform-independent metrics (issue {escet-issue}564[#564]).
-* The CIF data-based synthesis legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering, rather than considering invariants in the automaton twice.
+* The CIF data-based synthesis tool now enforces state plant invariants like it does state requirement invariants, when they are applied per edge.
+This may improve synthesis performance for models with state plant invariants (issue {escet-issue}523[#523]).
+* The CIF data-based synthesis tool's _BDD library operation cache ratio_ option has been fixed.
+It now functions as documented, rather than having the inverse effect.
+It now also has greater precision (issue {escet-issue}610[#610]).
+* The CIF data-based synthesis tool's legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering, rather than considering invariants in the automaton twice.
 This could affect synthesis performance (issue {escet-issue}377[#377]).
+* The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still producing the same values for platform-independent metrics and number of states in the controlled system (issues {escet-issue}526[#526] and {escet-issue}564[#564]).
+* The CIF data-based synthesis documentation has several improvements and extensions (issues {escet-issue}609[#609] and {escet-issue}609[#610]).
 * The CIF controller property checker's finite response check may now have improved performance (issue {escet-issue}583[#583]).
 * The CIF to CIF transformation to merge all enumerations of the specification into a single enumeration has been changed.
 It now converts the last case of all `switch` expressions to an `else`, for switch expressions that switch over a value that has a type that includes an enumeration type.
 Hereby, the keys of these last cases are removed from the model (issue {escet-issue}548[#548]).
+* The CIF language tutorial has an additional lesson on `if` and `switch` expressions (issue {escet-issue}598[#598]).
+* The CIF language tutorial lesson on function statements has been improved and extended (issue {escet-issue}598[#598]).
 * The website has been fixed to ensure all version-specific URLs are now properly replaced by non-version-specific ones when a version-specific website is promoted to become the main website.
 Previously, a few URLs remained version-specific (issue {escet-issue}577[#577]).
 
