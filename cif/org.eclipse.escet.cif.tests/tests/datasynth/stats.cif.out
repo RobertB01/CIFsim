@@ -166,7 +166,7 @@ BDD cache statistics:
   Node creation chain accesses: 2
   Node creation cache hits:     310
   Node creation cache misses:   407
-  Operation count:              2709
+  Operation count:              2711
   Operation cache hits:         535
   Operation cache misses:       996
 Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".
