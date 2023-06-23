@@ -19,7 +19,7 @@ include::../_part_attributes.asciidoc[]
 In some models one wants to produce different values under different circumstances.
 Or one needs to convert from one type to another type.
 `if` and `switch` expressions provide means to do this in a concise manner.
-This lesson provides and introduction to both these expressions.
+This lesson provides an introduction to both these expressions.
 For more practical examples, see the <<sbe-in-practice-example-simulation-model,simulation model>> of the synthesis-based engineering example elsewhere in the documentation.
 
 indexterm:[if]
@@ -50,7 +50,7 @@ if x > 0: 1 elif x < -10: -2 elif x < 0: -1 else 0 end
 ----
 
 If the 'guard predicate' of an `if` or `elif` (the expression before the `:`) holds, that alternative is chosen.
-In the following example, if `x` has a value of `2` and `y` a value of `3`, then value `-2.8` is produced.
+In the following example, if `x` has a value of `2` and `y` a value of `3`, then value `-2.8` is produced:
 
 [source, cif]
 ----

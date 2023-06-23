@@ -114,9 +114,11 @@ indexterm:[if,function statement]
 
 [[lang-tut-functions-statements-if]]
 === If statement
+
 In a previous lesson, the <<lang-tut-values-chapter-if-expression,`if` expression>> is introduced to construct more complex expressions.
 Consider the `if` expression from that previous lesson, but now used within a function:
 
+// Copied from: values/if-and-switch
 [source, cif]
 ----
 func int signum(real x):
