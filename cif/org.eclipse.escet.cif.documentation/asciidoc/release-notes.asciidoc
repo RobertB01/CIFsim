@@ -71,9 +71,8 @@ And it now properly handles paths with spaces and other special characters in th
 * The CIF event-based synthesis analysis tool's command line script has been fixed to not immediately terminate after starting the tool (issue {escet-issue}567[#567]).
 * The CIF event-based synthesis tool now warns about synthesizing specifications without requirement automata (issue {escet-issue}553[#553]).
 * The CIF data-based synthesis tool no longer prints the number of states in the controlled system as part of its debug output.
-Instead, this information is now one of the statistics that can be enabled using the _Statistics_ options.
-The new statistic is disabled by default.
-If enabled, the statistic is printed to normal output.
+Instead, this information is now one of the statistics of the _Statistics_ options.
+The new statistic is disabled by default, and if enabled the statistic is now printed to normal output.
 The output itself has some whitespace changes (issue {escet-issue}526[#526]).
 * The CIF data-based synthesis tool now has better performance for converting updates of the CIF specification to their internal BDD representations (issue {escet-issue}580[#580]).
 * The CIF data-based synthesis tool now has slightly better performance due to skipping some unnecessary calculations for applying edges during reachability fixed-point computations (issue {escet-issue}520[#520]).
@@ -82,8 +81,9 @@ This may improve synthesis performance for models with state plant invariants (i
 * The CIF data-based synthesis tool's _BDD library operation cache ratio_ option has been fixed.
 It now functions as documented, rather than having the inverse effect.
 It now also has improved precision (issue {escet-issue}610[#610]).
-* The CIF data-based synthesis tool's legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering, rather than considering invariants in the automaton twice.
-This could affect synthesis performance (issue {escet-issue}377[#377]).
+* The CIF data-based synthesis tool's legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering.
+Previously, for every location, the invariants of the automaton that contains the location were considered, rather than considering the invariants of the location itself.
+This change could affect synthesis performance (issue {escet-issue}377[#377]).
 * The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still reporting the platform-independent metrics and the number of states in the controlled system (issues {escet-issue}526[#526] and {escet-issue}564[#564]).
 * The CIF data-based synthesis documentation has several improvements and extensions (issues {escet-issue}609[#609] and {escet-issue}609[#610]).
 * The CIF controller property checker's finite response check may now have improved performance (issue {escet-issue}583[#583]).
