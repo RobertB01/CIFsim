@@ -51,8 +51,8 @@ The new edge granularity has been shown to reduce both the memory usage and time
 For more information, see the documentation of the new option (issue {escet-issue}586[#586]).
 * The CIF data-based synthesis tool has a new _Fixed-point computations order_ option to configure the order in which the fixed-point computations are to be performed during synthesis.
 By default, the fixed-point computations have the same order as before.
-First the non-blocking states are computed, then the controllable states, and finally the reachable states (if enabled).
-Using the option, the order can be changed.
+First the non-blocking states are computed, then the controllable states, and finally the reachable states (the reachable states are still only computed if the _Forward reachability_ option is enabled).
+Using the new option, the order can be changed.
 This may significantly improve synthesis performance, but the effect greatly depends on the model being synthesized (issue {escet-issue}609[#609]).
 * The CIF data-based synthesis tool now features an experimental workset algorithm to dynamically determine the order in which edges are considered during reachability fixed-point computations.
 It is currently considered to be experimental and is disabled by default.
