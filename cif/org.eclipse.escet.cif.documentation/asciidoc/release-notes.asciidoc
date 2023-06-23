@@ -28,6 +28,7 @@ TBD
 
 Language changes:
 
+* Switch expressions with only a single `case` or `else` are now deprecated (issue {escet-issue}612[#612]).
 * The CIF type checker now allows omitting the `else` part of `switch` expressions in more situations, when it can be statically determined that the `switch` expression is complete without it.
 The type checker has also been improved, regarding detection of duplicate and missing switch cases, and superfluous ``else``s (issue {escet-issue}548[#548]).
 
