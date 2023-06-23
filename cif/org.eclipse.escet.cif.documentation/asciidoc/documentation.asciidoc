@@ -216,6 +216,8 @@ include::language-tutorial/values/dictionaries.asciidoc[]
 
 include::language-tutorial/values/combining-values.asciidoc[]
 
+include::language-tutorial/values/if-and-switch.asciidoc[]
+
 :leveloffset: -2
 
 === Scalable solutions and reuse (1/2)

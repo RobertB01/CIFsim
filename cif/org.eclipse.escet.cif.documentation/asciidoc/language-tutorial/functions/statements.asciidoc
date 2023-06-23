@@ -21,11 +21,11 @@ This lesson explains the different statements that can be used in internal user-
 
 * <<lang-tut-functions-statements-assignment>>
 
-* <<lang-tut-functions-statements-if>>
-
 * <<lang-tut-functions-statements-return>>
 
 * <<lang-tut-functions-statements-while>>
+
+* <<lang-tut-functions-statements-if>>
 
 * <<lang-tut-functions-statements-break>>
 
@@ -57,30 +57,6 @@ edge do (x, y) := (1, 2);
 // Multi-assignment in a function.
 x, y := 1, 2;
 ----
-
-indexterm:[function statements,if]
-
-[[lang-tut-functions-statements-if]]
-=== If statement
-
-It is possible to perform different calculations under different circumstances.
-Consider the following function:
-
-[source, cif]
-----
-func int signum(real x):
-  if x > 0:
-    return 1;
-  elif x < 0:
-    return -1;
-  else
-    return 0;
-  end
-end
-----
-
-This `signum` function takes a real number `x` and returns its link:https://en.wikipedia.org/wiki/Signum_function[sign].
-The `if` statement is used to detect the different situations, and to return the correct result in each of those situations.
 
 indexterm:[function statements,return]
 
@@ -132,6 +108,67 @@ The second statement increases the index, to proceed with the next input value.
 After the two assignments have been executed, the condition of the `while` is evaluated again.
 If the condition still holds, the two assignments are executed again, etc.
 When the condition no longer holds, the `while` statement is done, and execution proceeds with the next statement, the `return` statement.
+
+indexterm:[function statements,if]
+indexterm:[if,function statement]
+
+[[lang-tut-functions-statements-if]]
+=== If statement
+
+In a previous lesson, the <<lang-tut-values-chapter-if-expression,`if` expression>> is introduced to construct more complex expressions.
+Consider the `if` expression from that previous lesson, but now used within a function:
+
+// Copied from: values/if-and-switch
+[source, cif]
+----
+func int signum(real x):
+  return if   x > 0:  1
+         elif x < 0: -1
+         else         0
+         end;
+end
+----
+
+For functions one can also use `if` statements.
+This expression can be rewritten into an `if` statement as follows:
+
+[source, cif]
+----
+func int signum(real x):
+  if x > 0:
+    return 1;
+  elif x < 0:
+    return -1;
+  else
+    return 0;
+  end
+end
+----
+
+A difference between an `if` statement and an `if` expression is that the `if` statement can be partial in the sense that it does not need an `else` part.
+Consider again the `mean` function from above.
+It does not correctly handle empty lists.
+The length of an empty list is `0`, so the `return` statement will cause a division-by-zero error.
+We can correctly handle this edge case using an `if` statement:
+
+[source, cif]
+----
+func real mean(list real vs):
+  int length = size(vs);
+  int index = 0;
+  real sum = 0;
+
+  if length = 0:
+    return 0;
+  end
+
+  while index < length:
+    sum := sum + vs[index];
+    index := index + 1;
+  end
+  return sum / length;
+end
+----
 
 indexterm:[function statements,break]
 
