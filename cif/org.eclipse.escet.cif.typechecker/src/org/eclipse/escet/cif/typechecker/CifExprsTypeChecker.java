@@ -4531,6 +4531,11 @@ public class CifExprsTypeChecker {
             throw new SemanticException();
         }
 
+        // Check for single case switches.
+        if (expr.cases.size() == 1) {
+            tchecker.addProblem(ErrMsg.SWITCH_SINGLE_CASE, expr.position);
+        }
+
         // Check for completeness and being overspecified.
         if (isAutRef) {
             // Check for incomplete/overspecified locations.

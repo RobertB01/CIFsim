@@ -1,4 +1,8 @@
+WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 16, column 15: The switch expression has only one case, which is deprecated.
+WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 25, column 15: The switch expression has only one case, which is deprecated.
 WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 28, column 51: Switch "else" is superfluous, as all locations already have a "case".
 WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 29, column 51: Switch "else" is superfluous, as all locations already have a "case".
+WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 33, column 15: The switch expression has only one case, which is deprecated.
 WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 36, column 49: Switch "else" is superfluous, as all locations already have a "case".
 WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 37, column 49: Switch "else" is superfluous, as all locations already have a "case".
+WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 41, column 15: The switch expression has only one case, which is deprecated.

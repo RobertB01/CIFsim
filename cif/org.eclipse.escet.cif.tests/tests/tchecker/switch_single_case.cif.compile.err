@@ -1,0 +1,3 @@
+WARNING: File "tchecker/switch_single_case.cif": Semantic warning at line 14, column 16: The switch expression has only one case, which is deprecated.
+WARNING: File "tchecker/switch_single_case.cif": Semantic warning at line 20, column 16: The switch expression has only one case, which is deprecated.
+WARNING: File "tchecker/switch_single_case.cif": Semantic warning at line 24, column 16: The switch expression has only one case, which is deprecated.
