@@ -13,8 +13,14 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
+
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
@@ -56,15 +62,29 @@ import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
+import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
+import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
+import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.Assert;
 
 /** Extracts information from the CIF input file, to be used during PLC code generation. */
 public class CifProcessor {
@@ -122,6 +142,170 @@ public class CifProcessor {
             // TODO Constants.
             // TODO Initial value -> precheckers restrict to constant initial value.
             // TODO Extend allowed initial values by computing at runtime.
+        }
+
+        // Collect events / automata / edges and pass them to the transitions generator.
+        Map<Event, CifEventTransition> eventTransitions = map();
+        for (Automaton aut: collectAutomata(spec, list())) {
+            // Get the events and their edges from a single automaton.
+            Map<Event, AutomatonEventTransition> autEventUsage = getAutomatonEventUsage(aut);
+
+            // Merge the found data into the collection.
+            for (AutomatonEventTransition autEventTransitions: autEventUsage.values()) {
+                CifEventTransition eventTrans = eventTransitions.computeIfAbsent(autEventTransitions.event,
+                        evt -> new CifEventTransition(evt, list(), list(), list(), list()));
+
+                autEventTransitions.checkNumberOfEdgeKinds();
+
+                if (!autEventTransitions.sendEdges.isEmpty()) {
+                    eventTrans.senders.add(new TransitionAutomaton(aut, autEventTransitions.sendEdges));
+                }
+                if (!autEventTransitions.receiveEdges.isEmpty()) {
+                    eventTrans.receivers.add(new TransitionAutomaton(aut, autEventTransitions.receiveEdges));
+                }
+                if (!autEventTransitions.syncEdges.isEmpty()) {
+                    eventTrans.syncers.add(new TransitionAutomaton(aut, autEventTransitions.syncEdges));
+                }
+                if (!autEventTransitions.monitorEdges.isEmpty()) {
+                    eventTrans.monitors.add(new TransitionAutomaton(aut, autEventTransitions.monitorEdges));
+                }
+            }
+        }
+
+        // Construct the result to pass into the transition generator,
+        List<CifEventTransition> cifEventTransitions = listc(eventTransitions.values().size());
+        cifEventTransitions.addAll(eventTransitions.values());
+
+        // And give the result to the transition generator.
+        target.getTransitionGenerator().setTransitions(cifEventTransitions);
+    }
+
+    /**
+     * Return the {@link AutomatonEventTransition} of the given event from {@code eventTransitions}, possibly after
+     * creating it.
+     *
+     * @param eventTransitions Available {@link AutomatonEventTransition}. May be expanded in-place.
+     * @param event Event to use for retrieving the associated automaton event transition.
+     * @return The automaton event transition of the event.
+     */
+    private static AutomatonEventTransition getEventTransition(Map<Event, AutomatonEventTransition> eventTransitions,
+            Event event)
+    {
+        return eventTransitions.computeIfAbsent(event, evt -> new AutomatonEventTransition(evt));
+    }
+
+    /**
+     * Collect the edges that exist in the given automaton for every event of the automaton, and classify them as
+     * sender, receiver, syncer, or monitor.
+     *
+     * @param aut Automaton to analyze
+     * @return A {@link CifEventTransition} for every event that the given automaton can perform.
+     */
+    private Map<Event, AutomatonEventTransition> getAutomatonEventUsage(Automaton aut) {
+        Map<Event, AutomatonEventTransition> eventUsage = map();
+
+        // Explicit alphabet definition.
+        if (aut.getAlphabet() != null) {
+            for (Expression expr: aut.getAlphabet().getEvents()) {
+                EventExpression eve = (EventExpression)expr;
+                getEventTransition(eventUsage, eve.getEvent()); // Create an entry.
+            }
+        }
+
+        // Walk through locations, collecting locations, edges, and event-usage.
+        for (Location loc: aut.getLocations()) {
+            for (Edge edge: loc.getEdges()) {
+                Location destLoc = edge.getTarget() == null ? loc : edge.getTarget();
+
+                Assert.check(!edge.getEvents().isEmpty()); // Pre-condition violation.
+                for (EdgeEvent ee: edge.getEvents()) {
+                    Expression eventRef = ee.getEvent();
+                    Assert.check(!(eventRef instanceof TauExpression)); // Pre-condition violation.
+                    EventExpression eve = (EventExpression)eventRef;
+                    AutomatonEventTransition autEventTrans = getEventTransition(eventUsage, eve.getEvent());
+
+                    if (ee instanceof EdgeSend es) {
+                        TransitionEdge te = new TransitionEdge(loc, destLoc, es.getValue(), edge.getGuards(),
+                                edge.getUpdates());
+                        autEventTrans.sendEdges.add(te);
+                    } else if (ee instanceof EdgeReceive) {
+                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        autEventTrans.receiveEdges.add(te);
+                    } else {
+                        // Event could be a monitored. If so, it will be moved below.
+                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        autEventTrans.syncEdges.add(te);
+                    }
+                }
+            }
+        }
+
+        // Monitors. Above all non-channel events are collected in "syncers". Move events over to "monitors" if
+        // necessary.
+        if (aut.getMonitors() != null) {
+            Monitors mons = aut.getMonitors();
+            if (mons.getEvents().isEmpty()) {
+                // Move all syncers to monitors.
+                for (AutomatonEventTransition autEventTrans: eventUsage.values()) {
+                    autEventTrans.monitorEdges.addAll(autEventTrans.syncEdges);
+                    autEventTrans.syncEdges.clear();
+                }
+            } else {
+                // Only change the mentioned events to monitors.
+                //
+                // It might happen that no edge was found previously, which means the monitor gets lost. That is not a
+                // problem as a monitor without edges is never performing the event anyway.
+                for (Expression expr: mons.getEvents()) {
+                    EventExpression ee = (EventExpression)expr;
+                    AutomatonEventTransition autEventTrans = eventUsage.get(ee.getEvent());
+                    autEventTrans.monitorEdges.addAll(autEventTrans.syncEdges);
+                    autEventTrans.syncEdges.clear();
+                }
+            }
+        }
+
+        return eventUsage;
+    }
+
+    /**
+     * Edge transitions for an event in a single automaton.
+     *
+     * <p>
+     * Note that CIF semantics force that at most one of the transition edges lists is non-empty.
+     * </p>
+     */
+    private static class AutomatonEventTransition {
+        /** The event performed by all edges in the instance. */
+        public final Event event;
+
+        /** Edges that send a value. */
+        public final List<TransitionEdge> sendEdges = list();
+
+        /** Edges that receive a value. */
+        public final List<TransitionEdge> receiveEdges = list();
+
+        /** Edges that must synchronize. */
+        public final List<TransitionEdge> syncEdges = list();
+
+        /** Edges that may synchronize. */
+        public final List<TransitionEdge> monitorEdges = list();
+
+        /** Verify that the automaton indeed uses the event consistently. */
+        public void checkNumberOfEdgeKinds() {
+            int numEdgeKinds = (sendEdges.isEmpty() ? 0 : 1) + (receiveEdges.isEmpty() ? 0 : 1)
+                    + (syncEdges.isEmpty() ? 0 : 1) + (monitorEdges.isEmpty() ? 0 : 1);
+
+            // Allow zero edge kinds for the case that the event is listed in the automaton but it has no edges with it.
+            Assert.check(numEdgeKinds <= 1);
+        }
+
+        /**
+         * Constructor of the {@link AutomatonEventTransition} class.
+         *
+         * @param event Event described in the instance.
+         */
+        public AutomatonEventTransition(Event event) {
+            this.event = event;
         }
     }
 

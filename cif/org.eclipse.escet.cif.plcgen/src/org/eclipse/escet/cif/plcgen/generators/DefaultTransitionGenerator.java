@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 
@@ -25,7 +27,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * The event transitions to generate. Is {@code null} until the transitions are provided with
      * {@link #setTransitions}.
      */
-    private CifEventTransition transitions = null;
+    private List<CifEventTransition> eventTransitions = null;
 
     /**
      * Constructor of the {@link DefaultTransitionGenerator} class.
@@ -37,8 +39,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     @Override
-    public void setTransitions(CifEventTransition transitions) {
-        this.transitions = transitions;
+    public void setTransitions(List<CifEventTransition> eventTransitions) {
+        this.eventTransitions = eventTransitions;
     }
 
     @Override

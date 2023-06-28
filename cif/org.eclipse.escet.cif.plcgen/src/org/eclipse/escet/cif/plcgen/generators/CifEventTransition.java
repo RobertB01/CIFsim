@@ -104,7 +104,7 @@ public class CifEventTransition {
     }
 
     /** An edge of an automaton that may be executed with the event. */
-    public final class TransitionEdge {
+    public static class TransitionEdge {
         /** Source location of the edge. */
         public final Location sourceLoc;
 
