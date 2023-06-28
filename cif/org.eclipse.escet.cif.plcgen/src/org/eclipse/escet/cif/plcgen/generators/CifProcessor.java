@@ -21,6 +21,7 @@ import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -77,10 +78,10 @@ public class CifProcessor {
     private final String absInputPath;
 
     /** Whether to simplify values during pre-processing. */
-    public boolean simplifyValues;
+    private final boolean simplifyValues;
 
     /** How to treat enumerations. */
-    public final ConvertEnums enumConversion;
+    private final ConvertEnums enumConversion;
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
@@ -196,6 +197,9 @@ public class CifProcessor {
                             .ignoreNeverBlockingInvariants() //
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                     NoInvariantPlaceKind.ALL_PLACES),
+
+                    // Disallow tau events.
+                    new EventNoTauCheck(),
 
                     // Disallow equations.
                     // TODO This may be too strict. Consider what equations should be allowed more closely.
